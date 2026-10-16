@@ -5,12 +5,12 @@
 
 extern s32 D_80174704[3];
 
-extern void func_8009FAC4(void);
+extern void dungeonSetMonsterDataPointer(void);
 extern void func_8016E264(void);
-extern void func_80099FDC(void *);
+extern void dungeonClearEntryFlagAndLinkOwner(void *);
 
 /* Leave the map screen and release the two attached objects. */
-void func_8016DE1C(void)
+void dungeonLeaveMapScreenAndReleaseObjects(void)
 {
     s32 i;
     void *object;
@@ -20,14 +20,14 @@ void func_8016DE1C(void)
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     D_800E296C &= 0xF7FFFFFF;
     D_80013714 &= 0xFFF6;
-    func_8009FAC4();
+    dungeonSetMonsterDataPointer();
     func_8016E264();
 
     i = 0;
     do {
         object = *(void **)(((u8 *)D_800E3D7C) + 0xAC + i * 4);
         if (object != 0) {
-            func_80099FDC((u8 *)object - 0x20);
+            dungeonClearEntryFlagAndLinkOwner((u8 *)object - 0x20);
         }
         i++;
     } while (i < 2);

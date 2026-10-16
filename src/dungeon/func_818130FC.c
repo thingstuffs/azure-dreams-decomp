@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_800280FC(void *panel, void *widgets) {
+void dungeonInitializeMenuPanelRows(void *panel, void *widgets) {
     s16 row_y;
     s16 row_x;
     s32 slot_index;
@@ -14,7 +14,7 @@ void func_800280FC(void *panel, void *widgets) {
     ((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_00 = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_9 *)(((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_04))->unk_08 = 0x58;
     *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_14 = ((ovl_1831cd8_818130FC_S_800280FC_1 *)panel)->unk_4C + 0x18;
-    func_80027AD0(panel, 0, 1);
+    dungeonDrawMenuProgressBar(panel, 0, 1);
     slot_index = 6;
     row_x = 0x58;
     row_y = 0x90;

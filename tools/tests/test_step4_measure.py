@@ -76,9 +76,24 @@ class SlusIsoTests(unittest.TestCase):
         # the landed C of w_8005A1D0 is exact at 2.8.1 too (a byte-neutral switch the step-4 measurement found)
         self.assertEqual(self.v.gate({self.STEM: (None, "2.8.1", "")})["result"], "MATCH")
 
-    def test_gp_symbols_from_the_pinned_object(self):
-        from slus_iso import gp_symbols
-        self.assertEqual(gp_symbols("w_8003D92C"), {"D_80080ABC", "D_80080ABE"})
+    def test_gp_symbols_reads_only_pinned_gp_relocations(self):
+        # The private checkout need not carry a historical disassembly cache,
+        # and later recipe landings can change a real row's relocation model.
+        from unittest.mock import patch
+        import slus_iso
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            cache = root / "ledger/cache/slus_dis"
+            cache.mkdir(parents=True)
+            (cache / "fixture.txt").write_text(
+                "0: R_MIPS_GPREL16 D_80080ABC\n"
+                "4: R_MIPS_GPREL16 D_80080ABE\n"
+                "8: R_MIPS_HI16 D_other\n"
+                "c: R_MIPS_LO16 D_other\n"
+                "10: R_MIPS_GPREL16 D_80080ABC\n")
+            with patch.object(slus_iso, "ROOT", root):
+                self.assertEqual(slus_iso.gp_symbols("fixture"), {"D_80080ABC", "D_80080ABE"})
+                self.assertEqual(slus_iso.gp_symbols("uncached"), set())
 
 
 if __name__ == "__main__":

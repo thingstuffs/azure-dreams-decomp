@@ -8,7 +8,7 @@
 #define M2C_SYNC() ((void)0)
 
 extern void func_80047784(void *, u8, s32);
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 extern u8 D_801739E0[];
 
 
@@ -21,7 +21,7 @@ static __inline__ void dispatch_table(void *sprite, EntityRec *actor, u8 *direct
 }
 
 /* Reset state and select a direction-dependent sprite entry from one of four tables. */
-void func_8016DAC0(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, EntityRec *actor) {
+void dungeonStartActorDirectionalAction(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, EntityRec *actor) {
     s32 table_kind;
     u32 direction_entry;
     u8 *direction_table;
@@ -45,6 +45,6 @@ void func_8016DAC0(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, En
         dispatch_table(sprite, actor, D_801739E0 + 24);
         break;
     }
-    func_800A4ACC(actor);
+    dungeonAdvanceStatusTimers(actor);
     actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
 }

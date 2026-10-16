@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_80017068(void)
+void initKohPropertiesAndEntryTables(void)
 {
     s32 slot_index;
     volatile u8 *clear_ptr;
@@ -50,7 +50,7 @@ void func_80017068(void)
     init_entry = &((dungeon_setup_80284068_Entry *)D_800E3E48)[slot_index];
     table_slot = &((dungeon_setup_80284068_Entry **)D_800E3DF0)[slot_index];
     source_offset = slot_index * 0x54;
-    func_80041E28(init_entry, (void *) (0x800102F0 + source_offset));
+    restoreActorStatsFromSnapshot(init_entry, (void *) (0x800102F0 + source_offset));
 
     *table_slot = init_entry;
     } while ((--slot_index) >= 0);
@@ -68,9 +68,9 @@ void func_80017068(void)
         word_cursor.raw = (u8 *) 0x80010050;
         do {
             word_cursor.entry->dest = word_cursor.entry->src;
-            index_ptr[0x2238] = func_800422A8(word_cursor.entry->arg, (void *) 0x80010248, 4, 20);
+            index_ptr[0x2238] = getBoundedStrideIndex(word_cursor.entry->arg, (void *) 0x80010248, 4, 20);
             *((dungeon_setup_80284068_Entry *) (copy_dest + 0x2260)) = *copy_entry;
-            index_ptr[0x224C] = func_800422A8(*copy_table_slot, ram_page + 0x3E48, 0x8C, 20);
+            index_ptr[0x224C] = getBoundedStrideIndex(*copy_table_slot, ram_page + 0x3E48, 0x8C, 20);
             copy_table_slot--;
             copy_entry--;
             copy_dest -= 0x8C;

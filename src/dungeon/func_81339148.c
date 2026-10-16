@@ -25,7 +25,7 @@ extern Root *D_80175D50;
 extern u8 D_8016FC4C[];
 
 /* Update the entity at its position and reset its state fields. */
-void func_80170148(void)
+void dungeonResetEncounterActorState(void)
 {
     Root *root = D_80175D50;
     Entity *entity;

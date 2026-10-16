@@ -61,6 +61,7 @@ ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/lanes"))
 
+from source_layout import row_relative
 from common import rows, sha_text, read_jsonl  # noqa: E402
 from pin_census import sites_of, unscored_text  # noqa: E402
 
@@ -293,7 +294,7 @@ def build(lanes=None, root=LANE_DIR, use_git=True, lint=False, verbose=True):
             continue
         if lint:
             from pin_census import landing_refusal
-            if landing_refusal(cand, base, "src/%s.c" % rid, row=by.get(rid)):
+            if landing_refusal(cand, base, row_relative(rid, ROOT), row=by.get(rid)):
                 stats["lint_refused"] += 1
                 continue
         mv = journal_moves(lane, root).get((rid, sha), "") if (Path(root) / lane / "journal.jsonl").exists() else ""

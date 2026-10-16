@@ -9,8 +9,8 @@ void func_80024654();
 void *func_8003FD64();
 s32 func_800644B8();
 s32 func_80064584();
-s16 func_800A07D0();
-void func_800B835C();
+s16 dungeonForwardMonsterCoordinateDelta();
+void dungeonDrawTexturedEllipse();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
 
@@ -20,7 +20,7 @@ typedef struct S_80024ED4_1 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80024ED4_1;   /* temp_v0 in func_80024ED4 */
+} S_80024ED4_1;   /* temp_v0 in dungeonCreateLinkedEffectSegments */
 
 typedef struct S_80024ED4_2 {
     u8 pad_00[0x2];
@@ -35,7 +35,7 @@ typedef struct S_80024ED4_2 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80024ED4_2;   /* temp_s0 in func_80024ED4 */
+} S_80024ED4_2;   /* temp_s0 in dungeonCreateLinkedEffectSegments */
 
 typedef struct S_80024ED4_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_80024ED4_3 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024ED4_3;   /* temp_v1 in func_80024ED4 */
+} S_80024ED4_3;   /* temp_v1 in dungeonCreateLinkedEffectSegments */
 
 typedef struct S_80024ED4_4 {
     u8 pad_00[0x8];
@@ -56,10 +56,10 @@ typedef struct S_80024ED4_4 {
     s16 unk_30;
     u8 pad_32[0x6];
     s16 unk_38;
-} S_80024ED4_4;   /* temp_s1 in func_80024ED4 */
+} S_80024ED4_4;   /* temp_s1 in dungeonCreateLinkedEffectSegments */
 
 /* Creates up to sixteen linked effect segments at the given position. */
-void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
+void *dungeonCreateLinkedEffectSegments(Rec_func_800243C4_arg1 *position) {
     s32 setup_params[2];
     s32 segment_index;
     M2C_UNK alloc_flags;
@@ -76,7 +76,7 @@ void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
 
     previous_segment = NULL;
     segment_index = 0;
-    angle = func_800A07D0(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
+    angle = dungeonForwardMonsterCoordinateDelta(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {
@@ -113,7 +113,7 @@ void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
                 setup_params[0] = 0x01200340;
                 setup_params[1] = 0x200020;
-                func_800B835C(D_800DF334, setup_params, 1, 0);
+                dungeonDrawTexturedEllipse(D_800DF334, setup_params, 1, 0);
             }
             segment_state->unk_08 = previous_segment;
             previous_segment = segment;

@@ -4,16 +4,16 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/town_handler.h"
 
-void func_80099754();                     /* extern */
+void townClearEntityRecordFields();                     /* extern */
 extern M2C_UNK D_80098078;
 extern M2C_UNK D_800D0120;
 
 
 /* Clears the object's indexed flag and resets its state before processing the context. */
-void func_8009914C(Rec_func_80094268_arg0 *object, s32 context, void *ptr2) {
-    func_80094984((s32 *) &D_800D0120, object, ptr2);
+void townResetIndexedObjectAndProcessContext(Rec_func_80094268_arg0 *object, s32 context, void *ptr2) {
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D0120, object, ptr2);
     D_80082660[object->unk_40].unk_00 = 0;
     object->unk_04.as_pm = &D_80098078;
     object->unk_0A.as_s16 = 6;
-    func_80099754(context);
+    townClearEntityRecordFields(context);
 }

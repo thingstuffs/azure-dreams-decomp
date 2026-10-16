@@ -13,27 +13,27 @@ typedef struct S_81880F28_0 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x10];
     u16 unk_1C;
-} S_81880F28_0;   /* arg0 in func_80024728 */
+} S_81880F28_0;   /* arg0 in dungeonTintEffectAndAdvanceMotion */
 
 typedef struct S_81880F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_81880F28_1;   /* object in func_80024728 */
+} S_81880F28_1;   /* object in dungeonTintEffectAndAdvanceMotion */
 
 typedef struct S_81880F28_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_81880F28_2;   /* motion in func_80024728 */
+} S_81880F28_2;   /* motion in dungeonTintEffectAndAdvanceMotion */
 
 typedef struct S_81880F28_3_pre {
     EffectColor * unk_00;
     u8 pad_04[0x10];
-} S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in func_80024728, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
+} S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in dungeonTintEffectAndAdvanceMotion, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
 
 /* Tint the object red, restore its color, and advance its motion. */
-void func_80024728(void *effect, void *motion_data) {
+void dungeonTintEffectAndAdvanceMotion(void *effect, void *motion_data) {
     void *motion = motion_data;
     void *object;
     EffectColor *color;
@@ -105,6 +105,6 @@ void func_80024728(void *effect, void *motion_data) {
 
     ((S_81880F28_2 *)motion)->unk_08 += ((S_81880F28_2 *)motion)->unk_14;
     ((S_81880F28_2 *)motion)->unk_14 += -0x80000;
-    func_80024A98(motion);
+    dungeonCreateRadialEffectNode(motion);
     ((S_81880F28_0 *)effect)->unk_1C++;
 }

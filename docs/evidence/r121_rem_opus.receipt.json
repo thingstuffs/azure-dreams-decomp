@@ -1,0 +1,642 @@
+{
+ "schema": "azure-clean.r121-rem-opus-receipt.v1",
+ "lane": "r121_rem_opus",
+ "head": "e4d900e8f",
+ "reviewer": "pending",
+ "rows": [
+  {
+   "id": "dungeon/func_8127E3C0",
+   "true_name": "func_80172BC0",
+   "foff": "0x129e3c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_129b060_truebase_8016f860.overlay.yaml",
+   "source_sha256": "c2be2a83158b72b13e30c3a008efd6f20d00a4a53f09ef82a98c308fa7d99152",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_812843C0",
+   "true_name": "func_8016CBC0",
+   "foff": "0x12a43c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12a1060_truebase_80169860.overlay.yaml",
+   "source_sha256": "c81c3dd94a0146a293deb2b50bbfc0f2fc34ec090a1abb309b58625ff64b7f9a",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_8128A3C0",
+   "true_name": "func_80166BC0",
+   "foff": "0x12aa3c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12a7060_truebase_80163860.overlay.yaml",
+   "source_sha256": "03b0424ab819a41a6e13e1f88226c07513fb207abf50c4365bdda43c3577d0fe",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_812903C0",
+   "true_name": "func_80160BC0",
+   "foff": "0x12b03c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12ad060_truebase_8015d860.overlay.yaml",
+   "source_sha256": "88267cd3295665397896a85997858038e54aa1f8f2b912e4a03e0ec7b2ebb921",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_812963C0",
+   "true_name": "func_8015ABC0",
+   "foff": "0x12b63c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12b3060_truebase_80157860.overlay.yaml",
+   "source_sha256": "d911df7738adca0c5100a85706928bfb29b5f1ac8670aabe2bed236d8f06b203",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_8129C3C0",
+   "true_name": "func_80154BC0",
+   "foff": "0x12bc3c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12b9060_truebase_80151860.overlay.yaml",
+   "source_sha256": "efddae76ec0bc7780da2eda6244cc64e0e4080aa423d33eef753265438bcf3cb",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_812A23C0",
+   "true_name": "func_8014EBC0",
+   "foff": "0x12c23c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "A",
+   "window": "config/overlays/dungeon_deep_12bf060_truebase_8014b860.overlay.yaml",
+   "source_sha256": "1b9354f39ef73c1f4f3d7d78dc1ed64de23aef8f0a2f07d55872b321044882e0",
+   "retail_sha256": "1385542dadd0de3731df1fb307faf34aace078d43178fc1b7e2d56c033cebac4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_81934F40",
+   "true_name": "func_80024740",
+   "foff": "0x1954f40",
+   "size": 488,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "C",
+   "window": "config/overlays/dungeon_r121o_1954F40_true_80024740.overlay.yaml",
+   "source_sha256": "64f025640bc4e011e407c20d8089f60733cc0b6c1751b242e01a47f9959958be",
+   "retail_sha256": "d5ef83ad5a73da7256fa9cf9866aa57fb9b83c8de53a032f0bb3184a34475be2",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "dungeon/func_81923DD0",
+   "true_name": "func_800255D0",
+   "foff": "0x1943dd0",
+   "size": 1384,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "B",
+   "window": "config/overlays/dungeon_r121o_1943DD0_true_800255D0.overlay.yaml",
+   "source_sha256": "9e6c41f64c3b219af08fc09ac62b43fba3541753935013e8df534b5f54130676",
+   "retail_sha256": "764ce0dee3fcc25651200a878165d1895b9e942a35927aa17d31baa9a7f3ad95",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80481098",
+   "true_name": "func_80017098",
+   "foff": "0x401098",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_40050C_true_8001650C.overlay.yaml",
+   "source_sha256": "1d8e3b5760620e66ac71d19a3e403f8a32439f8ab95b7009c0b1c13b3c851f6f",
+   "retail_sha256": "0e475a13f24060ee43896f88f3a9fefd3d90e255e2586ebeb68099deddfa6f5b",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_804811BC",
+   "true_name": "func_800171BC",
+   "foff": "0x4011bc",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_40050C_true_8001650C.overlay.yaml",
+   "source_sha256": "24f483600e601c833a65f27acc8fe15910f335cf8173ede063d0c1b0a2da62fc",
+   "retail_sha256": "dea95fc5f395f41940833fdbad68ed9abd925185006148c0d3a125d42b58dbe6",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_804811DC",
+   "true_name": "func_800171DC",
+   "foff": "0x4011dc",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_40050C_true_8001650C.overlay.yaml",
+   "source_sha256": "565957f92628fdd5e2fc631ea4de0432e5babd139da474bd569c7ca43c79e464",
+   "retail_sha256": "02f38870ce4b78c1c7e6043b72e668cf119ad1804285f13d3da0bb3ca025b601",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8059F2A4",
+   "true_name": "func_800172A4",
+   "foff": "0x51f2a4",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_51F2A4_true_800172A4.overlay.yaml",
+   "source_sha256": "383ae10c3a389e41f4b8c1e0bb635c5f8769db072049919a9a5c9fc6ea323582",
+   "retail_sha256": "3e342db0f12734166c2fc89d3ef0ce981421f5e5f956cfda9396115165a32b8a",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8059F3C8",
+   "true_name": "func_800173C8",
+   "foff": "0x51f3c8",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_51F2A4_true_800172A4.overlay.yaml",
+   "source_sha256": "ae9d19760644275cb96e1b7c767fe4558a52fc0fc67f0890fdef9f0213e8fbac",
+   "retail_sha256": "2d60c0b70d2b25f028fc78e0d2fa8286ba8542ed66c33bd32117519ebc45e3ce",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8059F3E8",
+   "true_name": "func_800173E8",
+   "foff": "0x51f3e8",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_51F2A4_true_800172A4.overlay.yaml",
+   "source_sha256": "b08bec8dcdd7dc5fdb7d05590abb8a2800e3cc36bec07ebe2d5d28a5bcae71b2",
+   "retail_sha256": "48a8a4b61d5291ef0221e8ee09d6373b296e600ae59bca4851aa22c278922778",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806019C0",
+   "true_name": "func_800169C0",
+   "foff": "0x5819c0",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5819C0_true_800169C0.overlay.yaml",
+   "source_sha256": "52484082711c5c19ec7e951d67e46e48f275281169935bd9974465d6eed81b15",
+   "retail_sha256": "39fe5b9acaaf1c0e195b8969c629977f18e74d55965356dd51102ee89bf9c7c8",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80601AE4",
+   "true_name": "func_80016AE4",
+   "foff": "0x581ae4",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5819C0_true_800169C0.overlay.yaml",
+   "source_sha256": "0a860ae83b65b1737883e0e41933c6964f2faafd46cab8fcf0248488f1fef9e0",
+   "retail_sha256": "6d931998bd95799c052509ea4d8b529b3ffb474393dbe30247e98c70c5d45a9b",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80601B04",
+   "true_name": "func_80016B04",
+   "foff": "0x581b04",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5819C0_true_800169C0.overlay.yaml",
+   "source_sha256": "fc3aed25ba9f5215703009a5998b5845d487e59911fb4618175de11bd3c4a5d8",
+   "retail_sha256": "f5d4be8bec0c50f51e4d92fd2da12866f6c736bd0ffbc582459c76b9c6ac4f3b",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80615D90",
+   "true_name": "func_80017590",
+   "foff": "0x595d90",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_595D90_true_80017590.overlay.yaml",
+   "source_sha256": "3726516d93f3e61a811d67cfbc432b56e3d5678c41ba47ffc4d56c2844302030",
+   "retail_sha256": "3cc38f67479a99c9f04532c74e87ff5efb245d248e3c14064c8aac6535446a72",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80615EB4",
+   "true_name": "func_800176B4",
+   "foff": "0x595eb4",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_595D90_true_80017590.overlay.yaml",
+   "source_sha256": "f426219135781af5633e2fcea8167c16d50254237f79fdfaeb47c9c3d0ffd9fc",
+   "retail_sha256": "fd9adff183954fc800811493abc40b2c4e4171e99dde18fa53f6bc0cb2a0b609",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80615ED4",
+   "true_name": "func_800176D4",
+   "foff": "0x595ed4",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_595D90_true_80017590.overlay.yaml",
+   "source_sha256": "d9ec036c20d7ed8180262b8f725b8d1eaebb0a02a129b0797f4379698c9192dd",
+   "retail_sha256": "b0e3c91bdef33a095820beba0edea6274b111c91d6c8485bf9237f7d56bc1be6",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8067FFC4",
+   "true_name": "func_80016FC4",
+   "foff": "0x5fffc4",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5FF850_true_80016850.overlay.yaml",
+   "source_sha256": "621c7322dce1c18cd04277775c7bde4b18d79480e3a5ea0c393187afcfa97862",
+   "retail_sha256": "d02aca36b25cbea9cd7124be781fab0502d833b633faa2300c513780235d5bc7",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806800E8",
+   "true_name": "func_800170E8",
+   "foff": "0x6000e8",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5FF850_true_80016850.overlay.yaml",
+   "source_sha256": "c448972a650754fbc9ae30e482e1782fbf04a64bbd379c387463bf2192dbc478",
+   "retail_sha256": "b30dd36c7fd016a5fb6de23aa73efd5e87b581a6bb337ad07c7899b7a8bf417f",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80680108",
+   "true_name": "func_80017108",
+   "foff": "0x600108",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5FF850_true_80016850.overlay.yaml",
+   "source_sha256": "8139740aed3540a927fd99b1cad579305664dadbe6246b7483665859337811e6",
+   "retail_sha256": "7a2c3a816b5ac534185fb9eae730cc375d528c3b8ca7b9870cbf16571721d549",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_80698094",
+   "true_name": "func_80017094",
+   "foff": "0x618094",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_618094_true_80017094.overlay.yaml",
+   "source_sha256": "4c37edf202b20af9be15dd211f8d9480af31f9b6b9f8319de7de9143f0ee99dc",
+   "retail_sha256": "856d309c020a3b2a8ca03340d9c6feabf5f3a61ea60c967edb99b8cce9cb5a9b",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806981B8",
+   "true_name": "func_800171B8",
+   "foff": "0x6181b8",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_618094_true_80017094.overlay.yaml",
+   "source_sha256": "fd712d700cf27fc9f688e9412b828eef3b3382007862e457a613413bd4f8de02",
+   "retail_sha256": "2c5526517a8530f60aeaa998e635d5786d405fe36a5e5491b76bcd24052c1eee",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806981D8",
+   "true_name": "func_800171D8",
+   "foff": "0x6181d8",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_618094_true_80017094.overlay.yaml",
+   "source_sha256": "bdaa638b14f4db4620be683eb504c86c652afe1bc55d0c1540c154308199d1b8",
+   "retail_sha256": "02457b74c47924c4e60417fc1528a0c1822e37968419a7e2d177bcfe3e76070e",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806C66AC",
+   "true_name": "func_800176AC",
+   "foff": "0x6466ac",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_6466AC_true_800176AC.overlay.yaml",
+   "source_sha256": "b7ec7ee51a7615274d9c634d60122d5e606c8fe353558e7a6f2e166f9d166a1b",
+   "retail_sha256": "292e127b5a89530a0d6b6f2c4b3323ef8ecc09e51d21dcd41736260c548e9206",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806C67D0",
+   "true_name": "func_800177D0",
+   "foff": "0x6467d0",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_6466AC_true_800176AC.overlay.yaml",
+   "source_sha256": "356624bc8cf993023ef7714142cdcfbca185939f3151208dc1559e2009e777ad",
+   "retail_sha256": "207b257d8b3aa63765f68408ce8e7075cfa3023f11b882f59639422baedf906f",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_806C67F0",
+   "true_name": "func_800177F0",
+   "foff": "0x6467f0",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_6466AC_true_800176AC.overlay.yaml",
+   "source_sha256": "4cb9660305a2126db6e7e7894b3df7abe2841492e0f269d0b60f1f9335021e4c",
+   "retail_sha256": "34fdbc43e46ce723b71e993c9a9a2a210d63ffc4ec5154b1fd1317349eabdca4",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8070FF8C",
+   "true_name": "func_80018F8C",
+   "foff": "0x68ff8c",
+   "size": 40,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_68FF8C_true_80018F8C.overlay.yaml",
+   "source_sha256": "59bbefa3a97ab3e34ec6d18e8d9651da81ccfb3774d2cbc2c64272e65d81d5da",
+   "retail_sha256": "8bcfce37a46f703f852c72b11598e52ea92e651109bfacaa454aaf4f1b17054a",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_807100B0",
+   "true_name": "func_800190B0",
+   "foff": "0x6900b0",
+   "size": 32,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_68FF8C_true_80018F8C.overlay.yaml",
+   "source_sha256": "6029b45f967b3908e081aab4af898ba0a4adf572f16a0084485a8d81f71abdd0",
+   "retail_sha256": "f9211b8b9b4f4cc5e56a7ffc3cfcb534be2a4034dd67dc220c05d7c76862e375",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_807100D0",
+   "true_name": "func_800190D0",
+   "foff": "0x6900d0",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0 -O1",
+   "item": "D",
+   "window": "config/overlays/town_r121o_68FF8C_true_80018F8C.overlay.yaml",
+   "source_sha256": "0704bd46be39addda1ab149bb64e6f7d3a885a8fc6a866af57d1359999125415",
+   "retail_sha256": "8306125a57936ec589efd037160f95f1b7f8d95f2ec8e9686678060414beab3d",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8048050C",
+   "true_name": "func_8001650C",
+   "foff": "0x40050c",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "D",
+   "window": "config/overlays/town_r121o_40050C_true_8001650C.overlay.yaml",
+   "source_sha256": "e97c7185a4207a025b8259a9ea8a31bac5e439df6fc9c8edfa2c2941ad925f5e",
+   "retail_sha256": "0139725dde56ddc8478d8436a1e7ecee01b0557f3d85aa9af52254179d9011cd",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8067F850",
+   "true_name": "func_80016850",
+   "foff": "0x5ff850",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "D",
+   "window": "config/overlays/town_r121o_5FF850_true_80016850.overlay.yaml",
+   "source_sha256": "86bd939002a9a5b33f03707f7ea349f59b326d28e073553c30ca14c34f0a1080",
+   "retail_sha256": "8b7e3f593cd662dd118b253cb7187aa6f0508631f3451dca367bcb6df5269dba",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  },
+  {
+   "id": "town/func_8046AB90",
+   "true_name": "func_8001BB90",
+   "foff": "0x3eab90",
+   "size": 36,
+   "cfg": "2.7.2-cdk-G0",
+   "item": "D",
+   "window": "config/overlays/town_r121o_3EAB90_true_8001BB90.overlay.yaml",
+   "source_sha256": "e368888c5adb4733a1673d22ca6e4690be785963c485ebe5ba7d2fb2b10110ec",
+   "retail_sha256": "e20894acd34e9aac3be5793a286692faaa04e8a0e0bfd83fdf2408110915e5c7",
+   "score": {
+    "exact": true,
+    "total": 0,
+    "subs": 0,
+    "indels": 0
+   }
+  }
+ ],
+ "windows": [
+  "config/overlays/dungeon_deep_129b060_truebase_8016f860.overlay.yaml",
+  "config/overlays/dungeon_deep_12a1060_truebase_80169860.overlay.yaml",
+  "config/overlays/dungeon_deep_12a7060_truebase_80163860.overlay.yaml",
+  "config/overlays/dungeon_deep_12ad060_truebase_8015d860.overlay.yaml",
+  "config/overlays/dungeon_deep_12b3060_truebase_80157860.overlay.yaml",
+  "config/overlays/dungeon_deep_12b9060_truebase_80151860.overlay.yaml",
+  "config/overlays/dungeon_deep_12bf060_truebase_8014b860.overlay.yaml",
+  "config/overlays/dungeon_r121o_1943DD0_true_800255D0.overlay.yaml",
+  "config/overlays/dungeon_r121o_1954F40_true_80024740.overlay.yaml",
+  "config/overlays/town_r121o_3EAB90_true_8001BB90.overlay.yaml",
+  "config/overlays/town_r121o_40050C_true_8001650C.overlay.yaml",
+  "config/overlays/town_r121o_51F2A4_true_800172A4.overlay.yaml",
+  "config/overlays/town_r121o_5819C0_true_800169C0.overlay.yaml",
+  "config/overlays/town_r121o_595D90_true_80017590.overlay.yaml",
+  "config/overlays/town_r121o_5FF850_true_80016850.overlay.yaml",
+  "config/overlays/town_r121o_618094_true_80017094.overlay.yaml",
+  "config/overlays/town_r121o_6466AC_true_800176AC.overlay.yaml",
+  "config/overlays/town_r121o_68FF8C_true_80018F8C.overlay.yaml"
+ ],
+ "new_c_rows": 36,
+ "new_c_bytes": 3124
+}

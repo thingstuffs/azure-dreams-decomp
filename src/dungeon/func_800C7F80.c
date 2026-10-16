@@ -5,12 +5,12 @@
 #include "shared/dir_step.h"
 
 
-extern s32 func_8003FA44();
+extern s32 hasEnoughAvailableRuntimeNodes();
 extern s32 func_8004491C();
 extern s32 func_800A56E0();
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
-extern void func_800CD6AC();
+extern void dungeonApplyModeSelectedTrapMask();
 
 
 extern u8 D_800CD474[];
@@ -21,7 +21,7 @@ extern u8 D_800E03E0[];
 typedef struct S_800CD6E0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD6E0_0_pre;   /* the 0x14 bytes before arg0 in func_800CD6E0, addressed as arg0[-1] */
+} S_800CD6E0_0_pre;   /* the 0x14 bytes before arg0 in dungeonCreateFourOwnerSpriteEffects, addressed as arg0[-1] */
 
 typedef struct S_800CD6E0_0 {
     u8 pad_00[0x3];
@@ -30,7 +30,7 @@ typedef struct S_800CD6E0_0 {
     u8 unk_13;
     u8 pad_14[0x74];
     u16 unk_88;
-} S_800CD6E0_0;   /* arg0 in func_800CD6E0 */
+} S_800CD6E0_0;   /* arg0 in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_1 {
     u8 pad_00[0x14];
@@ -38,12 +38,12 @@ typedef struct S_800CD6E0_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD6E0_1;   /* owner in func_800CD6E0 */
+} S_800CD6E0_1;   /* owner in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_2 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_800CD6E0_2;   /* (obj = func_8003FC64(2)) in func_800CD6E0 */
+} S_800CD6E0_2;   /* (obj = func_8003FC64(2)) in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_3 {
     u8 pad_00[0x8];
@@ -51,7 +51,7 @@ typedef struct S_800CD6E0_3 {
     void * unk_0C;
     u8 pad_10[0x10];
     void * unk_20;
-} S_800CD6E0_3;   /* obj in func_800CD6E0 */
+} S_800CD6E0_3;   /* obj in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_4 {
     u8 pad_00[0x2];
@@ -60,7 +60,7 @@ typedef struct S_800CD6E0_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD6E0_4;   /* prim in func_800CD6E0 */
+} S_800CD6E0_4;   /* prim in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_6 {
     u8 pad_00[0x8];
@@ -74,17 +74,17 @@ typedef struct S_800CD6E0_6 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CD6E0_6;   /* spr in func_800CD6E0 */
+} S_800CD6E0_6;   /* spr in dungeonCreateFourOwnerSpriteEffects */
 
 typedef struct S_800CD6E0_7 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
     u16 unk_0A;
-} S_800CD6E0_7;   /* link in func_800CD6E0 */
+} S_800CD6E0_7;   /* link in dungeonCreateFourOwnerSpriteEffects */
 
 /* Conditionally creates four sprites around the source owner. */
-s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
+s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_bits) {
     void *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
@@ -118,10 +118,10 @@ s32 func_800CD6E0(void *source, s16 slot_index, s32 slot_bits) {
     if (roll < 0x30) {
         owner = ((S_800CD6E0_0_pre *)source)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
-            func_800CD6AC(source, 0x10);
+            dungeonApplyModeSelectedTrapMask(source, 0x10);
             return 1;
         }
-        if (func_8003FA44(4) == 0) {
+        if (hasEnoughAvailableRuntimeNodes(4) == 0) {
             return 0;
         }
 

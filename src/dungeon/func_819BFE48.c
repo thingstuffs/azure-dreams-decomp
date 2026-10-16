@@ -26,7 +26,7 @@ void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bo
         if (query_value < upper && query_value >= lower) {
             raw_x = (s16)x;
             raw_y = (s16)y;
-            func_800251F4(object_data, raw_x, raw_y, upper);
+            dungeonSpawnRandomizedTexturedParticles(object_data, raw_x, raw_y, upper);
             func_800419EC(6, 12);
             func_800A56E0(0x50B);
         }

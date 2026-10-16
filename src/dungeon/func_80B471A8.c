@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_801749A8(void *record_data) {
+void dungeonUpdateTurningFadeEffectAndModel(void *record_data) {
     u16 remaining_count;
 
     remaining_count = ((R12_801749A8_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C - 1;

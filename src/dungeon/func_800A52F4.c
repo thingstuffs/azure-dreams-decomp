@@ -8,7 +8,7 @@ extern void func_80042B68(void *owner, s32 match_type);
 extern void func_80047784(void *object, s32 table_index, s32 entry_index);
 
 /* Initializes actor state and selects a display variant for its facing direction. */
-void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants) {
+void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants) {
     *((u8 *) actor + 0x9A) = 8;
     *((u8 *) actor + 0x9B) = 0;
     *(s32 *) ((u8 *) actor + 0x8C) = 0;

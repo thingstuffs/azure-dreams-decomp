@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8008F664(void *, void *);
-extern void func_8009B2C4(void *, void *, void *, void *);
-extern void func_8009BFC0(void *, void *, void *, void *);
+extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
+extern void townDispatchActiveTownObjectScript(void *, void *, void *, void *);
+extern void townSetActorMotionState(void *, void *, void *, void *);
 
 extern u8 D_8009B454[];
 extern u8 D_8009B594[];
@@ -10,7 +10,7 @@ extern u8 D_8009BDC0[];
 extern u8 D_800CFCB4[];
 
 /* Runs handlers when any slot flag is set and copies the stored value for eligible states. */
-void func_8009B594(void *state_owner, void *update_target, void *update_context, void *output) {
+void townUpdateActorSlotsAndOutput(void *state_owner, void *update_target, void *update_context, void *output) {
     s32 slot;
     void *current_state;
     s32 *stored_value;
@@ -24,10 +24,10 @@ void func_8009B594(void *state_owner, void *update_target, void *update_context,
     }
     if (slot < 6) {
         if (*(u8 *)((u8 *)update_target + 0x3B) == 0) {
-            func_8009BFC0(state_owner, update_target, update_context, output);
+            townSetActorMotionState(state_owner, update_target, update_context, output);
         }
-        func_8008F664(update_target, update_context);
-        func_8009B2C4(state_owner, update_target, update_context, output);
+        townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(update_target, update_context);
+        townDispatchActiveTownObjectScript(state_owner, update_target, update_context, output);
     }
     current_state = *(void **)((u8 *)state_owner + 0x50);
     if (current_state != D_8009B454 && current_state != D_8009B594 && current_state != D_8009BDC0) {

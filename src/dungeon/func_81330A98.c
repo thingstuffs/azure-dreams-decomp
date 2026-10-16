@@ -24,7 +24,7 @@ typedef struct S_80167A98_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80167A98_0;   /* temp_v0 in func_80167A98 */
+} S_80167A98_0;   /* temp_v0 in dungeonCreateRibbonHeadSprite */
 
 typedef struct S_80167A98_1 {
     u8 pad_00[0x6];
@@ -40,17 +40,17 @@ typedef struct S_80167A98_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80167A98_1;   /* temp_s0 in func_80167A98 */
+} S_80167A98_1;   /* temp_s0 in dungeonCreateRibbonHeadSprite */
 
 typedef struct S_80167A98_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80167A98_2;   /* temp_a1 in func_80167A98 */
+} S_80167A98_2;   /* temp_a1 in dungeonCreateRibbonHeadSprite */
 
 
 /* Creates a visual object with a source-indexed position offset and appearance. */
-void func_80167A98(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
+void dungeonCreateRibbonHeadSprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
     S_80167A98_2 *position;
     S_80167A98_1 *render_state;
     S_80167A98_0 *object;

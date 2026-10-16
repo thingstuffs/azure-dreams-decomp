@@ -4,7 +4,7 @@
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
-extern s32 func_8009CFE0(void *, void *);
+extern s32 townClassifyObjectAgainstBounds(void *, void *);
 extern void func_80033D08(void *object);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
@@ -55,7 +55,7 @@ typedef struct S_func_800AA760_5 {
 } S_func_800AA760_5;
 
 /* Updates the linked position, or clears the object flag and sets cleanup bits. */
-void func_800A7EC0(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
+void townUpdateLinkedPositionOrFlagObject(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
 {
     s32 x_offset;
     s32 y_offset;
@@ -68,7 +68,7 @@ void func_800A7EC0(S_func_800AA760_0 *object, S_func_800AA760_1 *out_position)
 
     link_id = object->unk_60;
     link_index = link_id & 0xFF;
-    if (func_8009CFE0(object, out_position) != 0) {
+    if (townClassifyObjectAgainstBounds(object, out_position) != 0) {
         object_flag = object->unk_98;
         if (object_flag != 0) {
             *object_flag = 0;

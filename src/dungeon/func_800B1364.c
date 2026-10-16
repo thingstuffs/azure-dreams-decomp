@@ -151,42 +151,42 @@ typedef struct S_func_800B1364_19 {
 } S_func_800B1364_19;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8003C06C();
-s32 func_8003DE58();
+s32 runtimeGetModeIndexedValue();
+s32 resolveRecordOrientationOrFallback();
 M2C_UNK func_8003E188();
 void func_800424E0();
 M2C_UNK func_80042640();
 void func_80048A44();
 M2C_UNK func_80069E78();
 void func_80093C70();
-void func_80093D8C();
-void func_80098B38();
-void *func_80098CF8();
-s16 func_8009904C();
-s32 func_80099090();
+void dungeonCreateFamiliarDeploymentOverlay();
+void dungeonClearSlotAndUpdateLinkedState();
+void *dungeonBeginHoldingItem();
+s16 dungeonFindTableValueIndex();
+s32 dungeonFindFirstUnusedEntityEntry();
 s32 func_800990FC();
 s32 func_80099194();
-s32 func_80099254();
+s32 dungeonCopyFourTextBytes();
 void *func_80099290();
-s32 func_8009929C();
+s32 dungeonWriteTextByteAndAdvance();
 s32 func_80099734();
-void func_80099F04();
-void func_80099F70();
+void dungeonProcessUnflaggedLinkedEntries();
+void dungeonProcessUnflaggedLinkedEntriesAlt();
 void func_8009A028();
 void func_8009A3D0();
-void func_8009F644();
-void *func_8009F868();
-s32 func_8009F988();
+void dungeonAppendPackedActionRecord();
+void *dungeonAdvanceMonsterTimedSequence();
+s32 dungeonReadMonsterScriptEntry();
 void *(*func_800A0B94())(M2C_UNK, u8, u8, s16);
 s32 func_800A1618();
-s32 func_800A1D4C();
+s32 raiseEntityLevel();
 s32 func_800A56E0();
 s32 func_800A5720();
 s32 func_800A6D30();
-void func_800A90E8();
-void func_800B1768();
-void *func_800B4C7C();
-void func_800B8024();
+void clearSelectedItemFlag400();
+void dungeonBuildFloatingNumberWidget();
+void *createActorValuePopup();
+void dungeonSpawnDirectedAndScatteredParticles();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 D_8007359C;
 extern s32 D_80081484;
@@ -209,7 +209,7 @@ extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
-void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite,
+void dungeonAdvanceItemInteractionAndSaveCreature(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite,
     S_func_800B1364_4 *actor) {
     s16 spawn_offset[3];
     s16 spawn_height;
@@ -284,8 +284,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         func_80048A44(sprite, D_800DD110[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
-            func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
-            func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
+            dungeonBuildFloatingNumberWidget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
+            dungeonBuildFloatingNumberWidget(0x23, 0xE0, 0xCE, 0x104, 1, 8);
         }
         {
             u8 *item;
@@ -313,16 +313,16 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         }
         use_item = 0;
         if (((S_func_800B1364_14 *)0x80013714)->unk_00 & 1) {
-            input_command = func_8009F868();
+            input_command = dungeonAdvanceMonsterTimedSequence();
             if (input_command == NULL) {
-                func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
-                func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
+                dungeonBuildFloatingNumberWidget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
+                dungeonBuildFloatingNumberWidget(0x23, 0xE0, 0xCE, 0x104, 1, 8);
                 return;
             }
             command = input_command->unk_01 & 0xF8;
             D_800E3544 = command;
             if (command != 0x60) {
-                func_8009F988();
+                dungeonReadMonsterScriptEntry();
                 *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
                 func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
@@ -337,7 +337,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         }
         use_item_test = use_item;
         if (use_item_test != 0) {
-            func_8009F644(actor, 0x60, 0, 0);
+            dungeonAppendPackedActionRecord(actor, 0x60, 0, 0);
             func_800A56E0(0x500);
             sprite->unk_14 = (u16) (sprite->unk_14 & 0x97FF);
             action->unk_9B = 3U;
@@ -352,9 +352,9 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
                 action->unk_9B = 5U;
-                actor->unk_8A = func_8009904C(action->unk_BC);
+                actor->unk_8A = dungeonFindTableValueIndex(action->unk_BC);
             }
-            func_800B4C7C(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
+            createActorValuePopup(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
             return;
         }
         {
@@ -368,7 +368,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
                 return;
             }
         }
-        func_8009F644(actor, 0xA8, 0, 0);
+        dungeonAppendPackedActionRecord(actor, 0xA8, 0, 0);
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
         func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
@@ -382,8 +382,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         }
         global_state = (S_func_800B1364_7 *)&dungeonStatus.unk_00;
         if (!(global_state->unk_02 & 2)) {
-            func_80099F70(actor->unk_5C);
-            func_80099F04(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
             global_state->unk_02 = (u16) (global_state->unk_02 | 0x812);
         }
         action->unk_9B = 2U;
@@ -392,16 +392,16 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        func_80098B38(&D_80081484);
+        dungeonClearSlotAndUpdateLinkedState(&D_80081484);
         {
-            void *callback = func_8008ACDC;
+            void *callback = dungeonHandlePlayerInput;
             event_flags = ((S_func_800B1364_15 *)&D_800E296C)->unk_00 & 0xFFDFFFFF;
             action->unk_8C = callback;
             (*(s32 *)&D_800E296C) = event_flags;
         }
         return;
     case 5:
-        item_effect = func_80098CF8(action, position, sprite, &D_80081484);
+        item_effect = dungeonBeginHoldingItem(action, position, sprite, &D_80081484);
         if (item_effect == NULL) {
             return;
         }
@@ -413,12 +413,12 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
             spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
         }
-        func_800B8024(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1],
+        dungeonSpawnDirectedAndScatteredParticles(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1],
             position->unk_0A + spawn_offset[2]);
         action->unk_9B = (u8) (action->unk_9B + 1);
         return;
@@ -432,10 +432,10 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
             return;
         }
         func_8003E188(creature->unk_13, 0);
-        func_800A90E8(action->unk_C0);
+        clearSelectedItemFlag400(action->unk_C0);
         creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
         func_8009A3D0(creature_sprite->unk_24, creature_sprite->unk_25, 0x300);
-        if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
             spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
@@ -455,14 +455,14 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         creature->unk_14 = (s32) (creature->unk_14 | 0x104000);
         linked_creature = actor->unk_60;
         linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
-        func_80069E78((u8 *)creature + 0x34, func_8003C06C(creature->unk_13));
+        func_80069E78((u8 *)creature + 0x34, runtimeGetModeIndexedValue(creature->unk_13));
         experience = D_800835E4[(*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1))];
         level_thresholds = D_800835E4 + 1;
         creature->unk_18 = experience;
         if (experience >= level_thresholds[creature->unk_11]) {
             level_table = level_thresholds;
             do {
-                func_800A1D4C(creature, 0);
+                raiseEntityLevel(creature, 0);
             } while (level_table[creature->unk_11] <= (u32) creature->unk_18);
         }
         creature->unk_28 = (u8) creature->unk_29;
@@ -479,9 +479,9 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         message_start = func_800990FC();
         message_end = func_80099194(&D_800E0A33, func_80099734(creature, func_80099194(&D_800E0A2A,
             func_80099194(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + D_8007359C))->unk_04,
-            func_8009929C(8, message_start)))));
+            dungeonWriteTextByteAndAdvance(8, message_start)))));
         if (!((*(u16 *)(&D_80013714)) & 1)) {
-            message_end = func_80099254(&D_800E0458, func_8009929C(0x4C, func_8009929C(0x11, message_end)));
+            message_end = dungeonCopyFourTextBytes(&D_800E0458, dungeonWriteTextByteAndAdvance(0x4C, dungeonWriteTextByteAndAdvance(0x11, message_end)));
         }
         func_80099290(message_end);
         func_800A5720(message_start);
@@ -527,8 +527,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         func_80048A44(sprite, D_800DD138[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
         func_80093C70(action, position, sprite);
-        func_80093D8C(action, position, sprite);
-        save_slot = func_80099090();
+        dungeonCreateFamiliarDeploymentOverlay(action, position, sprite);
+        save_slot = dungeonFindFirstUnusedEntityEntry();
         item_entry = D_80010000_PTR->table[actor->unk_8A];
         item_entry->unk_01 = 0x13;
         species = (u8) *action->unk_C0;
@@ -569,7 +569,7 @@ read_next_state:
             return;
         }
         sprite->unk_14 = (u16) (final_flags & 0xFDFF);
-        action->unk_8C = func_8008ACDC;
+        action->unk_8C = dungeonHandlePlayerInput;
         return;
     default:
         return;

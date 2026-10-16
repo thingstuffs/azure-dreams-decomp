@@ -6,10 +6,10 @@ extern s32 D_801379B0;
 
 extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
-extern s32 func_804016D0(void);
+extern s32 cardDevkitPollStableSlotState(void);
 extern void func_804018FC(void);
-extern void func_804067BC(void *object);
-extern void func_80406CFC(void *object);
+extern void cardDevkitHighlightSelectedLoadSlot(void *object);
+extern void mainResetMenuObjectState(void *object);
 extern void func_804070C4(void *object);
 extern void func_804083FC(s32 field20, s32 field24);
 
@@ -21,10 +21,10 @@ typedef struct S_80406DA0_0 {
     u8 pad_28[0x4];
     s32 unk_2C;
     s32 unk_30;
-} S_80406DA0_0;   /* object in func_80406DA0 */
+} S_80406DA0_0;   /* object in mainHandleMenuSelectionInput */
 
 /* Handles menu selection, held-button repeats, and menu exit. */
-void func_80406DA0(void *object)
+void mainHandleMenuSelectionInput(void *object)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -47,7 +47,7 @@ void func_80406DA0(void *object)
         }
         if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
-            func_80406CFC(object);
+            mainResetMenuObjectState(object);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 buttons = (s32 *)((u8 *)object + 0x30);
@@ -79,11 +79,11 @@ void func_80406DA0(void *object)
             func_80063FF8(0x502);
             ((S_80406DA0_0 *)object)->unk_2C =
                 func_80058FF0(((S_80406DA0_0 *)object)->unk_2C, direction, 5);
-            func_804067BC(object);
+            cardDevkitHighlightSelectedLoadSlot(object);
         }
     }
 
-    direction = func_804016D0();
+    direction = cardDevkitPollStableSlotState();
     func_804018FC();
     if (direction == 0) {
         return;

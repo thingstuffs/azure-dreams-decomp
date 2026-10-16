@@ -18,7 +18,7 @@ typedef struct Func8180F0F4_Obj {
 
 
 /* Selects an object by flags and comparison keys and writes the resolved low-bit mask. */
-void *func_800280F4(Func8180F0F4_Obj *first, Func8180F0F4_Obj *second, s16 *out_mask) {
+void *dungeonSelectObjectByFlagsAndKeys(Func8180F0F4_Obj *first, Func8180F0F4_Obj *second, s16 *out_mask) {
     s16 first_mask;
     u16 resolved_mask;
     s32 first_flags;

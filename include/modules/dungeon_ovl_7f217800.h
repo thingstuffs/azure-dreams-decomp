@@ -64,7 +64,7 @@ extern s16 func_800A48F0();
 extern void func_800A9C18();
 extern s32 func_800AA36C();
 extern void func_80044A50();
-extern void func_800BC318();
+extern void dungeonRetireTrackedEffectById();
 
 void * func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

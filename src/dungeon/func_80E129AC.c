@@ -6,14 +6,14 @@ typedef struct S_801761AC_0 {
     u8 unk_03;
     u8 pad_04[0xD];
     u8 unk_11;
-} S_801761AC_0;   /* actor in func_801761AC */
+} S_801761AC_0;   /* actor in dungeonRequestRandomSlotEffect */
 
 
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();
 
 /* Roll a random slot for the actor and, when it lands below 16, request effect 0x19 on it; returns 1 when that request succeeded. */
-s32 func_801761AC(S_801761AC_0 *actor) {
+s32 dungeonRequestRandomSlotEffect(S_801761AC_0 *actor) {
     s32 seed;
     register s32 divisor;
     s32 remainder;

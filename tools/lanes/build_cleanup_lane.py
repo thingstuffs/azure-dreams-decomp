@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "tools"), str(ROOT / "tools/lanes/lanekit")]
 from common import rows
+from source_layout import row_path as layout_row_path, source_items as layout_source_items
 from pin_census import sites_of
 
 LEDGER = ROOT / "ledger/cleanup_lanes.jsonl"
@@ -64,8 +65,7 @@ def resolvable(text, container):
 
 def pool(task, busy=frozenset(), max_size=12000):
     rx = TASKS[task][1]; seen = served(); ids = {r["id"] for r in rows()}; out = []
-    for f in sorted(glob.glob(str(ROOT / "src/*/*.c"))):
-        rid = "/".join(f.split("/")[-2:])[:-2]
+    for rid, f in layout_source_items(ROOT):
         if rid not in ids or rid in busy or rid.startswith("ovmovie/"): continue
         t = Path(f).read_text(errors="replace")
         if len(t) > max_size or (rid, sha(t)) in seen or sites_of(t): continue
@@ -97,7 +97,7 @@ def main():
     if not ids: sys.exit("nothing to serve")
     shas = {}
     for rid in ids:
-        src = ROOT / "src" / (rid + ".c"); t = src.read_text(errors="replace")
+        src = layout_row_path(rid, ROOT); t = src.read_text(errors="replace")
         d = lane / "base" / rid.split("/")[0]; d.mkdir(parents=True, exist_ok=True)
         (d / src.name).write_text(t); shas[rid] = sha(t)
         (d / (src.name + ".base_sha")).write_text(shas[rid] + "\n")

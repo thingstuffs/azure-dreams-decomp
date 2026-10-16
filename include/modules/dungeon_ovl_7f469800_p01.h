@@ -105,8 +105,8 @@ typedef struct T_80170F94_S_80170F94_1 {
 
 #ifndef NULL
 #define NULL 0
-extern void func_801724BC();
-extern void func_80170CEC();
+extern void dungeonUpdateActorBehavior();
+extern void dungeonUpdateRotatingActorAura();
 #endif
 
 typedef struct T_8017121C_S_8017121C_0 {
@@ -519,9 +519,9 @@ typedef struct T_80171D64_S_80171D64_4 {
 
 
 extern void func_800478B8(void *entity);
-extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16 x, u16 y, s16 z);
 extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
-extern s32 func_8003DE58(void *, void *, T_8017121C_Vec3u16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, T_8017121C_Vec3u16 *, s32);
 extern void func_8004491C(void *, void *);
 extern void * func_8003FD64();
 extern void func_80047784();
@@ -543,18 +543,18 @@ extern u8 D_801720B4[];
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
-void func_80170D40(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive);
-void func_80170DC4(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output);
-void func_80170E2C(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
-void func_80170EF4(void *effect, s32 unused, void *visual);
-void func_80170F94(void *effect, void *position, void *sprite);
-void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
-void func_801714FC(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor);
-void func_80171790(void *source, void *position);
-void func_80171928(void *unused, s32 *position);
-void func_80171A38(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
-void func_80171BEC(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);
-void * func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
-extern void func_801724BC();
-extern void func_80170CEC();
+void dungeonUpdateSteppedRgbFlash(void *fade_state, void *unused, T_80170D40_S_80170D40_1 *primitive);
+void dungeonUpdateNormalizedGrayFade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output);
+void dungeonUpdateSavedRgbFade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
+void dungeonUpdateGrowingRotatingFlash(void *effect, s32 unused, void *visual);
+void dungeonUpdateGrowingBouncingEffect(void *effect, void *position, void *sprite);
+void dungeonCreateTargetedMotionEffect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
+void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor);
+void dungeonSpawnRandomColorBurstParticle(void *source, void *position);
+void dungeonSpawnGrowingRotatingFlash(void *unused, s32 *position);
+void dungeonUpdateTrackedAttachmentSprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state);
+void dungeonCreateTrackedAttachmentSprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position);
+void * dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height);
+extern void dungeonUpdateActorBehavior();
+extern void dungeonUpdateRotatingActorAura();
 #endif

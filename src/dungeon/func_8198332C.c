@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *func_80024B2C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
+void *dungeonSpawnEffectActorOrCurvedTrail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
     ovl_19a332c_8198332C_Coord *coord;
     ovl_19a332c_8198332C_Prim *prim;
@@ -40,7 +40,7 @@ void *func_80024B2C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
             path_y = y + step_y;
             path_z = z + step_z;
             for (point_index = 0; point_index < 16; point_index++) {
-                func_80024B2C(path_x + ((func_80064584(angle) * func_800644B8(point_index << 7)) >> 21),
+                dungeonSpawnEffectActorOrCurvedTrail(path_x + ((func_80064584(angle) * func_800644B8(point_index << 7)) >> 21),
                               path_y + ((func_800644B8(angle) * func_800644B8(point_index << 7)) >> 21),
                               path_z, angle, 1);
                 path_x += step_x;

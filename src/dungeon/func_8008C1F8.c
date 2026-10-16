@@ -10,32 +10,32 @@ typedef struct S_80091958_0 {
     u8 unk_9B;
     u8 pad_9C[0x2C];
     void * unk_C8;
-} S_80091958_0;   /* arg0 in func_80091958 */
+} S_80091958_0;   /* arg0 in dungeonUpdateItemTargetSelection */
 
 
 typedef struct S_80091958_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80091958_2;   /* arg3 in func_80091958 */
+} S_80091958_2;   /* arg3 in dungeonUpdateItemTargetSelection */
 
 typedef struct S_80091958_3 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in func_80091958 */
+} S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in dungeonUpdateItemTargetSelection */
 
 
 extern u8 D_8008EAC8[];
 
-void *func_800BA074(u8 *selection_data);
+void *dungeonCreateItemTargetSelector(u8 *selection_data);
 
 /* Starts an operation, waits for completion, then selects the next action from context flags. */
-void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2 *context)
+void dungeonUpdateItemTargetSelection(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2 *context)
 {
     void *operation;
 
     switch (state->unk_9B) {
     case 0:
-        operation = func_800BA074(D_80082E80.unk_030);
+        operation = dungeonCreateItemTargetSelector(D_80082E80.unk_030);
         state->unk_C8 = operation;
         if (operation == 0) {
             break;
@@ -52,7 +52,7 @@ void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2
         if (context->unk_1C & 0x100000) {
             state->unk_8C = D_8008EAC8;
         } else {
-            state->unk_8C = func_8008ACDC;
+            state->unk_8C = dungeonHandlePlayerInput;
         }
         break;
     }

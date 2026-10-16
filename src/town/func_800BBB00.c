@@ -2,12 +2,12 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void func_800B9204(); /* extern */
+void townStoreStateAndUpdateTileCenter(); /* extern */
 extern u8 D_800D185C;
 extern u8 D_800D185D;
 
-/* Updates two wrapping indices from input flags and calls func_800B9204 on a button combination. */
-void func_800B9260(void) {
+/* Updates two wrapping indices from input flags and calls townStoreStateAndUpdateTileCenter on a button combination. */
+void townUpdateWrappingIndicesAndInput(void) {
     GameWork *input_state = &gameWork;
     s32 input_flags = ((s32)input_state->unk_010);
     u32 buttons;
@@ -32,6 +32,6 @@ void func_800B9260(void) {
     buttons = *(s32 *) &input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {
-        func_800B9204(D_800D185D);
+        townStoreStateAndUpdateTileCenter(D_800D185D);
     }
 }

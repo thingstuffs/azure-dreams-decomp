@@ -19,9 +19,9 @@ typedef struct S_80173354_1 {
 
 
 extern void func_80047784(void *, u8, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_80171400[];
 extern u8 D_80175148[];
@@ -41,12 +41,12 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
 
     switch (((S_80173354_1 *)action)->unk_9B) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         if (((EntityRec *)actor)->unk_28 == 0) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, D_80175158);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_80175158);
             return;
         }
 
@@ -98,7 +98,7 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, D_80175158);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_80175158);
             return;
         }
         ((S_80173354_1 *)action)->unk_96.s = 8;
@@ -139,7 +139,7 @@ void func_80173354(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         ((S_80173354_1 *)action)->unk_90 = 0;
         ((S_80173354_1 *)action)->unk_98 &= 0xFFF7;

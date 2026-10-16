@@ -10,7 +10,7 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
 
 s32 func_800352FC(s32, s32 *, s32, s32); /* extern */
 M2C_UNK SD_Call();                     /* extern */
-s32 func_800C2AB4();                          /* extern */
+s32 townCheckTransformIdentifierAndHook();                          /* extern */
 
 /* Advance the actor state on nearby activation or release, playing the activation sound. */
 void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 check_mode) {
@@ -35,7 +35,7 @@ void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 ch
 
             threshold = distance_exceeds(threshold, distance);
             if ((threshold == 0) && (func_800352FC(check_value, position, check_param, check_mode) != 0)
-                && (func_800C2AB4(actor) != 0)) {
+                && (townCheckTransformIdentifierAndHook(actor) != 0)) {
                 SD_Call(0x50B);
                 distance = (u16)actor->unk_68;
                 threshold = 0x20;
@@ -49,7 +49,7 @@ void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 ch
         break;
     case 1:
     case 3:
-        if ((func_800352FC(check_value, position, check_param, check_mode) == 0) || (func_800C2AB4(actor) == 0)) {
+        if ((func_800352FC(check_value, position, check_param, check_mode) == 0) || (townCheckTransformIdentifierAndHook(actor) == 0)) {
             next_state = ((u16) actor->unk_68 + 1) & 3;
         } else {
             return;

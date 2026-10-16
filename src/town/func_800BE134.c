@@ -9,7 +9,7 @@
 
 typedef struct S_800BB894_0_pre {
     u16 unk_00;
-} S_800BB894_0_pre;   /* the 0x2 bytes before self in func_800BB894, addressed as self[-1] */
+} S_800BB894_0_pre;   /* the 0x2 bytes before self in townSpawnShortLivedObjectsAroundOrigin, addressed as self[-1] */
 
 
 typedef struct {
@@ -61,7 +61,7 @@ extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
 
 /* Spawn short-lived objects around the origin and set expiry flags when the timer ends. */
-void func_800BB894(Self *self, Copy24 *origin) {
+void townSpawnShortLivedObjectsAroundOrigin(Self *self, Copy24 *origin) {
     s32 remaining = self->count;
 
     if (remaining >= 0) {

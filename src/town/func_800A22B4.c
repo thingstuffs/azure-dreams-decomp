@@ -9,7 +9,7 @@ extern u8 *func_800B2344(void);
 extern Record84 D_80100AF8;
 
 /* Copies a record into the pointer table and initializes extra data for tag 0x13. */
-void func_8009FA14(s32 entry_index, void *source) {
+void townCopyAPointerTableInitializesExtraDataTagHex13(s32 entry_index, void *source) {
     u8 *record;
     s32 tag;
     s32 data_slot;

@@ -11,7 +11,7 @@
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_185e800_entry)(u8 *, u8 *) = func_80024020;
 
@@ -47,7 +47,7 @@ void func_80024020(u8 *self, u8 *motion)
             if (particle != 0) {
                 particle_data = particle + 32;
                 child_data = F(particle, u8 *, 12);
-                F(particle, void *, 16) = func_80024688;
+                F(particle, void *, 16) = dungeonAdvanceDelayedFadingSprite;
 
                 F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
                     (((func_80069EF8() & 0x1ff) - 255) << 13);
@@ -83,8 +83,8 @@ void func_80024020(u8 *self, u8 *motion)
         animation = F(self, u8 *, 4);
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
-        if ((F(owner, u8 *, 96) = func_800A05A4( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
-            F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
+        if ((F(owner, u8 *, 96) = dungeonScanMonsterAlongHeading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
+            F(owner, s16, 42), (s16)dungeonGetDefinitionEntryByte13(8))) == 0) {
             F(owner, u8, 114) = F(owner_record, u8, 36);
             F(owner, u8, 115) = F(owner_record, u8, 37);
         } else {
@@ -92,7 +92,7 @@ void func_80024020(u8 *self, u8 *motion)
             F(owner, u8, 114) = F(child_data, u8, 36);
             F(owner, u8, 115) = F(child_data, u8, 37);
         }
-        if (func_8003DE58(F(F(owner_object, u8 *, 12), u8 *, 8),
+        if (resolveRecordOrientationOrFallback(F(F(owner_object, u8 *, 12), u8 *, 8),
                           F(owner_object, u8 *, 12), origin_offset, 0) == 0) {
             origin_offset[2] = 0;
             origin_offset[1] = 0;
@@ -157,7 +157,7 @@ void func_80024020(u8 *self, u8 *motion)
         if (timer % 3 == 0) {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
-                F(particle, void *, 16) = func_800247D8;
+                F(particle, void *, 16) = dungeonBrightenAccelerateAndFadeEffect;
                 func_8004491C(particle, func_80045340);
                 child_data = F(particle, u8 *, 12);
 

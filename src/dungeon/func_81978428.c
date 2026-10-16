@@ -83,9 +83,9 @@ typedef struct {
 extern void func_800243C0(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
-extern void *func_800A05A4();
-extern u16 func_800BCAD0(void *);
-extern s32 func_800A45D8(u16, u16, s16);
+extern void *dungeonScanMonsterAlongHeading();
+extern u16 dungeonGetSurfaceHeightAtRecord(void *);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern void func_80025A9C(void *, void *, void *);
 extern void func_80025508(void *, void *);
 extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
@@ -171,7 +171,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
             position[2] = (s32)player->unk_88 << 16;
             spawn_angle = player->facing;
             tile_map = &D_80082E80;
-            spawned_object = func_800A05A4(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
+            spawned_object = dungeonScanMonsterAlongHeading(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
         }
         self->object = spawned_object;
         if (spawned_object != 0) {
@@ -199,14 +199,14 @@ void func_81978428(State81978428 *state, s32 *position_out)
                     ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
-                ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+                ((S_81978428_6 *)target_pos)->unk_0A.s = dungeonGetSurfaceHeightAtRecord(target_pos);
                 if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                     EntityRec *player;
                     player = D_800814A8;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
 
-                if ((func_800A45D8(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
+                if ((dungeonCheckLeftTileAndCenterHeight(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
                                     ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
                     EntityRec *player;
 
@@ -216,7 +216,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
                     tile_step_4 = dirStepY[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = dungeonGetSurfaceHeightAtRecord(target_pos);
                     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                         EntityRec *height_player;
                         height_player = D_800814A8;

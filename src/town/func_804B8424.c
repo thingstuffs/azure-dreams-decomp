@@ -17,7 +17,7 @@ typedef struct TownState {
 
 extern void func_800169F8(void *);
 extern void func_80017B3C(void *, s32);
-extern s32 func_80017F8C(void *, s32, s32);
+extern s32 townInvokeSystemCallback21C(void *, s32, s32);
 extern void func_80018044(void *, s32 *, s32, s32);
 extern s32 func_8001894C(s32);
 
@@ -26,7 +26,7 @@ extern s32 D_80018B40;
 extern s32 D_80018E38;
 
 /* Refresh the active entry value and apply its corresponding table record. */
-void func_80016C24(s32 update_arg, s32 unused, s32 entry_arg)
+void townRefreshSceneActiveEntry(s32 update_arg, s32 unused, s32 entry_arg)
 {
     TownState *dispatch_state;
     TownState *update_state;
@@ -38,7 +38,7 @@ void func_80016C24(s32 update_arg, s32 unused, s32 entry_arg)
 
     func_80017B3C(value_table, update_arg);
     if (func_8001894C(D_80018AEA) == 0) {
-        if (func_80017F8C(value_table, update_arg, entry_arg) == 0) {
+        if (townInvokeSystemCallback21C(value_table, update_arg, entry_arg) == 0) {
             dispatch_state = *(TownState **)((s8 *)(&D_80016000));
             value_index = dispatch_state->dispatch->get_value(3);
             update_state = *(TownState **)((s8 *)(&D_80016000));

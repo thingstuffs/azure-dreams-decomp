@@ -14,7 +14,7 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-extern s32 func_8003DE58();
+extern s32 resolveRecordOrientationOrFallback();
 extern void func_8004491C();
 extern void func_80047784();
 
@@ -116,7 +116,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
         offset.y = 0;
         offset.x = 0;
         part = (u8 *)obj + 0x20;
-        if (func_8003DE58(source_obj->unk_08, source_obj, &offset, 1) != 0) {
+        if (resolveRecordOrientationOrFallback(source_obj->unk_08, source_obj, &offset, 1) != 0) {
             part->unk_04.at02.v += offset.x;
             coords->unk_02 = part->unk_04.at02.v;
             part->unk_08.at02.v += offset.y;

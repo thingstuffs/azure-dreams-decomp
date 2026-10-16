@@ -1,28 +1,28 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern void func_800209C4(void);
-extern s32 func_800210E0(void);
-extern s32 func_8002168C(void);
+extern void cardBootToggleChannel(void);
+extern s32 cardBootGetOperationState(void);
+extern s32 cardBootDebounceCardStatusEvents(void);
 extern void func_80021904(void);
-extern void func_80022EC4(void *input, void *value);
+extern void cardBootShowPleaseWaitNotice(void *input, void *value);
 
 extern u8 D_8002789C[];
 extern void *D_8002809C[];
 
 /* Updates the selected callback or triggers a one-time action when no callback is selected. */
-void func_800277BC(void *state) {
+void cardBootPollCardChooserStatus(void *state) {
     s32 callback_index;
     void *callback;
 
     if ((gameWork.buttons != 0) && (((s32)gameWork.unk_010) & 0x20)) {
-        func_800209C4();
+        cardBootToggleChannel();
         *(s32 *)((u8 *)state + 0x38) = 0;
         *(void **)((u8 *)state - 0x10) = D_8002789C;
         return;
     }
 
-    callback_index = func_8002168C();
+    callback_index = cardBootDebounceCardStatusEvents();
     func_80021904();
     if (callback_index != 0) {
         *(s32 *)((u8 *)state + 0x38) = 0;
@@ -33,8 +33,8 @@ void func_800277BC(void *state) {
         return;
     }
 
-    if ((func_800210E0() == 3) && (*(s32 *)((u8 *)state + 0x38) == 0)) {
-        func_80022EC4((u8 *)state - 0x20, (u8 *)state + 0x38);
+    if ((cardBootGetOperationState() == 3) && (*(s32 *)((u8 *)state + 0x38) == 0)) {
+        cardBootShowPleaseWaitNotice((u8 *)state - 0x20, (u8 *)state + 0x38);
         *(s32 *)((u8 *)state + 0x38) = 1;
     }
 }

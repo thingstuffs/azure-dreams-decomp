@@ -47,7 +47,7 @@ extern s32 D_80086AD8;
 extern u16 D_80094422;
 
 /* Emit scattered particles during the first 19 ticks and mark the entity expired when its timer ends. */
-void func_7FFE8154(Entity *self, Position *origin, s32 spawn_param) {
+void dungeonEmitEarlyScatteredParticles(Entity *self, Position *origin, s32 spawn_param) {
     s32 spawn_count;
     u16 tick_count;
     Header *header;

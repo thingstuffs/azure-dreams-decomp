@@ -11,7 +11,7 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
     s32 passes_chance;
     u8 *effect_input;
 
-    if (func_8009D218(entity, 2) != 0) {
+    if (dungeonTryTriggerTargetRecordEffect(entity, 2) != 0) {
         return;
     }
 
@@ -27,8 +27,8 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
     if (!passes_chance) {
         effect_input = entity;
         if (chance_value != 0xff) {
-            func_80099844(effect_input, D_800E20FC);
-            func_800B4C7C(0x53, entity, -1, 1);
+            dungeonAdjustSourceValueAndFinalize(effect_input, D_800E20FC);
+            createActorValuePopup(0x53, entity, -1, 1);
             return;
         }
     }
@@ -44,17 +44,17 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
             format_code = 8;
             result_arg = message_arg;
             effect_result = result_arg;
-            message_arg = func_8009929C(format_code, result_arg);
+            message_arg = dungeonWriteTextByteAndAdvance(format_code, result_arg);
             message_arg = func_80099734(entity, message_arg);
             message_arg = func_80099194(D_800E20D6, message_arg);
             func_80099290(message_arg);
         }
         func_800A5720(effect_result);
-        func_800B4C7C(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
+        createActorValuePopup(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
         return;
     }
 
     effect_input = entity;
-    func_80099844(effect_input, D_800E20FC);
-    func_800B4C7C(0x53, entity, -1, 1);
+    dungeonAdjustSourceValueAndFinalize(effect_input, D_800E20FC);
+    createActorValuePopup(0x53, entity, -1, 1);
 }

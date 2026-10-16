@@ -11,19 +11,19 @@ typedef struct S_80172FE4_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172FE4_0;   /* arg0 in func_80172FE4 */
+} S_80172FE4_0;   /* arg0 in dungeonUpdateDirectionalGridMovement */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern u8 D_80170EA8;
 extern s32 D_80174068;
 
 
 /* Updates directional movement, then stops or returns the entity to its grid position. */
-void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
+void dungeonUpdateDirectionalGridMovement(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *source)
 {
     s16 timer;
     s32 current_x;
@@ -33,7 +33,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
 
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(source);
+        dungeonApplyClampedActorValueDelta(source);
         motion->unk_0C =
             -*(s16 *)((u8 *)((s8 *)dirStepX) +
                       ((source->unk_6A >> 8) & 0xE)) << 15;
@@ -46,7 +46,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, &D_80174068);
+            dungeonBeginActorDisplayAction(action, motion, entity, &D_80174068);
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -89,7 +89,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, &D_80174068);
+            dungeonBeginActorDisplayAction(action, motion, entity, &D_80174068);
             return;
         }
         action->unk_96.s = 8;
@@ -116,7 +116,7 @@ void func_80172FE4(S_80172FE4_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, entity->unk_24, entity->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24, entity->unk_25);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {

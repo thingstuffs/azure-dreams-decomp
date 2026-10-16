@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Update position and part state, then mark the object used unless its part is exempt. */
-void func_80171A38(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state)
+void dungeonUpdateTrackedAttachmentSprite(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S_80171A38_3 *part_state)
 {
     T_80171A38_S_80171A38_1 *record;
     T_80171A38_S_80171A38_2 *part;
@@ -41,7 +41,7 @@ void func_80171A38(void *object, T_80171A38_S_80171A38_4 *position, T_80171A38_S
         position->unk_06 = base_position->unk_06;
         position->unk_0A = base_position->unk_0A;
 
-        if (func_8003DE58(
+        if (resolveRecordOrientationOrFallback(
                 ((T_80171A38_S_80171A38_6 *)(record->unk_0C))->unk_08,
                 record->unk_0C, &position_delta, 0) != 0) {
             position->unk_02 += position_delta.x;

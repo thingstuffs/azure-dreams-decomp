@@ -4,12 +4,12 @@
 
 extern s32 func_8004491C();
 s32 rand();                                /* extern */
-extern s32 func_800BABA8(DungeonObject *object, u16 *position);
+extern s32 dungeonDrawParticleEffectPrimitives(DungeonObject *object, u16 *position);
 
 
 typedef struct S_800BAF04_0_pre {
     u16 unk_00;
-} S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in func_800BAF04, addressed as arg0[-1] */
+} S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceParticleEffectState, addressed as arg0[-1] */
 
 typedef struct S_800BAF04_0 {
     u8 pad_00[0xA];
@@ -20,15 +20,15 @@ typedef struct S_800BAF04_0 {
     u8 unk_11;
     u8 pad_12[0x20];
     u8 unk_32;
-} S_800BAF04_0;   /* arg0 in func_800BAF04 */
+} S_800BAF04_0;   /* arg0 in dungeonAdvanceParticleEffectState */
 
 typedef struct S_800BAF04_1 {
     u8 pad_00[0x12];
     s8 unk_12;
-} S_800BAF04_1;   /* (arg0 + var_s0) in func_800BAF04 */
+} S_800BAF04_1;   /* (arg0 + var_s0) in dungeonAdvanceParticleEffectState */
 
 /* Initializes random values, advances counters, and flags the object when inactive. */
-void func_800BAF04(void *object) {
+void dungeonAdvanceParticleEffectState(void *object) {
     s16 next_index;
     s16 state;
     s16 sample_index;
@@ -51,7 +51,7 @@ void func_800BAF04(void *object) {
         ((S_800BAF04_0 *)object)->unk_10 = 0;
         ((S_800BAF04_0 *)object)->unk_32 = 0U;
         ((S_800BAF04_0 *)object)->unk_11 = 1U;
-        func_8004491C(object - 0x20, func_800BABA8);
+        func_8004491C(object - 0x20, dungeonDrawParticleEffectPrimitives);
         ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
     }
     cycle_tick = ((S_800BAF04_0 *)object)->unk_0E + 1;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-s32 func_80173E94(u8 *node, void *vertex_arg)
+s32 dungeonAppendLinkedShadedPointPackets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
     u8 *scratch;

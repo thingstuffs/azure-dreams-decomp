@@ -6,10 +6,10 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 
-extern void func_80047738();
+extern void selectIndirectTableEntry();
 extern void func_800478B8();
-extern void func_800A020C();
-extern s32 func_800A9E70();
+extern void dungeonApplyMonsterKoyawData();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
@@ -29,7 +29,7 @@ typedef struct S_80170AE0_0 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80170AE0_0;   /* monster in func_80170AE0 */
+} S_80170AE0_0;   /* monster in dungeonUpdateMonsterFacingAndGround */
 
 typedef struct S_80170AE0_1 {
     u8 pad_00[0x1C];
@@ -38,7 +38,7 @@ typedef struct S_80170AE0_1 {
     s8 unk_6D;
     u8 pad_6E[0x1A];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170AE0_1;   /* actor in func_80170AE0 */
+} S_80170AE0_1;   /* actor in dungeonUpdateMonsterFacingAndGround */
 
 typedef struct S_80170AE0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -48,10 +48,10 @@ typedef struct S_80170AE0_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170AE0_2;   /* motion in func_80170AE0 */
+} S_80170AE0_2;   /* motion in dungeonUpdateMonsterFacingAndGround */
 
 /* Updates monster facing, runs actor callbacks, and applies movement and floor height corrections. */
-void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
+void dungeonUpdateMonsterFacingAndGround(void *entity, S_80170AE0_2 *motion, void *monster)
 {
     void *actor = entity;
     s32 direction;
@@ -80,7 +80,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
 
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, monster, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -94,7 +94,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((S_80170AE0_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                func_80047738(monster, tile_map[direction_index], ((S_80170AE0_0 *)monster)->unk_04);
+                selectIndirectTableEntry(monster, tile_map[direction_index], ((S_80170AE0_0 *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
@@ -114,7 +114,7 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
             ((S_80170AE0_0 *)monster)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(((S_80170AE0_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        dungeonApplyMonsterKoyawData(((S_80170AE0_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((S_80170AE0_0 *)monster)->unk_14 = monster_flags & 0x8FFF;

@@ -9,7 +9,7 @@ typedef struct Node {
 extern void func_800CEFB8();
 
 /* Process each linked state with func_800CEFB8 in mode zero. */
-s32 func_800CEEFC(void *initial_state, s32 value, void *data) {
+s32 dungeonProcessLinkedMeshStatesMode0(void *initial_state, s32 value, void *data) {
     u8 *state = initial_state;
 
     for (;;) {

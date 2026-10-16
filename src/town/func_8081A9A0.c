@@ -20,7 +20,7 @@ typedef struct S_800249A0_1 {
 } S_800249A0_1;   /* temp_s1 in func_800249A0 */
 
 
-void func_800537D0();               /* extern */
+void formatDecimalFieldSpacePadded();               /* extern */
 s32 strlen();                             /* extern */
 
 /* Process the entry text when its state is zero and propagate the linked flags. */
@@ -29,7 +29,7 @@ void func_800249A0(void *entry) {
 
     text_info = ((S_800249A0_0 *)entry)->unk_0C;
     if (((S_800249A0_0 *)entry)->unk_00 == 0) {
-        func_800537D0(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
+        formatDecimalFieldSpacePadded(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
             ((S_800249A0_0 *)entry)->unk_04);
         if (text_info->unk_0C & 2) {
             ((S_800249A0_0_pre *)entry)[-1].unk_00 = (u16) (((S_800249A0_0_pre *)entry)[-1].unk_00 | 0x8000);

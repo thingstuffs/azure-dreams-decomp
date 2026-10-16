@@ -4,32 +4,32 @@
 #include "shared/entity.h"
 
 
-extern s32 func_80033B2C();
+extern s32 testResidentBitmapBit();
 extern void func_8008B158();
-extern s32 func_8008C180();
-extern void func_80093D48();
+extern s32 townReadMapCellAtWorldPosition();
+extern void townInitializeSceneActionRecord();
 extern void func_80093E58();
-extern void func_80093F48();
+extern void townInitializeRandomizedObjectAction();
 extern void func_80093FC8();
 extern void func_80094088();
 extern void func_800942B0();
-extern void func_80094378();
+extern void dungeonInitializeActionObject();
 extern void func_800943B8();
-extern void func_800944BC();
+extern void dungeonInitializeActionObjectWithCounter();
 extern void func_8009451C();
-extern void func_80094944();
-extern void func_80094C1C();
-extern void func_80094C74();
-extern void func_80094DA8();
-extern void func_8009503C();
-extern void func_800951B4();
-extern s32 func_8009567C();
-extern s32 func_80095840();
-extern s16 func_80095978();
-extern void func_80095A94();
-extern void func_80095C80();
-extern void func_80098868();
-extern s32 func_800C1D44();
+extern void townTriggerEventHex519IntervalMultiplesEnabled();
+extern void townStoreTheValidSharedAngleInOffsetHex10();
+extern void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude();
+extern void townReduceObjectCoordinatesTowardDirectionDependentLimitsWithoutOvershooting();
+extern void townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58();
+extern void townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides();
+extern s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus();
+extern s32 townSelectAnEligibleSourceEntryStoresPointerInDestination();
+extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
+extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
+extern void townInitializeRecordAndSelectActiveData();
+extern s32 townCheckMaskedValueInCurrentRange();
 
 extern s32 D_800CFCB4[];
 extern u8 D_800CFCEF[];
@@ -42,10 +42,10 @@ typedef struct S_80091260_2 {
     s32 unk_2C;
     u8 pad_30[0xE];
     union { u16 u; s16 s; } unk_3E;   /* accessed as both */
-} S_80091260_2;   /* arg0 in func_80091260 */
+} S_80091260_2;   /* arg0 in townDispatchActorInputActions */
 
 /* Dispatch actor actions from input flags and position checks. */
-void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
+void townDispatchActorInputActions(S_80091260_2 *actor, EntityRec *position, s32 context) {
     GameWork *input_state = &gameWork;
     s32 input_flags;
     s32 action_result;
@@ -54,17 +54,17 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
     s16 remaining_count;
     s32 *action_data;
 
-    func_80095C80(position);
-    func_800951B4(position);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(position);
+    townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(position);
 
-    height = func_80095978(position, ((u8 *)&D_800FE488));
+    height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(position, ((u8 *)&D_800FE488));
     if ((height - position->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(actor, position, context);
+            dungeonInitializeActionObject(actor, position, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        func_80095A94(position, height, ((u8 *)&D_800FE488));
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(position, height, ((u8 *)&D_800FE488));
     }
 
     input_flags = ((s32)input_state->unk_010);
@@ -74,16 +74,16 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
     }
 
     if (input_flags & 0x40) {
-        action_result = func_80095840(actor, D_800CFCB4);
+        action_result = townSelectAnEligibleSourceEntryStoresPointerInDestination(actor, D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
                 func_8009451C(actor, position, context);
                 return;
             } else {
-                func_800944BC(actor, position, context);
+                dungeonInitializeActionObjectWithCounter(actor, position, context);
                 return;
             }
-        } else if (func_80033B2C(0xA4) != 0) {
+        } else if (testResidentBitmapBit(0xA4) != 0) {
             func_80094088(actor, position, context);
             return;
         }
@@ -91,11 +91,11 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
     }
 
     action_data = D_800CFCB4;
-    action_result = func_8009567C(action_data);
+    action_result = townSelectAnAvailableEntryMatchingDirectionReturnsStatus(action_data);
     if (action_result != 0) {
         if (action_result == -1) {
-            func_80094C1C(actor);
-            func_80098868(actor, position, context);
+            townStoreTheValidSharedAngleInOffsetHex10(actor);
+            townInitializeRecordAndSelectActiveData(actor, position, context);
             actor->unk_2C = 0;
             func_8008B158(action_data[4]);
             return;
@@ -109,8 +109,8 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
     input_flags = input_state->buttons;
     if (input_flags & 0x20) {
         if (actor->unk_16 == 1) {
-            tile_id = func_8008C180(position->x.w.i, position->y.w.i);
-            if (func_800C1D44((u16)tile_id) != 0 &&position->z.v > 0) {
+            tile_id = townReadMapCellAtWorldPosition(position->x.w.i, position->y.w.i);
+            if (townCheckMaskedValueInCurrentRange((u16)tile_id) != 0 &&position->z.v > 0) {
                 func_80093FC8(actor, position, context);
                 return;
             } else {
@@ -118,9 +118,9 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
                 return;
             }
         } else {
-            func_80093F48(actor, position, context);
-            func_80094C1C(actor);
-            func_8009503C(position);
+            townInitializeRandomizedObjectAction(actor, position, context);
+            townStoreTheValidSharedAngleInOffsetHex10(actor);
+            townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(position);
             return;
         }
         return;
@@ -129,12 +129,12 @@ void func_80091260(S_80091260_2 *actor, EntityRec *position, s32 context) {
     if (input_flags & 0xF000) {
         remaining_count = actor->unk_3E.u - 1;
         actor->unk_3E.s = remaining_count;
-        func_80094944(remaining_count, 12);
-        func_80094C1C(actor);
-        func_80094C74(position);
-        func_80094DA8(position);
+        townTriggerEventHex519IntervalMultiplesEnabled(remaining_count, 12);
+        townStoreTheValidSharedAngleInOffsetHex10(actor);
+        townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(position);
+        townReduceObjectCoordinatesTowardDirectionDependentLimitsWithoutOvershooting(position);
         return;
     } else {
-        func_80093D48(actor, position, context);
+        townInitializeSceneActionRecord(actor, position, context);
     }
 }

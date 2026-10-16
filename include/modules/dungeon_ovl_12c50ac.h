@@ -323,14 +323,14 @@ typedef struct S_812A524C_40 {
 
 s32 func_800353F4(); /* extern */
 void func_80042B68();                /* extern */
-void func_80047738();              /* extern */
+void selectIndirectTableEntry();              /* extern */
 void func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
-void func_800A020C();                 /* extern */
+void dungeonApplyMonsterKoyawData();                 /* extern */
 s32 func_800A2C34();                          /* extern */
 s16 func_800A48F0();       /* extern */
 void func_800A9A0C();                      /* extern */
-s32 func_800A9E70();  /* extern */
+s32 dungeonRefreshActorFacingAndLifecycle();  /* extern */
 s32 func_800BCB04();                   /* extern */
 void *func_800F6DFC();                /* extern */
 extern u16 D_80013714[8];

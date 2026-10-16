@@ -13,7 +13,7 @@ typedef struct MapRenderPrefix {
     s16 scale_y;
 } MapRenderPrefix;
 
-extern s32 func_800B51C8(void *, void *, void *);
+extern s32 dungeonRenderActiveSpritePartsAndShadows(void *, void *, void *);
 extern s32 func_8004491C(ObjectNodeHeader *, s32 (*)(void *, void *, void *));
 
 /* SLUS entry17's initialization list calls this constructor with no arguments
@@ -27,7 +27,7 @@ void func_800B5168(void)
     if (node != 0) {
         render = (MapRenderPrefix *)node->unk_0C;
         node->unk_10 = 0;
-        func_8004491C(node, func_800B51C8);
+        func_8004491C(node, dungeonRenderActiveSpritePartsAndShadows);
         render->blue = 0x80;
         render->green = 0x80;
         render->red = 0x80;

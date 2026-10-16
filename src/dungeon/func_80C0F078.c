@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7f51d800.h"
 
-void *func_8014C878(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
+void *dungeonAllocateObjectStateAndCallbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {
     s32 mode;
     s32 state_flags;

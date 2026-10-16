@@ -33,7 +33,7 @@ typedef struct S_8001BF84_1 {
 } S_8001BF84_1;   /* store_base in func_8001BF84 */
 
 /* Initializes or retrieves the memory card message object. */
-u8 *func_80402F84(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
+u8 *initCardMessageObject(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
 {
     s32 result;
     u8 *store_base;

@@ -15,13 +15,13 @@ typedef struct S_800BCE7C_0 {
     s32 unk_178;
     s32 unk_17C;
     s32 unk_180;
-} S_800BCE7C_0;   /* arg0 in func_800BCE7C */
+} S_800BCE7C_0;   /* arg0 in dungeonAreQuadCornerTurnsWithinHalfRevolution */
 
 
 s32 func_80065F90();
 
 /* True unless the quad's corner angles are laid out so that one of its successive turns exceeds half a revolution. */
-s32 func_800BCE7C(S_800BCE7C_0 *poly) {
+s32 dungeonAreQuadCornerTurnsWithinHalfRevolution(S_800BCE7C_0 *poly) {
     s32 delta_3;
     s32 angle_1;
     s32 delta_1;

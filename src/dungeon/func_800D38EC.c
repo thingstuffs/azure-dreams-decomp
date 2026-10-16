@@ -7,9 +7,9 @@
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern s16 func_8009A66C(s16, void *, void *, s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800D9820(void *, s32, void *, void *);
+extern s16 dungeonCheckMovementClearanceAndHeight(s16, void *, void *, s32);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonInitializeActorDirectionTable(void *, s32, void *, void *);
 
 extern u8 D_800E260C[];
 
@@ -23,7 +23,7 @@ typedef struct S_800D904C_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     s16 unk_8A;
-} S_800D904C_0;   /* state in func_800D904C */
+} S_800D904C_0;   /* state in dungeonAdvanceActorQueuedPath */
 
 
 typedef struct S_800D904C_2 {
@@ -31,7 +31,7 @@ typedef struct S_800D904C_2 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_800D904C_2;   /* entry in func_800D904C */
+} S_800D904C_2;   /* entry in dungeonAdvanceActorQueuedPath */
 
 typedef struct S_800D904C_3 {
     u8 pad_00[0x8C];
@@ -40,17 +40,17 @@ typedef struct S_800D904C_3 {
     s16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_800D904C_3;   /* arg0 in func_800D904C */
+} S_800D904C_3;   /* arg0 in dungeonAdvanceActorQueuedPath */
 
 typedef struct S_800D904C_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_800D904C_4;   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in func_800D904C */
+} S_800D904C_4;   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in dungeonAdvanceActorQueuedPath */
 
 /* Advance the actor along its queued path and update movement timing. */
-void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
+void dungeonAdvanceActorQueuedPath(void *action, s32 action_id, void *actor, void *move_state)
 {
     void *state = move_state;
     void *anim_table;
@@ -89,11 +89,11 @@ void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
         func_8009A3D0(old_x, old_y, tile_mask);
 
         step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
-        direction = func_800A0818(old_x, old_y,
+        direction = dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y,
                                   ((S_800D904C_2 *)step)->unk_74,
                                   ((S_800D904C_2 *)step)->unk_7C,
                                   (u8 *)action + 0x98);
-        move_result = func_8009A66C(direction, actor, state, 0x20);
+        move_result = dungeonCheckMovementClearanceAndHeight(direction, actor, state, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =
             ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
@@ -116,7 +116,7 @@ void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
             ((dungeonStatus.flags & 0x80) || (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000))) {
             ((S_800D904C_3 *)action)->unk_9A = 0xF;
         } else {
-            func_800D9820(action, action_id, actor, state);
+            dungeonInitializeActorDirectionTable(action, action_id, actor, state);
         }
         ((S_800D904C_3 *)action)->unk_8C = 0;
         (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;

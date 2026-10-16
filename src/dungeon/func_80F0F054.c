@@ -58,7 +58,7 @@ void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
             part_b->unk_14 |= 0xC;
             part_b->unk_12 -= 0x80;
             func_80044A50(obj_alt);
-            func_800BC318(obj_alt);
+            dungeonRetireTrackedEffectById(obj_alt);
         }
         func_800AA36C(work_copy, part_a, part_b, work);
     }

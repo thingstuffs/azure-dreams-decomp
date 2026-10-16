@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800C46A8(void *object, s32 value, s32 update_value);
-extern void func_800C2E84(void *state, s32 output, void *entries);
+extern void townInitializeObjectEntries(void *state, s32 output, void *entries);
 extern u8 D_80082660[][8];
 extern s32 D_800C5FDC[];
 extern s32 D_800D5590[];
@@ -15,6 +15,6 @@ void func_800C5F70(void *object, s32 unusedArgument, s32 updateValue) {
     func_800C46A8(object, unusedArgument, updateValue);
     updateObject = object;
     stagedUpdateValue = updateValue;
-    func_800C2E84(updateObject, stagedUpdateValue, D_800D5590);
+    townInitializeObjectEntries(updateObject, stagedUpdateValue, D_800D5590);
     *((s32 **)object + 0x15) = D_800C5FDC;
 }

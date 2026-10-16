@@ -59,7 +59,7 @@ typedef struct Object {
 extern Object *func_8003FD64();
 extern void func_8004491C();
 extern s32 rand(void);
-extern void func_8008F104(Core *, Position *, void *);
+extern void townConfigureTheSetModeN3(Core *, Position *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
@@ -130,7 +130,7 @@ void func_800BACB0(Core *parent_core, Position *origin)
             particle_y = origin->y;
             child_pos->z = 0;
             child_pos->y = particle_y;
-            func_8008F104(child_core, child_pos, D_800D1BCC[child_index]);
+            townConfigureTheSetModeN3(child_core, child_pos, D_800D1BCC[child_index]);
         }
         child_index += 1;
     } while (child_index < 4);

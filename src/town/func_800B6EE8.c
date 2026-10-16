@@ -6,7 +6,7 @@ typedef struct S_800B4648_1 {
     s32 * unk_18;
     u8 pad_1C[0x2C];
     s32 * unk_48;
-} S_800B4648_1;   /* (temp_s0 + arg0->unk_5C) in func_800B4648 */
+} S_800B4648_1;   /* (temp_s0 + arg0->unk_5C) in townSubmitFivePairedEntryValues */
 
 
 M2C_UNK func_8004E99C();                         /* extern */
@@ -14,10 +14,10 @@ M2C_UNK func_8004E99C();                         /* extern */
 typedef struct S_800B4648_0 {
     u8 pad_00[0x5C];
     s32 unk_5C;
-} S_800B4648_0;   /* arg0 in func_800B4648 */
+} S_800B4648_0;   /* arg0 in townSubmitFivePairedEntryValues */
 
 /* Passes each of five paired entry values to func_8004E99C. */
-void func_800B4648(S_800B4648_0 *owner) {
+void townSubmitFivePairedEntryValues(S_800B4648_0 *owner) {
     s32 entry_value;
     s32 entry_offset;
     s32 entry_index;

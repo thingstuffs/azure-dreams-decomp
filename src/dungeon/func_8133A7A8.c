@@ -32,10 +32,10 @@ extern s16 D_801760E8[4];
 
 extern void func_8004D294(void *, void *, s32);
 extern void func_8004D7A8(s32);
-extern s16 func_8016F4FC(void *);
+extern s16 dungeonGetPlayerRelativePointOctant(void *);
 
 /* Update camera focus and height through timed entity states and phases. */
-void func_801717A8(Entity *entity) {
+void dungeonUpdateEncounterCameraFocus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
     Actor *actor = *(Actor **)(D_80175D50 + 8);
     s16 phase_slot;
@@ -106,7 +106,7 @@ void func_801717A8(Entity *entity) {
 
         entity->timer = 0;
         entity->state++;
-        phase_slot = func_8016F4FC(actor);
+        phase_slot = dungeonGetPlayerRelativePointOctant(actor);
         height_slot = phase_slot + 3;
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
@@ -134,7 +134,7 @@ void func_801717A8(Entity *entity) {
 
         entity->timer = 0;
         entity->state++;
-        phase_slot = func_8016F4FC(actor);
+        phase_slot = dungeonGetPlayerRelativePointOctant(actor);
         height_slot = phase_slot + 2;
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
@@ -161,7 +161,7 @@ void func_801717A8(Entity *entity) {
         u8 *globals;
 
         if ((entity->timer & 0xF) == 0) {
-            height_slot = func_8016F4FC(actor);
+            height_slot = dungeonGetPlayerRelativePointOctant(actor);
             D_801760E0[0] = D_800DCE60[0];
             D_801760E0[1] = D_800DCE60[1];
             entity->phase++;

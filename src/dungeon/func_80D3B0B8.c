@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d5b0b8.h"
 
-void func_801708B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
+void createOwnerLinkedDirectionalObject(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;
     u8 *object_data;
     u8 *sprite;
@@ -46,6 +46,6 @@ void func_801708B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
             D_800DCECC[((gameWork.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
-        func_800BC26C(object, 0, sprite + 0x2C, object_data + 0x2A);
+        dungeonCreateTrackedEffect(object, 0, sprite + 0x2C, object_data + 0x2A);
     }
 }

@@ -4,14 +4,14 @@
 
 extern void func_80047784();
 extern s32 func_80047D44();
-extern void func_80048088();
-extern void func_8004827C();
-extern void func_80099FDC();
+extern void loadAndUploadSpriteResource();
+extern void bindSpriteResourceSlotRecord();
+extern void dungeonClearEntryFlagAndLinkOwner();
 extern void func_8009A21C();
 extern s32 func_8009FB34();
-extern void func_800A2B04();
-extern void func_800A34BC();
-extern void func_800BC26C();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonCopyIndexedEntryData();
+extern void dungeonCreateTrackedEffect();
 extern s32 func_800BCB04();
 
 extern s32 D_80081488[];
@@ -39,16 +39,16 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
         D_800DCF4D[0] = -1;
     } else {
         if (*(u8 *)(entity_data + 0x13) != 0x38) {
-            func_80048088(*(u8 *)(entity_data + 0x13));
+            loadAndUploadSpriteResource(*(u8 *)(entity_data + 0x13));
         }
         entity_kind = *(u8 *)(entity_data + 0x13);
-        func_8004827C(entity, entity_kind);
+        bindSpriteResourceSlotRecord(entity, entity_kind);
     }
 
     *(s8 *)((u8 *)sprite + 0x26) =
         func_8009FB34(*(u8 *)((u8 *)sprite + 0x24),
                       *(u8 *)((u8 *)sprite + 0x25));
-    func_800A2B04(position,
+    dungeonSetRecordIntegerTileCenter(position,
                   *(u8 *)((u8 *)sprite + 0x24),
                   *(u8 *)((u8 *)sprite + 0x25));
 
@@ -67,9 +67,9 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
                       ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
                   0);
 
-    func_80099FDC(entity);
+    dungeonClearEntryFlagAndLinkOwner(entity);
     if ((*(s32 *)(entity_data + 0x14) & 0x4000) == 0) {
-        func_800A34BC(entity_data);
+        dungeonCopyIndexedEntryData(entity_data);
     }
 
     func_8009A21C(*(u8 *)((u8 *)sprite + 0x24),
@@ -78,7 +78,7 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
 
     *(s8 *)(entity_data + 0x71) = 0;
     *(s32 *)(entity_data + 0x1C) |= 0x40000000;
-    func_800BC26C(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
+    dungeonCreateTrackedEffect(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
     if (dirSpriteFlag[
             ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {

@@ -36,12 +36,12 @@ extern s16 D_800272CA[];
 extern TownTarget D_80083780[];
 extern u8 D_800D0138[];
 
-extern void func_8003F540(s32, s32, s32, s32);
+extern void soundSetCdCueParameters(s32, s32, s32, s32);
 extern void SD_Call(s32);
-extern void func_80093CEC(void *);
+extern void townApplyGlobalSceneValue(void *);
 
 /* Update object motion, scoring, and timed state transitions. */
-void func_80023B14(TownObject *obj, TownMotion *motion)
+void townUpdateGymScoreObject(TownObject *obj, TownMotion *motion)
 {
     TownChild *child;
     s16 ticks_left;
@@ -108,7 +108,7 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
         } else {
             obj->timer = 4;
         }
-        func_80093CEC(D_800D0138);
+        townApplyGlobalSceneValue(D_800D0138);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
@@ -167,14 +167,14 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
         }
 
         if (*(s16 *)0x800135C2 == child->count) {
-            func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
+            soundSetCdCueParameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
             state = obj->state + 1;
             obj->timer = 7;
             obj->state = state;
             return;
         }
-        func_8003F540(0, 0x2C3D, 0, 0x01000290);
+        soundSetCdCueParameters(0, 0x2C3D, 0, 0x01000290);
         SD_Call(0x300);
         state = obj->state + 1;
         obj->timer = 7;

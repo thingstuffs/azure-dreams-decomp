@@ -6,7 +6,7 @@ extern void func_80018854(s32);
 extern void func_800188CC(s32);
 extern s32 func_8001894C(s16);
 
-s32 func_80016618(void *object, s32 value)
+s32 townProcessSceneStatusActions(void *object, s32 value)
 {
     func_8001611C(object, value);
     if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) != 0) {

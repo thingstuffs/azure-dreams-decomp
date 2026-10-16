@@ -17,7 +17,7 @@ typedef struct S_801733BC_0 {
     u8 unk_25;
     u8 pad_26[0x2];
     u32 unk_28;
-} S_801733BC_0;   /* arg2 in func_801733BC */
+} S_801733BC_0;   /* arg2 in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_1 {
     u8 pad_00[0x96];
@@ -26,7 +26,7 @@ typedef struct S_801733BC_1 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     union { u16 u; s16 s; } unk_A8;   /* accessed as both */
-} S_801733BC_1;   /* arg0 in func_801733BC */
+} S_801733BC_1;   /* arg0 in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_2 {
     u8 pad_00[0x8];
@@ -35,7 +35,7 @@ typedef struct S_801733BC_2 {
     void * unk_10;
     u8 pad_14[0xC];
     u16 unk_20;
-} S_801733BC_2;   /* object in func_801733BC */
+} S_801733BC_2;   /* object in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_3 {
     u8 pad_00[0x2];
@@ -44,14 +44,14 @@ typedef struct S_801733BC_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801733BC_3;   /* arg1 in func_801733BC */
+} S_801733BC_3;   /* arg1 in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_4 {
     u8 pad_00[0x96];
     u16 unk_96;
     u8 pad_98[0xC];
     u32 unk_A4;
-} S_801733BC_4;   /* effectPart in func_801733BC */
+} S_801733BC_4;   /* effectPart in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_5 {
     u8 pad_00[0xC];
@@ -64,7 +64,7 @@ typedef struct S_801733BC_5 {
     u16 unk_1E;
     u8 pad_20[0x8];
     u32 unk_28;
-} S_801733BC_5;   /* objectPart in func_801733BC */
+} S_801733BC_5;   /* objectPart in dungeonUpdateParticlesProjectileAndFade */
 
 
 typedef struct S_801733BC_8 {
@@ -77,7 +77,7 @@ typedef struct S_801733BC_8 {
     u32 unk_10;
     u32 unk_14;
     u16 unk_18;
-} S_801733BC_8;   /* projectilePart in func_801733BC */
+} S_801733BC_8;   /* projectilePart in dungeonUpdateParticlesProjectileAndFade */
 
 typedef struct S_801733BC_10 {
     u8 pad_00[0x2];
@@ -86,7 +86,7 @@ typedef struct S_801733BC_10 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801733BC_10;   /* ((S_801733BC_2 *)object)->unk_08 in func_801733BC */
+} S_801733BC_10;   /* ((S_801733BC_2 *)object)->unk_08 in dungeonUpdateParticlesProjectileAndFade */
 
 
 typedef struct {
@@ -115,11 +115,11 @@ extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A2FE0(void *);
 extern void func_800A32A4(void *);
 extern void func_800A56E0(s32);
-extern void func_800ACF88(void *);
+extern void dungeonAnnounceFamiliarDefeat(void *);
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
-void func_801733BC(void *effect_state, void *position, void *render_part, void *entity)
+void dungeonUpdateParticlesProjectileAndFade(void *effect_state, void *position, void *render_part, void *entity)
 {
     Rect rect;
     Point center;
@@ -205,7 +205,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
         }
         if (((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x4000) {
             if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         ((S_801733BC_1 *)effect_state)->unk_9B++;

@@ -4,18 +4,18 @@
 #define NULL 0
 #endif
 
-extern void *func_8009C390(s32, s32, void *, s32);
-extern void *func_8009CD18(void *, void *, s32);
+extern void *townCreateTownEffectObject(s32, s32, void *, s32);
+extern void *townInitializeObjectTransformAndState(void *, void *, s32);
 extern s32 D_800A6BEC;
 
 void func_800A6B70(s32 object_id) {
     s8 *model;
     s8 *object;
 
-    object = (s8 *) func_8009C390(0, object_id, &D_800A6BEC, 0);
+    object = (s8 *) townCreateTownEffectObject(0, object_id, &D_800A6BEC, 0);
     if (object != NULL) {
         model = *(s8 **)(object + 0xC);
-        func_8009CD18(object + 0x20, model, 0x3A1);
+        townInitializeObjectTransformAndState(object + 0x20, model, 0x3A1);
         *(s16 *)(model + 0x20) = 0x1800;
         *(s16 *)(model + 0x1E) = 0x1800;
         *(s16 *)(model + 0x1C) = 0x1800;

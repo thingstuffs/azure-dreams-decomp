@@ -10,7 +10,7 @@ typedef struct Func8003A7BCState {
 } Func8003A7BCState;
 
 /* Copies an event-script table value using destination and source indices read from the script. */
-void func_8003A7BC(Func8003A7BCState *state)
+void vmOp68CopyValue(Func8003A7BCState *state)
 {
     u8 *script_ptr = state->input;
     u8 destination = *script_ptr;

@@ -10,7 +10,7 @@
 extern u8 D_80081470[];
 
 /* Return the stored pointer when available, otherwise the fallback data buffer. */
-u8 *func_800A442C(void) {
+u8 *dungeonGetStoredOrFallbackData(void) {
     u8 *stored_data;
 
     if (D_80081470[1] < 0x14U) {

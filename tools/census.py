@@ -3,6 +3,7 @@
 import json, re, collections
 from pathlib import Path
 from common import ROOT, LEDGER, rows, write_jsonl, raw_path
+from source_layout import row_path as layout_row_path, source_files as layout_source_files
 from pin_census import sites_of, arm_labels, HAS_PP_RE
 
 PIN_RE = re.compile(r"\bASM_([A-Z0-9_]+)\(")
@@ -81,7 +82,7 @@ def void_exact_targets():
             d = ROOT / "src" / cdir
             if not d.exists():
                 continue
-            for f in d.glob("*.c"):
+            for f in layout_source_files(cdir, ROOT):
                 try:
                     text = f.read_text(errors="replace")
                 except OSError:
@@ -228,7 +229,7 @@ def census_one(row, audit):
     aud = collections.Counter()
     for k in keys:
         aud.update(audit.get(k, {}))
-    cp = ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    cp = layout_row_path(row, ROOT)
     live = live_audit(row, cp.read_text(errors="replace") if cp.exists() else text)
     rec = {
         "id": row["id"], "lines": text.count("\n"), "chars": len(text),

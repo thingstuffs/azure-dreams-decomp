@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80017A9C(void)
+void dungeonInitializeGridBorderCells(void)
 {
     s32 edge_index;
     floor_generate_isolated_80284A9C_Cell *cell;

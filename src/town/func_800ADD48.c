@@ -15,7 +15,7 @@ extern u8 D_800AB50C[];
 extern u8 D_800AB708[];
 
 /* Update the state from its value and countdown, advancing unk72 until timeout. */
-void func_800AB4A8(State *state) {
+void townAdvancePersonStateValue(State *state) {
     u16 timer;
 
     if (state->value < 100) {

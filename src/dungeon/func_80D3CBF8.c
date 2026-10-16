@@ -16,29 +16,29 @@
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern s32 func_80042900();
-extern s32 func_8009A180();
+extern s32 dungeonCheckEntityRelation();
 extern void func_8009A21C();
 extern void func_8009A3D0();
-extern s32 func_8009A540();
-extern s32 func_8009A8C0();
-extern s32 func_8009FD7C();
-extern s16 func_800A0134();
-extern void *func_800A02AC();
-extern void *func_800A04F0();
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A0E6C();
-extern void func_800A19E4();
+extern s32 dungeonCheckDiagonalSideHeight();
+extern s32 dungeonCheckDirectionalMoveAndTerrain();
+extern s32 dungeonCompareMonsterNeighborValues();
+extern s16 dungeonGetActorHeightDifference();
+extern void *dungeonFindValidMonsterNeighbor();
+extern void *dungeonPlaceActorAtDirectionalNeighbor();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonRebuildMonsterReachableTiles();
+extern void dungeonUpdateActorProximityFlag();
 extern s32 func_800A6D30();
 extern void func_800A9A0C();
 extern s16 func_800BCB04();
-extern s32 func_80172BB0();
+extern s32 dungeonTryTurnActorTowardTarget();
 
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
 extern s16 D_8006CD00[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
-void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *actor) {
+void dungeonChooseAndExecuteActorStep(void *work_data, void *action_context, u8 *position, u8 *actor) {
     DungeonGlobalStatus *turn_state;
     u16 turn_flags;
     s32 movement_flags;
@@ -63,7 +63,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
 
     if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
         if ((U8_AT(actor, 0x12) >= 2) || U8_AT(work_data, 0xB5) ||
-            ((func_80172BB0(work_data, action_context, position, actor) << 16) == 0)) {
+            ((dungeonTryTurnActorTowardTarget(work_data, action_context, position, actor) << 16) == 0)) {
             func_800A9A0C(actor);
             return;
         }
@@ -77,19 +77,19 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
         return;
     }
 
-    func_800A19E4(position, actor, 3, 6, (u8 *)work_data + 0x9C);
+    dungeonUpdateActorProximityFlag(position, actor, 3, 6, (u8 *)work_data + 0x9C);
     movement_flags = S32_AT(actor, 0x1C);
 
     if (movement_flags & 0x410) {
         if (movement_flags & 0x400) {
-            node = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            node = dungeonFindValidMonsterNeighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
             if (node != NULL) {
                 u8 *node_work;
                 s32 history_index;
 
                 parent = PTR_AT(node, -0x14);
                 node_work = (u8 *)work_data + 0x98;
-                U16_AT(actor, 0x2A) = func_800A0818(
+                U16_AT(actor, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
                     U8_AT(parent, 0x24), U8_AT(parent, 0x25),
                     node_work);
@@ -106,7 +106,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
                 U16_AT(actor, 0x2A) += (call_result & 7) << 9;
             }
         } else {
-            work_value = (s32)func_800A04F0(actor, U8_AT(position, 0x24),
+            work_value = (s32)dungeonPlaceActorAtDirectionalNeighbor(actor, U8_AT(position, 0x24),
                                             U8_AT(position, 0x25),
                                             S16_AT(actor, 0x2A));
             if (work_value != 0) {
@@ -135,19 +135,19 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
             }
 
             path_work = (u8 *)work_data + 0x98;
-            path_angle = func_800A0818(
+            path_angle = dungeonGetRoundedFacingAndRoundingFlag(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                 (s16)target_x, (s16)target_y, path_work);
             U16_AT(actor, 0x2A) = path_angle;
-            call_result = func_8009A8C0(path_angle, position, actor, 0x20);
+            call_result = dungeonCheckDirectionalMoveAndTerrain(path_angle, position, actor, 0x20);
             if ((call_result << 16) <= 0) {
-                U16_AT(actor, 0x2A) = func_800A0818(
+                U16_AT(actor, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
                     D_80082E80.tileX,
                     D_80082E80.tileY, path_work);
             }
 
-            work_value = func_8009FD7C(
+            work_value = dungeonCompareMonsterNeighborValues(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                 D_80082E80.tileX,
                 D_80082E80.tileY);
@@ -156,7 +156,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
                 limit_turn = 1;
             }
             } else {
-                func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                dungeonRebuildMonsterReachableTiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
             }
         }
     } else {
@@ -166,13 +166,13 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
         tile_type = S8_AT(position, 0x26);
         if (tile_type >= 0 && (tile_records = D_800E2970, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
-            func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+            dungeonRebuildMonsterReachableTiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
-            node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+            node = dungeonPlaceActorAtDirectionalNeighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
                                  S16_AT(actor, 0x2A));
             if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
-                (func_800A0134(node, actor) < 0x81) &&
-                ((func_8009A540(
+                (dungeonGetActorHeightDifference(node, actor) < 0x81) &&
+                ((dungeonCheckDiagonalSideHeight(
                       ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
                       U8_AT(position, 0x24), U8_AT(position, 0x25),
                       (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
@@ -184,16 +184,16 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
                 TileObject *move_center;
 
                 move_center = &D_80082E80;
-                U16_AT(actor, 0x2A) = func_800A0818(
+                U16_AT(actor, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
                     U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
                     (u8 *)work_data + 0x98);
 
-                if ((func_8009FD7C(
+                if ((dungeonCompareMonsterNeighborValues(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
                         U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
-                    if (func_800A0134(D_800814A8, actor) < 0x81) {
-                        if ((func_8009A540(
+                    if (dungeonGetActorHeightDifference(D_800814A8, actor) < 0x81) {
+                        if ((dungeonCheckDiagonalSideHeight(
                                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
@@ -203,7 +203,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
                     }
                 }
             } else {
-                func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                dungeonRebuildMonsterReachableTiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
             }
         }
     }
@@ -220,7 +220,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
             candidate_angle = ((s32)node) + *angle_step;
         }
 
-        call_result = func_8009A8C0((s16)candidate_angle, position, actor, 0x20);
+        call_result = dungeonCheckDirectionalMoveAndTerrain((s16)candidate_angle, position, actor, 0x20);
         if ((call_result << 16) > 0) {
             if (attempt >= 3) {
                 work_value = limit_turn;
@@ -280,7 +280,7 @@ void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *acto
         }
         if (attempt == 0) {
             if (*(u16 *)(&D_80082E80.tileX) != U16_AT(position, 0x24)) {
-                if ((func_8009A180(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
+                if ((dungeonCheckEntityRelation(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
                     return;
                 }
             }

@@ -14,7 +14,7 @@ extern M2C_UNK D_8009F21C;
 extern M2C_UNK D_800DD824;
 
 /* Creates an object at transformed coordinates and initializes its rendering and state. */
-void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode) {
+void *dungeonCreateTransformedRenderObject(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode) {
     s32 alloc_flags;
     void *position;
     void *object;

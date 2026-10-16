@@ -9,7 +9,7 @@ typedef struct S_800D1A80_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800D1A80_0;   /* arg0 in func_800D1A80 */
+} S_800D1A80_0;   /* arg0 in dungeonFadeActorToRemoval */
 
 typedef struct S_800D1A80_1 {
     u8 pad_00[0xC];
@@ -25,17 +25,17 @@ typedef struct S_800D1A80_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800D1A80_1;   /* arg2 in func_800D1A80 */
+} S_800D1A80_1;   /* arg2 in dungeonFadeActorToRemoval */
 
 typedef struct S_800D1A80_2_pre {
     u16 unk_00;
-} S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in func_800D1A80, addressed as arg3[-1] */
+} S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in dungeonFadeActorToRemoval, addressed as arg3[-1] */
 
 
 typedef struct S_800D1A80_3 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800D1A80_3;   /* var_a0 in func_800D1A80 */
+} S_800D1A80_3;   /* var_a0 in dungeonFadeActorToRemoval */
 
 
 #define M2C_BREAK() 0
@@ -48,7 +48,7 @@ void func_800A56E0(s32 query_value);
 s32 func_80042900(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
-s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
+s32 dungeonFadeActorToRemoval(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
     s16 fade_frames;
     M2C_UNK tile_flags;
     s16 frames_left;

@@ -17,6 +17,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 
 | tool | what it prints |
 |---|---|
+| `rename_proof.py` | D0 local/member renames and comments: strict token check, before/after physical object comparison (allocated bytes, relocations and symbols), mandatory per-row verify, retained receipt; `ROW after.c [--stage]`. See [rename proof contract](../../../docs/RENAME_PROOF.md). |
 | `lab.py` | listing distance, pins left, byte score (a no-build candidate prints its cpp/cc1 stderr), and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell [--equal-pins]` |
 | `permute.py ROW --plan movable.json --base FILE` | bounded dependency-aware statement orders, nice/ionice pool, listing screen, byte scores, cleanest admissible exact staging; `--auto`, `--compound`, `--limit`, `--workers` |
 | `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |

@@ -27,7 +27,7 @@
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
-void func_8002525C(void *owner) {
+void createTimedRectangleEffect(void *owner) {
     s16 center[2];
     RectTable slot_rects;
     u8 *copy_src;

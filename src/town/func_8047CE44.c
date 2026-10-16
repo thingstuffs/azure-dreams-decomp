@@ -4,6 +4,6 @@
 extern s32 D_80019BC0;
 
 /* Stores the supplied value in D_80019BC0. */
-void func_8047CE44(s32 value) {
+void func_80019644(s32 value) {
     D_80019BC0 = value;
 }

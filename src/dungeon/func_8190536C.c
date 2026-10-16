@@ -59,7 +59,7 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     call_order_table = order_table;
     call_data = draw_data;
     draw_pos[1] = draw_y;
-    func_80024190(call_pos, (void *)call_data, call_order_table, call_param);
+    dungeonBuildTexturedSpriteStrips(call_pos, (void *)call_data, call_order_table, call_param);
 
     if (clear_enabled != 0) {
         FillPacket *fill_packet;

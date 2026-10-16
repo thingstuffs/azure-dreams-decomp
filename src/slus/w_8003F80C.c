@@ -8,7 +8,7 @@ extern int LoadImage(RECT *rect, void *p);
 extern s32 D_80082EC0[128];
 
 /* Uploads a VRAM strip and records its source and width in the cache. */
-void func_8003F80C(s32 src_addr, s32 vram_addr, s32 block_count, s32 skip_flags)
+void uploadVramRowAndCache(s32 src_addr, s32 vram_addr, s32 block_count, s32 skip_flags)
 {
     s32 slot;
     s32 flags;

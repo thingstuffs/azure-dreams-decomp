@@ -11,18 +11,18 @@ typedef struct {
     WinSub *field4;
 } WinObj;
 
-extern void func_800242D8(u8 *packet, u32 x, u32 y);
+extern void cardBootBuildShadedPanelPackets(u8 *packet, u32 x, u32 y);
 extern s32 D_80079054;
 extern s32 D_800790B4;
 extern s32 D_80079114;
 
 /* Initialize window data and configure the four window objects. */
-void func_80024ACC(u8 *window_state) {
+void dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(u8 *window_state) {
     void *window_data;
     WinObj *window;
 
     window_data = window_state + 4;
-    func_800242D8(window_data, 0xF8, 0x48);
+    cardBootBuildShadedPanelPackets(window_data, 0xF8, 0x48);
 
     window = *(WinObj **)(window_state + 0xB48);
     window->field4->w = 0xA0;

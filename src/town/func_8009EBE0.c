@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern void func_8008F134(void *);
+extern void townUnlinkSceneListNode(void *);
 extern void func_80033D08(void *object);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Update the object and set the high bit in its header and the global flags. */
 void func_8009C340(void *object) {
-    func_8008F134(object);
+    townUnlinkSceneListNode(object);
     func_80033D08(object);
     *((u16 *)object - 1) |= 0x8000;
     {

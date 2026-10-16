@@ -4,7 +4,7 @@ extern s32 func_800188E4();
 extern s16 D_80019088[28];
 
 // Passes seven strided table values and three fixed values to func_800188E4.
-void func_800168E0(void) {
+void resetTownEventState(void) {
     s16 *tableEntry;
     s32 entryCount;
 

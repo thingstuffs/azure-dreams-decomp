@@ -8,10 +8,10 @@ typedef struct S_80170CA0_0 {
     s16 unk_96;
     u8 pad_98[0x2];
     s8 unk_9A;
-} S_80170CA0_0;   /* temp_v0 in func_80170CA0 */
+} S_80170CA0_0;   /* temp_v0 in dungeonClearTheSTwoStateFields */
 
 /* Clear the current object's two state fields. */
-void func_80170CA0(void) {
+void dungeonClearTheSTwoStateFields(void) {
     S_80170CA0_0 *state;
 
     state = *D_80174CE0 + 0x20;

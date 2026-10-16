@@ -13,7 +13,7 @@
 
 
 /* Sets the value of all active entries at the given coordinates in both tables. */
-void func_800CDF40(s16 x, s16 y, s16 value) {
+void dungeonSetValueOfActiveEntriesAtTile(s16 x, s16 y, s16 value) {
     FirstEntry *first_entry;
     DungeonItemEntry *first_status;
     SecondEntry *second_entry;

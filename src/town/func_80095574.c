@@ -8,28 +8,28 @@ typedef struct {
 
 extern u8 D_800CFCEE[];
 
-extern void func_80095C80(TownObject *);
-extern void func_80094C1C(void *);
-extern void func_80094C74(TownObject *);
-extern void func_800954F4(TownObject *);
-extern void func_80095388(TownObject *);
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(TownObject *);
+extern void townStoreTheValidSharedAngleInOffsetHex10(void *);
+extern void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(TownObject *);
+extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(TownObject *);
+extern void townAddHex20000SSignedOffsetHex14(TownObject *);
 extern void func_80094714(void *, TownObject *, void *);
 extern void func_80094620(void *, TownObject *, void *);
 
 /* Updates the town object and dispatches its action based on input and state. */
-void func_80092CD4(void *context, TownObject *object, void *action_data)
+void townUpdateTownObjectFromInput(void *context, TownObject *object, void *action_data)
 {
     GameWork *input = &gameWork;
 
-    func_80095C80(object);
-    func_80094C1C(context);
-    func_80094C74(object);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
+    townStoreTheValidSharedAngleInOffsetHex10(context);
+    townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(object);
 
     if (D_800CFCEE[0] != 0) {
         object->field14 = 0;
-        func_800954F4(object);
+        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(object);
     } else {
-        func_80095388(object);
+        townAddHex20000SSignedOffsetHex14(object);
     }
 
     if (((u32)input->unk_010) & 0x40) {

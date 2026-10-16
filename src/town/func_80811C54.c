@@ -98,7 +98,7 @@ typedef struct S_func_80811C54_7 {
 } S_func_80811C54_7;
 
 /* Updates slot machine bets, reels, winning lines, and payout effects. */
-void func_8052C854(void *machine, void *position)
+void townUpdateSlotMachine(void *machine, void *position)
 {
     S_func_80811C54_1 *self = (S_func_80811C54_1 *)machine;
     S_func_80811C54_2 *input;

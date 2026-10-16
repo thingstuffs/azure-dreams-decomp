@@ -15,11 +15,11 @@ extern void func_8009A028(void *);
 extern void func_8009A3D0(s32, s32, s32);
 extern s32 func_8009FB34(s32, s32);
 extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void func_800A152C(s16 entry_type, s16 entry_key);
+extern void retainSpawnResource(s16 entry_type, s16 entry_key);
 extern void *func_800A1618(s32, s32);
-extern void func_800A1D4C(void *, s32);
+extern void raiseEntityLevel(void *, s32);
 extern void func_800A32A4(void *);
-extern void func_800A4E2C(u8 *, u8 *);
+extern void selectDungeonSpawnTile(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
 extern s32 func_800A6D30(void);
 extern s32 func_800A9230(void *);
@@ -60,7 +60,7 @@ void func_800A08A0(s32 spawn_mode) {
     fixed_entry_offset = (mode - 2) * 2;
 
     for (; attempt < 0x10; ++attempt) {
-        func_800A4E2C(&tile_x, &tile_y);
+        selectDungeonSpawnTile(&tile_x, &tile_y);
         if ((s16)func_8009FB34(tile_x, tile_y) < 0) {
             continue;
         }
@@ -107,7 +107,7 @@ void func_800A08A0(s32 spawn_mode) {
             return;
         }
 
-        func_800A152C(monster_type, 1);
+        retainSpawnResource(monster_type, 1);
         func_80042640(monster, monster_type);
         ((u8 *)monster)[0x43] = func_800A6D30();
         ((u8 *)monster)[0x12] = 0;
@@ -130,7 +130,7 @@ void func_800A08A0(s32 spawn_mode) {
             u32 next_level_exp;
             level_thresholds = next_limits;
             do {
-                func_800A1D4C(monster, 0);
+                raiseEntityLevel(monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
             } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);
         }

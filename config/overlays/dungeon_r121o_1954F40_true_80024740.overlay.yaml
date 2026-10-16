@@ -1,0 +1,36 @@
+# r121_rem_opus bounded C window: selector-49 bank function at 0x80024740.
+# BASE PROOF: retail loader receipt r103_1954800_loader49 (dungeon.rowbase.jsonl): selector 49 reads
+# 12 sectors (0x6000 bytes) from DUNGEON file 0x1954800 to 0x80024000, so delta 0x7E6CF800 holds
+# for [0x1954800, 0x195A800); this window's body is byte-exact C at that base.
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+name: dungeon_r121o_1954F40_true_80024740
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_r121o_1954F40_true_80024740
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: false
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0x1954F40
+    file_end: 0x1955128
+    vram_start: 0x80024740
+    true_vram_start: 0x80024740
+    base_confidence: proven-rowbase
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

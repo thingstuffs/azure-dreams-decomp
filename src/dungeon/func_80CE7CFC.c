@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
-void func_801714FC(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
+void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
 {
     void *effect;
     void *effect_state;
@@ -20,7 +20,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
     effect_state = (u8 *)effect + 0x20;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
-    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&func_80170DC4;
+    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&dungeonUpdateNormalizedGrayFade;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
     effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_0C;
     template_data = sprite_template;
@@ -70,7 +70,7 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {
             void *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
-            if (func_8003DE58(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
+            if (resolveRecordOrientationOrFallback(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
                 ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A + pos_offset[2];
                 return;
             }

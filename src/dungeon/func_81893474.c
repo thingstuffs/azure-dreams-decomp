@@ -28,7 +28,7 @@ extern int abs(int);
 
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
-void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
+void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
 {
     B22_81893474_EffectState *state;
     B22_81893474_Motion *motion;
@@ -60,7 +60,7 @@ void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *
             u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
             u32 offset = (U16_AT(D_800814A8, 0x2A) >> 8) & 0xE;
 
-            U16_AT(owner, 0x2A) = func_800A0818(
+            U16_AT(owner, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
                 node[0x24], node[0x25],
                 origin->tileX + U16_AT((u8 *)dirStepX + offset, 0),
                 origin->tileY + U16_AT((u8 *)dirStepY + offset, 0), &result);
@@ -74,7 +74,7 @@ void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *
     case 1:
         owner_data = (u8 *)owner - 0x20;
         owner_node = PTR_AT(owner_data, 0xC);
-        if (func_8003DE58(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
             if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 break;
             }
@@ -127,12 +127,12 @@ void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
             S16_AT(target_pos, 0xA) = height_node->unk_88 - 0x20;
         }
-        S16_AT(target_pos, 0xA) = func_800BCAD0(target_pos);
+        S16_AT(target_pos, 0xA) = dungeonGetSurfaceHeightAtRecord(target_pos);
         state->z = S16_AT(target_pos, 0xA);
-        func_8009A350(state->x - 1, state->y, 0, &map_flags);
+        getOffsetMapCellValueAndFlags(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
             (target_z = S16_AT(target_pos, 0xA)) > 0x200 ||
-            (func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
+            (dungeonCheckLeftTileAndCenterHeight(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
             (func_800A5690() << 16) == 0) {
             state->state = 7;
         } else {
@@ -168,9 +168,9 @@ void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *
         S32_AT(motion, 0xC) = (S32_AT(target_pos, 0) - S32_AT(motion, 0)) / state->duration;
         S32_AT(motion, 0x10) = (S32_AT(target_pos, 4) - S32_AT(motion, 4)) / state->duration;
         S32_AT(motion, 0x14) = (S32_AT(target_pos, 8) - S32_AT(motion, 8)) / state->duration;
-        func_800240F8(state, motion, state->duration);
-        func_800240F8(state, motion, state->duration);
-        func_800240F8(state, motion, state->duration);
+        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
+        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
+        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
         state->timer = 0;
         break;
 
@@ -215,7 +215,7 @@ void func_80024C74(B22_81893474_EffectState *effect_state, B22_81893474_Motion *
             u32 effect_id;
             s32 variation;
 
-            spawned_effect = func_800D1C70(state->status, state->x, state->y, state->z);
+            spawned_effect = dungeonCreateActorAtTile(state->status, state->x, state->y, state->z);
             func_80042640(spawned_effect, 51);
             variation = func_800A6D30();
             effect_id = U8_AT(state, 9);

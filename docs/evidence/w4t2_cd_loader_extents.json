@@ -1,0 +1,260 @@
+{
+  "schema": "w4t2.cd_loader_extent.v1",
+  "town_asset": "work/disc/containers/TOWN_TOWN.BIN",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "decoder": {
+    "source": "src/slus/w_8003E758.c",
+    "source_sha256": "8bb206de545154f6fe1073677db649958786554494d81324da09e19aef28130f",
+    "rule": "Control_CD case 6: destination=(word0&0x7fffff)|0x80000000, sectors=word0>>23, LBA=word1; CdRead writes exactly sectors*0x800 bytes.",
+    "support": "docs/evidence/town_scene_loader_receipt.json",
+    "support_sha256": "7a2c8eb61ade41ffa3d764ee9e44f5b537c7b8e4128bf1931ff7316ab889ff85"
+  },
+  "records": [
+    {
+      "bank": "0x3e5000",
+      "lba": "0x13cf",
+      "records": [
+        {
+          "record_foff": "0x56c00",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x2b19ec",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x3ff8d8",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x6eff10",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x6f5c6c",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x6fdb0c",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x7050ec",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        },
+        {
+          "record_foff": "0x71a0ec",
+          "word0": "0xa016000",
+          "word1": "0x13cf",
+          "sectors": 20,
+          "loaded_end": "0x80020000",
+          "file_end": "0x3ef000"
+        }
+      ]
+    },
+    {
+      "bank": "0x3ef000",
+      "lba": "0x13e3",
+      "records": [
+        {
+          "record_foff": "0x2b1a84",
+          "word0": "0x6016000",
+          "word1": "0x13e3",
+          "sectors": 12,
+          "loaded_end": "0x8001c000",
+          "file_end": "0x3f5000"
+        }
+      ]
+    },
+    {
+      "bank": "0x3f5000",
+      "lba": "0x13ef",
+      "records": [
+        {
+          "record_foff": "0x56c08",
+          "word0": "0x4816000",
+          "word1": "0x13ef",
+          "sectors": 9,
+          "loaded_end": "0x8001a800",
+          "file_end": "0x3f9800"
+        },
+        {
+          "record_foff": "0x2b19f4",
+          "word0": "0x4816000",
+          "word1": "0x13ef",
+          "sectors": 9,
+          "loaded_end": "0x8001a800",
+          "file_end": "0x3f9800"
+        }
+      ]
+    },
+    {
+      "bank": "0x3f9800",
+      "lba": "0x13f8",
+      "records": [
+        {
+          "record_foff": "0x56c10",
+          "word0": "0x4816000",
+          "word1": "0x13f8",
+          "sectors": 9,
+          "loaded_end": "0x8001a800",
+          "file_end": "0x3fe000"
+        },
+        {
+          "record_foff": "0x2b19fc",
+          "word0": "0x4816000",
+          "word1": "0x13f8",
+          "sectors": 9,
+          "loaded_end": "0x8001a800",
+          "file_end": "0x3fe000"
+        }
+      ]
+    },
+    {
+      "bank": "0x3fe000",
+      "lba": "0x1401",
+      "records": [
+        {
+          "record_foff": "0x56c20",
+          "word0": "0x2016000",
+          "word1": "0x1401",
+          "sectors": 4,
+          "loaded_end": "0x80018000",
+          "file_end": "0x400000"
+        },
+        {
+          "record_foff": "0x6f5c74",
+          "word0": "0x2016000",
+          "word1": "0x1401",
+          "sectors": 4,
+          "loaded_end": "0x80018000",
+          "file_end": "0x400000"
+        },
+        {
+          "record_foff": "0x6f846c",
+          "word0": "0x2016000",
+          "word1": "0x1401",
+          "sectors": 4,
+          "loaded_end": "0x80018000",
+          "file_end": "0x400000"
+        }
+      ]
+    },
+    {
+      "bank": "0x400000",
+      "lba": "0x1405",
+      "records": [
+        {
+          "record_foff": "0x56c30",
+          "word0": "0x3816000",
+          "word1": "0x1405",
+          "sectors": 7,
+          "loaded_end": "0x80019800",
+          "file_end": "0x403800"
+        }
+      ]
+    },
+    {
+      "bank": "0x437800",
+      "lba": "0x1474",
+      "records": [
+        {
+          "record_foff": "0x2b1a0c",
+          "word0": "0x3816000",
+          "word1": "0x1474",
+          "sectors": 7,
+          "loaded_end": "0x80019800",
+          "file_end": "0x43b000"
+        }
+      ]
+    },
+    {
+      "bank": "0x552000",
+      "lba": "0x16a9",
+      "records": [
+        {
+          "record_foff": "0x2b1a44",
+          "word0": "0x4816000",
+          "word1": "0x16a9",
+          "sectors": 9,
+          "loaded_end": "0x8001a800",
+          "file_end": "0x556800"
+        }
+      ]
+    },
+    {
+      "bank": "0x5db800",
+      "lba": "0x17bc",
+      "records": [
+        {
+          "record_foff": "0x2b1a6c",
+          "word0": "0x2816000",
+          "word1": "0x17bc",
+          "sectors": 5,
+          "loaded_end": "0x80018800",
+          "file_end": "0x5de000"
+        }
+      ]
+    },
+    {
+      "bank": "0x5ff000",
+      "lba": "0x1803",
+      "records": [
+        {
+          "record_foff": "0x2b1a74",
+          "word0": "0x3016000",
+          "word1": "0x1803",
+          "sectors": 6,
+          "loaded_end": "0x80019000",
+          "file_end": "0x602000"
+        }
+      ]
+    },
+    {
+      "bank": "0x617000",
+      "lba": "0x1833",
+      "records": [
+        {
+          "record_foff": "0x2b1a7c",
+          "word0": "0x3016000",
+          "word1": "0x1833",
+          "sectors": 6,
+          "loaded_end": "0x80019000",
+          "file_end": "0x61a000"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Only the packed scene-image CD reads are proven here. Out-of-loaded-image addresses do not acquire storage ownership from the code delta.",
+    "D_80010000 was an unused page alias in one merged header; it is not an allocated object. The unused declaration and import were removed."
+  ]
+}

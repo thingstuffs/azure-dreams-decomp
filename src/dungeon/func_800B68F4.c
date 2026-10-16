@@ -3,15 +3,15 @@
 struct S_800BBDEC_4;
 struct S_800BBDEC_1;
 struct S_800BBDEC_3;
-extern void func_800BBDEC(struct S_800BBDEC_4 *object, struct S_800BBDEC_1 *position, struct S_800BBDEC_3 *appearance, s32 unused_draw_value);
+extern void dungeonDrawShadedVerticalQuad(struct S_800BBDEC_4 *object, struct S_800BBDEC_1 *position, struct S_800BBDEC_3 *appearance, s32 unused_draw_value);
 
 /* Process each linked state using the signed halfword at data offset 6. */
-s32 func_800BC054(void *initial_state, void *context, void *data) {
+s32 dungeonDrawShadedQuadChain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
 
     for (;;) {
-        func_800BBDEC(state, context, data, *(s16 *)((s8 *)data + 6));
+        dungeonDrawShadedVerticalQuad(state, context, data, *(s16 *)((s8 *)data + 6));
         next_node = *(void **)((s8 *)state - 8);
         if (next_node == 0) {
             return 0;

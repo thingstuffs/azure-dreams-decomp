@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource03_slot0.h"
 
-void func_80171D3C(void *object, void *unused, void *display, void *orientation) {
+void dungeonCopyDisplayOrientationState(void *object, void *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 

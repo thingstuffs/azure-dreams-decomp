@@ -8,7 +8,7 @@ typedef struct S_808B2E74_0 {
 extern u8 D_A0700000[];
 
 /* Clears bitmap bits for three pairs of stored IDs. */
-void func_808B2E74(void)
+void townClearStoredIdBits(void)
 {
     s32 slot;
     s32 slot_offset;

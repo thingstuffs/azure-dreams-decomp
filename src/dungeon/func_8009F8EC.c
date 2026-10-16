@@ -52,13 +52,13 @@ typedef struct S_800A504C_0 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_800A504C_0;   /* base in func_800A504C */
+} S_800A504C_0;   /* base in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_1_pre {
     u8 * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800A504C_1_pre;   /* the 0x14 bytes before entity in func_800A504C, addressed as entity[-1] */
+} S_800A504C_1_pre;   /* the 0x14 bytes before entity in dungeonAdvanceStagedEntityLoad, addressed as entity[-1] */
 
 typedef struct S_800A504C_1 {
     u8 pad_00[0x13];
@@ -72,12 +72,12 @@ typedef struct S_800A504C_1 {
     u16 unk_88;
     u8 pad_8A[0x6];
     s32 unk_90;
-} S_800A504C_1;   /* entity in func_800A504C */
+} S_800A504C_1;   /* entity in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_2_pre {
     s16 unk_00;
     u8 pad_02[0x30A0];
-} S_800A504C_2_pre;   /* the 0x30A2 bytes before role1 in func_800A504C, addressed as role1[-1] */
+} S_800A504C_2_pre;   /* the 0x30A2 bytes before role1 in dungeonAdvanceStagedEntityLoad, addressed as role1[-1] */
 
 typedef struct S_800A504C_2 {
     u8 pad_00[0x4];
@@ -89,7 +89,7 @@ typedef struct S_800A504C_2 {
     s16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_800A504C_2;   /* role1 in func_800A504C */
+} S_800A504C_2;   /* role1 in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_3 {
     u8 pad_00[0x58];
@@ -103,12 +103,12 @@ typedef struct S_800A504C_3 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_800A504C_3;   /* tail_dst in func_800A504C */
+} S_800A504C_3;   /* tail_dst in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_4_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_800A504C_4_pre;   /* the 0x14 bytes before spawned in func_800A504C, addressed as spawned[-1] */
+} S_800A504C_4_pre;   /* the 0x14 bytes before spawned in dungeonAdvanceStagedEntityLoad, addressed as spawned[-1] */
 
 typedef struct S_800A504C_4 {
     u8 pad_00[0x10];
@@ -124,44 +124,44 @@ typedef struct S_800A504C_4 {
     u8 pad_54[0x4];
     s32 unk_58;
     s32 unk_5C;
-} S_800A504C_4;   /* spawned in func_800A504C */
+} S_800A504C_4;   /* spawned in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_5 {
     u8 pad_00[0xAC];
     u8 * unk_AC;
     u8 pad_B0[0x20];
     u8 * unk_D0;
-} S_800A504C_5;   /* record in func_800A504C */
+} S_800A504C_5;   /* record in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_6 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800A504C_6;   /* global_page in func_800A504C */
+} S_800A504C_6;   /* global_page in dungeonAdvanceStagedEntityLoad */
 
 typedef struct S_800A504C_7_pre {
     s16 unk_00;
     u8 pad_02[0x30A0];
-} S_800A504C_7_pre;   /* the 0x30A2 bytes before D_800E0000 in func_800A504C, addressed as D_800E0000[-1] */
+} S_800A504C_7_pre;   /* the 0x30A2 bytes before D_800E0000 in dungeonAdvanceStagedEntityLoad, addressed as D_800E0000[-1] */
 
 
 extern s32 func_8003E188();
 extern s32 Control_CD();
-extern s32 func_8003FA44();
+extern s32 hasEnoughAvailableRuntimeNodes();
 extern s32 func_800424E0();
 extern s32 func_80042560();
 extern s32 func_80042640();
 extern s32 func_80042710();
 extern s32 func_80044A50();
-extern s32 func_80047738();
+extern s32 selectIndirectTableEntry();
 extern s32 func_80047DB8();
 extern s32 func_80047E30();
-extern s32 func_80047FF4();
-extern s32 func_80048118();
+extern s32 registerAndUploadSpriteResource();
+extern s32 beginSpriteResourceLoadWithCompletionFlag();
 extern s32 func_80053EF0();
 extern s32 func_8009A028();
 extern s32 func_8009A3D0();
 extern SpawnFunc func_800A0B94();
-extern s32 func_800A152C();
+extern s32 retainSpawnResource();
 extern s32 func_800A1618();
 extern s32 func_800A1BD0();
 
@@ -177,7 +177,7 @@ extern u8 D_8014A000[];
 extern u8 D_800E0000[];
 
 /* Advances staged entity loading and replaces the entity while transferring its state. */
-s32 func_800A504C(s32 unused, u8 *entity)
+s32 dungeonAdvanceStagedEntityLoad(s32 unused, u8 *entity)
 {
     u8 *base = (u8 *)((DungeonState *)&dungeonStatus);
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
@@ -215,7 +215,7 @@ s32 func_800A504C(s32 unused, u8 *entity)
     if (count != 1) {
         return 0;
     }
-    if (func_8003FA44(8) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(8) == 0) {
         return 0;
     }
 
@@ -336,7 +336,7 @@ case 2:
             ((S_800A504C_1 *)entity)->unk_13--;
             func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
             D_80080A90 = D_80023000;
-            load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
+            load_result = beginSpriteResourceLoadWithCompletionFlag(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
             load_spawned = replacement;
 
             D_80081488 = load_result;
@@ -352,7 +352,7 @@ case 1:
             return 0;
         }
         if (D_80081488 != 0) {
-            func_80047FF4(((S_800A504C_1 *)entity)->unk_13, D_80081488);
+            registerAndUploadSpriteResource(((S_800A504C_1 *)entity)->unk_13, D_80081488);
         }
 
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
@@ -400,12 +400,12 @@ case 2:
                 table_page->table84[table_index].value = table_value;
                 table_page->table4[table_index].value = table_value;
             }
-            func_800A152C(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
+            retainSpawnResource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
             func_80042560(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
             (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
             offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-            func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
+            selectIndirectTableEntry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
             D_80080A90 = D_8014A000;

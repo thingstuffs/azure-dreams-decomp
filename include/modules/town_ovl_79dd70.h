@@ -34,11 +34,11 @@ typedef struct {
 struct RegistrationNode;
 struct S_80045340_Entry;
 extern s32 func_8004491C(struct RegistrationNode *, s32 registration_id);
-extern void func_8008F074(void *, void *, void *);
+extern void townConfigureTheSetModeN1(void *, void *, void *);
 extern u8 D_80020014[], D_80024420[];
 extern s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32);
-extern void func_800206D0(void *, void *, void *);
+extern void townUpdateBouncingPickup(void *, void *, void *);
 extern s32 D_8002445C[];
 
-void func_80020570(void *, void *);
+void townInitializeSourceAndInitialData(void *, void *);
 #endif

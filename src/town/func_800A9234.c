@@ -10,28 +10,28 @@ typedef struct S_800A6994_0 {
     s32 unk_10;
     u8 pad_14[0x24];
     u16 unk_38;
-} S_800A6994_0;   /* temp_a0 in func_800A6994 */
+} S_800A6994_0;   /* temp_a0 in townUpdateActorPositionAndHeading */
 
 
 typedef struct S_800A6994_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A6994_2;   /* temp_v0 in func_800A6994 */
+} S_800A6994_2;   /* temp_v0 in townUpdateActorPositionAndHeading */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_8009BFD8();
-void func_800A6328();
-void func_800C2E84();
+void townSelectObjectValueByHeightBand();
+void townSetFlaggedEntryValues();
+void townInitializeObjectEntries();
 extern M2C_UNK D_800A5638;
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
 extern s32 D_80100E24;
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void func_800A6994(void *actor, s32 update_context, void *position, s32 setup_context) {
+void townUpdateActorPositionAndHeading(void *actor, s32 update_context, void *position, s32 setup_context) {
     u32 heading;
     u8 *state;
     s32 *saved_position;
@@ -39,13 +39,13 @@ void func_800A6994(void *actor, s32 update_context, void *position, s32 setup_co
 
     state = ((u8 *)(&D_80083498));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
-        func_800A6328(&D_800D0D54, 0);
+        townSetFlaggedEntryValues(&D_800D0D54, 0);
         D_800D0C78 = ((EntityRec *)position)->x.v;
         saved_position = &D_800D0C78;
         (*(s32 *)((u8 *)saved_position + 4)) = ((EntityRec *)position)->y.v;
         ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
-        func_800C2E84(actor, setup_context, D_80100E24);
-        func_8009BFD8(actor, update_context, position, setup_context);
+        townInitializeObjectEntries(actor, setup_context, D_80100E24);
+        townSelectObjectValueByHeightBand(actor, update_context, position, setup_context);
         heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
         heading += 0x200;
         heading &= 0xFC00;

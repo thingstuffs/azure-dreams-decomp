@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_8009A350();
+extern s16 getOffsetMapCellValueAndFlags();
 extern s32 func_800BCB04();
 
 /* Checks whether the current and offset tile centers both yield values above 0x200. */
@@ -30,7 +30,7 @@ s16 func_800A4778(u16 x, u16 y, s32 z, void *skip_check) {
         cell_y = y >> 6;
         start_x = cell;
         start_y = cell_y;
-        if (func_8009A350(probe_x, cell_y, 0, &probe_result) != 0) {
+        if (getOffsetMapCellValueAndFlags(probe_x, cell_y, 0, &probe_result) != 0) {
             center_x = (start_x << 6) + 0x20;
             probe_x = center_x & 0xFFE0;
             coord_work = (start_y << 6) + 0x20;

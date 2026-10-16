@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern void func_80403D7C(s32 object, s32 new_value);
-extern void func_804045C8(s32 object, s32 value);
+extern void cardDevkitSetWindowSelectionMarker(s32 object, s32 value);
 extern void func_80404668(s32 object);
 extern void func_80405A00(s32 object, s32 value);
 
-void func_80405AE8(void *menu) {
+void cardDevkitRefreshSaveSlotSelection(void *menu) {
     s32 sentinel;
     s32 i;
 
@@ -18,7 +18,7 @@ void func_80405AE8(void *menu) {
     i = 0;
     while (1) {
         if (i == *(s32 *)((u8 *)menu + 0x28)) {
-            func_804045C8(*(s32 *)((u8 *)menu + i * 4 + 4), sentinel);
+            cardDevkitSetWindowSelectionMarker(*(s32 *)((u8 *)menu + i * 4 + 4), sentinel);
         } else {
             func_80404668(*(s32 *)((u8 *)menu + i * 4 + 4));
         }

@@ -24,7 +24,7 @@ struct Object {
     Child *child;
 };
 
-extern void func_800364BC(Object *state);
+extern void runtimeMarkStateWhenFlag51Set(Object *state);
 extern void func_8003661C(Object *object);
 
 /* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */
@@ -39,7 +39,7 @@ void func_80036574(Object *object) {
         object->unk4d = 0xff;
         object->unk51 = 0;
         object->child->unk27 = object->child->unk26;
-        object->unk68 = func_800364BC;
+        object->unk68 = runtimeMarkStateWhenFlag51Set;
     } else {
         if ((((u32)state->unk_010)) & 0x20) {
             object->unk4d = object->child->unk26 - 1;

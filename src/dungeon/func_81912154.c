@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void func_80025954(void *state, void *motion, void *appearance) {
+void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *state, void *motion, void *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -52,7 +52,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
     case 1:
         owner_links = owner - 0x20;
         model = (s32)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C);
-        if (func_8003DE58(((ovl_1930844_81912154_S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) == 0
+        if (resolveRecordOrientationOrFallback(((ovl_1930844_81912154_S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) == 0
             && !(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
             break;
         }
@@ -112,7 +112,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             z_base2 = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v + 0x300000;
             z_velocity -= z_base2;
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14 = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            func_80024170(state, motion);
+            dungeonCreateAnEffectPositionRandomizedSpriteAngle(state, motion);
             next_state = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
             table_origin = dirStepX;
@@ -123,7 +123,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {
-                if ((func_800A44E0(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
+                if ((dungeonCheckLayerOffsetHeight(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
                     ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10)
                     != 0) {
                     goto grid_hit;
@@ -195,7 +195,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_14 = 0;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_10 = y_velocity;
-            func_80024170(state, motion);
+            dungeonCreateAnEffectPositionRandomizedSpriteAngle(state, motion);
             next_state = 6;
         }
         goto set_state;
@@ -209,7 +209,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
         if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
             break;
         }
-        func_80025874(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
+        dungeonCreateAndInitializesCopyingN24BytesSourceData(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
         func_800A56E0(0x300);
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
         ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);

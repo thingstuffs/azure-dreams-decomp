@@ -17,7 +17,7 @@ extern Rect D_8016481C;
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Updates a timed effect around the rectangle's center and flags its expiration. */
-void func_80166D68(void *effect, s32 unused, void *phase_state)
+void dungeonTickRotatingRectEffect(void *effect, s32 unused, void *phase_state)
 {
     Rect rect;
     Point center;

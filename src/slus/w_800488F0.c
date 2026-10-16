@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern void func_80048660(u8 *, s32);
+extern void soundAdvanceSharedScrollCoordinates(u8 *, s32);
 extern void func_80048870(u8 *, s32, s32);
 
 /* Advances scroll state and uploads images for eligible records according to operation flags. */
@@ -23,7 +23,7 @@ void func_800488F0(u8 *records, s32 *image_ref, s32 operation_flags)
         if ((*record & 0x60) == 0) {
             data_offset_ptr = (s32 *)((s8 *)data_offset_ptr - 4);
             if (advance_scroll != 0) {
-                func_80048660(record, *image_ref_ptr);
+                soundAdvanceSharedScrollCoordinates(record, *image_ref_ptr);
             }
             if (upload_image != 0) {
                 func_80048870(record, *image_ref_ptr, *data_offset_ptr);

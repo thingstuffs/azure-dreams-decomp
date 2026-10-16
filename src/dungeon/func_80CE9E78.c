@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Reset display state and apply the kind-specific directional entry when its table changes. */
-void func_80173678(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, T_80173678_S_80173678_1 *entity) {
+void dungeonResetActorDirectionalAnimation(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *display, T_80173678_S_80173678_1 *entity) {
     s32 kind;
     u8 *direction_table;
     u8 *previous_table;

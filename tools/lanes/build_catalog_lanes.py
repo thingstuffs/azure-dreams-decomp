@@ -400,8 +400,8 @@ def render_site(rec, site, cens, split):
 def render_row(rec, census):
     r, far = rec["row"], rec["bucket"] == "far"
     head = ["## %s  [%s]" % (rec["id"], "FAR" if far else "UNEXPLAINED-NEAR"),
-            "- cell `%s`, %d B retail, `src/%s/%s`, %d pin site(s); family %s, stratum %s (folded %s)"
-            % (r["cfg"], r["size"], r["container"], Path(r["c_path"]).name, rec["pins"],
+            "- cell `%s`, %d B retail, `%s`, %d pin site(s); family %s, stratum %s (folded %s)"
+            % (r["cfg"], r["size"], clean_path(r).relative_to(ROOT).as_posix(), rec["pins"],
                rec["family"], rec["stratum"], rec["folded"]),
             "- bucket: " + ("**far** - no site of this row is within %d listing lines of retail when erased "
                             "alone, so the catalogue's key says nothing about any of them." % NEAR_D0

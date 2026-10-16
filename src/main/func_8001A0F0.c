@@ -11,7 +11,7 @@ extern s32 func_80408644(s32 slot_index);
 extern s32 func_80408674(s32 selected_slot);
 
 /* Advances processing for the selected slot and sets its completion flag. */
-s32 func_804010F0(void) {
+s32 mainAdvanceProcessingSelectedSlotSetsCompletionFlag(void) {
     s32 status;
     u32 *slot_flag;
     s32 *completion_flag;

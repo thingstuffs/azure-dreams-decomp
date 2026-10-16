@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_80170A44(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
+void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
 {
     void *entity_base = entity;
     s16 old_state;
@@ -39,7 +39,7 @@ void func_80170A44(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
     call_part = part;
     old_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     call_self = entity;
-    if (func_800A9E70(call_entity, call_motion, call_part, call_self) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
@@ -64,7 +64,7 @@ void func_80170A44(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
         direction_copy = state_or_direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
             if (((R12_80170A44_S_80170A28_0 *)part)->unk_2C != 0) {
-                func_80047738(part,
+                selectIndirectTableEntry(part,
                               ((R12_80170A44_S_80170A28_0 *)part)->unk_2C[direction_copy],
                               ((R12_80170A44_S_80170A28_0 *)part)->unk_04);
             }
@@ -84,7 +84,7 @@ void func_80170A44(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
         } else {
             ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x7000;
         }
-        func_800A020C(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
+        dungeonApplyMonsterKoyawData(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;

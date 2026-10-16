@@ -24,7 +24,7 @@ extern s32 func_80066460(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80067F20(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
-s32 func_8008A794(void *node_data, void *scroll_state)
+s32 mainBuildSettingsSpriteTiles(void *node_data, void *scroll_state)
 {
     CtxHolder *ctx_ptr;
     s32 layer_offset;

@@ -19,10 +19,10 @@ typedef struct S_80044AAC S_80044AAC;
 
 extern S_80044AAC *D_800833E0[0x20];
 extern S_80044AAC *D_80083360[0x20];
-extern void func_8003DB4C(s32 *p, s32 n);
+extern void zeroWords(s32 *p, s32 n);
 
 /* Initialize the node pool free list and reset the pointer tables. */
-void func_8003FAD4(void)
+void runtimeResetObjectPool(void)
 {
     s32 index;
     S_801EAFE8 *free_node;
@@ -35,7 +35,7 @@ void func_8003FAD4(void)
     free_node = D_801EAFE8;
 
     for (index = 0, clear_node = free_node; index < 0x100; index++) {
-        func_8003DB4C((s32 *)clear_node, 0x49);
+        zeroWords((s32 *)clear_node, 0x49);
         clear_node = (S_801EAFE8 *)(((u8 *)clear_node) + 0x124);
     }
 

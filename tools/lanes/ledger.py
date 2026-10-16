@@ -56,6 +56,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools" / "lanes"))
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of          # noqa: E402
 import served as served_mod              # noqa: E402
 
@@ -220,12 +221,13 @@ _ROW_PATHS = {}
 def tree_path(root, row):
     """The row's file in the tree. Mirrors tools.common.clean_path, but rooted, so a test can point the
     whole tool at a tempdir (common.clean_path is nailed to the real repository)."""
-    return Path(root) / "src" / row["container"] / Path(row["c_path"]).name
+    return layout_row_path(row, Path(root))
 
 
 def row_paths(root):
     """{row id: tree path} from ledger/rows.jsonl; cached per root, missing db -> no tree witnesses."""
-    key = str(Path(root).resolve())
+    from source_layout import revision
+    key = (str(Path(root).resolve()), revision(root))
     if key not in _ROW_PATHS:
         db = Path(root) / "ledger" / "rows.jsonl"
         out = {}

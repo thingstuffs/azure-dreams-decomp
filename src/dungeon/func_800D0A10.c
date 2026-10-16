@@ -56,7 +56,7 @@ typedef struct S_800D6170_0 {
     u16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_800D6170_0;   /* scratch in func_800D6170 */
+} S_800D6170_0;   /* scratch in dungeonProjectDepthSlicedQuads */
 
 typedef struct S_800D6170_1 {
     u8 pad_00[0x2];
@@ -65,7 +65,7 @@ typedef struct S_800D6170_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D6170_1;   /* arg1 in func_800D6170 */
+} S_800D6170_1;   /* arg1 in dungeonProjectDepthSlicedQuads */
 
 typedef struct S_800D6170_2 {
     u8 pad_00[0xC];
@@ -75,9 +75,9 @@ typedef struct S_800D6170_2 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_800D6170_2;   /* arg2 in func_800D6170 */
+} S_800D6170_2;   /* arg2 in dungeonProjectDepthSlicedQuads */
 
-   /* *global in func_800D6170 */
+   /* *global in dungeonProjectDepthSlicedQuads */
 
 typedef struct S_800D6170_4 {
     u32 unk_00;
@@ -90,10 +90,10 @@ typedef struct S_800D6170_4 {
     u16 unk_12;
     u16 unk_14;
     u16 unk_16;
-} S_800D6170_4;   /* packet in func_800D6170 */
+} S_800D6170_4;   /* packet in dungeonProjectDepthSlicedQuads */
 
 /* Project depth-sliced quads and link visible packets into the ordering table. */
-void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)
+void dungeonProjectDepthSlicedQuads(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 **render_context = (u8 **)((u8 *)(&gameWork));

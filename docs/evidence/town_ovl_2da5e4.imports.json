@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_2da5e4",
+  "review": "pending",
+  "reviewer": null,
+  "runtime_views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "runtime_data",
+      "vma": 2147573760,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/record_ptrs.h",
+      "evidence": "docs/evidence/town_ovl_2da5e4.imports.json"
+    }
+  },
+  "basis": [
+    "D_80016000 is the existing shared runtime pointer word. This module imports it; it neither initializes nor allocates it. include/shared/record_ptrs.h and shared/town_root.h describe the observed pointer ABI."
+  ],
+  "functions": {},
+  "views": {}
+}

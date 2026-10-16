@@ -12,7 +12,7 @@ extern int abs(int);
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_1840800_entry)(void *, TrailMotion *, void *) = func_80024020;
 
@@ -71,11 +71,11 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     {
         TrailSprite *tile_data;
         s32 search_mode;
-        start_y = (s16)func_800A3820(3);
+        start_y = (s16)dungeonGetDefinitionEntryByte13(3);
         search_mode = start_y << 0x10;
         tile_data = actor_data;
         end_x = tile_data->unk_24;
-        header_raw = (u32)func_800A05A4(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        header_raw = (u32)dungeonScanMonsterAlongHeading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (TrailActor *)header_raw;
     if (((TrailActor *)header_raw) != NULL) {
@@ -96,7 +96,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
             coord_y = tile_top + 0x20;
         }
         effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
-        if ((func_800A4688((u32)effect, (u16)coord_y, (s16)func_800BCB04((u32)effect, (u16)coord_y, -0x400),
+        if ((dungeonCheckEnabledNeighborHeight((u32)effect, (u16)coord_y, (s16)func_800BCB04((u32)effect, (u16)coord_y, -0x400),
             (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
             break;
         }
@@ -154,7 +154,7 @@ start_motion:
         coord_y = -1;
     }
     coord_x = 2;
-    distance_or_script = (s32)&func_800245B4;
+    distance_or_script = (s32)&dungeonUpdateFlickeringEffectVertices;
 next_effect:
     effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {

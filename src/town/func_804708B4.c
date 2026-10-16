@@ -1,65 +1,29 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-typedef struct S_800178B4_3 {
-    u8 pad_00[0x4];
-    s32 * unk_04;
-    s32 * unk_08;
-} S_800178B4_3;   /* (offset2 + menu->unk_10) in func_800178B4 */
-
-
-s32 func_800169EC();                                /* extern */
-void func_80017808();                      /* extern */
-M2C_UNK func_80019814();                 /* extern */
-M2C_UNK func_8001A418();                         /* extern */
-s32 func_8001A510();                         /* extern */
-extern s32 D_80016A3C;
-extern s32 D_80017B40;
-extern s32 D_8001B718;
-extern s32 D_8001B81C;
-
-typedef struct S_800178B4_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-    u8 pad_14[0x4];
-    s16 unk_18;
-} S_800178B4_0;   /* menu in func_800178B4 */
-
-typedef struct S_800178B4_1 {
-    u8 pad_00[0x4];
-    s32 * unk_04;
-} S_800178B4_1;   /* slot_addr in func_800178B4 */
-
-typedef struct S_800178B4_2 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-} S_800178B4_2;   /* slot in func_800178B4 */
-
-/* Install the town menu slot's handler pair: the first call takes flag 0x479 and the primary pair, later calls take the alternate pair, then both run the menu's own hook. */
 s32 func_800178B4(S_800178B4_0 *menu, s32 index) {
     s32 offset;
     s32 offset2;
     S_800178B4_2 *slot;
 
-    if ((func_8001A510(0x479) == 0) && (func_800169EC() != 0)) {
+    if ((func_8001A510(0x479) == 0) && (townCheckInteraction13Type3() != 0)) {
         func_8001A418(0x479);
         offset = index * 0x10;
         {
-            s32 *handler;
+            SceneHandler3 handler;
             s32 slot_addr;
 
             slot_addr = offset + menu->unk_10;
-            handler = &D_80016A3C;
-            ((S_800178B4_1 *)slot_addr)->unk_04 = handler;
+            handler = townSelectInteractionResultWithRefresh;
+            ((S_800178B4_1 *)slot_addr)->handler = handler;
         }
         slot = offset + menu->unk_10;
         slot->unk_08 = &D_8001B718;
-        func_80017808();
+        townMarkProgressStateReady();
         return 0;
     }
     if (func_8001A510(0x479) != 0) {
         offset2 = index * 0x10;
-        ((S_800178B4_3 *)((offset2 + menu->unk_10)))->unk_04 = &D_80017B40;
+        ((S_800178B4_3 *)((offset2 + menu->unk_10)))->handler = func_80017B40;
         ((S_800178B4_3 *)((offset2 + menu->unk_10)))->unk_08 = &D_8001B81C;
     }
     func_8001A418(menu->unk_18);

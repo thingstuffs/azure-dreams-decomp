@@ -4,34 +4,34 @@
 
 typedef struct S_800AF520_3 {
     void * unk_00;
-} S_800AF520_3;   /* ctx in func_800AF520 */
+} S_800AF520_3;   /* ctx in townPopulateItemMenuLowerEntries */
 
 typedef struct S_800AF520_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in func_800AF520 */
+} S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in townPopulateItemMenuLowerEntries */
 
-extern s32 func_8004A658();
+extern s32 lookupItemCategoryMappedValue();
 
 typedef struct S_800AF520_0 {
     void * unk_00;
     u8 pad_04[0xA4];
     s32 unk_A8;
-} S_800AF520_0;   /* ctx in func_800AF520 */
+} S_800AF520_0;   /* ctx in townPopulateItemMenuLowerEntries */
 
 typedef struct S_800AF520_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     s32 unk_20;
-} S_800AF520_1;   /* temp_struct in func_800AF520 */
+} S_800AF520_1;   /* temp_struct in townPopulateItemMenuLowerEntries */
 
 typedef struct S_800AF520_2 {
     u8 unk_00;
     u8 unk_01;
-} S_800AF520_2;   /* temp_v0 in func_800AF520 */
+} S_800AF520_2;   /* temp_v0 in townPopulateItemMenuLowerEntries */
 
 /* Fill slots 6 through 15 from the current page of entries, then clear unused slots. */
-void func_800AF520(void *context) {
+void townPopulateItemMenuLowerEntries(void *context) {
     s32 *empty_slot;
     void *slots;
     register s32 entry_index;
@@ -61,7 +61,7 @@ void func_800AF520(void *context) {
         }
         slot_addr = (void *)((entry_index << 2) + entries->unk_20);
         entry = *(void **)slot_addr;
-        value = func_8004A658(entry->unk_01, entry->unk_00);
+        value = lookupItemCategoryMappedValue(entry->unk_01, entry->unk_00);
         entry_index += 1;
         slots = (void *)ctx->unk_A8;
         slot = *((s32 **)((slot_index * 4) + (u8 *)slots));

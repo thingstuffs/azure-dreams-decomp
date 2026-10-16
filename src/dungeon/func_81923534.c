@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_80024D34(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
+void dungeonCreateRandomOffsetEffect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
     s32 flags;
     Row_81923534_S_80024D34_2 *render_control;

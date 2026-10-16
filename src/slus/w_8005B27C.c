@@ -9,14 +9,14 @@ typedef struct {
 
 extern S_80086C00 D_80086C00[8];
 
-extern void func_800564A8(void);
+extern void audioRefreshSequenceVoiceVolumes(void);
 
-/* Stores two 7-bit values in the selected entry, then calls func_800564A8 for it. */
-void func_8005B27C(s16 index, s32 value_8, s32 value_a)
+/* Stores two 7-bit values in the selected entry, then calls audioRefreshSequenceVoiceVolumes for it. */
+void setSoundSlotBytePair(s16 index, s32 value_8, s32 value_a)
 {
     S_80086C00 *entries = D_80086C00;
     S_80086C00 *entry = entries + index;
     entry->field_8 = value_8 & 0x7F;
     entry->field_A = value_a & 0x7F;
-    func_800564A8();
+    audioRefreshSequenceVoiceVolumes();
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb9000.h"
 
-void func_8016D0E0(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, EntityRec *entity) {
+void dungeonUpdateHopToTileAndComplete(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *action, EntityRec *entity) {
     s16 phase;
     u16 ticks_left;
     s16 wait_ticks;
@@ -9,13 +9,13 @@ void func_8016D0E0(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
     phase = state->unk_9B;
     switch (phase) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800B66C8(motion);
-        func_800B66C8(motion);
-        func_800B66C8(motion);
-        func_800B66C8(motion);
+        dungeonEmitScatteredEffectsUnlessBlocked(motion);
+        dungeonEmitScatteredEffectsUnlessBlocked(motion);
+        dungeonEmitScatteredEffectsUnlessBlocked(motion);
+        dungeonEmitScatteredEffectsUnlessBlocked(motion);
         func_800419EC(4, 6);
         state->unk_9B = state->unk_9B + 1;
         if (entity->unk_28 != 0) {
@@ -32,7 +32,7 @@ void func_8016D0E0(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(state, motion, action, &D_8016F2E4);
+            dungeonBeginActorDisplayAction(state, motion, action, &D_8016F2E4);
             return;
         }
     case 1:
@@ -49,7 +49,7 @@ void func_8016D0E0(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(state, motion, action, &D_8016F2E4);
+            dungeonBeginActorDisplayAction(state, motion, action, &D_8016F2E4);
             return;
         }
         func_800419EC(1, 1);
@@ -64,7 +64,7 @@ void func_8016D0E0(CL_CB9000_801730E0_S_801730E0_0 *state, EntityRec *motion, Re
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, action->unk_24, action->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, action->unk_24, action->unk_25);
         if (((s32)dungeonStatus.unk_10) == ((u8 *)entity - 0x20)) {
             dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7FFFFFFF;
         }

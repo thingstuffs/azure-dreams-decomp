@@ -10,7 +10,7 @@ typedef struct S_801735B8_0 {
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_801735B8_0;   /* arg0 in func_801735B8 */
+} S_801735B8_0;   /* arg0 in dungeonFadeRemoveEntityAndUpdateTile */
 
 
 typedef struct S_801735B8_3 {
@@ -22,12 +22,12 @@ typedef struct S_801735B8_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_801735B8_3;   /* held_arg2 in func_801735B8 */
+} S_801735B8_3;   /* held_arg2 in dungeonFadeRemoveEntityAndUpdateTile */
 
 typedef struct S_801735B8_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_801735B8_4;   /* global_ptr in func_801735B8 */
+} S_801735B8_4;   /* global_ptr in dungeonFadeRemoveEntityAndUpdateTile */
 
 
 void func_8009A028(void *);
@@ -35,10 +35,10 @@ void func_8009A3D0(s32, s32, s32);
 void func_800A2FE0(void *);
 void func_800A32A4(void *);
 void func_800A56E0(s32);
-void func_800ACF88(void *);
+void dungeonAnnounceFamiliarDefeat(void *);
 
 /* Fades out an entity, then removes it and updates its tile flags. */
-void func_801735B8(void *fade_state, void *unused, void *visual_data, void *entity) {
+void dungeonFadeRemoveEntityAndUpdateTile(void *fade_state, void *unused, void *visual_data, void *entity) {
     s32 state;
     s32 entity_flags;
     s32 tracked_entity;
@@ -59,7 +59,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
         entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         ((S_801735B8_0 *)fade_state)->unk_96.u = 6;

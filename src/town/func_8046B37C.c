@@ -7,7 +7,7 @@ s32 func_8001E670();                             /* extern */
 extern s16 D_8001792C;
 
 /* Return whether the identifier check passes when the state permits it. */
-s32 func_8001C37C(void) {
+s32 townCheckEventIdentifierWhenEnabled(void) {
     s32 check_passed;
 
     check_passed = 0;

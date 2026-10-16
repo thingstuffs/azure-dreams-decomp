@@ -10,8 +10,8 @@ typedef struct Node {
 extern Node *D_80081498;
 
 extern void func_80044A50(void *a0);
-extern void func_8003FFF0(void *a0);
-extern void func_80040044(void *a0);
+extern void unlinkActiveNode(void *a0);
+extern void pushNodeOntoFreeList(void *a0);
 extern void *func_8003FD64(void *a0, void *a1);
 
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
@@ -24,9 +24,9 @@ void *func_8003FB98(void *flags, void *excluded_node)
         do {
             if ((node->field_1E & 0x200) && excluded_node != (void *)node) {
                 func_80044A50(node);
-                func_8003FFF0(node);
+                unlinkActiveNode(node);
                 if (!(node->field_1E & 0x80)) {
-                    func_80040044(node);
+                    pushNodeOntoFreeList(node);
                 }
                 if (excluded_node != 0) {
                     node = func_8003FD64(flags, excluded_node);

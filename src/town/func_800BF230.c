@@ -7,7 +7,7 @@ extern int abs(int);
 #define F_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 extern s32 func_800352FC(void);
-extern s32 func_800C2AB4(void *);
+extern s32 townCheckTransformIdentifierAndHook(void *);
 extern void SD_Call(s32);
 extern void func_800478B8(void *);
 extern s32 rand(void);
@@ -25,7 +25,7 @@ extern u8 D_800E9DD4[];
 extern u8 D_800E9DEC[];
 
 /* Updates random idle actions, bounded wandering, and sprite animation. */
-void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) {
+void townUpdateRandomIdleWander(void *actor, void *motion, void *sprite, s32 update_context) {
     void *anim_script;
     s16 *x_steps;
     s16 *y_steps;
@@ -43,7 +43,7 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
 
     anim_script = 0;
     if (func_800352FC() != 0 &&
-        func_800C2AB4(actor) != 0) {
+        townCheckTransformIdentifierAndHook(actor) != 0) {
         if (!(F_S32(actor, 0xAC) & 1)) {
             SD_Call(0x601);
             F_S32(actor, 0xAC) |= 1;

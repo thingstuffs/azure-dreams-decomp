@@ -6,7 +6,7 @@ extern s32 func_80064584(s32);
 extern void func_800478B8(void *);
 
 /* Update the derived angle and offset, then propagate status flags. */
-void func_800244A4(void *angle_source, void *offset_state, void *angle_state)
+void dungeonUpdateDerivedAngleAndOffset(void *angle_source, void *offset_state, void *angle_state)
 {
     *(s16 *)((u8 *)angle_state + 0x1A) =
         (s16)((s32)(-((func_80064584(*(s16 *)((u8 *)angle_source + 8) - gameWork.view.viewAngle) >> 4) << 8)) >> 8);

@@ -1,14 +1,14 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_800194C4(s16 resource_index)
+void loadFloorSpawnTables(s16 resource_index)
 {
     s32 load_result;
     u8 *resource_data;
 
     resource_data = (u8 *)&D_8014A000;
-    func_8003F6D4(1, resource_data, &load_result, resource_index + 0x3F5E);
+    packTaggedResourceDescriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
-    func_8003F320();
+    drainCdCommandQueue();
     *(floor_generate_isolated_802864C4_Copy32 *)dungeonStatus.unk_18 = D_8014A000;
     (*(floor_generate_isolated_802864C4_Copy32 *)D_800DDC9C) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     D_8001F584 = resource_data[0x40];

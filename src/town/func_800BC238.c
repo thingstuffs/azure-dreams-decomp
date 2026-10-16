@@ -25,7 +25,7 @@ typedef struct S_800B9998_3 {
 
 
 extern void func_80033D08(void *);
-extern s32 func_8009CFE0(void *, void *);
+extern s32 townClassifyObjectAgainstBounds(void *, void *);
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
 void func_800B9998(void *object, void *position, void *rotation) {
@@ -42,7 +42,7 @@ void func_800B9998(void *object, void *position, void *rotation) {
     s32 angle_step;
     s32 t;
 
-    if (func_8009CFE0(object, position) != 0) {
+    if (townClassifyObjectAgainstBounds(object, position) != 0) {
         active_flag = ((S_800B9998_0 *)object)->unk_98;
         if (active_flag != 0) {
             *active_flag = 0;

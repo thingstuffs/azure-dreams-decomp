@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Copy words backward from the supplied byte offset in the source and destination. */
-void func_8008ACAC(s32 dest_addr, s32 src_addr, s32 byte_count) {
+void townCopyWordsBackwardFromOffset(s32 dest_addr, s32 src_addr, s32 byte_count) {
     s32 *dest_word;
     s32 *src_word;
     s32 word;

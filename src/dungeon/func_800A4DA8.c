@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 
 /* Sets the entity state to 3, clears its progress, and increments the global counter. */
-void func_800AA508(void *entity) {
+void dungeonBeginActorOverlapWait(void *entity) {
     *(s8 *)((s8 *)entity + 0x9A) = 3;
     *(s8 *)((s8 *)entity + 0x9B) = 0;
     *(s32 *)((s8 *)entity + 0x8C) = 0;

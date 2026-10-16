@@ -12,7 +12,7 @@ typedef struct S_8017313C_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8017313C_0;   /* arg0 in func_8017313C */
+} S_8017313C_0;   /* arg0 in dungeonUpdateEntityDimmingAndBrightness */
 
 typedef struct S_8017313C_1 {
     u8 pad_00[0xC];
@@ -25,21 +25,21 @@ typedef struct S_8017313C_1 {
     s8 unk_26;
     u8 pad_27[0x5];
     union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_8017313C_1;   /* arg2 in func_8017313C */
+} S_8017313C_1;   /* arg2 in dungeonUpdateEntityDimmingAndBrightness */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30(void);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801737C4(void *, void *, void *, void *);
 
@@ -47,7 +47,7 @@ extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
-void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, EntityRec *entity)
+void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, EntityRec *entity)
 {
     s32 entity_flags;
     u16 fade_ticks;
@@ -101,7 +101,7 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
                 return;
             }
             if (entity->unk_64 != 0) {
-                if (func_800AA6B4(controller, context, sprite, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(controller, context, sprite, 0) != 0) {
                     return;
                 }
             }
@@ -109,7 +109,7 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(controller, context, sprite, entity);
+                dungeonAdvanceActorPendingAction(controller, context, sprite, entity);
                 return;
             }
             if ((func_800A2C34(entity) << 16) != 0) {
@@ -117,7 +117,7 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
             }
             entity_flags = entity->flags1C;
             if (entity_flags & 0x100) {
-                func_800AA258(controller, context, sprite, entity);
+                dungeonBeginPushedActorMove(controller, context, sprite, entity);
                 return;
             }
             if (entity_flags & 0x80000) {
@@ -131,7 +131,7 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
             if ((func_800A2C34(entity) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((func_8009A180(entity,
+                if ((dungeonCheckEntityRelation(entity,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -143,7 +143,7 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
                 s8 tile = sprite->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)func_8009FD40(origin, sprite) < 2)) {
+                    ((s16)dungeonGetTileChebyshevDistance(origin, sprite) < 2)) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(entity, 1);
                     }

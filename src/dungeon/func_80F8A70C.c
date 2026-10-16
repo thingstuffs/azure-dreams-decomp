@@ -13,7 +13,7 @@ typedef struct S_80173F0C_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_80173F0C_0;   /* arg0 in func_80173F0C */
+} S_80173F0C_0;   /* arg0 in dungeonUpdateBankEffectFade */
 
 
 typedef struct S_80173F0C_2 {
@@ -23,7 +23,7 @@ typedef struct S_80173F0C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80173F0C_2;   /* arg1 in func_80173F0C */
+} S_80173F0C_2;   /* arg1 in dungeonUpdateBankEffectFade */
 
 
 typedef struct {
@@ -49,10 +49,10 @@ typedef struct {
 
 extern void func_800478B8(void *);
 extern s32 rand(void);
-extern void func_800DBA90(void *);
+extern void dungeonTransformRotatedVertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
-void func_80173F0C(void *effect, void *position, void *visual)
+void dungeonUpdateBankEffectFade(void *effect, void *position, void *visual)
 {
     CallRecord transform;
     OutputVector transformed_pos;
@@ -100,7 +100,7 @@ void func_80173F0C(void *effect, void *position, void *visual)
         transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
         transform.field18 = 1;
         transform.field1A = 1;
-        func_800DBA90(&transform);
+        dungeonTransformRotatedVertices(&transform);
         ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
         ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
         ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;

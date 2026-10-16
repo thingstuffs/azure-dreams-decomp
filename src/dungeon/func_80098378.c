@@ -12,14 +12,14 @@ extern u8 D_800E39C8[];
 extern u8 D_800E3CD8[];
 
 extern s32 func_800644B8(s32);
-extern void func_8009DA70(s32, s32, u8 *, s32);
-extern s32 func_8009EE4C(s32, s32);
-extern void func_8009EF04(void);
-extern void func_8009EF78(void);
-extern void func_8009F020(void);
-extern void func_8009F0B4(void);
-extern void func_8009F13C(void);
-extern s32 func_8009FD40(u8 *, u8 *);
+extern void dungeonAppendAdjustedTypeTwoEntry(s32, s32, u8 *, s32);
+extern s32 dungeonGetMaskedGridNibble(s32, s32);
+extern void dungeonDrawGreenTypeTwoMarkers(void);
+extern void dungeonDrawPurpleEntryMarkers(void);
+extern void dungeonDrawBlueEnabledEntryMarkers(void);
+extern void dungeonDrawRedActiveEntryMarkers(void);
+extern void dungeonRedrawTypeThreeFloorMarkers(void);
+extern s32 dungeonGetTileChebyshevDistance(u8 *, u8 *);
 
 typedef struct {
     u8 x;
@@ -49,7 +49,7 @@ typedef struct {
 } LargeMapEntry;
 
 /* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
-void func_8009DAD8(s32 draw_param) {
+void dungeonDrawNearbyMapMarkers(s32 draw_param) {
     u8 colour[4];
     EntityRec *head;
     u8 *entry;
@@ -70,23 +70,23 @@ void func_8009DAD8(s32 draw_param) {
 
     if (D_800E296C & 0x1000) {
         D_800E296C &= ~0x1000;
-        func_8009F13C();
+        dungeonRedrawTypeThreeFloorMarkers();
     }
     if (D_800E296C & 0x400) {
         D_800E296C &= ~0x400;
-        func_8009F0B4();
+        dungeonDrawRedActiveEntryMarkers();
     }
     if (D_800E296C & 0x200) {
         D_800E296C &= ~0x200;
-        func_8009F020();
+        dungeonDrawBlueEnabledEntryMarkers();
     }
     if (D_800E296C & 0x800) {
         D_800E296C &= ~0x800;
-        func_8009EF78();
+        dungeonDrawPurpleEntryMarkers();
     }
     if (D_800E296C & 0x100) {
         D_800E296C &= ~0x100;
-        func_8009EF04();
+        dungeonDrawGreenTypeTwoMarkers();
     }
 
     brightness = (func_800644B8(system->unk_004 << 8) >> 6) + 0x80;
@@ -100,7 +100,7 @@ void func_8009DAD8(s32 draw_param) {
     colour[2] = 0;
     colour[1] = brightness;
     colour[0] = brightness;
-    func_8009DA70(player[0x24], player[0x25], firstColour, firstContext);
+    dungeonAppendAdjustedTypeTwoEntry(player[0x24], player[0x25], firstColour, firstContext);
 
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
@@ -116,7 +116,7 @@ void func_8009DAD8(s32 draw_param) {
                 if (!(D_800E296C & 4)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
                         *(s8 *)(object.value + 0x26) != D_80082E80.unk_026) {
-                        distance = func_8009FD40(object.value,
+                        distance = dungeonGetTileChebyshevDistance(object.value,
                                                  (u8 *)&D_80082E80);
                         if ((s16)distance >= 4) {
                             continue;
@@ -143,7 +143,7 @@ void func_8009DAD8(s32 draw_param) {
                         colour[2] = brightness;
                         colour[0] = 0;
                     }
-                    func_8009DA70(object.value[0x24], object.value[0x25], colour, draw_param);
+                    dungeonAppendAdjustedTypeTwoEntry(object.value[0x24], object.value[0x25], colour, draw_param);
                     if (markerKind.value == 2) {
                         colour[2] = 0;
                         colour[0] = brightness;
@@ -160,9 +160,9 @@ void func_8009DAD8(s32 draw_param) {
     do {
         if (info[playerAndIndex].active != 0) {
             if ((D_800E296C & 2) ||
-                func_8009EE4C(mapEntry[playerAndIndex].x,
+                dungeonGetMaskedGridNibble(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
-                func_8009DA70(mapEntry[playerAndIndex].x,
+                dungeonAppendAdjustedTypeTwoEntry(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y, colour, draw_param);
             }
         }
@@ -175,9 +175,9 @@ void func_8009DAD8(s32 draw_param) {
     colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
         if ((D_800E296C & 1) ||
-            func_8009EE4C(objectEntry[playerAndIndex].x,
+            dungeonGetMaskedGridNibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
-            func_8009DA70((u16)objectEntry[playerAndIndex].x,
+            dungeonAppendAdjustedTypeTwoEntry((u16)objectEntry[playerAndIndex].x,
                           (u16)objectEntry[playerAndIndex].y, colour, draw_param);
         }
     }
@@ -194,9 +194,9 @@ void func_8009DAD8(s32 draw_param) {
             !(info[playerAndIndex].flags & 0x40)) {
             if ((D_800E296C & 8) ||
                 (!(info[playerAndIndex].flags & 0x80) &&
-                 func_8009EE4C(largeMapEntry[playerAndIndex].x,
+                 dungeonGetMaskedGridNibble(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
-                func_8009DA70(largeMapEntry[playerAndIndex].x,
+                dungeonAppendAdjustedTypeTwoEntry(largeMapEntry[playerAndIndex].x,
                               largeMapEntry[playerAndIndex].y, colour, draw_param);
             }
         }

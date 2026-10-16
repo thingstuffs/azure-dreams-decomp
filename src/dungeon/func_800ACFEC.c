@@ -5,9 +5,9 @@ typedef void (*ActorCallback)(void *, void *, void *, void *);
 
 extern ActorCallback D_800DF1E8[];
 
-extern void func_800A020C(void *, void *);
+extern void dungeonApplyMonsterKoyawData(void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern void func_800B253C(void *, void *, void *, void *);
+extern void dungeonUpdatePendingEntityAction(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
@@ -18,7 +18,7 @@ extern s16 func_800BCB04(u16, u16, s16);
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
-void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
+void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
     u16 global_flags = dungeonStatus.flags;
     u8 *actor_alias = actor;
     s16 old_state;
@@ -38,7 +38,7 @@ void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
         return;
     }
 
-    func_800B253C(actor, motion, render, actor);
+    dungeonUpdatePendingEntityAction(actor, motion, render, actor);
 
     callback = *(ActorCallback *)(actor + 0x8C);
     if (callback != 0) {
@@ -52,7 +52,7 @@ void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
     }
 
     if (!(U16_AT(render, 0x14) & 0x8000)) {
-        func_800A020C((void *)U32_AT(actor, 0x1C), render + 0xC);
+        dungeonApplyMonsterKoyawData((void *)U32_AT(actor, 0x1C), render + 0xC);
     }
     U16_AT(render, 0x14) |= 0x7000;
 

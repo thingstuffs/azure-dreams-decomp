@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias)
+void dungeonProjectVisibleEffectQuad(void *quad, void *position, void *render_info, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;

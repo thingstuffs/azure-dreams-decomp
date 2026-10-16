@@ -14,18 +14,18 @@ extern void func_8007BEF0(s32 value);
 extern void func_8007BFE0(void *state, s32 value);
 extern void func_8007C040(void *data, void *data_2, s32 value);
 extern void func_80408394(void *state, s32 init_value_a, s32 init_value_b);
-extern void func_804084DC(void *object);
+extern void memoryProcessHandlesAndMarkObject(void *object);
 extern void func_804083A0(void);
 
 /* Creates or resets the town object, initializes its state, and installs its callback. */
-void *func_802F13FC(s32 init_value_a, M2C_UNK init_value_b) {
+void *memoryInitWorkObjectAndCallback(s32 init_value_a, M2C_UNK init_value_b) {
     void *object;
     u8 *state;
 
     object = D_8040C5C0;
     state = (u8 *)object + 0x20;
     if (func_80047FD8(object) != 0 || ((object = func_8003C714(0, D_8040C5C0, 0x19)) == NULL && (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
-        func_804084DC(object);
+        memoryProcessHandlesAndMarkObject(object);
         D_8040C5DE_STORE[0] = (u16) (D_8040C5DE_LOAD[0] & 0x7FFF);
         func_8007BFE0(state, 0x44);
     }

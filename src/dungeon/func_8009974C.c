@@ -2,15 +2,15 @@
 #include "shared/dungeon_floor.h"
 
 typedef s32 M2C_UNK;
-void func_800B835C();
+void dungeonDrawTexturedEllipse();
 extern M2C_UNK D_800DD80C;
 
 /* Submit a fixed command and set the global activation flag. */
-void func_8009EEAC(void) {
+void dungeonSubmitActivationCommand(void) {
     s32 command[2];
 
     command[0] = 0x01000340;
     command[1] = 0x00200020;
-    func_800B835C(&D_800DD80C, command, 1, 0);
+    dungeonDrawTexturedEllipse(&D_800DD80C, command, 1, 0);
     D_800E296C |= 0x00800000;
 }

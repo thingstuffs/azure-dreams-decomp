@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void func_80172478(void *action, void *motion, void *sprite, void *actor)
+void dungeonAdvanceTargetHop(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -75,7 +75,7 @@ void func_80172478(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174168);
             func_80047784(
                 sprite,
@@ -95,9 +95,9 @@ void func_80172478(void *action, void *motion, void *sprite, void *actor)
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_800AD594(actor, 4);
-    func_800A4ACC(actor);
+    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    dungeonReduceActorFoodMeter(actor, 4);
+    dungeonAdvanceStatusTimers(actor);
 
     global_base = &dungeonStatus;
     if (global_base->unk_08 != 0) {
@@ -111,12 +111,12 @@ void func_80172478(void *action, void *motion, void *sprite, void *actor)
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((R07_80172478_S_80172478_2 *)actor)->unk_2A = ((s16)func_800A0818((s16)(((Rec_D_80082E80 *)sprite)->unk_24),(s16)(((Rec_D_80082E80 *)sprite)->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+            ((R07_80172478_S_80172478_2 *)actor)->unk_2A = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((Rec_D_80082E80 *)sprite)->unk_24),(s16)(((Rec_D_80082E80 *)sprite)->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                 &direction_aux));
         }
     }
 
-    if ((func_800AD9B4(sprite, actor) << 16) > 0) {
+    if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
         ((R07_80172478_S_80172478_0 *)action)->unk_8C = ((void *)func_80170E54);
         func_800A9A04(actor);
     }

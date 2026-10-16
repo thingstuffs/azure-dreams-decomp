@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_8017278C(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor) {
+void dungeonAdvanceActionThroughAnimation(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor) {
     u16 ticks_left;
     s32 initial_state;
     s32 state;
@@ -15,7 +15,7 @@ void func_8017278C(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, Rec_D_8
         if (sprite->unk_14.at00_u16.v & 0x8000) {
             action->unk_9B = 3U;
             sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
-            func_8009C12C(actor, sprite,(s16)(((EntityRec *)actor)->facing),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(((EntityRec *)actor)->facing),(s16)(1));
             return;
         }
         direction_frames = ((u8 *)D_8017587C);
@@ -35,16 +35,16 @@ void func_8017278C(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, Rec_D_8
             return;
         }
         func_800A56E0(0x804);
-        func_8009C12C(actor, sprite,(s16)(((EntityRec *)actor)->facing),(s16)(1));
+        dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(((EntityRec *)actor)->facing),(s16)(1));
         action->unk_9B++;
         return;
     case 3:
         if (sprite->unk_14.at00_u16.v & 0xE000) {
-            func_800A2B04(motion,(u8)(sprite->unk_24),(u8)(sprite->unk_25));
-            func_800AD594(actor, 0x100);
+            dungeonSetRecordIntegerTileCenter(motion,(u8)(sprite->unk_24),(u8)(sprite->unk_25));
+            dungeonReduceActorFoodMeter(actor, 0x100);
             action->unk_8C = ((u8 *)func_8017140C);
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             if (((EntityRec *)actor)->unk_6D == 0) {
                 ((EntityRec *)actor)->unk_46 = (u16) (((EntityRec *)actor)->unk_46 & 0x7FFF);
             } else {

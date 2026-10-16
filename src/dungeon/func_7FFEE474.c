@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_map.h"
 
-void func_8008BBD4(town_map_7FFEE474_MainStruct *object) {
+void dungeonDecreaseSubstructureValueAndReset(town_map_7FFEE474_MainStruct *object) {
     object->sub->unk8 -= 0x200;
     if ((s16)object->sub->unk8 < 0) {
         object->sub->unk8 = 0;

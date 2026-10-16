@@ -9,7 +9,7 @@ extern u8 D_800CF828[16];
 extern s32 D_800CF838[16];
 extern u8 D_80080EA8[];
 extern void file_load_com(s32);
-s32 func_8008B2E4(s32 value);
+s32 townResourceValueTableContains(s32 value);
 s32 func_8008B328(void);
 s32 func_8008B3AC(void);
 void reserve_twch_load(s32 entry_id);

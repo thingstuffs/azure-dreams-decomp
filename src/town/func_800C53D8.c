@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern s32 func_800C2AE8(void *);
+extern s32 townQueryLoweredTransformPosition(void *);
 
 /* Return the signed low halfword of the query result, clamped to at most zero. */
-s32 func_800C2B38(void *object) {
+s32 townGetClampedTransformCoordinate(void *object) {
     s32 result;
 
-    result = func_800C2AE8(object);
+    result = townQueryLoweredTransformPosition(object);
     if ((result << 16) > 0) {
         result = 0;
     }

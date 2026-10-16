@@ -3,7 +3,7 @@
 
 
 /* Updates an effect's lifetime, fades its color, and advances its motion. */
-void func_801763D0(void *effect, s32 *motion, u8 *color_data)
+void dungeonUpdateAnEffectSLifetimeFadesColorAdvancesMotion(void *effect, s32 *motion, u8 *color_data)
 {
     u16 ticks_left;
     u8 intensity;

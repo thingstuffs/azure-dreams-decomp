@@ -6,10 +6,10 @@ extern s32 D_800E5910;
 typedef struct S_800DBF38_0 {
     u8 pad_00[0x54];
     s32 unk_54;
-} S_800DBF38_0;   /* temp_v1 in func_800DBF38 */
+} S_800DBF38_0;   /* temp_v1 in dungeonClearStateFlagBit */
 
 /* Clears bit 0 of the flags in the current state record. */
-void func_800DBF38(void) {
+void dungeonClearStateFlagBit(void) {
     S_800DBF38_0 *state;
 
     state = D_800E5910 + 0x20;

@@ -16,7 +16,7 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void func_800243A4(EffectRecord *state, EntityRec *position)
+void dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires(EffectRecord *state, EntityRec *position)
 {
     u16 countdown;
 

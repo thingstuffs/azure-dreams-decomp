@@ -7,10 +7,10 @@
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
-extern void func_8003DB4C(void *, s32);
+extern void zeroWords(void *, s32);
 extern s32 func_80065F90(s32, s32);
-extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A0134(void *, void *);
+extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 dungeonGetActorHeightDifference(void *, void *);
 extern s32 func_800A0548(s32, s32);
 extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
@@ -20,7 +20,7 @@ static __inline__ s16 offset_tile(u16 center, u16 offset)
 }
 
 /* Find an unoccupied valid position at the target or within two tiles. */
-s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
+s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
     u16 tile_flags;
     u8 *occupied;
     u16 search_seed;
@@ -66,7 +66,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
         wrap_pending = 1;
         entry = *(u8 **)(actor + 88) + 32;
     }
-    func_8003DB4C(occupied, 7);
+    zeroWords(occupied, 7);
     entry = *(u8 **)(entry + 92) + 32;
     while (entry != actor || (wrap_check = wrap_pending) != 0) {
         object = *(u8 **)(entry - 20);
@@ -88,7 +88,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
             } else {
                 slot = (((func_80065F90(object_y - (s16)target_y, object_x - (s16)target_x) + 128) >> 8) & 15) + 9;
             }
-            separation = (s16)func_800A0134(actor, entry);
+            separation = (s16)dungeonGetActorHeightDifference(actor, entry);
             if (separation < 0) {
                 separation = -separation;
             }
@@ -104,7 +104,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
         center_x = (s16)target_x;
         center_y = (s16)target_y;
         if ((func_800A0548(center_x, center_y) == 0) &&
-            ((func_8009A350((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) != 0) &&
+            ((getOffsetMapCellValueAndFlags((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) != 0) &&
             ((tile_flags & 0x8000) == 0) &&
             ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
             ((s16)func_800BCB04((((center_x << 6) + 32) & 0xffe0), (((center_y << 6) + 32) & 0xffe0),
@@ -127,7 +127,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
             near_dy = dirStepY + near_dir;
             if ((near_offset_x = near_dx[0], near_offset_y = near_dy[0],
                  func_800A0548((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
-                (func_8009A350(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
+                (getOffsetMapCellValueAndFlags(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
                 (s16)func_800BCB04((((near_x + (s16)near_dx[0]) << 6) + 32) & 0xffe0,
@@ -160,7 +160,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
                  func_800A0548(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&
                 ((tile_offset_x = far_dx[0], tile_offset_y = far_dy[0],
-                  func_8009A350((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags))
+                  getOffsetMapCellValueAndFlags((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags))
                       << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&

@@ -7,19 +7,19 @@ typedef struct S_800A70EC_0 {
     s32 unk_50;
     u8 pad_54[0x18];
     union { u16 u; s16 s; } unk_6C;   /* accessed as both */
-} S_800A70EC_0;   /* arg0 in func_800A70EC */
+} S_800A70EC_0;   /* arg0 in townUpdateThreeAxisScaleEffect */
 
 typedef struct S_800A70EC_1 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800A70EC_1;   /* arg3 in func_800A70EC */
+} S_800A70EC_1;   /* arg3 in townUpdateThreeAxisScaleEffect */
 
 /* extern */
 
 /* Update the countdown-driven scale effect and clear it when the countdown expires. */
-void func_800A70EC(S_800A70EC_0 *state, s32 unused_1, s32 unused_2, S_800A70EC_1 *scale) {
+void townUpdateThreeAxisScaleEffect(S_800A70EC_0 *state, s32 unused_1, s32 unused_2, S_800A70EC_1 *scale) {
     s32 z_wave;
     s32 x_wave;
     s32 y_wave;

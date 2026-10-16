@@ -3,7 +3,7 @@
 extern u8 D_80082E6A[];
 
 /* Return the current value capped at 40 when the mode is 2, or zero otherwise. */
-s32 func_8003E14C(void)
+s32 slusReadCappedAudioMeter(void)
 {
     if (D_80082E6A[0] == 2) {
         s32 capped_value = 0x28;

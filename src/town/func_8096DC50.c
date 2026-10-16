@@ -6,21 +6,21 @@ typedef struct S_801260E8_1 {
     s32 unk_00;
     u8 pad_04[0x6C];
     void * unk_70;
-} S_801260E8_1;   /* clear_target in func_801260E8 */
+} S_801260E8_1;   /* clear_target in townAnimateCatalogPreviousDetail */
 
 typedef struct S_801260E8_2 {
     s32 unk_00;
-} S_801260E8_2;   /* destination in func_801260E8 */
+} S_801260E8_2;   /* destination in townAnimateCatalogPreviousDetail */
 
 typedef struct S_801260E8_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801260E8_3;   /* *objects_a1 in func_801260E8 */
+} S_801260E8_3;   /* *objects_a1 in townAnimateCatalogPreviousDetail */
 
 typedef struct S_801260E8_4 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_801260E8_4;   /* object_data in func_801260E8 */
+} S_801260E8_4;   /* object_data in townAnimateCatalogPreviousDetail */
 
 
 typedef struct TownInitialPosition {
@@ -34,13 +34,13 @@ extern void func_80123700(void);
 extern void func_801237E8(u8 *state);
 extern void func_80123898(void *);
 extern void func_801238E4(void *);
-extern void func_80124728(void *);
-extern void func_801247F8(void *);
+extern void townRefreshCatalogSecondaryDetail(void *);
+extern void townRefreshCatalogPrimaryDetail(void *);
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
 /* Initializes, updates, or clears town objects according to the current action. */
-void func_801260E8(Rec_func_801237A4_arg0 *context)
+void townAnimateCatalogPreviousDetail(Rec_func_801237A4_arg0 *context)
 {
     s32 action_index;
     s32 object_index;
@@ -63,9 +63,9 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
         clear_target->unk_00 = 0;
     }
         func_80123700();
-        func_80124728(context);
+        townRefreshCatalogSecondaryDetail(context);
         func_801235EC();
-        func_801247F8(context);
+        townRefreshCatalogPrimaryDetail(context);
         func_801237E8(context);
         func_80123898(context);
         {

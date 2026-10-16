@@ -12,7 +12,7 @@ typedef struct S_801720D8_1 {
     u8 pad_98[0x2];
     s8 unk_9A;
     s8 unk_9B;
-} S_801720D8_1;   /* work in func_801720D8 */
+} S_801720D8_1;   /* work in dungeonStartActorHitReaction */
 
 
 extern void func_80047784(void *, u8, s32);
@@ -21,7 +21,7 @@ extern s32 func_800A6D30(void);
 extern u8 D_80174AE4[];
 
 /* Start the actor's hit reaction: clear its flags, give it a random spin and arm the matching sprite frame. */
-void func_801720D8(void *work, void *part_a, void *part_b, EntityRec *actor) {
+void dungeonStartActorHitReaction(void *work, void *part_a, void *part_b, EntityRec *actor) {
     s32 value;
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);

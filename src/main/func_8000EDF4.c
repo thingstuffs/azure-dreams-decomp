@@ -4,7 +4,7 @@
 
 
 /* Copies 128 bytes from the source's offset 0x200 into a table entry and marks it active. */
-void func_80021DF4(s32 entry_index, void *source) {
+void cardBootCacheSaveHeader(s32 entry_index, void *source) {
     s32 *base;
     s32 *entry;
     s32 *final_base;

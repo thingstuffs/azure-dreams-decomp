@@ -10,7 +10,7 @@ typedef struct S_800BDBD0_0 {
     void * unk_08;
     void * unk_0C;
     s32 unk_10;
-} S_800BDBD0_0;   /* temp_v0 in func_800BDBD0 */
+} S_800BDBD0_0;   /* temp_v0 in townCreatePositionedVisualObject */
 
 typedef struct S_800BDBD0_1 {
     u8 pad_00[0x8];
@@ -21,17 +21,17 @@ typedef struct S_800BDBD0_1 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800BDBD0_1;   /* temp_v1 in func_800BDBD0 */
+} S_800BDBD0_1;   /* temp_v1 in townCreatePositionedVisualObject */
 
 typedef struct S_800BDBD0_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BDBD0_2;   /* temp_v1_2 in func_800BDBD0 */
+} S_800BDBD0_2;   /* temp_v1_2 in townCreatePositionedVisualObject */
 
 
 /* Creates an object at the supplied position and initializes its visual properties. */
-void *func_800BDBD0(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+void *townCreatePositionedVisualObject(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
     S_800BDBD0_0 *object;
     S_800BDBD0_1 *visual;
     S_800BDBD0_2 *position;

@@ -50,23 +50,23 @@ typedef struct S_800B06F0_0 {
     u16 unk_100;
     u16 unk_102;
     u16 unk_104;
-} S_800B06F0_0;   /* scratch in func_800B06F0 */
+} S_800B06F0_0;   /* scratch in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_1 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
-} S_800B06F0_1;   /* initial_manager in func_800B06F0 */
+} S_800B06F0_1;   /* initial_manager in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_2_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_800B06F0_2_pre;   /* the 0x8 bytes before arg0_r in func_800B06F0, addressed as arg0_r[-1] */
+} S_800B06F0_2_pre;   /* the 0x8 bytes before arg0_r in dungeonTransformLinkedQuadBatches, addressed as arg0_r[-1] */
 
 typedef struct S_800B06F0_2 {
     u8 ** unk_00;
     u8 * unk_04;
     u16 unk_08;
-} S_800B06F0_2;   /* arg0_r in func_800B06F0 */
+} S_800B06F0_2;   /* arg0_r in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_3 {
     u8 pad_00[0x14];
@@ -78,11 +78,11 @@ typedef struct S_800B06F0_3 {
     u16 unk_1E;
     u16 unk_20;
     u16 unk_22;
-} S_800B06F0_3;   /* arg2_r in func_800B06F0 */
+} S_800B06F0_3;   /* arg2_r in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_4 {
     s8 unk_00;
-} S_800B06F0_4;   /* current in func_800B06F0 */
+} S_800B06F0_4;   /* current in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_5 {
     u8 pad_00[0x8];
@@ -97,18 +97,18 @@ typedef struct S_800B06F0_5 {
     u8 pad_1C[0x4];
     s16 unk_20;
     s16 unk_22;
-} S_800B06F0_5;   /* object in func_800B06F0 */
+} S_800B06F0_5;   /* object in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_6 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 * unk_0C;
-} S_800B06F0_6;   /* next_manager in func_800B06F0 */
+} S_800B06F0_6;   /* next_manager in dungeonTransformLinkedQuadBatches */
 
 typedef struct S_800B06F0_7 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
-} S_800B06F0_7;   /* manager in func_800B06F0 */
+} S_800B06F0_7;   /* manager in dungeonTransformLinkedQuadBatches */
 
 
 typedef struct {
@@ -120,8 +120,8 @@ typedef struct {
 extern GlobalSlot D_80083160[];
 extern s32 (*D_800DEFF0[])(s32, void *, void *);
 
-extern s32 func_8003E12C();
-extern s32 func_8004C010();
+extern s32 swapIntValues();
+extern s32 multiplyRgbTintSaturated();
 extern void *func_8004CD28();
 extern s32 func_800649A0();
 extern s32 func_80064A40();
@@ -131,11 +131,11 @@ extern s32 func_80064D80();
 extern s32 func_80065480();
 extern s32 func_800654B0();
 extern s32 func_80065820();
-extern void *func_800B0BE0();
+extern void *dungeonSubmitTexturedQuad();
 
 typedef struct { u32 entry; } OtSlot;
 /* Transform and emit linked batches of quad primitives into the rendering buffer. */
-s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params)
+s32 dungeonTransformLinkedQuadBatches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params)
 {
     u8 *batch = initial_batch;
     s32 dispatch_arg = initial_dispatch_arg;
@@ -266,8 +266,8 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
             }
 
             if (primitive[0] & 4) {
-                func_8003E12C(scratch + 0xF0, scratch + 0xF4);
-                func_8003E12C(scratch + 0xF8, scratch + 0xFC);
+                swapIntValues(scratch + 0xF0, scratch + 0xF4);
+                swapIntValues(scratch + 0xF8, scratch + 0xFC);
             }
 
             ((S_800B06F0_5 *)packet)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v
@@ -286,8 +286,8 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
             ((S_800B06F0_5 *)packet)->unk_22 = ((S_800B06F0_0 *)scratch)->unk_FE + ((S_800B06F0_0 *)scratch)->unk_BA;
 
             if ((primitive[1] & 0xFC) == 0x2C) {
-                packet = func_800B0BE0(((S_800B06F0_0 *)scratch)->unk_C0.i, params, &primitive, packet);
-                func_8004C010(packet - 0x24, texture_data);
+                packet = dungeonSubmitTexturedQuad(((S_800B06F0_0 *)scratch)->unk_C0.i, params, &primitive, packet);
+                multiplyRgbTintSaturated(packet - 0x24, texture_data);
                 if (primitive != 0) {
                     continue;
                 }

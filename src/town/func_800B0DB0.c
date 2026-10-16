@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Returns zero. */
-s32 func_800AE510(void) {
+s32 townItemMenuReturnZero(void) {
     return 0;
 }

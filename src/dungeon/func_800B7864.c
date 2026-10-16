@@ -8,10 +8,10 @@ extern u8 D_800DF3CC[];
 extern s32 func_80033BC0(s32);
 extern void func_80040AA0(s32);
 extern void Control_CD();
-extern void func_8003F320(void);
+extern void drainCdCommandQueue(void);
 
 /* Invokes action 0x21 once when its conditions hold, or runs the default action. */
-void func_800BCFC4(void) {
+void dungeonInvokeAction21OrDefault(void) {
     s32 *state_flags;
 
     if (D_80082E6B == 0x11) {
@@ -25,5 +25,5 @@ void func_800BCFC4(void) {
         }
     }
     Control_CD(6, &D_800DF3CC, 0);
-    func_8003F320();
+    drainCdCommandQueue();
 }

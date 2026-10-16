@@ -6,11 +6,11 @@ typedef struct S_80022514_0 {
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
     u8 pad_04[0x4];
     s32 unk_08;
-} S_80022514_0;   /* arg0 in func_80022514 */
+} S_80022514_0;   /* arg0 in townAdvanceTimedColorFade */
 
 
 /* Advances a timed color fade and sets completion flags at the final threshold. */
-void func_80022514(void *effect) {
+void townAdvanceTimedColorFade(void *effect) {
     s32 phase;
     s32 frames_left;
     u16 phase_value;

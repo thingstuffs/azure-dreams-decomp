@@ -22,6 +22,8 @@ import json
 from pathlib import Path
 import re
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from source_layout import row_path as layout_row_path
 
 LIMIT = 4 * 1024 * 1024
 SEVERITIES = ('REFUSE-LIKELY', 'REVIEW', 'INFO')
@@ -603,7 +605,7 @@ class Repository:
 
     def source_path(self,row):
         container=row.get('container',row['id'].split('/')[0]);name=Path(row.get('c_path') or (row['id']+'.c')).name
-        return self.root/'src'/container/name
+        return layout_row_path(row['id'], self.root)
 
     def header(self,name):
         if name not in self._headers:

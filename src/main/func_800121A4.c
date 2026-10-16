@@ -5,13 +5,13 @@
  * Same struct family as src/code2.c / src/w_80041818.c's D_80082E60. */
 
 
-extern void func_80025D34();
-extern void func_80027BF4(void);
+extern void cardBootDestroySlotSelectionMenu();
+extern void cardBootCloseEventsAndResumeTimer(void);
 extern void func_80040AA0();
-extern void func_800439F8(void);
+extern void runtimeSaveOrRestoreState(void);
 
 /* Selects object and global modes, sets the shared state flag, and runs updates. */
-void func_800251A4(void *object) {
+void cardBootFinishSlotLoadAndChangeScene(void *object) {
     s16 object_mode;
     s32 global_mode;
     u16 state_flags;
@@ -21,7 +21,7 @@ void func_800251A4(void *object) {
      * register so it survives the calls instead of being rematerialized. */
     u8 *global_page = (u8 *)0x80010000;
 
-    func_80027BF4();
+    cardBootCloseEventsAndResumeTimer();
     object_mode = 1;
     if (*(s32 *)((char *)object + 0x44) == 0) {
         object_mode = 3;
@@ -29,8 +29,8 @@ void func_800251A4(void *object) {
     state_flags = D_80082E60.flags16;
     *(s16 *)(global_page + 0x3714) = object_mode;
     D_80082E60.flags16 = state_flags | 2;
-    func_80025D34(object - 0x20);
-    func_800439F8();
+    cardBootDestroySlotSelectionMenu(object - 0x20);
+    runtimeSaveOrRestoreState();
     global_mode = 6;
     if (*(u16 *)(global_page + 0x208) != 0) {
         global_mode = 5;

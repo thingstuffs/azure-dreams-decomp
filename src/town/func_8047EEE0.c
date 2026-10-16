@@ -4,6 +4,6 @@
 extern s32 D_80017954;
 
 /* Sets D_80017954 to 1. */
-void func_8047EEE0(void) {
+void townCheckPositionThresholds(void) {
     D_80017954 = 1;
 }

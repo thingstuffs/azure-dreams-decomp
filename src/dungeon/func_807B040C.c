@@ -74,10 +74,10 @@ typedef struct S_807B040C_7 {
 
 
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A350(u8, u8, s16, u16 *);
+extern void getOffsetMapCellValueAndFlags(u8, u8, s16, u16 *);
 extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern s32 func_800A45D8(s32, s32, s16);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
 s32 func_800F7C0C(void) {
@@ -149,13 +149,13 @@ s32 func_800F7C0C(void) {
         collision = &D_80083780;
 
         while (1) {
-            func_8009A350(room->tileX, room->tileY,
+            getOffsetMapCellValueAndFlags(room->tileX, room->tileY,
                           (s16)direction, &collision_flags);
             if (!(collision_flags & 0xB400)) {
                 direction_offset = (s16 *)&offsets + direction * 2;
                 ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tileX + (u16)direction_offset[0];
                 ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tileY + (u16)direction_offset[1];
-                if ((s16)func_800A45D8(
+                if ((s16)dungeonCheckLeftTileAndCenterHeight(
                         ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
                         ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
                         collision->z.w.i) == 0) {
@@ -269,7 +269,7 @@ s32 func_800F7C0C(void) {
         motion[3] = 0;
         ((S_807B040C_1 *)entity)->unk_88 = (s16)func_800BCB04(((S_807B040C_7 *)motion)->unk_02,
                                                  ((S_807B040C_7 *)motion)->unk_06, -0x400);
-        func_800A2B04(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
         {
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;

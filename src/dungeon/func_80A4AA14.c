@@ -31,7 +31,7 @@ void func_80174214(
 
     object_fields = func_8003FD64(0x211, source_obj);
     if (object_fields != NULL) {
-        object_fields->unk_10 = (s32)((u8 *)func_801740E4);
+        object_fields->unk_10 = (s32)((u8 *)dungeonAdvanceRandomizedMotionAndComplete);
         x_jitter = rand() & 0x1F;
         x_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_02;
         x_dest = object_fields->unk_08.s;
@@ -49,7 +49,7 @@ void func_80174214(
         y_dest->unk_06 = (s16)y_pos;
 
         z_jitter = rand();
-        init_data = ((void *)func_80173E94);
+        init_data = ((void *)dungeonAppendLinkedShadedPointPackets);
         z_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_0A;
         z_jitter &= 0x1F;
         fields = (R06_80174214_S_80174214_0 *)((u8 *)object_fields + 0x20);
@@ -65,5 +65,5 @@ void func_80174214(
     }
 }
 
-/* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)func_801740E4) / ((u8 *)func_80173E94) as HIGH/LO pairs itself (the lui in the beqz delay slot).
+/* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)dungeonAdvanceRandomizedMotionAndComplete) / ((u8 *)dungeonAppendLinkedShadedPointPackets) as HIGH/LO pairs itself (the lui in the beqz delay slot).
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */

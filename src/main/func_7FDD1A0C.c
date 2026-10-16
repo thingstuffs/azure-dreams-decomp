@@ -10,22 +10,22 @@ typedef struct S_8008896C_0 {
     s16 unk_0E;
     s16 unk_10;
     s16 unk_12;
-} S_8008896C_0;   /* line in func_8008896C */
+} S_8008896C_0;   /* line in mainQueueSettingsSpriteGrid */
 
 typedef struct S_8008896C_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_8008896C_1;   /* scroll_data in func_8008896C */
+} S_8008896C_1;   /* scroll_data in mainQueueSettingsSpriteGrid */
 
 typedef struct S_8008896C_2_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_8008896C_2_pre;   /* the 0x8 bytes before entry_data in func_8008896C, addressed as entry_data[-1] */
+} S_8008896C_2_pre;   /* the 0x8 bytes before entry_data in mainQueueSettingsSpriteGrid, addressed as entry_data[-1] */
 
 typedef struct S_8008896C_3 {
     u8 pad_00[0x8];
     u8 * unk_08;
-} S_8008896C_3;   /* next in func_8008896C */
+} S_8008896C_3;   /* next in mainQueueSettingsSpriteGrid */
 
 
 typedef struct PacketTag {
@@ -59,7 +59,7 @@ extern void func_80066758(void *sprite);
 extern void func_80067F20(void *draw_mode, s32 draw_in_display_area, s32 dither, u16 texture_page, s32 texture_window);
 
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
-s32 func_8008896C(u8 *entry_data, u8 *scroll_data)
+s32 mainQueueSettingsSpriteGrid(u8 *entry_data, u8 *scroll_data)
 {
     MainState *main_state;
     u8 *sprite;

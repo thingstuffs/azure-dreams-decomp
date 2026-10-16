@@ -42,6 +42,7 @@ ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/xform"))
 from common import rows as all_rows                      # noqa: E402
+from source_layout import row_path as layout_row_path, source_items as layout_source_items
 from pin_census import sites_of                          # noqa: E402
 from pin_sites import erase_many                         # noqa: E402
 from screen import compile_s, sdiff                      # noqa: E402
@@ -67,7 +68,7 @@ def one(rid):
     row = _rows().get(rid)
     if row is None or not row.get("cfg"):
         return [dict(id=rid, err="no-row-or-cfg")]
-    text = (ROOT / "src" / (rid + ".c")).read_text()
+    text = (layout_row_path(rid, ROOT)).read_text()
     sites = sites_of(text)
     if not sites:
         return []
@@ -203,7 +204,7 @@ def main():
         print("WARNING: %s is under work/ with no .ignore above it; a --full-diff census is large and agents' "
               "recursive searches would read it in full - prefer the scratchpad or a directory with a .ignore"
               % out, flush=True)
-    ids = sorted(f[len(str(ROOT)) + 5:-2] for f in glob.glob(str(ROOT / "src/*/*.c")))
+    ids = [rid for rid, _ in layout_source_items(ROOT)]
     ids = [i for i in ids if i in _rows() and (only is None or i in only)]
     done = set()
     if out.exists():

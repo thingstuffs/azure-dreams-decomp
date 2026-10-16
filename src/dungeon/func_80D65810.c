@@ -16,14 +16,14 @@ typedef struct S_80D65810_0 {
     s32 unk_38;
     s32 unk_3C;
     s32 unk_40;
-} S_80D65810_0;   /* temp_s0 in func_80171010 */
+} S_80D65810_0;   /* temp_s0 in dungeonCreateOriginMotionEffect */
 
 typedef struct S_80D65810_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80D65810_1;   /* temp_v0 in func_80171010 */
+} S_80D65810_1;   /* temp_v0 in dungeonCreateOriginMotionEffect */
 
 typedef struct S_80D65810_2 {
     u8 pad_00[0x6];
@@ -32,14 +32,14 @@ typedef struct S_80D65810_2 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80D65810_2;   /* temp_a0 in func_80171010 */
+} S_80D65810_2;   /* temp_a0 in dungeonCreateOriginMotionEffect */
 
 typedef struct S_80D65810_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D65810_3;   /* temp_s1 in func_80171010 */
+} S_80D65810_3;   /* temp_s1 in dungeonCreateOriginMotionEffect */
 
 typedef struct S_80D65810_4 {
     u8 pad_00[0x2];
@@ -48,7 +48,7 @@ typedef struct S_80D65810_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D65810_4;   /* input in func_80171010 */
+} S_80D65810_4;   /* input in dungeonCreateOriginMotionEffect */
 
 typedef struct S_80D65810_5 {
     u8 pad_00[0xC];
@@ -61,7 +61,7 @@ typedef struct S_80D65810_5 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80D65810_5;   /* temp_a0_2 in func_80171010 */
+} S_80D65810_5;   /* temp_a0_2 in dungeonCreateOriginMotionEffect */
 
 
 M2C_UNK func_8003DB94();
@@ -69,10 +69,10 @@ s32 func_8004491C();
 s32 rand();
 extern u8 D_800DE870[];
 extern void func_80045340(void);
-extern void func_80170D34(void);
+extern void dungeonUpdateEffectCollisionAndLifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void func_80171010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+void dungeonCreateOriginMotionEffect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     void *origin_ptr;
     u16 render_flags;
     S_80D65810_4 *origin;
@@ -96,7 +96,7 @@ void func_80171010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x
         motion = effect + 0x20;
         motion->unk_0C = 0x1E;
         motion->unk_0E = 0x1E;
-        ((S_80D65810_1 *)effect)->unk_10 = func_80170D34;
+        ((S_80D65810_1 *)effect)->unk_10 = dungeonUpdateEffectCollisionAndLifetime;
         func_8004491C(effect, func_80045340);
         render = ((S_80D65810_1 *)effect)->unk_0C;
         render->unk_14 |= 0xC;

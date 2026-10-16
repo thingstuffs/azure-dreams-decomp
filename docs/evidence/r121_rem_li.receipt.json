@@ -1,0 +1,288 @@
+{
+ "schema": "azure-clean.lane-receipt.v1",
+ "lane": "r121_rem_li",
+ "date": "2026-10-15",
+ "reviewer": "pending",
+ "base": "r121_remnants c674e3836 + delivery..delivery_continue5",
+ "recipe": "gcc 2.6.3 -O2 -G0 (fixed r121_remnants recipe) + per-row as-flag --aspsx-version=2.40 (maspsx expand_li = ori rX,$zero,K; ASPSX < 2.50)",
+ "negative_control": "With the 9 as_flags records removed both bounded windows fail: first mismatch window+0x37 (file 0x7F583F) got 0x24 (addiu) target 0x34 (ori) and window+0xF (file 0x7FFFDF) got 0x24 target 0x34. With them: both windows MATCH byte-identical.",
+ "windows": {
+  "config/overlays/town_r121li_7F5808_true_80701808.overlay.yaml": "MATCH: rebuilt overlay window byte-identical (260 bytes)",
+  "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml": "MATCH: rebuilt overlay window byte-identical (192 bytes)"
+ },
+ "rows": [
+  {
+   "id": "town/func_80875808",
+   "true_name": "func_80701808",
+   "foff": 8345608,
+   "size": 80,
+   "delta": "0x7ff0c000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "772ad878057c46950b8608cc36c652b8d013e39db739de1f3cb6449224105956",
+   "retail_sha256": "9683043ae73c7381b0926b07511d9fadadfec259e5c1ee7ab97f6ddf73a742be",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7F5808_true_80701808.overlay.yaml"
+  },
+  {
+   "id": "town/func_80875858",
+   "true_name": "func_80701858",
+   "foff": 8345688,
+   "size": 84,
+   "delta": "0x7ff0c000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "4d7832a98c61e30b7f8c31b8335cd5cf3cbbe91f873fe80a0d4ec96abd98f491",
+   "retail_sha256": "e1df758e69836b9b01785bda3c903382a778079d06937c772bac98864b9aa4c4",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7F5808_true_80701808.overlay.yaml"
+  },
+  {
+   "id": "town/func_808758AC",
+   "true_name": "func_807018AC",
+   "foff": 8345772,
+   "size": 96,
+   "delta": "0x7ff0c000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "44567001488dde8a31e381cf47d1613f09c1531c90c301f25a6cf80e5010a96f",
+   "retail_sha256": "83a31db084dfbcd43c1a5014d53b5419bc79dc03633591b7d460928a95375e14",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7F5808_true_80701808.overlay.yaml"
+  },
+  {
+   "id": "town/func_8087FFD0",
+   "true_name": "func_80700FD0",
+   "foff": 8388560,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "0bcf70118c7863d74d70ac565f77161ccd169a3a6a705726fca52f2cf469d94e",
+   "retail_sha256": "b63c57fc487df039e32d86b54446a729a3ff3da2de157eba8bd74c1d26c10c5d",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  },
+  {
+   "id": "town/func_8087FFF0",
+   "true_name": "func_80700FF0",
+   "foff": 8388592,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "384cab13a072c1572d4fd6942c1212dcf4df9eb142aeb9899eacc3fea03bed4a",
+   "retail_sha256": "e533a6da4c5b17d4726db4f275f6b45eb39310a2adcc85940dcd4877847f66a6",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  },
+  {
+   "id": "town/func_80880010",
+   "true_name": "func_80701010",
+   "foff": 8388624,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "7f1edd3c51ba716a39651f03746852882bb1911612457af34e97945453313777",
+   "retail_sha256": "1180768030bb6635328fdff483f205ba1855e3736b1090e64f5129d142d2d6d0",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  },
+  {
+   "id": "town/func_80880030",
+   "true_name": "func_80701030",
+   "foff": 8388656,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "09d881693a43e65d6a17370937d5ed87be388aed23e26ad3cd1fe7e0aeed98ad",
+   "retail_sha256": "a8b04ebb99ee8e387f238d6f06582e4c74bc3d8a64d137b89064b9a72f79469a",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  },
+  {
+   "id": "town/func_80880050",
+   "true_name": "func_80701050",
+   "foff": 8388688,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "527e0884298c626586fbd4682e7feec9055f46000ad23c39d99f20ff7f57e508",
+   "retail_sha256": "528498256064d8142a8cb6a1792e83177a8bedc63097952489be1f8451444f43",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  },
+  {
+   "id": "town/func_80880070",
+   "true_name": "func_80701070",
+   "foff": 8388720,
+   "size": 32,
+   "delta": "0x7ff01000",
+   "cfg": "2.6.3-G0",
+   "as_flags": "--aspsx-version=2.40",
+   "source_sha256": "73ac201fef07f727b6e1d744b801ed4e07ae91ff259c5def063f4298661b4909",
+   "retail_sha256": "b20744e54c82e527b774cf0fd5f8eda5a2616f435ab409d3861c60a54993fe95",
+   "scorer": {
+    "exact": true,
+    "total": 0
+   },
+   "maspsx_exact": true,
+   "maspsx_vs_retail_diff": 0,
+   "genuine_exact_versions": [
+    "2.21",
+    "2.34"
+   ],
+   "genuine_2_34_vs_retail": [
+    0,
+    0
+   ],
+   "genuine_2_21_vs_retail": [
+    0,
+    0
+   ],
+   "gate_window": "config/overlays/town_r121li_7FFFD0_true_80700FD0.overlay.yaml"
+  }
+ ],
+ "new_c_rows": 9,
+ "new_c_bytes": 452,
+ "genuine_check": "tools/fidelity/aspsx_diff.py --one ... --old-aspsx on (dosemu2): genuine ASPSX 2.21 and 2.34 are exact against the maspsx object AND against retail for every row; the WIBO versions 2.56-2.86 are off by the li words, as expected. Note exact_versions means genuine==maspsx; the retail columns above are the separate comparison."
+}

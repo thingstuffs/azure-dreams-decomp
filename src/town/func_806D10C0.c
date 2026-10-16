@@ -1,7 +1,7 @@
 #include "modules/town_ovl_6510c0.h"
 
 /* Passes the value and line to the handler with its fixed data tables. */
-s32 func_800160C0(s32 value, s32 unused, s32 line)
+s32 townProcessValueWithFixedTables(s32 value, s32 unused, s32 line)
 {
     return func_80016A2C(D_800173B4, D_80017474, value, line);
 }

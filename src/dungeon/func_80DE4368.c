@@ -34,13 +34,13 @@ void func_80171B68(void *action, s32 action_id, void *entity, void *move_state) 
     }
     func_8009A3D0(x, y, tile_mask);
 
-    direction = func_800A0818(
+    direction = dungeonGetRoundedFacingAndRoundingFlag(
         x,
         y,
         ((E_80171B68_S_80171570_3 *)((u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A))->unk_74,
         ((E_80171B68_S_80171570_3 *)((u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A))->unk_7C,
         (u8 *)action + 0x98);
-    move_result = func_8009A66C(direction, entity, state, 0x20);
+    move_result = dungeonCheckMovementClearanceAndHeight(direction, entity, state, 0x20);
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((E_80171B68_S_80171570_3 *)((u8 *)state + ((E_80171B68_S_80171570_0 *)state)->unk_8A))->unk_74;

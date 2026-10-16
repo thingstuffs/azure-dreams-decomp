@@ -13,7 +13,7 @@
 typedef struct S_800C1F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C1F28_1;   /* temp_v1 in func_800C1F28 */
+} S_800C1F28_1;   /* temp_v1 in dungeonTeleportFamiliarNearPlayer */
 
 
 typedef struct {
@@ -39,13 +39,13 @@ extern u8 D_800C1EC4;
 
 extern s32 func_800429E4(void *);
 extern void func_8009A3D0(u8, u8, s32);
-extern s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
+extern s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
 extern u16 func_800BCB04(s32, s32, s16);
-extern void func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
+extern void dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 
 /* Creates a relocation task and updates the object's tile and height. */
-void *func_800C1F28(void *object, s16 action_arg) {
+void *dungeonTeleportFamiliarNearPlayer(void *object, s16 action_arg) {
     s16 tile_x;
     s16 tile_y;
     s32 tile_mask;
@@ -63,7 +63,7 @@ void *func_800C1F28(void *object, s16 action_arg) {
     task = func_8003FC64(2);
     if (task != NULL) {
         object_index = func_800429E4(object);
-        func_800C542C(object, D_800DCED4[object_index], action_arg, 3);
+        dungeonCreateOrbitingTeleportEffect(object, D_800DCED4[object_index], action_arg, 3);
         tile_mask = 0x3000;
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         position = *(u8 **)((u8 *)object - 0x14);
@@ -74,7 +74,7 @@ void *func_800C1F28(void *object, s16 action_arg) {
             tile_mask = 0x300;
         }
         func_8009A3D0(old_x, old_y, tile_mask);
-        if ((func_8009B88C(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
+        if ((dungeonFindValidNearbyPosition(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
             tile_x = ((Coord *)position)->coord0;
             source_height = ((ArgObj *)object)->value;
             source_y = ((Coord *)position)->coord1;

@@ -92,7 +92,7 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void func_800478E8(void *, void *, s32);
+extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(void *, void *, s32);
 
 extern s16 D_80083228;
 extern u8 D_800D71A8[];
@@ -104,5 +104,5 @@ extern u8 D_8016F188[];
 
 /* Allocate and initialize an object and its child rendering data. */
 
-void *func_8016A8DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
+void *allocateObjectWithChildRenderData(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
 #endif

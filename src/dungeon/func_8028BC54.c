@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void func_8001EC54(void)
+void generateRandomDungeonItemDrops(void)
 {
     u8 x;
     u8 y;
@@ -40,9 +40,9 @@ void func_8001EC54(void)
     }
 
     if (func_800A6D30() & 1) {
-        budget += (u16)func_800A6DA4(0, (budget / 2) & 0xFFFF);
+        budget += (u16)randomDungeonRange16(0, (budget / 2) & 0xFFFF);
     } else {
-        budget -= (u16)func_800A6DA4(0, (budget / 2) & 0xFFFF);
+        budget -= (u16)randomDungeonRange16(0, (budget / 2) & 0xFFFF);
     }
 
     if (budget >= 0) {
@@ -55,24 +55,24 @@ void func_8001EC54(void)
         }
 
         if (budget >= 301) {
-            decrement = (u16)func_800A6DA4(160, 240);
+            decrement = (u16)randomDungeonRange16(160, 240);
             flag = 1;
             type = 3;
             amount = (decrement / 10 + (decrement >> 31)) & 0x3FFFFFFF;
         } else if (budget >= 151) {
-            decrement = (u16)func_800A6DA4(80, 120);
+            decrement = (u16)randomDungeonRange16(80, 120);
             amount = decrement;
             flag = 0;
             type = 2;
         } else {
-            decrement = (u16)func_800A6DA4(16, 24);
+            decrement = (u16)randomDungeonRange16(16, 24);
             amount = decrement;
             flag = 0;
             type = 1;
         }
 
         do {
-        } while ((func_800A4E2C(&x, &y) << 16) < 0);
+        } while ((selectDungeonSpawnTile(&x, &y) << 16) < 0);
 
         scan_x = x;
         scan_y = y;
@@ -95,7 +95,7 @@ void func_8001EC54(void)
                                             (unsigned long)cell_base);
             cell->x = x;
             cell->y = y;
-            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = func_800BCA68((x << 6) | 32, (y << 6) | 32);
+            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = dungeonGetSurfaceHeightAtCoordinates((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
             func_8009A21C(x, y, 0x800);
             cell->object = func_800A7A38((void *)entry);

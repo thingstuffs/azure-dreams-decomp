@@ -15,7 +15,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite,(s16)(actor->facing),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
         }
 
@@ -100,7 +100,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x808);
-            func_8009C12C(actor, sprite,(s16)(actor->facing),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
         }
         return;
@@ -109,11 +109,11 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        func_800A2B04(transform,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
-        func_800AD594(actor, 0x180);
+        dungeonSetRecordIntegerTileCenter(transform,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        dungeonReduceActorFoodMeter(actor, 0x180);
         ((R03_80172620_S_80172620_0 *)action)->unk_8C = ((void *)func_80170E54);
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
         } else {

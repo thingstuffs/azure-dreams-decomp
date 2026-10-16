@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_8001DD84(s32 x, s32 y, s32 count, s16 x_step, s16 y_step) {
+s16 dungeonGetMinimumSteppedCellValue(s32 x, s32 y, s32 count, s16 x_step, s16 y_step) {
     s32 remaining = count - 1;
     s16 row_shift = gameWork.map.shiftX;
     s16 row_step;

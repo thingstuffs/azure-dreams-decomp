@@ -157,7 +157,7 @@ loop_0:
     transform_rec.translation = *(PackedPair *)((s8 *)model + 0xC);
     transform_rec.count = 2;
     transform_rec.flags = 0;
-    func_800DBA90(transform);
+    dungeonTransformRotatedVertices(transform);
     min_xy &= 0xFFFF;
     max_xy &= 0xFFFF;
     side = 1;

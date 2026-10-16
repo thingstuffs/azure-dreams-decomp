@@ -110,11 +110,11 @@ s32 func_80024A5C();
 
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;
-s32 func_80024EA4(void);
-void func_80024ED4(ParticleWork *work, ParticlePosition *position);
+s32 dungeonGetARandomSignEitherN1N1(void);
+void dungeonCreateLinkedEffectSegments(ParticleWork *work, ParticlePosition *position);
 void func_80024FA0(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
-void func_800250C0(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
-void func_800251F0(void *object_ptr);
-void func_80025360(void *effect_arg, void *unused, void *sprite_arg);
+void dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
+void dungeonAdvanceObjectCountersAnimationValuesFlagExpiration(void *object_ptr);
+void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *effect_arg, void *unused, void *sprite_arg);
 extern u8 D_80026428[];
 #endif

@@ -5,12 +5,12 @@
 extern s32 func_8001E670(s32 id);
 extern void func_8001E578(s32 id);
 extern void func_8001E5F0(s32 id);
-extern u8 func_8001A4F0(void);
-extern s32 func_8001A2F0(void);
-extern s32 func_8001A360(void);
-extern s32 func_8001A414(void);
+extern u8 townFindFirstEnabledEntryId(void);
+extern s32 townCountEnabledTownEntries(void);
+extern s32 townFindFirstEnabledPairedEntry(void);
+extern s32 townAdvanceToNextEnabledEntry(void);
 
-s32 func_800198AC(void) {
+s32 townSelectNextEventState(void) {
     u8 value;
     s32 result;
     void *state;
@@ -29,7 +29,7 @@ s32 func_800198AC(void) {
     if (func_8001E670(0xA2) == 0) {
         if ((func_8001E670(0x1389) != 0) && (func_8001E670(0x405) == 0)) {
             func_8001E578(0x405);
-            *((u8 *)D_8001E950 + 3) = func_8001A4F0();
+            *((u8 *)D_8001E950 + 3) = townFindFirstEnabledEntryId();
         }
         if ((func_8001E670(0x3FE) != 0) && (func_8001E670(0x3E8) == 0)) {
             state = D_8001E950;
@@ -66,10 +66,10 @@ s32 func_800198AC(void) {
             return;
         }
     }
-    if (func_8001A2F0() != 0) {
-        result = func_8001A360();
+    if (townCountEnabledTownEntries() != 0) {
+        result = townFindFirstEnabledPairedEntry();
         if (result == 0) {
-            result = func_8001A414();
+            result = townAdvanceToNextEnabledEntry();
         }
         *((u8 *)D_8001E950 + 4) = result;
         *((u8 *)D_8001E950 + 5) = 2;

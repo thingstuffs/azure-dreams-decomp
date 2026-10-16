@@ -3,22 +3,22 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 
-void func_80095388();                 /* extern */
-s16 func_80095978();               /* extern */
-void func_80095A94();      /* extern */
-void func_80098928();        /* extern */
+void townAddHex20000SSignedOffsetHex14();                 /* extern */
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
+void townInitializeRecordWithHandlerTable();        /* extern */
 
 
 /* Advance the object's position and handle crossing the sampled limit. */
-void func_80099B70(s32 context, EntityRec *object, s32 update_data) {
+void townAdvancePlayerPosition(s32 context, EntityRec *object, s32 update_data) {
     s16 limit;
 
     object->z.v = (s32) (object->z.v + object->flags14);
-    limit = func_80095978(object, &D_800FE488);
+    limit = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(object, &D_800FE488);
     if (limit < object->z.w.i) {
-        func_80095A94(object, limit, &D_800FE488);
-        func_80098928(context, object, update_data);
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(object, limit, &D_800FE488);
+        townInitializeRecordWithHandlerTable(context, object, update_data);
         return;
     }
-    func_80095388(object);
+    townAddHex20000SSignedOffsetHex14(object);
 }

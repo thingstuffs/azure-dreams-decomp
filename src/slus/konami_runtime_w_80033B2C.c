@@ -8,7 +8,7 @@ typedef struct {
 } MemoryPage;
 
 /* Test an indexed bit, treating indices zero and one as constant false and true. */
-s32 func_80033B2C(s32 bit_id) {
+s32 testResidentBitmapBit(s32 bit_id) {
     u32 bit_index = bit_id & 0xFFFF;
     u32 bit_value = 1;
 

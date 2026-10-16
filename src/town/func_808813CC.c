@@ -6,7 +6,7 @@ extern u8 D_80700638[];
 extern u8 D_8070063A[];
 
 /* Process the pair of 16-bit table entries at byte offset four. */
-void func_808813CC(void) {
+void townProcessTableEntryPair(void) {
     s32 byte_offset;
     u16 second_entry;
 

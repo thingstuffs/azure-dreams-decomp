@@ -34,13 +34,13 @@ typedef struct {
 #define PACKED_AT(p, o) (((PackedWord *)((u8 *)(p) + (o)))->value)
 
 extern void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound);
-extern void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
+extern void dungeonProcessEntriesAtCoordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound);
 
 
 extern s16 D_8002992C;
 
 /* Updates an owner-following effect or its fade, wait, and rising phases. */
-void func_80025800(void *effect_in, void *position_in, void *visual_in)
+void dungeonUpdateOwnerFollowingEffect(void *effect_in, void *position_in, void *visual_in)
 {
     LocalPoints offsets;
     u8 *copy_src;
@@ -89,9 +89,9 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
                 S16_AT(effect_in, 0x3A) = 0;
                 S16_AT(effect_in, 0x38) = 1;
                 S16_AT(effect_in, 0x34) = 1;
-                func_80026060(visual_in, (u8 *)effect_in + 0x34,
+                dungeonResolveAndStepEntryIndex(visual_in, (u8 *)effect_in + 0x34,
                               S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
-                func_80025FB0(effect_in, S32_AT(visual_in, 0));
+                dungeonCopyAndExpandEffectRecord(effect_in, S32_AT(visual_in, 0));
                 break;
             }
             U16_AT(effect_in, 0x30) = 0;
@@ -105,9 +105,9 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
                 S16_AT(effect_in, 0x3A) = state;
                 S16_AT(effect_in, 0x38) = 0xF;
                 S16_AT(effect_in, 0x34) = state;
-                func_80026060(visual_in, (u8 *)effect_in + 0x34,
+                dungeonResolveAndStepEntryIndex(visual_in, (u8 *)effect_in + 0x34,
                               S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
-                func_80025FB0(effect_in, S32_AT(visual_in, 0));
+                dungeonCopyAndExpandEffectRecord(effect_in, S32_AT(visual_in, 0));
             }
             if (S16_AT(((u8 *)D_800814A8), 0x96) == 0) {
                 U16_AT(effect_in, 0x30) = 0;
@@ -153,7 +153,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
                     point_offset = column * sizeof(LocalPoint) +
                                    row * 3 * sizeof(LocalPoint);
                     point = (LocalPoint *)((u8 *)&offsets + point_offset);
-                    func_80025710(world,
+                    dungeonProcessEntriesAtCoordinates(world,
                                   (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
                                   (tile_y = base_y + point->y),
                                   S16_AT(position_in, 0xA),
@@ -194,8 +194,8 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
         flags |= 0xC;
         U16_AT(visual_in, 0x14) = flags;
         S16_AT(visual_in, 0x10) = half_tile;
-        func_8002612C(visual_in, S8_AT(owner_visual, 4));
-        func_80025FB0(effect_in, S32_AT(visual_in, 0));
+        dungeonSetMeshEntryAddress(visual_in, S8_AT(owner_visual, 4));
+        dungeonCopyAndExpandEffectRecord(effect_in, S32_AT(visual_in, 0));
         U16_AT(visual_in, 0x1C) = U16_AT(owner_visual, 0x1C);
         U16_AT(visual_in, 0x1E) = U16_AT(owner_visual, 0x1E);
         U16_AT(visual_in, 0x20) = U16_AT(owner_visual, 0x20);

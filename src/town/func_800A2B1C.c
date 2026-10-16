@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
-s32 func_8004A658();                          /* extern */
-void func_8008F0D4();   /* extern */
-void func_8009B218(); /* extern */
-void func_800A022C(); /* extern */
+s32 lookupItemCategoryMappedValue();                          /* extern */
+void townConfigureTheSetModeN4();   /* extern */
+void townInitializeOptionalObjectState(); /* extern */
+void townInitializeTheActiveFlagInstallHandler(); /* extern */
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_8009DEBC;
 extern M2C_UNK D_800D073C;
@@ -19,7 +19,7 @@ typedef struct S_800A027C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800A027C_0;   /* temp_v0 in func_800A027C */
+} S_800A027C_0;   /* temp_v0 in townCreateAnPositionInitializesGraphicsState */
 
 typedef struct S_800A027C_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800A027C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A027C_1;   /* temp_s2 in func_800A027C */
+} S_800A027C_1;   /* temp_s2 in townCreateAnPositionInitializesGraphicsState */
 
 typedef struct S_800A027C_2 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800A027C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A027C_2;   /* arg1 in func_800A027C */
+} S_800A027C_2;   /* arg1 in townCreateAnPositionInitializesGraphicsState */
 
 typedef struct S_800A027C_3 {
     u8 pad_00[0x8];
@@ -46,7 +46,7 @@ typedef struct S_800A027C_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A027C_3;   /* temp_s1 in func_800A027C */
+} S_800A027C_3;   /* temp_s1 in townCreateAnPositionInitializesGraphicsState */
 
 typedef struct S_800A027C_4 {
     u8 pad_00[0xC];
@@ -61,17 +61,17 @@ typedef struct S_800A027C_4 {
     s8 unk_93;
     u8 pad_94[0x4];
     s32 unk_98;
-} S_800A027C_4;   /* temp_s0 in func_800A027C */
+} S_800A027C_4;   /* temp_s0 in townCreateAnPositionInitializesGraphicsState */
 
 typedef struct S_800A027C_5 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800A027C_5;   /* arg0 in func_800A027C */
+} S_800A027C_5;   /* arg0 in townCreateAnPositionInitializesGraphicsState */
 
 /* Creates an object at the supplied position and initializes its graphics and state. */
-void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
+void *townCreateAnPositionInitializesGraphicsState(S_800A027C_5 *config, S_800A027C_2 *position) {
     u8 type;
     S_800A027C_4 *state;
     S_800A027C_3 *render;
@@ -98,8 +98,8 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
     state->unk_4D = (u8) config->unk_01;
     state->unk_4E = (u8) config->unk_02;
     state->unk_4F = (u8) config->unk_03;
-    func_8008F0D4(state, coords, &D_800D073C);
-    func_8009B218(state, coords, render, &D_800D076C);
+    townConfigureTheSetModeN4(state, coords, &D_800D073C);
+    townInitializeOptionalObjectState(state, coords, render, &D_800D076C);
     type = state->unk_4D;
     if (type == 0x12) {
         state->unk_0C = &D_800D0754;
@@ -107,10 +107,10 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
     if (type == 0x12 && type == state->unk_4D) {
         render->unk_08 = (s32) &D_8006E240;
     } else {
-        render->unk_08 = func_8004A658(state->unk_4D, state->unk_4C);
+        render->unk_08 = lookupItemCategoryMappedValue(state->unk_4D, state->unk_4C);
     }
     ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
-    func_800A022C(state, state, coords, render);
+    townInitializeTheActiveFlagInstallHandler(state, state, coords, render);
 
     return object;
 }

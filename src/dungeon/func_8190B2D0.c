@@ -202,7 +202,7 @@ typedef struct S_func_8190B2D0_9 {
 } S_func_8190B2D0_9;
 
 /* Updates a moving effect, its target animation, and cleanup state. */
-void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
+void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
     s16 start_offset[3];
     Rect capture_rect;
@@ -347,7 +347,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
             s32 particle_shade;
             s32 random_bits = func_80069EF8();
             particle_shade = (random_bits & 0xFF) | 0x80;
-            func_80024470((u8 *)effect - 32, effect->unk_7E.s16,
+            dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
         } while ((s32)particle_index < 4);
@@ -446,7 +446,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
                 ((S_func_8190B2D0_7 *)child_data)->unk_2C = owner;
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
-                motion_or_child->unk_10.ptr = func_800246B4;
+                motion_or_child->unk_10.ptr = dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder;
                 func_8004491C(child_object, (s32)func_80045340);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->unk_10 = 32;

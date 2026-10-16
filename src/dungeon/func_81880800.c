@@ -13,9 +13,9 @@ extern int abs(int);
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 
-extern void func_800B835C(void *, s32 *, s32, s32);
+extern void dungeonDrawTexturedEllipse(void *, s32 *, s32, s32);
 extern s16 set_item_w0(u8, u8, u8, u8);
-extern s32 func_800A45D8(s32, s32, s16);
+extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s16);
 
 
 
@@ -67,7 +67,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(self, u16, 0x1A) = (F(owner, u16, 0x2A) >> 9) & 7;
         texture_init[0] = texture_flags;
         texture_init[1] = texture_size;
-        func_800B835C(D_800257D0, texture_init, 1, 0);
+        dungeonDrawTexturedEllipse(D_800257D0, texture_init, 1, 0);
         F(self, u16, 0xA)++;
 
     case 1:
@@ -212,7 +212,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         z_delta >>= 3;
         z_pos += z_delta;
         F(motion, s32, 8) = z_pos;
-        func_80025654(motion, part);
+        dungeonCreateEffectFromEndpoints(motion, part);
 
         coord = F(motion, s16, 2);
         if (coord < 0) {
@@ -256,7 +256,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(self, u8, 0x23) = target;
         if (z_pos != 0) {
             cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
-            height_result = func_800A45D8(
+            height_result = dungeonCheckLeftTileAndCenterHeight(
                 cell_center_x,
                 (((s32)F(self, s8, 0x21) << 6) + 0x20) & 0xFFE0,
                 F(motion, s16, 0x0A));
@@ -270,7 +270,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
     case 3:
         spawn_target = F(owner, void *, 0x60);
         spawn_height = F(spawn_target, s16, 0x88);
-        F(self, void *, 0x0C) = func_80024968((s32)self, motion, spawn_height, (s32)spawn_target);
+        F(self, void *, 0x0C) = dungeonCreateInitializedEffectObject((s32)self, motion, spawn_height, (s32)spawn_target);
         if (F(self, void *, 0x0C) == 0) {
             break;
         }
@@ -286,7 +286,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         }
         target = F(owner, void *, 0x60);
         if (target != 0) {
-            func_80025760(target, F(self, u8, 9), owner);
+            dungeonApplyIndexedEffectCondition(target, F(self, u8, 9), owner);
         }
         F(self, u16, 0x0A) = 0x11;
         break;
@@ -306,7 +306,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(part, u8, 0x0C) = red - (red >> 1);
         F(part, u8, 0x0D) = green - (green >> 1);
         F(part, u8, 0x0E) = blue - (blue >> 1);
-        func_80025654(motion, part);
+        dungeonCreateEffectFromEndpoints(motion, part);
         if (F(part, u8, 0x0C) >= 2) {
             break;
         }

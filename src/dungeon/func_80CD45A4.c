@@ -1,0 +1,32 @@
+/* Relink of matched dungeon/func_80CC25A4; every changed retail word is a paired relocation. */
+#define D_80176440 D_80164440
+#define D_80176455 D_80164455
+#include "shared/game_work.h"
+
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef int s32;
+extern s32 func_800990FC(void);
+extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 func_80099734(void *record, u8 *out);
+extern void func_80099290(s8 *byte_ptr);
+extern void func_800A5720(s8 *text);
+extern u8 D_80164440[9];
+extern u8 D_80164455[9];
+/* Builds and displays a message containing the record's name between fixed text. */
+void func_80163DA4(s32 record, s32 unused_1, s32 unused_2, s32 unused_3)
+{
+    s32 text_arg;
+    s32 message;
+    unsigned int cursor;
+
+    text_arg = func_800990FC();
+    message = text_arg;
+    cursor = func_80099194(D_80164440, message);
+    text_arg = record;
+    func_80099290(func_80099194(D_80164455, func_80099734(text_arg, cursor)));
+    func_800A5720(message);
+}

@@ -10,7 +10,7 @@ typedef struct S_800A2A18_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A2A18_1;   /* arg0 in func_800A2A18 */
+} S_800A2A18_1;   /* arg0 in townTestThreeAxisBoxOverlap */
 
 typedef struct S_800A2A18_2 {
     s32 unk_00;
@@ -19,13 +19,13 @@ typedef struct S_800A2A18_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A2A18_2;   /* D_80100D20 in func_800A2A18 */
+} S_800A2A18_2;   /* D_80100D20 in townTestThreeAxisBoxOverlap */
 
 
 extern S_800A2A18_2 *D_80100D20;
 
 /* Tests whether the offset box overlaps the active collision box on all three axes. */
-s32 func_800A2A18(S_800A2A18_1 *box, Rec_func_80021E88_arg1 *offset) {
+s32 townTestThreeAxisBoxOverlap(S_800A2A18_1 *box, Rec_func_80021E88_arg1 *offset) {
     s32 other_z;
     s32 box_z;
     s32 other_x;

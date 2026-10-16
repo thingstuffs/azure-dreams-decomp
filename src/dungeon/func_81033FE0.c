@@ -14,18 +14,18 @@ typedef struct {
 typedef s32 M2C_UNK;
 
 extern void func_8003DB94(void *, void *, s32);
-extern s32 func_8003DE58(void *, void *, void *, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern void func_800A2B04(void *, s32, s32);
-extern s16 func_800A45D8(u16, u16, s16);
+extern void getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern s16 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_80174A00(void *, u16, u16, s16);
-extern void func_80175494(void *, void *, void *);
+extern void dungeonCreateFacingOffsetObject(void *, void *, void *);
 
 extern M2C_UNK D_800DE870;
 extern u8 D_80170B48[];
@@ -38,7 +38,7 @@ extern Pair16 D_8017610C[];
 typedef struct S_801757E0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801757E0_0_pre;   /* the 0x14 bytes before arg0 in func_801757E0, addressed as arg0[-1] */
+} S_801757E0_0_pre;   /* the 0x14 bytes before arg0 in dungeonUpdateActionAndCheckForwardTile, addressed as arg0[-1] */
 
 typedef struct S_801757E0_0 {
     u8 pad_00[0x8C];
@@ -50,7 +50,7 @@ typedef struct S_801757E0_0 {
     u8 pad_9C[0x10];
     union { u8 u; s8 s; } unk_AC;   /* accessed as both */
     union { u8 u; s8 s; } unk_AD;   /* accessed as both */
-} S_801757E0_0;   /* arg0 in func_801757E0 */
+} S_801757E0_0;   /* arg0 in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_1 {
     u8 pad_00[0x4];
@@ -62,7 +62,7 @@ typedef struct S_801757E0_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { void * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_801757E0_1;   /* arg2 in func_801757E0 */
+} S_801757E0_1;   /* arg2 in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_2 {
     u8 pad_00[0x2];
@@ -74,7 +74,7 @@ typedef struct S_801757E0_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801757E0_2;   /* arg1 in func_801757E0 */
+} S_801757E0_2;   /* arg1 in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_3 {
     u8 pad_00[0x1E];
@@ -85,14 +85,14 @@ typedef struct S_801757E0_3 {
     s32 unk_58;
     u8 pad_5C[0x8];
     s32 unk_64;
-} S_801757E0_3;   /* work in func_801757E0 */
+} S_801757E0_3;   /* work in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801757E0_4;   /* object in func_801757E0 */
+} S_801757E0_4;   /* object in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_5 {
     u8 pad_00[0xC];
@@ -106,12 +106,12 @@ typedef struct S_801757E0_5 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_801757E0_5;   /* display in func_801757E0 */
+} S_801757E0_5;   /* display in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801757E0_6;   /* owner in func_801757E0 */
+} S_801757E0_6;   /* owner in dungeonUpdateActionAndCheckForwardTile */
 
 typedef struct S_801757E0_7 {
     u8 pad_00[0x2];
@@ -120,10 +120,10 @@ typedef struct S_801757E0_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801757E0_7;   /* transform in func_801757E0 */
+} S_801757E0_7;   /* transform in dungeonUpdateActionAndCheckForwardTile */
 
 /* Update the action sequence, spawning particles and checking the tile ahead. */
-void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity)
+void dungeonUpdateActionAndCheckForwardTile(void *actor, void *motion, void *animation, EntityRec *entity)
 {
     u16 offsets[3];
     u16 collision_flags;
@@ -179,7 +179,7 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
 
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = ((S_801757E0_4 *)particle)->unk_08;
-                if (func_8003DE58(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
+                if (resolveRecordOrientationOrFallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
                     ((S_801757E0_7 *)particle_transform)->unk_02 = ((S_801757E0_2 *)motion)->unk_02.u;
                     ((S_801757E0_7 *)particle_transform)->unk_06 = ((S_801757E0_2 *)motion)->unk_06.u;
                     ((S_801757E0_7 *)particle_transform)->unk_0A = ((S_801757E0_2 *)motion)->unk_0A.u;
@@ -245,12 +245,12 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
             target_x = (u16)x;
             target_y = (u16)y;
 
-            if ((s16)func_800A45D8(target_x, target_y,
+            if ((s16)dungeonCheckLeftTileAndCenterHeight(target_x, target_y,
                                    ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
                 ((S_801757E0_0 *)actor)->unk_AD.s = 1;
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-                func_8009A350(((S_801757E0_1 *)animation)->unk_24,
+                getOffsetMapCellValueAndFlags(((S_801757E0_1 *)animation)->unk_24,
                               ((S_801757E0_1 *)animation)->unk_25,
                               (((u16)entity->facing) >> 9) & 7,
                               &collision_flags);
@@ -278,7 +278,7 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-                func_80175494(actor, motion, animation);
+                dungeonCreateFacingOffsetObject(actor, motion, animation);
             }
         }
         if (!(((S_801757E0_1 *)animation)->unk_14 & 0xE000)) {
@@ -287,7 +287,7 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
         ((S_801757E0_2 *)motion)->unk_14 = 0;
         ((S_801757E0_2 *)motion)->unk_10 = 0;
         ((S_801757E0_2 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((S_801757E0_1 *)animation)->unk_24, ((S_801757E0_1 *)animation)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_801757E0_1 *)animation)->unk_24, ((S_801757E0_1 *)animation)->unk_25);
 
         if (((S_801757E0_1 *)animation)->unk_2C.p != D_8017609C) {
             ((S_801757E0_1 *)animation)->unk_2C.p = D_8017609C;
@@ -395,7 +395,7 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
         return;
 
     case 9:
-        func_800AD594(entity, 0x800);
+        dungeonReduceActorFoodMeter(entity, 0x800);
         ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
         dungeonStatus.unk_0C = 0;
         (entity->unk_46) &= 0x7FFF;

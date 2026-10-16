@@ -9,9 +9,9 @@ typedef struct S_8008CFE8_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8008CFE8_0;   /* arg0 in func_8008CFE8 */
+} S_8008CFE8_0;   /* arg0 in townEvaluateSurfaceComponentsA */
 
 /* Evaluate the three signed components stored in the input record. */
-s16 func_8008CFE8(S_8008CFE8_0 *components) {
-    return func_8008DFB4(components->unk_02, components->unk_06, components->unk_0A);
+s16 townEvaluateSurfaceComponentsA(S_8008CFE8_0 *components) {
+    return townFindGreatestCellIntersection(components->unk_02, components->unk_06, components->unk_0A);
 }

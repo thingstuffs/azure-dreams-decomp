@@ -8,7 +8,7 @@ typedef struct S_800B1BEC_0 {
     void * unk_0C;
     u8 pad_10[0x34];
     void * unk_44;
-} S_800B1BEC_0;   /* part in func_800B1BEC */
+} S_800B1BEC_0;   /* part in townCreateDualBufferObject */
 
 typedef struct S_800B1BEC_1 {
     u8 pad_00[0xC];
@@ -16,21 +16,21 @@ typedef struct S_800B1BEC_1 {
     void * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
-} S_800B1BEC_1;   /* object in func_800B1BEC */
+} S_800B1BEC_1;   /* object in townCreateDualBufferObject */
 
 
 extern void *func_8004B404(s32);
 extern void func_8004B1A4(void *);
-extern void func_800B1B70(void *);
-extern void *func_800B1938(void *);
+extern void townInitializeFourAnchoredNodes(void *);
+extern void *townProcessContextWithSelector4(void *);
 extern void func_800B1B10(void *, s32, s32, s32);
 extern void func_8004491C(void *, void *);
-extern void func_800B1890(void);
+extern void townLowerValueTowardTarget(void);
 
 extern u8 D_8004CAA0[];
 
 /* Create an object with two buffers and initialize its state and position. */
-void *func_800B1BEC(s32 setup_value, s32 x, s32 y)
+void *townCreateDualBufferObject(s32 setup_value, s32 x, s32 y)
 {
     void *object;
     S_800B1BEC_0 *part;
@@ -47,11 +47,11 @@ void *func_800B1BEC(s32 setup_value, s32 x, s32 y)
 
         if (part->unk_08 != 0 && second_buffer != 0) {
             ((S_800B1BEC_1 *)object)->unk_0C = (u8 *)object + 0x58;
-            func_800B1B70(part);
-            part->unk_44 = func_800B1938((u8 *)object + 0x68);
+            townInitializeFourAnchoredNodes(part);
+            part->unk_44 = townProcessContextWithSelector4((u8 *)object + 0x68);
             func_800B1B10(part, setup_value, x, y);
             func_8004491C(object, D_8004CAA0);
-            ((S_800B1BEC_1 *)object)->unk_10 = func_800B1890;
+            ((S_800B1BEC_1 *)object)->unk_10 = townLowerValueTowardTarget;
         } else {
             func_8004B1A4(part->unk_08);
             func_8004B1A4(part->unk_0C);

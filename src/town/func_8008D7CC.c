@@ -3,7 +3,7 @@
 extern u32 *D_801131EC[3];
 
 /* Look up a value by three packed key fields in the zero-value-terminated table. */
-s32 func_8008AF2C(s32 flag_bit, s32 high_key, s32 low_key) {
+s32 townFindPackedResourceDescriptor(s32 flag_bit, s32 high_key, s32 low_key) {
     u32 *flags;
     u32 *value;
     u32 bits;

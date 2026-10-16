@@ -14,7 +14,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
     if (creature->tileY == 0) {
         void *animation_table;
 
-        func_800AA79C(actor, actor_context, map_object, creature);
+        dungeonAdvanceActorPendingAction(actor, actor_context, map_object, creature);
         if (((R16_80171014_S_80171014_2 *)map_object)->unk_2C == ((u8 *)D_8017425C)) {
             return;
         }
@@ -34,14 +34,14 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
             creature->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (func_800AA924(actor, actor_context, map_object, ((u8 *)D_80174254)) != 0) {
+        if (dungeonResetActorActionState(actor, actor_context, map_object, ((u8 *)D_80174254)) != 0) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (((u32)creature->flags1C) & 0x100) {
-            func_800AA258(actor, actor_context, map_object, creature);
+            dungeonBeginPushedActorMove(actor, actor_context, map_object, creature);
             return;
         }
 
@@ -71,7 +71,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
         ((R16_80171014_S_80171014_0 *)actor)->unk_98 &= 0xFFF7;
 
         if (creature->unk_64 != 0) {
-            if (func_800AA6B4(actor, actor_context, map_object, ((u8 *)D_8017421C)) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, actor_context, map_object, ((u8 *)D_8017421C)) != 0) {
                 return;
             }
         }
@@ -89,7 +89,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
         }
 
         if ((func_800A1C58(creature) << 16) != 0) {
-            if ((func_800AAB10(actor, actor_context, map_object, creature) << 16) != 0) {
+            if ((dungeonProcessSelectedActorRecord(actor, actor_context, map_object, creature) << 16) != 0) {
                 func_80173AE8(actor, actor_context, map_object, creature);
                 return;
             }
@@ -107,7 +107,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
         if (((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tileX)) {
             if (!(creature->unk_46 & 0x8000)) {
                 if (dungeonStatus.flags & 0x2000) {
-                    if ((func_8009A180(creature,
+                    if ((dungeonCheckEntityRelation(creature,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                         return;
                     }
@@ -125,10 +125,10 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
 
                 case 7:
                 case 8:
-                    if ((func_80171ECC(actor, actor_context, map_object, creature) << 16) != 0) {
+                    if ((dungeonInitializeTransitionAction(actor, actor_context, map_object, creature) << 16) != 0) {
                         return;
                     }
-                    func_80172090(actor, actor_context, map_object, creature);
+                    dungeonBeginEligibleActorAction(actor, actor_context, map_object, creature);
                     return;
 
                 case 4:
@@ -138,12 +138,12 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
                         EntityRec *player;
                         s16 facing_angle;
 
-                        facing_angle = ((s16)func_800A0818((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        facing_angle = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                             &distance));
                         player = D_800814A8;
                         creature->facing = facing_angle;
                         if (player->unk_9A == 0x11) {
-                            func_800AAF00(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)func_80171014));
+                            dungeonBeginActorSpellAction(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)func_80171014));
                             return;
                         }
                     }
@@ -155,7 +155,7 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
                 case 0:
                 case 1:
                 case 2:
-                    func_800AAF00(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)func_80171014));
+                    dungeonBeginActorSpellAction(actor, actor_context, map_object, ((u8 *)D_8017424C), ((u8 *)func_80171014));
                     return;
 
                 case 3:
@@ -177,10 +177,10 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
             !(D_800E2970[room_index].flags & 2)) {
             if (!(((u32)creature->flags1C) & 0x430)) {
 
-                if ((func_8009FD7C(
+                if ((dungeonCompareMonsterNeighborValues(
                     ((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v, ((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v,
                     D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    creature->facing = ((s16)func_800A0818((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    creature->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00.v),(s16)(((R16_80171014_S_80171014_2 *)map_object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                         &distance));
                 }
             }

@@ -9,7 +9,7 @@ typedef struct S_801588E8_0 {
     s16 unk_98;
     u8 pad_9A[0x12];
     s16 unk_AC;
-} S_801588E8_0;   /* arg0 in func_801588E8; pointer addresses record offset 0x2 */
+} S_801588E8_0;   /* arg0 in applyCountdownScaledColorIntensity; pointer addresses record offset 0x2 */
 
 
 #define M2C_BREAK() ((void)0)
@@ -17,7 +17,7 @@ typedef struct S_801588E8_0 {
 
 
 /* Apply countdown-scaled intensity, decrement the timer, and flag completion at zero. */
-void func_801588E8(void *record_data, void *unused, Rec_D_80082E80 *color) {
+void applyCountdownScaledColorIntensity(void *record_data, void *unused, Rec_D_80082E80 *color) {
     s16 ticks_left;
     s32 intensity;
 

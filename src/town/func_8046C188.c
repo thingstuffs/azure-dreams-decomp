@@ -5,13 +5,13 @@
 typedef struct S_8001D188_3 {
     u8 pad_00[0x6000];
     Rec_D_80016000 *unk_6000;
-} S_8001D188_3;   /* page in func_8001D188 */
+} S_8001D188_3;   /* page in townPrependEntryToGroupHistory */
 
 
 typedef struct S_8001D188_0 {
     u8 pad_00[0x6000];
     Rec_D_80016000 *unk_6000;
-} S_8001D188_0;   /* page in func_8001D188 */
+} S_8001D188_0;   /* page in townPrependEntryToGroupHistory */
 
 typedef struct S_8001D188_1 {
     u8 pad_00[0x24];
@@ -20,16 +20,16 @@ typedef struct S_8001D188_1 {
     void * unk_6C;
     u8 pad_70[0x17C];
     s16 * unk_1EC;
-} S_8001D188_1;   /* cursor in func_8001D188 */
+} S_8001D188_1;   /* cursor in townPrependEntryToGroupHistory */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_8001D414(void);
+extern s32 townQueryPriorityEventState(void);
 extern s8 D_8001902C[];
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */
-void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
+void townPrependEntryToGroupHistory(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
     s32 group_id;
     s32 state_base;
     s32 variant;
@@ -51,7 +51,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     } while (0);
     state_base = (s32)((S_8001D188_3 *)page)->unk_6000->unk_38;
     entry_id = entry_index;
-    variant = func_8001D414();
+    variant = townQueryPriorityEventState();
     cursor = ((S_8001D188_0 *)page)->unk_6000;
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;

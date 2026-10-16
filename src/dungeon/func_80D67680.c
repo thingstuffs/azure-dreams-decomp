@@ -11,17 +11,17 @@ typedef struct Ent Ent;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784();
-Ent *func_8009C93C();
-s32 func_800A0134();
-s32 func_800A04F0();
+Ent *dungeonPrepareDirectionalAttack();
+s32 dungeonGetActorHeightDifference();
+s32 dungeonPlaceActorAtDirectionalNeighbor();
 s32 func_800A2B5C();
 s32 func_800A2CB8();
-s32 func_800C7930();
+s32 dungeonApplyCameraOffsetAndSelectTarget();
 
 extern u8 D_800E2378;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
-s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *actor) {
+s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, void *sprite, void *actor) {
     s32 result;
     s32 action_ready;
     s32 direction;
@@ -34,7 +34,7 @@ s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *acto
         return -1;
     }
 
-    direction = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    direction = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                          ((Rec_D_80082E80 *)sprite)->unk_25,
                          ((EntityRec *)actor)->facing);
     result = 0;
@@ -53,7 +53,7 @@ s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *acto
         }
     }
 
-    if ((u16)((0 - func_800A0134(direction, actor)) + 0x40) >= 0x81U) {
+    if ((u16)((0 - dungeonGetActorHeightDifference(direction, actor)) + 0x40) >= 0x81U) {
         return action_ready;
     }
 
@@ -67,7 +67,7 @@ s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *acto
         return -1;
     }
 
-    func_800C7930((s8 *)actor - 0x20, action_param, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((s8 *)actor - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
@@ -87,7 +87,7 @@ s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *acto
                       anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                       0);
         ((EntityRec *)actor)->unk_6D--;
-        func_8009C93C(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
+        dungeonPrepareDirectionalAttack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     }
     return result;
 }

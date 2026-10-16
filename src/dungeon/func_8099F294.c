@@ -5,18 +5,18 @@
 
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
-extern void func_80047738(void *, s32, s32);
+extern void selectIndirectTableEntry(void *, s32, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
 extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
-void func_80170A94(void *actor, void *motion, void *sprite)
+void dungeonUpdateActorCallbacksAndGround(void *actor, void *motion, void *sprite)
 {
     void *entry_actor = actor;
     s16 direction_index;
@@ -48,7 +48,7 @@ void func_80170A94(void *actor, void *motion, void *sprite)
         }
     }
     old_state = (s8) (*((u8 *) (((u8 *) actor) + 0x6D)));
-    if (func_800A9E70(actor, motion, sprite, actor) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, sprite, actor) != 0) {
         return;
     }
     if ((*((ActorCallback *) (((u8 *) actor) + 0x8C))) != 0) {
@@ -72,7 +72,7 @@ void func_80170A94(void *actor, void *motion, void *sprite)
     bob_step = view_direction & 7;
     direction_index = bob_step;
     if ((*((s16 *) (((u8 *) actor) + 0x94))) != direction_index) {
-        func_80047738(sprite, *((u8 *) ((*((u8 **) (((u8 *) sprite) + 0x2C))) + direction_index)),
+        selectIndirectTableEntry(sprite, *((u8 *) ((*((u8 **) (((u8 *) sprite) + 0x2C))) + direction_index)),
             *((s8 *) (((u8 *) sprite) + 4)));
         *((s16 *) (((u8 *) actor) + 0x94)) = bob_step;
     }
@@ -89,7 +89,7 @@ void func_80170A94(void *actor, void *motion, void *sprite)
     physics_flags = anim_flags & 0x8000;
     switch (physics_flags) {
     case 0:
-        func_800A020C(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
+        dungeonApplyMonsterKoyawData(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
         if (!((*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x20)) {
             if (!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) {
                 func_800478B8(sprite);

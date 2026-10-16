@@ -14,16 +14,16 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_801708B8(void *, void *, void *);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void createOwnerLinkedDirectionalObject(void *, void *, void *);
 
 extern u8 D_800D58D8[];
 extern s8 D_800DCECC[];
@@ -44,12 +44,12 @@ typedef struct S_80173A60_0 {
     u8 unk_9B;
     u8 pad_9C[0x14];
     u8 unk_B0;
-} S_80173A60_0;   /* arg0 in func_80173A60 */
+} S_80173A60_0;   /* arg0 in dungeonAdvanceActorItemAction */
 
 typedef struct S_80173A60_1_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_80173A60_1_pre;   /* the 0x14 bytes before active in func_80173A60, addressed as active[-1] */
+} S_80173A60_1_pre;   /* the 0x14 bytes before active in dungeonAdvanceActorItemAction, addressed as active[-1] */
 
 
 typedef struct S_80173A60_4 {
@@ -60,14 +60,14 @@ typedef struct S_80173A60_4 {
     u16 unk_96;
     u8 pad_98[0x14];
     void * unk_AC;
-} S_80173A60_4;   /* state in func_80173A60 */
+} S_80173A60_4;   /* state in dungeonAdvanceActorItemAction */
 
 typedef struct S_80173A60_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_80173A60_5;   /* object in func_80173A60 */
+} S_80173A60_5;   /* object in dungeonAdvanceActorItemAction */
 
 typedef struct S_80173A60_6 {
     u8 pad_00[0x6];
@@ -83,7 +83,7 @@ typedef struct S_80173A60_6 {
     u16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_80173A60_6;   /* copy in func_80173A60 */
+} S_80173A60_6;   /* copy in dungeonAdvanceActorItemAction */
 
 typedef struct S_80173A60_8 {
     u8 pad_00[0x2];
@@ -92,16 +92,16 @@ typedef struct S_80173A60_8 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80173A60_8;   /* target in func_80173A60 */
+} S_80173A60_8;   /* target in dungeonAdvanceActorItemAction */
 
 typedef struct S_80173A60_9 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_80173A60_9;   /* global in func_80173A60 */
+} S_80173A60_9;   /* global in dungeonAdvanceActorItemAction */
 
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */
-void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *actor)
+void dungeonAdvanceActorItemAction(void *actor_state, EntityRec *motion, void *sprite, void *actor)
 {
     s16 use_player;
     u8 *item_id;
@@ -180,7 +180,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
                 s32 offset_y;
 
                 s32 abs_x;
-                offset_x = (s32)func_800A05A4(actor,
+                offset_x = (s32)dungeonScanMonsterAlongHeading(actor,
                                        ((Rec_D_80082E80 *)sprite)->unk_24,
                                        ((Rec_D_80082E80 *)sprite)->unk_25,
                                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
@@ -191,7 +191,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
                 (*(u8 *)((u8 *)actor + 0x73)) = offset_y;
             }
 
-            if (func_800A94A0(actor, item_id, use_player,
+            if (dungeonCreateActorSpellEffect(actor, item_id, use_player,
                               (u16 *)((u8 *)actor_state + 0x98)) == 0) {
                 return;
             }
@@ -203,10 +203,10 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_80173A60_0 *)actor_state)->unk_8C = D_80171A80;
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
@@ -215,7 +215,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
             return;
         }
@@ -288,7 +288,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
             direction_index = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(sprite, anim_table[direction_index], 3);
             if (((S_80173A60_0 *)actor_state)->unk_B0 == 0) {
-                func_801708B8(actor_state, motion, sprite);
+                createOwnerLinkedDirectionalObject(actor_state, motion, sprite);
             }
         }
 
@@ -320,7 +320,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
         }
         ((S_80173A60_9 *)action_status)->unk_0A--;
         ((S_80173A60_0 *)actor_state)->unk_8C = D_80171A80;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u8 *)((u8 *)actor + 0x6D))--;

@@ -8,16 +8,16 @@ typedef s32 (*TownCallback)(void *, void *, s32);
 typedef struct S_8001A044_0 {
     u8 pad_00[0x6000];
     void * unk_6000;
-} S_8001A044_0;   /* page in func_8001A044 */
+} S_8001A044_0;   /* page in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_1 {
     void * unk_00;
-} S_8001A044_1;   /* l1_v0 in func_8001A044 */
+} S_8001A044_1;   /* l1_v0 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8001A044_2;   /* l1_v1 in func_8001A044 */
+} S_8001A044_2;   /* l1_v1 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_3 {
     s32 unk_00;
@@ -25,46 +25,46 @@ typedef struct S_8001A044_3 {
     s32 unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_8001A044_3;   /* temp_s0 in func_8001A044 */
+} S_8001A044_3;   /* temp_s0 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_4 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_8001A044_4;   /* temp_v0_2_ptr in func_8001A044 */
+} S_8001A044_4;   /* temp_v0_2_ptr in townBuildObjectSetAndSelectLists */
 
 
 typedef struct S_8001A044_6 {
     u8 pad_00[0x6000];
     void * unk_6000;
-} S_8001A044_6;   /* page2 in func_8001A044 */
+} S_8001A044_6;   /* page2 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_7 {
     union { void * p; s32 i; } unk_00;   /* accessed as both */
     s32 unk_04;
-} S_8001A044_7;   /* temp_v0_4 in func_8001A044 */
+} S_8001A044_7;   /* temp_v0_4 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_8 {
     u8 pad_00[0x18];
     s32 * unk_18;
-} S_8001A044_8;   /* temp_v0_3 in func_8001A044 */
+} S_8001A044_8;   /* temp_v0_3 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_9 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8001A044_9;   /* var_v1 in func_8001A044 */
+} S_8001A044_9;   /* var_v1 in townBuildObjectSetAndSelectLists */
 
 typedef struct S_8001A044_11 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_8001A044_11;   /* (temp_v0_2 * 0x10) +
-                                    (u8 *)((S_8001A044_3 *)temp_s0)->unk_10 in func_8001A044 */
+                                    (u8 *)((S_8001A044_3 *)temp_s0)->unk_10 in townBuildObjectSetAndSelectLists */
 
 
-extern void *func_800196E4(void *, void *);
-extern void *func_8001976C(void *, void *, s32, s32);
-extern s32 func_80019F94(void *, s32);
+extern void *townFindMaskedRecordAndInitialize(void *, void *);
+extern void *townPopulateAndDispatchEntryRecords(void *, void *, s32, s32);
+extern s32 townFindEligibleEntry(void *, s32);
 
 extern u8 D_80016094[];
 extern u8 D_800160A0[];
@@ -73,7 +73,7 @@ extern u8 D_800160FC[];
 extern u8 D_8001DC10[];
 
 /* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
-void func_8001A044(s32 *records, void *ost_w, void *osel_w)
+void townBuildObjectSetAndSelectLists(s32 *records, void *ost_w, void *osel_w)
 {
     register u8 *cd_header_entry;
     s32 *pp;
@@ -124,16 +124,16 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                     record = (void *)((u32)(record_index * 0x1C) + (u32)records);
                     if (record->unk_08 != 0) {
                         ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
-                        variant_index = func_80019F94(record, group_bits);
+                        variant_index = townFindEligibleEntry(record, group_bits);
                         updated_flags = (record->unk_00 & ~0xFF) |
                                    (variant_index & 0xFF);
                         record->unk_00 = updated_flags;
-                        next_object_set = func_8001976C(p,
+                        next_object_set = townPopulateAndDispatchEntryRecords(p,
                               (void *)((S_8001A044_11 *)((variant_index * 0x10) +
                                             (u8 *)record->unk_10))->unk_08,
                               updated_flags, record_index);
                         if ((next_object_set - 0x14) != p) {
-                            func_800196E4(D_8001DC10, record);
+                            townFindMaskedRecordAndInitialize(D_8001DC10, record);
                             record->unk_04 = p;
                             p = next_object_set;
                         }
@@ -141,7 +141,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                         direct_record = (void *)((u32)(record_index * 0x1C) +
                                                  (u32)records);
                         direct_record->unk_04 = p;
-                        p = func_8001976C(p,
+                        p = townPopulateAndDispatchEntryRecords(p,
                             (void *)direct_record->unk_10, 0, record_index);
                     }
                 }

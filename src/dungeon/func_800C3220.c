@@ -10,7 +10,7 @@ extern s32 func_800A6D30(void);
 extern s32 func_800C8484(State *);
 
 /* Roll the state's chance and, on a hit, apply effect 4 to it. */
-s32 func_800C8980(State *state, s16 value, s8 flag) {
+s32 dungeonRollChanceAndApplyEffectFour(State *state, s16 value, s8 flag) {
     s32 roll;
     u16 chance;
 

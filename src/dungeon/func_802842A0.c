@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_800172A0(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
+void dungeonInitializeRandomEffectPosition(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
     s16 state_offset;
     s16 position_x;
     s16 position_y;

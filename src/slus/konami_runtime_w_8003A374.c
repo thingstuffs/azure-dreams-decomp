@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A374State;
 
 /* Store a VM table word at the address held in a byte selected by an immediate word offset. */
-void func_8003A374(Func8003A374State *state) {
+void handleVmOpcode78(Func8003A374State *state) {
     u8 *cursor;
     u32 source_entry;
     u32 dest_offset;

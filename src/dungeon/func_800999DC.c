@@ -8,8 +8,8 @@
  * declaration per merge-safety contract -- only a raw byte-offset
  * view is needed here (matches the field access shape in the asm,
  * base symbol used with explicit sub-offsets, not folded). */
-extern void func_8009EEAC(void);
-extern void func_8009F3D4(s16 x, s16 y, s32 color, s32 size, s32 count);
+extern void dungeonSubmitActivationCommand(void);
+extern void dungeonCreateTransformedRenderObject(s16 x, s16 y, s32 color, s32 size, s32 count);
 
 typedef struct {
     u16 type;
@@ -17,7 +17,7 @@ typedef struct {
 } MapCell;
 
 /* Redraw the minimap: plot one marker for every type-3 cell of the floor grid. */
-void func_8009F13C(void) {
+void dungeonRedrawTypeThreeFloorMarkers(void) {
     MapCell *mapPtr;
     u8 *shiftBase;
     s32 x;
@@ -26,14 +26,14 @@ void func_8009F13C(void) {
 
     mapPtr = (MapCell *)((void *)gameWork.map.cells);
     shiftBase = (u8 *)((void * *)&gameWork.map.cells);
-    func_8009EEAC();
+    dungeonSubmitActivationCommand();
     count = 0;
     y = 1;
     do {
         x = 1;
         do {
             if (mapPtr[x + (y << *(s16 *)(shiftBase + 0x14))].type == 3) {
-                func_8009F3D4(x, y, 0x808080, 0x10, count);
+                dungeonCreateTransformedRenderObject(x, y, 0x808080, 0x10, count);
                 count += 1;
             }
             x += 1;

@@ -6,7 +6,7 @@ typedef s32 M2C_UNK;
 typedef struct S_800A55CC_0_pre {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
-} S_800A55CC_0_pre;   /* the 0x10 bytes before arg0 in func_800A55CC, addressed as arg0[-1] */
+} S_800A55CC_0_pre;   /* the 0x10 bytes before arg0 in townInitializeEffectAndAdjustValue, addressed as arg0[-1] */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -19,7 +19,7 @@ extern u8 D_800970FC[];
 extern s32 D_800D0CC0[];
 
 /* Initialize the object and adjust its record value before final setup. */
-void func_800A55CC(void *object, EntityRec *record, s32 init_value) {
+void townInitializeEffectAndAdjustValue(void *object, EntityRec *record, s32 init_value) {
     s32 delta;
 
     ((S_800A55CC_0_pre *)object)[-1].unk_00 = D_800903FC;

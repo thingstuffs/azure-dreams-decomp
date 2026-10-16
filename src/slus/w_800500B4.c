@@ -8,13 +8,13 @@ typedef struct S_800500B4_4 {
     u8 pad_00[0x20];
     void * unk_20;
     void * unk_24;
-} S_800500B4_4;   /* arg0 in func_800500B4 */
+} S_800500B4_4;   /* arg0 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_5 {
     u8 pad_00[0x4];
     void * unk_04;
     void * unk_08;
-} S_800500B4_5;   /* temp_v1 in func_800500B4 */
+} S_800500B4_5;   /* temp_v1 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_6 {
     u8 pad_00[0x4];
@@ -23,74 +23,74 @@ typedef struct S_800500B4_6 {
     void * unk_20;
     u8 pad_24[0x4];
     void * unk_28;
-} S_800500B4_6;   /* var_a3 in func_800500B4 */
+} S_800500B4_6;   /* var_a3 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800500B4_7;   /* temp_a0 in func_800500B4 */
+} S_800500B4_7;   /* temp_a0 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_8 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800500B4_8;   /* ((S_800500B4_4 *)arg0)->unk_20 in func_800500B4 */
+} S_800500B4_8;   /* ((S_800500B4_4 *)arg0)->unk_20 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800500B4_9;   /* ((S_800500B4_4 *)arg0)->unk_24 in func_800500B4 */
+} S_800500B4_9;   /* ((S_800500B4_4 *)arg0)->unk_24 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_10 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800500B4_10;   /* ((S_800500B4_5 *)temp_v1)->unk_08 in func_800500B4 */
+} S_800500B4_10;   /* ((S_800500B4_5 *)temp_v1)->unk_08 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_11 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800500B4_11;   /* ((S_800500B4_5 *)temp_v1)->unk_04 in func_800500B4 */
+} S_800500B4_11;   /* ((S_800500B4_5 *)temp_v1)->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_12 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800500B4_12;   /* ((S_800500B4_6 *)var_a3)->unk_20 in func_800500B4 */
+} S_800500B4_12;   /* ((S_800500B4_6 *)var_a3)->unk_20 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_13 {
     u8 pad_00[0x4];
     s8 * unk_04;
-} S_800500B4_13;   /* ((S_800500B4_6 *)var_a3)->unk_04 in func_800500B4 */
+} S_800500B4_13;   /* ((S_800500B4_6 *)var_a3)->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_14 {
     u8 pad_00[0x4];
     s8 * unk_04;
-} S_800500B4_14;   /* ((S_800500B4_6 *)var_a3)->unk_28 in func_800500B4 */
+} S_800500B4_14;   /* ((S_800500B4_6 *)var_a3)->unk_28 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_15 {
     u8 pad_00[0x2];
     s8 unk_02;
-} S_800500B4_15;   /* ((S_800500B4_7 *)temp_a0)->unk_04 in func_800500B4 */
+} S_800500B4_15;   /* ((S_800500B4_7 *)temp_a0)->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_16 {
     u8 pad_00[0xA];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-} S_800500B4_16;   /* ((S_800500B4_8 *)(((S_800500B4_4 *)arg0)->unk_20))->unk_04 in func_800500B4 */
+} S_800500B4_16;   /* ((S_800500B4_8 *)(((S_800500B4_4 *)arg0)->unk_20))->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_17 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800500B4_17;   /* ((S_800500B4_9 *)(((S_800500B4_4 *)arg0)->unk_24))->unk_04 in func_800500B4 */
+} S_800500B4_17;   /* ((S_800500B4_9 *)(((S_800500B4_4 *)arg0)->unk_24))->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_18 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_800500B4_18;   /* ((S_800500B4_12 *)(((S_800500B4_6 *)var_a3)->unk_20))->unk_08 in func_800500B4 */
+} S_800500B4_18;   /* ((S_800500B4_12 *)(((S_800500B4_6 *)var_a3)->unk_20))->unk_08 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_19 {
     u8 pad_00[0x1];
     s8 unk_01;
     u8 pad_02[0x6];
     s16 unk_08;
-} S_800500B4_19;   /* ((S_800500B4_13 *)(((S_800500B4_6 *)var_a3)->unk_04))->unk_04 in func_800500B4 */
+} S_800500B4_19;   /* ((S_800500B4_13 *)(((S_800500B4_6 *)var_a3)->unk_04))->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_20 {
     u8 pad_00[0x1];
@@ -98,7 +98,7 @@ typedef struct S_800500B4_20 {
     s8 unk_02;
     u8 pad_03[0x5];
     s16 unk_08;
-} S_800500B4_20;   /* ((S_800500B4_14 *)(((S_800500B4_6 *)var_a3)->unk_28))->unk_04 in func_800500B4 */
+} S_800500B4_20;   /* ((S_800500B4_14 *)(((S_800500B4_6 *)var_a3)->unk_28))->unk_04 in slusAnimateSixEntrySelectionCursor */
 
 
 typedef struct S_800500B4_0 {
@@ -107,26 +107,26 @@ typedef struct S_800500B4_0 {
     s32 unk_14;
     s32 unk_18;
     s32 unk_1C;
-} S_800500B4_0;   /* pArg1 in func_800500B4 */
+} S_800500B4_0;   /* pArg1 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_1 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_800500B4_1;   /* arg0 in func_800500B4 */
+} S_800500B4_1;   /* arg0 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_2 {
     u8 pad_00[0xA4];
     u8 unk_A4;
-} S_800500B4_2;   /* var_a2 in func_800500B4 */
+} S_800500B4_2;   /* var_a2 in slusAnimateSixEntrySelectionCursor */
 
 typedef struct S_800500B4_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800500B4_3;   /* var_a3 in func_800500B4 */
+} S_800500B4_3;   /* var_a3 in slusAnimateSixEntrySelectionCursor */
 
 
 /* Animate the selection cursor and the positions and brightness of six entries. */
-void func_800500B4(S_800500B4_1 *widgets, S_800500B4_0 *anim) {
+void slusAnimateSixEntrySelectionCursor(S_800500B4_1 *widgets, S_800500B4_0 *anim) {
     s32 entry_index;
     u8 *highlight_ptr;
     s32 start_index;

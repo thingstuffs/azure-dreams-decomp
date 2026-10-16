@@ -6,7 +6,7 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-s32 func_800A6E10(s16 first_key, s16 second_key);
+s32 countFloorItemsAtTile(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
 void func_8009A3D0(s32 x, s32 y, u16 flags)
@@ -21,7 +21,7 @@ void func_8009A3D0(s32 x, s32 y, u16 flags)
             s16 cell_x = x;
             s16 cell_y = y;
 
-            if ((s16)func_800A6E10(cell_x, cell_y) >= 2) {
+            if ((s16)countFloorItemsAtTile(cell_x, cell_y) >= 2) {
                 return;
             }
             cells[cell_x + (cell_y << map->shiftX)].flags &= ~flags;

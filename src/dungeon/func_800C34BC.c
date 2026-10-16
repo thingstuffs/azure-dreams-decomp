@@ -10,7 +10,7 @@ extern s32 func_800A6D30(void);
 extern s32 func_800C838C(State *);
 
 
-s32 func_800C8C1C(State *state_ptr, s16 limit_input, s8 byte_input) {
+s32 dungeonRollThresholdEffectVariantB(State *state_ptr, s16 limit_input, s8 byte_input) {
     State *state = state_ptr;
     s16 limit = limit_input;
     s8 byte_value = byte_input;

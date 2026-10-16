@@ -72,7 +72,7 @@ s32 func_80024D58(void *node) {
             }
             side = 0;
             do {
-                func_800DBA90(&frame.p.f510);
+                dungeonTransformRotatedVertices(&frame.p.f510);
                 switch (side) {
                 case 0:
                     point_index = ring;

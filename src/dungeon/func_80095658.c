@@ -7,17 +7,17 @@ typedef unsigned long uptr;
 typedef struct S_8009ADB8_0 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8009ADB8_0;   /* arg0 in func_8009ADB8 */
+} S_8009ADB8_0;   /* arg0 in dungeonCanPushAdjacentActor */
 
 typedef struct S_8009ADB8_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8009ADB8_1;   /* arg1 in func_8009ADB8 */
+} S_8009ADB8_1;   /* arg1 in dungeonCanPushAdjacentActor */
 
 typedef struct S_8009ADB8_2 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_8009ADB8_2;   /* map_state in func_8009ADB8 */
+} S_8009ADB8_2;   /* map_state in dungeonCanPushAdjacentActor */
 
 
 typedef struct {
@@ -29,7 +29,7 @@ typedef struct {
 extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Checks the facing cell for valid terrain flags and an acceptable height. */
-s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
+s32 dungeonCanPushAdjacentActor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s16 tile_x, s16 tile_y,
     s16 initial_height)
 {
     FacingMapCell *map;

@@ -9,7 +9,7 @@ extern s32 D_800794F0[3];
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
-extern void func_8005D798(s32 callback);
+extern void setDmaChannel4Callback(s32 callback);
 extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
 
@@ -24,7 +24,7 @@ void func_8005D7BC(void)
 
             D_80079990[0] = 0;
             D_80079994[0] = 0;
-            func_8005D798(null_callback);
+            setDmaChannel4Callback(null_callback);
         }
         CloseEvent(D_800794EC[0]);
         DisableEvent(D_800794F0[-1]);

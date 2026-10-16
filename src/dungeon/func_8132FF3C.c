@@ -44,7 +44,7 @@ extern u8 D_80166E48[];
 extern void func_8004491C(Object *, u8 *);
 
 /* Creates an object at an offset position and initializes its selected variant. */
-void func_80166F3C(u32 *source_pos, s16 variant) {
+void dungeonCreateRotatingClippedSprite(u32 *source_pos, s16 variant) {
     u32 *buffer;
     Child *child;
     Subobject *state;

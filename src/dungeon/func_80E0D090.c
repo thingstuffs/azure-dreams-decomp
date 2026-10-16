@@ -6,7 +6,7 @@ typedef struct S_80170890_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80170890_0;   /* obj in func_80170890 */
+} S_80170890_0;   /* obj in createFlaggedDungeonActorObject */
 
 typedef struct S_80170890_1 {
     u8 pad_00[0x13];
@@ -14,12 +14,12 @@ typedef struct S_80170890_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80170890_1;   /* work in func_80170890 */
+} S_80170890_1;   /* work in createFlaggedDungeonActorObject */
 
 typedef struct S_80170890_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170890_2;   /* part_a in func_80170890 */
+} S_80170890_2;   /* part_a in createFlaggedDungeonActorObject */
 
 typedef struct S_80170890_3 {
     u8 pad_00[0x8];
@@ -29,7 +29,7 @@ typedef struct S_80170890_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170890_3;   /* part_b in func_80170890 */
+} S_80170890_3;   /* part_b in createFlaggedDungeonActorObject */
 
 typedef struct S_80170890_4 {
     u8 pad_00[0x8C];
@@ -42,11 +42,11 @@ typedef struct S_80170890_4 {
     s8 unk_9C;
     u8 pad_9D[0x13];
     s16 unk_B0;
-} S_80170890_4;   /* actor in func_80170890 */
+} S_80170890_4;   /* actor in createFlaggedDungeonActorObject */
 
 typedef struct S_80170890_5 {
     u16 unk_00;
-} S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in func_80170890 */
+} S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in createFlaggedDungeonActorObject */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -65,7 +65,7 @@ extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_80170890(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *createFlaggedDungeonActorObject(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *obj;
     void *work = 0;

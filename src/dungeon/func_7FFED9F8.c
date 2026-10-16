@@ -25,7 +25,7 @@ void func_8008B158(ovl_d54c_7FFED9F8_Object *object) {
             D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        func_8008B0E8(option_bit, high_field, middle_field);
+        townEnsureResourceAtFront(option_bit, high_field, middle_field);
         data_base = 0x80016000;
         data_offset = *(u16 *)&item->flags0;
         data = (u8 *)(data_base + data_offset);

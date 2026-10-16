@@ -14,23 +14,23 @@ typedef struct S_80171284_0 {
     u8 pad_2E[0x20];
     u16 unk_4E;
     u16 unk_50;
-} S_80171284_0;   /* arg0 in func_80171284 */
+} S_80171284_0;   /* arg0 in dungeonUpdateFadingMotionEffect */
 
 typedef struct S_80171284_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80171284_1;   /* arg1 in func_80171284 */
+} S_80171284_1;   /* arg1 in dungeonUpdateFadingMotionEffect */
 
 typedef struct S_80171284_2 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_80171284_2;   /* arg2 in func_80171284 */
+} S_80171284_2;   /* arg2 in dungeonUpdateFadingMotionEffect */
 
 
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
-void func_80171284(void *effect, void *transform, void *color) {
+void dungeonUpdateFadingMotionEffect(void *effect, void *transform, void *color) {
     u16 next_value;
     u16 next_total;
     s16 ticks_left;

@@ -43,7 +43,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
     case 1:
         work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
-        if (func_8003DE58(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
+        if (resolveRecordOrientationOrFallback(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
             if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
                 break;
             }
@@ -160,7 +160,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
             do {
                 signed_tile_x = (s16)tile_x;
                 signed_tile_y = (s16)tile_y;
-                if ((func_800A44E0((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
+                if ((dungeonCheckLayerOffsetHeight((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
                                    actor->unk_88.s16,
                                    (s16)(effect->unk_0E << 9)) << 16) == 0) {
                     s16 floor = func_800BCB04(

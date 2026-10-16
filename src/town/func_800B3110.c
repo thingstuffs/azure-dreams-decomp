@@ -14,7 +14,7 @@ typedef struct S_800B0870_0 {
     u8 pad_08[0x2];
     u8 unk_0A;
     u8 unk_0B;
-} S_800B0870_0;   /* arg0 in func_800B0870 */
+} S_800B0870_0;   /* arg0 in townInitializeShopDisplayRecords */
 
 typedef struct S_800B0870_1 {
     u8 unk_00;
@@ -24,11 +24,11 @@ typedef struct S_800B0870_1 {
     u8 unk_04;
     u8 pad_05[0x1];
     u8 unk_06;
-} S_800B0870_1;   /* arg1 in func_800B0870 */
+} S_800B0870_1;   /* arg1 in townInitializeShopDisplayRecords */
 
 
 /* Initializes two consecutive records with source bytes and fixed control values. */
-void func_800B0870(void *destination, S_800B0870_1 *source) {
+void townInitializeShopDisplayRecords(void *destination, S_800B0870_1 *source) {
     u8 sourceByte4;
     u8 sourceByte6;
 

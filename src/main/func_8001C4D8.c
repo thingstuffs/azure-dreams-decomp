@@ -39,7 +39,7 @@ typedef struct Menu {
 } Menu;
 
 /* Animate the menu selection marker and each row's horizontal offset and color. */
-void func_804034D8(Menu *menu)
+void cardAnimateSelectionMarkerRows(Menu *menu)
 {
     s32 i;
     s32 step;

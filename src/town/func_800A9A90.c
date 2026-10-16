@@ -47,12 +47,12 @@ typedef struct S_800A71F0_5 {
 M2C_UNK func_80033CD8();
 M2C_UNK func_8003DB94();
 void *func_8003FD64();
-void func_800A7308();
+void townCopyIndexedMotionValueAndAdvance();
 extern M2C_UNK D_800A7338;
 extern s32 D_800D0DF0;
 
 /* Creates a positioned object and initializes its state and sprite. */
-s32 func_800A71F0(void *position, s32 state_value, M2C_UNK graphic_id) {
+s32 townCreatePositionedSpriteObject(void *position, s32 state_value, M2C_UNK graphic_id) {
     void *object;
     void *object_state;
     void *transform;
@@ -73,7 +73,7 @@ s32 func_800A71F0(void *position, s32 state_value, M2C_UNK graphic_id) {
     ((S_800A71F0_0 *)object)->unk_10 = &D_800A7338;
     ((S_800A71F0_4 *)object_state)->unk_54 = state_value;
     ((S_800A71F0_4 *)object_state)->unk_90 = 2;
-    func_800A7308(object_state, transform, sprite);
+    townCopyIndexedMotionValueAndAdvance(object_state, transform, sprite);
     ((S_800A71F0_5 *)sprite)->unk_1E = 0x1000;
     ((S_800A71F0_5 *)sprite)->unk_1C = 0x1000;
     ((S_800A71F0_5 *)sprite)->unk_0C = 0x808080;

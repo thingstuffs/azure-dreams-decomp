@@ -7,12 +7,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-void func_80095C80();
-void func_80095094();
-s32 func_80095978();
-M2C_UNK func_80094378();
-void func_80095A94();
-void func_80094984();
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
+s32 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
+M2C_UNK dungeonInitializeActionObject();
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
+void townCallTheHandlerSelectsNonzeroEntry();
 M2C_UNK func_800941D8();
 
 extern u8 D_800CFCEF;
@@ -20,23 +20,23 @@ extern M2C_UNK D_800D00E0;
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */
-void func_80091BD8(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
+void townUpdateThresholdTimedAction(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
     s16 sampled_value;
     s16 ticks_left;
 
-    func_80095C80(entity);
-    func_80095094(entity);
-    sampled_value = func_80095978(entity, &D_800FE488);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(entity);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(entity);
+    sampled_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(entity, &D_800FE488);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
-            func_80094378(state, entity, context);
+            dungeonInitializeActionObject(state, entity, context);
             return;
         }
     } else if (D_800CFCEF == 0) {
-        func_80095A94(entity, sampled_value, &D_800FE488);
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(entity, sampled_value, &D_800FE488);
     }
     if (state->unk_0A.as_s16 == 0) {
-        func_80094984(&D_800D00E0, state, context);
+        townCallTheHandlerSelectsNonzeroEntry(&D_800D00E0, state, context);
     }
     ticks_left = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = ticks_left;

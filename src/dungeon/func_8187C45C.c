@@ -51,7 +51,7 @@ extern void func_80045340(void);
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Update a projectile effect, its trail, and the target hit animation. */
-void func_80025C5C(void *effect, void *motion, void *sprite) {
+void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite) {
     u16 origin_offset[4];
     PointTable direction_steps;
     void *owner;
@@ -269,7 +269,7 @@ await_launch:
             U16(object_data, 4) = 8;
             U16(object_data, 0xA) = 0x30;
             S16(object_data, 0xC) = -0xDE;
-            PTR(object, 0x10) = func_800257E0;
+            PTR(object, 0x10) = initializeStarEffectSequence;
             spawn_sprite = PTR(object, 0xC);
             U16(spawn_sprite, 0x10) = 0x20;
             U16(spawn_sprite, 0x14) |= 0xC;

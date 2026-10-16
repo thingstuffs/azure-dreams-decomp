@@ -34,7 +34,7 @@ typedef struct {
 extern Root D_8040C420;
 
 /* Initializes the memory card state object and its working data. */
-s32 func_80407C10(s32 init_option) {
+s32 initCardSmeObject(s32 init_option) {
     Obj *obj = (Obj *)&D_8040C420;
     Sub *card_state = (Sub *)((u8 *)obj + 0x20);
     s32 state_value;

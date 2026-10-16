@@ -7,7 +7,7 @@ typedef struct S_80021E88_0 {
     void * unk_04;
     u8 pad_08[0x4C];
     union { s16 s; u16 u; } unk_54;   /* accessed as both */
-} S_80021E88_0;   /* arg0 in func_80021E88 */
+} S_80021E88_0;   /* arg0 in townUpdateMinigameTransition */
 
 typedef struct S_80021E88_1 {
     u8 pad_00[0x18];
@@ -15,29 +15,29 @@ typedef struct S_80021E88_1 {
     u8 pad_1A[0x6];
     u16 unk_20;
     s16 unk_22;
-} S_80021E88_1;   /* object in func_80021E88 */
+} S_80021E88_1;   /* object in townUpdateMinigameTransition */
 
 typedef struct S_80021E88_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     s32 unk_0C;
-} S_80021E88_2;   /* arg2 in func_80021E88 */
+} S_80021E88_2;   /* arg2 in townUpdateMinigameTransition */
 
 
 typedef struct S_80021E88_4 {
     u8 pad_00[0x22];
     s16 unk_22;
-} S_80021E88_4;   /* ((S_80021E88_0 *)arg0)->unk_04 in func_80021E88 */
+} S_80021E88_4;   /* ((S_80021E88_0 *)arg0)->unk_04 in townUpdateMinigameTransition */
 
 
-extern s32 func_800A2A18(void *, void *);
+extern s32 townTestThreeAxisBoxOverlap(void *, void *);
 extern u32 D_80012D5C;
 extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];
 
 /* Updates the object transition state, height, and display values. */
-void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
+void townUpdateMinigameTransition(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S_80021E88_2 *display) {
     s16 state;
     s16 transition_pending;
     s32 transition;
@@ -50,7 +50,7 @@ void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S
         controller->unk_00 = 0;
     }
     if (D_80012D5C >= 100U) {
-        if (func_800A2A18(D_800243F0, position) != 0) {
+        if (townTestThreeAxisBoxOverlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {
             display->unk_08 = D_80024438[controller->unk_54.s];

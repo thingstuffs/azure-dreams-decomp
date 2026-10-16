@@ -10,11 +10,11 @@ typedef struct S_800B63A8_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800B63A8_0;   /* arg1 in func_800B63A8 */
+} S_800B63A8_0;   /* arg1 in dungeonAdvanceEffectFadeAndFlag */
 
 typedef struct S_800B63A8_1_pre {
     u16 unk_00;
-} S_800B63A8_1_pre;   /* the 0x2 bytes before arg0 in func_800B63A8, addressed as arg0[-1] */
+} S_800B63A8_1_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceEffectFadeAndFlag, addressed as arg0[-1] */
 
 typedef struct S_800B63A8_1 {
     s32 unk_00;
@@ -29,13 +29,13 @@ typedef struct S_800B63A8_1 {
     u8 unk_16;
     u8 pad_17[0x1];
     u8 unk_18;
-} S_800B63A8_1;   /* arg0 in func_800B63A8 */
+} S_800B63A8_1;   /* arg0 in dungeonAdvanceEffectFadeAndFlag */
 
 
 M2C_UNK func_800478B8();            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
-void func_800B63A8(void *effect, void *motion, void *primitive) {
+void dungeonAdvanceEffectFadeAndFlag(void *effect, void *motion, void *primitive) {
     s32 velocity_y;
     s32 velocity_z;
     s32 accel_z_step;

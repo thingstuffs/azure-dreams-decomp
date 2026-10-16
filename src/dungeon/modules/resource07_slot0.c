@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
-void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = func_80170854;
-void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part) = func_80170A28;
+void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = dungeonSpawnModeDependent112Object;
+void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part) = dungeonUpdateEntityFacingMotionAndGround;
 #include "../func_80A71054.c"
 #include "../func_80A71228.c"
 #include "../func_80A71654.c"

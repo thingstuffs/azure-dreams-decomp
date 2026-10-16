@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
+void dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
     s32 scale;
     register s32 step;

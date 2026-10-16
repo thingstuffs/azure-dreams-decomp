@@ -14,7 +14,7 @@ extern u8 D_800273BE;
 
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
-void func_800248BC(DungeonState *state, DungeonOrigin *origin) {
+void dungeonAnimateTileHeightsAndTransition(DungeonState *state, DungeonOrigin *origin) {
     FadeColor *fade_color;
     s32 grid_x;
     s32 grid_y;
@@ -48,7 +48,7 @@ void func_800248BC(DungeonState *state, DungeonOrigin *origin) {
                 tile_x = scratch + grid_x;
                 random_value = func_80069EF8() & 7;
                 D_8002745C[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
-                tile = func_8009B4B0(D_800E3D7C, tile_x & 0xFFFF, tile_y & 0xFFFF);
+                tile = dungeonFindEligibleEntryAtCoordinates(D_800E3D7C, tile_x & 0xFFFF, tile_y & 0xFFFF);
                 if (tile != 0 && tile != D_8002732C) {
                     *(u16 *)(*(u8 **)((u8 *)tile - 0x18) + 0xA) =
                         D_8002745C[grid_y][grid_x] + origin->height;
@@ -73,18 +73,18 @@ void func_800248BC(DungeonState *state, DungeonOrigin *origin) {
                 grid_x_fixed = grid_x;
                 do {
                     scratch = grid_x - 3;
-                    tile = func_8009B4B0(D_800E3D7C,
+                    tile = dungeonFindEligibleEntryAtCoordinates(D_800E3D7C,
                                          (((u16)origin->x >> 6) + scratch) & 0xFFFF,
                                          (((u16)origin->y >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
                     if (tile != 0 && tile != D_8002732C) {
                         func_8009CE1C(
                             tile, 16, D_800273BE, 9,
-                            (s16)func_800A07D0(grid_x_fixed >> 16,
+                            (s16)dungeonForwardMonsterCoordinateDelta(grid_x_fixed >> 16,
                                                grid_y_fixed >> 16, 3, 3),
                             D_800273C0, 2);
                         *(s32 *)((u8 *)tile + 0x14) &= 0xFFEFFFFF;
                     }
-                    func_80026BA8(grid_x_fixed >> 16, grid_y_fixed >> 16, origin);
+                    dungeonCreateTerrainTileQuad(grid_x_fixed >> 16, grid_y_fixed >> 16, origin);
                     grid_x_fixed += 0x10000;
                     grid_x++;
                 } while (grid_x < 7);

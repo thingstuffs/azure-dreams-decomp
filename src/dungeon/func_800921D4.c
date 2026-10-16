@@ -7,9 +7,9 @@
 
 extern void func_8003DB94(void *sprite, void *ptr, s32 value);
 extern void func_80042B68(void *actor, s32 value);
-extern void func_8008CBD4(void *state, void *motion, void *sprite, void *actor);
-extern void func_80096384(void);
-extern void func_800AD4D0(void *actor);
+extern void dungeonResetActorMotionAtSpriteTile(void *state, void *motion, void *sprite, void *actor);
+extern void dungeonHandleActorCommandsAndFacing(void);
+extern void dungeonApplyClampedActorValueDelta(void *actor);
 
 extern void *D_800DD274[8];
 
@@ -19,7 +19,7 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
     s32 tracked_addr;
 
     if (state->unk_9B.as_u8 == 0) {
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         state->unk_9B.as_u8++;
     }
 
@@ -42,11 +42,11 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             func_80042B68(actor, 10);
-            func_8008CBD4(state, motion, sprite, actor);
+            dungeonResetActorMotionAtSpriteTile(state, motion, sprite, actor);
             return;
         }
 
         state->unk_96.as_s16 = 8;
-        state->unk_8C.as_pv = func_80096384;
+        state->unk_8C.as_pv = dungeonHandleActorCommandsAndFacing;
     }
 }

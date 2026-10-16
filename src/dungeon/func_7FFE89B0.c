@@ -8,7 +8,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_7FFE89B0_0_pre {
     u16 unk_00;
-} S_7FFE89B0_0_pre;   /* the 0x2 bytes before arg0 in func_7FFE89B0, addressed as arg0[-1] */
+} S_7FFE89B0_0_pre;   /* the 0x2 bytes before arg0 in dungeonEmitParentRelativeParticles, addressed as arg0[-1] */
 
 typedef struct S_7FFE89B0_0 {
     void * unk_00;
@@ -22,7 +22,7 @@ typedef struct S_7FFE89B0_0 {
     u16 unk_3C;
     u16 unk_3E;
     u16 unk_40;
-} S_7FFE89B0_0;   /* arg0 in func_7FFE89B0 */
+} S_7FFE89B0_0;   /* arg0 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_1 {
     u8 pad_00[0x2];
@@ -31,12 +31,12 @@ typedef struct S_7FFE89B0_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_7FFE89B0_1;   /* arg1 in func_7FFE89B0 */
+} S_7FFE89B0_1;   /* arg1 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE89B0_2;   /* temp_a0 in func_7FFE89B0 */
+} S_7FFE89B0_2;   /* temp_a0 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_3 {
     u8 pad_00[0x8];
@@ -46,7 +46,7 @@ typedef struct S_7FFE89B0_3 {
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
-} S_7FFE89B0_3;   /* temp_v0_2 in func_7FFE89B0 */
+} S_7FFE89B0_3;   /* temp_v0_2 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_4 {
     u8 pad_00[0xA];
@@ -54,7 +54,7 @@ typedef struct S_7FFE89B0_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_7FFE89B0_4;   /* temp_s0 in func_7FFE89B0 */
+} S_7FFE89B0_4;   /* temp_s0 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_5 {
     u8 pad_00[0x2];
@@ -63,12 +63,12 @@ typedef struct S_7FFE89B0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE89B0_5;   /* ((S_7FFE89B0_2 *)temp_a0)->unk_08 in func_7FFE89B0 */
+} S_7FFE89B0_5;   /* ((S_7FFE89B0_2 *)temp_a0)->unk_08 in dungeonEmitParentRelativeParticles */
 
 typedef struct S_7FFE89B0_6 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in func_7FFE89B0 */
+} S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in dungeonEmitParentRelativeParticles */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -82,7 +82,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010B4EC;
 
 /* Emit particles at the parent-relative position and retire the emitter when its lifetime expires. */
-void func_7FFE89B0(void *emitter, void *position, M2C_UNK spawn_context) {
+void dungeonEmitParentRelativeParticles(void *emitter, void *position, M2C_UNK spawn_context) {
     s32 spawn_index;
     u16 age;
     u16 lifetime;

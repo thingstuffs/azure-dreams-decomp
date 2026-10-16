@@ -7,7 +7,7 @@ typedef struct S_8017086C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017086C_0;   /* obj in func_8017086C */
+} S_8017086C_0;   /* obj in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_8017086C_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8017086C_1;   /* work in func_8017086C */
+} S_8017086C_1;   /* work in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8017086C_2;   /* part_a in func_8017086C */
+} S_8017086C_2;   /* part_a in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_3 {
     u8 pad_00[0x12];
@@ -31,7 +31,7 @@ typedef struct S_8017086C_3 {
     u8 pad_26[0x2];
     s32 unk_28;
     void * unk_2C;
-} S_8017086C_3;   /* part_b in func_8017086C */
+} S_8017086C_3;   /* part_b in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_4 {
     u8 pad_00[0x8C];
@@ -47,12 +47,12 @@ typedef struct S_8017086C_4 {
     s16 unk_9E;
     u8 pad_A0[0x8];
     u16 unk_A8;
-} S_8017086C_4;   /* actor in func_8017086C */
+} S_8017086C_4;   /* actor in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_5 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8017086C_5;   /* current in func_8017086C */
+} S_8017086C_5;   /* current in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_6 {
     u8 pad_00[0x2];
@@ -61,7 +61,7 @@ typedef struct S_8017086C_6 {
     u16 unk_06;
     u8 pad_08[0x90];
     u32 unk_98;
-} S_8017086C_6;   /* child in func_8017086C */
+} S_8017086C_6;   /* child in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_7 {
     u8 pad_00[0xC];
@@ -71,17 +71,17 @@ typedef struct S_8017086C_7 {
     u16 unk_14;
     u8 pad_16[0x12];
     u32 unk_28;
-} S_8017086C_7;   /* elem in func_8017086C */
+} S_8017086C_7;   /* elem in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8017086C_8;   /* base in func_8017086C */
+} S_8017086C_8;   /* base in dungeonUpdateActorActionController */
 
 typedef struct S_8017086C_9 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_8017086C_9;   /* ((S_8017086C_8 *)base)->unk_A4 in func_8017086C */
+} S_8017086C_9;   /* ((S_8017086C_8 *)base)->unk_A4 in dungeonUpdateActorActionController */
 
 extern void *func_8003FD64();
 extern void func_8004491C();
@@ -89,7 +89,7 @@ extern s32 func_800A6D30(void); /* Retail RNG reads no argument registers. */
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_80047784();
-extern void func_800478E8();
+extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots();
 extern void func_800AA36C();
 
 extern u8 D_800D71A8[];
@@ -99,7 +99,7 @@ extern u8 D_801711A4[];
 extern u8 D_8017418C[];
 extern u8 D_801741CC[];
 
-void *func_8017086C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
+void *dungeonUpdateActorActionController(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *work;
@@ -211,7 +211,7 @@ void *func_8017086C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
                     elem_offset += 48;
                     i++;
                     ((S_8017086C_6 *)child)->unk_06 = 0;
-                    func_800478E8(part_b, D_800D71A8, 0);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, D_800D71A8, 0);
                     ((S_8017086C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }

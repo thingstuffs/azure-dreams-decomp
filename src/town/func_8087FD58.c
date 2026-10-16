@@ -4,7 +4,7 @@ extern s32 func_80701090();
 extern s32 D_807009E4[];
 
 /* Call func_80701090 with 0x152 when the selected grid entry has bit zero set. */
-void func_8087FD58(s32 row, s32 column) {
+void townGridRunBitSetOperationA(s32 row, s32 column) {
     if (D_807009E4[((row * 7) + column) * 2] & 1) {
         func_80701090(0x152);
     }

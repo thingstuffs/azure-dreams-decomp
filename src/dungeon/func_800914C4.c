@@ -8,13 +8,13 @@ extern u8 D_80096384[];
 extern u8 D_800DD274[];
 
 extern s32 func_8003DB94();
-extern void func_80094ED4();
-extern void func_80099F04();
-extern void func_80099F70();
+extern void dungeonCheckTileEntryAtAdjustedHeight();
+extern void dungeonProcessUnflaggedLinkedEntries();
+extern void dungeonProcessUnflaggedLinkedEntriesAlt();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s32 func_8009ABA0();
-extern void func_8009F644();
+extern s32 dungeonClassifyAdjacentTileHeight();
+extern void dungeonAppendPackedActionRecord();
 extern s32 func_800A5C70();
 extern void func_800A67F4(void);
 
@@ -25,7 +25,7 @@ extern void func_800A67F4(void);
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Moves the actor and updates its animation, movement state, and map flags. */
-void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
+void dungeonUpdateActorMovementAndMapFlags(void *obj, s32 move_mode, void *actor, void *map)
 {
     GameWork *globals;
     register s16 move_kind;
@@ -37,7 +37,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
 
     globals = &gameWork;
     func_800A67F4();
-    move_result = func_8009ABA0(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
+    move_result = dungeonClassifyAdjacentTileHeight(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
     move_kind = (s16)move_result;
     if (move_kind > 0) {
         U8(obj, 0x9B) = 0;
@@ -89,8 +89,8 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
             updated_state = &dungeonStatus;
             move_kind = (s16)move_result;
             if ((updated_state->flags & 0x80) || move_kind == 1) {
-                func_80099F70(S32(map, 0x5C));
-                func_80099F04(S32(map, 0x5C));
+                dungeonProcessUnflaggedLinkedEntriesAlt(S32(map, 0x5C));
+                dungeonProcessUnflaggedLinkedEntries(S32(map, 0x5C));
                 if (!(updated_state->flags & 0x80)) {
                     P32(actor, 0x2C) = D_800DD274;
                     facing_offset = (gameWork.view.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
@@ -110,17 +110,17 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
                 } else if (move_kind == 2 || move_kind == 4) {
                     U8(obj, 0x9B) = 8;
                 }
-                func_80094ED4(obj, move_mode, actor, map);
+                dungeonCheckTileEntryAtAdjustedHeight(obj, move_mode, actor, map);
                 {
                     dungeonStatus.unk_04 = 8;
                     U8(obj, 0x9A) = 0x36;
                     U16(obj, 0x96) = 2;
                     S32(map, 0x1C) |= 0x40000000;
-                    func_8009F644(map, 8, 0, 0);
+                    dungeonAppendPackedActionRecord(map, 8, 0, 0);
                 }
                 return;
             }
-            func_8009F644(map, 8, 0, 0);
+            dungeonAppendPackedActionRecord(map, 8, 0, 0);
         }
     } else {
         u8 *idle_anim;
@@ -133,7 +133,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         return;
     }
 
-    func_80094ED4(obj, move_mode, actor, map);
+    dungeonCheckTileEntryAtAdjustedHeight(obj, move_mode, actor, map);
     S32(map, 0x1C) |= 0x40000000;
     dungeonStatus.flags |= 0x812;
 }

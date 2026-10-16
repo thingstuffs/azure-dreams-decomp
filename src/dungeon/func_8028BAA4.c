@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
+s32 selectWeightedFloorItem(s8 *category_out, s8 *item_out) {
     s32 category_index;
     s32 selected_category;
     s32 rarity;

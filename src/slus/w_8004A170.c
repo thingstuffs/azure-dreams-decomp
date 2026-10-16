@@ -17,7 +17,7 @@ typedef struct {
 extern Template96 D_8007136C;
 
 /* Copies the default template and fills five byte pairs with the value and its negated half. */
-void func_8004A170(void *unused_ptr, Template96 *dst, u32 value, u32 unused_word) {
+void menuCopyTheDefaultTemplateFillsFiveBytePairsNegatedHalf(void *unused_ptr, Template96 *dst, u32 value, u32 unused_word) {
     Template96 *base = dst;
     u8 *src_bytes;
     u8 *dst_bytes;

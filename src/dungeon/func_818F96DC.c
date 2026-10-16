@@ -26,9 +26,9 @@ typedef struct Scratch80024EDC {
     u32 index;          /* ordering table slot */
 } Scratch80024EDC;
 
-/* Retail 818F96DC (func_80024EDC): projects each linked point and queues a brightness-scaled shaded point
+/* Retail 818F96DC (dungeonDrawLinkedBrightnessPoints): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 func_80024EDC(PointRecord *start_node, EntityRec *start_coords)
+s32 dungeonDrawLinkedBrightnessPoints(PointRecord *start_node, EntityRec *start_coords)
 {
     GpuContext **state_ptr;
     Scratch80024EDC *scratch;

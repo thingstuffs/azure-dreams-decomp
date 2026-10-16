@@ -2,9 +2,9 @@
 #include "common.h"
 
 extern s32 func_80099194(u8 *src, u8 *dst);
-extern s32 func_80099368(void *data, s32 buffer);
+extern s32 dungeonAppendTypedFormattedValue(void *data, s32 buffer);
 extern s32 func_80099734(void *record, u8 *out);
-extern s32 func_800999B0(s32 dst);
+extern s32 dungeonWriteStatusPrefixBytes(s32 dst);
 extern u8 D_80089000[];
 extern u8 D_800E0A1B[];
 
@@ -13,10 +13,10 @@ void func_800A6480(s32 actor, void *item, s32 buffer_arg2, s32 buffer_arg3) {
     s32 current_value;
     s32 adjusted_value;
 
-    adjusted_value = func_80099368(item, current_value = func_800990FC());
+    adjusted_value = dungeonAppendTypedFormattedValue(item, current_value = func_800990FC());
     original_value = current_value;
     current_value = adjusted_value;
-    func_80099290(func_800999B0(func_80099194(D_80089000,
+    func_80099290(dungeonWriteStatusPrefixBytes(func_80099194(D_80089000,
         func_80099734(actor, func_80099194(D_800E0A1B, current_value)))));
     func_800A5720(original_value);
 }

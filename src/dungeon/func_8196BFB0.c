@@ -30,7 +30,7 @@ void func_800257B0(void *object, void *position, void *render_state)
     collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
     collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
     D_800269B4 = 1;
-    if ((s16)func_800A45D8(collide_x, collide_y, collide_z) != 0) {
+    if ((s16)dungeonCheckLeftTileAndCenterHeight(collide_x, collide_y, collide_z) != 0) {
         ((S_8196BFB0_0 *)position)->unk_00.at00.v -= ((S_8196BFB0_1 *)object)->unk_8C;
         ((S_8196BFB0_1 *)object)->unk_8C = 0;
         ((S_8196BFB0_1 *)object)->unk_98 = 0;
@@ -38,7 +38,7 @@ void func_800257B0(void *object, void *position, void *render_state)
 
     ((S_8196BFB0_0 *)position)->unk_04.at00.v += ((S_8196BFB0_1 *)object)->unk_90;
     ((S_8196BFB0_1 *)object)->unk_90 += ((S_8196BFB0_1 *)object)->unk_9C;
-    if ((s16)func_800A45D8(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_08.at02.v) != 0) {
         ((S_8196BFB0_0 *)position)->unk_04.at00.v -= ((S_8196BFB0_1 *)object)->unk_90;

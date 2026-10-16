@@ -1,0 +1,20 @@
+/* Relink of matched dungeon/func_81030DC8; every changed retail word is a paired relocation. */
+#define D_801760B4 D_801700B4
+#include "common.h"
+#include "shared/game_work.h"
+
+extern void func_80047784(void *, s32, s32);
+extern u8 D_801700B4;
+
+/* Initializes display state and selects a sprite frame from the combined facing angles. */
+void func_8016C5C8(void *object, void *unused, void *sprite, void *orientationSource) {
+    *((s8 *)object + 0x9A) = 0x10;
+    *((s8 *)object + 0x9B) = 0;
+    *(s16 *)((u8 *)sprite + 0x1C) = 0x1400;
+    *(s16 *)((u8 *)sprite + 0x1E) = 0xC00;
+    *(u8 **)((u8 *)sprite + 0x2C) = &D_801700B4;
+    func_80047784(
+        sprite,
+        *(&D_801700B4 + (((gameWork.view.viewAngle + *(s16 *)((u8 *)orientationSource + 0x2A) + 0x100) >> 9) & 7)),
+        0);
+}

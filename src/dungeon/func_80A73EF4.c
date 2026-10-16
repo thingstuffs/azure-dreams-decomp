@@ -66,13 +66,13 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
             dungeon_status = &dungeonStatus;
             if (!(dungeon_status->flags & 0x1000)
                 && ((actor->unk_64 == 0)
-                    || (func_800AA6B4(controller, actor_index, sprite, 0) == 0))) {
+                    || (dungeonBeginReadyActorDirectionalAction(controller, actor_index, sprite, 0) == 0))) {
 
                 if (actor->tileY == 0) {
                     if (dungeon_status->flags & 0x2008) {
                         return;
                     }
-                    func_800AA79C(controller, actor_index, sprite, actor);
+                    dungeonAdvanceActorPendingAction(controller, actor_index, sprite, actor);
                     return;
                 }
 
@@ -81,7 +81,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                 }
                 actor_flags = actor->flags1C;
                 if (actor_flags & 0x100) {
-                    func_800AA258(controller, actor_index, sprite, actor);
+                    dungeonBeginPushedActorMove(controller, actor_index, sprite, actor);
                     return;
                 }
                 if (actor_flags & 0x80000) {
@@ -93,7 +93,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                     return;
                 }
                 if ((func_800A2C34(actor) << 16) != 0) {
-                    if ((func_8009A180(
+                    if ((dungeonCheckEntityRelation(
                              actor,
                              ((s32)D_800814A8->unk_58)
                                  + 0x20)
@@ -112,7 +112,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                     room_id = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
                     if (((room_id == room_base->unk_026)
                          && (room_id >= 0))
-                        || (((s16)func_8009FD40(room_base, sprite)) < 2)) {
+                        || (((s16)dungeonGetTileChebyshevDistance(room_base, sprite)) < 2)) {
                         if (!(func_800A6D30() & 7)) {
                             func_80042B68(actor, 1);
                         }

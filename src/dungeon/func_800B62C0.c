@@ -4,7 +4,7 @@
 
 extern s32 func_80045C34();
 /* Pass the buffer, value, and data to func_80045C34 and return zero. */
-s32 func_800BBA20(u8 *buffer, s32 value, void *data) {
+s32 dungeonProcessLinkedMenuEffect(u8 *buffer, s32 value, void *data) {
     func_80045C34(buffer, value, data);
     return 0;
 }

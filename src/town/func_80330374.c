@@ -4,12 +4,12 @@
 typedef void (*TownCopyFn)(void *, void *, s32);
 typedef void (*TownSetFn)(s32);
 
-extern s32 func_8001AB20(s32, s32);
+extern s32 townSquaredDistance3s(s32, s32);
 extern s8 D_80016130[];
 extern s8 D_80016158[];
 
 /* Returns the lowest-valued entry and reports a player.c assertion if none is selected. */
-s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
+s32 townFindNearestPoint3s(s32 entries, s32 eval_context, s32 entry_count) {
     s32 best_entry;
     s32 best_value;
     s32 index;
@@ -22,7 +22,7 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     best_value = 0x7FFFFFFF;
     best_entry = 0;
     for (index = 0; index < entry_count; index++) {
-        value = func_8001AB20(entries, eval_context);
+        value = townSquaredDistance3s(entries, eval_context);
         if (value < best_value) {
             best_entry = entries;
             best_value = value;

@@ -3,15 +3,15 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-   /* obj in func_800253D0 */
+   /* obj in dungeonSpawnOwnerRandomVariantEffect */
 
-   /* render in func_800253D0 */
+   /* render in dungeonSpawnOwnerRandomVariantEffect */
 
-   /* owner in func_800253D0 */
+   /* owner in dungeonSpawnOwnerRandomVariantEffect */
 
-   /* transform in func_800253D0 */
+   /* transform in dungeonSpawnOwnerRandomVariantEffect */
 
-   /* dst in func_800253D0 */
+   /* dst in dungeonSpawnOwnerRandomVariantEffect */
 
 
 
@@ -20,7 +20,7 @@
 
 
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */
-s32 func_800253D0(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
+s32 dungeonSpawnOwnerRandomVariantEffect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
     s32 roll;
     s32 random;
     s32 adjusted;

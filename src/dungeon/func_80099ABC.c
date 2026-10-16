@@ -36,7 +36,7 @@ extern void func_8004491C(void *, u8 *);
 extern void func_800A56E0(s32);
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
-void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
+void dungeonInterpolateDelayedTargetValues(InterpState *state, void *unused, InterpTarget *target) {
     u16 ticks_left;
     u16 target_counter;
     E296C *global_state;

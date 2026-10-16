@@ -10,7 +10,7 @@ typedef struct {
 } TownRecord;
 
 // Sets the value at offset 8 in entries flagged 0x20 across active town records.
-void func_800A63C8(TownRecord *record, s32 entryValue)
+void townSetFlaggedRecordValues(TownRecord *record, s32 entryValue)
 {
     s32 entryOffset;
     s32 lastEntryFlag;

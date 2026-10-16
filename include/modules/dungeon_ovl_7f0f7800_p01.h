@@ -43,14 +43,14 @@ typedef struct T_80170AA4_S_80170AA4_2 {
 } T_80170AA4_S_80170AA4_2;   /* arg1 in func_80170AA4 */
 
 extern void func_80042984();
-extern void func_80047738();
+extern void selectIndirectTableEntry();
 extern void func_800478B8();
-extern void func_800A020C();
+extern void dungeonApplyMonsterKoyawData();
 extern void func_800A56E0();
-extern s32 func_800A9E70();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s32 func_800BCB04();
 extern T_80170AA4_EntityCallback D_80174018[];
-void func_80170AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
+void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
 extern void func_80170F68();
 #endif

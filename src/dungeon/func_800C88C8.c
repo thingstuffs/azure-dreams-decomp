@@ -23,15 +23,15 @@ typedef struct {
 } DungeonTile;
 
 
-extern void func_8009D6F4(void);
+extern void dungeonRefreshPackedGridNibbles(void);
 extern s32 func_800A56E0();
-extern void func_800CDE0C(void);
-extern void func_800CDE40(s16 x, s16 y, s32 amount);
-extern void func_800CDF40(s16 x, s16 y, s16 value);
+extern void dungeonMarkAllActorsWithHighFlag(void);
+extern void dungeonAddValueToActiveEntriesAtTile(s16 x, s16 y, s32 amount);
+extern void dungeonSetValueOfActiveEntriesAtTile(s16 x, s16 y, s16 value);
 extern void func_800419EC();
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
-void func_800CE028(DungeonEffect *effect) {
+void dungeonUpdateLongLivedTrapEffect(DungeonEffect *effect) {
     s16 *target_ptr;
     s16 *initial_ptr;
     s16 target_ticks;
@@ -79,7 +79,7 @@ void func_800CE028(DungeonEffect *effect) {
                 target_ptr++;
                 tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
                     (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
-                func_800CDE40((s16)((u16)effect->x + target_col),
+                dungeonAddValueToActiveEntriesAtTile((s16)((u16)effect->x + target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_step);
                 target_col++;
@@ -88,7 +88,7 @@ void func_800CE028(DungeonEffect *effect) {
             target_row_base += 0xA;
         } while (target_row < 5);
 
-        func_800CDE0C();
+        dungeonMarkAllActorsWithHighFlag();
         if (!((u16)effect->timer & 7)) {
             func_800A56E0(0x818);
         }
@@ -107,7 +107,7 @@ snap_target_tile:
                 tiles[((target_row + origin_y) << row_shift) + origin_x + snap_target_col].height = *snap_target_ptr;
                 target_height = *snap_target_ptr;
                 snap_target_ptr++;
-                func_800CDF40((s16)((u16)effect->x + snap_target_col),
+                dungeonSetValueOfActiveEntriesAtTile((s16)((u16)effect->x + snap_target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_height);
                 snap_target_col++;
@@ -117,7 +117,7 @@ snap_target_tile:
                 target_row++;
                 snap_target_base += 0xA;
             } while (target_row < 5);
-            func_8009D6F4();
+            dungeonRefreshPackedGridNibbles();
             dungeonStatus.unk_0A--;
             D_800E296C &= 0xFFF7FFFF;
             effect->state++;
@@ -152,7 +152,7 @@ snap_target_tile:
                 initial_ptr++;
                 tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
                     (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
-                func_800CDE40((s16)((u16)effect->x + restore_col),
+                dungeonAddValueToActiveEntriesAtTile((s16)((u16)effect->x + restore_col),
                               (s16)((u16)effect->y + restore_row),
                               (s16)-restore_step);
                 restore_col++;
@@ -180,7 +180,7 @@ snap_initial_tile:
                 initial_height = *snap_initial_ptr;
                 snap_initial_ptr++;
                 x_or_mask = (s16)((u16)effect->x + snap_initial_col);
-                func_800CDF40(x_or_mask,
+                dungeonSetValueOfActiveEntriesAtTile(x_or_mask,
                               (s16)((u16)effect->y + restore_row),
                               (s16)-initial_height);
                 snap_initial_col++;
@@ -190,7 +190,7 @@ snap_initial_tile:
                 restore_row++;
                 snap_initial_base += 0xA;
             } while (restore_row < 5);
-            func_8009D6F4();
+            dungeonRefreshPackedGridNibbles();
             dungeonStatus.unk_0A--;
             x_or_mask = 0xBFF70000;
             if (effect->flag == 0) {
@@ -201,7 +201,7 @@ snap_initial_tile:
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
-        func_800CDE0C();
+        dungeonMarkAllActorsWithHighFlag();
     }
     return;
 }

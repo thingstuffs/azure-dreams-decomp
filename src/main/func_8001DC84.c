@@ -38,7 +38,7 @@ typedef struct {
 extern Root D_8040B1D0;
 
 /* Create or reset the card background object and initialize its callback. */
-s32 func_80404C84(s32 init_value, s32 config_value) {
+s32 initCardBackgroundObject(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
 

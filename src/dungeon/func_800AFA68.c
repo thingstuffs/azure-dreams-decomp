@@ -119,7 +119,7 @@ typedef struct DebugEntry {
 extern u8 D_800E39C8[1024];
 
 /* Render active dungeon sprite parts and their ground shadows into the ordering table. */
-s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
+s32 dungeonRenderActiveSpritePartsAndShadows(void *unused_0, void *unused_1, void *render_params)
 {
     u8 saved_matrix[0x20];
     s32 entry_index;

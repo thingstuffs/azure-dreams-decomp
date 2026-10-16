@@ -14,9 +14,9 @@ void func_801768AC(void) {
         func_800542BC();
     }
 
-    func_8005A4E8(0, 0, 1);
+    submitTaggedDriverByte(0, 0, 1);
     D_801B8EBC = 0x7F;
-    func_8005A56C(0, (s16) D_801B8EBC, (s16) D_801B8EBC);
+    submitScaledDriverHalfwordPair(0, (s16) D_801B8EBC, (s16) D_801B8EBC);
 
     movie_flag = (u32) D_80189394 >> 31;
     movie_globals_hi = (u8 *) 0x80180000;
@@ -47,7 +47,7 @@ void func_801768AC(void) {
     func_8005FE18(2);
     func_80060DE8(0);
     Control_CD(9, 0, 0);
-    func_8003F320();
+    drainCdCommandQueue();
     func_8017797C(0);
     func_80061208(0);
     func_80067014(0);

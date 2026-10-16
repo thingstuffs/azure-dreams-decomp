@@ -22,7 +22,7 @@ extern s32 D_800E3D74;
 extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
 
-extern M2C_UNK func_80041E28();
+extern M2C_UNK restoreActorStatsFromSnapshot();
 extern M2C_UNK func_800424E0();
 extern M2C_UNK func_80035208();
 extern M2C_UNK func_80042560();
@@ -34,15 +34,15 @@ extern M2C_UNK func_80094AE8();
 extern M2C_UNK func_80094B54();
 extern M2C_UNK func_80094B94();
 extern M2C_UNK func_80094BD0();
-extern void func_800982A8();
-extern void func_80098614();
-extern s32 func_8009B88C();
+extern void dungeonEquipItemAndUpdateStatus();
+extern void dungeonChangeEquippedItemAndNotify();
+extern s32 dungeonFindValidNearbyPosition();
 extern void *(*func_800A0B94())(M2C_UNK, s16, s16, s16);
-extern s32 func_800A152C();
+extern s32 retainSpawnResource();
 extern s32 func_800A1618();
-extern s32 func_800A4E2C();
-extern void func_800A6A9C();
-extern void *func_800C542C();
+extern s32 selectDungeonSpawnTile();
+extern void restoreItemFlag400Bitmap();
+extern void *dungeonCreateOrbitingTeleportEffect();
 
 typedef struct S_80094988_0 {
     u8 pad_00[0x2D50];
@@ -51,49 +51,49 @@ typedef struct S_80094988_0 {
     s32 unk_2D58;
     u8 pad_2D5C[0x9B8];
     s16 unk_3714;
-} S_80094988_0;   /* page in func_80094988 */
+} S_80094988_0;   /* page in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_1 {
     u8 pad_00[0xF8];
     u16 unk_F8;
     u8 pad_FA[0x2];
     s32 unk_FC;
-} S_80094988_1;   /* dungeon in func_80094988 */
+} S_80094988_1;   /* dungeon in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_4 {
     u8 pad_00[0x29C];
     s32 unk_29C;
-} S_80094988_4;   /* save_page + scaled_i in func_80094988 */
+} S_80094988_4;   /* save_page + scaled_i in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_5 {
     u8 pad_00[0x2D52];
     u8 unk_2D52;
-} S_80094988_5;   /* var_v1_2 in func_80094988 */
+} S_80094988_5;   /* var_v1_2 in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_6 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_80094988_6;   /* var_a0 in func_80094988 */
+} S_80094988_6;   /* var_a0 in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_7 {
     u8 pad_00[0x21E0];
     u8 unk_21E0;
     u8 unk_21E1;
-} S_80094988_7;   /* (void *)probe in func_80094988 */
+} S_80094988_7;   /* (void *)probe in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_9_pre {
     u8 unk_00;
     u8 pad_01[0x1];
-} S_80094988_9_pre;   /* the 0x2 bytes before slot_flags in func_80094988, addressed as slot_flags[-1] */
+} S_80094988_9_pre;   /* the 0x2 bytes before slot_flags in dungeonRestoreInventoryAndFamiliars, addressed as slot_flags[-1] */
 
 typedef struct S_80094988_9 {
     u8 unk_00;
-} S_80094988_9;   /* slot_flags in func_80094988 */
+} S_80094988_9;   /* slot_flags in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_10 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_80094988_10;   /* cursor in func_80094988 */
+} S_80094988_10;   /* cursor in dungeonRestoreInventoryAndFamiliars */
 
 
 typedef struct S_80094988_12 {
@@ -101,7 +101,7 @@ typedef struct S_80094988_12 {
     void * unk_AC;
     u8 pad_B0[0x20];
     void ** unk_D0;
-} S_80094988_12;   /* slot_rec in func_80094988 */
+} S_80094988_12;   /* slot_rec in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_13 {
     u8 pad_00[0x13];
@@ -110,15 +110,15 @@ typedef struct S_80094988_13 {
     s32 unk_1C;
     u8 pad_20[0x5];
     u8 unk_25;
-} S_80094988_13;   /* spawned in func_80094988 */
+} S_80094988_13;   /* spawned in dungeonRestoreInventoryAndFamiliars */
 
 typedef struct S_80094988_15 {
     u8 pad_00[0x3714];
     s16 unk_3714;
-} S_80094988_15;   /* save_page in func_80094988 */
+} S_80094988_15;   /* save_page in dungeonRestoreInventoryAndFamiliars */
 
 /* Rebuild the dungeon's slot tables from the 0x80010000 save page: relink each of the 0x14 entries with its 0x8C record, re-point the two dispatch slots, then spawn and register an actor for every flagged party member. */
-void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base_y) {
+void dungeonRestoreInventoryAndFamiliars(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base_y) {
     s16 place_x;
     s16 place_y;
     u8 rand_x;
@@ -154,8 +154,8 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
         (s16)((u16)((S_80094988_0 *)cursor_ptr)->unk_3714 | 2);
     spawn_x = base_x;
     spawn_y = base_y;
-    func_800A6A9C();
-    func_80041E28(actor, (s32)cursor_ptr | 0x2194);
+    restoreItemFlag400Bitmap();
+    restoreActorStatsFromSnapshot(actor, (s32)cursor_ptr | 0x2194);
     dungeon->unk_F8 = (u16)((S_80094988_0 *)cursor_ptr)->unk_2D50;
     dungeon->unk_FC = (s32)((S_80094988_0 *)cursor_ptr)->unk_2D58;
     i = 0;
@@ -206,13 +206,13 @@ loop_0:
     } else {
         slot_ptr = NULL;
     }
-    func_800982A8(actor, slot_ptr);
+    dungeonEquipItemAndUpdateStatus(actor, slot_ptr);
     if (((S_80094988_7 *)0x80010000)->unk_21E1 != 0xFF) {
         slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E1);
     } else {
         slot_ptr = NULL;
     }
-    func_80098614(actor, slot_ptr);
+    dungeonChangeEquippedItemAndNotify(actor, slot_ptr);
     slot_ptr = (u8 *)0x80010248;
     slot_i = 0;
     slot_flags = (u8 *)0x8001024B;
@@ -233,10 +233,10 @@ loop_0:
                     scratch -= 1;
                     kind = func_800A1618(*slot_ptr, 3);
                     if (kind != 0) {
-                        if ((func_8009B88C(0, (s16)spawn_x, (s16)spawn_y,
+                        if ((dungeonFindValidNearbyPosition(0, (s16)spawn_x, (s16)spawn_y,
                                            &place_x, &place_y) << 0x10) == 0) {
                             do {
-                            } while ((func_800A4E2C(&rand_x, &rand_y) << 16) < 0);
+                            } while ((selectDungeonSpawnTile(&rand_x, &rand_y) << 16) < 0);
                             place_x = (s16)rand_x;
                             place_y = (s16)rand_y;
                         }
@@ -266,9 +266,9 @@ loop_0:
                             D_800E3DF0[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;
                             func_80042984(spawned);
-                            func_800A152C(*slot_ptr, 3);
+                            retainSpawnResource(*slot_ptr, 3);
                             func_80042560(spawned);
-                            func_800C542C(
+                            dungeonCreateOrbitingTeleportEffect(
                                 spawned,
                                 D_800DCED4[(scratch = func_800429E4(spawned))],
                                 slot_index, 1);

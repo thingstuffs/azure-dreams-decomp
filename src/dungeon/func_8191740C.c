@@ -52,7 +52,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
                 return;
             }
         }
-        func_80024A34(motion, position, effect);
+        dungeonInitializeTheSVisualStateApplyRandomSphericalPositionOffset(motion, position, effect);
         ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:

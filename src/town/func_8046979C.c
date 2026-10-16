@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern void func_8001A1A0(s32, s32 *);
+extern void townCopyCallbackValueToDestination(s32, s32 *);
 extern s32 D_80017AAC[];
 extern s32 D_80017AC4[];
 extern s32 D_80017CE0[];
 
 /* Process the stored value and its offset by 0x14, then return the stored value. */
-s32 func_8001A79C(void) {
+s32 townPrepareStoredValuePair(void) {
     s32 *stored_value = D_80017CE0;
 
-    func_8001A1A0(stored_value[0], D_80017AAC);
-    func_8001A1A0(stored_value[0] + 0x14, D_80017AC4);
+    townCopyCallbackValueToDestination(stored_value[0], D_80017AAC);
+    townCopyCallbackValueToDestination(stored_value[0] + 0x14, D_80017AC4);
     return stored_value[0];
 }

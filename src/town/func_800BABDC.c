@@ -7,7 +7,7 @@ extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 
 /* Processes populated entity entries and sets their state field to 1. */
-void func_800B833C(void)
+void townMarkPopulatedBuildingEntities(void)
 {
     s32 entry_index = 0;
     u8 *entities = D_800D2644;

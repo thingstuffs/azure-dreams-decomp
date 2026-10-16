@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Applies a flag mask to each record through the terminal record. */
-void func_800B13CC(void *record, s32 flag_mask) {
+void dungeonApplyRecordFlagsThroughEnd(void *record, s32 flag_mask) {
     u16 *flags;
 
     for (;;) {

@@ -5,7 +5,7 @@ extern void func_80407160(void *ptr);
 extern u8 D_80408A30[];
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */
-void func_804072CC(void *state, s32 *enabled, s32 *selected) {
+void cardBootUpdateOrClearsSelectedSlotOutputsRefreshesStateAnySelected(void *state, s32 *enabled, s32 *selected) {
     s32 slot;
     s32 updated;
     s32 data_offset;

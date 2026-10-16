@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800188B8();                            /* extern */
-void func_8001ACE8();                     /* extern */
+void townSetReferencedObjectActiveFlag();                            /* extern */
+void townSetScriptFlagBit();                     /* extern */
 
-/* Runs func_8001ACE8 with code 0x1452 and its func_800188B8 follow-up. */
-void func_80017058(void) {
-    func_8001ACE8(0x1452);
-    func_800188B8();
+/* Runs townSetScriptFlagBit with code 0x1452 and its townSetReferencedObjectActiveFlag follow-up. */
+void townProcessEvent1452AndRefresh(void) {
+    townSetScriptFlagBit(0x1452);
+    townSetReferencedObjectActiveFlag();
 }

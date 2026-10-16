@@ -5,7 +5,7 @@
 
 
 /* Decrements the record countdown and marks completion when it reaches zero. */
-void func_800CC9BC(void *record) {
+void dungeonTickByteTimedTrapEffect(void *record) {
     u8 countdown;
 
     countdown = *(u8 *)((u8 *)record + 7) - 1;

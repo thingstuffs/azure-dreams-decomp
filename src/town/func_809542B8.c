@@ -76,10 +76,10 @@ extern void func_8003DB94();
 extern void func_8003E188();
 extern u8 *func_8003FD64();
 extern void func_8004491C();
-extern s16 func_800C2AE8();
+extern s16 townQueryLoweredTransformPosition();
 
 /* Initializes the interface owner, widgets, and sprite objects. */
-s32 func_800212B8(void) {
+s32 townInitializeKeimaInterface(void) {
     u8 *owner = 0;
     Init10 widget_init;
     Init40 panel_init;
@@ -235,7 +235,7 @@ s32 func_800212B8(void) {
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
                 child_data = obj + 0x20;
-                AT(s16, AT(u8 *, obj, 8), 0xA) = func_800C2AE8(AT(void *, obj, 8));
+                AT(s16, AT(u8 *, obj, 8), 0xA) = townQueryLoweredTransformPosition(AT(void *, obj, 8));
                 AT(s16, sprite, 0x1E) = 0x1000;
                 AT(s16, sprite, 0x1C) = 0x1000;
                 sprite_state = &D_80082E80;
@@ -259,7 +259,7 @@ s32 func_800212B8(void) {
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;
         child_data = obj + 0x20;
-        template_page = func_800C2AE8(AT(void *, obj, 8));
+        template_page = townQueryLoweredTransformPosition(AT(void *, obj, 8));
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         AT(s16, sprite, 0x1E) = 0x1000;
         AT(s16, sprite, 0x1C) = 0x1000;

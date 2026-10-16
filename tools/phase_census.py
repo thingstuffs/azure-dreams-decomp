@@ -30,6 +30,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows, parse_cfg
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 from pin_sites import erase_many
 from xform.sched_trace import instructions, normalize, distance
@@ -103,7 +104,7 @@ def work(task):
 
 
 def clean(row):
-    return ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    return layout_row_path(row, ROOT)
 
 
 def classify(rec):

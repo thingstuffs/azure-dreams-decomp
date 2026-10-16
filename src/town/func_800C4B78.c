@@ -2,11 +2,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80024100(); /* extern */
-void func_800C22A4();                            /* extern */
+s32 townInitializeMoguraMinigame(); /* extern */
+void townInitializeResourceSelectorSix();                            /* extern */
 
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */
 void start_mogura_func(void) {
-    func_800C22A4();
-    func_80024100(0, 0, 0, 0);
+    townInitializeResourceSelectorSix();
+    townInitializeMoguraMinigame(0, 0, 0, 0);
 }

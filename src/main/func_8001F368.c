@@ -10,7 +10,7 @@ typedef struct S_80406368_0 {
     u8 pad_34[0x10];
     s32 unk_44;
     s32 unk_48;
-} S_80406368_0;   /* menu in func_80406368 */
+} S_80406368_0;   /* menu in mainHandleObjectMenuInput */
 
 
 extern s32 D_801379A8;
@@ -18,16 +18,16 @@ extern s32 D_801379B0;
 
 extern void func_80063FF8(s32 sound_code);
 extern s32  func_80058FF0(s32 selection_index, s32 direction, s32 selection_count);
-extern s32  func_804016D0(void);
+extern s32  cardDevkitPollStableSlotState(void);
 extern void func_804018FC(void);
-extern void func_80405AE8(void *menu);
+extern void cardDevkitRefreshSaveSlotSelection(void *menu);
 extern void func_804062F4(void *menu);
 extern void func_80406358(void *menu);
 extern void func_80406720(void *object);
 extern void func_804083FC(s32 value0, s32 value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
-void func_80406368(void *menu)
+void mainHandleObjectMenuInput(void *menu)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -92,11 +92,11 @@ void func_80406368(void *menu)
             } else {
                 ((S_80406368_0 *)menu)->unk_44 = func_80058FF0(((S_80406368_0 *)menu)->unk_44, nav_result, 4);
             }
-            func_80405AE8(menu);
+            cardDevkitRefreshSaveSlotSelection(menu);
         }
     }
 
-    nav_result = func_804016D0();
+    nav_result = cardDevkitPollStableSlotState();
     func_804018FC();
     if (nav_result != 0) {
         if (nav_result != 1) {
@@ -105,6 +105,6 @@ void func_80406368(void *menu)
         }
     }
     if (needs_refresh != 0) {
-        func_80405AE8(menu);
+        cardDevkitRefreshSaveSlotSelection(menu);
     }
 }

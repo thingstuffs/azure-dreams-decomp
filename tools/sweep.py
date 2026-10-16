@@ -14,6 +14,7 @@ import multiprocessing
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path, parse_cfg, is_stock_cfg, set_row_cfg
+from source_layout import row_path as layout_row_path
 from verify import verify
 from pin_census import unscored_text, landing_refusal
 import xform
@@ -61,7 +62,7 @@ def _window_gate(row):
     return None
 
 def clean_path(row):
-    return ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    return layout_row_path(row, ROOT)
 
 def current_text(row):
     p = clean_path(row)

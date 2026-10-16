@@ -4,7 +4,7 @@
 
 
 /* Subtracts 8 from the object counter and sets flags when it reaches zero. */
-void func_80024374(void *object)
+void dungeonAdvanceCounterAndPropagateTargetFlags(void *object)
 {
     u8 *object_bytes = object;
     u16 counter;

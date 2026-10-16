@@ -47,14 +47,14 @@ extern u8 D_80174B30[9];
 extern Node *D_80174CDC;
 
 extern void func_800419EC(s32, s32);
-extern void func_80170DCC(void *, Vec3 *, Sub *);
+extern void dungeonCreateOffsetAnimationSprite(void *, Vec3 *, Sub *);
 extern void func_800A56E0(s32);
 extern void func_80047784(Sub *, u8, s32);
 extern void func_80170CE0(void);
 extern void func_800478B8(Sub *);
 
 /* Delays an effect, then moves and fades its sprite before finishing. */
-void func_80170EA0(void) {
+void dungeonUpdateEncounterRetreatFade(void) {
     Extra *effect;
     Vec3 *position;
     Sub *sprite;
@@ -84,7 +84,7 @@ void func_80170EA0(void) {
             effect->field_9E = 0x14;
             effect->field_9A++;
             func_800419EC(6, 12);
-            func_80170DCC(effect, position, sprite);
+            dungeonCreateOffsetAnimationSprite(effect, position, sprite);
             func_800A56E0(0x601);
             position->field_0C = -0x200000;
             sprite->field_10 = 0x20;

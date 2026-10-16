@@ -11,12 +11,12 @@ typedef struct S_800B7B60_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800B7B60_0;   /* temp_v0 in func_800B7B60 */
+} S_800B7B60_0;   /* temp_v0 in dungeonAllocateObjectAtCoordinates */
 
 typedef struct S_800B7B60_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in func_800B7B60, addressed as arg0[-1] */
+} S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in dungeonAllocateObjectAtCoordinates, addressed as arg0[-1] */
 
 typedef struct S_800B7B60_2 {
     u8 pad_00[0x2];
@@ -25,7 +25,7 @@ typedef struct S_800B7B60_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B7B60_2;   /* temp_v1 in func_800B7B60 */
+} S_800B7B60_2;   /* temp_v1 in dungeonAllocateObjectAtCoordinates */
 
 typedef struct S_800B7B60_3 {
     u8 pad_00[0x2];
@@ -34,7 +34,7 @@ typedef struct S_800B7B60_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B7B60_3;   /* temp_a1 in func_800B7B60 */
+} S_800B7B60_3;   /* temp_a1 in dungeonAllocateObjectAtCoordinates */
 
 
 #ifndef NULL
@@ -43,11 +43,11 @@ typedef struct S_800B7B60_3 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_800B8024();
+extern void dungeonSpawnDirectedAndScatteredParticles();
 extern M2C_UNK D_800B7774;
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
-void *func_800B7B60(void *source, s32 *init_value) {
+void *dungeonAllocateObjectAtCoordinates(void *source, s32 *init_value) {
     u16 coord_z;
     S_800B7B60_3 *src_coords;
     S_800B7B60_0 *object;
@@ -63,7 +63,7 @@ void *func_800B7B60(void *source, s32 *init_value) {
         dst_coords->unk_06 = src_coords->unk_06;
         coord_z = src_coords->unk_0A;
         dst_coords->unk_0A = coord_z;
-        func_800B8024((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
+        dungeonSpawnDirectedAndScatteredParticles((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
         dungeonStatus.unk_0A++;
     }
     return object;

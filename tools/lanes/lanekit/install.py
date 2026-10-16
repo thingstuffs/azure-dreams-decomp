@@ -50,6 +50,8 @@ Before writing a helper of your own, check this table - 26 lanes rebuilt the lis
 | what you want | command |
 |---|---|
 | calibrate: the pinned text MUST score exact | `python3 {kit}/lab.py baseline <row> --score` |
+| prove local/member renames or comments, verify the row, optionally stage | `python3 {kit}/rename_proof.py <row> after.c [--before base.c] [--renames map.json] [--stage]` |
+| recheck retained D0 evidence without compiling | `python3 {kit}/rename_proof.py <row> after.c --receipt tmp/rename_proof_ID/proof.json` |
 | what each pin holds, which pins fall together | `python3 {kit}/erase.py <row>` |
 | screen variants (files) | `python3 {kit}/lab.py <row> v1.c v2.c --score` |
 | screen variants (substitutions) | `python3 {kit}/lab.py <row> --subs shapes1.json --score` |

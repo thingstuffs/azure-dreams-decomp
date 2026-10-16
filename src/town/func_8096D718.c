@@ -29,14 +29,14 @@ typedef struct TownObject {
     Pool *pool;
 } TownObject;
 
-extern u8 func_80123200(u8 value);
+extern u8 townIsCatalogEntryAvailable(u8 value);
 extern u32 D_801269D0[];
 extern u16 D_80126B20[];
 extern u16 D_80126B24;
 extern u8 D_80127B64[];
 
 /* Updates the object's number display and paired fields for its current state. */
-void func_80125BB0(TownObject *obj)
+void townAnimateCatalogFinalCategoryCursor(TownObject *obj)
 {
     s32 side_offset;
     s32 entry_index;
@@ -59,7 +59,7 @@ void func_80125BB0(TownObject *obj)
         index_base = index_base + 1;
         entry_index = index_base - ((TownObject *)(obj))->side;
 
-        if (func_80123200((u8)entry_index) != 0) {
+        if (townIsCatalogEntryAvailable((u8)entry_index) != 0) {
             s32 display_number = entry_index + 1;
 
             *((TownObject *)(obj))->pool->slots[slot_index] = (u32)D_80127B64;

@@ -40,18 +40,18 @@ typedef struct {
 
 extern u8 D_800D20D8[];
 
-extern void func_800A2B04(CcaMotion *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(CcaAnim *);
+extern void dungeonSetRecordIntegerTileCenter(CcaMotion *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(CcaAnim *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */
-void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
+void dungeonDecelerateActorToTile(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
     s32 phase;
 
     phase = state->status;
     switch (phase) {
     case 0:
-        func_800AD4D0(anim);
+        dungeonApplyClampedActorValueDelta(anim);
         motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
         motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
         state->status = state->status + 1;
@@ -66,7 +66,7 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            func_800AAA54(state, motion, info, 0);
+            dungeonBeginActorDisplayAction(state, motion, info, 0);
             return;
         }
                 /* fall through */
@@ -93,7 +93,7 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            func_800AAA54(state, motion, info, 0);
+            dungeonBeginActorDisplayAction(state, motion, info, 0);
             return;
         }
         state->count = 8;
@@ -123,7 +123,7 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, info->x, info->y);
+        dungeonSetRecordIntegerTileCenter(motion, info->x, info->y);
         if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)anim - 0x20)) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }

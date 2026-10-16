@@ -10,9 +10,9 @@
    s16 fields this function reads. */
 
 
-extern void func_8005A56C(s32 mode, s32 level_a, s32 level_b);
+extern void submitScaledDriverHalfwordPair(s32 mode, s32 level_a, s32 level_b);
 
-/* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to func_8005A56C (mode 0). */
+/* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to submitScaledDriverHalfwordPair (mode 0). */
 void func_80054D64(void) {
     s16 level;
     s32 scaled;
@@ -23,6 +23,6 @@ void func_80054D64(void) {
         level = (task->unk_08 * volumeScale[2]) / 32767;
         scaled = level * task->unk_10;
         level = scaled / 128;
-        func_8005A56C(0, level, level);
+        submitScaledDriverHalfwordPair(0, level, level);
     }
 }

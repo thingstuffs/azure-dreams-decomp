@@ -7,18 +7,18 @@ typedef struct S_80020488_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_80020488_0;   /* arg0 in func_80020488 */
+} S_80020488_0;   /* arg0 in townRetireSceneTextAfterTerminalPhase */
 
 typedef struct S_80020488_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0xA];
     s16 unk_36;
-} S_80020488_1;   /* entity in func_80020488 */
+} S_80020488_1;   /* entity in townRetireSceneTextAfterTerminalPhase */
 
 
 /* Advances the context state and sets completion flags in response to entity fields. */
-void func_80020488(void *context) {
+void townRetireSceneTextAfterTerminalPhase(void *context) {
     s16 state;
     void *entity;
 

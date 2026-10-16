@@ -25,7 +25,7 @@ typedef struct Unk818DAD38Target {
 
 
 /* Advance the target's growth animation, then fade its color and mark completion. */
-void func_80024538(Unk818DAD38Owner *owner, s32 unused,
+void dungeonAdvanceTargetGrowthAndFade(Unk818DAD38Owner *owner, s32 unused,
                    Unk818DAD38Target *target) {
     s16 state;
     u16 next_scale;

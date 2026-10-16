@@ -45,11 +45,11 @@ void func_8017442C(void *node, s32 target_x, s32 target_y, s32 target_height)
                         angle = ((R10_8017442C_S_801745BC_4 *)owner)->unk_2A;
                         offset = (R10_8017442C_OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
-                        func_80099C58((s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_02 + (offset->x * 32))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_06 +
+                        dungeonSpawnRadialParticleBurst((s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_02 + (offset->x * 32))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_06 +
                                   ((s32)(offset->y << 16) >> 11))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_0A - 0x20)),(s16)(((R10_8017442C_S_801745BC_4 *)owner)->unk_14),
                             (s32)(s16)angle);
                     } else {
-                        func_8009C12C(owner, owner_data,(s16)((s16)((R10_8017442C_S_801745BC_4 *)owner)->unk_2A),(s16)(1));
+                        dungeonResolveAttackDamageAndEffects(owner, owner_data,(s16)((s16)((R10_8017442C_S_801745BC_4 *)owner)->unk_2A),(s16)(1));
                     }
                 }
             }

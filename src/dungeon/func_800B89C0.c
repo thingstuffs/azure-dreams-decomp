@@ -7,18 +7,18 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_8008D330();
-void func_80098B38();
+void dungeonBeginDeferredItemAction();
+void dungeonClearSlotAndUpdateLinkedState();
 s32 func_800990FC(void);
 s32 func_80099194();
 void *func_80099290();
-s32 func_80099368();
+s32 dungeonAppendTypedFormattedValue();
 s32 func_80099734();
-void func_80099844();
+void dungeonAdjustSourceValueAndFinalize();
 s32 func_800A5720();
 void func_800A5F38();
 void func_800A63B8();
-s32 func_800AD6FC();
+s32 dungeonApplyActorFoodPreference();
 void func_800D5460();
 
 extern u8 D_8008935C[];
@@ -42,17 +42,17 @@ typedef struct S_800BE120_0 {
     u32 unk_54;
     u8 pad_58[0xB8];
     s32 unk_110;
-} S_800BE120_0;   /* arg0 in func_800BE120 */
+} S_800BE120_0;   /* arg0 in dungeonFixMonsterFusionAppearance */
 
 typedef struct S_800BE120_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800BE120_1;   /* arg1 in func_800BE120 */
+} S_800BE120_1;   /* arg1 in dungeonFixMonsterFusionAppearance */
 
 /* Applies data to an entity and handles the resulting update or fallback. */
-s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
+s32 dungeonFixMonsterFusionAppearance(void *entity, S_800BE120_1 *data, s16 mode) {
     s16 stored;
     void *call_entity;
     u32 context_arg;
@@ -62,7 +62,7 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
     stored = 0;
     if (entity == ((s32)D_800E3D7C)) {
         ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
-        func_8008D330(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        dungeonBeginDeferredItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
 
@@ -71,7 +71,7 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
         if (((S_800BE120_0 *)entity)->unk_13 >= 2) {
             if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
                 if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
-                    if (func_800AD6FC(entity,
+                    if (dungeonApplyActorFoodPreference(entity,
                             (D_800DDE84[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
                             0) == 0) {
                         func_800A5F38(entity, data);
@@ -86,7 +86,7 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
                     func_800D5460((s8 *)entity - 0x20, 0x20A0A0, 0x702);
                     stored = 1;
                     if (((S_800BE120_0 *)entity)->unk_14 & 0x4000) {
-                        func_80099844(entity, D_800E0FF4);
+                        dungeonAdjustSourceValueAndFinalize(entity, D_800E0FF4);
                     }
                 }
             }
@@ -103,12 +103,12 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
         context_arg = new_context;
         context = context_arg;
         new_context = func_80099734((s32)call_entity, context_arg);
-        func_80099290(func_80099194(D_8008935C, func_80099368(data, func_80099194(D_800E100F, new_context))));
+        func_80099290(func_80099194(D_8008935C, dungeonAppendTypedFormattedValue(data, func_80099194(D_800E100F, new_context))));
         func_800A5720(context);
         func_800A5F38(entity, data);
         return 1;
     }
-    func_80098B38(data);
+    dungeonClearSlotAndUpdateLinkedState(data);
     dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     return 1;
 }

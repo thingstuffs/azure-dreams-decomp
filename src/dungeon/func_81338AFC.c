@@ -26,7 +26,7 @@ typedef struct S_8016FAFC_0 {
     s16 unk_18;
     u8 pad_1A[0x2];
     s16 unk_1C;
-} S_8016FAFC_0;   /* part in func_8016FAFC */
+} S_8016FAFC_0;   /* part in dungeonCreateEncounterOverlay */
 
 typedef struct S_8016FAFC_1 {
     u8 pad_00[0x8];
@@ -39,7 +39,7 @@ typedef struct S_8016FAFC_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016FAFC_1;   /* sprite in func_8016FAFC */
+} S_8016FAFC_1;   /* sprite in dungeonCreateEncounterOverlay */
 
 typedef struct S_8016FAFC_2 {
     u8 pad_00[0x2];
@@ -48,16 +48,16 @@ typedef struct S_8016FAFC_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8016FAFC_2;   /* coords in func_8016FAFC */
+} S_8016FAFC_2;   /* coords in dungeonCreateEncounterOverlay */
 
 typedef struct S_8016FAFC_3 {
     u8 pad_00[0x5D58];
     void * unk_5D58;
     void * unk_5D5C;
-} S_8016FAFC_3;   /* store_page in func_8016FAFC */
+} S_8016FAFC_3;   /* store_page in dungeonCreateEncounterOverlay */
 
 /* Creates a sprite object with the selected vector preset and stores its global pointer. */
-void func_8016FAFC(s32 variant)
+void dungeonCreateEncounterOverlay(s32 variant)
 {
     u8 *obj;
     u8 *part;

@@ -2,8 +2,8 @@
 
 extern int func_8004D880(int a0);
 extern void func_8004D98C(int a0, int a1, void *a2);
-extern void func_8004E264(void *a0, int a1);
-extern void func_8004D9E0(signed char *a0, int a1, int a2, int a3, int a4);
+extern void setGlyphStyleIndex(void *a0, int a1);
+extern void setDescriptorGridByteCoordinates(signed char *a0, int a1, int a2, int a3, int a4);
 
 /* Decodes text into note entries and marks the final entry as the end of the sequence. */
 void *func_8004DA74(void *entries, u8 *text, s32 initial_octave)
@@ -54,8 +54,8 @@ void *func_8004DA74(void *entries, u8 *text, s32 initial_octave)
                 } while (0);
                 if (note != ' ') {
                     func_8004D98C(note, octave, entry);
-                    func_8004E264(entry, octave);
-                    func_8004D9E0(entry, length, tie_count, dot_count, 0);
+                    setGlyphStyleIndex(entry, octave);
+                    setDescriptorGridByteCoordinates(entry, length, tie_count, dot_count, 0);
                     entry += 0xC;
                 }
                 length += 2;

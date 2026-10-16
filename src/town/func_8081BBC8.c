@@ -28,20 +28,20 @@ extern u16 D_800135BE;
 extern u8 D_80026F80[];
 extern s16 D_800834C8[1];
 
-extern void func_800252B8(s32, s32, s32, s32);
+extern void townCreateTintedAnimatedParticle(s32, s32, s32, s32);
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
-extern void func_8003F540(s32, s32, s32, s32);
-extern void func_800483AC(s32);
+extern void soundSetCdCueParameters(s32, s32, s32, s32);
+extern void clearAlternateTextureRegions(s32);
 extern void func_80048568(s32);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern void func_8009AC0C(void);
-extern void func_8009AC8C(void);
+extern void townInitializeGlobalPlayerObject(void);
+extern void townInitializePlayerObjectData(void);
 extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
-void func_80025BC8(TownState *state)
+void townUpdateTakoMinigame(TownState *state)
 {
     GameWork *scene_data;
     s32 phase;
@@ -61,7 +61,7 @@ void func_80025BC8(TownState *state)
 
     case 0:
         func_80048568(5);
-        func_8009AC0C();
+        townInitializeGlobalPlayerObject();
         state->state = 1;
         /* Fall through to the camera phase. */
     case 1:
@@ -149,8 +149,8 @@ case 3:
             *(s16 *)(object_body + 0x50) = object_state;
         } while (loop_index >= 0);
     }
-    func_8009AC8C();
-    func_8009AC0C();
+    townInitializePlayerObjectData();
+    townInitializeGlobalPlayerObject();
     state->timer = 25;
     state->state = 4;
     break;
@@ -169,7 +169,7 @@ case 4:
         do {
             particle_x = D_80083780.x.v +
                 (((rand() & 0x3F) - 0x20) << 16);
-            func_800252B8(0xF0F0F0, particle_x,
+            townCreateTintedAnimatedParticle(0xF0F0F0, particle_x,
                           D_80083780.y.v +
                           (((rand() & 0x3F) - 0x20) << 16),
                           0);
@@ -193,21 +193,21 @@ case 5:
         s32 threshold;
 
         tw_sd_sq_ld_call(0x20, 0x200);
-        func_8009AC8C();
+        townInitializePlayerObjectData();
         progress = D_800135BE;
         D_800135BE = progress;
         threshold = state->threshold;
         if ((s16)progress < threshold) {
-            func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
+            soundSetCdCueParameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
             D_800135BE = state->threshold;
             func_80033B9C(0xAE4);
         } else {
-            func_8003F540(0, 0x2C3D, 0, 0x01000290);
+            soundSetCdCueParameters(0, 0x2C3D, 0, 0x01000290);
             SD_Call(0x300);
             func_80033B78(0xAE4);
         }
-        func_800483AC(2);
+        clearAlternateTextureRegions(2);
         *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

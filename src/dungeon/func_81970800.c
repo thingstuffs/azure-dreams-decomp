@@ -141,7 +141,7 @@ typedef struct S_func_81970800_6 {
 } S_func_81970800_6;
 
 /* Project and enqueue a shaded quad if its depth and screen bounds are visible. */
-void func_8002406C(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_81970800_3 *object, s16 depth_bias)
+void dungeonProjectAndQueueVisibleShadedQuad(S_func_81970800_4 *quad, S_func_81970800_2 *position, S_func_81970800_3 *object, s16 depth_bias)
 {
     S_func_81970800_1 *scratch = (S_func_81970800_1 *)0x1F800000;
     S_func_81970800_5 *packet;

@@ -7,7 +7,7 @@ typedef struct {
     s32 value;
 } __attribute__((packed)) Packed4;
 
-/* owner in func_80174234 */
+/* owner in dungeonStartTheActorSAttackStepClearHex71BusyBitLatch */
 typedef struct S_80174234_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -16,13 +16,13 @@ typedef struct S_80174234_0 {
     s8 unk_9B;
 } S_80174234_0;
 
-/* part in func_80174234 */
+/* part in dungeonStartTheActorSAttackStepClearHex71BusyBitLatch */
 typedef struct S_80174234_1 {
     u8 pad_00[0x2C];
     u8 *unk_2C;
 } S_80174234_1;
 
-/* actor in func_80174234.  0x48 is written as one packed word (retail's
+/* actor in dungeonStartTheActorSAttackStepClearHex71BusyBitLatch.  0x48 is written as one packed word (retail's
    lwl/lwr + swl/swr pair) and read one byte deep at 0x49, so the two views
    share a union rather than overlapping members. */
 typedef struct S_80174234_2 {
@@ -56,8 +56,8 @@ M2C_UNK func_80047784();         /* extern */
 s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
 void *func_80099290();                         /* extern */
-s32 func_8009929C();                    /* extern */
-u8 *func_80099368();                 /* extern */
+s32 dungeonWriteTextByteAndAdvance();                    /* extern */
+u8 *dungeonAppendTypedFormattedValue();                 /* extern */
 s32 func_80099734();                     /* extern */
 s32 func_800A2BDC();                          /* extern */
 s32 func_800A5720();                         /* extern */
@@ -70,7 +70,7 @@ extern M2C_UNK D_801708BC;
 extern u8 D_80174F58[];
 
 /* Start the actor's attack step: clear its 0x71 busy bit, latch the 0x400 link flag with a random facing nudge, run the animation chain for the sprite record it owns, then arm owner state 0x17 and point the part at the direction table. */
-void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_80174234_2 *actor) {
+void dungeonStartTheActorSAttackStepClearHex71BusyBitLatch(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_80174234_2 *actor) {
     s32 session;
     s32 anim;
     s32 link_flags;
@@ -91,7 +91,7 @@ void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_8017
             sprite = func_80170908(part, actor);
             if (sprite != NULL) {
                 actor->unk_48.at48 = *(Packed4 *) sprite;
-                anim = func_80099368(sprite, func_80099194(&D_801708AC, func_8009929C(0xA, func_80099194(&D_8017089C,
+                anim = dungeonAppendTypedFormattedValue(sprite, func_80099194(&D_801708AC, dungeonWriteTextByteAndAdvance(0xA, func_80099194(&D_8017089C,
                     func_80099734(actor, session)))));
                 anim = func_80099194(&D_801708B8, anim);
             } else {

@@ -41,11 +41,11 @@ extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
 extern u8 D_800E3D68[256];
 
-extern void func_800B835C(void *, void *, s32, s32);
+extern void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
-extern s32 func_8009D218(void *, s32, void *);
+extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32, void *);
 extern s32 func_800A6D30(void);
 extern void func_800C8A3C(void *, s32, s32);
 
@@ -312,7 +312,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
         colors->unk_16 = 4;
         out_pair.pair.a = packed_pos;
         out_pair.pair.b = packed_size;
-        func_800B835C(colors, &out_pair.pair, 1, 0);
+        dungeonDrawTexturedEllipse(colors, &out_pair.pair, 1, 0);
         state = self->state.u;
         D_800266BC = 1;
         self->state.u = state + 1;
@@ -433,7 +433,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
             color = 0x40E020;
             intensity = (random_bits & 0xFF) | 0x80;
             direction = self->direction.s;
-            func_80025228(emitter, direction, color, intensity, 0, 0, 0);
+            dungeonCreateRandomJitterChild(emitter, direction, color, intensity, 0, 0, 0);
             index++;
         } while (index < 8);
         hit_result = func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v,
@@ -483,7 +483,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                 flash = func_8003FC64(0x212);
                 if (flash != 0) {
                     flash->unk_22 = 120;
-                    flash->callback = func_80025348;
+                    flash->callback = dungeonAdvanceRecordCounter;
                     func_8004491C(flash, func_80045340);
                     flash_data = flash->render;
                     flash_data->unk_14 |= 0x0C;
@@ -638,7 +638,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
                 particle_state->unk_02 = 20;
                 particle_state->unk_0A = 10;
                 particle_state->unk_04 = 0;
-                impact->callback = func_8002558C;
+                impact->callback = dungeonAdvanceGrayscaleFade;
                 func_8004491C(impact, func_80045340);
                 particle_data = impact->render;
                 particle_data->unk_10.u = 0x20;
@@ -675,7 +675,7 @@ void func_8002592C(ProjectileSelf *self, OutView *position, PacketView *render_d
             }
         }
         if ((s16)self->timer == 80) {
-            if (func_8009D218(parent->unk_60.p2, 4, parent) == 0) {
+            if (dungeonTryTriggerTargetRecordEffect(parent->unk_60.p2, 4, parent) == 0) {
                 random_bonus = func_800A6D30();
                 power_bonus = self->unk_09 >> 2;
                 random_bonus = (random_bonus & 3) + 4;

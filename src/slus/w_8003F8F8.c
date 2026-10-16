@@ -20,7 +20,7 @@ extern void *func_8004068C(u8 *src, u8 *dst);
 extern s32 LoadImage(void *rect, void *data);
 
 /* Uploads a null-terminated image list to VRAM through a staging buffer. */
-void func_8003F8F8(S_8003F8F8 *images)
+void decodeAndUploadImageArray(S_8003F8F8 *images)
 {
     S_8003F8F8 *entry;
     s32 width;

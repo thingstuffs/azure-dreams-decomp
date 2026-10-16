@@ -25,7 +25,7 @@ typedef struct TownRoot {
 
 
 /* Invoke town callbacks and initialize state values with mode-dependent adjustments. */
-void func_800174E8(void) {
+void townRunSceneCallbacksWithModeAdjustments(void) {
     TownRoot **root_ptr;
     TownRoot *root;
     TownState *state;

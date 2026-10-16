@@ -18,6 +18,7 @@ import argparse, json, os, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, RAW, window_map, covering_windows, read_jsonl, write_jsonl, sha_file
+from source_layout import row_path as layout_row_path
 
 SPLITS = LEDGER / "splits"
 CONTAINERS = ("main", "town", "dungeon", "dungeon_engine", "ovmovie")
@@ -149,7 +150,7 @@ def cmd_check(a):
                 print(f"{ovl}: MATCH row {r['func_vram']} has no c_path"); bad += 1; continue
             if not (RAW / fam / name).exists():
                 print(f"{ovl}: raw/{fam}/{name} missing"); bad += 1
-            if not (ROOT / "src" / fam / name).exists():
+            if not (layout_row_path({"container": fam, "c_path": name}, ROOT)).exists():
                 print(f"{ovl}: src/{fam}/{name} missing"); bad += 1
             if not covering_windows(fam, r["foff"], r["size"], wm):
                 print(f"{ovl}: MATCH row {r['func_vram']} (0x{r['foff']:X}+{r['size']}) is in no window"); bad += 1

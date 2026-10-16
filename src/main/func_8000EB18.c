@@ -8,7 +8,7 @@
 
 
 /* Builds a string from the selected prefix, a separator, and an indexed suffix. */
-void func_80021B18(s32 dest, s32 suffix_index) {
+void cardBootBuildSlotPath(s32 dest, s32 suffix_index) {
     s32 *prefix_ptr;
 
     prefix_ptr = &(*(u8 *)(&D_80027F18));

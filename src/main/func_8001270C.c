@@ -1,14 +1,14 @@
 #include "common.h"
 
 extern void func_800250E8(void *menu, s32 entry_id);
-extern void func_800230A4(void *object, s32 entry_id);
+extern void cardBootShowNoSavedGameNotice(void *object, s32 entry_id);
 
 extern u8 D_8002593C[];
 extern u8 D_80024FAC[];
 extern u8 D_80025584[];
 
 /* Select an entry handler and update the owning object's callback. */
-void func_8002570C(void *state) {
+void cardBootSelectCopySourceSlot(void *state) {
     extern s32 D_80083E98[];
     s32 entry_id = *(s32 *)((u8 *)state + 0x28);
 
@@ -18,7 +18,7 @@ void func_8002570C(void *state) {
         *(s32 **)((u8 *)state - 0x10) = (s32 *)D_80025584;
     } else {
         *(s32 **)((u8 *)state + 0x34) = (s32 *)D_8002593C;
-        func_800230A4((u8 *)state - 0x20, entry_id);
+        cardBootShowNoSavedGameNotice((u8 *)state - 0x20, entry_id);
         *(s32 **)((u8 *)state - 0x10) = (s32 *)D_80024FAC;
     }
 }

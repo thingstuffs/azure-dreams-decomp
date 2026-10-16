@@ -12,13 +12,13 @@ typedef struct S_80036484_0 {
     u16 unk_64;
     u8 pad_66[0x2];
     M2C_UNK * unk_68;
-} S_80036484_0;   /* arg0 in func_80036484 */
+} S_80036484_0;   /* arg0 in runtimeDecrementCountdownAndReset */
 
 
-extern M2C_UNK func_800364BC;
+extern M2C_UNK runtimeMarkStateWhenFlag51Set;
 
 /* Decrements the countdown and resets state before switching handlers when it expires. */
-void func_80036484(S_80036484_0 *state) {
+void runtimeDecrementCountdownAndReset(S_80036484_0 *state) {
     u16 countdown;
 
     countdown = state->unk_64 - 1;
@@ -26,6 +26,6 @@ void func_80036484(S_80036484_0 *state) {
     if ((countdown << 0x10) <= 0) {
         state->unk_4D = 0xFF;
         state->unk_51 = 0;
-        state->unk_68 = &func_800364BC;
+        state->unk_68 = &runtimeMarkStateWhenFlag51Set;
     }
 }

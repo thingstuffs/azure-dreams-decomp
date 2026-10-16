@@ -5,6 +5,6 @@
 M2C_UNK func_80041094(); /* extern */
 
 /* Call the handler with code 0x16 and the global selector with its low bit toggled. */
-void func_800B9430(void) {
+void townRequestEventWithToggledSelector(void) {
     func_80041094(0x16, 0, 0, 0, D_80082E60.flags16 ^ 1);
 }

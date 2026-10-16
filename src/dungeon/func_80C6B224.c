@@ -53,12 +53,12 @@ extern u8 D_801742E8[];
 
 extern void func_80047784(Actor *, u8, s32);
 extern s32 func_800644B8(s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A2B04(Motion *, u8, u8);
-extern void func_800A4ACC(Entity *);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonSetRecordIntegerTileCenter(Motion *, u8, u8);
+extern void dungeonAdvanceStatusTimers(Entity *);
 extern void func_800A9A04(Entity *);
-extern void func_800AD594(Entity *, s32);
-extern s32 func_800AD9B4(Actor *, Entity *);
+extern void dungeonReduceActorFoodMeter(Entity *, s32);
+extern s32 dungeonCheckActorFloorTrap(Actor *, Entity *);
 
 /* Advance movement to the actor's tile and finish the timed action. */
 void func_80172A24(State *action, Motion *motion, Actor *actor, Entity *entity)
@@ -118,7 +118,7 @@ void func_80172A24(State *action, Motion *motion, Actor *actor, Entity *entity)
         motion->dz14 = 0;
         motion->dy10 = 0;
         motion->dxC = 0;
-        func_800A2B04(motion, actor->x24, actor->y25);
+        dungeonSetRecordIntegerTileCenter(motion, actor->x24, actor->y25);
         *(u8 **)((u8 *)actor + 0x2C) = D_801742E8;
         direction_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_801742E8[direction_index & 7], 0);
@@ -136,9 +136,9 @@ void func_80172A24(State *action, Motion *motion, Actor *actor, Entity *entity)
     motion->dz14 = 0;
     motion->dy10 = 0;
     motion->dxC = 0;
-    func_800A2B04(motion, actor->x24, actor->y25);
-    func_800AD594(entity, 4);
-    func_800A4ACC(entity);
+    dungeonSetRecordIntegerTileCenter(motion, actor->x24, actor->y25);
+    dungeonReduceActorFoodMeter(entity, 4);
+    dungeonAdvanceStatusTimers(entity);
 
     {
 
@@ -154,13 +154,13 @@ void func_80172A24(State *action, Motion *motion, Actor *actor, Entity *entity)
         }
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
-            entity->direction2A = func_800A0818(
+            entity->direction2A = dungeonGetRoundedFacingAndRoundingFlag(
                 actor->x24, actor->y25, D_80082E80.tileX,
                 D_80082E80.tileY, direction_work);
         }
     }
 
-    if ((func_800AD9B4(actor, entity) << 16) > 0) {
+    if ((dungeonCheckActorFloorTrap(actor, entity) << 16) > 0) {
         action->field8C = D_80171650;
         func_800A9A04(entity);
     }

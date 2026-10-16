@@ -11,16 +11,16 @@
 M2C_UNK func_80048A44(void *, u8, s32, s32); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-void func_8008CAA0(); /* extern */
-void func_8008CBD4(); /* extern */
-void func_800A2B04();              /* extern */
-void func_800AD4D0();                      /* extern */
+void dungeonBeginPlayerDamageReaction(); /* extern */
+void dungeonResetActorMotionAtSpriteTile(); /* extern */
+void dungeonSetRecordIntegerTileCenter();              /* extern */
+void dungeonApplyClampedActorValueDelta();                      /* extern */
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];
 
 
 /* Update death movement and animation, then select the next death state. */
-void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
+void updateActorDeathMotion(void *state, void *motion, void *sprite, void *actor) {
     s16 frames_left;
     s32 pos_y;
     s32 pos_x;
@@ -31,14 +31,14 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
     u8 *anim_table;
 
     if (((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 == 0) {
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_u8 + 1);
         ((EntityRec *)motion)->unk_0C = (u32) (func_80064584(((s16)((EntityRec *)actor)->unk_6A)) << 9);
         ((EntityRec *)motion)->unk_10 = (s32) (func_800644B8(((s16)((EntityRec *)actor)->unk_6A)) << 9);
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = 0xCU;
     }
     if (((Rec_func_8008ACDC_arg0 *)state)->unk_10C & 1) {
-        func_8008CAA0(state, motion, sprite, actor);
+        dungeonBeginPlayerDamageReaction(state, motion, sprite, actor);
         return;
     }
     if ((((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_800DCFE0)
@@ -66,7 +66,7 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
         if ((move_frames << 0x10) == 0) {
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0U;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         }
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -82,13 +82,13 @@ void func_8008DDE8(void *state, void *motion, void *sprite, void *actor) {
                 ((EntityRec *)actor)->unk_28 = 1U;
             } else {
                 ((EntityRec *)actor)->unk_28 = 0U;
-                func_8008CBD4(state, motion, sprite, actor);
+                dungeonResetActorMotionAtSpriteTile(state, motion, sprite, actor);
                 return;
             }
         }
         next_timer = 8U;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_96.as_u16 = next_timer;
-        ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_pm = func_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_pm = dungeonHandlePlayerInput;
     }
 }
 

@@ -38,11 +38,11 @@ typedef struct {
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 
-extern s32 func_8003DE58(s32, void *, void *, s32);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, void *, s32);
 extern void func_80048A44(void *, u8, s16, s32);
-extern void func_8008D368(void *, void *, void *, u8 *, s32);
-extern void func_80091934(void *, void *, void *);
-extern void func_800D7A14(s32);
+extern void dungeonBeginParameterizedActorAction(void *, void *, void *, u8 *, s32);
+extern void dungeonBeginDeferredPlayerItemEffect(void *, void *, void *);
+extern void dungeonCreateRadialEffectController(s32);
 
 /* Advance the actor's directional animation state and delayed transition. */
 void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 *facing) {
@@ -71,23 +71,23 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
                 if (actor->field2c == D_800DD148) {
                     controller->state = 0x10;
                 } else {
-                    controller->field8c =func_8008ACDC;
+                    controller->field8c =dungeonHandlePlayerInput;
                 }
             }
-        } else if ((func_8003DE58(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
-            func_800D7A14(controller->field114);
+        } else if ((resolveRecordOrientationOrFallback(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
+            dungeonCreateRadialEffectController(controller->field114);
             controller->state++;
         }
         break;
     case 2:
         if ((actor->flags & 0x8000) || (dungeonStatus.unk_0A < 2)) {
             if (controller->field110 != 0) {
-                func_80091934(controller, context, actor);
+                dungeonBeginDeferredPlayerItemEffect(controller, context, actor);
                 return;
             }
             actor->field2c = D_800DD150;
             func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
-            controller->field8c =func_8008ACDC;
+            controller->field8c =dungeonHandlePlayerInput;
         }
         break;
     case 0x10:
@@ -97,7 +97,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
         countdown = controller->countdown - 1;
         controller->countdown = countdown;
         if ((s32)(countdown << 16) <= 0) {
-            func_8008D368(controller, context, actor, D_800DD150, 0);
+            dungeonBeginParameterizedActorAction(controller, context, actor, D_800DD150, 0);
         }
         break;
     }

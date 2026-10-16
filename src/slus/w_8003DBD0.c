@@ -19,7 +19,7 @@ extern s32 rcos(s32);
 extern s32 rsin(s32);
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
-void func_8003DBD0(void *transform, void *point, void *result)
+void runtimeTransformSpriteAttachmentPoint(void *transform, void *point, void *result)
 {
     u8 *render_state;
     u8 *scratch;

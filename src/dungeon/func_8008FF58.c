@@ -13,7 +13,7 @@ extern void *func_800990FC(void);
 extern s32 func_80099194(void *src, s32 dst);
 extern void func_80099290(s32 byte_ptr);
 extern void func_800A5720(s32 text);
-extern void func_800ACB98(void *entity, s32 unused, s32 status, void *event_state);
+extern void dungeonBeginActorFlaggedAction(void *entity, s32 unused, s32 status, void *event_state);
 extern u8 D_800E05E1[];
 extern u8 D_800E05F0[];
 
@@ -21,25 +21,25 @@ extern u8 D_800E05F0[];
 typedef struct S_800956B8_0 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800956B8_0;   /* arg3 in func_800956B8 */
+} S_800956B8_0;   /* arg3 in dungeonResolveFamiliarDeploymentRequest */
 
 typedef struct S_800956B8_1_pre {
     s32 unk_00;
     s32 unk_04;
     u8 pad_08[0x10];
-} S_800956B8_1_pre;   /* the 0x18 bytes before object in func_800956B8, addressed as object[-1] */
+} S_800956B8_1_pre;   /* the 0x18 bytes before object in dungeonResolveFamiliarDeploymentRequest, addressed as object[-1] */
 
 typedef struct S_800956B8_1 {
     u8 pad_00[0x14];
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_800956B8_1;   /* object in func_800956B8 */
+} S_800956B8_1;   /* object in dungeonResolveFamiliarDeploymentRequest */
 
 typedef struct S_800956B8_2 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800956B8_2;   /* (u8 *)arg0 + index * 4 in func_800956B8 */
+} S_800956B8_2;   /* (u8 *)arg0 + index * 4 in dungeonResolveFamiliarDeploymentRequest */
 
 
 typedef struct S_800956B8_4 {
@@ -48,9 +48,9 @@ typedef struct S_800956B8_4 {
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 unk_9B;
-} S_800956B8_4;   /* st in func_800956B8 */
+} S_800956B8_4;   /* st in dungeonResolveFamiliarDeploymentRequest */
 
-void func_800956B8(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr)
+void dungeonResolveFamiliarDeploymentRequest(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr)
 {
     void *object;
     s32 index;
@@ -96,7 +96,7 @@ void func_800956B8(void *context_ptr, s32 unused_one, void *unused_two, void *se
         object = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
         if (((S_800956B8_1 *)object)->unk_14 & 0x20000000) {
             ((S_800956B8_1 *)object)->unk_1C |= 0x10000;
-            func_800ACB98(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
+            dungeonBeginActorFlaggedAction(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
                           ((S_800956B8_1_pre *)object)[-1].unk_04, object);
             return;
         }

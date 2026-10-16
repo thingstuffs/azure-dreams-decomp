@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8008C214();                      /* extern */
+void townProcessAllLookupEntries();                      /* extern */
 extern u8 D_800FC428;
 
-/* Pass the entry index and its 64-byte record to func_8008C214. */
-void func_8008C28C(s32 entry_index) {
-    func_8008C214(entry_index, (entry_index << 6) + &D_800FC428);
+/* Pass the entry index and its 64-byte record to townProcessAllLookupEntries. */
+void townProcessIndexedEntryRecord(s32 entry_index) {
+    townProcessAllLookupEntries(entry_index, (entry_index << 6) + &D_800FC428);
 }

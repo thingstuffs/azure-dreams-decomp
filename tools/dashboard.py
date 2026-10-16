@@ -8,6 +8,7 @@ import collections, html, json, os, re, subprocess, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, PARKED_CONTAINERS, rows, read_jsonl, PIN
+from source_layout import row_path as layout_row_path
 
 OUT = ROOT / "dashboard"; OUT.mkdir(exist_ok=True)
 CONTAINERS = ("slus", "main", "town", "dungeon", "ovmovie")
@@ -67,7 +68,7 @@ def main():
     # ---- remaining work
     census = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
     def cur_text(r):
-        p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        p = layout_row_path(r, ROOT)
         return p.read_text(errors="replace") if p.exists() else ""
     off_files = off_sites = pin_rows = pin_sites = 0
     for r in live:

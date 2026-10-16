@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001D5D8(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
+void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
     register u32 value = rect->value;
     s16 left;
     u16 top;
@@ -123,18 +123,18 @@ void func_8001D5D8(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 updat
                                     if (coord != 0) {
                                         patch_cell = cell;
                                         if (row_style != 0) {
-                                            func_8001DD08(patch_cell, style_value_hi >> 16);
+                                            dungeonAdvanceGenerationStepPair(patch_cell, style_value_hi >> 16);
                                         } else {
                                             alt_value = value - 0xC0;
-                                            func_8001DD48(patch_cell, (s16)alt_value);
+                                            dungeonRetreatGenerationStepPair(patch_cell, (s16)alt_value);
                                         }
                                     } else {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             alt_value = value - 0xC0;
-                                            func_8001DD48(patch_cell, (s16)alt_value);
+                                            dungeonRetreatGenerationStepPair(patch_cell, (s16)alt_value);
                                         } else {
-                                            func_8001DD08(patch_cell, style_value_hi >> 16);
+                                            dungeonAdvanceGenerationStepPair(patch_cell, style_value_hi >> 16);
                                         }
                                     }
                                 }
@@ -150,5 +150,5 @@ void func_8001D5D8(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 updat
             patches_left--;
         } while (patches_left > 0);
     }
-    func_8001D9CC((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
+    dungeonWriteRectangularBorder((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
 }

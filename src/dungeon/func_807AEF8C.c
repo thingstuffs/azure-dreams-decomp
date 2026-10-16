@@ -17,8 +17,8 @@ typedef struct {
 extern DungeonState D_8008333C;
 extern Packed8 D_800F8B24;
 
-extern void func_80043A68(void);
-extern void func_80094E34(void);
+extern void clearScaledCellFlags8000(void);
+extern void dungeonClearPlayerLinkedActionFlags(void);
 
 #define CLEAR_HIGH_BIT(ptr) \
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
@@ -65,7 +65,7 @@ void func_800F678C(void *owner) {
         return;
     }
 
-    func_80094E34();
+    dungeonClearPlayerLinkedActionFlags();
     copy_dest = 0x80013720;
     *(Packed8 *)copy_dest = D_800F8B24;
     mode_page = (u8 *)0x80010000;
@@ -112,7 +112,7 @@ void func_800F678C(void *owner) {
         i++;
     } while (i < 0x30);
 
-    func_80043A68();
+    clearScaledCellFlags8000();
     i = 0;
     *(u16 *)((u8 *)owner - 2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

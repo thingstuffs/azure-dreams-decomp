@@ -14,21 +14,21 @@ extern u8 D_80088B14[];
 extern u8 D_800E0B4C[];
 
 extern s32 func_800A2B5C(s32);
-extern void func_80096088(Actor *, s32);
+extern void dungeonRestorePlayerControlCallback(Actor *, s32);
 extern s32 func_800990FC();
 extern s32 func_80099194(u8 *src, u8 *dst);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099978(u8 *dst);
-extern s32 func_80099368(void *, s32);
-extern void func_800998C0(s32, s32);
-extern s32 func_800999B0(s32);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendValueSevenSuffix(u8 *dst);
+extern s32 dungeonAppendTypedFormattedValue(void *, s32);
+extern void dungeonCopyFullwidthVowelBytes(s32, s32);
+extern s32 dungeonWriteStatusPrefixBytes(s32);
 extern void func_80099290(s8 *byte_ptr);
 extern void func_800A5720(s8 *text);
-extern void func_800954E0(Actor *, s32, s32, s32);
-extern s16 func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
+extern void dungeonRevealTriggeredTrap(Actor *, s32, s32, s32);
+extern s16 dungeonCallSlotHandlerAndUpdateStatus(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
-void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
+void dungeonUpdatePlayerTrapTrigger(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
     u8 *entry;
     u8 *tab;
     int state = actor->state;
@@ -49,7 +49,7 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         tab = D_800E3648;
         entry = &tab[actor->h100 * 4];
         if (entry[0] == 0) {
-            func_80096088(actor, target);
+            dungeonRestorePlayerControlCallback(actor, target);
             dungeonStatus.unk_0C = 0;
             dungeonStatus.unk_14--;
             dungeonStatus.flags &= 0xFFF7;
@@ -63,32 +63,32 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
             s32 entry_pos;
             cursor = func_800990FC();
             buffer_start = cursor;
-            cursor = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, cursor)));
+            cursor = dungeonAppendValueSevenSuffix(func_80099194(D_800E0B39, dungeonWriteTextByteAndAdvance(8, cursor)));
             patch_pos = cursor - 2;
             cursor = func_80099194(D_80088B14, cursor);
             entry_pos = cursor;
-            cursor = func_80099368(&D_800E3648[actor->h100 * 4], entry_pos);
-            func_800998C0(patch_pos, entry_pos);
-            func_80099290(func_800999B0(func_80099194(D_800E0B4C, func_8009929C(10, cursor))));
+            cursor = dungeonAppendTypedFormattedValue(&D_800E3648[actor->h100 * 4], entry_pos);
+            dungeonCopyFullwidthVowelBytes(patch_pos, entry_pos);
+            func_80099290(dungeonWriteStatusPrefixBytes(func_80099194(D_800E0B4C, dungeonWriteTextByteAndAdvance(10, cursor))));
             func_800A5720(buffer_start);
         }
         actor->state++;
-        func_800954E0(actor, context_a, context_b, target);
+        dungeonRevealTriggeredTrap(actor, context_a, context_b, target);
     }
     if (D_800E3648[actor->h100 * 4] == 0) {
-        func_80096088(actor, target);
+        dungeonRestorePlayerControlCallback(actor, target);
         dungeonStatus.unk_0C = 0;
         dungeonStatus.unk_14--;
         dungeonStatus.flags &= 0xFFF7;
         return;
     } else {
-        s16 result = (s16) func_800B627C(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
+        s16 result = (s16) dungeonCallSlotHandlerAndUpdateStatus(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
         if (result != 0) {
             dungeonStatus.unk_0C = 0;
             dungeonStatus.unk_14--;
             dungeonStatus.flags &= 0xFFF7;
             if (result > 0) {
-                func_80096088(actor, target);
+                dungeonRestorePlayerControlCallback(actor, target);
             }
             actor->state++;
         }

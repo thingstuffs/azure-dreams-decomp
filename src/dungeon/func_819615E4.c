@@ -38,7 +38,7 @@ extern void **D_800E3D18;
    case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
    in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
-void func_80026DE4(State *state, Target *target, S_func_819615E4_0 *color)
+void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;
     Vec3s position;
@@ -59,7 +59,7 @@ void func_80026DE4(State *state, Target *target, S_func_819615E4_0 *color)
         position.y = ((u16)D_80083780.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
         transform_offset = ((gameWork.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
-        func_8003DE58(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
+        resolveRecordOrientationOrFallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;
@@ -119,7 +119,7 @@ void func_80026DE4(State *state, Target *target, S_func_819615E4_0 *color)
     if ((s16)phase_value > 0) {
         return;
     }
-    func_800B8D64(state->x, state->y, state->z);
+    dungeonSpawnBlinkingSpriteFlash(state->x, state->y, state->z);
     phase_value = state->state;
     const_reg = 5;
     state->timer = const_reg;
@@ -151,7 +151,7 @@ void func_80026DE4(State *state, Target *target, S_func_819615E4_0 *color)
         TileObject *table;
 
         table = &D_80082E80;
-        func_8003DE58(((void *)table->unk_008), table, &position, 0);
+        resolveRecordOrientationOrFallback(((void *)table->unk_008), table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {

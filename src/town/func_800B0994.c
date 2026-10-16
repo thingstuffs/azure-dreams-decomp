@@ -7,7 +7,7 @@ typedef struct {
 extern s32 D_80082A38[];
 
 /* Copy a global state word and a 17-word block into the record. */
-void func_800AE0F4(s32 *record) {
+void townCopyGlobalStateAndRecordBlock(s32 *record) {
     s32 *base = D_80082A38;
 
     record[0xC] = base[0x20];

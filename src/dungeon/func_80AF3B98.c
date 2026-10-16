@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
+void dungeonAdvanceActorTransitionAndRestoreFacing(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
     u8 *object_data = ((u8 *)(&gameWork));
     u8 state;
     u32 next_state;
@@ -34,11 +34,11 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
             return;
         }
         func_80041588(((u8 *)D_801759F8), ((u8 *)D_80175A80), 1);
-        func_8003F540(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        soundSetCdCueParameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         (*(u8 *)D_80175A81) = 0;
         Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_80175A81));
-        func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
     }
@@ -61,7 +61,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
             return;
         }
 
-        target_color = ((u8 * *)D_800DCEEC)[func_800498A0(actor)];
+        target_color = ((u8 * *)D_800DCEEC)[lookupMaskedByteTable(actor)];
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A8 +=
             (((R10_80175398_S_80175398_3 *)target_color)->unk_00 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
             ((R10_80175398_S_80175398_0 *)transition)->unk_96.s;
@@ -95,7 +95,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
             ((R10_80175398_DungeonTail *)object_data)->color = 0x00808080;
         }
         {
-            s16 resource_index = func_800498A0(actor) - 1;
+            s16 resource_index = lookupMaskedByteTable(actor) - 1;
 
             if (resource_index < 0) {
                 s32 random_value = func_80069EF8();
@@ -132,12 +132,12 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
         if (((R10_80175398_S_80175398_0 *)transition)->unk_9B != 6) {
             return;
         }
-        if (func_800ADC4C(position, (*(void * *)D_80175A84), (*(s16 *)D_80175A18), ((u8 *)D_800DCF5C)) == 0) {
+        if (dungeonCreateStatusLinkedRenderEffect(position, (*(void * *)D_80175A84), (*(s16 *)D_80175A18), ((u8 *)D_800DCF5C)) == 0) {
             return;
         }
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
-        func_800A18E8(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
+        dungeonDecrementMonsterEntryCount(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
         func_8009A3D0(record->unk_24, record->unk_25, 0x300);
         func_8009A028(actor);
         object_data = (u8 *)actor - 0x20;
@@ -146,7 +146,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
     case 7:
     {
-        u8 *linked_actor = func_800A504C(record, actor);
+        u8 *linked_actor = dungeonAdvanceStagedEntityLoad(record, actor);
         ((R10_80175398_S_80175398_1 *)actor)->unk_60 = linked_actor;
         if (linked_actor == NULL) {
             return;
@@ -162,7 +162,7 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
             object_data = ((R10_80175398_S_80175398_5_pre *)linked_state)[-1].unk_00;
             direction = ((gameWork.view.viewAngle + ((R10_80175398_S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((R10_80175398_S_80175398_2 *)object_data)->unk_2C;
-            func_80047738(object_data, direction_frames[direction], ((R10_80175398_S_80175398_2 *)object_data)->unk_04);
+            selectIndirectTableEntry(object_data, direction_frames[direction], ((R10_80175398_S_80175398_2 *)object_data)->unk_04);
         }
         ((R10_80175398_S_80175398_2 *)object_data)->unk_14 &= 0xFFFE;
     }

@@ -21,12 +21,12 @@ typedef struct S_80172288_0 {
 
 
 M2C_UNK func_80047784();
-s16 func_800A0818();
-void func_800A2B04();
-s32 func_800A4ACC();
+s16 dungeonGetRoundedFacingAndRoundingFlag();
+void dungeonSetRecordIntegerTileCenter();
+s32 dungeonAdvanceStatusTimers();
 M2C_UNK func_800A9A04();
-void func_800AD594();
-s32 func_800AD9B4();
+void dungeonReduceActorFoodMeter();
+s32 dungeonCheckActorFloorTrap();
 
 extern u8 D_80170E68;
 extern u8 D_801741B4[];
@@ -89,7 +89,7 @@ void func_80172288(void *jump, EntityRec *motion, void *map_entity, EntityRec *a
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741BC;
             func_80047784(
                 map_entity,
@@ -108,9 +108,9 @@ void func_80172288(void *jump, EntityRec *motion, void *map_entity, EntityRec *a
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
         {
 
             if (dungeonStatus.unk_08 != 0) {
@@ -126,13 +126,13 @@ void func_80172288(void *jump, EntityRec *motion, void *map_entity, EntityRec *a
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                actor->facing = func_800A0818(
+                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
             }
         }
 
-        if ((func_800AD9B4(map_entity, actor) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(map_entity, actor) << 16) > 0) {
             ((S_80172288_0 *)jump)->unk_8C = &D_80170E68;
             func_800A9A04(actor);
         }

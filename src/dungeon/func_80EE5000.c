@@ -92,7 +92,7 @@ typedef struct S_func_80EE5000_4 {
     u16 unk_00;
 } S_func_80EE5000_4;
 
-extern s32 func_800A45D8(u16, u16, s16);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
 extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
 extern void func_800A7A7C(s16, s16, s16, s32, s8 *);
 extern s16 func_800BCB04(s32, s32, s16);
@@ -100,10 +100,10 @@ extern s16 func_800BCB04(s32, s32, s16);
 extern u8 D_8016A808[];
 extern FlagBlock D_800814A0;
 
-void func_8016A8BC(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display);
+void dungeonUpdateMovingObjectLanding(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display);
 
 /* Updates motion, landing interpolation, and completion of a moving object. */
-void func_8016A8BC(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display)
+void dungeonUpdateMovingObjectLanding(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display)
 {
     s8 command[4];
     GridPoint grid[8];
@@ -279,7 +279,7 @@ move:
                 world_coord += 0x3F;
             coord = world_coord >> 6;
             if (interp_goal == coord) {
-                if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+                if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
                     position->unk_08.parts.unk_0A) << 16) != 0 ||
                     func_800BCB04(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
                                       position->unk_08.parts.unk_0A) >= 0x200) {

@@ -5,16 +5,16 @@
 typedef struct S_80094548_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80094548_0;   /* temp_a0 + temp_v0 in func_80094548 */
+} S_80094548_0;   /* temp_a0 + temp_v0 in dungeonSetLinkedActorOctantFacing */
 
 typedef struct S_80094548_1 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80094548_1;   /* ((S_80094548_0 *)(temp_a0 + temp_v0))->unk_AC in func_80094548 */
+} S_80094548_1;   /* ((S_80094548_0 *)(temp_a0 + temp_v0))->unk_AC in dungeonSetLinkedActorOctantFacing */
 
 
 /* Store the value scaled by 512 in the indexed object's field. */
-void func_80094548(s32 index, s32 value) {
+void dungeonSetLinkedActorOctantFacing(s32 index, s32 value) {
     s32 entry_offset;
     s32 table_base;
 

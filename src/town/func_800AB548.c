@@ -27,7 +27,7 @@ typedef struct S_800A8CA8_0 {
     s8 unk_114;
     s8 unk_115;
     s8 unk_116;
-} S_800A8CA8_0;   /* arg0 in func_800A8CA8 */
+} S_800A8CA8_0;   /* arg0 in townUpdateProjectedEffectPoints */
 
 typedef struct S_800A8CA8_1 {
     u8 pad_00[0xE];
@@ -36,17 +36,17 @@ typedef struct S_800A8CA8_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_800A8CA8_1;   /* temp_src in func_800A8CA8 */
+} S_800A8CA8_1;   /* temp_src in townUpdateProjectedEffectPoints */
 
 typedef struct S_800A8CA8_2 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_800A8CA8_2;   /* arg3 in func_800A8CA8 */
+} S_800A8CA8_2;   /* arg3 in townUpdateProjectedEffectPoints */
 
 /* Updates three offset points, their projected coordinates, and phase-based intensities. */
-void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
+void townUpdateProjectedEffectPoints(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
     S_800A8CA8_1 *source;
     u32 phase_bits;
     s32 offset_phase;

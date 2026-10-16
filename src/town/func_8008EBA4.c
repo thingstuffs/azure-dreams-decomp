@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-/* Sibling of func_8004F52C/func_8004EE90/func_800510DC (D_800814A0 "used"/
+/* Sibling of slusSetObjectCleanupFlag/setObjectAndGlobalRemovalFlag/func_800510DC (D_800814A0 "used"/
  * flags word family). Reuses ONE lui-computed base register across the
  * load and store of D_800814A0 (no second lui) -- per code10.c that shape
  * needs gcc>=2.8 (2.8.0/2.8.1/2.95.2) or 2.7.2-cdk; adjacent sibling
  * func_8008EC14 (this container, immediately following) matched at 2.8.1. */
-extern void func_8008C28C(s32 a0);
+extern void townProcessIndexedEntryRecord(s32 a0);
 
 extern void *D_800CFCA8[];
 
@@ -15,7 +15,7 @@ void func_8008C304(s32 *currentIndex)
 {
     s32 nextIndex;
 
-    func_8008C28C(*currentIndex);
+    townProcessIndexedEntryRecord(*currentIndex);
     nextIndex = *currentIndex + 1;
     *currentIndex = nextIndex;
     if (nextIndex >= 0x80) {

@@ -9,6 +9,10 @@ if __name__ == "__main__": (D / "inc/shared").mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import row_index, REPO
 from check import check
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 if __name__ == "__main__": (D / "inc/shared/sound_volume.h").write_text(open(LANE / "t1/sound_volume.h.in").read().replace("@N@", V))
 R = row_index()
 ROWS = "w_80053DF0 w_80053E20 w_80053E90 w_80054D64 w_800552C8 w_8005560C w_800559B4".split()
@@ -23,7 +27,7 @@ def edit(t):
 if __name__ == "__main__":
     for f in ROWS:
         rid = "slus/" + f
-        t = edit((REPO / "src" / (rid + ".c")).read_text())
+        t = edit((layout_row_path(rid, REPO)).read_text())
         assert not re.search(r"D_8008480[8AC]", t), rid
         (D / (f + ".c")).write_text(t)
         rec = check(R[rid], t)

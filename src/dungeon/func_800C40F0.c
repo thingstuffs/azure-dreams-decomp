@@ -22,10 +22,10 @@ typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 
 extern void *func_8003FD64(s32 a0, void *a1);
 extern u8 func_8009FB34(u8 a0, u8 a1);
-extern void func_800A2B04(void *a0, u8 a1, u8 a2);
+extern void dungeonSetRecordIntegerTileCenter(void *a0, u8 a1, u8 a2);
 extern s16 func_800BCB04(u16 a0, u16 a1, s16 a2);
 extern void func_8003DB94(void *a0, s32 a1, s32 a2);
-extern void func_80099FDC(void *a0);
+extern void dungeonClearEntryFlagAndLinkOwner(void *a0);
 extern void func_800CB4C0(void *, s16);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_800A48F0(void *a0, s32 a1, s32 a2);
@@ -57,7 +57,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(sprite, u8, 0x24) = saved_tile_x;
         FLD(sprite, u8, 0x25) = saved_tile_z;
         FLD(sprite, u8, 0x26) = func_8009FB34(FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
-        func_800A2B04(state_tail, FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
+        dungeonSetRecordIntegerTileCenter(state_tail, FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
         FLD(state, s16, 0x88) =
             func_800BCB04(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
         FLD(sprite, s16, 0x1E) = 0x1000;
@@ -69,7 +69,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)FLD(state, void *, 0xA4);
         func_8003DB94(sprite, FLD((void *)direction_entry, s32, 0), 0);
-        func_80099FDC(entity);
+        dungeonClearEntryFlagAndLinkOwner(entity);
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
         FLD(state, s32, 0x1C) |= 0x40000000;
         FLD(state, s8, 0x71) = 0;

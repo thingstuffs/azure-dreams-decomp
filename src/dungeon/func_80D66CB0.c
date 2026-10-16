@@ -19,9 +19,9 @@ typedef struct S_801724B0_3 {
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern s32 func_80172E0C();
+extern s16 dungeonCheckMovementClearanceAndHeight();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 dungeonInitializeAngleIndexedTarget();
 
 extern u8 D_800E2348[8];
 
@@ -48,13 +48,13 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, EntityRec *move_d
         tile_mask = (move_data->flags1C & 0x2000) ? 0x300 : 0x3000;
         func_8009A3D0(x, y, tile_mask);
 
-        heading = func_800A0818(
+        heading = dungeonGetRoundedFacingAndRoundingFlag(
             x,
             y,
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_74,
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_7C,
             (u8 *)motion + 0x98);
-        x = (s16)func_8009A66C(heading, actor, move_data, 0x20);
+        x = (s16)dungeonCheckMovementClearanceAndHeight(heading, actor, move_data, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =
             ((S_801724B0_3 *)((u8 *)move_data + move_data->unk_8A))->unk_74;
@@ -75,7 +75,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, EntityRec *move_d
 
         move_data->facing = heading;
         if (x == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
-            func_80172E0C(motion, actor_index, actor, move_data);
+            dungeonInitializeAngleIndexedTarget(motion, actor_index, actor, move_data);
             ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
         } else {
             ((Rec_func_801724B0_arg0 *)motion)->unk_9A = 0xF;
@@ -99,5 +99,5 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, EntityRec *move_d
 }
 
 /* MECHANISM: The four live arguments and two call results naturally produce the retail 0x38 frame and saved-register order.
-   A guarded s0 pin holds the signed func_8009A66C result; placing ASM_KEEP before the result store lets that sh fill the bne delay slot.
+   A guarded s0 pin holds the signed dungeonCheckMovementClearanceAndHeight result; placing ASM_KEEP before the result store lets that sh fill the bne delay slot.
    Explicit mode initialization plus scoped next-coordinate locals reproduce the post-call load/store and branch emission order. */

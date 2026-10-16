@@ -15,11 +15,11 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern s16 func_800C2AE8(void *position);
-extern void func_80098928(void *record, void *setup_value, s32 init_value);
+extern s16 townQueryLoweredTransformPosition(void *position);
+extern void townInitializeRecordWithHandlerTable(void *record, void *setup_value, s32 init_value);
 
 /* Advance the position toward its target and update its angle. */
-void func_80099C18(void *work_data, void *position_data, s32 context) {
+void townAdvancePlayerPositionAndAngle(void *work_data, void *position_data, s32 context) {
     Position *pos;
     Work *work;
     u16 steps_left;
@@ -33,7 +33,7 @@ void func_80099C18(void *work_data, void *position_data, s32 context) {
     if (remaining <= 0) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
-        func_80098928(work, pos, context);
+        townInitializeRecordWithHandlerTable(work, pos, context);
     } else {
         s32 x;
         s32 y;
@@ -45,5 +45,5 @@ void func_80099C18(void *work_data, void *position_data, s32 context) {
         pos->y = y +
             ((work->target_y << 16) - y) / (s16)work->count;
     }
-    pos->angle = func_800C2AE8(pos);
+    pos->angle = townQueryLoweredTransformPosition(pos);
 }

@@ -6,7 +6,7 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advance a timed state sequence, decrease its value, and set completion flags. */
-void func_800BC390(void *object)
+void townAdvanceTimedStateAndSetCompletion(void *object)
 {
     s32 state;
     s32 timer;

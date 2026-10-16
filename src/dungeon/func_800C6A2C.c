@@ -8,21 +8,21 @@ typedef struct S_800CC18C_0 {
     u8 unk_1B;
     u8 pad_1C[0xF];
     u8 unk_2B;
-} S_800CC18C_0;   /* arg0 in func_800CC18C; pointer addresses record offset 0x18 */
+} S_800CC18C_0;   /* arg0 in dungeonResolveRandomTrapOutcome; pointer addresses record offset 0x18 */
 
 
 
 extern u8 D_800E1BDA[];
-extern void func_80099844();
+extern void dungeonAdjustSourceValueAndFinalize();
 extern s32 func_800A56E0();
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
-extern s32 func_800AA5E4(void *, s32, s32, void *);
+extern s32 dungeonBeginActorRandomWarp(void *, s32, s32, void *);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
-s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
+s32 dungeonResolveRandomTrapOutcome(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
     s16 roll;
     s32 random_value;
     s32 remainder;
@@ -44,7 +44,7 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
         roll = 0;
     }
     if (roll < 0x40) {
-        func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
+        dungeonBeginActorRandomWarp(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00,
             ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         func_800A56E0(0x705);
         if (D_800E3D40 != 0) {
@@ -58,7 +58,7 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
     feedback_or_result = feedback_kind;
     if (feedback_or_result != 0) {
         if (feedback_or_result == 1) {
-            func_80099844(entity, &D_800E1BDA);
+            dungeonAdjustSourceValueAndFinalize(entity, &D_800E1BDA);
         } else {
             func_800A6508();
         }

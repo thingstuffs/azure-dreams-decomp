@@ -1,7 +1,7 @@
 #include "slus/sound_register_helpers.h"
 
 /* Optionally aligns a value, shifts it, and stores or returns the result. */
-s32 func_8005D598(s32 index, u32 value)
+s32 audioHandleOptionallyAlignsShiftsStoresReturnsResult(s32 index, u32 value)
 {
     s32 store_index = index;
     u32 shifted_value;

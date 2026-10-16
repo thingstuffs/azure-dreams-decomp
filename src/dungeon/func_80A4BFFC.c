@@ -2,7 +2,7 @@
 
 void func_801757FC(Resource06CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (func_800AB464(state, motion, position, actor) > 0) {
+    if (dungeonResolveActorFloorTrapOnce(state, motion, position, actor) > 0) {
         state->callback = func_8017140C;
     }
 }

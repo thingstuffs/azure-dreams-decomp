@@ -39,7 +39,7 @@ typedef struct {
 } S_8000F6E0_a0;
 
 /* Copy and link entity templates, clear its state, and set primary field defaults. */
-void func_800226E0(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, S_8000F6E0_a2 *secondary_data) {
+void cardBootInitializeMessageRenderTemplates(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, S_8000F6E0_a2 *secondary_data) {
     S_8002E5D8 *primary_template = &D_8002E5D8;
     S_8002E5E8 *secondary_template = &D_8002E5E8;
     s32 *secondary_head;

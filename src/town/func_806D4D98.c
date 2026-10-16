@@ -7,7 +7,7 @@ extern s32 D_8001B3F2[3];
 extern s32 D_8001B71A[3];
 
 /* Returns special data for IDs 11 and 28 when their value is below -47. */
-M2C_UNK *func_80016D98(s32 id) {
+M2C_UNK *townGetSpecialDataForLowValueId(s32 id) {
     s32 *special_data;
 
     special_data = 0;

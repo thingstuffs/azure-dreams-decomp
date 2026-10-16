@@ -6,7 +6,7 @@ extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 
 /* Updates radial position or sets completion flags based on the object state. */
-void func_80174F64(u16 *motion, s32 *position, u8 *object)
+void dungeonUpdateRadialMotionOrComplete(u16 *motion, s32 *position, u8 *object)
 {
     s32 y_offset;
 

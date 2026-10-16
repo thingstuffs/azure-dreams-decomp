@@ -11,12 +11,12 @@ typedef struct {
 
 extern u8 D_8002241C[];
 
-extern void func_80020948(void *, void *, void *, void *);
+extern void townCreatePairedVectorColorEffect(void *, void *, void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
 /* Draws three depth layers of a rotating four-corner effect with complementary grayscale colors. */
-void func_80022494(u8 *effect)
+void townCreateRotatingLayeredLineCage(u8 *effect)
 {
     Vec3s edge[2];
     Vec3s corner[4];
@@ -62,7 +62,7 @@ void func_80022494(u8 *effect)
         for (index = 3; index >= 0; index--) {
             edge[0] = edge[index + 2];
             edge[1] = edge[((index + 1) & 3) + 2];
-            func_80020948(D_8002241C, edge, color, effect);
+            townCreatePairedVectorColorEffect(D_8002241C, edge, color, effect);
         }
 
         for (index = 3; index >= 0; index--) {

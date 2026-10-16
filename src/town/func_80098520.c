@@ -9,17 +9,17 @@ typedef struct Motion {
     s32 dy;
 } Motion;
 
-s16 func_80095BC0(s32 input_value, s32 parameter);
-s16 func_80095BF0(s32 input_value, s32 parameter);
-s16 func_80095C20(s32 input_value, s32 parameter);
-s16 func_80095C50(s32 input_value, s32 parameter);
-void func_800961A8(void *);                 /* extern */
-void func_800961D8(void *);                 /* extern */
+s16 townCallCallee8008C4C8Global800D0410Parameter(s32 input_value, s32 parameter);
+s16 townCallCallee8008C570Global800D0414Parameter(s32 input_value, s32 parameter);
+s16 townCallCallee8008C610Global800D0418Parameter(s32 input_value, s32 parameter);
+s16 townCallCallee8008C6B8Global800D041CParameter(s32 input_value, s32 parameter);
+void townCallTheCallee80096208Callee800962B8(void *);                 /* extern */
+void townCallTheCallee800962B8Callee80096208(void *);                 /* extern */
 extern Motion D_800FE5C0;
 #define D_80100000 ((s32 *)0x80100000)
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
-void func_80095C80(EntityRec *position) {
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(EntityRec *position) {
     s32 probe_coord;
     struct {
         s32 x;
@@ -53,12 +53,12 @@ void func_80095C80(EntityRec *position) {
             probe.x = position->x.v - motion->dx;
             probe.y = position->y.v;
             probe.z = position->z.v;
-            x_hit = position->x.v < (func_80095BC0(&probe, 0) << 0x10);
+            x_hit = position->x.v < (townCallCallee8008C4C8Global800D0410Parameter(&probe, 0) << 0x10);
             x_hit ^= 1;
             probe.x = position->x.v;
             probe.y = position->y.v - motion->dy;
             probe.z = position->z.v;
-            boundary_test = func_80095C20(&probe, 0) << 0x10;
+            boundary_test = townCallCallee8008C610Global800D0418Parameter(&probe, 0) << 0x10;
             boundary_test = position->y.v < boundary_test;
             boundary_test ^= 1;
             if (x_hit == 0) {
@@ -72,10 +72,10 @@ void func_80095C80(EntityRec *position) {
                     y_offset &= 0x3F;
                     x_offset = x_offset < y_offset;
                     if (x_offset == 0) {
-                        func_800961D8(position);
+                        townCallTheCallee800962B8Callee80096208(position);
                         return;
                     }
-                    func_800961A8(position);
+                    townCallTheCallee80096208Callee800962B8(position);
                     return;
                 }
             } else {
@@ -89,25 +89,25 @@ void func_80095C80(EntityRec *position) {
             y_step_or_side = 0;
             probe.y = pos_x_neg_y_y - pos_xy_test;
             probe.z = position->z.v - pos_xy_test;
-            pos_xy_test = position->x.v < (func_80095BC0(&probe, y_step_or_side) << 0x10);
+            pos_xy_test = position->x.v < (townCallCallee8008C4C8Global800D0410Parameter(&probe, y_step_or_side) << 0x10);
             pos_xy_test ^= 1;
             if (pos_xy_test != 0) {
-                func_800961A8(position);
+                townCallTheCallee80096208Callee800962B8(position);
                 return;
             }
-            func_800961D8(position);
+            townCallTheCallee800962B8Callee80096208(position);
             return;
         }
         if (motion->dy < 0) {
             probe.x = position->x.v - motion->dx;
             probe.y = position->y.v;
             probe.z = position->z.v;
-            pos_x_hit = position->x.v < (func_80095BC0(&probe, 1) << 0x10);
+            pos_x_hit = position->x.v < (townCallCallee8008C4C8Global800D0410Parameter(&probe, 1) << 0x10);
             pos_x_hit ^= 1;
             probe.x = position->x.v;
             probe.y = position->y.v - motion->dy;
             probe.z = position->z.v;
-            neg_y_hit = (func_80095C50(&probe, 0) << 0x10) >= position->y.v;
+            neg_y_hit = (townCallCallee8008C6B8Global800D041CParameter(&probe, 0) << 0x10) >= position->y.v;
             if (pos_x_hit == 0) {
                 pos_x_neg_y_motion = (Motion *)D_80100000;
                 if (neg_y_hit == 0) {
@@ -120,10 +120,10 @@ void func_80095C80(EntityRec *position) {
                     absolute_y &= 0x3F;
                     x_offset = x_offset < absolute_y;
                     if (x_offset != 0) {
-                        func_800961A8(position);
+                        townCallTheCallee80096208Callee800962B8(position);
                         return;
                     }
-                    func_800961D8(position);
+                    townCallTheCallee800962B8Callee80096208(position);
                     return;
                 }
             } else {
@@ -137,12 +137,12 @@ void func_80095C80(EntityRec *position) {
             y_step_or_side = 1;
             probe.y = pos_x_neg_y_y - pos_x_neg_y_test;
             probe.z = position->z.v - pos_x_neg_y_test;
-            pos_x_neg_y_test = position->x.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
+            pos_x_neg_y_test = position->x.v >= (townCallCallee8008C4C8Global800D0410Parameter(&probe, y_step_or_side) << 0x10);
             if (pos_x_neg_y_test != 0) {
-                func_800961A8(position);
+                townCallTheCallee80096208Callee800962B8(position);
                 return;
             } else {
-                func_800961D8(position);
+                townCallTheCallee800962B8Callee80096208(position);
                 return;
             }
         }
@@ -157,13 +157,13 @@ void func_80095C80(EntityRec *position) {
                 probe.x = position->x.v - neg_x_motion->dx;
                 probe.y = position->y.v;
                 probe.z = position->z.v;
-                neg_x_boundary = func_80095BF0(&probe, 0);
+                neg_x_boundary = townCallCallee8008C570Global800D0414Parameter(&probe, 0);
                 neg_x_pos_y_x = position->x.v;
                 probe.x = neg_x_pos_y_x;
                 hit_a = (neg_x_boundary << 0x10) >= neg_x_pos_y_x;
                 probe.y = position->y.v - neg_x_motion->dy;
                 probe.z = position->z.v;
-                y_test = func_80095C20(&probe, 1);
+                y_test = townCallCallee8008C610Global800D0418Parameter(&probe, 1);
                 probe_coord = position->y.v;
                 y_test <<= 0x10;
                 probe_coord = probe_coord < y_test;
@@ -177,10 +177,10 @@ void func_80095C80(EntityRec *position) {
                         absolute_x &= 0x3F;
                         y_offset &= 0x3F;
                         if (absolute_x < y_offset) {
-                            func_800961A8(position);
+                            townCallTheCallee80096208Callee800962B8(position);
                             return;
                         }
-                        func_800961D8(position);
+                        townCallTheCallee800962B8Callee80096208(position);
                         return;
                     }
                 } else {
@@ -194,13 +194,13 @@ void func_80095C80(EntityRec *position) {
                 y_step_or_side = 0;
                 probe.y = pos_x_neg_y_y - probe_coord;
                 probe.z = position->z.v - probe_coord;
-                axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) < position->x.v;
+                axis_test = (townCallCallee8008C570Global800D0414Parameter(&probe, y_step_or_side) << 0x10) < position->x.v;
                 axis_test ^= 1;
                 if (axis_test != 0) {
-                    func_800961A8(position);
+                    townCallTheCallee80096208Callee800962B8(position);
                     return;
                 }
-                func_800961D8(position);
+                townCallTheCallee800962B8Callee80096208(position);
                 return;
             }
             if (neg_x_motion->dy < 0) {
@@ -208,13 +208,13 @@ void func_80095C80(EntityRec *position) {
                 probe.x = position->x.v - neg_x_motion->dx;
                 probe.y = position->y.v;
                 probe.z = position->z.v;
-                neg_xy_boundary = func_80095BF0(&probe, 1);
+                neg_xy_boundary = townCallCallee8008C570Global800D0414Parameter(&probe, 1);
                 neg_xy_x = position->x.v;
                 probe.x = neg_xy_x;
                 hit_b = (neg_xy_boundary << 0x10) >= neg_xy_x;
                 probe.y = position->y.v - neg_x_motion->dy;
                 probe.z = position->z.v;
-                axis_test = func_80095C50(&probe, 1);
+                axis_test = townCallCallee8008C6B8Global800D041CParameter(&probe, 1);
                 probe_coord = position->y.v;
                 axis_test <<= 0x10;
                 axis_test = axis_test < probe_coord;
@@ -229,10 +229,10 @@ void func_80095C80(EntityRec *position) {
                         y_offset = abs(y_offset);
                         y_offset &= 0x3F;
                         if (absolute_x < y_offset) {
-                            func_800961D8(position);
+                            townCallTheCallee800962B8Callee80096208(position);
                             return;
                         }
-                        func_800961A8(position);
+                        townCallTheCallee80096208Callee800962B8(position);
                         return;
                     }
                 } else {
@@ -246,15 +246,15 @@ void func_80095C80(EntityRec *position) {
                 y_step_or_side = 1;
                 probe.y = pos_x_neg_y_y - probe_coord;
                 probe.z = position->z.v - probe_coord;
-                axis_test = func_80095BF0(&probe, y_step_or_side);
+                axis_test = townCallCallee8008C570Global800D0414Parameter(&probe, y_step_or_side);
                 axis_test <<= 16;
                 axis_test = axis_test < position->x.v;
                 axis_test ^= 1;
                 if (axis_test != 0) {
-                    func_800961A8(position);
+                    townCallTheCallee80096208Callee800962B8(position);
                     return;
                 }
-                func_800961D8(position);
+                townCallTheCallee800962B8Callee80096208(position);
                 return;
             }
         }
@@ -266,13 +266,13 @@ void func_80095C80(EntityRec *position) {
             if (axis_motion->dy != 0) {
                 return;
             }
-            func_800961A8(position);
+            townCallTheCallee80096208Callee800962B8(position);
             return;
         }
         if (axis_motion->dy == 0) {
             return;
         }
 
-        func_800961D8(position);
+        townCallTheCallee800962B8Callee80096208(position);
     }
 }

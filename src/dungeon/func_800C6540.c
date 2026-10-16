@@ -5,26 +5,26 @@
 typedef struct S_800CBCA0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in func_800CBCA0, addressed as arg0[-1] */
+} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in dungeonCheckEntityChanceAndTriggerParentAction, addressed as arg0[-1] */
 
 
 typedef struct S_800CBCA0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CBCA0_1;   /* parent in func_800CBCA0 */
+} S_800CBCA0_1;   /* parent in dungeonCheckEntityChanceAndTriggerParentAction */
 
 
-extern void func_80094E34(void);
-extern void func_80099844();
+extern void dungeonClearPlayerLinkedActionFlags(void);
+extern void dungeonAdjustSourceValueAndFinalize();
 extern void func_800A6508();
 extern s32 func_800A6D30(void);
-extern void * func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner);
+extern void * dungeonCreateOwnedTileCenterEffect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
 
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
-s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
+s32 dungeonCheckEntityChanceAndTriggerParentAction(void *entity, s32 input_a, s32 input_b, s32 input_c)
 {
     S_800CBCA0_1 *parent;
     s32 action_result;
@@ -54,13 +54,13 @@ value_ready:
 
     if (roll < 0x30) {
         parent = ((S_800CBCA0_0_pre *)entity)[-1].unk_00;
-        action_result = func_800CBB98(parent->unk_24,
+        action_result = dungeonCreateOwnedTileCenterEffect(parent->unk_24,
                                parent->unk_25,
                                ((EntityRec *)entity)->unk_88, entity);
         if (action_result != 0) {
             if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
-                func_80094E34();
-                func_80099844(entity, D_800E1AE6);
+                dungeonClearPlayerLinkedActionFlags();
+                dungeonAdjustSourceValueAndFinalize(entity, D_800E1AE6);
             }
         }
     } else {

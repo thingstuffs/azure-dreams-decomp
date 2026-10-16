@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80019A84(s16 value) {
+void dungeonFillInactiveInteriorCells(s16 value) {
     MapGrid *state;
     floor_generate_isolated_80286A84_DungeonCell *cells;
     s32 row;

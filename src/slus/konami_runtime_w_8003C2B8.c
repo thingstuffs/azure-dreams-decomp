@@ -11,12 +11,12 @@ typedef struct S_8003C2B8_0_pre {
 
 
 M2C_UNK func_80033D08();                   /* extern */
-void func_8003C0C0();              /* extern */
+void runtimeClearRecordField04();              /* extern */
 extern u8 D_80082D58[];
 
 /* Clears D_80082D58 and processes it using the preceding block's value. */
 void func_8003C2B8(void) {
     ((Rec_D_80082D58 *)(&D_80082D58))->unk_00 = 0;
-    func_8003C0C0(&D_80082D58, ((S_8003C2B8_0_pre *)(&D_80082D58))[-1].unk_00);
+    runtimeClearRecordField04(&D_80082D58, ((S_8003C2B8_0_pre *)(&D_80082D58))[-1].unk_00);
     func_80033D08(&D_80082D58);
 }

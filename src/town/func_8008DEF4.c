@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern s32 func_80033BE4(void);
-extern void func_80033C1C(s32, s32);
-extern void func_80033C84(s32);
+extern s32 runtimeFindUnusedPoolSlot(void);
+extern void runtimeInitializeStateValue(s32, s32);
+extern void runtimeClearValue(s32);
 extern s32 func_8003FC64(s32);
-extern void func_8003FFF0(s32);
-extern void func_80040044(s32);
+extern void unlinkActiveNode(s32);
+extern void pushNodeOntoFreeList(s32);
 extern void func_8008B818(s32, s32, s32, s32);
 extern s8 D_800CFC2C[11];
 extern u8 D_800FC418;
@@ -29,11 +29,11 @@ s32 town_map_set(s32 value_7c, s32 value_78)
         if (new_object == 0) {
             break;
         }
-        new_resource = func_80033BE4();
+        new_resource = runtimeFindUnusedPoolSlot();
         if (new_resource == 0) {
             break;
         }
-        func_80033C1C(new_resource, 0);
+        runtimeInitializeStateValue(new_resource, 0);
         *object_slot++ = new_object;
         *resource_slot++ = new_resource;
         index++;
@@ -44,15 +44,15 @@ s32 town_map_set(s32 value_7c, s32 value_78)
             array_start = objects;
             do {
                 object_slot--;
-                func_8003FFF0(*object_slot);
-                func_80040044(*object_slot);
+                unlinkActiveNode(*object_slot);
+                pushNodeOntoFreeList(*object_slot);
             } while (object_slot != array_start);
         }
         if (resource_slot != resources) {
             array_start = resources;
             do {
                 resource_slot--;
-                func_80033C84(*resource_slot);
+                runtimeClearValue(*resource_slot);
             } while (resource_slot != array_start);
         }
         return 0;

@@ -15,21 +15,21 @@ typedef struct Func800A75ECState {
     s32 *other;
 } Func800A75ECState;
 
-extern void func_800A4E1C(void *state);
+extern void townResetOrAdvanceTargetMidpoint(void *state);
 
 /* Restart tracking when the current point changes; otherwise update the midpoint. */
-void func_800A4D4C(Func800A75ECState *state) {
+void townRestartOrUpdateMidpointTracking(Func800A75ECState *state) {
     s32 *current;
 
     current = state->current;
     if (current != state->previous) {
         state->unk20 = 9;
-        state->callback = func_800A4E1C;
+        state->callback = townResetOrAdvanceTargetMidpoint;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1c = 0;
         state->previous = state->current;
-        func_800A4E1C(state);
+        townResetOrAdvanceTargetMidpoint(state);
         return;
     }
     state->center_x = (current[0] + state->other[0]) / 2;

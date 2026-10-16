@@ -9,7 +9,7 @@ typedef struct S_func_80091934_0 {
 } S_func_80091934_0;
 
 /* Sets object state bytes from the mode and clears its state word. */
-void func_80091934(S_func_80091934_0 *object, s32 unused_1, s32 unused_2, s32 mode) {
+void dungeonBeginDeferredPlayerItemEffect(S_func_80091934_0 *object, s32 unused_1, s32 unused_2, s32 mode) {
     object->unk_9A = 0x2B;
     if (mode == 0) {
         object->unk_9B = 0x10;

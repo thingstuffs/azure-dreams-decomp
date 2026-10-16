@@ -13,7 +13,7 @@ typedef struct {
 
 extern void func_8009A028();
 extern void func_8009A21C();
-extern void func_800A2B04();
+extern void dungeonSetRecordIntegerTileCenter();
 extern void func_800A32A4();
 extern s16 func_800BCB04();
 
@@ -26,21 +26,21 @@ typedef struct S_800AC5C8_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_800AC5C8_0;   /* arg0 in func_800AC5C8 */
+} S_800AC5C8_0;   /* arg0 in dungeonUpdateSpinningActorFall */
 
 typedef struct S_800AC5C8_1_pre {
     u16 unk_00;
-} S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in func_800AC5C8, addressed as arg3[-1] */
+} S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in dungeonUpdateSpinningActorFall, addressed as arg3[-1] */
 
 
 typedef struct S_800AC5C8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800AC5C8_3;   /* arg2 in func_800AC5C8 */
+} S_800AC5C8_3;   /* arg2 in dungeonUpdateSpinningActorFall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
+s32 dungeonUpdateSpinningActorFall(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;
@@ -64,7 +64,7 @@ s32 func_800AC5C8(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *ti
         }
 
         position->flags14 = 0;
-        func_800A2B04(position, tile->unk_24, tile->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, tile->unk_24, tile->unk_25);
         animation->unk_96 = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {

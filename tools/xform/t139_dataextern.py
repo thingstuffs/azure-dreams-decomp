@@ -11,6 +11,7 @@ import glob, re, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import source_files
 from pin_census import sites_of
 
 DECL = re.compile(r"^(?P<lead>[ \t]*extern[ \t]+)(?P<ty>[A-Za-z_][\w \t\*]*?)[ \t]*\b(?P<sym>D_[0-9A-Fa-f]{8})\b[ \t]*(?P<arr>\[[^\]\n]*\])?[ \t]*;", re.M)
@@ -21,7 +22,7 @@ def evidence(container):
     """{sym: {(type, is_array)}} over the container's rows and include/."""
     if container not in _EV:
         ev = {}
-        files = glob.glob(str(ROOT / "src" / container / "*.c")) + glob.glob(str(ROOT / "include/**/*.h"), recursive=True)
+        files = [str(p) for p in source_files(container, ROOT)] + glob.glob(str(ROOT / "include/**/*.h"), recursive=True)
         for f in files:
             for m in DECL.finditer(Path(f).read_text(errors="replace")):
                 ty = " ".join(m.group("ty").split())

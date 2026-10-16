@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "tools"), str(ROOT / "tools/xform")]
 from common import rows
+from source_layout import row_path as layout_row_path, source_items as layout_source_items
 from pin_census import sites_of
 import t122_gotowhile, t123_returntail
 
@@ -72,8 +73,7 @@ def main():
         busy = set()
         for f in a.busy: busy |= set(Path(f).read_text().split())
         seen = served(); tried = tried_by_generators(); pool = []
-        for f in sorted(glob.glob(str(ROOT / "src/*/*.c"))):
-            rid = "/".join(f.split("/")[-2:])[:-2]
+        for rid, f in layout_source_items(ROOT):
             if rid not in by or rid in busy: continue
             t = Path(f).read_text(errors="replace")
             if (rid, sha(t)) in seen or not pickable(rid, t, tried, a.max_size, a.min_size): continue
@@ -85,7 +85,7 @@ def main():
         print("pool %d rows; picked %d" % (len(pool), len(ids)))
     table = ["| row | gotos now | cell |", "|---|---:|---|"]; shas = {}
     for rid in ids:
-        src = ROOT / "src" / (rid + ".c"); t = src.read_text(errors="replace")
+        src = layout_row_path(rid, ROOT); t = src.read_text(errors="replace")
         d = lane / "base" / rid.split("/")[0]; d.mkdir(parents=True, exist_ok=True)
         (d / src.name).write_text(t); shas[rid] = sha(t)
         (d / (src.name + ".base_sha")).write_text(shas[rid] + "\n")

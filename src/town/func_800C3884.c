@@ -4,7 +4,7 @@ extern s32 func_800B28A0(void);
 extern u16 D_800D4244[];
 
 /* Copy the selected table pair into output halfwords 2 and 3. */
-void func_800C0FE4(void *output) {
+void townCopySelectedSoundPair(void *output) {
     s32 pair_index;
     u16 *pair_table;
     u16 *pair;

@@ -3,27 +3,27 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
-extern void func_8016AC30(void);
-extern void func_8009FAC4();
+extern void dungeonAllocateAndInitializeObject(void);
+extern void dungeonSetMonsterDataPointer();
 extern void func_80047784();
-extern void func_80099FDC();
+extern void dungeonClearEntryFlagAndLinkOwner();
 
 extern u8 *D_80174704;
 extern u8 D_80174684[];
 
-void func_8016DCC8(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
+void dungeonDispatchMapExitCallback(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 i;
     s32 object;
     u8 *base;
     u8 *linked;
 
-    func_8016AC30();
+    dungeonAllocateAndInitializeObject();
     base = D_80174704 + 0x20;
     linked = *(u8 **)(D_80174704 + 0xC);
     *(u16 *)(base + 0x46) &= 0x7FFF;
     D_80013714 &= 0xFFF6;
-    func_8009FAC4();
+    dungeonSetMonsterDataPointer();
     base[0xB3] = 1;
     base[0xB2] = 0;
     if (*(u8 **)(linked + 0x2C) != D_80174684) {
@@ -37,7 +37,7 @@ void func_8016DCC8(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
     do {
         object = *(s32 *)(((u8 *)D_800E3D7C) + (i * 4) + 0xAC);
         if (object != 0) {
-            func_80099FDC(object - 0x20);
+            dungeonClearEntryFlagAndLinkOwner(object - 0x20);
         }
         i++;
     } while (i < 2);

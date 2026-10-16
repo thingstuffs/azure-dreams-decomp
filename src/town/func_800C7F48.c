@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void func_80033AA8();                     /* extern */
-void func_8008F134();                      /* extern */
-void func_800C30A4();                      /* extern */
+void setResidentBitmapBit();                     /* extern */
+void townUnlinkSceneListNode();                      /* extern */
+void townClearObjectSlotAndMarkRemoved();                      /* extern */
 
 typedef struct S_800C56A8_0 {
     s32 unk_00;
@@ -21,8 +21,8 @@ void func_800C56A8(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state) {
     ticks_left = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        func_80033AA8(0x54);
-        func_8008F134(object);
-        func_800C30A4(object);
+        setResidentBitmapBit(0x54);
+        townUnlinkSceneListNode(object);
+        townClearObjectSlotAndMarkRemoved(object);
     }
 }

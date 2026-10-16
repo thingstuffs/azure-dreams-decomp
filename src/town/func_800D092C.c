@@ -10,14 +10,14 @@ typedef struct S_800CE08C_0 {
 } S_800CE08C_0;   /* arg0 in func_800CE08C */
 
 
-void func_800C4174(S_800CE08C_0 *, M2C_UNK, M2C_UNK);
-/* Decrement the countdown and call func_800C4174 when it reaches zero. */
+void townApplyObjectSetupAndUpdate(S_800CE08C_0 *, M2C_UNK, M2C_UNK);
+/* Decrement the countdown and call townApplyObjectSetupAndUpdate when it reaches zero. */
 void func_800CE08C(S_800CE08C_0 *object, M2C_UNK context, M2C_UNK update_data) {
     u16 remaining_ticks;
 
     remaining_ticks = object->unk_6C - 1;
     object->unk_6C = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        func_800C4174(object, context, update_data);
+        townApplyObjectSetupAndUpdate(object, context, update_data);
     }
 }

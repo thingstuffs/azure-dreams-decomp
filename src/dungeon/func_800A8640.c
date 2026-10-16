@@ -16,19 +16,19 @@ typedef struct DungeonOwner {
 } DungeonOwner;
 
 
-extern s32 func_8009A180(void *, void *);
-extern s16 func_800ADE74(void *, void *, void *, s16, s16, s32);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s16 dungeonSelectCreatureActionAndTarget(void *, void *, void *, s16, s16, s32);
 
 /* Process an entity and clear its high flag when relinking it into the active list. */
-s16 func_800ADDA0(void *context, void *position, void *entity,
+s16 dungeonRelinkEntityAndClearHighFlag(void *context, void *position, void *entity,
                   s16 near_range, s16 far_range, s32 state_out_addr) {
     register u16 entity_flags;
-    s16 result = func_800ADE74(context, position, entity, near_range, far_range, state_out_addr);
+    s16 result = dungeonSelectCreatureActionAndTarget(context, position, entity, near_range, far_range, state_out_addr);
 
     if (result && (result != 2) && (result != 3) &&
         ((dungeonStatus.unk_08 != 0) ||
          ((dungeonStatus.flags & 0x2808) != 0)) &&
-        ((s16)func_8009A180(entity,
+        ((s16)dungeonCheckEntityRelation(entity,
                             (u8 *)D_800814A8->unk_58 + 0x20) != 0)) {
         register s16 failure = -1;
 

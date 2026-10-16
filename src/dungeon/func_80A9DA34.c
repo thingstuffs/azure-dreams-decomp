@@ -9,7 +9,7 @@ void func_80173234(void *action, void *motion, void *sprite, void *entity)
     state = ((R08_80173234_S_80173234_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         ((R08_80173234_S_80173234_1 *)motion)->unk_0C =
             -((s16 *)((s8 *)dirStepX))[(((EntityRec *)entity)->unk_6A >> 9) & 7] << 15;
         ((R08_80173234_S_80173234_1 *)motion)->unk_10 =
@@ -20,7 +20,7 @@ void func_80173234(void *action, void *motion, void *sprite, void *entity)
             ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
             ((R08_80173234_S_80173234_1 *)motion)->unk_10 = 0;
             ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, ((u8 *)D_80174C74));
+            dungeonBeginActorDisplayAction(action, motion, sprite, ((u8 *)D_80174C74));
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -59,7 +59,7 @@ void func_80173234(void *action, void *motion, void *sprite, void *entity)
             ((R08_80173234_S_80173234_1 *)motion)->unk_14 = 0;
             ((R08_80173234_S_80173234_1 *)motion)->unk_10 = 0;
             ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, ((u8 *)D_80174C74));
+            dungeonBeginActorDisplayAction(action, motion, sprite, ((u8 *)D_80174C74));
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C44);
@@ -115,12 +115,12 @@ void func_80173234(void *action, void *motion, void *sprite, void *entity)
         ((R08_80173234_S_80173234_1 *)motion)->unk_0C = 0;
         ((R08_80173234_S_80173234_1 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
         ((R08_80173234_S_80173234_1 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
-        ((R08_80173234_S_80173234_0 *)action)->unk_8C = ((void *)func_80170E7C);
+        ((R08_80173234_S_80173234_0 *)action)->unk_8C = ((void *)dungeonUpdateActorBehaviorAndEffect);
     }
 }

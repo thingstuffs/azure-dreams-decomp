@@ -7,30 +7,30 @@ typedef struct S_800A895C_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A895C_0;   /* arg0 in func_800A895C */
+} S_800A895C_0;   /* arg0 in townSpawnRadialEffectObjects */
 
 typedef struct S_800A895C_1 {
     union { u16 u16; s32 s32; } unk_00;   /* accessed as both */
     union { u16 u16; s32 s32; } unk_04;   /* accessed as both */
     union { u16 u16; s32 s32; } unk_08;   /* accessed as both */
-} S_800A895C_1;   /* arg1 in func_800A895C */
+} S_800A895C_1;   /* arg1 in townSpawnRadialEffectObjects */
 
 typedef struct S_800A895C_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A895C_2;   /* object in func_800A895C */
+} S_800A895C_2;   /* object in townSpawnRadialEffectObjects */
 
 typedef struct S_800A895C_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800A895C_3;   /* ((S_800A895C_2 *)object)->unk_08 in func_800A895C */
+} S_800A895C_3;   /* ((S_800A895C_2 *)object)->unk_08 in townSpawnRadialEffectObjects */
 
 
-extern s32 func_800374F4(u16 value);
+extern s32 scaleRandomToUnsignedHalfwordLimit(u16 value);
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
 extern s32 rand(void);
-extern void *func_800A878C(void *source_motion, s16 flags);
+extern void *townCreateReverseMotionEffect(void *source_motion, s16 flags);
 
 typedef struct {
     s16 unk0;
@@ -46,7 +46,7 @@ typedef struct {
 } StackRecord;
 
 /* Spawns objects at randomized positions around a center with evenly spaced angles. */
-void func_800A895C(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
+void townSpawnRadialEffectObjects(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
     StackRecord record;
     s32 angle;
     s32 angle_step;
@@ -65,13 +65,13 @@ void func_800A895C(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
         record.y = initial_y;
         for (spawn_index = 0; spawn_index < count; spawn_index++) {
             record.x = (center->unk_02 +
-                        func_800374F4(spread->unk_00.u16)) -
+                        scaleRandomToUnsignedHalfwordLimit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
             record.z = (center->unk_06 +
-                        func_800374F4(spread->unk_04.u16)) -
+                        scaleRandomToUnsignedHalfwordLimit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
             y = (center->unk_0A +
-                 func_800374F4(spread->unk_08.u16)) -
+                 scaleRandomToUnsignedHalfwordLimit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
             record.fieldC = func_80064584(angle) << 5;
@@ -80,7 +80,7 @@ void func_800A895C(S_800A895C_0 *center, S_800A895C_1 *spread, s32 count) {
                 void *record_ptr = &record;
                 first_trig_value <<= 5;
                 record.field10 = first_trig_value;
-                object = func_800A878C(record_ptr, angle);
+                object = townCreateReverseMotionEffect(record_ptr, angle);
             }
             if (object != 0) {
                 angle_value = func_800644B8(angle) << 5;

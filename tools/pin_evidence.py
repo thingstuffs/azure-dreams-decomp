@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import LEDGER, rows, sha_text
 from pin_census import sites_of
+from source_layout import row_relative, flat_relative
 
 OUT = LEDGER / "pin_evidence.jsonl"
 FAKE = {
@@ -47,15 +48,18 @@ def _detail(op, body):
     return {}
 
 
-def _text_at(rel, want_sha):
+def _text_at(rel, want_sha, legacy_rel=None):
     """The row's text as the evidence saw it: the working tree if it still is that text, else HEAD's."""
     p = ROOT / rel
     if p.exists():
         t = p.read_text(errors="replace")
         if sha_text(t) == want_sha:
             return t
-    r = subprocess.run(["git", "show", "HEAD:" + rel], cwd=ROOT, capture_output=True, text=True)
-    return r.stdout if r.returncode == 0 and sha_text(r.stdout) == want_sha else None
+    for historical in dict.fromkeys([rel, legacy_rel or rel]):
+        r = subprocess.run(["git", "show", "HEAD:" + historical], cwd=ROOT, capture_output=True, text=True)
+        if r.returncode == 0 and sha_text(r.stdout) == want_sha:
+            return r.stdout
+    return None
 
 
 def build():
@@ -93,7 +97,7 @@ def _derive(by):
         if not ap or rv["id"] not in by:
             continue
         row = by[rv["id"]]
-        text = _text_at("src/%s/%s" % (row["container"], Path(row["c_path"]).name), rv.get("out_sha"))
+        text = _text_at(row_relative(row, ROOT), rv.get("out_sha"), flat_relative(row))
         sites = sites_of(text) if text is not None else None
         for tok in (ap.get("step") or "").split():
             m = re.match(r"g([\d+]+):(.*)$", tok)

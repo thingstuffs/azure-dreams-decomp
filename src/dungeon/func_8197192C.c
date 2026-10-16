@@ -267,7 +267,7 @@ void func_8002512C(void *effect, void *owner, void *context_arg)
                     (u8 *)effect + 0x2E, 0) != 0) {
                     step = 0;
                     do {
-                        func_800248A8((u8 *)(*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x) - 0x20, 0,
+                        dungeonSpawnRandomOffsetEffectRecord((u8 *)(*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x) - 0x20, 0,
                                       0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                                       ((S_8197192C_0 *)effect)->unk_2E.s,
                                       ((S_8197192C_0 *)effect)->unk_30.s,
@@ -390,7 +390,7 @@ void func_8002512C(void *effect, void *owner, void *context_arg)
                     void *init_data;
                     light_color_2 = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)func_80024544;
+                    init_data = (void *)dungeonDrawLinkedRecordsZeroDepthBias;
                     ((S_8197192C_7 *)effect_data)->unk_1C = light_color_2;
                     ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
@@ -442,7 +442,7 @@ void func_8002512C(void *effect, void *owner, void *context_arg)
                     void *init_data;
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)func_80024544;
+                    init_data = (void *)dungeonDrawLinkedRecordsZeroDepthBias;
                     ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
                     ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
@@ -492,7 +492,7 @@ void func_8002512C(void *effect, void *owner, void *context_arg)
                     effect_data_m = (u8 *)effect_obj + 0x20;
                     light_color = 0x00E0E0E0;
                     dark_color = 0x00804020;
-                    init_data = (void *)func_80024544;
+                    init_data = (void *)dungeonDrawLinkedRecordsZeroDepthBias;
                     ((S_8197192C_7 *)effect_data_m)->unk_1C = light_color;
                     ((S_8197192C_7 *)effect_data_m)->unk_24 = dark_color;
                     ((S_8197192C_7 *)effect_data_m)->unk_28 = dark_color;

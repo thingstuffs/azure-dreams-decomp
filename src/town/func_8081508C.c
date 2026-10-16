@@ -8,22 +8,22 @@ typedef struct S_8081508C_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8081508C_0;   /* arg1 in func_8081508C */
+} S_8081508C_0;   /* arg1 in townAdvanceThreeComponentMotion */
 
 typedef struct S_8081508C_1_pre {
     u16 unk_00;
-} S_8081508C_1_pre;   /* the 0x2 bytes before arg0 in func_8081508C, addressed as arg0[-1] */
+} S_8081508C_1_pre;   /* the 0x2 bytes before arg0 in townAdvanceThreeComponentMotion, addressed as arg0[-1] */
 
 typedef struct S_8081508C_1 {
     u8 pad_00[0xE];
     u16 unk_0E;
-} S_8081508C_1;   /* arg0 in func_8081508C */
+} S_8081508C_1;   /* arg0 in townAdvanceThreeComponentMotion */
 
 
 extern s32 D_80084D5C;
 
 /* Advance the three motion components and set completion flags when the countdown expires. */
-void func_8081508C(void *timer_state, void *motion) {
+void townAdvanceThreeComponentMotion(void *timer_state, void *motion) {
     u16 ticks_left;
 
     ((S_8081508C_0 *)motion)->unk_00 = (s32) (((S_8081508C_0 *)motion)->unk_00 + ((S_8081508C_0 *)motion)->unk_0C);

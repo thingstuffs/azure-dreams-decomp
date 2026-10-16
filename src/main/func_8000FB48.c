@@ -33,7 +33,7 @@ extern Template4 D_8002E5D8;
 extern Template3 D_8002E5E8;
 
 /* Initialize entity nodes with template data and link them to shared common data. */
-void func_80022B48(Entity *entity, s32 node_count)
+void cardBootInitializeDialogDrawNodes(Entity *entity, s32 node_count)
 {
     s32 i;
     s32 w0;

@@ -6,7 +6,7 @@
 typedef struct S_8002626C_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002626C_3;   /* temp_v0 in func_8002626C */
+} S_8002626C_3;   /* temp_v0 in dungeonCreateOffsetColoredEffect */
 
 typedef struct S_8002626C_4 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_8002626C_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8002626C_4;   /* ((S_8002626C_3 *)temp_v0)->unk_08 in func_8002626C */
+} S_8002626C_4;   /* ((S_8002626C_3 *)temp_v0)->unk_08 in dungeonCreateOffsetColoredEffect */
 
 
 extern M2C_UNK D_800DE870;
@@ -31,13 +31,13 @@ typedef struct S_8002626C_0 {
     s32 unk_88;
     s32 unk_8C;
     s32 unk_90;
-} S_8002626C_0;   /* temp_s0 in func_8002626C */
+} S_8002626C_0;   /* temp_s0 in dungeonCreateOffsetColoredEffect */
 
 typedef struct S_8002626C_1 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8002626C_1;   /* temp_v0 in func_8002626C */
+} S_8002626C_1;   /* temp_v0 in dungeonCreateOffsetColoredEffect */
 
 typedef struct S_8002626C_2 {
     u8 pad_00[0xC];
@@ -51,10 +51,10 @@ typedef struct S_8002626C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8002626C_2;   /* temp_s1 in func_8002626C */
+} S_8002626C_2;   /* temp_s1 in dungeonCreateOffsetColoredEffect */
 
 /* Creates a colored effect at an offset position with velocity toward its base. */
-void func_8002626C(
+void dungeonCreateOffsetColoredEffect(
     s32 unused_0, s32 unused_1, s32 unused_2, s32 unused_3,
     s32 offset_x, s32 offset_y, s32 offset_z, s32 base_x, s32 base_y, s32 base_z) {
     s16 color_channel;
@@ -66,7 +66,7 @@ void func_8002626C(
     if (effect != NULL) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x14;
-        ((S_8002626C_1 *)effect)->unk_10 = (void *)func_8002615C;
+        ((S_8002626C_1 *)effect)->unk_10 = (void *)dungeonUpdateEffectMotionAndVisual;
         func_8004491C(effect, (s32)func_80045340);
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x40;

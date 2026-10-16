@@ -21,13 +21,13 @@ typedef struct S_800206D0_0 {
     u8 pad_1E[0x36];
     s16 unk_54;
     s16 unk_56;
-} S_800206D0_0;   /* arg0 in func_800206D0 */
+} S_800206D0_0;   /* arg0 in townUpdateBouncingPickup */
 
 typedef struct S_800206D0_1 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     u16 unk_20;
-} S_800206D0_1;   /* object in func_800206D0 */
+} S_800206D0_1;   /* object in townUpdateBouncingPickup */
 
 typedef struct S_800206D0_2 {
     s32 * unk_00;
@@ -38,14 +38,14 @@ typedef struct S_800206D0_2 {
     u8 pad_0C[0x6];
     union { u16 s; s16 u; } unk_12;   /* accessed as both */
     u16 unk_14;
-} S_800206D0_2;   /* arg2 in func_800206D0 */
+} S_800206D0_2;   /* arg2 in townUpdateBouncingPickup */
 
 
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern void func_8008F134(void *);
-extern s32 func_8008FD9C(void *, void *, void *, void *);
+extern void townUnlinkSceneListNode(void *);
+extern s32 townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(void *, void *, void *, void *);
 
 extern s32 D_80012D5C[];
 extern Vec3 D_80020020;
@@ -56,7 +56,7 @@ extern s32 D_8007947C[];
 extern M2C_UNK D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
-void func_800206D0(void *pickup, void *motion, void *sprite)
+void townUpdateBouncingPickup(void *pickup, void *motion, void *sprite)
 {
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     Vec3 reward_units = D_80020020;
@@ -147,7 +147,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
             ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
         }
-        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             D_80012D5C[0] += reward;
@@ -170,7 +170,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
     }
 
     case 4:
-        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             D_80012D5C[0] += reward;
@@ -191,7 +191,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
         } else {
             ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
         }
-        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
             D_80012D5C[0] += reward;
@@ -206,7 +206,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
         return;
 
     case 6:
-        func_8008F134((u8 *)pickup + 8);
+        townUnlinkSceneListNode((u8 *)pickup + 8);
         (*(u16 *)((u8 *)pickup + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
 

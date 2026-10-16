@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Reads a script byte and fills sixteen words in the target state with its value. */
-void func_80039F4C(void *vm) {
+void vmOp50FillSixteenValues(void *vm) {
     u32 script_ptr = *(u32 *)((u8 *)vm + 0x1C);
     u32 entry_ptr = *(u32 *)((u8 *)vm + 0x80);
     u32 fill_value = *(u8 *)script_ptr;

@@ -3,7 +3,7 @@
 
 
 /* Set object and global flags when the state is zero and linked bit 1 is set. */
-void func_80024954(void *object) {
+void townRetireSceneLabelAfterCompletionFlag(void *object) {
     void *linked_data = *(void **)((u8 *)object + 0xC);
 
     if (*(s16 *)object == 0 &&

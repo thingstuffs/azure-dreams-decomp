@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80017560(void) {
+void dungeonClearThirtySixTableFields(void) {
     s8 *entry;
     s32 remaining;
 

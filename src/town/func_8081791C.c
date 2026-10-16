@@ -115,22 +115,22 @@ extern s32 D_80097D2C[3];
 extern u8 D_800D0128[];
 
 extern int abs(int);
-extern void func_800206F4(void *, TownDraw32 *);
-extern void func_8002082C(void *);
-extern void func_80020948(void *, TownPos *, s32 *, void *);
-extern void func_80022494(u8 *effect);
+extern void townCreateSceneObjectWith48BytePayload(void *, TownDraw32 *);
+extern void townCreateEightLinkedSceneSprites(void *);
+extern void townCreatePairedVectorColorEffect(void *, TownPos *, s32 *, void *);
+extern void townCreateRotatingLayeredLineCage(u8 *effect);
 extern void func_80033B78(s32);
 extern s32 func_800352FC(void);
 extern void func_80043FB8(void *, s32);
 extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_80093864(void);
+extern void townInitializeTownContextAction(void);
 extern void func_80093C70(void);
-extern void func_80093CEC(void *);
-extern void func_80093D48(void *, void *, void *);
+extern void townApplyGlobalSceneValue(void *);
+extern void townInitializeSceneActionRecord(void *, void *, void *);
 extern void tw_sd_sq_ld_call(s32, s32);
-extern s16 func_800C2AE8(void *);
+extern s16 townQueryLoweredTransformPosition(void *);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
 void func_8002191C(void *scene)
@@ -236,7 +236,7 @@ void func_8002191C(void *scene)
             ((s32 *)work)[1] = m1 + ((0x04700000 - m1) >> 1);
         }
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
-        i = func_800C2AE8(work);
+        i = townQueryLoweredTransformPosition(work);
         if (((S_8002191C_4 *)work)->unk_08.at02.v < i) {
             break;
         }
@@ -246,8 +246,8 @@ void func_8002191C(void *scene)
         }
         tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)scene)->unk_36.s = 4;
-        func_8002082C(scene);
-        func_80093D48(global, work, ((u8 *)(&D_80082E80)));
+        townCreateEightLinkedSceneSprites(scene);
+        townInitializeSceneActionRecord(global, work, ((u8 *)(&D_80082E80)));
         break;
 
     case 4:
@@ -274,7 +274,7 @@ void func_8002191C(void *scene)
         }
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
         func_80093C70();
-        func_80093CEC(D_800D0128);
+        townApplyGlobalSceneValue(D_800D0128);
         motion = ((u8 *)(&D_80083780));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
@@ -323,14 +323,14 @@ void func_8002191C(void *scene)
         }
         if (((S_8002191C_5 *)part)->unk_68 == 9) {
             func_80093C70();
-            func_80093CEC(D_800D0128);
-            func_80020948(D_80022454, &pos, color, scene);
+            townApplyGlobalSceneValue(D_800D0128);
+            townCreatePairedVectorColorEffect(D_80022454, &pos, color, scene);
             ((S_8002191C_0 *)scene)->unk_28.s = 0x200;
             ((S_8002191C_0 *)scene)->unk_2E.s = 0;
             ((S_8002191C_0 *)scene)->unk_36.s = 7;
             ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
         } else {
-            func_80020948(D_8002241C, &pos, color, scene);
+            townCreatePairedVectorColorEffect(D_8002241C, &pos, color, scene);
         }
         break;
     }
@@ -361,11 +361,11 @@ void func_8002191C(void *scene)
         }
         ((S_8002191C_0 *)scene)->unk_28.s =
             (((S_8002191C_0 *)scene)->unk_28.s + ((S_8002191C_0 *)scene)->unk_2E.s + 0x1000) & 0xFFF;
-        func_80022494(scene);
+        townCreateRotatingLayeredLineCage(scene);
         if (((S_8002191C_5 *)part)->unk_68 != 0xA) {
             break;
         }
-        func_80093864();
+        townInitializeTownContextAction();
         ((S_8002191C_3 *)global)->unk_00 = D_800930E4;
         draw.h14 = ((S_8002191C_0 *)scene)->unk_34.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
@@ -378,7 +378,7 @@ void func_8002191C(void *scene)
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
-        func_800206F4(D_80020618, &draw);
+        townCreateSceneObjectWith48BytePayload(D_80020618, &draw);
         ((S_8002191C_0 *)scene)->unk_36.s = 8;
         break;
     }
@@ -432,7 +432,7 @@ void func_8002191C(void *scene)
             break;
         }
         ((S_8002191C_0 *)scene)->unk_2A.s = flags & 0xFFFD;
-        func_80093864();
+        townInitializeTownContextAction();
         value = ((S_8002191C_0 *)scene)->unk_34.u + 1;
         ((S_8002191C_0 *)scene)->unk_34.u = value;
         if ((s16)value == 8) {
@@ -440,7 +440,7 @@ void func_8002191C(void *scene)
             ((S_8002191C_0 *)scene)->unk_28.s = 0x78;
             ((S_8002191C_0 *)scene)->unk_36.s = 0xFF;
         } else {
-            func_8002082C(scene);
+            townCreateEightLinkedSceneSprites(scene);
             ((S_8002191C_0 *)scene)->unk_36.s = 4;
         }
         break;

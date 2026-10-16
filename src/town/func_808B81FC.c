@@ -8,7 +8,7 @@ extern s32 func_80003544(s32 mode);
 extern s32 func_800036D8(s32 index, s32 mode);
 
 /* Return the selected table value plus the global offset after mode-three calls. */
-s32 func_808B81FC(void) {
+s32 townGetModeThreeAdjustedValue(void) {
     s32 entry_index;
     s32 entry_value;
 

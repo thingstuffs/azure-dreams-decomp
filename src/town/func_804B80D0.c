@@ -16,7 +16,7 @@ extern s32 func_8001894C(s32);
 extern s16 D_80018AEA;
 
 /* Update action flags from the active entry and check whether the action is allowed. */
-s32 func_800168D0(s32 object, s32 context) {
+s32 townUpdateSceneActionFlags(s32 object, s32 context) {
     s32 action_allowed;
 
     func_8001611C(object, context);

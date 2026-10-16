@@ -25,16 +25,16 @@ typedef struct Entity {
 } Entity;
 
 extern s32 func_80042900();
-extern s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s16 func_8009FD40();
-extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern s32 func_800A35D8(s32 left_mask, s32 right_mask);
-extern s32 func_800A365C();
+extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 dungeonCheckDiagonalSideHeight(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+extern s16 dungeonGetTileChebyshevDistance();
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 dungeonCompareThreeBitMasksCyclically(s32 left_mask, s32 right_mask);
+extern s32 dungeonCheckRowColumnOrDiagonalAlignment();
 extern s32 func_800A6D30(void);
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
-s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
+s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
 {
     u16 tile_flags;
     s32 slots_checked;
@@ -72,12 +72,12 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
     if (abs(actor->coord88 - target->coord88) >= 0x40) {
         return -1;
     }
-    line_valid = func_800A365C(actor_entity, target_entity);
-    distance = func_8009FD40(target_entity, actor_entity);
-    angle = func_800A0818(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
+    line_valid = dungeonCheckRowColumnOrDiagonalAlignment(actor_entity, target_entity);
+    distance = dungeonGetTileChebyshevDistance(target_entity, actor_entity);
+    angle = dungeonGetRoundedFacingAndRoundingFlag(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
     *out_angle = angle;
     if (prefer_ability == 0 && distance == 1) {
-        if ((s16)func_8009A540((u16)((s16)angle >> 9), actor_entity->x, actor_entity->y,
+        if ((s16)dungeonCheckDiagonalSideHeight((u16)((s16)angle >> 9), actor_entity->x, actor_entity->y,
                 actor->coord88 - 0x20) != 0) {
             return 8;
         }
@@ -85,7 +85,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
     flags = actor->flags14;
     if (!(flags & 0x10000)) {
         actor->flags14 = flags | 0x10000;
-        if (func_8009FD40(&D_80082E80, actor_entity) < 0x11
+        if (dungeonGetTileChebyshevDistance(&D_80082E80, actor_entity) < 0x11
             && ((actor->flags14 & 0x6000) || !(self->status98 & 0x10) || !(func_800A6D30() & 0xF))
             && !(func_800A6D30() & 3) && (s16)func_80042900(actor, 6) == 0) {
             self->status98 |= 0x11;
@@ -120,7 +120,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
             if (ability->unk_13 < distance) {
                 continue;
             }
-            score = func_800A35D8(ability->unk_10, *(u16 *)&actor->flags14);
+            score = dungeonCompareThreeBitMasksCyclically(ability->unk_10, *(u16 *)&actor->flags14);
             if ((s16)score <= best_score) {
                 continue;
             }
@@ -137,7 +137,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
                 y = actor_entity->y;
                 dir = (*out_angle >> 9) & 7;
                 for (steps = 0; steps < distance; steps++) {
-                    func_8009A350(x, y, dir, &tile_flags);
+                    getOffsetMapCellValueAndFlags(x, y, dir, &tile_flags);
                     move_flags = actor->flags1c;
                     if (!(move_flags & 0x410)) {
                         path_flags = (s16)tile_flags;
@@ -162,7 +162,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
         }
     }
     if (prefer_ability != 0 && distance == 1) {
-        if ((s16)func_8009A540((u16)((s16)*out_angle >> 9), actor_entity->x, actor_entity->y,
+        if ((s16)dungeonCheckDiagonalSideHeight((u16)((s16)*out_angle >> 9), actor_entity->x, actor_entity->y,
                 actor->coord88 - 0x20) != 0) {
             if (selected_action < 0) {
                 selected_action = 8;

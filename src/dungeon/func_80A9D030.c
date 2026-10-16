@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void func_80172830(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -116,7 +116,7 @@ void func_80172830(void *action, EntityRec *motion, void *sprite, EntityRec *act
         if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3) &&
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite,(s16)(actor->facing),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
         }
 
         if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5) &&
@@ -137,12 +137,12 @@ void func_80172830(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
-        func_800AD594(actor, 0x100);
-        (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)func_80170E7C);
+        dungeonSetRecordIntegerTileCenter(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        dungeonReduceActorFoodMeter(actor, 0x100);
+        (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)dungeonUpdateActorBehaviorAndEffect);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
             return;

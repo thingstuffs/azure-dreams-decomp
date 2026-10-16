@@ -1,7 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
-typedef void (*TownFunc3)(s32, s32, s32);
+typedef void (*TownFunc3)(const u8 *, const u8 *, s32);
 typedef void (*TownFunc1)(s32);
 typedef struct {
     u8 unk0[0x64];
@@ -23,7 +23,7 @@ extern u8 D_000006BC[];
 extern u8 D_00000FE4[];
 
 /* Sets up town data and resolves record indices through the lookup table. */
-void func_808BB5EC(void) {
+void townSetupDataAndResolveRecordIndices(void) {
     u8 *record_tag;
     u8 *data;
 

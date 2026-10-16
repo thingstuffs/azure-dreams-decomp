@@ -4,7 +4,7 @@
 extern void func_800478B8(void *arg);
 
 // Updates the object, retains its 0x6000 flags, and marks the preceding and global flags if any remain.
-void func_800D586C(void *dataAfterFlags, void *unused, void *object) {
+void dungeonUpdateEffectAndRetainFlags(void *dataAfterFlags, void *unused, void *object) {
     u16 retainedFlags;
 
     func_800478B8(object);

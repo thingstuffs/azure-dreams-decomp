@@ -630,7 +630,8 @@ def full_gate_reasons(paths, plan, root=None, before_includes=None, baseline=Non
            'tools/common.py','tools/overlay_module_evidence.py','tools/build/slus_rodata_trim.py',
            'tools/build/main_sdk_asm.py','tools/build/configure.py','tools/build/mk_slus_root.sh',
            'tools/build/build_slus.sh','config/names.tsv','config/slus_006.14.symbols.txt',
-           'config/slus_006.14.yaml','config/overlay_modules_disabled','config/overlay_fingerprint_schema'}
+           'config/slus_006.14.yaml','config/overlay_modules_disabled','config/overlay_fingerprint_schema',
+           'tools/source_layout.py','ledger/layout.jsonl'}
     reasons=sorted(p for p in paths if p.startswith(prefixes) or p in exact)
     # v4 inputs_sha rediscovers C -M and assembly include/incbin closures,
     # symbol catalogs and header namespaces for every window. Their changes
@@ -1006,6 +1007,8 @@ class Lander:
             changed[rel]=count
         self.event('normalise-review',new_windows=windows,reviewer=reviewer,marked=changed)
     def regenerate(self):
+        if (self.root/'ledger/layout.jsonl').exists():
+            self.run('layout',[sys.executable,'tools/source_layout.py','--root',str(self.root),'check'])
         self.run('registry',[sys.executable,'tools/registry.py'])
         self.run('index',[sys.executable,'tools/gen_src_index.py'])
         self.run('graph',[sys.executable,'tools/gate/overlay_module_gate.py','--root',str(self.root),'--graph'])

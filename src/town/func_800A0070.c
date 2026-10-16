@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Clear each record's first byte until the end marker is reached. */
-void func_8009D7D0(s8 *records) {
+void townClearRecord20StatusBytes(s8 *records) {
     s8 *record;
 
     record = records;

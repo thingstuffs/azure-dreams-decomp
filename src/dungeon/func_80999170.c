@@ -1,0 +1,70 @@
+/* Relink of matched dungeon/func_80975170; every changed retail word is a paired relocation. */
+#include "common.h"
+#include "shared/object_flags.h"
+#include "records/Rec_D_80082E80.h"
+
+typedef struct S_80975170_0_pre {
+    u16 unk_00;
+} S_80975170_0_pre;   /* the 0x2 bytes before arg0 in func_8014C970, addressed as arg0[-1] */
+
+typedef struct S_80975170_0 {
+    u8 pad_00[0x96];
+    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    u8 pad_98[0x12];
+    s16 unk_AA;
+    u8 pad_AC[0x4];
+    void * unk_B0;
+} S_80975170_0;   /* arg0 in func_8014C970 */
+
+typedef struct S_80975170_1 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+} S_80975170_1;   /* arg1 in func_8014C970 */
+
+typedef struct S_80975170_2 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+} S_80975170_2;   /* src in func_8014C970 */
+
+
+extern void func_800478B8(void *render_state);
+
+
+/* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
+void func_8014C970(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
+{
+    s16 ticks_left;
+    s32 brightness;
+    u16 render_offset;
+    S_80975170_2 *source_transform;
+
+    source_transform = ((S_80975170_0 *)effect)->unk_B0;
+    transform->unk_02 = source_transform->unk_02;
+    transform->unk_06 = source_transform->unk_06;
+    transform->unk_0A = source_transform->unk_0A;
+
+    render_offset = render_state->unk_1C.at02_u16.v + 0x320;
+    render_state->unk_1C.at02_u16.v = render_offset;
+    render_state->unk_1C.at00_u16.v = render_offset;
+
+    ticks_left = ((S_80975170_0 *)effect)->unk_96.s - 1;
+    brightness = (s32)(ticks_left * 0x50) / (s16)((S_80975170_0 *)effect)->unk_AA;
+    ((S_80975170_0 *)effect)->unk_96.s = (u16)ticks_left;
+    render_state->unk_0C.at02_s8.v = (s8)brightness;
+    render_state->unk_0C.at01_s8.v = (s8)brightness;
+    render_state->unk_0C.at00_s8.v = (s8)brightness;
+    func_800478B8(render_state);
+
+    if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
+        ((S_80975170_0_pre *)effect)[-1].unk_00 = (u16)(((S_80975170_0_pre *)effect)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+    }
+}

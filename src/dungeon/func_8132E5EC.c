@@ -30,7 +30,7 @@ extern void func_8004491C(Object *, void *);
 extern u8 D_800DE870[];
 extern u8 D_80165580;
 
-void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
+void dungeonCreateOffsetHalfScaleSpark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
     Object *obj;
     Sprite *sprite;
     s32 z_fixed;

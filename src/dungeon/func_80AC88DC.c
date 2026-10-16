@@ -7,14 +7,14 @@
 
 
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s32 func_800A2C34(void *);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, s32, void *, void *);
-extern s32 func_800AA6B4(void *, s32, void *, s32);
+extern void dungeonBeginPushedActorMove(void *, s32, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, s32, void *, s32);
 extern void func_800AA888(void *, s32, void *, void *);
-extern void func_801743E8(void *, s32, void *, void *);
+extern void dungeonUpdateTimedEffectSizeAndPosition(void *, s32, void *, void *);
 
 extern s32 D_80171728;
 extern u8 D_80174E4C[];
@@ -26,11 +26,11 @@ typedef struct S_801740DC_0 {
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_801740DC_0;   /* arg0 in func_801740DC */
+} S_801740DC_0;   /* arg0 in dungeonUpdateActorDirectionalAnimation */
 
 
 /* Updates actor state, directional animation, and the shared transition counter. */
-void func_801740DC(void *actor_in, s32 actor_index, void *target, void *entity_in)
+void dungeonUpdateActorDirectionalAnimation(void *actor_in, s32 actor_index, void *target, void *entity_in)
 {
     EntityRec *entity = entity_in;
     s32 state;
@@ -72,7 +72,7 @@ void func_801740DC(void *actor_in, s32 actor_index, void *target, void *entity_i
             return;
         }
         if (entity->unk_64 != 0) {
-            if (func_800AA6B4(actor_in, actor_index, target, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor_in, actor_index, target, 0) != 0) {
                 return;
             }
         }
@@ -81,19 +81,19 @@ void func_801740DC(void *actor_in, s32 actor_index, void *target, void *entity_i
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            func_800AA258(actor_in, actor_index, target, entity);
+            dungeonBeginPushedActorMove(actor_in, actor_index, target, entity);
             return;
         }
         if (entity_flags & 0x80000) {
             func_800AA888(actor_in, actor_index, target, entity);
-            func_801743E8(actor_in, actor_index, target, entity);
+            dungeonUpdateTimedEffectSizeAndPosition(actor_in, actor_index, target, entity);
             return;
         }
         if (entity->unk_6D == 0) {
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
-            if ((func_8009A180(entity,
+            if ((dungeonCheckEntityRelation(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }

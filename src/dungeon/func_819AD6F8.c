@@ -18,7 +18,7 @@ typedef struct Rect {
     s32 second;
 } Rect;
 
-void func_800B835C();
+void dungeonDrawTexturedEllipse();
 extern u8 D_80027454[12];
 extern u8 D_80027490[12];
 extern u8 D_800274A8[12];
@@ -32,7 +32,7 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
 
     spawned = func_8003FD64(0x212, &owner->next);
     if (spawned != 0) {
-        spawned->unk_10 = func_80024E60;
+        spawned->unk_10 = dungeonCopyFollowerOwnerPositionAndColor;
         func_8004491C(spawned, (s32)func_80045340);
         ((EntityRec *)spawned->unk_08)->x.w.i = (u16)((EntityRec *)owner->unk_08)->x.w.i;
         ((EntityRec *)spawned->unk_08)->y.w.i = (u16)((EntityRec *)owner->unk_08)->y.w.i;
@@ -49,8 +49,8 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
         record->angle = angle;
         rect.first = 0x01400340;
         rect.second = 0x200020;
-        func_800B835C(D_80027490, &rect, 0, 0);
-        func_800B835C(D_800274A8, &rect, 1, 0);
+        dungeonDrawTexturedEllipse(D_80027490, &rect, 0, 0);
+        dungeonDrawTexturedEllipse(D_800274A8, &rect, 1, 0);
     }
 }
 

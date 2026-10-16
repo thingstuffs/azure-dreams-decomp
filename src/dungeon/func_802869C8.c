@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_800199C8(s16 entry_index) {
+s32 tryAddSecondTowerEntry(s16 entry_index) {
     u8 *entry;
     u8 *entries;
 

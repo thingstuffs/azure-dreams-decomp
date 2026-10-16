@@ -10,13 +10,13 @@ typedef struct S_800385D0_0 {
     s8 unk_27;
     u8 pad_28[0x5C];
     s8 unk_84;
-} S_800385D0_0;   /* arg0 in func_800385D0 */
+} S_800385D0_0;   /* arg0 in slusClearTwoStateFieldsB */
 
 
 extern M2C_UNK func_800385E8;
 
 /* Clear two state fields and set the next handler. */
-void func_800385D0(S_800385D0_0 *state) {
+void slusClearTwoStateFieldsB(S_800385D0_0 *state) {
     state->unk_27 = 0;
     state->unk_84 = 0;
     state->unk_10 = &func_800385E8;

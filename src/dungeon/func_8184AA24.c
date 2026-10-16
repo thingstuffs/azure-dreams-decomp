@@ -4,7 +4,7 @@
 extern void func_800478B8(void *target);
 
 /* Increment the linked object's counter, process the target, and propagate its status flags. */
-void func_80024224(void *entry, s32 unused, void *target) {
+void dungeonAdvanceLinkedObjectCounter(void *entry, s32 unused, void *target) {
     u8 *linked_obj;
 
     linked_obj = *(u8 **)((u8 *)entry + 0xC);

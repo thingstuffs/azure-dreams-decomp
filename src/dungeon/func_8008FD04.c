@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_800B500C(s16 x, s16 y, s16 z);
+extern s16 dungeonFindEntryAtTileCoordinates(s16 x, s16 y, s16 z);
 
 typedef struct {
     u8 pad[3];
@@ -10,11 +10,11 @@ typedef struct {
 extern DungeonEntry D_800E3648[];
 
 /* Store the looked-up dungeon entry index if flag 0x80 is set, or report failure. */
-s32 func_80095464(void *state, void *unused, void *position, void *lookup_context) {
+s32 dungeonFindFlaggedTileEntry(void *state, void *unused, void *position, void *lookup_context) {
     s16 entry_index;
     s32 failed;
 
-    entry_index = func_800B500C(
+    entry_index = dungeonFindEntryAtTileCoordinates(
         *((u8 *)position + 0x24),
         *((u8 *)position + 0x25),
         *(s16 *)((u8 *)lookup_context + 0x88));

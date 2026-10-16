@@ -34,6 +34,7 @@ import re, collections, sys
 from row_cache import RowCache, FactInputs, text_key
 from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
+from source_layout import row_path as layout_row_path
 from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
 from pin_census import arm_labels, HAS_PP_RE, sites_of, strip_composite_asm
@@ -518,7 +519,7 @@ def main():
         l0 = r["stock"] and (b.get("exact") is True or (r["kind"] == "slus" and b.get("status") == "ok"))
         if not l0:
             out.append({"id": r["id"], "level": -1}); tally[-1] += r["size"]; continue
-        cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        cp = layout_row_path(r, ROOT)
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         raw_text = raw_path(r).read_text(errors="replace") if raw_path(r).exists() else ""
         context = module_contexts.get(r["id"], "")

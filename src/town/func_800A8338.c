@@ -25,24 +25,24 @@ extern u8 D_800CFCEE;
 extern s32 D_80100E20;
 extern u8 D_800A5DF8;
 
-extern s32 func_800374F4();
-extern s32 func_8003BD84();
+extern s32 scaleRandomToUnsignedHalfwordLimit();
+extern s32 runtimeEstimateVectorLength();
 extern void SD_Call();
-extern s32 func_8008C180();
-extern void func_80094F58();
-extern void func_80095094();
-extern void func_80095388();
-extern void func_800954F4();
-extern s16 func_80095978();
-extern void func_80095A94();
-extern void func_80095C80();
-extern void func_80097844();
-extern s32 func_800A5894();
-extern s32 func_800C1D44();
+extern s32 townReadMapCellAtWorldPosition();
+extern void townAddADirectionalStepVectorScaleDownExceedsLengthLimit();
+extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
+extern void townAddHex20000SSignedOffsetHex14();
+extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();
+extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
+extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
+extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
+extern void townSpawnDirectionalEffects();
+extern s32 townComputeHeightBasedOffset();
+extern s32 townCheckMaskedValueInCurrentRange();
 
 
 /* Update actor movement, height, turning, and action state from input. */
-void func_800A5A98(State *state, Actor *actor) {
+void townUpdateActorMovementAndActions(State *state, Actor *actor) {
     GameWork *input;
     s32 speed;
     s16 height_limit;
@@ -51,45 +51,45 @@ void func_800A5A98(State *state, Actor *actor) {
     s32 sound_period;
 
     input = &gameWork;
-    func_80095C80(actor);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
 
     state->timer--;
     if ((s16)state->timer <= 0) {
-        state->timer = func_800374F4(3) + 5;
-        func_80097844(actor, (u16)func_800374F4(2) + 2);
+        state->timer = scaleRandomToUnsignedHalfwordLimit(3) + 5;
+        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(2) + 2);
     }
 
     direction = (((u16)input->view.viewAngle) + 0x800) & 0xFFF;
     *(u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->buttons) & 0x20) {
-        func_80094F58(direction, D_80100E20, actor);
-        func_80097844(actor, (u16)func_800374F4(1));
+        townAddADirectionalStepVectorScaleDownExceedsLengthLimit(direction, D_80100E20, actor);
+        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
     }
 
     if (((u32)input->buttons) & 0x10) {
-        func_80095094(actor);
+        townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
         if ((((u32)input->buttons) & 0x30) == 0x20) {
-            func_80095094(actor);
+            townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
         }
     } else {
-        func_80095094(actor);
+        townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
     }
-    height_limit = func_80095978(actor, ((u8 *)&D_800FE488));
+    height_limit = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, ((u8 *)&D_800FE488));
     if (actor->height >= height_limit) {
-        func_80095A94(actor, height_limit, ((u8 *)&D_800FE488));
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, height_limit, ((u8 *)&D_800FE488));
     } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
-        func_800954F4(actor);
+        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(actor);
     } else {
-        func_80095388(actor);
+        townAddHex20000SSignedOffsetHex14(actor);
     }
-    world_value = func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i);
-    if (func_800C1D44((u16)world_value) != 0) {
-        actor->value -= func_800A5894(actor);
+    world_value = townReadMapCellAtWorldPosition(D_80083780.x.w.i, D_80083780.y.w.i);
+    if (townCheckMaskedValueInCurrentRange((u16)world_value) != 0) {
+        actor->value -= townComputeHeightBasedOffset(actor);
     }
 
-    speed = func_8003BD84(actor->x, actor->y);
+    speed = runtimeEstimateVectorLength(actor->x, actor->y);
     if (D_80100E20 != 0) {
         {
             s32 speed_delta;
@@ -131,7 +131,7 @@ void func_800A5A98(State *state, Actor *actor) {
             angle = angle - speed;
             input->view.viewAngle = angle;
         }
-        func_80097844(actor, (u16)func_800374F4(1));
+        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
     }
 
     if ((*(u32 *)((u8 *)input + 8)) & 0x8000) {
@@ -142,7 +142,7 @@ void func_800A5A98(State *state, Actor *actor) {
             angle = angle + speed;
             input->view.viewAngle = angle;
         }
-        func_80097844(actor, (u16)func_800374F4(1));
+        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
     }
 
     if ((((u32)input->unk_010) & 0x10) && (D_800CFCEE == 0)) {

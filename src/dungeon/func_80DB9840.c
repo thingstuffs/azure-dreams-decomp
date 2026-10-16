@@ -12,7 +12,7 @@ typedef struct S_80171040_0 {
         struct { u8 pad[0x2]; u16 v; } at02u;
         struct { u8 pad[0x2]; u16 v; } at02p;
     } unk_08;   /* overlapping accesses */
-} S_80171040_0;   /* arg1 in func_80171040 */
+} S_80171040_0;   /* arg1 in dungeonUpdateDampedHeightEffect */
 
 typedef struct S_80171040_1 {
     u8 pad_00[0x96];
@@ -25,22 +25,22 @@ typedef struct S_80171040_1 {
     s32 unk_A8;
     s32 unk_AC;
     s32 unk_B0;
-} S_80171040_1;   /* arg0 in func_80171040 */
+} S_80171040_1;   /* arg0 in dungeonUpdateDampedHeightEffect */
 
 
 extern void func_800478B8(void *entity);
-extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16 x, u16 y, s16 z);
 extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
-void func_80171040(void *state, void *position, void *object)
+void dungeonUpdateDampedHeightEffect(void *state, void *position, void *object)
 {
     s32 height;
     u16 ticks_left;
 
     ((S_80171040_0 *)position)->unk_00.at00.v += ((S_80171040_1 *)state)->unk_A4;
     ((S_80171040_1 *)state)->unk_A4 = (((S_80171040_1 *)state)->unk_A4 * 2) / 3;
-    if ((s16)func_800A45D8(((S_80171040_0 *)position)->unk_00.at02.v,
+    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80171040_0 *)position)->unk_00.at02.v,
                            ((S_80171040_0 *)position)->unk_04.at02.v,
                            ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
         ((S_80171040_0 *)position)->unk_00.at00.v -= ((S_80171040_1 *)state)->unk_A4;
@@ -49,7 +49,7 @@ void func_80171040(void *state, void *position, void *object)
 
     ((S_80171040_0 *)position)->unk_04.at00.v += ((S_80171040_1 *)state)->unk_A8;
     ((S_80171040_1 *)state)->unk_A8 = (((S_80171040_1 *)state)->unk_A8 * 2) / 3;
-    if ((s16)func_800A45D8(((S_80171040_0 *)position)->unk_00.at02.v,
+    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80171040_0 *)position)->unk_00.at02.v,
                            ((S_80171040_0 *)position)->unk_04.at02.v,
                            ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
         ((S_80171040_0 *)position)->unk_04.at00.v -= ((S_80171040_1 *)state)->unk_A8;

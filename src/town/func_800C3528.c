@@ -3,11 +3,11 @@
 extern s16 D_800D253C[66];
 extern s16 D_800D25C0[66];
 
-void func_80033AA8(s16 value);
-void func_80033AE8(s16 value);
+void setResidentBitmapBit(s16 value);
+void clearResidentBitmapBit(s16 value);
 
 /* Dispatch paired table values according to each entry's kind and record flag. */
-void func_800C0C88(void)
+void townDispatchPairedTableValues(void)
 {
     s32 i = 0;
     u8 *table_base;
@@ -19,15 +19,15 @@ void func_800C0C88(void)
             entry_kind = table_base[i * 4 + 0x981];
             if (entry_kind != 0) {
                 if (entry_kind == 0x13 && table_base[i * 0x54 + 0xAC4] != 0) {
-                    func_80033AE8(D_800D253C[i]);
-                    func_80033AA8(D_800D25C0[i]);
+                    clearResidentBitmapBit(D_800D253C[i]);
+                    setResidentBitmapBit(D_800D25C0[i]);
                 } else {
-                    func_80033AA8(D_800D253C[i]);
-                    func_80033AE8(D_800D25C0[i]);
+                    setResidentBitmapBit(D_800D253C[i]);
+                    clearResidentBitmapBit(D_800D25C0[i]);
                 }
             } else {
-                func_80033AE8(D_800D253C[i]);
-                func_80033AE8(D_800D25C0[i]);
+                clearResidentBitmapBit(D_800D253C[i]);
+                clearResidentBitmapBit(D_800D25C0[i]);
             }
             i++;
         } while (D_800D253C[i] != 0);

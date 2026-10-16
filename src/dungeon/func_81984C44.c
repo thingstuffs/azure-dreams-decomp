@@ -20,7 +20,7 @@ void *func_80026444(void *source_entity)
         do {
             void *next_link;
             if (((func_800A2CB8(D_800814A8, node) << 16) != 0) &&
-                ((func_800A41F0(node) << 16) != 0) &&
+                ((dungeonCheckEntityEligibility(node) << 16) != 0) &&
                 !(((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {
                 entity_floor = ((ovl_19a332c_81984C44_S_81984C44_1 *)source_entity)->unk_26;
                 owner = ((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_00;
@@ -30,7 +30,7 @@ void *func_80026444(void *source_entity)
                     }
                 } else {
                     owner_limit = initial_limit;
-                    if (func_8009FD40(owner, source_entity) < owner_limit) {
+                    if (dungeonGetTileChebyshevDistance(owner, source_entity) < owner_limit) {
                         return node;
                     }
                 }

@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_80023B18(s32 *object);
+extern void cardBootLayoutEmptySlotWindow(s32 *object);
 extern void func_80023BE4(void *, s32, s32);
-extern void func_80023C44(s32 *slot_owner);
-extern void func_80023D64(s32 *context);
+extern void cardBootFormatOccupiedSlotWindow(s32 *slot_owner);
+extern void cardBootLayoutAlternateSlotWindow(s32 *context);
 
 typedef struct {
     /* 0x00 */ s32 unk0;
@@ -15,16 +15,16 @@ typedef struct {
 extern EntryS80083E98 D_80083E98[];
 
 /* Processes two buffers and selects handlers using the state's indexed entry. */
-void func_80023E14(s32 *state) {
+void cardBootPopulateSlotWindowDisplay(s32 *state) {
     func_80023BE4((u8 *)state + 0x134, 0x80, 0x18);
     func_80023BE4((u8 *)state + 0x1AC, 0x2A, 0x14);
     if (D_80083E98[*state].unk0 != 0) {
-        func_80023C44(state);
+        cardBootFormatOccupiedSlotWindow(state);
         if (D_80083E98[*state].unk8 != 0) {
-            func_80023D64(state);
+            cardBootLayoutAlternateSlotWindow(state);
             return;
         }
     } else {
-        func_80023B18(state);
+        cardBootLayoutEmptySlotWindow(state);
     }
 }

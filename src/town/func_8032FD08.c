@@ -5,6 +5,6 @@
 extern M2C_UNK D_8001C338;
 
 /* Returns a pointer to D_8001C338. */
-M2C_UNK *func_8001A508(void) {
+M2C_UNK *townGetSharedEntryBuffer(void) {
     return &D_8001C338;
 }

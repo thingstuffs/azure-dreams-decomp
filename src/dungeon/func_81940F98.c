@@ -23,7 +23,7 @@ extern u8 D_800244E4[];
 extern u8 D_80024734[];
 
 /* Spawn and initialize an object at a randomized offset from its parent. */
-void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
+void dungeonHandleSpawnInitializeRandomizedOffsetParent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     Object *parent = source;
     s16 held_x_offset = x_offset;

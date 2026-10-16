@@ -5,8 +5,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004DC14();                    /* extern */
 u32 func_80069E98();                             /* extern */
-void func_800DBD5C(); /* extern */
-void func_800DBE98();                            /* extern */
+void dungeonDrawFillerFirstNumber(); /* extern */
+void dungeonPassGlobalDataWithFixedArgs();                            /* extern */
 M2C_UNK func_800DBEE8();
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
@@ -21,81 +21,81 @@ typedef struct S_800DC1F8_0 {
     u8 pad_30[0xC];
     void * unk_3C;
     void * unk_40;
-} S_800DC1F8_0;   /* arg0 in func_800DC1F8 */
+} S_800DC1F8_0;   /* arg0 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_1 {
     u8 pad_00[0x4];
     void * unk_04;
     u16 * unk_08;
-} S_800DC1F8_1;   /* state in func_800DC1F8 */
+} S_800DC1F8_1;   /* state in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_2 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800DC1F8_2;   /* temp_s0 in func_800DC1F8 */
+} S_800DC1F8_2;   /* temp_s0 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_3 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800DC1F8_3;   /* temp_a3 in func_800DC1F8 */
+} S_800DC1F8_3;   /* temp_a3 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_4 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800DC1F8_4;   /* temp_a2 in func_800DC1F8 */
+} S_800DC1F8_4;   /* temp_a2 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_5 {
     u8 unk_00;
-} S_800DC1F8_5;   /* temp_a1 in func_800DC1F8 */
+} S_800DC1F8_5;   /* temp_a1 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_6 {
     u8 unk_00;
-} S_800DC1F8_6;   /* temp_a0_2 in func_800DC1F8 */
+} S_800DC1F8_6;   /* temp_a0_2 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_7 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800DC1F8_7;   /* temp_v1_2 in func_800DC1F8 */
+} S_800DC1F8_7;   /* temp_v1_2 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_8 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800DC1F8_8;   /* temp_v0_6 in func_800DC1F8 */
+} S_800DC1F8_8;   /* temp_v0_6 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_9 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_800DC1F8_9;   /* temp_v0_7 in func_800DC1F8 */
+} S_800DC1F8_9;   /* temp_v0_7 in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_10 {
     u8 pad_00[0x14A8];
     union { s32 i; void * p; } unk_14A8;   /* accessed as both */
-} S_800DC1F8_10;   /* page_base in func_800DC1F8 */
+} S_800DC1F8_10;   /* page_base in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_11 {
     u8 pad_00[0x80];
     s32 unk_80;
     void * unk_84;
     u16 * unk_88;
-} S_800DC1F8_11;   /* ((S_800DC1F8_0 *)arg0)->unk_3C in func_800DC1F8 */
+} S_800DC1F8_11;   /* ((S_800DC1F8_0 *)arg0)->unk_3C in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_12 {
     u8 pad_00[0x28];
     u8 unk_28;
-} S_800DC1F8_12;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.i in func_800DC1F8 */
+} S_800DC1F8_12;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.i in dungeonUpdateDisplayTransition */
 
 typedef struct S_800DC1F8_13 {
     u8 pad_00[0x29];
     u8 unk_29;
-} S_800DC1F8_13;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.p in func_800DC1F8 */
+} S_800DC1F8_13;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.p in dungeonUpdateDisplayTransition */
 
 /* extern */
 
 /* Updates a display transition, synchronizes rotation and shading, and refreshes its counters. */
-void func_800DC1F8(S_800DC1F8_0 *transition, void *anim_data) {
+void dungeonUpdateDisplayTransition(S_800DC1F8_0 *transition, void *anim_data) {
     s32 phase_offset;
     s32 flag_or_delay;
     s32 frames_left;
@@ -166,7 +166,7 @@ void func_800DC1F8(S_800DC1F8_0 *transition, void *anim_data) {
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = 0;
                 transition->unk_10 = 0;
                 transition->unk_14 = 0;
-                func_800DBE98();
+                dungeonPassGlobalDataWithFixedArgs();
                 transition->unk_20 = 0;
             }
         }
@@ -219,11 +219,11 @@ void func_800DC1F8(S_800DC1F8_0 *transition, void *anim_data) {
         page_base = (u8 *)0x80080000;
         first_counter = ((S_800DC1F8_12 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.i))->unk_28;
         if (first_counter != transition->unk_10) {
-            func_800DBD5C(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
+            dungeonDrawFillerFirstNumber(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
         }
         second_counter = ((S_800DC1F8_13 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.p))->unk_29;
         if (second_counter != transition->unk_14) {
-            func_800DBC20(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
+            dungeonDrawPaddedFirstNumber(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }
     }
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_800176EC(void) {
+void dungeonCompactGenerationRegions(void) {
     s8 *read_entry;
     s8 *write_entry;
     s32 entry_count;

@@ -8,7 +8,7 @@ typedef struct S_80018094_1 {
     u16 unk_0C;
     u16 unk_0E;
 } S_80018094_1;   /* (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
-            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in func_80018094 */
+            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in townApplyTargetGridRectangle */
 
 
 typedef struct {
@@ -18,18 +18,18 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void func_8001ACA0();
-extern void func_8001AC6C();
+extern void townCopyCurrentRecordComponents3();
+extern void townPointsWithinSquaredThreshold();
 
 
 /* Applies a target rectangle positioned at the given grid cell center. */
-void func_80018094(s32 target_x, s32 target_y)
+void townApplyTargetGridRectangle(s32 target_x, s32 target_y)
 {
     Rect current_rect;
     Rect target_rect;
     s32 coord_offset;
 
-    func_8001ACA0(&current_rect);
+    townCopyCurrentRecordComponents3(&current_rect);
     target_x <<= 6;
     target_y <<= 6;
     current_rect.w = 0;
@@ -42,5 +42,5 @@ void func_80018094(s32 target_x, s32 target_y)
     target_rect.w = 0;
     target_y += coord_offset;
     target_rect.y = target_y;
-    func_8001AC6C(&current_rect, &target_rect, 0x20);
+    townPointsWithinSquaredThreshold(&current_rect, &target_rect, 0x20);
 }

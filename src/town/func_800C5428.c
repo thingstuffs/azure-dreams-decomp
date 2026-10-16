@@ -3,7 +3,7 @@
 extern s16 func_80065F90(s32, s32);
 
 /* Clamp the fixed-point coordinate deltas to the minimum before passing them to the helper. */
-s16 func_800C2B88(s32 x, s32 y, void *origin) {
+s16 townClampTransformCoordinateDeltas(s32 x, s32 y, void *origin) {
     s32 x_delta;
     s32 y_delta;
     s32 clamped_y_delta;

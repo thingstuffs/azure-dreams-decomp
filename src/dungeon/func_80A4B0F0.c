@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_801748F0(void *record_data) {
+void dungeonAdvanceRecordCountdown(void *record_data) {
     u16 remaining_count;
 
     remaining_count = ((R06_801748F0_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_1C - 1;

@@ -2,60 +2,60 @@
 
 typedef struct S_801232DC_0 {
     void * unk_00;
-} S_801232DC_0;   /* *var_a1 in func_801232DC */
+} S_801232DC_0;   /* *var_a1 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_1 {
     void * unk_00;
     void * unk_04;
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_801232DC_1;   /* object in func_801232DC */
+} S_801232DC_1;   /* object in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_801232DC_2;   /* *var_a2 in func_801232DC */
+} S_801232DC_2;   /* *var_a2 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_3 {
     void * unk_00;
     void * unk_04;
-} S_801232DC_3;   /* *var_a1_2 in func_801232DC */
+} S_801232DC_3;   /* *var_a1_2 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_4 {
     void * unk_00;
-} S_801232DC_4;   /* object_base[0x61] in func_801232DC */
+} S_801232DC_4;   /* object_base[0x61] in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801232DC_5;   /* *var_a0_2 in func_801232DC */
+} S_801232DC_5;   /* *var_a0_2 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_6 {
     u8 pad_00[0x8];
     union { u16 s; s16 u; } unk_08;   /* accessed as both */
     u16 unk_0A;
-} S_801232DC_6;   /* ((S_801232DC_1 *)object)->unk_04 in func_801232DC */
+} S_801232DC_6;   /* ((S_801232DC_1 *)object)->unk_04 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_7 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_801232DC_7;   /* ((S_801232DC_2 *)(*var_a2))->unk_04 in func_801232DC */
+} S_801232DC_7;   /* ((S_801232DC_2 *)(*var_a2))->unk_04 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_8 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_801232DC_8;   /* ((S_801232DC_3 *)(*var_a1_2))->unk_04 in func_801232DC */
+} S_801232DC_8;   /* ((S_801232DC_3 *)(*var_a1_2))->unk_04 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_9 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_801232DC_9;   /* ((S_801232DC_5 *)(*var_a0_2))->unk_08 in func_801232DC */
+} S_801232DC_9;   /* ((S_801232DC_5 *)(*var_a0_2))->unk_08 in townLayoutCatalogEntryGrid */
 
 typedef struct S_801232DC_10 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in func_801232DC */
+} S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in townLayoutCatalogEntryGrid */
 
 
 typedef struct TownInitialPosition {
@@ -64,14 +64,14 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void func_80123238(void);
+extern void townInitializeCatalogEntryPackets(void);
 extern TownInitialPosition D_80126AF8[5];
 extern s8 D_80128614[];
 extern void *D_80129728[];
 extern s8 D_801331D0[];
 
 /* Initialize town object data, grid positions, and display dimensions. */
-void func_801232DC(void)
+void townLayoutCatalogEntryGrid(void)
 {
     s32 object_index;
     TownInitialPosition *initial_pos;
@@ -94,7 +94,7 @@ void func_801232DC(void)
     void **group_slot;
 
     object_index = 0x1C;
-    func_80123238();
+    townInitializeCatalogEntryPackets();
     initial_index = 0;
     {
         void **object_base;

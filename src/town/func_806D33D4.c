@@ -6,20 +6,20 @@
 typedef struct S_80016BD4_2 {
     u8 pad_00[0x4];
     M2C_UNK (*unk_04)(void *, u8, s32);
-} S_80016BD4_2;   /* ((temp_a1 * 0x10) + temp_a0->unk_10) in func_80016BD4 */
+} S_80016BD4_2;   /* ((temp_a1 * 0x10) + temp_a0->unk_10) in townDispatchFlagTestState */
 
 
 typedef struct S_80016BD4_1 {
     u8 unk_00;
     u8 pad_01[0xF];
     s32 unk_10;
-} S_80016BD4_1;   /* temp_a0 in func_80016BD4 */
+} S_80016BD4_1;   /* temp_a0 in townDispatchFlagTestState */
 
 
 extern s32 D_80016E40;
 
 /* Dispatch the selected state callback with the current context value. */
-void func_80016BD4(void) {
+void townDispatchFlagTestState(void) {
     u8 state_index;
     S_80016BD4_1 *state;
 

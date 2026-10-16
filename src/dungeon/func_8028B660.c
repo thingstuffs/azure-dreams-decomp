@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-s32 func_8001E660(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
+s32 selectFloorItemWithSpecialOverrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
     u8 special_selected;
     special_selected = ((u8 *)D_8001F6F0)[0];
 
@@ -35,10 +35,10 @@ s32 func_8001E660(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
                 return 1;
             }
         }
-        func_8001EAA4(out_group, out_index);
+        selectWeightedFloorItem(out_group, out_index);
         return 0;
     } else {
-        func_8001EAA4(out_group, out_index);
+        selectWeightedFloorItem(out_group, out_index);
         return 0;
     }
 }

@@ -13,12 +13,12 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
 
     switch (((R17_80173244_S_80173354_1 *)action)->unk_9B) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         if (((EntityRec *)actor)->unk_28 == 0) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, ((u8 *)D_801744AC));
+            dungeonBeginActorDisplayAction(action, motion, sprite, ((u8 *)D_801744AC));
             return;
         }
 
@@ -70,7 +70,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, ((u8 *)D_801744AC));
+            dungeonBeginActorDisplayAction(action, motion, sprite, ((u8 *)D_801744AC));
             return;
         }
         ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 8;
@@ -111,7 +111,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        dungeonSetRecordIntegerTileCenter(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
 
         ((R17_80173244_S_80173354_1 *)action)->unk_90 = 0;
         ((R17_80173244_S_80173354_1 *)action)->unk_98 &= 0xFFF7;

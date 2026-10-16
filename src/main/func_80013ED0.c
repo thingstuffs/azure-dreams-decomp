@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 func_8004B4A8(void *ptr);
-extern void *func_8003FE78(s32 value, void *ptr1, s32 value2);
+extern s32 findActiveListNode(void *ptr);
+extern void *initializeSceneObjectInBuffer(s32 value, void *ptr1, s32 value2);
 extern void func_8004491C(void *entry, void *registration_id);
-extern void func_80026FB4(void *object);
+extern void cardBootMarkObjectComplete(void *object);
 extern void bzero(void *ptr, s32 size);
 extern void func_80026DF0(void *ptr, s32 value);
-extern s32 func_80026DC8(void *nodes);
-extern void func_80026E90(s8 *record, s32 initial_value);
+extern s32 cardBootLinkPairedChoiceDisplayEntries(void *nodes);
+extern void cardBootInitializePairedChoicePanel(s8 *record, s32 initial_value);
 
 extern u8 D_8002B850[];
 extern u8 D_80027DD0[];
@@ -21,19 +21,19 @@ void *func_80026ED0(s32 init_value, s32 stored_value)
 
     object = D_8002B850;
     data = (u8 *)object + 0x20;
-    if (func_8004B4A8(object) == 0) {
-        object = func_8003FE78(0, object, 0x45);
+    if (findActiveListNode(object) == 0) {
+        object = initializeSceneObjectInBuffer(0, object, 0x45);
         func_8004491C(object, D_80027DD0);
     } else {
-        func_80026FB4(object);
+        cardBootMarkObjectComplete(object);
         *(u16 *)((u8 *)object + 0x1E) &= 0x7FFF;
         bzero(data, 0xF0);
     }
     func_80026DF0(data, 4);
     *(void **)((u8 *)object + 0xC) = (u8 *)data + 0x50;
-    *(s32 *)((u8 *)data + 0x5C) = func_80026DC8((u8 *)data + 0x60);
+    *(s32 *)((u8 *)data + 0x5C) = cardBootLinkPairedChoiceDisplayEntries((u8 *)data + 0x60);
     *(s32 *)((u8 *)data + 0x24) = stored_value;
-    func_80026E90(data, init_value);
+    cardBootInitializePairedChoicePanel(data, init_value);
     *(void **)((u8 *)object + 0x10) = D_80026AE4;
     return object;
 }

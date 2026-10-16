@@ -4,7 +4,7 @@ extern u8 D_8001791C[96];
 s32 func_8001E670();
 
 // Count entries 1 through 7 whose field at offset 4 passes func_8001E670.
-s32 func_8001A2F0(void) {
+s32 townCountEnabledTownEntries(void) {
     s32 matchingEntryCount;
     s32 entryIndex;
     u8 *entry;

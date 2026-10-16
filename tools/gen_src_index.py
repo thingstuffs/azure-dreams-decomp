@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows, LEDGER, read_jsonl  # noqa: E402
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of  # noqa: E402
 
 
@@ -34,10 +35,11 @@ def main():
                "| file | function | bytes | compiler | level | module | pins |", "|---|---|---:|---|---:|---|---:|"]
         for r in sorted(rs, key=lambda r: r["id"]):
             name = r["id"].split("/", 1)[1]
-            p = d / f"{name}.c"
+            p = layout_row_path(r, ROOT)
+            display_path = p.relative_to(d).as_posix()
             pins = len(list(sites_of(p.read_text(errors="replace")))) if p.exists() else ""
             lv = lev.get(r["id"])
-            out.append(f"| {name}.c | {name} | {r.get('size', '')} | {r['cfg']} | {'' if lv is None else lv} | "
+            out.append(f"| {display_path} | {name} | {r.get('size', '')} | {r['cfg']} | {'' if lv is None else lv} | "
                        f"{mod.get(r['id'], '')} | {pins} |")
         (d / "INDEX.md").write_text("\n".join(out) + "\n")
         print(f"{c}: {len(rs)} rows")

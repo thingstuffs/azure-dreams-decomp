@@ -8,14 +8,14 @@ typedef struct S_800357B0_0 {
     u16 unk_50;
     u8 pad_52[0x16];
     M2C_UNK * unk_68;
-} S_800357B0_0;   /* arg0 in func_800357B0 */
+} S_800357B0_0;   /* arg0 in runtimeAssignCode101Callback */
 
 
-void func_800357D0();
+void runtimeAdvanceCounterAndCallback();
 
-/* Assigns func_800357D0 to objects with code 0x101. */
-void func_800357B0(S_800357B0_0 *object) {
+/* Assigns runtimeAdvanceCounterAndCallback to objects with code 0x101. */
+void runtimeAssignCode101Callback(S_800357B0_0 *object) {
     if (object->unk_50 == 0x101) {
-        object->unk_68 = &func_800357D0;
+        object->unk_68 = &runtimeAdvanceCounterAndCallback;
     }
 }

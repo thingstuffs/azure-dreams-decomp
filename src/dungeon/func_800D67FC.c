@@ -8,10 +8,10 @@ typedef struct S_800DBF5C_0 {
     s32 unk_54;
     u8 pad_58[0x4];
     s32 unk_5C;
-} S_800DBF5C_0;   /* temp_v1 in func_800DBF5C */
+} S_800DBF5C_0;   /* temp_v1 in dungeonSetStateFlagWhenClear */
 
 /* Sets the low flag bit when the state check field is zero. */
-void func_800DBF5C(void) {
+void dungeonSetStateFlagWhenClear(void) {
     S_800DBF5C_0 *state;
 
     state = D_800E5910 + 0x20;

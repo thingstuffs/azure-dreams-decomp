@@ -67,19 +67,19 @@ typedef struct MotionResetView {
 } MotionResetView;
 
 extern s32 abs(s32);
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void func_80047784(void *, u8, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800BB044(void *);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
+extern void dungeonCreateActorLinkedEffect(void *);
 
 extern u8 D_8015F014[];
 extern u8 D_8016220C[];
 
-void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
+void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, void *object_in)
 {
     void *object = object_in;
     register s32 is_special;
@@ -164,7 +164,7 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
                         ((ActionActorView *)object)->targetY.unsignedByte = action_value;
                     }
                 } else {
-                    target = func_800A05A4(
+                    target = dungeonScanMonsterAlongHeading(
                         object,
                         ((ActionSpriteView *)actor)->tileX,
                         ((ActionSpriteView *)actor)->tileY,
@@ -181,11 +181,11 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
                 }
             }
 
-            if (func_800A94A0(object, item_slot, is_special,
+            if (dungeonCreateActorSpellEffect(object, item_slot, is_special,
                               &((ObjectActionState *)owner)->flags) == 0) {
                 return;
             }
-            func_800BB044(object);
+            dungeonCreateActorLinkedEffect(object);
             ((ObjectActionState *)owner)->phase++;
             return;
         }
@@ -193,10 +193,10 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        func_800A2B04(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         ((ActionActorView *)object)->remainingActions--;
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;
         ((ActionActorView *)object)->targetY.unsignedByte = 0;
@@ -205,7 +205,7 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((ActionSpriteView *)actor)->flags |= 0x0800;
             return;
         }
@@ -226,7 +226,7 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        func_800A2B04(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
 
         {
             u8 *direction_table = D_8016220C;
@@ -246,7 +246,7 @@ void func_801605A4(void *owner, void *motion, void *actor, void *object_in)
             dungeonStatus.unk_0A--;
         }
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         ((ActionActorView *)object)->targetY.unsignedByte = 0;
         ((ActionActorView *)object)->targetX.unsignedByte = 0;
         ((ActionActorView *)object)->remainingActions--;

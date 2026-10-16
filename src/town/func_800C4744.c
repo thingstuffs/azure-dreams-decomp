@@ -16,11 +16,11 @@ typedef struct {
 extern s32 D_800C1F8C;
 extern int abs(int);
 
-extern s32 func_80033B2C(s16);
+extern s32 testResidentBitmapBit(s16);
 extern void SD_Call(u16);
 
 /* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
-void func_800C1EA4(Entity *entity)
+void townTriggerEntityActionWhenAllowed(Entity *entity)
 {
     s32 x_distance;
     s32 y_distance;
@@ -29,11 +29,11 @@ void func_800C1EA4(Entity *entity)
     y_distance = abs(entity->y - D_80083780.y.w.i);
 
     if (entity->mode == 0) {
-        if (func_80033B2C(entity->predicate_arg) == 0) {
+        if (testResidentBitmapBit(entity->predicate_arg) == 0) {
             return;
         }
     } else {
-        if (func_80033B2C(entity->predicate_arg) != 0) {
+        if (testResidentBitmapBit(entity->predicate_arg) != 0) {
             return;
         }
     }

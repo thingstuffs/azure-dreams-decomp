@@ -8,18 +8,18 @@ typedef struct S_80039760_0 {
     s32 unk_1C;
     u8 pad_20[0x7];
     u8 unk_27;
-} S_80039760_0;   /* arg0 in func_80039760 */
+} S_80039760_0;   /* arg0 in vmOp26JumpByByteIndex */
 
 typedef struct S_80039760_1 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_80039760_1;   /* temp_v1 in func_80039760 */
+} S_80039760_1;   /* temp_v1 in vmOp26JumpByByteIndex */
 
 
 /* Set the event-script VM pointer from the selected little-endian table entry. */
-void func_80039760(S_80039760_0 *vm) {
+void vmOp26JumpByByteIndex(S_80039760_0 *vm) {
     S_80039760_1 *jump_entry;
 
     jump_entry = (vm->unk_27 * 4) + vm->unk_1C;

@@ -3,7 +3,7 @@
 extern s32 func_80018964(s32);
 
 /* Return whether both checks for 0x1200 and 0x1201 return zero. */
-s32 func_800168A0(void) {
+s32 checkTownEventFlagsClear(void) {
     s32 result;
     s32 return_value;
 

@@ -24,7 +24,7 @@ extern u8 D_800D2FB4[];
 extern u8 D_800D3814[];
 
 /* Builds a null-terminated entry list for the current map kind and variant. */
-void func_800B94FC(void) {
+void townBuildMapVariantEntryList(void) {
     s32 count;
     s32 i;
     u32 records;

@@ -70,9 +70,9 @@ typedef struct StackLocals {
 } StackLocals;
 
 
-extern s32 func_8003DE58(void *, Lookup *, s16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, Lookup *, s16 *, s32);
 extern void func_80024F0C(State *, Motion *);
-extern s32 func_800A44E0(s32, s32, s16, s32);
+extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s16, s32);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_8002523C(State *, Motion *);
 extern void func_800A56E0(s32);
@@ -104,7 +104,7 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
 
     case 1:
         prefix = (OwnerPrefix *)((u8 *)owner - 0x20);
-        if (func_8003DE58(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
+        if (resolveRecordOrientationOrFallback(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
             !(prefix->lookup->flags & 0x8000)) {
             break;
         }
@@ -185,7 +185,7 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
                 while (index < 8) {
                     grid_x = (s16)path_x;
                     grid_y = (s16)path_y;
-                    if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->z,
+                    if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->z,
                             (s16)(action->angle << 9)) != 0) {
                         break;
                     }

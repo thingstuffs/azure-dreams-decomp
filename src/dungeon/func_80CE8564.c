@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
-void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
+void *dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 record_addr;
     EntityRec *result;
@@ -124,7 +124,7 @@ void *func_80171D64(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
             (s16)init_flags);
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
-        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = func_801724BC;
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = dungeonUpdateActorBehavior;
         func_800AA36C((void *)record_addr, position, sprite, result);
 
         kind = result->unk_48;

@@ -7,7 +7,7 @@ s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
 extern void * func_80099290(s8 *byte_ptr);
 s32 func_80099734();                     /* extern */
-s32 func_800A2DB8();                          /* extern */
+s32 distributeExperienceAwards();                          /* extern */
 s32 func_800A5720();                         /* extern */
 extern void *D_8007359C;
 
@@ -55,7 +55,7 @@ void func_800A2FE0(EntityRec *entity) {
         hasFlag = flagBits != 0;
     }
     if (hasFlag == 0) {
-        result = func_800A2DB8(entity);
+        result = distributeExperienceAwards(entity);
     }
     flags14 = entity->flags14;
     if (!(flags14 & 0x20000000)) {

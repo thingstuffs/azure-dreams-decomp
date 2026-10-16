@@ -30,6 +30,7 @@ sys.path.insert(0, str(ROOT / "tools/xform"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from served import served_rows, assert_unserved
 from common import rows, clean_path, sha_text
+from source_layout import source_items as layout_source_items
 from pin_census import sites_of
 from pin_sites import erase_many
 from verify import verify
@@ -168,7 +169,7 @@ def main():
     per = a.per or -(-len(good) // len(a.lanes))
     brief = (ROOT / "tools/lanes/fence_lane_brief.md").read_text()
     live = sum(sum(s[1] == "ASM_SCHED_BARRIER" for s in sites_of(p.read_text(errors="replace")))
-               for p in (ROOT / "src").glob("*/*.c"))
+               for _, p in layout_source_items(ROOT))
     for li, name in enumerate(a.lanes):
         mine = good[li * per:(li + 1) * per]
         if not mine:

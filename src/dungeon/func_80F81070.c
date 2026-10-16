@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_fa1070.h"
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
-void *func_8014C870(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
+void *dungeonCreateActorWithKindParts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
 {
     s32 kind;
     S_8014C870_1 *work;
@@ -63,7 +63,7 @@ join_kind:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_8014CE68;
+        actor->unk_8C = &dispatchDungeonActorBehaviorAndFacing;
         part_b->unk_14 |= 0xC;
         func_800AA36C(actor, part_a, part_b, work);
     }

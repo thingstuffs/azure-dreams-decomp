@@ -3,7 +3,7 @@
 typedef struct S_80093524_0 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80093524_0;   /* arg0 in func_80093524 */
+} S_80093524_0;   /* arg0 in townFollowLinkedPositionUntilTimeout */
 
 
 typedef struct CopySource {
@@ -33,7 +33,7 @@ extern CopyGlobal D_800CFCB4;
 extern void func_80094894(S_80093524_0 *, CopyOutput *, s32);
 
 /* Copy source coordinates, decrement the counter, and call the handler when it becomes negative. */
-void func_80093524(S_80093524_0 *state, CopyOutput *out, s32 handler_arg) {
+void townFollowLinkedPositionUntilTimeout(S_80093524_0 *state, CopyOutput *out, s32 handler_arg) {
     s16 remaining;
 
     out->x = D_800CFCB4.middle->source->x;

@@ -13,12 +13,12 @@ typedef struct S_800254A4_0 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800254A4_0;   /* obj in func_800254A4 */
+} S_800254A4_0;   /* obj in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_1 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_800254A4_1;   /* root in func_800254A4 */
+} S_800254A4_1;   /* root in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_2 {
     s32 unk_00;
@@ -26,14 +26,14 @@ typedef struct S_800254A4_2 {
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800254A4_2;   /* packet in func_800254A4 */
+} S_800254A4_2;   /* packet in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_3 {
     u8 pad_00[0x4C];
     void * unk_4C;
     u8 pad_50[0x6];
     s16 unk_56;
-} S_800254A4_3;   /* part1 in func_800254A4 */
+} S_800254A4_3;   /* part1 in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_4 {
     u8 pad_00[0xC];
@@ -41,7 +41,7 @@ typedef struct S_800254A4_4 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800254A4_4;   /* draw in func_800254A4 */
+} S_800254A4_4;   /* draw in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_5 {
     u8 pad_00[0x4];
@@ -53,7 +53,7 @@ typedef struct S_800254A4_5 {
     s16 unk_16;
     s16 unk_18;
     s16 unk_1A;
-} S_800254A4_5;   /* part2 in func_800254A4 */
+} S_800254A4_5;   /* part2 in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_6 {
     u8 pad_00[0x4];
@@ -65,7 +65,7 @@ typedef struct S_800254A4_6 {
     s16 unk_16;
     s16 unk_18;
     s16 unk_1A;
-} S_800254A4_6;   /* part3 in func_800254A4 */
+} S_800254A4_6;   /* part3 in townInitializeTakoMinigame */
 
 typedef struct S_800254A4_7 {
     u8 pad_00[0x4];
@@ -77,7 +77,7 @@ typedef struct S_800254A4_7 {
     s16 unk_12;
     s16 unk_14;
     u16 unk_16;
-} S_800254A4_7;   /* final_part in func_800254A4 */
+} S_800254A4_7;   /* final_part in townInitializeTakoMinigame */
 
 
 extern u8 D_8002012C[];
@@ -96,17 +96,17 @@ extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_800F7968[];
 
-extern void func_80026CE4(s16 value);
+extern void townCreateTimedSound(s16 value);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8003E188(s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
-extern void func_8008F074(void *, void *, void *);
+extern void townConfigureTheSetModeN1(void *, void *, void *);
 extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Creates a parent object, three children, paired display rows, and a final display element. */
-s32 func_800254A4(void)
+s32 townInitializeTakoMinigame(void)
 {
     u8 *parent_state = NULL;
     void * left_data[2] = { D_8002012C, D_80020134 };
@@ -135,7 +135,7 @@ s32 func_800254A4(void)
     s16 row_y;
 
     tw_sd_sq_ld_call(0x24, 0x200);
-    func_80026CE4(0x5A);
+    townCreateTimedSound(0x5A);
     func_8003E188(0x3C, (s32)parent_state);
 
     object = func_8003FC64(2);
@@ -169,7 +169,7 @@ create_child:
         func_8003DB94(draw_state, D_800F7968, 0);
         draw_state->unk_0C = 0x00808080;
         child_state->unk_4C = child_data;
-        func_8008F074((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
+        townConfigureTheSetModeN1((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
     }
     index--;
     child_slot--;

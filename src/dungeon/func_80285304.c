@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_80018304(s16 input_x, s16 input_y, s32 current_height, s16 direction)
+s32 dungeonClassifyDirectionalMovement(s16 input_x, s16 input_y, s32 current_height, s16 direction)
 {
     u16 tile_flags;
     s16 tile_x;
@@ -13,11 +13,11 @@ s32 func_80018304(s16 input_x, s16 input_y, s32 current_height, s16 direction)
     probe_height = current_height - 0x20;
     tile_x = input_x;
     tile_y = input_y;
-    if ((func_8009A540(direction & 0xFFFF, tile_x, tile_y, probe_height) << 16) == 0) {
+    if ((dungeonCheckDiagonalSideHeight(direction & 0xFFFF, tile_x, tile_y, probe_height) << 16) == 0) {
         return 0;
     }
 
-    if ((func_8009A350(tile_x, tile_y, direction, &tile_flags) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(tile_x, tile_y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
 

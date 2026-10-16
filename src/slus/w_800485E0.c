@@ -12,7 +12,7 @@ typedef struct S_800485E0_Obj {
 } S_800485E0_Obj;
 
 /* Selects a slot or fallback, initializes its enclosing record, and returns it. */
-void *func_800485E0(S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index)
+void *textureSelectASlotFallbackInitializesEnclosingReturns(S_800485E0_Obj *obj, s16 slot_index, s16 base_index, s16 entry_index)
 {
     S_800485E0_Q *table = *obj->unk28;
     s32 record_addr;

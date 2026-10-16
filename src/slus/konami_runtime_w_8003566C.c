@@ -38,7 +38,7 @@ M2C_UNK func_80035E58(); /* extern */
 extern u8 D_8006A86C[];
 extern u8 D_80081F78[];
 extern u8 D_800822F0[];
-void func_8003571C();
+void runtimeDecreaseStateByA0();
 
 /* Decrease the stored value, clamp negatives to zero, and advance state below 0x100. */
 void func_8003566C(S_8003566C_0 *state) {
@@ -54,6 +54,6 @@ void func_8003566C(S_8003566C_0 *state) {
     if ((s16) ((S_8003566C_4 *)(((S_8003566C_3 *)state)->unk_00))->unk_08 < 0x100) {
         func_80035E58(&D_800822F0, &D_80081F78, &D_8006A86C, state, 1, state->unk_74);
         state->unk_4D = 0;
-        state->unk_68 = &func_8003571C;
+        state->unk_68 = &runtimeDecreaseStateByA0;
     }
 }

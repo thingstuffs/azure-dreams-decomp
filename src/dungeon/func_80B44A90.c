@@ -58,7 +58,7 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
             (*(u8 * *)((u8 *)map_actor + 0x2C)) = ((u8 *)D_80175A74);
             func_80047784(
                 map_actor,
@@ -75,9 +75,9 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
         {
             u32 count;
             s32 signed_count;
@@ -98,13 +98,13 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = ((s16)func_800A0818(
+                ((EntityRec *)actor)->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
                     ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &target_distance));
             }
         }
 
-        if ((func_800AD9B4(map_actor, actor) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(map_actor, actor) << 16) > 0) {
             ((R12_80172290_S_80172290_0 *)action)->unk_8C = ((void *)func_80170E70);
             func_800A9A04(actor);
         }

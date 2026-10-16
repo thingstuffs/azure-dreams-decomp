@@ -2,6 +2,7 @@
 import collections, glob, hashlib, json, os, re, shutil, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 import land_admit
 # round 96: `\basm\s*\(` = plain register asm (`register T x asm("$4")`, LOCAL_ASM_REG macros) - a pin pin_census does not count
@@ -78,7 +79,7 @@ def stage(stage, lanes):
     for lane in lanes:
         for f in sorted((root/'work/native_lane'/lane/'out').glob('*/*.c')):
             rid = f.parent.name+'/'+f.stem
-            cur = (root/'src'/(rid+'.c')).read_text()
+            cur = (layout_row_path(rid, root)).read_text()
             base = Path(str(f)+'.base_sha')
             result = assess(rows.get(rid), f.read_text(), cur,
                             base.read_text().strip() if base.exists() else '', lane, **policy)

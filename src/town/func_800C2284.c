@@ -50,7 +50,7 @@ typedef struct S_800BF9E4_5 {
 
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
-extern void func_8008F074();
+extern void townConfigureTheSetModeN1();
 
 extern u8 D_80045340[];
 extern u8 D_80046398[];
@@ -73,7 +73,7 @@ void func_800BF9E4(void *object, S_800BF9E4_1 *position, s32 resource_context) {
     position->unk_00 = 0x0F200000;
     position->unk_04 = 0x02600000;
     position->unk_08 = 0;
-    func_8008F074(object, position, &D_800D2364[0]);
+    townConfigureTheSetModeN1(object, position, &D_800D2364[0]);
     func_8003DB94(resource_context, &D_800F9F78[0], 0);
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
     child = func_8003FC64(0x136);

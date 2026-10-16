@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
 void func_80024050(EntityRec *entity, s32 value_id) {
-    if (func_8009D218(entity, 4) == 0) {
+    if (dungeonTryTriggerTargetRecordEffect(entity, 4) == 0) {
         s32 base_gain;
         s16 bonus;
         s32 gain;
@@ -14,9 +14,9 @@ void func_80024050(EntityRec *entity, s32 value_id) {
             gain = base_gain + bonus;
         }
         entity->unk_64 = (u16) (((u16)entity->unk_64) + gain);
-        func_800AD568(entity);
+        dungeonCapPendingActorValueDelta(entity);
         base_gain = 0x8004;
-        func_800B4C7C(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
-        func_800AD4D0(entity);
+        createActorValuePopup(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
+        dungeonApplyClampedActorValueDelta(entity);
     }
 }

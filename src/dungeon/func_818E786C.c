@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e71d800.h"
 
-void func_8002506C(void *record_field, s32 pair_index) {
+void copySelectedTablePair(void *record_field, s32 pair_index) {
     u16 value_pairs[12];
     s32 shifted_index;
     Row_818E786C_S_8002506C_1 *linked_record;

@@ -17,28 +17,28 @@ typedef struct S_80095854_0 {
     s8 unk_9B;
     u8 pad_9C[0x88];
     void * unk_124;
-} S_80095854_0;   /* arg0 in func_80095854 */
+} S_80095854_0;   /* arg0 in dungeonBeginFamiliarSummoning */
 
 typedef struct S_80095854_1 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_80095854_1;   /* temp_v1 in func_80095854 */
+} S_80095854_1;   /* temp_v1 in dungeonBeginFamiliarSummoning */
 
 typedef struct S_80095854_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80095854_2;   /* arg2 in func_80095854 */
+} S_80095854_2;   /* arg2 in dungeonBeginFamiliarSummoning */
 
 
 void func_80048A44(); /* extern */
-void func_80094E34(void);                            /* extern */
+void dungeonClearPlayerLinkedActionFlags(void);                            /* extern */
 void func_8009A21C();           /* extern */
 void func_8009A3D0();           /* extern */
-s32 func_8009B88C();   /* extern */
+s32 dungeonFindValidNearbyPosition();   /* extern */
 extern u8 D_800DD130;
 
-s32 func_80095854(void *record, s32 input1, void *pointer_input, s32 value_input) {
+s32 dungeonBeginFamiliarSummoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
     s16 candidate_x;
     s16 candidate_y;
     s16 checked_x;
@@ -62,7 +62,7 @@ s32 func_80095854(void *record, s32 input1, void *pointer_input, s32 value_input
         value = value > 0;
         status = value;
     }
-    func_80094E34();
+    dungeonClearPlayerLinkedActionFlags();
     (*(M2C_UNK **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
     func_80048A44(pointer_data, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
@@ -71,11 +71,11 @@ s32 func_80095854(void *record, s32 input1, void *pointer_input, s32 value_input
     ((S_80095854_0 *)record)->unk_72 = (s8) (((S_80095854_2 *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dirStepX)));
     next_y = ((S_80095854_2 *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dirStepY));
     ((S_80095854_0 *)record)->unk_73 = next_y;
-    if ((func_8009B88C(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
+    if ((dungeonFindValidNearbyPosition(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
         value = status << 0x10;
         if (value != 0) {
             func_8009A21C(candidate_x, candidate_y, 0x8000);
-            status = func_8009B88C(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
+            status = dungeonFindValidNearbyPosition(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
             func_8009A3D0(candidate_x, candidate_y, 0x8000);
             condition = status << 0x10;
             if (condition != 0) {

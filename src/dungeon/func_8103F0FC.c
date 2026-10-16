@@ -1,0 +1,70 @@
+/* Relink of matched dungeon/func_810330FC; every changed retail word is a paired relocation. */
+#include "common.h"
+
+typedef struct S_801748FC_0_pre {
+    u8 * unk_00;
+    u8 pad_04[0x10];
+} S_801748FC_0_pre;   /* the 0x14 bytes before current in func_801688FC, addressed as current[-1] */
+
+typedef struct S_801748FC_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0x48];
+    s32 unk_5C;
+    u8 pad_60[0x28];
+    s16 unk_88;
+} S_801748FC_0;   /* current in func_801688FC */
+
+typedef struct S_801748FC_1 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_801748FC_1;   /* object in func_801688FC */
+
+
+extern s32 dungeonCheckEntityEligibility(void *);
+
+/* Find the first eligible entry matching both object filters within 32 units of the target height. */
+void *func_801688FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
+{
+    u8 *entry;
+    s32 target_height;
+    u8 *sentinel;
+    s32 min_height;
+    s32 filter_25;
+    s32 scratch;
+    s32 filter_24;
+    u8 *object;
+    s16 height;
+
+    scratch = ((S_801748FC_0 *)current)->unk_5C;
+    sentinel = current;
+    filter_24 = wanted_24;
+    filter_25 = wanted_25;
+    current = (u8 *)scratch + 0x20;
+    if (current != sentinel) {
+        scratch = height_center << 0x10;
+        target_height = scratch >> 0x10;
+        min_height = target_height - 0x20;
+        do {
+            object = ((S_801748FC_0_pre *)current)[-1].unk_00;
+            entry = current - 0x20;
+            if ((((S_801748FC_1 *)object)->unk_24 == (filter_24 & 0xFFFF)) &&
+                (((S_801748FC_1 *)object)->unk_25 == (filter_25 & 0xFFFF)) &&
+                (height = ((S_801748FC_0 *)current)->unk_88,
+                 height <= target_height + 0x20) &&
+                (height >= min_height) &&
+                ((u32)(((S_801748FC_0 *)current)->unk_13 - 0x33) >= 4U)) {
+                scratch = dungeonCheckEntityEligibility(current);
+                scratch <<= 0x10;
+                if (scratch != 0) {
+                    return entry;
+                }
+            }
+            scratch = ((S_801748FC_0 *)current)->unk_5C;
+            current = (u8 *)scratch + 0x20;
+        } while (current != sentinel);
+    }
+
+    return 0;
+}

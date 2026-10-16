@@ -44,7 +44,7 @@ typedef struct {
 } Entity;
 
 /* Initialize an entity and its part and vector storage from default templates. */
-void func_800B3EEC(Entity *entity, Template16 *part, EntityVector *vector) {
+void townInitializeEntityDisplayParts(Entity *entity, Template16 *part, EntityVector *vector) {
     Template16 *part_template = &D_8002E5D8;
     Template12 *vector_template = &D_8002E5E8;
     s32 *vector_word;

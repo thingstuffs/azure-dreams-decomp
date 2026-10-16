@@ -13,8 +13,8 @@ typedef struct Record {
     s8 height;
 } Record;
 
-extern void *func_80096A30(void *object, u8 *values, s32 index);
-extern Record *func_8004CAE8(void *entry, u32 target_id);
+extern void *townCallAnIndexedByteSSignedFieldCallee80096A5C(void *object, u8 *values, s32 index);
+extern Record *findFlaggedRecordById(void *entry, u32 target_id);
 extern s32 func_80064584(s32 angle);
 extern s32 func_800644B8(s32 angle);
 
@@ -23,15 +23,15 @@ extern Vec3i D_800D0AFC;
 extern Vec3i *D_80100D20;
 
 /* Computes the record-based position offset and publishes the resulting vector. */
-void func_80096924(void *object, Vec3i *offset, void *resources) {
+void townComputeTheBasedPositionOffsetPublishesResultingVector(void *object, Vec3i *offset, void *resources) {
     Record *record;
     s32 angle;
     s32 x;
     s32 y;
     s32 height;
 
-    record = func_8004CAE8(
-        func_80096A30(resources, *(s32 *)((u8 *)object + 0x1C), 4), 0);
+    record = findFlaggedRecordById(
+        townCallAnIndexedByteSSignedFieldCallee80096A5C(resources, *(s32 *)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
         angle = (*(u16 *)((u8 *)object + 0x10) - 0xC00) & 0xFFF;
         x = (record->scale * func_80064584(angle)) << 5;

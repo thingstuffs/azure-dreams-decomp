@@ -17,7 +17,7 @@ extern Rect D_80164824;
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Updates effect rotation and rectangle, then flags timer expiration. */
-void func_80166E48(void *effect, s32 unused, void *rotation)
+void dungeonUpdateReverseRotatingClippedSprite(void *effect, s32 unused, void *rotation)
 {
     Rect rect;
     Point center;

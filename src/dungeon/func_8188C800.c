@@ -16,7 +16,7 @@
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_18ac800_entry)(u8 *, u8 *, u8 *) = func_80024050;
 
@@ -68,7 +68,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         }
         scratch[2] = init_flags;
         scratch[3] = init_size;
-        func_800B835C(effect_params - 12, scratch + 2, 1, 0);
+        dungeonDrawTexturedEllipse(effect_params - 12, scratch + 2, 1, 0);
         ((MovingEffectState *)self)->unk_0A.u++;
     case 1:
         if (func_8003DF74(((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_08,
@@ -256,7 +256,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
                 s32 height = ((MovingEffectState *)self)->unk_30.at02u.v;
                 s32 y;
                 y = align_effect_coord(((MovingEffectState *)self)->unk_1C.at03u.v);
-                if ((func_800A45D8(x, y, height) << 16) == 0) {
+                if ((dungeonCheckLeftTileAndCenterHeight(x, y, height) << 16) == 0) {
                     break;
                 }
             }
@@ -268,7 +268,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         func_80065F90(((MovingMotion *)motion)->unk_0C.at02.v,
             ((MovingMotion *)motion)->unk_10.at02.v);
         ((MovingEffectState *)self)->unk_2C.i =
-            func_800262AC(((MovingMotion *)motion)->unk_00.at02u.v,
+            dungeonCreateEffectObjectGroups(((MovingMotion *)motion)->unk_00.at02u.v,
                 ((MovingMotion *)motion)->unk_04.at02u.v,
                           ((MovingMotion *)motion)->unk_08.at02u.v);
         if (((MovingEffectState *)self)->unk_2C.i == 0) {
@@ -286,7 +286,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
             break;
         }
         if (((MovingActor *)owner)->unk_60.p2 != 0) {
-            func_80026404(((MovingActor *)owner)->unk_60.p2, ((MovingEffectState *)self)->unk_09,
+            dungeonApplyConditionalTargetEffect(((MovingActor *)owner)->unk_60.p2, ((MovingEffectState *)self)->unk_09,
                 owner);
         }
         dungeonStatus.unk_0C = 0;

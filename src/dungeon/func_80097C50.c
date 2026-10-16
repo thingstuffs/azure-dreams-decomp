@@ -9,7 +9,7 @@
 
 
 /* Update packed map levels for the current region or neighboring tiles, then submit the map. */
-void func_8009D3B0(void) {
+void dungeonUpdatePackedMapLevels(void) {
     TransitionWords map_params;
     MapGrid *grid;
     TileObject *obj;

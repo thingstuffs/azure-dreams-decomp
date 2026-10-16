@@ -25,7 +25,7 @@ extern u8 D_800273BE;
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The switch table follows it at 0x80024008
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_197e800_entry)(void *) = func_8002401C;
 
@@ -88,7 +88,7 @@ void func_8002401C(void *object)
         D_800273A8 = 0;
         map_data = (u8 *)D_800E3D7C;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
-        func_80025AD8(
+        dungeonFlagNearbySevenBySevenTiles(
             (s16)(D_80082E80.tileX +
                   (dirStepX[direction_offset >> 1] * 4)),
             (s16)(D_80082E80.tileY +
@@ -140,7 +140,7 @@ void func_8002401C(void *object)
     rect[1] = 0x180;
     rect[2] = 0x70;
     rect[3] = 0x70;
-    func_800B835C(D_80027398, rect, 0, 2);
+    dungeonDrawTexturedEllipse(D_80027398, rect, 0, 2);
 
     for (row_index = 0, cell_size = 0x10, row = D_800274DC[0], y = 0x180;
          row_index < 7; row_index++) {

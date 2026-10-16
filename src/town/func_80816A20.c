@@ -69,7 +69,7 @@ extern u8 D_80020360[];
 extern u8 D_800203F4[];
 extern u8 D_80020488[];
 extern u8 D_80020510[];
-extern void func_80020DF0(void *);
+extern void townUpdateSnowballMinigameActor(void *);
 extern void func_8002191C(void *);
 extern u8 D_80026DC8[];
 extern void *D_80026EE0[];
@@ -80,18 +80,18 @@ extern s16 D_800272B0[];
 extern s32 D_800272C0[];
 extern u8 D_800F2F28[];
 
-extern void func_800206F4(void *, TownDraw32 *);
-extern void func_80020788(void *, TownDraw24 *);
+extern void townCreateSceneObjectWith48BytePayload(void *, TownDraw32 *);
+extern void townCreateSceneObjectWithRecordPayload(void *, TownDraw24 *);
 extern void func_80033B9C(s32);
 extern void func_8003DB94(TownData *, void *, s32);
 extern void func_8003E188(s32, void *);
 extern TownObject *func_8003FD64(s32, void *);
 extern void func_8004491C(TownObject *, void *);
 extern void SD_Call(s32);
-extern void func_8008F0A4(TownPart *, TownTransform *, void *);
+extern void townConfigureTheSetModeN2(TownPart *, TownTransform *, void *);
 
 /* Initializes the town display objects, panel lines, and image tiles. */
-s32 func_80020A20(void)
+s32 townInitializeSnowballMinigame(void)
 {
     TownDraw32 tile;
     TownDraw24 draw;
@@ -121,7 +121,7 @@ s32 func_80020A20(void)
     object = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
     root_part->child = object;
     if (object != 0) {
-        object->callback = func_80020DF0;
+        object->callback = townUpdateSnowballMinigameActor;
         func_8004491C(object, func_80045340);
 
         object_part = &object->part;
@@ -134,7 +134,7 @@ s32 func_80020A20(void)
         object_data->angle1C = 0x1000;
         func_8003DB94(object_data, D_800F2F28, 0);
         object_data->color = 0x00808080;
-        func_8008F0A4(object_part, object->transform, D_80026DC8);
+        townConfigureTheSetModeN2(object_part, object->transform, D_80026DC8);
     }
 
     index = 7;
@@ -163,7 +163,7 @@ s32 func_80020A20(void)
     draw.unk02 = 0x10;
     draw.unk04 = root_part;
     draw.flags |= 3;
-    func_80020788(D_8002017C, draw_ptr);
+    townCreateSceneObjectWithRecordPayload(D_8002017C, draw_ptr);
 
     draw.unk0C = 0x7A;
     draw.unk0E = 0x40;
@@ -175,7 +175,7 @@ s32 func_80020A20(void)
     draw.unk02 = 0x10;
     draw.unk04 = root_part;
     draw.flags |= 0xFFFD;
-    func_80020788(D_80020260, draw_ptr);
+    townCreateSceneObjectWithRecordPayload(D_80020260, draw_ptr);
 
     draw.unk0E = 0xA2;
     draw.unk10 = 1;
@@ -187,7 +187,7 @@ s32 func_80020A20(void)
     index = 8;
     do {
         draw.unk0C = 0x60 + index * 0x10;
-        func_80020788(D_80020360, &draw);
+        townCreateSceneObjectWithRecordPayload(D_80020360, &draw);
         index--;
     } while (index >= 0);
 
@@ -195,7 +195,7 @@ s32 func_80020A20(void)
     draw.unk0E = 0xB0;
     draw.unk10 = 0xDC;
     draw.unk12 = 1;
-    func_80020788(D_80020360, &draw);
+    townCreateSceneObjectWithRecordPayload(D_80020360, &draw);
 
     tile.unk10 = 0x808080;
     tile.unk14 = 0x34;
@@ -207,7 +207,7 @@ s32 func_80020A20(void)
     tile.unk02 = 0x10;
     tile.unk0C = root_part;
     tile.unk04 = D_80026F04[0];
-    func_800206F4(D_800203F4, &tile);
+    townCreateSceneObjectWith48BytePayload(D_800203F4, &tile);
 
     {
         void **image_base = D_80026EE0;
@@ -219,18 +219,18 @@ s32 func_80020A20(void)
     do {
         tile.unk04 = images[index];
         tile.unk14 = 0x64 + index * 0x10;
-        func_800206F4(D_800203F4, &tile);
+        townCreateSceneObjectWith48BytePayload(D_800203F4, &tile);
         index--;
     } while (index >= 0);
 
     tile.unk14 = 0xF4;
     tile.unk16 = 0xB6;
     tile.unk04 = D_800272C0;
-    func_800206F4(D_80020510, &tile);
+    townCreateSceneObjectWith48BytePayload(D_80020510, &tile);
 
     tile.unk14 = 0x7E;
     tile.unk16 = 0x44;
     tile.unk04 = D_80026F08[0];
-    func_800206F4(D_80020488, &tile);
+    townCreateSceneObjectWith48BytePayload(D_80020488, &tile);
     return 0;
 }

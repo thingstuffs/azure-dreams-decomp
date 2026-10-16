@@ -9,7 +9,7 @@ M2C_UNK func_8003DB94();  /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
 
-   /* temp_v0 in func_8002596C */
+   /* temp_v0 in dungeonCreateASpriteEffectPositionRandomizedRotation */
 
 typedef struct S_8002596C_1 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_8002596C_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_8002596C_1;   /* temp_s0 in func_8002596C */
+} S_8002596C_1;   /* temp_s0 in dungeonCreateASpriteEffectPositionRandomizedRotation */
 
 typedef struct S_8002596C_2 {
     u8 pad_00[0xC];
@@ -35,17 +35,17 @@ typedef struct S_8002596C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8002596C_2;   /* temp_s0_2 in func_8002596C */
+} S_8002596C_2;   /* temp_s0_2 in dungeonCreateASpriteEffectPositionRandomizedRotation */
 
 /* Create a sprite effect at the given position with a randomized rotation. */
-void func_8002596C(s16 x, s16 y, s16 z) {
+void dungeonCreateASpriteEffectPositionRandomizedRotation(s16 x, s16 y, s16 z) {
     S_8002596C_1 *transform;
     S_8002596C_2 *sprite;
     ObjectNodeHeader *effect;
 
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
-        effect->unk_10 = (s32 *)func_80025868;
+        effect->unk_10 = (s32 *)dungeonAdvanceAndFadeEffectFlaggingExpirationTimerRunsOut;
         func_8004491C(effect, func_80045340);
         transform = effect->unk_08;
         transform->unk_02 = x;

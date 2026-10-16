@@ -1,19 +1,19 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_80049E1C(s32 current_selection, s32 selection_step, s32 value);
+extern s32 advanceIndexWithDirectionalClamp(s32 current_selection, s32 selection_step, s32 value);
 extern void SD_Call(s32 sound_id);
-extern void func_800AD8CC(s32 *menu);
-extern void func_800ADA1C(s32 *menu);
-extern void func_800ADB04(s32 *menu);
+extern void townStoreRecordCheckResult(s32 *menu);
+extern void townHandleSelectedEntry(s32 *menu);
+extern void townPassIndexedRecordToLoader(s32 *menu);
 extern void close_twin_shop(void *shop_ptr);
-extern void func_800B1778(s32 menu_value, s32 row, s32 selection);
-extern void func_800B17C0(s32 menu_value, s32 selection);
+extern void townSetShopSubrecordValues(s32 menu_value, s32 row, s32 selection);
+extern void townStoreShopEmbeddedValue(s32 menu_value, s32 selection);
 
 extern s32 D_80082AB8;
 
 /* Handles twin shop input and updates the selected item and row. */
-void func_800ADB5C(s32 *menu) {
+void townHandleTwinShopInput(s32 *menu) {
     GameWork *pad_state;
     s32 held_buttons;
     s32 selection_step;
@@ -29,7 +29,7 @@ void func_800ADB5C(s32 *menu) {
 
     if (((s32)pad_state->unk_010) & 0x10) {
         SD_Call(0x514);
-        func_800AD8CC(menu);
+        townStoreRecordCheckResult(menu);
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
@@ -40,7 +40,7 @@ void func_800ADB5C(s32 *menu) {
         return;
     }
     if (((s32)pad_state->unk_010) & 0x40) {
-        func_800ADA1C(menu);
+        townHandleSelectedEntry(menu);
         return;
     }
     if (!(held_buttons & 0xF000)) {
@@ -74,7 +74,7 @@ void func_800ADB5C(s32 *menu) {
         }
     }
 
-    selection = func_80049E1C(menu[1], selection_step, menu[2]);
+    selection = advanceIndexWithDirectionalClamp(menu[1], selection_step, menu[2]);
     row = selection / 5;
     if (selection == menu[1]) {
         return;
@@ -84,11 +84,11 @@ void func_800ADB5C(s32 *menu) {
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;
-        func_800B1778(menu[10], row, selection);
+        townSetShopSubrecordValues(menu[10], row, selection);
     }
-    func_800B17C0(menu[10], selection);
+    townStoreShopEmbeddedValue(menu[10], selection);
     if (pad_state->buttons & 0x40) {
-        func_800ADA1C(menu);
+        townHandleSelectedEntry(menu);
     }
-    func_800ADB04(menu);
+    townPassIndexedRecordToLoader(menu);
 }

@@ -3,7 +3,7 @@
 void func_80174258(R10_80174258_Actor *actor, s32 action, R10_80174258_Entity *entity, R10_80174258_MapObject *map_object)
 {
     if (func_800AC82C(actor, action, entity, map_object) != 0) {
-        if ((func_800AD9B4(entity, map_object) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(entity, map_object) << 16) > 0) {
             actor->unk_8C = ((u8 *)func_801717F4);
             return;
         }

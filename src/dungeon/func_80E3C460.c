@@ -9,13 +9,13 @@ typedef struct S_80175C60_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175C60_0;   /* arg1_pinned in func_80175C60 */
+} S_80175C60_0;   /* arg1_pinned in dungeonUpdateOffsetMotionObject */
 
 typedef struct S_80175C60_1 {
     s16 * unk_00;
     u8 pad_04[0x1C];
     u16 unk_20;
-} S_80175C60_1;   /* arg0 in func_80175C60 */
+} S_80175C60_1;   /* arg0 in dungeonUpdateOffsetMotionObject */
 
 typedef struct S_80175C60_2 {
     u8 pad_00[0x18];
@@ -23,11 +23,11 @@ typedef struct S_80175C60_2 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_80175C60_2;   /* arg2 in func_80175C60 */
+} S_80175C60_2;   /* arg2 in dungeonUpdateOffsetMotionObject */
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
-void func_80175C60(void *object, void *motion_data, void *rotation)
+void dungeonUpdateOffsetMotionObject(void *object, void *motion_data, void *rotation)
 {
     void *motion = motion_data;
     s32 facing;

@@ -13,7 +13,7 @@ extern s32 func_807018AC(s16 value);
 extern u8 D_80700000[];
 
 /* Call the indexed callback at the first failed value test or the end of the list. */
-void func_80875404(void)
+void townCallDevkitCallbackAtFirstFailure(void)
 {
     TestValues test_values;
     CallbackTable callbacks;

@@ -24,7 +24,7 @@ static __inline__ void clear_indexed_bit(s32 bitmap, s32 bit_index, s32 rounded_
 }
 
 /* Clears six indexed bits in the shared bitmap. */
-void func_8087514C(void) {
+void townClearSixDevkitBitmapBits(void) {
     s32 slot = 1;
     s32 one_bit = 1;
     s16 *bit_index_ptr = (s16 *)(D_80700000 + 0xBAE);

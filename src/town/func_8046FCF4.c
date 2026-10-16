@@ -1,10 +1,6 @@
-#include "common.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-extern void func_800187AC(void);
-extern s32 func_80019928(void);
-
-/* Scene step: report busy while the 0x187AC dialogue is still up, else close it. */
-s32 func_80016CF4(void) {
+s32 townWaitForDialogueThenClose(void) {
     if (func_80019928() != 0) {
         return 1;
     }

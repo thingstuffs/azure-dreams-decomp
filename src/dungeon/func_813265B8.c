@@ -4,11 +4,11 @@
 
 extern s32 D_80174704[3];
 
-extern void func_8009FAC4(void);
+extern void dungeonSetMonsterDataPointer(void);
 extern void func_8016E264(void);
 
 /* Leave the map screen: clear the three display flags and tear the screen down. */
-void func_8016DDB8(void) {
+void dungeonLeaveMapScreenAndClearFlags(void) {
     u8 *ptr;
     u16 *h = ((u16 *)&D_80013714);
 
@@ -16,6 +16,6 @@ void func_8016DDB8(void) {
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     D_800E296C &= 0xF7FFFFFF;
     h[0] &= 0xFFF6;
-    func_8009FAC4();
+    dungeonSetMonsterDataPointer();
     func_8016E264();
 }

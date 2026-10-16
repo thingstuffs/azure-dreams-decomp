@@ -14,18 +14,18 @@ typedef struct S_800251F0_0 {
     u8 unk_29;
     u8 pad_2A[0x62];
     u16 unk_8C;
-} S_800251F0_0;   /* arg1 in func_800251F0 */
+} S_800251F0_0;   /* arg1 in dungeonAdvanceObjectCountersAnimationValuesFlagExpiration */
 
 typedef struct S_800251F0_1 {
     u8 pad_00[0x6428];
     s16 unk_6428;
-} S_800251F0_1;   /* page in func_800251F0 */
+} S_800251F0_1;   /* page in dungeonAdvanceObjectCountersAnimationValuesFlagExpiration */
 
 
 extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */
-void func_800251F0(void *object_ptr)
+void dungeonAdvanceObjectCountersAnimationValuesFlagExpiration(void *object_ptr)
 {
     u8 *object_bytes;
     u16 remaining_ticks;

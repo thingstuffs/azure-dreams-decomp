@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_800274F0(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
+void dungeonHandleMenuGridInput(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     GameWork *input;
     s32 held_buttons;
     s32 pressed_buttons;
@@ -25,19 +25,19 @@ void func_800274F0(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     if (pressed_buttons & 0x10) {
         SD_Call(0x503, input);
         func_800274A8(menu);
-        func_800255AC(menu->unk44);
+        dungeonForwardStoredObjectValue(menu->unk44);
         return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(0x503, input);
-        func_80027454(&menu->unk38, menu->unk14,
+        dungeonDispatchMenuStateUpdate(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
         func_800265B8(func_8002553C(menu->unk44),
                       menu->unk40 + ((menu->unk8 % 72) * 2));
         if (menu->unk14 == 1 ||
-            func_80026BFC(menu->unk48->unk28) != 0) {
+            dungeonHasAvailableObject(menu->unk48->unk28) != 0) {
             func_800274A8(menu);
-            func_800255AC(menu->unk44);
+            dungeonForwardStoredObjectValue(menu->unk44);
         }
         return;
     }
@@ -86,11 +86,11 @@ void func_800274F0(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         return;
     menu->unk8 = next_index;
     if ((next_index - index_step) / 72 == next_index / 72) {
-        func_80026D0C(menu->unk88, next_index);
+        dungeonPositionMenuGridEntries(menu->unk88, next_index);
         return;
     }
-    func_80026CD8(menu->unk88);
-    *(void **)((u8 *)menu - 0x10) = (void *)func_80027E84;
+    dungeonClearMenuStateValues(menu->unk88);
+    *(void **)((u8 *)menu - 0x10) = (void *)dungeonRunMenuCountdownCallback;
     menu->unk0 = menu->unk4;
 
     return;

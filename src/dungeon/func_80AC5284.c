@@ -28,7 +28,7 @@ typedef struct {
 extern void func_800478B8(Sprite *);
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
-void func_80170A84(Actor *actor, Vec3 *vec, Sprite *sprite)
+void dungeonUpdateShrinkingSpriteEffect(Actor *actor, Vec3 *vec, Sprite *sprite)
 {
     s32 distance_x;
     s32 distance_y;

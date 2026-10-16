@@ -35,7 +35,7 @@ typedef struct S_80091C64_1 {
 void func_80048A44();
 s32 func_800644B8();
 s32 func_80064584();
-void func_800A2B04();
+void dungeonSetRecordIntegerTileCenter();
 s32 func_800A56E0();
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];
@@ -126,7 +126,7 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
         if ((return_frames_left << 0x10) > 0) {
             return;
         }
-        func_800A2B04(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
         ((S_80091C64_0 *)motion)->unk_92 = 0;
         ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
         (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
@@ -139,7 +139,7 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
         if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
             next_behavior = &D_8008EAC8;
         } else {
-            next_behavior = func_8008ACDC;
+            next_behavior = dungeonHandlePlayerInput;
         }
         ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
         ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);

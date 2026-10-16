@@ -555,6 +555,11 @@ class Oracle:
         self.script_tables = doc.get('script_tables',[])
 
     def _repository(self):
+        import sys
+        tools = next((p / "tools" for p in Path(__file__).resolve().parents
+                      if (p / "tools/source_layout.py").is_file()), self.root / "tools")
+        sys.path.insert(0, str(tools))
+        from source_layout import row_relative
         names = {'main':'MAIN_MAIN.BIN','town':'TOWN_TOWN.BIN','dungeon':'DUNGEON_DUNGEON.BIN','ovmovie':'OVMOVIE_OVMOVIE.BIN'}
         missing = []
         for container,name in names.items():
@@ -595,7 +600,7 @@ class Oracle:
                     self.maps[container].append((integer(m['foff_start']),integer(m['foff_end']),integer(m['delta']),m.get('base_confidence','unknown')))
         for row in rows:
             container = row['container']; stem = row['id'].split('/')[-1]
-            source = f'src/{container}/{Path(row["c_path"]).name}'
+            source = row_relative(row, self.root)
             native = native_members.get(row['id'])
             if native:
                 source = native['source']

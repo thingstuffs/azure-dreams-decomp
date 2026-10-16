@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A858State;
 
 /* Loads an indexed little-endian word from the encoded address into a state value slot. */
-void func_8003A858(Func8003A858State *state) {
+void vmOp70LoadImmediateIndexedWord(Func8003A858State *state) {
     u8 *cursor;
     u8 *address_bytes;
     u8 dst_index;

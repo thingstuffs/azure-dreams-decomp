@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* S_80058B70: view of the D_80085FA8[] element struct touched here (base passed
- * to func_80058ABC/func_80058B2C/func_800589B8; direct fields f00,f1c,f20,f24). */
+ * to readBigEndianWord/func_80058B2C/slusReadNextByteAndFinish; direct fields f00,f1c,f20,f24). */
 typedef struct {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
     s32 f30, f34, f38, f3c, f40, f44;
@@ -22,10 +22,10 @@ extern s32 D_800869B4[4];
 extern s32 D_800869B8[4];
 
 extern s32 func_80058850(s32);
-extern s32 func_80058940(s32);
-extern u32 func_80058ABC(S_80058B70 *);
+extern s32 scanStreamForThreeByteMarker(s32);
+extern u32 readBigEndianWord(S_80058B70 *);
 extern s32 func_80058B2C(S_80058B70 *);
-extern void func_800589B8(S_80058B70 *);
+extern void slusReadNextByteAndFinish(S_80058B70 *);
 
 /* Configures the first playback slot and playback parameters for the current mode. */
 s32 func_80058B70(void)
@@ -47,14 +47,14 @@ s32 func_80058B70(void)
             return 0;
         }
     }
-        D_80085FA0[0] = func_80058ABC(slot);
+        D_80085FA0[0] = readBigEndianWord(slot);
         D_800869B8[0] = func_80058B2C(slot) & 0xFFFF;
         D_800869B4[0] = func_80058B2C(slot) & 0xFFFF;
         D_800869A8[0] = func_80058B2C(slot) & 0xFFFF;
         if (D_800869B8[0] == 0) {
             s32 first_entry_offset;
             D_800869B0[0] = 0x10000;
-            first_entry_offset = func_80058940(0);
+            first_entry_offset = scanStreamForThreeByteMarker(0);
             D_800869B0[0] = first_entry_offset;
             slot->f1c = first_entry_offset;
         } else {
@@ -62,7 +62,7 @@ s32 func_80058B70(void)
             D_800869B0[0] = 0x10000;
             if ((u32)stream_offset < (u32)D_800869B4[0]) {
                 do {
-                    stream_offset = func_80058940(stream_offset);
+                    stream_offset = scanStreamForThreeByteMarker(stream_offset);
                     entry_index++;
                     slot->f1c = stream_offset;
                 } while ((u32)entry_index < (u32)D_800869B4[0]);
@@ -76,8 +76,8 @@ s32 func_80058B70(void)
         D_800869B8[0] = 0;
         D_800869B4[0] = 1;
         D_800869B0[0] = 0x10000;
-        D_800869B0[0] = func_80058940(0);
-        timing_divisor = func_80058ABC(slot) >> 8;
+        D_800869B0[0] = scanStreamForThreeByteMarker(0);
+        timing_divisor = readBigEndianWord(slot) >> 8;
         playback_rate = 0x3938700 / timing_divisor;
         slot->f20 = timing_divisor;
         slot->f24 = playback_rate;
@@ -96,7 +96,7 @@ s32 func_80058B70(void)
             slot->f24 = (u32)slot->f24 >> 2;
             break;
         }
-        func_800589B8(slot);
+        slusReadNextByteAndFinish(slot);
         break;
     case 2:
         D_800869B8[0] = 1;

@@ -127,6 +127,8 @@ def build(key, members, structs):
             lines.append("    union { " + " ".join(views) + f" }} unk_{lo:02X};   /* overlapping accesses */")
         pos = hi
     name = class_name(key, members, structs)
+    from record_member_names import rename_generated
+    lines, path = rename_generated(name, lines, path)
     conts = collections.Counter(structs[n]["container"] for n, _ in usable)
     rows = len({structs[n]["row"] for n, _ in usable})
     globals_ = collections.Counter(structs[n]["base"].lstrip("&") for n, _ in usable if re.fullmatch(r"&?D_[0-9A-F]{8}", structs[n]["base"]))
@@ -167,11 +169,20 @@ def main():
         if s.get("class") and not n.endswith("_pre"):
             classes[s["class"]].append(n)
     OUT.mkdir(parents=True, exist_ok=True)
-    records = {}; bad_headers = []; skipped_scalars = []
+    sys.path.insert(0, str(ROOT / 'tools/consolidate'))
+    from record_names import preserved_records
+    previous_path = LEDGER / 'records.json'
+    previous = json.loads(previous_path.read_text()) if previous_path.exists() else {}
+    # Preflight before any header mutation; renamed definitions are human-owned.
+    preserved = preserved_records(ROOT, previous)
+    records = dict(preserved); bad_headers = []; skipped_scalars = []
     for key, members in sorted(classes.items(), key=lambda kv: -len(kv[1])):
         if key.startswith("local:"): continue
         name = class_name(key, members, structs)
         if not name: continue
+        if name in preserved:
+            print(f'{name}: retained semantic header {preserved[name]["canonical_header"]}')
+            continue
         rows = len({structs[n]["row"] for n in members})
         if rows < a.min_rows: continue
         if a.only and key not in a.only.split(",") and name not in a.only.split(","): continue
@@ -196,7 +207,7 @@ def main():
     for n in skipped_scalars:
         (OUT / f"{n}.h").unlink(missing_ok=True)
     if skipped_scalars: print(f"{len(skipped_scalars)} scalar classes skipped (typed-global work, not records): {', '.join(skipped_scalars[:8])}{' ...' if len(skipped_scalars) > 8 else ''}")
-    print(f"{len(records)} record headers in include/records/; mapping in ledger/records.json" + (f"; NOT COMPILING: {bad_headers}" if bad_headers else "; every header compiles standalone (gcc 2.7.2)"))
+    print(f"{len(records)} record headers in include/records/; mapping in ledger/records.json" + (f"; NOT COMPILING: {bad_headers}" if bad_headers else (f"; generated headers compile; {len(preserved)} semantic headers retained by hash" if preserved else "; every header compiles standalone (gcc 2.7.2)")))
     sys.exit(1 if bad_headers else 0)
 
 

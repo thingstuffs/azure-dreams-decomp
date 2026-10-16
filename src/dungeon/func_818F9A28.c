@@ -5,9 +5,9 @@
 #include "shared/entity.h"
 #include "shared/object_node.h"
 
-/* Retail 818F9A28 (func_80025228): spawn an effect object under the parent node, placed at the parent's
+/* Retail 818F9A28 (dungeonCreateRandomJitterChild): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void func_80025228(
+void dungeonCreateRandomJitterChild(
     ObjectNodeHeader *parent,
     s16 field_34,
     s32 field_28,
@@ -38,7 +38,7 @@ void func_80025228(
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)func_8002515C;
+        spawned->unk_10 = (void *)dungeonRaiseEntityToGround;
         jitter_x = rand() & 0x1F;
         position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
@@ -56,7 +56,7 @@ void func_80025228(
         dest_y->y.w.i = position_y;
 
         jitter_z = rand();
-        init_data = func_80024EDC;
+        init_data = dungeonDrawLinkedBrightnessPoints;
         jitter_z &= 0x1F;
         position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
         fields = (PointRecord *)(spawned + 1);

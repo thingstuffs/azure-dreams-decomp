@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80025094(void *effect, void *transform, void *visual) {
+void dungeonAdvanceTheEffectPhaseBrightnessScalePositionUntilLifetimeEnds(void *effect, void *transform, void *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
@@ -44,7 +44,7 @@ void func_80025094(void *effect, void *transform, void *visual) {
     case 2:
         if ((s16) ((Row_81917894_S_80025094_0 *)effect)->unk_06.u >=
             ((Row_81917894_S_80025094_0 *)effect)->unk_08) {
-            func_80024E80(effect, transform);
+            dungeonCreateAnOrientedEffectBetweenPositionOwner(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
                 (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags |= 0x8000;

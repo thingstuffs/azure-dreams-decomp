@@ -7,11 +7,11 @@ typedef struct {
 
 extern s32 func_8004AE3C(void **ptr);
 extern void func_8004AFC8(void *base, s32 count, s32 size, void *compar);
-extern s32 func_8004AFE8(S_8004AFE8 **ptr);
-extern void func_8004B028(u8 *ptr, S_8004AFE8 **entries, s32 category);
+extern s32 tableCountConsecutivePointerEntriesWhoseTargetByteMatchesFirstTargetByte(S_8004AFE8 **ptr);
+extern void stampFirstMatchingEntryRanks(u8 *ptr, S_8004AFE8 **entries, s32 category);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern void bzero(void *p, s32 n);
-extern s32 func_8004AE68(void *a0, void *a1);
+extern s32 tableHandleComparesTwoRecordsSubtractingKeyIndexedTableValues(void *a0, void *a1);
 
 /* Sorts entries by category, then orders each group using discovery ranks from the original list. */
 void func_8004B08C(S_8004AFE8 **entries) {
@@ -32,7 +32,7 @@ void func_8004B08C(S_8004AFE8 **entries) {
     work_buf_2 = (u8 *)original_entries;
     memcpy(work_buf_2, group, count * 4);
     ((S_8004AFE8 **)work_buf_2)[count] = 0;
-    func_8004AFC8(group, count, 4, func_8004AE68);
+    func_8004AFC8(group, count, 4, tableHandleComparesTwoRecordsSubtractingKeyIndexedTableValues);
     group_category = 0;
     if (*group != 0) {
         work_buf = rank_table;
@@ -42,9 +42,9 @@ next_group:
             if (entry_category != group_category) {
                 group_category = entry_category;
                 bzero(work_buf, 0x80);
-                count = func_8004AFE8(group);
-                func_8004B028(work_buf, original_entries, group_category);
-                func_8004AFC8(group, count, 4, func_8004AE98);
+                count = tableCountConsecutivePointerEntriesWhoseTargetByteMatchesFirstTargetByte(group);
+                stampFirstMatchingEntryRanks(work_buf, original_entries, group_category);
+                func_8004AFC8(group, count, 4, compareMappedLeadingBytes);
                 group = group + count;
             }
             if (*group != 0) {

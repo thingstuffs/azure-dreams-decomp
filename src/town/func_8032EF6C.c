@@ -2,7 +2,7 @@
 
 typedef void (*EntryCallback)(void *);
 
-extern void func_8001941C(void *, void *, s32);
+extern void townCopyWords(void *, void *, s32);
 
 typedef union PackedWord {
     u32 word;
@@ -21,7 +21,7 @@ typedef struct DataRecord {
 } DataRecord;
 
 /* Populate records from entries, pack their flags and tag, and invoke entry callbacks. */
-void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
+void *townPopulateAndDispatchEntryRecords(void *records, void *entries, s32 flags, s32 tag)
 {
     DataRecord *record;
     u8 *entry;
@@ -47,7 +47,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     header_or_addr = (u32)record;
 loop_0:
     {
-        func_8001941C((void *)header_or_addr, entry, 5);
+        townCopyWords((void *)header_or_addr, entry, 5);
         if (record_flags != 0) {
             record->unk8 = header_word;
         }

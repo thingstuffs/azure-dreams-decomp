@@ -6,12 +6,12 @@
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 void func_8002401C(void *, void *);
-void func_8002434C(void *, void *, void *);
+void updateSpiralingEffectGrowthAndFade(void *, void *, void *);
 void func_80024654(void *, s16, s16, void *, s32);
-void func_80024830(void *);
-void func_80024908(s32, s16, s16, s32);
-void func_800B835C(s32, void *, u16, u16);
-void func_800B8C20(s32, void *, s32, s32);
+void processEffectModesAndCompletion(void *);
+void allocateAndInitializeEffectObject(s32, s16, s16, s32);
+void dungeonDrawTexturedEllipse(s32, void *, u16, u16);
+void dungeonCreateTimedModelEffect(s32, void *, s32, s32);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 extern u8 D_800DF334[];

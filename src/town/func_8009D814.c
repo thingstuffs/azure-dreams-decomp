@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80094984(void *entries, void *record, s32 handler_param);
-extern void func_8009AE88(void *entity, s32 unused_1, s32 unused_2);
+extern void townCallTheHandlerSelectsNonzeroEntry(void *entries, void *record, s32 handler_param);
+extern void townUpdatePlayerGlobalState(void *entity, s32 unused_1, s32 unused_2);
 extern u8 D_800D0078[];
 extern void *D_8009AFF4[];
 
@@ -13,14 +13,14 @@ typedef struct {
 } Struct8009D814;
 
 /* Decrement the countdown, switch the state's table on expiry, and update the state. */
-void func_8009AF74(Struct8009D814 *state, s32 update_arg, s32 shared_arg) {
+void townAdvancePlayerStateTable(Struct8009D814 *state, s32 update_arg, s32 shared_arg) {
     s16 countdown;
 
     countdown = state->unkA - 1;
     state->unkA = countdown;
     if (countdown <= 0) {
-        func_80094984(D_800D0078, state, shared_arg);
+        townCallTheHandlerSelectsNonzeroEntry(D_800D0078, state, shared_arg);
         state->unk4 = D_8009AFF4;
     }
-    func_8009AE88(state, update_arg, shared_arg);
+    townUpdatePlayerGlobalState(state, update_arg, shared_arg);
 }

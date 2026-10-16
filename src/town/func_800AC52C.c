@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80033B2C();                     /* extern */
+s32 testResidentBitmapBit();                     /* extern */
 
-/* Calls func_80033B2C with 0x11FB. */
+/* Calls testResidentBitmapBit with 0x11FB. */
 void func_800A9C8C(void) {
-    func_80033B2C(0x11FB);
+    testResidentBitmapBit(0x11FB);
 }

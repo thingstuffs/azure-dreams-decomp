@@ -5,7 +5,7 @@
 typedef struct S_808B3620_4 {
     u8 pad_00[0x64];
     union { M2C_UNK (*s)(u8 *, u8 *, s32, s8 *); M2C_UNK (*u)(u8 *, u8 *, s32); } unk_64;   /* accessed as both */
-} S_808B3620_4;   /* *(volatile void **)(D_A0700000 + 0xF58) in func_808B3620 */
+} S_808B3620_4;   /* *(volatile void **)(D_A0700000 + 0xF58) in devCopyOverlayWorkAndTrace48 */
 
 
 typedef struct S_808B3620_0 {
@@ -13,24 +13,24 @@ typedef struct S_808B3620_0 {
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_808B3620_0;   /* var_a2 in func_808B3620 */
+} S_808B3620_0;   /* var_a2 in devCopyOverlayWorkAndTrace48 */
 
 typedef struct S_808B3620_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_808B3620_1;   /* var_a3 in func_808B3620 */
+} S_808B3620_1;   /* var_a3 in devCopyOverlayWorkAndTrace48 */
 
 typedef struct S_808B3620_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_808B3620_2;   /* held_arg0 in func_808B3620 */
+} S_808B3620_2;   /* held_arg0 in devCopyOverlayWorkAndTrace48 */
 
 typedef struct S_808B3620_3 {
     u8 pad_00[0x6C];
     M2C_UNK (*unk_6C)(s32);
-} S_808B3620_3;   /* *(volatile void **)(D_A0700000 + 0xF58) in func_808B3620 */
+} S_808B3620_3;   /* *(volatile void **)(D_A0700000 + 0xF58) in devCopyOverlayWorkAndTrace48 */
 
 extern u8 D_A0700000[];
 extern u8 D_A0700150[];
@@ -39,7 +39,7 @@ extern u8 D_A0700168[];
 extern u8 D_A070017C[];
 
 /* Copies overlay state into ov_work, prints both kinds, and emits a source mark. */
-void func_808B3620(s8 *overlay_state) {
+void devCopyOverlayWorkAndTrace48(s8 *overlay_state) {
     s8 *kind_format;
     s8 *p = overlay_state;
     s32 *dst_words = (s32 *)(D_A0700000 + 0xF40);

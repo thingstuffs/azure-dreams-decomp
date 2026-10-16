@@ -5,37 +5,37 @@ typedef struct S_800238D4_0 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_800238D4_0;   /* base in func_800238D4 */
+} S_800238D4_0;   /* base in cardBootCreateThreeRowCommandPanel */
 
 typedef struct S_800238D4_1 {
     u8 pad_00[0x19C];
     s32 unk_19C;
-} S_800238D4_1;   /* work in func_800238D4 */
+} S_800238D4_1;   /* work in cardBootCreateThreeRowCommandPanel */
 
 
-extern s32 func_8004B4A8(void *object);
-extern void *func_8003FE78(s32 value0, void *object, s32 value1);
+extern s32 findActiveListNode(void *object);
+extern void *initializeSceneObjectInBuffer(s32 value0, void *object, s32 value1);
 extern void func_8004491C(void *object, void *callback);
 extern void func_80023A00(void *record);
 extern void bzero(void *ptr, s32 size);
 extern void func_800237EC(void *state, s32 value);
-extern s32 func_800237C4(void *input);
-extern void func_80023894(void *state, s32 init_value);
-extern void func_80023258(void *state);
+extern s32 cardBootLinkThreeRowPanelEntries(void *input);
+extern void cardBootInitializeThreeRowCommandPanel(void *state, s32 init_value);
+extern void cardBootAnimateThreeRowSelection(void *state);
 
 extern u8 D_80027DD0[];
 extern u8 D_800291D0[];
 
 /* Creates or resets the object, initializes its state, and runs its update callback. */
-void *func_800238D4(s32 init_value)
+void *cardBootCreateThreeRowCommandPanel(s32 init_value)
 {
     u8 *object;
     u8 *state;
 
     object = D_800291D0;
     state = D_800291D0 + 0x20;
-    if (func_8004B4A8(object) == 0) {
-        object = func_8003FE78(0, object, 0x112);
+    if (findActiveListNode(object) == 0) {
+        object = initializeSceneObjectInBuffer(0, object, 0x112);
         func_8004491C(object, D_80027DD0);
     } else {
         func_80023A00(object);
@@ -45,9 +45,9 @@ void *func_800238D4(s32 init_value)
 
     func_800237EC(state, 0x12);
     ((S_800238D4_0 *)object)->unk_0C = state + 0x190;
-    ((S_800238D4_1 *)state)->unk_19C = func_800237C4(state + 0x1A0);
-    func_80023894(state, init_value);
-    *(void (**)(void *))(object + 0x10) = func_80023258;
-    func_80023258(state);
+    ((S_800238D4_1 *)state)->unk_19C = cardBootLinkThreeRowPanelEntries(state + 0x1A0);
+    cardBootInitializeThreeRowCommandPanel(state, init_value);
+    *(void (**)(void *))(object + 0x10) = cardBootAnimateThreeRowSelection;
+    cardBootAnimateThreeRowSelection(state);
     return object;
 }

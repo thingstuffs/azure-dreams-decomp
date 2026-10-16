@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void func_80024E54(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
+void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
     Row_819A1654_Effect *effect;
@@ -340,7 +340,7 @@ void func_80024E54(Row_819A1654_Entity *entity, void *saved_context, void *saved
                                         effect->value10 = effect->value20;
                                         effect->value14 = effect->value24;
                                         effect->value18 = effect->value28;
-                                        task->callback = func_80024918;
+                                        task->callback = dungeonAdvanceObjectMotionAndAnimation;
                                         func_8004491C(task, func_80024564);
                                         sprite = task->sprite;
                                         sprite->field10 = 32;
@@ -393,7 +393,7 @@ void func_80024E54(Row_819A1654_Entity *entity, void *saved_context, void *saved
                                             effect->value10 = effect->value20;
                                             effect->value14 = effect->value24;
                                             effect->value18 = effect->value28;
-                                            task->callback = func_80024918;
+                                            task->callback = dungeonAdvanceObjectMotionAndAnimation;
                                             func_8004491C(task, func_80024564);
                                             sprite = task->sprite;
                                             sprite->field10 = 32;
@@ -492,7 +492,7 @@ loop_1:
                 if (task != 0) {
                     effect->timer3A = 13;
                     effect->timer3C = 13;
-                    task->callback = func_800245B8;
+                    task->callback = dungeonUpdateEffectCountdownFields;
                     func_8004491C(task, func_80045340);
                     sprite = task->sprite;
                     sprite->field6 = 6;

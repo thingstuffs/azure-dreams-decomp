@@ -8,27 +8,27 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((u8 *)(expr) + (offset)))
 
-extern void func_80090A74(void *, void *, s32);
-extern void func_80093D18(void *record, void *context, s32 update_arg);
-extern s32 func_80094B0C(void *context);
-extern void func_8009550C(void *context);
-extern void func_80099754(void *record);
+extern void townDispatchActorInteractionActions(void *, void *, s32);
+extern void townInitializeSharedSceneData(void *record, void *context, s32 update_arg);
+extern s32 townRunTheActionSequenceContextUnlessFlagHexA5Set(void *context);
+extern void townRunTheThreeUpdateRoutinesContext(void *context);
+extern void townClearEntityRecordFields(void *record);
 
 
 /* Run follow-up updates if the record value is unchanged and flag 0x80 is set. */
-void func_80090D44(void *record, void *context, s32 update_arg) {
+void townUpdateEntityCountdownTransition(void *record, void *context, s32 update_arg) {
     s32 saved_value;
     GameWork *state_words;
 
     state_words = &gameWork;
     saved_value = ((Rec_func_80090C68_arg0 *)record)->unk_00;
-    func_80090A74(record, context, update_arg);
+    townDispatchActorInteractionActions(record, context, update_arg);
     if ((saved_value == ((Rec_func_80090C68_arg0 *)record)->unk_00) &&
         (state_words->buttons & 0x80)) {
-        func_80099754(context);
-        func_8009550C(context);
-        if (func_80094B0C((u8 *)record - 0x20) != 0) {
-            func_80093D18(record, context, update_arg);
+        townClearEntityRecordFields(context);
+        townRunTheThreeUpdateRoutinesContext(context);
+        if (townRunTheActionSequenceContextUnlessFlagHexA5Set((u8 *)record - 0x20) != 0) {
+            townInitializeSharedSceneData(record, context, update_arg);
         }
     }
 }

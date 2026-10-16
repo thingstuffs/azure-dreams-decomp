@@ -12,19 +12,19 @@ typedef struct S_801732B4_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_801732B4_1;   /* arg0 in func_801732B4 */
+} S_801732B4_1;   /* arg0 in dungeonUpdateMotionAndRecenterEntity */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern s32 D_80170F6C;
 extern s32 D_80175268;
 
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
-void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
+void dungeonUpdateMotionAndRecenterEntity(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -34,7 +34,7 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
 
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 17;
         motion->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 17;
         action->unk_9B++;
@@ -43,7 +43,7 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile, &D_80175268);
+            dungeonBeginActorDisplayAction(action, motion, tile, &D_80175268);
             return;
         }
         if (tile->unk_14.at00_u16.v & 0x8000) {
@@ -77,7 +77,7 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile, &D_80175268);
+            dungeonBeginActorDisplayAction(action, motion, tile, &D_80175268);
             return;
         }
         action->unk_96.s = 8;
@@ -113,7 +113,7 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile->unk_24, tile->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

@@ -54,14 +54,14 @@ typedef struct S_8009CE1C_2 {
 
 
 extern u8 D_800E3E41;
-void func_80094E34(void);
-s32 func_80098250();
+void dungeonClearPlayerLinkedActionFlags(void);
+s32 dungeonClampAdjustedValue0To99();
 M2C_UNK func_8009CFB4();
 M2C_UNK func_8009CFF4();
 M2C_UNK func_8009D034();
-extern s32 func_8009D218(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
+extern s32 dungeonTryTriggerTargetRecordEffect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
 s32 func_800A56E0(s32);
-extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
@@ -86,7 +86,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     requested_bonus = power_bonus;
     bonus = requested_bonus;
     affinity = 0;
-    if ((target != NULL) && (func_8009D218(target, (u16) element_mask, source_flags) == 0)) {
+    if ((target != NULL) && (dungeonTryTriggerTargetRecordEffect(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
             bonus = ((S_8009CE1C_0 *)(((u8 *)D_800E3D7C)))->unk_11 * 4;
             if (bonus >= 0x64) {
@@ -110,7 +110,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E = (u16) (hit_angle + 0x800);
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3B
-            + func_80098250(target));
+            + dungeonClampAdjustedValue0To99(target));
         if ((func_80042900(target, 0xA) << 0x10) != 0) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) ((s32) (((S_8009CE1C_1 *)((u8 *)target
                 - 0x14))->unk_36.s << 0x10) >> 0x11);
@@ -119,7 +119,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target
                 - 0x14))->unk_36.s + 1);
         }
-        target_elements = func_8009CD58(target, 7, 0);
+        target_elements = dungeonGetMaskedRecordFlags(target, 7, 0);
         if (element_mask & 1) {
             if ((func_80042900(target, 0x13) << 0x10) != 0) {
                 power >>= 2;
@@ -175,10 +175,10 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         } else {
             shown_damage = 0;
         }
-        func_800B4C7C(3, target, shown_damage, 0);
+        createActorValuePopup(3, target, shown_damage, 0);
         if (target == ((u8 *)D_800E3D7C)) {
             D_800E3E41 = (u8) hit_kind;
-            func_80094E34();
+            dungeonClearPlayerLinkedActionFlags();
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
         dungeonStatus.unk_10 = target - 0x20;

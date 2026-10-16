@@ -12,18 +12,18 @@ typedef struct {
 } Object;
 
 extern void func_8004B248(void *entries);
-extern void func_800B0318(s32 slot_table);
+extern void townClearItemMenuEntryGroups(s32 slot_table);
 extern s32 D_800814A0;
 
 // Process a non-null object and set its local and global 0x8000 flags.
-void func_800B03B4(Object *object)
+void townResetItemMenuObjectState(Object *object)
 {
     Inner *inner;
 
     if (object != 0) {
         inner = &object->inner;
         func_8004B248((u8 *)object + 0xCC);
-        func_800B0318(inner->field_A8);
+        townClearItemMenuEntryGroups(inner->field_A8);
         object->flags |= 0x8000;
         D_800814A0 |= 0x8000;
     }

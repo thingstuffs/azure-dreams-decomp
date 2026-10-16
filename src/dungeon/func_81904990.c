@@ -5,7 +5,7 @@
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 /* Build textured sprite strips and append their packets to the ordering table. */
-void func_80024190(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
+void dungeonBuildTexturedSpriteStrips(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
     s32 matrix_arg;

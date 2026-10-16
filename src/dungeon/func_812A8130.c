@@ -8,11 +8,11 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_8017586C(void *, void *, void *);
 
 extern u8 D_80171FA4[9];
@@ -36,10 +36,10 @@ typedef struct S_80173930_0 {
     u8 pad_A4[0x4];
     s32 unk_A8;
     s32 unk_AC;
-} S_80173930_0;   /* arg0 in func_80173930 */
+} S_80173930_0;   /* arg0 in dungeonUpdateStagedMovementHeightAndAnimation */
 
 /* Updates the actor's staged movement, height, and directional animation. */
-void func_80173930(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
+void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
 {
     u8 state;
 
@@ -56,7 +56,7 @@ void func_80173930(void *motion, EntityRec *velocity, void *sprite, EntityRec *a
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173930_0 *)motion)->unk_96.u = 0x100;
             ((S_80173930_0 *)motion)->unk_9B = 5;
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             return;
         }
 
@@ -132,7 +132,7 @@ void func_80173930(void *motion, EntityRec *velocity, void *sprite, EntityRec *a
             return;
         }
 
-        func_8009C12C(actor, sprite, actor->facing, 1);
+        dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C70;
         func_80047784(
             sprite,
@@ -171,11 +171,11 @@ void func_80173930(void *motion, EntityRec *velocity, void *sprite, EntityRec *a
         velocity->flags14 = 0;
         velocity->unk_10 = 0;
         velocity->unk_0C = 0;
-        func_800A2B04(velocity, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(velocity, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_46 &= 0x7FFF;
         break;
     default:

@@ -7,30 +7,30 @@ typedef struct S_80097AD0_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80097AD0_0;   /* arg0 in func_80097AD0 */
+} S_80097AD0_0;   /* arg0 in townSpawnRadialObjects */
 
 typedef struct S_80097AD0_1 {
     union { u16 u16; s32 s32; } unk_00;   /* accessed as both */
     union { u16 u16; s32 s32; } unk_04;   /* accessed as both */
     union { u16 u16; s32 s32; } unk_08;   /* accessed as both */
-} S_80097AD0_1;   /* arg1 in func_80097AD0 */
+} S_80097AD0_1;   /* arg1 in townSpawnRadialObjects */
 
 typedef struct S_80097AD0_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80097AD0_2;   /* object in func_80097AD0 */
+} S_80097AD0_2;   /* object in townSpawnRadialObjects */
 
 typedef struct S_80097AD0_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80097AD0_3;   /* ((S_80097AD0_2 *)object)->unk_08 in func_80097AD0 */
+} S_80097AD0_3;   /* ((S_80097AD0_2 *)object)->unk_08 in townSpawnRadialObjects */
 
 
-extern s32 func_800374F4(u16 value);
+extern s32 scaleRandomToUnsignedHalfwordLimit(u16 value);
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
 extern s32 rand(void);
-extern void *func_8009792C(void *source, s16 angle);
+extern void *townCreateRandomizedOffsetEffect(void *source, s16 angle);
 
 typedef struct {
     s16 unk0;
@@ -46,7 +46,7 @@ typedef struct {
 } StackRecord;
 
 /* Spawn objects at randomized positions around an origin with evenly spaced angles. */
-void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
+void townSpawnRadialObjects(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
     StackRecord record;
     s32 angle;
     s32 angle_step;
@@ -65,13 +65,13 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
         record.y = initial_y;
         for (object_index = 0; object_index < count; object_index++) {
             record.x = (origin->unk_02 +
-                        func_800374F4(spread->unk_00.u16)) -
+                        scaleRandomToUnsignedHalfwordLimit(spread->unk_00.u16)) -
                        (spread->unk_00.s32 / 2);
             record.z = (origin->unk_06 +
-                        func_800374F4(spread->unk_04.u16)) -
+                        scaleRandomToUnsignedHalfwordLimit(spread->unk_04.u16)) -
                        (spread->unk_04.s32 / 2);
             y = (origin->unk_0A -
-                 func_800374F4(spread->unk_08.u16)) -
+                 scaleRandomToUnsignedHalfwordLimit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
             record.fieldC = func_80064584(angle) << 5;
@@ -80,7 +80,7 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
                 void *record_ptr = &record;
                 first_trig_value <<= 5;
                 record.field10 = first_trig_value;
-                object = func_8009792C(record_ptr, angle);
+                object = townCreateRandomizedOffsetEffect(record_ptr, angle);
             }
             if (object != 0) {
                 angle_component = func_800644B8(angle) << 5;

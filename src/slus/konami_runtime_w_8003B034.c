@@ -3,13 +3,13 @@
 
 #include "common.h"
 
-M2C_UNK func_800483AC();                     /* extern */
+M2C_UNK clearAlternateTextureRegions();                     /* extern */
 s32 func_80048D20();                                /* extern */
 extern s32 D_80080A80;
 
 /* Save the result of func_80048D20 and transfer both image variants through the scratch buffer. */
 void func_8003B034(void) {
     D_80080A80 = func_80048D20();
-    func_800483AC(1);
-    func_800483AC(0);
+    clearAlternateTextureRegions(1);
+    clearAlternateTextureRegions(0);
 }

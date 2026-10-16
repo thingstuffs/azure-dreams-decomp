@@ -4,26 +4,26 @@
 typedef struct S_80095760_0 {
     u8 pad_00[0x3A];
     u8 unk_3A;
-} S_80095760_0;   /* (u8 *)arg0 + temp_v1 in func_80095760 */
+} S_80095760_0;   /* (u8 *)arg0 + temp_v1 in townGetStatusActiveEntryMatchingDirection */
 
 typedef struct S_80095760_1 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_80095760_1;   /* (u8 *)arg0 + temp_v1 * 4 in func_80095760 */
+} S_80095760_1;   /* (u8 *)arg0 + temp_v1 * 4 in townGetStatusActiveEntryMatchingDirection */
 
 typedef struct S_80095760_2 {
     u8 pad_00[0x14];
     u8 unk_14;
-} S_80095760_2;   /* temp_v0_2 in func_80095760 */
+} S_80095760_2;   /* temp_v0_2 in townGetStatusActiveEntryMatchingDirection */
 
 
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 
-extern s16 func_80094BC8(s32, s16);
+extern s16 townInputAngleWithOffset(s32, s16);
 
 /* Returns the status of the active entry matching the current direction. */
-s32 func_80095760(void *entries)
+s32 townGetStatusActiveEntryMatchingDirection(void *entries)
 {
     s16 *direction_ptr;
     s16 angle;
@@ -35,7 +35,7 @@ s32 func_80095760(void *entries)
     s32 entry_index;
     S_80095760_2 *entry;
 
-    angle = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
+    angle = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
     if (angle != -1) {
         entry_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

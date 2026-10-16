@@ -8,7 +8,7 @@ typedef struct S_800BBA98_0 {
     s16 unk_4A;
     u8 pad_4C[0x2];
     union { s16 s; u16 u; } unk_4E;   /* accessed as both */
-} S_800BBA98_0;   /* temp_a3 in func_800BBA98; pointer addresses record offset 0x2 */
+} S_800BBA98_0;   /* temp_a3 in townUpdateEffectMotionAndFade; pointer addresses record offset 0x2 */
 
 
 typedef struct {
@@ -32,7 +32,7 @@ void func_800478B8();
 s32 rand(void);
 
 /* Updates the effect's motion and fade state, then refreshes its display. */
-void func_800BBA98(void *effect, void *motion_data, void *display_data) {
+void townUpdateEffectMotionAndFade(void *effect, void *motion_data, void *display_data) {
     s16 ticks_left;
     s16 phase_value;
     s32 random_drop;

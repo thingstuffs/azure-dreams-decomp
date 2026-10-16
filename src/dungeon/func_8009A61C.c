@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern s32 func_8009FB34();
-extern s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /* Tests whether distinct neighboring positions share a lookup value or pass the relation check. */
-s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
+s32 dungeonCompareMonsterNeighborValues(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     u16 src_x_bits = src_x;
     u16 src_y_bits = src_y;
     u16 dst_x_bits = dst_x;
@@ -54,7 +54,7 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
                 query_y = signed_src_y;
                 query_dst_x = signed_dst_x;
                 query_dst_y = signed_dst_y;
-                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, &relation_detail)
+                relation_flags = (s32) (dungeonGetRoundedFacingAndRoundingFlag(query_x, query_y, query_dst_x, query_dst_y, &relation_detail)
                     << 0x10) >> 0x19;
                 relation_detail = (s16) relation_flags;
                 allowed = 1;

@@ -7,21 +7,21 @@ typedef struct S_800242D8_0 {
     u8 pad_02[0x2];
     s16 unk_04;
     s16 unk_06;
-} S_800242D8_0;   /* arg0 in func_800242D8 */
+} S_800242D8_0;   /* arg0 in cardBootBuildShadedPanelPackets */
 
 typedef struct S_800242D8_1_pre {
     s8 unk_00;
-} S_800242D8_1_pre;   /* the 0x1 bytes before var_v1 in func_800242D8, addressed as var_v1[-1] */
+} S_800242D8_1_pre;   /* the 0x1 bytes before var_v1 in cardBootBuildShadedPanelPackets, addressed as var_v1[-1] */
 
 typedef struct S_800242D8_1 {
     s8 unk_00;
-} S_800242D8_1;   /* var_v1 in func_800242D8 */
+} S_800242D8_1;   /* var_v1 in cardBootBuildShadedPanelPackets */
 
 
 extern u8 D_80027FD0[];
 
 /* Initialize four graphics packets with shared colors and halved coordinates. */
-void *func_800242D8(u8 *packet, u32 x, u32 y) {
+void *cardBootBuildShadedPanelPackets(u8 *packet, u32 x, u32 y) {
     s32 packet_index;
     u8 *table_entry;
     void *field_cursor;

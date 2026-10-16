@@ -2,7 +2,7 @@
 
 
 /* Moves the first color channel toward neutral gray and copies it to the other two. */
-void func_800B3AE4(u8 *object) {
+void townEaseRgbToNeutralGray(u8 *object) {
     s32 channel_value;
     s32 blended_value;
     s32 target_delta;

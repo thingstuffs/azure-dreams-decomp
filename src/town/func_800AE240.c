@@ -3,7 +3,7 @@
 extern void func_80041E70(void *object);
 
 /* Clears object entries and flags, restores saved fields, and updates the object. */
-void func_800AB9A0(void *object)
+void townResetPersonObjectEntries(void *object)
 {
     u8 *obj = object;
     s32 entry_index;

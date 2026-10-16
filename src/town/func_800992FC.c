@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return the second word of an indexed entry in the record's nested table. */
-s32 func_80096A5C(void *record, s32 row_index, s32 entry_index) {
+s32 townGetSecondWordIndexedEntryInSNestedTable(void *record, s32 row_index, s32 entry_index) {
     u8 *table_handle = *(u8 **)((u8 *)record + 0x28);
     u8 *table_ref = *(u8 **)table_handle;
     u8 *rows = *(u8 **)table_ref;

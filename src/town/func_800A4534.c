@@ -27,11 +27,11 @@ typedef struct S_func_800A1C94_2 {
 } S_func_800A1C94_2;
 
 extern void *func_8003FD64(s32 kind, void *owner);
-extern void func_800A1D1C(void);
-extern void func_800A1F00(void);
+extern void townRenderShadedObjectPrimitive(void);
+extern void townInitializeIndexedRenderState(void);
 
 /* Creates a display object with callbacks and the supplied payload values. */
-void *func_800A1C94(s32 payload_word, s32 payload_halfword)
+void *townCreateDisplayObjectWithCallbacks(s32 payload_word, s32 payload_halfword)
 {
     S_func_800A1C94_0 *object;
     S_func_800A1C94_1 *display;
@@ -42,9 +42,9 @@ void *func_800A1C94(s32 payload_word, s32 payload_halfword)
         return 0;
     }
 
-    object->unk_10 = func_800A1D1C;
+    object->unk_10 = townRenderShadedObjectPrimitive;
     display = object->unk_0C;
-    object->unk_20 = func_800A1F00;
+    object->unk_20 = townInitializeIndexedRenderState;
 
     payload = (S_func_800A1C94_2 *)((u8 *)object + 0x20);
     payload->unk_10 = payload_word;

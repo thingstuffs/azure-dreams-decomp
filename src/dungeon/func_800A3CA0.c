@@ -5,7 +5,7 @@ extern u8 D_800DD8E7[9];
 
 /* Maps special tile codes to mode-dependent values, otherwise returning the tile index. */
 
-s32 func_800A9400(s32 tile_index)
+s32 dungeonResolveAlternateSpellId(s32 tile_index)
 {
     s16 index;
     u8 *tile;

@@ -4,7 +4,7 @@ extern s8 D_80082668[9];
 extern s32 D_80097D2C[3];
 
 /* Initialize the record from source fields, preserve its current value, and clear the global flag. */
-void func_80098834(void *record, void *source) {
+void townCopyMotionParametersAndResetFlag(void *record, void *source) {
     u16 saved_value;
     u16 source_value;
 

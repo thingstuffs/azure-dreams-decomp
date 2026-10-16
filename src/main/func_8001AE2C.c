@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_80401BF4(void *target, s32 entry_index);
-extern s32 func_80401AA4(s32 count, u8 *text);
+extern s32 cardDevkitHasDirectoryNamePrefix(s32 count, u8 *text);
 extern s32 func_80401C70(void *file_path, void *buffer, s32 block_count, s32 block_offset);
 extern s32 D_804094EC[];
 extern s32 D_80136140[];
@@ -23,7 +23,7 @@ s32 func_8001AE2C(s32 slot_index) {
         lookup_key = D_80136140;
     }
     slot_offset = slot_index << 7;
-    lookup_result = func_80401AA4(*lookup_key, &slot_data[5]);
+    lookup_result = cardDevkitHasDirectoryNamePrefix(*lookup_key, &slot_data[5]);
     *(s32 *)(D_8009DDD8 + slot_offset) = lookup_result;
     if (lookup_result != 0) {
         result = func_80401C70(slot_data, D_8009DDD8 + slot_offset, 1, 4);

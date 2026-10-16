@@ -23,7 +23,7 @@ typedef struct ActiveState {
 } ActiveState;
 
 /* Resets state and processes occupied entries in the two-slot object table. */
-void func_81254460(void) {
+void dungeonProcessGlobalEffectSlotsAfterReset(void) {
     s16 slot_index;
     s16 next_slot;
     s32 object_addr;

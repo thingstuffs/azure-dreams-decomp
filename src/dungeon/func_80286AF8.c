@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_80019AF8(void)
+s32 dungeonGenerateFloorLayout(void)
 {
     s8 flags[16];
     s32 conn[16];
@@ -61,7 +61,7 @@ s32 func_80019AF8(void)
     }
 
     (*(s16 *)D_8001F668) = 0;
-    if (((s16) func_800A6DA4(0, 512)) < 2) {
+    if (((s16) randomDungeonRange16(0, 512)) < 2) {
         j = 1;
     }
     else {
@@ -80,10 +80,10 @@ s32 func_80019AF8(void)
                 if (flags[k] > 0) {
                     s32 rx;
                     s32 ry;
-                    rx = func_800A6DA4(0, ((64 / D_8001F660) / 2) - 1) + (ox * (64 / D_8001F660));
-                    ry = func_800A6DA4(0, ((64 / D_8001F664) / 2) - 1) + (oy * (64 / D_8001F664));
-                    dw = func_800A6DA4(0, ((64 / D_8001F660) / 2) - 1);
-                    jr = func_800A6DA4(0, ((64 / D_8001F664) / 2) - 1) + 5;
+                    rx = randomDungeonRange16(0, ((64 / D_8001F660) / 2) - 1) + (ox * (64 / D_8001F660));
+                    ry = randomDungeonRange16(0, ((64 / D_8001F664) / 2) - 1) + (oy * (64 / D_8001F664));
+                    dw = randomDungeonRange16(0, ((64 / D_8001F660) / 2) - 1);
+                    jr = randomDungeonRange16(0, ((64 / D_8001F664) / 2) - 1) + 5;
                     rh = jr;
                     do {
                     } while (0);
@@ -94,9 +94,9 @@ s32 func_80019AF8(void)
                     y0 = (s16) (ry - 2);
                     x1 = (s16) (dw + 9);
                     y1 = (s16) (rh + 4);
-                    if (func_80017584(x0, y0, x1, y1) == 0) {
+                    if (dungeonFindFirstNonzeroRectangleField(x0, y0, x1, y1) == 0) {
                         D_800E2970[k].unk_0A = 1;
-                        func_80017668(x0, y0, x1, y1, k + 1);
+                        dungeonFillGenerationCellMarks(x0, y0, x1, y1, k + 1);
                         D_800E2970[k].x = rx + 1;
                         D_800E2970[k].y = ry + 1;
                         D_800E2970[k].w = dw + 3;
@@ -135,7 +135,7 @@ s32 func_80019AF8(void)
         }
 
     }
-    func_80017560();
+    dungeonClearThirtySixTableFields();
     hdr = ((s16 *)D_80081468);
     hdr[3] = j;
     if (((s16) j) < 2) {
@@ -147,7 +147,7 @@ s32 func_80019AF8(void)
         D_800E2970[0].w = (1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) - 4;
         D_800E2970[0].h = full_height - 4;
         D_800E2970[0].unk_08 = func_800A6D30() & 0x60;
-        func_8001CE44(&D_800E2970[0], 0);
+        dungeonUpdateRegionUntilComplete(&D_800E2970[0], 0);
     }
     else {
         floor_generate_isolated_80286AF8_Room *room;
@@ -156,13 +156,13 @@ s32 func_80019AF8(void)
             for (ox = 0; ox < D_8001F660; ox++) {
                 k = (oy * D_8001F660) + ox;
                 if (D_800E2970[k].unk_0A != 0) {
-                    func_8001CE44(&D_800E2970[k], k);
+                    dungeonUpdateRegionUntilComplete(&D_800E2970[k], k);
                 }
             }
 
         }
 
-        func_80019A84(16384);
+        dungeonFillInactiveInteriorCells(16384);
         k = (func_800A6D30() & 0xFFFF) % (D_8001F664 * D_8001F660);
         dir = func_800A6D30() & 6;
         rp = D_800E2970;
@@ -200,12 +200,12 @@ s32 func_80019AF8(void)
                 bp = (u8 *) (j + (((u32) (dir << 16)) >> 17));
                 if ((*bp) != 0) {
                     dirv = dir;
-                    func_8001A710();
-                    next = func_8001A768(&dirv, ox, oy, flags, cn, 1, ks);
+                    dungeonResetGenerationLinkScratch();
+                    next = dungeonSearchOutwardForEligibleTile(&dirv, ox, oy, flags, cn, 1, ks);
                     if (next >= 0) {
                         u8 *bq;
                         s32 idx;
-                        if (func_8001AC4C(rh, dirv, ks, next, flags) != 0) {
+                        if (dungeonConnectRoomsWithCorridor(rh, dirv, ks, next, flags) != 0) {
                             return 1;
                         }
                         bq = (u8 *) (&cn[next]);
@@ -256,7 +256,7 @@ s32 func_80019AF8(void)
                 i = (D_8001F664 * D_8001F660) - 1;
                 for (; i >= 0; i--) {
                     if ((rp[i].link == 0) && (rp[i].active != 0)) {
-                        func_8001DC34(&rp[i]);
+                        dungeonClearRegionGridRectangle(&rp[i]);
                     }
                 }
                 break;
@@ -273,8 +273,8 @@ s32 func_80019AF8(void)
 
     }
     rnd = jr;
-    func_800176EC();
+    dungeonCompactGenerationRegions();
     func_80017530();
-    func_8001DE2C();
+    dungeonUpdateActiveAreaTiles();
     return 0;
 }

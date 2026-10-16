@@ -16,7 +16,7 @@ extern s32 D_80700710[];
 extern s32 D_8070070C[];
 
 /* Reports the supplied kind and the stored mode and scene number (sno). */
-void func_80883004(s32 kind) {
+void devReportKindModeSnoAlt(s32 kind) {
     u8 *callback_data = D_807007B4;
     TownCallback callback;
 

@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80022300(void *unused, void *packet, s32 slot_index);
-extern void func_8002233C(s32 entry_base, s32 start_index, s32 entry_count);
+extern void cardBootBuildSlotMarkerPacket(void *unused, void *packet, s32 slot_index);
+extern void cardBootHighlightDialogTextRange(s32 entry_base, s32 start_index, s32 entry_count);
 
 static __inline__ u32 calculate_x(
     void *context,
@@ -16,7 +16,7 @@ static __inline__ u32 calculate_x(
 }
 
 /* Positions the current record and updates the specified row. */
-void func_800223B4(void *context, s32 column, s32 mode, s32 row, s32 row_value)
+void cardBootPositionDialogSelectionMarker(void *context, s32 column, s32 mode, s32 row, s32 row_value)
 {
     void *state = context;
     s32 *record;
@@ -31,9 +31,9 @@ void func_800223B4(void *context, s32 column, s32 mode, s32 row, s32 row_value)
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
         (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
     saved_row_value = *(s32 *)&row_value;
-    func_80022300(state, position, mode);
+    cardBootBuildSlotMarkerPacket(state, position, mode);
     record[0] = (s32)(unsigned long)position;
-    func_8002233C(
+    cardBootHighlightDialogTextRange(
         *(s32 *)*(s32 **)((u8 *)state + row * 4 + 0x8CC),
         saved_row_value,
         mode);

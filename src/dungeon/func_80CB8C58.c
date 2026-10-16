@@ -101,11 +101,11 @@ void func_8014E458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
             (*(u8 **)((u8 *)map_entry + 0x2C)) = D_801512D4;
             func_80047784(map_entry, D_801512D4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             func_800419EC(4, 8);
-            func_800B66C8(motion);
+            dungeonEmitScatteredEffectsUnlessBlocked(motion);
             ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9B = 3U;
         }
         break;
@@ -118,9 +118,9 @@ void func_8014E458(void *action, EntityRec *motion, void *map_entry, EntityRec *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
         }
@@ -132,11 +132,11 @@ void func_8014E458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = func_800A0818(((Rec_D_80082E80 *)map_entry)->unk_24,
+                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(((Rec_D_80082E80 *)map_entry)->unk_24,
                     ((Rec_D_80082E80 *)map_entry)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_output);
             }
         }
-        if ((func_800AD9B4(map_entry, actor) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(map_entry, actor) << 0x10) > 0) {
             ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_8C = func_8014D02C;
             func_800A9A04(actor);
         }

@@ -3,13 +3,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80020984(void);
-extern s32 func_80021F18(s32, s32);
-extern s32 func_80021FF0(s32, s32, s32);
-extern void func_800220DC(void);
-extern void func_800230F4(void *);
-extern void func_80024298(s32);
-extern void func_80024FFC(void *);
+extern void cardBootRecheckSelectedChannel(void);
+extern s32 cardBootWriteSaveViaTemporaryPath(s32, s32);
+extern s32 cardBootLoadSaveAndClearMarker(s32, s32, s32);
+extern void cardBootRefreshDirectorySummary(void);
+extern void cardBootShowCopyFailureNotice(void *);
+extern void cardBootRefreshSlotWindow(s32);
+extern void cardBootResumeMenuAfterSlotRefresh(void *);
 extern void func_8002519C(s32);
 extern void func_80025358(s32, s32);
 
@@ -35,29 +35,29 @@ void func_80025398(void *context) {
     void *owner;
     void *entry_cursor;
 
-    if (func_80021FF0(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) != 0) {
+    if (cardBootLoadSaveAndClearMarker(((S_80025398_0 *)context)->unk_2C, 0x80010000, 0) != 0) {
         func_80025358(0x80010000, ((S_80025398_0 *)context)->unk_28);
-        if (func_80021F18(((S_80025398_0 *)context)->unk_28, 0x80010000) != 0) {
+        if (cardBootWriteSaveViaTemporaryPath(((S_80025398_0 *)context)->unk_28, 0x80010000) != 0) {
             func_8002519C(0x80010000);
             entry_count = 0;
-            func_800220DC();
+            cardBootRefreshDirectorySummary();
             entry_cursor = context;
             do {
                 entry_value = ((S_80025398_1 *)entry_cursor)->unk_04;
                 entry_cursor = (u8 *)entry_cursor + 4;
                 entry_count += 1;
-                func_80024298(entry_value);
+                cardBootRefreshSlotWindow(entry_value);
             } while (entry_count < 5);
-            func_80024FFC(context);
-            func_80020984();
+            cardBootResumeMenuAfterSlotRefresh(context);
+            cardBootRecheckSelectedChannel();
             ((S_80025398_0 *)context)->unk_40 = 0;
             return;
         }
     }
     owner = (u8 *)context - 0x20;
-    *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))func_80024FFC;
-    func_800230F4(owner);
+    *(void (**)(void))((u8 *)context + 0x34) = (void (*)(void))cardBootResumeMenuAfterSlotRefresh;
+    cardBootShowCopyFailureNotice(owner);
     *(void **)((u8 *)context - 0x10) = (void *)D_80024F7C;
-    func_80020984();
+    cardBootRecheckSelectedChannel();
     ((S_80025398_0 *)context)->unk_40 = 0;
 }

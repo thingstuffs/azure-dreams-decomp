@@ -13,7 +13,7 @@ typedef struct EffectColor {
 } EffectColor;
 
 /* Fade the effect color and set flags when red falls below four. */
-void func_800260D4(void *record, s32 unused, EffectColor *color) {
+void dungeonFadeEffectColorToBlack(void *record, s32 unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;

@@ -31,15 +31,15 @@ extern void DrawOTag(s32 *a0);
 extern void ClearOTagR(s32 *a0, s32 a1);
 extern void DrawSync(s32 a0);
 extern void VSync(s32 a0);
-extern void func_800411AC(void);
-extern void func_80048B28(void);
+extern void runRuntimeCallbacks(void);
+extern void dispatchAndClearFourPointerSlots(void);
 extern void func_8003E758(void);
 extern void func_800542BC(void);
-extern void func_8003E2D8(void);
-extern void func_8003F6F4(void);
+extern void updateControllerButtonsAndTriggers(void);
+extern void tickScreenFadeSlots(void);
 extern void func_800400B8(void);
 /* Draw the current frame, swap draw buffers, and wait for optional vertical synchronization. */
-void func_80043EB8(void)
+void renderObjectSceneFrame(void)
 {
     void *next_buffer;
     s32 saved_value;
@@ -53,8 +53,8 @@ void func_80043EB8(void)
     func_800542BC();
     saved_value = D_8008148C.field_0;
     *(s32 *)0x80081480 = saved_value;
-    func_800411AC();
-    func_8003E2D8();
+    runRuntimeCallbacks();
+    updateControllerButtonsAndTriggers();
     next_buffer = D_801C9E40;
     if (D_80083160[0] == ((S_80083160_ctx *) next_buffer)) {
         next_buffer = next_buffer + 0x108D4;
@@ -65,9 +65,9 @@ void func_80043EB8(void)
     D_80083160[0] = (S_80083160_ctx *) next_buffer;
     ClearOTagR((s32 *) (((u8 *) next_buffer) + 0x70), 0x218);
     D_80083160[0]->cur = ((u8 *) D_80083160[0]) + 0x8D4;
-    func_8003F6F4();
+    tickScreenFadeSlots();
     func_800400B8();
-    func_80048B28();
+    dispatchAndClearFourPointerSlots();
     DrawSync(0);
     skip_vsync = D_80080A85[0];
     if (skip_vsync == 0) {

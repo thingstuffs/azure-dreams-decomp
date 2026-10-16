@@ -7,7 +7,7 @@ typedef struct S_81976BC0_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_81976BC0_0;   /* object in func_81976BC0 */
+} S_81976BC0_0;   /* object in dungeonCreateAnInitializeFieldsRandomizedChildState */
 
 typedef struct S_81976BC0_1 {
     u8 pad_00[0x4];
@@ -16,7 +16,7 @@ typedef struct S_81976BC0_1 {
     s16 unk_0C;
     s16 unk_0E;
     s16 unk_10;
-} S_81976BC0_1;   /* fields in func_81976BC0 */
+} S_81976BC0_1;   /* fields in dungeonCreateAnInitializeFieldsRandomizedChildState */
 
 typedef struct S_81976BC0_2 {
     u8 pad_00[0x8];
@@ -32,7 +32,7 @@ typedef struct S_81976BC0_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_81976BC0_2;   /* child in func_81976BC0 */
+} S_81976BC0_2;   /* child in dungeonCreateAnInitializeFieldsRandomizedChildState */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -41,7 +41,7 @@ extern u8 D_80024050[];
 extern s32 D_800261E4[];
 
 /* Create an object and initialize its fields and randomized child state. */
-void func_81976BC0(s32 object_value, s32 field_value)
+void dungeonCreateAnInitializeFieldsRandomizedChildState(s32 object_value, s32 field_value)
 {
     s32 random_value;
     S_81976BC0_2 *child;

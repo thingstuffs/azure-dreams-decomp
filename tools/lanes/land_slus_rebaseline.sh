@@ -12,7 +12,7 @@ EQUAL=0
 if [ "${1:-}" = --equal-pins ]; then EQUAL=1; shift; fi
 ROW=${1:?slus/<row>}; CAND=${2:?candidate}; TAG=${3:-slus_rebaseline}
 case "$ROW" in slus/*) ;; *) echo "slus rows only"; exit 1;; esac
-SRC=src/$ROW.c
+SRC=$(python3 tools/source_layout.py path "$ROW")
 [ -f "$SRC" ] && [ -f "$CAND" ] || { echo "missing $SRC or $CAND"; exit 1; }
 mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9
 if [ -f "$CAND.base_sha" ] && [ "$(sha256sum "$SRC" | cut -c1-64)" != "$(cat "$CAND.base_sha")" ]; then

@@ -18,7 +18,7 @@ typedef struct DungeonFade {
 
 
 /* Update the fade color and mark completion when its countdown ends. */
-void func_80171CC0(DungeonFade *fade, void *progress) {
+void dungeonTickScaledRgbFade(DungeonFade *fade, void *progress) {
     s16 steps_left;
 
     *(s32 *)((u8 *)progress + 8) += 0x10000;

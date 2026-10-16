@@ -39,11 +39,11 @@ typedef struct S_800CABA8_2 {
 } S_800CABA8_2;   /* temp_s2 in func_800CABA8 */
 
 
-void *func_8009C12C();
-void func_800A2B04();
-s32 func_800A4ACC();
+void *dungeonResolveAttackDamageAndEffects();
+void dungeonSetRecordIntegerTileCenter();
+s32 dungeonAdvanceStatusTimers();
 extern void func_800CAA94(void *, s32, void *);
-void func_800CAFDC();
+void spawnSalamParticles();
 void *func_800CB4C0();
 extern u8 D_800C9F34;
 
@@ -83,7 +83,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
     case 0:
         ((S_800CABA8_0 *)effect)->unk_B8 = 1;
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
-            func_8009C12C(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+            dungeonResolveAttackDamageAndEffects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
             ((S_800CABA8_0 *)effect)->unk_9B = 4U;
             return;
         }
@@ -107,7 +107,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         effect_base = effect - 0x20;
         ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v
             - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
-        func_800CAFDC(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
+        spawnSalamParticles(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
         func_800CB4C0(effect_base, 1);
         red_2 = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
         red_step = (s32) (0xE0 - red_2) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
@@ -126,7 +126,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         if ((fade_ticks_left << 0x10) > 0) {
             return;
         }
-        func_8009C12C(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+        dungeonResolveAttackDamageAndEffects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
         phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
         next_duration = 4;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
@@ -169,10 +169,10 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
-        func_800A2B04(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
+        dungeonSetRecordIntegerTileCenter(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
         dungeonStatus.unk_0C = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((*(u16 *)((u8 *)actor_state + 0x46)) & 0x7FFF);
-        func_800A4ACC(actor_state);
+        dungeonAdvanceStatusTimers(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
         if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void func_80170A44(void *unused, S_80975244_5 *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
+void createDirectionalTemplateEffect(void *unused, S_80975244_5 *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     S_80975244_2 *sprite;
     void *effect;
     S_80975244_0 *effect_state;
@@ -16,7 +16,7 @@ void func_80170A44(void *unused, S_80975244_5 *source_pos, void *sprite_template
         effect_state = effect + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_AA = 7;
-        ((S_80975244_1 *)effect)->unk_10 = func_80170970;
+        ((S_80975244_1 *)effect)->unk_10 = advanceAndFadeTransformedEffect;
         effect_state->unk_B0 = source_pos;
         sprite = ((S_80975244_1 *)effect)->unk_0C;
         src = (Block16 *)template_data;

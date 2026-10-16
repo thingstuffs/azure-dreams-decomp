@@ -90,14 +90,14 @@ extern s32 func_8004491C();
 s32 func_8004DA74();
 s32 func_80069E98();
 s32 func_800990FC();
-s8 *func_80099368();
-extern s32 func_800B12F4(void);
-void func_800B1320();
-void func_800B135C();
-void func_800B1400();
-void *func_800B1434();
-extern void func_800B14FC(void *effect, s32 unused, void *render_arg);
-extern s32 func_800B06F0(u8 *, s32, u8 *);
+s8 *dungeonAppendTypedFormattedValue();
+extern s32 dungeonAllocatePanelOffsetOrZero(void);
+void dungeonOffsetRecordCoordinates();
+void dungeonSetRecordFlagsAndNegateX();
+void dungeonSetRecordByteFlagsThroughEnd();
+void *dungeonCopyRecordsThroughEnd();
+extern void dungeonUpdateFadingEffectScale(void *effect, s32 unused, void *render_arg);
+extern s32 dungeonTransformLinkedQuadBatches(u8 *, s32, u8 *);
 
 /* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
 void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
@@ -141,8 +141,8 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
         ((S_800B1B10_2 *)sub)->unk_08 = 1;
         meta->unk_1C = 0x1000;
         meta->unk_0C = 0;
-        ((S_800B1B10_0 *)obj)->unk_10 = func_800B14FC;
-        func_8004491C(obj, func_800B06F0);
+        ((S_800B1B10_0 *)obj)->unk_10 = dungeonUpdateFadingEffectScale;
+        func_8004491C(obj, dungeonTransformLinkedQuadBatches);
         call_kind = 3;
         style_byte = (s32) (style_held << 0x10) >> 0x18;
         ((S_800B1B10_2 *)sub)->unk_24 = (s16) style_byte;
@@ -150,24 +150,24 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
         ((S_800B1B10_2 *)sub)->unk_0C = b_held;
         ((S_800B1B10_0 *)obj)->unk_20 = (void *) (obj + 0x70);
         ((S_800B1B10_2 *)sub)->unk_04 = (void *) (obj + 0x58);
-        if (func_8003FA44(call_kind) != 0) {
-            a_held = (s32) func_800B12F4();
+        if (hasEnoughAvailableRuntimeNodes(call_kind) != 0) {
+            a_held = (s32) dungeonAllocatePanelOffsetOrZero();
             slots = (s32 *) (obj + 0x5C);
             ((S_800B1B10_2 *)sub)->unk_28 = a_held;
             b_held = a_held;
             ((S_800B1B10_0 *)obj)->unk_70 = b_held;
-            part = func_8004A658(owner_held->unk_01, owner_held->unk_00);
+            part = lookupItemCategoryMappedValue(owner_held->unk_01, owner_held->unk_00);
             style_held = 2;
-            b_held = (s32) func_800B1434((void *) b_held, part);
-            func_800B13CC((void *) a_held, 0x20);
-            func_800B1400((void *) a_held, style_held);
+            b_held = (s32) dungeonCopyRecordsThroughEnd((void *) b_held, part);
+            dungeonApplyRecordFlagsThroughEnd((void *) a_held, 0x20);
+            dungeonSetRecordByteFlagsThroughEnd((void *) a_held, style_held);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
                 ((S_800B1B10_0 *)obj)->unk_58 = color_v0;
             }
             value_4 = func_800990FC();
-            *func_80099368(owner_held, value_4) = 0;
+            *dungeonAppendTypedFormattedValue(owner_held, value_4) = 0;
             value_5 = func_8004DA74((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;
@@ -181,15 +181,15 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             } else {
                 offset = 0x8A;
             }
-            func_800B1320((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u)
+            dungeonOffsetRecordCoordinates((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u)
                 - 0xE));
             offset = 8;
             if ((compact_s16 << 0x10) != 0) {
                 offset = 4;
             }
-            func_800B135C((void *) b_held, offset);
-            func_800B13CC((void *) b_held, 0x20);
-            func_800B1400((void *) b_held, 2);
+            dungeonSetRecordFlagsAndNegateX((void *) b_held, offset);
+            dungeonApplyRecordFlagsThroughEnd((void *) b_held, 0x20);
+            dungeonSetRecordByteFlagsThroughEnd((void *) b_held, 2);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
@@ -197,16 +197,16 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             }
             slots++;
             func_80069E98(value_4);
-            b_held = (s32) func_800B12F4();
+            b_held = (s32) dungeonAllocatePanelOffsetOrZero();
             ((S_800B1B10_2 *)sub)->unk_2C = b_held;
             {
                 s32 mask_v0;
                 mask_v0 = 0x7FFFFFFF;
                 ((S_800B1B10_6 *)(((style_held++ * 4) + sub)))->unk_50 = b_held & mask_v0;
             }
-            func_800B1434((void *) b_held, value_5);
-            func_800B1320(value_5, 1, 1);
-            b_held = (s32) func_800B12F4();
+            dungeonCopyRecordsThroughEnd((void *) b_held, value_5);
+            dungeonOffsetRecordCoordinates(value_5, 1, 1);
+            b_held = (s32) dungeonAllocatePanelOffsetOrZero();
             ((S_800B1B10_2 *)sub)->unk_30 = b_held;
             *slots = 0x80808;
             geom = 0x80000;

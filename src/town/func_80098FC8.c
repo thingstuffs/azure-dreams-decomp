@@ -10,14 +10,14 @@ typedef struct S_80096728_0 {
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_80096728_0;   /* arg0 in func_80096728 */
+} S_80096728_0;   /* arg0 in townSetGlobal800CFCEDInitializeCallCallee800954DC */
 
 
-void func_800954DC(S_80096728_0 *);
-/* Set D_800CFCED, initialize the record, and call func_800954DC. */
-void func_80096728(S_80096728_0 *record, s32 initial_value) {
+void townClearTheGlobalStateSFifthWordCopySourceSSecond(S_80096728_0 *);
+/* Set D_800CFCED, initialize the record, and call townClearTheGlobalStateSFifthWordCopySourceSSecond. */
+void townSetGlobal800CFCEDInitializeCallCallee800954DC(S_80096728_0 *record, s32 initial_value) {
     D_800CFCED = 1;
     record->unk_04 = initial_value;
     record->unk_10 = 0;
-    func_800954DC(record);
+    townClearTheGlobalStateSFifthWordCopySourceSSecond(record);
 }

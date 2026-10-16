@@ -11,7 +11,7 @@ typedef struct CountdownRecord {
 } CountdownRecord;
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void func_80025348(CountdownRecord *record)
+void dungeonAdvanceRecordCounter(CountdownRecord *record)
 {
     u16 counter;
 

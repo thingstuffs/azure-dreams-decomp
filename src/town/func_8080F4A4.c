@@ -136,7 +136,7 @@ extern u8 D_8052B054[];
 extern u8 D_8052B1EC[];
 extern u8 D_8053012C[];
 /* Updates the betting game, its animations, and payout or refund coins. */
-void func_8052A0A4(S_func_8080F4A4_1 *game) {
+void townUpdateBettingGame(S_func_8080F4A4_1 *game) {
     u8 spawn_data[0x80];
 #define spawn_mode ((S_func_8080F4A4_2 *)spawn_data)->unk_00
 #define spawn_delay ((S_func_8080F4A4_2 *)spawn_data)->unk_02

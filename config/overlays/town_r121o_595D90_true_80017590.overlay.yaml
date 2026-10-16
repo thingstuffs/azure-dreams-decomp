@@ -1,0 +1,33 @@
+# r121_rem_opus bounded C window: TOWN bank copy at link delta 0x7FA81800.
+# BASE PROOF: TOWN file 0x595730..0x5970e8 is identical, except relocated fields, to the matched module at 0x2ae364..0x2afd1c (delta 0x7FD6A800); 21 of 21 bank-local jal targets land on the mirrored function starts only at delta 0x7FA81800. Byte-exact recompile of the rows in [0x595D90, 0x595EF8) at this base.
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+name: town_r121o_595D90_true_80017590
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_r121o_595D90_true_80017590
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: false
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: bin/Azure Dreams.bin
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x595D90
+    file_end: 0x595EF8
+    vram_start: 0x80017590
+    true_vram_start: 0x80017590
+    base_confidence: proven-rowbase
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+  - name: overlays/town
+    results: overlays/town/overlay_first_pass_results.json
+    source_dir: overlays/town/first_pass_matched
+    skip_rerun: true

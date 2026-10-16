@@ -8,9 +8,9 @@ typedef struct {
     void *records;
 } TownObject;
 
-extern s32 func_8001A79C(void);
+extern s32 townPrepareStoredValuePair(void);
 
-s32 func_8001BAC4(TownObject *object, s32 index, s32 unused2, s32 unused3) {
+s32 townStoreState1EntryValue(TownObject *object, s32 index, s32 unused2, s32 unused3) {
     if (D_8001E950->unk_05 != 1) {
         return 1;
     }
@@ -19,7 +19,7 @@ s32 func_8001BAC4(TownObject *object, s32 index, s32 unused2, s32 unused3) {
         TownObject *saved_object = object;
         s32 saved_index = index;
         *(s32 *)((saved_index * 0x10) + (uptr)saved_object->records + 8) =
-            func_8001A79C();
+            townPrepareStoredValuePair();
         return 0;
     }
 }

@@ -6,16 +6,16 @@
 typedef struct S_8003C0A4_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8003C0A4_0;   /* arg1 in func_8003C0A4 */
+} S_8003C0A4_0;   /* arg1 in runtimeSetDestinationFlagFromSource */
 
 typedef struct S_8003C0A4_1 {
     u8 pad_00[0x4];
     s8 unk_04;
-} S_8003C0A4_1;   /* arg0 in func_8003C0A4 */
+} S_8003C0A4_1;   /* arg0 in runtimeSetDestinationFlagFromSource */
 
 
 /* Set the destination flag when the source value is nonzero. */
-void func_8003C0A4(S_8003C0A4_1 *dest, S_8003C0A4_0 *source) {
+void runtimeSetDestinationFlagFromSource(S_8003C0A4_1 *dest, S_8003C0A4_0 *source) {
     if (source->unk_08 != 0) {
         dest->unk_04 = 1;
     }

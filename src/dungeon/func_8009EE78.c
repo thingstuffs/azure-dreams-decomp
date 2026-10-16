@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800BCB04(s32, s32, s16);
 
 /* Checks the left tile and tests the height at the current tile center. */
-s32 func_800A45D8(s32 x, s32 y, s32 z)
+s32 dungeonCheckLeftTileAndCenterHeight(s32 x, s32 y, s32 z)
 {
     s16 height;
     s32 grid_x;
@@ -18,7 +18,7 @@ s32 func_800A45D8(s32 x, s32 y, s32 z)
     grid_y = (u16)y >> 6;
     tile_x = grid_x;
     tile_y = grid_y;
-    if ((func_8009A350(grid_x - 1, grid_y, 0, &height) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(grid_x - 1, grid_y, 0, &height) << 16) == 0) {
         return 0;
     }
     if (height & 0x8000) {

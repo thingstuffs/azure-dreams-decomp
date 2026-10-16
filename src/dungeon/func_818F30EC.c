@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191284c.h"
 
-s32 func_800248EC(void *first_point, void *first_position)
+s32 dungeonDrawLinkedShadedTiles(void *first_point, void *first_position)
 {
     void *point = first_point;
     void *position = first_position;

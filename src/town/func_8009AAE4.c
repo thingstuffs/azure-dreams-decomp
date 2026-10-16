@@ -2,12 +2,12 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void func_80033AA8();                     /* extern */
-void func_80098928();        /* extern */
+void setResidentBitmapBit();                     /* extern */
+void townInitializeRecordWithHandlerTable();        /* extern */
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
-void func_80098244(s32 context_id, EntityRec *record, s32 context) {
+void townRaiseRecordValueToTarget(s32 context_id, EntityRec *record, s32 context) {
     s16 raised_value;
     s16 lowered_value;
     u16 current_value;
@@ -26,7 +26,7 @@ void func_80098244(s32 context_id, EntityRec *record, s32 context) {
     if (lowered_value < 0x4C3) {
 target_reached:
         record->x.w.i = 0x4C2;
-        func_80033AA8(0x12);
-        func_80098928(context_id, record, context);
+        setResidentBitmapBit(0x12);
+        townInitializeRecordWithHandlerTable(context_id, record, context);
     }
 }

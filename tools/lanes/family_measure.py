@@ -35,6 +35,7 @@ ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/xform"))
 from common import rows as all_rows                      # noqa: E402
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of, unscored_text           # noqa: E402
 from pin_sites import erase_many                         # noqa: E402
 from screen import compile_s, sdiff                      # noqa: E402
@@ -153,7 +154,7 @@ def one(job):
     row = _rows().get(rid)
     if row is None or not row.get("cfg"):
         return [dict(id=rid, err="no-row-or-cfg")]
-    p = ROOT / "src" / (rid + ".c")
+    p = layout_row_path(rid, ROOT)
     if not p.is_file():
         return [dict(id=rid, err="no-src")]
     text = p.read_text(errors="replace")

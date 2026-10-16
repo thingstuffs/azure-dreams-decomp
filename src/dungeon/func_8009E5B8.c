@@ -7,12 +7,12 @@ typedef struct S_800A3D18_0 {
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800A3D18_0;   /* owner in func_800A3D18 */
+} S_800A3D18_0;   /* owner in dungeonChooseBestEligibleEntry */
 
 typedef struct S_800A3D18_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800A3D18_1_pre;   /* the 0x14 bytes before cur in func_800A3D18, addressed as cur[-1] */
+} S_800A3D18_1_pre;   /* the 0x14 bytes before cur in dungeonChooseBestEligibleEntry, addressed as cur[-1] */
 
 typedef struct S_800A3D18_1 {
     u8 pad_00[0x43];
@@ -21,38 +21,38 @@ typedef struct S_800A3D18_1 {
     void * unk_5C;
     u8 pad_60[0x28];
     s16 unk_88;
-} S_800A3D18_1;   /* cur in func_800A3D18 */
+} S_800A3D18_1;   /* cur in dungeonChooseBestEligibleEntry */
 
 typedef struct S_800A3D18_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800A3D18_2;   /* other in func_800A3D18 */
+} S_800A3D18_2;   /* other in dungeonChooseBestEligibleEntry */
 
 typedef struct S_800A3D18_3 {
     u8 pad_00[0x3D7C];
     u8 * unk_3D7C;
-} S_800A3D18_3;   /* global_page in func_800A3D18 */
+} S_800A3D18_3;   /* global_page in dungeonChooseBestEligibleEntry */
 
 typedef struct S_800A3D18_4 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800A3D18_4;   /* base in func_800A3D18 */
+} S_800A3D18_4;   /* base in dungeonChooseBestEligibleEntry */
 
 typedef struct S_800A3D18_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800A3D18_5;   /* best in func_800A3D18 */
+} S_800A3D18_5;   /* best in dungeonChooseBestEligibleEntry */
 
 
-extern s32 func_8009FD40(void *, void *);
-extern s32 func_8009FE94(u8, u8, s16, u8, u8, s16);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
+extern s32 dungeonCheckMonsterNeighborRelations(u8, u8, s16, u8, u8, s16);
 extern s32 func_800A2CB8(void *, void *);
-extern s32 func_800A41F0(void *);
+extern s32 dungeonCheckEntityEligibility(void *);
 
 /* Selects the best eligible list candidate, resolving ties with the global candidate. */
-void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
+void *dungeonChooseBestEligibleEntry(void *owner_arg, void *start, s32 score_limit)
 {
     void *candidate;
     S_800A3D18_4 *base;
@@ -88,10 +88,10 @@ void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
         global_page = (u8 *)0x800e0000;
         while (candidate != base) {
             void *next_link;
-            if ((s16)func_800A2CB8(base, candidate) != 0 && (s16)func_800A41F0(candidate) != 0) {
+            if ((s16)func_800A2CB8(base, candidate) != 0 && (s16)dungeonCheckEntityEligibility(candidate) != 0) {
                 candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
                 if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
-                    score = func_8009FD40(candidate_owner, owner_arg);
+                    score = dungeonGetTileChebyshevDistance(candidate_owner, owner_arg);
                     if ((s16)score < best_score) {
                         if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
                             special = candidate;
@@ -101,7 +101,7 @@ void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
                             best_score = score;
                         }
                     }
-                } else if ((s16)func_8009FE94(((S_800A3D18_0 *)owner_arg)->unk_24,
+                } else if ((s16)dungeonCheckMonsterNeighborRelations(((S_800A3D18_0 *)owner_arg)->unk_24,
                                               ((S_800A3D18_0 *)owner_arg)->unk_25,
                                               base->unk_88,
                                               candidate_owner->unk_24,

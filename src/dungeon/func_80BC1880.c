@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void func_80171080(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_state)
+void dungeonSpawnConfiguredOverlayObjectB(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_state)
 {
     StackWork projection;
     s16 ticks_left;

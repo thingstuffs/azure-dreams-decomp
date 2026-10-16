@@ -11,15 +11,15 @@ typedef struct S_800BCE78_1 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_800BCE78_1;   /* arg1 in func_800BCE78 */
+} S_800BCE78_1;   /* arg1 in townUpdateRandomizedActorMovement */
 
 
 extern s32 func_800352FC(void);
-extern s32 func_800C2AB4(void *);
+extern s32 townCheckTransformIdentifierAndHook(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern s16 func_800C2AE8(void *);
-extern void func_8008F134(void *);
+extern s16 townQueryLoweredTransformPosition(void *);
+extern void townUnlinkSceneListNode(void *);
 extern void func_80033D08(void *);
 extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -31,7 +31,7 @@ extern u8 D_800E9E7C[];
 extern s32 D_800E9ECC[];
 
 /* Updates randomized movement, animation, and landing states for a town actor. */
-void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
+void townUpdateRandomizedActorMovement(void *actor, void *motion, void *sprite, s32 update_mode)
 {
     register s32 *sequence;
     register s32 state;
@@ -39,7 +39,7 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     s32 home_dx;
 
     sequence = 0;
-    if ((func_800352FC() != 0) && (func_800C2AB4(actor) != 0)) {
+    if ((func_800352FC() != 0) && (townCheckTransformIdentifierAndHook(actor) != 0)) {
         if (!(((Rec_D_80082D58 *)actor)->unk_AC & 1)) {
             SD_Call(0x60B);
             ((Rec_D_80082D58 *)actor)->unk_AC |= 1;
@@ -60,7 +60,7 @@ case 0:
         s32 home_distance;
         register s32 vx;
 
-        ((S_800BCE78_1 *)motion)->unk_08.at02.v = func_800C2AE8(motion);
+        ((S_800BCE78_1 *)motion)->unk_08.at02.v = townQueryLoweredTransformPosition(motion);
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
             break;
         }
@@ -184,7 +184,7 @@ case 0x20:
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
         ((S_800BCE78_1 *)motion)->unk_14 += 0x10000;
-        home_dx = func_800C2AE8(motion);
+        home_dx = townQueryLoweredTransformPosition(motion);
         state = home_dx < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
         if (state) {
             ((S_800BCE78_1 *)motion)->unk_08.at02.v = home_dx;
@@ -282,7 +282,7 @@ case 0x32:
                 } else {
                     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
                 }
-                floor = func_800C2AE8(motion);
+                floor = townQueryLoweredTransformPosition(motion);
                 floor_fixed = (s32)floor << 16;
                 height = ((S_800BCE78_1 *)motion)->unk_08.at00.v + 0x100000;
                 ((S_800BCE78_1 *)motion)->unk_14 =
@@ -328,7 +328,7 @@ case 0x34:
         register s16 floor;
 
         ((S_800BCE78_1 *)motion)->unk_00 += ((S_800BCE78_1 *)motion)->unk_0C;
-        floor = func_800C2AE8(motion);
+        floor = townQueryLoweredTransformPosition(motion);
         ((S_800BCE78_1 *)motion)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)motion)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)motion)->unk_08.at02.v) >> 1);
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
@@ -352,7 +352,7 @@ case 0x40:
     }
 
 case 0xFF:
-    func_8008F134(actor);
+    townUnlinkSceneListNode(actor);
     func_80033D08(actor);
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

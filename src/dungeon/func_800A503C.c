@@ -8,10 +8,10 @@ typedef struct {
     u16 count;
 } DungeonState;
 
-extern void func_800ACB98(void *, s32, void *, void *);
+extern void dungeonBeginActorFlaggedAction(void *, s32, void *, void *);
 
 /* Update actor state and dungeon count, or dispatch special handling. */
-s32 func_800AA79C(void *actor_state, s32 action, void *status, void *actor) {
+s32 dungeonAdvanceActorPendingAction(void *actor_state, s32 action, void *status, void *actor) {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (dungeonStatus.flags & 0x2008) {
@@ -19,7 +19,7 @@ s32 func_800AA79C(void *actor_state, s32 action, void *status, void *actor) {
         return 0;
     }
     if (*(s32 *)((u8 *)actor + 0x14) & 0x20000000) {
-        func_800ACB98(actor_state, action, status, actor);
+        dungeonBeginActorFlaggedAction(actor_state, action, status, actor);
         return 1;
     }
     if (!(*(s32 *)((u8 *)actor + 0x1C) & 8)) {

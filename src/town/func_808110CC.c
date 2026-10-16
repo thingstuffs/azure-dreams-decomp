@@ -34,7 +34,7 @@ typedef struct S_8052BCCC_0 {
     u16 unk_A6;
     u8 pad_A8[0x4];
     void * unk_AC;
-} S_8052BCCC_0;   /* obj in func_8052BCCC */
+} S_8052BCCC_0;   /* obj in townAnimateFallingTimedObject */
 
 typedef struct S_8052BCCC_1 {
     s32 unk_00;
@@ -43,14 +43,14 @@ typedef struct S_8052BCCC_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8052BCCC_1;   /* motion in func_8052BCCC */
+} S_8052BCCC_1;   /* motion in townAnimateFallingTimedObject */
 
 typedef struct S_8052BCCC_2 {
     u8 pad_00[0x8];
     u16 unk_08;
     s16 unk_0A;
     u16 unk_0C;
-} S_8052BCCC_2;   /* aux in func_8052BCCC */
+} S_8052BCCC_2;   /* aux in townAnimateFallingTimedObject */
 
 typedef struct S_8052BCCC_3 {
     u8 pad_00[0x4];
@@ -63,10 +63,10 @@ typedef struct S_8052BCCC_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8052BCCC_3;   /* out in func_8052BCCC */
+} S_8052BCCC_3;   /* out in townAnimateFallingTimedObject */
 
 /* Per-frame step for the town cutscene actor: integrate its motion, then run its ten-state dispatch. */
-void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
+void townAnimateFallingTimedObject(void *obj, void *motion, void *incoming_out) {
     void *aux;
     void *out;
     u16 table[14];

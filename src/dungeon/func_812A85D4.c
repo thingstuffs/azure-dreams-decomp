@@ -11,11 +11,11 @@
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern void func_80047784(void *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
@@ -44,7 +44,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         if (flags & 0x8000) {
             U16(object, 0x14) = flags | 0x6000;
             U8(action, 0x9B) = 2;
-            func_8009C12C(actor, object, S16(actor, 0x2A), 1);
+            dungeonResolveAttackDamageAndEffects(actor, object, S16(actor, 0x2A), 1);
             return;
         }
         if ((flags & 0x6000) == 0) {
@@ -105,7 +105,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         }
         object_type = S8(object, 4);
         if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
-            func_8009C12C(actor, object, S16(actor, 0x2A), 1);
+            dungeonResolveAttackDamageAndEffects(actor, object, S16(actor, 0x2A), 1);
             anim_table = 0x80170000;
         } else {
             anim_table = 0x80170000;
@@ -127,7 +127,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        func_800A2B04(motion, U8(object, 0x24), U8(object, 0x25));
+        dungeonSetRecordIntegerTileCenter(motion, U8(object, 0x24), U8(object, 0x25));
         U8(action, 0x9B)++;
         return;
     }
@@ -139,11 +139,11 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         if ((U16(object, 0x14) & 0xE000) == 0) {
             return;
         }
-        func_800AD594(actor, 0x100);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         actor_arg = actor;
         PTR(action, 0x8C) = D_80171FA4;
         S32(D_80080000, 0x346C) = 0;
-        func_800A4ACC(actor_arg);
+        dungeonAdvanceStatusTimers(actor_arg);
         U16(actor, 0x46) &= 0x7FFF;
     }
 

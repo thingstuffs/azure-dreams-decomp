@@ -64,9 +64,9 @@ extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
 
-/* Retail 819B2C40 (func_80024440): projects each linked sprite effect and queues a textured quad centred on
+/* Retail 819B2C40 (dungeonDrawLinkedSpriteEffectQuads): projects each linked sprite effect and queues a textured quad centred on
  * its screen position into the ordering table.  The chain runs through the previous header's unk_18 link. */
-s32 func_80024440(SpriteEffect *first_item) {
+s32 dungeonDrawLinkedSpriteEffectQuads(SpriteEffect *first_item) {
     u16 world_pos[4];
     ScreenPoints screen_points;
     s32 projection_scratch;

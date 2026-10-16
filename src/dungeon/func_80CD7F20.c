@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 func_800AC82C(void *, void *, void *, void *);
-extern s32 func_800AD9B4(void *, void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
 extern u8 D_80158F20[];
@@ -13,14 +13,14 @@ extern u8 D_8015E328[];
 extern u8 D_8015E360[];
 
 /* Update the owner state or select an animation frame from the facing direction. */
-void func_8015B720(void *owner_arg, void *context, void *anim_obj_arg, void *state_arg) {
+void dungeonUpdateOwnerStateOrFacingAnimation(void *owner_arg, void *context, void *anim_obj_arg, void *state_arg) {
     void *owner = owner_arg;
     void *anim_obj = anim_obj_arg;
     void *state = state_arg;
     void *current_table;
 
     if (func_800AC82C(owner_arg, context, anim_obj_arg, state_arg) != 0) {
-        if ((func_800AD9B4(anim_obj, state) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(anim_obj, state) << 0x10) > 0) {
             if (*(u8 *)((u8 *)owner + 0xA7) != 0) {
                 *(void **)((u8 *)owner + 0x8C) = D_8015BB98;
             } else {

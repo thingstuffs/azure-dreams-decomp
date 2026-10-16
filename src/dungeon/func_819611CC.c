@@ -22,7 +22,7 @@
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 func_800269CC(Quad *quad, s32 unused, Material *material)
+s32 dungeonProjectAndQueueSemitransparentQuad(Quad *quad, s32 unused, Material *material)
 {
     Bank56_819611CC_Scratch *scratch;
     Bank56_819611CC_PolyFT4 *packet;

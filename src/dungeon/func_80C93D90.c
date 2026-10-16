@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
+void dungeonAdvanceActorStoredPath(void *motion, s32 update_param, void *entity, void *state) {
     s32 tile_mask;
     s32 old_x;
     s32 old_y;
@@ -34,13 +34,13 @@ void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
     }
     func_8009A3D0(old_x, old_y, tile_mask);
 
-    heading = func_800A0818(
+    heading = dungeonGetRoundedFacingAndRoundingFlag(
         old_x,
         old_y,
         ((CB_80171590_S_80171590_3 *)((u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74,
         ((CB_80171590_S_80171590_3 *)((u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)motion + 0x98);
-    move_result = func_8009A66C(heading, entity, state, 0x20);
+    move_result = dungeonCheckMovementClearanceAndHeight(heading, entity, state, 0x20);
 
     ((CB_80171590_S_80171590_1 *)entity)->unk_24 =
         ((CB_80171590_S_80171590_3 *)((u8 *)state + ((CB_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74;

@@ -61,18 +61,18 @@ extern int abs(int);
 extern void func_8016BCE8(void *, void *, void *, void *);
 extern u8 D_8016EEB8[];
 
-extern s32 func_8003F270();
+extern s32 getCdCommandQueueDepth();
 extern void func_80047784();
 extern s32 func_80069EF8();
-extern void *func_800A05A4();
-extern void func_800A2B04();
-extern s32 func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading();
+extern void dungeonSetRecordIntegerTileCenter();
+extern s32 dungeonAdvanceStatusTimers(void *);
 extern s32 func_800A56E0(s32);
-extern void *func_800A94A0();
+extern void *dungeonCreateActorSpellEffect();
 extern s32 func_8016B498();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
-void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
+void dungeonAdvanceTargetedActorAction(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -172,7 +172,7 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                 }
             } else {
 
-                actor->target = func_800A05A4(
+                actor->target = dungeonScanMonsterAlongHeading(
                     actor,
                     sprite->tile.bytes.x,
                     sprite->tile.bytes.y,
@@ -183,7 +183,7 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                 actor->unk_73 = abs(actor->unk_73);
             }
 
-            if (func_800A94A0(actor, action_data, use_player_target, &action->flags) == 0) {
+            if (dungeonCreateActorSpellEffect(actor, action_data, use_player_target, &action->flags) == 0) {
                 return;
             }
             action->phase++;
@@ -193,10 +193,10 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCounterView *)D_800814A8)->activeActions--;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D--;
         action->nextBehavior = func_8016BCE8;
         actor->unk_73 = 0;
@@ -205,7 +205,7 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -287,7 +287,7 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
 
         if (sprite->frameTable != D_8016EEB8) {
             (sprite->frameTable) = D_8016EEB8;
@@ -300,7 +300,7 @@ void func_8016D7B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *
 
         dungeonStatus.unk_0A--;
         action->nextBehavior = func_8016BCE8;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D--;

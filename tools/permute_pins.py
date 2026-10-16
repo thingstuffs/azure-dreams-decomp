@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/xform"))
 from common import rows, sha_text
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 from t12_stmtorder import strip_pins
 from verify import verify
@@ -124,7 +125,7 @@ def one(job):
     row, a = job
     t0 = time.time()
     rec = {"id": row["id"]}
-    p = ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    p = layout_row_path(row, ROOT)
     text = p.read_text(errors="replace")
     rec["pins"] = len(sites_of(text))
     d = Path(a.out) / (row["container"] + "__" + Path(row["c_path"]).stem)

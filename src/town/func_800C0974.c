@@ -16,7 +16,7 @@ typedef struct TownPropAnimationDestination {
 } S1;
 
 
-void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
+void townCopyRecordStateToDestination(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;
     S1 *dst = destination;
     s32 state;
@@ -26,7 +26,7 @@ void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
     state = obj->state;
     switch (state) {
     case 0:
-        if (func_800352FC() && func_800C2AB4(obj)) {
+        if (func_800352FC() && townCheckTransformIdentifierAndHook(obj)) {
             callValue = obj->fieldA4;
             func_8003DB94(dst, callValue, 0);
             obj->state = (u16)obj->state + 1;
@@ -42,13 +42,13 @@ void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
         }
         return;
     case 2:
-        if (func_800352FC() && func_800C2AB4(obj)) {
+        if (func_800352FC() && townCheckTransformIdentifierAndHook(obj)) {
             return;
         }
         obj->state = (u16)obj->state + 1;
         return;
     case 3:
-        if (!(func_800352FC() && func_800C2AB4(obj))) {
+        if (!(func_800352FC() && townCheckTransformIdentifierAndHook(obj))) {
             return;
         }
         callValue = obj->fieldA0;
@@ -57,7 +57,7 @@ void func_800BE0D4(S0 *self, s32 unused_value, S1 *destination) {
         return;
     case 4:
         if (func_800352FC()) {
-            if (func_800C2AB4(obj)) {
+            if (townCheckTransformIdentifierAndHook(obj)) {
                 return;
             }
         }

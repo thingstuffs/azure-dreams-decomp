@@ -5,19 +5,19 @@ typedef struct S_80017DBC_0 {
     s16 unk_04;
     u8 pad_06[0x2];
     s32 unk_08;
-} S_80017DBC_0;   /* var_s0 in func_80017DBC */
+} S_80017DBC_0;   /* var_s0 in townMarkQualifyingEntriesInModeTwo */
 
 typedef struct S_80017DBC_1 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_80017DBC_1;   /* var_s2 in func_80017DBC */
+} S_80017DBC_1;   /* var_s2 in townMarkQualifyingEntriesInModeTwo */
 
 typedef struct S_80017DBC_2 {
     u8 pad_00[0xA2];
     s16 unk_A2;
     u8 pad_A4[0x12];
     s16 unk_B6;
-} S_80017DBC_2;   /* var_s4 in func_80017DBC */
+} S_80017DBC_2;   /* var_s4 in townMarkQualifyingEntriesInModeTwo */
 
 
 extern s32 func_800198D0();
@@ -27,7 +27,7 @@ extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 
 /* Marks qualifying entries and their associated state with 0x400 in mode 2. */
-s32 func_80017DBC(void)
+s32 townMarkQualifyingEntriesInModeTwo(void)
 {
     s32 entry_index;
     s32 mark_value;

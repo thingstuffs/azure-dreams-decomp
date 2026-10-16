@@ -41,13 +41,13 @@ extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
 extern s32 func_800A6D30();
-extern void func_800C78A0(void *, s32, s32, s32, s32, s32);
-extern s32 func_8009A540(s32, s32, s32, s32);
-extern Ent *func_8009B25C(Ent *, s32, s32, s32);
-extern s32 func_800981F8(Ent *);
+extern void dungeonSetupObjectWithinPlanarRange(void *, s32, s32, s32, s32, s32);
+extern s32 dungeonCheckDiagonalSideHeight(s32, s32, s32, s32);
+extern Ent *findEligibleActorAtTileAndHeight(Ent *, s32, s32, s32);
+extern s32 dungeonGetClampedAdjustedValue(Ent *);
 extern void func_8003E188(s32, s32);
 
-Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
+Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     s32 zero = 0;
     u16 coord;
     s32 savedMult;
@@ -78,16 +78,16 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     tableA = D_800DCEAC;
     off = shifted & 0xE;
 
-    func_800C78A0(base,
+    dungeonSetupObjectWithinPlanarRange(base,
                   (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
                   (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)D_800DCEBC + off) >> 1) + 0x20,
                   a->unk88, 8, 0x300);
     a->unk60 = ent2;
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
-        if ((func_8009A540((a->unk2a >> 9) & 7, b->unk24, b->unk25,
+        if ((dungeonCheckDiagonalSideHeight((a->unk2a >> 9) & 7, b->unk24, b->unk25,
                            (s16)(*(u16 *)&a->unk88 - 0x20)) << 16) != 0) {
-            ent2 = func_8009B25C(a,
+            ent2 = findEligibleActorAtTileAndHeight(a,
                                  (u16)(b->unk24 + *(u16 *)((u8 *)dirStepX + off) * savedMult),
                                  (u16)(b->unk25 + *(u16 *)((u8 *)dirStepY + off) * savedMult),
                                  a->unk88);
@@ -143,7 +143,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
         s32 flag = masked != 0;
         s32 sum = low_bit + flag;
         
-        step = sum + (a->unk26 + (s16)func_800981F8(a)) * 2;
+        step = sum + (a->unk26 + (s16)dungeonGetClampedAdjustedValue(a)) * 2;
     }
     a->unk20 = step;
     if (a->flags1c & 0x1000) {

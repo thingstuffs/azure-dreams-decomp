@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Struct pointed to by D_8006CE80[i].unk4; its field at offset 8 is a pointer
- * passed to func_8003F8F8. */
+ * passed to decodeAndUploadImageArray. */
 typedef struct S_8006CE80_inner {
     s32 unk0;
     s32 unk4;
@@ -16,10 +16,10 @@ typedef struct S_8006CE80 {
 } S_8006CE80;
 
 extern S_8006CE80 D_8006CE80[64];
-extern void func_8003F8F8(void *arg);
+extern void decodeAndUploadImageArray(void *arg);
 
-/* Passes the indexed entry's nested pointer to func_8003F8F8 if both pointers exist. */
-void func_80040FDC(u16 index) {
+/* Passes the indexed entry's nested pointer to decodeAndUploadImageArray if both pointers exist. */
+void uploadDispatchEntryImages(u16 index) {
     s32 byte_offset = (s32)index * 3 * 4;
     S_8006CE80 *entry = (S_8006CE80 *)((u8 *)D_8006CE80 + byte_offset);
     S_8006CE80_inner *inner = entry->unk4;
@@ -28,7 +28,7 @@ void func_80040FDC(u16 index) {
         void *target = inner->unk8;
 
         if (target != (void *)0) {
-            func_8003F8F8(target);
+            decodeAndUploadImageArray(target);
         }
     }
 }

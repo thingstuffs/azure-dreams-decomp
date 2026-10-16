@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_800A6F48(void *first_ptr, void *second_ptr);
+extern void townCreatePairedOffsetEffects(void *first_ptr, void *second_ptr);
 
 // Increase the step by four and accumulate up to 0x400, then trigger the completion handler.
-void func_800A6EE4(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
+void townAccumulateEffectStep(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
     u16 step;
     u16 accumulatedValue;
 
@@ -16,6 +16,6 @@ void func_800A6EE4(void *updateState, s32 unused1, s32 unused2, void *accumulato
         *(u16 *) ((u8 *) accumulatorState + 0x16) = accumulatedValue;
     }
     if (*(u16 *) ((u8 *) accumulatorState + 0x16) == 0x400) {
-        func_800A6F48(updateState, updateState);
+        townCreatePairedOffsetEffects(updateState, updateState);
     }
 }

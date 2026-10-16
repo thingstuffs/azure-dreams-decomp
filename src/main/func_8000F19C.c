@@ -15,24 +15,24 @@ typedef struct {
 
 
 /* Erase a memory card file, wait for completion, and clear its cached entry. */
-s32 func_8002219C(s32 file_index) {
+s32 cardBootEraseSlotFile(s32 file_index) {
     func_8000F19C_Sp10Buf file_path;
     s32 erase_status;
 
-    func_80021B18(&file_path, file_index);
+    cardBootBuildSlotPath(&file_path, file_index);
     _card_wait(0);
     _card_wait(1);
-    func_80021538();
+    cardBootDrainHardwareEvents();
     erase(&file_path);
     do {
-        erase_status = func_800214FC();
+        erase_status = cardBootTakeHardwareStatus();
         if (erase_status == 0) {
             func_8005FE18(0);
         }
     } while (erase_status == 0);
     if (file_index < 5) {
         (*(func_8000F19C_Unk80083E98Elem (*)[])(&D_80083E98))[file_index].unk0[0] = 0;
-        func_800220DC();
+        cardBootRefreshDirectorySummary();
     }
     return erase_status == 1;
 }

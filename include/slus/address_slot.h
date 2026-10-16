@@ -11,8 +11,8 @@ extern unsigned char D_80126000[0x10];
 /* <=8B global -> $gp small-data STORE, while address-of stays %hi/%lo. */
 extern void *D_80081528;
 
-extern void func_800479D4(void *a0, void *a1, unsigned short a2);
-extern void func_8003F320(void);
+extern void queueEntityResourceDescriptorPair(void *a0, void *a1, unsigned short a2);
+extern void drainCdCommandQueue(void);
 extern void *func_80047AB0(void *a0, unsigned short a1, int a2, int a3, void *a4);
 
 /* Loads image data by resource ID, uploads its tiles, and returns the global object slot. */

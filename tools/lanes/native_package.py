@@ -17,6 +17,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT/'tools/lanes/lanekit'), str(ROOT/'tools/lanes'), str(ROOT/'tools')]
+from source_layout import row_path as layout_row_path
 import kitlib
 import native_member as N
 import lane_admission as A
@@ -72,14 +73,14 @@ def collect(lanes):
             row = rows[rid]; m = N.membership(row)
             if m is None:
                 raise ValueError('native manifest membership unavailable: ' + rid)
-            text = f.read_text(); source = safe(ROOT, 'src/'+rid+'.c'); cur = source.read_text()
+            text = f.read_text(); source = layout_row_path(rid, ROOT); cur = source.read_text()
             base = safe(lane, f.relative_to(lane).as_posix()+'.base_sha')
             outcome = A.assess(row, text, cur, base.read_text().strip() if base.exists() else '', lane.name, **policy)
             if not outcome['accepted']:
                 rejected.append(dict(row=rid, lane=lane.name, **outcome)); continue
             group = groups.setdefault(m['key'], dict(module=m, rows=[], texts={}, records=[]))
             group['rows'].append(row); group['texts'][rid] = text
-            group['records'].append(dict(path='src/'+rid+'.c', file='sources/src/'+rid+'.c',
+            group['records'].append(dict(path=source.relative_to(ROOT).as_posix(), file='sources/src/'+rid+'.c',
                 before=sha(source), after=hashlib.sha256(text.encode()).hexdigest(), admission=outcome))
     return groups, rejected, ordinary, native_seen
 

@@ -2,7 +2,7 @@
 
 
 /* Returns the stored flags with bit 2 set when D_80080AD4 is nonzero. */
-s32 func_8003F5AC(void) {
+s32 getCdFlagsWithConditionalBit(void) {
     s32 flags = D_80083958[0].unk4;
 
     if (D_80080AD4 != 0) {

@@ -170,8 +170,8 @@ extern M2C_UNK D_80024750;
 extern Row_818FF5B8_Copy12 D_80025E64;
 void func_800246F8(void *state_data, s32 unused, void *scale_data);
 void func_80024750(void *object);
-void func_80024780(void *state, void *position, void *visual);
-void func_8002499C(void *effect, void *offset_state, void *render_state);
+void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual);
+void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render_state);
 void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance);
 extern u8 D_80025E80[];
 #endif

@@ -46,15 +46,15 @@ typedef struct {
 extern u8 D_80174038[];
 
 extern s32 func_80047784(void *, u8, s32);
-extern void func_8009C93C(void *, void *, s16, s32, s32);
-extern s32 func_800A0134(s32, void *);
-extern s32 func_800A04F0(void *, u8, u8, s16);
+extern void dungeonPrepareDirectionalAttack(void *, void *, s16, s32, s32);
+extern s32 dungeonGetActorHeightDifference(s32, void *);
+extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
 extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
-extern void func_800C7930(void *, s32, s32, s32);
+extern void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
 
 /* Validates the actor's direction and state, then initializes its action and animation. */
-s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) {
+s32 dungeonValidateDirectionAndInitializeAction(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) {
     DungeonGlobalStatus *flags_base;
     u8 *direction_frames;
     u16 flags;
@@ -68,7 +68,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
         return -1;
     }
 
-    target_angle = func_800A04F0(actor, sprite->field_24, sprite->field_25, actor->field_2a);
+    target_angle = dungeonPlaceActorAtDirectionalNeighbor(actor, sprite->field_24, sprite->field_25, actor->field_2a);
     if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return result;
     }
@@ -81,7 +81,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
         return -1;
     }
 
-    if ((u32)((0 - func_800A0134(target_angle, actor) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)((0 - dungeonGetActorHeightDifference(target_angle, actor) + 0x40) & 0xFFFF) >= 0x81U) {
         return result;
     }
     result = 1;
@@ -89,7 +89,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
         return -1;
     }
 
-    func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
@@ -117,7 +117,7 @@ s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) 
     sprite->field_2c = direction_frames;
     func_80047784(sprite, direction_frames[(((s32)gameWork.view.viewAngle + actor->field_2a + 0x100) >> 9) & 7], 0);
     actor->field_6d--;
-    func_8009C93C(actor, sprite, actor->field_2a, 1, 0);
+    dungeonPrepareDirectionalAttack(actor, sprite, actor->field_2a, 1, 0);
     if ((action_state->field_98 & 0x8000) == 0) {
         actor->field_1c &= 0xFEFFFFFF;
     }

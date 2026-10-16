@@ -50,7 +50,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
         }
 
         if (((R06_801738E0_S_801738E0_3 *)actor)->unk_64 != 0) {
-            if (func_800AA6B4(entity, context, anim, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(entity, context, anim, 0) != 0) {
                 return;
             }
         }
@@ -61,7 +61,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
 
         actor_flags = ((R06_801738E0_S_801738E0_3 *)actor)->unk_1C;
         if (actor_flags & 0x100) {
-            func_800AA258(entity, context, anim, actor);
+            dungeonBeginPushedActorMove(entity, context, anim, actor);
             return;
         }
 
@@ -83,7 +83,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
             return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
-            if ((func_8009A180(actor,
+            if ((dungeonCheckEntityRelation(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }

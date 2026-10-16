@@ -55,10 +55,10 @@ typedef struct Vec3u {
 
 extern void **D_800E3D18;
 
-extern void func_800B8D64(s16, s16, s16);
+extern void dungeonSpawnBlinkingSpriteFlash(s16, s16, s16);
 
 /* Run the warp cutscene: pick the exit point, ease the camera to it, fade out and fire the arrival effects. */
-void func_800245A0(Motion *motion, Position *position, u8 *color)
+void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
@@ -78,7 +78,7 @@ void func_800245A0(Motion *motion, Position *position, u8 *color)
         index =
             ((gameWork.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
-        func_8003DE58(
+        resolveRecordOrientationOrFallback(
             *(void **)(index + (s32)D_800E3D18),
             ((u8 *)(&D_80082E80)), &delta, 0);
 
@@ -123,7 +123,7 @@ void func_800245A0(Motion *motion, Position *position, u8 *color)
         if (motion->timer > 0) {
             return;
         }
-        func_800B8D64(motion->target_x, motion->target_y, motion->target_z);
+        dungeonSpawnBlinkingSpriteFlash(motion->target_x, motion->target_y, motion->target_z);
         final_state = ((S_819ACDA0_1 *)motion)->unk_2C;
         motion->timer = 5;
         motion->state = final_state + 1;
@@ -145,7 +145,7 @@ void func_800245A0(Motion *motion, Position *position, u8 *color)
 
     case 3:
         source = &D_80082E80;
-        if (func_8003DE58(((void *)source->unk_008), source, &base, 0) != 0) {
+        if (resolveRecordOrientationOrFallback(((void *)source->unk_008), source, &base, 0) != 0) {
             func_8002614C(
                 D_80083780.x.w.i + base.x,
                 D_80083780.y.w.i + base.y,
@@ -157,7 +157,7 @@ void func_800245A0(Motion *motion, Position *position, u8 *color)
         if (motion->effect_timer > 0) {
             return;
         }
-        func_800255B8(
+        dungeonCreateLinkedSpritePieces(
             D_80083780.x.w.i,
             D_80083780.y.w.i,
             D_80083780.z.w.i - 0x20,

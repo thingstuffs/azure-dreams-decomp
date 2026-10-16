@@ -8,7 +8,7 @@ typedef struct RuntimeState {
 } RuntimeState;
 
 /* Consume one event-script byte and store it as the current value. */
-void func_80039ED8(RuntimeState *state)
+void vmOp84SetLoopCounter(RuntimeState *state)
 {
     u8 *input = state->input;
     u8 current = *input;

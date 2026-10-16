@@ -35,7 +35,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
             }
 
             if ((((R12_8017368C_S_80173358_2 *)actor)->unk_64 != 0) &&
-                (func_800AA6B4(in_controller, context, sprite, 0) != 0)) {
+                (dungeonBeginReadyActorDirectionalAction(in_controller, context, sprite, 0) != 0)) {
                 return;
             }
 
@@ -43,7 +43,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
                 if (system_base->flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(in_controller, context, sprite, actor);
+                dungeonAdvanceActorPendingAction(in_controller, context, sprite, actor);
                 return;
             }
 
@@ -53,7 +53,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
 
             actor_flags = ((R12_8017368C_S_80173358_2 *)actor)->unk_1C;
             if (actor_flags & 0x100) {
-                func_800AA258(in_controller, context, sprite, actor);
+                dungeonBeginPushedActorMove(in_controller, context, sprite, actor);
                 return;
             }
 
@@ -68,7 +68,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
             }
 
             if ((func_800A2C34(actor) << 16) != 0) {
-                if ((func_8009A180(actor,
+                if ((dungeonCheckEntityRelation(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -85,7 +85,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
                 coordinate = ((R12_8017368C_S_80173358_1 *)sprite)->unk_26;
                 if ((((coordinate == origin->unk_026) &&
                     (coordinate >= 0)) ||
-                    (((s16)func_8009FD40(origin, sprite)) < 2)) &&
+                    (((s16)dungeonGetTileChebyshevDistance(origin, sprite)) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
                     func_80042B68(actor, 1);
                 }

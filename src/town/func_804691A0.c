@@ -8,10 +8,10 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-void func_8001A188();
+void copyTownRecordPairFields();
 
 
 /* Pass the callback-selected table value to the destination handler. */
-void func_8001A1A0(s32 destination, s32 *values) {
-    func_8001A188(destination, *((D_80016000->unk_20->callback_2D4(0)) + values));
+void townCopyCallbackValueToDestination(s32 destination, s32 *values) {
+    copyTownRecordPairFields(destination, *((D_80016000->unk_20->callback_2D4(0)) + values));
 }

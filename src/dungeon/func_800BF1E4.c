@@ -66,7 +66,7 @@ extern s32 rand(void);
 extern s32 func_8004491C(void *, void *);
 
 /* Spawn two effects at the source position and decrement its remaining count. */
-void func_800C4944(FuncArg *source) {
+void dungeonTickPairedParticleEmitter(FuncArg *source) {
     s32 effect_index;
     FuncSub *effect_state;
     FuncItem *effect_item;

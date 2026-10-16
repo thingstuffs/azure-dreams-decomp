@@ -14,6 +14,7 @@ import json, os, re, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 from pin_sites import erase_many
 
@@ -47,7 +48,7 @@ def ptype(p):
 def def_params(container, name):
     for c in (container, "slus"):
         for rid in defs().get((c, name), []):
-            p = ROOT / "src" / (rid + ".c")
+            p = layout_row_path(rid, ROOT)
             if not p.exists():
                 continue
             m = re.search(r"^[A-Za-z_][\w \t\*]*?\b%s[ \t]*\(([^;{}()]*)\)[ \t\n]*\{" % re.escape(name), p.read_text(errors="replace"), re.M)

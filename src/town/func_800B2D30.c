@@ -7,17 +7,17 @@ typedef struct S_800B0490_1 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_800B0490_1;   /* arg0 in func_800B0490 */
+} S_800B0490_1;   /* arg0 in townHandleItemMenuInput */
 
 
 extern void SD_Call();
-extern void func_800AE4D4();
-extern void func_800AF1B4();
-extern void func_800B0424();
+extern void townSetItemMenuSecondaryHandler();
+extern void townChangeItemMenuSelection();
+extern void townDispatchItemMenuRequestResult();
 
 
 /* Handles menu actions and directional input with held-button repeat. */
-void func_800B0490(S_800B0490_1 *menu)
+void townHandleItemMenuInput(S_800B0490_1 *menu)
 {
     s32 direction;
     s32 move_mode;
@@ -38,13 +38,13 @@ void func_800B0490(S_800B0490_1 *menu)
     pressed_buttons = ((s32)pad_state->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, pad_state);
-        func_800AE4D4(menu->unk_08);
+        townSetItemMenuSecondaryHandler(menu->unk_08);
         return;
     }
 
     if (pressed_buttons & 0x40) {
         SD_Call(0x503, pad_state);
-        func_800B0424(menu);
+        townDispatchItemMenuRequestResult(menu);
         return;
     }
 
@@ -81,7 +81,7 @@ void func_800B0490(S_800B0490_1 *menu)
         return;
     }
     SD_Call(0x502, pad_state);
-    func_800AF1B4(menu->unk_04, direction, move_mode);
+    townChangeItemMenuSelection(menu->unk_04, direction, move_mode);
 
     return;
 }

@@ -3,7 +3,7 @@
 typedef struct S_800C8ABC_0 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800C8ABC_0;   /* held_arg0 in func_800C8ABC */
+} S_800C8ABC_0;   /* held_arg0 in dungeonRollChanceAndRunAction */
 
 
 extern s32 func_800A48F0();
@@ -11,7 +11,7 @@ extern s32 func_800A6D30();
 extern s32 func_800C8408(void *record);
 
 /* Roll a chance against the record's stride and, on a win, run the action action. */
-s32 func_800C8ABC(void *record, s16 chance, s8 action)
+s32 dungeonRollChanceAndRunAction(void *record, s16 chance, s8 action)
 {
     s16 saved_chance = chance;
     s8 saved_action = action;

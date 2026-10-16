@@ -5,8 +5,8 @@
 
 
 void func_80016098();                            /* extern */
-void func_80016510();                    /* extern */
-void func_800168B4();   /* extern */
+void townUpdateFlagTestTarget();                    /* extern */
+void townBuildObjectSetAndSelectListsRevB();   /* extern */
 extern s16 D_800160B0;
 extern s16 D_800160B2;
 extern s32 D_80016E40;
@@ -16,10 +16,10 @@ extern s32 D_80016FC8;
 extern M2C_UNK D_8001700C;
 
 /* Initialize shared state and attach its data pointers. */
-void func_80016C34(void) {
-    func_80016510(D_800160B0, D_800160B2);
+void townInitObjectSetRuntimePointersRevB(void) {
+    townUpdateFlagTestTarget(D_800160B0, D_800160B2);
     func_80016098();
-    func_800168B4(D_80016E40, &D_80016E48, &D_80016F88);
+    townBuildObjectSetAndSelectListsRevB(D_80016E40, &D_80016E48, &D_80016F88);
     D_80016000->unk_34 = &D_80016FC8;
     D_80016000->unk_28 = &D_80016E48;
     D_80016000->unk_2C = &D_8001700C;

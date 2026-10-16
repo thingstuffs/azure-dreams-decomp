@@ -1,0 +1,40 @@
+{
+  "module": "town_ovl_6f48d0",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_6f48d0.c",
+    "module_index": 63
+  },
+  "members": [
+    "town/func_807748D0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "tu_boundary": "Complete singleton ledger cohort; historical compiler TU extent is not asserted.",
+  "basis": [
+    "The complete ledger cohort is one 88-byte function with no internal gap. No member occurs in another native module.",
+    "first record 2026-09-22 (claude-opus-l0, LABEL_AS_CALL epilogue class): true base 0x800160D0 from ledger/splits/town.jsonl (true_name func_800160D0, load_base 0x7F921800, base_confidence proven), corroborated by the row's own in-row LABEL_AS_CALL j target func_80016118 (true base +0x48) from config/decomp_audit_baseline.json, inside the 88-byte row; delta 0x7F921800 is 0x800-aligned and is the UNIQUE 0x800-aligned delta placing that jump in-row (row < 0x800). No other region in this file carries this delta. Per-row extent, no other row covered.; PROMOTED solved->proven: byte-exact recompile func_807748D0 at true base 0x800160D0 (candidate sha ea18a185121d @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+    "One callback-table dispatcher uses the shared town root pointer and an eight-byte callback/data pair. Its only direct callee is the following handler at 0x80016128. The root and callback table remain external; no data definition is inferred."
+  ],
+  "boundaries": {
+    "file_start": 7293136,
+    "file_end": 7293224,
+    "vma_start": 2147573968,
+    "delta": 2140280832
+  },
+  "complete_body_sha256": {
+    "town/func_807748D0": "b94a83855f750b355257efae710e7770cf40891db4807b9f236252c96bc68545"
+  },
+  "call_graph": {
+    "func_800160D0": [
+      "func_80016128",
+      "indirect CallbackEntry.callback"
+    ]
+  },
+  "shared_data": [
+    "D_80016000"
+  ],
+  "non_shared_members": true
+}

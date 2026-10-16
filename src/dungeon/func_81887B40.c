@@ -18,7 +18,7 @@ typedef struct
 TableEntry;
 extern s32 func_80065420(void *, void *, void *, void *);
 /* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
-s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
+s32 dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(void *first_owner, void *first_vertices, void *first_line)
 {
     {
         u8 *render_data = gameWork.unk_000;

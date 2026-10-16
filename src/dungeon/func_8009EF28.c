@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/dir_step.h"
 
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 func_800BCB04();
 
 /* Checks whether the selected neighbor has a sampled height above 512 when enabled. */
-s32 func_800A4688(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
+s32 dungeonCheckEnabledNeighborHeight(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
     u16 tile_value;
     u16 x_offset;
     u16 y_offset;
@@ -33,7 +33,7 @@ s32 func_800A4688(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disa
     call_x = tile_x;
     call_y = tile_y;
     sector = sector_arg;
-    if ((func_8009A350(call_x, call_y, sector_arg, &tile_value) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(call_x, call_y, sector_arg, &tile_value) << 16) == 0) {
         return 0;
     }
 

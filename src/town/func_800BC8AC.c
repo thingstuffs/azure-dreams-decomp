@@ -6,7 +6,7 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
-extern void func_8008F104(void *, void *, void *);
+extern void townConfigureTheSetModeN3(void *, void *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
@@ -148,7 +148,7 @@ void func_800BA00C(void *parent, S_800BA00C_3 *position)
             } else {
                 ((S_800BA00C_1 *)obj)->unk_08.i = 0;
             }
-            func_8008F104(entity, obj, *part_params);
+            townConfigureTheSetModeN3(entity, obj, *part_params);
         }
         part_index++;
         part_params++;

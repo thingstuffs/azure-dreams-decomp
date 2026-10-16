@@ -7,29 +7,29 @@ typedef struct S_8001A760_0 {
     void * unk_1C;
     u8 pad_20[0x10];
     void ** unk_30;
-} S_8001A760_0;   /* ctx in func_8001A760 */
+} S_8001A760_0;   /* ctx in townSetTileCenterDestination */
 
 typedef struct S_8001A760_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
     s16 unk_0E;
-} S_8001A760_1;   /* tile in func_8001A760 */
+} S_8001A760_1;   /* tile in townSetTileCenterDestination */
 
 typedef struct S_8001A760_2 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8001A760_2;   /* out1 in func_8001A760 */
+} S_8001A760_2;   /* out1 in townSetTileCenterDestination */
 
 typedef struct S_8001A760_3 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8001A760_3;   /* out2 in func_8001A760 */
+} S_8001A760_3;   /* out2 in townSetTileCenterDestination */
 
 
 extern u8 D_80016000[0x10];
 
 /* Set destination coordinates from the tile center and scaled offsets. */
-void func_8001A760(s32 unused, s32 x_offset, s32 y_offset) {
+void townSetTileCenterDestination(s32 unused, s32 x_offset, s32 y_offset) {
     S_8001A760_0 *ctx;
     S_8001A760_1 *tile;
     S_8001A760_2 *x_dest;

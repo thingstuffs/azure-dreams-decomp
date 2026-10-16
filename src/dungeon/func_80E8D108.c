@@ -18,22 +18,22 @@ typedef struct S_80172908_1 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172908_1;   /* arg0 in func_80172908 */
+} S_80172908_1;   /* arg0 in dungeonUpdateMovementAnimationSettlesActorTargetTile */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern Node *D_800E3DE8[];
 extern u8 D_801710F4[];
 extern u8 D_80174F30;
 
 /* Updates movement animation and settles the actor at its target tile. */
-void func_80172908(void *action, void *motion, void *sprite, void *actor)
+void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -50,7 +50,7 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172908_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
             return;
         }
 
@@ -79,7 +79,7 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
         frames_left = ((S_80172908_1 *)action)->unk_96.s - 1;
         ((S_80172908_1 *)action)->unk_96.s = frames_left;
         if ((s16)frames_left == 3) {
-            func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
         }
 
         ((EntityRec *)motion)->flags14 += (5 - ((S_80172908_1 *)action)->unk_96.u) << 16;
@@ -113,11 +113,11 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
         }
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = D_801710F4;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (((EntityRec *)actor)->unk_6D == 0) {
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
         } else {

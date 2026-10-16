@@ -11,7 +11,7 @@ typedef struct S_8017390C_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8017390C_0;   /* arg0 in func_8017390C */
+} S_8017390C_0;   /* arg0 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 typedef struct S_8017390C_1 {
     u8 pad_00[0x1C];
@@ -19,14 +19,14 @@ typedef struct S_8017390C_1 {
     u8 pad_20[0x28];
     u8 unk_48;
     u8 unk_49;
-} S_8017390C_1;   /* saved_arg3 in func_8017390C */
+} S_8017390C_1;   /* saved_arg3 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 typedef struct S_8017390C_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017390C_2;   /* temp_s0 in func_8017390C */
+} S_8017390C_2;   /* temp_s0 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 typedef struct S_8017390C_3 {
     s32 unk_00;
@@ -35,7 +35,7 @@ typedef struct S_8017390C_3 {
     u8 pad_0C[0x9C];
     s16 unk_A8;
     s16 unk_AA;
-} S_8017390C_3;   /* saved_arg1 in func_8017390C */
+} S_8017390C_3;   /* saved_arg1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 typedef struct S_8017390C_4 {
     s32 unk_00;
@@ -44,7 +44,7 @@ typedef struct S_8017390C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8017390C_4;   /* temp_v1 in func_8017390C */
+} S_8017390C_4;   /* temp_v1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 typedef struct S_8017390C_5 {
     u8 pad_00[0x8];
@@ -53,7 +53,7 @@ typedef struct S_8017390C_5 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_8017390C_5;   /* temp_s1 in func_8017390C */
+} S_8017390C_5;   /* temp_s1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
 
 
 typedef struct {
@@ -62,16 +62,16 @@ typedef struct {
 
 
 extern s32 func_8004491C();
-extern s32 func_8004A658();
+extern s32 lookupItemCategoryMappedValue();
 extern s32 func_800A56E0();
-extern s32 func_800AD058();
-extern void *func_800BC26C();
+extern s32 dungeonUpdateActorDefeatRemoval();
+extern void *dungeonCreateTrackedEffect();
 
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80173770;
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
-void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
+void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
 {
     s32 pos_z;
     s32 pos_x;
@@ -118,7 +118,7 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
                     render_asset = &D_8006E240;
                     spawned_render->unk_08 = render_asset;
                 } else {
-                    render_asset = (void *)func_8004A658(
+                    render_asset = (void *)lookupItemCategoryMappedValue(
                         ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
                     spawned_render->unk_08 = render_asset;
                 }
@@ -126,7 +126,7 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
                 ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
-                func_800BC26C(spawned_obj, 0, 0, 0);
+                dungeonCreateTrackedEffect(spawned_obj, 0, 0, 0);
                 ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
             }
             ((S_8017390C_1 *)actor_data)->unk_48 = 0;
@@ -143,7 +143,7 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
         func_800A56E0(0x805);
         return;
     case 2:
-        func_800AD058(actor, transform, render, actor_data);
+        dungeonUpdateActorDefeatRemoval(actor, transform, render, actor_data);
         return;
     }
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id) {
+void dungeonChooseRandomRegionFeature(Rec_func_8001CE44_arg0 *region, s32 update_id) {
     u32 feature_roll;
     s16 saved_update_id = update_id;
 
@@ -16,7 +16,7 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id) {
         }
         region->unk_0A = 3;
         D_8001F670 = 1;
-        func_8001CFB8(region, saved_update_id);
+        dungeonInitializeRandomRoomSlot(region, saved_update_id);
         return;
     case 2:
         if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
@@ -24,7 +24,7 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id) {
         }
         D_8001F670 = 1;
         region->unk_0A = 2;
-        func_8001D328(region, saved_update_id);
+        dungeonMarkRandomEligibleRegionTiles(region, saved_update_id);
         return;
     case 4:
         if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&D_8001F670))->unk_00 != 0) {
@@ -32,7 +32,7 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id) {
         }
         D_8001F670 = 1;
         region->unk_0A = 4;
-        func_8001D0F4(region, saved_update_id);
+        placeRoomTrapRecords(region, saved_update_id);
         return;
     case 5:
     case 6:
@@ -42,7 +42,7 @@ void func_8001D4AC(Rec_func_8001CE44_arg0 *region, s32 update_id) {
     case 10:
     case 11:
     case 12:
-        func_8001CEC0(region, saved_update_id);
+        dungeonAdjustRandomParityTileHeights(region, saved_update_id);
     }
     return;
 }

@@ -32,7 +32,7 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
         entity_status = entity->unk_14;
         if (entity_status & 0x4000) {
             if (!(entity_status & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         func_800A56E0(0x805);

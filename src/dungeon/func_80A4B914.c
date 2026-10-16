@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80175114(void *entity_data, void *unused, void *source_data)
+void dungeonFadeEffectToNeutralAndFinish(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
     u8 *source = source_data;

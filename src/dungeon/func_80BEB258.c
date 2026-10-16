@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void func_80170A58(void *entity, EntityRec *motion, void *sprite)
+void dungeonUpdateEntityFacingAndGround(void *entity, EntityRec *motion, void *sprite)
 {
     R16_80170A58_S_80170A58_2 *state = entity;
     s16 previous_state;
@@ -27,7 +27,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
     }
 
     previous_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -56,7 +56,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
         view_dir = ((gameWork.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
-            func_80047738(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
+            selectIndirectTableEntry(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
             (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
         if (dirSpriteFlag[dir_index] != 0) {
@@ -64,7 +64,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
         } else {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
         }
-        func_800A020C(state->unk_1C, (u8 *)sprite + 0xC);
+        dungeonApplyMonsterKoyawData(state->unk_1C, (u8 *)sprite + 0xC);
         if (!(state->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);

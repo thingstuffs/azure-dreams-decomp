@@ -11,7 +11,7 @@ export OUT J
 one() {
   rid=$1; f="$OUT/$(echo "$rid" | tr / _).json"
   if [ -f "$f" ]; then
-    cur=$(sha256sum "src/$rid.c" | cut -d' ' -f1)
+    cur=$(sha256sum "$(python3 tools/source_layout.py path "$rid")" | cut -d' ' -f1)
     old=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('sha',''))" "$f" 2>/dev/null)
     [ "$cur" = "$old" ] && return 0
   fi

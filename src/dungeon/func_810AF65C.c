@@ -42,12 +42,12 @@ typedef struct {
 extern u8 D_80173C94[];
 extern u8 D_80170E54[];
 
-extern void func_800A2B04(S810AF65C_1 *, u8, u8);
-extern void func_800AAA54(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
-extern void func_800AD4D0(S810AF65C_3 *);
+extern void dungeonSetRecordIntegerTileCenter(S810AF65C_1 *, u8, u8);
+extern void dungeonBeginActorDisplayAction(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
+extern void dungeonApplyClampedActorValueDelta(S810AF65C_3 *);
 
 /* Updates directional movement, then returns the actor to its tile position. */
-void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
+void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 *motion,
                    S810AF65C_2 *tile, S810AF65C_3 *actor) {
     s32 timer;
     s32 direction;
@@ -65,7 +65,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
 
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         animation->field_96 = 2;
         animation->field_9b = animation->field_9b + 1;
         if (actor->field_28 == 0) {
@@ -73,7 +73,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
             motion->field_10 = 0;
             motion->field_0c = 0;
             animation->field_96 = 0;
-            func_800AAA54(animation, motion, tile, D_80173C94);
+            dungeonBeginActorDisplayAction(animation, motion, tile, D_80173C94);
             return;
         }
         if ((tile->field_14 & 0x8000) != 0) {
@@ -113,7 +113,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
             motion->field_14 = 0;
             motion->field_10 = 0;
             motion->field_0c = 0;
-            func_800AAA54(animation, motion, tile, D_80173C94);
+            dungeonBeginActorDisplayAction(animation, motion, tile, D_80173C94);
             return;
         }
         animation->field_96 = 4;
@@ -139,7 +139,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
         motion->field_14 = 0;
         motion->field_10 = 0;
         motion->field_0c = 0;
-        func_800A2B04(motion, tile->field_24, tile->field_25);
+        dungeonSetRecordIntegerTileCenter(motion, tile->field_24, tile->field_25);
         if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
             dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7fffffff;
         }

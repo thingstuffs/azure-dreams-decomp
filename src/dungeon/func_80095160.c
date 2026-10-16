@@ -16,7 +16,7 @@ extern s16 D_800DCEBC[];
 s16 func_8009FB34(u16, u16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
-s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
+s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
     StackU16 collision;
     s16 monster_index;
     /* The actor is finished before the floor-height samples begin. */
@@ -92,7 +92,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                             target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
-                        func_8009A350(actor_or_height->x, actor_or_height->y,
+                        getOffsetMapCellValueAndFlags(actor_or_height->x, actor_or_height->y,
                                      y_or_direction, (u16 *)collision_out);
                         if ((collision.value & 0x8002) != 0) {
                             result = 0;
@@ -127,7 +127,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                                 target_height = (s16)body->height;
                             }
                             /* Target X is dead after the tile argument is formed. */
-                            target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);
+                            target_x = findEligibleActorAtTileAndHeight(body, tile_coord, y_or_direction, target_height);
                             if (target_x != 0) {
                                 return -1;
                             }

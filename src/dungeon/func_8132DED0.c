@@ -14,7 +14,7 @@ typedef struct S_80164ED0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80164ED0_2;   /* temp_v0 in func_80164ED0 */
+} S_80164ED0_2;   /* temp_v0 in dungeonCreateRandomVelocityChildEffect */
 
 
 typedef struct S_80164ED0_4 {
@@ -27,7 +27,7 @@ typedef struct S_80164ED0_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80164ED0_4;   /* ((S_80164ED0_2 *)temp_v0)->unk_08 in func_80164ED0 */
+} S_80164ED0_4;   /* ((S_80164ED0_2 *)temp_v0)->unk_08 in dungeonCreateRandomVelocityChildEffect */
 
 typedef struct S_80164ED0_5 {
     u8 pad_00[0x2];
@@ -36,12 +36,12 @@ typedef struct S_80164ED0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80164ED0 */
+} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateRandomVelocityChildEffect */
 
 typedef struct S_80164ED0_6 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80164ED0_6;   /* ((S_80164ED0_2 *)temp_v0)->unk_0C in func_80164ED0 */
+} S_80164ED0_6;   /* ((S_80164ED0_2 *)temp_v0)->unk_0C in dungeonCreateRandomVelocityChildEffect */
 
 
 void *func_8003FD64();
@@ -55,7 +55,7 @@ typedef struct S_80164ED0_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80164ED0_0;   /* temp_v0 in func_80164ED0 */
+} S_80164ED0_0;   /* temp_v0 in dungeonCreateRandomVelocityChildEffect */
 
 typedef struct S_80164ED0_1 {
     u8 pad_00[0x8];
@@ -63,10 +63,10 @@ typedef struct S_80164ED0_1 {
     u8 pad_0C[0x26];
     s16 unk_32;
     s16 unk_34;
-} S_80164ED0_1;   /* temp_s0 in func_80164ED0 */
+} S_80164ED0_1;   /* temp_s0 in dungeonCreateRandomVelocityChildEffect */
 
 /* Creates an effect relative to its parent with randomized motion and initial state values. */
-void func_80164ED0(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
+void dungeonCreateRandomVelocityChildEffect(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
     S_80164ED0_1 *effect_data;
     void *effect;

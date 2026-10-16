@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Copies raw bytes or decodes nibble RLE in linear or column order. */
-u8 *func_800407C0(u8 *src_start, u8 *dst_start)
+u8 *decodeOrCopyResourcePixels(u8 *src_start, u8 *dst_start)
 {
     u8 *dst;
     u8 *first_row_end;

@@ -37,12 +37,12 @@ typedef struct S_8017409C_4 {
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s32 func_800A2C34(void *);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
@@ -101,7 +101,7 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
         }
 
         if (((EntityRec *)entity)->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, animation, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, context, animation, 0) != 0) {
                 return;
             }
         }
@@ -112,7 +112,7 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
 
         entity_flags = ((u32)((EntityRec *)entity)->flags1C);
         if (entity_flags & 0x100) {
-            func_800AA258(actor, context, animation, entity);
+            dungeonBeginPushedActorMove(actor, context, animation, entity);
             return;
         }
 
@@ -139,7 +139,7 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
-            if ((func_8009A180(entity,
+            if ((dungeonCheckEntityRelation(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }

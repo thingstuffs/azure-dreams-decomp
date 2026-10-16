@@ -1,12 +1,12 @@
 #include "modules/dungeon_ovl_1954800.h"
-s32 func_80024004(DungeonObject *object) {
+s32 decrementFlaggedItemParameters(DungeonObject *object) {
     s32 changed_count;
     DungeonObjectEntry *entry;
     u8 group;
     u8 column;
 
     changed_count = 0;
-    if (func_800C80F0() != 0) {
+    if (dungeonIsLinkedObjectFlagged10000() != 0) {
         return changed_count;
     }
     entry = object->entry4C;

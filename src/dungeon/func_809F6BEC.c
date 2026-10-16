@@ -9,7 +9,7 @@ typedef struct S_801743EC_0 {
     u16 unk_08;
     u8 pad_0A[0x42];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_801743EC_0;   /* arg0 in func_801743EC */
+} S_801743EC_0;   /* arg0 in dungeonUpdateEffectTrajectoryAndSprite */
 
 
 typedef struct S_801743EC_2 {
@@ -19,7 +19,7 @@ typedef struct S_801743EC_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801743EC_2;   /* arg1 in func_801743EC */
+} S_801743EC_2;   /* arg1 in dungeonUpdateEffectTrajectoryAndSprite */
 
 
 typedef struct {
@@ -44,10 +44,10 @@ typedef struct {
 } OutputVector;
 
 extern void func_800478B8(void *);
-extern void func_800DBA90(void *);
+extern void dungeonTransformRotatedVertices(void *);
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
-void func_801743EC(void *effect, void *position, void *sprite)
+void dungeonUpdateEffectTrajectoryAndSprite(void *effect, void *position, void *sprite)
 {
     CallRecord transform;
     OutputVector transformed_position;
@@ -79,7 +79,7 @@ void func_801743EC(void *effect, void *position, void *sprite)
         transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
         transform.field18 = 1;
         transform.field1A = 1;
-        func_800DBA90(&transform);
+        dungeonTransformRotatedVertices(&transform);
         ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
         ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
         ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;

@@ -26,7 +26,7 @@ extern s32 rand(void);
 extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern void func_800F692C();
 extern void func_800F6B2C();
-extern void func_80170D2C();
+extern void dungeonCreateTimedOffsetMotionEffect();
 
 extern Particle D_80082E80;
 extern Copy8 D_80164A4C;
@@ -91,7 +91,7 @@ void func_80170F68(void *effect) {
                 burst_kind = (rand() & 0xFF) | 0x80;
                 burst_x = (s16)((rand() & 0x7F) - 0x40);
                 burst_y = (s16)((rand() & 0x7F) - 0x40);
-                func_80170D2C(burst_context, burst_kind, burst_x, burst_y,
+                dungeonCreateTimedOffsetMotionEffect(burst_context, burst_kind, burst_x, burst_y,
                     (s16)((rand() & 0x7F) - 0x40));
             }
         }

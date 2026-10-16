@@ -17,7 +17,7 @@ extern u16 D_80024A70[];
 
 
 extern s32 func_80053EF0(s32);
-extern void func_800B835C(void *, void *, s32, s32);
+extern void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
 extern u8 D_80080000[];
 
 #define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&D_800814A8)), 0))
@@ -25,7 +25,7 @@ extern u8 D_80080000[];
 void func_8002401C(void *state_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_19ba800_entry)(void *) = func_8002401C;
 
@@ -132,7 +132,7 @@ void func_8002401C(void *state_data)
 
         draw_params[0] = 0x01000360;
         draw_params[1] = 0x00200020;
-        func_800B835C(draw_data, draw_params, 1, 0);
+        dungeonDrawTexturedEllipse(draw_data, draw_params, 1, 0);
         U8_AT(draw_data, 8) += 0x10;
     }
     D_80024A70[0] = 0;

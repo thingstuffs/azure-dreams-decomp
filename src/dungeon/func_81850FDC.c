@@ -39,7 +39,7 @@ extern s32 func_80069EF8(void);
 /* Delay a spawned particle, then integrate its motion and fade until deletion.
  * Retail: [file 0x1870FDC,0x1871178), [RAM 0x800247DC,0x80024978).
  */
-void func_800247DC(void *effect, void *position, void *primitive)
+void dungeonDelayAndFadeParticle(void *effect, void *position, void *primitive)
 {
     ParticleEffect *p = effect;
     ParticleMotion *motion = position;

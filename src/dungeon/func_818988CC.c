@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void *func_800240CC(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
+void *dungeonCreateASpriteRandomRotationCopiesInitialData(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ovl_18b8824_818988CC_Object *obj;
     ovl_18b8824_818988CC_S_800240CC_0 *fields;

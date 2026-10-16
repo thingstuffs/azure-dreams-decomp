@@ -3,7 +3,7 @@
 
 
 /* Updates the target offset from the global byte when it differs from the record value. */
-void func_800DC168(void *record, void *owner) {
+void dungeonUpdateTargetOffsetFromGlobalByte(void *record, void *owner) {
     u8 current_value;
 
     current_value = *((u8 *)D_800814A8 + 0x29);

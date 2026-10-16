@@ -5,10 +5,10 @@
 #include "shared/entity.h"
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern s32 D_8014D728;
 extern u8 D_80150E1C[];
@@ -29,7 +29,7 @@ typedef struct MotionResetView {
     s32 motionFlags;
 } MotionResetView;
 
-void func_8014EFD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
+void dungeonAdvanceActionSequenceVariantD(void *sequence, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
 
@@ -39,7 +39,7 @@ void func_8014EFD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((AnimationSequenceState *)sequence)->phase = 4;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             return;
         }
         ((MotionResetView *)motion)->motionFlags = 0;
@@ -65,7 +65,7 @@ void func_8014EFD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
     case 2:
         if ((s16)++((AnimationSequenceState *)sequence)->timer.unsignedTicks == 9 ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             ((AnimationSequenceState *)sequence)->timer.unsignedTicks = 0;
             ((AnimationSequenceState *)sequence)->phase++;
         }
@@ -90,10 +90,10 @@ void func_8014EFD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
 
     case 4:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            func_800AD594(actor, 0x100);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             ((AnimationSequenceState *)sequence)->nextBehavior = &D_8014D728;
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             actor->unk_46 &= 0x7FFF;
         }
     default:

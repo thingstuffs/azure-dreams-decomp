@@ -28,6 +28,7 @@ JOURNAL = Path(os.environ.get("GATE_JOURNAL", ROOT / "ledger/gate.jsonl"))
 if not JOURNAL.is_absolute(): JOURNAL = ROOT / JOURNAL
 sys.path.insert(0, str(ROOT / "tools"))
 from common import read_jsonl, append_jsonl
+from source_layout import row_path as layout_row_path
 
 def superseded(yamls):
     """Synthetic-base seed windows (TF-1B gate_carver: `<stem>.overlay.yaml`, vram = foff + a sweep
@@ -107,7 +108,7 @@ def legacy_inputs_sha(yaml_path):
     for rec in split_records(cont, yaml_path.name):
         h.update(json.dumps(rec, sort_keys=True).encode())
     for r in window_rows().get(yaml_path.name, []):
-        p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        p = layout_row_path(r, ROOT)
         if p.exists(): h.update(p.read_bytes())
     # Production C selectors, shared by noreturn and rowbase dependencies.
     records = [*window_rows().get(yaml_path.name, []),

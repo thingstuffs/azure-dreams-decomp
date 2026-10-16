@@ -19,15 +19,15 @@ typedef struct S_801704A0_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_801704A0_0;   /* arg0 in func_801704A0 */
+} S_801704A0_0;   /* arg0 in dungeonMoveBossActorToTile */
 
 M2C_UNK func_80047784();
 s32 func_800644B8();
-s16 func_800A0818();
-void func_800A2B04();
-s32 func_800A4ACC();
+s16 dungeonGetRoundedFacingAndRoundingFlag();
+void dungeonSetRecordIntegerTileCenter();
+s32 dungeonAdvanceStatusTimers();
 M2C_UNK func_800A9A04();
-s32 func_800AD9B4();
+s32 dungeonCheckActorFloorTrap();
 typedef struct {
     u8 pad[0x24];
     u8 x;
@@ -41,7 +41,7 @@ extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
 /* Updates movement toward a tile and completes the timed action. */
-void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
+void dungeonMoveBossActorToTile(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
     s32 facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -96,7 +96,7 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, tile->unk_24, tile->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
             action->unk_9B = action->unk_9B + 1;
         }
         break;
@@ -113,8 +113,8 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile->unk_24, tile->unk_25);
-        func_800A4ACC(entity);
+        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+        dungeonAdvanceStatusTimers(entity);
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (u16) dungeonStatus.unk_08 - 1;
         }
@@ -127,12 +127,12 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
+                    entity->facing = dungeonGetRoundedFacingAndRoundingFlag(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
                         &facing_aux);
                 }
             }
         }
-        if ((func_800AD9B4(tile, entity) << 0x10) > 0) {
+        if ((dungeonCheckActorFloorTrap(tile, entity) << 0x10) > 0) {
             action->unk_8C = D_8016F78C;
             func_800A9A04(entity);
         }

@@ -98,7 +98,7 @@ extern s32 D_80073740[128];
 extern S_80085458 D_80085458[64];
 extern s32 D_80085F98[4];
 extern S_80086A40 D_80086A40[16];
-extern void func_80056DB4(s32 request_index);
+extern void soundResetIndexedVoiceEnvelope(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 voice_mask);
 extern void func_8005EC0C(void *a0);
@@ -193,7 +193,7 @@ void func_8005B4D0(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_ga
 
             }
             if (voice_slot != (-1)) {
-                func_80056DB4(voice_slot);
+                soundResetIndexedVoiceEnvelope(voice_slot);
                 do {
                     func_8005E97C(0, D_80073740[voice_slot]);
                     voice_status = func_8005EB78(D_80073740[voice_slot]);

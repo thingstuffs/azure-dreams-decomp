@@ -25,7 +25,7 @@ extern GlobalState *D_807013A8[];
 extern void func_80701274(void);
 
 /* Selects a record list and resolves its indices through the global lookup table. */
-void func_80880298(s32 list_index) {
+void townGridResolveIndexedRecords(s32 list_index) {
     void *records;
 
     if (D_80700B0C != 0) {

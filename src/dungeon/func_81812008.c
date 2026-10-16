@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
+s32 dungeonPackSelectedMenuEntries(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 start_entry;
     s32 buffer;
     s32 entry_index;
@@ -19,7 +19,7 @@ s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
         if (copy_count >= 9) {
             copy_count = 8;
         }
-        entry_index = func_80026EC0(held_entry_set, start_entry);
+        entry_index = dungeonFindMenuEntryOccurrence(held_entry_set, start_entry);
         copied_count = 0;
         if (copy_count > 0) {
             entries = (ovl_1831cd8_81812008_Entry19 *)0x800157C0;
@@ -27,7 +27,7 @@ s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
             do {
                 strncpy(write_ptr,
                         (u8 *)((u32)(entry_index * 0x13) + (u32)entries), 0x12);
-                entry_index = func_80026F04(held_entry_set, entry_index + 1);
+                entry_index = dungeonFindMenuEntryFromIndex(held_entry_set, entry_index + 1);
                 copied_count += 1;
                 write_ptr += 0x12;
             } while (copied_count < copy_count);

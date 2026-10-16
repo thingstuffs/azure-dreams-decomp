@@ -73,7 +73,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
-void func_80170514(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
+void dungeonUpdateObjectAnimationDispatchesActionAdjustsFacing(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
 {
     u32 entry_status = D_80085990.flags;
     s32 state_flags;

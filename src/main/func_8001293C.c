@@ -4,13 +4,13 @@
 
 
 extern void SD_Call(s32);
-extern void func_80025D34(void *);
-extern void func_80027AFC(s32, s32);
+extern void cardBootDestroySlotSelectionMenu(void *);
+extern void initCardBootRequestObject(s32, s32);
 extern void func_8002592C(void *);
-extern void func_800258C8(void *);
-extern s32 func_80049DE8(s32, s32, s32);
-extern void func_80025030(void *);
-extern s32 func_8002168C(void);
+extern void cardBootDispatchSelectedMenuAction(void *);
+extern s32 advanceIndexWithSingleWrap(s32, s32, s32);
+extern void cardBootRefreshFiveSlotSelection(void *);
+extern s32 cardBootDebounceCardStatusEvents(void);
 extern void func_80021904(void);
 
 /* Handle menu selection, directional repeat, and closing from controller input and update status. */
@@ -31,8 +31,8 @@ void func_8002593C(u8 *object)
         pressed_buttons = ((s32)gameWork.unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
-            func_80025D34(object - 0x20);
-            func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
+            cardBootDestroySlotSelectionMenu(object - 0x20);
+            initCardBootRequestObject(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
             return;
         }
         if (pressed_buttons & 0x40) {
@@ -41,7 +41,7 @@ void func_8002593C(u8 *object)
                 func_8002592C(object);
                 needs_refresh = 1;
             } else {
-                func_800258C8(object);
+                cardBootDispatchSelectedMenuAction(object);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
@@ -79,26 +79,26 @@ void func_8002593C(u8 *object)
             SD_Call(0x502);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 1) {
                 ((Rec_func_80025030_arg0 *)object)->unk_28 =
-                    func_80049DE8(((Rec_func_80025030_arg0 *)object)->unk_28, selection_step, 5);
+                    advanceIndexWithSingleWrap(((Rec_func_80025030_arg0 *)object)->unk_28, selection_step, 5);
             } else {
                 ((Rec_func_80025030_arg0 *)object)->unk_44 =
-                    func_80049DE8(((Rec_func_80025030_arg0 *)object)->unk_44, selection_step, 3);
+                    advanceIndexWithSingleWrap(((Rec_func_80025030_arg0 *)object)->unk_44, selection_step, 3);
             }
-            func_80025030(object);
+            cardBootRefreshFiveSlotSelection(object);
         }
     }
 
-    update_status = func_8002168C();
+    update_status = cardBootDebounceCardStatusEvents();
     func_80021904();
     if (update_status != 0) {
         if (update_status != 1) {
-            func_80025D34(object - 0x20);
-            func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
+            cardBootDestroySlotSelectionMenu(object - 0x20);
+            initCardBootRequestObject(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
         }
     }
 
     if (needs_refresh != 0) {
-        func_80025030(object);
+        cardBootRefreshFiveSlotSelection(object);
     }
     return;
 }

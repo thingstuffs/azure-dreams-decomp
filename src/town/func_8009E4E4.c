@@ -3,35 +3,35 @@
 
 typedef void (*Callback)(void *, void *, void *, s32);
 
-extern void func_80095388(void *);
-extern void func_8009539C(void *);
-extern s16 func_8008F170(void *, void *);
-extern void func_8008F27C(void *, void *, s16);
-extern void func_8008F294(void *, void *);
-extern void func_8008F664(void *, void *);
-extern s32 func_8008C180(s16, s16);
-extern s32 func_800C1D44(u16);
+extern void townAddHex20000SSignedOffsetHex14(void *);
+extern void townAddMotionDeltasToPosition(void *);
+extern s16 townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(void *, void *);
+extern void townSetTheStateFlagInitializeSFixedPointClearPairedField(void *, void *, s16);
+extern void townCallTheSameContextBothProcessingRoutines(void *, void *);
+extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
+extern s32 townReadMapCellAtWorldPosition(s16, s16);
+extern s32 townCheckMaskedValueInCurrentRange(u16);
 extern void SD_Call(s32);
 
 extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
 
 /* Update motion, handle contact callbacks, and play the terrain height sound. */
-void func_8009BC44(void *entity, void *collision, void *motion, s32 callback_arg) {
+void townUpdateMotionAndHandleTerrainContactAlt(void *entity, void *collision, void *motion, s32 callback_arg) {
     s16 contact_height;
     s32 contact_height_s32;
 
-    func_80095388(motion);
+    townAddHex20000SSignedOffsetHex14(motion);
     if (*(s32 *)((u8 *)motion + 0x14) > 0x200000) {
         *(s32 *)((u8 *)motion + 0x14) = 0x200000;
     }
-    func_8009539C(motion);
-    contact_height = func_8008F170(motion, ((u8 *)&D_800FE488));
-    func_8008F294(collision, motion);
-    func_8008F664(collision, motion);
+    townAddMotionDeltasToPosition(motion);
+    contact_height = townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(motion, ((u8 *)&D_800FE488));
+    townCallTheSameContextBothProcessingRoutines(collision, motion);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(collision, motion);
     contact_height_s32 = contact_height;
     if (*(s16 *)((u8 *)motion + 0xA) >= contact_height_s32) {
-        func_8008F27C(collision, motion, contact_height_s32);
+        townSetTheStateFlagInitializeSFixedPointClearPairedField(collision, motion, contact_height_s32);
         ((Callback *)(*(void **)((u8 *)entity + 0x58)))[1](entity, collision, motion, callback_arg);
     } else if (*(u8 *)((u8 *)collision + 0x3B) != 0) {
         *(s32 *)((u8 *)motion + 0xC) = 0;
@@ -43,7 +43,7 @@ void func_8009BC44(void *entity, void *collision, void *motion, s32 callback_arg
         *(void **)((u8 *)entity + 0x50) == D_8009B454) {
         s32 terrain_index;
 
-        terrain_index = func_800C1D44((u16)func_8008C180(
+        terrain_index = townCheckMaskedValueInCurrentRange((u16)townReadMapCellAtWorldPosition(
             *(s16 *)((u8 *)motion + 2), *(s16 *)((u8 *)motion + 6)));
         if (terrain_index != 0) {
             s16 height = *(s16 *)((u8 *)motion + 0xA);

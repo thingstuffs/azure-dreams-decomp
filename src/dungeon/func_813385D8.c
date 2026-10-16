@@ -7,7 +7,7 @@ typedef struct S_8016F5D8_0 {
     u16 unk_04;
     u8 pad_06[0x26];
     s32 unk_2C;
-} S_8016F5D8_0;   /* arg2 in func_8016F5D8 */
+} S_8016F5D8_0;   /* arg2 in dungeonUpdatePhaseDrivenMotionOffset */
 
 typedef struct S_8016F5D8_1 {
     u8 pad_00[0x92];
@@ -15,12 +15,12 @@ typedef struct S_8016F5D8_1 {
     u8 pad_94[0xA];
     u16 unk_9E;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
-} S_8016F5D8_1;   /* arg0 in func_8016F5D8 */
+} S_8016F5D8_1;   /* arg0 in dungeonUpdatePhaseDrivenMotionOffset */
 
 typedef struct S_8016F5D8_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016F5D8_2;   /* arg1 in func_8016F5D8 */
+} S_8016F5D8_2;   /* arg1 in dungeonUpdatePhaseDrivenMotionOffset */
 
 
 s32 func_800644B8();                        /* extern */
@@ -29,7 +29,7 @@ extern M2C_UNK D_80173DB4;
 extern u8 *D_80175D54;
 
 /* Advances the phase-driven offset and writes the adjusted output value. */
-void func_8016F5D8(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *command) {
+void dungeonUpdatePhaseDrivenMotionOffset(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *command) {
     s32 command_table;
     s32 phase;
     s32 fast_count;

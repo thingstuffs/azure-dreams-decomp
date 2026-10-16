@@ -19,8 +19,8 @@ extern s32 D_800E0B54;
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
-extern s32 func_80099368(s32 *, s32);
-extern void func_800A4300(void *entity, void *search_state);
+extern s32 dungeonAppendTypedFormattedValue(s32 *, s32);
+extern void dungeonSelectPositionDataAndUpdateOwner(void *entity, void *search_state);
 extern void func_800A5720(s8 *text);
 extern s32 func_800A71F4(void);
 extern s32 func_800A7234(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
@@ -61,7 +61,7 @@ s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
                 record->w2 = (u16)tile_value;
                 record->value = func_800A7A38(object_data);
                 func_8009A21C(tile_x, tile_y, 0x800);
-                func_800A4300(((u8 *)(&D_80082E80)), ((u8 *)D_800E3D7C));
+                dungeonSelectPositionDataAndUpdateOwner(((u8 *)(&D_80082E80)), ((u8 *)D_800E3D7C));
             }
             return 1;
         }
@@ -70,7 +70,7 @@ s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
     func_800A7700(x_short, y_short, z_short, object_data);
     output_cursor = func_800990FC();
     output_start = output_cursor;
-    output_cursor = func_80099368(object_data, output_cursor);
+    output_cursor = dungeonAppendTypedFormattedValue(object_data, output_cursor);
     output_cursor = func_80099194(&D_800E0B54, output_cursor);
     func_80099290(output_cursor);
     func_800A5720(output_start);

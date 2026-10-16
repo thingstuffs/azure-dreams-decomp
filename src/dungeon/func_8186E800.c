@@ -8,8 +8,8 @@ extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
 extern s32 func_80099734(void *record, u8 *out);
-extern void func_80099844(void *, void *);
-extern s32 func_8009D218(void *, s32);
+extern void dungeonAdjustSourceValueAndFinalize(void *, void *);
+extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32);
 extern s32 func_800A48F0(void *, s32, s8);
 extern void func_800A5720(s8 *text);
 extern s32 func_800A6870(s16 input_value);
@@ -26,11 +26,11 @@ void func_8002407C(S_func_8186E800_0 *entity, s32 effect_param, void *context)
     s32 message_end;
     s32 message_start;
 
-    if (func_8009D218(entity, 1) == 0) {
+    if (dungeonTryTriggerTargetRecordEffect(entity, 1) == 0) {
         if ((func_800A48F0(entity, 0x12,
                            (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
             if (entity->unk_14 & 0x4000) {
-                func_80099844(entity, &D_800E1C64);
+                dungeonAdjustSourceValueAndFinalize(entity, &D_800E1C64);
                 return;
             }
         } else if (entity->unk_14 & 0x4000) {

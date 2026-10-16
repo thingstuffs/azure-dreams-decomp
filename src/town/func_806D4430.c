@@ -12,7 +12,7 @@ extern M2C_UNK D_80018B94;
 extern M2C_UNK D_8001A04A;
 
 /* Selects a request result and conditionally advances a three-state cursor. */
-M2C_UNK *func_806D4430(s32 entry_id, s32 unused, s32 request_id) {
+M2C_UNK *func_80016430(s32 entry_id, s32 unused, s32 request_id) {
     M2C_UNK *result;
     s32 cursor;
 

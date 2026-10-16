@@ -9,7 +9,7 @@ typedef struct {
 
 s32 func_800644B8(s16);
 s32 func_80064584(s16);
-void func_800B835C(void *, s32 *, s32, s32);
+void dungeonDrawTexturedEllipse(void *, s32 *, s32, s32);
 
 extern Counter D_80026472;
 extern u8 D_80026478[];
@@ -17,7 +17,7 @@ extern u8 D_80026478[];
 
 typedef struct S_80025E48_0_pre {
     u16 unk_00;
-} S_80025E48_0_pre;   /* the 0x2 bytes before arg0 in func_80025E48, addressed as arg0[-1] */
+} S_80025E48_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateStagedEffectFade, addressed as arg0[-1] */
 
 typedef struct S_80025E48_0 {
     u8 pad_00[0xA];
@@ -36,7 +36,7 @@ typedef struct S_80025E48_0 {
     u8 pad_60[0x4];
     union { s16 s; u16 u; } unk_64;   /* accessed as both */
     union { s16 s; u16 u; } unk_66;   /* accessed as both */
-} S_80025E48_0;   /* arg0 in func_80025E48 */
+} S_80025E48_0;   /* arg0 in dungeonUpdateStagedEffectFade */
 
 typedef struct S_80025E48_1 {
     u8 pad_00[0x2];
@@ -51,15 +51,15 @@ typedef struct S_80025E48_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_80025E48_1;   /* arg1 in func_80025E48 */
+} S_80025E48_1;   /* arg1 in dungeonUpdateStagedEffectFade */
 
 typedef struct S_80025E48_2 {
     u8 pad_00[0xD];
     u8 unk_0D;
-} S_80025E48_2;   /* arg2 in func_80025E48 */
+} S_80025E48_2;   /* arg2 in dungeonUpdateStagedEffectFade */
 
 /* Update the effect position, staged motion, and color fades, then mark completion. */
-void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
+void dungeonUpdateStagedEffectFade(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
 {
     s32 draw_params[2];
     s16 state;
@@ -154,7 +154,7 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
                 glow_color += color_step;
                 glow[0xC] = glow_color;
                 glow[0xD] = glow_color;
-                func_800B835C(glow, draw_params, 1, 0);
+                dungeonDrawTexturedEllipse(glow, draw_params, 1, 0);
             }
             frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
             ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
@@ -198,7 +198,7 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
                 glow_color += color_step;
                 glow[0xC] = glow_color;
                 glow[0xD] = glow_color;
-                func_800B835C(glow, draw_params, 1, 0);
+                dungeonDrawTexturedEllipse(glow, draw_params, 1, 0);
             }
             if (((S_80025E48_0 *)effect)->unk_24 != 0) {
                 fast_color = tint->unk_0D;

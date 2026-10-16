@@ -10,7 +10,7 @@ void func_804040C8();                       /* extern */
  * are 8 bytes apart and sit just BEFORE this anchor address (negative offsets). */
 extern s32 D_800A0000[];
 
-void func_80404178(s32 *ptr) {
+void mainCompletePendingObjectState(s32 *ptr) {
     s32 offset;
 
     func_80403F1C((u8 *)ptr + 0xB0, 0x80, 0x18);

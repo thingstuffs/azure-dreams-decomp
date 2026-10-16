@@ -39,7 +39,7 @@ extern void func_800542BC(void);
 extern u32 func_80069EF8(void);
 
 /* Update the staged particle effect and clear its actor state when it finishes. */
-void func_80025D68(Work *work, s32 position_arg, s32 sprite_arg)
+void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
 {
     OffsetTable offsets;
     Effect *effect;

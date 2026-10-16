@@ -12,24 +12,24 @@ extern u8 D_80080000[];
 typedef struct S_800930F0_12 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in func_800930F0 */
+} S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in dungeonUpdateFloorExitTransition */
 
 
 typedef struct S_800930F0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800930F0_1;   /* arg2 in func_800930F0 */
+} S_800930F0_1;   /* arg2 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800930F0_2;   /* arg3 in func_800930F0 */
+} S_800930F0_2;   /* arg3 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_3 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_800930F0_3;   /* var_s2 in func_800930F0 */
+} S_800930F0_3;   /* var_s2 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_4 {
     u8 pad_00[0x234];
@@ -41,45 +41,45 @@ typedef struct S_800930F0_4 {
     s16 unk_3716;
     s16 unk_3718;
     s16 unk_371A;
-} S_800930F0_4;   /* var_s0 in func_800930F0 */
+} S_800930F0_4;   /* var_s0 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_5 {
     union { M2C_UNK * s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
     s32 unk_04;
     s32 unk_08;
-} S_800930F0_5;   /* &D_800E4938 in func_800930F0 */
+} S_800930F0_5;   /* &D_800E4938 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_6 {
     s32 unk_00;
-} S_800930F0_6;   /* &D_800E296C in func_800930F0 */
+} S_800930F0_6;   /* &D_800E296C in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_7 {
     u16 unk_00;
-} S_800930F0_7;   /* &D_80013714 in func_800930F0 */
+} S_800930F0_7;   /* &D_80013714 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_8 {
     u8 pad_00[0x3CD0];
     union { u8 s; s8 u; } unk_3CD0;   /* accessed as both */
-} S_800930F0_8;   /* var_v1 in func_800930F0 */
+} S_800930F0_8;   /* var_v1 in dungeonUpdateFloorExitTransition */
 
 typedef struct S_800930F0_9 {
     u8 pad_00[0x2E76];
     u16 unk_2E76;
-} S_800930F0_9;   /* store_base in func_800930F0 */
+} S_800930F0_9;   /* store_base in dungeonUpdateFloorExitTransition */
 
 
 void func_80040AA0();
 void func_80041094();
 s32 func_800429E4();
 void func_80043568();
-void func_800481E0();
-void func_800945E8(); /* extern */
-void func_800948BC();
+void markSpriteResourcesForPurge();
+void dungeonSnapshotInventoryAndFamiliars(); /* extern */
+void dungeonSnapshotInventoryFamiliarRecords();
 s32 func_800A56E0(); /* extern */
 s32 func_800A613C();
 s32 func_800A6780(); /* extern */
-void func_800B2074();
-void *func_800C542C();
+void dungeonCreateMapPositionObject();
+void *dungeonCreateOrbitingTeleportEffect();
 extern s32 D_80010234;
 typedef struct {
     s32 unk0;
@@ -97,7 +97,7 @@ extern M2C_UNK D_800E3CD0;
 extern M2C_UNK D_800E4938;
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
+void dungeonUpdateFloorExitTransition(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
     M2C_UNK *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
@@ -114,14 +114,14 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
     case 0:
         slot_index = 1;
         state->unk_96 = 0U;
-        func_800B2074((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
+        dungeonCreateMapPositionObject((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
         type_values = &D_800DCED4;
         slot_cursor = (s32 *)state + 1;
         actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
         do {
             slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
             if (slot_object != 0) {
-                func_800C542C(slot_object, type_values[func_800429E4(slot_object)], (s16)slot_index, 0);
+                dungeonCreateOrbitingTeleportEffect(slot_object, type_values[func_800429E4(slot_object)], (s16)slot_index, 0);
             }
             slot_index -= 1;
             slot_cursor -= 1;
@@ -143,8 +143,8 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
             func_80040AA0(3U);
             break;
         }
-        func_800945E8(state);
-        func_800948BC();
+        dungeonSnapshotInventoryAndFamiliars(state);
+        dungeonSnapshotInventoryFamiliarRecords();
         {
             UnalignedCopy3 *copy_src;
             UnalignedCopy3 *copy_dst;
@@ -197,7 +197,7 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
         }
         func_80040AA0(D_80082E6B);
         D_8008146C = *(u16 *)0x80010234;
-        func_800481E0();
+        markSpriteResourcesForPurge();
         state->unk_9B = (u8) (state->unk_9B + 1);
         break;
     case 16:
@@ -210,8 +210,8 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
             func_80040AA0(3U);
             break;
         }
-        func_800945E8(state);
-        func_800948BC();
+        dungeonSnapshotInventoryAndFamiliars(state);
+        dungeonSnapshotInventoryFamiliarRecords();
         {
             s32 command;
             s32 zero_arg_1;

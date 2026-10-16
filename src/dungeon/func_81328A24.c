@@ -9,26 +9,26 @@ typedef struct S_80170224_0 {
     u8 unk_71;
     u8 pad_72[0x3E];
     u16 unk_B0;
-} S_80170224_0;   /* base in func_80170224 */
+} S_80170224_0;   /* base in dungeonUpdateBossActionResult */
 
 
-extern s16 func_800ADDA0(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
-extern void func_8016FCE4(void *, s32, s32, void *);
+extern s16 dungeonRelinkEntityAndClearHighFlag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern void dungeonAdvanceBossActorMovementState(void *, s32, s32, void *);
 extern void func_800A9A0C(void *);
 extern s16 func_800A2BDC(void *);
 
 /* Updates an entity's state and flags according to its action result. */
-s32 func_80170224(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s16 force_action) {
+s32 dungeonUpdateBossActionResult(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s16 force_action) {
     void *entity_data = entity;
     s16 action_result;
 
     if (((S_80170224_0 *)entity_data)->unk_B0 != 0) {
-        action_result = func_800ADDA0(target_x, target_y, entity_data, 3, 6, (u8 *)entity_data + 0x9C);
+        action_result = dungeonRelinkEntityAndClearHighFlag(target_x, target_y, entity_data, 3, 6, (u8 *)entity_data + 0x9C);
         if (action_result < 0) {
             return 0;
         }
         if (force_action != 0) {
-            func_8016FCE4(entity_data, target_x, target_y, entity_data);
+            dungeonAdvanceBossActorMovementState(entity_data, target_x, target_y, entity_data);
             return 0;
         }
     } else {
@@ -42,7 +42,7 @@ s32 func_80170224(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s1
         return 0;
 
     case 2:
-        func_8016FCE4(entity, target_x, target_y, entity_data);
+        dungeonAdvanceBossActorMovementState(entity, target_x, target_y, entity_data);
         return 0;
 
     case 1:

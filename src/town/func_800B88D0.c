@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
-extern u8 *func_8004E69C(u8 *string);
+extern u8 *remapFlaggedStringBytes(u8 *string);
 
 /* Builds and processes a short encoded sequence in the output buffer. */
-void *func_800B6030(void *source, u8 *outputBuffer) {
+void *townBuildEncodedDisplaySequence(void *source, u8 *outputBuffer) {
     u8 *payload;
 
     payload = outputBuffer + 1;
@@ -13,6 +13,6 @@ void *func_800B6030(void *source, u8 *outputBuffer) {
     outputBuffer[3] = 0xA;
     outputBuffer[4] = 0x6F;
     outputBuffer[5] = 0;
-    func_8004E69C(payload);
+    remapFlaggedStringBytes(payload);
     return outputBuffer;
 }

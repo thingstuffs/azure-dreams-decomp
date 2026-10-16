@@ -1,28 +1,10 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-M2C_UNK func_8001628C();    /* extern */
-/* Retail forwards the entry $a2 context unchanged to this three-argument callee. */
-s32 func_80017E98(s32, s32, s32);                                /* extern */
-s32 func_80019A04();      /* extern */
-s32 func_80019ABC(); /* extern */
-s32 func_8001A510();                             /* extern */
-extern M2C_UNK D_8001A9AC;
-extern s32 D_8001B1F8;
-extern s32 D_8001B63C;
-extern M2C_UNK D_8001CFB4;
-
-typedef struct S_8001747C_0 {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_8001747C_0;   /* arg0 in func_8001747C */
-
-/* Returns a handler result or a fixed fallback address based on the object checks. */
 s32 func_8001747C(s32 object, s32 request, s32 context) {
     s32 default_result;
     s32 result;
 
-    if (func_80017E98(object, request, context) != 0) {
+    if (townCheckTableResultBelowMinus47(object, request, context) != 0) {
         return (s32)((u8 *)&D_8001B63C);
     }
     default_result = func_80019ABC(&D_8001A9AC, &D_8001B1F8, object, context);

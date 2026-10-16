@@ -23,7 +23,7 @@ s32 func_8009FB34();
 
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
-u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
+u32 findNearestFloorItemInRoom(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     s16 best_distance;
     s32 best_index;
     s32 i;

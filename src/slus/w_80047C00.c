@@ -10,7 +10,7 @@ extern S_80083D08 D_80083D08[6];
 extern void bzero(void *ptr, s32 n);
 
 /* Clears each of the six entries whose flags have bit 0 set. */
-void func_80047C00(void) {
+void clearMarkedSlotEntries(void) {
     s32 slot_index;
     S_80083D08 *slot;
 

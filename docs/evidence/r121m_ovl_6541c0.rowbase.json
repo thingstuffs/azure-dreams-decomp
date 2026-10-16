@@ -1,0 +1,361 @@
+{
+  "group": "ovl_6541c0.c#55",
+  "delta": 2140938240,
+  "start": 6635968,
+  "end": 6639416,
+  "local_jumps": [
+    {
+      "row": "func_806D462C",
+      "foff": 6637212,
+      "word": "0x080059B5",
+      "target": 2147575508,
+      "offset": 168,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D462C",
+      "foff": 6637256,
+      "word": "0x080059B5",
+      "target": 2147575508,
+      "offset": 168,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4714",
+      "foff": 6637444,
+      "word": "0x08005A09",
+      "target": 2147575844,
+      "offset": 272,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4714",
+      "foff": 6637548,
+      "word": "0x08005A09",
+      "target": 2147575844,
+      "offset": 272,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4714",
+      "foff": 6637592,
+      "word": "0x08005A09",
+      "target": 2147575844,
+      "offset": 272,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4844",
+      "foff": 6637736,
+      "word": "0x08005A41",
+      "target": 2147576068,
+      "offset": 192,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D49F0",
+      "foff": 6638180,
+      "word": "0x08005A9C",
+      "target": 2147576432,
+      "offset": 128,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4B9C",
+      "foff": 6638540,
+      "word": "0x08005B27",
+      "target": 2147576988,
+      "offset": 256,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4B9C",
+      "foff": 6638736,
+      "word": "0x08005B27",
+      "target": 2147576988,
+      "offset": 256,
+      "delta": 2140938240
+    },
+    {
+      "row": "func_806D4D98",
+      "foff": 6639052,
+      "word": "0x08005B79",
+      "target": 2147577316,
+      "offset": 76,
+      "delta": 2140938240
+    }
+  ],
+  "old_regions": [
+    {
+      "base_confidence": "proven",
+      "delta": "0x7F9C2000",
+      "foff_end": "0x654e00",
+      "foff_start": "0x65462c",
+      "proof": "gap probe town-rowbase j-solve sweep (2026-07-19): unique 0x800-aligned delta with full j-consistency across 6 row(s), 6 j constraints (0 multi-j rows); hard delta interval 0x7f9c1fe8..0x7f9c204c (H4 caveat: town has proven unaligned bases, so the exact delta within this interval is fixture-pending); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_806D462C at true base 0x8001662C (candidate sha 11e5e135a9c0 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)",
+      "region": "sweep_65462C",
+      "schema": "azure-clean.rowbase.v1",
+      "reviewer": "orchestrator-r120"
+    }
+  ],
+  "affected_rows": [
+    "func_806D41C0",
+    "func_806D4204",
+    "func_806D42B4",
+    "func_806D435C",
+    "func_806D43CC",
+    "func_806D4430",
+    "func_806D450C",
+    "func_806D4578",
+    "func_806D45CC",
+    "func_806D462C",
+    "func_806D46F4",
+    "func_806D4714",
+    "func_806D4844",
+    "func_806D49D0",
+    "func_806D49F0",
+    "func_806D4A90",
+    "func_806D4B50",
+    "func_806D4B9C",
+    "func_806D4CC0",
+    "func_806D4D18",
+    "func_806D4D78",
+    "func_806D4D98",
+    "func_806D4EA0",
+    "func_806D4ECC"
+  ],
+  "recipe": "2.7.2-cdk-G0| x24",
+  "extension_links": [
+    {
+      "row": "func_806D41C0",
+      "true": "0x800161C0",
+      "incoming": [
+        {
+          "foff": 6646292,
+          "kind": "pointer",
+          "word": "0x800161C0"
+        }
+      ]
+    },
+    {
+      "row": "func_806D4204",
+      "true": "0x80016204",
+      "incoming": [
+        {
+          "foff": 6646312,
+          "kind": "pointer",
+          "word": "0x80016204"
+        },
+        {
+          "foff": 6646344,
+          "kind": "pointer",
+          "word": "0x80016204"
+        },
+        {
+          "foff": 6646376,
+          "kind": "pointer",
+          "word": "0x80016204"
+        },
+        {
+          "foff": 6646424,
+          "kind": "pointer",
+          "word": "0x80016204"
+        }
+      ]
+    },
+    {
+      "row": "func_806D42B4",
+      "true": "0x800162B4",
+      "incoming": [
+        {
+          "foff": 6646328,
+          "kind": "pointer",
+          "word": "0x800162B4"
+        }
+      ]
+    },
+    {
+      "row": "func_806D435C",
+      "true": "0x8001635C",
+      "incoming": [
+        {
+          "foff": 6646324,
+          "kind": "pointer",
+          "word": "0x8001635C"
+        }
+      ]
+    },
+    {
+      "row": "func_806D43CC",
+      "true": "0x800163CC",
+      "incoming": [
+        {
+          "foff": 6646340,
+          "kind": "pointer",
+          "word": "0x800163CC"
+        }
+      ]
+    },
+    {
+      "row": "func_806D4430",
+      "true": "0x80016430",
+      "incoming": [
+        {
+          "foff": 6646360,
+          "kind": "pointer",
+          "word": "0x80016430"
+        }
+      ]
+    },
+    {
+      "row": "func_806D450C",
+      "true": "0x8001650C",
+      "incoming": [
+        {
+          "foff": 6646356,
+          "kind": "pointer",
+          "word": "0x8001650C"
+        }
+      ]
+    },
+    {
+      "row": "func_806D4578",
+      "true": "0x80016578",
+      "incoming": []
+    },
+    {
+      "row": "func_806D45CC",
+      "true": "0x800165CC",
+      "incoming": [
+        {
+          "foff": 6646372,
+          "kind": "pointer",
+          "word": "0x800165CC"
+        }
+      ]
+    },
+    {
+      "row": "func_806D4EA0",
+      "true": "0x80016EA0",
+      "incoming": [
+        {
+          "foff": 6643728,
+          "kind": "jal",
+          "word": "0x0C005BA8"
+        }
+      ]
+    },
+    {
+      "row": "func_806D4ECC",
+      "true": "0x80016ECC",
+      "incoming": []
+    }
+  ],
+  "byte_reproof": {
+    "row": "func_806D462C",
+    "source_sha256": "e4053fe22241b4e0bee1cc125c5ab163ef51fcf346635b6126b3cf6eada8d2ff",
+    "target_sha256": "70bd3bad593e8df3ab965235a9c32ea4f28a7b2482e52c7b2c1b3b88c16f7e6c",
+    "recipe": "2.7.2-cdk-G0",
+    "status": "MATCH",
+    "exact": true,
+    "comparison_mode": "linked-strict"
+  },
+  "reproof_rows": [
+    {
+      "row": "func_806D41C0",
+      "passed": true
+    },
+    {
+      "row": "func_806D4204",
+      "passed": true
+    },
+    {
+      "row": "func_806D42B4",
+      "passed": true
+    },
+    {
+      "row": "func_806D435C",
+      "passed": true
+    },
+    {
+      "row": "func_806D43CC",
+      "passed": true
+    },
+    {
+      "row": "func_806D4430",
+      "passed": true
+    },
+    {
+      "row": "func_806D450C",
+      "passed": true
+    },
+    {
+      "row": "func_806D4578",
+      "passed": true
+    },
+    {
+      "row": "func_806D45CC",
+      "passed": true
+    },
+    {
+      "row": "func_806D462C",
+      "passed": true
+    },
+    {
+      "row": "func_806D46F4",
+      "passed": true
+    },
+    {
+      "row": "func_806D4714",
+      "passed": true
+    },
+    {
+      "row": "func_806D4844",
+      "passed": true
+    },
+    {
+      "row": "func_806D49D0",
+      "passed": true
+    },
+    {
+      "row": "func_806D49F0",
+      "passed": true
+    },
+    {
+      "row": "func_806D4A90",
+      "passed": true
+    },
+    {
+      "row": "func_806D4B50",
+      "passed": true
+    },
+    {
+      "row": "func_806D4B9C",
+      "passed": true
+    },
+    {
+      "row": "func_806D4CC0",
+      "passed": true
+    },
+    {
+      "row": "func_806D4D18",
+      "passed": true
+    },
+    {
+      "row": "func_806D4D78",
+      "passed": true
+    },
+    {
+      "row": "func_806D4D98",
+      "passed": true
+    },
+    {
+      "row": "func_806D4EA0",
+      "passed": true
+    },
+    {
+      "row": "func_806D4ECC",
+      "passed": true
+    }
+  ],
+  "scope_note": "Conservative ledger-cohort extension of the same physical bank. All local direct jumps in the included split bodies agree with this delta; this is a static link-map proof, not a runtime loader observation. Historical TU boundaries are not claimed."
+}

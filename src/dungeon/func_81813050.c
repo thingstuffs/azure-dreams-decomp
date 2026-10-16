@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_80028050(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
+void dungeonInitializeMenuHeaderRecords(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
     ovl_1831cd8_81813050_Template0 *defaults_a = &D_8002E5D8;
     ovl_1831cd8_81813050_Template1 *defaults_b = &D_8002E5E8;
     s32 *first_word;

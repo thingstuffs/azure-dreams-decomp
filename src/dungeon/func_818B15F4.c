@@ -11,13 +11,13 @@ s32 func_80024DF4(void *state_ptr, void *second_ptr, void *third_ptr)
     default:
         break;
     case 4:
-        func_800249B4(state_ptr, second_ptr, third_ptr);
+        dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments(state_ptr, second_ptr, third_ptr);
         break;
     case 5:
-        func_80024B34(state_ptr, second_ptr, third_ptr);
+        dungeonBuildACircularLookupTableSubmitEightPhaseShiftedEntries(state_ptr, second_ptr, third_ptr);
         break;
     case 6:
-        func_80024C84(state_ptr, second_ptr, third_ptr);
+        dungeonFadeEffectSpriteToBlack(state_ptr, second_ptr, third_ptr);
         break;
     }
     return 0;

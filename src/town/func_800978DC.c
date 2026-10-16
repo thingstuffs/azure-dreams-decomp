@@ -6,15 +6,15 @@
  * to force %hi/%lo addressing). */
 
 
-extern s32 func_80094BC8(s32 unused, s16 angle_offset);
-extern void func_80094F58(s16 angle, s32 max_length, s32 vector);
+extern s32 townInputAngleWithOffset(s32 unused, s16 angle_offset);
+extern void townAddADirectionalStepVectorScaleDownExceedsLengthLimit(s16 angle, s32 max_length, s32 vector);
 
-/* Passes the valid shared angle, fixed value 0x120000, and context to func_80094F58. */
-void func_8009503C(s32 context)
+/* Passes the valid shared angle, fixed value 0x120000, and context to townAddADirectionalStepVectorScaleDownExceedsLengthLimit. */
+void townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(s32 context)
 {
-    s16 angle = func_80094BC8(gameWork.buttons, gameWork.view.viewAngle);
+    s16 angle = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
 
     if (angle != -1) {
-        func_80094F58(angle, 0x120000, context);
+        townAddADirectionalStepVectorScaleDownExceedsLengthLimit(angle, 0x120000, context);
     }
 }

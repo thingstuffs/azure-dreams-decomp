@@ -4,7 +4,7 @@
 
 typedef struct S_80172DFC_0_pre {
     u16 unk_00;
-} S_80172DFC_0_pre;   /* the 0x2 bytes before arg0 in func_80172DFC, addressed as arg0[-1] */
+} S_80172DFC_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateAcceleratingGrowingParticle, addressed as arg0[-1] */
 
 typedef struct S_80172DFC_0 {
     u8 pad_00[0x16];
@@ -17,19 +17,19 @@ typedef struct S_80172DFC_0 {
     s32 unk_64;
     s32 unk_68;
     s32 unk_6C;
-} S_80172DFC_0;   /* arg0 in func_80172DFC */
+} S_80172DFC_0;   /* arg0 in dungeonUpdateAcceleratingGrowingParticle */
 
 typedef struct S_80172DFC_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172DFC_1;   /* arg1 in func_80172DFC */
+} S_80172DFC_1;   /* arg1 in dungeonUpdateAcceleratingGrowingParticle */
 
 
 extern void func_800478B8(void *);
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
-void func_80172DFC(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animation) {
+void dungeonUpdateAcceleratingGrowingParticle(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animation) {
     u16 frame_count;
     u16 remaining_ticks;
 

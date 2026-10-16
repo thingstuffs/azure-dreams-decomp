@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_ef906c.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8014C86C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *dungeonSpawnConfiguredOverlayEffect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work;
@@ -107,13 +107,13 @@ void *func_8014C86C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 
                     elem->unk_12 = part_b->unk_12 - 128;
                     elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8014C86C_9 *)(base->unk_A4))->unk_10 = func_800D78C0;
+                    ((S_8014C86C_9 *)(base->unk_A4))->unk_10 = dungeonProcessEffectBlockEntries;
 
                     func_80047784(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8014C86C_6 *)child)->unk_06 = 0;
-                    func_800478E8(part_b, func_800D71A8, 0);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, dungeonDrawSpriteEffectQuads, 0);
                     ((S_8014C86C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }

@@ -15,7 +15,7 @@ typedef struct Func80039FC0State {
 } Func80039FC0State;
 
 /* Stores a little-endian 32-bit script operand in the indexed VM table entry. */
-void func_80039FC0(Func80039FC0State *state) {
+void vmOp52SetImmediateValue(Func80039FC0State *state) {
     u8 *cursor = state->read_ptr;
     Func80039FC0Table *table = state->table;
     u8 index = *cursor++;

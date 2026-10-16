@@ -14,6 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 if ROOT.name=='tools': ROOT=ROOT.parent
 SCHEMA='overlay-module-native-v4'
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling import when loaded as gate.overlay_module_gate
+from source_layout import row_relative, mapping as source_mapping
 import overlay_native_rodata as N
 import overlay_native_allocations as Z
 from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records
@@ -91,7 +92,7 @@ def _load_modules(root=ROOT):
  if (root/'config/overlay_modules_disabled').exists() or not path.exists(): return []
  doc=read_json(path)
  if doc['schema'] not in (SCHEMA,'overlay-module-native-v3','overlay-module-text-v2'):raise ValueError('unsupported manifest')
- reg=rows(root);seen=set();keys=set();assignments=None;levels=None
+ reg=rows(root);layout=source_mapping(root);seen=set();keys=set();assignments=None;levels=None
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
@@ -115,7 +116,7 @@ def _load_modules(root=ROOT):
    r=reg[a['id']]
    if a['id'] in seen:raise ValueError('duplicate member')
    seen.add(a['id'])
-   expected={'id':r['id'],'source':f"src/{r['container']}/{Path(r['c_path']).name}",'function':('func_%08X' % (r['foff']+delta+a['body_offset'])) if 'body_offset' in a else (r.get('true_name') or r['func']),'foff':r['foff'],'vma':r['foff']+delta,'size':r['size']}
+   expected={'id':r['id'],'source':row_relative(r, root, layout=layout),'function':('func_%08X' % (r['foff']+delta+a['body_offset'])) if 'body_offset' in a else (r.get('true_name') or r['func']),'foff':r['foff'],'vma':r['foff']+delta,'size':r['size']}
    if a in m.get('data_members',[]):
     expected.pop('function');expected['symbol']=r.get('true_name') or r['func']
     if r.get('row_kind')!='data':raise ValueError('prefix row is not data')
@@ -223,9 +224,9 @@ def validate_runtime(root,d):
 
 
 def graph(root=ROOT,*,modules=None,registry=None):
- root=Path(root);reg=rows(root) if registry is None else registry;mods=load_modules(root) if modules is None else modules;taken={a['id'] for m in mods for a in all_members(m)}
+ root=Path(root);layout=source_mapping(root);reg=rows(root) if registry is None else registry;mods=load_modules(root) if modules is None else modules;taken={a['id'] for m in mods for a in all_members(m)}
  edges=[{'module':m['key'],'source':m['source'],'recipe':m['recipe'],'rows':[a['id'] for a in all_members(m)]} for m in mods]
- edges += [{'source':f"src/{r['container']}/{Path(r['c_path']).name}",'recipe':{'cfg':r['cfg'],'row_asflags':r.get('row_asflags') or ''},'rows':[rid]} for rid,r in sorted(reg.items()) if rid not in taken]
+ edges += [{'source':row_relative(r, root, layout=layout),'recipe':{'cfg':r['cfg'],'row_asflags':r.get('row_asflags') or ''},'rows':[rid]} for rid,r in sorted(reg.items()) if rid not in taken]
  return {'schema':SCHEMA,'logical_rows':len(reg),'edges':edges}
 
 def affected_windows(m,root=ROOT,*,parsed_windows=None):
@@ -290,7 +291,7 @@ def fingerprint(m,root=ROOT,windows=True):
  return legacy_fingerprint(m,root,windows=windows)
 
 def legacy_fingerprint(m,root=ROOT,windows=True):
- root=Path(root).absolute();wins=affected_windows(m,root);compiler_versions={module_compiler(m)}
+ root=Path(root).absolute();layout=source_mapping(root);wins=affected_windows(m,root);compiler_versions={module_compiler(m)}
  evidence_foffs={a['foff'] for a in all_members(m)}
  source_starts=[m['source'],*m['headers'],*(a['source'] for a in all_members(m)),'include/labels.inc',*(p for p in m['review_inputs'] if p.endswith(('.c','.h')))]
  names=set()
@@ -331,7 +332,7 @@ def legacy_fingerprint(m,root=ROOT,windows=True):
      evidence_foffs.add(r['foff'])
     if r['container']==m['container'] and fs<=r['foff'] and r['foff']+r['size']<=fe:
      compiler_versions.add(r['cell'])
-     p=f"src/{r['container']}/{Path(r['c_path']).name}"
+     p=row_relative(r, root, layout=layout)
      if (root/p).exists():source_starts.append(p)
   for f in [m['container'], 'dungeon_engine' if m['container']=='dungeon' else m['container']]:
    p=f'ledger/splits/{f}.jsonl'

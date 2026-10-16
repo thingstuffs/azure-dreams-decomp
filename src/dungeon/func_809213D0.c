@@ -40,7 +40,7 @@ typedef struct S_800F63D0_2 {
 extern s32 func_80033BC0();
 extern M2C_UNK file_load_com();
 extern s32 func_8004491C();
-extern s16 func_800BCA68();
+extern s16 dungeonGetSurfaceHeightAtCoordinates();
 extern u8 D_80045C34[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
 extern M2C_UNK D_800F62BC;
 extern M2C_UNK D_800F6F28;
@@ -61,7 +61,7 @@ void func_800F63D0(void) {
             graphics = object->unk_08;
             graphics->unk_02 = 0x820;
             graphics->unk_06 = 0x820;
-            graphics->unk_0A = func_800BCA68(graphics->unk_02, 0x820);
+            graphics->unk_0A = dungeonGetSurfaceHeightAtCoordinates(graphics->unk_02, 0x820);
             animation = object->unk_0C;
             animation->unk_1E = 0x1000;
             animation->unk_1C = 0x1000;

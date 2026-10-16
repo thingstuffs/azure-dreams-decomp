@@ -6,7 +6,7 @@
 
 
 /* Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors. */
-s32 func_800C2E1C(s32 referenceAngle, s16 sectorCount)
+s32 townQuantizeHeadingToSector(s32 referenceAngle, s16 sectorCount)
 {
     GameWork *sharedState = &gameWork;
     s16 effectiveSectorCount;

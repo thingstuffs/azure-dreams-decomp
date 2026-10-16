@@ -6,7 +6,7 @@
 
 typedef struct S_80089608_0_pre {
     u16 unk_00;
-} S_80089608_0_pre;   /* the 0x2 bytes before arg0 in func_80089608, addressed as arg0[-1] */
+} S_80089608_0_pre;   /* the 0x2 bytes before arg0 in mainUpdateSettingsEffect, addressed as arg0[-1] */
 
 typedef struct S_80089608_0 {
     void * unk_00;
@@ -15,26 +15,26 @@ typedef struct S_80089608_0 {
     u16 unk_0A;
     u8 pad_0C[0x2];
     union { u16 s; s16 u; } unk_0E;   /* accessed as both */
-} S_80089608_0;   /* arg0 in func_80089608 */
+} S_80089608_0;   /* arg0 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_1 {
     u8 pad_00[0x20];
     s16 unk_20;
     u8 pad_22[0x4];
     u16 unk_26;
-} S_80089608_1;   /* temp_t1 in func_80089608 */
+} S_80089608_1;   /* temp_t1 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80089608_2;   /* temp_v0 in func_80089608 */
+} S_80089608_2;   /* temp_v0 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_3 {
     u8 pad_00[0x28];
     s16 unk_28;
-} S_80089608_3;   /* var_s4 in func_80089608 */
+} S_80089608_3;   /* var_s4 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_4 {
     u8 pad_00[0x4];
@@ -50,25 +50,25 @@ typedef struct S_80089608_4 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80089608_4;   /* temp_s1 in func_80089608 */
+} S_80089608_4;   /* temp_s1 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_5 {
     s32 unk_00;
     u8 pad_04[0x3C];
     s32 unk_40;
-} S_80089608_5;   /* var_s5 in func_80089608 */
+} S_80089608_5;   /* var_s5 in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_6 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_80089608_6;   /* var_sub in func_80089608 */
+} S_80089608_6;   /* var_sub in mainUpdateSettingsEffect */
 
 typedef struct S_80089608_7 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80089608_7;   /* ((S_80089608_2 *)temp_v0)->unk_08 in func_80089608 */
+} S_80089608_7;   /* ((S_80089608_2 *)temp_v0)->unk_08 in mainUpdateSettingsEffect */
 
 
 s32 func_8004491C();           /* extern */
@@ -107,7 +107,7 @@ typedef struct {
 } Words2;
 
 /* Updates effect brightness and rotation and spawns ten visual elements. */
-void func_80089608(void *effect) {
+void mainUpdateSettingsEffect(void *effect) {
     unsigned char effect_tables[104];
     Words4 *style_src;
     Words4 *mask_src;

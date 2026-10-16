@@ -14,7 +14,7 @@ extern void func_800419EC();
 extern s32 func_800A56E0();
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
-void func_800CBDB4(s16 *transition) {
+void dungeonAdvanceTimedZTransition(s16 *transition) {
     GameView *state = &gameWork.view;
     s16 phase = transition[1];
 

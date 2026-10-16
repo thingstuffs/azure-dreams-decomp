@@ -25,7 +25,7 @@ typedef struct S_func_800A496C_2 {
     s16 unk_06;
 } S_func_800A496C_2;
 
-extern void func_800A4A58(void);
+extern void townUpdateViewGrayLevel(void);
 extern s16 D_8006ADD4;
 extern s8 D_800D1554;
 extern s32 D_80100D90;
@@ -33,7 +33,7 @@ extern s32 D_80100DB8[];
 extern s32 D_80100DE0[];
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
-void func_800A496C(void)
+void townRunDualContextCallbacks(void)
 {
     S_func_800A496C_0 *primary_context;
     S_func_800A496C_1 *secondary_context;
@@ -56,7 +56,7 @@ void func_800A496C(void)
         secondary_context->unk_20((s32 *)secondary_context);
     }
 
-    func_800A4A58();
+    townUpdateViewGrayLevel();
     if (D_8006ADD4 != 0xC) {
         if (((S_func_800A496C_2 *)D_80100D90)->unk_06 < 0x600) {
             D_800D1554 = 1;

@@ -372,7 +372,7 @@ def main_groups(a):
                 + f"); the row's other {len(sites) - len(g['sites'])} pins stay in base/.\n"
                 + "\nRESIDUE of the group-erased text against retail:\n" + body)
             lines.append("\t".join(str(x) for x in [
-                row["id"], row["container"], f"src/{row['container']}/{name}", row["size"], row["cfg"],
+                row["id"], row["container"], clean_path(row).relative_to(ROOT).as_posix(), row["size"], row["cfg"],
                 len(sites), ",".join(map(str, g["sites"])), ",".join(sites[i][1] for i in g["sites"]),
                 total, g.get("best"), cls, Path(row.get("gate_config") or "").stem,
                 internal_jumps(row, text) or "-"]))
@@ -487,7 +487,7 @@ def main():
         for rec, row, text in items:
             macros = ",".join(f"{k}x{v}" for k, v in sorted(rec.get("macros", {}).items()))
             lines.append("\t".join(str(x) for x in [
-                row["id"], row["container"], f"src/{row['container']}/{Path(row['c_path']).name}",
+                row["id"], row["container"], clean_path(row).relative_to(ROOT).as_posix(),
                 row["size"], row["cfg"], rec["pins"], macros, rec["total"], rec.get("class"),
                 Path(row.get("gate_config") or "").stem, internal_jumps(row, text) or "-"]))
             jobs.append((d, rec, row, text))

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
+s32 dungeonLoadObjectIntoAlternateBuffer(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
     u16 saved_index = 0;
     register s16 saved_object_index = object_index;
@@ -22,8 +22,8 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
         return 1;
     }
 
-    if ((func_80019894(1) << 16) != 0) {
-        func_8004425C(0xC);
+    if ((dungeonLoadGenerationResourceSlot(1) << 16) != 0) {
+        audioLoadSoundEffectBank(0xC);
     }
     {
         buffer_addr = (u32)(activate_flag << 16);
@@ -69,7 +69,7 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
                 Control_CD(cd_command, *reload_slot, 0);
                 D_80080AF4[D_80080AFC] = *reload_slot;
             }
-            func_8003F320();
+            drainCdCommandQueue();
         }
     }
 

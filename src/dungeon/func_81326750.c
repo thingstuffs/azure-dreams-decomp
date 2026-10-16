@@ -6,7 +6,7 @@ extern s32 *D_80174CCC;
 extern s16 D_80174CD0;
 
 /* Initialize the current object state and reset the default table counter. */
-void func_8016DF50(void) {
+void dungeonInitializeMapObjectState(void) {
     void *state;
 
     state = D_80174704;

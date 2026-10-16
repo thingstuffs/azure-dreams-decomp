@@ -11,12 +11,12 @@ typedef struct {
     s16 unk16;
 } LocalRecord;
 
-extern s32 func_800374F4(u16);
+extern s32 scaleRandomToUnsignedHalfwordLimit(u16);
 extern void rand(void);
-extern void func_800A84D0(LocalRecord *);
+extern void townCreateRandomizedPositionEffect(LocalRecord *);
 
 /* Builds and submits records at randomized offsets from the origin. */
-void func_800A85C0(void *origin, void *spread, s32 count) {
+void townBuildRandomizedOffsetRecords(void *origin, void *spread, s32 count) {
     LocalRecord record;
     s32 index;
     s32 z;
@@ -29,16 +29,16 @@ void func_800A85C0(void *origin, void *spread, s32 count) {
         while (index < count) {
             index++;
             record.x = (*(u16 *)((u8 *)origin + 2) +
-                        func_800374F4(*(u16 *)spread)) -
+                        scaleRandomToUnsignedHalfwordLimit(*(u16 *)spread)) -
                       (*(s32 *)spread / 2);
             record.y = (*(u16 *)((u8 *)origin + 6) +
-                        func_800374F4(*(u16 *)((u8 *)spread + 4))) -
+                        scaleRandomToUnsignedHalfwordLimit(*(u16 *)((u8 *)spread + 4))) -
                       (*(s32 *)((u8 *)spread + 4) / 2);
             z = (*(u16 *)((u8 *)origin + 0xA) -
-                 func_800374F4(*(u16 *)((u8 *)spread + 8))) -
+                 scaleRandomToUnsignedHalfwordLimit(*(u16 *)((u8 *)spread + 8))) -
                     (*(s32 *)((u8 *)spread + 8) / 2);
             record.z = z;
-            func_800A84D0(&record);
+            townCreateRandomizedPositionEffect(&record);
         }
     }
 }

@@ -35,10 +35,10 @@ extern u8 D_8015DE64[];
 
 extern void func_80047784(Obj2 *, u8, s32);
 extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 func_800AD9B4(Obj2 *, Obj3 *);
+extern s32 dungeonCheckActorFloorTrap(Obj2 *, Obj3 *);
 
 /* Updates the kind-specific display table and selects its direction entry. */
-void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
 {
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
@@ -97,7 +97,7 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
 
 
     if (func_800AC82C(owner, context, display, state) != 0) {
-        if ((func_800AD9B4(display, state) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
             owner->field8c = D_8015A4BC;
         }
         return;

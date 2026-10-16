@@ -7,7 +7,7 @@ typedef struct S_8016AEDC_0 {
     u8 * unk_08;
     u8 * unk_0C;
     u8 * unk_10;
-} S_8016AEDC_0;   /* object in func_8016AEDC */
+} S_8016AEDC_0;   /* object in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_1 {
     u8 pad_00[0x13];
@@ -20,12 +20,12 @@ typedef struct S_8016AEDC_1 {
     s8 unk_49;
     s8 unk_4A;
     s8 unk_4B;
-} S_8016AEDC_1;   /* work in func_8016AEDC */
+} S_8016AEDC_1;   /* work in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016AEDC_2;   /* part_a in func_8016AEDC */
+} S_8016AEDC_2;   /* part_a in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_3 {
     u8 pad_00[0x24];
@@ -33,7 +33,7 @@ typedef struct S_8016AEDC_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016AEDC_3;   /* part_b in func_8016AEDC */
+} S_8016AEDC_3;   /* part_b in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_4 {
     u8 pad_00[0x8C];
@@ -47,12 +47,12 @@ typedef struct S_8016AEDC_4 {
     s8 unk_B0;
     u8 pad_B1[0x3];
     s8 unk_B4;
-} S_8016AEDC_4;   /* a0_copy in func_8016AEDC */
+} S_8016AEDC_4;   /* a0_copy in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_5 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016AEDC_5;   /* a2_copy in func_8016AEDC */
+} S_8016AEDC_5;   /* a2_copy in dungeonInitializeActorAndCompanion */
 
 typedef struct S_8016AEDC_6 {
     u8 pad_00[0x12];
@@ -60,17 +60,17 @@ typedef struct S_8016AEDC_6 {
     u8 unk_13;
     u8 pad_14[0x2F];
     u8 unk_43;
-} S_8016AEDC_6;   /* spawned in func_8016AEDC */
+} S_8016AEDC_6;   /* spawned in dungeonInitializeActorAndCompanion */
 
 
 extern void *func_8003FD64();
 extern void func_80042640();
 extern void func_8004491C();
-extern void func_800A152C();
-extern s8 func_800A6DA4();
+extern void retainSpawnResource();
+extern s8 randomDungeonRange16();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void *func_8016F160();
+extern void *dungeonAllocateBossActor();
 
 extern u8 D_8016B0E8[];
 extern s32 D_8016B778;
@@ -78,7 +78,7 @@ extern u8 D_8017467C[];
 extern u8 *D_80174704;
 
 /* Initialize an actor and its companion, then return the actor work area. */
-void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
+void *dungeonInitializeActorAndCompanion(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
 {
     u8 *work_copy;
     u16 spawn_config_0a;
@@ -137,7 +137,7 @@ void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
         }
         ((S_8016AEDC_1 *)work)->unk_49 = 0xE;
         ((S_8016AEDC_1 *)work)->unk_48 = 3;
-        ((S_8016AEDC_1 *)work)->unk_4A = func_800A6DA4(0x10, 0x18);
+        ((S_8016AEDC_1 *)work)->unk_4A = randomDungeonRange16(0x10, 0x18);
         ((S_8016AEDC_1 *)work)->unk_4B = 1;
     }
 
@@ -151,9 +151,9 @@ void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
         config_25 = (s32)((u32)saved_config_25 << 16);
         spawn_config_0a = saved_config_0a;
         spawn_config_25 = config_25 >> 16;
-        spawned = func_8016F160(spawn_mode, spawn_config_24, spawn_config_25, (s16)spawn_config_0a);
+        spawned = dungeonAllocateBossActor(spawn_mode, spawn_config_24, spawn_config_25, (s16)spawn_config_0a);
     }
-    func_800A152C(((S_8016AEDC_6 *)spawned)->unk_13, 1);
+    retainSpawnResource(((S_8016AEDC_6 *)spawned)->unk_13, 1);
     func_80042640(spawned, ((S_8016AEDC_6 *)spawned)->unk_13);
     ((S_8016AEDC_6 *)spawned)->unk_43 = 0xFF;
     ((S_8016AEDC_6 *)spawned)->unk_12 = 0;

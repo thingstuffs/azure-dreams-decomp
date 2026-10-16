@@ -13,8 +13,8 @@ typedef struct S_800165E4_1 {
 } S_800165E4_1;   /* (void *)entry in func_800165E4 */
 
 
-extern s32 func_80016584();
-extern void func_80016CCC();
+extern s32 townCheckFlagTestRecord();
+extern void townSetFlagTestIndexedBit();
 extern void func_80016D20();
 
 /* Processes a selected nonzero table value and its owner's parameter if the check succeeds. */
@@ -30,10 +30,10 @@ s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
     if (entryValue == 0) {
         return 0;
     }
-    if (func_80016584() == 0) {
+    if (townCheckFlagTestRecord() == 0) {
         return 0;
     }
-    func_80016CCC(entryValue);
+    townSetFlagTestIndexedBit(entryValue);
     func_80016D20(tableOwner->unk_18);
     return 1;
 }

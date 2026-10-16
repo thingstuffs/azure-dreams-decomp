@@ -9,7 +9,7 @@ typedef struct {
 extern S_80083D08 D_80083D08[6];
 
 /* Sets status bit 0 for each entry with a nonzero flag. */
-void func_800481E0(void) {
+void markSpriteResourcesForPurge(void) {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < 6; entry_index++) {

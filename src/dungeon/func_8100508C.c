@@ -10,7 +10,7 @@ typedef struct S_8017088C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017088C_0;   /* obj in func_8017088C */
+} S_8017088C_0;   /* obj in dungeonCreateConfiguredActorEffect */
 
 typedef struct S_8017088C_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8017088C_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8017088C_1;   /* work in func_8017088C */
+} S_8017088C_1;   /* work in dungeonCreateConfiguredActorEffect */
 
 typedef struct S_8017088C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8017088C_2;   /* part_a in func_8017088C */
+} S_8017088C_2;   /* part_a in dungeonCreateConfiguredActorEffect */
 
 typedef struct S_8017088C_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_8017088C_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8017088C_3;   /* part_b in func_8017088C */
+} S_8017088C_3;   /* part_b in dungeonCreateConfiguredActorEffect */
 
 typedef struct S_8017088C_4 {
     u8 pad_00[0x8C];
@@ -42,7 +42,7 @@ typedef struct S_8017088C_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8017088C_4;   /* actor in func_8017088C */
+} S_8017088C_4;   /* actor in dungeonCreateConfiguredActorEffect */
 
 
 extern void *func_8003FD64();
@@ -56,7 +56,7 @@ extern M2C_UNK D_80171058;
 extern u8 D_80174880[];
 extern u8 D_801748E0[];
 
-void *func_8017088C(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
+void *dungeonCreateConfiguredActorEffect(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *obj;

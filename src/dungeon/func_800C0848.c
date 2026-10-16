@@ -19,31 +19,31 @@ extern u8 D_800E0BA1[];
 void func_800419EC();
 void func_80040AA0();
 s32 func_800429E4();
-void func_800481E0();
-void func_800945E8();
-void func_800948BC();
+void markSpriteResourcesForPurge();
+void dungeonSnapshotInventoryAndFamiliars();
+void dungeonSnapshotInventoryFamiliarRecords();
 s32 func_800990FC(void);
 s32 func_80099194();
-s32 func_80099254();
+s32 dungeonCopyFourTextBytes();
 void func_80099290();
-s32 func_8009929C();
+s32 dungeonWriteTextByteAndAdvance();
 void func_8009A028();
 void func_8009A3D0();
-void func_8009D6F4();
-s32 func_8009FBF0();
+void dungeonRefreshPackedGridNibbles();
+s32 dungeonFindActiveMonsterRecord();
 void func_800A32A4();
 extern s32 func_800A56E0();
 void func_800A5720();
 void func_800A6780();
 s32 func_800A6D30(void);
 void func_800A7030(s16, s16);
-void func_800B6008(s16, s16);
-void func_800C1F28();
-void func_800C542C();
+void dungeonProcessActiveSlotsAtCoordinates(s16, s16);
+void dungeonTeleportFamiliarNearPlayer();
+void dungeonCreateOrbitingTeleportEffect();
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 
-void func_800C5FA8(u8 *w) {
+void dungeonDispatchActionCallbackByOpcode(u8 *w) {
     GameWork *ctx;
     u8 *cells;
     u8 *fld;
@@ -140,9 +140,9 @@ void func_800C5FA8(u8 *w) {
         if (v == phase) {
             r = func_80099194(D_800E0B65, hnd);
             if (!(*(u16 *)(sys + 0x3714) & 1)) {
-                r = func_8009929C(0x11, r);
-                r = func_8009929C(0x4C, r);
-                r = func_80099254(D_800E0458, r);
+                r = dungeonWriteTextByteAndAdvance(0x11, r);
+                r = dungeonWriteTextByteAndAdvance(0x4C, r);
+                r = dungeonCopyFourTextBytes(D_800E0458, r);
             }
             func_80099290(r);
             func_800A5720(hnd);
@@ -154,9 +154,9 @@ void func_800C5FA8(u8 *w) {
         }
         r = func_80099194(D_800E0B73, hnd);
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
-            r = func_8009929C(0x11, r);
-            r = func_8009929C(0x4C, r);
-            r = func_80099254(D_800E0458, r);
+            r = dungeonWriteTextByteAndAdvance(0x11, r);
+            r = dungeonWriteTextByteAndAdvance(0x4C, r);
+            r = dungeonCopyFourTextBytes(D_800E0458, r);
         }
         func_80099290(r);
         func_800A5720(hnd);
@@ -177,9 +177,9 @@ L_third:
         r = func_80099194(D_800E0BA1, hnd);
         *(s16 *)(w + 22) = 0;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
-            r = func_8009929C(0x11, r);
-            r = func_8009929C(0x4C, r);
-            r = func_80099254(D_800E0458, r);
+            r = dungeonWriteTextByteAndAdvance(0x11, r);
+            r = dungeonWriteTextByteAndAdvance(0x4C, r);
+            r = dungeonCopyFourTextBytes(D_800E0458, r);
         }
         func_80099290(r);
         func_800A5720(hnd);
@@ -222,7 +222,7 @@ L_zero:
                         do {
                             *(u16 *)(CELL(x, y) + 4) |= 0x8000;
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
-                            func_800B6008(x, y);
+                            dungeonProcessActiveSlotsAtCoordinates(x, y);
                             func_800A7030(x, y);
                             y = y + 1;
                         } while (y < y1);
@@ -239,7 +239,7 @@ L_zero:
                     do {
                         *(u16 *)(CELL(x, y) + 4) |= 0x8000;
                         *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
-                        func_800B6008(x, y);
+                        dungeonProcessActiveSlotsAtCoordinates(x, y);
                         func_800A7030(x, y);
                         y = y + 1;
                     } while (y < y1);
@@ -253,26 +253,26 @@ L_zero:
         *(s16 *)(w + 18) = 0;
         do {
             ep = *(u8 **)(e - 20);
-            if (phase == (s16)func_8009FBF0(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
+            if (phase == (s16)dungeonFindActiveMonsterRecord(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
                     D_800E296C |= 0x2000;
-                    func_800C542C(e, tbl[func_800429E4(e)], 0, 0);
+                    dungeonCreateOrbitingTeleportEffect(e, tbl[func_800429E4(e)], 0, 0);
                     p = D_800E3D7C;
                     q = ((u8 *)p->unk_AC);
                     if (q != 0) {
-                        func_800C542C(q, tbl[func_800429E4(q)], 0, 0);
+                        dungeonCreateOrbitingTeleportEffect(q, tbl[func_800429E4(q)], 0, 0);
                     }
                     {
                         EntityRec *p2 = D_800E3D7C;
                         q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
-                        func_800C542C(q, tbl[func_800429E4(q)], 1, 0);
+                        dungeonCreateOrbitingTeleportEffect(q, tbl[func_800429E4(q)], 1, 0);
                     }
                     *(s16 *)(w + 18) = 1;
                 } else if (*(u32 *)(e + 20) & 0x4000) {
                     if (*(s16 *)(w + 18) == 0) {
-                        func_800C1F28(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
+                        dungeonTeleportFamiliarNearPlayer(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
                     }
                 } else {
                     if (*(s16 *)(w + 18) != 0) {
@@ -364,7 +364,7 @@ L_zero:
         }
         *(s16 *)(w + 16) = 1;
         *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
-        func_8009D6F4();
+        dungeonRefreshPackedGridNibbles();
         if (!((x1 + 16) < *(s16 *)(w + 4))) {
             return;
         }
@@ -383,8 +383,8 @@ L_zero:
         func_80040AA0(3);
         return;
     }
-    func_800945E8(((u8 *)D_800E3D7C));
-    func_800948BC();
+    dungeonSnapshotInventoryAndFamiliars(((u8 *)D_800E3D7C));
+    dungeonSnapshotInventoryFamiliarRecords();
     func_800A6780();
     {
         u8 code;
@@ -397,7 +397,7 @@ L_zero:
     }
     D_8008146C = *(u16 *)(o + 0x234);
     func_80040AA0(ch);
-    func_800481E0();
+    markSpriteResourcesForPurge();
     *(u16 *)(w - 2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 }

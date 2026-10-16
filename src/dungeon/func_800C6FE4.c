@@ -8,7 +8,7 @@
 
 
 /* Fade the color toward 0xE0, then to black, and flag completion. */
-void func_800CC744(void *fade, void *unused, void *color) {
+void dungeonFadeTrapColorToBlack(void *fade, void *unused, void *color) {
     s16 steps;
     s16 brighten_left;
     s16 darken_left;

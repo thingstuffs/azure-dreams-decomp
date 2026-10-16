@@ -9,7 +9,7 @@ typedef struct S_80FB7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FB7000_0;   /* obj in func_8016A8A4 */
+} S_80FB7000_0;   /* obj in dungeonCreateActorWithPartsAndFlags */
 
 typedef struct S_80FB7000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FB7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB7000_1;   /* work in func_8016A8A4 */
+} S_80FB7000_1;   /* work in dungeonCreateActorWithPartsAndFlags */
 
 typedef struct S_80FB7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FB7000_2;   /* pin_part_a in func_8016A8A4 */
+} S_80FB7000_2;   /* pin_part_a in dungeonCreateActorWithPartsAndFlags */
 
 typedef struct S_80FB7000_3 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_80FB7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FB7000_3;   /* part_b in func_8016A8A4 */
+} S_80FB7000_3;   /* part_b in dungeonCreateActorWithPartsAndFlags */
 
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_80FB7000_4 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     u16 unk_AE;
-} S_80FB7000_4;   /* pin_actor in func_8016A8A4 */
+} S_80FB7000_4;   /* pin_actor in dungeonCreateActorWithPartsAndFlags */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -63,12 +63,12 @@ extern u8 D_8016F298[];
 
 
 
-void *func_8016A8A4(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 
 ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
-void *func_8016A8A4(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     void *obj;

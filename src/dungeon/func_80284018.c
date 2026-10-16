@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_80017018(void) {
+void dungeonClearDungeonStateBytes(void) {
     s32 byte_index;
     s32 clear_base;
     byte_index = 6;

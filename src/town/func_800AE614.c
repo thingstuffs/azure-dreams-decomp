@@ -4,7 +4,7 @@
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
-void func_800ABC00(void *, s16);              /* extern */
+void townSpawnPersonOffsetEffect(void *, s16);              /* extern */
 
 typedef struct {
     s16 unk0;
@@ -26,10 +26,10 @@ typedef struct S_800ABD74_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800ABD74_0;   /* base in func_800ABD74 */
+} S_800ABD74_0;   /* base in townSpawnPersonRadialEffects */
 
 /* Spawns effects near the source position in evenly spaced directions. */
-void func_800ABD74(void *source) {
+void townSpawnPersonRadialEffects(void *source) {
     S_800ABD74_0 *origin;
     StackRecord effect;
     s32 angle;
@@ -53,7 +53,7 @@ void func_800ABD74(void *source) {
             effect.y = (origin->unk_06 + (rand() & 0x1F)) - 0x10;
             effect.a = func_80064584(angle) << 5;
             effect.b = func_800644B8(angle) << 5;
-            func_800ABC00(&effect, angle);
+            townSpawnPersonOffsetEffect(&effect, angle);
             angle += angle_step;
         } while (effects_spawned < effect_count);
     }

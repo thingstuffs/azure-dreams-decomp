@@ -5,7 +5,7 @@
 
 
 /* Processes both modes and sets completion flags on countdown expiry or an override. */
-void func_80024830(void *state)
+void processEffectModesAndCompletion(void *state)
 {
     s32 object_addr;
     u16 countdown;

@@ -23,7 +23,7 @@ typedef struct DrawContext {
 
 extern void func_8006658C(void *, void *, ...);
 extern void func_80067E2C(void *, void *);
-extern void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode);
+extern void dungeonDrawTransformedSpriteParts(void *position, void *context, s32 depth, s16 draw_mode);
 extern u8 D_801C9E40[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
@@ -58,7 +58,7 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
         }
         context_slot = (DrawContext **)&gameWork.unk_000;
         draw_pos.y = y;
-        func_800B9144(&draw_pos, sprite, ordering_table, draw_flags);
+        dungeonDrawTransformedSpriteParts(&draw_pos, sprite, ordering_table, draw_flags);
 
         if ((u16)saved_clear_bg != 0) {
             Packet *clear_packet;

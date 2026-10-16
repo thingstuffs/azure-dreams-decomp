@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Offset the two coordinate bytes in each record through the end marker. */
-void func_800B1320(u8 *record, s32 x_offset, s32 y_offset) {
+void dungeonOffsetRecordCoordinates(u8 *record, s32 x_offset, s32 y_offset) {
     u8 *record_y;
 
     while (1) {

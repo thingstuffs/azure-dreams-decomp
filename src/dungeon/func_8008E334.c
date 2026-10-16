@@ -8,7 +8,7 @@ extern M2C_UNK D_800DD140;
 extern void func_80048AC8(void *, s32);
 
 /* Updates an object's scale and brightness through its transition modes. */
-void func_80093A94(void *object_data, void *unused, void *state_data) {
+void dungeonUpdateFamiliarDeploymentOverlay(void *object_data, void *unused, void *state_data) {
     u8 *obj = (u8 *)object_data;
     u8 *state = (u8 *)state_data;
     s16 mode;

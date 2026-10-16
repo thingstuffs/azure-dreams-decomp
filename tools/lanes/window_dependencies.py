@@ -13,6 +13,8 @@ import runpy
 import shlex
 import struct
 import subprocess
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import yaml
 
@@ -77,8 +79,10 @@ def window_recipes(root):
                     folder = Path(group['source_dir'])
                     if len(folder.parts) == 3 and folder.parts[0] == 'overlays' and folder.parts[2] == 'first_pass_matched':
                         unit = {'dungeon_engine': 'dungeon', 'dungeon_engine_pilot_only': 'dungeon_engine'}.get(folder.parts[1], folder.parts[1])
-                        folder = Path('src') / unit
-                    source = str(folder / (row['func_vram'] + '.c'))
+                        from source_layout import row_relative
+                        source = row_relative({'container': unit, 'c_path': row['func_vram'] + '.c'}, root)
+                    else:
+                        source = str(folder / (row['func_vram'] + '.c'))
                     if source in native_members:
                         continue  # The native TU replaces this per-row compile.
                     version, flags = parse(row.get('config') or '2.7.2')

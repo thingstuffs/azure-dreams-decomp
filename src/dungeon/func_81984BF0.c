@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void func_800263F0(void *unused_actor)
+void inventoryClearCircularListFlag2000(void *unused_actor)
 {
     void *link;
     void *object;

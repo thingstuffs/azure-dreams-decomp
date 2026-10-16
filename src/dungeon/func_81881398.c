@@ -73,7 +73,7 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
         ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
     func_800478B8(primitive);
     if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
-        func_80024FD8(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
+        dungeonCreateEffectRenderObject(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
     if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
-        func_800254C4(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
+        dungeonAllocateJitteredEffectNode(motion, (((S_80024B98_0 *)effect)->unk_24 << 24) >> 16, 0x10, 0);
 }

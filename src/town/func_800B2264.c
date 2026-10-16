@@ -40,17 +40,17 @@ typedef struct TownObject {
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 
-extern s32 func_80049E1C(s32, s32, s32);
+extern s32 advanceIndexWithDirectionalClamp(s32, s32, s32);
 extern void func_80049490(s32);
 extern void func_8004B08C(void *);
 extern void SD_Call(s32);
-extern void func_800AE484(s32);
-extern void func_800AF36C(TownObject *);
-extern void func_800AF860(TownObject *);
-extern s32 func_800AF8B0(TownObject *);
+extern void townSetItemMenuDataPointer(s32);
+extern void townSetItemMenuEntryCoordinates(TownObject *);
+extern void townUpdateItemMenuRecord(TownObject *);
+extern s32 townPlaceSelectedItemMenuEntry(TownObject *);
 
 /* Handles town menu actions, selection movement, and scrolling between bands. */
-void func_800AF9C4(TownObject *obj)
+void townUpdateItemMenuSelection(TownObject *obj)
 {
     s32 held_buttons;
     s32 move_step;
@@ -72,19 +72,19 @@ void func_800AF9C4(TownObject *obj)
     if (obj->inner->limit == 0) {
         if (((s32)gameWork.unk_010) & 0x20) {
             SD_Call(0x515);
-            func_800AE484(obj->resource);
+            townSetItemMenuDataPointer(obj->resource);
         }
         return;
     }
 
     if (((s32)gameWork.unk_010) & 0x20) {
         SD_Call(0x515);
-        func_800AE484(obj->resource);
+        townSetItemMenuDataPointer(obj->resource);
         return;
     }
     if (((s32)gameWork.unk_010) & 0x40) {
         SD_Call(0x514);
-        obj->inner->handle = func_800AF8B0(obj);
+        obj->inner->handle = townPlaceSelectedItemMenuEntry(obj);
         if (obj->inner->handle != 0) {
             return;
         }
@@ -94,7 +94,7 @@ void func_800AF9C4(TownObject *obj)
     } else if (((s32)gameWork.unk_010) & 0x10) {
         SD_Call(0x503);
         func_8004B08C((void *)0x8001029C);
-        func_800AF860(obj);
+        townUpdateItemMenuRecord(obj);
         action_inner = obj->inner;
         func_80049490(action_inner->table[action_inner->position]);
         return;
@@ -131,7 +131,7 @@ void func_800AF9C4(TownObject *obj)
     }
 
     move_inner = obj->inner;
-    next_position = func_80049E1C(move_inner->position, move_step, move_inner->limit);
+    next_position = advanceIndexWithDirectionalClamp(move_inner->position, move_step, move_inner->limit);
     selection = obj->inner;
     if (next_position >= selection->limit) {
         selection->position = next_position;
@@ -143,7 +143,7 @@ void func_800AF9C4(TownObject *obj)
     SD_Call(0x502);
     obj->inner->position = next_position;
     next_band = obj->inner->position / 10;
-    func_800AF36C(obj);
+    townSetItemMenuEntryCoordinates(obj);
     refreshed_inner = obj->inner;
     func_80049490(refreshed_inner->table[refreshed_inner->position]);
     if (next_band == obj->inner->band) {
@@ -155,5 +155,5 @@ void func_800AF9C4(TownObject *obj)
         *(s32 *)((void **)obj->aux->up)[1] = D_800891F4;
     }
     obj->inner->band = next_band;
-    func_800AF860(obj);
+    townUpdateItemMenuRecord(obj);
 }

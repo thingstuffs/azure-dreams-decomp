@@ -11,10 +11,10 @@ typedef struct S_80402A1C_0 {
     u8 pad_0C[0xC];
     u32 unk_18;
     u32 unk_1C;
-} S_80402A1C_0;   /* arg1 in func_80402A1C */
+} S_80402A1C_0;   /* arg1 in cardBootBuildFourLayoutCommandGroups */
 
 /* Builds four groups of drawing commands sized from the selected layout. */
-void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
+void *cardBootBuildFourLayoutCommandGroups(void *buffer, S_80402A1C_0 *layout) {
     M2C_UNK command_ids;
     M2C_UNK ids_limit;
     s32 width_extent;

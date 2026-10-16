@@ -2,8 +2,8 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern void func_80019B54(void *, s32);
-/* Forward the context and request to func_80019B54. */
-void func_8001791C(void *context, s32 request) {
-    func_80019B54(context, request);
+extern void townApplySelectedEntryValues(void *, s32);
+/* Forward the context and request to townApplySelectedEntryValues. */
+void townForwardContextRequestToHandlerD(void *context, s32 request) {
+    townApplySelectedEntryValues(context, request);
 }

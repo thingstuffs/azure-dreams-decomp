@@ -33,7 +33,7 @@ typedef struct S_func_80097A68_3 {
 } S_func_80097A68_3;
 
 /* Initializes actor state and selects an animation from the adjusted facing angle. */
-void func_80097A68(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *anim,
+void dungeonInitializeFacingAnimation(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *anim,
     S_func_80097A68_2 *facing_source) {
     actor->unk_9A = 0x38;
     actor->unk_9B = 0;

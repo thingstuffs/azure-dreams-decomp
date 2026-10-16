@@ -63,16 +63,16 @@ extern void func_8006658C();
 extern void func_800667BC();
 extern void func_80067E2C();
 extern s32 func_80069EF8();
-extern void func_80091934();
-extern s32 func_8003F794();
+extern void dungeonBeginDeferredPlayerItemEffect();
+extern s32 reserveRuntimeSlot();
 extern void func_80048A44();
-extern void func_800945E8();
-extern void func_800948BC();
+extern void dungeonSnapshotInventoryAndFamiliars();
+extern void dungeonSnapshotInventoryFamiliarRecords();
 extern void func_800B8FC8();
 extern void func_80041094();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
-void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect) {
+void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, EffectState *effect) {
     StackData draw_data;
     s16 use_alt_buffer;
     u32 buffer_diff;
@@ -152,7 +152,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
             if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
                     EntityRec *dungeon_state;
-                    func_80091934(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+                    dungeonBeginDeferredPlayerItemEffect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
                     D_800E3D7C->unk_9B = 0x11;
                     dungeon_state = D_800E3D7C;
                     D_80082E80.unk_02C = (s32)D_800DD0F8;
@@ -178,7 +178,7 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
                 (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
-                s16 entry_index = func_8003F794(6, 0x20);
+                s16 entry_index = reserveRuntimeSlot(6, 0x20);
                 u8 *entry_table = (u8 *)D_80083120;
                 s16 *entry_flag;
                 void *active_dungeon;
@@ -186,8 +186,8 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                 entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
                 active_dungeon = D_800E3D7C;
                 *entry_flag = index_or_phase;
-                func_800945E8(active_dungeon);
-                func_800948BC();
+                dungeonSnapshotInventoryAndFamiliars(active_dungeon);
+                dungeonSnapshotInventoryFamiliarRecords();
                 D_80082E60.flags16 = 0x8000;
                 func_80041094(6, 0, 0, 0, 0x8000);
                 obj->phase = (u16)obj->phase + 1;

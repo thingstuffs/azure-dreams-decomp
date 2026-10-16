@@ -8,18 +8,18 @@ typedef struct S_800980B4_0 {
     u16 unk_0A;
     u8 pad_0C[0x4];
     s16 unk_10;
-} S_800980B4_0;   /* arg0 in func_800980B4 */
+} S_800980B4_0;   /* arg0 in townTickCountdownAndResetValue */
 
 
-void func_80098928(S_800980B4_0 *, s32, s32);
-/* Decrement the countdown, then call func_80098928 and set unk_10 to 0x400 at zero. */
-void func_800980B4(S_800980B4_0 *state, s32 value, s32 mode) {
+void townInitializeRecordWithHandlerTable(S_800980B4_0 *, s32, s32);
+/* Decrement the countdown, then call townInitializeRecordWithHandlerTable and set unk_10 to 0x400 at zero. */
+void townTickCountdownAndResetValue(S_800980B4_0 *state, s32 value, s32 mode) {
     u16 remaining_ticks;
 
     remaining_ticks = state->unk_0A - 1;
     state->unk_0A = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        func_80098928(state, value, mode);
+        townInitializeRecordWithHandlerTable(state, value, mode);
         state->unk_10 = 0x400;
     }
 }

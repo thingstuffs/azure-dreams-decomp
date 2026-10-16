@@ -57,7 +57,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((void *)func_80170E7C);
+        actor->unk_8C = ((void *)dungeonUpdateActorBehaviorAndEffect);
         func_800AA36C(actor, part_a, part_b, work);
     }
     return work;

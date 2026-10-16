@@ -12,7 +12,7 @@ typedef struct {
 extern State80082A38 D_80082A38;
 
 /* Clears the state field and entries 10 through 14. */
-void func_80035348(void)
+void runtimeClearStateAndEntryRange(void)
 {
     s32 entry_index;
 

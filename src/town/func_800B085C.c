@@ -4,10 +4,10 @@
 typedef struct S_800ADFBC_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800ADFBC_0;   /* var_a0 in func_800ADFBC */
+} S_800ADFBC_0;   /* var_a0 in townCountEntriesUntilSecondByteZero */
 
 /* Counts four-byte entries until an entry's second byte is zero. */
-s32 func_800ADFBC(void *entries) {
+s32 townCountEntriesUntilSecondByteZero(void *entries) {
     s32 count;
     void *entry;
 

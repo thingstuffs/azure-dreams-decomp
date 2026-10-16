@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 func_80018E80(void)
+s32 setupDungeonFloorEncounters(void)
 {
     s32 floor_event;
     s32 skip_floor_setup;
@@ -19,7 +19,7 @@ s32 func_80018E80(void)
     if (state == 1) {
         if (((s16 *)D_8008146C)[0] < 2) {
             floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = state;
-            func_80019648();
+            dungeonConvertValidEntryCode2To39();
         } else if (floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 == state) {
             floor_generate_isolated_80285E80_DUNGEON_GLOBALS->state_2090 = 0;
         }
@@ -47,7 +47,7 @@ s32 func_80018E80(void)
                 floor_group = 7;
             } else {
                 floor_group = -1;
-                func_80019A74();
+                dungeonSetFirstTableEntryActive();
             }
             skip_floor_setup = 1;
         } else if (((s16 *)D_8008146C)[0] < 2) {
@@ -66,7 +66,7 @@ s32 func_80018E80(void)
         }
 
         if (floor_group >= 0) {
-            encounter_status = func_80019684((s16)(floor_group + 1), 1, 1);
+            encounter_status = dungeonLoadObjectIntoAlternateBuffer((s16)(floor_group + 1), 1, 1);
             if (encounter_status == 0) {
                 D_80080A88[0] = 0;
             }
@@ -77,37 +77,37 @@ s32 func_80018E80(void)
                 func_800542BC();
             }
             if (encounter_status == 0) {
-                func_80019684(0, 1, 0);
+                dungeonLoadObjectIntoAlternateBuffer(0, 1, 0);
             }
         } else {
-            func_80019684(0, 1, 0);
-            func_80019684(0x29, 1, 1);
+            dungeonLoadObjectIntoAlternateBuffer(0, 1, 0);
+            dungeonLoadObjectIntoAlternateBuffer(0x29, 1, 1);
             SD_Call(0x200);
             func_800542BC();
-            func_80048088(0x38);
+            loadAndUploadSpriteResource(0x38);
         }
 
         if (skip_floor_setup == 0) {
-            func_800194C4(((s16 *)D_8008146C)[0]);
+            loadFloorSpawnTables(((s16 *)D_8008146C)[0]);
         }
     } else {
         skip_floor_setup = 1;
         if (state == 1) {
             floor_event = 9;
             D_800E296C |= 0x10000000;
-            func_80019684(1, 1, 1);
+            dungeonLoadObjectIntoAlternateBuffer(1, 1, 1);
             SD_Call(0x200);
             func_800542BC();
-            func_80019684(0, 1, 0);
+            dungeonLoadObjectIntoAlternateBuffer(0, 1, 0);
         } else if (state == 2) {
             s32 i_m;
             floor_group = func_800A6D30() & 7;
-            encounter_status = func_80019684(floor_group + 1, 1, 1);
+            encounter_status = dungeonLoadObjectIntoAlternateBuffer(floor_group + 1, 1, 1);
             if (encounter_status == 0) {
                 func_80044698();
                 SD_Call(0x200);
                 func_800542BC();
-                func_80019684(0, 1, 0);
+                dungeonLoadObjectIntoAlternateBuffer(0, 1, 0);
             }
 
             floor_data = (s16 *)((u8 *)D_80081468);
@@ -119,7 +119,7 @@ s32 func_80018E80(void)
                     u8 *odd_ids;
                     floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
-                    monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                    monster_id = randomDungeonRange16(3, 0x2D) & 0xFFFF;
                     level = floor_data[2] + (func_800A6D30() & 1);
                     if (level >= 100) {
                         level = 99;
@@ -146,7 +146,7 @@ s32 func_80018E80(void)
                     u8 *odd_ids;
                     floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
-                    monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                    monster_id = randomDungeonRange16(3, 0x2D) & 0xFFFF;
                     level = ((s16 *)D_8008146C)[0] + (func_800A6D30() & 1);
                     if (level >= 100) {
                         level = 99;
@@ -180,7 +180,7 @@ s32 func_80018E80(void)
                 u8 *odd_ids;
                 floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
-                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                monster_id = randomDungeonRange16(3, 0x2D) & 0xFFFF;
                 level_bonus = func_800A6D30() & 1;
                 i_m = 0;
                 base = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);
@@ -208,7 +208,7 @@ s32 func_80018E80(void)
                 u8 *odd_ids;
                 floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
 
-                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                monster_id = randomDungeonRange16(3, 0x2D) & 0xFFFF;
                 level_bonus = func_800A6D30() & 1;
                 i_m = 0;
                 ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&dungeonStatus);

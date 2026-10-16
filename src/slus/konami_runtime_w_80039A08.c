@@ -8,20 +8,20 @@ typedef struct S_80039A08_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_80039A08_0;   /* arg0 in func_80039A08 */
+} S_80039A08_0;   /* arg0 in handleVmOpcode06 */
 
 
-s32 func_80039884();                          /* extern */
+s32 slusCheckStateOrGlobalFlags();                          /* extern */
 M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
 void func_800389B4();
 
 /* Rewind a gated script or select its next handler according to runtime status. */
-void func_80039A08(S_80039A08_0 *state) {
+void handleVmOpcode06(S_80039A08_0 *state) {
     s32 status;
 
     status = func_80053EF0(4);
-    if (func_80039884(state) != 0) {
+    if (slusCheckStateOrGlobalFlags(state) != 0) {
         if (status != 0) {
             state->unk_10 = NULL;
             state->unk_1C = (s32) (state->unk_1C - 1);

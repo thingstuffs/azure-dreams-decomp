@@ -8,7 +8,7 @@ typedef void (*TownCallback)(s32, s32);
 
 extern s32 func_80016CC4();
 extern s32 func_8001991C();
-extern s32 func_80019988();
+extern s32 townUpdateEntryFlags();
 extern s32 func_8001A5CC();
 extern s32 func_8001A64C();
 
@@ -18,7 +18,7 @@ s32 func_80017940(s32 kind, s32 value) {
 
     func_80016CC4();
     if (func_8001A64C(0x943) != 0) {
-        func_80019988();
+        townUpdateEntryFlags();
         if (func_8001991C(kind, value) != 0) {
             func_8001A5CC(0x943);
             return 1;

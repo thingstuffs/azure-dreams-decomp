@@ -9,7 +9,7 @@ M2C_UNK TestEvent();                         /* extern */
 
 
 /* Tests the four card event handles. */
-void func_800214A4(void) {
+void cardBootDrainSoftwareEvents(void) {
     TestEvent((*(s32 *)(&D_80028550)));
     TestEvent((*(s32 *)(&D_80028554)));
     TestEvent((*(s32 *)(&D_80028558)));

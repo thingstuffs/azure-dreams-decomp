@@ -38,6 +38,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import rows, clean_path
+from source_layout import source_items as layout_source_items
 from pin_census import sites_of
 from served import served_rows, assert_unserved
 
@@ -161,8 +162,8 @@ def info_of(rid, text, a):
 def render(info):
     r, rid = info["row"], info["rid"]
     L = ["## %s" % rid,
-         "- cell `%s`, %s B retail, `src/%s.c`, %d live pin sites, %d B of C"
-         % (r["cfg"], r.get("size"), rid, len(info["sites"]), info["ncode"])]
+         "- cell `%s`, %s B retail, `%s`, %d live pin sites, %d B of C"
+         % (r["cfg"], r.get("size"), clean_path(r).relative_to(ROOT).as_posix(), len(info["sites"]), info["ncode"])]
     for line, stmt, tabs, index, guard in info["disp"]:
         via = "" if any(GLOBAL_TABLE_RE.fullmatch(t) for t in tabs) else \
             " (no `D_`/`jtbl_` symbol here: the table is reached through a variable -- find its `extern void *X[]` declaration)"
@@ -229,10 +230,10 @@ def main():
         ids = [l.split()[0] for l in open(a.pool) if l.strip() and not l.startswith("#")]
     else:
         ids = []
-        for f in sorted((ROOT / "src").glob("*/*.c")):
+        for rid, f in layout_source_items(ROOT):
             t = f.read_text(errors="replace")
             if "goto *" in t:
-                ids.append("%s/%s" % (f.parent.name, f.stem))
+                ids.append(rid)
     packed = set()
     for f in (ROOT / "work/native_lane").glob("sw*/base/*/*.c"):
         packed.add(f.parent.name + "/" + f.stem)

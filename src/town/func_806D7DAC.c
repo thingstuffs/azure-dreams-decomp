@@ -11,7 +11,7 @@ extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
 /* Looks up an entry and applies conditional overrides for variants 45 through 47. */
-s32 func_800165AC(s32 entry_id, s32 unused, s32 variant_id)
+s32 townLookupVariantWithFlagOverrides(s32 entry_id, s32 unused, s32 variant_id)
 {
     s32 default_result;
 

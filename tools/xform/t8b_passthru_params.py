@@ -23,6 +23,7 @@ definition when it names a type typedef'd further down.
 import json, re
 from pathlib import Path
 from xform import t8_passthru as t8
+from source_layout import row_path as layout_row_path
 
 ROOT = Path(__file__).resolve().parents[2]
 _CALLEE_TYPES = {}
@@ -37,7 +38,7 @@ def row_file(container, name):
             if not line.strip():
                 continue
             r = json.loads(line)
-            p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            p = layout_row_path(r, ROOT)
             for n in {r["func"], r.get("true_name")} | set(r.get("defs") or []):
                 if n:
                     _ROWFILE.setdefault((r["container"], n), p)

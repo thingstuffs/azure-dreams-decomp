@@ -7,12 +7,12 @@
 typedef struct S_8009A58C_0 {
     u8 pad_00[0x40];
     s32 unk_40;
-} S_8009A58C_0;   /* arg0 in func_8009A58C */
+} S_8009A58C_0;   /* arg0 in townClearPlayerMotionEntry */
 
 
-void func_80098988(S_8009A58C_0 *, s32);
-/* Clear the indexed table entry and call func_80098988. */
-void func_8009A58C(S_8009A58C_0 *object, s32 value) {
+void townInitializeTargetAndHandlerTable(S_8009A58C_0 *, s32);
+/* Clear the indexed table entry and call townInitializeTargetAndHandlerTable. */
+void townClearPlayerMotionEntry(S_8009A58C_0 *object, s32 value) {
     D_80082660[object->unk_40].unk_00 = 0;
-    func_80098988(object, value);
+    townInitializeTargetAndHandlerTable(object, value);
 }

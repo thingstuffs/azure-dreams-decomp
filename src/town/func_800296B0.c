@@ -1,0 +1,21 @@
+/* Relink of matched town/func_800C8B84; every changed retail word is a paired relocation. */
+#define D_800D5670 D_800D59C4
+#include "common.h"
+#include "shared/object_index_slots.h"
+#include "records/Rec_func_80094268_arg0.h"
+
+
+#define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
+
+extern void townInitializeObjectEntries(void *state, s32 output, void *entries);
+extern M2C_UNK D_800C3B7C;
+extern M2C_UNK D_800D59C4;
+
+
+/* Initialize the actor state, clear its entry flag, and set a callback with a 32-tick countdown. */
+void func_800C6E10(void *actor, s32 unused, s32 state_context) {
+    townInitializeObjectEntries(actor, state_context, &D_800D59C4);
+    D_80082660[((Rec_func_80094268_arg0 *)actor)->unk_60].unk_00 = 0;
+    ((Rec_func_80094268_arg0 *)actor)->unk_54 = &D_800C3B7C;
+    ((Rec_func_80094268_arg0 *)actor)->unk_6C.as_s16 = 0x20;
+}

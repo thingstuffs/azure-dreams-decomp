@@ -7,19 +7,19 @@
 typedef struct S_8001A200_1 {
     u8 pad_00[0x2D4];
     s32 (*unk_2D4)(M2C_UNK);
-} S_8001A200_1;   /* temp_v0 in func_8001A200 */
+} S_8001A200_1;   /* temp_v0 in townDispatchRecordsByKind */
 
 typedef struct S_8001A200_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_8001A200_2;   /* var_s0 in func_8001A200 */
+} S_8001A200_2;   /* var_s0 in townDispatchRecordsByKind */
 
 
-void func_8001A188();     /* extern */
+void copyTownRecordPairFields();     /* extern */
 extern u8 D_8001791C[96];
 
 /* Dispatches each record to the first matching kind-table entry. */
-void func_8001A200(void *records, s32 *value_sets) {
+void townDispatchRecordsByKind(void *records, s32 *value_sets) {
     u8 *kind_entry;
     s32 record_kind;
     s32 values_base;
@@ -49,7 +49,7 @@ next_kind:
         next_status = *(s32 *)kind_entry;
         record_kind = (*(s32 *)((u8 *)status_ptr + 0xB));
         if ((next_status == record_kind) || ((next_status == 6) && (record_kind == 0x64))) {
-            func_8001A188(record, value_addr, kind_entry, slot_index);
+            copyTownRecordPairFields(record, value_addr, kind_entry, slot_index);
         } else {
             value_addr += 4;
             slot_index += 1;

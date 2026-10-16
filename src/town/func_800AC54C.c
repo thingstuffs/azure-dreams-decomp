@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Singly-linked list node headed by D_80081498 (shared shape with
-   func_80040418/func_800401FC/func_8004B4A8/func_800403BC): next ptr @0x0,
+   func_80040418/removeMarkedActiveNodes/findActiveListNode/markActiveNodesByCallback): next ptr @0x0,
    a 32-bit id/value field @0x10, and a 16-bit flags field @0x1E. */
 typedef struct S_80081498 {
     struct S_80081498 *next; /* 0x00 */

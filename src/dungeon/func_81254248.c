@@ -8,7 +8,7 @@ extern void func_8009A3D0(s32 x, s32 y, s32 flag_mask);
 extern void func_8009A028(void *node);
 
 /* Updates the active object, triggers its positional effect, and clears its slot. */
-void func_81254248(void) {
+void dungeonUpdateGlobalEffectObject(void) {
     u8 **active_slot;
     u8 *active_obj;
 

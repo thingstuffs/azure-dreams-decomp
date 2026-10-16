@@ -18,7 +18,7 @@ typedef struct S_800CBB98_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800CBB98_0;   /* temp_v0 in func_800CBB98 */
+} S_800CBB98_0;   /* temp_v0 in dungeonCreateOwnedTileCenterEffect */
 
 typedef struct S_800CBB98_1 {
     u8 pad_00[0x2];
@@ -27,7 +27,7 @@ typedef struct S_800CBB98_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CBB98_1;   /* temp_v1 in func_800CBB98 */
+} S_800CBB98_1;   /* temp_v1 in dungeonCreateOwnedTileCenterEffect */
 
 typedef struct S_800CBB98_2 {
     u8 pad_00[0xC];
@@ -35,20 +35,20 @@ typedef struct S_800CBB98_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CBB98_2;   /* temp_a0 in func_800CBB98 */
+} S_800CBB98_2;   /* temp_a0 in dungeonCreateOwnedTileCenterEffect */
 
 typedef struct S_800CBB98_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800CBB98_3;   /* held_arg3 in func_800CBB98 */
+} S_800CBB98_3;   /* held_arg3 in dungeonCreateOwnedTileCenterEffect */
 
 typedef struct S_800CBB98_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CBB98_4;   /* global_base in func_800CBB98 */
+} S_800CBB98_4;   /* global_base in dungeonCreateOwnedTileCenterEffect */
 
 /* Creates an effect at the tile center, links it to its owner, and increments the effect count. */
-void *func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner) {
+void *dungeonCreateOwnedTileCenterEffect(s16 tile_x, u16 tile_y, s16 height, void *owner) {
     s16 saved_height = height;
     S_800CBB98_3 *saved_owner = owner;
     u16 saved_tile_x = tile_x;

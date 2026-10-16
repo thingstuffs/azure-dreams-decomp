@@ -9,17 +9,17 @@ extern u8 D_80170000[];
 typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8016FC4C_0;   /* var_a0 in func_8016FC4C */
+} S_8016FC4C_0;   /* var_a0 in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016FC4C_1_pre;   /* the 0x14 bytes before temp_v0 in func_8016FC4C, addressed as temp_v0[-1] */
+} S_8016FC4C_1_pre;   /* the 0x14 bytes before temp_v0 in dungeonAdvanceEncounterActorEffectPhase, addressed as temp_v0[-1] */
 
 typedef struct S_8016FC4C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016FC4C_2;   /* temp_v1 in func_8016FC4C */
+} S_8016FC4C_2;   /* temp_v1 in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_3 {
     u8 pad_00[0x94];
@@ -27,12 +27,12 @@ typedef struct S_8016FC4C_3 {
     u16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_8016FC4C_3;   /* arg0 in func_8016FC4C */
+} S_8016FC4C_3;   /* arg0 in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8016FC4C_4;   /* temp_s5 in func_8016FC4C */
+} S_8016FC4C_4;   /* temp_s5 in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_5 {
     u8 pad_00[0x4];
@@ -47,7 +47,7 @@ typedef struct S_8016FC4C_5 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016FC4C_5;   /* object in func_8016FC4C */
+} S_8016FC4C_5;   /* object in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_6 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -55,33 +55,33 @@ typedef struct S_8016FC4C_6 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_8016FC4C_6;   /* entity in func_8016FC4C */
+} S_8016FC4C_6;   /* entity in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_7 {
     s16 unk_00;
     s16 unk_02;
-} S_8016FC4C_7;   /* (u8 *)table_ptr in func_8016FC4C */
+} S_8016FC4C_7;   /* (u8 *)table_ptr in dungeonAdvanceEncounterActorEffectPhase */
 
 typedef struct S_8016FC4C_8 {
     u8 pad_00[0x3228];
     s16 unk_3228;
     u8 pad_322A[0x2B26];
     void * unk_5D50;
-} S_8016FC4C_8;   /* (u8 *)common_page in func_8016FC4C */
+} S_8016FC4C_8;   /* (u8 *)common_page in dungeonAdvanceEncounterActorEffectPhase */
 
 
-void func_80047738();
+void selectIndirectTableEntry();
 void func_800478B8();
 s32 func_80069EF8();
-u16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 func_800A56E0();
-void func_80164ED0();
-void func_801655EC(void *, s32, s32, s32);
+void dungeonCreateRandomVelocityChildEffect();
+void dungeonCreateOffsetHalfScaleSpark(void *, s32, s32, s32);
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
-void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
+void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     s32 distance;
     s32 burst_y;
     s16 sustain_y;
@@ -131,7 +131,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     {
         s32 shrink_step;
         s32 scaled_step;
-        heading->unk_2A = func_800A0818(
+        heading->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
             object->unk_24, object->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
@@ -151,7 +151,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         shrink_step = rounded_step >> 0xC;
         shrink_source = effect - 0x20;
         do {
-            func_80164ED0(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);
+            dungeonCreateRandomVelocityChildEffect(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);
             count += 1;
             shrink_source = effect - 0x20;
         } while (count < 6);
@@ -168,7 +168,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     {
         s32 burst_step;
         s32 scaled_step;
-        heading->unk_2A = func_800A0818(
+        heading->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
             object->unk_24, object->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
@@ -178,7 +178,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         burst_step = scaled_step >> 0xC;
         burst_source = effect - 0x20;
         do {
-            func_80164ED0(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);
+            dungeonCreateRandomVelocityChildEffect(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);
             count += 1;
             burst_source = effect - 0x20;
         } while (count < 6);
@@ -188,7 +188,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
             burst_x = (func_80069EF8(burst_source) & 0x1F) - 0xF;
             burst_x = (s16)(((s32)burst_x << 16) >> 16);
             burst_y = (s16)((func_80069EF8() & 0x1F) - 0xF);
-            func_801655EC(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            dungeonCreateOffsetHalfScaleSpark(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
         }
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7))
             func_800A56E0(0x817);
@@ -210,7 +210,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
             sustain_x = (s16)(((s32)sustain_x << 16) >> 16);
             sustain_y = (func_80069EF8() & 0x1F) - 0xF;
             sustain_y = (s16)(((s32)sustain_y << 16) >> 16);
-            func_801655EC(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            dungeonCreateOffsetHalfScaleSpark(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
         }
         break;
     case 4:
@@ -265,7 +265,7 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;
         if (old_direction != sprite_direction) {
-            func_80047738(object, *(object->unk_2C + sprite_direction), object->unk_04);
+            selectIndirectTableEntry(object, *(object->unk_2C + sprite_direction), object->unk_04);
             ((S_8016FC4C_3 *)effect)->unk_94 = direction;
         }
         func_800478B8(object);

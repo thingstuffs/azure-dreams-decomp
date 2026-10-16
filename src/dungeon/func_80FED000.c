@@ -57,10 +57,10 @@ extern M2C_UNK D_80162088;
 
 
 
-void *func_8015E8A8(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
+void *dungeonAllocateAndInitializeNode(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
-void *func_8015E8A8(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
+void *dungeonAllocateAndInitializeNode(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
     DungeonSub1 *state;
     DungeonNode *node;
     u16 saved_placement;

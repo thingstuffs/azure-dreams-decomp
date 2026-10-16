@@ -13,7 +13,7 @@ extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
-s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
+s32 dungeonCheckMovementClearanceAndHeight(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
     s16 offset_or_height;
     s32 call_direction;
     s16 *x_table;
@@ -39,7 +39,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
     x_base = x_shifted + 0x20;
     y_base = y_shifted + 0x20;
 
-    if ((func_8009A540(direction, (u32)x_base >> 6, (u32)y_base >> 6,
+    if ((dungeonCheckDiagonalSideHeight(direction, (u32)x_base >> 6, (u32)y_base >> 6,
                        (s16)(height - height_offset)) << 16) != 0) {
 
         call_direction = direction;
@@ -48,7 +48,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
         offset_or_height = call_direction << 1;
         x_pos = *(u16 *)((u8 *)x_table + offset_or_height) + x_base;
         y_pos = *(u16 *)((u8 *)D_800DCEBC + offset_or_height) + y_base;
-        if ((func_8009A350(position->x, position->y, call_direction, flags_out) << 16) == 0) {
+        if ((getOffsetMapCellValueAndFlags(position->x, position->y, call_direction, flags_out) << 16) == 0) {
             return 0;
         }
 
@@ -81,7 +81,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
             x_coord = x_pos;
             y_coord = y_pos & 0xFFFF;
             offset_or_height = terrain_height_short(x_coord, y_coord, (s16)(height - height_offset));
-            if (func_8009B25C(actor, (u32)x_pos >> 6, (u32)y_coord >> 6,
+            if (findEligibleActorAtTileAndHeight(actor, (u32)x_pos >> 6, (u32)y_coord >> 6,
                               (s16)offset_or_height)) {
                 status = -1;
                 return status;

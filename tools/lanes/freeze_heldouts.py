@@ -20,11 +20,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import row_path as layout_row_path
 from phase_census import classify
 
 
 def text(rid):
-    return (ROOT / "src" / (rid + ".c")).read_text(errors="replace")
+    return (layout_row_path(rid, ROOT)).read_text(errors="replace")
 
 
 def sha(ids):

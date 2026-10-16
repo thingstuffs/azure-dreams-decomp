@@ -86,7 +86,7 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800A56E0(s32);
 
 /* Spawns effect entries and marks the controller finished after two delays. */
-void func_800D7FB8(S_func_800D7FB8_0 *controller) {
+void dungeonUpdateEffectController(S_func_800D7FB8_0 *controller) {
     S_func_800D7FB8_1 *entry_data;
     s16 state;
     s32 spawn_index;

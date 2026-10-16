@@ -7,20 +7,20 @@ typedef struct S_800C8078_0 {
     s32 unk_14;
     u8 pad_18[0x3C];
     s32 unk_54;
-} S_800C8078_0;   /* arg0 in func_800C8078 */
+} S_800C8078_0;   /* arg0 in dungeonCheckEntityFlag4000 */
 
 typedef struct S_800C8078_1 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800C8078_1;   /* var_v1 in func_800C8078 */
+} S_800C8078_1;   /* var_v1 in dungeonCheckEntityFlag4000 */
 
 typedef struct S_800C8078_2 {
     u8 pad_00[0x54];
     s32 unk_54;
-} S_800C8078_2;   /* temp_v0 in func_800C8078 */
+} S_800C8078_2;   /* temp_v0 in dungeonCheckEntityFlag4000 */
 
 /* Checks flag 0x4000 on the entity or its two global linked entities. */
-s32 func_800C8078(S_800C8078_0 *entity) {
+s32 dungeonCheckEntityFlag4000(S_800C8078_0 *entity) {
     s32 slot_index;
     S_800C8078_2 *linked_entity;
     void *slot_cursor;

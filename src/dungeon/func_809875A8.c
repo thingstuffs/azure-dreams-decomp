@@ -6,12 +6,12 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
@@ -84,7 +84,7 @@ void func_8015EDA8(void *actor, void *motion, void *sprite)
 
 
     previous_state = (s8)(*(u8 *)((u8 *)actor + 0x6D));
-    if (func_800A9E70(actor, motion, sprite, actor) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, sprite, actor) != 0) {
         return;
     }
 
@@ -114,7 +114,7 @@ void func_8015EDA8(void *actor, void *motion, void *sprite)
         direction = ((gameWork.view.viewAngle + ((S_8015EDA8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7;
         sprite_direction = direction;
         if ((*(s16 *)((u8 *)actor + 0x94)) != sprite_direction) {
-            func_80047738(sprite,
+            selectIndirectTableEntry(sprite,
                 (*(u8 *)((u8 *)(((S_8015EDA8_1 *)sprite)->unk_2C) + sprite_direction)),
                 ((S_8015EDA8_1 *)sprite)->unk_04.s8);
             (*(s16 *)((u8 *)actor + 0x94)) = direction;
@@ -128,7 +128,7 @@ void func_8015EDA8(void *actor, void *motion, void *sprite)
             }
             ((S_8015EDA8_1 *)sprite)->unk_14 = flip_flags;
         }
-        func_800A020C(((S_8015EDA8_2 *)actor_state)->unk_1C.s, (u8 *)sprite + 0xC);
+        dungeonApplyMonsterKoyawData(((S_8015EDA8_2 *)actor_state)->unk_1C.s, (u8 *)sprite + 0xC);
         if (!(((S_8015EDA8_2 *)actor_state)->unk_1C.u & 0x20)) {
             if (!(((S_8015EDA8_1 *)sprite)->unk_14 & 0x40)) {
                 func_800478B8(sprite);

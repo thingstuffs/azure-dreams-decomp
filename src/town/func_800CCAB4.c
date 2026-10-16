@@ -27,11 +27,11 @@ typedef struct {
 
 extern TownState D_80083498;
 
-extern void func_800CA774(Object *, Position *, void *, GameState *);
+extern void townInitializeReactionDataAndTimer10B(Object *, Position *, void *, GameState *);
 extern void SD_Call(s32);
 
 /* Move halfway toward the target each tick and finish the transition when the timer expires. */
-void func_800CA214(Object *object, Position *position, void *context)
+void townMoveReactionTowardTarget(Object *object, Position *position, void *context)
 {
     s16 ticks_left;
     GameWork *game = &gameWork;
@@ -43,7 +43,7 @@ void func_800CA214(Object *object, Position *position, void *context)
     ticks_left = (u16)object->timer - 1;
     object->timer = ticks_left;
     if (ticks_left <= 0) {
-        func_800CA774(object, position, context, game);
+        townInitializeReactionDataAndTimer10B(object, position, context, game);
         SD_Call(0x605);
         return;
     }

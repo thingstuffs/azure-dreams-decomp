@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
+void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, void *entity)
 {
     u8 state;
     u8 *sprite_group;
@@ -27,7 +27,7 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         entity_flags = S32(entity, 0x14);
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         func_800A56E0(0x805);

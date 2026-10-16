@@ -12,7 +12,7 @@ typedef struct {
 extern u8 D_800C2824[];
 
 /* Create an object with the supplied value and increment the global object count. */
-void *func_800C2C7C(s32 value) {
+void *dungeonCreateReturnMagicEffect(s32 value) {
     S_800BD51C_node *object;
 
     object = func_8003FC64(2);

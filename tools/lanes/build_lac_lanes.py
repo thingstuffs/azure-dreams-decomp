@@ -91,8 +91,8 @@ def render(rid, text, info):
     for x in s:
         fam_counts[x[1]] = fam_counts.get(x[1], 0) + 1
     lines = ["## %s" % rid,
-             "- cell `%s`, %d B retail, `src/%s.c`, true base 0x%08X (delta 0x%X, region `%s`, %s)"
-             % (r["cfg"], int(r["size"]), rid, info["base"], info["delta"], info["region"], info["conf"]),
+             "- cell `%s`, %d B retail, `%s`, true base 0x%08X (delta 0x%X, region `%s`, %s)"
+             % (r["cfg"], int(r["size"]), clean_path(r).relative_to(ROOT).as_posix(), info["base"], info["delta"], info["region"], info["conf"]),
              "- pin sites: %d (%s)" % (len(s), ", ".join("%s %d" % kv for kv in sorted(fam_counts.items()))),
              "- pseudo-calls (%d):" % len(info["calls"])] + info["calls"]
     return "\n".join(lines) + "\n"

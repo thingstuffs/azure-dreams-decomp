@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void func_8002528C(void *effect, void *unused, void *fade_state) {
+void dungeonDrawAFullScreenColorOverlayMarkEffectCompleteCountdownEnds(void *effect, void *unused, void *fade_state) {
     s8 green_blue;
     s8 frames_left;
     void *overlay;

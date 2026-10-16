@@ -61,7 +61,7 @@ void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     if (spawn_actor != 0) {
         actor = func_8003FC64(530);
         if (actor != NULL) {
-            actor->update = func_800260D4;
+            actor->update = dungeonFadeEffectColorToBlack;
             func_8004491C(actor, func_80045340);
             coord = actor->pos;
             coord->x = x;

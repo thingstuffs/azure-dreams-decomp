@@ -5,6 +5,10 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import *
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import source_files as layout_source_files
 TAG, PAT = sys.argv[1], sys.argv[2]
 LANE_ = Path(__file__).resolve().parent.parent
 busy = set(l.strip() for l in open(LANE_ / "BUSY_ROWS5.txt") if l.strip())
@@ -12,7 +16,7 @@ R = row_index()
 files = {}
 for c in ("slus", "main", "town", "dungeon", "ovmovie"):
     rxf = re.compile(PAT)
-    out = [str(f) for f in (REPO / "src" / c).glob("*.c") if rxf.search(f.read_text(errors="replace"))]
+    out = [str(f) for f in layout_source_files(c, REPO) if rxf.search(f.read_text(errors="replace"))]
     for f in out: files[(c, Path(f).name)] = f
 todo = [r for r in R.values() if (r["container"], Path(r["c_path"]).name) in files]
 rx = re.compile(PAT)

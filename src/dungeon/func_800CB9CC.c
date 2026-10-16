@@ -2,11 +2,11 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-extern s32 func_8009A350(s16, s16, s16, u16 *);
-extern s16 func_800D0DE0(s16, s16, s16);
+extern s32 getOffsetMapCellValueAndFlags(s16, s16, s16, u16 *);
+extern s16 dungeonProcessPerpendicularEligibleTiles(s16, s16, s16);
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
-s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
+s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 start_y) {
     s32 bound_bit;
     u16 flags;
     s32 saved_offset;
@@ -59,10 +59,10 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
         u16 *loop_x_step;
         x = (s16)x_acc;
         y = (s16)y_acc;
-        if ((func_8009A350(x, y, direction, &flags) << 16) != 0 &&
+        if ((getOffsetMapCellValueAndFlags(x, y, direction, &flags) << 16) != 0 &&
             (flags & 4)) {
             count++;
-            if (func_800D0DE0(direction, x, y) >= 2) {
+            if (dungeonProcessPerpendicularEligibleTiles(direction, x, y) >= 2) {
                 break;
             }
         }

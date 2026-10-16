@@ -15,11 +15,11 @@ typedef struct S_80172620_0 {
 
 
 extern void func_80047784(void *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(s32, u8, u8);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(s32, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern void *D_800E3DE8;
 extern s32 D_80170E54;
@@ -36,7 +36,7 @@ void func_80172620(void *action, s32 actor_id, void *sprite, EntityRec *actor) {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172620_0 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801739F0;
@@ -51,18 +51,18 @@ void func_80172620(void *action, s32 actor_id, void *sprite, EntityRec *actor) {
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x808);
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             ((S_80172620_0 *)action)->unk_9B = 0xFF;
         }
         return;
 
     case 0xFF:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            func_800A2B04(actor_id, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            func_800AD594(actor, 0x100);
+            dungeonSetRecordIntegerTileCenter(actor_id, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             ((S_80172620_0 *)action)->unk_8C = &D_80170E54;
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             if (actor->unk_6D == 0) {
                 actor->unk_46 &= 0x7FFF;
                 return;

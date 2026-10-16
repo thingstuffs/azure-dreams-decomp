@@ -9,19 +9,19 @@ typedef struct S_80089C24_0 {
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_80089C24_0;   /* temp_v0 in func_80089C24 */
+} S_80089C24_0;   /* temp_v0 in mainInitializeSettingsScreen */
 
 typedef struct S_80089C24_1 {
     u8 pad_00[0x12];
     s16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80089C24_1;   /* var_s4 in func_80089C24 */
+} S_80089C24_1;   /* var_s4 in mainInitializeSettingsScreen */
 
 typedef struct S_80089C24_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80089C24_2;   /* ((S_80089C24_0 *)temp_v0)->unk_08 in func_80089C24 */
+} S_80089C24_2;   /* ((S_80089C24_0 *)temp_v0)->unk_08 in mainInitializeSettingsScreen */
 
 
 typedef struct Sol9Copy8 {
@@ -34,14 +34,14 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
 }
 
 s32 func_8004491C();           /* extern */
-s32 func_80053428();                      /* extern */
+s32 renderScreenFadeDecreasingIntensity();                      /* extern */
 M2C_UNK SD_Call(); /* extern */
 M2C_UNK func_80067014();                     /* extern */
 M2C_UNK func_800672D8();        /* extern */
 M2C_UNK func_8006733C();        /* extern */
 void *func_8008A98C(); /* extern */
 void func_8008ABD4();   /* extern */
-M2C_UNK func_8008AE60();            /* extern */
+M2C_UNK mainInitializeAndSubmitRecord();            /* extern */
 extern u8 D_80013180;
 extern u8 D_80013181;
 extern u8 D_80013182;
@@ -67,7 +67,7 @@ extern M2C_UNK D_8008B2F0;
 extern M2C_UNK D_8008B2FC;
 
 /* Initializes the settings screen palette, labels, panels, and sliders. */
-void func_80089C24(void) {
+void mainInitializeSettingsScreen(void) {
     u8 frame[0x278];
     s32 heading_x;
     s32 heading_y;
@@ -146,8 +146,8 @@ void func_80089C24(void) {
     func_800672D8(frame + 0x270, frame + 0x70);
     screen_object = func_8003FC64(0x11);
     if (screen_object != NULL) {
-        ((S_80089C24_0 *)screen_object)->unk_10 = (void *)func_8008A288;
-        func_8004491C(screen_object, func_8008A794);
+        ((S_80089C24_0 *)screen_object)->unk_10 = (void *)mainHandleSettingsMenuInput;
+        func_8004491C(screen_object, mainBuildSettingsSpriteTiles);
         settings = screen_object + 0x20;
         ((S_80089C24_2 *)(((S_80089C24_0 *)screen_object)->unk_08))->unk_06 = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
@@ -168,7 +168,7 @@ void func_80089C24(void) {
             ((S_80089C24_1 *)settings)->unk_16 = (u16) (((S_80089C24_1 *)settings)->unk_16 & 0xFFFD);
         }
     }
-    func_80053428(settings);
+    renderScreenFadeDecreasingIntensity(settings);
     panel_x_fixed = 0x400000;
     panel_y_fixed = 0xA00000;
     *(s32 *)(frame + 0x0) = panel_x_fixed;
@@ -192,20 +192,20 @@ void func_80089C24(void) {
         footer_text = ((s32 *)&D_8008B2FC)[index];
         label_order = index * 2 + 30;
         label_text = footer_text;
-        func_8008AE60((u8 *)func_8008AEEC, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)func_8008AEEC, &label_flags);
         index -= 1;
     } while (index >= 0);
     label_x = 0x74;
     label_y = 0xC;
     label_text = D_8008B2B0;
-    func_8008AE60((u8 *)&D_8008B030, &label_flags);
+    mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
     index = 0;
     label_x = 0x20;
     do {
         label_y = index * 0xC + 0x20;
         top_text = ((s32 *)&D_8008B2B4)[index];
         label_text = top_text;
-        func_8008AE60((u8 *)&D_8008B030, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
         index += 1;
     } while (index < 2);
     item_index = 0;
@@ -216,7 +216,7 @@ void func_80089C24(void) {
         label_x = item_index * 0x40 + 0xBE;
         choice_text = ((s32 *)&D_8008B2BC)[item_index];
         label_text = choice_text;
-        func_8008AE60((u8 *)func_8008AD58, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)mainUpdateSettingsEffectColor, &label_flags);
         item_index += 1;
     } while (item_index < 2);
     label_x = 0x20;
@@ -225,7 +225,7 @@ void func_80089C24(void) {
         label_y = item_index * 0xC + 0x40;
         middle_text = ((s32 *)&D_8008B2C4)[item_index];
         label_text = middle_text;
-        func_8008AE60((u8 *)&D_8008B030, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;
     } while (item_index >= 0);
     item_index = 1;
@@ -233,7 +233,7 @@ void func_80089C24(void) {
         label_x = item_index * 0x40 + 0xBE;
         choice_heading = ((s32 *)&D_8008B2D4)[item_index];
         label_text = choice_heading;
-        func_8008AE60((u8 *)&D_8008B030, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;
     } while (item_index >= 0);
     label_x = 0x20;
@@ -242,7 +242,7 @@ void func_80089C24(void) {
         label_y = item_index * 0xC + 0x78;
         bottom_text = ((s32 *)&D_8008B2DC)[item_index];
         label_text = bottom_text;
-        func_8008AE60((u8 *)&D_8008B030, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
         item_index += 1;
     } while (item_index < 2);
     label_x = 0xB2;
@@ -251,7 +251,7 @@ void func_80089C24(void) {
         label_y = item_index * 0xC + 0x7E;
         channel_text = ((s32 *)&D_8008B2E4)[item_index];
         label_text = channel_text;
-        func_8008AE60((u8 *)&D_8008B030, &label_flags);
+        mainInitializeAndSubmitRecord((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;
     } while (item_index >= 0);
     panel_x = 0x1C;

@@ -5,7 +5,7 @@
 
 
 /* Collect nonzero record values, including the extra value for the selected record. */
-void func_800B58B8(s32 *output, EntityRec *record) {
+void townCollectSelectedRecordValues(s32 *output, EntityRec *record) {
     s32 *write_ptr;
     s32 extra_value;
     s32 first_value;

@@ -4,7 +4,7 @@
 extern void func_800478B8(void *visual);
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
-void func_800246B0(void *effect, void *position, void *visual) {
+void dungeonAdvanceEffectMotionAndAnimation(void *effect, void *position, void *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame_count;

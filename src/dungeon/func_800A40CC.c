@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern void Control_CD(s32, void *, void *);
-extern void func_8003F540(s32, s32, s32, s32);
-extern void func_8003F6D4(s32, void *, void *, s32);
+extern void soundSetCdCueParameters(s32, s32, s32, s32);
+extern void packTaggedResourceDescriptor(s32, void *, void *, s32);
 extern s32 func_800445E0(void);
-extern s32 func_800A9390(s16);
-extern s32 func_800A9400(s16);
+extern s32 dungeonResolveSpellEffectResourceId(s16);
+extern s32 dungeonResolveAlternateSpellId(s16);
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
@@ -16,7 +16,7 @@ extern s32 D_800DDAB8[];
 extern s32 D_800E58B0[];
 
 /* Updates selection data and starts a message when the selection changes. */
-s32 func_800A982C(s16 selection_id, s16 alternate_table) {
+s32 dungeonLoadSpellEffectCode(s16 selection_id, s16 alternate_table) {
     register s32 changed;
     s32 change_result;
     u32 index_hi;
@@ -39,12 +39,12 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
         change_result = changed;
         if (change_result != 0) {
             if (alternate_table != 0) {
-                message_offset = ((s16)func_800A9390(selection_id) * 0xC) + 0x607F;
+                message_offset = ((s16)dungeonResolveSpellEffectResourceId(selection_id) * 0xC) + 0x607F;
             } else {
                 message_offset = ((selection_id - 1) * 0xC) + 0x607F;
             }
             message_data = D_800E58B0;
-            func_8003F6D4(0xC, resource_data, message_data, message_offset);
+            packTaggedResourceDescriptor(0xC, resource_data, message_data, message_offset);
             Control_CD(6, message_data, 0);
             Control_CD(0xFF, D_8003E140, &D_800DCF59);
             D_800DCF4D = selection_id | (alternate_table << 6);
@@ -52,7 +52,7 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
 
         if (alternate_table != 0) {
             selection_table = D_800DDAB8;
-            index_hi = func_800A9400(selection_id) << 16;
+            index_hi = dungeonResolveAlternateSpellId(selection_id) << 16;
             doubled_index = index_hi >> 15;
             state_value = D_8006CD58[0];
         } else {
@@ -63,7 +63,7 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
         }
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (u32)selection_table);
-        func_8003F540(0, state_value, selection_entry[0], selection_entry[1]);
+        soundSetCdCueParameters(0, state_value, selection_entry[0], selection_entry[1]);
         Control_CD(0x15, (void *)func_800445E0(), 0);
 
         change_result = changed;

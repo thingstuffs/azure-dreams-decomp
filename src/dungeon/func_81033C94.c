@@ -91,11 +91,11 @@ extern u8 D_8017612C[];
 extern void func_8004491C(AllocationObject *allocation, void *callback);
 extern void func_8009A3D0(u8 x, u8 y, s32 mode);
 extern s32 func_800BCB04(u16 x, u16 y, s16 height);
-extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
-extern void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
+extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void *dungeonFindNearbyEligibleEntry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
-void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *origin) {
+void dungeonCreateFacingOffsetObject(Arg0Object *owner, Arg1Object *height_source, Arg2Object *origin) {
     AllocationObject *allocated;
     BlockObject *block;
     PayloadObject *payload;
@@ -141,7 +141,7 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
         child->fieldc = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
         child->ptr8 = (u8 *)allocated + 0x54;
-        secondary = func_801748FC(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, *(s16 *)((u8 *)payload
+        secondary = dungeonFindNearbyEligibleEntry(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, *(s16 *)((u8 *)payload
             + 0xa));
         block->field30 = secondary;
         if (secondary != 0) {
@@ -157,6 +157,6 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
             }
             func_8009A3D0(secondary_x, secondary_y, mode);
         }
-        func_800C77D0(allocated, payload, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(allocated, payload, 8, 0x300);
     }
 }

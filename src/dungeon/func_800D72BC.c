@@ -4,13 +4,13 @@
 typedef struct S_800DCA1C_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800DCA1C_0;   /* ((*var_a1 * 0x10) + arg0) in func_800DCA1C */
+} S_800DCA1C_0;   /* ((*var_a1 * 0x10) + arg0) in dungeonLinkIndexedEntryChain */
 
 extern u8 D_800E2954;
 extern u8 D_800E2960[];
 
 /* Link entries to their predecessors in the selected index order and return the last entry. */
-s32 func_800DCA1C(s32 entries_base, s32 use_alt_order) {
+s32 dungeonLinkIndexedEntryChain(s32 entries_base, s32 use_alt_order) {
     s32 prev_entry;
     u8 *index_ptr;
     u8 *index_order;

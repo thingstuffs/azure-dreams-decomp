@@ -8,7 +8,7 @@ typedef struct Func800391ECState {
 } Func800391ECState;
 
 /* Read the next event-script byte into the state's value and advance the read pointer. */
-void func_800391EC(Func800391ECState *state) {
+void vmOp09SetContextByte(Func800391ECState *state) {
     u8 *script_ptr = state->read_ptr;
     u8 value = *script_ptr;
 

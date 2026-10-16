@@ -6,6 +6,6 @@ s32 func_80016104();              /* extern */
 extern M2C_UNK D_80018E60;
 
 /* Passes the value to func_80016104 with D_80018E60 as context. */
-void func_80016A6C(s32 value) {
+void townDispatchSceneValueA(s32 value) {
     func_80016104(&D_80018E60, value);
 }

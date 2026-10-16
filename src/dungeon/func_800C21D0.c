@@ -9,12 +9,12 @@ typedef struct S_800C7930_1 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C7930_1;   /* source in func_800C7930 */
+} S_800C7930_1;   /* source in dungeonApplyCameraOffsetAndSelectTarget */
 
 typedef struct S_800C7930_2 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_800C7930_2;   /* work in func_800C7930 */
+} S_800C7930_2;   /* work in dungeonApplyCameraOffsetAndSelectTarget */
 
 typedef struct S_800C7930_3 {
     u8 pad_00[0x2];
@@ -23,16 +23,16 @@ typedef struct S_800C7930_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C7930_3;   /* destination in func_800C7930 */
+} S_800C7930_3;   /* destination in dungeonApplyCameraOffsetAndSelectTarget */
 
 
 extern u16 D_800DCEAC;
 extern u16 D_800DCEBC;
 extern u16 D_800E58F8[];
-extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
-/* Apply table offsets to a position near the camera and pass it to func_800C77D0. */
-s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
+/* Apply table offsets to a position near the camera and pass it to dungeonSelectNearbyTargetAndInitializeSlot. */
+s32 dungeonApplyCameraOffsetAndSelectTarget(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
 {
     s32 delta;
     s32 source_coord;
@@ -77,7 +77,7 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_va
             y_offset = *(u16 *)(y_offsets + y_offset_index);
             ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;
             ((S_800C7930_3 *)destination)->unk_0A = source->unk_0A;
-            func_800C77D0(object, destination, (s16)helper_arg, slot_value);
+            dungeonSelectNearbyTargetAndInitializeSlot(object, destination, (s16)helper_arg, slot_value);
         }
     }
     return 0;

@@ -80,18 +80,18 @@ typedef struct {
 extern u8 D_800DEA68[];
 extern u8 D_800D7D30[];
 
-extern s32 func_8003DE58(s32, void *, u16 *, s32);
+extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
 extern DungeonObject *func_8003FD64(s32, void *);
 extern void func_8004491C(DungeonObject *, void *);
 extern void func_800A56E0(s32);
 
 /* Updates the effect position, spawns eight objects per tick, and expires after a delay. */
-void func_800D7A78(DungeonState *effect) {
+void dungeonUpdateRadialEffect(DungeonState *effect) {
     u16 position_offset[3];
 
     {
         TileObject *position_table = &D_80082E80;
-        if (func_8003DE58(position_table->unk_008, position_table, position_offset, 0) != 0) {
+        if (resolveRecordOrientationOrFallback(position_table->unk_008, position_table, position_offset, 0) != 0) {
             effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
             effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
             effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;

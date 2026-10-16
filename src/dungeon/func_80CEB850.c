@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */
-void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
+void dungeonUpdateActorActivityState(void *task, s32 task_id, void *sprite_in, void *actor_in) {
     u8 *next_anim_table;
     u8 *old_anim_table;
     void *starting_task;
@@ -97,14 +97,14 @@ void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
             if (dungeonStatus.flags & 0x1000) {
                 return;
             }
-            if (((T_80175050_S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite_in, 0) != 0) {
+            if (((T_80175050_S_80175050_2 *)actor)->unk_64 != 0 && dungeonBeginReadyActorDirectionalAction(task, task_id, sprite_in, 0) != 0) {
                 return;
             }
             if (((T_80175050_S_80175050_2 *)actor)->unk_25 == 0) {
                 if (dungeonStatus.flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(task, task_id, sprite_in, actor);
+                dungeonAdvanceActorPendingAction(task, task_id, sprite_in, actor);
                 return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
@@ -112,19 +112,19 @@ void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
             }
             flags = ((T_80175050_S_80175050_2 *)actor)->unk_1C;
             if (flags & 0x100) {
-                func_800AA258(task, task_id, sprite_in, actor);
+                dungeonBeginPushedActorMove(task, task_id, sprite_in, actor);
                 return;
             }
             if (flags & 0x80000) {
                 func_800AA888(task, task_id, sprite_in, actor);
-                func_801759A0(task, task_id, sprite_in, actor);
+                dungeonUpdateDirectionalActionDisplay(task, task_id, sprite_in, actor);
                 return;
             }
             if (((T_80175050_S_80175050_2 *)actor)->unk_6D == 0) {
                 return;
             }
             if ((func_800A2C34(actor) << 16) != 0) {
-                if ((func_8009A180(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
+                if ((dungeonCheckEntityRelation(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -134,7 +134,7 @@ void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
                 TileObject *player;
                 player = &D_80082E80;
                 floor = ((T_80175050_S_80175050_1 *)sprite_in)->unk_26;
-                if ((floor == player->unk_026 && floor >= 0) || func_8009FD40(player, sprite_in) < 2) {
+                if ((floor == player->unk_026 && floor >= 0) || dungeonGetTileChebyshevDistance(player, sprite_in) < 2) {
                     if (!(func_800A6D30() & 7)) {
                         func_80042B68(actor, 1);
                     }
@@ -165,7 +165,7 @@ void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
         }
 
         if (((T_80175050_S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {
-            ((T_80175050_S_80175050_0 *)task)->unk_8C = func_801724BC;
+            ((T_80175050_S_80175050_0 *)task)->unk_8C = dungeonUpdateActorBehavior;
             return;
         }
         ((T_80175050_S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A++;
@@ -176,7 +176,7 @@ void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
     case 2:
         if (((T_80175050_S_80175050_1 *)sprite_in)->unk_14 & 0xE000) {
             ((T_80175050_S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
-            ((T_80175050_S_80175050_0 *)task)->unk_8C = func_801724BC;
+            ((T_80175050_S_80175050_0 *)task)->unk_8C = dungeonUpdateActorBehavior;
         }
         return;
 

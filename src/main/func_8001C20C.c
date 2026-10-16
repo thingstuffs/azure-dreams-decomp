@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *func_80402F84();   /* extern */
+u8 *initCardMessageObject();   /* extern */
 
-/* Calls func_80402F84 for the target with fixed arguments 9, 0, and 0. */
+/* Calls initCardMessageObject for the target with fixed arguments 9, 0, and 0. */
 void func_8001C20C(M2C_UNK target) {
-    func_80402F84(target, 9, 0, 0);
+    initCardMessageObject(target, 9, 0, 0);
 }

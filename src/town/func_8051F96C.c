@@ -5,7 +5,7 @@
 
 
 /* Calls the state callback with 0xC and checks whether y is between 0x401 and 0x4FF. */
-s32 func_8001716C(void) {
+s32 townCheckSceneYRange(void) {
     D_80016000->unk_20->callback_258(0xC);
     return (u32)(((TownPositionState *)D_80016000->unk_1C)->y - 0x401) < 0xFFU;
 }

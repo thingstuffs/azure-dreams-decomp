@@ -10,7 +10,7 @@ extern void *func_80016F14(void *, void *, void *, s32);
 extern s32 func_80016EB8(void *, void *, s32);
 extern void func_8001779C(u16);
 extern s32 func_8001781C(s16);
-extern s32 func_80017948(s32);
+extern s32 townGetIndexedTableEntry(s32);
 
 /* Look up the slot's record, substituting fixed records when it is claimed or the 7-flag is set. */
 void *func_80761C70(void *slot, s32 unused, s32 context)
@@ -27,7 +27,7 @@ void *func_80761C70(void *slot, s32 unused, s32 context)
     } else {
         func_8001779C(0x9E9);
     }
-    if (func_80017948(7) != 0) {
+    if (townGetIndexedTableEntry(7) != 0) {
         result = D_80018E42;
     }
     return result;

@@ -24,10 +24,10 @@ extern Entry8007359C *D_8007359C[4];
 typedef struct S_800A34BC_0 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800A34BC_0;   /* ((*(u8 *)((u8 *)arg0 + 0x13)) * 0x14) + (s8 *)D_8007359C[0] in func_800A34BC */
+} S_800A34BC_0;   /* ((*(u8 *)((u8 *)arg0 + 0x13)) * 0x14) + (s8 *)D_8007359C[0] in dungeonCopyIndexedEntryData */
 
 /* Copy the indexed entry data into the entity and clear its final byte. */
-void func_800A34BC(void *entity) {
+void dungeonCopyIndexedEntryData(void *entity) {
     void *entry_data;
 
     entry_data = ((S_800A34BC_0 *)(((*(u8 *)((u8 *)entity + 0x13)) * 0x14) + (s8 *)D_8007359C[0]))->unk_04;

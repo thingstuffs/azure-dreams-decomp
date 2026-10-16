@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_190d6a4.h"
 
-void func_80024ED4(ParticleWork *work, ParticlePosition *position) {
+void dungeonCreateLinkedEffectSegments(ParticleWork *work, ParticlePosition *position) {
     *(s16 *)D_80026428 = 1;
     if (position->z.half.high < (s16)func_800BCB04(position->x, position->y, (s16)((u16)position->z.half.high + 2))) {
         position->z.word += 0x20000 + (rand() & 0xFFF);

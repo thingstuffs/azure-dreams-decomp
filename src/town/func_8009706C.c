@@ -14,14 +14,14 @@ typedef struct S_800947CC_1 {
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800947CC_1;   /* arg1 in func_800947CC */
+} S_800947CC_1;   /* arg1 in townInitializeReturnedItemAction */
 
 /* Initialize an object with its handler, two settings, and a state value of 20. */
-void func_800947CC(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings, void *ptr2) {
+void townInitializeReturnedItemAction(Rec_func_80094268_arg0 *object, S_800947CC_1 *settings, void *ptr2) {
     u16 secondSetting;
     M2C_UNK *handler;
 
-    func_80094984((s32 *) &D_800D00A0, object, ptr2);
+    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D00A0, object, ptr2);
     object->unk_30 = (u16) settings->unk_02;
     handler = (M2C_UNK *) D_80093458;
     secondSetting = settings->unk_06;

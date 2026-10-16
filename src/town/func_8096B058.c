@@ -4,13 +4,13 @@ typedef struct S_801234F0_0 {
     s32 unk_00;
     void * unk_04;
     void * unk_08;
-} S_801234F0_0;   /* *dst in func_801234F0 */
+} S_801234F0_0;   /* *dst in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_1 {
     u8 pad_00[0x30];
     void * unk_30;
     void * unk_34;
-} S_801234F0_1;   /* tail_dst in func_801234F0 */
+} S_801234F0_1;   /* tail_dst in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_2 {
     u8 pad_00[0x64];
@@ -19,41 +19,41 @@ typedef struct S_801234F0_2 {
     u8 pad_68[0x4];
     u16 unk_6C;
     u16 unk_6E;
-} S_801234F0_2;   /* tail_src in func_801234F0 */
+} S_801234F0_2;   /* tail_src in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_3 {
     u8 pad_00[0x8];
     u16 unk_08;
     u16 unk_0A;
-} S_801234F0_3;   /* ((S_801234F0_0 *)(*dst))->unk_04 in func_801234F0 */
+} S_801234F0_3;   /* ((S_801234F0_0 *)(*dst))->unk_04 in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_4 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
-} S_801234F0_4;   /* ((S_801234F0_0 *)(*dst))->unk_08 in func_801234F0 */
+} S_801234F0_4;   /* ((S_801234F0_0 *)(*dst))->unk_08 in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801234F0_5;   /* ((S_801234F0_1 *)tail_dst)->unk_30 in func_801234F0 */
+} S_801234F0_5;   /* ((S_801234F0_1 *)tail_dst)->unk_30 in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801234F0_6;   /* ((S_801234F0_1 *)tail_dst)->unk_34 in func_801234F0 */
+} S_801234F0_6;   /* ((S_801234F0_1 *)tail_dst)->unk_34 in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_7 {
     u8 pad_00[0x6];
     u16 unk_06;
     u16 unk_08;
-} S_801234F0_7;   /* ((S_801234F0_5 *)(((S_801234F0_1 *)tail_dst)->unk_30))->unk_08 in func_801234F0 */
+} S_801234F0_7;   /* ((S_801234F0_5 *)(((S_801234F0_1 *)tail_dst)->unk_30))->unk_08 in townLayoutCatalogFrame */
 
 typedef struct S_801234F0_8 {
     u8 pad_00[0x6];
     u16 unk_06;
     u16 unk_08;
-} S_801234F0_8;   /* ((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08 in func_801234F0 */
+} S_801234F0_8;   /* ((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08 in townLayoutCatalogFrame */
 
 
 
@@ -67,7 +67,7 @@ typedef struct SourceEntry {
 } SourceEntry;
 
 /* Initialize 14 objects from table data and override the final two field pairs. */
-void func_801234F0(void) {
+void townLayoutCatalogFrame(void) {
     {
         SourceEntry *src_entry;
         void **object_slot;

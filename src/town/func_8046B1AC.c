@@ -1,10 +1,10 @@
 #include "shared/town_event_state.h"
 #include "common.h"
 
-extern void func_8001C108(void);
-extern s32 func_8001A58C(u8);
-extern u8 func_8001A4F0(void);
-extern u8 *func_8001B6F8(s32, s32, s32);
+extern void townSetEventStateAndDispatchA2(void);
+extern s32 townCheckEventValueInList(u8);
+extern u8 townFindFirstEnabledEntryId(void);
+extern u8 *townResolveEventResponseKey(s32, s32, s32);
 
 extern u8 D_8001786E[];
 extern u8 D_8001914C[];
@@ -14,15 +14,15 @@ extern u8 D_8001F0AA[];
 extern u8 D_80021CC0[];
 
 /* Selects a response buffer by request type, refreshing state for the initial request. */
-u8 *func_8001C1AC(s32 context, s32 data, s32 request) {
+u8 *townSelectResponseBuffer(s32 context, s32 data, s32 request) {
     u8 **state_page;
     u8 *response;
 
     if (request == 0) {
         state_page = (u8 **)0x80020000;
-        func_8001C108();
-        if (func_8001A58C((*(u8 **)((u8 *)state_page - 0x16B0))[4]) == 0) {
-            (*(u8 **)((u8 *)state_page - 0x16B0))[4] = func_8001A4F0();
+        townSetEventStateAndDispatchA2();
+        if (townCheckEventValueInList((*(u8 **)((u8 *)state_page - 0x16B0))[4]) == 0) {
+            (*(u8 **)((u8 *)state_page - 0x16B0))[4] = townFindFirstEnabledEntryId();
         }
         if ((*(u8 **)((u8 *)state_page - 0x16B0))[4] != 0) {
             D_8001E958 = 1;
@@ -38,7 +38,7 @@ u8 *func_8001C1AC(s32 context, s32 data, s32 request) {
         return D_8001786E;
     }
     if (request != 1) {
-        response = func_8001B6F8(context, data, request);
+        response = townResolveEventResponseKey(context, data, request);
     } else {
         response = D_8001914C;
     }

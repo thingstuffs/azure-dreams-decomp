@@ -22,7 +22,7 @@ typedef struct Func80039D48Reader {
 } Func80039D48Reader;
 
 /* Call the event script's encoded handler with table arguments and store its result. */
-void func_80039D48(Func80039D48Reader *reader) {
+void vmOp76CallAbsoluteFunction(Func80039D48Reader *reader) {
     register u8 *read_ptr = reader->read_ptr;
     u32 addr_byte_0 = read_ptr[0];
     u32 addr_byte_1 = read_ptr[1];

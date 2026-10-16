@@ -122,8 +122,8 @@ def render_row(rid, r, rep, text, served):
     sites = sites_of(text)
     prior = served.get(rid, [])
     head = ["## %s" % rid,
-            "- cell `%s`, %d B retail, `src/%s.c`, %d pin site(s) (%d `ASM_REG`)"
-            % (r["cfg"], r["size"], rid, len(sites), rep.get("reg_sites", 0)),
+            "- cell `%s`, %d B retail, `%s`, %d pin site(s) (%d `ASM_REG`)"
+            % (r["cfg"], r["size"], clean_path(r).relative_to(ROOT).as_posix(), len(sites), rep.get("reg_sites", 0)),
             "- earlier packs on this row: %s" % (", ".join("`work/native_lane/%s/REPORT.md`" % l for l in prior) or "none")]
     good = {s["site"] for s in admissible_sites(rep)}
     body = []

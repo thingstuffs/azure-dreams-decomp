@@ -8,18 +8,18 @@ extern s32 SetGraphDebug(s32 level);
 extern s32 InitPAD(u8 *buf1, s32 siz1, u8 *buf2, s32 siz2);
 extern void bzero(void *ptr, s32 len);
 
-extern void func_8003CAC4(void);
-extern void func_8003D56C(s32 a0);
-extern void func_80053DCC(s16 volume_scale);
-extern void func_80053E14(s16 a0);
+extern void initializeRuntimeTableDefaults(void);
+extern void initializeMemoryCardServices(s32 a0);
+extern void soundSetCdPlaybackVolumeScale(s16 volume_scale);
+extern void soundSetVoiceGainScale(s16 a0);
 
 extern void func_8003E34C(void);
 extern void func_80053F98(void);
-extern void func_80053DF0(s16 a0);
+extern void soundSetSequenceVolumeScale(s16 a0);
 extern void StartPAD(void);
 extern void InitGeom(void);
-extern void func_8003D468(void);
-extern void func_80043674(void);
+extern void resetGameStatePreservingSessionFields(void);
+extern void buildCubicCumulativeTable(void);
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
@@ -54,7 +54,7 @@ extern u8 D_801D8D7A[12];
 extern u8 D_801E964E[12];
 
 /* Initialize video, CD, pads, graphics, configuration defaults, and stream state. */
-void func_8003D5A4(void)
+void initializeHardwareAndGameState(void)
 {
     void **stream_slot = D_80083160;
     s32 pad_byte;
@@ -66,9 +66,9 @@ void func_8003D5A4(void)
     ResetGraph(0);
     func_80053F98();
 
-    func_80053DCC(*(s16 *)0x80080A94);
-    func_80053DF0(*(s16 *)0x80080A98);
-    func_80053E14(*(s16 *)0x80080A9C);
+    soundSetCdPlaybackVolumeScale(*(s16 *)0x80080A94);
+    soundSetSequenceVolumeScale(*(s16 *)0x80080A98);
+    soundSetVoiceGainScale(*(s16 *)0x80080A9C);
 
     for (pad_byte = 0; pad_byte < 0x22; pad_byte++) {
         D_800830C0[pad_byte] = 0xFF;
@@ -77,14 +77,14 @@ void func_8003D5A4(void)
     InitPAD(D_800830C0, 0x22, D_800830E8, 0x22);
 
     StartPAD();
-    func_8003D56C(1);
+    initializeMemoryCardServices(1);
     SetGraphDebug(0);
     InitGeom();
 
     D_80082E6B[0] = 0;
     bzero(D_80081468, 8);
 
-    func_8003D468();
+    resetGameStatePreservingSessionFields();
 
     {
         u8 *config_base = (u8 *)0x80010000;
@@ -103,7 +103,7 @@ void func_8003D5A4(void)
         *(u8 *)(config_base + 0x2D6E) = 0;    /* D_80012D6E */
         *(s16 *)(config_base + 0x2098) = 2;   /* D_80012098 */
     }
-    func_80043674();
+    buildCubicCumulativeTable();
 
     stream_state = (u8 *)D_801C9E40;
     if (*stream_slot == (void *)D_801C9E40) {
@@ -112,7 +112,7 @@ void func_8003D5A4(void)
     *stream_slot = stream_state;
     *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
     D_80083208[0] = 0x2C808080;
-    func_8003CAC4();
+    initializeRuntimeTableDefaults();
 
     {
         u32 *buffer_ptrs = D_80081478;

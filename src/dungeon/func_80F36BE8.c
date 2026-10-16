@@ -4,14 +4,14 @@
 
 typedef struct S_801743E8_0_pre {
     u16 unk_00;
-} S_801743E8_0_pre;   /* the 0x2 bytes before arg0 in func_801743E8, addressed as arg0[-1] */
+} S_801743E8_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateTimedEffectSizeAndPosition, addressed as arg0[-1] */
 
 typedef struct S_801743E8_0 {
     u8 pad_00[0x96];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_801743E8_0;   /* arg0 in func_801743E8 */
+} S_801743E8_0;   /* arg0 in dungeonUpdateTimedEffectSizeAndPosition */
 
 
 typedef struct Page8008 {
@@ -20,7 +20,7 @@ typedef struct Page8008 {
 } Page8008;
 
 /* Update a timed effect's size and position, then set its completion flags. */
-void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
+void dungeonUpdateTimedEffectSizeAndPosition(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;
     u16 size_or_state;

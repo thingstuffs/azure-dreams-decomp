@@ -13,17 +13,17 @@ extern u8 D_800D160C[];
 #define READ_D_80012D5C() (*(s32 *)0x80012D5C)
 
 extern void func_8004E5A0(s32 value, s32 width, u8 *dst);
-extern u8 *func_8004E69C(u8 *text);
+extern u8 *remapFlaggedStringBytes(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_8004E99C(s32 value);
-extern s32 func_8004E298(u8 *data, u8 *text, s32 style);
+extern s32 buildPositionedTextGlyphs(u8 *data, u8 *text, s32 style);
 
 /* Refreshes the display with the formatted global value and its suffix. */
-void func_800B180C(Func800B40ACArg *display) {
+void townRefreshFormattedGlobalDisplay(Func800B40ACArg *display) {
     u8 text[32];
     func_8004E5A0(READ_D_80012D5C(), 10, text);
-    func_8004E69C(text);
+    remapFlaggedStringBytes(text);
     strcat(text, D_800D160C);
     func_8004E99C(*display->handle);
-    *display->handle = func_8004E298(display->data + 0x48, text, 0);
+    *display->handle = buildPositionedTextGlyphs(display->data + 0x48, text, 0);
 }

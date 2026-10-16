@@ -5,16 +5,16 @@
 
 extern void func_80042710(void *, void *);
 extern s32 func_80042900(void *, s32);
-extern void func_80099FDC(void *);
-extern u8 *func_800A17E8(s32, s32);
+extern void dungeonClearEntryFlagAndLinkOwner(void *);
+extern u8 *dungeonFindMonsterEntryByTypeAndId(s32, s32);
 extern s32 func_800A1BD0(void *);
-extern void func_800A2B04(s32, s32, s32);
-extern void func_800ACB98(void *, s32, s32, void *);
-extern void func_80173D40(void *, s32, void *, void *);
+extern void dungeonSetRecordIntegerTileCenter(s32, s32, s32);
+extern void dungeonBeginActorFlaggedAction(void *, s32, s32, void *);
+extern void dungeonResetLinkedEntityState(void *, s32, void *, void *);
 
 
 /* Copies linked object data and transfers or releases its state. */
-void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
+void dungeonTransferLinkedObjectState(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
 {
     u8 *linked_object;
     u8 *linked_state;
@@ -35,7 +35,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
     dest_object[0x24] = source_object[0x24];
     dest_object[0x25] = source_object[0x25];
     *(u16 *)(dest_state + 0x88) = *(u16 *)(linked_state + 0x88);
-    func_800A2B04(object_id, dest_object[0x24], dest_object[0x25]);
+    dungeonSetRecordIntegerTileCenter(object_id, dest_object[0x24], dest_object[0x25]);
 
     linked_object = *(u8 **)(owner + 0xA4);
     if (*(u16 *)(linked_object + 0x1E) & 0x8000) {
@@ -72,9 +72,9 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         }
 
         dest_state[0x13] = 0x1E;
-        func_80099FDC(owner - 0x20);
+        dungeonClearEntryFlagAndLinkOwner(owner - 0x20);
         *(u32 *)(dest_state + 0x60) = *(u32 *)(linked_state + 0x60);
-        func_80173D40(owner, object_id, dest_object, dest_state);
+        dungeonResetLinkedEntityState(owner, object_id, dest_object, dest_state);
         *(u32 *)(owner + 0xA4) = 0;
         return;
     }
@@ -87,7 +87,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
 
     state_kind = linked_object[0x33];
     kind_byte = state_kind;
-    kind_entry = func_800A17E8(kind_byte, 1);
+    kind_entry = dungeonFindMonsterEntryByTypeAndId(kind_byte, 1);
     if (kind_entry == 0) {
         kind_unlisted = 1;
     } else {
@@ -98,7 +98,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
         return;
     }
 
-    kind_entry = func_800A17E8(state_kind, 3);
+    kind_entry = dungeonFindMonsterEntryByTypeAndId(state_kind, 3);
     if ((kind_entry != 0) && (kind_entry[1] == state_kind)) {
         kind_unlisted = 0;
     }
@@ -110,7 +110,7 @@ void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
     if (dungeonStatus.unk_0C == linked_state) {
         dungeonStatus.unk_0C = 0;
     }
-    func_800ACB98(linked_state, *(s32 *)(linked_state - 0x18),
+    dungeonBeginActorFlaggedAction(linked_state, *(s32 *)(linked_state - 0x18),
                   *(s32 *)(linked_state - 0x14), linked_state);
     owner[0x9B]++;
 }

@@ -1,24 +1,12 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-extern void func_80017C64(void);
-extern void func_80017D04(void);
-extern void func_8001A490(s32);
-extern s32 func_8001A510(s32);
-
-extern s16 D_8001A91E;
-extern s32 D_8001AB94;
-extern s32 D_8001ABE8;
-extern s32 D_8001B320;
-
-/* Town per-frame step: run both update hooks, request 0x7A3 when the pending check is clear, then latch the scene value the town object's mode field selects. */
 void func_80017D24(void)
 {
     void *choices[2] = { &D_8001AB94, &D_8001ABE8 };
     void *town = *(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x40);
 
-    func_80017C64();
-    func_80017D04();
+    townInvokeAlternateHandlerWithCode780();
+    townInvokeHandlerWithCode79E();
     if (func_8001A510(D_8001A91E) == 0) {
         func_8001A490(0x7A3);
     }

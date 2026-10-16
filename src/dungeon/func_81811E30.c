@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80026E30(s32 target_value) {
+s32 dungeonCountMenuEntryMatches(s32 target_value) {
     s32 index;
     s32 count;
     u8 value;

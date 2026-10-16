@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_80173C0C(void *effect, s32 unused, void *primitive)
+void dungeonFadeTimedPrimitiveEffect(void *effect, s32 unused, void *primitive)
 {
     u16 ticks_left;
 

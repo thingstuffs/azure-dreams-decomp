@@ -21,7 +21,7 @@ typedef struct {
 } S_80085458;
 
 /* Advance the envelope delay, level ramp, and triangular modulation output. */
-void func_80056098(S_80085458 *envelope) {
+void audioUpdateVoiceVibrato(S_80085458 *envelope) {
     s32 target_level;
     s32 scaled_wave;
     s32 phase;

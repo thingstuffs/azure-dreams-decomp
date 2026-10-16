@@ -21,7 +21,7 @@ out = LANE / "cand8"; shutil.rmtree(out, ignore_errors=True)
 lines = []
 ids = sorted({str(p.relative_to(LANE / "draft8"))[:-2] for p in (LANE / "draft8").rglob("*.c")} | set(T3))
 for rid in ids:
-    src = REPO / "src" / (rid + ".c"); s = src.read_text(errors="replace")
+    src = layout_row_path(rid, REPO); s = src.read_text(errors="replace")
     d = (LANE / "cand8x" / (rid + ".c")) if rid in T3 else (LANE / "draft8" / (rid + ".c"))
     t = d.read_text()
     plan = []
@@ -36,4 +36,8 @@ for rid in ids:
     lines.append("%s\t%s\t%s\t%s\t%s" % (rid, rid + ".c", hashlib.sha256(src.read_bytes()).hexdigest(), "+".join(plan), flag))
 (out / "MANIFEST.tsv").write_text("# row\tpath\tverified_src_sha\tplan\tflag\n" + "\n".join(lines) + "\n")
 import collections
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 print(len(lines), collections.Counter(l.split("\t")[4] for l in lines), collections.Counter(l.split("\t")[3] for l in lines))

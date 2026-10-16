@@ -4,7 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Set (*(s32 *)(&D_800287E4)) to 3 and return zero. */
-s32 func_80020A58(void) {
+s32 cardBootLatchHardwareStatusThree(void) {
     (*(s32 *)(&D_800287E4)) = 3;
     return 0;
 }

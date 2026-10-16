@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_800BFB8C_0_pre {
     u16 unk_00;
-} S_800BFB8C_0_pre;   /* the 0x2 bytes before temp_s2 in func_800BFB8C, addressed as temp_s2[-1] */
+} S_800BFB8C_0_pre;   /* the 0x2 bytes before temp_s2 in townSpawnRandomizedTimedObjects, addressed as temp_s2[-1] */
 
 typedef struct S_800BFB8C_0 {
     u8 pad_00[0x8];
@@ -19,17 +19,17 @@ typedef struct S_800BFB8C_0 {
     s16 unk_0A;
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
-} S_800BFB8C_0;   /* temp_s2 in func_800BFB8C */
+} S_800BFB8C_0;   /* temp_s2 in townSpawnRandomizedTimedObjects */
 
 typedef struct S_800BFB8C_1 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800BFB8C_1;   /* var_a0 in func_800BFB8C */
+} S_800BFB8C_1;   /* var_a0 in townSpawnRandomizedTimedObjects */
 
 typedef struct S_800BFB8C_2 {
     u8 pad_00[0xBC];
     s16 unk_BC;
-} S_800BFB8C_2;   /* town in func_800BFB8C */
+} S_800BFB8C_2;   /* town in townSpawnRandomizedTimedObjects */
 
 typedef struct S_800BFB8C_3 {
     u8 pad_00[0xC];
@@ -42,7 +42,7 @@ typedef struct S_800BFB8C_3 {
     s16 unk_22;
     u8 pad_24[0x2];
     s16 unk_26;
-} S_800BFB8C_3;   /* temp_s0 in func_800BFB8C */
+} S_800BFB8C_3;   /* temp_s0 in townSpawnRandomizedTimedObjects */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -54,7 +54,7 @@ extern M2C_UNK D_800BFD14;
 extern M2C_UNK D_800BFFF4;
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
-void func_800BFB8C(void *source)
+void townSpawnRandomizedTimedObjects(void *source)
 {
     s16 fixed_coord = 0;
     s16 state;

@@ -9,22 +9,22 @@ typedef struct S_80171F9C_0 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171F9C_0;   /* held_arg2 in func_80171F9C */
+} S_80171F9C_0;   /* held_arg2 in dungeonSelectAndStartTargetAction */
 
 
 extern s32 func_80047784();
-extern s32 func_8009C93C();
-extern s32 func_800A0134();
-extern s32 func_800A04F0();
+extern s32 dungeonPrepareDirectionalAttack();
+extern s32 dungeonGetActorHeightDifference();
+extern s32 dungeonPlaceActorAtDirectionalNeighbor();
 extern s32 func_800A2B5C();
 extern s32 func_800A2CB8();
-extern s32 func_800C7930();
+extern s32 dungeonApplyCameraOffsetAndSelectTarget();
 extern u8 D_80175E50[];
 extern u8 D_80175E70[];
 extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
-s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, EntityRec *actor) {
+s32 dungeonSelectAndStartTargetAction(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, EntityRec *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
@@ -41,7 +41,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             return -1;
         }
 
-        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
+        target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
             actor->facing);
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             return 0;
@@ -53,7 +53,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             return -1;
         }
 
-        target_delta = 0 - func_800A0134(target, actor);
+        target_delta = 0 - dungeonGetActorHeightDifference(target, actor);
         if ((u32)((target_delta - 0x20) & 0xFFFF) < 0x21U) {
             action_mode = 1;
         } else if ((u32)((target_delta + 0x10) & 0xFFFF) < 0x31U) {
@@ -67,7 +67,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
-        func_800C7930((u8 *)actor - 0x20, action_param, 8, 0x300);
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_param, 8, 0x300);
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
@@ -109,7 +109,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
                     >> 9) & 7], 0);
             }
             actor->unk_6D--;
-            func_8009C93C(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
+            dungeonPrepareDirectionalAttack(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
             stored_amount = action_state->unk_90.at02_u16.v;
             pending_amount = action_state->unk_A0.at02_u16.v;
             action_state->unk_A0.at02_u16.v = 0;

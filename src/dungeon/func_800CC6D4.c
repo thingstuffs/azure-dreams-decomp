@@ -16,7 +16,7 @@ typedef struct S_800D1E34_0 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800D1E34_0;   /* ent in func_800D1E34 */
+} S_800D1E34_0;   /* ent in dungeonUpdateActorFloorContact */
 
 typedef struct S_800D1E34_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -26,7 +26,7 @@ typedef struct S_800D1E34_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D1E34_1;   /* pos in func_800D1E34 */
+} S_800D1E34_1;   /* pos in dungeonUpdateActorFloorContact */
 
 typedef struct S_800D1E34_2 {
     u8 pad_00[0x90];
@@ -39,10 +39,10 @@ typedef struct S_800D1E34_2 {
     u16 unk_98;
     u8 pad_9A[0x3];
     union { u8 n; s8 n2; u8 v; } unk_9D;   /* accessed as both */
-} S_800D1E34_2;   /* obj in func_800D1E34 */
+} S_800D1E34_2;   /* obj in dungeonUpdateActorFloorContact */
 
 /* Run entity callbacks, advance movement, and resolve floor contact. */
-void func_800D1E34(void *object_arg, void *motion_arg, void *entity_arg)
+void dungeonUpdateActorFloorContact(void *object_arg, void *motion_arg, void *entity_arg)
 {
     void *object = object_arg;
     register void *motion = motion_arg;

@@ -3,23 +3,23 @@
 
 typedef struct S_80026C54_0_pre {
     u16 unk_00;
-} S_80026C54_0_pre;   /* the 0x2 bytes before arg0 in func_80026C54, addressed as arg0[-1] */
+} S_80026C54_0_pre;   /* the 0x2 bytes before arg0 in townFadeSceneTileAfterLinkedFlag, addressed as arg0[-1] */
 
 typedef struct S_80026C54_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80026C54_0;   /* arg0 in func_80026C54 */
+} S_80026C54_0;   /* arg0 in townFadeSceneTileAfterLinkedFlag */
 
 typedef struct S_80026C54_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
-} S_80026C54_1;   /* temp_v0 in func_80026C54 */
+} S_80026C54_1;   /* temp_v0 in townFadeSceneTileAfterLinkedFlag */
 
 
 /* Waits for the linked object flag, then fades the stored value and marks completion. */
-void func_80026C54(void *effect) {
+void townFadeSceneTileAfterLinkedFlag(void *effect) {
     S_80026C54_1 *linked_object;
     s16 state;
     s32 fade_value;

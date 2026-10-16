@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191eef8.h"
 
-void func_8002499C(void *effect, void *offset_state, void *render_state) {
+void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render_state) {
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;
     s16 draw_pos[2];

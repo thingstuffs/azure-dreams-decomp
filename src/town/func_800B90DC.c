@@ -6,14 +6,14 @@
 typedef struct S_800B683C_2 {
     u8 pad_00[0x5C];
     void ** unk_5C;
-} S_800B683C_2;   /* ((Rec_func_800B683C_arg0 *)arg0)->unk_98 in func_800B683C */
+} S_800B683C_2;   /* ((Rec_func_800B683C_arg0 *)arg0)->unk_98 in townClearLinkedEntryState */
 
 
-void func_800B6580();
+void townSetMonsterStatusPanelHeight();
 
 
 /* Clears two linked values and initializes the object's embedded data. */
-void func_800B683C(void *object) {
+void townClearLinkedEntryState(void *object) {
     s32 *linkedValue;
     s32 slotIndex;
 
@@ -24,5 +24,5 @@ void func_800B683C(void *object) {
         *linkedValue = 0;
     } while (slotIndex < 0x16);
     *((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C = object + 0x18;
-    func_800B6580(*((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C, 0);
+    townSetMonsterStatusPanelHeight(*((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C, 0);
 }

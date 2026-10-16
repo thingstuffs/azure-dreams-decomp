@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void func_80024E64(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
+void dungeonUpdateMovementTowardChildTerrainTargetAnimatesAssociatedEffects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
 {
     ovl_18d0850_818B1664_WorkFrame work;
     u16 saved_y;
@@ -103,7 +103,7 @@ loop_0:
     case 1:
         header = (ovl_18d0850_818B1664_EntityHeader *)((u8 *)entity - 0x20);
         target_info = header->info;
-        if (func_8003DE58(target_info->map, target_info, work.distance, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(target_info->map, target_info, work.distance, 0) == 0) {
             if (!(header->info->flags & 0x8000)) {
                 break;
             }
@@ -192,7 +192,7 @@ loop_0:
         while (index < 8) {
             grid_x = (s16)tile_x;
             grid_y = (s16)tile_y;
-            collision_result = func_800A44E0(
+            collision_result = dungeonCheckLayerOffsetHeight(
                 (grid_x << 6) & 0xFFC0,
                 (grid_y << 6) & 0xFFC0,
                 entity->height,
@@ -257,7 +257,7 @@ loop_0:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        func_800241F8(state_arg, motion_arg);
+        dungeonCreateAnInitializedRenderStateCopyVector(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }
@@ -405,7 +405,7 @@ create_loop:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        func_800241F8(state_arg, motion_arg);
+        dungeonCreateAnInitializedRenderStateCopyVector(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }

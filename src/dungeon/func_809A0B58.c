@@ -45,7 +45,7 @@ typedef struct S_func_809A0B58_3 {
 } S_func_809A0B58_3;
 
 extern M2C_UNK func_80047784();
-extern s16 func_8009A350();
+extern s16 getOffsetMapCellValueAndFlags();
 extern u8 D_80175EA8[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
@@ -54,7 +54,7 @@ void func_809A0B58(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58
     u16 counter_value;
     u8 *direction_frames;
 
-    func_8009A350(sprite->unk_24 - 1, sprite->unk_25,
+    getOffsetMapCellValueAndFlags(sprite->unk_24 - 1, sprite->unk_25,
                   ((u16)entity->unk_2A.unk_00 >> 9) & 7, &tile_flags);
     if (!(tile_flags & 0x8400)) {
         counter_value = actor_state->unk_B2 + 1;

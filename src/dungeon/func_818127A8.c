@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_800277A8(void *menu) {
+void dungeonHandleMenuButtonInput(void *menu) {
     GameWork *input = &gameWork;
     s32 held_buttons;
     s32 buttons;
@@ -19,26 +19,26 @@ void func_800277A8(void *menu) {
     buttons = ((s32)input->unk_010);
     if (buttons & 0x20) {
         SD_Call(0x515);
-        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)func_80027E10;
+        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)dungeonTickMenuCountdown;
         ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
-        func_80028620((u8 *)menu - 0x20);
-        func_80025598(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
+        dungeonClearMenuEmbeddedState((u8 *)menu - 0x20);
+        dungeonResetObjectToDefaultData(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
     if (buttons & 0x10) {
         SD_Call(0x503);
         func_800274A8(menu);
-        func_800255AC(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
+        dungeonForwardStoredObjectValue(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44);
         return;
     }
 
     if (buttons & 0x40) {
         SD_Call(0x503);
-        func_80027454((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
+        dungeonDispatchMenuStateUpdate((u8 *)menu + 0x38, ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_14,
                       (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 / 72) * 72,
                       ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_28);
-        func_8002661C(func_8002553C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
+        dungeonCopyStringToObjectBuffer(func_8002553C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_44),
                       ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_40 +
                       (((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 % 72) * 2);
         return;
@@ -84,11 +84,11 @@ void func_800277A8(void *menu) {
     old_offset = new_offset - cursor_step;
     ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_08 = new_offset;
     if (new_offset / 72 != old_offset / 72) {
-        func_80026CD8(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88);
-        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)func_80027E84;
+        dungeonClearMenuStateValues(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88);
+        ((ovl_1831cd8_818127A8_S_800277A8_1_pre *)menu)[-1].unk_00 = (void *)dungeonRunMenuCountdownCallback;
         ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_00 = ((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_04;
         return;
     }
 
-    func_80026D0C(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
+    dungeonPositionMenuGridEntries(((ovl_1831cd8_818127A8_S_800277A8_1 *)menu)->unk_88, new_offset);
 }

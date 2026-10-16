@@ -45,7 +45,7 @@ typedef struct S_80173294_3 {
 extern void func_8009A028();
 extern void func_800A2FE0();
 extern void func_800A32A4();
-extern void func_800ACF88(void *);
+extern void dungeonAnnounceFamiliarDefeat(void *);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
 void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
@@ -93,7 +93,7 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         flags = ((S_80173294_0 *)object_data)->unk_14;
         if (flags & 0x4000) {
             if (!(flags & 0x20000000))
-                func_800ACF88(object_data);
+                dungeonAnnounceFamiliarDefeat(object_data);
         }
         func_800A56E0(0x805);
         clear_bit_27 = 0xF7FFFFFF;

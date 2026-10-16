@@ -15,7 +15,7 @@ extern void (*D_80017618)(void);
 extern s16 D_80017614;
 
 extern void func_800173F8();
-extern void func_80017560(void);
+extern void dungeonClearThirtySixTableFields(void);
 
 /* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */
 void func_8050E100(void)
@@ -24,7 +24,7 @@ void func_8050E100(void)
     S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&D_80016000))))->unk_38;
 
     current_town_value = town->unk_35BE;
-    D_80017618 = func_80017560;
+    D_80017618 = dungeonClearThirtySixTableFields;
     if (current_town_value < 40) {
         town->unk_35BE = 40;
     }

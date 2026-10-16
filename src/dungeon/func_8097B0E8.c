@@ -9,7 +9,7 @@ typedef struct S_8016A8E8_0 {
     s16 unk_98;
     u8 pad_9A[0x12];
     s16 unk_AC;
-} S_8016A8E8_0;   /* arg0 in func_8016A8E8; pointer addresses record offset 0x2 */
+} S_8016A8E8_0;   /* arg0 in dungeonUpdateLifetimeOutputComponents; pointer addresses record offset 0x2 */
 
 
 #define M2C_BREAK() ((void)0)
@@ -17,7 +17,7 @@ typedef struct S_8016A8E8_0 {
 
 
 /* Updates three output components from the remaining lifetime and flags expiry. */
-void func_8016A8E8(void *record_data, void *unused, Rec_D_80082E80 *output) {
+void dungeonUpdateLifetimeOutputComponents(void *record_data, void *unused, Rec_D_80082E80 *output) {
     s16 ticks_left;
     s32 fade_level;
 

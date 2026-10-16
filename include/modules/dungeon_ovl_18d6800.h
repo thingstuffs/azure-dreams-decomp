@@ -469,23 +469,23 @@ typedef struct B28_818B68B8_S_818B68B8_2 {
 void func_80024024(EntityRec *target, s32 gain_param, s32 ignored_context);
 void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, Rec_D_80082E80 *status);
 s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 ignored_context);
-void func_800242FC(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out);
+void dungeonCycleSevenColorFade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out);
 s32 func_80024790(s32 texture_index, u8 *color_source);
-s32 func_80024A64(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg);
+s32 dungeonDrawTwoRadialEffectBands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg);
 void func_80024FD4(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);
 void func_800250E8(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx);
-s32 func_800253D0(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform);
+s32 dungeonSpawnOwnerRandomVariantEffect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform);
 void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B28_818B7D3C_EntityState *entity);
-s32 func_80025614(void *owner, B28_818B7E14_DungeonSource *source);
-void func_80025738(void *state, void *motion_in, void *render);
+s32 dungeonSpawnOwnedRandomSpinEffect(void *owner, B28_818B7E14_DungeonSource *source);
+void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, void *render);
 void func_8003DB94(void *, void *, s32);
 extern u8 D_80025EE4[];
 s32 func_80045C34(u8 *first_data, s32 link_value, void *value_record);
-extern void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern s16 func_800AD568(void *);
-extern void func_800AD4D0(void *);
+extern void *createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern s16 dungeonCapPendingActorValueDelta(void *);
+extern void dungeonApplyClampedActorValueDelta(void *);
 extern s32 func_800A6870(s16 input_value);
-extern s32 func_8009D218(void *, s32);
+extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32);
 extern s32 func_80064584();
 extern s32 func_800644B8();
 extern s32 func_80065590(
@@ -494,6 +494,6 @@ extern s32 func_80065590(
     void *ptr8, void *ptr9);
 extern s16 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
 extern s32 func_80069EF8(void);
-s32 func_800A44E0();              /* extern */
-s32 func_8003DE58();     /* extern */
+s32 dungeonCheckLayerOffsetHeight();              /* extern */
+s32 resolveRecordOrientationOrFallback();     /* extern */
 #endif

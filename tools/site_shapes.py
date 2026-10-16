@@ -24,6 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import rows
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 
 KEEPWORDS = set("""if else for while do return goto switch case default break continue sizeof struct union enum
@@ -87,7 +88,7 @@ def shapes(ctx):
     jk = journal("t53k_keep.jsonl")
     res = []
     for r in rows():
-        p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        p = layout_row_path(r, ROOT)
         if not p.exists():
             continue
         text = p.read_text(errors="replace")

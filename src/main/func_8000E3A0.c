@@ -4,7 +4,7 @@
 
 
 /* Clears a pending flag and returns 5 if it was set, or 0 otherwise. */
-s32 func_800213A0(void) {
+s32 cardBootResetOperationReturnFive(void) {
     s32 status;
 
     status = 0;

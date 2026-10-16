@@ -10,10 +10,10 @@ typedef struct S_800B8170_0 {
     u8 pad_14[0xC];
     s16 unk_20;
     s16 unk_22;
-} S_800B8170_0;   /* temp_v0 in func_800B8170 */
+} S_800B8170_0;   /* temp_v0 in townCreateBuildingResourceObject */
 
 /* Allocate an object, set its data pointer, and clear its two halfword fields. */
-void func_800B8170(void) {
+void townCreateBuildingResourceObject(void) {
     S_800B8170_0 *object;
 
     object = func_8003FC64(0);

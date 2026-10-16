@@ -12,33 +12,33 @@ typedef struct S_800D5DCC_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800D5DCC_0;   /* temp_v0 in func_800D5DCC */
+} S_800D5DCC_0;   /* temp_v0 in dungeonSpawnRandomizedDirectionalEffect */
 
 
 typedef struct S_800D5DCC_2 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800D5DCC_2;   /* temp_a0 in func_800D5DCC */
+} S_800D5DCC_2;   /* temp_a0 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_3 {
     s16 unk_00;
     s16 unk_02;
-} S_800D5DCC_3;   /* temp_s0 in func_800D5DCC */
+} S_800D5DCC_3;   /* temp_s0 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_4 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800D5DCC_4;   /* temp_a0_2 in func_800D5DCC */
+} S_800D5DCC_4;   /* temp_a0_2 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800D5DCC_5;   /* temp_a1 in func_800D5DCC */
+} S_800D5DCC_5;   /* temp_a1 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_6 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800D5DCC_6;   /* temp_a2 in func_800D5DCC */
+} S_800D5DCC_6;   /* temp_a2 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_7 {
     u8 pad_00[0x8];
@@ -48,7 +48,7 @@ typedef struct S_800D5DCC_7 {
     u8 pad_16[0x1C];
     s16 unk_32;
     s16 unk_34;
-} S_800D5DCC_7;   /* temp_s0_2 in func_800D5DCC */
+} S_800D5DCC_7;   /* temp_s0_2 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_8 {
     u8 pad_00[0x2];
@@ -60,7 +60,7 @@ typedef struct S_800D5DCC_8 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D5DCC_8;   /* ((S_800D5DCC_0 *)temp_v0)->unk_08 in func_800D5DCC */
+} S_800D5DCC_8;   /* ((S_800D5DCC_0 *)temp_v0)->unk_08 in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_9 {
     u8 pad_00[0x2];
@@ -69,12 +69,12 @@ typedef struct S_800D5DCC_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D5DCC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800D5DCC */
+} S_800D5DCC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonSpawnRandomizedDirectionalEffect */
 
 typedef struct S_800D5DCC_10 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_800D5DCC_10;   /* ((S_800D5DCC_0 *)temp_v0)->unk_0C in func_800D5DCC */
+} S_800D5DCC_10;   /* ((S_800D5DCC_0 *)temp_v0)->unk_0C in dungeonSpawnRandomizedDirectionalEffect */
 
 
 extern void *func_8003FD64();
@@ -86,7 +86,7 @@ extern u8 D_800D5CA0[];
 extern s16 D_800E2468[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
-void func_800D5DCC(EntityRec *source, s16 angle, s32 effect_value)
+void dungeonSpawnRandomizedDirectionalEffect(EntityRec *source, s16 angle, s32 effect_value)
 {
     S_800D5DCC_2 *pos_x;
     S_800D5DCC_4 *pos_y;

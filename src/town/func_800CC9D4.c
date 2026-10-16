@@ -2,13 +2,13 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
-void func_800CA75C(void *);                            /* extern */
+void townInitializeReactionDataAndTimer13(void *);                            /* extern */
 
 
 typedef struct S_800CA134_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
-} S_800CA134_0;   /* arg0 in func_800CA134 */
+} S_800CA134_0;   /* arg0 in townEaseReactionPositionWithVerticalOffset */
 
 typedef struct S_800CA134_1 {
     u8 pad_00[0x2];
@@ -17,22 +17,22 @@ typedef struct S_800CA134_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     union { s16 n; u16 v; } unk_0A;   /* accessed as both */
-} S_800CA134_1;   /* arg1 in func_800CA134 */
+} S_800CA134_1;   /* arg1 in townEaseReactionPositionWithVerticalOffset */
 
 typedef struct S_800CA134_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800CA134_2;   /* target in func_800CA134 */
+} S_800CA134_2;   /* target in townEaseReactionPositionWithVerticalOffset */
 
 typedef struct S_800CA134_3 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800CA134_3;   /* target_table->unk_08 in func_800CA134 */
+} S_800CA134_3;   /* target_table->unk_08 in townEaseReactionPositionWithVerticalOffset */
 
 /* Decrement the lifetime and ease the position toward the target with a vertical offset. */
-void func_800CA134(void *state, void *position) {
+void townEaseReactionPositionWithVerticalOffset(void *state, void *position) {
     ObjectNodeHeader *target_table;
     s32 x_delta;
     s32 y_delta;
@@ -41,7 +41,7 @@ void func_800CA134(void *state, void *position) {
     ticks_left = ((S_800CA134_0 *)state)->unk_6C - 1;
     ((S_800CA134_0 *)state)->unk_6C = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        func_800CA75C(state);
+        townInitializeReactionDataAndTimer13(state);
         return;
     }
     target_table = &D_80083498;

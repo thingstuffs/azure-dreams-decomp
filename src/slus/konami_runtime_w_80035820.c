@@ -12,10 +12,10 @@ typedef struct S_80035820_0 {
 } S_80035820_0;   /* arg0 in func_80035820 */
 
 
-void func_80033C84();                         /* extern */
+void runtimeClearValue();                         /* extern */
 void func_80034EB4();                         /* extern */
-void func_80035090();                      /* extern */
-void func_8003FFF0();                      /* extern */
+void runtimeUnlinkDoublyLinkedNode();                      /* extern */
+void unlinkActiveNode();                      /* extern */
 void func_80044A50();                      /* extern */
 
 /* Cleans up a type-0x101 record and unlinks its enclosing object. */
@@ -24,10 +24,10 @@ void func_80035820(void *record) {
 
     if (((S_80035820_0 *)record)->unk_50 == 0x101) {
         func_80034EB4(((S_80035820_0 *)record)->unk_74);
-        func_80033C84(((S_80035820_0 *)record)->unk_00);
-        func_80035090(record + 0x54);
+        runtimeClearValue(((S_80035820_0 *)record)->unk_00);
+        runtimeUnlinkDoublyLinkedNode(record + 0x54);
         object_base = record - 0x20;
         func_80044A50(object_base);
-        func_8003FFF0(object_base);
+        unlinkActiveNode(object_base);
     }
 }

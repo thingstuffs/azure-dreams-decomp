@@ -16,7 +16,7 @@ typedef struct {
 } func_8004CCBC_Obj;
 
 /* Copy the global vector D_8002E5E8 into each object's vector. */
-void func_8004CCBC(func_8004CCBC_Obj **objects, s32 object_count)
+void applyVector3TemplateToNodes(func_8004CCBC_Obj **objects, s32 object_count)
 {
     s32 object_index;
 

@@ -2,11 +2,11 @@
 
 extern u8 D_800E3DB0[];
 
-extern s32 func_800A15B0(s32);
-extern void func_80048190(s32);
+extern s32 dungeonHasMatchingSixSlotEntry(s32);
+extern void markSpriteResourceForPurge(s32);
 
 /* Decrements a matching type-3 entry's count and clears it when exhausted. */
-void func_800A18E8(s16 requested_id, s16 requested_type) {
+void dungeonDecrementMonsterEntryCount(s16 requested_id, s16 requested_type) {
     s16 slot;
     s16 match_id = requested_id;
     u8 *entry = D_800E3DB0;
@@ -27,8 +27,8 @@ void func_800A18E8(s16 requested_id, s16 requested_type) {
                         if ((s8)--count[0] <= 0) {
                             count[-1] = 0;
                             count[0] = 0;
-                            if ((func_800A15B0(entry_id) << 16) == 0) {
-                                func_80048190(entry_id);
+                            if ((dungeonHasMatchingSixSlotEntry(entry_id) << 16) == 0) {
+                                markSpriteResourceForPurge(entry_id);
                                 return;
                             }
                         }

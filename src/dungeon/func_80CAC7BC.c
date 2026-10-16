@@ -14,7 +14,7 @@ s32 func_80159FBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         return -1;
     }
 
-    target_angle = func_800A04F0(actor, ((CL_CCB000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_24,
+    target_angle = dungeonPlaceActorAtDirectionalNeighbor(actor, ((CL_CCB000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_24,
                            ((CL_CCB000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
     if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return 0;
@@ -27,14 +27,14 @@ s32 func_80159FBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-func_800A0134(target_angle, actor) + 0x40) >= 0x81U) {
+    if ((u16)(-dungeonGetActorHeightDifference(target_angle, actor) + 0x40) >= 0x81U) {
         return 0;
     }
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
 
-    func_800C7930((u8 *)actor - 0x20, motion_param, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, motion_param, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) == 0) {
         action_state->unk_9A.as_u8 = 0x11;
         action_state->unk_9B.as_u8 = 0;
@@ -44,7 +44,7 @@ s32 func_80159FBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         ((CL_CCB000_80171FBC_S_80171DA0_1 *)sprite_arg)->unk_2C = D_8015D2B4;
         func_80047784(sprite_arg, D_8015D2B4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->unk_6D--;
-        func_8009C93C(actor, sprite_arg, actor->facing, 1, 0);
+        dungeonPrepareDirectionalAttack(actor, sprite_arg, actor->facing, 1, 0);
         return 1;
     }
     return -1;

@@ -7,7 +7,7 @@
 
 
 /* Checks whether the stored value is at least the callback result for query {5, 0x17}. */
-s32 func_8001890C(void) {
+s32 townCheckProgressAgainstCallback(void) {
     s8 queryArgs[2];
 
     queryArgs[1] = 0x17;

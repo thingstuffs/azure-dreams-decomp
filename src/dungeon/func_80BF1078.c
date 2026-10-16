@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7f559800.h"
 
-void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
+void *dungeonCreateFlaggedActorObject(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
     s32 mode;
     s32 flags_14;

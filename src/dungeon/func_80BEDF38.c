@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void func_80173738(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
+void dungeonUpdateExpandingSpiralEffect(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
     s16 life;
     s16 next_life;
     s32 y_offset;

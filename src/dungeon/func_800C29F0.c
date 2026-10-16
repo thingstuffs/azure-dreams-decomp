@@ -5,19 +5,19 @@
 typedef struct S_800C8150_1 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800C8150_1;   /* entry in func_800C8150 */
+} S_800C8150_1;   /* entry in dungeonAdvanceEligibleActorOrPerformAction */
 
 typedef struct S_800C8150_2 {
     u8 pad_00[0x54];
     u32 unk_54;
-} S_800C8150_2;   /* object in func_800C8150 */
+} S_800C8150_2;   /* object in dungeonAdvanceEligibleActorOrPerformAction */
 
 typedef struct TablePage {
     u8 pad[0x2098];
     s16 entries[1];
 } TablePage;
 
-extern void func_80099844(void *, void *);
+extern void dungeonAdjustSourceValueAndFinalize(void *, void *);
 extern s16 func_800A1BD0(void *);
 extern s16 func_800C8900();
 
@@ -25,7 +25,7 @@ extern u8 D_800E18F5[];
 extern u8 D_800E195C[];
 
 /* Checks status flags, advances eligible actor state, or performs the requested action. */
-u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
+u32 dungeonAdvanceEligibleActorOrPerformAction(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
 {
     s32 status_mask;
     s32 slot;
@@ -52,7 +52,7 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
             if ((linked_object != 0) && (linked_object->unk_54 & status_mask)) {
                 message_target = actor;
                 message = D_800E18F5;
-                func_80099844(message_target, message);
+                dungeonAdjustSourceValueAndFinalize(message_target, message);
                 return 0;
             }
             slot--;
@@ -61,7 +61,7 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
     } else if (((u32)actor->unk_54) & 0x40000) {
         message_target = actor;
         message = D_800E18F5;
-        func_80099844(message_target, message);
+        dungeonAdjustSourceValueAndFinalize(message_target, message);
         return 0;
     }
 
@@ -78,7 +78,7 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2)
                 next_state = (*(u8 *)((u8 *)&actor->unk_10 + 2));
                 table_page->entries[state_index] = next_state;
             }
-            func_80099844(actor, D_800E195C);
+            dungeonAdjustSourceValueAndFinalize(actor, D_800E195C);
             return 1;
         }
         func_800C8900(actor, action_arg_1, action_arg_2);

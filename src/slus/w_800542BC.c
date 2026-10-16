@@ -7,7 +7,7 @@ extern s32 D_80084850[3];
 
 extern s32 func_800557C8(void);
 extern void func_80054788(s32 a0);
-extern void func_80054B08(s32 a0);
+extern void audioDispatchStreamRequest(s32 a0);
 extern void func_8005500C(s32 a0);
 extern void func_8005552C(s32 a0);
 extern void func_800543C8(void);
@@ -32,7 +32,7 @@ void func_800542BC(void) {
             func_80054788(command_code);
             break;
         case 0x300:
-            func_80054B08(command_code);
+            audioDispatchStreamRequest(command_code);
             break;
         case 0x200:
             func_8005500C(command_code);

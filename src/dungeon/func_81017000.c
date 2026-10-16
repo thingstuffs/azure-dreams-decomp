@@ -9,7 +9,7 @@ typedef struct S_81017000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_81017000_0;   /* obj in func_8015E88C */
+} S_81017000_0;   /* obj in dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm */
 
 typedef struct S_81017000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_81017000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_81017000_1;   /* work in func_8015E88C */
+} S_81017000_1;   /* work in dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm */
 
 typedef struct S_81017000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_81017000_2;   /* part_a in func_8015E88C */
+} S_81017000_2;   /* part_a in dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm */
 
 typedef struct S_81017000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_81017000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_81017000_3;   /* part_b in func_8015E88C */
+} S_81017000_3;   /* part_b in dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm */
 
 typedef struct S_81017000_4 {
     u8 pad_00[0x8C];
@@ -41,7 +41,7 @@ typedef struct S_81017000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_81017000_4;   /* actor in func_8015E88C */
+} S_81017000_4;   /* actor in dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm */
 
 
 void *func_8003FD64();
@@ -57,12 +57,12 @@ extern M2C_UNK D_801628E0;
 
 
 
-void *func_8015E88C(s16, s16, s16, s16)
+void *dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm(s16, s16, s16, s16)
 
 ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8015E88C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *dungeonHandleSpawnOverlaySEffectAllocateFillTwoPartsAttributesArm(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s16 final_arg0;
     s32 left;

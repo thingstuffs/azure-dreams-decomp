@@ -64,7 +64,7 @@ void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
         ((S_80025FCC_0 *)effect)->unk_10 = func_80025D28;
-        func_8004491C(effect, func_800CEEFC);
+        func_8004491C(effect, dungeonProcessLinkedMeshStatesMode0);
         position = ((S_80025FCC_0 *)effect)->unk_08;
         effect_state = effect + 0x20;
         position->unk_0E = x;

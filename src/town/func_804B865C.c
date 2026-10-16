@@ -7,7 +7,7 @@
 
 
 /* Scale both position components by 64 and add the 0x220 offset. */
-void func_80016E5C(void) {
+void townScaleScenePosition(void) {
     TownPositionState *first_position;
     TownPositionState *second_position;
 

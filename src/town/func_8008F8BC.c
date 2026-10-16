@@ -9,9 +9,9 @@ typedef struct S_8008D01C_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8008D01C_0;   /* arg0 in func_8008D01C */
+} S_8008D01C_0;   /* arg0 in townEvaluateSurfaceComponentsB */
 
 /* Evaluate the three signed components stored in the input record. */
-s16 func_8008D01C(S_8008D01C_0 *components) {
-    return func_8008E4EC(components->unk_02, components->unk_06, components->unk_0A);
+s16 townEvaluateSurfaceComponentsB(S_8008D01C_0 *components) {
+    return townFindLowestSurfaceHeight(components->unk_02, components->unk_06, components->unk_0A);
 }

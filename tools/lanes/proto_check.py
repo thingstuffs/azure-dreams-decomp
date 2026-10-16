@@ -3,7 +3,10 @@
 usage: proto_check.py <lane> [<lane> ...]   (compares out/<c>/<name>.c against base/; callee looked up by func or true_name)"""
 import json, os, re, sys, glob, collections
 from pathlib import Path
-os.chdir(Path(__file__).resolve().parents[2])   # paths below are repo-relative
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import row_path as layout_row_path
+os.chdir(ROOT)   # paths below are repo-relative
 rows = [json.loads(l) for l in open("ledger/rows.jsonl")]
 defs = collections.defaultdict(list)            # (container, name) -> [row id]
 for r in rows:
@@ -11,7 +14,7 @@ for r in rows:
         defs[(r["container"], n)].append(r["id"])
 DECL = re.compile(r"^\s*(?:extern\s+)?([A-Za-z_][\w\s\*]*?)\s*\b(func_[0-9A-Fa-f]{8}|w_[0-9A-Fa-f]{8})\s*\(", re.M)
 def deftype(rid, name):
-    t = Path("src/%s.c" % rid).read_text(errors="replace")
+    t = layout_row_path(rid, ROOT).read_text(errors="replace")
     m = re.search(r"^([A-Za-z_][\w\s\*]*?)\s*\b%s\s*\([^;{]*\)\s*\{" % name, t, re.M)
     return " ".join(m.group(1).split()) if m else None
 bad = 0; n = 0

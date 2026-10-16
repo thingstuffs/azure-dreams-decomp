@@ -57,6 +57,22 @@ def normalise_definition(row, cfile):
     rename is byte-neutral, so score a copy whose definition carries the row symbol."""
     text = Path(cfile).read_text(errors="replace")
     defs = DEF_SYM.findall(text)
+    # A carved row may retain an unbound BODY token, or a true-name definition
+    # outside a proven rowbase region. The scorer requests the stable row symbol.
+    # This changes a temporary C copy only; placement remains independently gated.
+    symbol = row.get("func") or ""
+    placeholder = "FUNC_" + symbol[5:].upper() + "_BODY" if symbol.startswith("func_") else ""
+    body_def = re.search(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b" + re.escape(placeholder) + r"\s*\([^;{]*\)" + KR_DECLS + r"\s*\{", text, re.M) if placeholder else None
+    other = None
+    if body_def and not defs and not re.search(r"^\s*#\s*define\s+" + re.escape(placeholder) + r"\b", text, re.M):
+        other = placeholder
+    elif row.get("placement") == "unproven" and len(set(defs)) == 1 and row.get("true_name") in defs:
+        other = row["true_name"]
+    if other and not re.search(r"\b" + re.escape(symbol) + r"\b", text):
+        tokens = re.compile(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|\b' + re.escape(other) + r'\b', re.S)
+        tmp = Path(tempfile.mkdtemp()) / Path(cfile).name
+        tmp.write_text(tokens.sub(lambda m: symbol if m[0] == other else m[0], text))
+        return tmp
     if not defs or row["func"] in defs or (row.get("true_name") and row["true_name"] in defs):
         return cfile
     # a data row (`const T func_X __attribute__((section(".text.func_X")))`) or a row that names
@@ -106,7 +122,7 @@ def canonical_spelling(cfile):
     tmp.write_text(new)
     return tmp
 
-def verify_overlay(row, cfile, regions=False, include_root=None, diff=False):
+def verify_overlay(row, cfile, regions=False, include_root=None, diff=False, *, scorer_root=None):
     env = _env()
     # the include root is passed as a USER include directory (-I), exactly as the window gate's
     # cc.sh does; C_INCLUDE_PATH would make it a system header and GCC then tolerates
@@ -116,7 +132,10 @@ def verify_overlay(row, cfile, regions=False, include_root=None, diff=False):
     # tree then wins for both quoted and angle includes.  -iquote also puts it
     # ahead of the fallback for quoted project headers.
     inc = Path(include_root).resolve() if include_root is not None else None
-    scorer_root = gate_root(False)
+    # A caller proving shared-header overlays can supply a private exported
+    # view whose include/ is exactly its snapshot. Older CDK preprocessors do
+    # not consistently demote an earlier -I when it is repeated as -isystem.
+    scorer_root = Path(scorer_root).resolve() if scorer_root is not None else gate_root(False)
     cfg = row["cfg"] + (f" -isystem{scorer_root / 'include'} -iquote{inc} -I{inc}" if inc is not None else "")
     cfile = normalise_definition(row, canonical_spelling(cfile))   # a renamed DEFINITION is scored under its func_ symbol; references are canonicalised inside the pipeline
     cmd = NICE + ["python3", "tools/aligned_score.py", "--func", row["func"],
@@ -756,7 +775,18 @@ def verify(row, cfile, regions=False, include_root=None, diff=False):
         if regions or diff:
             rec["text"] = json.dumps(rec, indent=1)
         return rec
-    return verify_overlay(row, cfile, regions, include_root, diff)
+    rec = verify_overlay(row, cfile, regions, include_root, diff)
+    if not regions and not diff and rec.get("exact") is not True:
+        from verify_overlay_native import verify_member
+        try:
+            native = verify_member(row, cfile, ROOT, gate_root(False), include_root)
+            if native is not None:
+                native["isolated_status"] = rec.get("status")
+                native["isolated_class"] = rec.get("class")
+                return native
+        except (OSError, ValueError, RuntimeError) as exc:
+            rec["native_error"] = str(exc)[-800:]
+    return rec
 
 def main():
     ap = argparse.ArgumentParser()

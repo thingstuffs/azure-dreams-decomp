@@ -310,8 +310,8 @@ def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0, served
 def render_row(rec, stratum, tie_site):
     r, regs = rec["row"], rec["regs"]
     head = ["## %s%s" % (rec["id"], "  (tie)" if tie_site is not None else ""),
-            "- cell `%s`, %d B retail, `src/%s/%s`, %d pin site(s) (%d `ASM_REG`)%s"
-            % (r["cfg"], r["size"], r["container"], Path(r["c_path"]).name, rec["npins"], len(regs),
+            "- cell `%s`, %d B retail, `%s`, %d pin site(s) (%d `ASM_REG`)%s"
+            % (r["cfg"], r["size"], clean_path(r).relative_to(ROOT).as_posix(), rec["npins"], len(regs),
                "; NOTE: this row has a live fence site" if any(s[1] in FENCES for s in rec["sites"]) else ""),
             "- stratum **%s**" % stratum]
     if tie_site is not None:

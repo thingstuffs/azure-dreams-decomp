@@ -8,7 +8,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_7FFEA1CC_0_pre {
     u16 unk_00;
-} S_7FFEA1CC_0_pre;   /* the 0x2 bytes before arg0 in func_7FFEA1CC, addressed as arg0[-1] */
+} S_7FFEA1CC_0_pre;   /* the 0x2 bytes before arg0 in dungeonSpawnPeriodicSourceEffect, addressed as arg0[-1] */
 
 typedef struct S_7FFEA1CC_0 {
     void * unk_00;
@@ -16,7 +16,7 @@ typedef struct S_7FFEA1CC_0 {
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEA1CC_0;   /* arg0 in func_7FFEA1CC */
+} S_7FFEA1CC_0;   /* arg0 in dungeonSpawnPeriodicSourceEffect */
 
 typedef struct S_7FFEA1CC_1 {
     u8 pad_00[0x8];
@@ -26,12 +26,12 @@ typedef struct S_7FFEA1CC_1 {
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
-} S_7FFEA1CC_1;   /* temp_v0 in func_7FFEA1CC */
+} S_7FFEA1CC_1;   /* temp_v0 in dungeonSpawnPeriodicSourceEffect */
 
 typedef struct S_7FFEA1CC_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_7FFEA1CC_2;   /* temp_a0 in func_7FFEA1CC */
+} S_7FFEA1CC_2;   /* temp_a0 in dungeonSpawnPeriodicSourceEffect */
 
 typedef struct S_7FFEA1CC_3 {
     u8 pad_00[0x6];
@@ -41,12 +41,12 @@ typedef struct S_7FFEA1CC_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFEA1CC_3;   /* temp_v1_2 in func_7FFEA1CC */
+} S_7FFEA1CC_3;   /* temp_v1_2 in dungeonSpawnPeriodicSourceEffect */
 
 typedef struct S_7FFEA1CC_4 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEA1CC_4;   /* ((S_7FFEA1CC_0 *)arg0)->unk_00 in func_7FFEA1CC */
+} S_7FFEA1CC_4;   /* ((S_7FFEA1CC_0 *)arg0)->unk_00 in dungeonSpawnPeriodicSourceEffect */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -62,7 +62,7 @@ extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
 /* Periodically spawns an effect and retires the source when its countdown expires. */
-void func_7FFEA1CC(void *source, M2C_UNK spawn_arg1, M2C_UNK spawn_arg2) {
+void dungeonSpawnPeriodicSourceEffect(void *source, M2C_UNK spawn_arg1, M2C_UNK spawn_arg2) {
     s16 elapsed_ticks;
     u16 remaining_ticks;
     void *effect_position;

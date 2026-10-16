@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d28bc4_p02.h"
 
 /* Updates directional tables for kinds 13 through 15 and processes object state. */
-void func_801579A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void dungeonUpdateKindDirectionalTables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
 {
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
@@ -60,7 +60,7 @@ void func_801579A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
 
 
     if (func_800AC82C(owner, context, display, state) != 0) {
-        if ((func_800AD9B4(display, state) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
             owner->field8c = func_801544BC;
         }
         return;

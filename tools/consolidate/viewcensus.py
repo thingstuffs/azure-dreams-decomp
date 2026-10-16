@@ -2,12 +2,16 @@
    through a local pointer initialised from it.  -> census/views10.jsonl + a summary by object."""
 import re, json, collections, sys
 from pathlib import Path
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import source_items as layout_source_items
 LANE = Path(__file__).resolve().parent.parent; REPO = LANE.parent.parent.parent
 OBJ = ["gameWork", "dungeonStatus", "objectFlagBlock", "D_800E3D7C", "D_800814A8", "D_80083780", "D_80083498",
        "D_80082E80", "D_800E2970", "D_80082660", "D_80083120", "D_80016000"]
 STR = re.compile(r'"(?:[^"\\\n]|\\.)*"|/\*.*?\*/|//[^\n]*', re.S)
 out = []; summ = collections.defaultdict(lambda: collections.Counter())
-for p in sorted((REPO / "src").glob("*/*.c")):
+for rid, p in layout_source_items(REPO):
     t = STR.sub(" ", p.read_text(errors="replace"))
     local = set(re.findall(r"typedef\s+struct\s+\w*\s*\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*(\w+)\s*;", t)) | set(re.findall(r"\}\s*(\w+)\s*;", t)) | set(re.findall(r"typedef struct (\w+) \1;", t))
     local = {x for x in local if not x.startswith(("u", "s")) or x.startswith("S_")}
@@ -25,7 +29,6 @@ for p in sorted((REPO / "src").glob("*/*.c")):
     for m in re.finditer(r"^\s*(?:register\s+)?(?:struct\s+)?(\w+)\s*\*\s*(\w+)\s*=\s*\(?\s*(?:\(\s*[\w\s]+\*\s*\)\s*)*\(?\s*&?\s*(%s)\b" % objs, t, re.M):
         if m.group(1) in local: hits[(m.group(3), m.group(1))] += 1
     if hits:
-        rid = "%s/%s" % (p.parent.name, p.stem)
         out.append({"id": rid, "hits": [[o, ty, n] for (o, ty), n in hits.items()]})
         for (o, ty), n in hits.items(): summ[o][rid.split("/")[0]] += 1
 (LANE / "census").mkdir(exist_ok=True)

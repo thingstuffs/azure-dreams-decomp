@@ -23,10 +23,10 @@ extern void func_8040334C(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);
 extern void func_80405C44(s32);
-extern void func_80406368(void);
+extern void mainHandleObjectMenuInput(void);
 extern void func_80405A3C(void);
 
-void func_80405DE0(void *ptr) {
+void mainProcessObjectEntryBatch(void *ptr) {
     s32 value;
     s32 index;
     void *offset_ptr;
@@ -52,7 +52,7 @@ void func_80405DE0(void *ptr) {
         }
     }
     offset_ptr = (u8 *)ptr - 0x20;
-    *(void (**)(void))((u8 *)ptr + 0x34) = func_80406368;
+    *(void (**)(void))((u8 *)ptr + 0x34) = mainHandleObjectMenuInput;
     func_8040334C(offset_ptr);
     *(void **)((u8 *)ptr - 0x10) = (void *)func_80405A3C;
     func_80400908();

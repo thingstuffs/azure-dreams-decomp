@@ -1,0 +1,141 @@
+{
+  "module": "town_ovl_2da5e4",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_2da5e4.c",
+    "module_index": 11
+  },
+  "members": [
+    "town/func_8035A5E4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical object boundary is not observable; this is the complete assigned ledger cohort, not a claim that all native code in the script is owned.",
+  "basis": [
+    "Complete pre-existing ledger group, unchanged membership and extent, reviewed against ledger/splits/town.jsonl.",
+    "All members are contiguous, complete functions at a single 2.7.2-cdk-G0 recipe. Neighboring native functions remain separate and external.",
+    "No allocated data or rodata emitted by this TU. The first group imports the script lookup tables; all groups import the shared runtime pointer.",
+    "Authenticated retail CD bank maps contain every complete member; return/delay-slot boundaries and both nearest registered neighbors are recorded below. Script-bank boundaries and native-TU cohort boundaries are distinct."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "complete_body_sha256": {
+    "town/func_8035A5E4": "9b1b086407ad9a236aa6e5caa361b31474061f43571feefd4b16d2130b0d9929"
+  },
+  "owned_prefix": [],
+  "physical_extent": {
+    "file_start": 2991588,
+    "file_end": 2991644,
+    "code_bytes": 56,
+    "load_file_start": 2988032,
+    "load_file_end": 2992128,
+    "load_delta": 2144617680,
+    "evidence": "docs/evidence/town_ovl_2da5e4.rowbase.json"
+  },
+  "recipe_census": [
+    {
+      "id": "town/func_8035A5E4",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    }
+  ],
+  "function_boundaries": [
+    {
+      "id": "town/func_8035A5E4",
+      "start": 2991588,
+      "end": 2991644,
+      "sha256": "9b1b086407ad9a236aa6e5caa361b31474061f43571feefd4b16d2130b0d9929",
+      "entry": [
+        {
+          "vma": 2147609268,
+          "word": "0x3c028001",
+          "instruction": "lui $v0, 0x8001"
+        },
+        {
+          "vma": 2147609272,
+          "word": "0x8c426000",
+          "instruction": "lw $v0, 0x6000($v0)"
+        },
+        {
+          "vma": 2147609276,
+          "word": "0x27bdffe8",
+          "instruction": "addiu $sp, $sp, -0x18"
+        },
+        {
+          "vma": 2147609280,
+          "word": "0xafbf0010",
+          "instruction": "sw $ra, 0x10($sp)"
+        }
+      ],
+      "exit": [
+        {
+          "vma": 2147609308,
+          "word": "0x8fbf0010",
+          "instruction": "lw $ra, 0x10($sp)"
+        },
+        {
+          "vma": 2147609312,
+          "word": "0x27bd0018",
+          "instruction": "addiu $sp, $sp, 0x18"
+        },
+        {
+          "vma": 2147609316,
+          "word": "0x03e00008",
+          "instruction": "jr $ra"
+        },
+        {
+          "vma": 2147609320,
+          "word": "0x00000000",
+          "instruction": "nop "
+        }
+      ]
+    }
+  ],
+  "adjacent_registered_rows": [
+    {
+      "side": "before",
+      "id": "town/func_80353F64",
+      "foff": 2965348,
+      "size": 40,
+      "row_kind": "function",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": "",
+      "assignment": {
+        "id": "town/func_80353F64",
+        "container": "town",
+        "module": "ovl_2d3f0c.c",
+        "module_index": 10,
+        "confidence": "weak"
+      },
+      "ownership": "external; excluded from this native TU"
+    },
+    {
+      "side": "after",
+      "id": "town/func_80468280",
+      "foff": 4096640,
+      "size": 104,
+      "row_kind": "function",
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": "",
+      "assignment": {
+        "id": "town/func_80468280",
+        "container": "town",
+        "module": "ovl_3e8280.c",
+        "module_index": 12,
+        "confidence": "strong"
+      },
+      "ownership": "external; excluded from this native TU"
+    }
+  ],
+  "recipe_split": {
+    "required": false,
+    "reason": "Every member in the complete original ledger cohort has cfg 2.7.2-cdk-G0 and empty row_asflags. No recipe boundary occurs inside this cohort."
+  },
+  "storage": {
+    "owned_data": [],
+    "owned_rodata": [],
+    "emitted_sections": "text only",
+    "imports_evidence": "docs/evidence/town_ovl_2da5e4.imports.json",
+    "prefix": "No prefix allocation is part of the declared cohort."
+  }
+}

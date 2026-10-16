@@ -55,10 +55,10 @@ typedef struct Row_818F33BC_S_80024BBC_6 {
 void *func_8003FD64(s32, void *);
 s32 rand(void);
 void func_8004491C(void *, void *);
-void func_800248EC(void);
+void dungeonDrawLinkedShadedTiles(void);
 extern s16 D_800259AC;
 void func_80024B6C(void *object);
-void func_80024BBC(
+void createRandomOffsetEffectObject(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset);
 #endif

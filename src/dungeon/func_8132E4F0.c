@@ -8,11 +8,11 @@ typedef struct S_801654F0_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801654F0_0;   /* arg1 in func_801654F0 */
+} S_801654F0_0;   /* arg1 in dungeonTickColoredLinearEffect */
 
 typedef struct S_801654F0_1_pre {
     u16 unk_00;
-} S_801654F0_1_pre;   /* the 0x2 bytes before arg0 in func_801654F0, addressed as arg0[-1] */
+} S_801654F0_1_pre;   /* the 0x2 bytes before arg0 in dungeonTickColoredLinearEffect, addressed as arg0[-1] */
 
 typedef struct S_801654F0_1 {
     u8 unk_00;
@@ -28,11 +28,11 @@ typedef struct S_801654F0_1 {
     s32 unk_08;
     u8 pad_0C[0x26];
     u16 unk_32;
-} S_801654F0_1;   /* arg0 in func_801654F0 */
+} S_801654F0_1;   /* arg0 in dungeonTickColoredLinearEffect */
 
 
 /* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */
-void func_801654F0(void *effect, S_801654F0_0 *motion)
+void dungeonTickColoredLinearEffect(void *effect, S_801654F0_0 *motion)
 {
     u16 life_left;
 

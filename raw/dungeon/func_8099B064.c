@@ -1,0 +1,69 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+M2C_UNK func_80047784(void *, u8, M2C_UNK);         /* extern */
+M2C_UNK func_8009C12C(void *, void *, s16, M2C_UNK); /* extern */
+M2C_UNK func_800A4ACC(void *);                      /* extern */
+M2C_UNK func_800A56E0(M2C_UNK);                     /* extern */
+M2C_UNK func_800AD594(void *, M2C_UNK);             /* extern */
+M2C_UNK func_8014D4D4();                            /* static */
+extern s16 D_80083228;
+extern s32 D_8008346C;
+extern M2C_UNK D_80150108;
+
+void func_8014E864(void *arg0, void *arg2, void *arg3) {
+    u16 temp_v0;
+    u16 temp_v0_2;
+    u8 temp_v1;
+
+    temp_v1 = M2C_FIELD(arg0, u8 *, 0x9B);
+    switch (temp_v1) {
+    case 0:
+        temp_v0 = M2C_FIELD(arg0, u16 *, 0x96);
+        M2C_FIELD(arg0, u16 *, 0x96) = (u16) (temp_v0 + 1);
+        if (((s16) temp_v0 >= 4) || (M2C_FIELD(arg2, u16 *, 0x14) & 0x8000)) {
+            M2C_FIELD(arg0, u16 *, 0x96) = 0U;
+block_8:
+            M2C_FIELD(arg0, u8 *, 0x9B) = (u8) (M2C_FIELD(arg0, u8 *, 0x9B) + 1);
+            return;
+        }
+    default:
+        return;
+    case 1:
+        if ((M2C_FIELD(arg0, s16 *, 0xA2) == 0) || (M2C_FIELD(arg2, u16 *, 0x14) & 0x8000)) {
+            M2C_FIELD(arg2, M2C_UNK **, 0x2C) = &D_80150108;
+            func_80047784(arg2, *((((s32) (D_80083228 + M2C_FIELD(arg3, s16 *, 0x2A) + 0x100) >> 9) & 7) + &D_80150108), 0);
+            M2C_FIELD(arg0, u16 *, 0x96) = 0U;
+            M2C_FIELD(arg0, s16 *, 0xA2) = 0;
+            M2C_FIELD(arg0, s16 *, 0x9E) = 0;
+            goto block_8;
+        }
+        break;
+    case 2:
+        temp_v0_2 = M2C_FIELD(arg0, u16 *, 0x96) + 1;
+        M2C_FIELD(arg0, u16 *, 0x96) = temp_v0_2;
+        if (((s16) temp_v0_2 == 9) || (M2C_FIELD(arg2, u16 *, 0x14) & 0x8000)) {
+            func_8009C12C(arg3, arg2, M2C_FIELD(arg3, s16 *, 0x2A), 1);
+            M2C_FIELD(arg0, u16 *, 0x96) = 0U;
+            M2C_FIELD(arg0, u8 *, 0x9B) = (u8) (M2C_FIELD(arg0, u8 *, 0x9B) + 1);
+        }
+        if ((s16) M2C_FIELD(arg0, u16 *, 0x96) == 6) {
+            func_800A56E0(0x808);
+            return;
+        }
+        break;
+    case 3:
+        M2C_FIELD(arg0, u16 *, 0x96) = 0U;
+        M2C_FIELD(arg0, u8 *, 0x9B) = (u8) (M2C_FIELD(arg0, u8 *, 0x9B) + 1);
+        /* fallthrough */
+    case 4:
+        if (M2C_FIELD(arg2, u16 *, 0x14) & 0xE000) {
+            func_800AD594(arg3, 0x100);
+            M2C_FIELD(arg0, M2C_UNK (**)(), 0x8C) = func_8014D4D4;
+            D_8008346C = 0;
+            func_800A4ACC(arg3);
+            M2C_FIELD(arg3, u16 *, 0x46) = (u16) (M2C_FIELD(arg3, u16 *, 0x46) & 0x7FFF);
+        }
+        break;
+    }
+}

@@ -16,11 +16,11 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
         if (object == 0) {
             break;
         }
-        resource = func_80033BE4();
+        resource = runtimeFindUnusedPoolSlot();
         if (resource == 0) {
             break;
         }
-        func_80033C1C(resource, 0);
+        runtimeInitializeStateValue(resource, 0);
         *object_cursor++ = object;
         *resource_cursor++ = resource;
         count++;
@@ -33,15 +33,15 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
         if (object_cursor != objects) {
             do {
                 --object_cursor;
-                func_8003FFF0(*object_cursor);
-                func_80040044(*object_cursor);
+                unlinkActiveNode(*object_cursor);
+                pushNodeOntoFreeList(*object_cursor);
             } while (object_cursor != objects);
             ++object_cursor;
         }
         if (resource_cursor != resources) {
             do {
                 --resource_cursor;
-                func_80033C84(*resource_cursor);
+                runtimeClearValue(*resource_cursor);
             } while (resource_cursor != resources);
         }
         return 0;

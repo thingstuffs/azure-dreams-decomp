@@ -40,7 +40,7 @@ extern s32 func_800A56E0();
 extern void func_800A5A18(void *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
-s32 func_800C7DEC(Object *object, Other *source) {
+s32 prepareQuarterDamageReturn(Object *object, Other *source) {
     u8 *target_item;
     s16 total_value;
     u8 mode;

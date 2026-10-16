@@ -122,10 +122,10 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                 D_80079958[reg_base + 1] = right_volume | volume_mode;
             }
             if (set_all || (mask & 0x80)) {
-                func_8005D598(reg_base + 3, attr->addr);
+                audioHandleOptionallyAlignsShiftsStoresReturnsResult(reg_base + 3, attr->addr);
             }
             if (set_all || (mask & 0x10000)) {
-                func_8005D598(reg_base + 7, attr->loop_addr);
+                audioHandleOptionallyAlignsShiftsStoresReturnsResult(reg_base + 7, attr->loop_addr);
             }
             if (set_all || (mask & 0x20000)) {
                 D_80079958[reg_base + 4] = attr->adsr1;

@@ -46,19 +46,19 @@ typedef struct EffectSpriteView {
 
 void func_8003DB94();
 s32 Control_CD();
-void func_8003F540();
+void soundSetCdCueParameters();
 void func_80041588();
 int func_800445E0();
 s32 func_8004491C();
-s32 func_800498A0();
+s32 lookupMaskedByteTable();
 s32 func_80069EF8();
 void func_8009A028();
 void func_8009A3D0();
-void func_800A18E8();
-s32 func_800A504C();
+void dungeonDecrementMonsterEntryCount();
+s32 dungeonAdvanceStagedEntityLoad();
 s32 func_800A56E0();
-s32 func_800ADC4C();
-s32 func_800C77D0();
+s32 dungeonCreateStatusLinkedRenderEffect();
+s32 dungeonSelectNearbyTargetAndInitializeSlot();
 void func_80161904();
 extern s32 D_8003E140;
 extern s32 D_8006CD58;
@@ -74,7 +74,7 @@ extern s32 D_801622E4;
 extern u8 D_801622E5;
 extern s32 D_801622E8;
 
-void func_80161CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
+void dungeonUpdateActorSequenceVariant(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;
     s16 spawn_count;
@@ -120,11 +120,11 @@ void func_80161CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
             return;
         }
         func_80041588(&D_801622CC, &D_801622E4, 1);
-        func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        soundSetCdCueParameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_801622E5 = 0;
         Control_CD(0xFF, &D_8003E140, &D_801622E5);
-        func_800C77D0(model - 0x20, position, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
     case 3:
@@ -141,7 +141,7 @@ void func_80161CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
             func_800A56E0(0x300);
             return;
         }
-        target_color = D_800DCEEC[func_800498A0(model)];
+        target_color = D_800DCEEC[lookupMaskedByteTable(model)];
         scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->red
             - scene_color->view.unk_090) / (s16) state->unk_96));
         scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->green
@@ -169,7 +169,7 @@ void func_80161CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         effect_sprite->scaleY = 0x1000;
         effect_sprite->scaleX = 0x1000;
         effect_sprite->colorOrPointer.color = color;
-        variant_index = func_800498A0(effect_model) - 1;
+        variant_index = lookupMaskedByteTable(effect_model) - 1;
         effect_variant = variant_index;
         if ((variant_index << 0x10) < 0) {
             effect_variant = func_80069EF8() % 3;
@@ -205,19 +205,19 @@ void func_80161CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         if (state->unk_9B != 6) {
             return;
         }
-        if (func_800ADC4C(position, D_801622E8, D_801622E0, &D_800DCF5C) == 0) {
+        if (dungeonCreateStatusLinkedRenderEffect(position, D_801622E8, D_801622E0, &D_800DCF5C) == 0) {
             return;
         }
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
-        func_800A18E8(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
+        dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
         func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
         func_8009A028(model);
         effect_sprite = model - 0x20;
         effect_sprite->flags = (s32) (effect_sprite->flags | 0x80000000);
         return;
     case 7:
-        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = func_800A504C(actor, model);
+        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = dungeonAdvanceStagedEntityLoad(actor, model);
         return;
     }
 }

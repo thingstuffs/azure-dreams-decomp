@@ -4,7 +4,7 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
-s32 func_800374F4();                         /* extern */
+s32 scaleRandomToUnsignedHalfwordLimit();                         /* extern */
 M2C_UNK func_8003DB94();  /* extern */
 s32 func_8004491C();           /* extern */
 s32 rand();                           /* extern */
@@ -16,7 +16,7 @@ typedef struct S_800A878C_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800A878C_0;   /* temp_v0 in func_800A878C */
+} S_800A878C_0;   /* temp_v0 in townCreateReverseMotionEffect */
 
 typedef struct S_800A878C_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800A878C_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A878C_1;   /* temp_s1 in func_800A878C */
+} S_800A878C_1;   /* temp_s1 in townCreateReverseMotionEffect */
 
 typedef struct S_800A878C_2 {
     u8 pad_00[0x2];
@@ -39,7 +39,7 @@ typedef struct S_800A878C_2 {
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800A878C_2;   /* arg0 in func_800A878C */
+} S_800A878C_2;   /* arg0 in townCreateReverseMotionEffect */
 
 typedef struct S_800A878C_3 {
     u8 pad_00[0xC];
@@ -53,16 +53,16 @@ typedef struct S_800A878C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A878C_3;   /* temp_s0 in func_800A878C */
+} S_800A878C_3;   /* temp_s0 in townCreateReverseMotionEffect */
 
 typedef struct S_800A878C_4 {
     u8 pad_00[0x2];
     s16 unk_02;
     s32 unk_04;
-} S_800A878C_4;   /* temp_s3 in func_800A878C */
+} S_800A878C_4;   /* temp_s3 in townCreateReverseMotionEffect */
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
-void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
+void *townCreateReverseMotionEffect(S_800A878C_2 *source_motion, u32 flags) {
     s16 *direction_y;
     s16 launch_speed;
     s16 stored_speed;
@@ -102,8 +102,8 @@ void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
         sprite->unk_1C = 0x1000;
         sprite->unk_10 = 0x60;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        speed_roll = func_800374F4(7);
-        launch_speed = speed_roll + func_800374F4(7);
+        speed_roll = scaleRandomToUnsignedHalfwordLimit(7);
+        launch_speed = speed_roll + scaleRandomToUnsignedHalfwordLimit(7);
         launch->unk_02 = launch_speed;
         motion->unk_14 = (s32) (0 - (launch_speed << 0x10));
         stored_speed = launch->unk_02;

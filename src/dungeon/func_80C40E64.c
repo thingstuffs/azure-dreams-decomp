@@ -20,7 +20,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         if (((T_80172664_S_80172664_2 *)sprite)->unk_14 & 0x8000) {
             ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
             ((T_80172664_S_80172664_2 *)sprite)->unk_14 |= 0x6000;
-            func_8009C12C(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
             return;
         }
 
@@ -95,7 +95,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         if (((T_80172664_S_80172664_1 *)animation)->unk_96.u > 0) {
             return;
         }
-        func_8009C12C(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
+        dungeonResolveAttackDamageAndEffects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
         ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
         return;
 
@@ -133,11 +133,11 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         }
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((T_80172664_S_80172664_1 *)animation)->unk_8C = &D_80170E7C;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (((T_80172664_S_80172664_0 *)actor)->unk_6D == 0) {
             ((T_80172664_S_80172664_0 *)actor)->unk_46 &= 0x7FFF;
         } else {

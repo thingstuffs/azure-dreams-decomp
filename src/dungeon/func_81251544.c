@@ -4,7 +4,7 @@
 
 typedef struct S_80170D44_0_pre {
     u16 unk_00;
-} S_80170D44_0_pre;   /* the 0x2 bytes before arg0 in func_80170D44, addressed as arg0[-1] */
+} S_80170D44_0_pre;   /* the 0x2 bytes before arg0 in dungeonExpandFadeEffectAndExpire, addressed as arg0[-1] */
 
 typedef struct S_80170D44_0 {
     u8 pad_00[0x96];
@@ -13,7 +13,7 @@ typedef struct S_80170D44_0 {
     s16 unk_A8;
     u8 pad_AA[0x2];
     void * unk_AC;
-} S_80170D44_0;   /* arg0 in func_80170D44 */
+} S_80170D44_0;   /* arg0 in dungeonExpandFadeEffectAndExpire */
 
 typedef struct S_80170D44_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_80170D44_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170D44_1;   /* arg1 in func_80170D44 */
+} S_80170D44_1;   /* arg1 in dungeonExpandFadeEffectAndExpire */
 
 typedef struct S_80170D44_2 {
     u8 pad_00[0x2];
@@ -31,14 +31,14 @@ typedef struct S_80170D44_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170D44_2;   /* src in func_80170D44 */
+} S_80170D44_2;   /* src in dungeonExpandFadeEffectAndExpire */
 
 
 extern void func_800478B8(void *primitive);
 
 
 /* Copy the effect position, expand and fade its primitive, and flag expiration. */
-void func_80170D44(void *effect, S_80170D44_1 *position, Rec_D_80082E80 *primitive)
+void dungeonExpandFadeEffectAndExpire(void *effect, S_80170D44_1 *position, Rec_D_80082E80 *primitive)
 {
     s16 ticks_left;
     s32 shade;

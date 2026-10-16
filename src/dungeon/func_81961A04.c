@@ -13,18 +13,18 @@
 extern s32 D_800273B0;
 extern M2C_UNK D_800CEEFC;
 
-   /* temp_v0 in func_80027204 */
+   /* temp_v0 in dungeonAllocateNinePositionObjects */
 
-   /* temp_s3 in func_80027204 */
+   /* temp_s3 in dungeonAllocateNinePositionObjects */
 
-   /* temp_v1 in func_80027204 */
+   /* temp_v1 in dungeonAllocateNinePositionObjects */
 
-   /* temp_a2 in func_80027204 */
+   /* temp_a2 in dungeonAllocateNinePositionObjects */
 
-   /* temp_a1 in func_80027204 */
+   /* temp_a1 in dungeonAllocateNinePositionObjects */
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
-void *func_80027204(void *position)
+void *dungeonAllocateNinePositionObjects(void *position)
 {
     S_81961A04_1 *source_pos;
     s32 slot;
@@ -44,7 +44,7 @@ void *func_80027204(void *position)
 
     source_pos = position;
     slot = 0;
-    object_handler = func_80026DE4;
+    object_handler = dungeonInterpolateTargetAndFinishTransition;
     control_handler = &D_800273B0;
     last_slot = 8;
     do {

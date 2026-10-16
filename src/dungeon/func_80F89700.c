@@ -13,17 +13,17 @@ typedef struct S_80172F00_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172F00_0;   /* arg0 in func_80172F00 */
+} S_80172F00_0;   /* arg0 in dungeonRestoreBankActorTile */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern u8 D_80174ADC[];
 
 /* Updates staged directional motion, then restores the entity to its tile and animation. */
-void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
+void dungeonRestoreBankActorTile(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
 {
     s16 timer_signed;
     s32 direction;
@@ -41,13 +41,13 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
 
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         if (entity->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             motion->flags14 = 0xFFFD0000;
-            func_800AAA54(action, motion, sprite, D_80174ADC);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_80174ADC);
             return;
         }
 
@@ -110,7 +110,7 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             motion->flags14 = 0xFFFD0000;
-            func_800AAA54(action, motion, sprite, D_80174ADC);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_80174ADC);
         } else {
             ((S_80172F00_0 *)action)->unk_96.s = 5;
             ((S_80172F00_0 *)action)->unk_9B = ((S_80172F00_0 *)action)->unk_9B + 1;
@@ -141,7 +141,7 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         ((S_80172F00_0 *)action)->unk_98 &= 0xFFF7;
         entity->flags1C |= 0x08000000;
@@ -156,7 +156,7 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80172F00_0 *)action)->unk_8C = func_80171138;
+        ((S_80172F00_0 *)action)->unk_8C = dungeonUpdateBankActorState;
         break;
     default:
         return;

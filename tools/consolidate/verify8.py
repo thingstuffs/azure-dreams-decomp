@@ -9,6 +9,10 @@ sys.path.insert(0, str(REPO / "tools"))
 import os; os.chdir(REPO)
 from common import rows
 from verify import verify
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 R = {r["id"]: r for r in rows()}
 arg = sys.argv[1] if len(sys.argv) > 1 else "set"
 if arg == "all": ids = sorted(R)
@@ -20,7 +24,7 @@ out = LANE / "results" / (sys.argv[2] if len(sys.argv) > 2 else "v8_%s.jsonl" % 
 def one(rid):
     if rid not in R: return {"id": rid, "nonrow": True}
     r = R[rid]; d = LANE / "draft8" / (rid + ".c")
-    f = d if d.is_file() else REPO / "src" / r["container"] / (rid.split("/", 1)[1] + ".c")
+    f = d if d.is_file() else layout_row_path(r, REPO)
     v = verify(r, f, include_root=LANE / "inc_full")
     return {"id": rid, "draft": d.is_file(), "exact": bool(v.get("exact")), "status": v.get("status"), "total": v.get("total"), "err": (v.get("err") or "")[-200:]}
 n = bad = 0

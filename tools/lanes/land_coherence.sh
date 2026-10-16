@@ -31,7 +31,7 @@ fi
 python3 - "$D" "$TAG" "$ROUND" "$DATE" <<'EOF'
 import json, sys, hashlib
 sys.path.insert(0, "tools")
-from common import rows, clean_path, set_row_cfg, sha_text
+from common import ROOT, rows, clean_path, set_row_cfg, sha_text
 from pin_census import sites_of
 D, tag, round_arg, date_ = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 round_ = int(round_arg) if round_arg.isdigit() else round_arg
@@ -58,7 +58,7 @@ for line in open(f"{D}/cells.jsonl"):
         v = verify(dict(row, cfg=e["to"], cell=parse_cfg(e["to"])[0], flags=" ".join(parse_cfg(e["to"])[1])), f, include_root=Path("include").resolve())
     if not v.get("exact"):
         print("skip not exact at target", rid, e["to"], v.get("status"), v.get("total")); continue
-    bad = landing_refusal(cand, cur, f"src/{rid}.c", row=row)
+    bad = landing_refusal(cand, cur, str(clean_path(row).relative_to(ROOT)), row=row)
     if bad:
         print("skip landing refusal", rid, bad[:100]); continue
     # lab.py stage-cell writes kind "recipe-switch" when rule 2 holds (the pinned text is exact at the target too)
@@ -119,7 +119,7 @@ print("TRANSACTION_INPUTS_MATCH", len(expected))
 CHECK
   exit
 fi
-IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
+IDS=$(git diff --name-only -- src | python3 tools/source_layout.py ids)
 if [ -n "$IDS" ] || [ -s "$D/switched.txt" ]; then   # r84: a recipe-only switch must be gated too
   [ -n "$IDS" ] && { echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1; }
   echo "== gate"

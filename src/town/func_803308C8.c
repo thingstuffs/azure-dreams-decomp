@@ -6,6 +6,6 @@
 
 
 /* Returns the field at offset 0x2D60 in the record linked through D_80016000. */
-s32 func_8001B0C8(void) {
+s32 townGetLinkedRecordField2D60(void) {
     return D_80016000->unk_38->unk_2D60;
 }

@@ -12,7 +12,7 @@ typedef struct {
 
 
 /* Advance and damp motion, fade the primitive, and flag the effect when its timer expires. */
-void func_80171384(void *effect, Motion *motion, void *primitive) {
+void dungeonAdvanceDampedFadingEffect(void *effect, Motion *motion, void *primitive) {
     s32 intensity;
     s16 ticks_left;
 

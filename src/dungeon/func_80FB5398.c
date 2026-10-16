@@ -40,7 +40,7 @@ typedef struct {
 extern u8 D_8017089C[];
 extern u8 D_801C9E40[];
 
-extern void func_800DBA90(void *);
+extern void dungeonTransformRotatedVertices(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_800644B8(s32);
 extern void func_800666F4(void *);
@@ -54,7 +54,7 @@ static __inline__ s32 advance_phase(s32 phase, s32 layer)
 }
 
 /* Draw layered, wavy textured strips over the projected bounds of linked objects. */
-s32 func_80174B98(void *object_data, void *unused, void *appearance)
+s32 dungeonDrawLayeredWavyObjectStrips(void *object_data, void *unused, void *appearance)
 {
     s16 bounds[4];
     PackedPair material;
@@ -139,7 +139,7 @@ loop_0:
         projection.v10 = *((PackedPair *) (((u8 *) object) + 0xA2));
         projection.count = 4;
         projection.pad1A = 0;
-        func_800DBA90(projection_ptr);
+        dungeonTransformRotatedVertices(projection_ptr);
         min_xy &= 0xFFFF;
         max_xy &= 0xFFFF;
         index_or_row = 3;

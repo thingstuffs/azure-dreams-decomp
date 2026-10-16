@@ -5,7 +5,7 @@
 
 
 /* Increment the record counter if it is below two. */
-void func_80019730(void) {
+void townAdvanceDispatchStateToTwo(void) {
     u8 counter;
 
     counter = D_8001E950->dispatchState;

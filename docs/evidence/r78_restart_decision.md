@@ -1,6 +1,6 @@
 # Round 78 restart decision record (2026-09-27, Claude Opus 5.5 coordinator)
 
-Follows [the restart plan](../CLAUDE_CODEX_RESTART_PLAN_20260927.md). The owner is unavailable; routine
+Follows [the restart plan](../history/CLAUDE_CODEX_RESTART_PLAN_20260927.md). The owner is unavailable; routine
 scheduling decisions below are taken without asking, per the plan.
 
 ## Verified state at pickup (23:15Z)

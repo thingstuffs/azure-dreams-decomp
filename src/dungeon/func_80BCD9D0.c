@@ -1,0 +1,125 @@
+/* Relink of matched dungeon/func_80BC19D0; every changed retail word is a paired relocation. */
+#define D_801713A8 D_801653A8
+#define D_801719DC D_801659DC
+#define D_80174634 D_80168634
+#define D_80174684 D_80168684
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+
+
+typedef s32 M2C_UNK;
+
+typedef struct S_801711D0_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+} S_801711D0_0;   /* obj in func_801651D0 */
+
+typedef struct S_801711D0_1 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+} S_801711D0_1;   /* work in func_801651D0 */
+
+typedef struct S_801711D0_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_801711D0_2;   /* part_a in func_801651D0 */
+
+typedef struct S_801711D0_3 {
+    u8 pad_00[0x24];
+    s8 unk_24;
+    s8 unk_25;
+    u8 pad_26[0x6];
+    void * unk_2C;
+} S_801711D0_3;   /* part_b in func_801651D0 */
+
+typedef struct S_801711D0_4 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0xA];
+    u8 unk_9A;
+    u8 pad_9B[0x1];
+    s8 unk_9C;
+} S_801711D0_4;   /* actor in func_801651D0 */
+
+
+extern void *func_8003FD64();
+extern void func_8004491C();
+extern s32 func_800A6D30(void);
+extern void func_800A48F0();
+extern void func_800A9C18();
+extern void func_800AA36C();
+extern u8 D_801653A8[];
+extern M2C_UNK D_801659DC;
+extern u8 D_80168634[];
+extern u8 D_80168684[];
+
+void *func_801651D0(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
+{
+    s32 kind;
+    void *obj;
+    S_801711D0_2 *part_a;
+    S_801711D0_3 *part_b;
+    S_801711D0_1 *work;
+    S_801711D0_4 *actor;
+    s32 left;
+    s32 right;
+    s8 saved_arg1;
+    s16 saved_arg3;
+    s8 saved_arg2;
+
+    work = 0;
+    saved_arg1 = value_24;
+    saved_arg3 = value_0A;
+    saved_arg2 = value_25;
+    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    if (obj != 0) {
+        work = (u8 *)obj + 0x20;
+        ((S_801711D0_0 *)obj)->unk_10 = D_801653A8;
+        work->unk_13 = 0xF;
+        func_8004491C(obj, func_80045340);
+
+        part_a = ((S_801711D0_0 *)obj)->unk_08;
+        part_a->unk_0A = saved_arg3;
+        part_b = ((S_801711D0_0 *)obj)->unk_0C;
+        kind = flags & 3;
+        part_b->unk_25 = saved_arg2;
+        actor = work;
+        part_b->unk_2C = D_80168634;
+        part_b->unk_24 = saved_arg1;
+
+        if (kind == 1) {
+            left = work->unk_14 | 0x6000;
+            right = work->unk_1C | 0x6000;
+            work->unk_14 = left;
+            work->unk_1C = right;
+        } else if (kind >= 2) {
+            left = work->unk_14 | 0x2000;
+            right = work->unk_1C | 0x2000;
+            work->unk_14 = left;
+            work->unk_1C = right;
+        } else if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
+            if (func_800A6D30() & 1) {
+                func_800A48F0(work, 1,
+                              (func_800A6D30() & 0x3F) | 0x20);
+                part_b->unk_2C = D_80168684;
+            }
+        }
+        func_800A9C18(((void *)(obj)), part_a, part_b, flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = &D_801659DC;
+        work->unk_1C |= 0x40000;
+        func_800AA36C(actor, part_a, part_b, work);
+    }
+    return work;
+}
+
+/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
+   The sole residue was part_b's saved_arg1 byte field at 0xF versus retail offset 0x24.
+   part_b->unk_24 closes the substitution at emitted word 32. */

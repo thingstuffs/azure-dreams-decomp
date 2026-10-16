@@ -8,7 +8,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800A2BDC();                          /* extern */
 s16 func_800A48F0();    /* extern */
-s32 func_800A4ACC();                      /* extern */
+s32 dungeonAdvanceStatusTimers();                      /* extern */
 extern u8 D_801741D4[8];
 
 
@@ -33,7 +33,7 @@ void func_80F60808(S_80F60808_1 *action_state, void *unused, Rec_D_80082E80 *spr
         actor->flags1C = (s32) (actor->flags1C | 0x200);
         func_800A48F0(actor, 1, 4);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
     }

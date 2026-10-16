@@ -9,7 +9,7 @@
 
 typedef struct S_800259D8_0_pre {
     u16 unk_00;
-} S_800259D8_0_pre;   /* the 0x2 bytes before arg0 in func_800259D8, addressed as arg0[-1] */
+} S_800259D8_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateAnimatedEffectSprite, addressed as arg0[-1] */
 
 typedef struct S_800259D8_0 {
     void * unk_00;
@@ -39,13 +39,13 @@ typedef struct S_800259D8_0 {
     u8 pad_AB[0x3];
     u8 unk_AE;
     u8 unk_AF;
-} S_800259D8_0;   /* arg0 in func_800259D8 */
+} S_800259D8_0;   /* arg0 in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800259D8_1;   /* base in func_800259D8 */
+} S_800259D8_1;   /* base in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_2 {
     u8 pad_00[0x8];
@@ -65,12 +65,12 @@ typedef struct S_800259D8_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800259D8_2;   /* arg2 in func_800259D8 */
+} S_800259D8_2;   /* arg2 in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800259D8_3_pre;   /* the 0x14 bytes before obj in func_800259D8, addressed as obj[-1] */
+} S_800259D8_3_pre;   /* the 0x14 bytes before obj in dungeonUpdateAnimatedEffectSprite, addressed as obj[-1] */
 
 typedef struct S_800259D8_3 {
     u8 pad_00[0x2A];
@@ -81,7 +81,7 @@ typedef struct S_800259D8_3 {
     s8 unk_72;
     u8 pad_73[0x15];
     u16 unk_88;
-} S_800259D8_3;   /* obj in func_800259D8 */
+} S_800259D8_3;   /* obj in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_4 {
     union {
@@ -102,7 +102,7 @@ typedef struct S_800259D8_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800259D8_4;   /* arg1 in func_800259D8 */
+} S_800259D8_4;   /* arg1 in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_5 {
     union {
@@ -134,20 +134,20 @@ typedef struct S_800259D8_5 {
     void * unk_44;
     void * unk_48;
     void * unk_4C;
-} S_800259D8_5;   /* entry in func_800259D8 */
+} S_800259D8_5;   /* entry in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800259D8_6;   /* resident_work in func_800259D8 */
+} S_800259D8_6;   /* resident_work in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_7 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800259D8_7;   /* spawn in func_800259D8 */
+} S_800259D8_7;   /* spawn in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_8 {
     u8 pad_00[0x8];
@@ -164,61 +164,61 @@ typedef struct S_800259D8_8 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800259D8_8;   /* work in func_800259D8 */
+} S_800259D8_8;   /* work in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_9 {
     s32 unk_00;
     s32 unk_04;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800259D8_9;   /* dst in func_800259D8 */
+} S_800259D8_9;   /* dst in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_10_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800259D8_10_pre;   /* the 0x14 bytes before fade_node in func_800259D8, addressed as fade_node[-1] */
+} S_800259D8_10_pre;   /* the 0x14 bytes before fade_node in dungeonUpdateAnimatedEffectSprite, addressed as fade_node[-1] */
 
 typedef struct S_800259D8_10 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800259D8_10;   /* fade_node in func_800259D8 */
+} S_800259D8_10;   /* fade_node in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_11 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_800259D8_11;   /* fade_entry in func_800259D8 */
+} S_800259D8_11;   /* fade_entry in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_12_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800259D8_12_pre;   /* the 0x14 bytes before tail_node in func_800259D8, addressed as tail_node[-1] */
+} S_800259D8_12_pre;   /* the 0x14 bytes before tail_node in dungeonUpdateAnimatedEffectSprite, addressed as tail_node[-1] */
 
 typedef struct S_800259D8_12 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800259D8_12;   /* tail_node in func_800259D8 */
+} S_800259D8_12;   /* tail_node in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_13 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_800259D8_13;   /* ((S_800259D8_1 *)base)->unk_0C in func_800259D8 */
+} S_800259D8_13;   /* ((S_800259D8_1 *)base)->unk_0C in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_14 {
     u16 unk_00;
-} S_800259D8_14;   /* ((S_800259D8_0 *)arg0)->unk_04 in func_800259D8 */
+} S_800259D8_14;   /* ((S_800259D8_0 *)arg0)->unk_04 in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct S_800259D8_15_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800259D8_15_pre;   /* the 0x18 bytes before ((S_800259D8_3 *)obj)->unk_60 in func_800259D8, addressed as ((S_800259D8_3 *)obj)->unk_60[-1] */
+} S_800259D8_15_pre;   /* the 0x18 bytes before ((S_800259D8_3 *)obj)->unk_60 in dungeonUpdateAnimatedEffectSprite, addressed as ((S_800259D8_3 *)obj)->unk_60[-1] */
 
 typedef struct S_800259D8_15 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_800259D8_15;   /* ((S_800259D8_3 *)obj)->unk_60 in func_800259D8 */
+} S_800259D8_15;   /* ((S_800259D8_3 *)obj)->unk_60 in dungeonUpdateAnimatedEffectSprite */
 
 typedef struct DirectionOffset {
     s16 x;
@@ -265,7 +265,7 @@ extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 
-void func_800259D8(void *effect, void *entity, S_800259D8_2 *sprite)
+void dungeonUpdateAnimatedEffectSprite(void *effect, void *entity, S_800259D8_2 *sprite)
 {
     Vec3s delta;
     Copy32 copy;
@@ -422,12 +422,12 @@ L0_adjust_z:
                 entry = (u8 *)spawn + 0x20;
                 {
                     void *spawn_copy = spawn;
-                    u8 *tbl = func_80024704;
+                    u8 *tbl = dungeonProjectLinkedQuadRecord;
                     ((S_800259D8_5 *)entry)->unk_38 = obj;
                     ((S_800259D8_5 *)entry)->unk_44 = entity;
                     ((S_800259D8_5 *)entry)->unk_48 = sprite;
                     ((S_800259D8_5 *)entry)->unk_4C = effect;
-                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)func_80025814;
+                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)dungeonUpdateEffectQuadAndCompletion;
                     func_8004491C(spawn_copy, tbl);
                 }
                 work = ((S_800259D8_7 *)spawn)->unk_0C;
@@ -550,7 +550,7 @@ L1_calc:
                 ((S_800259D8_5 *)entry)->unk_1C = 0;
                 ((S_800259D8_5 *)entry)->unk_1A = 0x40;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((S_800259D8_7 *)spawn)->unk_10 = func_80025470;
+                ((S_800259D8_7 *)spawn)->unk_10 = dungeonSpawnRandomizedSparkBurst;
                 func_8004491C(spawn, func_80024FD4);
                 work = ((S_800259D8_7 *)spawn)->unk_0C;
                 work->unk_10 = 0x20;

@@ -4,7 +4,7 @@
 
 typedef struct S_800B45E0_0_pre {
     u16 unk_00;
-} S_800B45E0_0_pre;   /* the 0x2 bytes before arg0 in func_800B45E0, addressed as arg0[-1] */
+} S_800B45E0_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateAnchoredFadingEffect, addressed as arg0[-1] */
 
 typedef struct S_800B45E0_0 {
     void * unk_00;
@@ -18,12 +18,12 @@ typedef struct S_800B45E0_0 {
     u16 unk_18;
     u16 unk_1A;
     u16 unk_1C;
-} S_800B45E0_0;   /* arg0 in func_800B45E0 */
+} S_800B45E0_0;   /* arg0 in dungeonUpdateAnchoredFadingEffect */
 
 typedef struct S_800B45E0_1 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800B45E0_1;   /* temp_v0 in func_800B45E0 */
+} S_800B45E0_1;   /* temp_v0 in dungeonUpdateAnchoredFadingEffect */
 
 typedef struct S_800B45E0_2 {
     u8 pad_00[0x2];
@@ -33,12 +33,12 @@ typedef struct S_800B45E0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800B45E0_2;   /* arg1 in func_800B45E0 */
+} S_800B45E0_2;   /* arg1 in dungeonUpdateAnchoredFadingEffect */
 
 typedef struct S_800B45E0_3 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B45E0_3;   /* temp_v0_2 in func_800B45E0 */
+} S_800B45E0_3;   /* temp_v0_2 in dungeonUpdateAnchoredFadingEffect */
 
 typedef struct S_800B45E0_4 {
     u8 pad_00[0xC];
@@ -51,7 +51,7 @@ typedef struct S_800B45E0_4 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B45E0_4;   /* arg2 in func_800B45E0 */
+} S_800B45E0_4;   /* arg2 in dungeonUpdateAnchoredFadingEffect */
 
 typedef struct S_800B45E0_5 {
     u8 pad_00[0x2];
@@ -60,14 +60,14 @@ typedef struct S_800B45E0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B45E0_5;   /* ((S_800B45E0_0 *)arg0)->unk_14 in func_800B45E0 */
+} S_800B45E0_5;   /* ((S_800B45E0_0 *)arg0)->unk_14 in dungeonUpdateAnchoredFadingEffect */
 
 
 s32 func_8004491C();
 extern s32 D_80044C54;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */
-void func_800B45E0(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
+void dungeonUpdateAnchoredFadingEffect(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;

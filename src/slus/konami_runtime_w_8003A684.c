@@ -15,7 +15,7 @@ typedef struct Func8003A684State {
 } Func8003A684State;
 
 /* Jump to the encoded address if the selected table value is negative, otherwise skip it. */
-void func_8003A684(Func8003A684State *state) {
+void vmOp65JumpIfNegative(Func8003A684State *state) {
     u8 *stream_ptr = state->read_ptr;
     u8 table_index = *stream_ptr;
 

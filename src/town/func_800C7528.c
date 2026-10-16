@@ -10,7 +10,7 @@ extern s32 D_80082A38[];
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 
-extern s32 func_800C2B6C(s32, void *);
+extern s32 townMapAngleToCardinalDirection(s32, void *);
 
 /* anyone_now_ang_get: store the selected object's current angle in the script result. */
 void func_800C4C88(s32 object_slot) {
@@ -36,7 +36,7 @@ void func_800C4C88(s32 object_slot) {
                 angle_raw = *(u16 *)(data + 0x72);
             }
             angle = (s32)angle_raw << 16;
-            script_values[0x12] = func_800C2B6C(angle >> 16, data);
+            script_values[0x12] = townMapAngleToCardinalDirection(angle >> 16, data);
         }
     }
 }

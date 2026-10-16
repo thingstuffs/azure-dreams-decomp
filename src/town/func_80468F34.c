@@ -6,6 +6,6 @@ M2C_UNK func_80019D60();                   /* extern */
 extern M2C_UNK D_80017BA0;
 
 /* Pass D_80017BA0 to func_80019D60. */
-void func_80019F34(void) {
+void townApplyGlobalDeltaRecordA(void) {
     func_80019D60(&D_80017BA0);
 }

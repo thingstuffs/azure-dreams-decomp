@@ -80,7 +80,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80F87000_0 *)obj)->unk_10 = func_80170A70;
+        ((S_80F87000_0 *)obj)->unk_10 = dungeonUpdateBankActorMovement;
         ((S_80F87000_1 *)work)->unk_13 = 0x26;
         func_8004491C(obj, func_80045340);
 
@@ -122,7 +122,7 @@ call_a1_setup:
         func_800A9C18(call_a0, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = func_80171138;
+        actor->unk_8C = dungeonUpdateBankActorState;
         ((S_80F87000_1 *)work)->unk_1C |= 0x40000;
         actor->unk_A0 = 0;
         actor->unk_92 = -0x30;

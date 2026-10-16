@@ -13,16 +13,16 @@ typedef struct Copy48 {
     u32 words[12];
 } Copy48;
 
-extern s32 func_8003DE58(void *, void *, u16 *, s32);
-extern s32 func_8003F270(void);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, u16 *, s32);
+extern s32 getCdCommandQueueDepth(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, void *);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, void *);
 
 extern u8 D_801708D4;
 extern u8 D_801714B8;
@@ -187,7 +187,7 @@ create_active:
                 s32 target_x;
                 s32 target_y;
 
-                target_x = (s32)func_800A05A4(
+                target_x = (s32)dungeonScanMonsterAlongHeading(
                     actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                     (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                 (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
@@ -204,7 +204,7 @@ create_active:
             }
 
 active_ready:
-            if (func_800A94A0(actor, selection, is_special, (u8 *)action + 0x98) == 0) {
+            if (dungeonCreateActorSpellEffect(actor, selection, is_special, (u8 *)action + 0x98) == 0) {
                 return;
             }
             ((S_801730E4_0 *)action)->unk_96 = 10;
@@ -215,7 +215,7 @@ active_ready:
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         {
             void *active;
 
@@ -223,7 +223,7 @@ active_ready:
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)active + 0xA6))--;
         }
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
@@ -232,7 +232,7 @@ active_ready:
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             return;
         }
@@ -271,7 +271,7 @@ active_ready:
 
                 owner_sprite = ((S_801730E4_8 *)owner_object)->unk_0C;
                 effect_data = ((S_801730E4_6 *)effect_object)->unk_08;
-                if (func_8003DE58(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
+                if (resolveRecordOrientationOrFallback(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
                     ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);
                     ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)position->y.w.i);
                     ((S_801730E4_7 *)effect_data)->unk_0A = ((u16)position->z.w.i);
@@ -322,7 +322,7 @@ active_ready:
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            dungeonSetRecordIntegerTileCenter(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8017609C) {
                 s32 direction_index;
 
@@ -337,7 +337,7 @@ active_ready:
             dungeonStatus.unk_0A--;
         }
         ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;
         (*(u8 *)((u8 *)actor + 0x6D))--;

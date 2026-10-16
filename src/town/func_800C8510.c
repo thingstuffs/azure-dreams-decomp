@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
 
-extern void func_800C2E84(void *state, s32 output, void *entries);
-extern void func_800C4174(void *object, s32 update_context, s32 setup_context);
+extern void townInitializeObjectEntries(void *state, s32 output, void *entries);
+extern void townApplyObjectSetupAndUpdate(void *object, s32 update_context, s32 setup_context);
 extern M2C_UNK D_800D5518;
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
@@ -30,7 +30,7 @@ typedef struct S_800C5C70_1 {
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
 void func_800C5C70(void *object, s32 context, void *input) {
     if (((Rec_D_80082E80 *)input)->unk_14.at00_u16.v & 0x6000) {
-        func_800C2E84(object, input, &D_800D5518);
+        townInitializeObjectEntries(object, input, &D_800D5518);
         D_80082660[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;
         ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
         ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;
@@ -38,6 +38,6 @@ void func_800C5C70(void *object, s32 context, void *input) {
         ((S_800C5C70_1 *)object)->unk_80 = &D_800D562C;
         ((S_800C5C70_1 *)object)->unk_70 = 1;
         ((S_800C5C70_1 *)object)->unk_71 = (u8) (((S_800C5C70_1 *)object)->unk_71 | 1);
-        func_800C4174(object, context, input);
+        townApplyObjectSetupAndUpdate(object, context, input);
     }
 }

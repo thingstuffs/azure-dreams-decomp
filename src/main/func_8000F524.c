@@ -9,13 +9,13 @@ typedef struct S_80022524_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 * unk_20;
-} S_80022524_0;   /* arg0 in func_80022524 */
+} S_80022524_0;   /* arg0 in cardBootHandleMessageDialogInput */
 
 
 extern void SD_Call(s32 code);
-extern s32 func_800231E4(s32 mode);
-extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);
-extern void func_80022488(void *object);
+extern s32 cardBootCloseMessageDialog(s32 mode);
+extern s32 advanceIndexWithDirectionalClamp(s32 current, s32 direction, u8 entry);
+extern void cardBootUpdateMessageChoiceHighlight(void *object);
 typedef struct S_800280B4 {
     u8 pad_00[0x14];
     u8 unk_14;
@@ -25,7 +25,7 @@ typedef struct S_800280B4 {
 extern S_800280B4 D_800280B4[];
 
 /* Handles menu exit buttons and repeated left/right selection changes. */
-void func_80022524(S_80022524_0 *menu)
+void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
 {
     s32 direction;
     s32 held_buttons;
@@ -46,7 +46,7 @@ void func_80022524(S_80022524_0 *menu)
         s32 *exit_status;
 
         SD_Call(0x515);
-        func_800231E4(1);
+        cardBootCloseMessageDialog(1);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
             *exit_status = 1;
@@ -59,11 +59,11 @@ void func_80022524(S_80022524_0 *menu)
         SD_Call(0x514);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
-            exit_result = func_800231E4(1);
+            exit_result = cardBootCloseMessageDialog(1);
             updated_status = menu->unk_20;
             *updated_status = exit_result;
         } else {
-            func_800231E4(1);
+            cardBootCloseMessageDialog(1);
         }
     } else if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
         menu->unk_10 = 0;
@@ -92,7 +92,7 @@ void func_80022524(S_80022524_0 *menu)
     if (direction != 0) {
         s32 new_selection;
 
-        new_selection = func_80049E1C(
+        new_selection = advanceIndexWithDirectionalClamp(
             menu->unk_00,
             direction,
             D_800280B4[menu->unk_08].unk_14);
@@ -100,6 +100,6 @@ void func_80022524(S_80022524_0 *menu)
             menu->unk_00 = new_selection;
             SD_Call(0x502);
         }
-        func_80022488(menu);
+        cardBootUpdateMessageChoiceHighlight(menu);
     }
 }

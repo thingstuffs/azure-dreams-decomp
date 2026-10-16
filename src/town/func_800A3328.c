@@ -5,10 +5,10 @@ void into_dn_door_demo_set(void) {
     void *door_object;
     S_800A0A88_0 *door;
 
-    door_object = func_800A0988(&D_800D4404);
+    door_object = townFindDoorKeyedNode(&D_800D4404);
     door = (void *)((u8 *)door_object + 0x20);
     if (door_object != 0) {
         door->unk_90 = 6;
-        door->unk_50 = &func_800A0CF8;
+        door->unk_50 = &townUpdateDoorCompletionState;
     }
 }

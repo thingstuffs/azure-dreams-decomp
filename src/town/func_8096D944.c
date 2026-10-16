@@ -5,20 +5,20 @@
 typedef struct S_80125DDC_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80125DDC_1;   /* entry in func_80125DDC */
+} S_80125DDC_1;   /* entry in townAnimateCatalogGridToDetail */
 
 typedef struct S_80125DDC_2 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80125DDC_2;   /* inner in func_80125DDC */
+} S_80125DDC_2;   /* inner in townAnimateCatalogGridToDetail */
 
 
 extern void func_801235EC(void);
-extern void func_801247F8(void *);
+extern void townRefreshCatalogPrimaryDetail(void *);
 extern s8 D_80129728;
 
 /* Updates or clears table entries according to the request code. */
-void func_80125DDC(Rec_func_801237A4_arg0 *request)
+void townAnimateCatalogGridToDetail(Rec_func_801237A4_arg0 *request)
 {
     s32 action_index;
 
@@ -26,7 +26,7 @@ void func_80125DDC(Rec_func_801237A4_arg0 *request)
     switch (action_index) {
     case 0:
         func_801235EC();
-        func_801247F8(request);
+        townRefreshCatalogPrimaryDetail(request);
         return;
     case 7:
     case 8:

@@ -18,7 +18,7 @@ typedef struct S_80093D8C_0 {
     void * unk_20;
     u8 pad_24[0x2];
     s16 unk_26;
-} S_80093D8C_0;   /* temp_v0 in func_80093D8C */
+} S_80093D8C_0;   /* temp_v0 in dungeonCreateFamiliarDeploymentOverlay */
 
 typedef struct S_80093D8C_1 {
     u8 pad_00[0x2];
@@ -27,7 +27,7 @@ typedef struct S_80093D8C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80093D8C_1;   /* temp_v1 in func_80093D8C */
+} S_80093D8C_1;   /* temp_v1 in dungeonCreateFamiliarDeploymentOverlay */
 
 
 typedef struct S_80093D8C_3 {
@@ -43,11 +43,11 @@ typedef struct S_80093D8C_3 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80093D8C_3;   /* temp_a0 in func_80093D8C */
+} S_80093D8C_3;   /* temp_a0 in dungeonCreateFamiliarDeploymentOverlay */
 
 
 /* Create a sprite effect at the supplied position and attach it to its owner. */
-void func_80093D8C(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
+void dungeonCreateFamiliarDeploymentOverlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093D8C_3 *sprite;
     S_80093D8C_0 *effect;
     S_80093D8C_1 *position;

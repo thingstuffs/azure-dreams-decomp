@@ -8,10 +8,10 @@ typedef struct S_8016DECC_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     s8 unk_9B;
-} S_8016DECC_0;   /* temp_v0 in func_8016DECC */
+} S_8016DECC_0;   /* temp_v0 in dungeonResetActiveEncounterActionState */
 
 /* Clears two fields in the state block at D_80174704 + 0x20. */
-void func_8016DECC(void) {
+void dungeonResetActiveEncounterActionState(void) {
     S_8016DECC_0 *state;
 
     state = D_80174704 + 0x20;

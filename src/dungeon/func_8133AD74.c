@@ -12,7 +12,7 @@
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
-} S_80171D74_0;   /* D_8008333C in func_80171D74 */
+} S_80171D74_0;   /* D_8008333C in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_1 {
     u8 pad_00[0x92];
@@ -24,12 +24,12 @@ typedef struct S_80171D74_1 {
     u8 pad_9B[0x3];
     s16 unk_9E;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_A0;   /* overlapping accesses */
-} S_80171D74_1;   /* arg0 in func_80171D74 */
+} S_80171D74_1;   /* arg0 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80171D74_2;   /* D_80175D50[0] in func_80171D74 */
+} S_80171D74_2;   /* D_80175D50[0] in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_3 {
     union {
@@ -45,14 +45,14 @@ typedef struct S_80171D74_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80171D74_3;   /* arg1 in func_80171D74 */
+} S_80171D74_3;   /* arg1 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_4 {
     u8 pad_00[0x2A];
     union { u16 n; u16 v; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80171D74_4;   /* temp_s3 in func_80171D74 */
+} S_80171D74_4;   /* temp_s3 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_5 {
     u8 pad_00[0x4];
@@ -61,80 +61,80 @@ typedef struct S_80171D74_5 {
     u16 unk_14;
     u8 pad_16[0x16];
     union { M2C_UNK * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_80171D74_5;   /* arg2 in func_80171D74 */
+} S_80171D74_5;   /* arg2 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_6 {
     s16 unk_00;
-} S_80171D74_6;   /* D_80083228 in func_80171D74 */
+} S_80171D74_6;   /* D_80083228 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_7 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_80171D74_7;   /* temp_s4 in func_80171D74 */
+} S_80171D74_7;   /* temp_s4 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_8 {
     u8 pad_00[0x27];
     u8 unk_27;
     u8 pad_28[0x2];
     u16 unk_2A;
-} S_80171D74_8;   /* temp_a1_2 in func_80171D74 */
+} S_80171D74_8;   /* temp_a1_2 in advanceLinkedActorMotionScript */
 
 
 typedef struct S_80171D74_10 {
     u8 pad_00[0x32];
     s16 unk_32;
-} S_80171D74_10;   /* D_80175DB8[0] in func_80171D74 */
+} S_80171D74_10;   /* D_80175DB8[0] in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_11 {
     s16 unk_00;
     u16 unk_02;
-} S_80171D74_11;   /* sp2_base16 in func_80171D74 */
+} S_80171D74_11;   /* sp2_base16 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_13 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_13;   /* temp_v0_12 in func_80171D74 */
+} S_80171D74_13;   /* temp_v0_12 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_14 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_14;   /* temp_v0_13 in func_80171D74 */
+} S_80171D74_14;   /* temp_v0_13 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_15 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_15;   /* temp_v0_14 in func_80171D74 */
+} S_80171D74_15;   /* temp_v0_14 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_16 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_16;   /* temp_v0_15 in func_80171D74 */
+} S_80171D74_16;   /* temp_v0_15 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_17 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_17;   /* temp_v0_16 in func_80171D74 */
+} S_80171D74_17;   /* temp_v0_16 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_18 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_18;   /* temp_v0_17 in func_80171D74 */
+} S_80171D74_18;   /* temp_v0_17 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_19 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_19;   /* temp_v0_18 in func_80171D74 */
+} S_80171D74_19;   /* temp_v0_18 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_20 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_20;   /* temp_v0_19 in func_80171D74 */
+} S_80171D74_20;   /* temp_v0_19 in advanceLinkedActorMotionScript */
 
 typedef struct S_80171D74_21 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_21;   /* temp_v0_20 in func_80171D74 */
+} S_80171D74_21;   /* temp_v0_20 in advanceLinkedActorMotionScript */
 
 
 typedef struct { u32 v; } __attribute__((packed)) UA32;
@@ -150,21 +150,21 @@ typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 #define SP2_Y_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
 
 void func_80041094(); /* extern */
-void func_80047738();              /* extern */
+void selectIndirectTableEntry();              /* extern */
 void func_80047784();         /* extern */
 void func_800478B8();  /* extern */
 s32 func_800644B8();                     /* extern */
-void func_800945E8();                 /* extern */
-void func_800948BC();                            /* extern */
+void dungeonSnapshotInventoryAndFamiliars();                 /* extern */
+void dungeonSnapshotInventoryFamiliarRecords();                            /* extern */
 void func_800A56E0();             /* extern */
 s32 func_800F685C();                      /* extern */
-void func_80166F3C();             /* extern */
-void func_8016738C();                      /* extern */
-void func_801676CC();                      /* extern */
-void func_801677FC();                  /* extern */
-void func_8016F5D8();      /* extern */
-void func_8016F79C();      /* extern */
-void func_801715D0();                            /* extern */
+void dungeonCreateRotatingClippedSprite();             /* extern */
+void dungeonCreateColorCyclingPulse();                      /* extern */
+void dungeonCreateLayeredSpritePulse();                      /* extern */
+void dungeonCreateForwardLayeredSpritePulse();                  /* extern */
+void dungeonUpdatePhaseDrivenMotionOffset();      /* extern */
+void dungeonApplyScriptDirectionRecord();      /* extern */
+void dungeonCreateActionOffsetObject();                            /* extern */
 extern Table32 D_8016482C;
 extern Table32 D_80164AC0;
 extern u8 D_80173DA4[16];
@@ -175,7 +175,7 @@ extern void *D_80175D54[3];
 extern void *D_80175DB8[16];
 
 /* Advances a scripted movement sequence and updates the sprite facing. */
-void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
+void advanceLinkedActorMotionScript(void *state_in, void *motion_in, void *sprite_in) {
     Table32 offset_table;
     Table32 direction_table;
     s16 right_angle;
@@ -249,7 +249,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 1:
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
@@ -261,7 +261,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 2:
         pause_frame = ((S_80171D74_1 *)state_in)->unk_96;
@@ -273,7 +273,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             next_phase = next_phase + 1;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) next_phase;
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 3:
         sway_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
@@ -296,7 +296,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
             ((S_80171D74_3 *)motion_in)->unk_10 = (s32) 0xFFF80000;
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 4:
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
@@ -308,7 +308,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 6:
         ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DAC;
@@ -332,14 +332,14 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_3 *)motion_in)->unk_00.at02.v = 1U;
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 3) {
-            func_80166F3C(target_pos, 0);
-            func_80166F3C(target_pos, 1);
-            func_8016738C(target_pos);
-            func_801676CC(target_pos);
+            dungeonCreateRotatingClippedSprite(target_pos, 0);
+            dungeonCreateRotatingClippedSprite(target_pos, 1);
+            dungeonCreateColorCyclingPulse(target_pos);
+            dungeonCreateLayeredSpritePulse(target_pos);
         }
         break;
     case 9:
-        func_801677FC(phase, target_state);
+        dungeonCreateForwardLayeredSpritePulse(phase, target_state);
         ((S_80171D74_1 *)state_in)->unk_96 = 0;
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
@@ -375,8 +375,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (0 - (SP2_X_AT(direction_base, owner_state->unk_2A.n) << 0x10));
             ((S_80171D74_3 *)motion_in)->unk_10 = (void *) (0 - (SP2_Y_AT(direction_base, owner_state->unk_2A.n)
                 << 0x10));
-            func_801715D0();
-            func_8016F5D8(state_in, motion_in, sprite_in);
+            dungeonCreateActionOffsetObject();
+            dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         }
         break;
     case 11:
@@ -394,7 +394,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 13:
         old_angle = owner_state->unk_2A.n;
@@ -441,7 +441,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_3 *)motion_in)->unk_0C = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
             ((S_80171D74_3 *)motion_in)->unk_10 = (s32) (((S_80171D74_11 *)direction_entry)->unk_02 << 0x10);
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 17:
         {
@@ -483,7 +483,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
                 func_800A56E0(0x81A);
             }
         }
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 19:
         ((S_80171D74_1 *)state_in)->unk_96 = 0x14U;
@@ -742,7 +742,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
                 }
             }
             shared_tail:
-            func_8016F5D8(state_in, motion_in, sprite_in);
+            dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
             break;
         }
     case 40:
@@ -766,8 +766,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
         }
-        func_8016F79C(state_in, motion_in, sprite_in);
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonApplyScriptDirectionRecord(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 46:
         finish_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
@@ -776,12 +776,12 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
         }
-        func_8016F79C(state_in, motion_in, sprite_in);
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonApplyScriptDirectionRecord(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 35:
-        func_8016F79C(state_in, motion_in, sprite_in);
-        func_8016F5D8(state_in, motion_in, sprite_in);
+        dungeonApplyScriptDirectionRecord(state_in, motion_in, sprite_in);
+        dungeonUpdatePhaseDrivenMotionOffset(state_in, motion_in, sprite_in);
         break;
     case 5:
     case 12:
@@ -790,15 +790,15 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         goto shared_tail;
 
     case 42:
-        func_800945E8(((s32)D_800E3D7C), target_state);
-        func_800948BC();
+        dungeonSnapshotInventoryAndFamiliars(((s32)D_800E3D7C), target_state);
+        dungeonSnapshotInventoryFamiliarRecords();
         D_80082E60.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 47:
-        func_800945E8(((s32)D_800E3D7C), target_state);
-        func_800948BC();
+        dungeonSnapshotInventoryAndFamiliars(((s32)D_800E3D7C), target_state);
+        dungeonSnapshotInventoryFamiliarRecords();
         D_80082E60.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
@@ -811,7 +811,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
-            func_80047738(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir),
+            selectIndirectTableEntry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir),
                 ((S_80171D74_5 *)sprite_in)->unk_04);
             ((S_80171D74_1 *)state_in)->unk_94 = sprite_dir;
         }

@@ -20,7 +20,7 @@ typedef struct S_800511B4_entity {
 extern void func_80051164(void *a0);
 
 /* Allocates and initializes a new entity linked to the related entity, or returns NULL. */
-void *func_800511B4(S_800511B4_entity *related_entity)
+void *createLinkedZukanTask(S_800511B4_entity *related_entity)
 {
     S_800511B4_entity *new_entity = func_8003FC64(0);
     S_800511B4_sub *sub;

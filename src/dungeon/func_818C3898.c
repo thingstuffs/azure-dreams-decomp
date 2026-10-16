@@ -5,7 +5,7 @@
 
 typedef struct S_818C3898_0_pre {
     u16 unk_00;
-} S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in func_818C3898, addressed as arg0[-1] */
+} S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateRotatingEffectLifetime, addressed as arg0[-1] */
 
 typedef struct S_818C3898_0 {
     void * unk_00;
@@ -13,12 +13,12 @@ typedef struct S_818C3898_0 {
     u16 unk_10;
     u8 pad_12[0x2];
     s16 unk_14;
-} S_818C3898_0;   /* arg0 in func_818C3898 */
+} S_818C3898_0;   /* arg0 in dungeonUpdateRotatingEffectLifetime */
 
 typedef struct S_818C3898_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_818C3898_1;   /* temp_v1 in func_818C3898 */
+} S_818C3898_1;   /* temp_v1 in dungeonUpdateRotatingEffectLifetime */
 
 
 typedef struct S_818C3898_3 {
@@ -28,13 +28,13 @@ typedef struct S_818C3898_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818C3898_3;   /* temp_arg1 in func_818C3898 */
+} S_818C3898_3;   /* temp_arg1 in dungeonUpdateRotatingEffectLifetime */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void func_800478B8(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
-void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
+void dungeonUpdateRotatingEffectLifetime(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     s16 size;
     s32 color_step;
     s32 color_index;

@@ -27,7 +27,7 @@ typedef struct {
 extern s32 func_8005F134(S_80084918 *descriptor);
 
 /* Populates the global descriptor from a table entry and source fields, then processes it. */
-s32 func_80056D44(s32 table_index, S_80056D44_Arg1 *source) {
+s32 soundApplyIndexedVoiceEnvelope(s32 table_index, S_80056D44_Arg1 *source) {
     S_80084918 *descriptor = &D_80084918;
     descriptor->field4 = 0x60100;
     D_80084918.field0 = D_80073740[table_index];

@@ -4,8 +4,8 @@
 #include "shared/entity.h"
 
 s32 func_800A2B5C();                          /* extern */
-s32 func_800A4ACC();                      /* extern */
-s32 func_800C7930(); /* extern */
+s32 dungeonAdvanceStatusTimers();                      /* extern */
+s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
 
 
 typedef struct S_80175BE0_1 {
@@ -20,14 +20,14 @@ typedef struct S_80175BE0_1 {
     s8 unk_9B;
     u8 pad_9C[0x18];
     u16 unk_B4;
-} S_80175BE0_1;   /* arg0 in func_80175BE0 */
+} S_80175BE0_1;   /* arg0 in dungeonUpdateActorCounterAndStatus */
 
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
-void func_80175BE0(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
+void dungeonUpdateActorCounterAndStatus(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
-        func_800C7930((u8 *)entity - 0x20, motion, 8, 0x300);
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)entity - 0x20, motion, 8, 0x300);
         if ((func_800A2B5C(entity) << 0x10) == 0) {
             state->unk_8C = 0;
             state->unk_9A = 0x18;
@@ -40,7 +40,7 @@ void func_80175BE0(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec
             state->unk_B4 = (u16) ((u16)entity->unk_88);
             entity->unk_88 = 0U;
             state->unk_98 = (u16) (state->unk_98 | 8);
-            func_800A4ACC(entity);
+            dungeonAdvanceStatusTimers(entity);
             entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
         }
     }

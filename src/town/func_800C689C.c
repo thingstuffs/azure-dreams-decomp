@@ -15,11 +15,11 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern u16 func_800C2B38(void *object);
-extern void func_800C4174(void *object, void *update_context, s32 setup_context);
+extern u16 townGetClampedTransformCoordinate(void *object);
+extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
 
 /* Moves the position toward its target over the remaining steps and updates its angle. */
-void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
+void townMovePositionTowardTarget(void *work_data, void *position_data, s32 completion_arg) {
     Position *pos;
     Work *work;
     u16 remaining_count;
@@ -33,7 +33,7 @@ void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
     if (remaining <= 0) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
-        func_800C4174(work, pos, completion_arg);
+        townApplyObjectSetupAndUpdate(work, pos, completion_arg);
     } else {
         {
             s32 current_x;
@@ -57,5 +57,5 @@ void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
         angle = *(u16 *)&pos->angle;
         pos->angle = angle - 0x40;
     }
-    pos->angle = func_800C2B38(pos);
+    pos->angle = townGetClampedTransformCoordinate(pos);
 }

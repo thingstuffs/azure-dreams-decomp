@@ -12,10 +12,10 @@ typedef struct {
 } DungeonState;
 
 extern s32 func_800A2B5C(void *);
-extern s32 func_800ADAE4(void *, void *);
+extern s32 dungeonTriggerActorFloorTrap(void *, void *);
 
 /* Attempts a pending action and updates dungeon state on success. */
-s32 func_800AB464(void *action, s32 unused, void *source, void *target) {
+s32 dungeonResolveActorFloorTrapOnce(void *action, s32 unused, void *source, void *target) {
     s32 result;
 
     if (*((u8 *)action + 0x9B) == 0) {
@@ -27,7 +27,7 @@ s32 func_800AB464(void *action, s32 unused, void *source, void *target) {
             return 0;
         }
 
-        result = func_800ADAE4(source, target);
+        result = dungeonTriggerActorFloorTrap(source, target);
         if ((result << 16) != 0) {
             dungeonStatus.unk_0C = 0;
             dungeonStatus.unk_14 -= 1;

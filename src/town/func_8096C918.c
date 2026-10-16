@@ -13,12 +13,12 @@ typedef struct S_80124DB0_0 {
     u8 unk_13;
     u8 pad_14[0x2];
     u8 unk_16;
-} S_80124DB0_0;   /* arg0 in func_80124DB0 */
+} S_80124DB0_0;   /* arg0 in townLoadCatalogDetailTexture */
 
 typedef struct S_80124DB0_1 {
     u8 pad_00[0x17];
     u8 unk_17;
-} S_80124DB0_1;   /* (u8 *)arg0 + ((S_80124DB0_0 *)arg0)->unk_16 in func_80124DB0 */
+} S_80124DB0_1;   /* (u8 *)arg0 + ((S_80124DB0_0 *)arg0)->unk_16 in townLoadCatalogDetailTexture */
 
 
 typedef struct {
@@ -29,7 +29,7 @@ typedef struct {
 } Rect;
 
 extern void Control_CD();
-extern void func_8003F6D4();
+extern void packTaggedResourceDescriptor();
 extern void func_8004068C();
 extern void func_800672D8();
 
@@ -40,7 +40,7 @@ extern u8 D_8012E998[];
 extern u8 D_80133198[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
-void func_80124DB0(void *loader)
+void townLoadCatalogDetailTexture(void *loader)
 {
     Rect texture_rect;
     Rect palette_rect;
@@ -56,7 +56,7 @@ void func_80124DB0(void *loader)
             return;
         }
     } else {
-        func_8003F6D4(8, D_8012A998, D_80133198,
+        packTaggedResourceDescriptor(8, D_8012A998, D_80133198,
                       D_80126D44[((S_80124DB0_0 *)loader)->unk_13][1]);
         Control_CD(6, D_80133198, 0);
         ((S_80124DB0_0 *)loader)->unk_0D = 0;

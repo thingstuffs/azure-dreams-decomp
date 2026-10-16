@@ -14,7 +14,7 @@ extern void func_8003EA54(Object *object);
 extern s32 D_80084D5C;
 
 /* Advance position by velocity, update the object, and propagate its status flags. */
-void func_80814E64(u16 *state, Movement *movement, Object *object) {
+void townAdvanceObjectByVelocity(u16 *state, Movement *movement, Object *object) {
     movement->position[0] += movement->velocity[0];
     movement->position[1] += movement->velocity[1];
     movement->position[2] += movement->velocity[2];

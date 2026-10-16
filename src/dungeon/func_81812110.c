@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void *func_80027110(s32 row_id, s32 entry_index)
+void *dungeonGetMappedMenuTableEntry(s32 row_id, s32 entry_index)
 {
     s32 row;
 

@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 
 
 /* Return the first entry index matching both bytes, or -1 if none matches. */
-s32 func_80019ADC(s32 match_byte_1, s32 match_byte_0) {
+s32 townFindEntryIndexByGridBytes(s32 match_byte_1, s32 match_byte_0) {
     s32 result;
     s32 entry_index;
     void **entry_slot;

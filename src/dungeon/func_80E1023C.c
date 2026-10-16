@@ -8,7 +8,7 @@ typedef struct S_80173A3C_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173A3C_0;   /* arg0 in func_80173A3C */
+} S_80173A3C_0;   /* arg0 in dungeonFadeReshapeAndRemoveEntity */
 
 typedef struct S_80173A3C_1 {
     u8 pad_00[0xC];
@@ -27,7 +27,7 @@ typedef struct S_80173A3C_1 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_80173A3C_1;   /* arg2 in func_80173A3C */
+} S_80173A3C_1;   /* arg2 in dungeonFadeReshapeAndRemoveEntity */
 
 
 typedef struct S_80173A3C_4 {
@@ -35,21 +35,21 @@ typedef struct S_80173A3C_4 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80173A3C_4;   /* arg1 in func_80173A3C */
+} S_80173A3C_4;   /* arg1 in dungeonFadeReshapeAndRemoveEntity */
 
 
 extern void func_800A56E0(s32);
 extern void func_800A2FE0(void *);
 extern void func_800A32A4(void *);
-extern void func_800B8228(s32, s32, s32, void *);
+extern void dungeonCreateEffectOrFallback(s32, s32, s32, void *);
 extern s32 func_80042900(void *, s32);
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_8009A028(void *);
-extern void func_800ACF88(void *);
+extern void dungeonAnnounceFamiliarDefeat(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
-void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
+void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *sprite, void *entity)
 {
     u8 fade_phase;
     u16 frames_left;
@@ -104,7 +104,7 @@ void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
         func_800A32A4(entity);
         if (((EntityRec *)entity)->unk_49 != 0 &&
             (((EntityRec *)entity)->unk_4B & 0x20) == 0) {
-            func_800B8228(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
+            dungeonCreateEffectOrFallback(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
                           ((EntityRec *)entity)->unk_88, (u8 *)entity + 0x48);
         }
         if ((func_80042900(entity, 0x1B) << 16) == 0) {
@@ -124,7 +124,7 @@ void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
     }
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
-        func_800ACF88(entity);
+        dungeonAnnounceFamiliarDefeat(entity);
     }
     func_800A2FE0(entity);
     func_800A32A4(entity);

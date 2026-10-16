@@ -8,7 +8,7 @@ extern void func_80066640();
 extern void func_800667D0();
 extern void func_80067F20();
 extern s32 rand();
-extern void func_800A130C();
+extern void townCopyOddHalfwords3();
 
 typedef struct
 {
@@ -30,7 +30,7 @@ typedef struct
 } LineWork;
 
 /* Queues a randomly colored line between two projected points with draw mode commands. */
-void func_800A2AF8(s32 end_point, s32 start_point)
+void townDrawRandomColoredLine(s32 end_point, s32 start_point)
 {
     s32 end_pos = end_point;
     s32 start_pos = start_point;
@@ -60,8 +60,8 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     func_800667D0(line);
     func_80066640(line, 1);
 
-    func_800A130C(scratch->start, start_pos);
-    func_800A130C(scratch->end, end_pos);
+    townCopyOddHalfwords3(scratch->start, start_pos);
+    townCopyOddHalfwords3(scratch->end, end_pos);
     scratch->depth = func_80065420(
         scratch->start, &scratch->start_x, &scratch->interp, &scratch->flag);
     func_80065420(

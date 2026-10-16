@@ -23,7 +23,7 @@ void func_80174670(void *node, s32 tile_x, s32 tile_y, s16 target_height)
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->unk_26 * 3) >> 1);
-            func_8009C93C(actor, owner,
+            dungeonPrepareDirectionalAttack(actor, owner,
                           actor->unk_2A, 1, 0);
         }
         node = (u8 *)((Rec_func_80174800_arg0 *)node)->unk_5C + 0x20;

@@ -6,7 +6,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolates and projects a shaded line, then links it into the depth ordering table. */
-s32 func_800246D8(void *line, void *unused_render_context)
+s32 dungeonProjectAndQueueShadedLine(void *line, void *unused_render_context)
 {
     u8 *line_or_red;
     u8 *scratch = (u8 *)0x1F800000;

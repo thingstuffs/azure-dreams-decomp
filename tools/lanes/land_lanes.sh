@@ -98,15 +98,16 @@ for lane in $LANES; do
 done
 echo "== cascade: the cheap generators over every changed row until a pass applies nothing"
 for pass in 1 2 3 4; do
-  IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
+  IDS=$(git diff --name-only -- src | python3 tools/source_layout.py ids)
   [ -z "$IDS" ] && break
   # round 80: pin generators only see changed rows that still carry pins (a 254-row goto batch spent ~20 min in
   # t51/t53 on pin-free rows); the goto-shape generators keep every changed row
   PIDS=$(python3 -c "
 import sys; sys.path.insert(0, 'tools')
 from pin_census import sites_of
+from source_layout import row_path
 ids = [i for i in sys.argv[1].split(',') if i]
-print(','.join(i for i in ids if sites_of(open('src/' + i + '.c', errors='replace').read())))" "$IDS")
+print(','.join(i for i in ids if sites_of(row_path(i).read_text(errors='replace'))))" "$IDS")
   n=0
   for T in t36_paramwidth t37_localwidth t37b_localwidth_keep t38_unstage t39_signbit t41_gotoloop t41b_gotoloop_while \
            t41c_gotoloop_greedy t42_sinkcopy t44_doloop_greedy t48_gotoreturn t49_looptest t16_absidiom t16b_fieldabs \
@@ -127,12 +128,13 @@ sys.path.insert(0, "tools")
 from pin_sites import EMPTY_NM_RE
 SHELL = re.compile(r"^[ \t]*#[ \t]*if(?:n?def)?[ \t]+NON_MATCHING[^\n]*\n(?:[ \t]*\n)*(?:[ \t]*#[ \t]*else[^\n]*\n(?:[ \t]*\n)*)?[ \t]*#[ \t]*endif[^\n]*\n", re.M)
 n = 0
-for f in glob.glob("src/*/*.c"):
+from source_layout import source_items
+for _, f in source_items():
     t = open(f).read(); u = SHELL.sub("", EMPTY_NM_RE.sub("", t))
     if u != t: open(f, "w").write(u); n += 1
 print("tidied", n, "files")
 EOF
-IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
+IDS=$(git diff --name-only -- src | python3 tools/source_layout.py ids)
 if [ -n "$IDS" ]; then
   echo "== t2 on $(echo $IDS | tr , '\n' | wc -l) changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 6 2>&1 | tail -1
   echo "== gate"

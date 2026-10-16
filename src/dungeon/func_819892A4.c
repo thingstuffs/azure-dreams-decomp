@@ -3,7 +3,7 @@
 
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
-void func_80024AA4(void *entry, void *unused, void *target) {
+void dungeonMarkReferencedObjectAndUpdateFlags(void *entry, void *unused, void *target) {
     void *object;
 
     object = *(void **)entry;

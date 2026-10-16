@@ -8,7 +8,7 @@ typedef struct S_800CD294_0 {
     u8 unk_27;
     u8 pad_28[0x74];
     s16 unk_9C;
-} S_800CD294_0;   /* arg0 in func_800CD294; pointer addresses record offset 0x14 */
+} S_800CD294_0;   /* arg0 in dungeonCheckTrapRecordAndTriggerEffects; pointer addresses record offset 0x14 */
 
 typedef struct S_800CD294_1 {
     u8 pad_00[0x14];
@@ -16,22 +16,22 @@ typedef struct S_800CD294_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD294_1;   /* temp_v1 in func_800CD294 */
+} S_800CD294_1;   /* temp_v1 in dungeonCheckTrapRecordAndTriggerEffects */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 extern s32 D_800DCF14;
-extern void func_80099844();
+extern void dungeonAdjustSourceValueAndFinalize();
 extern s32 func_800A56E0();
 extern void func_800A6508();
-extern void * func_800C5BBC();
-s32 func_800C8C1C();        /* extern */
-void func_800DC1B8();                         /* extern */
+extern void * dungeonSpawnRandomizedParticleBurst();
+s32 dungeonRollThresholdEffectVariantB();        /* extern */
+void dungeonWrapPositionAndSetStateValue();                         /* extern */
 extern M2C_UNK D_800E1C03;
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
-s32 func_800CD294(void *record_data) {
+s32 dungeonCheckTrapRecordAndTriggerEffects(void *record_data) {
         /* Retail forwards the current argument registers into func_800A6508
        untouched; this row never writes the fourth argument. */
     M2C_UNK check_mask;
@@ -41,20 +41,20 @@ s32 func_800CD294(void *record_data) {
     if (D_800E3D40 != 0) {
         check_mask = 0x400;
     }
-    if (func_800C8C1C(record_data, check_mask, 0x10) == 0) {
+    if (dungeonRollThresholdEffectVariantB(record_data, check_mask, 0x10) == 0) {
         if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
             func_800A6508();
             return 1;
         }
         return 1;
     }
-    func_80099844(record_data, &D_800E1C03);
+    dungeonAdjustSourceValueAndFinalize(record_data, &D_800E1C03);
     if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
-        func_800DC1B8(D_800DCF14);
+        dungeonWrapPositionAndSetStateValue(D_800DCF14);
     }
     entity = ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_00;
     if (!(entity->unk_14 & 0x8000)) {
-        func_800C5BBC((entity->unk_24 << 6) | 0x20, (entity->unk_25 << 6) | 0x20,
+        dungeonSpawnRandomizedParticleBurst((entity->unk_24 << 6) | 0x20, (entity->unk_25 << 6) | 0x20,
             ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_9C, 0xFFFFFF, 0x40, 0);
         func_800A56E0(0x612);
     }

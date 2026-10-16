@@ -14,8 +14,8 @@ typedef struct {
 
 
 extern void func_8004491C(void *entry, void *registration_id);
-extern s32 func_8004A658(s32, s32);
-extern void func_800BC26C(void *, s32, s32, s32);
+extern s32 lookupItemCategoryMappedValue(s32, s32);
+extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
 
 extern u8 D_8006E240[9];
 extern u8 D_80174978[9];
@@ -26,7 +26,7 @@ typedef struct S_80174D48_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80174D48_0;   /* temp_v0 in func_80174D48 */
+} S_80174D48_0;   /* temp_v0 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
 
 typedef struct S_80174D48_1 {
     s32 unk_00;
@@ -35,7 +35,7 @@ typedef struct S_80174D48_1 {
     u8 pad_0C[0x9C];
     s16 unk_A8;
     s16 unk_AA;
-} S_80174D48_1;   /* temp_s2 in func_80174D48 */
+} S_80174D48_1;   /* temp_s2 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
 
 typedef struct S_80174D48_2 {
     s32 unk_00;
@@ -44,7 +44,7 @@ typedef struct S_80174D48_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174D48_2;   /* temp_v1 in func_80174D48 */
+} S_80174D48_2;   /* temp_v1 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
 
 typedef struct S_80174D48_3 {
     u8 pad_00[0x8];
@@ -53,11 +53,11 @@ typedef struct S_80174D48_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80174D48_3;   /* temp_s1 in func_80174D48 */
+} S_80174D48_3;   /* temp_s1 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
 
 
 /* Creates and initializes a display object from the source position and appearance. */
-void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
+void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
 {
     s32 coord_z;
     s32 record_byte;
@@ -100,7 +100,7 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)func_8004A658((*(u8 *)((u8 *)appearance + 0x49)),
+            texture = (void *)lookupItemCategoryMappedValue((*(u8 *)((u8 *)appearance + 0x49)),
                           (*(u8 *)((u8 *)appearance + 0x48)));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
@@ -111,7 +111,7 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
-        func_800BC26C(active_object, zero, zero, zero);
+        dungeonCreateTrackedEffect(active_object, zero, zero, zero);
         ((S_80174D48_0 *)object)->unk_10 = D_80174978;
     }
 }

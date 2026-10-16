@@ -49,7 +49,7 @@ extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *in, void *out, void *flag);
 extern void DrawPrim(void *p);
 extern s32 rsin(s32);
-extern void *func_8004E298(void *a0, void *a1, s32 a2);
+extern void *buildPositionedTextGlyphs(void *a0, void *a1, s32 a2);
 
 extern s16 D_80080AAC;
 extern void *D_80080AB0;

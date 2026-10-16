@@ -13,16 +13,16 @@ typedef struct S_800A2690_0 {
     u8 pad_0E[0x2];
     s32 unk_10;
     u8 * unk_14;
-} S_800A2690_0;   /* arg0 in func_800A2690 */
+} S_800A2690_0;   /* arg0 in townDrawFadingFlickeringTriangle */
 
 typedef struct S_800A2690_1 {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
     u16 unk_06;
-} S_800A2690_1;   /* source in func_800A2690 */
+} S_800A2690_1;   /* source in townDrawFadingFlickeringTriangle */
 
-   /* state in func_800A2690 */
+   /* state in townDrawFadingFlickeringTriangle */
 
 typedef struct S_800A2690_3 {
     u8 pad_00[0x4];
@@ -43,12 +43,12 @@ typedef struct S_800A2690_3 {
     s8 unk_16;
     u8 pad_17[0x1];
     s16 unk_18;
-} S_800A2690_3;   /* prim in func_800A2690 */
+} S_800A2690_3;   /* prim in townDrawFadingFlickeringTriangle */
 
 typedef struct S_800A2690_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in func_800A2690 */
+} S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in townDrawFadingFlickeringTriangle */
 
 
 extern s32 func_800644B8(s32);
@@ -60,7 +60,7 @@ extern void func_800666B8(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Advance the effect lifetime and draw a fading, flickering triangle. */
-void func_800A2690(void *effect)
+void townDrawFadingFlickeringTriangle(void *effect)
 {
     u16 angle;
     s32 base_x;

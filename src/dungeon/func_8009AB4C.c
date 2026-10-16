@@ -9,11 +9,11 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-s32 func_8009A540(s32, u8, u8, s16);
-s32 func_8009B25C(void *, u16, u16, s16);
+s32 dungeonCheckDiagonalSideHeight(s32, u8, u8, s16);
+s32 findEligibleActorAtTileAndHeight(void *, u16, u16, s16);
 
 /* Check eight neighboring positions in cyclic order and return the first result that passes the direction check. */
-s32 func_800A02AC(void *entity, u16 x, u16 y) {
+s32 dungeonFindValidMonsterNeighbor(void *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;
@@ -30,10 +30,10 @@ s32 func_800A02AC(void *entity, u16 x, u16 y) {
     entity_data = *(void **)((s8 *)entity - 0x14);
     direction = dungeonStatus.unk_1E & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
-        result = func_8009B25C(entity, (base_x + x_offsets[direction]) & 0xFFFF,
+        result = findEligibleActorAtTileAndHeight(entity, (base_x + x_offsets[direction]) & 0xFFFF,
             (base_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity + 0x88));
         if (result != 0) {
-            if (((func_8009A540(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
+            if (((dungeonCheckDiagonalSideHeight(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
                 (s16)((u16)*(s16 *)((s8 *)entity + 0x88) - 0x20)) << 16) == 0)) {
                 continue;
             }

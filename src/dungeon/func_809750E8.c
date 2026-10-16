@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void func_801708E8(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
+void applyCountdownScaledEffectIntensity(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
     s16 remaining_ticks;
     s32 intensity;
 

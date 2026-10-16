@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_7FFE79F4_0_pre {
     u16 unk_00;
-} S_7FFE79F4_0_pre;   /* the 0x2 bytes before arg0 in func_7FFE79F4, addressed as arg0[-1] */
+} S_7FFE79F4_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateEmitterAndSpawnParticles, addressed as arg0[-1] */
 
 typedef struct S_7FFE79F4_0 {
     u8 pad_00[0x16];
@@ -22,7 +22,7 @@ typedef struct S_7FFE79F4_0 {
     u16 unk_3C;
     u16 unk_3E;
     u16 unk_40;
-} S_7FFE79F4_0;   /* arg0 in func_7FFE79F4 */
+} S_7FFE79F4_0;   /* arg0 in dungeonUpdateEmitterAndSpawnParticles */
 
 typedef struct S_7FFE79F4_1 {
     u8 pad_00[0x2];
@@ -31,12 +31,12 @@ typedef struct S_7FFE79F4_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE79F4_1;   /* arg1 in func_7FFE79F4 */
+} S_7FFE79F4_1;   /* arg1 in dungeonUpdateEmitterAndSpawnParticles */
 
 typedef struct S_7FFE79F4_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE79F4_2;   /* temp_a0 in func_7FFE79F4 */
+} S_7FFE79F4_2;   /* temp_a0 in dungeonUpdateEmitterAndSpawnParticles */
 
 typedef struct S_7FFE79F4_3 {
     u8 pad_00[0x8];
@@ -52,7 +52,7 @@ typedef struct S_7FFE79F4_3 {
     u8 pad_4C[0xC];
     u16 unk_58;
     u16 unk_5A;
-} S_7FFE79F4_3;   /* temp_v0_2 in func_7FFE79F4 */
+} S_7FFE79F4_3;   /* temp_v0_2 in dungeonUpdateEmitterAndSpawnParticles */
 
 typedef struct S_7FFE79F4_4 {
     u8 pad_00[0x2];
@@ -61,7 +61,7 @@ typedef struct S_7FFE79F4_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_7FFE79F4_4;   /* temp_s0 in func_7FFE79F4 */
+} S_7FFE79F4_4;   /* temp_s0 in dungeonUpdateEmitterAndSpawnParticles */
 
 typedef struct S_7FFE79F4_5 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_7FFE79F4_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE79F4_5;   /* ((S_7FFE79F4_2 *)temp_a0)->unk_08 in func_7FFE79F4 */
+} S_7FFE79F4_5;   /* ((S_7FFE79F4_2 *)temp_a0)->unk_08 in dungeonUpdateEmitterAndSpawnParticles */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -85,7 +85,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */
-void func_7FFE79F4(void *emitter, void *position, M2C_UNK init_arg) {
+void dungeonUpdateEmitterAndSpawnParticles(void *emitter, void *position, M2C_UNK init_arg) {
     s32 product;
     s32 coordinate;
     s32 spawn_count;

@@ -10,13 +10,13 @@ typedef struct S_800B70EC_0 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800B70EC_0;   /* work in func_800B70EC */
+} S_800B70EC_0;   /* work in townInitializeBuildingSceneAssets */
 
 
-extern void func_80046E38();
+extern void runtimeLoadPackedResourceChunks();
 extern void func_80067014();
 extern void func_8006733C();
-extern void func_800B73F0();
+extern void townClearAndInitializeBuildingGrid();
 
 
 extern u8 D_800D2FB4[];
@@ -35,7 +35,7 @@ static __inline__ s16 scene_below(s32 scene, s32 bound)
 }
 
 /* Initialize town asset state and load graphics for the current scene. */
-void func_800B70EC(void) {
+void townInitializeBuildingSceneAssets(void) {
     s32 special_scene;
     s32 scene_offset;
     s32 single_row;
@@ -104,12 +104,12 @@ void func_800B70EC(void) {
 
     func_80067014(0);
     *(void **)asset_state = asset_data;
-    func_800B73F0(asset_data);
+    townClearAndInitializeBuildingGrid(asset_data);
     scene_table = D_800D2FB4;
     {
         u8 *entry = &scene_table[D_800D381A[0] << 5];
         if (*entry != 0x29) {
-            func_80046E38(*entry, D_8012F004);
+            runtimeLoadPackedResourceChunks(*entry, D_8012F004);
         }
     }
 }

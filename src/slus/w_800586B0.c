@@ -3,7 +3,7 @@
 /* S_800737C0: a plain s32 flag/mutex scalar. Declared as a struct with
  * padding (size > 8B) to force hi/lo access while keeping gcc from CSE-ing
  * a materialized base register (retail re-issues %hi/%lo per store) -
- * matches the sibling functions func_8005863C / func_800585A0 that also
+ * matches the sibling functions closeTimer2UpdateEvent / openTimer2UpdateEvent that also
  * touch this same global. */
 typedef struct {
     /* 0x00 */ s32 v;
@@ -18,7 +18,7 @@ extern s32 ExitCriticalSection(void);
 extern void StopRCnt(s32 a0);
 
 /* Stops hardware timer 2 in a critical section, then clears the mode and lock flags. */
-void func_800586B0(void)
+void stopTimer2Updates(void)
 {
     D_800737C0.v = 1;
     EnterCriticalSection();

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Sets or clears status bit 0x2 in each variable-size record through the end marker. */
-void func_8004CE68(u8 *record, s32 set_status_bit) {
+void updateTaggedRecordFlag2(u8 *record, s32 set_status_bit) {
     u8 *next_record = record;
     u8 record_flags;
 

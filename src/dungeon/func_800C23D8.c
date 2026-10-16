@@ -31,10 +31,10 @@ extern s16 D_800120A2;
 extern s16 D_800DD264[];
 extern s16 D_800DCE66[5];
 
-extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Blend toward the entity target, then dispatch the next state. */
-void func_800C7B38(void *entity_data) {
+void dungeonBlendEntityTowardTargetState(void *entity_data) {
     Entity *entity = entity_data;
     GameView *blend = &gameWork.view;
     s32 state = entity->unk18;
@@ -71,7 +71,7 @@ void func_800C7B38(void *entity_data) {
         entity->unk18 += 1;
         return;
     case 1:
-        func_800C77D0((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
+        dungeonSelectNearbyTargetAndInitializeSlot((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
         dungeonStatus.unk_0A = dungeonStatus.unk_0A - 1;
     }
 }

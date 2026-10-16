@@ -5,18 +5,18 @@
 extern int D_80082EC0[128];
 extern int D_80083110[4];
 
-extern void func_8003DB4C(int *p, int n);
+extern void zeroWords(int *p, int n);
 extern void func_800499BC(void);
 extern void func_8004437C(s32 a0, s32 a1);
-extern void func_8004425C(s32 a0);
+extern void audioLoadSoundEffectBank(s32 a0);
 
 /* Clears global state blocks and a flag, then reinitializes subsystem defaults. */
-void func_8003D8B0(void)
+void resetRuntimeSlotState(void)
 {
     s32 word_index;
 
-    func_8003DB4C((int *)D_80083120, 0x10);
-    func_8003DB4C(D_80082EC0, 0x80);
+    zeroWords((int *)D_80083120, 0x10);
+    zeroWords(D_80082EC0, 0x80);
 
     {
         int *state_words = D_80083110;
@@ -29,5 +29,5 @@ void func_8003D8B0(void)
 
     func_800499BC();
     func_8004437C(0x2A, 0);
-    func_8004425C(0);
+    audioLoadSoundEffectBank(0);
 }

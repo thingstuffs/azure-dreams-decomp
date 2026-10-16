@@ -5,7 +5,7 @@ typedef struct S_80095840_0 {
     s16 unk_10;
     u8 pad_12[0x1A];
     union { void * s; s32 u; } unk_2C;   /* accessed as both */
-} S_80095840_0;   /* out in func_80095840 */
+} S_80095840_0;   /* out in townSelectAnEligibleSourceEntryStoresPointerInDestination */
 
 typedef struct S_80095840_1 {
     u8 pad_00[0x10];
@@ -15,7 +15,7 @@ typedef struct S_80095840_1 {
     s32 unk_1C;
     u8 pad_20[0x1A];
     u8 unk_3A;
-} S_80095840_1;   /* in in func_80095840 */
+} S_80095840_1;   /* in in townSelectAnEligibleSourceEntryStoresPointerInDestination */
 
 typedef struct S_80095840_2 {
     u8 pad_00[0x14];
@@ -24,17 +24,17 @@ typedef struct S_80095840_2 {
     s32 unk_1C;
     u8 pad_20[0x1A];
     u8 unk_3A;
-} S_80095840_2;   /* (void *)work in func_80095840 */
+} S_80095840_2;   /* (void *)work in townSelectAnEligibleSourceEntryStoresPointerInDestination */
 
 typedef struct S_80095840_3 {
     u8 pad_00[0x14];
     u8 unk_14;
-} S_80095840_3;   /* entry in func_80095840 */
+} S_80095840_3;   /* entry in townSelectAnEligibleSourceEntryStoresPointerInDestination */
 
 
 
 /* Selects an eligible source entry and stores its pointer in the destination. */
-s32 func_80095840(void *destination, void *source)
+s32 townSelectAnEligibleSourceEntryStoresPointerInDestination(void *destination, void *source)
 {
     S_80095840_0 *result;
     void *candidates;

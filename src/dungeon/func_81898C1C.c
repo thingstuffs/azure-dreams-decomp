@@ -8,7 +8,7 @@ void *func_8002441C(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_st
 
     object = func_8003FC64(0x212);
     if (object != 0) {
-        object->unk_10 = (void *)func_80024370;
+        object->unk_10 = (void *)dungeonAdvanceTheEntryCountersTriggerCountMilestonesUpdateTarget;
         display = object->unk_0C;
         object->unk_20 = object_id;
         object->unk_24 = 0;

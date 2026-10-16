@@ -55,11 +55,11 @@ extern u8 D_800F2B2C[0x28];
 extern void func_8003DB94(SpriteRecord *, void *, s32);
 extern void func_800478B8(SpriteRecord *);
 extern s32 rand(void);
-extern void func_8009539C(MotionRecord *);
-extern s32 func_800C2AE8(MotionRecord *);
+extern void townAddMotionDeltasToPosition(MotionRecord *);
+extern s32 townQueryLoweredTransformPosition(MotionRecord *);
 
 /* Updates a sprite's launch, bounce, and fade states. */
-void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprite)
+void townUpdateSnowballTarget(StateRecord *state, MotionRecord *motion, SpriteRecord *sprite)
 {
     RootRecord *root;
     DeepRecord *motion_source;
@@ -72,7 +72,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
     motion_source = root->mid04->deep08;
     sprite_choices = D_80020048;
     func_800478B8(sprite);
-    func_8009539C(motion);
+    townAddMotionDeltasToPosition(motion);
     choices_ptr = &sprite_choices;
 
     switch (state->mode04) {
@@ -119,7 +119,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         s32 floor_y;
 
         motion->value14 += 0x40000;
-        floor_y = (s16)func_800C2AE8(motion);
+        floor_y = (s16)townQueryLoweredTransformPosition(motion);
         if (floor_y < motion->value08) {
             motion->value08 = floor_y;
             motion->value14 = (-motion->value14) >> 3;
@@ -150,7 +150,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         u16 sprite_flags;
 
         motion->value14 += 0x40000;
-        floor_y = (s16)func_800C2AE8(motion);
+        floor_y = (s16)townQueryLoweredTransformPosition(motion);
         if (floor_y < motion->value08) {
             motion->value08 = floor_y;
             motion->value14 = (-motion->value14) >> 3;

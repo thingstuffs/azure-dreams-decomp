@@ -10,30 +10,30 @@
 
 extern u8 D_800E12A9[];
 
-extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 func_80098864(s32, s32);
-extern void func_80098B38(s32);
+extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
 extern void func_800997FC(void *, s32, s16);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
 
 /* Applies a value according to the target and mode, then updates bookkeeping. */
-s32 func_800BF6D0(EntityRec *target, s32 value, s16 mode, s32 context)
+s32 dungeonUseItemToRevealItems(EntityRec *target, s32 value, s16 mode, s32 context)
 {
     if (mode == 13) {
-        return func_80098864(value, context);
+        return dungeonProcessRecordAndUpdateLinkedState(value, context);
     }
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = value;
-        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, value, mode);
-        if (func_800AD6FC(target,
+        if (dungeonApplyActorFoodPreference(target,
                           D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           value) == 0) {
             func_800A5F38(target, value);
@@ -45,6 +45,6 @@ s32 func_800BF6D0(EntityRec *target, s32 value, s16 mode, s32 context)
     }
 
     dungeonStatus.unk_0A--;
-    func_80098B38(value);
+    dungeonClearSlotAndUpdateLinkedState(value);
     return 1;
 }

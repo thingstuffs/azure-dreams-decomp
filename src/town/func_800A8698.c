@@ -10,36 +10,36 @@ typedef struct S_800A5DF8_0 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800A5DF8_0;   /* var_s0 in func_800A5DF8 */
+} S_800A5DF8_0;   /* var_s0 in townUpdateActorEffectTransition */
 
 typedef struct S_800A5DF8_1 {
     u8 unk_00;
-} S_800A5DF8_1;   /* &D_800CFCEF in func_800A5DF8 */
+} S_800A5DF8_1;   /* &D_800CFCEF in townUpdateActorEffectTransition */
 
 typedef struct S_800A5DF8_4 {
     void * unk_00;
     u8 pad_04[0x4];
     s16 unk_08;
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} S_800A5DF8_4;   /* var_s2 in func_800A5DF8 */
+} S_800A5DF8_4;   /* var_s2 in townUpdateActorEffectTransition */
 
 
-s32 func_8008C180();                        /* extern */
-s16 func_80094AA0();           /* extern */
-void func_80095094();                      /* extern */
-void func_80095388();                 /* extern */
-void func_800954F4();                 /* extern */
-s16 func_80095978();               /* extern */
-void func_80095A94();      /* extern */
-void func_80095C80();                      /* extern */
-s32 func_800A5894();                          /* extern */
-void func_800A55CC();                         /* extern */
-s32 func_800C1D44();                             /* extern */
+s32 townReadMapCellAtWorldPosition();                        /* extern */
+s16 townStepAngle12Toward();           /* extern */
+void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
+void townAddHex20000SSignedOffsetHex14();                 /* extern */
+void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();                 /* extern */
+s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
+void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
+void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
+s32 townComputeHeightBasedOffset();                          /* extern */
+void townInitializeEffectAndAdjustValue();                         /* extern */
+s32 townCheckMaskedValueInCurrentRange();                             /* extern */
 extern u8 D_800CFCEF;
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
+void townUpdateActorEffectTransition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
     s16 threshold;
     s32 offset_step;
     s16 angle;
@@ -49,25 +49,25 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
     register u8 *effect_data;
 
     scene_state = &gameWork;
-    func_80095C80(actor);
+    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
     effect_data = ((u8 *)&D_800FE488);
-    threshold = func_80095978(actor, effect_data);
+    threshold = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, effect_data);
     if (actor->unk_0A >= threshold) {
-        func_80095A94(actor, threshold, effect_data);
+        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
         actor->unk_14 = 0;
-        func_800954F4(actor);
+        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(actor);
     } else {
-        func_80095388(actor);
+        townAddHex20000SSignedOffsetHex14(actor);
     }
 
-    if (func_800C1D44(func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
-        offset_step = actor->unk_14 - func_800A5894(actor);
+    if (townCheckMaskedValueInCurrentRange(townReadMapCellAtWorldPosition(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
+        offset_step = actor->unk_14 - townComputeHeightBasedOffset(actor);
         actor->unk_14 = offset_step;
     }
-    func_80095094(actor);
-    func_80095094(actor);
-    angle = func_80094AA0(scene_state->view.viewAngle, 0, 0x80);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+    angle = townStepAngle12Toward(scene_state->view.viewAngle, 0, 0x80);
     scene_state->view.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
         scene_state->view.viewAngle = 0;
@@ -92,7 +92,7 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
     if ((state->unk_0A.u == 0) &&
         (scene_state->view.viewAngle == 0)) {
         if (state->unk_08 != 0) {
-            func_800A55CC(state, actor, context);
+            townInitializeEffectAndAdjustValue(state, actor, context);
         } else {
             state->unk_0A.u = 0;
             state->unk_00 = D_800A5FDC;

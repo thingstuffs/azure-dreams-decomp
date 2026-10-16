@@ -43,11 +43,11 @@ typedef struct {
 extern u8 D_80171094[];
 extern u8 D_80176460[8];
 
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern void func_800A56E0(s32);
-extern void func_800AD594(D3 *, s32);
+extern void dungeonReduceActorFoodMeter(D3 *, s32);
 extern void func_80047784(D2 *, u8, s32);
-extern void func_80175F60(D0 *, void *, D2 *);
+extern void dungeonCreateDirectionalTargetObject(D0 *, void *, D2 *);
 extern void func_801762A4(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
@@ -66,7 +66,7 @@ void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
         if (!(sprite->kind == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
             break;
         }
-        func_80175F60(action, context, sprite);
+        dungeonCreateDirectionalTargetObject(action, context, sprite);
         if (actor->flags & 0x4000) {
             func_801762A4(1, actor);
         } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
@@ -97,8 +97,8 @@ void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
                 return;
             }
         }
-        func_800AD594(actor, 0x400);
-        func_800A2B04(context, sprite->value_24, sprite->value_25);
+        dungeonReduceActorFoodMeter(actor, 0x400);
+        dungeonSetRecordIntegerTileCenter(context, sprite->value_24, sprite->value_25);
         action->field_8C = D_80171094;
         dungeonStatus.unk_0C = 0;
         actor->value_46 &= 0x7FFF;

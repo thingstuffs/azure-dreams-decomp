@@ -10,11 +10,11 @@ typedef struct S_800C4C00_0 {
     u8 pad_03[0x1];
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} S_800C4C00_0;   /* arg0 in func_800C4C00 */
+} S_800C4C00_0;   /* arg0 in dungeonTickViewColorFlash */
 
 
 /* Fades the color toward the target, then back to neutral, and marks completion. */
-void func_800C4C00(void *fade)
+void dungeonTickViewColorFlash(void *fade)
 {
     GameView *color_state;
     u16 frames_left;

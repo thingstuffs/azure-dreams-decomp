@@ -55,7 +55,7 @@ s16 func_800A48F0();        /* extern */
 s32 func_800A6D30();                          /* extern */
 void func_800A9C18(); /* extern */
 s32 func_800AA36C(); /* extern */
-void func_800BC318();                      /* extern */
+void dungeonRetireTrackedEffectById();                      /* extern */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;
@@ -123,7 +123,7 @@ void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             part_b->unk_14 = (u16) (part_b->unk_14 | 0xC);
             part_b->unk_12 = (u16) (part_b->unk_12 - 0x80);
             func_80044A50(obj_alt);
-            func_800BC318(obj_alt);
+            dungeonRetireTrackedEffectById(obj_alt);
         }
         func_800AA36C(work_copy, part_a, part_b, work);
     }

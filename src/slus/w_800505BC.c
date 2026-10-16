@@ -11,13 +11,13 @@ struct S_800505BC {
     /* 0x68 */ void *unk68;
 };
 
-extern void func_80050550(void *arg, s32 numerator, s32 denominator);
+extern void slusSetColorComponentsAndScaledFields(void *arg, s32 numerator, s32 denominator);
 extern void func_800504B4(S_800505BC *state, s32 callback_arg1, s32 callback_arg2);
 
 /* Advances the ratio ramp, switches callbacks at count three, and decays the counters. */
 void func_800505BC(S_800505BC *state, s32 callback_arg1, s32 callback_arg2) {
     state->counter += 1;
-    func_80050550(&state->unk58, state->counter, 3);
+    slusSetColorComponentsAndScaledFields(&state->unk58, state->counter, 3);
 
     if (state->counter >= 3) {
         state->counter = 0;

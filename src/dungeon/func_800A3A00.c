@@ -4,12 +4,12 @@
 typedef struct S_800A9160_0 {
     u8 pad_00[0x5720];
     u8 unk_5720;
-} S_800A9160_0;   /* temp_t1 + (var_v0 >> 3) + (s32)ram in func_800A9160 */
+} S_800A9160_0;   /* temp_t1 + (var_v0 >> 3) + (s32)ram in packItemFlag400Bitmap */
 
 typedef struct S_800A9160_1 {
     u8 pad_00[0x5720];
     u8 unk_5720;
-} S_800A9160_1;   /* temp_a0 in func_800A9160 */
+} S_800A9160_1;   /* temp_a0 in packItemFlag400Bitmap */
 
 
 
@@ -21,7 +21,7 @@ typedef struct {
 
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
-void func_800A9160(void)
+void packItemFlag400Bitmap(void)
 {
     DungeonGroup *item_category;
     DungeonGroup *cell_group;

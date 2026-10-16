@@ -45,15 +45,15 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern s32 D_8014DCE8;
 extern u8 D_80150EE0[];
 
-void func_8014F514(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void dungeonUpdateActorActionStateMachine(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     u8 state;
     EntityRec *call_actor;
@@ -71,7 +71,7 @@ void func_8014F514(ActorActionView *action, EntityRec *motion, ActorSpriteView *
             action->phase = 4;
             call_sprite = sprite;
             ((ActorSpriteView *)call_sprite)->flags |= 0x6000;
-            func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
         motion->flags14 = 0;
@@ -121,17 +121,17 @@ void func_8014F514(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         if (action->timer.signedTicks == 1 ||
             (sprite->flags & 0xE000)) {
             call_sprite = sprite;
-            func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
         return;
 
     case 4:
         if (sprite->flags & 0xE000) {
-            func_800AD594(actor, 0x100);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             action->nextAction.word = &D_8014DCE8;
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             actor->unk_46 &= 0x7FFF;
         }
     }

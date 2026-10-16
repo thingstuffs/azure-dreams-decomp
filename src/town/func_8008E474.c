@@ -19,7 +19,7 @@ extern u8 D_8008BC58[];
 extern u8 D_800CFC70[];
 extern void* D_800CFC7C[];
 
-void func_8008BBD4(Func8008E3F0Arg* state) {
+void dungeonDecreaseSubstructureValueAndReset(Func8008E3F0Arg* state) {
     state->inner->unk8 -= 0x200;
     if (state->inner->unk8 < 0) {
         state->inner->unk8 = 0;

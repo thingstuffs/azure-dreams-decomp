@@ -19,8 +19,8 @@ typedef struct {
     u16 value[5];
 } Record10;
 
-extern s32 func_8003DE58();
-extern u32 func_800C8150(EntityRec *, s16, s16);
+extern s32 resolveRecordOrientationOrFallback();
+extern u32 dungeonAdvanceEligibleActorOrPerformAction(EntityRec *, s16, s16);
 
 /* Retail stores each five-halfword record in a word-aligned 12-byte slot.
  * Keep the local copies at ten bytes; the storage wrapper owns the two zero
@@ -35,7 +35,7 @@ extern u8 D_80174ACC[];
 extern u8 D_80174B14[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
-void func_80174260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
+void dungeonUpdateBankTimedEffect(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
     void *motion = motion_input;
     u16 spawn_offset[3];
     Record10 effect_values_1c = D_80170868.values;
@@ -58,7 +58,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
         if (animation_flags & 0x8000) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
+                dungeonAdvanceEligibleActorOrPerformAction((EntityRec *)effect_data, 0x10, 0x10);
                 U8_AT(state_input, 0x9B) = 2;
             } else {
                 U8_AT(state_input, 0x9B) = 2;
@@ -70,7 +70,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
             return;
         }
 
-        if (func_8003DE58(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
+        if (resolveRecordOrientationOrFallback(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
             spawn_offset[2] = 0;
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
@@ -113,7 +113,7 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
         if (S16_AT(state_input, 0x96) == 0x14) {
             effect_data = S32_AT(actor_input, 0x60);
             if (effect_data != 0) {
-                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
+                dungeonAdvanceEligibleActorOrPerformAction((EntityRec *)effect_data, 0x10, 0x10);
             }
         }
 
@@ -135,16 +135,16 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
 
             S32_AT(motion, 0x10) = 0;
             S32_AT(motion, 0x0C) = 0;
-            func_800AD594(actor_input, 0x800);
+            dungeonReduceActorFoodMeter(actor_input, 0x800);
             PTR_AT(animation_input, 0x2C) = D_80174ACC;
             func_80047784(animation_input,
                 D_80174ACC[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
                 0);
             dungeonStatus.unk_0A--;
-            func_800A4ACC(actor_input);
+            dungeonAdvanceStatusTimers(actor_input);
             U8_AT(actor_input, 0x6D) = 0;
             U16_AT(actor_input, 0x46) &= 0x7FFF;
-            PTR_AT(state_input, 0x8C) = func_80171138;
+            PTR_AT(state_input, 0x8C) = dungeonUpdateBankActorState;
         }
         break;
     }

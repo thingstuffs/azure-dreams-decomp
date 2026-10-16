@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_8009A180();
+extern s32 dungeonCheckEntityRelation();
 extern s8 func_8009FB34();
 extern s32 func_800A1C58();
 extern void func_800CA0DC();
@@ -56,7 +56,7 @@ void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, s32 context, S_800C9F34_
         position->unk_24, position->unk_25);
     if ((entity->unk_6D > 0) &&
         (!(dungeonStatus.flags & 0x2000) ||
-         ((func_8009A180(entity,
+         ((dungeonCheckEntityRelation(entity,
             ((s32)D_800814A8->unk_58) + 0x20) << 0x10) == 0))) {
         func_800CA93C(actor_state, context, position);
     }

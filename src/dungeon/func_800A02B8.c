@@ -6,7 +6,7 @@
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
 s32 func_800A56E0();                     /* extern */
-void func_800B835C(); /* extern */
+void dungeonDrawTexturedEllipse(); /* extern */
 extern M2C_UNK D_800A5828;
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
@@ -54,7 +54,7 @@ void *func_800A5A18(s32 object_id, s32 state_value) {
         state_data->unk_66 = 4;
         resource_params[0] = 0x01800340;
         resource_params[1] = 0x400040;
-        func_800B835C(&D_800DD860, resource_params, 1, 0);
+        dungeonDrawTexturedEllipse(&D_800DD860, resource_params, 1, 0);
         func_800A56E0(0x60F);
     }
     return object;

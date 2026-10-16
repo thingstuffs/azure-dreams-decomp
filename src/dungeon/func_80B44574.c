@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_80171D74(void *object, void *unused, void *display, void *orientation) {
+void advanceLinkedActorMotionScript(void *object, void *unused, void *display, void *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 

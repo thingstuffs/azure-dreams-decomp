@@ -13,7 +13,7 @@ typedef struct S_800B6814_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800B6814_0;   /* node in func_800B6814 */
+} S_800B6814_0;   /* node in dungeonSpawnRandomizedRadialBurst */
 
 typedef struct S_800B6814_1 {
     u8 pad_00[0x2];
@@ -25,7 +25,7 @@ typedef struct S_800B6814_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800B6814_1;   /* part in func_800B6814 */
+} S_800B6814_1;   /* part in dungeonSpawnRandomizedRadialBurst */
 
 typedef struct S_800B6814_2 {
     u8 pad_00[0x2];
@@ -34,7 +34,7 @@ typedef struct S_800B6814_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B6814_2;   /* arg0 in func_800B6814 */
+} S_800B6814_2;   /* arg0 in dungeonSpawnRandomizedRadialBurst */
 
 typedef struct S_800B6814_3 {
     u8 pad_00[0x4];
@@ -46,7 +46,7 @@ typedef struct S_800B6814_3 {
     s16 unk_14;
     s16 unk_16;
     s16 unk_18;
-} S_800B6814_3;   /* sub in func_800B6814 */
+} S_800B6814_3;   /* sub in dungeonSpawnRandomizedRadialBurst */
 
 typedef struct S_800B6814_4 {
     u8 pad_00[0xC];
@@ -57,7 +57,7 @@ typedef struct S_800B6814_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B6814_4;   /* image in func_800B6814 */
+} S_800B6814_4;   /* image in dungeonSpawnRandomizedRadialBurst */
 
 
 extern void func_8004491C(void *, void *);
@@ -70,7 +70,7 @@ extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 
 /* Spawns a randomized radial burst of particles at the given position. */
-void func_800B6814(S_800B6814_2 *origin)
+void dungeonSpawnRandomizedRadialBurst(S_800B6814_2 *origin)
 {
     s32 particle_count;
     s32 angle_step;

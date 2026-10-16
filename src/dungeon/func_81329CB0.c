@@ -6,21 +6,21 @@
 typedef struct S_801714B0_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_801714B0_0;   /* entity in func_801714B0 */
+} S_801714B0_0;   /* entity in dungeonUpdateLinkedFacingSprite */
 
 typedef struct S_801714B0_1 {
     u8 pad_00[0x94];
     s16 unk_94;
-} S_801714B0_1;   /* arg0 in func_801714B0 */
+} S_801714B0_1;   /* arg0 in dungeonUpdateLinkedFacingSprite */
 
 
 extern void *D_80174CDC[3];
 
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_800478B8(void *);
 
 /* Updates the record's directional selection and flag from the entity's facing. */
-void func_801714B0(S_801714B0_1 *state, void *unused, Rec_D_80082E80 *record)
+void dungeonUpdateLinkedFacingSprite(S_801714B0_1 *state, void *unused, Rec_D_80082E80 *record)
 {
     S_801714B0_0 *entity;
     u8 *direction_flags;
@@ -35,7 +35,7 @@ void func_801714B0(S_801714B0_1 *state, void *unused, Rec_D_80082E80 *record)
         direction = calculated_direction;
 
         if (state->unk_94 != direction) {
-            func_80047738(record,
+            selectIndirectTableEntry(record,
                 record->unk_2C.as_pu8[direction],
                 record->unk_04.as_s8);
             state->unk_94 = calculated_direction;

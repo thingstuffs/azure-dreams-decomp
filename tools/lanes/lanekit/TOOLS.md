@@ -9,6 +9,9 @@ Those diagnostics remain available with the permutation and native-member tools.
 
 | Question | Command |
 |---|---|
+| Prove rename/comment neutrality, verify both sides, optionally stage | `rename_proof.py ROW after.c [--before FILE] [--renames map.json] [--stage]` |
+| Reject a non-rename edit without compiling | `rename_proof.py --check-only before.c after.c [--renames map.json]` |
+| Recheck a retained rename receipt | `rename_proof.py ROW after.c --receipt tmp/rename_proof_ID/proof.json` |
 | Does the genuine SN compiler emit the same assembly? | `sncheck.py ROW erased` (or `pinned`, or a C file); optional `--cfg`, `--keep DIR`, `--json FILE` |
 | Would one allocator input produce retail colours? | `alloc_oracle.py ROW FILE --pseudo NAME --qty-refs 5` |
 | Does making a local global fix allocation? | `alloc_oracle.py ROW erased --pseudo NAME --force-global` |

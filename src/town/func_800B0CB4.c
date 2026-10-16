@@ -7,20 +7,20 @@ typedef struct FuncArg {
     s32 field8;
 } FuncArg;
 
-extern void func_800B03B4(s32 object);
-extern void func_800B0700(s32 object);
-extern void func_800B1DBC(s32 object);
+extern void townResetItemMenuObjectState(s32 object);
+extern void townScheduleItemMenuChildRelease(s32 object);
+extern void townSetObjectDataPointer(s32 object);
 extern void func_8004E130(void);
-extern void func_80093894(void);
+extern void townHandleSelectionAndCreateObject(void);
 
 // Set the high-bit flags and pass the three parameters to their handlers.
-void func_800AE414(FuncArg *parameters) {
+void townStartItemMenuObjectProcessing(FuncArg *parameters) {
     s32 firstParameter = parameters->field0;
     ((u16 *)parameters)[-1] |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    func_800B03B4(firstParameter);
-    func_800B0700(parameters->field4);
-    func_800B1DBC(parameters->field8);
+    townResetItemMenuObjectState(firstParameter);
+    townScheduleItemMenuChildRelease(parameters->field4);
+    townSetObjectDataPointer(parameters->field8);
     func_8004E130();
-    func_80093894();
+    townHandleSelectionAndCreateObject();
 }

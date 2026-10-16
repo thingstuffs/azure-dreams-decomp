@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 
-extern s16 func_80046C20(s16 *, s32 *, u16 *);
+extern s16 runtimeInitializePolygonEdges(s16 *, s32 *, u16 *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, void *);
 
@@ -176,7 +176,7 @@ void func_800AD138(u32 packet_limit)
     edge_count_addr = (s32)scratch;
     edge_count_addr |= 0x170;
     (*(s32 *)((u8 *)scratch + 0x0C)) =
-        func_80046C20(clip_vertices,
+        runtimeInitializePolygonEdges(clip_vertices,
                       (s32 *)edge_buffer,
                       (u16 *)edge_count_addr);
 

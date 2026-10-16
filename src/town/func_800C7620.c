@@ -35,7 +35,7 @@ extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 extern u16 D_800D5070[];
 
-extern void func_800C2E84(void *, s32, s32);
+extern void townInitializeObjectEntries(void *, s32, s32);
 
 /* trget_psn_ang_set: set the matching person's angle from the table and refresh its child state. */
 void trget_psn_ang_set(s8 object_slot, s8 angle_index)
@@ -67,7 +67,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
             child = object_data->unk_80;
             object_data->unk_6E = angle;
             object_data->unk_72 = angle;
-            func_800C2E84(object_data, entry->unk_0C,
+            townInitializeObjectEntries(object_data, entry->unk_0C,
                           child->unk_04);
         }
     }

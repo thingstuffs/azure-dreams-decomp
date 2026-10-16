@@ -9,7 +9,7 @@ extern s32 D_80080A7C;
 extern s32 DrawSync(s32 a0);
 
 /* Reserves bytes from the buffer's end, resetting its write pointer and waiting for the GPU on overlap. */
-s32 func_800405E8(s32 byte_count)
+s32 reserveGpuScratchTail(s32 byte_count)
 {
     s32 reserved_start;
     s32 remaining_size;

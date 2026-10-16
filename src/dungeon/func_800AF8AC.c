@@ -18,15 +18,15 @@ typedef struct {
 
 extern Slot D_800E3648[];
 extern Status D_800E39C8[];
-extern s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
-s32 func_800B500C(s16 x, s16 y, s16 z) {
+s32 dungeonFindEntryAtTileCoordinates(s16 x, s16 y, s16 z) {
     s32 rv;
     u16 flags;
     s32 i;
     s32 delta;
 
-    if ((func_8009A350(x - 1, y, 0, &flags) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(x - 1, y, 0, &flags) << 16) == 0) {
         rv = -1;
         return rv;
     }

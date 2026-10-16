@@ -30,7 +30,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     obj = func_8003FD64((s32)alloc_or_entry, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = func_80170BB8;
+        ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = dungeonCreateAnchoredDirectionalObject;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = 6;
         func_8004491C(obj, func_80045340);
 
@@ -111,7 +111,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_28 = field_value;
                         entry_mode = 0;
                         callback_obj = child_slot->unk_A4;
-                        callback_obj->unk_10 = func_800D78C0;
+                        callback_obj->unk_10 = dungeonProcessEffectBlockEntries;
                         setup_value = ((R06_8017087C_S_8017087C_7 *)entry)->unk_14;
                         setup_value |= 0xC;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_14 = setup_value;
@@ -120,7 +120,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_10 = 96;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_12 = ((R06_8017087C_S_8017087C_3 *)part_b)->unk_12 - 128;
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06 = child_index + 1;
-                        func_800478E8(part_b, ((u8 *)D_800D71A8), ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06);
+                        textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, ((u8 *)D_800D71A8), ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06);
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_98 = (u8 *)obj + 30;
                     } while (++entry_index < ((R06_8017087C_S_8017087C_6 *)child_work)->unk_02);
                 }

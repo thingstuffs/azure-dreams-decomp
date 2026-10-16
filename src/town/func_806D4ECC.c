@@ -7,7 +7,7 @@
 
 
 /* Return the callback result for the pair (5, 0x17) minus the stored value. */
-s32 func_806D4ECC(void) {
+s32 townSetSceneSubstateOffsets(void) {
     s8 queryPair[2];
 
     queryPair[1] = 0x17;

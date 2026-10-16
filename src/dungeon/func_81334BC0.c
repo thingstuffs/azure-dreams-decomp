@@ -9,15 +9,15 @@ typedef struct S_8016BBC0_0 {
     u8 unk_71;
     u8 pad_72[0x3C];
     u8 unk_AE;
-} S_8016BBC0_0;   /* base in func_8016BBC0 */
+} S_8016BBC0_0;   /* base in dungeonResolveActorMovementAction */
 
 extern s32 func_800A2BDC(void *);
 extern void func_800A9A0C(void *);
-extern s16 func_800ADDA0(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
-extern void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
+extern s16 dungeonRelinkEntityAndClearHighFlag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern void dungeonAdvanceActorMovementStep(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
 
 /* Update the actor's action delay, dispatch movement, and clear completed action flags. */
-s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, s32 force_move)
+s32 dungeonResolveActorMovementAction(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, s32 force_move)
 {
     void *actor = entity;
     s16 action_result;
@@ -27,13 +27,13 @@ s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, 
     delay = ((S_8016BBC0_0 *)actor)->unk_AE;
     action_result = 0;
     if (delay == 0) {
-        action_result = func_800ADDA0(action_ctx, position, actor, 3, 6,
+        action_result = dungeonRelinkEntityAndClearHighFlag(action_ctx, position, actor, 3, 6,
                                       (u8 *)actor + 0x9C);
         if ((s16)action_result < 0) {
             return 0;
         }
         if ((force_move << 16) != 0) {
-            func_8016B230(actor, action_ctx, position, actor);
+            dungeonAdvanceActorMovementStep(actor, action_ctx, position, actor);
             return 0;
         }
     } else {
@@ -47,7 +47,7 @@ s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, 
         func_800A9A0C(actor);
         return 0;
     case 2:
-        func_8016B230(entity, action_ctx, position, actor);
+        dungeonAdvanceActorMovementStep(entity, action_ctx, position, actor);
         return 0;
     case 1:
         ((S_8016BBC0_0 *)actor)->unk_71 &= 0x7F;

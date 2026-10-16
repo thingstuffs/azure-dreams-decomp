@@ -16,7 +16,7 @@ typedef struct S_8017142C_0 {
     s32 unk_6C;
     s32 unk_70;
     s32 unk_74;
-} S_8017142C_0;   /* arg0 in func_8017142C */
+} S_8017142C_0;   /* arg0 in dungeonUpdateGrowingCollidingEffect */
 
 typedef struct S_8017142C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -26,17 +26,17 @@ typedef struct S_8017142C_1 {
         struct { s16 v; } at00u;
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_08;   /* overlapping accesses */
-} S_8017142C_1;   /* arg1 in func_8017142C */
+} S_8017142C_1;   /* arg1 in dungeonUpdateGrowingCollidingEffect */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800478B8();
-extern s32 func_800A45D8();
+extern s32 dungeonCheckLeftTileAndCenterHeight();
 extern s16 func_800BCB04();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
-void func_8017142C(void *effect, void *position, void *sprite) {
+void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *sprite) {
     s32 move_height;
     s32 fade_height;
     s32 phase;
@@ -55,7 +55,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_00.at00.v += ((S_8017142C_0 *)effect)->unk_60;
         velocity_x = ((S_8017142C_0 *)effect)->unk_60;
         ((S_8017142C_0 *)effect)->unk_60 = (velocity_x * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((dungeonCheckLeftTileAndCenterHeight(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_00.at00.v -= ((S_8017142C_0 *)effect)->unk_60;
             ((S_8017142C_0 *)effect)->unk_60 = 0;
@@ -64,7 +64,7 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_04.at00.v += ((S_8017142C_0 *)effect)->unk_64;
         velocity_y = ((S_8017142C_0 *)effect)->unk_64;
         ((S_8017142C_0 *)effect)->unk_64 = (velocity_y * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((dungeonCheckLeftTileAndCenterHeight(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_04.at00.v -= ((S_8017142C_0 *)effect)->unk_64;
             ((S_8017142C_0 *)effect)->unk_64 = 0;

@@ -19,21 +19,21 @@ typedef struct S_8017360C_0 {
     u16 unk_9E;
     u8 pad_A0[0x2];
     u16 unk_A2;
-} S_8017360C_0;   /* arg0 in func_8017360C */
+} S_8017360C_0;   /* arg0 in dungeonAdvanceActorStateSequence */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_8009FD40(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 dungeonGetTileChebyshevDistance(void *, void *);
 extern s32 func_800A2C34(void *);
 extern s32 func_800A6D30();
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173E00(void *, void *, void *, void *);
 
@@ -46,7 +46,7 @@ extern u8 D_80174160[];
 
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
+void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity, EntityRec *actor)
 {
     s32 effect_entry;
     s32 next_state;
@@ -131,7 +131,7 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             }
 
             if ((actor->unk_64 != 0) &&
-                func_800AA6B4(action, context, entity, 0)) {
+                dungeonBeginReadyActorDirectionalAction(action, context, entity, 0)) {
                 return;
             }
 
@@ -139,7 +139,7 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
-                func_800AA79C(action, context, entity, actor);
+                dungeonAdvanceActorPendingAction(action, context, entity, actor);
                 return;
             }
 
@@ -149,7 +149,7 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
 
             actor_flags = actor->flags1C;
             if ((actor_flags & 0x100) != 0) {
-                func_800AA258(action, context, entity, actor);
+                dungeonBeginPushedActorMove(action, context, entity, actor);
                 return;
             }
 
@@ -176,7 +176,7 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             if ((s16)func_800A2C34(actor) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((s16)func_8009A180(actor,
+                if ((s16)dungeonCheckEntityRelation(actor,
                         (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
@@ -188,7 +188,7 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009FD40(room_base, entity) < 2) {
+                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)dungeonGetTileChebyshevDistance(room_base, entity) < 2) {
                     if ((func_800A6D30() & 7) == 0) {
                         func_80042B68(actor, 1);
                     }

@@ -4,7 +4,7 @@ extern s32 D_800835E8[100];
 extern s32 D_80083778[3];
 
 /* Build a cumulative cubic table with a quadratic correction after index 20, then store a fixed constant. */
-void func_80043674(void)
+void buildCubicCumulativeTable(void)
 {
     s32 cube_base;
     s32 bonus_base;

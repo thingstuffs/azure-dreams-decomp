@@ -25,7 +25,7 @@ extern TownGlobals D_town_flag_load_view __asm__("D_00000000");
 extern s32 func_80003DCC(void);
 
 /* Runs setup callbacks, chooses the mode-specific record list, and remaps fields until the terminator. */
-void func_80003DF0(s32 table_index, s32 mode) {
+void townRunSetupAndRemapModeRecords(s32 table_index, s32 mode) {
     void *entry_ptr;
     s32 sentinel;
     s32 i;

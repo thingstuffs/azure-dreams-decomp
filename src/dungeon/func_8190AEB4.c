@@ -8,18 +8,18 @@ typedef struct S_8190AEB4_0 {
     u8 pad_04[0x2C];
     union { void * s; u8 * u; } unk_30;   /* accessed as both */
     void * unk_34;
-} S_8190AEB4_0;   /* arg0 in func_800246B4 */
+} S_8190AEB4_0;   /* arg0 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
 
 typedef struct S_8190AEB4_1 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_8190AEB4_1;   /* arg2 in func_800246B4 */
+} S_8190AEB4_1;   /* arg2 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
 
 typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in func_800246B4 */
+} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
 
 
 
@@ -28,11 +28,11 @@ extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
 
-extern s32 func_80024590(s32);
+extern s32 dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(s32);
 extern void func_800672D8(Rect *, s32 *);
 
 /* Advances the object animation and draws rectangles in randomized order. */
-void func_800246B4(void *effect, s32 *position, void *transform)
+void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s32 *position, void *transform)
 {
     Rect rect;
     Rect draw_rect;
@@ -155,7 +155,7 @@ store_xy:
             shuffle_order = D_80025648;
             slot_2 = shuffle_order + entry;
             saved_entry = *slot_2;
-            order_index = func_80024590(0x30);
+            order_index = dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(0x30);
             *slot_2 = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -163,7 +163,7 @@ store_xy:
             shuffle_order = D_80025678;
             slot = shuffle_order + entry;
             saved_entry = *slot;
-            order_index = func_80024590(0x2C);
+            order_index = dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(0x2C);
             *slot = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }

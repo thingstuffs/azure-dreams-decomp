@@ -99,7 +99,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             return;
         }
         if (((R17_801738E0_S_801738E0_2 *)entity)->unk_64 != 0) {
-            if (func_800AA6B4(actor, motion, sprite, 0) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, motion, sprite, 0) != 0) {
                 return;
             }
         }
@@ -107,7 +107,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             if (global_state->flags & 0x2008) {
                 return;
             }
-            func_800AA79C(actor, motion, sprite, entity);
+            dungeonAdvanceActorPendingAction(actor, motion, sprite, entity);
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
@@ -115,7 +115,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         }
         entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C;
         if (entity_flags & 0x100) {
-            func_800AA258(actor, motion, sprite, entity);
+            dungeonBeginPushedActorMove(actor, motion, sprite, entity);
             return;
         }
         if (entity_flags & 0x80000) {
@@ -128,7 +128,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
-            if ((func_8009A180(
+            if ((dungeonCheckEntityRelation(
                      entity, (u8 *)D_800814A8->unk_58 + 0x20)
                  << 16) != 0) {
                 return;
@@ -141,7 +141,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             s8 coordinate = ((R17_801738E0_S_801738E0_1 *)sprite)->unk_26;
 
             if ((((coordinate == origin->unk_026) && (coordinate >= 0)) ||
-                 (((s16)func_8009FD40(origin, sprite)) < 2)) &&
+                 (((s16)dungeonGetTileChebyshevDistance(origin, sprite)) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
                 func_80042B68(entity, 1);
             }

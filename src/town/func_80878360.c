@@ -1,14 +1,14 @@
 #include "common.h"
 
-extern void func_80702670(s32);
-extern void func_807026C0(s32);
-extern s32 func_80702714(s32);
+extern void townShopSetIndexedFlag(s32);
+extern void townShopClearIndexedFlag(s32);
+extern s32 townShopTestIndexedFlag(s32);
 
 /* Update flag 0x24C based on flags 0x20C and 0x268. */
-void func_80702360(void) {
-    if ((func_80702714(0x20C) == 0) && (func_80702714(0x268) == 0)) {
-        func_80702670(0x24C);
+void townShopUpdateAvailabilityFlag(void) {
+    if ((townShopTestIndexedFlag(0x20C) == 0) && (townShopTestIndexedFlag(0x268) == 0)) {
+        townShopSetIndexedFlag(0x24C);
         return;
     }
-    func_807026C0(0x24C);
+    townShopClearIndexedFlag(0x24C);
 }

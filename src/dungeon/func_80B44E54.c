@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_80172654(void *action, void *motion, void *entity, void *actor) {
+void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity, void *actor) {
     s16 effect_offset[3];
     s32 dir_x;
     s32 dir_y;
@@ -26,7 +26,7 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
         if (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) {
             ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
             ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
             return;
         }
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = (-dir_x) << 17;
@@ -60,15 +60,15 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v |= 0x800;
             ((R12_80172654_S_80172654_0 *)action)->unk_96.s = 0x10;
-            if (func_8003DE58(((Rec_D_80082E80 *)entity)->unk_08, entity, effect_offset,(s16)(0)) == 0) {
+            if (resolveRecordOrientationOrFallback(((Rec_D_80082E80 *)entity)->unk_08, entity, effect_offset,(s16)(0)) == 0) {
                 effect_offset[2] = 0;
                 effect_offset[1] = 0;
                 effect_offset[0] = 0;
             }
             effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
             if (effect != NULL) {
-                func_8004491C(effect, ((u8 *)func_80173FDC));
-                ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)func_80173F38);
+                func_8004491C(effect, ((u8 *)dungeonBuildLinkedCurvedWireframeGrid));
+                ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dungeonDimEffectAfterDelay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = ((R12_80172654_S_80172654_4 *)motion)->unk_00.at02.v + effect_offset[0];
                 effect_data = (u8 *)effect + 0x20;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_02 = ((R12_80172654_S_80172654_4 *)motion)->unk_04.at02.v + effect_offset[1];
@@ -89,7 +89,7 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
         return;
     case 3:
         if ((s16)timer == 0xA) {
-            func_8009C12C(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
+            dungeonResolveAttackDamageAndEffects(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
             func_800A56E0(0x813);
         }
         if (((R12_80172654_S_80172654_0 *)action)->unk_96.u > 0)
@@ -121,11 +121,11 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
             ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
-            func_800A2B04(motion,(u8)(((Rec_D_80082E80 *)entity)->unk_24),(u8)(((Rec_D_80082E80 *)entity)->unk_25));
-            func_800AD594(actor, 0x100);
+            dungeonSetRecordIntegerTileCenter(motion,(u8)(((Rec_D_80082E80 *)entity)->unk_24),(u8)(((Rec_D_80082E80 *)entity)->unk_25));
+            dungeonReduceActorFoodMeter(actor, 0x100);
             ((R12_80172654_S_80172654_0 *)action)->unk_8C = ((void *)func_80170E70);
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             if (((R12_80172654_S_80172654_1 *)actor)->unk_6D == 0) {
                 ((R12_80172654_S_80172654_1 *)actor)->unk_46 &= 0x7FFF;
                 return;

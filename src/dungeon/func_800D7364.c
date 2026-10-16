@@ -7,10 +7,10 @@ typedef struct Entry {
     s32 fieldC;
 } Entry;
 
-extern void func_800DC628(void *object, s32 value);
+extern void dungeonSetObjectValueAndNegation(void *object, s32 value);
 
 /* Initialize nine entry links and values, set defaults, and apply the optional flag. */
-void func_800DCAC4(void *entry_data, s32 enable_flag) {
+void dungeonInitializeNineEntryLinks(void *entry_data, s32 enable_flag) {
     s32 entry_index;
     s32 record_offset;
 
@@ -40,7 +40,7 @@ void func_800DCAC4(void *entry_data, s32 enable_flag) {
     *(s16 *)(*(s8 **)((s8 *)entry_data + 8) + 0x60) = 0x800;
 
     if (enable_flag != 0) {
-        return func_800DC628(entry_data, 0x400);
+        return dungeonSetObjectValueAndNegation(entry_data, 0x400);
     }
-    func_800DC628(entry_data, 0);
+    dungeonSetObjectValueAndNegation(entry_data, 0);
 }

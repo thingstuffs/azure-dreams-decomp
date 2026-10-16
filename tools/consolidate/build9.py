@@ -12,6 +12,10 @@ from respell8 import respell
 from drive9e import fold as efold
 from tidy9 import tidy
 from t1 import edit as t1edit
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent
 T1_ROWS = ["slus/w_80053DF0", "slus/w_80053E20", "slus/w_80053E90", "slus/w_80054D64", "slus/w_800552C8", "slus/w_8005560C", "slus/w_800559B4"]
 T1_COMMENTS = {
@@ -86,7 +90,7 @@ if __name__ == "__main__":
     P = plan(); out = {}
     (LANE / "draft9").mkdir(exist_ok=True)
     for rid, st in sorted(P.items()):
-        src = (REPO / "src" / (rid + ".c")).read_text(errors="replace")
+        src = (layout_row_path(rid, REPO)).read_text(errors="replace")
         t, why = compose(rid, st, src)
         if t is None or t == src: out[rid] = {"stages": st, "refused": why or "unchanged"}; continue
         p = LANE / "draft9" / (rid + ".c"); p.parent.mkdir(parents=True, exist_ok=True); p.write_text(t)

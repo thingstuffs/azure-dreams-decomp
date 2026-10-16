@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 /* Converts directional input to an angle, optionally stepping from the current angle, and updates flags. */
-s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
+s32 dungeonResolvePlayerInputFacing(s16 direction_offset, u16 *flags, u16 *angle) {
     s32 current_angle;
     s16 result_angle;
     s32 direction_mask;

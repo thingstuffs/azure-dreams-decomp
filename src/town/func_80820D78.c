@@ -11,7 +11,7 @@ extern void func_800673A0(Rect *rect, s32 x, s32 width);
 extern u8 D_800244B8[][12];
 
 /* Draws a scrolling column of tiles, clipping at the top edge. */
-void func_80023578(s16 column, s16 tile_index, s16 scroll_y)
+void townDrawScrollingColumn(s16 column, s16 tile_index, s16 scroll_y)
 {
     Rect rect;
     s32 dest_x;

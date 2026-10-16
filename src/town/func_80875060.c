@@ -10,7 +10,7 @@ extern u8 D_80700BB4[];
 extern s32 *D_80701968[];
 
 /* Dispatch a callback based on the number of consecutive set flags in the list. */
-void func_80875060(void) {
+void townDispatchDevkitCallbackByRunLength(void) {
     TownCallbackTable callbacks;
     s16 *flag_ids;
     s16 *flag_cursor;

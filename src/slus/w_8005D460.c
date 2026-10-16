@@ -1,7 +1,7 @@
 #include "slus/sound_transfer_frontends.h"
 
 /* Starts or restarts channel playback and returns the playback parameter. */
-s32 func_8005D460(s32 channel, s32 playback_param)
+s32 submitDriverTransferWithFallback(s32 channel, s32 playback_param)
 {
     s32 saved_channel = channel;
     s32 saved_param = playback_param;

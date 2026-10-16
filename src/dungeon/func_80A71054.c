@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void *func_80170854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
+void *dungeonSpawnModeDependent112Object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
     void *obj;
@@ -21,7 +21,7 @@ void *func_80170854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((R07_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)func_80170A28);
+        ((R07_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)dungeonUpdateEntityFacingMotionAndGround);
         work->unk_13 = 0x7;
         func_8004491C(obj, func_80045340);
 

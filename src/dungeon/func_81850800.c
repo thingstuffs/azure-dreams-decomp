@@ -9,7 +9,7 @@ extern int abs(int);
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
-extern s32 func_800A4688();
+extern s32 dungeonCheckEnabledNeighborHeight();
 extern s32 func_800A56E0(s32);
 extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
@@ -188,11 +188,11 @@ typedef struct S_81850800_11 {
     s16 unk_4E;
 } S_81850800_11;
 
-void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
-void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = func_80024004;
+void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
+void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = decrementFlaggedItemParameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
+void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
 {
     s32 step_x;
     s32 step_y;
@@ -269,7 +269,7 @@ void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *spri
                 obj = (S_81850800_9 *)((u16)dx);
                 probe_y = (u16)facing_shift;
                 ground_height = func_800BCB04((s32)obj, probe_y, min_height);
-                if ((s16)func_800A4688((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                if ((s16)dungeonCheckEnabledNeighborHeight((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
                                        caster_data->unk_60) != 0) {
                     break;
                 }
@@ -359,7 +359,7 @@ void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *spri
         spawn_cb = &D_80083498;
         obj = func_8003FD64(0x112, spawn_cb);
         if (obj != 0) {
-            obj->unk_10 = func_800247DC;
+            obj->unk_10 = dungeonDelayAndFadeParticle;
             position = obj->unk_08;
             work = obj->unk_0C;
             copy_value = motion->unk_00.unk_00_s32;
@@ -401,7 +401,7 @@ void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *spri
                 motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
                 obj = func_8003FD64(0x112, spawn_cb);
                 if (obj != 0) {
-                    obj->unk_10 = func_800247DC;
+                    obj->unk_10 = dungeonDelayAndFadeParticle;
                     position = obj->unk_08;
                     work = obj->unk_0C;
                     copy_value = motion->unk_00.unk_00_s32;
@@ -433,7 +433,7 @@ void func_80024004(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *spri
                     effect_data.pointer->unk_48.unk_48_u16 = timer;
                 }
                 dx = 0x3C;
-                effect_flags = func_800247DC;
+                effect_flags = dungeonDelayAndFadeParticle;
                 particle_anim = (S_81850800_10 *)D_800DEC28;
                 do {
                     obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));

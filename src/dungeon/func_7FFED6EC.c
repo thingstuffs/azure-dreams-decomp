@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-void func_8008AE4C(s32 entry_index) {
+void townMoveResourceToFront(s32 entry_index) {
     ovl_d54c_7FFED6EC_DungeonEntry *entries;
     ovl_d54c_7FFED6EC_DungeonEntry *entry;
     DungeonCacheState *state;
@@ -16,9 +16,9 @@ void func_8008AE4C(s32 entry_index) {
     saved_field_1 = entry->field_1;
     saved_field_2 = entry->field_2;
     data_size = entry->field_4;
-    scratch_buffer = func_80040574(0x8000);
-    func_80069ED8(scratch_buffer, D_801131B8.field_2C + func_8008ACE8(entry_index), data_size);
-    func_8008AD90(entry_index, data_size);
+    scratch_buffer = allocGpuScratchRing(0x8000);
+    func_80069ED8(scratch_buffer, D_801131B8.field_2C + townSumResourceBytes(entry_index), data_size);
+    townShiftResourceEntriesAndData(entry_index, data_size);
     state = &D_801131B8;
     func_80069ED8(state->field_2C, scratch_buffer, data_size);
     D_800CF720[0].field_0 = saved_field_0;

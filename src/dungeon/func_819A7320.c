@@ -6,7 +6,7 @@ int abs(int);
 s32 func_80065420();
 M2C_UNK func_80066640();
 M2C_UNK func_800666F4();
-void func_800DBA90();
+void dungeonTransformRotatedVertices();
 typedef struct
 {
     u16 x;
@@ -86,7 +86,7 @@ s32 func_80024B20(void *node)
         dy = dy - ((s16) sxy[5].y);
         scratch.y = (u16) abs((s32) dy);
         prim.f0C = *((u16 *) (((s8 *) base) + 0xC8));
-        func_800DBA90(&prim, (s16) sxy[5].y);
+        dungeonTransformRotatedVertices(&prim, (s16) sxy[5].y);
         for (i = 0; i < 4; i++) {
             poly = *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0));
             *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);

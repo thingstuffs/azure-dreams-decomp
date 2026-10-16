@@ -5,7 +5,7 @@ extern s32 D_800A51CC;
 extern s32 D_800A5340;
 
 /* Initialize paired state values and install the two callbacks. */
-void func_800A5178(void *state) {
+void townInitializePairedStateCallbacks(void *state) {
     u16 initial_ac;
     u16 initial_ae;
 

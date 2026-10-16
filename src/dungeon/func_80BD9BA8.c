@@ -8,10 +8,10 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void func_80047738();
+extern void selectIndirectTableEntry();
 extern void func_800478B8();
-extern void func_800A020C();
-extern s32 func_800A9E70();
+extern void dungeonApplyMonsterKoyawData();
+extern s32 dungeonRefreshActorFacingAndLifecycle();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
 
@@ -32,10 +32,10 @@ typedef struct S_801593A8_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_801593A8_2;   /* base in func_801593A8 */
+} S_801593A8_2;   /* base in dungeonUpdateEntityMovementAnimationAndHeight */
 
 /* Updates entity callbacks, movement, animation, and terrain-relative height. */
-void func_801593A8(void *entity, EntityRec *motion, void *sprite)
+void dungeonUpdateEntityMovementAnimationAndHeight(void *entity, EntityRec *motion, void *sprite)
 {
     void *entity_base = entity;
     s16 old_state;
@@ -67,7 +67,7 @@ void func_801593A8(void *entity, EntityRec *motion, void *sprite)
 
     old_state_byte = (*(u8 *)((u8 *)entity + 0x6D));
     old_state = (s8)old_state_byte;
-    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -107,7 +107,7 @@ void func_801593A8(void *entity, EntityRec *motion, void *sprite)
     if (!(initial_sprite_flags & 0x8000)) {
         direction = ((gameWork.view.viewAngle + ((S_801593A8_2 *)entity_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction) {
-            func_80047738(sprite,
+            selectIndirectTableEntry(sprite,
                 *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),
                 ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
@@ -121,7 +121,7 @@ void func_801593A8(void *entity, EntityRec *motion, void *sprite)
             }
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = facing_flags;
         }
-        func_800A020C(((S_801593A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
+        dungeonApplyMonsterKoyawData(((S_801593A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
         if (!(((S_801593A8_2 *)entity_base)->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);

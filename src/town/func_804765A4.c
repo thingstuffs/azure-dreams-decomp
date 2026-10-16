@@ -5,6 +5,6 @@
 extern M2C_UNK D_80016A0C;
 
 /* Returns the address of D_80016A0C. */
-M2C_UNK *func_800175A4(void) {
+M2C_UNK *townGetDataPointer16A0C(void) {
     return &D_80016A0C;
 }

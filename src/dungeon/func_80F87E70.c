@@ -11,7 +11,7 @@ typedef struct S_80171670_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171670_0;   /* arg3 in func_80171670 */
+} S_80171670_0;   /* arg3 in dungeonAdvanceBankActorPath */
 
 typedef struct S_80171670_1 {
     u8 pad_00[0x24];
@@ -19,7 +19,7 @@ typedef struct S_80171670_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171670_1;   /* arg2 in func_80171670 */
+} S_80171670_1;   /* arg2 in dungeonAdvanceBankActorPath */
 
 typedef struct S_80171670_2 {
     u8 pad_00[0x96];
@@ -28,19 +28,19 @@ typedef struct S_80171670_2 {
     u8 unk_9A;
     u8 pad_9B[0x5];
     s16 unk_A0;
-} S_80171670_2;   /* arg0 in func_80171670 */
+} S_80171670_2;   /* arg0 in dungeonAdvanceBankActorPath */
 
 typedef struct S_80171670_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171670_3;   /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in func_80171670 */
+} S_80171670_3;   /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in dungeonAdvanceBankActorPath */
 
 
 
 /* Advance the entity along its stored path and update its movement state. */
-void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
+void dungeonAdvanceBankActorPath(void *motion, s32 unused, void *entity, void *path_state)
 {
     u8 *anim_table;
     s32 old_x;
@@ -88,7 +88,7 @@ void func_80171670(void *motion, s32 unused, void *entity, void *path_state)
     }
     func_8009A21C(new_x, new_y, cell_mask);
 
-    ((S_80171670_0 *)path_state)->unk_2A = (s16)func_800A0818(
+    ((S_80171670_0 *)path_state)->unk_2A = (s16)dungeonGetRoundedFacingAndRoundingFlag(
         old_x, old_y, ((S_80171670_1 *)entity)->unk_24, ((S_80171670_1 *)entity)->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171670_0 *)path_state)->unk_1C.u |= 0x40000000;

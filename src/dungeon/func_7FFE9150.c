@@ -20,7 +20,7 @@ extern Copy12 D_8010BF30;
 
 typedef struct S_7FFE9150_0_pre {
     u16 unk_00;
-} S_7FFE9150_0_pre;   /* the 0x2 bytes before arg0 in func_7FFE9150, addressed as arg0[-1] */
+} S_7FFE9150_0_pre;   /* the 0x2 bytes before arg0 in dungeonSpawnScatteredEmitterParticles, addressed as arg0[-1] */
 
 typedef struct S_7FFE9150_0 {
     u8 pad_00[0x16];
@@ -33,7 +33,7 @@ typedef struct S_7FFE9150_0 {
     u16 unk_3C;
     u16 unk_3E;
     u16 unk_40;
-} S_7FFE9150_0;   /* arg0 in func_7FFE9150 */
+} S_7FFE9150_0;   /* arg0 in dungeonSpawnScatteredEmitterParticles */
 
 typedef struct S_7FFE9150_1 {
     u8 pad_00[0x2];
@@ -42,24 +42,24 @@ typedef struct S_7FFE9150_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_7FFE9150_1;   /* arg1 in func_7FFE9150 */
+} S_7FFE9150_1;   /* arg1 in dungeonSpawnScatteredEmitterParticles */
 
 typedef struct S_7FFE9150_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE9150_2;   /* temp_a0 in func_7FFE9150 */
+} S_7FFE9150_2;   /* temp_a0 in dungeonSpawnScatteredEmitterParticles */
 
 typedef struct S_7FFE9150_3 {
     s32 unk_00;
     s32 unk_04;
-} S_7FFE9150_3;   /* temp_s0 in func_7FFE9150 */
+} S_7FFE9150_3;   /* temp_s0 in dungeonSpawnScatteredEmitterParticles */
 
 typedef struct S_7FFE9150_4 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x10];
     s16 unk_1C;
-} S_7FFE9150_4;   /* temp_v1 in func_7FFE9150 */
+} S_7FFE9150_4;   /* temp_v1 in dungeonSpawnScatteredEmitterParticles */
 
 typedef struct S_7FFE9150_5 {
     u8 pad_00[0x2];
@@ -68,10 +68,10 @@ typedef struct S_7FFE9150_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE9150_5;   /* ((S_7FFE9150_2 *)temp_a0)->unk_08 in func_7FFE9150 */
+} S_7FFE9150_5;   /* ((S_7FFE9150_2 *)temp_a0)->unk_08 in dungeonSpawnScatteredEmitterParticles */
 
 /* Update the emitter position, spawn scattered particles, and retire it when its lifetime expires. */
-void func_7FFE9150(void *emitter, void *position, M2C_UNK spawn_context) {
+void dungeonSpawnScatteredEmitterParticles(void *emitter, void *position, M2C_UNK spawn_context) {
     u16 age;
     u16 life_left;
     void *parent;

@@ -12,7 +12,7 @@ typedef struct {
 extern State D_80129728;
 
 /* Reset the controller fields and clear four shared state values. */
-void func_801248C0(void *controller) {
+void townResetCatalogScrollIndicators(void *controller) {
     State *state = &D_80129728;
 
     *((u8 *)controller + 0xC) = 1;

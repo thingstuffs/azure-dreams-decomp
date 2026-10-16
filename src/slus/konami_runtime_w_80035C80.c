@@ -19,7 +19,7 @@ struct Func80035C80Object {
 };
 
 extern void func_8003C24C(void);
-extern void func_80035ABC(void);
+extern void shrinkWindowExtentToTwo(void);
 
 /* Flag the referenced record and switch callbacks when the state byte changes. */
 void func_80035C80(Func80035C80Object *object) {
@@ -28,6 +28,6 @@ void func_80035C80(Func80035C80Object *object) {
         s16 record_offset = object->field4A;
         (record_base + record_offset)[0x50] = 1;
         func_8003C24C();
-        object->field68 = func_80035ABC;
+        object->field68 = shrinkWindowExtentToTwo;
     }
 }

@@ -1,31 +1,15 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
-
-typedef struct S_80173FF4_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80173FF4_0;   /* arg1 in func_80173FF4 */
-
-typedef struct S_80173FF4_1 {
-    u16 unk_00;
-    u8 pad_02[0x1A];
-    u16 unk_1C;
-} S_80173FF4_1;   /* arg0 in func_80173FF4; pointer addresses record offset 0x2 */
-
-
-M2C_UNK func_800478B8();                     /* extern */
+#include "modules/dungeon_ovl_7f511800_p04.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
-void func_80173FF4(void *record_data, S_80173FF4_0 *state, M2C_UNK update_arg) {
+void advanceRecordStateAndSetCompletionFlags(void *record_data, T_80173FF4_S_80173FF4_0 *state, s32 update_arg) {
     u16 remaining_count;
 
     state->unk_08 = (s32) (state->unk_08 + 0x10000);
     func_800478B8(update_arg);
-    remaining_count = ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C - 1;
-    ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;
+    remaining_count = ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C - 1;
+    ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
-        ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80173FF4_1 *)((u8 *)record_data
+        ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }

@@ -5,16 +5,16 @@
 typedef struct S_8009456C_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8009456C_0;   /* temp_a0 + temp_v0 in func_8009456C */
+} S_8009456C_0;   /* temp_a0 + temp_v0 in dungeonSetFamiliarFormationOffset */
 
 typedef struct S_8009456C_1 {
     u8 pad_00[0x45];
     s8 unk_45;
-} S_8009456C_1;   /* ((S_8009456C_0 *)(temp_a0 + temp_v0))->unk_AC in func_8009456C */
+} S_8009456C_1;   /* ((S_8009456C_0 *)(temp_a0 + temp_v0))->unk_AC in dungeonSetFamiliarFormationOffset */
 
 
 /* Set the byte at offset 0x45 in the object referenced by the selected entry. */
-void func_8009456C(s32 entry_index, s8 value) {
+void dungeonSetFamiliarFormationOffset(s32 entry_index, s8 value) {
     s32 entry_offset;
     s32 table_base;
 

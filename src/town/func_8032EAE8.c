@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8001922C(s32, s32);             /* extern */
+void townProcessLshopEntries(s32, s32);             /* extern */
 
-/* Calls func_8001922C with the supplied value and a zero second argument. */
-void func_800192E8(s32 value) {
-    func_8001922C(value, 0);
+/* Calls townProcessLshopEntries with the supplied value and a zero second argument. */
+void townProcessLshopValue(s32 value) {
+    townProcessLshopEntries(value, 0);
 }

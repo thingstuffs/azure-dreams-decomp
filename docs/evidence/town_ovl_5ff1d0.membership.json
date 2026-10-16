@@ -1,0 +1,36 @@
+{
+  "module": "town_admit_5ff1d0",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_5ff1d0.c",
+    "module_index": 39
+  },
+  "members": [
+    "town/func_8067F1D0",
+    "town/func_8067F230",
+    "town/func_8067F2C0",
+    "town/func_8067F320",
+    "town/func_8067F3B0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "review": "pending",
+  "reviewer": "pending",
+  "basis": [
+    "The complete original 4-row ledger cohort is preserved. 1 recovered routines fill all internal gaps exactly, giving 5 contiguous functions / 576 bytes.",
+    "Each recovered function has a complete return/delay-slot boundary, an identical register/control-flow exemplar with explicit symbol and field/literal bindings, and a strict linked raw baseline. No instruction masking or retail substitution is used.",
+    "One shared reconciled header and one 2.7.2-cdk-G0 recipe cover every member. No storage is owned by this code cohort. The historical object boundary is unobservable.",
+    "No native module entry is installed. Native storage ownership requires a separate, evidence-backed follow-up package."
+  ],
+  "owned_data": [],
+  "span": {
+    "foff": 6287824,
+    "end": 6288400,
+    "size": 576
+  },
+  "new_rows": [
+    "town/func_8067F320"
+  ],
+  "native_hold": "CD-loader extent audit contradicts treating out-of-image addresses as linear storage in this bank. Their resident/asset ownership remains unproved. Strict code-byte proofs remain valid.",
+  "scope": "row admissions and shared source contracts only"
+}

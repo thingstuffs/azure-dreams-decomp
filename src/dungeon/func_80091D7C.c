@@ -18,31 +18,31 @@ typedef struct S_800974DC_0 {
     u16 unk_A2;
     u8 pad_A4[0x5E];
     u8 unk_102;
-} S_800974DC_0;   /* arg0 in func_800974DC */
+} S_800974DC_0;   /* arg0 in dungeonUpdateAirborneActorMotion */
 
 
 typedef struct S_800974DC_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800974DC_4_pre;   /* the 0x14 bytes before temp_a2 in func_800974DC, addressed as temp_a2[-1] */
+} S_800974DC_4_pre;   /* the 0x14 bytes before temp_a2 in dungeonUpdateAirborneActorMotion, addressed as temp_a2[-1] */
 
 typedef struct S_800974DC_6 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800974DC_6;   /* ((S_800974DC_4_pre *)temp_a2)[-1].unk_00 in func_800974DC */
+} S_800974DC_6;   /* ((S_800974DC_4_pre *)temp_a2)[-1].unk_00 in dungeonUpdateAirborneActorMotion */
 
 
 void func_8003DB94();
-void func_80099F04(); /* extern */
-s32 func_8009C12C();
-void func_800A2B04(); /* extern */
-s32 func_800C77D0(); /* extern */
+void dungeonProcessUnflaggedLinkedEntries(); /* extern */
+s32 dungeonResolveAttackDamageAndEffects();
+void dungeonSetRecordIntegerTileCenter(); /* extern */
+s32 dungeonSelectNearbyTargetAndInitializeSlot(); /* extern */
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
 extern u8 D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
-void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
@@ -52,7 +52,7 @@ void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *act
     phase = ((S_800974DC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        func_800C77D0((u8 *)actor - 0x20, motion, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, motion, 8, 0x300);
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
         func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
@@ -74,7 +74,7 @@ void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *act
         if (((S_800974DC_0 *)action)->unk_96.u == 0) {
             if (((S_800974DC_0 *)action)->unk_102 == 0) {
                 actor->unk_20 = 1;
-                if (func_8009C12C(actor, sprite, actor->facing, 1) == 0) {
+                if (dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1) == 0) {
                     linked_object = actor->target;
                     if (linked_object != NULL) {
                         actor->target = NULL;
@@ -135,8 +135,8 @@ void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_80099F04(actor->unk_5C);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
         dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
         ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
         dungeonStatus.unk_0C = 0;

@@ -16,7 +16,7 @@ extern s32 D_800D0A1C[];
 extern u16 D_800D0A34[];
 extern u8 D_800F148C[];
 /* Initializes object and render state from indexed parameter tables. */
-void func_800A1F00(void *object, s32 unused, void *render_state)
+void townInitializeIndexedRenderState(void *object, s32 unused, void *render_state)
 {
     s16 *angle_entry;
     s32 *property_entry;

@@ -583,7 +583,7 @@ block_119:
         return;
     }
     previous_state = (s8) ((S_812A524C_4 *)entity)->unk_6D;
-    if (func_800A9E70(actor_in, motion_in, sprite, entity) == 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor_in, motion_in, sprite, entity) == 0) {
         update_actor = ((S_812A524C_3 *)actor_in)->unk_8C;
         if (update_actor != NULL) {
             update_actor(actor_in, motion_in, sprite, entity);
@@ -610,7 +610,7 @@ block_119:
         facing = ((s32) (gameWork.view.viewAngle + ((S_812A524C_4 *)entity)->unk_2A + 0x100) >> 9) & 7;
         sprite_facing = facing;
         if (((S_812A524C_3 *)actor_in)->unk_94 != sprite_facing) {
-            func_80047738(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing],
+            selectIndirectTableEntry(sprite, ((S_812A524C_38 *)sprite)->unk_2C.p[sprite_facing],
                 ((S_812A524C_38 *)sprite)->unk_04.s8);
             ((S_812A524C_3 *)actor_in)->unk_94 = facing;
         }
@@ -625,7 +625,7 @@ block_119:
         sprite_flags = ((S_812A524C_38 *)sprite)->unk_14.v;
         fixed_flags = sprite_flags & 0x8000;
         if (fixed_flags == 0) {
-            func_800A020C(((S_812A524C_4 *)entity)->unk_1C, sprite + 0xC);
+            dungeonApplyMonsterKoyawData(((S_812A524C_4 *)entity)->unk_1C, sprite + 0xC);
             if (!(((S_812A524C_4 *)entity)->unk_1C & 0x20)) {
                 if (!(((S_812A524C_38 *)sprite)->unk_14.n & 0x40)) {
                     func_800478B8(sprite);

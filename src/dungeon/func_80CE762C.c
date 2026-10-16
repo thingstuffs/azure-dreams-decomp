@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Advance the RGB fade toward black and set completion flags when it ends. */
-void func_80170E2C(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output)
+void dungeonUpdateSavedRgbFade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output)
 {
     s16 remaining;
 

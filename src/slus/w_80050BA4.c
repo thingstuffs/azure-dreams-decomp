@@ -29,7 +29,7 @@ S_80050BA4_sub;
 extern s32 func_80050AF0(void *a0, s32 a1);
 extern void *func_80050B7C(void *a0);
 extern void func_80050A00(void *a0, void *a1);
-extern void *func_8004FDE0(void *a0);
+extern void *createAnimatedSelectionMenu(void *a0);
 extern void func_8004E130(void);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004B248(u16 **a0);
@@ -63,7 +63,7 @@ void *func_80050BA4(s32 context)
             state->field_0x64 = func_80050B7C(state->field_0x68);
             func_80050A00(state, (void *) context);
             object->field_0x10 = (void *) func_80050694;
-            resource = func_8004FDE0((void *) 2);
+            resource = createAnimatedSelectionMenu((void *) 2);
             state->field_0x28 = resource;
             if (resource != 0) {
                 func_8004E130();

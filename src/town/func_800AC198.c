@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80033B2C();
+s32 testResidentBitmapBit();
 /* Returns the selected query result, testing for zero for check type 3. */
 s32 func_800A98F8(s32 check_type)
 {
@@ -19,11 +19,11 @@ s32 func_800A98F8(s32 check_type)
     }
     goto tail;
 case_0:
-    return func_80033B2C(0x11FA);
+    return testResidentBitmapBit(0x11FA);
 case_2:
-    return func_80033B2C(0x11FB);
+    return testResidentBitmapBit(0x11FB);
 case_3:
-    return func_80033B2C(0x4FA) == 0;
+    return testResidentBitmapBit(0x4FA) == 0;
 tail:
     return 0;
 }

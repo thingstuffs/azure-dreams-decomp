@@ -25,12 +25,12 @@ typedef struct S_7FFEB1CC_0 {
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEB1CC_0;   /* arg0 in func_7FFEB1CC */
+} S_7FFEB1CC_0;   /* arg0 in dungeonSpawnAlternatingTickEffects */
 
 typedef struct S_7FFEB1CC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_7FFEB1CC_1;   /* primitive in func_7FFEB1CC */
+} S_7FFEB1CC_1;   /* primitive in dungeonSpawnAlternatingTickEffects */
 
 typedef struct S_7FFEB1CC_2 {
     u8 pad_00[0x6];
@@ -41,15 +41,15 @@ typedef struct S_7FFEB1CC_2 {
     u8 pad_12[0xA];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFEB1CC_2;   /* part in func_7FFEB1CC */
+} S_7FFEB1CC_2;   /* part in dungeonSpawnAlternatingTickEffects */
 
 typedef struct S_7FFEB1CC_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEB1CC_3;   /* ((S_7FFEB1CC_0 *)arg0)->unk_00 in func_7FFEB1CC */
+} S_7FFEB1CC_3;   /* ((S_7FFEB1CC_0 *)arg0)->unk_00 in dungeonSpawnAlternatingTickEffects */
 
 /* Spawn effects on alternating early ticks and expire the source when its lifetime ends. */
-void func_7FFEB1CC(void *effect, s32 init_param_1, s32 init_param_2) {
+void dungeonSpawnAlternatingTickEffects(void *effect, s32 init_param_1, s32 init_param_2) {
     s16 age;
     u16 remaining_life;
     void *spawned_effect;

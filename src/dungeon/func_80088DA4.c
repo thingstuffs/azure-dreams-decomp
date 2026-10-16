@@ -13,12 +13,12 @@ typedef struct S_8008E504_0 {
     u16 unk_A2;
     u8 pad_A4[0x80];
     void * unk_124;
-} S_8008E504_0;   /* arg0 in func_8008E504 */
+} S_8008E504_0;   /* arg0 in dungeonUpdatePlayerLandingRecovery */
 
 typedef struct S_8008E504_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8008E504_1;   /* arg1 in func_8008E504 */
+} S_8008E504_1;   /* arg1 in dungeonUpdatePlayerLandingRecovery */
 
 typedef struct S_8008E504_2 {
     u8 pad_00[0x1C];
@@ -28,19 +28,19 @@ typedef struct S_8008E504_2 {
     u8 pad_2C[0x5C];
     s16 unk_88;
     s16 unk_8A;
-} S_8008E504_2;   /* arg3 in func_8008E504 */
+} S_8008E504_2;   /* arg3 in dungeonUpdatePlayerLandingRecovery */
 
 typedef struct S_8008E504_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008E504_3;   /* temp_a0 in func_8008E504 */
+} S_8008E504_3;   /* temp_a0 in dungeonUpdatePlayerLandingRecovery */
 
 typedef struct S_8008E504_4 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_8008E504_4;   /* arg2 in func_8008E504 */
+} S_8008E504_4;   /* arg2 in dungeonUpdatePlayerLandingRecovery */
 
 
 extern s32 D_80081484;
@@ -50,10 +50,10 @@ extern u8 D_800DD058[];
 
 extern void func_800419EC(s32, s32);
 extern void func_80048A44(void *, u8, s32, s32);
-extern s32 func_80094EA4(void);
+extern s32 dungeonHasActionInputWithoutModifier(void);
 
 /* Advances an actor's timed animation state and selects its next behavior. */
-void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
+void dungeonUpdatePlayerLandingRecovery(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
     u16 state_or_ticks;
     u16 sprite_flags;
     s32 state;
@@ -109,8 +109,8 @@ void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *spri
         }
         sprite_flags = sprite->unk_14;
         sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
-        if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
-            actor->unk_8C =func_8008ACDC;
+        if ((sprite_flags & 0xE000) != 0 || ((dungeonHasActionInputWithoutModifier() << 0x10) != 0)) {
+            actor->unk_8C =dungeonHandlePlayerInput;
         }
         return;
     }

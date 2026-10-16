@@ -24,8 +24,8 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void func_8009C120(TownObject *object, void *owner, void *context, void *extra_ptr);
-extern void func_8009C148(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void townInitializeTargetMotionState(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void townInitializeTargetMotion(TownObject *object, void *owner, void *context, void *extra_ptr);
 
 extern s32 D_800834B8;
 extern u8 D_80091F64[];
@@ -42,16 +42,16 @@ extern s32 D_800CFDD8[];
 typedef struct S_8009B2C4_0 {
     u8 pad_00[0x3A];
     u8 unk_3A;
-} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in func_8009B2C4 */
+} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in townDispatchActiveTownObjectScript */
 
 typedef struct S_8009B2C4_1 {
     u8 pad_00[0x3A];
     u8 unk_3A;
-} S_8009B2C4_1;   /* entry in func_8009B2C4 */
+} S_8009B2C4_1;   /* entry in townDispatchActiveTownObjectScript */
 
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *extra_ptr) {
+s32 townDispatchActiveTownObjectScript(TownObject *object, void *owner, void *context, void *extra_ptr) {
     TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
@@ -71,12 +71,12 @@ s32 func_8009B2C4(TownObject *object, void *owner, void *context, void *extra_pt
                 }
             }
             if (D_800834B8 == (s32)&D_80092698) {
-                func_8009C120(object, owner, context, extra_ptr);
+                townInitializeTargetMotionState(object, owner, context, extra_ptr);
                 return 1;
             }
             if (D_800834B8 == (s32)&D_800927EC) {
                 if (D_800CFCCC == 0) {
-                    func_8009C148(object, owner, context, extra_ptr);
+                    townInitializeTargetMotion(object, owner, context, extra_ptr);
                     return 1;
                 }
             }

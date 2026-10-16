@@ -17,25 +17,25 @@ extern u8 D_80088CA8[];
 
 extern s32 func_80042A80(Object *item);
 extern s32 func_80099194(u8 *src, u8 *dst);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099368(void *data, s32 buffer);
-extern void func_800A90E8(void *selection);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendTypedFormattedValue(void *data, s32 buffer);
+extern void clearSelectedItemFlag400(void *selection);
 
 /* Processes an eligible object in two stages and returns the resulting value. */
-s32 func_8009965C(Object *object, s32 input_value) {
+s32 dungeonProcessEligibleObjectValue(Object *object, s32 input_value) {
     s32 result = input_value;
 
     if (!(((u32)D_800E3D7C->flags1C) & 0x10)) {
         if ((object->flags & 0x80) || func_80042A80(object)) {
             result = func_80099194(
                 D_800E18C0,
-                func_80099368(object, func_8009929C(10, result)));
+                dungeonAppendTypedFormattedValue(object, dungeonWriteTextByteAndAdvance(10, result)));
             object->flags &= 0x7F;
-            func_800A90E8(object);
+            clearSelectedItemFlag400(object);
             result = func_80099194(
                 D_80088CA8,
-                func_80099368(object, result));
-            func_800A90E8(object);
+                dungeonAppendTypedFormattedValue(object, result));
+            clearSelectedItemFlag400(object);
         }
     }
 

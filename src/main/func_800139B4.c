@@ -6,7 +6,7 @@ extern s32 D_8002806C[];
 extern s32 D_80028074[];
 
 /* Updates two selected records and writes their table values to paired destinations. */
-void func_800269B4(u8 *state)
+void cardBootRefreshPairedChoiceLabels(u8 *state)
 {
     s32 slot;
     u8 *id_table;

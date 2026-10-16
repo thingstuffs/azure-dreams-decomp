@@ -28,14 +28,14 @@ typedef struct S_80172834_3 {
 } S_80172834_3;   /* record in func_80172834 */
 
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800DA840(u16 *, s32);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
+extern void dungeonCreateTwoRowObjectGroup(u16 *, s32);
 
 extern u8 D_80171058[];
 extern u8 D_80174888[];
@@ -112,7 +112,7 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
                 }
             } else {
                 actor->target =
-                    func_800A05A4(actor,
+                    dungeonScanMonsterAlongHeading(actor,
                                   ((Rec_D_80082E80 *)sprite)->unk_24,
                                   ((Rec_D_80082E80 *)sprite)->unk_25,
                                   actor->facing, 0x10);
@@ -127,12 +127,12 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
             position[2] = ((u16)motion->z.w.i);
-            if (func_800A94A0(actor, action_data, is_special,
+            if (dungeonCreateActorSpellEffect(actor, action_data, is_special,
                               (u16 *)((u8 *)action_state + 0x98)) == 0) {
                 return;
             }
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-            func_800DA840(position, (s16)(((s32)*action_data - 1) % 3));
+            dungeonCreateTwoRowObjectGroup(position, (s16)(((s32)*action_data - 1) % 3));
             func_800A56E0(0x703);
             ((S_80172834_0 *)action_state)->unk_9B++;
             return;
@@ -141,10 +141,10 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         (*(u8 *)&actor->unk_6D)--;
         ((S_80172834_0 *)action_state)->unk_8C = D_80171058;
         actor->unk_73 = 0;
@@ -153,7 +153,7 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             return;
         }
@@ -173,7 +173,7 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174888) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174888;
             func_80047784(
@@ -190,7 +190,7 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172834_0 *)action_state)->unk_8C = D_80171058;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D > 0) {
             (*(u8 *)&actor->unk_6D)--;
         }

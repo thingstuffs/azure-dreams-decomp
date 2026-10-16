@@ -32,7 +32,7 @@ extern s32 rand();
 
 
 /* Initializes, animates, and retires a jittering five-point effect. */
-void func_80024C40(Entity *entity)
+void dungeonAnimateJitteringFivePointEffect(Entity *entity)
 {
     s32 point_index;
     s16 state;
@@ -50,7 +50,7 @@ void func_80024C40(Entity *entity)
         {
             void *entity_base;
             entity_base = (u8 *)entity - 0x20;
-            func_8004491C(entity_base, (s32)func_800249BC);
+            func_8004491C(entity_base, (s32)dungeonProjectLinkedShapeQuads);
         }
         entity->value34 = 0x00C0C0C0;
         entity->field40 = func_80066460(0, 1, 0x2C0, 0x100);

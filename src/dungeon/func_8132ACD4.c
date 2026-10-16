@@ -12,7 +12,7 @@ extern s32 D_801723D0;
 extern Blob12 D_80174AC8;
 
 /* Creates and initializes an effect offset from the current object's position. */
-void func_801724D4(void) {
+void dungeonCreateBossOffsetEffect(void) {
     s32 *source_pos;
     u8 *effect;
     u8 *sprite;

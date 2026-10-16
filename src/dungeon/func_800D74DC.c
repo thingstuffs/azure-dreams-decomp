@@ -17,7 +17,7 @@ extern Template0 D_8002E5D8;
 extern Vec3 D_8002E5E8;
 
 /* Initialize nine records and vectors from templates, setting each record's last byte to 4. */
-void func_800DCC3C(u8 *object) {
+void dungeonInitializeNineRecordsAndVectors(u8 *object) {
     s32 i;
 
     for (i = 0; i < 9; i++) {

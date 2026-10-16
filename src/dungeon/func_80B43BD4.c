@@ -34,13 +34,13 @@ void func_801713D4(void *controller, void *context, void *entity, void *path_sta
     }
     func_8009A3D0(x, y, move_flags);
 
-    direction = ((s16)func_800A0818(
+    direction = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
         x,
         y,
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74,
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)controller + 0x98));
-    move_result = ((s16)func_8009A66C(direction, entity, state, 0x20));
+    move_result = ((s16)dungeonCheckMovementClearanceAndHeight(direction, entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((R12_801713D4_S_8017139C_3 *)((u8 *)state + ((R12_801713D4_S_8017139C_0 *)state)->unk_8A.s))->unk_74;
@@ -62,7 +62,7 @@ void func_801713D4(void *controller, void *context, void *entity, void *path_sta
     ((R12_801713D4_S_8017139C_0 *)state)->unk_2A = direction;
     if (move_result == 3) {
         if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
-            func_80171D74(controller, context, entity, state);
+            advanceLinkedActorMotionScript(controller, context, entity, state);
         } else {
             ((R12_801713D4_S_8017139C_2 *)controller)->unk_9A = 0xF;
         }

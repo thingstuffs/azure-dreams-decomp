@@ -5,11 +5,11 @@
 #define M2C_BREAK() M2C_ERROR(0)
 #define M2C_SYNC() M2C_ERROR(0)
 
-void func_80033AA8();
-void func_80033AE8();
+void setResidentBitmapBit();
+void clearResidentBitmapBit();
 M2C_UNK Control_CD();
-M2C_UNK func_8003F320();
-void func_800B7934();
+M2C_UNK drainCdCommandQueue();
+void townApplyBuildingTileEntry();
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
@@ -45,8 +45,8 @@ void func_800B98B4(void) {
 
     Control_CD(6, &D_800D1BF4, 0);
     slot_index = 0;
-    func_8003F320();
-    func_80033AE8(0x12C3);
+    drainCdCommandQueue();
+    clearResidentBitmapBit(0x12C3);
     entry_table = D_800D2644;
     slot_data = D_800D2EA4;
     state_base = (S_800B98B4_3 *)0x80010000;
@@ -55,12 +55,12 @@ void func_800B98B4(void) {
         if (entry_id != 0) {
             entry = (void *)((u32)(entry_id << 5) + (u32)entry_table);
             if (entry->unk_01 != 0) {
-                func_800B7934(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
+                townApplyBuildingTileEntry(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
             }
             reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
                 + (u32)entry_table);
             if (reloaded_entry->unk_00 == 1) {
-                func_80033AA8(0x12C3);
+                setResidentBitmapBit(0x12C3);
             }
         }
         slot_data += 8;

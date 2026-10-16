@@ -2,13 +2,13 @@
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 
-extern void func_80099FDC(void *);
-extern void func_8009FAC4(void);
+extern void dungeonClearEntryFlagAndLinkOwner(void *);
+extern void dungeonSetMonsterDataPointer(void);
 extern void func_800A48F0(void *, s32, s32);
 
 extern u8 *D_80175D50[3];
 
-void func_8016F144(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
+void dungeonPrepareMultiFormActorTransition(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s32 i;
     u8 *p;
     void *item;
@@ -21,7 +21,7 @@ void func_8016F144(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     p = D_80175D50[0] + 0x20;
     *(u16 *)(p + 0x46) &= 0x7FFF;
     D_80013714 &= 0xFFF6;
-    func_8009FAC4();
+    dungeonSetMonsterDataPointer();
     p[0xAF] = 0;
     p[0xB0] = 1;
     func_800A48F0(p, 7, 1);
@@ -29,7 +29,7 @@ void func_8016F144(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     do {
         item = *(void **)(((u8 *)D_800E3D7C) + 0xAC + i * 4);
         if (item != 0) {
-            func_80099FDC((u8 *)item - 0x20);
+            dungeonClearEntryFlagAndLinkOwner((u8 *)item - 0x20);
         }
         i++;
     } while (i < 2);

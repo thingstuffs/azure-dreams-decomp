@@ -8,17 +8,17 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 func_80098864();
-extern s32 func_8008D344();
+extern s32 dungeonProcessRecordAndUpdateLinkedState();
+extern s32 dungeonBeginModeSelectedItemAction();
 extern s32 func_800A6480();
-extern s32 func_800AD6FC();
+extern s32 dungeonApplyActorFoodPreference();
 extern s32 func_800A5F38();
-extern s32 func_8009BF7C();
+extern s32 dungeonCreateType212Object();
 extern s32 func_800A56E0();
-extern s32 func_8009D6F4();
-extern s32 func_800403BC();
+extern s32 dungeonRefreshPackedGridNibbles();
+extern s32 markActiveNodesByCallback();
 extern s32 func_800997FC();
-extern s32 func_80098B38();
+extern s32 dungeonClearSlotAndUpdateLinkedState();
 
 extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
@@ -32,7 +32,7 @@ extern u8 D_800CE028[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
-s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
+s32 dungeonFlattenFloorTerrain(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     s32 *dungeon_state = ((s32 *)(&gameWork));
     u8 *grid_info;
     s32 grid_base;
@@ -53,21 +53,21 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     grid_base = dungeon_state[119];
     effect_code = effect_id;
     if (effect_code == 13) {
-        return func_80098864(effect_arg, context);
+        return dungeonProcessRecordAndUpdateLinkedState(effect_arg, context);
     }
     if (target == D_800E3D7C) {
         S32(target, 0x110) = effect_arg;
-        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         func_800A6480(target, effect_arg, effect_code);
-        if (func_800AD6FC(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+        if (dungeonApplyActorFoodPreference(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
             func_800A5F38(target, effect_arg);
             return 1;
         }
     } else if (D_800E296C & 0x20000000) {
-        func_8009BF7C(1, 8);
+        dungeonCreateType212Object(1, 8);
         func_800A56E0(0x80F);
         entity = D_800E3D7C;
         first_entity = entity;
@@ -107,14 +107,14 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
             } while (x < 0x3F);
             y += 1;
         } while (y < 0x3F);
-        func_8009D6F4();
+        dungeonRefreshPackedGridNibbles();
         clear_mask = 0x3FF7FFFF;
         D_800E296C = D_800E296C & clear_mask;
-        func_800403BC(D_800CE028);
+        markActiveNodesByCallback(D_800CE028);
     } else {
         func_800997FC(&D_800E1863, context, effect_code);
     }
     dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-    func_80098B38(effect_arg);
+    dungeonClearSlotAndUpdateLinkedState(effect_arg);
     return 1;
 }

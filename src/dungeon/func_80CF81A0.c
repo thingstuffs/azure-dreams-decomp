@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d16bc4_p02.h"
 
 /* Updates the direction table and selected entry for entity kinds 13 through 15. */
-void func_801699A0(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
+void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
 {
     Obj2 *sprite = sprite_arg;
     Obj3 *entity = entity_arg;
@@ -58,7 +58,7 @@ void func_801699A0(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_ar
         break;
     }
     if (func_800AC82C(owner, context, sprite, entity) != 0) {
-        if ((func_800AD9B4(sprite, entity) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, entity) << 16) > 0) {
             owner->field8c = func_801664BC;
         }
         return;

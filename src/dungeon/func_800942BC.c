@@ -8,7 +8,7 @@ typedef struct S_80099A1C_0 {
     u16 unk_B8;
     u8 pad_BA[0x6];
     s32 unk_C0;
-} S_80099A1C_0;   /* scratch in func_80099A1C */
+} S_80099A1C_0;   /* scratch in dungeonApplyScratchParametersToChain */
 
 typedef struct S_80099A1C_1 {
     u8 pad_00[0x2];
@@ -17,38 +17,38 @@ typedef struct S_80099A1C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80099A1C_1;   /* arg1 in func_80099A1C */
+} S_80099A1C_1;   /* arg1 in dungeonApplyScratchParametersToChain */
 
 typedef struct S_80099A1C_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80099A1C_2;   /* arg2 in func_80099A1C */
+} S_80099A1C_2;   /* arg2 in dungeonApplyScratchParametersToChain */
 
 typedef struct S_80099A1C_3_pre {
     void * unk_00;
     u8 pad_04[0x4];
-} S_80099A1C_3_pre;   /* the 0x8 bytes before arg0 in func_80099A1C, addressed as arg0[-1] */
+} S_80099A1C_3_pre;   /* the 0x8 bytes before arg0 in dungeonApplyScratchParametersToChain, addressed as arg0[-1] */
 
 typedef struct S_80099A1C_3 {
     u16 unk_00;
     u8 pad_02[0x6];
     s32 unk_08;
     s16 unk_0C;
-} S_80099A1C_3;   /* arg0 in func_80099A1C */
+} S_80099A1C_3;   /* arg0 in dungeonApplyScratchParametersToChain */
 
 typedef struct S_80099A1C_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80099A1C_4;   /* next in func_80099A1C */
+} S_80099A1C_4;   /* next in dungeonApplyScratchParametersToChain */
 
 
 extern s32 func_800644B8(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800C96E8(void *, void *);
+extern void dungeonQueueVisibleRectangleCopy(void *, void *);
 
 /* Build scratch parameters and apply them to each object in a linked chain. */
-s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_data)
+s32 dungeonApplyScratchParametersToChain(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_data)
 {
     u8 *scratch;
     void *next_node;
@@ -84,7 +84,7 @@ s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_dat
                 (((S_80099A1C_3 *)object)->unk_08 << 7)) *
              (((S_80099A1C_3 *)object)->unk_08 >> 2)) >> 9;
 
-        func_800C96E8(object, scratch);
+        dungeonQueueVisibleRectangleCopy(object, scratch);
 
         next_node = ((S_80099A1C_3_pre *)object)[-1].unk_00;
         object = (u8 *)next_node + 0x20;

@@ -11,7 +11,7 @@ typedef struct S_801738B8_0 {
     u8 pad_98[0x2];
     u8 unk_9A;
     u8 unk_9B;
-} S_801738B8_0;   /* object in func_801738B8 */
+} S_801738B8_0;   /* object in dungeonResetActorAfterTimedMovement */
 
 typedef struct S_801738B8_1 {
     u8 pad_00[0x28];
@@ -20,7 +20,7 @@ typedef struct S_801738B8_1 {
     s16 unk_2A;
     u8 pad_2C[0x3E];
     u16 unk_6A;
-} S_801738B8_1;   /* room in func_801738B8 */
+} S_801738B8_1;   /* room in dungeonResetActorAfterTimedMovement */
 
 typedef struct S_801738B8_2 {
     u8 pad_00[0x14];
@@ -30,7 +30,7 @@ typedef struct S_801738B8_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801738B8_2;   /* actor in func_801738B8 */
+} S_801738B8_2;   /* actor in dungeonResetActorAfterTimedMovement */
 
 typedef struct S_801738B8_3 {
     u8 pad_00[0x2];
@@ -41,13 +41,13 @@ typedef struct S_801738B8_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801738B8_3;   /* motion in func_801738B8 */
+} S_801738B8_3;   /* motion in dungeonResetActorAfterTimedMovement */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
@@ -55,7 +55,7 @@ extern u8 D_80175564[];
 extern u8 D_8017558C[];
 
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
-void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
+void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
 {
     void *object = object_arg;
     void *motion = motion_arg;
@@ -67,14 +67,14 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
 
     switch (((S_801738B8_0 *)object)->unk_9B) {
     case 0:
-        func_800AD4D0(room);
+        dungeonApplyClampedActorValueDelta(room);
         ((S_801738B8_0 *)object)->unk_96.s = 4;
         ((S_801738B8_0 *)object)->unk_9B++;
         if (((S_801738B8_1 *)room)->unk_28 == 0) {
             ((S_801738B8_3 *)motion)->unk_14 = 0;
             ((S_801738B8_3 *)motion)->unk_10 = 0;
             ((S_801738B8_3 *)motion)->unk_0C = 0;
-            func_800AAA54(object, motion, actor, D_8017558C);
+            dungeonBeginActorDisplayAction(object, motion, actor, D_8017558C);
             return;
         }
         if (!(((S_801738B8_2 *)actor)->unk_14 & 0x8000)) {
@@ -114,7 +114,7 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
             ((S_801738B8_3 *)motion)->unk_14 = 0;
             ((S_801738B8_3 *)motion)->unk_10 = 0;
             ((S_801738B8_3 *)motion)->unk_0C = 0;
-            func_800AAA54(object, motion, actor, D_8017558C);
+            dungeonBeginActorDisplayAction(object, motion, actor, D_8017558C);
             return;
         }
 
@@ -151,7 +151,7 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
         ((S_801738B8_3 *)motion)->unk_14 = 0;
         ((S_801738B8_3 *)motion)->unk_10 = 0;
         ((S_801738B8_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion, ((S_801738B8_2 *)actor)->unk_24, ((S_801738B8_2 *)actor)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((S_801738B8_2 *)actor)->unk_24, ((S_801738B8_2 *)actor)->unk_25);
         if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
             func_80047784(actor,

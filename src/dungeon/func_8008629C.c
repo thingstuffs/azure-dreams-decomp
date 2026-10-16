@@ -17,23 +17,23 @@ typedef struct S_8008B9FC_1 {
     u8 unk_9B;
     u8 pad_9C[0x6];
     u16 unk_A2;
-} S_8008B9FC_1;   /* arg0 in func_8008B9FC */
+} S_8008B9FC_1;   /* arg0 in dungeonTryMovePlayer */
 
 
 typedef struct S_8008B9FC_5 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008B9FC_5;   /* callback_obj in func_8008B9FC */
+} S_8008B9FC_5;   /* callback_obj in dungeonTryMovePlayer */
 
 typedef struct S_8008B9FC_6 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008B9FC_6;   /* callback_obj_f0 in func_8008B9FC */
+} S_8008B9FC_6;   /* callback_obj_f0 in dungeonTryMovePlayer */
 
 typedef struct S_8008B9FC_7_pre {
     s16 unk_00;
     u8 pad_02[0x23A];
-} S_8008B9FC_7_pre;   /* the 0x23C bytes before D_80083464 in func_8008B9FC, addressed as D_80083464[-1] */
+} S_8008B9FC_7_pre;   /* the 0x23C bytes before D_80083464 in dungeonTryMovePlayer, addressed as D_80083464[-1] */
 
 
 extern u16 D_80083460[];
@@ -47,20 +47,20 @@ extern u8 D_800DD0D0[];
 extern u8 D_800E3544[];
 
 extern void func_80048A44();
-extern void func_8008CD4C();
-extern void func_8008E264();
-extern void func_80094ED4();
-extern void func_80099F04();
-extern void func_80099F70();
+extern void dungeonBeginPlayerPush();
+extern void dungeonUpdatePlayerHeightStep();
+extern void dungeonCheckTileEntryAtAdjustedHeight();
+extern void dungeonProcessUnflaggedLinkedEntries();
+extern void dungeonProcessUnflaggedLinkedEntriesAlt();
 extern void func_8009A21C();
 extern void func_8009A3D0();
-extern s16 func_8009ABA0();
-extern void func_8009F644();
+extern s16 dungeonClassifyAdjacentTileHeight();
+extern void dungeonAppendPackedActionRecord();
 extern s32 func_800A5C70();
 extern void func_800A67F4();
 
 /* Update movement state, position, and animation from the movement result. */
-void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void dungeonTryMovePlayer(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     GameWork *dungeon_state = &gameWork;
     u8 *alt_anim;
     u16 *flags;
@@ -72,7 +72,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
     s32 actor_flags;
     u16 blocked_ticks;
 
-    move_result = func_8009ABA0(actor->facing, actor_id, sprite,
+    move_result = dungeonClassifyAdjacentTileHeight(actor->facing, actor_id, sprite,
                                 actor->unk_88, 0x20);
     if (move_result > 0) {
         move_state->unk_9B = 0;
@@ -110,8 +110,8 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
 
         check_flags = D_80083460;
         if ((check_flags[1] & 0x80) || (move_result == 1)) {
-            func_80099F70(actor->unk_5C);
-            func_80099F04(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
             if (!(check_flags[1] & 0x80) &&
                 ((D_800E3544[0] == 8) || (D_800E3544[0] == 0))) {
                 if (sprite->unk_2C.as_pu8 != D_800DCFB8) {
@@ -134,11 +134,11 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
             } else if ((move_result == 2) || (move_result == 4)) {
                 move_state->unk_9B = 8;
             }
-            func_80094ED4(move_state, actor_id, sprite, actor);
+            dungeonCheckTileEntryAtAdjustedHeight(move_state, actor_id, sprite, actor);
             D_80083464[0] = 8;
             if (sprite->unk_2C.as_pu8 == D_800DCFB8) {
                 sprite->unk_14.at00_u16.v |= 0x6000;
-                func_8008E264(move_state, actor_id, sprite, actor);
+                dungeonUpdatePlayerHeightStep(move_state, actor_id, sprite, actor);
             } else {
                 sprite->unk_2C.as_pu8 = D_800DD030;
                 func_80048A44(
@@ -153,10 +153,10 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                 flag_actor = actor;
                 flag_actor->flags1C |= 0x40000000;
             }
-            func_8009F644(actor, 8, 0, 0);
+            dungeonAppendPackedActionRecord(actor, 8, 0, 0);
             return;
         }
-        func_8009F644(actor, 8, 0, 0);
+        dungeonAppendPackedActionRecord(actor, 8, 0, 0);
         update_mask = 0x40000000;
     } else {
         if (move_result < 0) {
@@ -164,7 +164,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                 (blocked_ticks = move_state->unk_96 + 1,
                  move_state->unk_96 = blocked_ticks,
                  (s16)blocked_ticks >= 0x15)) {
-                func_8008CD4C(move_state, actor_id, sprite, actor, (s32)move_result);
+                dungeonBeginPlayerPush(move_state, actor_id, sprite, actor, (s32)move_result);
                 if (move_state->unk_9B >= 0x10) {
                     actor->flags1C |= 0x40000000;
                     return;
@@ -183,7 +183,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
                                   actor->facing + 0x100) >> 9) & 7],
                 0, 1);
         }
-        move_state->unk_8C.u =func_8008ACDC;
+        move_state->unk_8C.u =dungeonHandlePlayerInput;
         return;
     }
     actor_flags = actor->flags1C | update_mask;
@@ -191,7 +191,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
     flags_2 = D_80083460;
     flags_2[1] |= 0x812;
     func_800A67F4();
-    func_80094ED4(move_state, actor_id, sprite, actor);
+    dungeonCheckTileEntryAtAdjustedHeight(move_state, actor_id, sprite, actor);
     if (!(D_80013714 & 8)) {
         return;
     }

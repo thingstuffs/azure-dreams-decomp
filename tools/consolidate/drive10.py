@@ -7,12 +7,16 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import row_index, REPO
 from fold10 import fold
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent; R = row_index()
 NOCHECK = "--nocheck" in sys.argv
 SKIP = {"slus/code", "slus/code2", "slus/w_8003E34C", "dungeon/func_800AFA68", "slus/w_8004D5D0"}
 OUT = os.environ.get("OUT", "f10")
 def one(rid):
-    src = REPO / "src" / (rid + ".c"); t = src.read_text(errors="replace")
+    src = layout_row_path(rid, REPO); t = src.read_text(errors="replace")
     new, notes, ref = fold(t)
     rec = {"id": rid, "notes": notes, "refusals": ref, "src_sha": hashlib.sha256(src.read_bytes()).hexdigest()}
     if new is None or new == t: rec["ok"] = False; rec["unchanged"] = True; return rec

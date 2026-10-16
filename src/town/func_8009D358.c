@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void func_80099754(void *record);
+extern void townClearEntityRecordFields(void *record);
 extern s32 D_800D0608[];
 extern u32 D_8009AB74;
 
 /* Approach the target position and finish the motion when the countdown expires. */
-void func_8009AAB8(void *state, void *motion)
+void townApproachPlayerTargetPosition(void *state, void *motion)
 {
     u16 ticks_left;
 
@@ -19,7 +19,7 @@ void func_8009AAB8(void *state, void *motion)
     if ((s16)ticks_left < 0) {
         *(s32 *)((u8 *)motion + 0) = D_800D0608[0];
         *(s32 *)((u8 *)motion + 4) = D_800D0608[1];
-        func_80099754(motion);
+        townClearEntityRecordFields(motion);
         *(s32 **)((u8 *)state + 4) = &D_8009AB74;
         *(u16 *)((u8 *)state + 0x10) = 0;
     }

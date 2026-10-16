@@ -13,24 +13,24 @@ extern s16 D_801760D8[5];
 
 typedef struct S_80170534_0_pre {
     u16 unk_00;
-} S_80170534_0_pre;   /* the 0x2 bytes before state in func_80170534, addressed as state[-1] */
+} S_80170534_0_pre;   /* the 0x2 bytes before state in dungeonAdvanceTimedBlinkEffect, addressed as state[-1] */
 
 typedef struct S_80170534_0 {
     u8 pad_00[0x12];
     union { s16 s; u16 u; } unk_12;   /* accessed as both */
     u8 pad_14[0x4];
     u16 unk_18;
-} S_80170534_0;   /* state in func_80170534 */
+} S_80170534_0;   /* state in dungeonAdvanceTimedBlinkEffect */
 
 typedef struct S_80170534_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     union { s8 s; u8 u; } unk_0D;   /* accessed as both */
     union { s8 s; u8 u; } unk_0E;   /* accessed as both */
-} S_80170534_1;   /* input in func_80170534 */
+} S_80170534_1;   /* input in dungeonAdvanceTimedBlinkEffect */
 
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
-void func_80170534(void *state_data, void *unused, void *color_data) {
+void dungeonAdvanceTimedBlinkEffect(void *state_data, void *unused, void *color_data) {
     s32 phase;
     s32 bright_shade;
     u16 dim_shade;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Passes 0xD77 to func_8001ACE8. */
-void func_80018074(void) {
-    func_8001ACE8(0xD77);
+/* Passes 0xD77 to townSetScriptFlagBit. */
+void townInvokeEventCodeD77(void) {
+    townSetScriptFlagBit(0xD77);
 }

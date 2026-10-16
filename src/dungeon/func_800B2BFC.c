@@ -31,10 +31,10 @@ extern void func_80067E2C(void *, void *);
 extern void func_8006658C(void *, void *, ...);
 struct DungeonPosition;
 struct DungeonParameters;
-extern void func_800B84E4(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
+extern void dungeonDrawTexturedEllipseSegments(struct DungeonPosition *position, struct DungeonParameters *parameters, s32 draw_order, s32 blend_mode);
 
 /* Draw at the rectangle center and optionally emit a filled rectangle. */
-void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
+void dungeonDrawTexturedEllipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_mode) {
     GpuContext *initial_state;
     GpuContext *active_state;
     GpuContext **state_slot = &gameWork.unk_000;
@@ -60,7 +60,7 @@ void func_800B835C(s32 draw_value, DungeonInput *rect, u16 fill_rect, u16 draw_m
         center_y -= 0xE0;
     }
     center[1] = center_y;
-    func_800B84E4(center, draw_value, draw_list, draw_mode & 0xFFFF);
+    dungeonDrawTexturedEllipseSegments(center, draw_value, draw_list, draw_mode & 0xFFFF);
 
     if ((fill_rect & 0xFFFF) != 0) {
         active_state = gameWork.unk_000;

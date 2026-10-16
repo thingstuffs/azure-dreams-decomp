@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void func_80170970(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
+void advanceAndFadeTransformedEffect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
 {
     s16 ticks_left;
     s32 brightness;

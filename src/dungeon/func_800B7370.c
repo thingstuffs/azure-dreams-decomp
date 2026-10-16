@@ -10,9 +10,9 @@ typedef struct S_800BCAD0_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BCAD0_0;   /* arg0 in func_800BCAD0 */
+} S_800BCAD0_0;   /* arg0 in dungeonGetSurfaceHeightAtRecord */
 
 /* Pass the record coordinates to func_800BCB04. */
-s16 func_800BCAD0(S_800BCAD0_0 *record) {
+s16 dungeonGetSurfaceHeightAtRecord(S_800BCAD0_0 *record) {
     return func_800BCB04(record->unk_02, record->unk_06, record->unk_0A);
 }

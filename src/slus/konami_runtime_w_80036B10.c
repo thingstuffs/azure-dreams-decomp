@@ -55,15 +55,15 @@ typedef struct S_80036B10_8 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80033C1C();
+void runtimeInitializeStateValue();
 void func_800350B0();
-void *func_8003FF2C();
+void *initializeRuntimeNodeStorage();
 s32 func_8004491C();
 M2C_UNK func_8003DB94();
 extern u8 D_8006A934[];
 extern u8 D_80073DC4[];
 extern u8 D_80082BC0[];
-extern void func_80033D54(void);
+extern void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(void);
 extern void func_80036C44(void);
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
@@ -73,15 +73,15 @@ void func_80036B10(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 sta
     void *task;
     s16 *variant_table;
 
-    task = func_8003FF2C(0x11, task_buffer, 0x49, &D_80082BC0);
+    task = initializeRuntimeNodeStorage(0x11, task_buffer, 0x49, &D_80082BC0);
     ((S_80036B10_0 *)task)->unk_10 = func_80036C44;
-    func_8004491C(task, &func_80033D54);
+    func_8004491C(task, &runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
     state = task + 0x20;
     render_data = ((S_80036B10_0 *)task)->unk_0C;
     state->unk_44 = source;
     state->unk_48 = 1;
     state->unk_4A = state_value;
-    func_80033C1C(record, *source);
+    runtimeInitializeStateValue(record, *source);
     ((S_80036B10_0 *)task)->unk_20 = record;
     record->unk_60 = 6;
     ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_10 = 0x10C;

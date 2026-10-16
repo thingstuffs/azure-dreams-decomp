@@ -54,7 +54,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         }
 
         if ((((EntityRec *)entity)->unk_64 != 0) &&
-            func_800AA6B4(action, context, sprite, 0)) {
+            dungeonBeginReadyActorDirectionalAction(action, context, sprite, 0)) {
             return;
         }
 
@@ -63,7 +63,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         }
 
         if (((u32)((EntityRec *)entity)->flags1C) & 0x100) {
-            func_800AA258(action, context, sprite, entity);
+            dungeonBeginPushedActorMove(action, context, sprite, entity);
             return;
         }
 
@@ -81,7 +81,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         if ((func_800A2C34(entity) << 16) != 0) {
             void *owner = D_800814A8;
 
-            if ((func_8009A180(entity,
+            if ((dungeonCheckEntityRelation(entity,
                     (u8 *)((R17_80173F10_S_80173ED8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
                 return;
             }

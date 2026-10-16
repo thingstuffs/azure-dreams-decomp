@@ -13,7 +13,7 @@ extern u8 D_800DD0B8[8];
 extern s32 D_8008D470;
 
 /* Create an effect at the target and initialize its state and sound. */
-void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
+void dungeonBeginPlayerPickupAnimation(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
     u16 flags;
     s32 direction;
     u8 *effect;
@@ -58,5 +58,5 @@ void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
         *(u16 *)(actor + 0x46) = 0;
         return;
     }
-    *(void **)(actor + 0x8C) = func_8008ACDC;
+    *(void **)(actor + 0x8C) = dungeonHandlePlayerInput;
 }

@@ -8,7 +8,7 @@
 
 
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
-void func_80025840(AnimPlayer *player, s16 *index_step, s32 min_index, s32 max_index) {
+void dungeonAdvanceAnimationIndexWithinBounds(AnimPlayer *player, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     u32 clamp_flags;
     u8 index;

@@ -14,20 +14,20 @@ typedef struct S_800250C0_0 {
     u8 pad_22[0x8];
     u8 unk_2A;
     u8 unk_2B;
-} S_800250C0_0;   /* arg0 in func_800250C0; pointer addresses record offset 0x2 */
+} S_800250C0_0;   /* arg0 in dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd; pointer addresses record offset 0x2 */
 
 typedef struct S_800250C0_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_800250C0_1;   /* arg2 in func_800250C0 */
+} S_800250C0_1;   /* arg2 in dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd */
 
 
 extern s16 D_80026428[];
 
 /* Updates an effect's grayscale intensity and animation frame, marking it finished at the end of its lifetime. */
-void func_800250C0(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
+void dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
     s32 frame_count;
     s32 fade_scaled;
     s32 intensity;

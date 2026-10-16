@@ -25,7 +25,7 @@ extern u8 D_8017556C[];
 extern void func_80047784(Obj *, u8, s32);
 
 /* Initialize state and configure the object using the direction lookup table. */
-void func_80172634(First *state, s32 unused, Obj *object, Other *angle_source)
+void dungeonInitializeDirectionalActionTarget(First *state, s32 unused, Obj *object, Other *angle_source)
 {
     state->field9A = 0x10;
     state->field9B = 0;

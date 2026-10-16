@@ -25,7 +25,7 @@ extern Packed12 D_8010C450;
 
 typedef struct S_7FFE99BC_0_pre {
     u16 unk_00;
-} S_7FFE99BC_0_pre;   /* the 0x2 bytes before arg0 in func_7FFE99BC, addressed as arg0[-1] */
+} S_7FFE99BC_0_pre;   /* the 0x2 bytes before arg0 in dungeonSpawnOddTickEmitterEffects, addressed as arg0[-1] */
 
 typedef struct S_7FFE99BC_0 {
     void * unk_00;
@@ -33,12 +33,12 @@ typedef struct S_7FFE99BC_0 {
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFE99BC_0;   /* arg0 in func_7FFE99BC */
+} S_7FFE99BC_0;   /* arg0 in dungeonSpawnOddTickEmitterEffects */
 
 typedef struct S_7FFE99BC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_7FFE99BC_1;   /* temp_a0 in func_7FFE99BC */
+} S_7FFE99BC_1;   /* temp_a0 in dungeonSpawnOddTickEmitterEffects */
 
 typedef struct S_7FFE99BC_2 {
     u8 pad_00[0x6];
@@ -47,15 +47,15 @@ typedef struct S_7FFE99BC_2 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFE99BC_2;   /* temp_v1_2 in func_7FFE99BC */
+} S_7FFE99BC_2;   /* temp_v1_2 in dungeonSpawnOddTickEmitterEffects */
 
 typedef struct S_7FFE99BC_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFE99BC_3;   /* ((S_7FFE99BC_0 *)arg0)->unk_00 in func_7FFE99BC */
+} S_7FFE99BC_3;   /* ((S_7FFE99BC_0 *)arg0)->unk_00 in dungeonSpawnOddTickEmitterEffects */
 
 /* Spawn effects on early odd ticks and retire the emitter when its timer expires. */
-void func_7FFE99BC(void *emitter, M2C_UNK spawn_param_1, M2C_UNK spawn_param_2) {
+void dungeonSpawnOddTickEmitterEffects(void *emitter, M2C_UNK spawn_param_1, M2C_UNK spawn_param_2) {
     s16 tick;
     u16 ticks_left;
     void *effect_state;

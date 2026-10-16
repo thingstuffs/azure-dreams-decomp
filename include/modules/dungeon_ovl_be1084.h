@@ -264,6 +264,6 @@ typedef struct StackWork {
 
 /* Update the effect's transform, color, and depth, and flag it when its lifetime expires. */
 s32 func_80170884(u8 *,u16 *);
-void func_80170A64(void *,void *);
+void dungeonAdvanceEffectTowardTarget(void *,void *);
 void func_80170BFC(FadeEffect *,EffectMotion *);
 #endif

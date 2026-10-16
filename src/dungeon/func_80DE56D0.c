@@ -1,13 +1,13 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80172ED0(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
+void dungeonDampenActorMovementToTile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
     s32 tracked_entity;
 
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
@@ -20,7 +20,7 @@ void func_80172ED0(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_800
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, &D_80174550);
+            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -60,7 +60,7 @@ void func_80172ED0(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_800
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800AAA54(action, motion, tile_state, &D_80174550);
+        dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
         return;
 
     case 2:
@@ -89,13 +89,13 @@ void func_80172ED0(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_800
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, &D_80174550);
+            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
             return;
         } else {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, tile_state->unk_24, tile_state->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24, tile_state->unk_25);
 
             tracked_entity = ((s32)dungeonStatus.unk_10);
             if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

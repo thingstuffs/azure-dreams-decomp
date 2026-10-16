@@ -1,97 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dir_step.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_1829800.h"
 
-typedef struct S_80025C94_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x12];
-    s16 unk_2A;
-    u8 pad_2C[0x2C];
-    void * unk_58;
-    M2C_UNK (*unk_5C)(void *, void *, void *, void *);
-    u8 pad_60[0xA];
-    s16 unk_6A;
-    u8 pad_6C[0x6];
-    union { s8 s; u8 u; } unk_72;   /* accessed as both */
-    union { s8 s; u8 u; } unk_73;   /* accessed as both */
-    u8 pad_74[0x14];
-    s16 unk_88;
-} S_80025C94_0;   /* temp_s0 in func_80025C94 */
-
-typedef struct S_80025C94_1 {
-    u8 pad_00[0x92];
-    s16 unk_92;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u8 pad_98[0x5];
-    s8 unk_9D;
-} S_80025C94_1;   /* temp_a3 in func_80025C94 */
-
-typedef struct S_80025C94_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-} S_80025C94_2;   /* temp_s1 in func_80025C94 */
-
-typedef struct S_80025C94_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-} S_80025C94_3;   /* temp_s2 in func_80025C94 */
-
-typedef struct S_80025C94_4 {
-    u8 pad_00[0xC8];
-    u16 unk_C8;
-} S_80025C94_4;   /* temp_s5 in func_80025C94 */
-
-typedef struct S_80025C94_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-} S_80025C94_5;   /* temp_s3 in func_80025C94 */
-
-typedef struct S_80025C94_6 {
-    u8 pad_00[0x2094];
-    u16 unk_2094;
-} S_80025C94_6;   /* (s8 *)temp_table + (((S_80025C94_0 *)temp_s0)->unk_6A * 2) in func_80025C94 */
-
-typedef struct S_80025C94_7_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80025C94_7_pre;   /* the 0x14 bytes before ((S_80025C94_0 *)temp_s0)->unk_58 in func_80025C94, addressed as ((S_80025C94_0 *)temp_s0)->unk_58[-1] */
-
-typedef struct S_80025C94_7 {
-    u8 pad_00[0x26];
-    s16 unk_26;
-} S_80025C94_7;   /* ((S_80025C94_0 *)temp_s0)->unk_58 in func_80025C94 */
-
-
-extern s16 D_80027156;
-extern s16 D_80027158;
-extern s16 D_8002715A;
-extern u16 D_8002715C;
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
-
-/* Updates an object's fade and position, draws it, and restores its color. */
-void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
+void dungeonDrawAndRestoreFadingObject(void *object_arg, void *position_arg, void *sprite_arg) {
     s16 move_ticks;
     s32 start_y;
     s32 move_ticks_left;
@@ -120,13 +29,13 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     void *object_ptr;
     void *fade_in_ticks;
 
-    update_count = D_8002715C;
+    update_count = (*(u16 *)D_8002715C);
     object_ptr = object_arg;
     motion = object_ptr;
     position = position_arg;
     sprite = sprite_arg;
     object = motion;
-    D_8002715C = update_count + 1;
+    (*(u16 *)D_8002715C) = update_count + 1;
     render_context = &gameWork;
     state = object->unk_72.s;
     switch (state) {
@@ -215,8 +124,8 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
-    if (D_80027158 == object->unk_6A) {
-        draw_scale = (D_80027156 << 9) + 0x400;
+    if ((*(s16 *)D_80027158) == object->unk_6A) {
+        draw_scale = ((*(s16 *)D_80027156) << 9) + 0x400;
         object->unk_2A = draw_scale;
     } else {
         object->unk_2A = 0x400;

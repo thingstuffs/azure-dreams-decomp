@@ -50,7 +50,7 @@ typedef struct {
 } Work;
 
 
-extern s32 func_800BCE7C(Work *);
+extern s32 dungeonAreQuadCornerTurnsWithinHalfRevolution(Work *);
 
 /* Finds the lowest surface height at (x, y) that meets the minimum height. */
 s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
@@ -124,7 +124,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
                     p3_y = work->p3.half.y - local_y;
                     work->p3.half.x = p3_x;
                     work->p3.half.y = p3_y;
-                    if (func_800BCE7C((Work *)work) != 0) {
+                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution((Work *)work) != 0) {
                         Vertex *normal = (Vertex *)(
                             (unsigned long)(primitive->next * sizeof(Vertex)) +
                             (unsigned long)normals);

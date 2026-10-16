@@ -6,10 +6,10 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_800478B8(void *);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 
@@ -78,7 +78,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
     direction_index = *(s8 *)((u8 *)entity_arg + 0x6D);
     entity_kind = (*(u8 *)((u8 *)entity_arg + 0x9A));
     if (entity_kind != 0x17 && entity_kind != 0x19) {
-        if (func_800A9E70(entity_arg, motion_arg, monster_arg, entity_arg) != 0) {
+        if (dungeonRefreshActorFacingAndLifecycle(entity_arg, motion_arg, monster_arg, entity_arg) != 0) {
             return;
         }
     }
@@ -105,7 +105,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
 
         if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
             u8 *direction_tiles = ((S_80170AD0_1 *)monster_arg)->unk_2C;
-            func_80047738(monster_arg, direction_tiles[direction_index],
+            selectIndirectTableEntry(monster_arg, direction_tiles[direction_index],
                           ((S_80170AD0_1 *)monster_arg)->unk_04);
             (*(s16 *)((u8 *)entity_arg + 0x94)) = direction;
         }
@@ -124,7 +124,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
             ((S_80170AD0_1 *)monster_arg)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster_arg + 0xC);
+        dungeonApplyMonsterKoyawData(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster_arg + 0xC);
     } else {
         ((S_80170AD0_1 *)monster_arg)->unk_14 =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);

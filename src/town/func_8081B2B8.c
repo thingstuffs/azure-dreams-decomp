@@ -13,7 +13,7 @@ extern s32 func_8004491C();
 extern u8 D_8002609C[];
 extern u8 D_800F15AC[];
 /* Creates a sprite at the given position and applies color-specific settings. */
-void func_800252B8(s32 color, s32 x, s32 y, s32 z)
+void townCreateTintedAnimatedParticle(s32 color, s32 x, s32 y, s32 z)
 {
     s32 resource_word;
     void *sprite;

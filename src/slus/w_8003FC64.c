@@ -3,14 +3,14 @@
 
 /* Freelist/active-list node. next at 0x00, prev at 0x04, a slot pointer at
  * 0x08, another slot pointer at 0x0C, flags at 0x1E. Total size 0x124
- * bytes (zeroed via func_8003DB4C(node, 0x49) on allocation). */
+ * bytes (zeroed via zeroWords(node, 0x49) on allocation). */
 
 
 extern struct { u16 flags; u8 pad[8]; } D_80013714;
 extern ObjectNodeHeader *D_80081490;   /* freelist head */
 extern ObjectNodeHeader *D_80081498;   /* active list head */
 
-extern void func_8003DB4C(void *p, s32 n);
+extern void zeroWords(void *p, s32 n);
 extern void *func_8003FB98(s32 a0, void *a1);
 
 /* Allocates and initializes an active node, reclaiming an eligible active node if needed and allowed. */
@@ -34,7 +34,7 @@ ObjectNodeHeader *func_8003FC64(s32 flags)
     if (free_head != 0) {
         node = free_head;
         D_80081490 = node->next;
-        func_8003DB4C(node, 0x49);
+        zeroWords(node, 0x49);
 
         active_ptr = active_ptr_early;
         active_head = *active_ptr;

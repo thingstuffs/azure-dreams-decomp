@@ -139,7 +139,7 @@ void *func_801708DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
                     item_offset += 0x30;
                     item_index++;
                     ((S_801708DC_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, D_800D71A8, 1);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, D_800D71A8, 1);
                     more_items = item_index < ((S_801708DC_6 *)(void *)saved_kind)->unk_02;
                     ((S_801708DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

@@ -12,10 +12,10 @@ typedef struct Obj800A5BC0 {
     s16 value;
 } Obj800A5BC0;
 
-extern void func_800A2FCC(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
+extern void townDrawSegmentedMenuRing(s32 center_source, s32 radius_a, s32 radius_b, s16 segment_arg);
 
 /* Advance the object's motion and timer-scaled value, or mark it expired. */
-void func_800A3320(Obj800A5BC0 *obj, void *ctx)
+void townTickMenuMotionFade(Obj800A5BC0 *obj, void *ctx)
 {
     obj->timer--;
     if (obj->timer < 0) {
@@ -28,5 +28,5 @@ void func_800A3320(Obj800A5BC0 *obj, void *ctx)
     obj->y += obj->dy;
     obj->dx -= 16;
     obj->value = (obj->timer * 255) / 20;
-    func_800A2FCC(ctx, obj->x, obj->y, obj->value);
+    townDrawSegmentedMenuRing(ctx, obj->x, obj->y, obj->value);
 }

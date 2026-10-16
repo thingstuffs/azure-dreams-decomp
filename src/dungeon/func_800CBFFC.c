@@ -6,7 +6,7 @@ extern s32 func_800BCB04(u16, u16, s16, void *);
 extern u8 D_800EA000[];
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
-s16 func_800D175C(s32 grid_x, s32 grid_y)
+s16 dungeonRoundSampledHeightToCellBoundary(s32 grid_x, s32 grid_y)
 {
     MapGrid *grid_info;
     u8 *state;

@@ -23,7 +23,7 @@ extern TownState D_800167B4;
 extern Entry4 D_80016818[];
 
 /* Copy the indexed entry value and position into the town state (returns the state pointer). */
-TownState *func_80017EA0(s32 entry_index) {
+TownState *townCopyIndexedEntryToState(s32 entry_index) {
     TownState *state = &D_800167B4;
     Entry12 *entries = D_80016470;
     Entry12 *entry = &entries[entry_index];

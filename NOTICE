@@ -1,0 +1,63 @@
+NOTICE
+======
+
+Azure Dreams
+------------
+Azure Dreams, its program code, data, graphics, sound, text, names and
+trademarks are (c) Konami (Konami Digital Entertainment Co., Ltd. and its
+predecessors) and their respective owners. All rights in that material remain
+with them.
+
+This project is an independent, non-commercial research and preservation effort.
+It is not affiliated with, authorized by, sponsored by or endorsed by Konami.
+
+No game data in this repository
+-------------------------------
+This repository is meant to contain no Azure Dreams game data: no disc image,
+no executable, no overlay or file extracted from the disc, and no copy of the
+retail binary bytes. What it does contain is our own work:
+
+  * reconstructed C source (src/, include/) written to compile to the same
+    bytes as the retail code. These files describe the behaviour of Konami's
+    program; some of them (const tables, jump tables, string data) express small
+    pieces of game data as C. No rights in that underlying material are
+    claimed or granted by this project.
+  * tools, build scripts, configuration, documentation, names and notes.
+  * hashes and byte counts used to check a build against the retail files.
+
+To build or verify anything you must supply your own legally obtained copy of
+the game (see README.md). Nothing here is meant to help anyone obtain the game
+without owning it.
+
+What the licence covers
+-----------------------
+The Unlicense in LICENSE applies only to this project's original contributions
+(tools, build scripts, documentation, recovered names/types/annotations, and the
+contributors' own expression in the C sources, to the extent they hold rights).
+No rights in Konami material are granted by this project, and the licence
+cannot give you any. If you are unsure whether you may use something, ask a
+lawyer; this notice is not legal advice.
+
+Third-party components and credits
+----------------------------------
+  * tools/maspsx/ - vendored from https://github.com/mkst/maspsx , MIT licence
+    (see tools/maspsx/LICENSE).
+  * Fetched at set-up time, not stored here, each under its own terms:
+    decompals old-gcc compiler builds, mkpsxiso, splat, spimdisasm, m2c, GNU
+    binutils (see tools/toolchain.lock.json). The Sony/Psy-Q SDK is not
+    included.
+  * Azure Dreams De-Randomizer by ProGrammar-R (MPL-2.0): only its published
+    address and table facts were used to anchor names and struct layouts; none of
+    its code is included.
+  * sotn-decomp (naming vocabulary for common PlayStation structures).
+
+Trademarks
+----------
+"Konami", "Azure Dreams" and related names and logos are trademarks of their
+owners. They appear here only to identify the game this work is about.
+
+Takedown
+--------
+If you represent a rights holder and believe something here should not be
+public, open an issue or contact the maintainer and it will be reviewed
+promptly.

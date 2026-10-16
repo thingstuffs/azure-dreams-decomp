@@ -8,7 +8,7 @@ typedef struct S_80098CF8_0 {
     void * unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_80098CF8_0;   /* s0 in func_80098CF8 */
+} S_80098CF8_0;   /* s0 in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_1 {
     union {
@@ -16,7 +16,7 @@ typedef struct S_80098CF8_1 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_00;   /* overlapping accesses */
-} S_80098CF8_1;   /* s2 in func_80098CF8 */
+} S_80098CF8_1;   /* s2 in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_2 {
     u8 pad_00[0x2];
@@ -25,13 +25,13 @@ typedef struct S_80098CF8_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80098CF8_2;   /* primitive in func_80098CF8 */
+} S_80098CF8_2;   /* primitive in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80098CF8_3;   /* s5 in func_80098CF8 */
+} S_80098CF8_3;   /* s5 in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_4 {
     u8 pad_00[0x1C];
@@ -40,7 +40,7 @@ typedef struct S_80098CF8_4 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80098CF8_4;   /* s4 in func_80098CF8 */
+} S_80098CF8_4;   /* s4 in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_5 {
     u8 pad_00[0x8C];
@@ -53,7 +53,7 @@ typedef struct S_80098CF8_5 {
     s16 unk_A8;
     u8 pad_AA[0x2];
     s16 unk_AC;
-} S_80098CF8_5;   /* state in func_80098CF8 */
+} S_80098CF8_5;   /* state in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_6 {
     u8 pad_00[0x8C];
@@ -65,23 +65,23 @@ typedef struct S_80098CF8_6 {
     void * unk_BC;
     u8 pad_C0[0x64];
     s32 unk_124;
-} S_80098CF8_6;   /* s3 in func_80098CF8 */
+} S_80098CF8_6;   /* s3 in dungeonBeginHoldingItem */
 
 typedef struct S_80098CF8_7 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_80098CF8_7;   /* (void *)a1 in func_80098CF8 */
+} S_80098CF8_7;   /* (void *)a1 in dungeonBeginHoldingItem */
 
 
 extern void func_80048A44();
-extern void func_800982A8();
-extern void func_80098614();
-extern void func_80098B38();
+extern void dungeonEquipItemAndUpdateStatus();
+extern void dungeonChangeEquippedItemAndNotify();
+extern void dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC(void);
 extern s32 func_80099194();
 extern void func_80099290();
-extern s32 func_8009929C();
-extern s32 func_80099368();
+extern s32 dungeonWriteTextByteAndAdvance();
+extern s32 dungeonAppendTypedFormattedValue();
 extern void func_800A56E0();
 extern void func_800A5720();
 extern void *func_800A8608();
@@ -95,7 +95,7 @@ extern u8 D_800E08F1[];
 extern u8 D_800E0919[];
 
 /* Check the item, report restrictions, and create an action object for the actor and target. */
-void *func_80098CF8(void *actor, s32 action, void *target, void *item)
+void *dungeonBeginHoldingItem(void *actor, s32 action, void *target, void *item)
 {
     void *message;
 
@@ -110,10 +110,10 @@ void *func_80098CF8(void *actor, s32 action, void *target, void *item)
     actor_state = actor;
     if ((item != ((void *)(D_80081484))) && (((S_80098CF8_0 *)((void *)(D_80081484)))->unk_01 != 0)) {
         message_id = func_800990FC();
-        text_cursor = func_8009929C(8, message_id);
-        text_cursor = func_80099368(item, text_cursor);
+        text_cursor = dungeonWriteTextByteAndAdvance(8, message_id);
+        text_cursor = dungeonAppendTypedFormattedValue(item, text_cursor);
         text_cursor = func_80099194(D_800E08CC, text_cursor);
-        text_cursor = func_80099368(((void *)(D_80081484)), text_cursor);
+        text_cursor = dungeonAppendTypedFormattedValue(((void *)(D_80081484)), text_cursor);
         message = D_800E08E5;
 print_message:
         text_cursor = func_80099194(message, text_cursor);
@@ -125,10 +125,10 @@ print_message:
 
     if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
         message_id = func_800990FC();
-        result = (void *)func_8009929C(8, message_id);
+        result = (void *)dungeonWriteTextByteAndAdvance(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             func_800A56E0(0x70A);
-            text_cursor = func_80099368(item, result);
+            text_cursor = dungeonAppendTypedFormattedValue(item, result);
             message = D_800E08F1;
             text_cursor = func_80099194(message, text_cursor);
             func_80099290(text_cursor);
@@ -137,14 +137,14 @@ print_message:
             return 0;
         }
 
-        text_cursor = func_80099368(item, result);
+        text_cursor = dungeonAppendTypedFormattedValue(item, result);
         text_cursor = func_80099194(D_800E0919, text_cursor);
         func_80099290(text_cursor);
         func_800A5720(message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at01.v == 0x11) {
-            func_80098614(actor_state, item);
+            dungeonChangeEquippedItemAndNotify(actor_state, item);
         } else {
-            func_800982A8(actor_state, item);
+            dungeonEquipItemAndUpdateStatus(actor_state, item);
         }
     }
 
@@ -192,7 +192,7 @@ print_message:
                 1);
             func_800A56E0(0x511);
             ((S_80098CF8_4 *)actor_state)->unk_1C |= 0x100000;
-            func_80098B38(item);
+            dungeonClearSlotAndUpdateLinkedState(item);
         }
     }
     return result;

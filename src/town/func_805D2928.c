@@ -11,7 +11,7 @@ extern Global32 D_8001967C;
 extern Global32 D_80019AFC;
 
 /* Set the mode to two and dispatch according to the current state. */
-void func_80016928(s32 state_input) {
+void townDispatchModeTwoByState(s32 state_input) {
     D_8001967C.value = 2;
     if (3 == D_80019AFC.value) {
         func_80016228(state_input);

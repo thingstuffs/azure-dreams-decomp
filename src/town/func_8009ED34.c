@@ -18,7 +18,7 @@ extern s32 func_8004491C(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
 
 /* Clear state, initialize the context resource, and set a 30-tick countdown and handler. */
-void func_8009C494(Struct8009ED34Arg0 *context, void *unused, Struct8009ED34Arg2 *state) {
+void townInitializeTimedFadeObject(Struct8009ED34Arg0 *context, void *unused, Struct8009ED34Arg2 *state) {
     state->unk00 = 0;
     state->unk04 = 0;
     state->unk05 = 0;

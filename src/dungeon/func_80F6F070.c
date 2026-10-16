@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_f8f070.h"
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
-void *func_8015E870(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
+void *dungeonAllocateKindObject(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
 {
     s32 kind;
     void *obj;

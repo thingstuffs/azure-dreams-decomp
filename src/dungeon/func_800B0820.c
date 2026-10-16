@@ -26,7 +26,7 @@ extern EntitySlot D_800E39C8[0x20];
 extern void func_8009A3D0(u8 x, u8 y, s32 type);
 
 /* Clears a slot's state and flags any attached entity before detaching it. */
-void func_800B5F80(s32 slot_index) {
+void dungeonClearSlotAndDetachEntity(s32 slot_index) {
     s32 slot_offset;
     EntitySlot *slot_base;
     EntitySlot *slot;

@@ -50,7 +50,7 @@ typedef union DungeonSignedProduct {
 #endif
 
 /* Project linked shapes and queue four textured quads for each visible shape. */
-s32 func_800249BC(void *shape_data)
+s32 dungeonProjectLinkedShapeQuads(void *shape_data)
 {
     u16 points[5][2];
     s32 half_width;

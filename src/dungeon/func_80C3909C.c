@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_c5909c.h"
 
 /* Allocates and initializes an object and its child display items. */
-void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
+void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
 {
     void *root;
     void *copy;
@@ -130,7 +130,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
                     ((S_8014C89C_7 *)item)->unk_28 = part_value;
                     child_root = ((S_8014C89C_8 *)slot_base)->unk_A4;
                     call_zero = 0;
-                    ((S_8014C89C_9 *)child_root)->unk_10 = func_800D78C0;
+                    ((S_8014C89C_9 *)child_root)->unk_10 = dungeonProcessEffectBlockEntries;
                     (*(void * *)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((D_80083228 +
                         ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
@@ -139,7 +139,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
                     item_offset += 0x30;
                     item_index++;
                     ((S_8014C89C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, func_800D71A8, 1);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, dungeonDrawSpriteEffectQuads, 1);
                     more_items = item_index < ((S_8014C89C_6 *)(void *)saved_kind)->unk_02;
                     ((S_8014C89C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

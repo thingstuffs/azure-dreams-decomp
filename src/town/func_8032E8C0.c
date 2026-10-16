@@ -11,16 +11,16 @@ typedef struct Copy4 {
 
 extern u8 D_80016034[];
 extern u8 D_8001605C[];
-extern void *func_80018F20(void **slots);
+extern void *townFindUnusedShopSlot(void **slots);
 
 /* Copies a four-byte entry, clears its flag bits, and appends it to the object list. */
-void func_800190C0(const Copy4 *input)
+void townAppendShopEntry(const Copy4 *input)
 {
     void **slot;
     Copy4 *entry;
 
     slot = D_80016000->unk_38->entries;
-    entry = func_80018F20(slot);
+    entry = townFindUnusedShopSlot(slot);
     if (entry == 0) {
         ((TownCall3)D_80016000->unk_20->callback_168)(D_80016034, D_8001605C, 0x80);
         ((TownFatal1 *)D_80016000->unk_20->callback_174)(1);

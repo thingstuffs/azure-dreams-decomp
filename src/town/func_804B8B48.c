@@ -17,7 +17,7 @@ typedef s32 (*TownCall2)(s32, TownState *);
 
 
 /* Run town callbacks and, in mode 3, set the value to its previous value plus or minus 0x30. */
-s32 func_80017348(void) {
+s32 townRunSceneCallbacksWithModeValueShift(void) {
     TownContext **context_ptr;
     s32 previous_value;
 

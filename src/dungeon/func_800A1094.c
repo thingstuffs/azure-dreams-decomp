@@ -8,7 +8,7 @@ extern s8 D_800DCF4F[];
 extern s8 D_800E045C[];
 
 extern s32 func_80035208(void *arg);
-extern void func_80035348(void);
+extern void runtimeClearStateAndEntryRange(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void func_800A67F4(void) {
@@ -18,6 +18,6 @@ void func_800A67F4(void) {
             dungeonStatus.unk_0A--;
         }
         func_80035208(&D_800E045C[0]);
-        func_80035348();
+        runtimeClearStateAndEntryRange();
     }
 }

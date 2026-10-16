@@ -21,7 +21,7 @@ typedef struct Outer {
 
 extern u16 D_800281F8[];
 
-void func_80025AC4(void *ptr, Inner *fields_target, Inner *field_c_target)
+void dungeonProcessEffectRecord(void *ptr, Inner *fields_target, Inner *field_c_target)
 {
     Outer *outer;
     Inner *inner;

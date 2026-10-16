@@ -12,7 +12,7 @@ extern S_80044AAC *D_800833E0[0x20];
 extern void func_80044A50(S_80044AAC *node);
 
 /* Unlink the node, then insert it after the anchor or at the head of its global type list. */
-void func_80044AAC(S_80044AAC *anchor, S_80044AAC *node) {
+void linkTypedListNode(S_80044AAC *anchor, S_80044AAC *node) {
     S_80044AAC *next_node;
 
     func_80044A50(node);

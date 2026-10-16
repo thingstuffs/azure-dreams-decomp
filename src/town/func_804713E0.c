@@ -6,6 +6,6 @@ extern s32 D_8001B218[];
 void func_800190B8();                       /* extern */
 
 /* Pass D_8001B218 to func_800190B8. */
-void func_804713E0(void) {
+void func_800183E0(void) {
     func_800190B8(D_8001B218);
 }

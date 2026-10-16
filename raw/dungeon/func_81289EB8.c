@@ -1,0 +1,12 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+s32 func_800AB4E4();                                /* extern */
+s32 func_800AC66C(M2C_UNK, M2C_UNK);                /* extern */
+extern M2C_UNK D_80164514;
+
+void func_801666B8(void *arg0, M2C_UNK arg2, M2C_UNK arg3) {
+    if ((func_800AB4E4() != 0) && ((func_800AC66C(arg2, arg3) << 0x10) > 0)) {
+        M2C_FIELD(arg0, M2C_UNK **, 0x8C) = &D_80164514;
+    }
+}

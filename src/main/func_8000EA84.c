@@ -6,21 +6,21 @@ extern void format(s32);
 
 
 /* Format the selected memory card and return its completion status. */
-s32 func_80021A84(s32 card_slot) {
+s32 cardBootFormatCardAndWait(s32 card_slot) {
     s32 *card_device;
     s32 status;
     s32 result;
 
     _card_wait(0);
     _card_wait(1);
-    func_80021538();
+    cardBootDrainHardwareEvents();
     card_device = &D_80027F18[0];
     if (card_slot != 0) {
         card_device = &D_80027F18[1];
     }
     format(*card_device);
     do {
-        status = func_800214FC();
+        status = cardBootTakeHardwareStatus();
         if (status == 0) {
             func_8005FE18(0);
         }

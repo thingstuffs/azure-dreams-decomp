@@ -4,8 +4,8 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
-void *func_800B4C7C(); /* extern */
-void *func_800C5BBC();
+void *createActorValuePopup(); /* extern */
+void *dungeonSpawnRandomizedParticleBurst();
 typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -41,9 +41,9 @@ void func_800A5DFC(EntityRec *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
         if (damage != 0) {
             entity->flags1C = (s32) (entity->flags1C & 0xDFFFFFFF);
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
-                func_800B4C7C(3, entity, (s16) damage, 0);
+                createActorValuePopup(3, entity, (s16) damage, 0);
                 entity->unk_64 = (s16) ((u16) entity->unk_64 - damage);
-                func_800C5BBC(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20,
+                dungeonSpawnRandomizedParticleBurst(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20,
                     1);
                 return;
             }

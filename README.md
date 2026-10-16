@@ -1,122 +1,120 @@
 # azure-dreams-decomp
 
-Readable, byte-exact C for Azure Dreams (PlayStation, SLUS-006.14). Every function here still
-compiles to the retail bytes; the work is to make the C human. (The working checkout is called
-`azure-clean` locally; tool docstrings and the dashboard use that name.)
+Readable C source for *Azure Dreams* (PlayStation, NTSC-U, `SLUS-006.14`) that compiles,
+function by function, to the same bytes as the retail game.
 
-The tree started as a replay of a byte-matching decompilation at one commit (`PIN`): its sources
-are frozen in `raw/`, and everything else — machine transforms, hand refinements, the row
-database, the gates, the toolchain — lives here. There is no upstream any more (the swap-over is
-recorded in `docs/SWAPOVER.md`).
+*Azure Dreams* is (c) Konami. This is an independent fan research and preservation project, not
+affiliated with or endorsed by Konami. **No game data is included**: you need your own copy of the
+disc to build or verify anything. See [NOTICE](NOTICE) and [Legal](#legal).
+
+## Status
+
+Numbers are from [STATUS.md](STATUS.md), which is generated from the ledger (snapshot of 2026-10-15;
+rerun `python3 tools/status.py` for today's).
+
+- **Byte-exact coverage.** 7,482 functions and data rows, 2,789,008 bytes, in five containers
+  (`slus` main executable, `main`, `town`, `dungeon`, `ovmovie` overlays). 7,481 are verified
+  byte-identical to retail; 1 is not yet verified.
+  Rows are built by the stock compiler cells (gcc 2.7.2-era builds); the few rows that need a
+  non-default compiler flag are tracked in STATUS.md.
+- **Pins: 0.** A "pin" is an `ASM_*` marker, fence or other scaffolding that was needed to coax
+  the compiler into the retail bytes. All 25,918 original sites have been removed, and no raw inline-asm
+  statements or hand-written asm in function bodies remain.
+
+The aim is not just matching bytes but making the C human: typed structs instead of raw offsets,
+named locals and functions, no compiler-driven contortions.
+
+## Quick start
+
+You need Linux, `python3` (3.x with PyYAML), `git`, `curl`, `cmake`, `ninja` and
+`mipsel-linux-gnu-as` (binutils). `tools/setup.sh` checks for them and says which are missing.
+
+```sh
+git clone <this repository> azure-dreams-decomp && cd azure-dreams-decomp
+mkdir -p bin && cp "/path/to/Azure Dreams.bin" "/path/to/Azure Dreams.cue" bin/   # your own disc
+tools/setup.sh            # venv, stock compilers (hash-checked downloads), assembler front end, mkpsxiso, disc extract
+tools/setup.sh --check    # verify the set-up only
+```
+
+The disc image's SHA-1 and every downloaded piece are pinned in `tools/toolchain.lock.json`;
+set-up refuses anything that does not match. Then prove a function matches:
+
+```sh
+python3 tools/verify.py town/func_8008D54C src/town/func_8008D54C.c   # one function (per-row scorer)
+tools/build/build_slus.sh                                              # whole SLUS executable, SHA-1 checked
+bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py     # every overlay window
+python3 tools/build/container_check.py --rebuild-disc                  # containers, then the disc itself
+```
+
+A full run takes a long time (hours of CPU); the per-function scorer takes seconds. The window gate's
+compile command is the only compile command of record; the scorer is a development shortcut.
 
 ## Layout
 
 | path | what |
 |---|---|
-| `raw/<container>/` | the pinned sources, frozen: every matched function as it was at `PIN` (`slus`, `main`, `town`, `dungeon`, `ovmovie`); `raw/include/` the pinned headers. Never edited |
-| `src/<container>/` | the current best version of **every** function and the only tree the gates compile: machine-transformed where the layers have reached it, agent-refined bodies landed through `tools/promote.py` (journal `ledger/promotions.jsonl`), otherwise identical to `raw/` |
-| `include/` | headers the clean tree compiles against (`common.h`, `m2c_compat.h` for the hoisted m2c macros, `records/` shared record layouts, `script_symbols.h` the developers' script constants, generated) |
-| `ledger/` | machine-readable truth: `splits/` (the row database: every container's split table, the SLUS recipe), `rows.jsonl` (registry of matched rows), `baseline.jsonl` (byte-exact verdict per row at the pin), `reverify.jsonl`, `gate.jsonl` / `gate_slus.jsonl` / `containers.jsonl` (gate verdicts), `census.jsonl`, `levels.jsonl`, `sweeps/*.jsonl` (every transform verdict), `pins.jsonl`, `agents/` (campaign journals; `agents/out/` every accepted body as delivered), `promotions.jsonl` (which accepted bodies landed in `src/`, verified), `pin_bumps/`, `evidence/` (naming and module evidence per row: assertion sites, developer identifiers, randomizer map, pointer tables, prior notes) |
-| `config/` | the SLUS split (`slus_006.14.yaml`, symbols, SHA-1), the 2,181 overlay window YAMLs and symbol/as-flags/rowbase files (`overlays/`), noreturn/sibcall lists, `func_sizes.json` |
-| `tools/` | `setup.sh` + `toolchain.lock.json` (provisioning), `disc.py`, `row_db.py`, `registry.py`, `verify.py`, `sweep.py` + `xform/`, `census.py`, `levels.py`, `status.py`, `agent_task.py`, `struct_census.py`, `evidence.py`; `build/` (SLUS build, window gate runner, container check), `gate/` (the window gate and the per-row scorer), `maspsx/` (vendored assembler front end), `patches/` |
-| `docs/` | `PLAN.md` (strategy and levels), `SWAPOVER.md` (how the tree came to own everything), `REPORT_20260907.md`, `PIN_CENSUS.md`, `STRUCT_CENSUS.md`, `BAKEOFF.md`, `HANDOVER.md`, `EVIDENCE.md` (index of the naming evidence and how each level uses it), `SYMBOLS.md` (the recovered names in plain language), `evidence/` (the assertion catalogue and randomizer findings verbatim) |
-| `STATUS.md` | generated: bytes per cleanliness level, shape census before/after |
+| `src/<container>/` | the current C source, one function (or data object) per file, named by its retail address (`func_8008D54C.c`) or its recovered name. The only tree the gates compile |
+| `include/` | headers: shared types (`include/shared/`, `include/records/`), module headers, compat macros |
+| `raw/` | the frozen starting point: the byte-matching sources as imported at `PIN`. Never edited; kept as byte provenance |
+| `config/` | the SLUS split and symbols, 2,000+ overlay window definitions, compiler/assembler flags per region, `names.tsv` (renames), noreturn lists |
+| `ledger/` | machine-readable project state: the row database (`splits/`), `rows.jsonl`, `baseline.jsonl`, gate verdicts, promotions, levels, names |
+| `tools/` | provisioning (`setup.sh`, `toolchain.lock.json`), the gates and build scripts (`build/`, `gate/`), the vendored assembler front end (`maspsx/`), analysis and transform tools, tests (`tools/tests/`) |
+| `docs/` | reference documentation; start at [docs/README.md](docs/README.md). `docs/evidence/` holds the research notes behind individual names and decisions; `docs/history/` is the project's working journal |
+| `STATUS.md` | generated progress report |
+| `LICENSE`, `NOTICE` | licence scope and legal notice |
 
-Not committed: the disc image (`bin/`), its extract (`work/disc/`), the toolchain (`toolchain/`),
-the venv, `baserom/`, and the build roots (`build_slus/`, `build_ovl/`).
+Not committed: the disc image (`bin/`), its extract (`work/disc/`), the toolchain (`toolchain/`), the
+virtualenv, and the build roots (`build_slus/`, `build_ovl/`). They are created by `tools/setup.sh`.
 
 ## Cleanliness levels
 
 | level | meaning |
 |---|---|
-| L0 | verified byte-exact at the pin through stock compilers |
-| L1 | no m2c boilerplate, dead pins erased, no blocking fidelity site |
-| L2 | no raw offset access (`M2C_FIELD` / `FIELD`): typed structs with explicit `unk_XX` members and padding |
-| L3 | locals named, one-line summary: an accepted Layer-2 body landed in `src/` (`ledger/promotions.jsonl`) and is the text the gate compiles; every tail-jump dependency (noreturn pseudo-call or sibcall/noreturn-list call) has a `ledger/split_audit.jsonl` record that isn't `intra`/`unresolved` |
-| L4 | in a module with a shared header, zero pins, zero tail-jump dependency of any kind |
-| L5 | strict: no fidelity site of any audit class, no computed-goto table, no inline asm, no `NON_MATCHING` guard (pins/tail-jumps already excluded by L4). A pin that survives is annotated `/* UNRESOLVED C shape (pin): removing it <measured effect>; … */` — a debt record, never a justification |
+| L0 | verified byte-exact against retail through the stock compilers |
+| L1 | no m2c boilerplate, no scaffolding left to erase |
+| L2 | no raw offset access: typed structs with explicit `unk_XX` members and padding |
+| L3 | locals named, one-line summary written, accepted refined body landed |
+| L4 | in a module with a shared header; zero pins; no tail-jump dependency |
+| L5 | strict: no fidelity site of any audit class, no computed-goto table, no inline asm, no `NON_MATCHING` guard |
 
-## Provisioning
+Definitions are in [docs/PLAN.md](docs/PLAN.md) and `tools/levels.py`.
 
-```sh
-cp "/path/to/Azure Dreams.bin" "/path/to/Azure Dreams.cue" bin/   # your own disc; SHA-1 in tools/toolchain.lock.json
-tools/setup.sh                                                    # venv, the seven stock cc1 drops, maspsx link, mkpsxiso, extract
-tools/setup.sh --check                                            # verify only
-```
+## How it is proven
 
-`tools/toolchain.lock.json` pins every external piece with a hash: the disc and its five
-containers, the decompals old-gcc drops (`toolchain/compilers/` holds those seven and nothing
-else — the guard that no compiler bridge can be reintroduced), the mkpsxiso commit and patch, the
-splat version. The assembler front end is vendored (`tools/maspsx`, MIT): function-blind, no name
-tables, no per-function options. `tools/disc.py extract|rebuild|check` is the disc round trip.
-
-## Verifying
-
-Three proofs, from cheapest to the one of record:
-
-```sh
-python3 tools/verify.py <container>/<func> <file.c>     # one row: the per-row scorer (overlays) or object identity (SLUS)
-tools/build/build_slus.sh [--fresh]                     # the SLUS gate: split, configure, build, SHA-1 (ledger/gate_slus.jsonl)
-bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py [--retry]   # every overlay window (ledger/gate.jsonl)
-python3 tools/build/container_check.py --rebuild-disc   # whole containers from the gated windows + SLUS, then the disc (ledger/containers.jsonl)
-```
-
-The window gate's compile command is the only compile command; the per-row scorer is a dev
-tool, and a row it cannot prove is gated through its window (`verify.py::gate_fallback`).
-Transforms are applied with `tools/sweep.py <transform>`; every row is verified and journalled,
-mismatches are refused, nothing is guessed. `tools/reverify.py` re-proves every transformed row.
-
-## Dashboard
-
-`tools/dashboard_serve.sh` regenerates `dashboard/index.html` every minute from the ledger and
-journals and serves it on port 8002: levels by bytes and by container, what is running, the
-agent campaign, the gate verdicts, remaining work and recent commits. `ovmovie` is parked (movie
-playback exists elsewhere) and listed without being counted.
+Every function is compiled with the original compiler generation (gcc 2.7.2-era Psy-Q/Cygnus
+builds) and Sony-compatible assembler behaviour (`tools/maspsx`), then compared with the bytes read
+from your disc. Mismatches are refused; nothing is accepted on a guess. Transforms and edits go
+through `tools/promote.py` / the window gate, which re-verify before anything lands, and
+`tools/reverify.py` re-proves every row. [CONTRIBUTING.md](CONTRIBUTING.md) describes the workflow.
 
 ## Row database
 
-`ledger/splits/<container>.jsonl` is the split table of each container: every row the gate lays
-out (matched or not) with its extent, verdict, compiler config and source; `ledger/splits/slus.jsonl`
-the per-TU recipe of the executable. `tools/registry.py` derives `ledger/rows.jsonl` (the
-registry of matched rows) from them and assigns every row its gate window: the gate compiles
-every matched row whose extent lies inside a window's file range, so a row is never "windowless"
-(`gate_config_derived` marks rows whose split record did not name one). `tools/row_db.py check`
-verifies the tables; `tools/row_db.py export <root>` writes them in the gate's input format
-(the build-root scripts do this).
+`ledger/splits/<container>.jsonl` is the split table of each container: every row the gate lays out
+with its extent, verdict, compiler config and source. `tools/registry.py` derives `ledger/rows.jsonl`
+and assigns each row its gate window. `tools/row_db.py check` verifies the tables.
 
-A row is **stock** when its cc1 is a stock cell, its gcc flags are ordinary (no
-`-fretail-`/`-fsn-`/`-fdriver-`), and its maspsx options carry no per-function `--retail-*` dial.
-Both config label dialects (`2.8.1 -G0 …` and `2.8.1+-G0 …`) parse identically
-(`tools/common.py::parse_cfg`). Every registered row is stock at the pin.
+## Contributing
 
-## History: the pin
+Read [CONTRIBUTING.md](CONTRIBUTING.md). In short: a change is good if the byte-exact check still
+passes and the C is closer to what a person would write. Names and types are tracked in
+`config/names.tsv` and `ledger/names.jsonl`.
 
-`PIN` names the commit of the byte-matching tree this one was derived from; `tools/pin_bump.py`
-was the sync recipe (refresh a mirror, re-import, re-derive, re-verify, re-gate) and stays as a
-record. It needs a checkout of that tree named in `.upstream`; nothing else does.
+## Legal
 
-## Licence
-
-Everything original in this repository (the tools, the ledger, the documentation, the transformed
-and refined C) is released into the public domain under [The Unlicense](LICENSE): use it, copy it,
-sell it, claim it, no attribution required. Two things are not ours to dedicate:
-
-- `tools/maspsx/` is vendored from [maspsx](https://github.com/mkst/maspsx) under its MIT licence
-  (`tools/maspsx/LICENSE`).
-- The reconstructed sources describe *Azure Dreams*, which is © Konami. They are the product of
-  decompiling the retail binaries for research and preservation; no rights in the game are claimed,
-  and the repository contains no game data.
+- *Azure Dreams* and its code, data and trademarks are (c) Konami. This project is not affiliated
+  with or endorsed by Konami, and grants no rights in Konami's material.
+- No game data is included. You must supply your own copy of the game. The reconstructed C
+  describes the behaviour of Konami's program, and a few files express small tables as C; those
+  tables remain Konami's.
+- The project's own original work (tools, build scripts, docs, recovered names and annotations, and
+  the contributors' own expression in the C to the extent they hold rights) is released under
+  [The Unlicense](LICENSE). Third-party parts keep their own licences: `tools/maspsx/` is MIT.
+- Full statement and credits: [NOTICE](NOTICE). This is not legal advice.
 
 ## Credits
 
-- **Azure Dreams De-Randomizer** by ProGrammar-R (https://github.com/ProGrammar-R/ProGrammar-R.github.io, MPL-2.0).
-  Its address and table map of the retail binary (`initialStatsTable`, `trapTable`,
-  `itemCategoryTable`, record layouts, the RNG constants) anchored many of the symbol names and
-  struct layouts here. Only those facts were used; none of its code is included.
-- **sotn-decomp** (https://github.com/Xeeynamo/sotn-decomp): naming vocabulary for common
-  PlayStation game structures, borrowed only where the Azure Dreams evidence supports the same concept.
-- Toolchain: **splat** (https://github.com/ethteck/splat), **m2c** (https://github.com/matt-kempster/m2c),
-  **maspsx** (https://github.com/mkst/maspsx), **decompals old-gcc** builds of the Psy-Q-era GCC
-  (https://github.com/decompals/old-gcc), **mkpsxiso** (https://github.com/Lameguy64/mkpsxiso),
-  **spimdisasm**, GNU binutils.
-- *Azure Dreams* is © Konami. This repository contains no game data; you must supply your own disc.
+- **Azure Dreams De-Randomizer** by ProGrammar-R (MPL-2.0): address and table map of the retail
+  binary that anchored many names and struct layouts. Only facts were used; none of its code.
+- **sotn-decomp**: naming vocabulary for common PlayStation game structures.
+- Toolchain: **splat**, **m2c**, **maspsx**, **decompals old-gcc** builds of the Psy-Q-era GCC,
+  **mkpsxiso**, **spimdisasm**, GNU binutils.

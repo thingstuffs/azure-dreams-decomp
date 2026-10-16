@@ -5,37 +5,37 @@ typedef struct S_800AFF00_0 {
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_800AFF00_0;   /* arg1 in func_800AFF00 */
+} S_800AFF00_0;   /* arg1 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_1 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_800AFF00_1;   /* src1 in func_800AFF00 */
+} S_800AFF00_1;   /* src1 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800AFF00_2;   /* arg2 in func_800AFF00 */
+} S_800AFF00_2;   /* arg2 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_800AFF00_3;   /* src2 in func_800AFF00 */
+} S_800AFF00_3;   /* src2 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_4 {
     s32 unk_00;
     void * unk_04;
     void * unk_08;
-} S_800AFF00_4;   /* arg0 in func_800AFF00 */
+} S_800AFF00_4;   /* arg0 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_5 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AFF00_5;   /* dst in func_800AFF00 */
+} S_800AFF00_5;   /* dst in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_6 {
     u8 pad_00[0x6];
@@ -45,19 +45,19 @@ typedef struct S_800AFF00_6 {
     s16 unk_0C;
     u8 pad_0E[0x1];
     u8 unk_0F;
-} S_800AFF00_6;   /* ((S_800AFF00_4 *)arg0)->unk_04 in func_800AFF00 */
+} S_800AFF00_6;   /* ((S_800AFF00_4 *)arg0)->unk_04 in townInitializeItemMenuLinkedBlocks */
 
 typedef struct S_800AFF00_7 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in func_800AFF00 */
+} S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in townInitializeItemMenuLinkedBlocks */
 
 
 extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 
 /* Initialize two linked data blocks from templates and set their default fields. */
-void func_800AFF00(S_800AFF00_4 *state, S_800AFF00_0 *primary, S_800AFF00_2 *secondary) {
+void townInitializeItemMenuLinkedBlocks(S_800AFF00_4 *state, S_800AFF00_0 *primary, S_800AFF00_2 *secondary) {
     s32 *primary_defaults = D_8002E5D8;
     s32 *secondary_defaults = D_8002E5E8;
     s32 secondary_head;

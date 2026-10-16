@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
+void dungeonFillGenerationCellMarks(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     s16 rows_left;
     s32 span_left;
     s32 width_shifted;

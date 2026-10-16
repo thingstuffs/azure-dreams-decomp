@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p03.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
-void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
+void updateDirectionalMotionAndRecenterActor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source)
 {
     s16 timer;
     s32 direction;
@@ -10,7 +10,7 @@ void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_800
     direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(source);
+        dungeonApplyClampedActorValueDelta(source);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 19;
         motion->unk_10 =
@@ -21,7 +21,7 @@ void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_800
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, actor, &D_80174D5C);
+            dungeonBeginActorDisplayAction(action, motion, actor, &D_80174D5C);
             return;
         }
         if (actor->unk_14.at00_u16.v & 0x8000) {
@@ -56,7 +56,7 @@ void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_800
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, actor, &D_80174D5C);
+            dungeonBeginActorDisplayAction(action, motion, actor, &D_80174D5C);
             return;
         }
         action->unk_96.s = 8;
@@ -92,7 +92,7 @@ void func_8017314C(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_800
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, actor->unk_24, actor->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, actor->unk_24, actor->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)source - 0x20)) {

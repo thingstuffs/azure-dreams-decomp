@@ -5,7 +5,7 @@ s32 func_8015A298(void *entity_arg, void *primary_context_arg, void *secondary_c
     s32 result;
     void *entity = entity_arg;
 
-    state_type = (s16)func_800ADDA0(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)dungeonRelinkEntityAndClearHighFlag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         func_80159810(entity, primary_context_arg, secondary_context_arg, entity);

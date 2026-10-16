@@ -13,7 +13,7 @@ extern s32 func_80042900();
 extern s32 func_80042B68();
 extern s32 func_80048A44();
 extern s32 func_800997FC();
-extern s32 func_800A2B04();
+extern s32 dungeonSetRecordIntegerTileCenter();
 
 extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];
@@ -27,45 +27,45 @@ typedef struct S_80092E90_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80092E90_1;   /* arg2 in func_80092E90 */
+} S_80092E90_1;   /* arg2 in dungeonUpdateWakeNearbyMonsters */
 
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
     union { s16 n; u16 v; u16 n2; } unk_04;   /* accessed as both */
-} S_80092E90_3;   /* countBase in func_80092E90 */
+} S_80092E90_3;   /* countBase in dungeonUpdateWakeNearbyMonsters */
 
 typedef struct S_80092E90_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_80092E90_4;   /* arg0 in func_80092E90 */
+} S_80092E90_4;   /* arg0 in dungeonUpdateWakeNearbyMonsters */
 
 typedef struct S_80092E90_5 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x30];
     void * unk_5C;
-} S_80092E90_5;   /* savedArg3 in func_80092E90 */
+} S_80092E90_5;   /* savedArg3 in dungeonUpdateWakeNearbyMonsters */
 
 typedef struct S_80092E90_7_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80092E90_7_pre;   /* the 0x14 bytes before node in func_80092E90, addressed as node[-1] */
+} S_80092E90_7_pre;   /* the 0x14 bytes before node in dungeonUpdateWakeNearbyMonsters, addressed as node[-1] */
 
 typedef struct S_80092E90_7 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_80092E90_7;   /* node in func_80092E90 */
+} S_80092E90_7;   /* node in dungeonUpdateWakeNearbyMonsters */
 
 typedef struct S_80092E90_9 {
     u8 pad_00[0x26];
     s8 unk_26;
-} S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in func_80092E90 */
+} S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in dungeonUpdateWakeNearbyMonsters */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry)
+void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *actor, void *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -149,8 +149,8 @@ void func_80092E90(void *controller, EntityRec *motion, void *actor, void *entry
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
-        ((S_80092E90_4 *)controller)->unk_8C = func_8008ACDC;
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
+        ((S_80092E90_4 *)controller)->unk_8C = dungeonHandlePlayerInput;
         dungeonStatus.unk_0A--;
     default:
         return;

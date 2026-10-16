@@ -58,5 +58,5 @@ extern void func_8015EE68();
 extern u8 D_80162194[];
 extern u8 D_801621DC[];
 
-void * func_8015E870(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a);
+void * dungeonAllocateKindObject(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a);
 #endif

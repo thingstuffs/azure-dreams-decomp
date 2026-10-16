@@ -10,7 +10,7 @@ typedef struct S_8016EF10_0 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016EF10_0;   /* entity in func_8016EF10 */
+} S_8016EF10_0;   /* entity in dungeonExecuteActorScriptCommand */
 
 typedef struct S_8016EF10_1 {
     u8 pad_00[0x2A];
@@ -25,19 +25,19 @@ typedef struct S_8016EF10_1 {
     u8 unk_9B;
     u8 pad_9C[0x16];
     u8 unk_B2;
-} S_8016EF10_1;   /* actor in func_8016EF10 */
+} S_8016EF10_1;   /* actor in dungeonExecuteActorScriptCommand */
 
 typedef struct S_8016EF10_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_8016EF10_2;   /* global_base in func_8016EF10 */
+} S_8016EF10_2;   /* global_base in dungeonExecuteActorScriptCommand */
 
 
 extern s32 func_80047784();
 extern s32 func_800A9A0C();
-extern s32 func_800BBA40();
+extern s32 dungeonCreateFivePointEffect();
 extern s32 func_8016A928();
-extern s32 func_8016BF74();
+extern s32 advanceActorPath();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
@@ -48,7 +48,7 @@ extern u8 *D_80174CCC[];
 extern s16 D_80174CD0[];
 
 /* Executes the current actor script command and advances its repeat counter. */
-s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
+s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     u8 *actor = actor_arg;
     u8 *entity = entity_arg;
     u8 *command_stream;
@@ -90,7 +90,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
         return 0;
 
     case 8:
-        func_8016BF74(actor, action_context, entity, actor);
+        advanceActorPath(actor, action_context, entity, actor);
         return 0;
 
     case 0x10:
@@ -117,7 +117,7 @@ s32 func_8016EF10(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
                 direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 func_80047784(entity, D_80174694[direction_index], 0);
             }
-            if (func_800BBA40(((S_8016EF10_0 *)entity)->unk_24,
+            if (dungeonCreateFivePointEffect(((S_8016EF10_0 *)entity)->unk_24,
                               ((S_8016EF10_0 *)entity)->unk_25,
                               ((S_8016EF10_1 *)actor)->unk_88,
                               D_800DF45C, 0x2800, 0x208020,

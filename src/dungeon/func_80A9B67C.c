@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, EntityRec *actor_data)
+void dungeonUpdateActorBehaviorAndEffect(void *actor, EntityRec *position, SpriteFrameState *object, EntityRec *actor_data)
 {
     s32 distance;
     s16 effect_offset[3];
@@ -15,7 +15,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
     }
 
     if (actor_data->tileY == 0) {
-        func_800AA79C(actor, position, object, actor_data);
+        dungeonAdvanceActorPendingAction(actor, position, object, actor_data);
         if (object->frameTable == ((u8 *)D_80174C8C)) {
             return;
         }
@@ -34,14 +34,14 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (func_800AA924(actor, position, object, ((u8 *)D_80174C84)) != 0) {
+        if (dungeonResetActorActionState(actor, position, object, ((u8 *)D_80174C84)) != 0) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (((u32)actor_data->flags1C) & 0x100) {
-            func_800AA258(actor, position, object, actor_data);
+            dungeonBeginPushedActorMove(actor, position, object, actor_data);
             return;
         }
 
@@ -64,7 +64,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
         if (actor_data->unk_64 != 0) {
-            if (func_800AA6B4(actor, position, object, ((u8 *)D_80174C44)) != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(actor, position, object, ((u8 *)D_80174C44)) != 0) {
                 return;
             }
         }
@@ -81,7 +81,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         }
 
         if ((func_800A1C58(actor_data) << 16) != 0) {
-            if ((func_800AAB10(actor, position, object, actor_data) << 16) != 0) {
+            if ((dungeonProcessSelectedActorRecord(actor, position, object, actor_data) << 16) != 0) {
                 func_80174470(actor, position, object, actor_data);
             }
         }
@@ -101,7 +101,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         }
         if (!(actor_data->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
-                if ((func_8009A180(actor_data,
+                if ((dungeonCheckEntityRelation(actor_data,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -124,7 +124,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
             case 7:
             case 8:
-                if ((func_80171FA4(actor, position, object, actor_data) << 16) != 0) {
+                if ((dungeonUpdateActorAnimationBehaviorAndFacing(actor, position, object, actor_data) << 16) != 0) {
                     return;
                 }
                 func_80172168(actor, position, object, actor_data);
@@ -137,12 +137,12 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
                 EntityRec *player;
                 s16 facing;
 
-                facing = ((s16)func_800A0818((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                     &distance));
                 player = D_800814A8;
                 actor_data->facing = facing;
                 if (player->unk_9A == 0x11) {
-                    func_800AAF00(actor, position, object, ((u8 *)D_80174C34), ((void *)func_80170E7C));
+                    dungeonBeginActorSpellAction(actor, position, object, ((u8 *)D_80174C34), ((void *)dungeonUpdateActorBehaviorAndEffect));
                     return;
                 }
             }
@@ -154,7 +154,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             case 0:
             case 1:
             case 2:
-                func_800AAF00(actor, position, object, ((u8 *)D_80174C34), ((void *)func_80170E7C));
+                dungeonBeginActorSpellAction(actor, position, object, ((u8 *)D_80174C34), ((void *)dungeonUpdateActorBehaviorAndEffect));
                 return;
 
             default:
@@ -170,10 +170,10 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
             if (!(((u32)actor_data->flags1C) & 0x430)) {
 
-                if ((func_8009FD7C(
+                if ((dungeonCompareMonsterNeighborValues(
                         object->unk_24, object->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    actor_data->facing = ((s16)func_800A0818((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    actor_data->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                         &distance));
                 }
             }
@@ -213,7 +213,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             0);
     }
 
-    if (!func_8003DE58(object->source, object, effect_offset, 1)) {
+    if (!resolveRecordOrientationOrFallback(object->source, object, effect_offset, 1)) {
         return;
     }
     if (object->frameTable != ((u8 *)D_80174C3C)) {

@@ -6,7 +6,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 M2C_UNK func_80048A44(); /* extern */
-s16 func_800A0818();       /* extern */
+s16 dungeonGetRoundedFacingAndRoundingFlag();       /* extern */
 extern u8 D_800DD030[];
 
 
@@ -15,28 +15,28 @@ typedef struct S_80091B5C_1 {
     s32 unk_14;
     u8 pad_18[0x12];
     s16 unk_2A;
-} S_80091B5C_1;   /* arg3 in func_80091B5C */
+} S_80091B5C_1;   /* arg3 in dungeonBeginActorTurnTowardTarget */
 
 
 typedef struct S_80091B5C_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
     void * unk_0C;
-} S_80091B5C_3;   /* base in func_80091B5C */
+} S_80091B5C_3;   /* base in dungeonBeginActorTurnTowardTarget */
 
 typedef struct S_80091B5C_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80091B5C_4;   /* temp_v0 in func_80091B5C */
+} S_80091B5C_4;   /* temp_v0 in dungeonBeginActorTurnTowardTarget */
 
 typedef struct S_80091B5C_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80091B5C_5_pre;   /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in func_80091B5C, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
+} S_80091B5C_5_pre;   /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in dungeonBeginActorTurnTowardTarget, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
 
 /* Initializes the actor's action and turns it toward the current target. */
-void func_80091B5C(void *action, void *unused, void *actor, void *motion) {
+void dungeonBeginActorTurnTowardTarget(void *action, void *unused, void *actor, void *motion) {
     M2C_UNK distance;
     void *target;
 
@@ -54,7 +54,7 @@ void func_80091B5C(void *action, void *unused, void *actor, void *motion) {
         >> 9) & 7], 0, 1);
     target = ((S_80091B5C_5_pre *)(dungeonStatus.unk_0C))[-1].unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((S_80091B5C_1 *)motion)->unk_2A;
-    ((S_80091B5C_1 *)motion)->unk_2A = func_800A0818(((Rec_D_80082E80 *)actor)->unk_24,
+    ((S_80091B5C_1 *)motion)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(((Rec_D_80082E80 *)actor)->unk_24,
         ((Rec_D_80082E80 *)actor)->unk_25, ((S_80091B5C_4 *)target)->unk_24, ((S_80091B5C_4 *)target)->unk_25,
         &distance);
 }

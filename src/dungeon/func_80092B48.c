@@ -21,17 +21,17 @@ typedef struct {
 extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
 extern s32 *D_800E3D18[];
-extern Item *func_80097F84(void *target, void *ptr1, void *ptr2, s16 flag);
+extern Item *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, s16 flag);
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099368(Item *, s32);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendTypedFormattedValue(Item *, s32);
 extern s32 func_80099734(void *record, u8 *out);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
-extern void func_800483AC(s32);
+extern void clearAlternateTextureRegions(s32);
 extern void func_80048568(s32);
 extern void func_80048590(s32);
 extern u8 D_80088B64[];
@@ -49,7 +49,7 @@ extern u8 D_800E3D80[];
 extern u8 D_800DD2C4[];
 extern u8 D_800DD2B4[];
 
-void func_800982A8(Arg0 *context, Item *item) {
+void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
     s32 value;
     register s32 result_value;
     s32 item_index;
@@ -69,12 +69,12 @@ void func_800982A8(Arg0 *context, Item *item) {
         if (selected_item->b1 == 0xF && selected_item->b0 >= 0xD) {
             func_800A56E0(0x506);
             result_value = func_800990FC();
-            item_b3 = func_80099368(selected_item, func_80099194(D_800E080A, func_80099734(context, func_8009929C(8, result_value))));
+            item_b3 = dungeonAppendTypedFormattedValue(selected_item, func_80099194(D_800E080A, func_80099734(context, dungeonWriteTextByteAndAdvance(8, result_value))));
             func_80099290(func_80099194(D_80088B64, item_b3));
             func_800A5720(result_value);
             return;
         }
-        selected_item = func_80097F84(selected_item, D_800E07C0, D_800E07D3, 0);
+        selected_item = dungeonRegisterItemObjectInFreeSlot(selected_item, D_800E07C0, D_800E07D3, 0);
         if (selected_item == NULL) {
             return;
         }
@@ -86,7 +86,7 @@ void func_800982A8(Arg0 *context, Item *item) {
         if (value & 0x40) {
             func_800A56E0(0x70A);
             result_value = func_800990FC();
-            item_b3 = func_80099368(current_item, func_8009929C(8, result_value));
+            item_b3 = dungeonAppendTypedFormattedValue(current_item, dungeonWriteTextByteAndAdvance(8, result_value));
             func_80099290(func_80099194(D_800E081C, item_b3));
             func_800A5720(result_value);
             return;
@@ -104,7 +104,7 @@ void func_800982A8(Arg0 *context, Item *item) {
         item_index = selected_item->b0;
         selected_item->b3 = item_b3 & 0x7F;
         result_value = func_800990FC();
-        func_80099290(func_80099194(D_800E0844, func_80099368(selected_item, func_8009929C(8, result_value))));
+        func_80099290(func_80099194(D_800E0844, dungeonAppendTypedFormattedValue(selected_item, dungeonWriteTextByteAndAdvance(8, result_value))));
         func_800A5720(result_value);
         D_800E3D18[0] = (s32 *)D_800E3D80;
         tail_index = 0x70A;
@@ -112,15 +112,15 @@ void func_800982A8(Arg0 *context, Item *item) {
             context->flags |= 0x800;
             func_800A56E0(tail_index);
             result_value = func_800990FC();
-            func_80099290(func_80099194(D_800E0853, func_80099368(selected_item, result_value)));
+            func_80099290(func_80099194(D_800E0853, dungeonAppendTypedFormattedValue(selected_item, result_value)));
             func_800A5720(result_value);
         }
         selected_item->b3 |= 0x20;
     } else {
         if (state != 0) {
             result_value = func_800990FC();
-            value = func_8009929C(8, result_value);
-            value = func_80099368(context->field4C, value);
+            value = dungeonWriteTextByteAndAdvance(8, result_value);
+            value = dungeonAppendTypedFormattedValue(context->field4C, value);
             value = func_80099194(D_800E0862, value);
             func_80099290(value);
             func_800A5720(result_value);
@@ -139,7 +139,7 @@ void func_800982A8(Arg0 *context, Item *item) {
         context->b84 = D_800DD2E0[tail_index];
         context->b85 = D_800DD2D4[tail_index];
         if (tail_index == 0) {
-            func_800483AC(1);
+            clearAlternateTextureRegions(1);
             return;
         }
         func_80048590(tail_index);
@@ -147,12 +147,12 @@ void func_800982A8(Arg0 *context, Item *item) {
         context->b84 = D_800DD2C4[tail_index];
         context->b85 = D_800DD2B4[tail_index];
         if (tail_index == 0) {
-            func_800483AC(1);
+            clearAlternateTextureRegions(1);
             return;
         }
         func_80048568(tail_index);
     }
     if (item_index == 0) {
-        func_800483AC(1);
+        clearAlternateTextureRegions(1);
     }
 }

@@ -5,24 +5,24 @@ extern int abs(int);
 typedef struct S_800BD688_9 {
     void * unk_00;
     void * unk_04;
-} S_800BD688_9;   /* arg0 in func_800BD688 */
+} S_800BD688_9;   /* arg0 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_10 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800BD688_10;   /* ((S_800BD688_9 *)arg0)->unk_00 in func_800BD688 */
+} S_800BD688_10;   /* ((S_800BD688_9 *)arg0)->unk_00 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_11 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800BD688_11;   /* ((S_800BD688_9 *)arg0)->unk_04 in func_800BD688 */
+} S_800BD688_11;   /* ((S_800BD688_9 *)arg0)->unk_04 in townRandomizePairedObjectMotion */
 
 
 typedef struct S_800BD688_0_pre {
     u16 unk_00;
-} S_800BD688_0_pre;   /* the 0x2 bytes before arg0 in func_800BD688, addressed as arg0[-1] */
+} S_800BD688_0_pre;   /* the 0x2 bytes before arg0 in townRandomizePairedObjectMotion, addressed as arg0[-1] */
 
 typedef struct S_800BD688_0 {
     void * unk_00;
@@ -31,55 +31,55 @@ typedef struct S_800BD688_0 {
     u8 pad_0C[0x14];
     union { s16 s; u16 u; } unk_20;   /* accessed as both */
     u16 unk_22;
-} S_800BD688_0;   /* arg0 in func_800BD688 */
+} S_800BD688_0;   /* arg0 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_1 {
     s32 unk_00;
-} S_800BD688_1;   /* left_ptr in func_800BD688 */
+} S_800BD688_1;   /* left_ptr in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_2 {
     s32 unk_00;
-} S_800BD688_2;   /* right_ptr in func_800BD688 */
+} S_800BD688_2;   /* right_ptr in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BD688_3;   /* var_a0 in func_800BD688 */
+} S_800BD688_3;   /* var_a0 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BD688_4;   /* temp_v1_2 in func_800BD688 */
+} S_800BD688_4;   /* temp_v1_2 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800BD688_5;   /* temp_v1_3 in func_800BD688 */
+} S_800BD688_5;   /* temp_v1_3 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_6 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800BD688_6;   /* temp_a0 in func_800BD688 */
+} S_800BD688_6;   /* temp_a0 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_7 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800BD688_7;   /* temp_a1 in func_800BD688 */
+} S_800BD688_7;   /* temp_a1 in townRandomizePairedObjectMotion */
 
 typedef struct S_800BD688_8 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800BD688_8;   /* temp_a0_2 in func_800BD688 */
+} S_800BD688_8;   /* temp_a0_2 in townRandomizePairedObjectMotion */
 
 
 s32 rand(void);                      /* extern */
 
 /* Randomize paired object motion until both pass the stop position, then set completion flags. */
-void func_800BD688(void *pair_in) {
+void townRandomizePairedObjectMotion(void *pair_in) {
     void *pair = pair_in;
     s32 state;
     s32 random_value;

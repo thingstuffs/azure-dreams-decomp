@@ -9,7 +9,7 @@ typedef struct S_80FF3000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FF3000_0;   /* temp_v0 in func_801588A8 */
+} S_80FF3000_0;   /* temp_v0 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
 
 typedef struct S_80FF3000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FF3000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FF3000_1;   /* var_s0 in func_801588A8 */
+} S_80FF3000_1;   /* var_s0 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
 
 typedef struct S_80FF3000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FF3000_2;   /* temp_s4 in func_801588A8 */
+} S_80FF3000_2;   /* temp_s4 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
 
 typedef struct S_80FF3000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80FF3000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FF3000_3;   /* temp_s2 in func_801588A8 */
+} S_80FF3000_3;   /* temp_s2 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
 
 typedef struct S_80FF3000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80FF3000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FF3000_4;   /* temp_s5 in func_801588A8 */
+} S_80FF3000_4;   /* temp_s5 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
 
 
 void *func_8003FD64();
@@ -55,13 +55,13 @@ extern M2C_UNK D_8015C088;
 
 
 
-void *func_801588A8(s16, s32, s32, s16)
+void *dungeonCreateAndInitializesDungeonFlagsPlacementParameters(s16, s32, s32, s16)
 #ifdef __mips__
 #endif
 ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
-void *func_801588A8(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
+void *dungeonCreateAndInitializesDungeonFlagsPlacementParameters(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
     u16 saved_value;

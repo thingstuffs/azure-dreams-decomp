@@ -20,7 +20,7 @@ extern s32 D_800786DC[];
 extern s32 D_800786E8[];
 
 /* Update status flags and state pointers from the current value and its limit. */
-void func_800B0D7C(S_func_800B361C_0 *object) {
+void townUpdateShopStateFlags(S_func_800B361C_0 *object) {
     if (object->unk_10 > 0) {
         S_func_800B361C_1 *state;
         s32 branch_flags;

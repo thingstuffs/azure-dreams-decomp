@@ -34,7 +34,7 @@ void func_8014F39C(void *action, void *context, void *sprite_in, void *actor_in)
                 return;
             }
             if (((CL_CD7000_8017339C_S_80173D4C_2 *)actor_in)->unk_64 != 0) {
-                if (func_800AA6B4(action, context, sprite_in, 0) != 0) {
+                if (dungeonBeginReadyActorDirectionalAction(action, context, sprite_in, 0) != 0) {
                     return;
                 }
             }
@@ -42,7 +42,7 @@ void func_8014F39C(void *action, void *context, void *sprite_in, void *actor_in)
                 if (status->flags & 0x2008) {
                     return;
                 }
-                func_800AA79C(action, context, sprite_in, actor_in);
+                dungeonAdvanceActorPendingAction(action, context, sprite_in, actor_in);
                 return;
             }
             if ((func_800A2C34(actor_in) << 16) != 0) {
@@ -50,7 +50,7 @@ void func_8014F39C(void *action, void *context, void *sprite_in, void *actor_in)
             }
             actor_flags = ((CL_CD7000_8017339C_S_80173D4C_2 *)actor_in)->unk_1C;
             if (actor_flags & 0x100) {
-                func_800AA258(action, context, sprite_in, actor_in);
+                dungeonBeginPushedActorMove(action, context, sprite_in, actor_in);
                 return;
             }
             if (actor_flags & 0x80000) {
@@ -62,7 +62,7 @@ void func_8014F39C(void *action, void *context, void *sprite_in, void *actor_in)
                 return;
             }
             if ((func_800A2C34(actor_in) << 16) != 0) {
-                if ((func_8009A180(actor_in,
+                if ((dungeonCheckEntityRelation(actor_in,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -76,7 +76,7 @@ void func_8014F39C(void *action, void *context, void *sprite_in, void *actor_in)
                 s32 probe_result;
 
                 if ((coordinate != origin->unk_026) || (coordinate < 0)) {
-                    probe_result = func_8009FD40(origin, sprite_in);
+                    probe_result = dungeonGetTileChebyshevDistance(origin, sprite_in);
                     actor_to_check = actor_in;
                     if (probe_result >= 2) {
                         break;

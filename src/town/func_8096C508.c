@@ -26,15 +26,15 @@ extern u8 D_80082E6B;
 extern s8 D_80080A84;
 extern s8 D_80129728;
 
-extern u8 func_80123200(u8);
+extern u8 townIsCatalogEntryAvailable(u8);
 extern void SD_Call(s32);
 extern void func_801237A4(Object *);
-extern void func_80044144(s32, s32, s32, s32);
+extern void createDeferredResourceTransitionTask(s32, s32, s32, s32);
 extern void func_8004B248(void *);
 extern void func_801231DC(void);
 
 /* Handles input to update object selections, action states, and exit behavior. */
-void func_801249A0(Object *object)
+void townHandleCatalogGridInput(Object *object)
 {
     GameWork *input_state = &gameWork;
     u32 input_flags;
@@ -49,7 +49,7 @@ void func_801249A0(Object *object)
     if (input_flags & 0x40) {
         s32 slot_index;
 
-        if (!func_80123200(object->field_13)) {
+        if (!townIsCatalogEntryAvailable(object->field_13)) {
             return;
         }
         SD_Call(0x702);
@@ -87,7 +87,7 @@ void func_801249A0(Object *object)
     if (input_flags & 0x20) {
         SD_Call(0x700);
         if (D_80082E6B == 0x17) {
-            func_80044144(0, 0, 0, 0);
+            createDeferredResourceTransitionTask(0, 0, 0, 0);
             reset_entries = (s32 **)&D_80129728;
             for (entry_index = 0; entry_index < 98; entry_index++) {
                 *reset_entries[entry_index] = 0;

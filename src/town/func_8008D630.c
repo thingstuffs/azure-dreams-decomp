@@ -14,11 +14,11 @@ typedef struct TownState {
 
 extern TownEntry D_800CF720[];
 extern TownState D_801131B8;
-extern s32 func_8008ACE8(s32 index);
-extern void func_8008ACAC(void *dst, void *src, s32 value);
+extern s32 townSumResourceBytes(s32 index);
+extern void townCopyWordsBackwardFromOffset(void *dst, void *src, s32 value);
 
 /* Shifts town entries up one slot and relocates their associated data by the given offset. */
-void func_8008AD90(s32 count, s32 data_offset) {
+void townShiftResourceEntriesAndData(s32 count, s32 data_offset) {
     TownEntry *entries;
     TownState *state;
     s32 src_index;
@@ -36,8 +36,8 @@ void func_8008AD90(s32 count, s32 data_offset) {
             dst_entry->field2 = entries[src_index].field2;
             entry_value = entries[src_index].field4;
             dst_entry->field4 = entry_value;
-            entry_data = state->field2C + func_8008ACE8(src_index);
-            func_8008ACAC(entry_data + data_offset, entry_data, entry_value);
+            entry_data = state->field2C + townSumResourceBytes(src_index);
+            townCopyWordsBackwardFromOffset(entry_data + data_offset, entry_data, entry_value);
             count = src_index;
         } while (count != 0);
     }

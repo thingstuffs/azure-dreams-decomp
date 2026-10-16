@@ -24,7 +24,7 @@ typedef struct S_80036154_0 {
 } S_80036154_0;   /* arg0 in func_80036154 */
 
 
-void func_80036988();              /* extern */
+void copyWindowOffsetRectangle();              /* extern */
 void func_80036210();
 void func_800362D0();
 void func_800364EC();
@@ -52,6 +52,6 @@ void func_80036154(void *object) {
     } else if (source_handler == &func_80038A00) {
         ((S_80036154_0 *)object)->unk_68 = &func_800368D0;
     }
-    func_80036988(object + 0xC, ((S_80036154_0 *)object)->unk_74);
+    copyWindowOffsetRectangle(object + 0xC, ((S_80036154_0 *)object)->unk_74);
     ((S_80036154_2 *)(((S_80036154_1 *)object)->unk_74))->unk_85 = 1;
 }

@@ -7,7 +7,7 @@ typedef struct S_8004EC20 {
     u8 b9;         /* 0x9 */
 } S_8004EC20;
 
-extern s32 func_8004EBDC(void);
+extern s32 padBothKeyStatesClear(void);
 extern void func_80044618(s32);
 
 extern s32 (*D_80071654[])(void *);
@@ -18,7 +18,7 @@ s32 func_8004EC20(S_8004EC20 *dispatch) {
 
     if (dispatch->b8 != 0) {
         if (dispatch->b9 != 0) {
-            while (func_8004EBDC() == 0) {
+            while (padBothKeyStatesClear() == 0) {
                 func_80044618(2);
             }
             result = D_80071654[dispatch->idx]((void *)((u8 *)dispatch - 0x20));

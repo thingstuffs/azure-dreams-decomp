@@ -3,7 +3,7 @@
 
 typedef struct S_8016F99C_0_pre {
     u16 unk_00;
-} S_8016F99C_0_pre;   /* the 0x2 bytes before arg0 in func_8016F99C, addressed as arg0[-1] */
+} S_8016F99C_0_pre;   /* the 0x2 bytes before arg0 in dungeonAnimateEncounterOverlaySlide, addressed as arg0[-1] */
 
 typedef struct S_8016F99C_0 {
     u8 pad_00[0x12];
@@ -12,21 +12,21 @@ typedef struct S_8016F99C_0 {
     u16 unk_18;
     u8 pad_1A[0x2];
     s16 unk_1C;
-} S_8016F99C_0;   /* arg0 in func_8016F99C */
+} S_8016F99C_0;   /* arg0 in dungeonAnimateEncounterOverlaySlide */
 
 typedef struct S_8016F99C_1 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8016F99C_1;   /* arg1 in func_8016F99C */
+} S_8016F99C_1;   /* arg1 in dungeonAnimateEncounterOverlaySlide */
 
 
 extern void *D_80175D58[];
 extern void *D_80175D5C[];
 
 /* Advances a timed transition, updates its target, and marks completion. */
-void func_8016F99C(void *transition, S_8016F99C_1 *target)
+void dungeonAnimateEncounterOverlaySlide(void *transition, S_8016F99C_1 *target)
 {
     s32 state;
     u16 timer;

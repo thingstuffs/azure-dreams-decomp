@@ -26,7 +26,7 @@ typedef struct S_func_80025710_3 {
 
 
 /* Mark and process entries at the given coordinates with thresholds in the specified range. */
-void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
+void dungeonProcessEntriesAtCoordinates(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
     s32 match_x = x;
     s32 match_y = y;
     s32 upper_limit;

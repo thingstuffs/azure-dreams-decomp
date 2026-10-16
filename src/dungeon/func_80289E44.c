@@ -1,9 +1,9 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001CE44(Rec_func_8001CE44_arg0 *region, s16 update_id) {
+void dungeonUpdateRegionUntilComplete(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {
-        func_8001D5D8(region, update_id);
-        func_8001D4AC(region, update_id);
-    } while ((func_80017BEC(update_id) << 0x10) == 0);
-    func_80017480(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
+        dungeonFillRegionWithRandomPatches(region, update_id);
+        dungeonChooseRandomRegionFeature(region, update_id);
+    } while ((dungeonMarkPathThroughNeighboringTiles(update_id) << 0x10) == 0);
+    dungeonMaskGenerationCellRect(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
 }

@@ -32,7 +32,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
     case 1:
         node = (ObjectNodeHeader *)actor - 1;
         actor_visual = node->unk_0C;
-        if (!func_8003DE58(actor_visual->resource, actor_visual, offset, 0)) {
+        if (!resolveRecordOrientationOrFallback(actor_visual->resource, actor_visual, offset, 0)) {
             if (!( ((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000))
                 break;
         }
@@ -63,7 +63,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {
-                if (func_800A44E0((s16)tile_x * 0x40, (s16)tile_y * 0x40,
+                if (dungeonCheckLayerOffsetHeight((s16)tile_x * 0x40, (s16)tile_y * 0x40,
                                  actor->unk_88, action->direction << 9))
                     break;
                 height = func_800BCB04(((s16)tile_x + dirStepX[action->direction]) * 0x40 + 0x20,
@@ -85,7 +85,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
             motion->next_y = target_motion->y.v;
             motion->next_z = motion->z.v - 0x200000;
         }
-        func_800242EC(action, motion, actor);
+        dungeonCreateAnInitializesVisualStateCopiesInitialData(action, motion, actor);
         action->ticks = 0;
         action->phase++;
         break;
@@ -96,7 +96,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
         if (action->ticks == 5) {
             func_800A56E0(0x300);
             for (steps = 0; steps < 8; steps++)
-                func_80025270(action, motion, (s16)steps);
+                dungeonCreateAnAttachedEffectCopiedTransformDataRandomizedAngle(action, motion, (s16)steps);
         }
         if (action->ticks >= 9) {
             action->ticks = 0;
@@ -110,7 +110,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
             motion->z.v -= 0x20000;
         if (action->ticks < 0x3C)
             break;
-        func_8002452C(action);
+        dungeonCreateATypeHex212InitializesHandlerMode(action);
         target = actor->target;
         if (target) {
             target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;

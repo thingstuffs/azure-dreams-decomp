@@ -4,7 +4,7 @@
 
 
 /* Return whether any record matches text through its terminator or the first 21 bytes. */
-s32 func_80021A04(s32 count, u8 *text)
+s32 cardBootHasDirectoryNamePrefix(s32 count, u8 *text)
 {
     s32 record_index;
     s32 found;

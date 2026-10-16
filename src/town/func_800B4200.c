@@ -43,7 +43,7 @@ typedef union {
 } S_800B4200_arg4;
 
 /* Initialize the state and its buffers from templates, then set the position. */
-void func_800B1960(S_800B4200_a0 *state, S_8002E5D8 *params,
+void townInitializeTemplatedStateAndPosition(S_800B4200_a0 *state, S_8002E5D8 *params,
                    S_800B4200_a2 *data, s32 x, S_800B4200_arg4 y_arg) {
     s32 y = y_arg.value;
     S_8002E5D8 *params_template = &D_8002E5D8;

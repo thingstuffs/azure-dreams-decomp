@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_a250dc.h"
 
-void *func_8015E8DC(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value)
+void *dungeonAllocateObjectWithChildEntries(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value)
 {
     void *root;
     void *copy;
@@ -139,7 +139,7 @@ void *func_8015E8DC(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value
                     item_offset += 0x30;
                     item_index++;
                     ((S_8015E8DC_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, D_800D71A8, 1);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, D_800D71A8, 1);
                     more_items = item_index < ((S_8015E8DC_6 *)(void *)saved_kind)->unk_02;
                     ((S_8015E8DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

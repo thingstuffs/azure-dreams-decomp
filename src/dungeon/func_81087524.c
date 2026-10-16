@@ -8,7 +8,7 @@ typedef struct {
 
 extern s32 D_80175F38;
 
-s32 func_8003DE58(s32, void *, s16 *, s32);
+s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s32);
 void func_80047784(void *, s32, s32);
 void func_800478B8(void *);
 
@@ -18,7 +18,7 @@ typedef struct S_80174D24_0 {
     u16 unk_02;
     Copy24 * unk_04;
     void * unk_08;
-} S_80174D24_0;   /* arg0 in func_80174D24 */
+} S_80174D24_0;   /* arg0 in dungeonAdvanceTimedTargetFlags */
 
 typedef struct S_80174D24_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -27,21 +27,21 @@ typedef struct S_80174D24_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174D24_1;   /* arg1 in func_80174D24 */
+} S_80174D24_1;   /* arg1 in dungeonAdvanceTimedTargetFlags */
 
 typedef struct S_80174D24_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80174D24_2;   /* object in func_80174D24 */
+} S_80174D24_2;   /* object in dungeonAdvanceTimedTargetFlags */
 
 
 typedef struct S_80174D24_4 {
     u8 pad_00[0x2C];
     void * unk_2C;
-} S_80174D24_4;   /* ((S_80174D24_0 *)arg0)->unk_08 in func_80174D24 */
+} S_80174D24_4;   /* ((S_80174D24_0 *)arg0)->unk_08 in dungeonAdvanceTimedTargetFlags */
 
 /* Copies object data with offsets and advances a timed target flag cycle. */
-void func_80174D24(void *state, void *output, void *target)
+void dungeonAdvanceTimedTargetFlags(void *state, void *output, void *target)
 {
     u16 offsets[3];
     void *object;
@@ -67,7 +67,7 @@ void func_80174D24(void *state, void *output, void *target)
     object = ((S_80174D24_0 *)state)->unk_08;
     offset_mode = 0;
     object_id = ((S_80174D24_2 *)object)->unk_08;
-    if (func_8003DE58(object_id, object,
+    if (resolveRecordOrientationOrFallback(object_id, object,
                       (s16 *)offsets, offset_mode) != 0) {
         ((S_80174D24_1 *)output)->unk_00.at02.v += offsets[0];
         ((S_80174D24_1 *)output)->unk_04.at02.v += offsets[1];

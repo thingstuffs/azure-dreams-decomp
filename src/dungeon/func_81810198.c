@@ -4,25 +4,25 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern void func_800250B4();
+extern void dungeonSetItemDataFromLookup();
 extern void *func_80025350();
 extern void func_800253C0();
-extern s32 func_80026168();
-extern s32 func_80026A64();
-extern s32 func_8002845C();
-extern s32 func_8004A330();
-extern void func_800DBF38();
+extern s32 inventoryAllocateAndInitializeChild();
+extern s32 dungeonAllocateInitializedChildObject();
+extern s32 dungeonCreateMenuChildObject();
+extern s32 windowCreateAnimatedContentPanel();
+extern void dungeonClearStateFlagBit();
 extern s32 D_80029498;
 
 
 typedef struct S_80025198_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80025198_0;   /* temp_v0 in func_80025198 */
+} S_80025198_0;   /* temp_v0 in dungeonAllocateItemObject */
 
 typedef struct S_80025198_1_pre {
     u16 unk_00;
-} S_80025198_1_pre;   /* the 0x2 bytes before temp_s2 in func_80025198, addressed as temp_s2[-1] */
+} S_80025198_1_pre;   /* the 0x2 bytes before temp_s2 in dungeonAllocateItemObject, addressed as temp_s2[-1] */
 
 typedef struct S_80025198_1 {
     u8 pad_00[0x4];
@@ -38,31 +38,31 @@ typedef struct S_80025198_1 {
     s32 unk_2C;
     s32 unk_30;
     s32 unk_34;
-} S_80025198_1;   /* temp_s2 in func_80025198 */
+} S_80025198_1;   /* temp_s2 in dungeonAllocateItemObject */
 
 typedef struct S_80025198_2 {
     u8 unk_00;
     u8 unk_01;
-} S_80025198_2;   /* temp_a1 in func_80025198 */
+} S_80025198_2;   /* temp_a1 in dungeonAllocateItemObject */
 
 typedef struct S_80025198_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_80025198_3;   /* temp_s0 in func_80025198 */
+} S_80025198_3;   /* temp_s0 in dungeonAllocateItemObject */
 
 typedef struct S_80025198_4 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80025198_4;   /* var_v1 in func_80025198 */
+} S_80025198_4;   /* var_v1 in dungeonAllocateItemObject */
 
 typedef struct S_80025198_5 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80025198_5;   /* temp_s5 in func_80025198 */
+} S_80025198_5;   /* temp_s5 in dungeonAllocateItemObject */
 
 /* Allocate and initialize an object, cleaning up if any required resource is missing. */
-void *func_80025198(s32 value_00, s32 value_10, s32 value_18, void *descriptor, s32 setup_arg) {
+void *dungeonAllocateItemObject(s32 value_00, s32 value_10, s32 value_18, void *descriptor, s32 setup_arg) {
     s32 *display_ids;
     s32 resource_index;
     void *descriptor_data;
@@ -80,21 +80,21 @@ void *func_80025198(s32 value_00, s32 value_10, s32 value_18, void *descriptor, 
         ((S_80025198_1 *)state)->unk_14 = (s32) ((S_80025198_2 *)descriptor_data)->unk_01;
         ((S_80025198_1 *)state)->unk_18 = value_18;
         ((S_80025198_1 *)state)->unk_1C = (s32) ((S_80025198_2 *)descriptor_data)->unk_00;
-        func_800250B4(state, descriptor_data, setup_arg);
+        dungeonSetItemDataFromLookup(state, descriptor_data, setup_arg);
         (*(s32 *)((u8 *)object + (0x10))) = 0;
         if (D_80082E60.mode != 1) {
-            func_800DBF38();
+            dungeonClearStateFlagBit();
         }
         display_ids = &D_80029498;
-        ((S_80025198_1 *)state)->unk_2C = func_8004A330(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
-        ((S_80025198_1 *)state)->unk_30 = func_8004A330(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
+        ((S_80025198_1 *)state)->unk_2C = windowCreateAnimatedContentPanel(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
+        ((S_80025198_1 *)state)->unk_30 = windowCreateAnimatedContentPanel(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_04);
-        ((S_80025198_1 *)state)->unk_34 = func_8004A330(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
+        ((S_80025198_1 *)state)->unk_34 = windowCreateAnimatedContentPanel(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
             ((S_80025198_3 *)display_ids)->unk_08);
-        ((S_80025198_1 *)state)->unk_20 = func_80026168(object, ((S_80025198_1 *)state)->unk_14,
+        ((S_80025198_1 *)state)->unk_20 = inventoryAllocateAndInitializeChild(object, ((S_80025198_1 *)state)->unk_14,
             ((S_80025198_1 *)state)->unk_04);
-        ((S_80025198_1 *)state)->unk_24 = func_8002845C(object, ((S_80025198_1 *)state)->unk_14);
-        ((S_80025198_1 *)state)->unk_28 = func_80026A64(object, ((S_80025198_1 *)state)->unk_14,
+        ((S_80025198_1 *)state)->unk_24 = dungeonCreateMenuChildObject(object, ((S_80025198_1 *)state)->unk_14);
+        ((S_80025198_1 *)state)->unk_28 = dungeonAllocateInitializedChildObject(object, ((S_80025198_1 *)state)->unk_14,
             ((S_80025198_1 *)state)->unk_04);
         globals_base = (s32 *) 0x80080000;
         for (resource_index = 0, resource_cursor = state; resource_index < 3; resource_index++, resource_cursor += 4) {

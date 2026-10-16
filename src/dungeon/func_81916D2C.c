@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_8002452C(s32 initial_value) {
+void dungeonCreateATypeHex212InitializesHandlerMode(s32 initial_value) {
     Row_81916D2C_S_8002452C_0 *object;
 
     object = func_8003FC64(0x212);

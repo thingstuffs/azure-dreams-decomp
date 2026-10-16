@@ -92,15 +92,15 @@ extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_80047784();
-extern void func_800478E8();
+extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots();
 extern void func_800AA36C();
 
-extern void func_800D78C0();
+extern void dungeonProcessEffectBlockEntries();
 extern void func_80158B64();
 extern void func_801591A4();
 extern u8 D_8015C18C[];
 extern u8 D_8015C1CC[];
 
-void * func_8015886C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void * func_800D71A8();
+void * dungeonSpawnModeDependent112ObjectVariant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
+extern void * dungeonDrawSpriteEffectQuads();
 #endif

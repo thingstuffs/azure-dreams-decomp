@@ -5,16 +5,16 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s16 func_8002773C();
-void *func_800280F4(void *, void *, u16 *);
-void func_8003DB4C();
+s16 dungeonFindMatchingInitialStatSlot();
+void *dungeonSelectObjectByFlagsAndKeys(void *, void *, u16 *);
+void zeroWords();
 void func_80041E70(void *);
 void func_80042710();
 void func_80042984();
-void func_80098B38();
+void dungeonClearSlotAndUpdateLinkedState();
 void func_8009A028();
 void func_8009A3D0();
-void func_800A18E8();
+void dungeonDecrementMonsterEntryCount();
 s32 func_800A1BD0();
 void func_800A31D0();
 s16 func_800A57B4();
@@ -59,60 +59,60 @@ typedef struct S_800277F4_0 {
     s32 unk_54;
     u8 pad_58[0xE];
     u8 unk_66;
-} S_800277F4_0;   /* var_s2 in func_800277F4 */
+} S_800277F4_0;   /* var_s2 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_1 {
     s8 unk_00;
     u8 pad_01[0x1];
     s8 unk_02;
-} S_800277F4_1;   /* temp_v0_2 in func_800277F4 */
+} S_800277F4_1;   /* temp_v0_2 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_2 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_2;   /* temp_s0 in func_800277F4 */
+} S_800277F4_2;   /* temp_s0 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_3 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_3;   /* temp_a0_3 in func_800277F4 */
+} S_800277F4_3;   /* temp_a0_3 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_4 {
     u8 unk_00;
     u8 pad_01[0x1];
     u8 unk_02;
-} S_800277F4_4;   /* temp_a0_5 in func_800277F4 */
+} S_800277F4_4;   /* temp_a0_5 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_5 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_5;   /* copy_src in func_800277F4 */
+} S_800277F4_5;   /* copy_src in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_6 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_6;   /* temp_s1 in func_800277F4 */
+} S_800277F4_6;   /* temp_s1 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_7 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_7;   /* temp_a1_2 in func_800277F4 */
+} S_800277F4_7;   /* temp_a1_2 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_8_pre {
     void * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800277F4_8_pre;   /* the 0x14 bytes before var_s4 in func_800277F4, addressed as var_s4[-1] */
+} S_800277F4_8_pre;   /* the 0x14 bytes before var_s4 in dungeonMergeCreatureAbilitiesAndState, addressed as var_s4[-1] */
 
 typedef struct S_800277F4_8 {
     u8 pad_00[0xE];
@@ -127,79 +127,79 @@ typedef struct S_800277F4_8 {
     u8 unk_43;
     u8 pad_44[0x10];
     s32 unk_54;
-} S_800277F4_8;   /* var_s4 in func_800277F4 */
+} S_800277F4_8;   /* var_s4 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_9 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800277F4_9;   /* (var_a0 + temp_s1_2) in func_800277F4 */
+} S_800277F4_9;   /* (var_a0 + temp_s1_2) in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_10 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800277F4_10;   /* (var_v0_3 + temp_s1_2) in func_800277F4 */
+} S_800277F4_10;   /* (var_v0_3 + temp_s1_2) in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_11 {
     u8 pad_00[0xA];
     u8 unk_0A;
-} S_800277F4_11;   /* temp_a1 in func_800277F4 */
+} S_800277F4_11;   /* temp_a1 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_12 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_12;   /* (var_v1 + temp_a0) in func_800277F4 */
+} S_800277F4_12;   /* (var_v1 + temp_a0) in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_13 {
     u8 unk_00;
     u8 pad_01[0x1];
     u8 unk_02;
-} S_800277F4_13;   /* temp_a3 in func_800277F4 */
+} S_800277F4_13;   /* temp_a3 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_14 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_14;   /* fallback_source in func_800277F4 */
+} S_800277F4_14;   /* fallback_source in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_15 {
     u8 unk_00;
     u8 pad_01[0x1];
     s8 unk_02;
-} S_800277F4_15;   /* temp_a0_8 in func_800277F4 */
+} S_800277F4_15;   /* temp_a0_8 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_16 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_16;   /* (var_s2 + (var_s3 * 3)) in func_800277F4 */
+} S_800277F4_16;   /* (var_s2 + (var_s3 * 3)) in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_17 {
     u8 pad_00[0xD0];
     void * unk_D0;
-} S_800277F4_17;   /* slot_addr in func_800277F4 */
+} S_800277F4_17;   /* slot_addr in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_18 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800277F4_18;   /* temp_a0_9 in func_800277F4 */
+} S_800277F4_18;   /* temp_a0_9 in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_19 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_800277F4_19;   /* runtime_addr in func_800277F4 */
+} S_800277F4_19;   /* runtime_addr in dungeonMergeCreatureAbilitiesAndState */
 
 typedef struct S_800277F4_20 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800277F4_20;   /* temp_s1_3 in func_800277F4 */
+} S_800277F4_20;   /* temp_s1_3 in dungeonMergeCreatureAbilitiesAndState */
 
 /* Merges two creatures' abilities and state, optionally copying the result and removing the donor. */
-void *func_800277F4(void *first, void *second, void *destination) {
+void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *destination) {
     u8 merge_buffer[17];
 #define donor_seen (merge_buffer + 3)
 #define merged_abilities (merge_buffer + 8)
@@ -270,7 +270,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
         void *second_creature;
         second_creature = second;
         ability_limit = 2;
-        result = func_800280F4(first_creature, second_creature, &merged_element);
+        result = dungeonSelectObjectByFlagsAndKeys(first_creature, second_creature, &merged_element);
         if (result == NULL) {
             return NULL;
         }
@@ -314,7 +314,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
             }
         } while ((s16) next_clear >= 0);
         ability_count = 0;
-        result_primary = func_8002773C(result, clear_donor_seen, clear_result_seen, clear_abilities);
+        result_primary = dungeonFindMatchingInitialStatSlot(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {
             {
                 u8 *primary_seen_base =
@@ -355,7 +355,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
             ability_count += 1;
         }
 merge_donor_primary:
-        donor_primary = func_8002773C(donor);
+        donor_primary = dungeonFindMatchingInitialStatSlot(donor);
         if (donor_primary >= 0) {
             {
                 u8 *frame_base =
@@ -590,7 +590,7 @@ merge_donor_primary:
         }
         if (destination == NULL) {
             func_800A31D0(donor);
-            func_800A18E8(((S_800277F4_8 *)donor)->unk_13, 3);
+            dungeonDecrementMonsterEntryCount(((S_800277F4_8 *)donor)->unk_13, 3);
             slot_index = func_800A1BD0(donor);
             {
                 u8 *slot_page = D_80080000;
@@ -633,9 +633,9 @@ merge_donor_primary:
 
                 ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
             }
-            func_8003DB4C(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
+            zeroWords(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
             D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
-            func_80098B38(donor_runtime);
+            dungeonClearSlotAndUpdateLinkedState(donor_runtime);
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&
                 ((result_kind = ((S_800277F4_0 *)result)->unk_13) != 2) &&

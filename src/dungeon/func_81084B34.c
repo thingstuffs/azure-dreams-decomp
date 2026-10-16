@@ -12,14 +12,14 @@ typedef struct S_80172334_0 {
     s8 unk_9B;
     u8 pad_9C[0xA];
     u16 unk_A6;
-} S_80172334_0;   /* arg0 in func_80172334 */
+} S_80172334_0;   /* arg0 in dungeonAdvanceTimedDirectionalReset */
 
 
 M2C_UNK func_80047784();         /* extern */
 extern u8 D_80175F20;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
-void func_80172334(void *state, M2C_UNK unused, void *sprite, EntityRec *orientation) {
+void dungeonAdvanceTimedDirectionalReset(void *state, M2C_UNK unused, void *sprite, EntityRec *orientation) {
     u16 ticks;
 
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;

@@ -58,11 +58,11 @@ setup:
     }
     func_8009A3D0(x, y, cell_flags);
 
-    heading = func_800A0818(x, y,
+    heading = dungeonGetRoundedFacingAndRoundingFlag(x, y,
         ((T_80172CC0_S_80172CC0_4 *)((u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s))->unk_74,
         ((T_80172CC0_S_80172CC0_4 *)((u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)movement + 0x98);
-    move_result = (s16)func_8009A66C(heading, actor, state, 0x20);
+    move_result = (s16)dungeonCheckMovementClearanceAndHeight(heading, actor, state, 0x20);
 
     path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
     ((Rec_D_80082E80 *)actor)->unk_24 = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
@@ -84,7 +84,7 @@ setup:
 
     ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A = heading;
     if (move_result == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
-        func_80173678(movement, actor_index, actor, state);
+        dungeonResetActorDirectionalAnimation(movement, actor_index, actor, state);
         ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
     } else {
         ((Rec_func_80172CC0_arg0 *)movement)->unk_9A.as_u8 = 0xF;

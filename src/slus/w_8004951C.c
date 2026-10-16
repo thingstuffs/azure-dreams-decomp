@@ -38,8 +38,8 @@ extern s32 func_80042A80(void *);
 extern s32 func_800438E4(void *);
 extern S_800492B0_Ret *func_800492B0(s32);
 extern void func_8004E5A0(s32, s32, u8 *);
-extern u8 *func_8004E69C(u8 *);
-extern s32 func_8004E298(s32, u8 *, s32);
+extern u8 *remapFlaggedStringBytes(u8 *);
+extern s32 buildPositionedTextGlyphs(s32, u8 *, s32);
 
 /* Formats and displays item modifiers and status markers. */
 s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
@@ -73,7 +73,7 @@ s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
         if (item->unk1 == 18) {
             if (D_80082E6A.unk0 != 1) {
                 func_8004E5A0(0x64 - item->unk2, 3, &text[9]);
-                func_8004E69C(&text[9]);
+                remapFlaggedStringBytes(&text[9]);
                 text[0xC] = 0xA;
                 text[0xD] = 9;
                 text[0xE] = 0x39;
@@ -82,11 +82,11 @@ s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
         }
         else if (item->unk1 == 4) {
             func_8004E5A0(item->unk2, 2, &text[0xB]);
-            func_8004E69C(&text[0xB]);
+            remapFlaggedStringBytes(&text[0xB]);
         }
         else if (item->unk1 == 14) {
             func_8004E5A0(func_800438E4(item), 5, &text[6]);
-            func_8004E69C(&text[6]);
+            remapFlaggedStringBytes(&text[6]);
             text[0xB] = 0xA;
             text[0xC] = 9;
             text[0xD] = 0x39;
@@ -97,7 +97,7 @@ s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
             if (modifier != 0) {
                 text[0xA] = (modifier > 0) ? (0x6B) : (0x6C);
                 func_8004E5A0((item->unk2 >= 0) ? (item->unk2) : (-item->unk2), 2, &text[0xB]);
-                func_8004E69C(&text[0xB]);
+                remapFlaggedStringBytes(&text[0xB]);
             }
         }
 
@@ -112,5 +112,5 @@ s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
         }
     }
 
-    return func_8004E298(text_target, text, 0);
+    return buildPositionedTextGlyphs(text_target, text, 0);
 }

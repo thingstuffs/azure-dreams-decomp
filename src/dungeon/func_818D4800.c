@@ -31,7 +31,7 @@ extern u32 func_80065420(void *scratch, void *prim_output, void *scratch_90, voi
 extern s32 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80067F20(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
 
-void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = func_80024668;
+void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = updateActorEffectParticlesAndCleanup;
 const PackedOffsets dungeon_18f4800_offsets = { {
     {16, 0}, {16, 16}, {0, 16}, {-16, 16},
     {-16, 0}, {-16, 0xFFF0}, {0, 0xFFF0}, {16, 0xFFF0}

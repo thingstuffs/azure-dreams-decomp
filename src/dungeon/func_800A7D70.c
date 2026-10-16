@@ -11,7 +11,7 @@ typedef struct {
 extern s32 func_80042900(void *entry, s32 effect_id);
 
 /* Apply and clear the value delta, clamping the result to the byte range and state limit. */
-void func_800AD4D0(void *entity) {
+void dungeonApplyClampedActorValueDelta(void *entity) {
     FuncState *state = (FuncState *)entity;
     s32 value;
 

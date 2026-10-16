@@ -3,7 +3,7 @@
 
 typedef struct S_80170A84_0_pre {
     u16 unk_00;
-} S_80170A84_0_pre;   /* the 0x2 bytes before arg0 in func_80170A84, addressed as arg0[-1] */
+} S_80170A84_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateShrinkingSpriteEffect, addressed as arg0[-1] */
 
 typedef struct S_80170A84_0 {
     u8 pad_00[0x2C];
@@ -14,12 +14,12 @@ typedef struct S_80170A84_0 {
     u8 pad_3A[0x6];
     void * unk_40;
     u32 * unk_44;
-} S_80170A84_0;   /* arg0 in func_80170A84 */
+} S_80170A84_0;   /* arg0 in dungeonUpdateShrinkingSpriteEffect */
 
 typedef struct S_80170A84_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80170A84_1_pre;   /* the 0x14 bytes before base in func_80170A84, addressed as base[-1] */
+} S_80170A84_1_pre;   /* the 0x14 bytes before base in dungeonUpdateShrinkingSpriteEffect, addressed as base[-1] */
 
 typedef struct S_80170A84_1 {
     u8 pad_00[0x9B];
@@ -28,7 +28,7 @@ typedef struct S_80170A84_1 {
     u8 unk_B1;
     u8 pad_B2[0x1];
     u8 unk_B3;
-} S_80170A84_1;   /* base in func_80170A84 */
+} S_80170A84_1;   /* base in dungeonUpdateShrinkingSpriteEffect */
 
 typedef struct S_80170A84_2 {
     u8 pad_00[0x6];
@@ -39,16 +39,16 @@ typedef struct S_80170A84_2 {
     u8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_80170A84_2;   /* arg2 in func_80170A84 */
+} S_80170A84_2;   /* arg2 in dungeonUpdateShrinkingSpriteEffect */
 
 typedef struct S_80170A84_3 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80170A84_3;   /* ((S_80170A84_1_pre *)base)[-1].unk_00 in func_80170A84 */
+} S_80170A84_3;   /* ((S_80170A84_1_pre *)base)[-1].unk_00 in dungeonUpdateShrinkingSpriteEffect */
 
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
-void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
+void dungeonUpdateShrinkingSpriteEffect(void *effect, void *output, S_80170A84_2 *render_data)
 {
     u8 *owner_data;
     u32 *source_words;

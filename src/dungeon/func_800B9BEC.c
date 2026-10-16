@@ -10,30 +10,30 @@
 
 extern u8 D_800E1224[];
 
-extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 func_80098864(s32, s32);
-extern void func_80098B38(s32);
+extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
 extern void func_800997FC(void *, s32, s16);
 extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
 
 /* Dispatch an action by type and target, updating the shared action state. */
-s32 func_800BF34C(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
+s32 dungeonUseItemToRevealElevator(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
     if (action_type == 13) {
-        return func_80098864(action_id, action_param);
+        return dungeonProcessRecordAndUpdateLinkedState(action_id, action_param);
     }
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = action_id;
-        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, action_id, action_type);
-        if (func_800AD6FC(target,
+        if (dungeonApplyActorFoodPreference(target,
                           D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           action_id) == 0) {
             func_800A5F38(target, action_id);
@@ -45,6 +45,6 @@ s32 func_800BF34C(EntityRec *target, s32 action_id, s16 action_type, s32 action_
     }
 
     dungeonStatus.unk_0A--;
-    func_80098B38(action_id);
+    dungeonClearSlotAndUpdateLinkedState(action_id);
     return 1;
 }

@@ -8,10 +8,10 @@ typedef struct S_80170CBC_0 {
     s16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_80170CBC_0;   /* temp_v1 in func_80170CBC */
+} S_80170CBC_0;   /* temp_v1 in dungeonAdvanceBossEffectCounter */
 
 /* Clear the object's halfword field and increment its byte counter. */
-void func_80170CBC(void) {
+void dungeonAdvanceBossEffectCounter(void) {
     S_80170CBC_0 *object;
 
     object = D_80174CE0 + 0x20;

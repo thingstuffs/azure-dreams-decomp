@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80096208(s32);                            /* extern */
+void townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC(s32);                            /* extern */
 M2C_UNK func_800962B8();                         /* extern */
 
-/* Pass the input to func_80096208, then func_800962B8. */
-void func_800961A8(s32 input_value) {
-    func_80096208(input_value);
+/* Pass the input to townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC, then func_800962B8. */
+void townCallTheCallee80096208Callee800962B8(s32 input_value) {
+    townApplyFixedPointBoundaryCorrectionsAccordingGlobal800FE5CC(input_value);
     func_800962B8(input_value);
 }

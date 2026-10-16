@@ -9,14 +9,14 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 
-s32 func_8003DE58();
-s32 func_80098920();
+s32 resolveRecordOrientationOrFallback();
+s32 dispatchDungeonCategoryAction();
 void func_8009A028();
-s32 func_8009B164();
-void *func_8009B25C();
-void func_800A2B04();
+s32 dungeonCheckNeighborTileBlocking();
+void *findEligibleActorAtTileAndHeight();
+void dungeonSetRecordIntegerTileCenter();
 s32 func_800A7A7C();
-void func_800B66C8();
+void dungeonEmitScatteredEffectsUnlessBlocked();
 extern M2C_UNK D_80081484;
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
@@ -238,7 +238,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
         if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x200000) {
             (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
                 + (0x60)))))->unk_2A;
-            if (func_8003DE58(
+            if (resolveRecordOrientationOrFallback(
                     ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28
                         +
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
@@ -249,7 +249,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
-            func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
+            dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
             ((S_800A871C_1 *)object)->unk_A0 = (s16) ((u16) ((S_800A871C_1 *)object)->unk_A0 + 1);
             launch_source = (*(void * *)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
@@ -286,7 +286,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
             return;
         }
         source_sprite = ((S_800A871C_1 *)object)->unk_90;
-        if ((func_8003DE58(source_sprite->unk_08, source_sprite, offset, 0) != 0)
+        if ((resolveRecordOrientationOrFallback(source_sprite->unk_08, source_sprite, offset, 0) != 0)
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
             ((S_800A871C_3 *)motion)->unk_00.at02.v =
@@ -314,7 +314,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                     + (unsigned long)drop_x_steps)))->unk_00);
                 ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25
                     + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
-                func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
+                dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
                 drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (drop_height >= 0x201) {
@@ -328,7 +328,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 objectFlagBlock.flags = (s32) (dungeon_flags | 0x8000);
                 ((S_800A871C_3 *)motion)->unk_08.at02.v = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
-                func_800B66C8(motion);
+                dungeonEmitScatteredEffectsUnlessBlocked(motion);
                 func_8009A028(object_data);
                 return;
             }
@@ -369,7 +369,7 @@ check_completion:
         if ((ticks_left << 0x10) > 0) {
             break;
         }
-        hit_object = func_8009B25C(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
+        hit_object = findEligibleActorAtTileAndHeight(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
             (*(s16 *)((u8 *)object_data + (0x88))));
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
@@ -381,7 +381,7 @@ check_completion:
                 dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
                 return;
             }
-            if (func_80098920(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
+            if (dispatchDungeonCategoryAction(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
                 objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
                 func_8009A028(object_data);
@@ -389,11 +389,11 @@ check_completion:
                 return;
             }
         }
-        if ((func_8009B164((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
+        if ((dungeonCheckNeighborTileBlocking((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
             steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
             (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
             if ((steps_left << 0x10) > 0) {
-                func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
+                dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
                 next_x_steps = (u8 *)((s8 *)dirStepX);
                 next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
                 ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n

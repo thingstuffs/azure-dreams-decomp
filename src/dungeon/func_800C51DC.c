@@ -31,9 +31,9 @@ typedef struct S_800CA93C_3 {
 } S_800CA93C_3;   /* other in func_800CA93C */
 
 
-extern s32 func_8009B4B0(u8 *entry, s16 x, s16 y);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void *func_800A3D18();
+extern s32 dungeonFindEligibleEntryAtCoordinates(u8 *entry, s16 x, s16 y);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void *dungeonChooseBestEligibleEntry();
 extern void func_800CA444(void *, s32, void *, void *);
 extern void func_800CA788(void *, s32, void *, void *);
 
@@ -48,7 +48,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
     actor = actor_arg;
     ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
     ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-    ((S_800CA93C_0 *)actor)->unk_60 = func_800A3D18(origin, actor, 4);
+    ((S_800CA93C_0 *)actor)->unk_60 = dungeonChooseBestEligibleEntry(origin, actor, 4);
 
     clear_flag_mask = -0x2001;
     ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
@@ -58,7 +58,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
         target = ((S_800CA93C_1_pre *)target_entry)[-1].unk_00;
         ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
         ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-        found_entry = func_8009B4B0(
+        found_entry = dungeonFindEligibleEntryAtCoordinates(
             actor,
             origin->unk_24,
             origin->unk_25);
@@ -68,7 +68,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
             func_800CA788(actor, action_arg, origin, actor);
             return 0;
         }
-        ((S_800CA93C_0 *)actor)->unk_2A = func_800A0818(
+        ((S_800CA93C_0 *)actor)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
             origin->unk_24,
             origin->unk_25,
             target->unk_24,

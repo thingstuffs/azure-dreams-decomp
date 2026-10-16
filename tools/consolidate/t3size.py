@@ -6,10 +6,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import row_index, REPO
 from check import check
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path, source_items as layout_source_items
 LANE = Path(__file__).resolve().parent.parent; R = row_index(); SYM = sys.argv[1]
 VAR = {"unsized": "[]", "8": "[8]", "16": "[16]"}
 def one(rid):
-    t = (REPO / "src" / (rid + ".c")).read_text(errors="replace")
+    t = (layout_row_path(rid, REPO)).read_text(errors="replace")
     m = list(re.finditer(r"^[ \t]*extern\s+[^;]*\b%s\b[^;]*;[^\n]*\n" % SYM, t, re.M))
     out = {"id": rid, "cfg": R[rid]["cfg"], "decls": [x.group(0).strip()[:60] for x in m]}
     if len(m) != 1: out["skip"] = "decls %d" % len(m); return out
@@ -18,7 +22,7 @@ def one(rid):
         c = check(R[rid], n); out[k] = bool((c.get("score") or {}).get("exact"))
     return out
 if __name__ == "__main__":
-    ids = sorted(str(p.relative_to(REPO / "src"))[:-2] for p in (REPO / "src").glob("*/*.c") if re.search(r"\b%s\b" % SYM, p.read_text(errors="replace")))
+    ids = [rid for rid, p in layout_source_items(REPO) if re.search(r"\b%s\b" % SYM, p.read_text(errors="replace"))]
     ids = [i for i in ids if i in R]
     import collections; C = collections.Counter()
     with ProcessPoolExecutor(14) as ex, open(LANE / "results" / ("t3size_%s.jsonl" % SYM), "w") as fh:

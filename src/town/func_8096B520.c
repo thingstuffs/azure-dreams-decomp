@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_800661B0(); /* extern */
-s32 func_80122FA8();                             /* extern */
+s32 townGetCachedCatalogGlyph();                             /* extern */
 
 typedef struct S_801239B8_0 {
     u8 unk_00;
@@ -24,7 +24,7 @@ void func_801239B8(u8 *text, s16 x, s16 y) {
             code_hi = ((S_801239B8_0 *)cursor)->unk_00;
             code_lo = ((S_801239B8_0 *)cursor)->unk_01;
             cursor += 2;
-            glyph = func_80122FA8(code_lo | (code_hi << 8));
+            glyph = townGetCachedCatalogGlyph(code_lo | (code_hi << 8));
             if (glyph != 0) {
                 func_800661B0(glyph, 0, 0, glyph_x, (s32) y, 0xC, 0x10);
                 glyph_x += 3;

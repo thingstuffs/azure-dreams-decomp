@@ -1,0 +1,160 @@
+/* Relink of matched dungeon/func_80CBFBF0; every changed retail word is a paired relocation. */
+#define D_80170F20 D_8014CF20
+#define D_80173B98 D_8014FB98
+#define D_80176300 D_80152300
+#define D_80176308 D_80152308
+#define D_80176360 D_80152360
+#define D_80176368 D_80152368
+#define dungeonUpdateObjectOrSelectDirectionalData dungeonUpdateStateTableOrDirectionalAnimation
+#include "common.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "shared/entity.h"
+
+typedef struct S_801733F0_0 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0xB];
+    u8 unk_9B;
+    u8 pad_9C[0xB];
+    u8 unk_A7;
+} S_801733F0_0;   /* arg0 in func_8014F3F0 */
+
+
+extern void func_80047784(void *, u8, s32);
+extern s32 dungeonCheckEntityRelation(void *, void *);
+extern s32 func_800A2C34(void *);
+extern void func_800A9A04(void *);
+extern void func_800A9A0C(void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
+extern void func_800AA888(void *, void *, void *, void *);
+extern void dungeonUpdateStateTableOrDirectionalAnimation(void *, void *, void *, void *);
+
+extern u8 D_8014CF20[];
+extern u8 D_8014FB98[];
+extern u8 D_80152300[];
+extern u8 D_80152308[];
+extern u8 D_80152360[];
+extern u8 D_80152368[];
+
+/* Advance the actor state, select directional sprite data, and dispatch entity actions. */
+void func_8014F3F0(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, EntityRec *entity)
+{
+    u8 state;
+
+    state = actor->unk_9B;
+    switch (state) {
+    case 0:
+    {
+
+        if ((sprite->unk_14 & 0xE000) == 0) {
+            return;
+        }
+
+        dungeonStatus.unk_0A--;
+        if (actor->unk_A7 != 0) {
+            sprite->unk_2C.as_pv = D_80152360;
+        } else {
+            sprite->unk_2C.as_pv = D_80152300;
+        }
+        func_80047784(
+            sprite,
+            ((u8 *)sprite->unk_2C.as_pv)[
+                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        goto increment_state;
+    }
+
+    case 1:
+        if (entity->tileY != 0) {
+            if (actor->unk_A7 != 0) {
+                sprite->unk_2C.as_pv = D_80152368;
+            } else {
+                sprite->unk_2C.as_pv = D_80152308;
+            }
+        } else {
+            if (dungeonStatus.flags & 0x1000) {
+                return;
+            }
+
+            if ((entity->unk_64 != 0) &&
+                dungeonBeginReadyActorDirectionalAction(actor, context, sprite, 0)) {
+                return;
+            }
+
+            if ((s16)func_800A2C34(entity) != 0) {
+                return;
+            }
+
+            if (((u32)entity->flags1C) & 0x100) {
+                dungeonBeginPushedActorMove(actor, context, sprite, entity);
+                return;
+            }
+
+            if (((u32)entity->flags1C) & 0x80000) {
+                func_800AA888(actor, context, sprite, entity);
+                dungeonUpdateStateTableOrDirectionalAnimation(actor, context, sprite, entity);
+                return;
+            }
+
+            if (entity->unk_6D == 0) {
+                return;
+            }
+
+            if ((s16)func_800A2C34(entity) != 0) {
+                EntityRec *owner;
+
+                owner = D_800814A8;
+                if ((s16)dungeonCheckEntityRelation(
+                        entity, (u8 *)owner->unk_58 + 0x20) != 0) {
+                    return;
+                }
+            }
+
+            func_800A9A0C(entity);
+            func_800A9A04(entity);
+            if (entity->tileY == 0) {
+                return;
+            }
+
+            if (actor->unk_A7 != 0) {
+                sprite->unk_2C.as_pv = D_80152368;
+            } else {
+                sprite->unk_2C.as_pv = D_80152308;
+            }
+        }
+        func_80047784(
+            sprite,
+            ((u8 *)sprite->unk_2C.as_pv)[
+                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        {
+
+            dungeonStatus.unk_0A++;
+        }
+
+increment_state:
+        actor->unk_9B++;
+        return;
+
+    case 2:
+    {
+
+        if ((sprite->unk_14 & 0xE000) == 0) {
+            return;
+        }
+
+        dungeonStatus.unk_0A--;
+        entity->flags1C &= ~0x200;
+        if (actor->unk_A7 != 0) {
+            actor->unk_8C = D_8014FB98;
+        } else {
+            actor->unk_8C = D_8014CF20;
+        }
+        return;
+    }
+    }
+}

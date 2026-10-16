@@ -116,15 +116,15 @@ typedef struct S_func_819A6800_10 {
 extern u8 D_800814A8[16];
 struct S_800244BC_2;
 void func_800244BC(void *, struct S_800244BC_2 *, s32);
-void func_80024810(void *);
+void dungeonUpdateJitteredEffectPoints(void *);
 s32 func_80024B20(void *);
 extern u8 D_800DEE38[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)D_800814A8)
 
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern s32 func_8003DE58(void *, void *, void *, s32);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
 extern s32 func_80053EF0(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
@@ -133,7 +133,7 @@ extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
 void func_80024020(void *sequence, void *out_position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 
 void (*const dungeon_19c6800_entry)(void *, void *) = func_80024020;
@@ -172,7 +172,7 @@ void func_80024020(void *sequence, void *out_position)
         ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
-        new_object = func_800A05A4(reloaded_object,
+        new_object = dungeonScanMonsterAlongHeading(reloaded_object,
                                    D_80082E80.tileX,
                                    D_80082E80.tileY,
                                    reloaded_object->unk_2A,
@@ -200,7 +200,7 @@ void func_80024020(void *sequence, void *out_position)
         new_object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         record = new_object;
         if (record != 0) {
-            if (func_8003DE58(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
+            if (resolveRecordOrientationOrFallback(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
                               owner_object->unk_0C, position_offset, 0) == 0) {
                 position_offset[2] = 0;
                 position_offset[1] = 0;
@@ -268,7 +268,7 @@ void func_80024020(void *sequence, void *out_position)
                 if (record != 0) {
                     S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
-                    record->unk_10 = func_80024810;
+                    record->unk_10 = dungeonUpdateJitteredEffectPoints;
                     func_8004491C(record, func_80024B20);
                     target_object = owner->unk_60.u;
                     effect_data->unk_3C = 0;

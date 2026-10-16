@@ -3,7 +3,7 @@
 extern void func_8008BF0C(void **);
 
 /* Decrease the record value by 0x200, clamp at -0x800, and handle the lower limit. */
-void func_8008C004(void **record_ref) {
+void decreaseTownRecordValueByTwoHundred(void **record_ref) {
     void *record;
     void *first_record;
     u16 value;

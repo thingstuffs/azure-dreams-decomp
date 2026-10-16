@@ -8,7 +8,7 @@ typedef struct {
 } ScriptState;
 
 /* Return the script entry while updating its index and repeat count. */
-s32 func_8009F988(void) {
+s32 dungeonReadMonsterScriptEntry(void) {
     ScriptState *script;
     u16 entry_index;
     s16 *script_entry;
@@ -35,6 +35,6 @@ s32 func_8009F988(void) {
     return (s32)script_entry;
 }
 
-/* MECHANISM: Frameless leaf under the true-space func_8009F988 name, with both
+/* MECHANISM: Frameless leaf under the true-space dungeonReadMonsterScriptEntry name, with both
    apparent 0x8009F9DC/0x8009F9E0 calls recovered as local count-update joins.
    The shared pointer return then sinks move $v0,$v1 into the jr $ra delay slot. */

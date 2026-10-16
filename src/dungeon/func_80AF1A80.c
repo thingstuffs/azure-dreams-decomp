@@ -87,7 +87,7 @@ use_kind:
                     action->unk_73 = ((u8 *)state)[0x25];
                 }
             } else {
-                s32 x = (s32)func_800A05A4(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
+                s32 x = (s32)dungeonScanMonsterAlongHeading(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
                               action->facing, 0x10);
                 s32 y;
 
@@ -104,7 +104,7 @@ use_kind:
                 action->unk_73 = y;
             }
         }
-        if (func_800A94A0(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
+        if (dungeonCreateActorSpellEffect(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
             ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0x18;
             ((R10_80173280_S_80173280_0 *)actor)->unk_9E = 4;
             ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
@@ -116,13 +116,13 @@ use_kind:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    func_800A2B04(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
+    dungeonSetRecordIntegerTileCenter(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
     {
         u8 *active_actor = D_800814A8;
         ((Rec_D_80083460 *)((u8 *)(&dungeonStatus)))->unk_0C = 0;
         ((R10_80173280_S_80173280_6 *)active_actor)->unk_A6--;
     }
-    func_800A4ACC(action);
+    dungeonAdvanceStatusTimers(action);
     (*(u8 *)&action->unk_6D)--;
     ((R10_80173280_S_80173280_0 *)actor)->unk_8C = ((u8 *)func_801717F4);
     action->unk_73 = 0;
@@ -131,7 +131,7 @@ use_kind:
     return;
 
 case 1:
-    if (func_8003F270()) {
+    if (getCdCommandQueueDepth()) {
         ((R10_80173280_S_80173280_3 *)tile_arg)->unk_14 |= 0x800;
         return;
     }
@@ -185,7 +185,7 @@ case 3:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    func_800A2B04(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
+    dungeonSetRecordIntegerTileCenter(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
     if (((R10_80173280_S_80173280_3 *)tile_arg)->unk_2C != ((u8 *)D_80175988)) {
         u8 *frame_table = ((u8 *)D_80175988);
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
@@ -199,7 +199,7 @@ case 3:
     }
     ((R10_80173280_S_80173280_7 *)kind_data)->unk_0A--;
     ((R10_80173280_S_80173280_0 *)actor)->unk_8C = ((u8 *)func_801717F4);
-    func_800A4ACC(action);
+    dungeonAdvanceStatusTimers(action);
     action->unk_73 = 0;
     action->unk_72 = 0;
     (*(u8 *)&action->unk_6D)--;

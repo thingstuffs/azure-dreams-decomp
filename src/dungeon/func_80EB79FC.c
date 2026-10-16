@@ -12,7 +12,7 @@ void func_8009A3D0();
 void func_800A2FE0();
 s32 func_800A32A4();
 s32 func_800A56E0();
-void func_800ACF88();
+void dungeonAnnounceFamiliarDefeat();
 s16 func_800BCB04();
 
 
@@ -22,11 +22,11 @@ typedef struct S_801731FC_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_801731FC_0;   /* arg0 in func_801731FC */
+} S_801731FC_0;   /* arg0 in dungeonAdvanceEntityMotionFadeAndRemoval */
 
 typedef struct S_801731FC_1_pre {
     u16 unk_00;
-} S_801731FC_1_pre;   /* the 0x2 bytes before arg3 in func_801731FC, addressed as arg3[-1] */
+} S_801731FC_1_pre;   /* the 0x2 bytes before arg3 in dungeonAdvanceEntityMotionFadeAndRemoval, addressed as arg3[-1] */
 
 typedef struct S_801731FC_1 {
     u8 pad_00[0x14];
@@ -35,7 +35,7 @@ typedef struct S_801731FC_1 {
     union { u32 u; s32 s; } unk_1C;   /* accessed as both */
     u8 pad_20[0x4A];
     u16 unk_6A;
-} S_801731FC_1;   /* arg3 in func_801731FC */
+} S_801731FC_1;   /* arg3 in dungeonAdvanceEntityMotionFadeAndRemoval */
 
 typedef struct S_801731FC_2 {
     u8 pad_00[0x2];
@@ -47,7 +47,7 @@ typedef struct S_801731FC_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801731FC_2;   /* arg1 in func_801731FC */
+} S_801731FC_2;   /* arg1 in dungeonAdvanceEntityMotionFadeAndRemoval */
 
 typedef struct S_801731FC_3 {
     u8 pad_00[0xC];
@@ -61,15 +61,15 @@ typedef struct S_801731FC_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_801731FC_3;   /* arg2 in func_801731FC */
+} S_801731FC_3;   /* arg2 in dungeonAdvanceEntityMotionFadeAndRemoval */
 
 typedef struct S_801731FC_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_801731FC_4;   /* global_ptr in func_801731FC */
+} S_801731FC_4;   /* global_ptr in dungeonAdvanceEntityMotionFadeAndRemoval */
 
 /* Advance an entity through motion, fading, and removal. */
-void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {
+void dungeonAdvanceEntityMotionFadeAndRemoval(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *sprite, void *entity) {
     s32 sound_flags;
     s32 velocity_x;
     s32 velocity_y;
@@ -121,7 +121,7 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
         status_flags = ((S_801731FC_1 *)entity)->unk_14;
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         func_800A56E0(0x805);

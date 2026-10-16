@@ -58,7 +58,7 @@ void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A)
             data0C->unk_14 |= 0xC;
             data0C->unk_12 -= 0x80;
             func_80044A50(objectBaseForCallbacks);
-            func_800BC318(objectBaseForCallbacks);
+            dungeonRetireTrackedEffectById(objectBaseForCallbacks);
         }
         func_800AA36C(objectState, data08, data0C, result);
     }

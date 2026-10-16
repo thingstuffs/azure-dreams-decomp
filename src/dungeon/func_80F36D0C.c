@@ -78,10 +78,10 @@ extern Spawned *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z
 extern void func_8009A3D0(s32, s32, s32);
 extern void func_80047784(Effect *, u8, s32);
 extern void func_800A56E0(s32);
-extern void func_800AD594(Object *, s32);
-extern void func_800A4ACC(Object *);
-extern void func_801743E8(void);
-extern void func_80170E94(void);
+extern void dungeonReduceActorFoodMeter(Object *, s32);
+extern void dungeonAdvanceStatusTimers(Object *);
+extern void dungeonUpdateTimedEffectSizeAndPosition(void);
+extern void dungeonUpdateDungeonActorActions(void);
 extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */
@@ -112,7 +112,7 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
             spawned = func_800A8608((u8 *)entity - 0x20, record, (tile->x << 6) | 0x20,
                                     (tile->y << 6) | 0x20, motion->height);
             if (spawned != 0) {
-                spawned->callback = func_801743E8;
+                spawned->callback = dungeonUpdateTimedEffectSizeAndPosition;
                 spawned->state = 0;
             }
             record->bytes[0] = 0;
@@ -180,10 +180,10 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         motion->y.v = entity->saved_y << 16;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        func_800AD594(object, 0x100);
-        entity->callback = func_80170E94;
+        dungeonReduceActorFoodMeter(object, 0x100);
+        entity->callback = dungeonUpdateDungeonActorActions;
         dungeonStatus.unk_0A--;
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;
         } else {

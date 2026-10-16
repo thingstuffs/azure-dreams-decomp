@@ -4,7 +4,7 @@ static u16 D_80081530;
 u16 D_80080B10 = 0;
 u16 D_80080B12 = 0;
 u16 D_80080B14 = 0;
-void func_80048660(struct S_80048660 *state)
+void soundAdvanceSharedScrollCoordinates(struct S_80048660 *state)
 {
     s32 row_step;
     s32 col_step;

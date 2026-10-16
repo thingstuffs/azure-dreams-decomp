@@ -13,10 +13,10 @@ typedef struct {
 } Func800B5948Object;
 
 extern void func_8009A3D0(s16, s16, s32);
-extern void func_800B5F80(s16);
+extern void dungeonClearSlotAndDetachEntity(s16);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
-void func_800BB0A8(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
+void dungeonUpdateTimedTileEffect(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
     u16 ticks_left;
 
     if (dungeonStatus.flags & 0x10) {
@@ -28,7 +28,7 @@ void func_800BB0A8(Func800B5948Object *object, s32 unused, Func800B5948Object *r
             } else {
                 func_8009A3D0(object->unk10, object->unk12, 0x10);
             }
-            func_800B5F80(object->unk20);
+            dungeonClearSlotAndDetachEntity(object->unk20);
             return;
         }
     }

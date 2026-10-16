@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* root in func_800A17CC */
+   /* root in townDrawTexturedSpriteQuad */
 
 typedef struct S_800A17CC_1 {
     u8 pad_00[0x4];
@@ -26,7 +26,7 @@ typedef struct S_800A17CC_1 {
     u8 pad_22[0x2];
     s8 unk_24;
     s8 unk_25;
-} S_800A17CC_1;   /* packet40 in func_800A17CC */
+} S_800A17CC_1;   /* packet40 in townDrawTexturedSpriteQuad */
 
 typedef struct S_800A17CC_2 {
     u8 pad_00[0x12];
@@ -40,7 +40,7 @@ typedef struct S_800A17CC_2 {
     u8 pad_73[0x5];
     u16 unk_78;
     s16 unk_7A;
-} S_800A17CC_2;   /* arg0 in func_800A17CC */
+} S_800A17CC_2;   /* arg0 in townDrawTexturedSpriteQuad */
 
 typedef struct S_800A17CC_3 {
     u8 pad_00[0x4];
@@ -55,7 +55,7 @@ typedef struct S_800A17CC_3 {
     u16 unk_10;
     u16 unk_12;
     u16 unk_14;
-} S_800A17CC_3;   /* packet24 in func_800A17CC */
+} S_800A17CC_3;   /* packet24 in townDrawTexturedSpriteQuad */
 
 
 #define SCRATCH(type, offset) (((struct { u8 _pad_[offset]; type v; } *)scratch)->v)
@@ -70,12 +70,12 @@ extern void func_80066640();
 extern void func_800666E0();
 extern void func_800666F4();
 extern void func_80067F20();
-extern void func_800A130C();
-extern void func_800A1330();
+extern void townCopyOddHalfwords3();
+extern void townCopyMenuVectorHalfwords();
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
-void func_800A17CC(void *sprite, s32 position) {
+void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     s16 texture_window[4];
     s32 texture_page;
     s32 texture_y;
@@ -163,10 +163,10 @@ void func_800A17CC(void *sprite, s32 position) {
         ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
 
-    func_800A130C((void *)0x1F800074, position);
-    func_800A130C((void *)0x1F80007C, position);
-    func_800A130C((void *)0x1F800084, position);
-    func_800A1330((void *)0x1F80008C, (void *)0x1F800074);
+    townCopyOddHalfwords3((void *)0x1F800074, position);
+    townCopyOddHalfwords3((void *)0x1F80007C, position);
+    townCopyOddHalfwords3((void *)0x1F800084, position);
+    townCopyMenuVectorHalfwords((void *)0x1F80008C, (void *)0x1F800074);
 
     screen_xy0 = (void *)0x1F8000E8;
     screen_xy1 = (void *)0x1F8000EC;

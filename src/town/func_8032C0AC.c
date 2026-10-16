@@ -1,14 +1,14 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80019B54(s32, s32);             /* extern */
-void func_80019BC0(void);                 /* extern */
-s32 func_8001B0C8(void);                  /* extern */
+void townApplySelectedEntryValues(s32, s32);             /* extern */
+void townSetCurrentEntryScriptFlag(void);                 /* extern */
+s32 townGetLinkedRecordField2D60(void);                  /* extern */
 
 /* Process the request after checking the threshold of 15. */
-void func_800168AC(s32 request, M2C_UNK context) {
-    if (func_8001B0C8() >= 0xF) {
-        func_80019BC0();
+void townProcessRequestAfterThreshold15(s32 request, M2C_UNK context) {
+    if (townGetLinkedRecordField2D60() >= 0xF) {
+        townSetCurrentEntryScriptFlag();
     }
-    func_80019B54(request, context);
+    townApplySelectedEntryValues(request, context);
 }

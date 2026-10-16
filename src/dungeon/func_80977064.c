@@ -5,10 +5,10 @@
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
@@ -25,7 +25,7 @@ typedef struct S_80172864_0 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_80172864_0;   /* s0 in func_80172864 */
+} S_80172864_0;   /* s0 in dungeonAdvanceTimedActionAndCleanup */
 
 
 typedef struct S_80172864_2 {
@@ -33,10 +33,10 @@ typedef struct S_80172864_2 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_80172864_2;   /* s1 in func_80172864 */
+} S_80172864_2;   /* s1 in dungeonAdvanceTimedActionAndCleanup */
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
-void func_80172864(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
+void dungeonAdvanceTimedActionAndCleanup(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
 {
     register void *action = action_data;
     register void *actor = actor_data;
@@ -80,7 +80,7 @@ void func_80172864(void *action_data, void *unused, Rec_D_80082E80 *sprite, void
         timer = ((S_80172864_0 *)action)->unk_96.u + 1;
         ((S_80172864_0 *)action)->unk_96.u = timer;
         if ((s16)timer == 9 || (sprite->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
             ((S_80172864_0 *)action)->unk_96.u = 0;
             ((S_80172864_0 *)action)->unk_9B.n++;
         }
@@ -98,10 +98,10 @@ void func_80172864(void *action_data, void *unused, Rec_D_80082E80 *sprite, void
         if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        func_800AD594(actor, 0x100);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80172864_0 *)action)->unk_8C = D_801714D4;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
 
         return;

@@ -5,7 +5,7 @@ typedef struct {
 } S_80032E0C;
 
 extern S_80032E0C D_80032E0C[];
-extern s32 func_8005405C(s16 n);
+extern s32 testSoundChannelAvailability(s16 n);
 extern void func_80055730();
 
 /* Sends packed codes and region offsets for available lookup entries across 48 slots. */
@@ -28,7 +28,7 @@ inner:
         if (entry == 0) {
             code += 0x10;
         }
-        if ((func_8005405C(entry) << 16) != 0) {
+        if ((testSoundChannelAvailability(entry) << 16) != 0) {
             func_80055730(code, region_offset);
         }
         entry_index++;

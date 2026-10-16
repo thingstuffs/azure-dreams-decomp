@@ -9,7 +9,7 @@ typedef struct S_8003E240_0 {
     u8 unk_02;
     u8 unk_03;
     u8 pad[0x24];
-} S_8003E240_0;   /* &D_800830C0 in func_8003E240 */
+} S_8003E240_0;   /* &D_800830C0 in readCombinedControllerButtons */
 
 typedef struct S_8003E240_1 {
     u8 unk_00;
@@ -17,14 +17,14 @@ typedef struct S_8003E240_1 {
     u8 unk_02;
     u8 unk_03;
     u8 pad[0x24];
-} S_8003E240_1;   /* &D_800830E8 in func_8003E240 */
+} S_8003E240_1;   /* &D_800830E8 in readCombinedControllerButtons */
 
 
 extern S_8003E240_0 D_800830C0;
 extern S_8003E240_1 D_800830E8;
 
 /* Returns inverted input bits packed from the two valid input records. */
-s32 func_8003E240(void) {
+s32 readCombinedControllerButtons(void) {
     s32 input_bits;
 
     input_bits = -1;

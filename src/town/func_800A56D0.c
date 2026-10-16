@@ -56,7 +56,7 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
-void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
+void townProjectAndEnqueueShadedQuad(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
                    InputPair vertex_3, u16 shade)
 {
     OutputPair screen_0;

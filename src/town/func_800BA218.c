@@ -4,7 +4,7 @@
 extern u16 *D_800D1868[4];
 
 /* Blit an image at its origin-adjusted position into a 128-wide buffer, skipping zero pixels. */
-void func_800B7978(s32 dst_x, s32 dst_y, s32 image_id, void *dst) {
+void townBlitIndexedOriginU16Block(s32 dst_x, s32 dst_y, s32 image_id, void *dst) {
     register s16 col;
     register s16 row;
     u16 *src;

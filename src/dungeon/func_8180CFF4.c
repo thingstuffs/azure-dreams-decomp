@@ -8,7 +8,7 @@ typedef struct {
 extern void func_800B8FC8(void *, u16 *, u16 *, s32, s32);
 
 /* Processes both objects at adjacent coordinates with node values temporarily set to 0x808080. */
-void func_80025FF4(void *left_object, void *right_object) {
+void dungeonProcessAdjacentObjectsWithGrayNodes(void *left_object, void *right_object) {
     u16 coords[6];
     s32 x_offset;
     DungeonNode *node;

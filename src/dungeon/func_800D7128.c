@@ -5,16 +5,16 @@
 
 typedef s32 M2C_UNK;
 
-void func_800DC82C();
+void dungeonUpdateStateActivityFlags();
 extern s32 D_800E5910;
 
 typedef struct S_800DC888_0 {
     u8 pad_00[0x38];
     s32 * unk_38;
-} S_800DC888_0;   /* temp_a0 in func_800DC888 */
+} S_800DC888_0;   /* temp_a0 in dungeonAdvanceWrappedCycleIndex */
 
 // Advances the stored cycle index modulo three and applies the new index.
-void func_800DC888(void) {
+void dungeonAdvanceWrappedCycleIndex(void) {
     s32 *cycleIndexToWrap;
     s32 *cycleIndexToIncrement;
     s32 incrementedIndex;
@@ -26,5 +26,5 @@ void func_800DC888(void) {
     cycleIndexToWrap = cycleState->unk_38;
     incrementedIndex = *cycleIndexToWrap;
     *cycleIndexToWrap = incrementedIndex % 3;
-    func_800DC82C(cycleState);
+    dungeonUpdateStateActivityFlags(cycleState);
 }

@@ -51,7 +51,7 @@ extern u8 D_8007382A[16];
 extern S_800561D8_D80073738 D_80073738;
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */
-void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
+void audioComputeVoiceStereoVolumes(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
 {
     S_800561D8_Arg0 *voice = voice_arg;
     S_800561D8_D80086A40 *channels = D_80086A40;

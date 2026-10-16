@@ -19,7 +19,7 @@ typedef struct {
 } MapObject;
 
 extern s32 func_800AC82C(Actor *, s32, Entity *, MapObject *);
-extern s32 func_800AD9B4(Entity *, MapObject *);
+extern s32 dungeonCheckActorFloorTrap(Entity *, MapObject *);
 extern void func_80047784(Entity *, s16, s16);
 
 extern u8 D_801710EC[9];
@@ -30,7 +30,7 @@ extern u8 D_80175EA0[9];
 void func_80174574(Actor *actor, s32 action, Entity *entity, MapObject *map_object)
 {
     if (func_800AC82C(actor, action, entity, map_object) != 0) {
-        if ((func_800AD9B4(entity, map_object) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(entity, map_object) << 16) > 0) {
             actor->unk_8C = D_801710EC;
             return;
         }

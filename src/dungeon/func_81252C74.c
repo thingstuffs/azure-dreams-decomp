@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-s32 func_800A4ACC();
-s32 func_800AB1C0();
-void func_800AD594();
-s32 func_800AD9B4();
+s32 dungeonAdvanceStatusTimers();
+s32 dungeonUpdateActorMovementToTile();
+void dungeonReduceActorFoodMeter();
+s32 dungeonCheckActorFloorTrap();
 extern s32 D_80171514;
 
 typedef struct S_80172474_0 {
@@ -15,19 +15,19 @@ typedef struct S_80172474_0 {
     s32 * unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
-} S_80172474_0;   /* entity in func_80172474 */
+} S_80172474_0;   /* entity in dungeonRunActorCallbacksAndAdjustGlobalFlag */
 
 /* Runs actor callbacks, updates entity state on success, and applies the global flag adjustment. */
-void func_80172474(void *entity_ptr, s32 unused, s32 check_arg, s32 actor_arg)
+void dungeonRunActorCallbacksAndAdjustGlobalFlag(void *entity_ptr, s32 unused, s32 check_arg, s32 actor_arg)
 {
     S_80172474_0 *entity = entity_ptr;
     s32 check_value = check_arg;
     s32 actor = actor_arg;
 
-    if (func_800AB1C0() != 0) {
-        func_800AD594(actor, 0);
-        func_800A4ACC(actor);
-        if ((func_800AD9B4(check_value, actor) << 0x10) <= 0) {
+    if (dungeonUpdateActorMovementToTile() != 0) {
+        dungeonReduceActorFoodMeter(actor, 0);
+        dungeonAdvanceStatusTimers(actor);
+        if ((dungeonCheckActorFloorTrap(check_value, actor) << 0x10) <= 0) {
             return;
         }
         do {

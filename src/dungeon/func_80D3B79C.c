@@ -7,7 +7,7 @@ typedef struct S_80170F9C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80170F9C_0;   /* object in func_80170F9C */
+} S_80170F9C_0;   /* object in dungeonCreateConfiguredActorSprite */
 
 typedef struct S_80170F9C_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80170F9C_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_80170F9C_1;   /* work in func_80170F9C */
+} S_80170F9C_1;   /* work in dungeonCreateConfiguredActorSprite */
 
 typedef struct S_80170F9C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170F9C_2;   /* part_a in func_80170F9C */
+} S_80170F9C_2;   /* part_a in dungeonCreateConfiguredActorSprite */
 
 typedef struct S_80170F9C_3 {
     u8 pad_00[0x1C];
@@ -31,7 +31,7 @@ typedef struct S_80170F9C_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170F9C_3;   /* part_b in func_80170F9C */
+} S_80170F9C_3;   /* part_b in dungeonCreateConfiguredActorSprite */
 
 typedef struct S_80170F9C_4 {
     u8 pad_00[0x8C];
@@ -44,7 +44,7 @@ typedef struct S_80170F9C_4 {
     s8 unk_9C;
     u8 pad_9D[0x18];
     s8 unk_B5;
-} S_80170F9C_4;   /* work_copy in func_80170F9C */
+} S_80170F9C_4;   /* work_copy in dungeonCreateConfiguredActorSprite */
 
 
 extern void *func_8003FD64();
@@ -53,14 +53,14 @@ extern void func_800A48F0();
 extern s32 func_800A6D30(void);
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void func_801708B8();
+extern void createOwnerLinkedDirectionalObject();
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2428[];
 extern u8 D_801711B0[];
 extern u8 D_80171A80[];
 
-void *func_80170F9C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
+void *dungeonCreateConfiguredActorSprite(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s8 held_value_24 = value_24;
     s16 held_value_0A = value_0A;
@@ -122,7 +122,7 @@ void *func_80170F9C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
         saved_y = part_b->unk_1E;
         part_b->unk_1C = 0;
         part_b->unk_1E = 0;
-        func_801708B8(work_copy, part_a, part_b);
+        createOwnerLinkedDirectionalObject(work_copy, part_a, part_b);
         part_b->unk_1C = saved_x;
         part_b->unk_1E = saved_y;
     }

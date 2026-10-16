@@ -9,7 +9,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
     direction = (((EntityRec *)source)->unk_6A >> 9) & 7;
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(source);
+        dungeonApplyClampedActorValueDelta(source);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 18;
         motion->unk_10 =
@@ -20,7 +20,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, ((s32 *)D_80175A94));
+            dungeonBeginActorDisplayAction(action, motion, entity, ((s32 *)D_80175A94));
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -55,7 +55,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, ((s32 *)D_80175A94));
+            dungeonBeginActorDisplayAction(action, motion, entity, ((s32 *)D_80175A94));
             return;
         } else {
             action->unk_96.s = 8;
@@ -86,7 +86,7 @@ void func_80172FE8(R12_80172FE8_S_801730B8_1 *action, EntityRec *motion, Rec_D_8
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, entity->unk_24, entity->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24, entity->unk_25);
 
         tracked_addr = ((s32)dungeonStatus.unk_10);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {

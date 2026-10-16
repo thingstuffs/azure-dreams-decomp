@@ -8,10 +8,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import listing, row_index, REPO
 import kitlib
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE = Path(__file__).resolve().parent.parent; R = row_index()
 strip = lambda s: [l for l in (s or "").splitlines() if not l.lstrip().startswith((".file", "#"))]
 def one(rid):
-    old = (REPO / "src" / (rid + ".c")).read_text(errors="replace"); new = (LANE / "draft8" / (rid + ".c")).read_text()
+    old = (layout_row_path(rid, REPO)).read_text(errors="replace"); new = (LANE / "draft8" / (rid + ".c")).read_text()
     so, sn = kitlib.sites(old), kitlib.sites(new)
     if not sn: return None
     r = dict(R.get(rid) or {"id": rid, "cfg": "2.7.2-cdk"}); r["kind"] = "overlay"

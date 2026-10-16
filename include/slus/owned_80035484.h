@@ -63,13 +63,13 @@ typedef struct S_func_80035484_5 {
 } S_func_80035484_5;
 
 
-extern void func_80033C1C(void *modelPtr, s32 value);
+extern void runtimeInitializeStateValue(void *modelPtr, s32 value);
 extern void func_800350B0(void *configPtr, void *statePtr);
-extern void *func_8003FF2C(s32 value, s32 address, s32 value2, void **tablePtr);
+extern void *initializeRuntimeNodeStorage(s32 value, s32 address, s32 value2, void **tablePtr);
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
-extern void func_80033D54(void);
-extern void func_800355EC(void *callbackData);
+extern void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(void);
+extern void invokeWindowObjectCallback(void *callbackData);
 extern void func_80035614(void *callbackData);
 
 extern s16 D_8006A93C[];

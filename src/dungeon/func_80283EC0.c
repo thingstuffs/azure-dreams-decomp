@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_80016EC0(void)
+void dungeonInitializeDungeonRecordKinds(void)
 {
     s16 next_type1_count;
     s16 next_type3_count;

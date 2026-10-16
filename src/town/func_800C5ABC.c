@@ -17,16 +17,16 @@ typedef struct {
     M2C_UNK **table78;
 } TargetObj;
 
-void func_800C2C80(TargetObj *, void *, s32, s32);
-void func_800C2CB0();
-s32 func_800C2E1C();
-s32 func_800C2F14();
+void townDispatchObjectWhenIdle(TargetObj *, void *, s32, s32);
+void townClearObjectStatusAndDispatchTarget();
+s32 townQuantizeHeadingToSector();
+s32 townCheckHeadingPastHalfSector();
 extern M2C_UNK D_800D5028;
 extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 
 /* Selects state data, invokes the object callback, and updates motion data and flags. */
-void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
+void townUpdateObjectMotionAndFlags(TargetObj *obj, s32 callback_arg, void *motion_data) {
     s32 table_index;
     u8 state;
 
@@ -45,24 +45,24 @@ void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
 
     obj->callback(obj, callback_arg, motion);
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
-        table_index = func_800C2E1C(obj->field72, obj->field64);
+        table_index = townQuantizeHeadingToSector(obj->field72, obj->field64);
         if (obj->field74 != table_index) {
-            func_800C2CB0(obj, motion, obj->table78[table_index], *(s8 *)((u8 *)motion + 4));
+            townClearObjectStatusAndDispatchTarget(obj, motion, obj->table78[table_index], *(s8 *)((u8 *)motion + 4));
             obj->field74 = table_index;
         }
         if (!(obj->flags71 & 1)) {
-            if ((func_800C2F14(obj->field72, obj->field64) << 0x10) == 0) {
+            if ((townCheckHeadingPastHalfSector(obj->field72, obj->field64) << 0x10) == 0) {
                 motion_flags = (u16)(*(u16 *)((u8 *)motion + 0x14) & 0xfffe);
             } else {
                 motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
             }
-        } else if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
+        } else if ((townCheckHeadingPastHalfSector(obj->field72, obj->field64) << 0x10) != 0) {
             motion_flags = *(u16 *)((u8 *)motion + 0x14);
             motion_flags &= 0xfffe;
         } else {
             motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
         }
         *(u16 *)((u8 *)motion + 0x14) = motion_flags;
-        func_800C2C80(obj, motion, 0, 0);
+        townDispatchObjectWhenIdle(obj, motion, 0, 0);
     }
 }

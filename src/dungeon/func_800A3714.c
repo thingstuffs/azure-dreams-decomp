@@ -60,9 +60,9 @@ extern u8 D_800A871C[];
 
 extern void * func_8003FD64(s32 flags, void **list_head);
 extern s32 func_8004491C(void *entry, s32 registration_id);
-extern s32 func_80099FDC(void *);
+extern s32 dungeonClearEntryFlagAndLinkOwner(void *);
 extern s32 func_800A7A38(u8 *item);
-extern void func_800BC26C(void *, s32, s32, s32);
+extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
 void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
@@ -109,8 +109,8 @@ void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
         data->field9C = &data->field98;
         *(u8 *)((u8 *)data + 0x13) = 0xFF;
         data->field98 = init_value;
-        func_80099FDC(object);
-        func_800BC26C(object, 0, 0, 0);
+        dungeonClearEntryFlagAndLinkOwner(object);
+        dungeonCreateTrackedEffect(object, 0, 0, 0);
     }
     return object;
 }

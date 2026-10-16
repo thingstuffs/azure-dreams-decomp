@@ -59,7 +59,7 @@ typedef struct ActorMotionView {
 } ActorMotionView;
 
 extern s16 D_80081468[];
-extern void func_801590F4(void *, void *, void *, void *);
+extern void dungeonUpdateDungeonActionBehaviorFacingAnimationState(void *, void *, void *, void *);
 extern u8 D_8015CEF8[];
 extern u8 D_8015CF00[];
 extern u8 D_8015CF58[];
@@ -69,16 +69,16 @@ extern u16 D_8015CFD4[];
 extern void func_80047784();
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2B04();
-extern s32 func_800A4ACC(void *);
-extern s16 func_800A4E2C(u8 *, u8 *);
+extern void dungeonSetRecordIntegerTileCenter();
+extern s32 dungeonAdvanceStatusTimers(void *);
+extern s16 selectDungeonSpawnTile(u8 *, u8 *);
 extern s32 func_800A56E0(s32);
 extern void func_800AA53C(u8 *context);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the entity. */
-void func_8015C428(ActorActionView *action, ActorMotionView *motion, ActorSpriteView *sprite, ActorFacingView *entity)
+void dungeonUpdateMovementDestinationSelectionRecoveryAnimationEntity(ActorActionView *action, ActorMotionView *motion, ActorSpriteView *sprite, ActorFacingView *entity)
 {
     s32 y_step;
     s32 x_step;
@@ -189,7 +189,7 @@ void func_8015C428(ActorActionView *action, ActorMotionView *motion, ActorSprite
                 action->phase++;
                 return;
             }
-            direction_offset = func_800A4E2C(&sprite->tile.bytes.x, &sprite->tile.bytes.y);
+            direction_offset = selectDungeonSpawnTile(&sprite->tile.bytes.x, &sprite->tile.bytes.y);
             if (direction_offset < 0) {
                 continue;
             }
@@ -227,17 +227,17 @@ void func_8015C428(ActorActionView *action, ActorMotionView *motion, ActorSprite
                 (s16)(motion->z.w.i - 0x80));
             entity->groundHeight = height;
             sprite->frameTable = D_8015CF00;
-            func_800AD594(entity, 0x200);
+            dungeonReduceActorFoodMeter(entity, 0x200);
             func_80047784(sprite,
                 sprite->frameTable[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
             func_8009A21C(sprite->tile.bytes.x, sprite->tile.bytes.y,
                 (entity->flags & 0x2000) ? 0x300 : 0x3000);
-            func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             sprite->scaleY = 0x1000;
             sprite->scaleX = 0x1000;
-            action->nextBehavior = func_801590F4;
-            func_800A4ACC(entity);
+            action->nextBehavior = dungeonUpdateDungeonActionBehaviorFacingAnimationState;
+            dungeonAdvanceStatusTimers(entity);
             entity->remainingActions = 0;
             entity->actionFlags &= 0x7FFF;
             return;

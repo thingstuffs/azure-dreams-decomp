@@ -324,8 +324,8 @@ void func_80024358( void *source, s16 field_34, s32 field_28, s16 field_52, s16 
 void func_80024478(void *state, void *position, void *object);
 void func_80024578(void *record);
 void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082E80 *sprite);
-void func_800248E8(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
-void func_80025374(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
+void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
+void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);
 ObjectNodeHeader *func_8003FD64(s32, ObjectNodeHeader **);
 s32 func_8004491C(void *, s32, ...);
 void func_800478B8(void *);
@@ -338,11 +338,11 @@ void *func_8003DF74(void *, void *, void *, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065420(void *, void *, void *, void *);
-s32 func_800A45D8();
-extern void func_800C8CD8();
+s32 dungeonCheckLeftTileAndCenterHeight();
+extern void dungeonTryApplyConfusionStatus();
 extern void func_800542BC();
 extern s32 func_800A6D30();
-extern s32 func_8009D218();
+extern s32 dungeonTryTriggerTargetRecordEffect();
 extern s32 func_800A4778();
 extern s32 func_80069EF8();
 #endif

@@ -3,7 +3,7 @@
 extern s32 D_80100E40;
 
 /* Copies three halfwords from the selected table entry into the destination. */
-void func_800AAFE0(void *destination, s32 entry_index) {
+void townLoadRecordHalfwords3(void *destination, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 

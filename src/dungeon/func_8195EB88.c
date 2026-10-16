@@ -3,19 +3,19 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before arg0 in func_80024388, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in dungeonUpdateBrighteningFadingEffect, addressed as arg0[-1] */
 
-   /* arg0 in func_80024388 */
+   /* arg0 in dungeonUpdateBrighteningFadingEffect */
 
-   /* temp_s0 in func_80024388 */
+   /* temp_s0 in dungeonUpdateBrighteningFadingEffect */
 
-   /* arg1 in func_80024388 */
+   /* arg1 in dungeonUpdateBrighteningFadingEffect */
 
-   /* temp_a0_2 in func_80024388 */
+   /* temp_a0_2 in dungeonUpdateBrighteningFadingEffect */
 
-   /* arg2 in func_80024388 */
+   /* arg2 in dungeonUpdateBrighteningFadingEffect */
 
-   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_80024388 */
+   /* ((S_8195EB88_0 *)arg0)->unk_0C in dungeonUpdateBrighteningFadingEffect */
 
 
 
@@ -25,7 +25,7 @@
 
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
-void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
+void dungeonUpdateBrighteningFadingEffect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
 {
     s16 phase;
     u16 phase_value;
@@ -39,7 +39,7 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
     if (phase == 0) {
         source_state = ((S_8195EB88_5 *)(((S_8195EB88_0 *)effect)->unk_0C))->unk_0C;
         if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
-            if (func_8003DE58(source_state->unk_08, source_state,
+            if (resolveRecordOrientationOrFallback(source_state->unk_08, source_state,
                               (u8 *)effect + 0x40, 0) != 0) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
             } else if (source_state->unk_14 & 0x8000) {
@@ -58,7 +58,7 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
             base_position->unk_06 + ((S_8195EB88_0 *)effect)->unk_42;
         position->unk_0A =
             base_position->unk_0A + ((S_8195EB88_0 *)effect)->unk_44.u;
-        if (func_80027204(position) != 0) {
+        if (dungeonAllocateNinePositionObjects(position) != 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
         }

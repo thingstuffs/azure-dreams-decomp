@@ -2,11 +2,11 @@
 #include "shared/dir_step.h"
 
 
-s32 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
 s16 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Tests for a flagged floor or a height above 0x200 at the layer-offset cell. */
-s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
+s32 dungeonCheckLayerOffsetHeight(u16 x, u16 y, s16 height, u32 flags)
 {
     s16 floor_height;
     s16 offset_height;
@@ -31,7 +31,7 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     query_cell_y = cell_y;
     layer = (flags >> 9) & 7;
 
-    if ((func_8009A350(query_cell_x, query_cell_y, layer, &floor_height) << 16) == 0) {
+    if ((getOffsetMapCellValueAndFlags(query_cell_x, query_cell_y, layer, &floor_height) << 16) == 0) {
         return 0;
     }
     if (floor_height & 0x8000) {

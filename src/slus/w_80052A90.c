@@ -16,7 +16,7 @@ extern void LoadImage(RECT *rect, void *p);
 extern void DrawSync(s32 mode);
 
 /* Draws a two-byte character string by copying font tiles to successive screen positions. */
-void func_80052A90(u8 *text, s16 start_x, s16 start_y)
+void drawDoubleByteText(u8 *text, s16 start_x, s16 start_y)
 {
     RECT rect;
     u32 tile_buf[0x20];

@@ -5,6 +5,6 @@
 M2C_UNK func_800198D0();                     /* extern */
 
 /* Call func_800198D0 with the fixed argument 0x14. */
-void func_8047AA98(void) {
+void func_80017298(void) {
     func_800198D0(0x14);
 }

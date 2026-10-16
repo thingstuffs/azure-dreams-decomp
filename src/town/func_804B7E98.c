@@ -10,7 +10,7 @@ extern u8 D_8001ADE7[16];
 extern u8 D_8001AE39[16];
 
 /* Checks prerequisites, conditionally performs an action, and returns its response. */
-void *func_80016698(void *object, s32 action_arg) {
+void *townCheckSceneActionPrerequisites(void *object, s32 action_arg) {
     void *response;
 
     if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) == 0) {

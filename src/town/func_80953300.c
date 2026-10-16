@@ -6,7 +6,7 @@ extern s16 D_80113158;
 extern s32 D_8011315C;
 
 /* Randomize four entries, set two distinct entries to 1 and 2, and reset state. */
-s32 func_80953300(void) {
+s32 townRandomizeFourEntriesAndResetState(void) {
     s32 entry_index;
     s32 random_value;
     s32 second_index;

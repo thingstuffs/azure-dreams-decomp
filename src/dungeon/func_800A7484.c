@@ -5,7 +5,7 @@
 typedef struct S_800ACBE4_0 {
     u8 pad_00[0x9B];
     u8 unk_9B;
-} S_800ACBE4_0;   /* arg0 in func_800ACBE4 */
+} S_800ACBE4_0;   /* arg0 in dungeonFadeOutAndRemoveActor */
 
 typedef struct S_800ACBE4_1 {
     u8 pad_00[0xC];
@@ -19,14 +19,14 @@ typedef struct S_800ACBE4_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800ACBE4_1;   /* arg2 in func_800ACBE4 */
+} S_800ACBE4_1;   /* arg2 in dungeonFadeOutAndRemoveActor */
 
 typedef struct S_800ACBE4_2 {
     u8 pad_00[0x14];
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_800ACBE4_2;   /* actor in func_800ACBE4 */
+} S_800ACBE4_2;   /* actor in dungeonFadeOutAndRemoveActor */
 
 
 extern void func_8004491C(void *, void *);
@@ -37,7 +37,7 @@ extern void func_800A32A4(void *);
 extern s32 D_800C6AEC;
 
 /* Fades the actor to black, then triggers an effect and marks it for removal. */
-void func_800ACBE4(void *actor_data, s32 unused, void *visual, void *current_actor)
+void dungeonFadeOutAndRemoveActor(void *actor_data, s32 unused, void *visual, void *current_actor)
 {
     s32 actor_status;
     s32 actor_flags;

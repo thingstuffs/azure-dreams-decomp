@@ -72,15 +72,15 @@ typedef struct S_func_80026418_3 {
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
 
-extern void func_80024BA0(void);
-extern void func_8003F80C(void *, s32, s32, s32);
-extern s32 func_80040490(void *, void *);
+extern void dungeonClearCircularListFlags(void);
+extern void uploadVramRowAndCache(void *, s32, s32, s32);
+extern s32 decodeAndUploadImage(void *, void *);
 extern void func_800542BC(void);
 extern s32 func_80069EF8(void);
-extern void func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
-void func_80026418(S_func_80026418_0 *effect)
+void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
 {
     s32 rect[2];
     OffsetTable offsets = D_80024028;
@@ -96,15 +96,15 @@ void func_80026418(S_func_80026418_0 *effect)
     state = effect->unk_0A.s;
     switch (state) {
     case 0:
-        func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
+        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
         D_800814A8->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
-        func_80040490(D_8006E8A0, rect);
-        func_8003F80C(D_8006EE50, 0x7AC0, 1, 2);
-        func_80024BA0();
+        decodeAndUploadImage(D_8006E8A0, rect);
+        uploadVramRowAndCache(D_8006EE50, 0x7AC0, 1, 2);
+        dungeonClearCircularListFlags();
 
         owner = ((GlobalObj *)D_800814A8);
         owner->unk_F4 = 0;
@@ -169,7 +169,7 @@ void func_80026418(S_func_80026418_0 *effect)
             spread_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
             spread_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
 
-            func_8002626C((u8 *)effect - 0x20, effect->unk_24,
+            dungeonCreateOffsetColoredEffect((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,
                           (s16)(((u16)position->x.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)

@@ -2,11 +2,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 func_800AB538(void *, s32, void *, void *);
+extern s32 dungeonUpdateActorHopAndShrink(void *, s32, void *, void *);
 
 /* Forward all four bank callback arguments to the resident handler. */
-void func_80173504(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
+void dungeonForwardBankActorCallbackA(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
 {
-    func_800AB538(state, action, source, target);
+    dungeonUpdateActorHopAndShrink(state, action, source, target);
 }
 

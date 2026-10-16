@@ -8,22 +8,22 @@
 
 
 
-extern s32 func_8008D344();
-extern s32 func_8008D368();
-extern s32 func_80098864();
-extern s32 func_80098B38();
+extern s32 dungeonBeginModeSelectedItemAction();
+extern s32 dungeonBeginParameterizedActorAction();
+extern s32 dungeonProcessRecordAndUpdateLinkedState();
+extern s32 dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099290();
-extern s32 func_80099368();
-extern s32 func_8009955C();
+extern s32 dungeonAppendTypedFormattedValue();
+extern s32 dungeonApplyTypeBasedEntryAdjustments();
 extern s32 func_800997FC();
-extern s32 func_800998C0();
-extern s32 func_80099978();
+extern s32 dungeonCopyFullwidthVowelBytes();
+extern s32 dungeonAppendValueSevenSuffix();
 extern s32 func_800A5720();
 extern s32 func_800A5F38();
 extern s32 func_800A6480();
-extern s32 func_800AD6FC();
+extern s32 dungeonApplyActorFoodPreference();
 
 extern u8 D_80089364[];
 extern u8 D_80089368[];
@@ -46,20 +46,20 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     u8 item_type;
 
     if (action_kind == 0xD) {
-        return func_80098864(action, call_context);
+        return dungeonProcessRecordAndUpdateLinkedState(action, call_context);
     }
 
     state = D_800E3D7C;
     if (target == (u32)state) {
         state->unk_110 = action;
-        func_8008D344(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
+        dungeonBeginModeSelectedItemAction(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
         action[3] &= (u8)~0x20;
         return 0;
     }
 
     if (target <= 0x9FFFFFFF) {
         func_800A6480(target, action, action_kind);
-        if (func_800AD6FC(target, D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
+        if (dungeonApplyActorFoodPreference(target, D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(target, action);
             return 1;
         }
@@ -68,7 +68,7 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
         if (item != 0) {
             if (!(action[3] & 0x20)) {
                 state->unk_114 = 0x202080;
-                func_8008D368(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
+                dungeonBeginParameterizedActorAction(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
                 action[3] |= 0x20;
                 return 0;
             }
@@ -78,23 +78,23 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
             item_type = item[1];
             if (item_type == 0xF || (item_type == 0x10 && item[0] == 2)) {
                 if (!(item[3] & 0x40)) {
-                    value = func_8009955C(item, action_value);
+                    value = dungeonApplyTypeBasedEntryAdjustments(item, action_value);
                     if ((s8)item[2] < 0x63) {
                         item[2] = (u8)(item[2] + 1);
                     }
-                    value = func_80099978(func_80099194(D_800E110B, value));
+                    value = dungeonAppendValueSevenSuffix(func_80099194(D_800E110B, value));
                     choice_index = value - 2;
                     value = func_80099194(D_80089364, value);
-                    result_value = func_80099368(item, value);
+                    result_value = dungeonAppendTypedFormattedValue(item, value);
                     value_arg = value;
                     value = result_value;
-                    func_800998C0(choice_index, value_arg);
+                    dungeonCopyFullwidthVowelBytes(choice_index, value_arg);
                     value = func_80099194(D_80089368, value);
                 } else {
-                    value = func_80099194(D_800E112A, func_80099368(item, action_value));
+                    value = func_80099194(D_800E112A, dungeonAppendTypedFormattedValue(item, action_value));
                 }
             } else {
-                value = func_80099194(D_800E1156, func_80099368(item, value));
+                value = func_80099194(D_800E1156, dungeonAppendTypedFormattedValue(item, value));
             }
             func_80099290(value);
             func_800A5720(action_value);
@@ -104,6 +104,6 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     }
 
     dungeonStatus.unk_0A--;
-    func_80098B38(action);
+    dungeonClearSlotAndUpdateLinkedState(action);
     return 1;
 }

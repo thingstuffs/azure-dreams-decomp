@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern void func_80018E34(s32);
-extern void func_80018EA8(void);
-extern void func_800190C0(void *);
-extern void func_800191EC(void *);
+extern void townReleaseLshopEntry(s32);
+extern void townCompactLshopEntryList(void);
+extern void townAppendShopEntry(void *);
+extern void townSetLshopSpecialFlag(void *);
 
 /* Processes flagged four-byte entries according to the mode, skipping type 0x18. */
-void func_8001922C(void *entries, s32 entry_mode)
+void townProcessLshopEntries(void *entries, s32 entry_mode)
 {
     void *entry_list;
     s32 initial_mode;
@@ -24,11 +24,11 @@ void func_8001922C(void *entries, s32 entry_mode)
         do {
             if ((entry[3] & 0x20) && entry[1] != entry_list) {
                 if (mode == 0) {
-                    func_800190C0(entry);
+                    townAppendShopEntry(entry);
                     entry += 4;
                 } else {
-                    func_800191EC(entry);
-                    func_80018E34(entry_index);
+                    townSetLshopSpecialFlag(entry);
+                    townReleaseLshopEntry(entry_index);
                     entry += 4;
                 }
             } else {
@@ -37,5 +37,5 @@ void func_8001922C(void *entries, s32 entry_mode)
             entry_index++;
         } while (entry[1] != 0);
     }
-    func_80018EA8();
+    townCompactLshopEntryList();
 }

@@ -15,6 +15,7 @@ import argparse, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, raw_path
+from source_layout import row_path as layout_row_path
 from census import live_audit
 
 def main():
@@ -25,7 +26,7 @@ def main():
     small, large, fields = [], [], []
     for r in rows():
         if not r["stock"]: continue
-        cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        cp = layout_row_path(r, ROOT)
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         live = live_audit(r, text)
         if sum(live.get(k, 0) for k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS")):

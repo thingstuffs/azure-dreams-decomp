@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 
-/* Call func_8002219C with argument 5. */
-void func_8002223C(void) {
-    func_8002219C(5);
+/* Call cardBootEraseSlotFile with argument 5. */
+void cardBootEraseTemporaryFile(void) {
+    cardBootEraseSlotFile(5);
 }

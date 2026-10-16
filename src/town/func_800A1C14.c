@@ -3,24 +3,24 @@
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
 
-s32 func_800374F4();                         /* extern */
+s32 scaleRandomToUnsignedHalfwordLimit();                         /* extern */
 s32 func_800644B8();                             /* extern */
-void func_8009F148(); /* extern */
+void townInitializeEntityFlagsTransformTypeDependentVariant(); /* extern */
 
 
 typedef struct S_8009F374_2 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009F374_2;   /* arg3 in func_8009F374 */
+} S_8009F374_2;   /* arg3 in townHandleJitterPositionPulseScaleUntilCountdownExpires */
 
 /* Jitter the position and pulse the scale until the countdown expires. */
-void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, S_8009F374_2 *scale) {
+void townHandleJitterPositionPulseScaleUntilCountdownExpires(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, S_8009F374_2 *scale) {
     s16 ticks_left;
     s32 scale_x_wave;
     s32 scale_y_wave;
 
-    position->z.v = (s32) (state->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
+    position->z.v = (s32) (state->unk_A0 + (((scaleRandomToUnsignedHalfwordLimit(0x10) & 0xFFFF) - 8) << 0x10));
     scale_x_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
     scale->unk_1C = (s16) ((scale_x_wave / 4) + 0x1000);
     scale_y_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
@@ -30,6 +30,6 @@ void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, 
     if ((ticks_left << 0x10) <= 0) {
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
-        func_8009F148(state, context, position, scale);
+        townInitializeEntityFlagsTransformTypeDependentVariant(state, context, position, scale);
     }
 }

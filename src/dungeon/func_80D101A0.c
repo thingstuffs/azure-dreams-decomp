@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d2ebc4_p02.h"
 
 /* Selects direction-dependent table entries for kinds 13 through 15 around the object update. */
-void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg)
+void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg)
 {
     Obj2 *render_obj = render_arg;
     Obj3 *state = state_arg;
@@ -63,7 +63,7 @@ void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg
 
 
     if (func_800AC82C(owner, context, render_obj, state) != 0) {
-        if ((func_800AD9B4(render_obj, state) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(render_obj, state) << 16) > 0) {
             owner->field8c = func_8014E4BC;
         }
         return;

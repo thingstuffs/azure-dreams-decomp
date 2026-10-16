@@ -1,6 +1,6 @@
 #include "slus/jtbl_8004CECC.h"
 
-u8 *func_8004CECC(u32 hue, s32 saturation, s32 value, u8 *out)
+u8 *convertHsvToRgb(u32 hue, s32 saturation, s32 value, u8 *out)
 {
     u8 *rgb = out;
     s32 channel_min;

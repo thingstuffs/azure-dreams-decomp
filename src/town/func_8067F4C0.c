@@ -5,6 +5,6 @@
 M2C_UNK func_80018514();                     /* extern */
 
 /* Calls func_80018514 with argument 0x72D. */
-void func_8067F4C0(void) {
+void townSelectTownByteArray(void) {
     func_80018514(0x72D);
 }

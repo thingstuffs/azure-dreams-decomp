@@ -5,13 +5,13 @@
 
 
 /* Returns the pending card status and processes it when nonzero. */
-s32 func_800214FC(void) {
+s32 cardBootTakeHardwareStatus(void) {
     s32 card_status;
 
     card_status = 0;
     if ((*(s32 *)(&D_800287E4)) != 0) {
         card_status = (*(s32 *)(&D_800287E4));
-        func_80021538();
+        cardBootDrainHardwareEvents();
     }
     return card_status;
 }

@@ -14,7 +14,7 @@ typedef struct {
 } S_80050EA8;
 
 extern void func_80044A50(S_80050EA8 *a0);
-extern void func_8004FE78(void *a0);
+extern void destroyAnimatedSelectionMenu(void *a0);
 
 /* Saves the pending value, unlinks the object, and releases and clears its attachment. */
 void func_80050EA8(S_80050EA8 *object)
@@ -27,6 +27,6 @@ void func_80050EA8(S_80050EA8 *object)
         object->unk10 = 0;
     }
     func_80044A50(object);
-    func_8004FE78((void *)object_state->unk28);
+    destroyAnimatedSelectionMenu((void *)object_state->unk28);
     object_state->unk28 = 0;
 }

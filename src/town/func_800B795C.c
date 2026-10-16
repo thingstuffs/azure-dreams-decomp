@@ -10,7 +10,7 @@ extern void func_8004B1A4(void *a0);
 extern void func_800B5020(void *a0);
 
 // Process an object's associated resources and set its and the global high-bit flags.
-void func_800B50BC(u8 *object)
+void townProcessObjectResourcesAndHighFlag(u8 *object)
 {
     u8 *resourceFields;
     u16 objectFlags;

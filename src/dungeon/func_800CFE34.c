@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern void func_800A020C(void *, void *);
+extern void dungeonApplyMonsterKoyawData(void *, void *);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80042900(void *, s32);
@@ -25,7 +25,7 @@ extern u8 D_800E2460[];
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 
 /* Updates entity appearance, position, and facing from its owner and effect state. */
-void func_800D5594(void *owner_data, void *position_data, u8 *entity)
+void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u8 *entity)
 {
     u8 *record;
     u8 *effect;
@@ -47,7 +47,7 @@ void func_800D5594(void *owner_data, void *position_data, u8 *entity)
     appearance = PTR(record, 0xC);
     coords = PTR(record, 8);
 
-    func_800A020C(effect_data, entity + 0xC);
+    dungeonApplyMonsterKoyawData(effect_data, entity + 0xC);
 
     saved_effect = effect;
     if ((*(u32 *)(effect + 0x1C) & 0x20) == 0) {

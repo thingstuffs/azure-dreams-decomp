@@ -11,24 +11,24 @@
 typedef struct S_801749A8_8 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801749A8_8;   /* temp_s0 in func_801749A8 */
+} S_801749A8_8;   /* temp_s0 in dungeonUpdateTurningFadeEffectAndModel */
 
 
 typedef struct S_801749A8_10 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801749A8_10;   /* ((S_801749A8_8 *)temp_s0)->unk_08 in func_801749A8 */
+} S_801749A8_10;   /* ((S_801749A8_8 *)temp_s0)->unk_08 in dungeonUpdateTurningFadeEffectAndModel */
 
 typedef struct S_801749A8_11 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801749A8_11;   /* ((Rec_D_80082E80 *)arg3)->unk_60.as_pv in func_801749A8 */
+} S_801749A8_11;   /* ((Rec_D_80082E80 *)arg3)->unk_60.as_pv in dungeonUpdateTurningFadeEffectAndModel */
 
 
 typedef struct S_801749A8_0_pre {
     u16 unk_00;
-} S_801749A8_0_pre;   /* the 0x2 bytes before arg0 in func_801749A8, addressed as arg0[-1] */
+} S_801749A8_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateTurningFadeEffectAndModel, addressed as arg0[-1] */
 
 typedef struct S_801749A8_0 {
     u8 pad_00[0x96];
@@ -38,7 +38,7 @@ typedef struct S_801749A8_0 {
     u8 pad_9C[0x8];
     void * unk_A4;
     s16 unk_A8;
-} S_801749A8_0;   /* arg0 in func_801749A8 */
+} S_801749A8_0;   /* arg0 in dungeonUpdateTurningFadeEffectAndModel */
 
 
 typedef struct S_801749A8_2 {
@@ -53,24 +53,24 @@ typedef struct S_801749A8_2 {
     u8 unk_A8;
     u8 unk_A9;
     u8 unk_AA;
-} S_801749A8_2;   /* temp_s0 in func_801749A8 */
+} S_801749A8_2;   /* temp_s0 in dungeonUpdateTurningFadeEffectAndModel */
 
 typedef struct S_801749A8_3 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_801749A8_3;   /* temp_a1 in func_801749A8 */
+} S_801749A8_3;   /* temp_a1 in dungeonUpdateTurningFadeEffectAndModel */
 
 
 typedef struct S_801749A8_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801749A8_6_pre;   /* the 0x14 bytes before temp_v1_3 in func_801749A8, addressed as temp_v1_3[-1] */
+} S_801749A8_6_pre;   /* the 0x14 bytes before temp_v1_3 in dungeonUpdateTurningFadeEffectAndModel, addressed as temp_v1_3[-1] */
 
 typedef struct S_801749A8_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801749A8_6;   /* temp_v1_3 in func_801749A8 */
+} S_801749A8_6;   /* temp_v1_3 in dungeonUpdateTurningFadeEffectAndModel */
 
 typedef struct S_801749A8_7 {
     u8 pad_00[0x4];
@@ -79,7 +79,7 @@ typedef struct S_801749A8_7 {
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_801749A8_7;   /* temp_s0_2 in func_801749A8 */
+} S_801749A8_7;   /* temp_s0_2 in dungeonUpdateTurningFadeEffectAndModel */
 
 
 extern s32 D_8006CD58[];
@@ -89,22 +89,22 @@ typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
 M2C_UNK Control_CD();
-M2C_UNK func_8003F540();
+M2C_UNK soundSetCdCueParameters();
 void func_80041588();
 s32 func_8004491C();
 M2C_UNK func_800445E0();
 s32 func_8003DB94();
-s32 func_80047738();
+s32 selectIndirectTableEntry();
 s32 rand();
 void func_8009A028();
 void func_8009A3D0();
-void func_800A18E8();
-void *func_800A504C();
+void dungeonDecrementMonsterEntryCount();
+void *dungeonAdvanceStagedEntityLoad();
 s32 func_800A56E0();
-s32 func_800ADC4C();
-s32 func_800C77D0();
+s32 dungeonCreateStatusLinkedRenderEffect();
+s32 dungeonSelectNearbyTargetAndInitializeSlot();
 void func_801745E0();
-s32 func_800498A0(void *, ...);
+s32 lookupMaskedByteTable(void *, ...);
 extern u8 *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
 extern M2C_UNK D_8017487C;
@@ -115,7 +115,7 @@ extern u8 D_80174FCD[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
-void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
+void dungeonUpdateTurningFadeEffectAndModel(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
     u8 *target_color;
     s16 direction;
     s32 effect_choice;
@@ -155,11 +155,11 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
             return;
         }
         func_80041588(&D_80174FAC, &D_80174FCC, 1);
-        func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
+        soundSetCdCueParameters(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_80174FCD[0] = 0;
         Control_CD(0xFF, (s32) D_8003E140, &D_80174FCD);
-        func_800C77D0(target - 0x20, position, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(target - 0x20, position, 8, 0x300);
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     case 3:
@@ -176,7 +176,7 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
             func_800A56E0(0x300);
             return;
         }
-        target_color = D_800DCEEC[func_800498A0(target)];
+        target_color = D_800DCEEC[lookupMaskedByteTable(target)];
         object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00
             - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
         object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01
@@ -199,7 +199,7 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
         object->unk_1E = 0x1000;
         object->unk_1C = 0x1000;
         object->unk_0C.u = 0x808080;
-        effect_choice = func_800498A0(target) - 1;
+        effect_choice = lookupMaskedByteTable(target) - 1;
         effect_index = effect_choice;
         if ((effect_choice << 0x10) < 0) {
             effect_index = rand() % 3;
@@ -220,20 +220,20 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
         if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
             return;
         }
-        movement_done = func_800ADC4C(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
+        movement_done = dungeonCreateStatusLinkedRenderEffect(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
         if (movement_done == 0) {
             return;
         }
         ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-        func_800A18E8(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
+        dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
         func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
         func_8009A028(target);
         object = target - 0x20;
         object->unk_10.u = object->unk_10.u | 0x80000000;
         return;
     case 7:
-        model_addr = func_800A504C(actor, target);
+        model_addr = dungeonAdvanceStagedEntityLoad(actor, target);
         ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
         if (model_addr == 0) {
             return;
@@ -244,7 +244,7 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
             (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
         sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
-        func_80047738(sprite, *(sprite->unk_2C + (((s32) (gameWork.view.viewAngle
+        selectIndirectTableEntry(sprite, *(sprite->unk_2C + (((s32) (gameWork.view.viewAngle
             + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:

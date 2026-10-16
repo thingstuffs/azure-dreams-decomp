@@ -17,7 +17,7 @@ M2C_UNK LoadImage();                      /* extern */
 
 /* port body: port/hal/resident_gap2.c:632 */
 /* Uploads pixel data to the specified VRAM rectangle. */
-void func_8003ADF4(s16 x, s16 y, s16 width, s16 height, const void *pixels)
+void uploadTownMoviePixelData(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
     s16 rect[4];
 

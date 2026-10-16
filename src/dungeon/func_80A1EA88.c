@@ -29,12 +29,12 @@ typedef struct {
 } PathTable;
 
 extern void func_80047784(void *, u8, s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A9A04(void *);
-extern void func_800AD594(void *, s32);
-extern s32 func_800AD9B4(void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 
 extern u8 D_80170838[16];
 extern s32 D_80170E84;
@@ -103,7 +103,7 @@ void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            func_800A2B04(position, sprite[0x24], sprite[0x25]);
+            dungeonSetRecordIntegerTileCenter(position, sprite[0x24], sprite[0x25]);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
             func_80047784(
                 sprite,
@@ -121,9 +121,9 @@ void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        func_800A2B04(position, sprite[0x24], sprite[0x25]);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonSetRecordIntegerTileCenter(position, sprite[0x24], sprite[0x25]);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
 
 
         global_counter = &dungeonStatus;
@@ -138,13 +138,13 @@ void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = func_800A0818(
+                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
                     &facing_result);
             }
         }
 
-        if ((func_800AD9B4(sprite, actor) << 16) <= 0) {
+        if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) <= 0) {
             return;
         }
         ((S_80172288_0 *)motion)->unk_8C = &D_80170E84;

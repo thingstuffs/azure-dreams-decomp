@@ -18,7 +18,7 @@ typedef struct S_80172504_0 {
     u8 unk_85;
     u8 pad_86[0x2];
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
-} S_80172504_0;   /* entity in func_80172504 */
+} S_80172504_0;   /* entity in dungeonScanForwardTilesForTarget */
 
 typedef struct S_80172504_1 {
     u8 pad_00[0x8C];
@@ -33,27 +33,27 @@ typedef struct S_80172504_1 {
     s16 unk_AA;
     s16 unk_AC;
     u8 unk_AE;
-} S_80172504_1;   /* state in func_80172504 */
+} S_80172504_1;   /* state in dungeonScanForwardTilesForTarget */
 
 typedef struct S_80172504_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172504_2;   /* (void *)scratch in func_80172504 */
+} S_80172504_2;   /* (void *)scratch in dungeonScanForwardTilesForTarget */
 
 
-extern s32 func_8009B4B0();
-extern void func_8009C93C();
+extern s32 dungeonFindEligibleEntryAtCoordinates();
+extern void dungeonPrepareDirectionalAttack();
 extern s32 func_800A2B5C();
-extern s32 func_800A44E0();
-extern void func_800A4ACC();
+extern s32 dungeonCheckLayerOffsetHeight();
+extern void dungeonAdvanceStatusTimers();
 extern s16 func_800BCB04();
-extern void func_800C77D0();
-extern void func_800C7930();
+extern void dungeonSelectNearbyTargetAndInitializeSlot();
+extern void dungeonApplyCameraOffsetAndSelectTarget();
 
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
-s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *actor) {
+s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, void *origin, void *actor) {
     u32 dir_index;
     u16 initial_direction;
     s16 *delta_x;
@@ -82,7 +82,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
-    func_800C7930((u8 *)actor - 0x20, transfer_data, 8, 0x300);
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, transfer_data, 8, 0x300);
     check_result = func_800A2B5C(actor);
     step_count = 0;
     if ((check_result << 16) != 0) {
@@ -104,7 +104,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
         world_x = (signed_x << 6) & 0xFFC0;
         signed_y = (s16)tile_y;
         world_y = (signed_y << 6) & 0xFFC0;
-        if ((func_800A44E0(world_x,
+        if ((dungeonCheckLayerOffsetHeight(world_x,
                            world_y,
                            ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
             break;
@@ -131,7 +131,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
             step_y = (u16)*delta_y;
             step_x = (u16)(tile_x + step_x);
             step_y = (u16)(tile_y + step_y);
-            check_result = func_8009B4B0(actor, step_x, step_y);
+            check_result = dungeonFindEligibleEntryAtCoordinates(actor, step_x, step_y);
         }
         if (check_result != 0) {
             ((S_80172504_1 *)action_state)->unk_AE = 2;
@@ -158,14 +158,14 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     ((S_80172504_1 *)action_state)->unk_96 = 8;
     ((S_80172504_0 *)actor)->unk_84 = 0x7E;
     ((S_80172504_0 *)actor)->unk_85 = 8;
-    func_800A4ACC(actor);
+    dungeonAdvanceStatusTimers(actor);
     ((S_80172504_0 *)actor)->unk_6D--;
     copy_dest = (u8 *)actor - 0x20;
     if (((S_80172504_1 *)action_state)->unk_AE == 2) {
-        func_8009C93C(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
+        dungeonPrepareDirectionalAttack(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
                       (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
     } else {
-        func_800C77D0(copy_dest, transfer_data, 8, 0x300);
+        dungeonSelectNearbyTargetAndInitializeSlot(copy_dest, transfer_data, 8, 0x300);
     }
     return 0;
 }

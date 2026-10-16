@@ -3,7 +3,7 @@
 typedef s32 M2C_UNK;
 
 
-extern void func_800A4B94();
+extern void townResetOrCopyStateValues();
 extern M2C_UNK D_800A4B94;
 
 
@@ -19,20 +19,20 @@ typedef struct S_800A4C10_0 {
     s32 unk_20;
     u8 pad_24[0x4];
     M2C_UNK * unk_28;
-} S_800A4C10_0;   /* arg0 in func_800A4C10 */
+} S_800A4C10_0;   /* arg0 in townRestartOrAdvanceTargetInterpolation */
 
 typedef struct S_800A4C10_1 {
     s32 unk_00;
-} S_800A4C10_1;   /* temp_v1 in func_800A4C10 */
+} S_800A4C10_1;   /* temp_v1 in townRestartOrAdvanceTargetInterpolation */
 
 typedef struct S_800A4C10_2 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_800A4C10_2;   /* ((S_800A4C10_0 *)arg0)->unk_00 in func_800A4C10 */
+} S_800A4C10_2;   /* ((S_800A4C10_0 *)arg0)->unk_00 in townRestartOrAdvanceTargetInterpolation */
 
 /* Restart interpolation when the target changes, otherwise advance toward its position. */
-void func_800A4C10(S_800A4C10_0 *state) {
+void townRestartOrAdvanceTargetInterpolation(S_800A4C10_0 *state) {
     s32 steps_left;
     S_800A4C10_1 *target;
 
@@ -43,7 +43,7 @@ void func_800A4C10(S_800A4C10_0 *state) {
         state->unk_18 = 0;
         state->unk_1C = 0;
         state->unk_04 = target;
-        func_800A4B94(state);
+        townResetOrCopyStateValues(state);
         return;
     }
     state->unk_08 +=

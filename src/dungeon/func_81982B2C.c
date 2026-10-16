@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void func_8002432C(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
+void dungeonInitializeEntityPositionAndMotion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
 {
     s16 state;
     void *actor;
@@ -12,7 +12,7 @@ void func_8002432C(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Pos
     if (state == 0) {
         actor = entity->inner->actor;
         if (entity->active == 0) {
-            if (func_8003DE58(*(s32 *)((u8 *)actor + 8), actor,
+            if (resolveRecordOrientationOrFallback(*(s32 *)((u8 *)actor + 8), actor,
                               &entity->x, 0) != 0) {
                 entity->active = 1;
             } else if (*(u16 *)((u8 *)actor + 0x14) & 0x8000) {

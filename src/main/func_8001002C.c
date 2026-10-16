@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *func_80022D60();   /* extern */
+u8 *cardBootCreateOrResetMessageDialog();   /* extern */
 
-/* Forwards the value to func_80022D60 with code 12 and two zero arguments. */
-void func_8002302C(s32 value) {
+/* Forwards the value to cardBootCreateOrResetMessageDialog with code 12 and two zero arguments. */
+void cardBootShowFormatFailureNotice(s32 value) {
     s32 zero = 0;
-    func_80022D60(value, 0xc, zero, zero);
+    cardBootCreateOrResetMessageDialog(value, 0xc, zero, zero);
 }

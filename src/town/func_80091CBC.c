@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_8008CABC(s32 *values, void *ptr, s32 value);
+extern s16 townMaxAdjustedXQueryAtLeastZero(s32 *values, void *ptr, s32 value);
 extern s32 D_800CFD78;
 
 typedef struct {
@@ -17,5 +17,5 @@ s16 func_8008F41C(void *position) {
     record.x = *(s32 *)position - *(s32 *)((u8 *)position + 0xC);
     record.y = *(s32 *)((u8 *)position + 4);
     record.z = *(s32 *)((u8 *)position + 8);
-    return func_8008CABC(&record.x, &D_800CFD78, 2);
+    return townMaxAdjustedXQueryAtLeastZero(&record.x, &D_800CFD78, 2);
 }

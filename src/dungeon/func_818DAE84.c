@@ -4,25 +4,25 @@
 
 typedef struct S_818DAE84_0_pre {
     u16 unk_00;
-} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in func_80024684, addressed as arg0[-1] */
+} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in createCoordinateSpriteObject, addressed as arg0[-1] */
 
 typedef struct S_818DAE84_0 {
     void * unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
     s16 unk_10;
-} S_818DAE84_0;   /* arg0 in func_80024684 */
+} S_818DAE84_0;   /* arg0 in createCoordinateSpriteObject */
 
 typedef struct S_818DAE84_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818DAE84_1;   /* inner in func_80024684 */
+} S_818DAE84_1;   /* inner in createCoordinateSpriteObject */
 
 
 
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
-void func_80024684(void *state) {
+void createCoordinateSpriteObject(void *state) {
     s32 remaining;
     s16 next_remaining;
     s32 progress;

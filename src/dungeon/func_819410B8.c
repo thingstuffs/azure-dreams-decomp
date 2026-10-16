@@ -4,7 +4,7 @@
 extern s16 D_8002571C[5];
 
 /* Advance animation values and set completion flags when the countdown expires. */
-void func_800248B8(void *countdownState, s32 unused, void *animationState)
+void dungeonAdvanceAnimationValuesSetCompletionFlagsCountdownExpires(void *countdownState, s32 unused, void *animationState)
 {
     s32 remainingTicks;
 

@@ -8,12 +8,12 @@
 
 extern void func_80047784(void *, u8, s32);
 extern s32 rand(void);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_800D5DCC(void *, s16, s32, s32);
-extern void func_801708B8(void *, void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void dungeonSpawnRandomizedDirectionalEffect(void *, s16, s32, s32);
+extern void createOwnerLinkedDirectionalObject(void *, void *, void *);
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2400[];
@@ -32,7 +32,7 @@ typedef struct S_80173510_0 {
     union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x14];
     u8 unk_B0;
-} S_80173510_0;   /* arg0 in func_80173510 */
+} S_80173510_0;   /* arg0 in dungeonAdvanceStagedActorMovement */
 
 
 typedef struct S_80173510_3 {
@@ -44,10 +44,10 @@ typedef struct S_80173510_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173510_3;   /* arg1 in func_80173510 */
+} S_80173510_3;   /* arg1 in dungeonAdvanceStagedActorMovement */
 
 /* Updates a staged movement animation and returns the entity to its tile center. */
-void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
+void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record, EntityRec *actor)
 {
     u8 state;
 
@@ -61,7 +61,7 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
             ((S_80173510_0 *)action)->unk_9B.n = 5;
             ((S_80173510_0 *)action)->unk_96.u = 0;
             ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, record, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
@@ -71,7 +71,7 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
             if (((S_80173510_0 *)action)->unk_B0 != 0) {
                 return;
             }
-            func_801708B8(action, motion, record);
+            createOwnerLinkedDirectionalObject(action, motion, record);
             return;
         }
 
@@ -152,7 +152,7 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
 
                 particles_left--;
                 particle_random = rand();
-                func_800D5DCC((u8 *)action - 0x20,
+                dungeonSpawnRandomizedDirectionalEffect((u8 *)action - 0x20,
                     actor->facing, 0x8080FF,
                     (particle_random & 0xFF) | 0x80);
             } while (particles_left >= 0);
@@ -184,7 +184,7 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
             ((S_80173510_3 *)motion)->unk_14 = 0;
             ((S_80173510_3 *)motion)->unk_10 = 0;
             ((S_80173510_3 *)motion)->unk_0C = 0;
-            func_8009C12C(actor, record, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
@@ -193,7 +193,7 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
                 0);
             ((S_80173510_0 *)action)->unk_92 = -0x20;
             if (((S_80173510_0 *)action)->unk_B0 == 0) {
-                func_801708B8(action, motion, record);
+                createOwnerLinkedDirectionalObject(action, motion, record);
             }
         }
 
@@ -248,10 +248,10 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
             return;
         }
 
-        func_800AD594(actor, 0x100);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80173510_0 *)action)->unk_8C = D_80171A80;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         ((S_80173510_3 *)motion)->unk_0C = 0;
         ((S_80173510_3 *)motion)->unk_10 = 0;
         ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;

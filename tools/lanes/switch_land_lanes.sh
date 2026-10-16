@@ -29,6 +29,7 @@ while [ "${RC:-1}" != 0 ]; do
   NEWBAD=$(python3 - "$START" $TOUCHED <<'PY'
 import sys, json, importlib
 sys.path.insert(0, "tools"); from common import rows
+from source_layout import row_ids_for_paths
 promote = importlib.import_module("promote")
 start, touched = sys.argv[1], sys.argv[2:]
 by = {r["id"]: r for r in rows()}
@@ -41,7 +42,8 @@ slus = [json.loads(l) for l in open("ledger/gate_slus.jsonl") if l.strip()]
 slus_bad = bool(slus) and slus[-1].get("at", "") >= start and slus[-1].get("result") != "MATCH"
 bad = []
 for f in touched:
-    rid = f[4:-2]
+    identities = row_ids_for_paths([f])
+    rid = identities[0] if identities else None
     if slus_bad and f.startswith("src/slus/"): bad.append(f); continue      # SLUS NO MATCH: its rows (a real
     # switch's own .rdata table shifts the linked SLUS data layout - sw23 08:53Z)
     if rid in by and failing & {w.replace(".overlay.yaml", "") for w in promote.windows_of(by[rid])}: bad.append(f)

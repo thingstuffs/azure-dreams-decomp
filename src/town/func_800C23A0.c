@@ -25,7 +25,7 @@ typedef struct S_800BFB00_1 {
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64(s32, void *);
-extern void func_800BFB8C(void);
+extern void townSpawnRandomizedTimedObjects(void);
 
 /* town_rain_in: creates a rain object with its callback, preset values, and position. */
 void town_rain_in(s16 x, s16 y) {
@@ -35,7 +35,7 @@ void town_rain_in(s16 x, s16 y) {
 
     object = func_8003FD64(2, ((u8 *)(&D_80083498)));
     if (object != 0) {
-        ((S_800BFB00_0 *)object)->unk_10 = func_800BFB8C;
+        ((S_800BFB00_0 *)object)->unk_10 = townSpawnRandomizedTimedObjects;
         ((S_800BFB00_0 *)object)->unk_20 = ((u16)D_80083780.x.w.i);
         state = (s8 *)object + 0x20;
         state->unk_02 = ((u16)D_80083780.y.w.i);

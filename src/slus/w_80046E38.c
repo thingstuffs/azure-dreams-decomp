@@ -13,10 +13,10 @@ typedef struct Pair80046E38 {
 
 extern s32 DrawSync(s32);
 extern void Control_CD(s32, s32 *, s32);
-extern void func_8003F320(void);
-extern void func_8003F6D4(s32, s32, s32 *, s32);
+extern void drainCdCommandQueue(void);
+extern void packTaggedResourceDescriptor(s32, s32, s32 *, s32);
 extern u8 *func_8004068C(u8 *, u8 *);
-extern void func_80046D64(u8 *, s16);
+extern void runtimeSetListPointersFromTypeOffsets(u8 *, s16);
 
 extern Info80046E38 *D_8006E7F0[];
 extern s32 D_80080A7C;
@@ -25,7 +25,7 @@ extern u8 *D_8008148C[3];
 
 
 /* Processes the selected entry stream and updates the drawing buffer and mode mask. */
-void func_80046E38(s16 entry_id, u8 *stream)
+void runtimeLoadPackedResourceChunks(s16 entry_id, u8 *stream)
 {
     Pair80046E38 pair;
     u8 *stream_start;
@@ -58,14 +58,14 @@ void func_80046E38(s16 entry_id, u8 *stream)
         do {
             Control_CD(6, (s32 *)&pair, 0);
             data_offset += 0x10;
-            func_8003F320();
+            drainCdCommandQueue();
             stream = func_8004068C(D_80081480, stream);
             remaining--;
-            func_8003F6D4(0x10, 0, (s32 *)&pair, data_offset);
+            packTaggedResourceDescriptor(0x10, 0, (s32 *)&pair, data_offset);
         } while (remaining > 0);
     }
 
-    func_80046D64(stream_start, entry_id);
+    runtimeSetListPointersFromTypeOffsets(stream_start, entry_id);
     if (D_80082E60.mode != 2) {
         D_80080A7C = 0x8000;
     } else {

@@ -5,14 +5,14 @@
 
 
 extern s32 func_800A2BDC(void *entity);
-extern void func_800ACB98(void *entity, s32 unused, s32 status, void *event_state);
-extern void func_800ACD74(void *object_state, s32 unused_context, s32 properties, void *status);
+extern void dungeonBeginActorFlaggedAction(void *entity, s32 unused, s32 status, void *event_state);
+extern void dungeonInitializeActorObjectAction(void *object_state, s32 unused_context, s32 properties, void *status);
 
 extern s16 D_800DCE68;
 
 
 /* Updates actor state from pending entity flags when entity processing is allowed. */
-void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity) {
+void dungeonUpdatePendingEntityAction(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_arg2, EntityRec *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 next_state;
@@ -46,7 +46,7 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     if (entity_flags & 0x20000000) {
                         entity->flags14 = entity_flags | 0x400000;
                         actor->unk_AD = 0;
-                        func_800ACB98(actor, update_arg1, update_arg2, entity);
+                        dungeonBeginActorFlaggedAction(actor, update_arg1, update_arg2, entity);
                         return;
                     }
                     entity->flags14 = entity_flags & 0xFFBFFFFF;
@@ -63,7 +63,7 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     entity->unk_71 = 0;
                     entity->flags1C &= 0xFDFFFFFF;
                     if (entity->flags14 & 0x20000000) {
-                        func_800ACD74(actor, update_arg1, update_arg2, entity);
+                        dungeonInitializeActorObjectAction(actor, update_arg1, update_arg2, entity);
                         return;
                     }
                     actor->unk_9A.as_u8 = 0;

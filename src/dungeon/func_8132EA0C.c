@@ -13,7 +13,7 @@ typedef struct {
 extern void func_800478B8();
 
 /* Advance the position and timer, setting completion flags when the timer expires. */
-void func_80165A0C(void *state, Position *pos, s32 handle)
+void dungeonTickLinearEffectWithDoubleRefresh(void *state, Position *pos, s32 handle)
 {
     s32 dy;
     s32 dz;

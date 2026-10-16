@@ -1,9 +1,9 @@
 #include "shared/entity.h"
 #include "modules/dungeon_ovl_1924800.h"
 
-/* Retail 81905564 (func_80024D64): projects each linked point and queues a brightness-scaled shaded tile
+/* Retail 81905564 (dungeonDrawBrightnessScaledLinkedTiles): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_80024D64(PointRecord *first_point, EntityRec *first_position)
+s32 dungeonDrawBrightnessScaledLinkedTiles(PointRecord *first_point, EntityRec *first_position)
 {
     PointRecord *point = first_point;
     EntityRec *position = first_position;

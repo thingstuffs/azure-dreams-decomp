@@ -17,7 +17,7 @@ typedef struct {
 } S_8004E188;
 
 /* Sets record fields 0x8-0xB from a code using its table-selected encoding. */
-void *func_8004E188(void *record_ptr, s32 code)
+void *decodeGlyphFields(void *record_ptr, s32 code)
 {
     S_8004E188 *record = (S_8004E188 *)record_ptr;
     u8 code_index = (u8)code;

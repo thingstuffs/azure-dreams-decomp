@@ -1,14 +1,14 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_800163F4(void) {
+void dungeonInitializeDungeonFloorState(void) {
     s32 floor_data;
     s32 floor_index;
     u32 saved_init_value;
     RuntimeDispatchState *dungeon_state;
     u8 *globals_base;
 
-    func_80016EC0();
-    func_80017018();
+    dungeonInitializeDungeonRecordKinds();
+    dungeonClearDungeonStateBytes();
     bzero(D_800E3E48, 0xAF0);
     D_80082E80.unk_038 = 0;
     dungeonStatus.unk_1E = 0;
@@ -16,7 +16,7 @@ void func_800163F4(void) {
     if ((D_80013714 & 3) == 0) {
         D_8008146C = 1;
         D_8001022C++;
-        func_80017068();
+        initKohPropertiesAndEntryTables();
         func_8004A918();
     } else {
         saved_init_value = 0x80010000;
@@ -34,24 +34,24 @@ void func_800163F4(void) {
         *(s32 *)(globals_base + 0x3628) = rand();
         *(s16 *)(globals_base + 0x3624) = rand() & 0xFF;
         *(s16 *)(globals_base + 0x209C) = rand() & 0xFF;
-        func_800A9024(*(s32 *)(globals_base + 0x2090));
+        markCategoryItemsFlag400(*(s32 *)(globals_base + 0x2090));
     }
-    func_8004AB7C();
+    shuffleEnabledItemCategoryPointers();
     dungeon_state = &D_80082E60;
     if (dungeon_state->field_B >= 0x12) {
         floor_index = dungeon_state->field_B - 0x12;
         func_80040AA0(0x11);
-        func_8003F6D4(0xC, (void *)0x80010000, &floor_data,
+        packTaggedResourceDescriptor(0xC, (void *)0x80010000, &floor_data,
                       (floor_index * 0xC) + 0x399D);
         Control_CD(6, &floor_data, 0);
-        func_8003F320();
+        drainCdCommandQueue();
         D_800E3D1C = 0x384;
         *(u16 *)(globals_base + 0x3714) |= 5;
     } else {
         func_80040AA0(0x11);
         D_800E3D1C = 0;
     }
-    func_8009FAC4();
+    dungeonSetMonsterDataPointer();
     func_800499BC();
     D_800E3CD0 = 0;
 }

@@ -3,7 +3,7 @@
 
 
 /* Returns the sector of the wrapped angle difference with a 0x500 offset. */
-u32 func_80095360(s32 angle) {
+u32 townViewRelativeAngleSector(s32 angle) {
     s32 angle_delta;
 
     angle -= 0x500;

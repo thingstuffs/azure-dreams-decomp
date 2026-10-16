@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void func_80174180(u16 *record_data, s32 unused, R08_80174180_Object *object) {
+void dungeonAdvanceObjectAngleAndHeight(u16 *record_data, s32 unused, R08_80174180_Object *object) {
     u16 height;
 
     object->field_1A += 0x320;

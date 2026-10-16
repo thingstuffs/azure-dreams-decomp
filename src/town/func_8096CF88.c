@@ -9,18 +9,18 @@ typedef struct S_80125420_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s8 unk_0A;
-} S_80125420_0;   /* arg0 in func_80125420 */
+} S_80125420_0;   /* arg0 in townFinishCatalogDetailTransition */
 
 
-void func_801248C0(S_80125420_0 *);
+void townResetCatalogScrollIndicators(S_80125420_0 *);
 /* Advance the counter and invoke completion when it reaches the target, then reset the state. */
-void func_80125420(S_80125420_0 *state) {
+void townFinishCatalogDetailTransition(S_80125420_0 *state) {
     u16 next_count;
 
     next_count = state->unk_04 + 1;
     state->unk_04 = next_count;
     if ((s16) next_count == state->unk_06) {
-        func_801248C0(state);
+        townResetCatalogScrollIndicators(state);
         state->unk_0A = 8;
         state->unk_06 = 0;
         state->unk_04 = 0U;

@@ -5,10 +5,10 @@
 extern void func_80042B68(void *, s32);
 extern s32 func_800A2B5C(void *);
 extern s32 func_800A48F0(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 
 /* Reset action state and decrement the actor counter when the checks pass. */
-void func_800D6068(void *action_state, void *unused_1, void *unused_2, void *actor) {
+void dungeonResetActionAndDecrementActorCount(void *action_state, void *unused_1, void *unused_2, void *actor) {
     *(u8 *) ((u8 *) actor + 0x71) &= 0x7F;
     if (!(dungeonStatus.flags & 0x2000) && (func_800A2B5C(actor) << 0x10) == 0 &&
         (func_800A2B5C(actor) << 0x10) == 0) {
@@ -26,7 +26,7 @@ void func_800D6068(void *action_state, void *unused_1, void *unused_2, void *act
         *(s32 *) ((u8 *) actor + 0x1C) &= 0xFFFBFFFF;
         *(u16 *) ((u8 *) action_state + 0x98) |= 8;
         func_80042B68(actor, 5);
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         *((u8 *) actor + 0x6D) -= 1;
     }
 }

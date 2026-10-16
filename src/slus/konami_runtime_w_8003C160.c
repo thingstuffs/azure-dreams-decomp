@@ -48,7 +48,7 @@ extern u8 D_80077784[12];
 extern u8 D_800776FC[12];
 
 extern void func_8003DB94(Func8003C160Dst *, SpriteSourceEntry *, s16);
-extern void func_8003C0A4(Func8003C160Context *, Func8003C160Dst *);
+extern void runtimeSetDestinationFlagFromSource(Func8003C160Context *, Func8003C160Dst *);
 extern void func_8003C450(void);
 
 /* Initialize the destination and vector for the current source and set the next callback. */
@@ -78,5 +78,5 @@ void func_8003C160(void) {
     vec->f6 = 0x8D;
     vec->fA = 0x10;
     context->callback = func_8003C450;
-    func_8003C0A4(context, dst);
+    runtimeSetDestinationFlagFromSource(context, dst);
 }

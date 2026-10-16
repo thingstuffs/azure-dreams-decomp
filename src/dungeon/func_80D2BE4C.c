@@ -54,20 +54,20 @@ typedef struct PlayerActionCounterView {
 
 typedef struct ActorSpriteSlot { u8 *sprite; } ActorSpriteSlot;
 
-s32 func_8003F270(void);
+s32 getCdCommandQueueDepth(void);
 extern void func_80047784();
 s32 func_80069EF8();
-void *func_800A05A4();
-extern void func_800A2B04();
-extern s32 func_800A4ACC(void *);
+void *dungeonScanMonsterAlongHeading();
+extern void dungeonSetRecordIntegerTileCenter();
+extern s32 dungeonAdvanceStatusTimers(void *);
 extern s32 func_800A56E0(s32);
-extern void *func_800A94A0();
+extern void *dungeonCreateActorSpellEffect();
 void func_80159020();
-extern void func_80159760(void *, void *, void *, void *);
+extern void dungeonUpdateAbilityActorBehavior(void *, void *, void *, void *);
 extern u8 D_8015CE88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
+void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
     s16 effect_count;
     s32 ability_id;
     s32 normal_ability;
@@ -154,7 +154,7 @@ void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                         }
                     } else {
                         {
-                            s32 x = (s32)func_800A05A4(actor, sprite->tile.bytes.x,
+                            s32 x = (s32)dungeonScanMonsterAlongHeading(actor, sprite->tile.bytes.x,
                                           sprite->tile.bytes.y,
                                           actor->facing, 0x10);
                             s32 y;
@@ -174,7 +174,7 @@ void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                     }
                 }
             }
-            if (func_800A94A0(actor, ability, use_player, &action->flags) == 0) {
+            if (dungeonCreateActorSpellEffect(actor, ability, use_player, &action->flags) == 0) {
                 return;
             }
             action->timer.raw = 0x13U;
@@ -184,19 +184,19 @@ void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             dungeonStatus.unk_0C = 0;
             ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-            action->nextBehavior = &func_80159760;
+            action->nextBehavior = &dungeonUpdateAbilityActorBehavior;
             actor->unk_73 = 0;
             actor->unk_72 = 0;
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
             return;
         }
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags = (u16) (sprite->flags
                 | 0x800);
             return;
@@ -239,7 +239,7 @@ void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8015CE88) {
             (sprite->frameTable) = D_8015CE88;
             func_80047784(sprite, D_8015CE88[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -250,8 +250,8 @@ void func_8015B64C(ActorActionView *action, EntityRec *motion, ActorSpriteView *
             return;
         }
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        action->nextBehavior = &func_80159760;
-        func_800A4ACC(actor);
+        action->nextBehavior = &dungeonUpdateAbilityActorBehavior;
+        dungeonAdvanceStatusTimers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_80024494(s32 effect_data, s32 effect_param, s32 render_param)
+void dungeonAllocateEffectAndInitializeSprite(s32 effect_data, s32 effect_param, s32 render_param)
 {
     int color;
     void *effect;

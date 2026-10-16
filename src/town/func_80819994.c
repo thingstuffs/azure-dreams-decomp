@@ -5,8 +5,8 @@
 #include "shared/entity.h"
 
 
-extern s32 func_800C2AE8(void *);
-extern void func_80093CEC(void *);
+extern s32 townQueryLoweredTransformPosition(void *);
+extern void townApplyGlobalSceneValue(void *);
 
 extern u16 D_80026F24[];
 extern s16 D_800272C8;
@@ -16,13 +16,13 @@ extern u8 D_800D0128[];
 
 
 /* Updates the three-choice selection and the object's vertical motion. */
-void func_80023994(void *unused, EntityRec *object)
+void townUpdateGymLaneSelection(void *unused, EntityRec *object)
 {
     GameWork *button_base;
     s32 height_limit;
 
     button_base = &gameWork;
-    height_limit = (s16)func_800C2AE8(object);
+    height_limit = (s16)townQueryLoweredTransformPosition(object);
     if (D_800272CA > 0) {
         D_800272CA--;
         D_80083780.unk_0C -= D_80083780.unk_0C >> 1;
@@ -43,14 +43,14 @@ void func_80023994(void *unused, EntityRec *object)
             D_800272C8--;
             record_base->unk_0C = (s32)0xFFD00000;
             D_800272CA = 3;
-            func_80093CEC(D_800D00C0);
+            townApplyGlobalSceneValue(D_800D00C0);
         } else if ((((s32)button_base->unk_010) & 0x2000) && D_800272C8 < 2) {
             D_800272C8++;
             D_80083780.unk_0C = 0x300000;
             D_800272CA = 3;
-            func_80093CEC(D_800D00C0);
+            townApplyGlobalSceneValue(D_800D00C0);
         } else if (D_80082E80.unk_014 & 0x6000) {
-            func_80093CEC(D_800D0128);
+            townApplyGlobalSceneValue(D_800D0128);
         }
     }
 

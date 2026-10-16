@@ -11,7 +11,7 @@ extern s32 func_800A56E0();
 extern void func_800478B8(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
-void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
+void dungeonUpdateFamiliarSelectionMarker(void *state, void *position_arg, void *marker_arg) {
     void *target;
     void *target_pos;
 

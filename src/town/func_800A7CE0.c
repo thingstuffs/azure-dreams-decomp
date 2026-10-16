@@ -7,7 +7,7 @@ extern s32 D_800A58CC;
 extern s32 D_800A5340;
 
 /* Set the record parameters and handler when the global handlers do not match. */
-void func_800A5440(void *record) {
+void townSetFallbackRecordHandler(void *record) {
     u8 *base = ((u8 *)(&D_80083498));
 
     if ((*(s32 **) (base + 0x10) != &D_800A5638) ||

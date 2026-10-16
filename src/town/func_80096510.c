@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80094984(void *entries, void *record, s32 handler_param);
-extern void func_80099754(s32 record);
+extern void townCallTheHandlerSelectsNonzeroEntry(void *entries, void *record, s32 handler_param);
+extern void townClearEntityRecordFields(s32 record);
 
 extern u8 D_800834B8[];
 extern u8 D_8008FFC0[];
@@ -18,8 +18,8 @@ void func_80093C70(void) {
     object = D_800834B8;
     object_header = (u8 *)object - 0x20;
     header_value = *(s32 *)((u8 *)object_header + 0xC);
-    func_80099754(*(s32 *)((u8 *)object_header + 8));
-    func_80094984(D_800D0078, object, header_value);
+    townClearEntityRecordFields(*(s32 *)((u8 *)object_header + 8));
+    townCallTheHandlerSelectsNonzeroEntry(D_800D0078, object, header_value);
     *(void **)D_800834B8 = D_8008FFC0;
     D_800FE5D8 = D_80093D48;
 }

@@ -12,7 +12,7 @@ typedef struct {
 } S_800589B8;
 
 /* Read the next byte and mark the reader finished if its position exceeds the limit. */
-s32 func_800589B8(S_800589B8 *reader)
+s32 slusReadNextByteAndFinish(S_800589B8 *reader)
 {
     s32 position;
     s32 byte_value;

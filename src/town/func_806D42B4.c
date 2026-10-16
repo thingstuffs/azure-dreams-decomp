@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *func_80016D98(s32 id);
+extern void *townGetSpecialDataForLowValueId(s32 id);
 extern s32 func_800178A8(void *table, s32 lookup_key, s32 entry_id);
 extern void *func_80017960(void *table, void *fallback_table, s32 lookup_key, s32 entry_id);
 extern void func_80018594(s32 value);
@@ -10,10 +10,10 @@ extern u8 D_80018B94[16];
 extern u8 D_80018FFC[16];
 
 /* Looks up an entry or selects a fallback, with a special case for entry 0x1C. */
-void *func_806D42B4(s32 lookup_key, s32 unused, s32 entry_id) {
+void *func_800162B4(s32 lookup_key, s32 unused, s32 entry_id) {
     void *entry;
 
-    entry = func_80016D98(entry_id);
+    entry = townGetSpecialDataForLowValueId(entry_id);
     if (entry != 0) {
         return entry;
     }

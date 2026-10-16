@@ -1,29 +1,29 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern u32 func_800AB1C0(void);
-extern void func_800AD594(void *, s32);
-extern void func_800A4ACC(void *);
-extern s32 func_800AD9B4(void *, void *);
+extern u32 dungeonUpdateActorMovementToTile(void);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void dungeonAdvanceStatusTimers(void *);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 
 extern u8 D_80171A80[];
 
 /* Updates actor behavior and state fields according to mode and input. */
-void func_80172FEC(void *state, s32 unused, void *action_arg, void *actor_arg)
+void dungeonUpdateActorMovementState(void *state, s32 unused, void *action_arg, void *actor_arg)
 {
     void *action_data = action_arg;
     void *actor = actor_arg;
 
-    if (func_800AB1C0() != 0) {
+    if (dungeonUpdateActorMovementToTile() != 0) {
         if (*(u8 *)((u8 *)state + 0xB5) == 0) {
-            func_800AD594(actor, 4);
-            func_800A4ACC(actor);
-            if ((func_800AD9B4(action_data, actor) << 16) <= 0) {
+            dungeonReduceActorFoodMeter(actor, 4);
+            dungeonAdvanceStatusTimers(actor);
+            if ((dungeonCheckActorFloorTrap(action_data, actor) << 16) <= 0) {
                 return;
             }
         } else {
-            func_800AD594(actor, 0x10);
-            func_800A4ACC(actor);
+            dungeonReduceActorFoodMeter(actor, 0x10);
+            dungeonAdvanceStatusTimers(actor);
         }
         *(void **)((u8 *)state + 0x8C) = D_80171A80;
     }

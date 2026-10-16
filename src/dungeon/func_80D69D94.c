@@ -57,16 +57,16 @@ extern void func_80047784(void *, u8, s32);
 extern s32 func_80069EF8(void);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(s32, s32, s32);
-extern s16 func_800A4E2C(u8 *, u8 *);
+extern s16 selectDungeonSpawnTile(u8 *, u8 *);
 extern void func_800A56E0(s32);
 extern void func_800AA53C(u8 *context);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-extern void func_800D6DC0(void *, void *, void *, void *);
-extern void func_80170A44(void *, void *, void *, void *);
-extern void func_80170BB8(void *, void *, void *, void *, s32);
-extern void func_80171010(void *, void *, void *, s32, s32, s32);
-extern s32 func_8017165C(s32);
+extern void dungeonCreateRadialEffectSegments(void *, void *, void *, void *);
+extern void createDirectionalTemplateEffect(void *, void *, void *, void *);
+extern void dungeonCreateAnchoredDirectionalObject(void *, void *, void *, void *, s32);
+extern void dungeonCreateOriginMotionEffect(void *, void *, void *, s32, s32, s32);
+extern s32 dungeonRandomBelowLimit(s32);
 extern int abs(int);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
@@ -148,12 +148,12 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_0 *)motion)->unk_AC = 0;
         do {
-            burst_x = (s16)(func_8017165C(0x2C) - 0x16);
-            random_y = func_8017165C(0x2C) - 0x16;
-            func_80171010(motion, position, entity, burst_x, random_y, 0x1E);
+            burst_x = (s16)(dungeonRandomBelowLimit(0x2C) - 0x16);
+            random_y = dungeonRandomBelowLimit(0x2C) - 0x16;
+            dungeonCreateOriginMotionEffect(motion, position, entity, burst_x, random_y, 0x1E);
             particle_index++;
         } while (particle_index < 6);
-        func_800D6DC0(motion, position, entity, object);
+        dungeonCreateRadialEffectSegments(motion, position, entity, object);
         return;
 
     case 5:
@@ -177,19 +177,19 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
             do {
                 scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
                 random_y = (func_80069EF8() & 0x1F) - 0x10;
-                func_80171010(motion, position, entity, scatter_x, random_y, 0x1E);
+                dungeonCreateOriginMotionEffect(motion, position, entity, scatter_x, random_y, 0x1E);
                 particle_index++;
             } while (particle_index < 4);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 1) {
-            func_80170BB8(motion, position, entity, object, 1);
+            dungeonCreateAnchoredDirectionalObject(motion, position, entity, object, 1);
             func_800A56E0(0x80A);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 2) {
-            func_80170A44(motion, position, entity, object);
+            createDirectionalTemplateEffect(motion, position, entity, object);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 6) {
-            func_80170BB8(motion, position, entity, object, 0x1A);
+            dungeonCreateAnchoredDirectionalObject(motion, position, entity, object, 0x1A);
             func_800A56E0(0x705);
         }
         if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
@@ -214,7 +214,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
         for (;;) {
             do {
-                tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
+                tile_result = selectDungeonSpawnTile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
             dx = abs(D_80082E80.tileX - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
@@ -248,7 +248,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         func_8009A21C(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         func_800AA53C(object);
-        func_800AD594(object, 0x1000);
+        dungeonReduceActorFoodMeter(object, 0x1000);
         ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
         dungeonStatus.unk_0C = 0;
         ((S_80175594_1 *)position)->unk_14 = 0;

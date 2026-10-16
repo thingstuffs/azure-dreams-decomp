@@ -2,14 +2,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* state in func_800BB2E4 */
+   /* state in dungeonDrawContentOrRect */
 
 typedef struct S_800BB2E4_1 {
     u16 unk_00;
     union { u16 u; s16 s; } unk_02;   /* accessed as both */
     u16 unk_04;
     u16 unk_06;
-} S_800BB2E4_1;   /* arg2_r in func_800BB2E4 */
+} S_800BB2E4_1;   /* arg2_r in dungeonDrawContentOrRect */
 
 typedef struct S_800BB2E4_2 {
     u8 pad_00[0x3];
@@ -26,7 +26,7 @@ typedef struct S_800BB2E4_2 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_800BB2E4_2;   /* packet in func_800BB2E4 */
+} S_800BB2E4_2;   /* packet in dungeonDrawContentOrRect */
 
 
 typedef struct {
@@ -45,7 +45,7 @@ extern u8 D_801C9E40[16];
 
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
-void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
+void dungeonDrawContentOrRect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
 {
     CoordPair bottom_center;
     u8 **state_addr;

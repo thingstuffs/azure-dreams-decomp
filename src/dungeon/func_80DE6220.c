@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80173A20(void *actor, void *context, void *entity, void *creature)
+void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
     case 0:
@@ -21,7 +21,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
             func_80174460(creature);
             func_800A56E0(0x80C);
-            func_80174084(actor, context, entity);
+            dungeonCreateFourDirectionalEffects(actor, context, entity);
             ((Rec_func_80173204_arg0 *)actor)->unk_A4 = func_801742AC(actor, context, entity);
             ((Rec_func_80173204_arg0 *)actor)->unk_9B++;
         }
@@ -71,7 +71,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         }
 
         object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & 0x2000;
-        object = func_800D3F74(
+        object = dungeonCreateActorWithTileFlags(
             object_flag != 0,
             (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*x_offset),
             (s16)(((Rec_D_80082E80 *)entity)->unk_25 + (u16)*y_offset),
@@ -87,8 +87,8 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         ((E_80173A20_S_80173A20_4 *)object)->unk_28 = object_value;
         ((E_80173A20_S_80173A20_4 *)object)->unk_29 = object_value;
 
-        func_800AD594(creature, 0x400);
-        func_800A2B04(context, ((Rec_D_80082E80 *)entity)->unk_24,
+        dungeonReduceActorFoodMeter(creature, 0x400);
+        dungeonSetRecordIntegerTileCenter(context, ((Rec_D_80082E80 *)entity)->unk_24,
                       ((Rec_D_80082E80 *)entity)->unk_25);
         ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = func_80170E5C;
         dungeonStatus.unk_0C = 0;

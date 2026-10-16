@@ -14,14 +14,15 @@ import argparse, collections, glob, json, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import source_items as layout_source_items
 from pin_census import sites_of
 
 ap = argparse.ArgumentParser(); ap.add_argument("--max-total", type=int, default=4); ap.add_argument("--top", type=int, default=2)
 a = ap.parse_args()
 pinned = {}
-for f in glob.glob(str(ROOT / "src/*/*.c")):
+for rid, f in layout_source_items(ROOT):
     n = len(sites_of(open(f, errors="replace").read()))
-    if n: pinned["/".join(f.split("/")[-2:])[:-2]] = n
+    if n: pinned[rid] = n
 best = collections.defaultdict(list)
 for lf in glob.glob(str(ROOT / "work/native_lane/*/lab_log.jsonl")):
     lane = lf.split("/")[-2]

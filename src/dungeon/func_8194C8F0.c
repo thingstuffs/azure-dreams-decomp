@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_800240F0(void *effect, void *motion, void *sprite)
+void dungeonUpdateHomingArcAndBrightenEffect(void *effect, void *motion, void *sprite)
 {
     u16 offset[3];
     s32 state;
@@ -17,7 +17,7 @@ void func_800240F0(void *effect, void *motion, void *sprite)
         void *source;
         source = ((Row_8194C8F0_S_800240F0_6 *)(((Row_8194C8F0_S_800240F0_0 *)effect)->unk_00))->unk_0C;
         if ((((Row_8194C8F0_S_800240F0_1 *)source)->unk_14 & 0x8000) ||
-            func_8003DE58(((Row_8194C8F0_S_800240F0_1 *)source)->unk_08, source, offset, 0) != 0) {
+            resolveRecordOrientationOrFallback(((Row_8194C8F0_S_800240F0_1 *)source)->unk_08, source, offset, 0) != 0) {
             void *position;
             u16 source_z;
 
@@ -67,7 +67,7 @@ void func_800240F0(void *effect, void *motion, void *sprite)
         {
             s32 angle_index;
             angle_index = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
-            if (func_8003DE58(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)D_800E3D18)),
+            if (resolveRecordOrientationOrFallback(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)D_800E3D18)),
                               ((u8 *)(&D_80082E80)), offset, 0) != 0) {
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;

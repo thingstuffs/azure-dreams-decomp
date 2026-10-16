@@ -2,16 +2,16 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_8008B0E8();
+extern s32 townEnsureResourceAtFront();
 
 
 typedef struct S_8008B23C_0 {
     u32 unk_00;
     s32 unk_04;
-} S_8008B23C_0;   /* var_s0 in func_8008B23C */
+} S_8008B23C_0;   /* var_s0 in townEnsurePackedResourceList */
 
 /* Unpack and dispatch each entry until its second word is zero. */
-void func_8008B23C(u8 *entries_in) {
+void townEnsurePackedResourceList(u8 *entries_in) {
     u8 *entries;
     u32 packed_fields;
     entries = entries_in;
@@ -20,7 +20,7 @@ void func_8008B23C(u8 *entries_in) {
     if (((S_8008B23C_0 *)entries_in)->unk_04 != 0) {
         do {
             packed_fields = ((S_8008B23C_0 *)entries_in)->unk_00;
-            func_8008B0E8(
+            townEnsureResourceAtFront(
                 (packed_fields >> 0x17) & 1,
                 (u32)(packed_fields & 0x3F000000) >> 0x18,
                 (u32)(packed_fields & 0x7F0000) >> 0x10

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void func_80024918(void *effect) {
+void dungeonAdvanceObjectMotionAndAnimation(void *effect) {
     s32 blend_ticks;
     s32 elapsed_ticks;
     s32 color_index;

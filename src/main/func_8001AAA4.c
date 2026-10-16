@@ -3,7 +3,7 @@
 extern u8 D_80409290[];
 
 /* Returns whether text matches a record prefix, comparing at most 21 bytes. */
-s32 func_80401AA4(s32 count, u8 *text)
+s32 cardDevkitHasDirectoryNamePrefix(s32 count, u8 *text)
 {
     s32 record_index;
     s32 matched;

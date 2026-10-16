@@ -13,7 +13,7 @@ typedef struct S_801721A4_1 {
     u8 unk_9B;
     u8 pad_9C[0xA];
     u16 unk_A6;
-} S_801721A4_1;   /* owner in func_801721A4 */
+} S_801721A4_1;   /* owner in dungeonStartActorReactionStep */
 
 typedef struct S_801721A4_2 {
     u8 pad_00[0xC];
@@ -23,7 +23,7 @@ typedef struct S_801721A4_2 {
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_801721A4_2;   /* part in func_801721A4 */
+} S_801721A4_2;   /* part in dungeonStartActorReactionStep */
 
 
 extern void func_80047784(void *, s32, s32);
@@ -34,7 +34,7 @@ extern s32 func_800A6D30(void);
 extern u8 D_80173D88[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
-void func_801721A4(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, EntityRec *actor)
+void dungeonStartActorReactionStep(S_801721A4_1 *owner, void *unused, S_801721A4_2 *part, EntityRec *actor)
 {
 
     actor->unk_71 &= 0x7F;

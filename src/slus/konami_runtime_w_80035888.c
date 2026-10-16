@@ -7,9 +7,9 @@ void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s1
     void *aux_state;
     void *render_state;
 
-    node = func_8003FF2C(0x11, node_storage, 0x49, D_80082BC0);
+    node = initializeRuntimeNodeStorage(0x11, node_storage, 0x49, D_80082BC0);
     ((S_80035888_0 *)node)->unk_10 = func_800359FC;
-    func_8004491C(node, func_80033D54);
+    func_8004491C(node, runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
 
     object = (u8 *)node + 0x20;
     aux_state = ((S_80035888_0 *)node)->unk_08;
@@ -18,7 +18,7 @@ void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s1
     ((S_80035888_1 *)object)->unk_48 = 1;
     ((S_80035888_1 *)object)->unk_4A = object_id;
 
-    func_80033C1C(attached_object, *init_data);
+    runtimeInitializeStateValue(attached_object, *init_data);
 
     ((S_80035888_0 *)node)->unk_20 = attached_object;
     ((S_80035888_1 *)object)->unk_04 = 0;

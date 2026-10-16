@@ -1,0 +1,1964 @@
+{
+  "schema": "azure-clean.r121-remnants-continuation.v1",
+  "package": "r121_remnants_continue5",
+  "reviewer": "pending",
+  "new_c_rows": 0,
+  "new_c_bytes": 0,
+  "cumulative_c_rows": 680,
+  "cumulative_c_bytes": 25420,
+  "queued_pieces": 64,
+  "queued_bytes": 2544,
+  "resolved_pieces": 0,
+  "open_pieces": 56,
+  "partial_pieces": 8,
+  "prior_preserved": 21972,
+  "rows": [],
+  "held": [
+    {
+      "container": "dungeon",
+      "foff": 26562368,
+      "size": 488,
+      "func": "func_81934F40",
+      "true_name": "func_80024740",
+      "cfg": "2.7.2-cdk-G0",
+      "delta": 2121070592,
+      "proof": "Existing selector-49 receipt at r103_1954800_loader49: destination 0x80024000, 12 sectors, LBA 0x62BF -> DUNGEON file 0x1954800; raw instruction chain is re-read and saved in continuation3 placement evidence. This complete 488-byte body lies inside that read. Existing preceding image and following callback independently agree on delta 0x7E6CF800. Static conditional placement only.",
+      "retail_sha256": "d5ef83ad5a73da7256fa9cf9866aa57fb9b83c8de53a032f0bb3184a34475be2",
+      "score": {
+        "status": "ok",
+        "exact": false,
+        "subs": 3,
+        "indels": 0,
+        "total": 3,
+        "gen_words": 122,
+        "tgt_words": 122,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=1"
+        ],
+        "secs": 1.68,
+        "err": null,
+        "diff_status": "diff"
+      },
+      "source_sha256": "c72851ec39c2131a1a47705c86d5c2acbec058305ae3068c69f9730232b95a53"
+    }
+  ],
+  "switch_diagnostics": [
+    {
+      "container": "dungeon",
+      "foff": 26271156,
+      "size": 3628,
+      "delta": 2121365504,
+      "func": "func_818EDDB4",
+      "true_name": "func_800255B4",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 26274712,
+      "retail_sha256": "d99cc82769e731bf98924a3a43e175870e8eb4cfbfedecd88b1ccb24987acfd7",
+      "candidate": "candidates/continue5_switch_190EB98.c",
+      "contract_corrections": [
+        {
+          "func": "func_800C8A3C",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_800C32DC.c"
+        },
+        {
+          "func": "func_800A6D30",
+          "before_arity": 0,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_800A15D0.c"
+        },
+        {
+          "func": "func_8009D218",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_80097AB8.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003FC64",
+          "before_arity": 3,
+          "after_arity": 1,
+          "basis": "src/slus/w_8003FC64.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003FC64",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/slus/w_8003FC64.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003FC64",
+          "before_arity": 3,
+          "after_arity": 1,
+          "basis": "src/slus/w_8003FC64.c"
+        },
+        {
+          "func": "func_800A56E0",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FF80.c"
+        },
+        {
+          "func": "func_800A4778",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_8009F018.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003DF74",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/slus/w_8003DF74.c"
+        },
+        {
+          "func": "func_800B835C",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_800B2BFC.c"
+        }
+      ],
+      "unresolved_imports": {
+        "func_80069EF8": "s32",
+        "func_80024EA4": "s32",
+        "func_80024FA0": "M2C_UNK"
+      },
+      "source_sha256": "a151102f0b50c47084e8bca10753d915e33da8fb6a75b90d7f636fc61828b897",
+      "strict_error": null,
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "jtbl_content_status": "not-independently-established",
+      "compiled_size": 3620,
+      "compiled_sha256": "edbc20791e2e5ba8d4e77b1e738627d0a1e1eb8b12e92dc2c0caf3acc7f0fd2b",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_818EDDB4",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_190EB98.c",
+        "source_sha": "a151102f0b50c47084e8bca10753d915e33da8fb6a75b90d7f636fc61828b897",
+        "target_sha": "d99cc82769e731bf98924a3a43e175870e8eb4cfbfedecd88b1ccb24987acfd7",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "a6d7ab21efb3f79178e9839e4387bb90e33160573195db775093a5c537a353e6",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 3620,
+          "target": 3628
+        },
+        "length_words": {
+          "generated": 905,
+          "target": 907
+        },
+        "words_off": 809,
+        "positional_words_off": 809,
+        "aligned": {
+          "substitutions": 255,
+          "indels": 88,
+          "total": 343
+        },
+        "residue": {
+          "class": "polarity",
+          "confidence": "med",
+          "signals": [
+            "swaps=2",
+            "polarity=1",
+            "remat=4",
+            "frame=-112/-120,saved=18/28",
+            "addressing=21",
+            "dead-word=2",
+            "length-words=905/907"
+          ],
+          "secondary": "const-remat"
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "08f7a0802af048e1cd3b916a8d289d493a3217d097b53364d66c360b2563744e",
+          "mask_relocations": false,
+          "target_words": 907,
+          "candidate_words": 905,
+          "aligned": {
+            "substitutions": 255,
+            "indels": 88,
+            "total": 343
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                226
+              ],
+              "candidate_span": [
+                0,
+                227
+              ],
+              "substitutions": 43,
+              "indels": 13
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                226,
+                453
+              ],
+              "candidate_span": [
+                227,
+                455
+              ],
+              "substitutions": 39,
+              "indels": 25
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                453,
+                680
+              ],
+              "candidate_span": [
+                455,
+                677
+              ],
+              "substitutions": 111,
+              "indels": 25
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                680,
+                907
+              ],
+              "candidate_span": [
+                677,
+                905
+              ],
+              "substitutions": 62,
+              "indels": 25
+            }
+          ],
+          "vector": [
+            43,
+            13,
+            39,
+            25,
+            111,
+            25,
+            62,
+            25
+          ]
+        }
+      },
+      "claim": "Diagnostic C only; no row, no coverage, no production placement admission."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25606288,
+      "size": 2836,
+      "delta": 2122029056,
+      "func": "func_8184B890",
+      "true_name": "func_80025090",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 25609052,
+      "retail_sha256": "bc9149e935cd5112055c6f98d268a73639a1d304e58b73e4105c07b558359d15",
+      "candidate": "candidates/continue5_switch_186C35C.c",
+      "contract_corrections": [
+        {
+          "func": "func_8009CE1C",
+          "before_arity": 7,
+          "after_arity": 7,
+          "basis": "src/dungeon/func_800976BC.c"
+        },
+        {
+          "func": "func_800A56E0",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FF80.c"
+        },
+        {
+          "func": "func_800BCB04",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_800B73A4.c"
+        },
+        {
+          "func": "func_800A44E0",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_8009ED80.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003DE58",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/slus/w_8003DE58.c"
+        }
+      ],
+      "unresolved_imports": {
+        "func_80024130": "M2C_UNK",
+        "func_80024550": "M2C_UNK",
+        "func_80024790": "s32",
+        "func_800242A0": "M2C_UNK",
+        "func_800243E0": "void *"
+      },
+      "source_sha256": "0eb670e371edea9f797b9a4071b7335b2375c329191b0cf0b61f19a48ddba708",
+      "strict_error": null,
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "compiled_size": 2852,
+      "compiled_sha256": "4c704b7ec6b5c5073ae2c4d49d67a049c9742e1e2d4143983297e178405869d5",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_8184B890",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_186C35C.c",
+        "source_sha": "0eb670e371edea9f797b9a4071b7335b2375c329191b0cf0b61f19a48ddba708",
+        "target_sha": "bc9149e935cd5112055c6f98d268a73639a1d304e58b73e4105c07b558359d15",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "716a89006ea27fbd47984d7d28161c9dceb6024b5a51759cda9c82e214c5951a",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 2852,
+          "target": 2836
+        },
+        "length_words": {
+          "generated": 713,
+          "target": 709
+        },
+        "words_off": 673,
+        "positional_words_off": 673,
+        "aligned": {
+          "substitutions": 182,
+          "indels": 164,
+          "total": 346
+        },
+        "residue": {
+          "class": "const-remat",
+          "confidence": "med",
+          "signals": [
+            "remat=5",
+            "addressing=8",
+            "length-words=713/709"
+          ],
+          "secondary": "addressing"
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "e7397648d7805d2908aab2fa225241032041751cc33a2b27572c1a79ac6706b7",
+          "mask_relocations": false,
+          "target_words": 709,
+          "candidate_words": 713,
+          "aligned": {
+            "substitutions": 182,
+            "indels": 164,
+            "total": 346
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                177
+              ],
+              "candidate_span": [
+                0,
+                181
+              ],
+              "substitutions": 35,
+              "indels": 40
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                177,
+                354
+              ],
+              "candidate_span": [
+                181,
+                352
+              ],
+              "substitutions": 67,
+              "indels": 68
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                354,
+                531
+              ],
+              "candidate_span": [
+                352,
+                533
+              ],
+              "substitutions": 42,
+              "indels": 46
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                531,
+                709
+              ],
+              "candidate_span": [
+                533,
+                713
+              ],
+              "substitutions": 38,
+              "indels": 10
+            }
+          ],
+          "vector": [
+            35,
+            40,
+            67,
+            68,
+            42,
+            46,
+            38,
+            10
+          ]
+        }
+      },
+      "jtbl_content_status": "not-independently-established",
+      "claim": "Diagnostic C only; no row, no coverage, no production placement admission."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25972692,
+      "size": 2624,
+      "delta": 2121660416,
+      "func": "func_818A4FD4",
+      "true_name": "func_800247D4",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 25975244,
+      "retail_sha256": "9ac65512db99a96df9e449b35ce6ffb7a94fd9630616038293e1ffd3a4006020",
+      "candidate": "candidates/continue5_switch_18C59CC.c",
+      "contract_corrections": [
+        {
+          "func": "func_800A56E0",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FF80.c"
+        },
+        {
+          "func": "func_800BCB04",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_800B73A4.c"
+        },
+        {
+          "func": "func_800A44E0",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_8009ED80.c"
+        },
+        {
+          "func": "func_8003DE58",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/slus/w_8003DE58.c"
+        }
+      ],
+      "unresolved_imports": {
+        "func_80024028": "M2C_UNK",
+        "func_800244A0": "s32",
+        "func_800246D0": "void *",
+        "func_80024148": "void *"
+      },
+      "source_sha256": "a90bbfacaa8eee8fc70e4fa930c123386f55b0df6e894fc12e82044810d590cb",
+      "strict_error": null,
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "compiled_size": 2700,
+      "compiled_sha256": "d72244c150cdb0d35841e9fad9783b9a777f86c397b9a716bc06fce4c09daca5",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_818A4FD4",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_18C59CC.c",
+        "source_sha": "a90bbfacaa8eee8fc70e4fa930c123386f55b0df6e894fc12e82044810d590cb",
+        "target_sha": "9ac65512db99a96df9e449b35ce6ffb7a94fd9630616038293e1ffd3a4006020",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "716a89006ea27fbd47984d7d28161c9dceb6024b5a51759cda9c82e214c5951a",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 2700,
+          "target": 2624
+        },
+        "length_words": {
+          "generated": 675,
+          "target": 656
+        },
+        "words_off": 609,
+        "positional_words_off": 609,
+        "aligned": {
+          "substitutions": 289,
+          "indels": 203,
+          "total": 492
+        },
+        "residue": {
+          "class": "li-expansion",
+          "confidence": "med",
+          "signals": [
+            "lui_delta=-1",
+            "remat=4",
+            "addressing=12",
+            "dead-word=6",
+            "length-words=675/656"
+          ],
+          "secondary": "const-remat"
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "f89610a11593b479d7a04ed5229e28acb543c6527f3d1d0b91ba9f3422e26931",
+          "mask_relocations": false,
+          "target_words": 656,
+          "candidate_words": 675,
+          "aligned": {
+            "substitutions": 289,
+            "indels": 203,
+            "total": 492
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                164
+              ],
+              "candidate_span": [
+                0,
+                169
+              ],
+              "substitutions": 69,
+              "indels": 25
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                164,
+                328
+              ],
+              "candidate_span": [
+                169,
+                321
+              ],
+              "substitutions": 85,
+              "indels": 20
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                328,
+                492
+              ],
+              "candidate_span": [
+                321,
+                497
+              ],
+              "substitutions": 72,
+              "indels": 64
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                492,
+                656
+              ],
+              "candidate_span": [
+                497,
+                675
+              ],
+              "substitutions": 63,
+              "indels": 94
+            }
+          ],
+          "vector": [
+            69,
+            25,
+            85,
+            20,
+            72,
+            64,
+            63,
+            94
+          ]
+        }
+      },
+      "jtbl_content_status": "not-independently-established",
+      "claim": "Diagnostic C only; no row, no coverage, no production placement admission."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26294180,
+      "size": 2508,
+      "delta": 2121340928,
+      "func": "func_818F37A4",
+      "true_name": "func_80024FA4",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 26296616,
+      "retail_sha256": "92b2e5b997dd6961f62dc92463962701d171928b9f6e29d0e68c03a0bb03c6f8",
+      "candidate": "candidates/continue5_switch_1914128.c",
+      "contract_corrections": [
+        {
+          "func": "func_800C8A3C",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_800C32DC.c"
+        },
+        {
+          "func": "func_800A6D30",
+          "before_arity": 0,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_800A15D0.c"
+        },
+        {
+          "func": "func_8009D218",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_80097AB8.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003FC64",
+          "before_arity": 2,
+          "after_arity": 1,
+          "basis": "src/slus/w_8003FC64.c"
+        },
+        {
+          "func": "func_800A56E0",
+          "before_arity": 2,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FF80.c"
+        },
+        {
+          "func": "func_800A4778",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_8009F018.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_8003DF74",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/slus/w_8003DF74.c"
+        },
+        {
+          "func": "func_800B835C",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_800B2BFC.c"
+        }
+      ],
+      "unresolved_imports": {
+        "func_80069EF8": "s32",
+        "func_80024BBC": "M2C_UNK"
+      },
+      "source_sha256": "710093dfdbd4a1c7530b6a07d4258ab887fa63ef17f79a5d7268fd6cc9120e06",
+      "strict_error": "jtbl: local .rodata at 0x80024028 word 1: got 0x80025158, retail 0x80025150 (the switch's case->label table differs from retail)",
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "jtbl_content_status": "explicit-mismatch",
+      "compiled_size": 2516,
+      "compiled_sha256": "731e9e6809b8213b8e43a99a40c3ed84e7d75c2f6c35c9dbd2fc56226e4a93d6",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_818F37A4",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_1914128.c",
+        "source_sha": "710093dfdbd4a1c7530b6a07d4258ab887fa63ef17f79a5d7268fd6cc9120e06",
+        "target_sha": "92b2e5b997dd6961f62dc92463962701d171928b9f6e29d0e68c03a0bb03c6f8",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "a6d7ab21efb3f79178e9839e4387bb90e33160573195db775093a5c537a353e6",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 2516,
+          "target": 2508
+        },
+        "length_words": {
+          "generated": 629,
+          "target": 627
+        },
+        "words_off": 536,
+        "positional_words_off": 536,
+        "aligned": {
+          "substitutions": 117,
+          "indels": 42,
+          "total": 159
+        },
+        "residue": {
+          "class": "polarity",
+          "confidence": "med",
+          "signals": [
+            "polarity=1",
+            "remat=3",
+            "addressing=12",
+            "dead-word=1",
+            "length-words=629/627"
+          ],
+          "secondary": "const-remat"
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "5597fb5d4c7c9186ac7af2e19cb928d5079681794d7696f48c03e1552312871e",
+          "mask_relocations": false,
+          "target_words": 627,
+          "candidate_words": 629,
+          "aligned": {
+            "substitutions": 117,
+            "indels": 42,
+            "total": 159
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                156
+              ],
+              "candidate_span": [
+                0,
+                158
+              ],
+              "substitutions": 27,
+              "indels": 6
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                156,
+                313
+              ],
+              "candidate_span": [
+                158,
+                317
+              ],
+              "substitutions": 29,
+              "indels": 10
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                313,
+                470
+              ],
+              "candidate_span": [
+                317,
+                474
+              ],
+              "substitutions": 24,
+              "indels": 6
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                470,
+                627
+              ],
+              "candidate_span": [
+                474,
+                629
+              ],
+              "substitutions": 37,
+              "indels": 20
+            }
+          ],
+          "vector": [
+            27,
+            6,
+            29,
+            10,
+            24,
+            6,
+            37,
+            20
+          ]
+        }
+      },
+      "claim": "Diagnostic C only; no row, no coverage, no production placement admission."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25947376,
+      "size": 1928,
+      "delta": 2121684992,
+      "func": "func_8189ECF0",
+      "true_name": "func_800244F0",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 25949232,
+      "retail_sha256": "045cb2d75f10e7f3aa0abc82f35c5f387ee04c6f24af618481501987ef2ddf4c",
+      "candidate": "candidates/continue5_switch_18BF430.c",
+      "contract_corrections": [
+        {
+          "func": "func_8003DB94",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/slus/code.c"
+        },
+        {
+          "func": "func_800A6D30",
+          "before_arity": 0,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_800A15D0.c"
+        },
+        {
+          "func": "func_800D2CB4",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_800CD554.c"
+        },
+        {
+          "func": "func_800A56E0",
+          "before_arity": 2,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FF80.c"
+        },
+        {
+          "func": "func_800A5690",
+          "before_arity": 0,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_8009FF30.c"
+        },
+        {
+          "func": "func_800A45D8",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_8009EE78.c"
+        },
+        {
+          "func": "func_8009A350",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/dungeon/func_80094BF0.c"
+        },
+        {
+          "func": "func_800BCAD0",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_800B7370.c"
+        },
+        {
+          "func": "func_8003DE58",
+          "before_arity": 4,
+          "after_arity": 4,
+          "basis": "src/slus/w_8003DE58.c"
+        },
+        {
+          "func": "func_800A0818",
+          "before_arity": 5,
+          "after_arity": 5,
+          "basis": "src/dungeon/func_8009B0B8.c"
+        }
+      ],
+      "unresolved_imports": {
+        "func_80042640": "M2C_UNK",
+        "func_800243BC": "void *",
+        "func_80024134": "M2C_UNK"
+      },
+      "source_sha256": "f00dd767cb97ee4004d38f5896fb4405f2720ed6ca9bfe4ecf6b00ab1098c813",
+      "strict_error": null,
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "jtbl_content_status": "not-independently-established",
+      "compiled_size": 1772,
+      "compiled_sha256": "4f79b811326264d5e3294f967516ff9587f93555fde834fc65fd43782b43ce99",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_8189ECF0",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_18BF430.c",
+        "source_sha": "f00dd767cb97ee4004d38f5896fb4405f2720ed6ca9bfe4ecf6b00ab1098c813",
+        "target_sha": "045cb2d75f10e7f3aa0abc82f35c5f387ee04c6f24af618481501987ef2ddf4c",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "2e7ac0b4a4d7bf7d87f42d1305a30c23821c6c0d7b81df2693981092e090f277",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 1772,
+          "target": 1928
+        },
+        "length_words": {
+          "generated": 443,
+          "target": 482
+        },
+        "words_off": 472,
+        "positional_words_off": 472,
+        "aligned": {
+          "substitutions": 190,
+          "indels": 135,
+          "total": 325
+        },
+        "residue": {
+          "class": "polarity",
+          "confidence": "med",
+          "signals": [
+            "swaps=1",
+            "polarity=3",
+            "remat=3",
+            "frame=-88/-88,saved=9/11",
+            "addressing=12",
+            "indels=184(ins92/del92)",
+            "drift-ins:+sw,+move,+sw",
+            "drift-del:-sw,-move,-sra",
+            "dead-word=4",
+            "length-words=443/482"
+          ],
+          "secondary": "const-remat"
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "9ad4b66289eb7a57f515b5c589e6ae0c8701e1cdcf46384489287cff96e72de3",
+          "mask_relocations": false,
+          "target_words": 482,
+          "candidate_words": 443,
+          "aligned": {
+            "substitutions": 190,
+            "indels": 135,
+            "total": 325
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                120
+              ],
+              "candidate_span": [
+                0,
+                121
+              ],
+              "substitutions": 39,
+              "indels": 25
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                120,
+                241
+              ],
+              "candidate_span": [
+                121,
+                212
+              ],
+              "substitutions": 30,
+              "indels": 66
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                241,
+                361
+              ],
+              "candidate_span": [
+                212,
+                325
+              ],
+              "substitutions": 59,
+              "indels": 33
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                361,
+                482
+              ],
+              "candidate_span": [
+                325,
+                443
+              ],
+              "substitutions": 62,
+              "indels": 11
+            }
+          ],
+          "vector": [
+            39,
+            25,
+            30,
+            66,
+            59,
+            33,
+            62,
+            11
+          ]
+        }
+      }
+    },
+    {
+      "container": "dungeon",
+      "foff": 26492368,
+      "size": 1384,
+      "delta": 2121144320,
+      "func": "func_81923DD0",
+      "true_name": "func_800255D0",
+      "cfg": "2.7.2-cdk-G0",
+      "queued_foff": 26493680,
+      "retail_sha256": "764ce0dee3fcc25651200a878165d1895b9e942a35927aa17d31baa9a7f3ad95",
+      "candidate": "candidates/continue5_switch_19442F0.c",
+      "contract_corrections": [
+        {
+          "func": "func_800A5720",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_8009FFC0.c"
+        },
+        {
+          "func": "func_80099734",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/dungeon/func_80093FD4.c"
+        },
+        {
+          "func": "func_80099194",
+          "before_arity": 2,
+          "after_arity": 2,
+          "basis": "src/dungeon/func_80093A34.c"
+        },
+        {
+          "func": "func_80099290",
+          "before_arity": 1,
+          "after_arity": 1,
+          "basis": "src/dungeon/func_80093B30.c"
+        },
+        {
+          "func": "func_800990FC",
+          "before_arity": 4,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_8009399C.c"
+        },
+        {
+          "func": "func_80047784",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/slus/w_80047784.c"
+        },
+        {
+          "func": "func_8004491C",
+          "before_arity": 4,
+          "after_arity": 2,
+          "basis": "src/slus/w_8004491C.c"
+        },
+        {
+          "func": "func_800A6D30",
+          "before_arity": 2,
+          "after_arity": 0,
+          "basis": "src/dungeon/func_800A15D0.c"
+        },
+        {
+          "func": "func_800A48F0",
+          "before_arity": 3,
+          "after_arity": 3,
+          "basis": "src/dungeon/func_8009F190.c"
+        },
+        {
+          "func": "func_8003FD64",
+          "before_arity": 4,
+          "after_arity": 2,
+          "basis": "src/slus/w_8003FD64.c"
+        },
+        {
+          "func": "func_8003DB94",
+          "before_arity": 4,
+          "after_arity": 3,
+          "basis": "src/slus/code.c"
+        }
+      ],
+      "unresolved_imports": {},
+      "source_sha256": "e2ea98dee0ee951f2547a2dad3424cf1c85c154fcd1988f8a3632bdadf6b3643",
+      "strict_error": null,
+      "diagnostic_error": null,
+      "exact": false,
+      "production_admissible": false,
+      "jtbl_content_status": "All five unchanged case-label addresses checked by builder; full generated and retail lengths agree; code differs by two moves.",
+      "compiled_size": 1384,
+      "compiled_sha256": "b82e041a1270a3eb8bf645e886a306ae7c29dff31edac54b81917bfb6ce913f3",
+      "oracle": {
+        "schema": "azure-clean.compiler-oracle.v1",
+        "status": "NOMATCH",
+        "build_status": "ok",
+        "exact": false,
+        "function": "func_81923DD0",
+        "config": "2.7.2-cdk-G0",
+        "source": "work/native_lane/r121_remnants/candidates/continue5_switch_19442F0.c",
+        "source_sha": "e2ea98dee0ee951f2547a2dad3424cf1c85c154fcd1988f8a3632bdadf6b3643",
+        "target_sha": "764ce0dee3fcc25651200a878165d1895b9e942a35927aa17d31baa9a7f3ad95",
+        "tool": "work/native_lane/r121_remnants/scripts/continue5_switch_score.py",
+        "tool_sha": "a6d7ab21efb3f79178e9839e4387bb90e33160573195db775093a5c537a353e6",
+        "compiler": null,
+        "compiler_sha": null,
+        "comparison_mode": "linked-strict",
+        "length_bytes": {
+          "generated": 1384,
+          "target": 1384
+        },
+        "length_words": {
+          "generated": 346,
+          "target": 346
+        },
+        "words_off": 2,
+        "positional_words_off": 2,
+        "aligned": {
+          "substitutions": 2,
+          "indels": 0,
+          "total": 2
+        },
+        "residue": {
+          "class": "reg-rename",
+          "confidence": "high",
+          "signals": [
+            "regmap=2"
+          ]
+        },
+        "byte_exact": false,
+        "regional_alignment": {
+          "schema": "azure-clean.regional-alignment.v1",
+          "region_map_sha256": "c759077ed203113335a02fcfe1260d89614c751ec80d605129dc9971a1dca52c",
+          "mask_relocations": false,
+          "target_words": 346,
+          "candidate_words": 346,
+          "aligned": {
+            "substitutions": 2,
+            "indels": 0,
+            "total": 2
+          },
+          "regions": [
+            {
+              "id": "R0",
+              "target_span": [
+                0,
+                86
+              ],
+              "candidate_span": [
+                0,
+                86
+              ],
+              "substitutions": 0,
+              "indels": 0
+            },
+            {
+              "id": "R1",
+              "target_span": [
+                86,
+                173
+              ],
+              "candidate_span": [
+                86,
+                173
+              ],
+              "substitutions": 0,
+              "indels": 0
+            },
+            {
+              "id": "R2",
+              "target_span": [
+                173,
+                259
+              ],
+              "candidate_span": [
+                173,
+                259
+              ],
+              "substitutions": 0,
+              "indels": 0
+            },
+            {
+              "id": "R3",
+              "target_span": [
+                259,
+                346
+              ],
+              "candidate_span": [
+                259,
+                346
+              ],
+              "substitutions": 2,
+              "indels": 0
+            }
+          ],
+          "vector": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0
+          ]
+        }
+      },
+      "claim": "Diagnostic C only; no row, no coverage, no production placement admission."
+    }
+  ],
+  "placements": [
+    {
+      "queued_foff": 26274712,
+      "start": 26271156,
+      "size": 3628,
+      "delta": 2121365504,
+      "bank": 26265600,
+      "header_entry_pointers": [
+        {
+          "foff": 26265600,
+          "word": "0x800255b4"
+        }
+      ],
+      "witnesses": [
+        {
+          "epilogue_foff": 26274736,
+          "derived_delta": 2121365504,
+          "relative_branch": {
+            "site": 26271364,
+            "target": 26274736,
+            "word": "0x1040034a"
+          },
+          "absolute_jump": {
+            "site": 26272300,
+            "target": 2147640240,
+            "word": "0x80098ec"
+          },
+          "epilogue_bytes": "7000bf8f6c00b78f6800b68f6400b58f6000b48f5c00b38f5800b28f5400b18f5000b08f7800bd270800e00300000000"
+        }
+      ],
+      "retail_sha256": "d99cc82769e731bf98924a3a43e175870e8eb4cfbfedecd88b1ccb24987acfd7",
+      "static_entry_and_control_flow": true,
+      "runtime_observed": false
+    },
+    {
+      "queued_foff": 25609052,
+      "start": 25606288,
+      "size": 2836,
+      "delta": 2122029056,
+      "bank": 25602048,
+      "header_entry_pointers": [
+        {
+          "foff": 25602048,
+          "word": "0x80025090"
+        }
+      ],
+      "witnesses": [],
+      "retail_sha256": "bc9149e935cd5112055c6f98d268a73639a1d304e58b73e4105c07b558359d15",
+      "static_entry_and_control_flow": false,
+      "runtime_observed": false
+    },
+    {
+      "queued_foff": 25975244,
+      "start": 25972692,
+      "size": 2624,
+      "delta": 2121660416,
+      "bank": 25970688,
+      "header_entry_pointers": [
+        {
+          "foff": 25970688,
+          "word": "0x800247d4"
+        }
+      ],
+      "witnesses": [],
+      "retail_sha256": "9ac65512db99a96df9e449b35ce6ffb7a94fd9630616038293e1ffd3a4006020",
+      "static_entry_and_control_flow": false,
+      "runtime_observed": false
+    },
+    {
+      "queued_foff": 26296616,
+      "start": 26294180,
+      "size": 2508,
+      "delta": 2121340928,
+      "bank": 26290176,
+      "header_entry_pointers": [
+        {
+          "foff": 26290176,
+          "word": "0x80024fa4"
+        }
+      ],
+      "witnesses": [
+        {
+          "epilogue_foff": 26296648,
+          "derived_delta": 2121340928,
+          "relative_branch": {
+            "site": 26294380,
+            "target": 26296648,
+            "word": "0x10400236"
+          },
+          "absolute_jump": {
+            "site": 26295312,
+            "target": 2147637576,
+            "word": "0x8009652"
+          },
+          "epilogue_bytes": "6800bf8f6400b58f6000b48f5c00b38f5800b28f5400b18f5000b08f7000bd270800e00300000000"
+        }
+      ],
+      "retail_sha256": "92b2e5b997dd6961f62dc92463962701d171928b9f6e29d0e68c03a0bb03c6f8",
+      "static_entry_and_control_flow": true,
+      "runtime_observed": false
+    },
+    {
+      "queued_foff": 25949232,
+      "start": 25947376,
+      "size": 1928,
+      "delta": 2121684992,
+      "bank": 25946112,
+      "header_entry_pointers": [
+        {
+          "foff": 25946112,
+          "word": "0x800244f0"
+        }
+      ],
+      "witnesses": [],
+      "retail_sha256": "045cb2d75f10e7f3aa0abc82f35c5f387ee04c6f24af618481501987ef2ddf4c",
+      "static_entry_and_control_flow": false,
+      "runtime_observed": false
+    },
+    {
+      "queued_foff": 26493680,
+      "start": 26492368,
+      "size": 1384,
+      "delta": 2121144320,
+      "bank": 26486784,
+      "header_entry_pointers": [
+        {
+          "foff": 26486784,
+          "word": "0x800255d0"
+        }
+      ],
+      "witnesses": [
+        {
+          "epilogue_foff": 26493712,
+          "derived_delta": 2121144320,
+          "relative_branch": {
+            "site": 26492572,
+            "target": 26493712,
+            "word": "0x1060011c"
+          },
+          "absolute_jump": {
+            "site": 26493404,
+            "target": 2147638032,
+            "word": "0x80096c4"
+          },
+          "epilogue_bytes": "4800bf8f4400b58f4000b48f3c00b38f3800b28f3400b18f3000b08f5000bd270800e00300000000"
+        }
+      ],
+      "retail_sha256": "764ce0dee3fcc25651200a878165d1895b9e942a35927aa17d31baa9a7f3ad95",
+      "static_entry_and_control_flow": true,
+      "runtime_observed": false
+    }
+  ],
+  "imports": {
+    "src/slus/w_8003DF74.c": "52900c9f8536fdfadd35dcb5adb86168f7da662723b6960a0e95228e908e2ae2",
+    "src/slus/w_8003FC64.c": "1bae9d01f320d222ebca3e233564cdf56d4d6dcb48baf16ac657ac375219748c",
+    "src/slus/w_8004491C.c": "d22f0309f5be1a66c6a53402a6be4c3cd059b5a3f20d794969c18b953a74a46d",
+    "src/dungeon/func_80097AB8.c": "0cce31612bbc93ec4f9bc4a6ee23d25b8bb84dc56f0c16e837bf8ebe29f3df37",
+    "src/dungeon/func_8009F018.c": "d92f7e2d51b783ba0fa889312ecdce42201bfde7a9245901b6581d76d90b296e",
+    "src/dungeon/func_8009FF80.c": "e097fd470188a5ed7f7d68abc37a07c98986969b12d8e11dff0fbdffb3015b31",
+    "src/dungeon/func_800A15D0.c": "84ed843a0f37a5a15ece136f9672b10f3a374744099c4f9545c454fc7e600880",
+    "src/dungeon/func_800B2BFC.c": "b274e880c534edf710f0889280a21f64252c31fa7bc8182c79267260d720a5a3",
+    "src/dungeon/func_800C32DC.c": "24069994161533b8be050f88286978f5d5a4fec7021cbe6494767c667bdd9a4e",
+    "src/slus/w_8003DE58.c": "aa5c35d22f4516d8a90e5fe203fbcc8e7820304a40b7df049800cf28b600fde2",
+    "src/dungeon/func_800976BC.c": "775e9f73be10af0e16ec05b9732de456982636d7e8a8c6b49e837c3b0177819e",
+    "src/dungeon/func_8009ED80.c": "2fb9b253f2e1693bb8db3dc32b875021beae60d63c3a63745fcc14c73dd5a7fd",
+    "src/dungeon/func_800B73A4.c": "784928c5a2c7ac96e341eb255970735b61655ae2fa0c57eb04fdbbefb9b42d31",
+    "src/slus/code.c": "7e609aaa24d307ce7b9517838ecb5db9de1fe7bb1c09d317635584aaae869ca5",
+    "src/dungeon/func_80094BF0.c": "3d0f2f5744f0aea871263adef03f643986f85122d8494b3e03cf29b7e236b5e6",
+    "src/dungeon/func_8009B0B8.c": "200dced475e4caa14c7fc7d18c4b0955427254bd189a3ebb412104ae6aa43bc6",
+    "src/dungeon/func_8009EE78.c": "89922b72514b9573900af481a78e954010c3005436f562b34bf985b79bdd14b5",
+    "src/dungeon/func_8009FF30.c": "8e4ad4cb6d2d49ef48cd4c4027194f915f9fcd8b0edbaf69f91cd062c553d6a5",
+    "src/dungeon/func_800B7370.c": "beed48723c584a60932c192fc113939c585be157c111d24d5bbad6ce22aa5f0c",
+    "src/dungeon/func_800CD554.c": "41c4a190b0408168efbb275d5a7044a9399e11402a08d14174359d0fa07f50f9",
+    "src/slus/w_8003FD64.c": "46e868652c897c970230afc02dae55525446780e6ebcb21c48ca5616e14a7b46",
+    "src/slus/w_80047784.c": "192c488befd5ef170e4edbccc034327da82e51b093fb1ab97a601ed5984ebe4d",
+    "src/dungeon/func_8009399C.c": "9fe1cdd1272c08463731998a4e244fc62ca76deefc9feae69d075824f10d89bf",
+    "src/dungeon/func_80093A34.c": "b841f72ccfd305b7f035d01b690c03aa737b53c1dc3c1836305302e29ee6c7ef",
+    "src/dungeon/func_80093B30.c": "52a7e657c4c52f93897fc5e2e6a29cd9c5fe71a5c49e95a16336f0294bf2ef63",
+    "src/dungeon/func_80093FD4.c": "39cb28a1918e1dc37578814568265de47635227e704ae3df75a646e5f705d7eb",
+    "src/dungeon/func_8009F190.c": "cc1a993689c79cd2f609f30b61de2297e7c7b4dfc3555a8d8e8804d356f169f7",
+    "src/dungeon/func_8009FFC0.c": "70899322d90029b9c7de080ace5acf6c64bda616a7a71a5cc6cffbf5ca65f6fb",
+    "include/shared/object_node.h": "a55d8a07327670764a91742a59b2dc485eec4b829d7cbe4c035274eb018a0cc6",
+    "include/shared/game_work.h": "813f5e364376a12ed80235a4f1b63ed27105d4b1362d7493ef90ca6c321b6366",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03"
+  },
+  "status": [
+    {
+      "container": "town",
+      "foff": 8345772,
+      "size": 88,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete96 B func_807018AC, file0x7F58AC, fixed2.6.3-G0. C rebuild improves aligned11(3subs+8indels) to2(2subs+0indels): nested if(bit!=0)/if(bit!=1), table-load left operand restores the retail CFG and register roles. Only ori-zero-1 versus stock addiu-zero-1 at offsets8 and80 remains. Candidate hash44567001488dde8a31e381cf47d1613f09c1531c90c301f25a6cf80e5010a96f. No stock assembler change or SDK provenance claim. Route to pipeline/provenance diagnosis, not further C control-flow grinding. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8345688,
+      "size": 76,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701858, file0x7f5858 +84 B at linked0x80701858: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash4d7832a98c61e30b7f8c31b8335cd5cf3cbbe91f873fe80a0d4ec96abd98f491. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 9246296,
+      "size": 72,
+      "status": "open",
+      "route": "mixed-data-epilogue",
+      "reason": "Mixed region: packed table-like bytes through file 0x8D1694, then a 12-byte stack-restore/return epilogue. Invalid MIPS decoding alone is not sufficient data provenance. Find its accessor and containing function; no data or asm relabel asserted. Continuation4 wordwise context shows the packed halfword-like region extends substantially earlier. Wordwise decoding is retained because normal Capstone stops at the first invalid word; that stop supplies no data provenance. Locate the actual accessor or asset header before relabelling. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25456964,
+      "size": 72,
+      "status": "open",
+      "route": "containing-function",
+      "reason": "The heuristic span begins inside a containing function or mixed inline-data/epilogue region. Recover the complete containing extent and placement before registering a C row; no tail-only function is minted. Continuation4 full diagnostic context retained in evidence/continue4_extent_dungeon_1847144.s. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25609052,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x186B890 +2836B, true80025090, fixed2.7.2-cdk-G0. Full generated2852B; aligned346 (182subs/164indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. Further reconstruct full register-role lifetimes and the remaining local imports before body micro-iteration. No new placement admission. Header entry agrees with diagnostic base; common-epilogue witness not yet established by the bounded recognizer. Source SHA256 0eb670e371edea9f797b9a4071b7335b2375c329191b0cf0b61f19a48ddba708."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25949232,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x18BECF0 +1928B, true800244F0, fixed2.7.2-cdk-G0. Full generated1772B; aligned325 (190subs/135indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. Further reconstruct full register-role lifetimes and the remaining local imports before body micro-iteration. No new placement admission. Header entry agrees with diagnostic base; common-epilogue witness not yet established by the bounded recognizer. Source SHA256 f00dd767cb97ee4004d38f5896fb4405f2720ed6ca9bfe4ecf6b00ab1098c813."
+    },
+    {
+      "container": "dungeon",
+      "foff": 25975244,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x18C4FD4 +2624B, true800247D4, fixed2.7.2-cdk-G0. Full generated2700B; aligned492 (289subs/203indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. Further reconstruct full register-role lifetimes and the remaining local imports before body micro-iteration. No new placement admission. Header entry agrees with diagnostic base; common-epilogue witness not yet established by the bounded recognizer. Source SHA256 a90bbfacaa8eee8fc70e4fa930c123386f55b0df6e894fc12e82044810d590cb."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26196320,
+      "size": 72,
+      "status": "open",
+      "route": "containing-function",
+      "reason": "The heuristic span begins inside a containing function or mixed inline-data/epilogue region. Recover the complete containing extent and placement before registering a C row; no tail-only function is minted. Candidate complete entry after prior conventional return is file0x18faf14; heuristic extent through queue is2708 B. This boundary is provisional until every branch, return, owned inline data and placement is checked. Continuation4 full diagnostic context retained in evidence/continue4_extent_dungeon_18FB960.s. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26274712,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x190DDB4 +3628B, true800255B4, fixed2.7.2-cdk-G0. Full generated3620B; aligned343 (255subs/88indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. Unaligned12-byte packet transfers are now halfword-aligned struct copies, not identity-macro word accesses. Gate0/live-range reconstruction remains; 190EB98 still needs its saved-register set. Full diagnostic deltas are not exact claims. Independent bank-header entry and relative-branch/absolute-j common-epilogue placement witnesses retained. Source SHA256 a151102f0b50c47084e8bca10753d915e33da8fb6a75b90d7f636fc61828b897."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26296616,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x19137A4 +2508B, true80024FA4, fixed2.7.2-cdk-G0. Full generated2516B; aligned159 (117subs/42indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. Unaligned12-byte packet transfers are now halfword-aligned struct copies, not identity-macro word accesses. Gate0/live-range reconstruction remains; 190EB98 still needs its saved-register set. Full diagnostic deltas are not exact claims. Independent bank-header entry and relative-branch/absolute-j common-epilogue placement witnesses retained. Source SHA256 710093dfdbd4a1c7530b6a07d4258ab887fa63ef17f79a5d7268fd6cc9120e06."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26493680,
+      "size": 72,
+      "status": "open",
+      "route": "typed-c-rebuild",
+      "reason": "Complete diagnostic source file0x1943DD0 +1384B, true800255D0, fixed2.7.2-cdk-G0. Full generated1384B; aligned2 (2subs/0indels). Contiguous stack aggregates, symbolic globals and source-backed resident argument corrections retained in continue5_switch_candidates.json. All five actual switch targets match. Full frame/roles/body layout match except the return-copy pair at true0x80025A78/0x80025A80: expected move a1,v0 then move s0,a1; candidate move s0,v0 then move a1,s0. Preserve v8; diagnose the text-buffer lifetime. All11 direct source contracts found; active mapping and storage/callback declarations still need final review. Independent bank-header entry and relative-branch/absolute-j common-epilogue placement witnesses retained. Source SHA256 e2ea98dee0ee951f2547a2dad3424cf1c85c154fcd1988f8a3632bdadf6b3643."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26562784,
+      "size": 72,
+      "status": "open",
+      "route": "c-rebuild-loop-latch",
+      "reason": "Full488 B file0x1954F40, true0x80024740, fixed2.7.2-cdk-G0: aligned3 (3subs/0indels), improved from19. PacketTag24-bit source and destination fields restore saved mask/cursor roles, integer-order OT addressing restores operand order. Only final list latch v0/a0 differs at words104/106/107. Best typed ObjectNodeHeader candidate retained with complete RTL. Repeat fingerprint neutral; no compiler/assembler wall asserted. Source SHA256 c72851ec39c2131a1a47705c86d5c2acbec058305ae3068c69f9730232b95a53. Resolve the loop input lifetime without pins or fake dependencies; require full exact kit/ELF/window checks before admission."
+    },
+    {
+      "container": "dungeon",
+      "foff": 26636864,
+      "size": 72,
+      "status": "open",
+      "route": "containing-function",
+      "reason": "The heuristic span begins inside a containing function or mixed inline-data/epilogue region. Recover the complete containing extent and placement before registering a C row; no tail-only function is minted. Candidate complete entry after prior conventional return is file0x1966b74; heuristic extent through queue is1812 B. This boundary is provisional until every branch, return, owned inline data and placement is checked. Continuation4 full diagnostic context retained in evidence/continue4_extent_dungeon_1967240.s. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8345608,
+      "size": 72,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701808, file0x7f5808 +80 B at linked0x80701808: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash772ad878057c46950b8608cc36c652b8d013e39db739de1f3cb6449224105956. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8345536,
+      "size": 64,
+      "status": "open",
+      "route": "containing-function",
+      "reason": "The heuristic span begins inside a containing function or mixed inline-data/epilogue region. Recover the complete containing extent and placement before registering a C row; no tail-only function is minted. Candidate complete entry after prior conventional return is file0x7f57b4; heuristic extent through queue is76 B. This boundary is provisional until every branch, return, owned inline data and placement is checked. Continuation4 full diagnostic context retained in evidence/continue4_extent_town_7F57C0.s. The complete candidate is84 B through file0x7F5808, rather than76 B: queued extent omits jr/slot. Indirect call through D_80701984+0x50 needs its active contract and the packed four-byte local copied from0x80700C04. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19522496,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19547072,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19571648,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19596224,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19620800,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19645376,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "dungeon",
+      "foff": 19669952,
+      "size": 40,
+      "status": "partial",
+      "route": "active-engine-import",
+      "reason": "Complete 40-byte wrapper calls resident0x800A4398 with constant0xB4, then stores byte-1. Its active engine image/entry ABI remains unresolved: the nominal engine-delta probe lands inside a different function and cannot be used as a callee contract. Re-read the loader-selected engine variant before compiling; no one-argument signature is guessed. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8619468,
+      "size": 36,
+      "status": "open",
+      "route": "bank-and-provenance",
+      "reason": "Bank placement remains unproven for this complete-looking entry. No independent SDK source/provenance has been established; SDK-looking bytes remain unported, not forced into sdk_asm or ordinary C. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8670348,
+      "size": 36,
+      "status": "open",
+      "route": "bank-and-provenance",
+      "reason": "Bank placement remains unproven for this complete-looking entry. No independent SDK source/provenance has been established; SDK-looking bytes remain unported, not forced into sdk_asm or ordinary C. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 4198552,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016d08 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5370532,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016f14 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5773760,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016630 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5856656,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017200 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6291396,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016c34 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6389908,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016d04 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6579884,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x8001731c unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6881164,
+      "size": 32,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80018bfc unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8344816,
+      "size": 32,
+      "status": "open",
+      "route": "linked-body-and-import-contract",
+      "reason": "Static linked model now established independently by header/local-j or local-call entry evidence: delta0x7ff0c000, entry0x807014f0. Only admitted complete C extents are promoted; no whole-bank runtime load or SDK identity claimed. Recover this complete body and its active imported/indirect-call contracts next. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8345464,
+      "size": 32,
+      "status": "open",
+      "route": "linked-body-and-import-contract",
+      "reason": "Static linked model now established independently by header/local-j or local-call entry evidence: delta0x7ff0c000, entry0x80701778. Only admitted complete C extents are promoted; no whole-bank runtime load or SDK identity claimed. Recover this complete body and its active imported/indirect-call contracts next. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8597068,
+      "size": 32,
+      "status": "open",
+      "route": "linked-body-and-import-contract",
+      "reason": "Static linked model now established independently by header/local-j or local-call entry evidence: delta0x9fecd800, entry0xa070064c. Only admitted complete C extents are promoted; no whole-bank runtime load or SDK identity claimed. Recover this complete body and its active imported/indirect-call contracts next. Bounded CFG audit refusal: callee 0xa0700590 unresolved. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8598008,
+      "size": 32,
+      "status": "open",
+      "route": "linked-body-and-import-contract",
+      "reason": "Static linked model now established independently by header/local-j or local-call entry evidence: delta0x9fecd800, entry0xa07009f8. Only admitted complete C extents are promoted; no whole-bank runtime load or SDK identity claimed. Recover this complete body and its active imported/indirect-call contracts next. Bounded CFG audit refusal: callee 0xa070090c unresolved. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8598632,
+      "size": 32,
+      "status": "open",
+      "route": "linked-body-and-import-contract",
+      "reason": "Static linked model now established independently by header/local-j or local-call entry evidence: delta0x9fecd800, entry0xa0700c68. Only admitted complete C extents are promoted; no whole-bank runtime load or SDK identity claimed. Recover this complete body and its active imported/indirect-call contracts next. Bounded CFG audit refusal: callee 0xa0700b7c unresolved. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 4195596,
+      "size": 28,
+      "status": "partial",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x800171dc unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 4198876,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017100 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5370856,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x8001730c unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5774084,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016a28 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5856980,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x800175f8 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6289488,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017108 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6291720,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x8001702c unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6390232,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x800170fc unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6580208,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017714 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6881488,
+      "size": 28,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80018ff4 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 2965196,
+      "size": 24,
+      "status": "open",
+      "route": "bank-and-provenance",
+      "reason": "Bank placement remains unproven for this complete-looking entry. No independent SDK source/provenance has been established; SDK-looking bytes remain unported, not forced into sdk_asm or ordinary C. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 2965228,
+      "size": 24,
+      "status": "open",
+      "route": "bank-and-provenance",
+      "reason": "Bank placement remains unproven for this complete-looking entry. No independent SDK source/provenance has been established; SDK-looking bytes remain unported, not forced into sdk_asm or ordinary C. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 4198844,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017100 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5370824,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x8001730c unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5774052,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80016a28 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 5856948,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x800175f8 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6291688,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x8001702c unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6390200,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x800170fc unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6580176,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80017714 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 6881456,
+      "size": 24,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: callee 0x80018ff4 unresolved. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388560,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80700FD0, file0x7fffd0 +32 B at linked0x80700fd0: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash0bcf70118c7863d74d70ac565f77161ccd169a3a6a705726fca52f2cf469d94e. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388592,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80700FF0, file0x7ffff0 +32 B at linked0x80700ff0: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash384cab13a072c1572d4fd6942c1212dcf4df9eb142aeb9899eacc3fea03bed4a. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388624,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701010, file0x800010 +32 B at linked0x80701010: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash7f1edd3c51ba716a39651f03746852882bb1911612457af34e97945453313777. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388656,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701030, file0x800030 +32 B at linked0x80701030: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash09d881693a43e65d6a17370937d5ed87be388aed23e26ad3cd1fe7e0aeed98ad. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388688,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701050, file0x800050 +32 B at linked0x80701050: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash527e0884298c626586fbd4682e7feec9055f46000ad23c39d99f20ff7f57e508. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 8388720,
+      "size": 24,
+      "status": "open",
+      "route": "li-expansion",
+      "reason": "Complete candidate func_80701070, file0x800070 +32 B at linked0x80701070: fixed recipe2.6.3-G0, aligned total1 (subs1/indels0). Source hash73ac201fef07f727b6e1d744b801ed4e07ae91ff259c5def063f4298661b4909. Retail ori reg,zero,small-positive-immediate differs from stock li expansion addiu reg,zero,small-positive-immediate at the ordinary C shape. No assembler change made. No independent SDK provenance; remains unported. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    },
+    {
+      "container": "town",
+      "foff": 4107152,
+      "size": 20,
+      "status": "open",
+      "route": "transitive-import-contract",
+      "reason": "Bounded complete-CFG audit refuses this entry: noncontiguous input. Nested contexts are retained in continue3_contract_failures.json. Unknown indirect callees and undefined caller-clobbered inputs are not accepted as ABI evidence. Continuation4 root-cause inspection: the common helper calls unresolved service-table slots, including +0x168/+0x174 (TownServiceTable preserves incomplete prototypes). Incoming argument/return contracts cannot be inferred from the outer wrapper alone. Full diagnostic helper contexts are retained. Continuation5: carried forward unchanged; no new evidence closes this ABI, placement, SDK-provenance or data-accessor requirement."
+    }
+  ],
+  "production_windows": [],
+  "claim": "Diagnostic and coverage-route continuation only. No new C coverage or SDK/asm/data classification. No compiler or assembler wall asserted."
+}

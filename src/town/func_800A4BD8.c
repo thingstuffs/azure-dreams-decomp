@@ -10,7 +10,7 @@ typedef struct TownObject {
 
 
 /* Flags inactive objects; otherwise copies shared bytes and invokes the callback. */
-void func_800A2338(TownObject *object, s32 unused, u8 *output) {
+void townFlagInactiveObjectOrRunCallback(TownObject *object, s32 unused, u8 *output) {
     u8 *active_flag;
 
     active_flag = object->field_40;

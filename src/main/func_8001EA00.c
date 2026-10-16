@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_804054E8();                      /* extern */
+M2C_UNK townSelectMemoryTaskExit();                      /* extern */
 M2C_UNK func_80405900();                      /* extern */
 
 typedef struct S_8001EA00_0 {
@@ -17,6 +17,6 @@ void func_8001EA00(void *object, s32 value) {
         ((S_8001EA00_0 *)object)->unk_9C = value;
         embedded_data = object + 0x20;
         func_80405900(embedded_data);
-        func_804054E8(embedded_data);
+        townSelectMemoryTaskExit(embedded_data);
     }
 }

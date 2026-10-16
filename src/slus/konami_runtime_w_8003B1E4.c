@@ -3,11 +3,11 @@
 
 #include "common.h"
 
-void func_8003AF58();        /* extern */
+void appendTownMovieListNode();        /* extern */
 extern u8 D_8006AE34[];
 extern u8 D_800717D0[];
 
-/* Passes D_8006AE34 and the shared D_800717D0 context to func_8003AF58. */
+/* Passes D_8006AE34 and the shared D_800717D0 context to appendTownMovieListNode. */
 void func_8003B1E4(void) {
-    func_8003AF58(&D_800717D0, &D_8006AE34);
+    appendTownMovieListNode(&D_800717D0, &D_8006AE34);
 }

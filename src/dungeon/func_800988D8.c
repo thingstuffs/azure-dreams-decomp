@@ -6,7 +6,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void func_8009DF0C();
+void dungeonQueueBlackDrawBufferRectangle();
 s32 func_800A2C34();
 void *func_800A634C();
 void func_800A67F4();
@@ -79,7 +79,7 @@ typedef struct S_func_8009E038_8 {
 } S_func_8009E038_8;
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
-void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
+void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
     M2C_UNK *context) {
     s32 top_step;
     GameWork *input;
@@ -319,6 +319,6 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         transition->unk_1C = 4;
         break;
     }
-    func_8009DF0C(transition);
+    dungeonQueueBlackDrawBufferRectangle(transition);
     return;
 }

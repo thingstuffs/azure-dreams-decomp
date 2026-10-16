@@ -14,6 +14,7 @@ import argparse, hashlib, shutil, subprocess, sys, tempfile
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "tools/lanes/lanekit"), str(ROOT / "tools")]
+from source_layout import row_path as layout_row_path
 import kitlib
 
 
@@ -28,7 +29,7 @@ def main():
         L = ROOT / "work/native_lane" / lane
         for out in sorted(L.glob("out/*/*.c")):
             c, name = out.parent.name, out.name; rid = "%s/%s" % (c, name[:-2])
-            src = ROOT / "src" / c / name; bs = out.with_name(name + ".base_sha"); base = L / "base" / c / name
+            src = layout_row_path(rid, ROOT); bs = out.with_name(name + ".base_sha"); base = L / "base" / c / name
             cur = src.read_text(errors="replace")
             if not bs.exists() or bs.read_text().split()[0] == sha(cur):
                 tot["ok"] += 1; continue

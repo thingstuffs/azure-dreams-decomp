@@ -2,7 +2,7 @@
 
 #define FIELD_U8(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
-extern s32 func_80033B2C();
+extern s32 testResidentBitmapBit();
 extern s32 func_800A9878(s32 target_value);
 extern s32 func_800A99D8();
 extern s32 func_800A9A38();
@@ -24,7 +24,7 @@ s32 func_800A9B2C(s32 group_id, void *record) {
     if ((table_index != -1) && (func_800A9ADC(group_id, record) != 0)) {
         if ((FIELD_U8(record, 1) == 13) && (group_id == 9)) {
             if (FIELD_U8(record, 0) == 3) {
-                if (func_80033B2C(0x12CB) != 0) {
+                if (testResidentBitmapBit(0x12CB) != 0) {
                     u8 *special_result;
 
                     special_result = (u8 *)&D_8006BC7A;

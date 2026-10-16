@@ -6,7 +6,7 @@ typedef struct S_80024FD8_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80024FD8_0;   /* temp_v0 in func_80024FD8 */
+} S_80024FD8_0;   /* temp_v0 in dungeonCreateEffectRenderObject */
 
 typedef struct S_80024FD8_1 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_80024FD8_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024FD8_1;   /* temp_v1 in func_80024FD8 */
+} S_80024FD8_1;   /* temp_v1 in dungeonCreateEffectRenderObject */
 
 typedef struct S_80024FD8_2 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_80024FD8_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024FD8_2;   /* arg0 in func_80024FD8 */
+} S_80024FD8_2;   /* arg0 in dungeonCreateEffectRenderObject */
 
 typedef struct S_80024FD8_3 {
     u8 pad_00[0xC];
@@ -36,7 +36,7 @@ typedef struct S_80024FD8_3 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024FD8_3;   /* temp_s0 in func_80024FD8 */
+} S_80024FD8_3;   /* temp_s0 in dungeonCreateEffectRenderObject */
 
 typedef struct S_80024FD8_4 {
     u8 pad_00[0x14];
@@ -45,13 +45,13 @@ typedef struct S_80024FD8_4 {
     s16 unk_1E;
     u8 pad_20[0x4];
     s16 unk_24;
-} S_80024FD8_4;   /* temp_v1_2 in func_80024FD8 */
+} S_80024FD8_4;   /* temp_v1_2 in dungeonCreateEffectRenderObject */
 
 
 
 
 /* Creates a render object at the supplied position and initializes its effect state. */
-void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
+void *dungeonCreateEffectRenderObject(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
@@ -63,7 +63,7 @@ void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
 
     object = func_8003FC64(0x202);
     if (object != 0) {
-        ((S_80024FD8_0 *)object)->unk_10 = func_80024EE0;
+        ((S_80024FD8_0 *)object)->unk_10 = dungeonMoveAndFadeEffect;
         func_8004491C(object, (s32)func_80045C34);
         position = ((S_80024FD8_0 *)object)->unk_08;
         position->unk_02 = source_pos->unk_02;

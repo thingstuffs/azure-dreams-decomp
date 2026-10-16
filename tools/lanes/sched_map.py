@@ -30,6 +30,7 @@ from pathlib import Path
 ROOT = next(p for p in Path(__file__).resolve().parents if (p / 'tools/common.py').is_file())
 sys.path.insert(0, str(ROOT / 'tools')); sys.path.insert(0, str(ROOT / 'tools/xform'))
 from common import rows
+from source_layout import row_path as layout_row_path
 from pin_census import sites_of
 from pin_sites import erase_many
 import phase_census as PC
@@ -68,7 +69,7 @@ def moved(a,b):
     return [common[i] for i in range(len(common)) if i not in keep]
 def one(task):
     rid,sites=task; row=dict(R[rid]); row['cfg']=row['cfg']+' -g'
-    text=(ROOT/'src'/(rid+'.c')).read_text(); allsites=sites_of(text)
+    text=(layout_row_path(rid, ROOT)).read_text(); allsites=sites_of(text)
     base=PC.compile_dumps(row,text)
     if base is None: return [dict(id=rid,err='base')]
     lines,recs=T.units(text); byline={r['line']+1:r for r in recs}

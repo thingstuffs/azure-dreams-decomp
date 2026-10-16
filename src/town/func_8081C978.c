@@ -11,7 +11,7 @@ typedef struct S_80026978_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80026978_0;   /* temp_v0 in func_80026978 */
+} S_80026978_0;   /* temp_v0 in townCreateBriefRandomizedParticle */
 
 typedef struct S_80026978_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_80026978_1 {
     u8 pad_08[0x2];
     u16 unk_0A;
     s32 unk_0C;
-} S_80026978_1;   /* arg0 in func_80026978 */
+} S_80026978_1;   /* arg0 in townCreateBriefRandomizedParticle */
 
 typedef struct S_80026978_2 {
     u8 pad_00[0x2];
@@ -33,12 +33,12 @@ typedef struct S_80026978_2 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_80026978_2;   /* temp_s2 in func_80026978 */
+} S_80026978_2;   /* temp_s2 in townCreateBriefRandomizedParticle */
 
 typedef struct S_80026978_3 {
     u8 pad_00[0xE];
     s16 unk_0E;
-} S_80026978_3;   /* temp_v1 in func_80026978 */
+} S_80026978_3;   /* temp_v1 in townCreateBriefRandomizedParticle */
 
 typedef struct S_80026978_4 {
     u8 pad_00[0x4];
@@ -52,7 +52,7 @@ typedef struct S_80026978_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026978_4;   /* temp_s0 in func_80026978 */
+} S_80026978_4;   /* temp_s0 in townCreateBriefRandomizedParticle */
 
 
 extern void func_8004491C();
@@ -61,7 +61,7 @@ extern u8 D_80026B00[];
 extern u8 D_800F7944[];
 
 /* Spawns a gray sprite effect at a randomized offset from the origin. */
-void func_80026978(S_80026978_1 *origin)
+void townCreateBriefRandomizedParticle(S_80026978_1 *origin)
 {
     s32 spawn_x;
     s32 spawn_y;

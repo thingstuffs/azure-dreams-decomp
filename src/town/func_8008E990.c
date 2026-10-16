@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8008C0AC();
+extern s32 townMapCellAddressAtTile();
 
 /* town_map_mod_read_p: convert world coordinates to tiles and compute the map entry address. */
 void town_map_mod_read_p(s16 world_x, s16 world_y) {
@@ -13,5 +13,5 @@ void town_map_mod_read_p(s16 world_x, s16 world_y) {
     }
     tile_y = (s16)world_y;
     tile_x >>= 6;
-    func_8008C0AC(tile_x, (tile_y / 64));
+    townMapCellAddressAtTile(tile_x, (tile_y / 64));
 }

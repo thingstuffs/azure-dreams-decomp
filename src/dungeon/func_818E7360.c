@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e71d800.h"
 
-void func_80024B60(void *effect)
+void advanceEffectStateAndFrame(void *effect)
 {
     s32 state;
     u16 timer;

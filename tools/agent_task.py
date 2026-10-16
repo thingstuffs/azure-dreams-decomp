@@ -15,6 +15,7 @@ import argparse, json, os, random, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path
+from source_layout import row_path as layout_row_path
 from verify import verify
 sys.path.insert(0, str(Path(__file__).resolve().parent / "xform"))
 from xform.t12_stmtorder import strip_pins   # the depin lane starts from the pin-free text
@@ -253,7 +254,7 @@ RETRY_ALL = False
 
 def one(row, model, effort, timeout):
     name = Path(row["c_path"]).name
-    cp = ROOT / "src" / row["container"] / name
+    cp = layout_row_path(row, ROOT)
     src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
     work = Path(tempfile.mkdtemp(prefix="agent_", dir=str(ROOT / "work")))
     if MODE == "depin":
@@ -355,7 +356,7 @@ def batch(rows_, model, effort, timeout):
     items = []
     for row in rows_:
         name = Path(row["c_path"]).name
-        cp = ROOT / "src" / row["container"] / name
+        cp = layout_row_path(row, ROOT)
         src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
         if MODE == "depin":
             src = strip_pins(src)      # the lane starts pin-free; its job is to make that exact
@@ -399,7 +400,7 @@ def main():
     rs = [r for r in rows() if lv.get(r["id"], {}).get("level", -1) >= 1 and a.min_size <= r["size"] <= a.max_size]
     if a.with_gotos:
         def has_goto(r):
-            cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            cp = layout_row_path(r, ROOT)
             t = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
             return bool(re.search(r"\bgoto\b", t))
         rs = [r for r in rs if has_goto(r)]
@@ -424,7 +425,7 @@ def main():
         for j in read_jsonl(journal):
             if j.get("outcome") in ("rejected", "build-failed", "gate-mismatch") and j.get("in_sha"): fails[(j["id"], j["in_sha"])] = fails.get((j["id"], j["in_sha"]), 0) + 1
         def cur_sha(r):
-            cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            cp = layout_row_path(r, ROOT)
             return sha_text((cp if cp.exists() else raw_path(r)).read_text(errors="replace"))
         skipped = [r for r in rs if fails.get((r["id"], cur_sha(r)), 0) >= 2]
         if skipped:
@@ -436,7 +437,7 @@ def main():
     if BATCH > 1:
         cur = []
         def size_of(r):
-            cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            cp = layout_row_path(r, ROOT)
             return (cp if cp.exists() else raw_path(r)).stat().st_size
         for r in sorted(rs, key=lambda r: (r["container"], r.get("foff") or 0)):
             if cur and (len(cur) >= BATCH or cur[0]["container"] != r["container"] or sum(size_of(x) for x in cur) + size_of(r) > a.batch_bytes):

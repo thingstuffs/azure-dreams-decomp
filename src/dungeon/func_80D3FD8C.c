@@ -30,7 +30,7 @@ typedef struct S_8017558C_0 {
     u16 unk_B6;
     u16 unk_B8;
     u16 unk_BA;
-} S_8017558C_0;   /* arg0 in func_8017558C */
+} S_8017558C_0;   /* arg0 in dungeonUpdateActorTimedEffectAction */
 
 
 typedef struct S_8017558C_4 {
@@ -38,7 +38,7 @@ typedef struct S_8017558C_4 {
     void * unk_08;
     s32 * unk_0C;
     u8 * unk_10;
-} S_8017558C_4;   /* temp_v0_3 in func_8017558C */
+} S_8017558C_4;   /* temp_v0_3 in dungeonUpdateActorTimedEffectAction */
 
 typedef struct S_8017558C_5 {
     u8 pad_00[0x38];
@@ -46,7 +46,7 @@ typedef struct S_8017558C_5 {
     u8 pad_3A[0x6];
     void * unk_40;
     void * unk_44;
-} S_8017558C_5;   /* temp_v0_4 in func_8017558C */
+} S_8017558C_5;   /* temp_v0_4 in dungeonUpdateActorTimedEffectAction */
 
 typedef struct S_8017558C_6 {
     u8 pad_00[0x8];
@@ -61,7 +61,7 @@ typedef struct S_8017558C_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8017558C_6;   /* temp_a0 in func_8017558C */
+} S_8017558C_6;   /* temp_a0 in dungeonUpdateActorTimedEffectAction */
 
 typedef struct S_8017558C_7 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_8017558C_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017558C_7;   /* temp_v1_2 in func_8017558C */
+} S_8017558C_7;   /* temp_v1_2 in dungeonUpdateActorTimedEffectAction */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -84,15 +84,15 @@ extern u8 D_800E2488[];
 extern u8 D_80171A80[];
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();               /* extern */
-void func_8009D8A4();                            /* extern */
-void func_800A2B04();              /* extern */
+void dungeonPackAndSubmitCellHeightLevels();                            /* extern */
+void dungeonSetRecordIntegerTileCenter();              /* extern */
 s32 func_800A56E0();                     /* extern */
 s32 func_800BCB04();                   /* extern */
-M2C_UNK func_801708B8();      /* extern */
-void func_80174C64(); /* extern */
+M2C_UNK createOwnerLinkedDirectionalObject();      /* extern */
+void dungeonUpdateActorMovementHistory(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
-void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {
     s16 height_delta;
     s16 height;
     s16 view_dir;
@@ -120,7 +120,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         if (sprite->unk_14.at00_u16.v & 0x8000) {
             {
                 s32 finish_phase;
-                func_8009D8A4();
+                dungeonPackAndSubmitCellHeightLevels();
                 finish_phase = 5;
                 global_flags = D_800E296C;
                 ((S_8017558C_0 *)action)->unk_96 = finish_phase;
@@ -218,7 +218,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         ((S_8017558C_0 *)action)->unk_9B = next_phase;
         return;
     case 3:
-        func_80174C64(action, position, sprite, actor);
+        dungeonUpdateActorMovementHistory(action, position, sprite, actor);
         return;
     case 4:
         restore_phase = ((S_8017558C_0 *)action)->unk_B1;
@@ -233,7 +233,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
                 saved_angle = ((S_8017558C_0 *)action)->unk_A6;
                 actor->facing = (s16) saved_angle;
                 view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
-                func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
+                selectIndirectTableEntry(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
                 ((S_8017558C_0 *)action)->unk_94 = view_dir;
             }
             if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
@@ -263,7 +263,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            func_800A2B04(position, sprite->unk_24, sprite->unk_25);
+            dungeonSetRecordIntegerTileCenter(position, sprite->unk_24, sprite->unk_25);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
             if (sprite->unk_2C.as_pu8 == D_800E23E0) {
@@ -276,7 +276,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             if (((S_8017558C_0 *)action)->unk_B0 != 0) {
                 return;
             }
-            func_801708B8(action, position, sprite);
+            createOwnerLinkedDirectionalObject(action, position, sprite);
             return;
         }
         return;
@@ -287,7 +287,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             return;
         }
         sprite->unk_06.as_s16 = 0;
-        func_800AD594(actor, 0x1000);
+        dungeonReduceActorFoodMeter(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
         dungeonStatus.unk_0C = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);

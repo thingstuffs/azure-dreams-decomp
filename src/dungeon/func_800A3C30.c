@@ -9,7 +9,7 @@ typedef struct Inner {
 
 extern u8 D_800DD8E7[];
 
-s32 func_800A9390(s16 index) {
+s32 dungeonResolveSpellEffectResourceId(s16 index) {
     s32 compare;
 
     index = D_800DD8E7[index];

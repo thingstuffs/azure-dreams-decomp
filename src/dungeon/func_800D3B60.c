@@ -23,14 +23,14 @@ typedef struct S_800D92C0_0 {
     s8 unk_71;
     u8 pad_72[0x16];
     u16 unk_88;
-} S_800D92C0_0;   /* arg3 in func_800D92C0 */
+} S_800D92C0_0;   /* arg3 in dungeonAdvanceActorTraversableHeading */
 
 typedef struct S_800D92C0_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x2C];
     s32 unk_58;
-} S_800D92C0_1;   /* *D_800814A8 in func_800D92C0 */
+} S_800D92C0_1;   /* *D_800814A8 in dungeonAdvanceActorTraversableHeading */
 
 typedef struct S_800D92C0_2 {
     u8 pad_00[0x24];
@@ -40,7 +40,7 @@ typedef struct S_800D92C0_2 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
-} S_800D92C0_2;   /* arg2 in func_800D92C0 */
+} S_800D92C0_2;   /* arg2 in dungeonAdvanceActorTraversableHeading */
 
 
 typedef struct S_800D92C0_4 {
@@ -48,7 +48,7 @@ typedef struct S_800D92C0_4 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_800D92C0_4;   /* (arg3 + ((u8) ((S_800D92C0_0 *)arg3)->unk_71 & 0x7F)) in func_800D92C0 */
+} S_800D92C0_4;   /* (arg3 + ((u8) ((S_800D92C0_0 *)arg3)->unk_71 & 0x7F)) in dungeonAdvanceActorTraversableHeading */
 
 
 typedef struct {
@@ -62,19 +62,19 @@ typedef struct {
 extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 D_8006CD00[];
 void func_8009A3D0();
-s32 func_8009A180();
+s32 dungeonCheckEntityRelation();
 s32 func_8009A21C();
-s32 func_8009A66C();
-s32 func_8009FD7C();
-s32 func_800A0E6C();
-s32 func_800A0818();
-s32 func_800A19E4();
+s32 dungeonCheckMovementClearanceAndHeight();
+s32 dungeonCompareMonsterNeighborValues();
+s32 dungeonRebuildMonsterReachableTiles();
+s32 dungeonGetRoundedFacingAndRoundingFlag();
+s32 dungeonUpdateActorProximityFlag();
 s32 func_800A6D30();
 void func_800A9A0C();
 s16 func_800BCB04();
 
 /* Advances an actor along a traversable heading and updates its movement state. */
-void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void *actor) {
+void dungeonAdvanceActorTraversableHeading(void *move_state, void *context, S_800D92C0_2 *position, void *actor) {
     M2C_UNK tile_mask;
     s32 target_y;
     s32 target_x;
@@ -101,7 +101,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     }
     if (dungeonStatus.flags & 0x2000) {
         room_cache = move_state + 0x9C;
-        func_800A19E4(position, actor, 3, 6, room_cache);
+        dungeonUpdateActorProximityFlag(position, actor, 3, 6, room_cache);
         flags_or_heading = ((S_800D92C0_0 *)actor)->unk_1C;
         movement_bits = flags_or_heading & 0x410;
         if (movement_bits) {
@@ -118,7 +118,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
             goto init_loop;
         }
         if ((((S_800D92C0_0 *)actor)->unk_71 < 0) && (dungeonStatus.flags & 0x2000)) {
-            func_800A19E4(position, actor, 3, 6, room_cache);
+            dungeonUpdateActorProximityFlag(position, actor, 3, 6, room_cache);
             actor_flags = ((S_800D92C0_0 *)actor)->unk_1C;
             if (actor_flags & 0x2000) {
                 if (actor_flags & 0x20000) {
@@ -132,16 +132,16 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF))
                         || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
                         turn_flags = move_state + 0x98;
-                        target_heading = func_800A0818(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
+                        target_heading = dungeonGetRoundedFacingAndRoundingFlag(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
                             (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
-                        if ((func_8009A66C(target_heading, position, actor, 0x20) << 0x10) <= 0) {
-                                                        ((S_800D92C0_0 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
+                        if ((dungeonCheckMovementClearanceAndHeight(target_heading, position, actor, 0x20) << 0x10) <= 0) {
+                                                        ((S_800D92C0_0 *)actor)->unk_2A.u = dungeonGetRoundedFacingAndRoundingFlag(position->unk_24.at00.v,
                                 position->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, turn_flags);
                         }
                         {
                                                         s32 distance_result;
-                            distance_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
+                            distance_result = dungeonCompareMonsterNeighborValues(position->unk_24.at00.v, position->unk_24.at01.v,
                                 D_80082E80.tileX, D_80082E80.tileY);
                             if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
@@ -161,7 +161,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                     }
                 }
             }
-            func_800A0E6C(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
+            dungeonRebuildMonsterReachableTiles(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
 init_loop:
             turn_index = 0;
 loop_entry:
@@ -175,7 +175,7 @@ try_heading:
                 heading_delta = ((s16 *)turn_offsets)[turn_index];
                 candidate_heading = flags_or_heading + heading_delta;
             }
-            if ((func_8009A66C((s16)candidate_heading, position, actor, 0x20) << 0x10) > 0) {
+            if ((dungeonCheckMovementClearanceAndHeight((s16)candidate_heading, position, actor, 0x20) << 0x10) > 0) {
                 if (turn_index >= 3) {
                     s16 checked_limit = limit_turn;
                     if (checked_limit != 0) {
@@ -216,7 +216,7 @@ try_heading:
                     }
                     goto post_loop;
                 }
-                if ((func_8009A180(actor, ((S_800D92C0_1 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+                if ((dungeonCheckEntityRelation(actor, ((S_800D92C0_1 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                     do {
                         return;
                     } while (0);

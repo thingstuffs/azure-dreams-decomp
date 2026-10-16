@@ -11,11 +11,11 @@ M2C_UNK func_8002589C();        /* extern */
 M2C_UNK func_80026548();                 /* extern */
 M2C_UNK func_8002660C();    /* extern */
 M2C_UNK func_800266D0();                  /* extern */
-s32 func_8003DE58(); /* extern */
+s32 resolveRecordOrientationOrFallback(); /* extern */
 s32 func_8004491C();           /* extern */
-s32 func_8009B4B0();                /* extern */
+s32 dungeonFindEligibleEntryAtCoordinates();                /* extern */
 void func_8009CE1C(); /* extern */
-s32 func_800A44E0();              /* extern */
+s32 dungeonCheckLayerOffsetHeight();              /* extern */
 extern u16 D_800281F8;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
@@ -25,7 +25,7 @@ extern M2C_UNK D_800C9034;
 
 typedef struct S_80025C80_0_pre {
     u16 unk_00;
-} S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in func_80025C80, addressed as arg0[-1] */
+} S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateLinkedMonsterEffect, addressed as arg0[-1] */
 
 typedef struct S_80025C80_0 {
     u8 pad_00[0x20];
@@ -46,7 +46,7 @@ typedef struct S_80025C80_0 {
     union { s16 n; s16 v; } unk_3E;   /* accessed as both */
     union { u16 u; s16 s; } unk_40;   /* accessed as both */
     u16 unk_42;
-} S_80025C80_0;   /* arg0 in func_80025C80 */
+} S_80025C80_0;   /* arg0 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_1 {
     s32 unk_00;
@@ -67,7 +67,7 @@ typedef struct S_80025C80_1 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025C80_1;   /* arg2 in func_80025C80 */
+} S_80025C80_1;   /* arg2 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -76,7 +76,7 @@ typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_80025C80_2;   /* arg1 in func_80025C80 */
+} S_80025C80_2;   /* arg1 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_3 {
     u8 pad_00[0x2];
@@ -89,14 +89,14 @@ typedef struct S_80025C80_3 {
     u16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80025C80_3;   /* temp_v1_6 in func_80025C80 */
+} S_80025C80_3;   /* temp_v1_6 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_6 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x12];
     u16 unk_1E;
-} S_80025C80_6;   /* temp_a0 in func_80025C80 */
+} S_80025C80_6;   /* temp_a0 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_7 {
     u8 pad_00[0x4];
@@ -110,15 +110,15 @@ typedef struct S_80025C80_7 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025C80_7;   /* temp_s0 in func_80025C80 */
+} S_80025C80_7;   /* temp_s0 in dungeonUpdateLinkedMonsterEffect */
 
 typedef struct S_80025C80_8 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in func_80025C80 */
+} S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in dungeonUpdateLinkedMonsterEffect */
 
 /* Updates effect movement and fading, or copies a linked monster's position and appearance. */
-void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
+void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sprite_in) {
     void *sprite;
     s32 x_step;
     s32 end_frame;
@@ -194,7 +194,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             break;
         case 1:
             sprite = (u8 *)&D_80082E80.unk_000;
-            transform_result = func_8003DE58(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
+            transform_result = resolveRecordOrientationOrFallback(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
@@ -217,7 +217,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             break;
         case 2:
             if (((S_80025C80_0 *)effect_in)->unk_30.n == 0) {
-                if ((func_800A44E0(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0,
+                if ((dungeonCheckLayerOffsetHeight(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0,
                     ((((S_80025C80_0 *)effect_in)->unk_3E.n << 6) + 0x20) & 0xFFE0,
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x20),
                     (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9)) << 0x10) != 0
@@ -265,7 +265,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = move_ticks;
             if (move_ticks == 2) {
-                found_tile = func_8009B4B0(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
+                found_tile = dungeonFindEligibleEntryAtCoordinates(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
                     (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
                 if (found_tile != 0) {
                     tile_object = found_tile;

@@ -10,7 +10,7 @@ typedef struct S_80B7F054_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80B7F054_0;   /* obj in func_80B7F054 */
+} S_80B7F054_0;   /* obj in dungeonCreatePlacedDungeonActor */
 
 typedef struct S_80B7F054_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80B7F054_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80B7F054_1;   /* work in func_80B7F054 */
+} S_80B7F054_1;   /* work in dungeonCreatePlacedDungeonActor */
 
 typedef struct S_80B7F054_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80B7F054_2;   /* part_a in func_80B7F054 */
+} S_80B7F054_2;   /* part_a in dungeonCreatePlacedDungeonActor */
 
 typedef struct S_80B7F054_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_80B7F054_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80B7F054_3;   /* part_b in func_80B7F054 */
+} S_80B7F054_3;   /* part_b in dungeonCreatePlacedDungeonActor */
 
 typedef struct S_80B7F054_4 {
     u8 pad_00[0x8C];
@@ -42,7 +42,7 @@ typedef struct S_80B7F054_4 {
     s8 unk_9C;
     u8 pad_9D[0x7];
     s16 unk_A4;
-} S_80B7F054_4;   /* actor in func_80B7F054 */
+} S_80B7F054_4;   /* actor in dungeonCreatePlacedDungeonActor */
 
 
 extern void *func_8003FD64(s32, const void *);
@@ -57,7 +57,7 @@ extern u8 D_80161D4C[];
 extern M2C_UNK D_8015EE5C;
 
 /* Creates a dungeon actor with the supplied placement and spawn flags. */
-void *func_80B7F054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
+void *dungeonCreatePlacedDungeonActor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
 {
     s32 kind;
     void *work;

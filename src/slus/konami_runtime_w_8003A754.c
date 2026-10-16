@@ -13,7 +13,7 @@ typedef struct Func8003A754State {
 } Func8003A754State;
 
 /* Jump to the encoded address if the indexed table value is positive; otherwise skip it. */
-void func_8003A754(Func8003A754State *state) {
+void vmOp67JumpIfPositive(Func8003A754State *state) {
     u8 *cursor = state->read_ptr;
     u8 table_index = *cursor;
 

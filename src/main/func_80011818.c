@@ -8,8 +8,8 @@ typedef struct Node {
     s16 fieldA;
 } Node;
 
-extern s32 func_80022138(void);
-extern s32 func_80022160(void);
+extern s32 cardBootGetRemainingBlockSummary(void);
+extern s32 cardBootCountCachedSlots(void);
 extern void func_8003AD08(s32 value, void *out);
 extern void func_8004DA74(void *entries, void *text, s32 initial_octave);
 extern void strcat(void *dest, void *src);
@@ -24,15 +24,15 @@ extern u8 D_800283FC[];
 typedef struct S_80024818_0 {
     u8 pad_00[0x80];
     s32 unk_80;
-} S_80024818_0;   /* root in func_80024818 */
+} S_80024818_0;   /* root in cardBootFormatEmptySlotGuidance */
 
 typedef struct S_80024818_1 {
     u8 pad_00[0xB4C];
     Node * unk_B4C;
-} S_80024818_1;   /* cursor in func_80024818 */
+} S_80024818_1;   /* cursor in cardBootFormatEmptySlotGuidance */
 
 /* Builds status text and assigns it to two or three display nodes. */
-void func_80024818(void *context)
+void cardBootFormatEmptySlotGuidance(void *context)
 {
     u8 text_buf[0x40];
     u8 number_buf[0x10];
@@ -47,8 +47,8 @@ void func_80024818(void *context)
 
     selection = ((S_80024818_0 *)context)->unk_80;
     mode_one = selection == 1;
-    state = func_80022138();
-    if (mode_one != 0 && func_80022160() == 0) {
+    state = cardBootGetRemainingBlockSummary();
+    if (mode_one != 0 && cardBootCountCachedSlots() == 0) {
         func_8004DA74(context + 0x84, D_800283EC[0], 1);
         text_buffer = context + 0x204;
         text = (s32)D_800283EC[1];

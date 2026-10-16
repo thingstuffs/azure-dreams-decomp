@@ -4,31 +4,31 @@
 typedef struct S_800167E4_0 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_800167E4_0;   /* arg0 in func_800167E4 */
+} S_800167E4_0;   /* arg0 in townClearFlaggedStatusAndDispatchAction */
 
 typedef struct S_800167E4_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x34];
     s32 unk_40;
-} S_800167E4_1;   /* town in func_800167E4 */
+} S_800167E4_1;   /* town in townClearFlaggedStatusAndDispatchAction */
 
 typedef struct S_800167E4_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x34];
     s32 unk_40;
-} S_800167E4_2;   /* town2 in func_800167E4 */
+} S_800167E4_2;   /* town2 in townClearFlaggedStatusAndDispatchAction */
 
 typedef struct S_800167E4_3 {
     u8 pad_00[0x4];
     u8 unk_04;
-} S_800167E4_3;   /* ((S_800167E4_1 *)town)->unk_08 * 8 + ((S_800167E4_1 *)town)->unk_40 in func_800167E4 */
+} S_800167E4_3;   /* ((S_800167E4_1 *)town)->unk_08 * 8 + ((S_800167E4_1 *)town)->unk_40 in townClearFlaggedStatusAndDispatchAction */
 
 typedef struct S_800167E4_4 {
     u8 pad_00[0x4];
     s8 unk_04;
-} S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in func_800167E4 */
+} S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in townClearFlaggedStatusAndDispatchAction */
 
 
 extern s32 func_8001776C(void);
@@ -42,7 +42,7 @@ extern s16 D_80019676;
 extern s32 D_80019AFC;
 
 /* Clears flagged town status and dispatches the action when its conditions are met. */
-s32 func_800167E4(S_800167E4_0 *entity, s32 action_arg)
+s32 townClearFlaggedStatusAndDispatchAction(S_800167E4_0 *entity, s32 action_arg)
 {
     S_800167E4_1 *town;
     s32 flag_id;

@@ -7,12 +7,12 @@
 
 
 extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s32 func_800A2C34(void *);
 extern void func_800A9A04(void *);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174218(void *, void *, void *, void *);
 
@@ -28,13 +28,13 @@ typedef struct S_80173ED8_0 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     s16 unk_A8;
-} S_80173ED8_0;   /* arg0 in func_80173ED8 */
+} S_80173ED8_0;   /* arg0 in dungeonAdvanceEntityAnimationActions */
 
 
 typedef struct S_80173ED8_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173ED8_2;   /* counter in func_80173ED8 */
+} S_80173ED8_2;   /* counter in dungeonAdvanceEntityAnimationActions */
 
 
 typedef struct S_80173ED8_4 {
@@ -42,15 +42,15 @@ typedef struct S_80173ED8_4 {
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_80173ED8_4;   /* global in func_80173ED8 */
+} S_80173ED8_4;   /* global in dungeonAdvanceEntityAnimationActions */
 
 typedef struct S_80173ED8_5 {
     u8 pad_00[0x58];
     void * unk_58;
-} S_80173ED8_5;   /* owner in func_80173ED8 */
+} S_80173ED8_5;   /* owner in dungeonAdvanceEntityAnimationActions */
 
 /* Advances entity animation states and handles pending actions. */
-void func_80173ED8(void *action, void *context, void *sprite, void *entity)
+void dungeonAdvanceEntityAnimationActions(void *action, void *context, void *sprite, void *entity)
 {
     void *saved_context;
     register void *dungeon_state;
@@ -104,7 +104,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         }
 
         if ((((EntityRec *)entity)->unk_64 != 0) &&
-            func_800AA6B4(action, context, sprite, 0)) {
+            dungeonBeginReadyActorDirectionalAction(action, context, sprite, 0)) {
             return;
         }
 
@@ -113,7 +113,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         }
 
         if (((u32)((EntityRec *)entity)->flags1C) & 0x100) {
-            func_800AA258(action, context, sprite, entity);
+            dungeonBeginPushedActorMove(action, context, sprite, entity);
             return;
         }
 
@@ -131,7 +131,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         if ((func_800A2C34(entity) << 16) != 0) {
             void *owner = D_800814A8;
 
-            if ((func_8009A180(entity,
+            if ((dungeonCheckEntityRelation(entity,
                     (u8 *)((S_80173ED8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
                 return;
             }

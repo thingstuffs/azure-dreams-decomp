@@ -16,10 +16,10 @@ typedef struct S_8001EFC4_0 {
 
 
 extern void func_80063FF8(s32 code);
-extern void func_80405F24(void *obj);
+extern void mainAdvanceIndexedObjectOperation(void *obj);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
-extern void func_80405B98(void *obj);
-extern s32 func_804016D0(void);
+extern void cardDevkitRefreshSaveSlotPairHighlights(void *obj);
+extern s32 cardDevkitPollStableSlotState(void);
 extern void func_804018FC(void);
 extern void func_80406720(void *obj);
 extern void func_804083FC(s32 current, s32 mode);
@@ -51,7 +51,7 @@ void func_8001EFC4(u8 *root)
         flags10 = D_801379B0;
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
-            func_80405F24(root);
+            mainAdvanceIndexedObjectOperation(root);
         } else {
             flags5000 = D_801379A8;
             if (flags5000 & 0x5000) {
@@ -87,11 +87,11 @@ void func_8001EFC4(u8 *root)
             func_80063FF8(0x502);
             value = func_80058FF0(((S_8001EFC4_0 *)root)->unk_28, action, 5);
             ((S_8001EFC4_0 *)root)->unk_28 = value;
-            func_80405B98(root);
+            cardDevkitRefreshSaveSlotPairHighlights(root);
         }
     }
 
-    result = func_804016D0();
+    result = cardDevkitPollStableSlotState();
     func_804018FC();
     if (result == 0) {
         return;

@@ -13,6 +13,7 @@ import json, re, collections, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, raw_path
+from source_layout import row_path as layout_row_path
 
 TYPEDEF = re.compile(r"typedef struct (S_[0-9A-F]+_[0-9a-z_]+)(?:_pre)? \{\n(.*?)\n\} \1(?:_pre)?;\s*/\* (.*?) \*/", re.S)
 MEMBER = re.compile(r"^\s+(?:union \{ (.*?) \} unk_([0-9A-F]+)|(.+?)\s+(?:\(\*)?unk_([0-9A-F]+)(?:\))?(\([^)]*\))?;)", re.M)
@@ -20,7 +21,7 @@ DEF_HEAD = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8}|
 CALL = re.compile(r"\b(func_[0-9A-F]{8})\s*\(")
 
 def current_text(r):
-    p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+    p = layout_row_path(r, ROOT)
     return (p if p.exists() else raw_path(r)).read_text(errors="replace")
 
 def split_args(s):

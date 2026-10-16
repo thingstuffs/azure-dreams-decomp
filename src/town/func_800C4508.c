@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns the first range group containing value as a one-based index, or zero if none. */
-s32 func_800C1C68(s32 value, s16 **range_groups)
+s32 townFindContainingRangeGroup(s32 value, s16 **range_groups)
 {
     s16 **group;
     s16 *ranges;

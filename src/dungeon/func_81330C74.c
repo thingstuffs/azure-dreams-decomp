@@ -10,40 +10,40 @@
 
 typedef struct S_80167C74_0_pre {
     u16 unk_00;
-} S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in func_80167C74, addressed as arg0[-1] */
+} S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateTargetedRibbonTrail, addressed as arg0[-1] */
 
 
 typedef struct S_80167C74_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80167C74_1;   /* temp_t1 in func_80167C74 */
+} S_80167C74_1;   /* temp_t1 in dungeonUpdateTargetedRibbonTrail */
 
 
 typedef struct S_80167C74_4 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80167C74_4;   /* temp_a1_3 in func_80167C74 */
+} S_80167C74_4;   /* temp_a1_3 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_5 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80167C74_5;   /* temp_a1_4 in func_80167C74 */
+} S_80167C74_5;   /* temp_a1_4 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_6 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80167C74_6;   /* temp_a1_5 in func_80167C74 */
+} S_80167C74_6;   /* temp_a1_5 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_7 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_80167C74_7;   /* temp_a1_6 in func_80167C74 */
+} S_80167C74_7;   /* temp_a1_6 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80167C74_8;   /* temp_a1_7 in func_80167C74 */
+} S_80167C74_8;   /* temp_a1_7 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_9 {
     s16 unk_00;
@@ -59,7 +59,7 @@ typedef struct S_80167C74_9 {
     s16 unk_1E;
     s16 unk_20;
     s16 unk_22;
-} S_80167C74_9;   /* temp_v0_3 in func_80167C74 */
+} S_80167C74_9;   /* temp_v0_3 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_10 {
     u8 pad_00[0x18];
@@ -69,7 +69,7 @@ typedef struct S_80167C74_10 {
     s16 unk_1E;
     s16 unk_20;
     s16 unk_22;
-} S_80167C74_10;   /* temp_v1_5 in func_80167C74 */
+} S_80167C74_10;   /* temp_v1_5 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_11 {
     u8 pad_00[0xC];
@@ -78,39 +78,39 @@ typedef struct S_80167C74_11 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_80167C74_11;   /* arg2 in func_80167C74 */
+} S_80167C74_11;   /* arg2 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_12 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
-} S_80167C74_12;   /* temp_v1_6 in func_80167C74 */
+} S_80167C74_12;   /* temp_v1_6 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_13 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_80167C74_13;   /* temp_s2 in func_80167C74 */
+} S_80167C74_13;   /* temp_s2 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_14 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     u8 * unk_10;
-} S_80167C74_14;   /* temp_v0_4 in func_80167C74 */
+} S_80167C74_14;   /* temp_v0_4 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_15 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80167C74_15;   /* temp_a0_4 in func_80167C74 */
+} S_80167C74_15;   /* temp_a0_4 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_16 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80167C74_16;   /* temp_v1_7 in func_80167C74 */
+} S_80167C74_16;   /* temp_v1_7 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_17 {
     u8 pad_00[0x6];
@@ -122,13 +122,13 @@ typedef struct S_80167C74_17 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80167C74_17;   /* temp_a0_5 in func_80167C74 */
+} S_80167C74_17;   /* temp_a0_5 in dungeonUpdateTargetedRibbonTrail */
 
 typedef struct S_80167C74_18 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_80167C74_18;   /* var_a1_3 in func_80167C74 */
+} S_80167C74_18;   /* var_a1_3 in dungeonUpdateTargetedRibbonTrail */
 
 
 typedef struct {
@@ -142,8 +142,8 @@ void func_8003DB94();
 void func_800419EC();
 s32 func_8004491C();
 s32 func_800A56E0();
-void func_80165018();
-void func_80167A98();
+void dungeonCreateJitteredChildEffect();
+void dungeonCreateRibbonHeadSprite();
 extern u8 D_800DEAE0[];
 extern void D_80166D14();
 extern u8 D_80167C30[];
@@ -155,7 +155,7 @@ static __inline__ s16 clamp_narrow(s32 value)
 }
 
 /* Update trail motion, emit interpolated particles, and build fading trail segments. */
-void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
+void dungeonUpdateTargetedRibbonTrail(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
     u8 *motion_table;
     u8 *table_join;
     u8 *clamp_base;
@@ -277,7 +277,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
         phase_tick = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E + 1;
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
-            func_80167A98(effect_data, origin, color);
+            dungeonCreateRibbonHeadSprite(effect_data, origin, color);
             D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
             D_800814A8->unk_6A = (s16) (((u16)D_800814A8->facing) + 0x800);
             func_800419EC(6, 0xC, ((EntityRec *)D_800814A8));
@@ -411,7 +411,7 @@ copy_pairs:
             interp_z0 = ((S_80167C74_10 *)interp_row)->unk_1C;
             interp_x0 = ((S_80167C74_10 *)interp_row)->unk_18;
             interp_z1 = ((S_80167C74_10 *)interp_row)->unk_22;
-            func_80165018(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x),
+            dungeonCreateJitteredChildEffect(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x),
                 (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
             sum_z += delta_z;
             sum_y += delta_y;

@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern void func_8004E5A0(u32 value, s32 width, u8 *dst);
-extern u8 *func_8004E69C(u8 *text);
+extern u8 *remapFlaggedStringBytes(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_800B53BC(s32 value, const u8 *ptr, s32 value2, s32 value3,
                           s32 value4);
-extern u8 *func_800B544C(u8 *text, void *object);
+extern u8 *townFormatObjectValueMarker(u8 *text, void *object);
 
 extern s32 D_80089308[2];
 extern u8 D_80089310[];
@@ -14,14 +14,14 @@ extern u8 D_8008931C[];
 extern u8 D_80089324[];
 
 /* Format and display numeric stats and descriptive text. */
-void func_800B5774(void *stats, void *panels) {
+void townFormatAndDisplayEntityStats(void *stats, void *panels) {
     u8 digits[64];
     u8 text[64];
 
     memcpy(text, D_80089308, 5);
 
     func_8004E5A0(((u8 *)stats)[0x11], 2, digits);
-    func_8004E69C(digits);
+    remapFlaggedStringBytes(digits);
     strcat(text, digits);
     strcat(text, D_80089310);
     strcat(text, D_80089318);
@@ -37,5 +37,5 @@ void func_800B5774(void *stats, void *panels) {
     func_800B53BC(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
                   0xB8);
     func_800B53BC(*(s32 *)((u8 *)panels + 0x14),
-                  func_800B544C(text, stats), 0, 0x48, 0xC0);
+                  townFormatObjectValueMarker(text, stats), 0, 0x48, 0xC0);
 }

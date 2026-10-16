@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set record flags and negate each x coordinate when flag 4 is set. */
-void func_800B135C(u8 *record, s32 flags) {
+void dungeonSetRecordFlagsAndNegateX(u8 *record, s32 flags) {
     s32 record_flags = flags;
     u8 *record_x;
     flags &= 4;

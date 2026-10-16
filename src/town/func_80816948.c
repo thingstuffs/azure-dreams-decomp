@@ -39,7 +39,7 @@ extern void D_8002222C(void);
 
 
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */
-void func_80020948(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_param)
+void townCreatePairedVectorColorEffect(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_param)
 {
     Effect *effect;
     EffectSub *sub;

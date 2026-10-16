@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_80098928(void *, s32, s32);                            /* extern */
+void townInitializeRecordWithHandlerTable(void *, s32, s32);                            /* extern */
 
-/* Forward the state, value, and mode to func_80098928. */
-void func_80099874(void *state, s32 value, s32 mode) {
-    func_80098928(state, value, mode);
+/* Forward the state, value, and mode to townInitializeRecordWithHandlerTable. */
+void townForwardPlayerMotionState(void *state, s32 value, s32 mode) {
+    townInitializeRecordWithHandlerTable(state, value, mode);
 }

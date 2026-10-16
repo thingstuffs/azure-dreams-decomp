@@ -9,10 +9,10 @@ typedef struct DungeonWriteState {
     u8 *data;
 } DungeonWriteState;
 
-extern u8 *func_8009F9E8(s32 wanted_kind, s32 wanted_flag);
+extern u8 *dungeonFindMonsterSpecialEntry(s32 wanted_kind, s32 wanted_flag);
 
 /* Records an object action in the dungeon buffer, combining compatible entries. */
-void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte) {
+void dungeonAppendPackedActionRecord(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte) {
     u8 *object = object_ptr;
     DungeonWriteState *state = (DungeonWriteState *)0x80013710;
     u16 saved_action = action_code;
@@ -91,7 +91,7 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
     case 136:
         old_entry = entry;
         entry_tag = saved_action | kind;
-        entry = func_8009F9E8(entry_tag & 0xFF, (saved_payload & 1) << 5);
+        entry = dungeonFindMonsterSpecialEntry(entry_tag & 0xFF, (saved_payload & 1) << 5);
         flag_bit = (saved_payload & 1) << 5;
         if (old_entry != entry) {
             state->position--;

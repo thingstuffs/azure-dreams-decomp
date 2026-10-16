@@ -24,30 +24,30 @@ typedef struct S_80172480_0 {
     u8 pad_9C[0x14];
     u16 unk_B0;
     s16 unk_B2;
-} S_80172480_0;   /* arg0 in func_80172480 */
+} S_80172480_0;   /* arg0 in dungeonAdvanceTurnAnimationAndRestoreHeading */
 
 typedef struct S_80172480_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
     u16 unk_2A;
-} S_80172480_1;   /* arg3 in func_80172480 */
+} S_80172480_1;   /* arg3 in dungeonAdvanceTurnAnimationAndRestoreHeading */
 
 typedef struct S_80172480_2 {
     u8 pad_00[0x8];
     u16 unk_08;
     u8 pad_0A[0xBE];
     u16 unk_C8;
-} S_80172480_2;   /* base_83160 in func_80172480 */
+} S_80172480_2;   /* base_83160 in dungeonAdvanceTurnAnimationAndRestoreHeading */
 
 
 typedef struct S_80172480_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
-} S_80172480_4;   /* D_800E3D7C[0] in func_80172480 */
+} S_80172480_4;   /* D_800E3D7C[0] in dungeonAdvanceTurnAnimationAndRestoreHeading */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
+void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
     S_80172480_1 *transform = transform_in;
     s32 heading;
     u8 phase;

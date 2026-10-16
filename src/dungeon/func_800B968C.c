@@ -6,22 +6,22 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 func_8008D344();
-extern s32 func_8008D368();
-extern s32 func_80098864(u8 *, s32);
-extern s32 func_80098B38();
+extern s32 dungeonBeginModeSelectedItemAction();
+extern s32 dungeonBeginParameterizedActorAction();
+extern s32 dungeonProcessRecordAndUpdateLinkedState(u8 *, s32);
+extern s32 dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099290();
-extern s32 func_80099368();
-extern s32 func_8009955C();
+extern s32 dungeonAppendTypedFormattedValue();
+extern s32 dungeonApplyTypeBasedEntryAdjustments();
 extern s32 func_800997FC();
-extern s32 func_800998C0();
-extern s32 func_80099978();
+extern s32 dungeonCopyFullwidthVowelBytes();
+extern s32 dungeonAppendValueSevenSuffix();
 extern s32 func_800A5720();
 extern s32 func_800A5F38();
 extern s32 func_800A6480();
-extern s32 func_800AD6FC();
+extern s32 dungeonApplyActorFoodPreference();
 
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
@@ -31,7 +31,7 @@ extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
-s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
+s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
     u8 *actor;
     s32 text_target;
     register s32 text_cursor;
@@ -40,7 +40,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
 
 
     if (effect_type == 0xD) {
-        return func_80098864(item, effect_value);
+        return dungeonProcessRecordAndUpdateLinkedState(item, effect_value);
     }
 
     actor = ((u8 *)D_800E3D7C);
@@ -49,7 +49,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
         s32 result;
 
         *(u8 **)(actor + 0x110) = item;
-        func_8008D344(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        dungeonBeginModeSelectedItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         item_flags = item[3];
         result = 0;
         item[3] = item_flags & 0xDF;
@@ -58,12 +58,12 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
 
     if (target_addr <= 0x9FFFFFFF) {
         func_800A6480(target_addr, item, effect_type);
-        if (func_800AD6FC(target_addr, D_800DDE84[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
+        if (dungeonApplyActorFoodPreference(target_addr, D_800DDE84[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
             func_800A5F38(target_addr, item);
             return 1;
         }
         dungeonStatus.unk_0A--;
-        func_80098B38(item);
+        dungeonClearSlotAndUpdateLinkedState(item);
         return 1;
     }
 
@@ -74,7 +74,7 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
             register s32 result;
 
             ((EntityRec *)actor)->unk_114 = 0x802020;
-            func_8008D368(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
+            dungeonBeginParameterizedActorAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;
             item[3] = item_flags | 0x20;
@@ -89,23 +89,23 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
                 s32 next_cursor;
 
                 text_start = func_800990FC();
-                text_cursor = func_8009955C(linked_item, text_start);
+                text_cursor = dungeonApplyTypeBasedEntryAdjustments(linked_item, text_start);
                 if (*(s8 *)(linked_item + 2) < 0x63) {
                     linked_item[2] = linked_item[2] + 1;
                 }
-                text_cursor = func_80099978(func_80099194(D_800E118C, text_cursor));
+                text_cursor = dungeonAppendValueSevenSuffix(func_80099194(D_800E118C, text_cursor));
                 next_cursor = func_80099194(D_8008936C, text_cursor);
                 text_target = text_cursor - 2;
                 text_cursor = next_cursor;
-                next_cursor = func_80099368(linked_item, text_cursor);
+                next_cursor = dungeonAppendTypedFormattedValue(linked_item, text_cursor);
                 message_end = text_cursor;
                 text_cursor = next_cursor;
-                func_800998C0(text_target, message_end);
+                dungeonCopyFullwidthVowelBytes(text_target, message_end);
                 func_80099290(func_80099194(D_80089370, text_cursor));
             } else {
                 text_start = func_800990FC();
 
-                text_end = func_80099368(linked_item, text_start);
+                text_end = dungeonAppendTypedFormattedValue(linked_item, text_start);
                 func_80099290(func_80099194(D_800E11AB, text_end));
             }
         }
@@ -114,6 +114,6 @@ s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) 
         func_800997FC(D_800E11D7, effect_value, effect_type);
     }
     dungeonStatus.unk_0A--;
-    func_80098B38(item);
+    dungeonClearSlotAndUpdateLinkedState(item);
     return 1;
 }

@@ -11,8 +11,8 @@ extern unsigned char D_80023000[0x10];
 /* <=8B global -> $gp small-data STORE, but its address-of must stay %hi/%lo. */
 extern void *D_8008152C;
 
-extern void func_800479D4(void *a0, void *a1, unsigned short a2);
-extern void func_8003F320(void);
+extern void queueEntityResourceDescriptorPair(void *a0, void *a1, unsigned short a2);
+extern void drainCdCommandQueue(void);
 extern void *func_80047AB0(void *a0, unsigned short a1, int a2, int a3, void *a4);
 
 /* Loads image data by resource ID, uploads its tiles, and returns the global object slot. */
@@ -42,13 +42,13 @@ extern u8 D_80016000[0x10];
    a pointer value published by the sibling wrappers. */
 extern void *D_8008152C;
 
-extern void func_80046F88(void *a0);
-extern void func_80047054(void *a0, u16 a1, u16 a2, u16 a3);
+extern void relocateSpriteMetadataPointers(void *a0);
+extern void patchSpritePacketTextureAndPaletteIds(void *a0, u16 a1, u16 a2, u16 a3);
 
 /* Advances the effect state, applies a fixed effect, and publishes the state pointer. */
 
 void *func_80047D44(int resource_id);
-void func_80047DF0(void);
+void runtimeNoOpCallback(void);
 void advanceEffectState(void);
 
 #endif

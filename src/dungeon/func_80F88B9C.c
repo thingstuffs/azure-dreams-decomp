@@ -4,16 +4,16 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 func_800AB1C0();
-extern s32 func_800AD9B4();
+extern s32 dungeonUpdateActorMovementToTile();
+extern s32 dungeonCheckActorFloorTrap();
 
 /* Select the bank actor callback when the resident checks succeed. */
-void func_8017239C(BankActorState *state, s32 unused, SpriteFrameState *source, EntityRec *target) {
-    if (func_800AB1C0() != 0) {
-        func_800AD594(target, 4);
-        func_800A4ACC(target);
-        if ((func_800AD9B4(source, target) << 16) > 0) {
-            state->callback = func_80171138;
+void dungeonSelectBankResidentCallback(BankActorState *state, s32 unused, SpriteFrameState *source, EntityRec *target) {
+    if (dungeonUpdateActorMovementToTile() != 0) {
+        dungeonReduceActorFoodMeter(target, 4);
+        dungeonAdvanceStatusTimers(target);
+        if ((dungeonCheckActorFloorTrap(source, target) << 16) > 0) {
+            state->callback = dungeonUpdateBankActorState;
             if (dungeonStatus.flags & 0x80) {
                 state->unk_92 = -0x20;
             }

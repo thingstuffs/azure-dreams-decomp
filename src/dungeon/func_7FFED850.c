@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index) {
+s32 townInstallResourceDescriptorAtFront(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index) {
     s32 entry = entry_index;
     u32 *resource;
     s32 alloc_size;
@@ -10,14 +10,14 @@ s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 en
     register s32 capacity;
     s32 used_bytes;
 
-    resource = func_8008AF2C(resource_kind, resource_group, resource_id);
+    resource = townFindPackedResourceDescriptor(resource_kind, resource_group, resource_id);
     block_count = 0;
     if (resource == NULL)
         return block_count;
 
     block_count = (u32) *resource >> 0xB;
     alloc_size = (block_count + 1) << 0xB;
-    used_bytes = func_8008ACE8(entry);
+    used_bytes = townSumResourceBytes(entry);
     capacity = 0x8000;
     free_bytes = capacity - used_bytes;
     if (alloc_size > 0x7FFF) {
@@ -36,7 +36,7 @@ s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 en
             func_8008AC84(entry);
         }
     }
-    func_8008AD90(entry, alloc_size);
+    townShiftResourceEntriesAndData(entry, alloc_size);
     func_8008AC84(entry + 1);
     D_800CF720[0].field_0 = resource_kind;
     ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = resource_group;

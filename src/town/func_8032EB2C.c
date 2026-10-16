@@ -4,7 +4,7 @@
 
 
 /* Count entries in the zero-terminated table. */
-s32 func_8001932C(void) {
+s32 townCountShopEntries(void) {
     s32 *entry;
     s32 count;
     TownStateRecord *table;

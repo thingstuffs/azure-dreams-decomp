@@ -17,6 +17,7 @@ import glob, os, re, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+from source_layout import source_items as layout_source_items
 from pin_census import sites_of
 from pin_sites import erase_many
 
@@ -38,7 +39,7 @@ def defs():
     global _DEFS
     if _DEFS is None:
         seen = {}
-        for f in glob.glob(str(ROOT / "src/*/*.c")):
+        for _, f in layout_source_items(ROOT):
             for m in DEF.finditer(open(f, errors="replace").read()):
                 p = m.group(2).strip()
                 seen.setdefault(m.group(1), set()).add("" if p == "void" else p)

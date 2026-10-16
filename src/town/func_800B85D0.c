@@ -10,7 +10,7 @@ extern s32 D_800D1790[2];
 extern s32 func_800A652C(void);
 
 /* Returns the global in mode 1, otherwise calls the default handler. */
-s32 func_800B5D30(void) {
+s32 townGetModeSpecificValue(void) {
     if (D_80082E60.mode != 1) {
         return func_800A652C();
     }

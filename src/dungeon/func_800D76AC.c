@@ -5,7 +5,7 @@ extern void func_8004B1A4(s32 object);
 extern s32 D_800E5910[];
 
 /* Process the object handle, clear the global state, and set the high flag bits. */
-void func_800DCE0C(void *object)
+void dungeonProcessObjectAndSetFlags(void *object)
 {
     func_8004B1A4(*(s32 *)((u8 *)object + 0x5C));
     D_800E5910[0] = 0;

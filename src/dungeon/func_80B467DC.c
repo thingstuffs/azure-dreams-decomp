@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-s32 func_80173FDC(u8 *node, s32 next_node, s32 callback_arg2)
+s32 dungeonBuildLinkedCurvedWireframeGrid(u8 *node, s32 next_node, s32 callback_arg2)
 {
     R12_80173FDC_Frame frame;
     u8 *effect;
@@ -88,7 +88,7 @@ grid_loop:
         (frame.desc).count = 0x40;
         (frame.desc).header = *(R12_80173FDC_Header8 *)effect;
         (frame.desc).one = 1;
-        func_800DBA90(&(frame.desc));
+        dungeonTransformRotatedVertices(&(frame.desc));
 
         {
             u8 *vertex_depth;

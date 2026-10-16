@@ -13,15 +13,15 @@ typedef struct S_8004FAA4_1 {
     s32 unk_30;
     u8 pad_34[0x4];
     s32 unk_38;
-} S_8004FAA4_1;   /* arg0 in func_8004FAA4 */
+} S_8004FAA4_1;   /* arg0 in handleAnimatedSelectionMenuInput */
 
 
-M2C_UNK func_8004FA2C();
-s32 func_8004FD78();
+M2C_UNK beginSelectionMenuIndexChange();
+s32 findResolvedSelectionMenuIndex();
 M2C_UNK SD_Call();
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
-void func_8004FAA4(S_8004FAA4_1 *menu) {
+void handleAnimatedSelectionMenuInput(S_8004FAA4_1 *menu) {
     GameWork *input;
     s32 next_index;
     s32 repeat_ticks;
@@ -60,13 +60,13 @@ void func_8004FAA4(S_8004FAA4_1 *menu) {
         if (index_delta == 0) {
             if (((s32)input->unk_010) & 1) {
                 if (((s32)D_800814A8->unk_B0) != 0) {
-                    next_index = func_8004FD78(menu, 1);
+                    next_index = findResolvedSelectionMenuIndex(menu, 1);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
             } else if (((s32)input->unk_010) & 2) {
                 if (((s32)D_800814A8->unk_AC) != 0) {
-                    next_index = func_8004FD78(menu, 0);
+                    next_index = findResolvedSelectionMenuIndex(menu, 0);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
@@ -74,7 +74,7 @@ void func_8004FAA4(S_8004FAA4_1 *menu) {
         }
         if (index_delta != 0) {
             SD_Call(0x504);
-            func_8004FA2C(menu, index_delta);
+            beginSelectionMenuIndexChange(menu, index_delta);
         }
     }
 }

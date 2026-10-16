@@ -26,12 +26,12 @@ typedef struct S_818C29D4_0 {
     u32 * unk_18;
     u8 pad_1C[0x98];
     u32 unk_B4;
-} S_818C29D4_0;   /* (sc) in func_818C29D4 */
+} S_818C29D4_0;   /* (sc) in dungeonDrawShadedTexturedQuad */
 
 typedef struct S_818C29D4_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_818C29D4_1;   /* angle_addr in func_818C29D4 */
+} S_818C29D4_1;   /* angle_addr in dungeonDrawShadedTexturedQuad */
 
 typedef struct S_818C29D4_2 {
     u8 pad_00[0x18];
@@ -63,7 +63,7 @@ typedef struct S_818C29D4_2 {
     u16 unk_E2;
     u16 unk_E4;
     u16 unk_E6;
-} S_818C29D4_2;   /* scratch in func_818C29D4 */
+} S_818C29D4_2;   /* scratch in dungeonDrawShadedTexturedQuad */
 
 
 typedef struct S_818C29D4_4 {
@@ -73,7 +73,7 @@ typedef struct S_818C29D4_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818C29D4_4;   /* arg1 in func_818C29D4 */
+} S_818C29D4_4;   /* arg1 in dungeonDrawShadedTexturedQuad */
 
 typedef struct S_818C29D4_5 {
     u8 pad_00[0x3];
@@ -90,7 +90,7 @@ typedef struct S_818C29D4_5 {
     u8 pad_24[0x8];
     u16 unk_2C;
     u16 unk_2E;
-} S_818C29D4_5;   /* poly in func_818C29D4 */
+} S_818C29D4_5;   /* poly in dungeonDrawShadedTexturedQuad */
 
 typedef struct S_818C29D4_6 {
     u8 pad_00[0x4];
@@ -98,15 +98,15 @@ typedef struct S_818C29D4_6 {
     u8 pad_06[0x2];
     u16 unk_08;
     u8 unk_0A;
-} S_818C29D4_6;   /* arg0 in func_818C29D4 */
+} S_818C29D4_6;   /* arg0 in dungeonDrawShadedTexturedQuad */
 
 typedef struct S_818C29D4_7 {
     u8 pad_00[0x8D0];
     union { Poly818C29D4 * p; u8 * p2; } unk_8D0;   /* accessed as both */
-} S_818C29D4_7;   /* ((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8 in func_818C29D4 */
+} S_818C29D4_7;   /* ((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8 in dungeonDrawShadedTexturedQuad */
 
 /* Builds and queues a shaded textured quad with texture-window commands. */
-s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
+s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
 {
     u8 *scratch = (u8 *)0x1F800000;
     s32 angle;

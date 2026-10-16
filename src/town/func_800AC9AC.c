@@ -56,8 +56,8 @@ extern void func_80066640(void *, s32);
 extern void func_80066844(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 extern s32 rand(void);
-extern void func_800A1330(void *, void *);
-extern void func_800A2DF0(void *, void *);
+extern void townCopyMenuVectorHalfwords(void *, void *);
+extern void townAddEntityPositionToMenuVector(void *, void *);
 extern void func_800AA068(void *, void *, void *);
 
 /* Transform and queue mesh quads with randomized vertex colors. */
@@ -114,10 +114,10 @@ void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
             func_80066844(quad);
             func_80066640(quad, 1);
 
-            func_800A1330(vertex_0, vertices + (quad_indices[0] * 8));
-            func_800A1330(vertex_1, vertices + (quad_indices[1] * 8));
-            func_800A1330(vertex_2, vertices + (quad_indices[2] * 8));
-            func_800A1330(vertex_3, vertices + (quad_indices[3] * 8));
+            townCopyMenuVectorHalfwords(vertex_0, vertices + (quad_indices[0] * 8));
+            townCopyMenuVectorHalfwords(vertex_1, vertices + (quad_indices[1] * 8));
+            townCopyMenuVectorHalfwords(vertex_2, vertices + (quad_indices[2] * 8));
+            townCopyMenuVectorHalfwords(vertex_3, vertices + (quad_indices[3] * 8));
 
             func_800649A0();
             func_800AA068(mesh, vertex_0, vertex_work);
@@ -126,10 +126,10 @@ void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
             func_800AA068(mesh, vertex_3, vertex_work);
             func_80064A40();
 
-            func_800A2DF0(vertex_0, transform);
-            func_800A2DF0(vertex_1, transform);
-            func_800A2DF0(vertex_2, transform);
-            func_800A2DF0(vertex_3, transform);
+            townAddEntityPositionToMenuVector(vertex_0, transform);
+            townAddEntityPositionToMenuVector(vertex_1, transform);
+            townAddEntityPositionToMenuVector(vertex_2, transform);
+            townAddEntityPositionToMenuVector(vertex_3, transform);
 
             scratch->unk_C4 = func_800654B0(
                 vertex_0, vertex_1, vertex_2, vertex_3,

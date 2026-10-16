@@ -29,7 +29,7 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
     spawn_x = x;
     spawn_y = y;
     spawn_z = z;
-    if (func_8003FA44(9) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(9) == 0) {
         return prev_entity;
     }
 
@@ -45,7 +45,7 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             prev_object = (ovl_19a332c_81984754_Object *)((u8 *)(&D_80083498));
         }
         *object_slot = func_8003FD64(2, prev_object);
-        (*object_slot)->state = (void (*)(void *))(void *)func_80024DAC;
+        (*object_slot)->state = (void (*)(void *))(void *)dungeonUpdateHomingEffectAndAttachedCopies;
         func_8004491C(*object_slot, func_800C9034);
 
         pos = (*object_slot)->pos;
@@ -87,7 +87,7 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             prev_entity->next = *object_slot;
         }
 
-        target_angle = func_800A07D0(pos->x, pos->y,
+        target_angle = dungeonForwardMonsterCoordinateDelta(pos->x, pos->y,
                               target_pos->x.w.i,
                               target_pos->y.w.i);
 
@@ -127,8 +127,8 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             history_index--;
         } while (history_index >= 0);
 
-        func_800262B0(part, 0);
-        func_80026240(entity, part->unk0);
+        inventorySelectEntryAndResetObject(part, 0);
+        inventoryCopyAndSignExtendRecordFields(entity, part->unk0);
         prev_entity = entity;
         object_slot++;
         object_index++;

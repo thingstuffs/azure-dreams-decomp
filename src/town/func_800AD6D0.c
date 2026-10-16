@@ -10,17 +10,17 @@ typedef struct S_800AAE30_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800AAE30_0;   /* arg2 in func_800AAE30 */
+} S_800AAE30_0;   /* arg2 in townInitializePersonVector */
 
 typedef struct S_800AAE30_1 {
     u8 pad_00[0x50];
     M2C_UNK * unk_50;
     u8 pad_54[0x1E];
     s16 unk_72;
-} S_800AAE30_1;   /* arg0 in func_800AAE30 */
+} S_800AAE30_1;   /* arg0 in townInitializePersonVector */
 
 /* Initialize a vector from the object's angle and assign its data pointer. */
-void func_800AAE30(S_800AAE30_1 *object, void *unusedContext, S_800AAE30_0 *outputVector) {
+void townInitializePersonVector(S_800AAE30_1 *object, void *unusedContext, S_800AAE30_0 *outputVector) {
     outputVector->unk_0C = (s32) (func_80064584(object->unk_72) << 8);
     outputVector->unk_10 = (s32) ((0 - func_800644B8(object->unk_72)) << 8);
     outputVector->unk_14 = 0;

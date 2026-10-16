@@ -10,10 +10,10 @@ typedef struct {
 } StreamCommand;
 
 
-extern void func_8003E140(u8 *);
+extern void setByteOne(u8 *);
 extern s32 Control_CD(s32, void *, void *);
 extern u8 *func_8004068C(u8 *, u8 *);
-extern void func_8003F80C(s32, s32, s32, s32);
+extern void uploadVramRowAndCache(s32, s32, s32, s32);
 extern s32 DrawSync(s32);
 extern s32 LoadImage(void *, void *);
 extern void *memcpy(void *, const void *, u32);
@@ -47,7 +47,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     if (execute == 0) {
         Control_CD(6, input, 0);
         *(u8 *)cmd = 0;
-        Control_CD(0xFF, func_8003E140, cmd);
+        Control_CD(0xFF, setByteOne, cmd);
         return;
     }
 
@@ -143,7 +143,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         item_idx = (u32)item_count << 16;
         flags = item_idx >> 16;
     call_tile:
-        func_8003F80C(src_addr, vram_offset, tile_count, flags);
+        uploadVramRowAndCache(src_addr, vram_offset, tile_count, flags);
         DrawSync(0);
         goto advance;
 

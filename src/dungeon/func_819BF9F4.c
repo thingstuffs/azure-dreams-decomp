@@ -54,14 +54,14 @@ typedef struct S_800251F4_0 {
     s32 unk_84;
     u8 pad_88[0x8];
     s32 unk_90;
-} S_800251F4_0;   /* work in func_800251F4 */
+} S_800251F4_0;   /* work in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct S_800251F4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800251F4_1;   /* object in func_800251F4 */
+} S_800251F4_1;   /* object in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct S_800251F4_2 {
     u8 pad_00[0xC];
@@ -77,22 +77,22 @@ typedef struct S_800251F4_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800251F4_2;   /* sub in func_800251F4 */
+} S_800251F4_2;   /* sub in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct S_800251F4_3 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_800251F4_3;   /* data_first in func_800251F4 */
+} S_800251F4_3;   /* data_first in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct S_800251F4_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800251F4_4;   /* data_second in func_800251F4 */
+} S_800251F4_4;   /* data_second in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct S_800251F4_5 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800251F4_5;   /* ((S_800251F4_1 *)object)->unk_08 in func_800251F4 */
+} S_800251F4_5;   /* ((S_800251F4_1 *)object)->unk_08 in dungeonSpawnRandomizedTexturedParticles */
 
 typedef struct {
     s16 x;
@@ -110,7 +110,7 @@ extern s32 func_80069EF8(void);
 extern M2C_UNK D_800DE870;
 
 /* Spawns four textured particles with randomized positions, motion, and rotation. */
-void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
+void dungeonSpawnRandomizedTexturedParticles(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 {
     s32 saved_x;
     s16 iteration;
@@ -146,7 +146,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
             ((S_800251F4_0 *)particle_work)->unk_2C = func_80069EF8() & 1;
             ((S_800251F4_1 *)particle)->unk_10 = (void *)func_80025088;
-            func_8004491C(particle, (s32)func_80025034);
+            func_8004491C(particle, (s32)dungeonDrawLinkedMeshes);
 
             transform = ((S_800251F4_1 *)particle)->unk_0C;
             ((S_800251F4_2 *)transform)->unk_10 = 0x20;

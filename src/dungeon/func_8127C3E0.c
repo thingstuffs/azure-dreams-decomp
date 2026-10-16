@@ -98,7 +98,7 @@ extern s16 func_80099330(s32, s32, s32, s16);
 extern s16 func_8009EB6C(s32, s32, s32, s32);
 extern void func_8009FB34(void *, s8, void *, void *);
 extern s16 func_800996B0(s16, void *, void *, s32);
-extern void func_800991C0(s32, s32, s32);
+extern void townInitializeIndexedObjectAndLookupValue(s32, s32, s32);
 extern void func_8009900C(s32, s32, s32);
 extern s16 func_80098F70(void *, void *);
 extern s16 func_800BB784(s32, s32, s16);
@@ -287,7 +287,7 @@ void func_8127C3E0(void *move_state_arg, void *action_context, void *position_ar
                 ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v;
             ((S_8127C3E0_1 *)actor_arg)->unk_71.u++;
 
-            func_800991C0(
+            townInitializeIndexedObjectAndLookupValue(
                 ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
                 (((S_8127C3E0_1 *)actor_arg)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 

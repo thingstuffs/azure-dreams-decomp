@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern s32 func_800A2B04();
+extern s32 dungeonSetRecordIntegerTileCenter();
 
 /* Follows the linked position until the countdown expires, then resets and marks completion. */
-s32 func_800AB378(void *state, void *transform, void *config, void *object) {
+s32 dungeonUpdateLinkedActorMotion(void *state, void *transform, void *config, void *object) {
     s16 ticks_left;
     void *linked_transform;
 
@@ -24,7 +24,7 @@ s32 func_800AB378(void *state, void *transform, void *config, void *object) {
     *(s32 *)((u8 *)transform + 0x14) = 0;
     *(s32 *)((u8 *)transform + 0x10) = 0;
     *(s32 *)((u8 *)transform + 0xC) = 0;
-    func_800A2B04(transform, *((u8 *)config + 0x24), *((u8 *)config + 0x25));
+    dungeonSetRecordIntegerTileCenter(transform, *((u8 *)config + 0x24), *((u8 *)config + 0x25));
     *(u16 *)((u8 *)state + 0x98) &= 0xFFF7;
     *(s32 *)((u8 *)object + 0x1C) |= 0x40000000;
     dungeonStatus.unk_0A -= 1;

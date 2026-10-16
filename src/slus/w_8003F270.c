@@ -3,7 +3,7 @@
 extern u8 D_800814D1;
 
 /* Returns the difference between adjacent byte indices with wraparound at 32. */
-s32 func_8003F270(void)
+s32 getCdCommandQueueDepth(void)
 {
     u8 *index_ptr = &D_800814D1;
     u32 current_index = D_800814D1;

@@ -12,7 +12,7 @@ typedef s32 (*Callback)(u32);
 extern ValueTable D_80019158;
 
 // Returns the table value selected by the callback invoked with zero.
-s32 func_80468280(void)
+s32 func_80019280(void)
 {
     ValueTable valueTable = D_80019158;
     void *callbackTable = *(void **)((u8 *)D_80016000 + 0x20);

@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
+void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
 {
     s16 timer;
     s32 direction;
@@ -9,7 +9,7 @@ void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_8
     direction = (entity->unk_6A >> 9) & 7;
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 18;
         motion->unk_10 =
@@ -20,7 +20,7 @@ void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, ((u8 *)D_8017586C));
+            dungeonBeginActorDisplayAction(action, motion, tile_state, ((u8 *)D_8017586C));
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -56,7 +56,7 @@ void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, ((u8 *)D_8017588C));
+            dungeonBeginActorDisplayAction(action, motion, tile_state, ((u8 *)D_8017588C));
             return;
         }
         action->unk_96.s = 8;
@@ -88,7 +88,7 @@ void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_8
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile_state->unk_24, tile_state->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24, tile_state->unk_25);
 
         tracked_entity = ((s32)dungeonStatus.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {

@@ -13,7 +13,7 @@ typedef struct {
 extern void func_800478B8(void *result);
 
 /* Advances the position and propagates flags from the processed result. */
-void func_800268DC(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
+void townAdvanceParticleUntilAnimationBoundary(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
 {
     s32 delta_y;
     s32 delta_z;

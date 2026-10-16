@@ -5,7 +5,7 @@
 extern u8 D_8002E950[];
 
 /* Set 17 objects' data pointers using table-selected groups and 12-byte entries. */
-void func_80050A58(s32 *objects, s32 *group_bases)
+void slusInitializeSeventeenObjectPointers(s32 *objects, s32 *group_bases)
 {
     s32 object_index;
     u32 entry_index;

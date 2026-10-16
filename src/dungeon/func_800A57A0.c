@@ -19,14 +19,14 @@ typedef struct S_800AAF00_0 {
     u8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_800AAF00_0;   /* obj in func_800AAF00 */
+} S_800AAF00_0;   /* obj in dungeonBeginActorSpellAction */
 
 typedef struct S_800AAF00_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_800AAF00_1;   /* state in func_800AAF00 */
+} S_800AAF00_1;   /* state in dungeonBeginActorSpellAction */
 
 typedef struct S_800AAF00_2 {
     u8 pad_00[0x98];
@@ -35,7 +35,7 @@ typedef struct S_800AAF00_2 {
     u16 unk_A6;
     u8 pad_A8[0x74];
     void * unk_11C;
-} S_800AAF00_2;   /* D_800E3D7C in func_800AAF00 */
+} S_800AAF00_2;   /* D_800E3D7C in dungeonBeginActorSpellAction */
 
 typedef struct S_800AAF00_3 {
     u8 pad_00[0x8C];
@@ -43,7 +43,7 @@ typedef struct S_800AAF00_3 {
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 unk_9B;
-} S_800AAF00_3;   /* owner in func_800AAF00 */
+} S_800AAF00_3;   /* owner in dungeonBeginActorSpellAction */
 
 typedef struct S_800AAF00_4 {
     u8 pad_00[0x14];
@@ -51,24 +51,24 @@ typedef struct S_800AAF00_4 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800AAF00_4;   /* other in func_800AAF00 */
+} S_800AAF00_4;   /* other in dungeonBeginActorSpellAction */
 
 typedef struct S_800AAF00_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AAF00_5;   /* state2 in func_800AAF00 */
+} S_800AAF00_5;   /* state2 in dungeonBeginActorSpellAction */
 
 
 extern s32 func_80047784();
-extern s32 func_800A05A4();
+extern s32 dungeonScanMonsterAlongHeading();
 extern s32 func_800A2B5C();
-extern void func_800A4ACC();
+extern void dungeonAdvanceStatusTimers();
 extern s32 func_800A6D30();
-extern void func_800C77D0();
+extern void dungeonSelectNearbyTargetAndInitializeSlot();
 
 
 /* Updates the object action state and applies direction data to its target. */
-void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
+void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
     void *object;
     s32 special_action;
     u8 *slot_data;
@@ -94,7 +94,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
                 dungeonStatus.unk_0A++;
             } else {
-                func_800A4ACC(object);
+                dungeonAdvanceStatusTimers(object);
                 ((S_800AAF00_0 *)object)->unk_6D--;
                 ((S_800AAF00_3 *)actor)->unk_8C = next_state;
 
@@ -104,7 +104,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
             if ((input_flags & 8) || ((func_800A2B5C(object) << 16) != 0)) {
                 return;
             }
-            func_800C77D0((u8 *)object - 0x20, effect_param, 8, 0x300);
+            dungeonSelectNearbyTargetAndInitializeSlot((u8 *)object - 0x20, effect_param, 8, 0x300);
             if ((func_800A2B5C(object) << 16) != 0) {
                 return;
             }
@@ -133,7 +133,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
                 type_index = slot_data[8];
                 type_data = type_table + type_index * 20;
                 if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
-                    ((S_800AAF00_0 *)object)->unk_60 = func_800A05A4(
+                    ((S_800AAF00_0 *)object)->unk_60 = dungeonScanMonsterAlongHeading(
                         object,
                         ((S_800AAF00_4 *)target)->unk_24,
                         ((S_800AAF00_4 *)target)->unk_25,

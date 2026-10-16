@@ -65,10 +65,10 @@ typedef struct S_8052EA14_0 {
     u32 unk_00;
     u32 unk_04;
     u16 unk_08;
-} S_8052EA14_0;   /* record in func_8052EA14 */
+} S_8052EA14_0;   /* record in townAdvanceShopItemPanel */
 
 /* Per-frame shop-panel step: advance the panel's mode machine and spawn its sparkle particles. */
-void func_8052EA14(Func80813E14Object *object,
+void townAdvanceShopItemPanel(Func80813E14Object *object,
                    Func80813E14State *state,
                    Func80813E14Input *input)
 {

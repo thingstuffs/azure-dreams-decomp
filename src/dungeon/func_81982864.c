@@ -19,8 +19,8 @@ void func_80024064(void *transition) {
     case 0:
         setup_args.first = 0x010003A0;
         setup_args.second = 0x400020;
-        func_80040490(&D_80027750, &setup_args);
-        func_8003F80C(&D_80027C74, 0x7AC0, 1, 2);
+        decodeAndUploadImage(&D_80027750, &setup_args);
+        uploadVramRowAndCache(&D_80027C74, 0x7AC0, 1, 2);
         D_80027C94 = 1;
         transition_kind = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_09;
         active_state = (*(void * *)&((EntityRec *)((int *)(&D_800814A8)))->x);
@@ -30,7 +30,7 @@ void func_80024064(void *transition) {
         ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_F4 = 0;
         D_80027C98 = source_data;
         ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_A8 = (u8) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_08;
-        func_800263F0(active_state);
+        inventoryClearCircularListFlag2000(active_state);
         ((ovl_19a332c_81982864_S_80024064_6 *)((*(void **)((u8 *)((int *)(&D_800814A8)) + 0))))->unk_96 = 0x14;
         ((ovl_19a332c_81982864_S_80024064_7 *)((*(void * *)&((EntityRec *)((int *)(&D_800814A8)))->x)))->unk_102 = 1;
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s = (s16) ((u16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s + 1);
@@ -39,7 +39,7 @@ void func_80024064(void *transition) {
             break;
         }
         transition_data = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_00;
-        result_or_state = func_800244EC(((ovl_19a332c_81982864_S_80024064_3_pre *)transition_data)[-1].unk_00, transition_data);
+        result_or_state = dungeonAllocateTwoPartObject(((ovl_19a332c_81982864_S_80024064_3_pre *)transition_data)[-1].unk_00, transition_data);
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0C = result_or_state;
         if (result_or_state == 0) {
             break;

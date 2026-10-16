@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p03.h"
 
 /* Fade the entity sprite, then remove the entity and update its tile flags. */
-void func_80173450(void *action, void *unused, void *sprite, void *entity)
+void fadeAndRemoveEntitySprite(void *action, void *unused, void *sprite, void *entity)
 {
     s32 state;
     s32 entity_flags;
@@ -23,7 +23,7 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
         entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
-                func_800ACF88(entity);
+                dungeonAnnounceFamiliarDefeat(entity);
             }
         }
         func_800A56E0(0x805);

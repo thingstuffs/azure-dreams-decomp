@@ -28,8 +28,8 @@ typedef struct Obj {
     s32 arg;
 } Obj;
 
-extern s16 func_800BCAD0(void *);
-extern void func_80025340(Obj *);
+extern s16 dungeonGetSurfaceHeightAtRecord(void *);
+extern void dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(Obj *);
 extern u8 D_80025940[];
 extern void *D_80026208;
 
@@ -56,7 +56,7 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         motion->x2 = motion->x1;
         motion->y1 = start_pos[1];
         motion->y2 = motion->y1;
-        height = func_800BCAD0(start_pos);
+        height = dungeonGetSurfaceHeightAtRecord(start_pos);
         if (height >= 0x201) {
             z_value = start_pos[2];
         } else {
@@ -66,7 +66,7 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         motion->z2 = z_value;
         motion->x0 = end_pos[0];
         motion->y0 = end_pos[1];
-        height = func_800BCAD0(end_pos);
+        height = dungeonGetSurfaceHeightAtRecord(end_pos);
         if (height >= 0x201) {
             motion->z0 = start_pos[2];
         } else {
@@ -80,6 +80,6 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         step_y = (end_pos[1] - start_pos[1]) / 12;
         motion->unk48 = step_z;
         motion->unk44 = step_y;
-        func_80025340(obj);
+        dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(obj);
     }
 }

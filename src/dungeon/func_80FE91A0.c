@@ -116,16 +116,16 @@ typedef struct DungeonActionCounters {
     s32 pending;
 } DungeonActionCounters;
 
-extern s32 func_8003F270(void);
+extern s32 getCdCommandQueueDepth(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
-extern void func_800DA840(void *, s16);
+extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
+extern void dungeonCreateTwoRowObjectGroup(void *, s16);
 
 extern u8 D_800D7960[];
 extern u8 D_80164838[16];
@@ -134,7 +134,7 @@ extern u8 D_80168038[];
 extern u8 D_80168078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
-void func_801669A0(ActionState *actor, VecData *motion, ActorSprite *sprite, CreatureState *actor_data)
+void dungeonUpdateOverlayItemUse(ActionState *actor, VecData *motion, ActorSprite *sprite, CreatureState *actor_data)
 {
     s16 use_player = 0;
     EffectObject *effect = 0;
@@ -224,7 +224,7 @@ void func_801669A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
                         s32 abs_x;
                         s32 abs_y;
 
-                        target = func_800A05A4(
+                        target = dungeonScanMonsterAlongHeading(
                             actor_data,
                             sprite->tileX,
                             sprite->tileY,
@@ -288,24 +288,24 @@ void func_801669A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
                 direction = ((gameWork.view.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7;
                 func_80047784(effect_sprite, animations[direction], 0);
             }
-            if (func_800A94A0(actor_data, item_slot, use_player,
+            if (dungeonCreateActorSpellEffect(actor_data, item_slot, use_player,
                               &actor->flags) == 0) {
                 return;
             }
             actor->flags &= 0xDFFF;
             sprite->flags &= 0xF7FF;
             func_800A56E0(0x703);
-            func_800DA840(&sound_pos, (*item_slot - 1) % 3);
+            dungeonCreateTwoRowObjectGroup(&sound_pos, (*item_slot - 1) % 3);
             actor->phase++;
             return;
         }
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, sprite->tileX, sprite->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tileX, sprite->tileY);
         dungeonStatus.unk_0C = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
-        func_800A4ACC(actor_data);
+        dungeonAdvanceStatusTimers(actor_data);
         actor_data->actionsLeft.u--;
         actor->handler = &D_80164EA8;
         actor_data->targetY.u = 0;
@@ -314,7 +314,7 @@ void func_801669A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -348,14 +348,14 @@ void func_801669A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        func_800A2B04(motion, sprite->tileX, sprite->tileY);
+        dungeonSetRecordIntegerTileCenter(motion, sprite->tileX, sprite->tileY);
         if (((s32)dungeonStatus.unk_0C) != 0) {
             return;
         }
         dungeonStatus.unk_0A--;
         sprite->flags &= 0xF7FF;
         actor->handler = &D_80164EA8;
-        func_800A4ACC(actor_data);
+        dungeonAdvanceStatusTimers(actor_data);
         if (actor_data->actionsLeft.s > 0) {
             actor_data->actionsLeft.u--;
         }

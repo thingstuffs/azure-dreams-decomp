@@ -6,18 +6,18 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern s32 func_8003DE58();
+extern s32 resolveRecordOrientationOrFallback();
 extern void func_80048A44();
-extern void func_80091934();
+extern void dungeonBeginDeferredPlayerItemEffect();
 extern s32 func_800990FC();
 extern s32 func_80099194();
 extern s32 func_80099290();
-extern s32 func_8009929C();
-extern s32 func_80099368();
-extern s32 func_8009965C();
+extern s32 dungeonWriteTextByteAndAdvance();
+extern s32 dungeonAppendTypedFormattedValue();
+extern s32 dungeonProcessEligibleObjectValue();
 extern s32 func_80099734();
-extern void func_80099F04();
-extern void func_80099F70();
+extern void dungeonProcessUnflaggedLinkedEntries();
+extern void dungeonProcessUnflaggedLinkedEntriesAlt();
 extern void func_800A5720();
 extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
@@ -149,7 +149,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
         }
         return;
     case 1:
-        if (func_8003DE58(sprite->unk_08, sprite, offset, 0) == 0 &&
+        if (resolveRecordOrientationOrFallback(sprite->unk_08, sprite, offset, 0) == 0 &&
             !(sprite->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
@@ -193,13 +193,13 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             }
 
             text_root = func_800990FC();
-            state_or_text = func_80099734(actor, func_8009929C(8, text_root));
+            state_or_text = func_80099734(actor, dungeonWriteTextByteAndAdvance(8, text_root));
             state_or_text = func_80099194(D_800E06EE, state_or_text);
-            state_or_text = func_80099368(((S_800927E4_0 *)action)->unk_110, state_or_text);
+            state_or_text = dungeonAppendTypedFormattedValue(((S_800927E4_0 *)action)->unk_110, state_or_text);
             text = func_80099194(D_800E06F7, state_or_text);
             entity = ((S_800927E4_0 *)action)->unk_110;
             if (entity->unk_01 != 4) {
-                text = func_8009965C(entity, text);
+                text = dungeonProcessEligibleObjectValue(entity, text);
             }
             func_80099290(text);
             func_800A5720(text_root);
@@ -214,14 +214,14 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
              ((S_800927E4_0 *)action)->unk_96 = timer,
              (s32)(timer << 16) <= 0)) {
             if (((S_800927E4_0 *)action)->unk_110 != 0) {
-                func_80091934(action, actor_id, sprite, actor);
+                dungeonBeginDeferredPlayerItemEffect(action, actor_id, sprite, actor);
                 return;
             }
-            func_80099F70(actor->unk_5C);
-            func_80099F04(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
+            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
                            /* Pin: removal changes the whole function shape. */
             dungeonStatus.flags |= 0x812;
-            ((S_800927E4_0 *)action)->unk_8C =func_8008ACDC;
+            ((S_800927E4_0 *)action)->unk_8C =dungeonHandlePlayerInput;
         }
         return;
     }

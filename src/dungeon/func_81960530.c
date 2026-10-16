@@ -2,29 +2,29 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in func_80025D30 */
+   /* scratch in dungeonSelectContainingCellSurface */
 
-   /* map_entry in func_80025D30 */
+   /* map_entry in dungeonSelectContainingCellSurface */
 
-   /* best in func_80025D30 */
+   /* best in dungeonSelectContainingCellSurface */
 
-   /* current in func_80025D30 */
+   /* current in dungeonSelectContainingCellSurface */
 
-   /* copy_vertex in func_80025D30 */
+   /* copy_vertex in dungeonSelectContainingCellSurface */
 
-   /* plane_ptr in func_80025D30 */
+   /* plane_ptr in dungeonSelectContainingCellSurface */
 
-   /* dot_vertex in func_80025D30 */
+   /* dot_vertex in dungeonSelectContainingCellSurface */
 
-   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in func_80025D30 */
+   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in dungeonSelectContainingCellSurface */
 
-   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in func_80025D30 */
+   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in dungeonSelectContainingCellSurface */
 
 
 
 
 /* Select a cell surface at the given position using plane height and containment tests. */
-void *func_80025D30(s32 world_x, s32 world_y, s16 min_height) {
+void *dungeonSelectContainingCellSurface(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
     u8 *polygon;
     u8 *vertices;
@@ -85,7 +85,7 @@ void *func_80025D30(s32 world_x, s32 world_y, s16 min_height) {
                     ((S_81960530_0 *)scratch)->unk_160.at00u.v = ((S_81960530_0 *)scratch)->unk_160.at00p.v - cell_x;
                     ((S_81960530_0 *)scratch)->unk_160.at02.v = ((S_81960530_0 *)scratch)->unk_160.at02u.v - cell_y;
 
-                    if (func_800BCE7C(scratch) != 0) {
+                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution(scratch) != 0) {
                         plane = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
                         plane_vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
                             + (unsigned long)vertices);

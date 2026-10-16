@@ -1,7 +1,7 @@
 #include "slus/sound_transfer_helpers.h"
 
 /* Polls or waits for SPU transfer completion and latches the completion status. */
-s32 func_8005ECF8(s32 wait_for_completion)
+s32 pollDriverCompletionEvent(s32 wait_for_completion)
 {
     s32 event_status;
 

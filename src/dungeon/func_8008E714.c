@@ -5,37 +5,37 @@
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];
     union { void * s; s32 u; } unk_D0;   /* accessed as both */
-} S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in func_80093E74 */
+} S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in dungeonStoreRecalledFamiliar */
 
 
 typedef struct S_80093E74_1 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_80093E74_1;   /* temp_a0 in func_80093E74 */
+} S_80093E74_1;   /* temp_a0 in dungeonStoreRecalledFamiliar */
 
 typedef struct S_80093E74_2 {
     u8 pad_00[0x13];
     u8 unk_13;
     u8 pad_14[0x94];
     u8 unk_A8;
-} S_80093E74_2;   /* temp_s1 in func_80093E74 */
+} S_80093E74_2;   /* temp_s1 in dungeonStoreRecalledFamiliar */
 
 typedef struct S_80093E74_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80093E74_3;   /* temp_a0_2 in func_80093E74 */
+} S_80093E74_3;   /* temp_a0_2 in dungeonStoreRecalledFamiliar */
 
 typedef struct S_80093E74_5 {
     void * unk_00;
     u8 pad_04[0x2C];
     s32 unk_30;
-} S_80093E74_5;   /* temp_v1 in func_80093E74; pointer addresses record offset 0x14 */
+} S_80093E74_5;   /* temp_v1 in dungeonStoreRecalledFamiliar; pointer addresses record offset 0x14 */
 
 typedef struct S_80093E74_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80093E74_6;   /* temp_v1_2 in func_80093E74 */
+} S_80093E74_6;   /* temp_v1_2 in dungeonStoreRecalledFamiliar */
 
 
 #define M2C_BREAK() ((void)0)
@@ -52,7 +52,7 @@ extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
-void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
+void dungeonStoreRecalledFamiliar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
     M2C_UNK effect_mask;
     u8 effect_x;
     u8 effect_y;

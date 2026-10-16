@@ -49,8 +49,8 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 
-extern void func_80170A98(void);
-extern void func_80170E9C(void);
+extern void dungeonUpdateMonsterFacingAndContact(void);
+extern void dungeonUpdateEntityActionsFacingAndAnimation(void);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 
@@ -100,7 +100,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 left_one;
             s32 right_one;
 
-            ((S_80170894_0 *)work)->unk_8C = func_80170E9C;
+            ((S_80170894_0 *)work)->unk_8C = dungeonUpdateEntityActionsFacingAndAnimation;
             left_one = ((S_80170894_0 *)work)->unk_14 | 0x6000;
             right_one = ((S_80170894_0 *)work)->unk_1C | 0x6000;
             ((S_80170894_0 *)work)->unk_14 = left_one;
@@ -110,7 +110,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 left_many;
             s32 right_many;
 
-            ((S_80170894_0 *)work)->unk_8C = func_80170E9C;
+            ((S_80170894_0 *)work)->unk_8C = dungeonUpdateEntityActionsFacingAndAnimation;
             left_many = ((S_80170894_0 *)work)->unk_14 | 0x2000;
             right_many = ((S_80170894_0 *)work)->unk_1C | 0x2000;
             ((S_80170894_0 *)work)->unk_14 = left_many;
@@ -143,7 +143,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
         }
 callback_done:
-        ((S_80170894_1 *)obj)->unk_10 = func_80170A98;
+        ((S_80170894_1 *)obj)->unk_10 = dungeonUpdateMonsterFacingAndContact;
         func_800A9C18(obj, part_a, part_b, flags_copy);
         ((S_80170894_4 *)actor)->unk_9A = 0xFF;
         ((S_80170894_4 *)actor)->unk_9C = -1;

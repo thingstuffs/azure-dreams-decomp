@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_c4d09c.h"
 
-void *func_8015889C(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value)
+void *dungeonAllocateObjectWithChildDisplays(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_value)
 {
     void *root;
     void *copy;
@@ -138,7 +138,7 @@ void *func_8015889C(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_val
                     item_offset += 0x30;
                     item_index++;
                     ((S_8015889C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    func_800478E8(part, D_800D71A8, 1);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, D_800D71A8, 1);
                     more_items = item_index < ((S_8015889C_6 *)(void *)saved_kind)->unk_02;
                     ((S_8015889C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);

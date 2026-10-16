@@ -5,7 +5,7 @@
 M2C_UNK func_8001860C();                     /* extern */
 
 /* Calls func_8001860C with 0x998 and returns zero. */
-s32 func_80016CC0(void) {
+s32 townCallEvent998AndReturnZero(void) {
     func_8001860C(0x998);
     return 0;
 }

@@ -15,11 +15,11 @@ extern s32 D_800DCF78;
 extern s32 func_800A56E0();
 extern void func_800A6508();
 s32 func_800A6D30(void);
-void func_800B835C(void *, void *, s32, s32);
-extern void func_800CCA14(u16 x, u16 y, s16 z);
+void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
+extern void dungeonCreateFivePartTargetEffect(u16 x, u16 y, s16 z);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
-s32 func_800CCC20(void *object, s16 slot)
+s32 dungeonTakeMapItemSlot(void *object, s16 slot)
 {
     s32 stack_args[2];
     s16 value;
@@ -80,14 +80,14 @@ s32 func_800CCC20(void *object, s16 slot)
         D_800DCF78 = 0x00202080;
         stack_args[0] = 0x01000340;
         stack_args[1] = 0x00200020;
-        func_800B835C((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
+        dungeonDrawTexturedEllipse((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
         D_800E5908 = 0;
     }
 
     tail_base = (u8 *)D_800E39C8;
     tail_index = slot;
     item_2 = tail_base + tail_index * 24;
-    func_800CCA14(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
+    dungeonCreateFivePartTargetEffect(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
     func_800A56E0(0x817);
     return 1;
 }

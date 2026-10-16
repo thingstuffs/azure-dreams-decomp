@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void func_8017284C(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void dungeonCompleteStagedDestinationMovement(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     s16 timer;
     s32 direction_y;
@@ -20,7 +20,7 @@ void func_8017284C(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_8
             action->unk_9B = 3;
             action->unk_96.s = 0;
             sprite->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             return;
         }
 
@@ -84,7 +84,7 @@ void func_8017284C(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_8
         if (((sprite->unk_04.as_s8 == 3) &&
              (sprite->unk_14.at00_u16.v & 0x1000)) ||
             (sprite->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
         }
 
         if (((sprite->unk_04.as_s8 == 5) &&
@@ -111,12 +111,12 @@ void func_8017284C(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
-            func_800AD594(actor, 0x100);
+            dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             action->unk_8C = ((void *)func_80170E54);
             dungeonStatus.unk_0C = 0;
             action->unk_98 &= 0xFFF7;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             if (actor->unk_6D == 0) {
                 actor->unk_46 &= 0x7FFF;
                 return;

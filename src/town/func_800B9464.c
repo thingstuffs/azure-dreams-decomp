@@ -7,8 +7,8 @@
 extern int D_800814A0;
 
 extern void func_8004B248(u16 **a0);
-extern void func_800B6B10(s32 entries);
-extern void func_800B6F54(void *owner);
+extern void townProcessHandledEntryTypes(s32 entries);
+extern void townReleaseMonsterStatusRequestHandles(void *owner);
 
 typedef struct S_800B9464_sub {
     u8 pad00[0x98];
@@ -23,15 +23,15 @@ typedef struct S_800B9464_a0 {
 } S_800B9464_a0;
 
 /* Process an object's pointer array and embedded state, then set its and the global 0x8000 flags. */
-void func_800B6BC4(S_800B9464_a0 *object)
+void townProcessObjectPointerArray(S_800B9464_a0 *object)
 {
     S_800B9464_sub *objectState;
 
     if (object != 0) {
         objectState = &object->sub;
         func_8004B248(object->arr_bc);
-        func_800B6B10(objectState->unk98);
-        func_800B6F54(objectState);
+        townProcessHandledEntryTypes(objectState->unk98);
+        townReleaseMonsterStatusRequestHandles(objectState);
         object->field_1E |= 0x8000;
         D_800814A0 |= 0x8000;
     }

@@ -13,16 +13,16 @@ typedef struct S_80097898_0 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_80097898_0;   /* arg0 in func_80097898 */
+} S_80097898_0;   /* arg0 in dungeonRunSavedActorAction */
 
 typedef struct S_80097898_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_80097898_1;   /* saved in func_80097898 */
+} S_80097898_1;   /* saved in dungeonRunSavedActorAction */
 
-void func_80097898(void *object, M2C_UNK unused, void *animation, void *actor) {
+void dungeonRunSavedActorAction(void *object, M2C_UNK unused, void *animation, void *actor) {
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *table;
         /* MATCH: save a2 then a3 before loading the state-byte constant. */

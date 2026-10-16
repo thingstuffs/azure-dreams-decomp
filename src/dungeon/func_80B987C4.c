@@ -9,21 +9,21 @@ typedef struct S_80171FC4_1 {
     u8 pad_00[0x9A];
     s8 unk_9A;
     s8 unk_9B;
-} S_80171FC4_1;   /* arg0 in func_80171FC4 */
+} S_80171FC4_1;   /* arg0 in dungeonStartDirectionalAnimationIfAllowed */
 
 
 void func_80047784();         /* extern */
 typedef struct Ent Ent;
-Ent *func_8009C93C(); /* extern */
+Ent *dungeonPrepareDirectionalAttack(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-s32 func_800C7930(); /* extern */
+s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
 extern u8 D_80174F28;
 
 /* Update action state and start a directional animation if the actor passes the checks. */
-void func_80171FC4(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
+void dungeonStartDirectionalAnimationIfAllowed(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);
+        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((func_800A2B5C(actor) << 0x10) == 0) {
             ((S_80171FC4_1 *)action_state)->unk_9A = 0x11;
             (*(s32 *)((u8 *)action_state + 0x8C)) = 0;
@@ -34,7 +34,7 @@ void func_80171FC4(void *action_state, void *action_context, void *sprite, Entit
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-            func_8009C93C(actor, sprite, actor->facing, 1, 0);
+            dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
         }
     }
 }

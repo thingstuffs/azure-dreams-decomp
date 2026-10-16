@@ -9,27 +9,27 @@ typedef struct StatePair {
 
 extern u8 D_80082E6B;
 
-extern void func_80020924(s32 mode_enabled);
-extern StatePair *func_800217D4(void);
+extern void cardBootSelectChannelMode(s32 mode_enabled);
+extern StatePair *cardBootDebounceCardPresence(void);
 extern void func_80021904(void);
-extern void func_80026FD4(s32 object_addr, s32 value);
-extern void func_80026FF8(s32 base_addr, StatePair *display_state, s32 *changed_flags);
-extern void func_80027BF4(void);
-extern void func_80027C90(void *entry);
+extern void cardBootSetPairedChoiceSelection(s32 object_addr, s32 value);
+extern void cardBootUpdatePairedChoiceAnimations(s32 base_addr, StatePair *display_state, s32 *changed_flags);
+extern void cardBootCloseEventsAndResumeTimer(void);
+extern void cardBootDestroyCardChooser(void *entry);
 extern void func_80040AA0(s32 requested_state);
-extern void func_80044144(s32 mode, s32 lookup_id, s32 payload_word_0, s32 payload_word_4);
+extern void createDeferredResourceTransitionTask(s32 mode, s32 lookup_id, s32 payload_word_0, s32 payload_word_4);
 extern void SD_Call(s32 flags);
 extern void func_800A68F4(void);
-extern void func_800277BC(void);
+extern void cardBootPollCardChooserStatus(void);
 
 
 typedef struct S_8002789C_0 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_8002789C_0;   /* object in func_8002789C */
+} S_8002789C_0;   /* object in cardBootUpdateCardChooserInput */
 
 /* Handles menu input and refreshes the displayed state. */
-void func_8002789C(void *menu)
+void cardBootUpdateCardChooserInput(void *menu)
 {
     s32 state_changed[2];
     StatePair *state;
@@ -47,12 +47,12 @@ void func_8002789C(void *menu)
             s32 *object;
 
             SD_Call(0x515);
-            func_80027C90((u8 *)menu - 0x20);
-            func_80027BF4();
+            cardBootDestroyCardChooser((u8 *)menu - 0x20);
+            cardBootCloseEventsAndResumeTimer();
             if (D_80082E6B == 3) {
                 func_80040AA0(3);
             } else {
-                func_80044144(0, 0, 0, 0);
+                createDeferredResourceTransitionTask(0, 0, 0, 0);
                 object = (*(s32 * *)((u8 *)menu + 0x14));
                 ((S_8002789C_0 *)object)->unk_1E |= 0x2000;
                 if ((*(s32 *)((u8 *)menu + 0)) == 2) {
@@ -61,9 +61,9 @@ void func_8002789C(void *menu)
             }
         } else if (button_flags & 0x40) {
             SD_Call(0x503);
-            func_80020924((*(s32 *)((u8 *)menu + 0xC)));
+            cardBootSelectChannelMode((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
-            (*(void * *)((u8 *)menu + -0x10)) = func_800277BC;
+            (*(void * *)((u8 *)menu + -0x10)) = cardBootPollCardChooserStatus;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {
@@ -83,16 +83,16 @@ void func_8002789C(void *menu)
 
         if (selection_changed != 0) {
             SD_Call(0x502);
-            func_80026FD4((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
+            cardBootSetPairedChoiceSelection((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
         }
     }
 
-    state = func_800217D4();
+    state = cardBootDebounceCardPresence();
     state_changed[0] = state->first != (*(s32 *)((u8 *)menu + 0x18));
     state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
     display_state = state;
     (*(StatePair *)((u8 *)menu + 0x18)) = *state;
-    func_80026FF8((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
+    cardBootUpdatePairedChoiceAnimations((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
     func_80021904();
 
     return;

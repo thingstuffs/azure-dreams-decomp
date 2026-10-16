@@ -4,7 +4,7 @@
 extern s16 D_8008146E;
 
 /* Return the first active record containing the coordinates, or -1 if none matches. */
-s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
+s32 dungeonFindActiveMonsterRecord(s32 pos_x, s32 pos_y) {
     u8 *record;
     s32 index;
     s32 initial_count;

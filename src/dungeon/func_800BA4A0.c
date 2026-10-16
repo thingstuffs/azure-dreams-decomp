@@ -8,19 +8,19 @@
 
 
 extern void func_80041E70(void *);
-extern void func_8008D330(void *, void *, void *, void *);
-extern void func_80098B38(s32);
-extern void func_80099844(void *, void *);
+extern void dungeonBeginDeferredItemAction(void *, void *, void *, void *);
+extern void dungeonClearSlotAndUpdateLinkedState(s32);
+extern void dungeonAdjustSourceValueAndFinalize(void *, void *);
 extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
-extern s32 func_800AD6FC(void *, s32, s32);
-extern void func_800D4FC8(void *source, s32 color, unsigned short sound_id);
+extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
+extern void dungeonCreateColoredEffectWithSound(void *source, s32 color, unsigned short sound_id);
 
 extern u8 D_800E1350[];
 
 
 /* Handles an entity action, advancing capped counters and updating dungeon state. */
-s32 func_800BFC00(void *entity, s32 action_id, s16 action_param)
+s32 dungeonUseItemToIncreaseAttack(void *entity, s32 action_id, s16 action_param)
 {
     u32 progress_value;
     u8 progress;
@@ -28,13 +28,13 @@ s32 func_800BFC00(void *entity, s32 action_id, s16 action_param)
 
     if (entity == D_800E3D7C) {
         ((EntityRec *)entity)->unk_110 = action_id;
-        func_8008D330(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        dungeonBeginDeferredItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
     if ((u32)entity <= 0x9FFFFFFF) {
         func_800A63B8(entity, action_id, action_param);
-        if (func_800AD6FC(
+        if (dungeonApplyActorFoodPreference(
                 entity, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, action_id);
             return 1;
@@ -56,10 +56,10 @@ s32 func_800BFC00(void *entity, s32 action_id, s16 action_param)
     }
 
     if (((EntityRec *)entity)->flags14 & 0x4000) {
-        func_80099844(entity, D_800E1350);
+        dungeonAdjustSourceValueAndFinalize(entity, D_800E1350);
     }
-    func_800D4FC8((u8 *)entity - 0x20, 0x2020F0, 0x616);
-    func_80098B38(action_id);
+    dungeonCreateColoredEffectWithSound((u8 *)entity - 0x20, 0x2020F0, 0x616);
+    dungeonClearSlotAndUpdateLinkedState(action_id);
     dungeonStatus.unk_0A--;
     return 1;
 }

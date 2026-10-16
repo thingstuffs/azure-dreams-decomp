@@ -5,27 +5,27 @@
 #include "shared/object_flags.h"
 extern int abs(int);
 
-   /* the 0x2 bytes before entity in func_800248E8, addressed as entity[-1] */
+   /* the 0x2 bytes before entity in dungeonUpdateChasingStarEffect, addressed as entity[-1] */
 
-   /* entity in func_800248E8 */
+   /* entity in dungeonUpdateChasingStarEffect */
 
-   /* pos in func_800248E8 */
+   /* pos in dungeonUpdateChasingStarEffect */
 
-   /* star in func_800248E8 */
+   /* star in dungeonUpdateChasingStarEffect */
 
-   /* gfx in func_800248E8 */
+   /* gfx in dungeonUpdateChasingStarEffect */
 
-   /* s3 in func_800248E8 */
+   /* s3 in dungeonUpdateChasingStarEffect */
 
-   /* obj in func_800248E8 */
+   /* obj in dungeonUpdateChasingStarEffect */
 
-   /* p in func_800248E8 */
+   /* p in dungeonUpdateChasingStarEffect */
 
-   /* env in func_800248E8 */
+   /* env in dungeonUpdateChasingStarEffect */
 
-   /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in func_800248E8, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
+   /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in dungeonUpdateChasingStarEffect, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
 
-   /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in func_800248E8 */
+   /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in dungeonUpdateChasingStarEffect */
 
 
 
@@ -40,7 +40,7 @@ extern u8 D_800DEC00[];
 extern u8 D_800E3D68[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
-void func_800248E8(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
+void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
 {
     u8 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
@@ -355,7 +355,7 @@ void func_800248E8(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x29) {
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.u += 1;
-            if (func_8009D218(env->unk_60, 2, env) == 0) {
+            if (dungeonTryTriggerTargetRecordEffect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
                 s32 rr;
@@ -365,7 +365,7 @@ void func_800248E8(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_
                 if (D_800E3D68[0] == 0xFF) {
                     a1v = 0xFF;
                 }
-                func_800C8CD8(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
+                dungeonTryApplyConfusionStatus(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
             }
         }
     }

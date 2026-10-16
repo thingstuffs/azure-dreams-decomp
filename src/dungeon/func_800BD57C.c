@@ -7,21 +7,21 @@
 
 extern s32 func_80042900(void *actor, s32 value);
 extern void func_80042B68(void *actor, s32 value);
-extern void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern void func_80098B38(void *object_data);
+extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern void dungeonClearSlotAndUpdateLinkedState(void *object_data);
 extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
-extern s32 func_80099368(void *object_data, s32 value);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+extern s32 dungeonAppendTypedFormattedValue(void *object_data, s32 value);
 extern s32 func_80099734(void *record, u8 *out);
-extern s32 func_800999B0(s32 value);
+extern s32 dungeonWriteStatusPrefixBytes(s32 value);
 extern void func_8009A21C(s16 x, s16 y, u16 flags);
 extern void func_8009A3D0(u8 x, u8 y, s32 flags);
 extern void func_800A56E0(s32 value);
 extern void func_800A5720(s8 *text);
-extern s16 func_800B60B8(u8 x, u8 y, s16 value, s32 mode, s32 object);
-extern s32 func_800C7380(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
+extern s16 dungeonSelectAndInitializeEntryAtPosition(u8 x, u8 y, s16 value, s32 mode, s32 object);
+extern s32 dungeonCreateCentralAndChildEffects(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];
@@ -32,7 +32,7 @@ extern u8 D_800E39C8[];
 typedef struct S_800C2CDC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2CDC_0_pre;   /* the 0x14 bytes before arg0 in func_800C2CDC, addressed as arg0[-1] */
+} S_800C2CDC_0_pre;   /* the 0x14 bytes before arg0 in dungeonApplyHolyBeamTileItem, addressed as arg0[-1] */
 
 typedef struct S_800C2CDC_0 {
     u8 pad_00[0x13];
@@ -43,31 +43,31 @@ typedef struct S_800C2CDC_0 {
     s16 unk_88;
     u8 pad_8A[0x86];
     u8 * unk_110;
-} S_800C2CDC_0;   /* arg0 in func_800C2CDC */
+} S_800C2CDC_0;   /* arg0 in dungeonApplyHolyBeamTileItem */
 
 typedef struct S_800C2CDC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2CDC_1;   /* entity in func_800C2CDC */
+} S_800C2CDC_1;   /* entity in dungeonApplyHolyBeamTileItem */
 
 typedef struct S_800C2CDC_2 {
     u8 pad_00[0x20];
     s16 unk_20;
-} S_800C2CDC_2;   /* object_fields in func_800C2CDC */
+} S_800C2CDC_2;   /* object_fields in dungeonApplyHolyBeamTileItem */
 
 typedef struct S_800C2CDC_3 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800C2CDC_3;   /* entries + (index * 24) in func_800C2CDC */
+} S_800C2CDC_3;   /* entries + (index * 24) in dungeonApplyHolyBeamTileItem */
 
 typedef struct S_800C2CDC_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C2CDC_4;   /* counter_base in func_800C2CDC */
+} S_800C2CDC_4;   /* counter_base in dungeonApplyHolyBeamTileItem */
 
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
-s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
+s32 dungeonApplyHolyBeamTileItem(void *actor, u8 *object_data, s16 action_type) {
     S_800C2CDC_1 *entity;
     s32 object_fields;
     u8 *entries;
@@ -77,12 +77,12 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
 
     if (actor == *(u8 **)((u8 *)(&D_800E3D7C))) {
         ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
-        func_8008D344(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        dungeonBeginModeSelectedItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         return 0;
     }
 
     entity = ((S_800C2CDC_0_pre *)actor)[-1].unk_00;
-    object = func_800C7380(entity->unk_24,
+    object = dungeonCreateCentralAndChildEffects(entity->unk_24,
                            entity->unk_25,
                            ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);
     if (object == 0) {
@@ -91,7 +91,7 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
 
     func_800A56E0(0x816);
     object_fields = object + 0x20;
-    entry_index = func_800B60B8(entity->unk_24,
+    entry_index = dungeonSelectAndInitializeEntryAtPosition(entity->unk_24,
                           entity->unk_25,
                           ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
     entries = D_800E39C8;
@@ -99,12 +99,12 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
 
     handle = func_800990FC();
-    object = func_8009929C(8, handle);
+    object = dungeonWriteTextByteAndAdvance(8, handle);
 
     if (action_type == 13) {
-        object = func_800999B0(func_80099194(D_800893D4,
+        object = dungeonWriteStatusPrefixBytes(func_80099194(D_800893D4,
                     func_80099734(actor, func_80099194(D_800E1684,
-                        func_80099368(object_data, object)))));
+                        dungeonAppendTypedFormattedValue(object_data, object)))));
 
         if (!(((S_800C2CDC_0 *)actor)->unk_1C & 0x2000) &&
             ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
@@ -128,7 +128,7 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     }
 
     func_8009A21C(entity->unk_24, entity->unk_25, 2);
-    func_80098B38(object_data);
+    dungeonClearSlotAndUpdateLinkedState(object_data);
     dungeonStatus.unk_0A--;
     return 1;
 }

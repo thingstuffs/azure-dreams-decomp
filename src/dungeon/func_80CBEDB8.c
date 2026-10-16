@@ -9,7 +9,7 @@ typedef struct S_801725B8_0 {
     u8 * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_801725B8_0;   /* arg0 in func_801725B8 */
+} S_801725B8_0;   /* arg0 in dungeonAdvanceDirectionalActionAndReset */
 
 
 typedef struct S_801725B8_3 {
@@ -17,27 +17,27 @@ typedef struct S_801725B8_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801725B8_3;   /* arg1 in func_801725B8 */
+} S_801725B8_3;   /* arg1 in dungeonAdvanceDirectionalActionAndReset */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern u8 D_80170F20;
 extern u8 D_801762E8[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
-void func_801725B8(void *action, void *motion, void *anim, EntityRec *actor)
+void dungeonAdvanceDirectionalActionAndReset(void *action, void *motion, void *anim, EntityRec *actor)
 {
     switch (((S_801725B8_0 *)action)->unk_9B) {
     case 0:
         if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
             ((S_801725B8_0 *)action)->unk_9B = 2;
             ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, anim, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, anim, actor->facing, 1);
             return;
         }
         {
@@ -63,18 +63,18 @@ void func_801725B8(void *action, void *motion, void *anim, EntityRec *actor)
               (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000))) {
             return;
         }
-        func_8009C12C(actor, anim, actor->facing, 1);
+        dungeonResolveAttackDamageAndEffects(actor, anim, actor->facing, 1);
         ((S_801725B8_0 *)action)->unk_9B++;
                         /* fallthrough */
     case 2:
         if (!(((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        func_800AD594(actor, 0x100);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_801725B8_0 *)action)->unk_8C = &D_80170F20;
         dungeonStatus.unk_0C = 0;
         (actor->unk_46) &= 0x7FFF;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         return;
     }
 }

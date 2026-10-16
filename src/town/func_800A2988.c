@@ -34,7 +34,7 @@ extern TownOutput D_80100B50;
 extern s32 D_80100B68;
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */
-s32 func_800A00E8(s32 entryIndex) {
+s32 townSelectATownEntryWritesRootRelativeCoordinatesOutput(s32 entryIndex) {
     TownRoot *root = D_80100900[0];
     TownEntry *entry;
     TownEntry *entries;

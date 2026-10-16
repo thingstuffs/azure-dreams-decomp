@@ -53,5 +53,5 @@ typedef struct Row_818F34E4_S_80024CE4_4 {
 s32 func_800644B8(s16);
 s16 func_800BCB04(s32, s32, s16);
 extern s16 D_800259AC;
-void func_80024CE4(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused);
+void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused);
 #endif

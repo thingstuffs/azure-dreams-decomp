@@ -7,7 +7,7 @@ extern void func_800997FC(void *);
 extern u16 D_80083462;
 extern s32 D_800E18C8;
 extern Entry D_800E2970[];
-void func_800C4E00(void *state)
+void dungeonTickRegionFlagExpiry(void *state)
 {
     s32 countdown;
     s32 entry_index;

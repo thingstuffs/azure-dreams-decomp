@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80026DE0(s32 setup_value, M2C_UNK setup_data) {
+s32 dungeonConfigureMenuResource(s32 setup_value, M2C_UNK setup_data) {
     s32 resource;
 
     resource = func_8004B404(0x91);

@@ -159,10 +159,10 @@ extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
 extern const s16 D_80024038[8][2];
 extern s16 D_80025308;
-void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display);
-void func_800245A8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect);
+void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display);
+void dungeonAdvanceRotatingFadingEffect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect);
 s32 func_8002416C(PointRecord *start_node, EntityRec *start_coords);
 void func_800243BC(u8 *state, UnkArg1 *position);
 void func_8002407C(S_func_8186E800_0 *entity, s32 effect_param, void *context);
-void func_80024488( ObjectNodeHeader *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
+void dungeonSpawnParentAttachedEffect( ObjectNodeHeader *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 #endif

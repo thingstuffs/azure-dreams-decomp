@@ -19,7 +19,7 @@ void func_80024384(void *effect, void *position) {
     case 0:
         ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v =
             (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
-        func_80024264(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
+        createRandomizedGrayscaleEffect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
         if (((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_02.u < 8) {
             return;
         }
@@ -48,10 +48,10 @@ void func_80024384(void *effect, void *position) {
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
+            if ((dungeonCheckLeftTileAndCenterHeight(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
                 (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                func_80024264(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
+                createRandomizedGrayscaleEffect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
             }
             grow_angle_fixed += 0x05550000;
             grow_point += 1;
@@ -82,10 +82,10 @@ void func_80024384(void *effect, void *position) {
                 >> 4) * (s16) ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_06;
             ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
+            if ((dungeonCheckLeftTileAndCenterHeight(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
                 (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
-                func_80024264(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
+                createRandomizedGrayscaleEffect(((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_0C, position, ((ovl_188898c_81868B84_S_81868B84_0 *)effect)->unk_10);
             }
             fade_angle_fixed += 0x05550000;
             grow_point += 1;

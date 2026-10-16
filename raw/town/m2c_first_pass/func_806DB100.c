@@ -1,0 +1,6 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+void func_80016100(void) {
+    *(s32 *)0x8001766C = 0x800175B8;
+}

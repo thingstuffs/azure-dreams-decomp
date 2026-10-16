@@ -11,18 +11,18 @@ typedef struct S_80173770_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173770_0;   /* arg0 in func_80173770 */
+} S_80173770_0;   /* arg0 in dungeonSlowAndAlignMotion */
 
 
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_80171094;
 extern u8 D_801764B0;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
-void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
+void dungeonSlowAndAlignMotion(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity)
 {
     s16 frames_left;
     s32 velocity_or_entity;
@@ -34,7 +34,7 @@ void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80
     state = motion_state->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(entity);
+        dungeonApplyClampedActorValueDelta(entity);
         motion->unk_0C =
             *(s16 *)((u8 *)((s8 *)dirStepX) +
                 ((entity->unk_6A >> 8) & 0xE)) << 19;
@@ -47,7 +47,7 @@ void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(motion_state, motion, tile, &D_801764B0);
+            dungeonBeginActorDisplayAction(motion_state, motion, tile, &D_801764B0);
             return;
         }
         if (tile->unk_14.at00_u16.v & 0x8000) {
@@ -85,7 +85,7 @@ void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(motion_state, motion, tile, &D_801764B0);
+            dungeonBeginActorDisplayAction(motion_state, motion, tile, &D_801764B0);
             return;
         } else {
             motion_state->unk_96.s = 8;
@@ -119,7 +119,7 @@ void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, tile->unk_24,
+        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24,
             tile->unk_25);
         {
 

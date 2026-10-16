@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return the linked record data when its type or data tag qualifies, or zero. */
-s32 func_8009368C(void *record) {
+s32 townGetLinkedCarryItemData(void *record) {
     u8 *linked_record = *(u8 **)((u8 *)record + 0x2C);
 
     if (linked_record != 0) {

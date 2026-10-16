@@ -21,7 +21,7 @@ extern void SetDrawMode(void *p, s32 dfe, s32 abe, u16 tpage,
 extern void AddPrim(void *ot, void *p);
 
 /* Adds a draw-mode primitive for the texture page at (448, 256) to the ordering table. */
-void func_80036A70(s32 ot_index)
+void queueUnwindowedTextureDrawMode(s32 ot_index)
 {
     void *draw_mode;
     Func80036A70_DrawMode texture_window;

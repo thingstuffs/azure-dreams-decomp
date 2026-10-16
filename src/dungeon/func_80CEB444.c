@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p06.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
-void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)
+void dungeonAdvanceActorTimedTileMotion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor)
 {
     s32 actor_kind;
     s16 timer;
@@ -11,7 +11,7 @@ void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Re
 
     switch (controller->unk_9B) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         controller->unk_96.s = 6;
         controller->unk_9B = controller->unk_9B + 1;
         if (((EntityRec *)actor)->unk_28 == 0) {
@@ -21,13 +21,13 @@ void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Re
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
-                func_800AAA54(controller, transform, entity, D_80175E3C);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E3C);
                 break;
             case 14:
-                func_800AAA54(controller, transform, entity, D_80175E44);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E44);
                 break;
             case 15:
-                func_800AAA54(controller, transform, entity, D_80175E4C);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E4C);
                 break;
             }
         } else {
@@ -67,13 +67,13 @@ void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Re
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
-                func_800AAA54(controller, transform, entity, D_80175E3C);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E3C);
                 break;
             case 14:
-                func_800AAA54(controller, transform, entity, D_80175E44);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E44);
                 break;
             case 15:
-                func_800AAA54(controller, transform, entity, D_80175E4C);
+                dungeonBeginActorDisplayAction(controller, transform, entity, D_80175E4C);
                 break;
             }
         } else {
@@ -107,11 +107,11 @@ void func_80174C44(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Re
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        func_800A2B04(transform, entity->unk_24, entity->unk_25);
+        dungeonSetRecordIntegerTileCenter(transform, entity->unk_24, entity->unk_25);
         if (((s32)dungeonStatus.unk_10) == (s32)actor - 0x20) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
-        controller->unk_8C = func_801724BC;
+        controller->unk_8C = dungeonUpdateActorBehavior;
         break;
     }
 }

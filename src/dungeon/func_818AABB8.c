@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18ca83c.h"
 
-void *func_800243B8(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ovl_18ca83c_818AABB8_S_800243B8_4 *center, s16 index)
+void *dungeonCreateRandomizedTargetEffect(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ovl_18ca83c_818AABB8_S_800243B8_4 *center, s16 index)
 {
     s16 amplitude;
     s32 angle_x;
@@ -14,7 +14,7 @@ void *func_800243B8(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_80024
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
         data = (u8 *)obj + 0x20;
-        ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_10 = (void *)func_800240D8;
+        ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_10 = (void *)dungeonUpdateRotatingFadingEffect;
         ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_20 = source;
         data->unk_34 = 0;
         data->unk_36 = 0;

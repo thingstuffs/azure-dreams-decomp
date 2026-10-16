@@ -5,7 +5,7 @@
 extern void *memset(void *, int, u32);
 
 /* Scale four XYZ points about their center, capping coordinates at 0x7FFF. */
-void func_8003BE1C(s16 *points, s32 scale_num, s32 scale_den)
+void runtimeScaleFourPointsAboutCenter(s16 *points, s32 scale_num, s32 scale_den)
 {
     s32 center[4];
     s32 point_idx;

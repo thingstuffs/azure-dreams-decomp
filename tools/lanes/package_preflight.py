@@ -52,7 +52,9 @@ def lint_inventory(entry, root):
         raise G.Stop('package.sha256.json does not bind files.json')
     for rec in entries:
         src=package_path(base,rec['file']);dst=G.safe(root,rec['path'])
-        if G.digest(src)!=rec['after']:raise G.Stop('packaged source hash differs: '+rec['path'])
+        if rec['after'] is None:
+            if rec['before'] is None or src.read_bytes()!=b'':raise G.Stop('invalid deletion record: '+rec['path'])
+        elif G.digest(src)!=rec['after']:raise G.Stop('packaged source hash differs: '+rec['path'])
         if G.digest(dst)!=rec['before']:
             raise G.Stop('guard != HEAD: '+rec['path']+'; rebase before delivery')
     manifest=base/'manifest.json'

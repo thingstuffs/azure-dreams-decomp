@@ -5,7 +5,7 @@ extern void func_8003DB94(void *, s32, s32);
 extern u8 D_800E260C[];
 
 // Initialize object state and apply a table entry selected by the adjusted heading.
-void func_800D9820(void *object, void *unusedContext, void *tableTarget, void *headingSource) {
+void dungeonInitializeActorDirectionTable(void *object, void *unusedContext, void *tableTarget, void *headingSource) {
     s32 tableByteOffset;
 
     *((u8 *)object + 0x9A) = 0x10;

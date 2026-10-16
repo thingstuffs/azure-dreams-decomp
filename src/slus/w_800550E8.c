@@ -6,14 +6,14 @@
 extern s16 D_80084810[][16];
 extern void *D_80084878[][16];
 extern s32 D_800848FC[3];
-extern s32 func_8005405C(s16);
+extern s32 testSoundChannelAvailability(s16);
 extern void func_800553D4(s32);
 extern s16 func_8005B470(s16 idx, u8 *dst);
 extern void func_8005537C(s32);
 extern s16 func_8005AE08(void *, s32);
 extern int func_8005B3D8(s16, s16);
 extern void func_800552C8(void);
-extern void func_8005AE90(s16, u8, s16);
+extern void soundActivateLoadedSequenceSlot(s16, u8, s16);
 
 /* Starts playback of the pending selection when available and initializes its mode. */
 void func_800550E8(void)
@@ -30,7 +30,7 @@ void func_800550E8(void)
         func_800553D4(0x71);
         return;
     }
-    is_ready = func_8005405C(0);
+    is_ready = testSoundChannelAvailability(0);
     if (!is_ready) {
         D_800847D0.flags04 |= 2;
         return;
@@ -74,5 +74,5 @@ void func_800550E8(void)
     }
     D_800847D0.flags00 |= 0x100;
     func_800552C8();
-    func_8005AE90(D_800847D0.unk_22, 1, 1);
+    soundActivateLoadedSequenceSlot(D_800847D0.unk_22, 1, 1);
 }

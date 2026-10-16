@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 /* Increment three dungeon state bytes by two, or set flags when the first reaches 0x80. */
-s32 func_80170230(u16 *dataCursor)
+s32 dungeonBrightenEncounterViewColor(u16 *dataCursor)
 {
     u8 firstStateByte = gameWork.view.unk_090;
 

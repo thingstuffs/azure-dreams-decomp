@@ -8,11 +8,11 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_801753DC(void *, void *);
 
 extern s32 D_80171FA4;
@@ -37,13 +37,13 @@ typedef struct S_80173408_0 {
     u8 pad_A4[0x4];
     s32 unk_A8;
     s32 unk_AC;
-} S_80173408_0;   /* arg0 in func_80173408 */
+} S_80173408_0;   /* arg0 in dungeonUpdateJumpMovementAndLanding */
 
 
 typedef struct S_80173408_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80173408_2;   /* call_a0 in func_80173408 */
+} S_80173408_2;   /* call_a0 in dungeonUpdateJumpMovementAndLanding */
 
 
 typedef struct S_80173408_4 {
@@ -51,10 +51,10 @@ typedef struct S_80173408_4 {
     union { u16 u; s16 s; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_80173408_4;   /* arg3 in func_80173408 */
+} S_80173408_4;   /* arg3 in dungeonUpdateJumpMovementAndLanding */
 
 /* Updates jump movement, animation, and landing across five states. */
-void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
+void dungeonUpdateJumpMovementAndLanding(void *jump, EntityRec *motion, void *sprite, void *actor)
 {
     u32 step_x;
     s32 step_y;
@@ -70,7 +70,7 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
                 ((S_80173408_0 *)jump)->unk_9B.n = 4;
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-                func_8009C12C(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
+                dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
                 return;
             }
         }
@@ -155,7 +155,7 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
             s32 velocity_y;
 
             if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
-                func_8009C12C(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
+                dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
             }
             x_table = (s16 *)((s8 *)dirStepX);
             dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
@@ -211,11 +211,11 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
     }
 }

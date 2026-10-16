@@ -1,11 +1,11 @@
 #include "modules/dungeon_ovl_1924800.h"
 
-   /* the 0x2 bytes before arg0 in func_800251A0, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in dungeonUpdateEffectAnimationSlots, addressed as arg0[-1] */
 
-   /* arg0 in func_800251A0 */
+   /* arg0 in dungeonUpdateEffectAnimationSlots */
 
 /* Update eight animation slots and mark completion when the countdown expires. */
-void func_800251A0(void *anim_state)
+void dungeonUpdateEffectAnimationSlots(void *anim_state)
 {
     s16 next_phase;
     s32 slot_index;

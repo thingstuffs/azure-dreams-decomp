@@ -16,15 +16,15 @@ typedef struct {
 } S_800510DC;
 
 extern int D_800814A0; /* global 32-bit "used"/flags word */
-extern void func_80051228(void);
+extern void sceneLoadVariantTextureSet(void);
 
-/* Propagates the second entity's 0x2000 flag and marks the record and global flags after func_80051228. */
+/* Propagates the second entity's 0x2000 flag and marks the record and global flags after sceneLoadVariantTextureSet. */
 void func_800510DC(S_800510DC *record)
 {
     S_800510DC_Ent *entity;
 
     if (record->field4->flags & 0x2000) {
-        func_80051228();
+        sceneLoadVariantTextureSet();
         entity = record->field0;
         entity->flags |= 0x2000;
         *(u16 *)((u8 *)record - 2) |= 0x8000;

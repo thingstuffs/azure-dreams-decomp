@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1906f98.h"
 
-s32 func_80024798(void *sprite_data, void *position)
+s32 dungeonHandleSpawnInitializeRandomizedOffsetParent(void *sprite_data, void *position)
 {
     u16 world_pos[4];
     s16 screen_points[4];

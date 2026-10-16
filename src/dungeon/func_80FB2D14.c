@@ -13,22 +13,22 @@ typedef struct S_80172514_1 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_80172514_1;   /* arg0 in func_80172514 */
+} S_80172514_1;   /* arg0 in dungeonResetActionAndSelectFacingAnimation */
 
 
 extern void func_80047784();
-extern Ent *func_8009C93C();
+extern Ent *dungeonPrepareDirectionalAttack();
 extern s32 func_800A2B5C();
-extern s32 func_800C7930();
+extern s32 dungeonApplyCameraOffsetAndSelectTarget();
 extern u8 D_80175258[];
 
 /* Reset actor action state and select a facing-dependent animation when status checks pass. */
-void func_80172514(void *action_state, s32 action_context, void *sprite, EntityRec *actor) {
+void dungeonResetActionAndSelectFacingAnimation(void *action_state, s32 action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 &= 0x7F;
 
     if (!(dungeonStatus.flags & 0x2000) &&
         ((func_800A2B5C(actor) << 16) == 0) &&
-        (func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300),
+        (dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300),
          ((func_800A2B5C(actor) << 16) == 0))) {
         ((S_80172514_1 *)action_state)->unk_8C = 0;
         ((S_80172514_1 *)action_state)->unk_9B = 0;
@@ -49,6 +49,6 @@ void func_80172514(void *action_state, s32 action_context, void *sprite, EntityR
             D_80175258[((s32)(gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor->unk_6D--;
-        func_8009C93C(actor, sprite, actor->facing, 1, 0);
+        dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
     }
 }

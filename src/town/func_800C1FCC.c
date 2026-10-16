@@ -14,7 +14,7 @@ typedef struct S_800BF72C_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_800BC574(void *, s16);
+void townCreateDirectionalSpriteEffect(void *, s16);
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
@@ -74,7 +74,7 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
                 event_z = 0xFFF80000;
                 event_pos[1] = position->unk_04;
                 event_pos[2] = event_z;
-                func_800BC574(event_pos, 0x200);
+                townCreateDirectionalSpriteEffect(event_pos, 0x200);
             }
         }
         if (position->unk_00 > 0x105FFFFF) {

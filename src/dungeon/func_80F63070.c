@@ -10,7 +10,7 @@ typedef struct S_8016A870_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016A870_0;   /* obj in func_8016A870 */
+} S_8016A870_0;   /* obj in dungeonAllocateKindActorObject */
 
 typedef struct S_8016A870_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8016A870_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8016A870_1;   /* work in func_8016A870 */
+} S_8016A870_1;   /* work in dungeonAllocateKindActorObject */
 
 typedef struct S_8016A870_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016A870_2;   /* part_a in func_8016A870 */
+} S_8016A870_2;   /* part_a in dungeonAllocateKindActorObject */
 
 typedef struct S_8016A870_3 {
     u8 pad_00[0x14];
@@ -33,7 +33,7 @@ typedef struct S_8016A870_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8016A870_3;   /* part_b in func_8016A870 */
+} S_8016A870_3;   /* part_b in dungeonAllocateKindActorObject */
 
 typedef struct S_8016A870_4 {
     u8 pad_00[0x8C];
@@ -42,7 +42,7 @@ typedef struct S_8016A870_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8016A870_4;   /* actor in func_8016A870 */
+} S_8016A870_4;   /* actor in dungeonAllocateKindActorObject */
 
 
 extern void *func_8003FD64();
@@ -57,7 +57,7 @@ extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 
 /* Allocate an actor object and initialize its parts and flags for the requested kind. */
-void *func_8016A870(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
+void *dungeonAllocateKindActorObject(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     void *obj;

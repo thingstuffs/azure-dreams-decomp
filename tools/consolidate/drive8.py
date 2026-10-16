@@ -7,6 +7,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from cc import *
 from check import check
+import sys as _layout_sys
+_layout_root = next(p for p in Path(__file__).resolve().parents if (p / "tools/source_layout.py").is_file())
+_layout_sys.path.insert(0, str(_layout_root / "tools"))
+from source_layout import row_path as layout_row_path
 LANE_ = Path(__file__).resolve().parent.parent
 R = row_index()
 def ids():
@@ -14,7 +18,7 @@ def ids():
     fs = subprocess.run(["grep", "-rlE", r"gameWork|GameWork|shared/game_work\.h", "src", "--include=*.c"], cwd=REPO, capture_output=True, text=True).stdout.split()
     return sorted("%s/%s" % (Path(f).parent.name, Path(f).stem) for f in fs)
 def one(rid):
-    src = REPO / "src" / (rid + ".c")
+    src = layout_row_path(rid, REPO)
     if rid not in R: return {"id": rid, "nonrow": True}
     d = LANE_ / "draft8" / (rid + ".c")
     t = d.read_text() if d.is_file() else src.read_text(errors="replace")

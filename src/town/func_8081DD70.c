@@ -1,6 +1,6 @@
 #include "modules/town_ovl_79dd70.h"
 
-void func_80020570(void *source_data, void *initial_data)
+void townInitializeSourceAndInitialData(void *source_data, void *initial_data)
 {
     Object *object;
     Object *allocated;
@@ -14,7 +14,7 @@ void func_80020570(void *source_data, void *initial_data)
     if (object != 0) {
         payload = (Payload88 *)((u8 *)object + 0x20);
         *payload = *(Payload88 *)source_data;
-        object->callback = func_800206D0;
+        object->callback = townUpdateBouncingPickup;
         *object->initial = *(Initial24 *)initial_data;
         func_8004491C((struct RegistrationNode *)object, (s32)func_80045340);
         part = object->render;
@@ -26,6 +26,6 @@ void func_80020570(void *source_data, void *initial_data)
         part->color = 0x808080;
         part->flags |= 0x80;
         *(void **)((u8 *)payload + 0x50) = table;
-        func_8008F074((u8 *)payload + 8, object->initial, D_80024420);
+        townConfigureTheSetModeN1((u8 *)payload + 8, object->initial, D_80024420);
     }
 }

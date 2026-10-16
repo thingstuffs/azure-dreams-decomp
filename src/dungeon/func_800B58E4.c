@@ -10,26 +10,26 @@ typedef struct S_800BB044_0 {
     void * unk_20;
     u8 pad_24[0x8];
     u16 unk_2C;
-} S_800BB044_0;   /* temp_v0 in func_800BB044 */
+} S_800BB044_0;   /* temp_v0 in dungeonCreateActorLinkedEffect */
 
 typedef struct S_800BB044_1 {
     s32 unk_00;
     u8 pad_04[0x3E];
     u16 unk_42;
-} S_800BB044_1;   /* arg0 in func_800BB044; pointer addresses record offset 0x18 */
+} S_800BB044_1;   /* arg0 in dungeonCreateActorLinkedEffect; pointer addresses record offset 0x18 */
 
 
 extern void * func_8003FD64();
 extern s32 func_800A56E0();
-extern void func_800BAF04(void *object);
+extern void dungeonAdvanceParticleEffectState(void *object);
 
 /* Creates an object linked to the source data and copies its record fields. */
-void func_800BB044(void *sourceData) {
+void dungeonCreateActorLinkedEffect(void *sourceData) {
     S_800BB044_0 *createdObject;
 
     createdObject = func_8003FD64(0x202, sourceData - 0x20);
     if (createdObject != NULL) {
-        createdObject->unk_10 = func_800BAF04;
+        createdObject->unk_10 = dungeonAdvanceParticleEffectState;
         createdObject->unk_20 = sourceData;
         createdObject->unk_08 = (s32) ((S_800BB044_1 *)((u8 *)sourceData - 0x18))->unk_00;
         createdObject->unk_2C = (u16) ((S_800BB044_1 *)((u8 *)sourceData - 0x18))->unk_42;

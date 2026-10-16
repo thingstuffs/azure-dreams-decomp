@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 func_80026F04(s32 target_value, s32 start_index)
+s32 dungeonFindMenuEntryFromIndex(s32 target_value, s32 start_index)
 {
     s32 index;
 

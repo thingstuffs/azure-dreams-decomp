@@ -8,13 +8,13 @@ typedef struct S_800381A4_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x4];
     u16 unk_18;
-} S_800381A4_0;   /* arg0 in func_800381A4 */
+} S_800381A4_0;   /* arg0 in slusDecrementCountdownAndSwitch */
 
 
 void func_80038A10();
 
 /* Decrements the countdown and switches the handler when the signed count reaches zero or below. */
-void func_800381A4(S_800381A4_0 *state) {
+void slusDecrementCountdownAndSwitch(S_800381A4_0 *state) {
     u16 remaining_ticks;
 
     remaining_ticks = state->unk_18 - 1;

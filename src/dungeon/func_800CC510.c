@@ -17,14 +17,14 @@ typedef struct S_800D1C70_0 {
     s8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_800D1C70_0;   /* var_s2 in func_800D1C70 */
+} S_800D1C70_0;   /* var_s2 in dungeonCreateActorAtTile */
 
 typedef struct S_800D1C70_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800D1C70_1;   /* temp_v0 in func_800D1C70 */
+} S_800D1C70_1;   /* temp_v0 in dungeonCreateActorAtTile */
 
 typedef struct S_800D1C70_2 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_800D1C70_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D1C70_2;   /* temp_s1 in func_800D1C70 */
+} S_800D1C70_2;   /* temp_s1 in dungeonCreateActorAtTile */
 
 typedef struct S_800D1C70_3 {
     u8 pad_00[0xC];
@@ -52,23 +52,23 @@ typedef struct S_800D1C70_3 {
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800D1C70_3;   /* temp_s0 in func_800D1C70 */
+} S_800D1C70_3;   /* temp_s0 in dungeonCreateActorAtTile */
 
 
 void func_8003DB94(void *, void *, s32);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
-void func_80099FDC(void *);
+void dungeonClearEntryFlagAndLinkOwner(void *);
 void func_8009A21C(s16 x, s16 y, u16 flags);
 s8 func_8009FB34(u8, u8);
-void func_800A2B04(void *, u8, u8);
+void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 s16 func_800BCB04(u16, u16, s16);
 extern M2C_UNK D_800D1E34;
 extern M2C_UNK D_800D20D8;
 extern s32 D_800E2178;
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */
-void *func_800D1C70(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
+void *dungeonCreateActorAtTile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
     M2C_UNK tile_flags;
     s16 saved_kind;
     S_800D1C70_3 *sprite;
@@ -111,11 +111,11 @@ void *func_800D1C70(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         ((S_800D1C70_1 *)object)->unk_10 = &D_800D1E34;
         state->unk_8C = &D_800D20D8;
         sprite->unk_26 = func_8009FB34(sprite->unk_24, sprite->unk_25);
-        func_800A2B04(position, sprite->unk_24, sprite->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, sprite->unk_24, sprite->unk_25);
         state->unk_88 = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);
         sprite->unk_0C.at00u.v = 0x2C808080;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
-        func_80099FDC(object);
+        dungeonClearEntryFlagAndLinkOwner(object);
         call_x = sprite->unk_24;
         call_y = sprite->unk_25;
         tile_flags = 0x3000;

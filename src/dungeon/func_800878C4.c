@@ -15,23 +15,23 @@ typedef struct {
 extern u8 D_800DD0B8[8];
 extern u8 D_800DCFB0[8];
 
-extern void func_800B0F50(void *);
-extern void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
+extern void dungeonCreatePanelEffectObject(void *);
+extern void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void func_80048A44(void *, u8, s32, s32);
 
 typedef struct S_8008D024_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8008D024_0;   /* temp_a3 in func_8008D024 */
+} S_8008D024_0;   /* temp_a3 in dungeonBeginFamiliarCommandSelection */
 
 typedef struct S_8008D024_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008D024_1;   /* temp_a0 in func_8008D024 */
+} S_8008D024_1;   /* temp_a0 in dungeonBeginFamiliarCommandSelection */
 
 
 /* Selects an eligible linked target and initializes the actor's action and directional display. */
-s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *display, s32 target_index,
+s32 dungeonBeginFamiliarCommandSelection(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *display, s32 target_index,
     s32 action_mode) {
     s32 target_flags;
     s32 slot_offset;
@@ -54,12 +54,12 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                 actor->unk_9A = 0x27;
                 actor->unk_9B.as_s8 = 0;
                 actor->unk_8C = 0;
-                func_800B0F50(target);
+                dungeonCreatePanelEffectObject(target);
                 if ((action_mode << 0x10) == 0) {
-                    func_800B1768(0x21, 0xE0, 0x84, 0, 0, 0);
-                    func_800B1768(0x22, 0xF2, 0x98, 1, 0, 2);
-                    func_800B1768(0x24, 0xCE, 0x98, 2, 1, 4);
-                    func_800B1768(0x23, 0xE0, 0xAC, 3, 1, 6);
+                    dungeonBuildFloatingNumberWidget(0x21, 0xE0, 0x84, 0, 0, 0);
+                    dungeonBuildFloatingNumberWidget(0x22, 0xF2, 0x98, 1, 0, 2);
+                    dungeonBuildFloatingNumberWidget(0x24, 0xCE, 0x98, 2, 1, 4);
+                    dungeonBuildFloatingNumberWidget(0x23, 0xE0, 0xAC, 3, 1, 6);
                     D_800E296C |= 0x2000;
                 }
                 if (actor->unk_1C & 0x100000) {

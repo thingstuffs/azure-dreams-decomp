@@ -6,6 +6,6 @@ extern s32 D_80019BB4[];
 extern M2C_UNK D_80016550;
 
 /* Returns the table entry selected by the current index. */
-s32 func_80017948(void) {
+s32 townGetIndexedTableEntry(void) {
     return *(M2C_UNK *)((u8 *)&D_80016550 + ((*D_80019BB4) * 4));
 }

@@ -39,13 +39,13 @@ extern u8 D_800DD0F0;
 
 extern s32 func_80042900(void *entry, s32 effect_id);
 extern void func_80048A44(void *obj, s32 frame_group, s32 frame_index, s32 slot_index);
-extern void func_80099F04(s32 firstEntryBase);
-extern void func_80099F70(s32 firstNodeBase);
+extern void dungeonProcessUnflaggedLinkedEntries(s32 firstEntryBase);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32 firstNodeBase);
 extern void func_800A56E0(s32 query_value);
 extern s32 func_800A5C70(void);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
-void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
+void dungeonUpdatePlayerSleepAction(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
     s32 event_code;
     GameWork *scene = &gameWork;
 
@@ -81,8 +81,8 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
                 dungeonStatus.unk_0A += 1;
                 controller->state += 1;
             } else {
-                func_80099F70(actor->val5c);
-                func_80099F04(actor->val5c);
+                dungeonProcessUnflaggedLinkedEntriesAlt(actor->val5c);
+                dungeonProcessUnflaggedLinkedEntries(actor->val5c);
                 dungeonStatus.flags |= 0x812;
             }
         }
@@ -91,10 +91,10 @@ void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, 
     case 2:
         if (animation->flags14 & 0xE000) {
             actor->flags1c &= ~0x200;
-            func_80099F70(actor->val5c);
-            func_80099F04(actor->val5c);
+            dungeonProcessUnflaggedLinkedEntriesAlt(actor->val5c);
+            dungeonProcessUnflaggedLinkedEntries(actor->val5c);
             dungeonStatus.flags |= 0x812;
-            controller->handler =func_8008ACDC;
+            controller->handler =dungeonHandlePlayerInput;
             dungeonStatus.unk_0A -= 1;
         }
         break;

@@ -1,25 +1,12 @@
-#include "common.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-extern s32 func_80017E98(void *, s32);
-extern s32 func_80019A04(void *, void *, s32);
-extern s32 func_80019ABC(void *, void *, void *, s32);
-extern s32 func_8001A510(s16);
-
-extern s32 D_8001A99C;
-extern s32 D_8001B1F8;
-extern s8 D_8001B7AE;
-extern s8 D_8001EDD0;
-extern s8 D_8001EF6C;
-extern s8 D_8001F543;
-
-/* Selects a response using object flags and one-time interaction state. */
-s32 func_80017214(void *object, s32 check_value, s32 selection)
+s32 townSelectOneTimeInteractionResponse(void *object, s32 check_value, s32 selection)
 {
     void *response_table;
     s32 default_response;
     s32 response;
 
-    if (func_80017E98(object, check_value) != 0) {
+    if (townCheckTableResultBelowMinus47(object, check_value) != 0) {
 
         return &D_8001B7AE;
     }

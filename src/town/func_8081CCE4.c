@@ -9,10 +9,10 @@ typedef struct S_80026CE4_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x5E];
     s16 unk_72;
-} S_80026CE4_0;   /* temp_v0 in func_80026CE4 */
+} S_80026CE4_0;   /* temp_v0 in townCreateTimedSound */
 
 /* Allocate a type 2 object and initialize its data pointer and value. */
-void func_80026CE4(s16 value) {
+void townCreateTimedSound(s16 value) {
     S_80026CE4_0 *object;
 
     object = func_8003FC64(2);

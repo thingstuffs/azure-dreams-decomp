@@ -17,7 +17,7 @@ typedef struct S_800C08A4_0 {
     u8 unk_63;
     u8 pad_64[0xC4];
     u8 * unk_128;
-} S_800C08A4_0;   /* temp_s1 in func_800C08A4; pointer addresses record offset 0x18 */
+} S_800C08A4_0;   /* temp_s1 in dungeonApplyMonsterEquipmentItem; pointer addresses record offset 0x18 */
 
 typedef struct S_800C08A4_1 {
     u8 pad_00[0x2];
@@ -26,38 +26,38 @@ typedef struct S_800C08A4_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800C08A4_1;   /* temp_s0 in func_800C08A4 */
+} S_800C08A4_1;   /* temp_s0 in dungeonApplyMonsterEquipmentItem */
 
 typedef struct S_800C08A4_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C08A4_2;   /* counter_base in func_800C08A4 */
+} S_800C08A4_2;   /* counter_base in dungeonApplyMonsterEquipmentItem */
 
 
-void func_8008D344(); /* extern */
-s32 func_80098864(); /* extern */
-void func_80098B38(); /* extern */
-s32 func_8004A658();
-s32 func_800998C0();
+void dungeonBeginModeSelectedItemAction(); /* extern */
+s32 dungeonProcessRecordAndUpdateLinkedState(); /* extern */
+void dungeonClearSlotAndUpdateLinkedState(); /* extern */
+s32 lookupItemCategoryMappedValue();
+s32 dungeonCopyFullwidthVowelBytes();
 s32 func_800990FC();
 s32 func_80099194();
 void *func_80099290();
-s32 func_80099368();
+s32 dungeonAppendTypedFormattedValue();
 s32 func_80099734();
-s32 func_80099978();
+s32 dungeonAppendValueSevenSuffix();
 s32 func_800A5720(); /* extern */
 void func_800A5F38(); /* extern */
 void func_800A6480(); /* extern */
 s32 func_800A6D30(void);
 s32 func_800A7A7C(); /* extern */
-s32 func_800AD6FC();
+s32 dungeonApplyActorFoodPreference();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
 extern M2C_UNK D_800E13DA;
 extern M2C_UNK D_800E13E9;
 
 /* Applies an entity action to a target and updates the pending count. */
-s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
+s32 dungeonApplyMonsterEquipmentItem(u8 *entity, u8 *target, s16 action, void *context) {
     s32 entity_value;
     s32 event_value;
     s32 external_entity_value;
@@ -68,24 +68,24 @@ s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
 
     if (action == 0xD) {
         if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((func_800A6D30() & 1) != 0)) {
-            return func_80098864(target, context);
+            return dungeonProcessRecordAndUpdateLinkedState(target, context);
         }
     }
     compare_ptr = ((u8 *)D_800E3D7C);
     if (entity == compare_ptr) {
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
-        func_8008D344(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        dungeonBeginModeSelectedItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;
     if ((u32) entity <= (u32) compare_ptr) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
             func_800A6480(entity, target);
-            if (func_800AD6FC(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+            if (dungeonApplyActorFoodPreference(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
                 func_800A5F38(entity, target);
                 return 1;
             }
-            func_80098B38(target);
+            dungeonClearSlotAndUpdateLinkedState(target);
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
             return 1;
 
@@ -93,7 +93,7 @@ s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
         position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
         func_800A7A7C((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
-            func_8004A658(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
+            lookupItemCategoryMappedValue(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
             ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) *target;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
@@ -104,21 +104,21 @@ s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
             s32 node_offset;
             s32 result;
 
-            external_entity_value = func_80099978(event_value);
+            external_entity_value = dungeonAppendValueSevenSuffix(event_value);
             result = func_80099194(&D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = func_80099368(target, external_entity_value);
+            result = dungeonAppendTypedFormattedValue(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;
                 external_entity_value = result;
-                func_800998C0(node_offset, entity_value);
+                dungeonCopyFullwidthVowelBytes(node_offset, entity_value);
             }
             func_80099290(func_80099194(&D_8008937C, external_entity_value));
         }
         func_800A5720(script);
-        func_80098B38(target);
+        dungeonClearSlotAndUpdateLinkedState(target);
     } else {
         script = func_800990FC();
         external_entity_value = func_80099734(entity, script);
@@ -127,16 +127,16 @@ s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
             s32 node_offset;
             s32 result;
 
-            external_entity_value = func_80099978(external_event_value);
+            external_entity_value = dungeonAppendValueSevenSuffix(external_event_value);
             result = func_80099194(&D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = func_80099368(target, external_entity_value);
+            result = dungeonAppendTypedFormattedValue(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;
                 external_entity_value = result;
-                func_800998C0(node_offset, entity_value);
+                dungeonCopyFullwidthVowelBytes(node_offset, entity_value);
             }
             func_80099290(func_80099194(&D_8008937C, external_entity_value));
         }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001744C(void) {
+void dungeonClearGenerationCellGrid(void) {
     s8 *entry_start;
     s8 *entry_tail;
     s32 entries_left;

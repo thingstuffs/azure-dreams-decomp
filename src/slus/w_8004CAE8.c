@@ -8,7 +8,7 @@ typedef struct S_8004CAE8 {
 } S_8004CAE8; /* size 0xC (12) */
 
 /* Returns the first active record with the requested ID, or NULL at the end of the array. */
-S_8004CAE8 *func_8004CAE8(S_8004CAE8 *entry, u32 target_id) {
+S_8004CAE8 *findFlaggedRecordById(S_8004CAE8 *entry, u32 target_id) {
     for (;;) {
         if ((entry->flags & 0x20) && entry->id == target_id) {
             return entry;

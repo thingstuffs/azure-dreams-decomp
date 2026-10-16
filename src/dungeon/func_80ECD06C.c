@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_eed06c.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8015886C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *dungeonSpawnModeDependent112ObjectVariant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *work;
@@ -105,13 +105,13 @@ void *func_8015886C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
 
                     elem->unk_12 = part_b->unk_12 - 128;
                     elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8015886C_9 *)(base->unk_A4))->unk_10 = func_800D78C0;
+                    ((S_8015886C_9 *)(base->unk_A4))->unk_10 = dungeonProcessEffectBlockEntries;
 
                     func_80047784(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8015886C_6 *)child)->unk_06 = 0;
-                    func_800478E8(part_b, func_800D71A8, 0);
+                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, dungeonDrawSpriteEffectQuads, 0);
                     ((S_8015886C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }

@@ -4,7 +4,7 @@
 
 
 /* Fade and enlarge the effect, marking it finished when its intensity falls below zero. */
-void func_800A6B10(void *record, s32 unused, void *effect) {
+void townFadeAndGrowEffect(void *record, s32 unused, void *effect) {
     s32 intensity;
     u16 size;
 

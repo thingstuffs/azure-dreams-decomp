@@ -6,11 +6,11 @@ typedef struct S_80123238_0_pre {
     s8 unk_07;
     s8 unk_08;
     s8 unk_09;
-} S_80123238_0_pre;   /* the 0xA bytes before var_a1 in func_80123238, addressed as var_a1[-1] */
+} S_80123238_0_pre;   /* the 0xA bytes before var_a1 in townInitializeCatalogEntryPackets, addressed as var_a1[-1] */
 
 typedef struct S_80123238_0 {
     s8 unk_00;
-} S_80123238_0;   /* var_a1 in func_80123238 */
+} S_80123238_0;   /* var_a1 in townInitializeCatalogEntryPackets */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -31,7 +31,7 @@ typedef struct Row {
 extern Row D_801331D0[0x10];
 
 /* Initializes 16 entries with fixed attributes and coordinates in a three-column grid. */
-void func_80123238(void)
+void townInitializeCatalogEntryPackets(void)
 {
     s32 grid_row;
     s32 grid_col;

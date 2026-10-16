@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191eef8.h"
 
-void func_80024780(void *state, void *position, void *visual) {
+void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual) {
     void *object;
     void *linked_visual;
     s16 ticks_left;

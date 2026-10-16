@@ -26,7 +26,7 @@ extern s32 func_80064584(s32);
 
 
 /* Place the part's follow coordinates: when the mode query is off, detach it and raise its busy flags; otherwise offset the output from the anchor object's position by the anchor's angle. */
-void func_800A8070(u16 *part, u16 *out_coords)
+void townUpdateLinkedPartPosition(u16 *part, u16 *out_coords)
 {
     u8 index = ((u8 *)part)[0x60];
     Object *object;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void func_8001EF0C(void) {
+void restoreSpawnsAndPlaceFloorTraps(void) {
     u8 x;
     u8 y;
     u8 *floor_config;
@@ -41,7 +41,7 @@ void func_8001EF0C(void) {
                 object = func_800A0B94(existing_type, availability, 1)
                 (0, position[slot].x, position[slot].y, -0x400);
                 if (object != 0) {
-                    func_800A152C(existing_type, 1);
+                    retainSpawnResource(existing_type, 1);
                     func_80042640(object, existing_type);
                     object->unk_43.s = 0xFF;
                     object->unk_12 = 0;
@@ -51,7 +51,7 @@ void func_8001EF0C(void) {
                         s32 *loop_limits;
                         loop_limits = D_800835E8;
                         do {
-                            func_800A1D4C(object, 0);
+                            raiseEntityLevel(object, 0);
                         } while ((u32)loop_limits[object->unk_11] <=
                                  object->unk_18);
                     }
@@ -93,7 +93,7 @@ void func_8001EF0C(void) {
             meta[slot].state = 0;
             meta[slot].type = 0;
             trap_budget += func_800A6D30() & 0xF;
-            store_type = func_800A6DA4(1, 0x13);
+            store_type = randomDungeonRange16(1, 0x13);
             trap_type = store_type;
             flags = *(u16 *)(D_800735C4[0] + (trap_type * 0xC));
             flag_bits = flags & 0x3000;
@@ -106,7 +106,7 @@ void func_8001EF0C(void) {
             meta[slot].state = trap_state;
             meta[slot].type = store_type;
             do {
-            } while ((s16)func_800A4E2C(&x, &y) < 0);
+            } while ((s16)selectDungeonSpawnTile(&x, &y) < 0);
             position[slot].x = x;
             position[slot].y = y;
             spawn_variant = (func_800A6D30() & 7) | 4;

@@ -12,7 +12,7 @@
 typedef struct S_800CD004_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD004_0_pre;   /* the 0x14 bytes before arg0 in func_800CD004, addressed as arg0[-1] */
+} S_800CD004_0_pre;   /* the 0x14 bytes before arg0 in dungeonSpawnSourceSpriteEffect, addressed as arg0[-1] */
 
 typedef struct S_800CD004_0 {
     u8 pad_00[0x3];
@@ -21,7 +21,7 @@ typedef struct S_800CD004_0 {
     u8 unk_13;
     u8 pad_14[0x74];
     u16 unk_88;
-} S_800CD004_0;   /* arg0 in func_800CD004 */
+} S_800CD004_0;   /* arg0 in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_1 {
     u8 pad_00[0x8];
@@ -30,13 +30,13 @@ typedef struct S_800CD004_1 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800CD004_1;   /* object in func_800CD004 */
+} S_800CD004_1;   /* object in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CD004_2;   /* map in func_800CD004 */
+} S_800CD004_2;   /* map in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_3 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_800CD004_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD004_3;   /* quad in func_800CD004 */
+} S_800CD004_3;   /* quad in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_4 {
     u8 pad_00[0x8];
@@ -55,19 +55,19 @@ typedef struct S_800CD004_4 {
     u8 pad_12[0xA];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CD004_4;   /* sprite in func_800CD004 */
+} S_800CD004_4;   /* sprite in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_5 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD004_5;   /* tail in func_800CD004 */
+} S_800CD004_5;   /* tail in dungeonSpawnSourceSpriteEffect */
 
 typedef struct S_800CD004_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CD004_6;   /* counter in func_800CD004 */
+} S_800CD004_6;   /* counter in dungeonSpawnSourceSpriteEffect */
 
 
 extern s32 func_8004491C();
@@ -82,7 +82,7 @@ extern u8 D_800DFD30[];
 
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
-s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
+s32 dungeonSpawnSourceSpriteEffect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 {
     s32 random;
     s16 roll;

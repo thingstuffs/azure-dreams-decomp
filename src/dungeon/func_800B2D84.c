@@ -45,7 +45,7 @@ extern s32 func_80064584(s32, ...);
 extern void func_8006658C(void *, void *, ...);
 extern void func_8006671C(u8 *);
 /* Emit textured ellipse segments around the given position. */
-void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
+void dungeonDrawTexturedEllipseSegments(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
 {
     EllipseWork *scratchpad;
     u8 *cursor;

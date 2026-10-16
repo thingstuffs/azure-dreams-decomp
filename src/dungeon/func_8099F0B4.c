@@ -9,8 +9,8 @@ extern void func_800A48F0(void *, s32, s32);
 extern s32 func_800A6D30();
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern void func_80170A94(void);
-extern void func_801710EC(void);
+extern void dungeonUpdateActorCallbacksAndGround(void);
+extern void dungeonUpdateActorAnimationAndBehavior(void);
 
 extern u8 D_80175E40[];
 extern u8 D_80175EA0[];
@@ -21,7 +21,7 @@ typedef struct S_801708B4_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801708B4_0;   /* entity in func_801708B4 */
+} S_801708B4_0;   /* entity in dungeonCreateGridPositionEntity */
 
 typedef struct S_801708B4_1 {
     u8 pad_00[0x13];
@@ -29,12 +29,12 @@ typedef struct S_801708B4_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_801708B4_1;   /* inner in func_801708B4 */
+} S_801708B4_1;   /* inner in dungeonCreateGridPositionEntity */
 
 typedef struct S_801708B4_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801708B4_2;   /* part_a in func_801708B4 */
+} S_801708B4_2;   /* part_a in dungeonCreateGridPositionEntity */
 
 typedef struct S_801708B4_3 {
     u8 pad_00[0x24];
@@ -42,7 +42,7 @@ typedef struct S_801708B4_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801708B4_3;   /* part_b in func_801708B4 */
+} S_801708B4_3;   /* part_b in dungeonCreateGridPositionEntity */
 
 typedef struct S_801708B4_4 {
     u8 pad_00[0x8C];
@@ -53,10 +53,10 @@ typedef struct S_801708B4_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_801708B4_4;   /* result in func_801708B4 */
+} S_801708B4_4;   /* result in dungeonCreateGridPositionEntity */
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
-void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
+void *dungeonCreateGridPositionEntity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
     void *entity;
     S_801708B4_2 *position;
@@ -77,7 +77,7 @@ void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
     entity = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
-        ((S_801708B4_0 *)entity)->unk_10 = func_80170A94;
+        ((S_801708B4_0 *)entity)->unk_10 = dungeonUpdateActorCallbacksAndGround;
         ((S_801708B4_1 *)entity_data)->unk_13 = 2;
         func_8004491C(entity, func_80045340);
 
@@ -116,7 +116,7 @@ void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
         func_800A9C18(entity, position, placement, saved_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = func_801710EC;
+        actor->unk_8C = dungeonUpdateActorAnimationAndBehavior;
         ((S_801708B4_1 *)entity_data)->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
         func_800AA36C(actor, position, placement, entity_data);

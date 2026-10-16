@@ -15,7 +15,7 @@ extern void SetDrawMode(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void AddPrim(void *ot, void *prim);
 
 /* Adds a draw-mode primitive to the current display buffer's ordering table and advances its cursor. */
-void func_80044B48(void) {
+void appendDrawModePrimitive(void) {
     void *prim = D_80083160[0]->cur;
 
     SetDrawMode(prim, 0, 0, 0, 0);

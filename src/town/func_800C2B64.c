@@ -9,7 +9,7 @@ typedef struct S_800C02C4_0 {
     s16 unk_22;
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800C02C4_0;   /* arg0 in func_800C02C4; pointer addresses record offset 0x10 */
+} S_800C02C4_0;   /* arg0 in townInitializeObjectRenderingResources; pointer addresses record offset 0x10 */
 
 typedef struct S_800C02C4_1 {
     u8 pad_00[0xC];
@@ -19,19 +19,19 @@ typedef struct S_800C02C4_1 {
     s16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_800C02C4_1;   /* arg2 in func_800C02C4 */
+} S_800C02C4_1;   /* arg2 in townInitializeObjectRenderingResources */
 
 
 void func_80033D08(void *);                      /* extern */
-void func_800A643C();          /* extern */
-void func_800A647C();          /* extern */
+void townApplyPendingIndexedValue();          /* extern */
+void townApplyPendingTableEntry();          /* extern */
 extern char D_800A62E8[];
 extern char D_800A630C[];
 extern M2C_UNK D_800C035C;
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
-void func_800C02C4(void *object_data, void *unused, S_800C02C4_1 *render_data) {
+void townInitializeObjectRenderingResources(void *object_data, void *unused, S_800C02C4_1 *render_data) {
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_00 = &D_800C035C;
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_22 = -1;
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_20 = 0xC00;
@@ -40,8 +40,8 @@ void func_800C02C4(void *object_data, void *unused, S_800C02C4_1 *render_data) {
     render_data->unk_1C = 0x1000;
     render_data->unk_0C = 0x808080;
     render_data->unk_2C = &D_800D0C58;
-    func_80094A38((s32) &D_800D0C58, object_data, render_data);
+    townStoreTheInForwardsField10Callee800949C4((s32) &D_800D0C58, object_data, render_data);
     func_80033D08(object_data);
-    func_800A647C(0x24, &D_800A62E8);
-    func_800A643C(0xE4, &D_800A630C);
+    townApplyPendingTableEntry(0x24, &D_800A62E8);
+    townApplyPendingIndexedValue(0xE4, &D_800A630C);
 }

@@ -13,21 +13,21 @@ typedef struct S_801563C4_0 {
     u8 unk_9B;
     u8 pad_9C[0xE];
     s16 unk_AA;
-} S_801563C4_0;   /* arg0 in func_801563C4 */
+} S_801563C4_0;   /* arg0 in dungeonAdvanceActorActionEffects */
 
 typedef struct S_801563C4_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801563C4_1;   /* arg1 in func_801563C4 */
+} S_801563C4_1;   /* arg1 in dungeonAdvanceActorActionEffects */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_8015321C(void *, void *, void *, void *);
 extern void func_801534FC(void *, void *, void *, void *);
 
@@ -37,7 +37,7 @@ extern u8 D_80157DE4[8];
 extern u8 D_80157DEC[8];
 
 /* Advance the actor action animation and trigger its timed effects. */
-void func_801563C4(void *action, void *motion, void *sprite, EntityRec *actor)
+void dungeonAdvanceActorActionEffects(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     s16 timer;
     u8 state;
@@ -92,7 +92,7 @@ void func_801563C4(void *action, void *motion, void *sprite, EntityRec *actor)
         timer = ((S_801563C4_0 *)action)->unk_96.s + 1;
         ((S_801563C4_0 *)action)->unk_96.s = timer;
         if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
             ((S_801563C4_0 *)action)->unk_96.s = 0;
             ((S_801563C4_0 *)action)->unk_9B++;
         }
@@ -104,10 +104,10 @@ void func_801563C4(void *action, void *motion, void *sprite, EntityRec *actor)
 
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            func_800AD594(actor, 0x100);
+            dungeonReduceActorFoodMeter(actor, 0x100);
             ((S_801563C4_0 *)action)->unk_8C = D_801544BC;
             dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+            dungeonAdvanceStatusTimers(actor);
             actor->unk_46 &= 0x7FFF;
         }
         return;
@@ -123,7 +123,7 @@ void func_801563C4(void *action, void *motion, void *sprite, EntityRec *actor)
         }
         if ((((S_801563C4_0 *)action)->unk_96.u == 12) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, actor->facing,
+            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing,
                 ((S_801563C4_0 *)action)->unk_AA);
         }
         if ((((S_801563C4_0 *)action)->unk_96.u != 20) &&

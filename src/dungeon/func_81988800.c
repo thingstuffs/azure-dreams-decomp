@@ -91,15 +91,15 @@ typedef struct S_81988800_12 {
 
 extern M2C_UNK D_80024D58;
 
-extern s32 func_8003DE58();
+extern s32 resolveRecordOrientationOrFallback();
 extern s32 func_80053EF0();
 extern void func_8009CE1C();
-extern void *func_800A3F28();
+extern void *dungeonFindEligibleNearbyEntry();
 
 void func_8002401C(void *state_data, void *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_19a8800_entry)(void *, void *) = func_8002401C;
 
@@ -141,7 +141,7 @@ void func_8002401C(void *state_data, void *position_data)
 
             object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
-                if (func_8003DE58(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
+                if (resolveRecordOrientationOrFallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
                                   ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
                     offset[2] = 0;
                     offset[1] = 0;
@@ -223,7 +223,7 @@ void func_8002401C(void *state_data, void *position_data)
                 list_head = object;
                 work = (u8 *)((u8 *)(&D_80082E80));
 loop:
-                object = func_800A3F28(work[0x24], work[0x25], list_head, object);
+                object = dungeonFindEligibleNearbyEntry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
                     if (!(((S_81988800_5 *)object)->unk_1C & 0x2000)) {
                         func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,

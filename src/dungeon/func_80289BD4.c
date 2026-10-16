@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_8001CBD4(s16 x, s16 y, s16 dir)
+s16 dungeonChooseUnblockedCardinalDirection(s16 x, s16 y, s16 dir)
 {
     s32 turn;
     s32 d;

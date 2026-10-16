@@ -135,20 +135,20 @@ typedef struct S_func_818DA800_11 {
     u16 unk_02;
 } S_func_818DA800_11;
 
-extern s32 func_800A3820(s16 entry_index);
-extern void *func_800A05A4(void *, u8, u8, s16, s16);
-extern s32 func_8009D218(void *, s32, void *);
+extern s32 dungeonGetDefinitionEntryByte13(s16 entry_index);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s16);
+extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32, void *);
 extern void func_800C8900(void *, s32, s32);
 
-#define D_80024538 ((u8 *)func_80024538)
+#define D_80024538 ((u8 *)dungeonAdvanceTargetGrowthAndFade)
 extern u8 D_800DEAE0[];
-#define D_80024684 ((u8 *)func_80024684)
+#define D_80024684 ((u8 *)createCoordinateSpriteObject)
 
 extern u8 D_800E3D68[];
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = func_80024020;
 
@@ -188,8 +188,8 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         S_func_818DA800_3 *target_actor;
         s16 height;
 
-        height = (s16)func_800A3820(0x22);
-        target_actor = func_800A05A4(actor,
+        height = (s16)dungeonGetDefinitionEntryByte13(0x22);
+        target_actor = dungeonScanMonsterAlongHeading(actor,
             actor_data->unk_24,
             actor_data->unk_25,
             actor->unk_2A, height);
@@ -345,7 +345,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         break;
     }
     if (actor->unk_60 != 0 &&
-        func_8009D218(actor->unk_60, 1, actor) == 0 &&
+        dungeonTryTriggerTargetRecordEffect(actor->unk_60, 1, actor) == 0 &&
         (((S_func_818DA800_3 *)actor->unk_60)->unk_14 & 4) != 0) {
         func_800C8900(
             actor->unk_60,

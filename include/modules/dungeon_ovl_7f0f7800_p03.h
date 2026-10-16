@@ -15,23 +15,23 @@
 
 
 
-extern s32 func_8009A180();
+extern s32 dungeonCheckEntityRelation();
 extern void func_8009A21C();
 extern void func_8009A3D0();
-extern s32 func_8009A540();
-extern s32 func_8009A66C();
-extern s32 func_8009FD7C();
-extern void * func_800A02AC();
-extern void * func_800A04F0();
-extern u16 func_800A0818();
-extern void func_800A0E6C();
-extern void func_800A19E4();
+extern s32 dungeonCheckDiagonalSideHeight();
+extern s32 dungeonCheckMovementClearanceAndHeight();
+extern s32 dungeonCompareMonsterNeighborValues();
+extern void * dungeonFindValidMonsterNeighbor();
+extern void * dungeonPlaceActorAtDirectionalNeighbor();
+extern u16 dungeonGetRoundedFacingAndRoundingFlag();
+extern void dungeonRebuildMonsterReachableTiles();
+extern void dungeonUpdateActorProximityFlag();
 extern s32 func_800A6D30();
 extern void func_800A9A0C();
 extern s16 func_800BCB04();
-extern s32 func_80171F24();
+extern s32 dungeonCheckActionEligibilityUpdatesActorStateDirectionalAnimationSuccess();
 extern s16 D_8006CD00[8];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
+void dungeonUpdateActorMovementChoosingDirectionRecordingPath(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
 #endif

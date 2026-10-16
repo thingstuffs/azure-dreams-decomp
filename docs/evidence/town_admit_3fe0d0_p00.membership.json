@@ -1,0 +1,70 @@
+{
+  "module": "town_admit_3fe0d0_p00",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_3fe0d0_p00.c",
+    "module_index": 19
+  },
+  "members": [
+    "town/func_8047E0D0",
+    "town/func_8047E0D8",
+    "town/func_8047E130",
+    "town/func_8047E178",
+    "town/func_8047E1C0",
+    "town/func_8047E24C",
+    "town/func_8047E278",
+    "town/func_8047E2B8",
+    "town/func_8047E2F0",
+    "town/func_8047E328",
+    "town/func_8047E360",
+    "town/func_8047E398",
+    "town/func_8047E3D0",
+    "town/func_8047E408"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "review": "pending",
+  "reviewer": "pending",
+  "basis": [
+    "This is the complete maximal first recipe section of the original 12-row cohort, ending at the next independently byte-proved -O1 routine. Every byte in this section is natural C; unresolved later sections remain held.",
+    "Each recovered function has a complete return/delay-slot boundary, an identical register/control-flow exemplar with explicit symbol and field/literal bindings, and a strict linked raw baseline. No instruction masking or retail substitution is used.",
+    "One shared reconciled header and one 2.7.2-cdk-G0 recipe cover every member. No storage is owned by this code cohort. The historical object boundary is unobservable.",
+    "The brief requires a split at mixed recipes. Original assigned recipes remain unchanged; this boundary is established by exact adjacent routines, not chosen to omit an unresolved instruction.",
+    "This packet admits independently proved rows. It installs no native module entry and grants no storage ownership or module certificate."
+  ],
+  "owned_data": [],
+  "span": {
+    "foff": 4186320,
+    "end": 4187200,
+    "size": 880
+  },
+  "new_rows": [
+    "town/func_8047E178",
+    "town/func_8047E2B8",
+    "town/func_8047E2F0",
+    "town/func_8047E328",
+    "town/func_8047E360",
+    "town/func_8047E398",
+    "town/func_8047E3D0",
+    "town/func_8047E408"
+  ],
+  "origin_ledger_group": {
+    "container": "town",
+    "module": "ovl_3fe0d0.c",
+    "module_index": 19
+  },
+  "recipe_partition": {
+    "origin_group": "ovl_3fe0d0.c#19",
+    "start": 4186320,
+    "end": 4187200,
+    "cfg": "2.7.2-cdk-G0",
+    "next_routine": {
+      "foff": 4187200,
+      "size": 212,
+      "cfg": "2.7.2-cdk-G0 -O1",
+      "result": "MATCH",
+      "evidence": "evidence/gap_twins/ovl_3fe0d0/3fe440/result.json"
+    },
+    "reason": "Maximal contiguous first recipe section. Every original assigned recipe is preserved. Next adjacent routine proves a different recorded whole-TU recipe. Later sections remain independently held; no gap is omitted from this section."
+  }
+}

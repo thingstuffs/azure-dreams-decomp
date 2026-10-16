@@ -6,13 +6,13 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 M2C_UNK func_80047784();         /* extern */
-void func_800AA754();         /* extern */
+void dungeonApplyActorDeltaAndCapValue();         /* extern */
 
 
 /* Set the entity to state 7 and select its directional sprite frame when ready. */
-s32 func_800AA6B4(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
+s32 dungeonBeginReadyActorDirectionalAction(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
     if (((Rec_func_800A9E70_arg0 *)entity)->unk_64 > 0) {
-        func_800AA754(entity, context, sprite, entity);
+        dungeonApplyActorDeltaAndCapValue(entity, context, sprite, entity);
         return 0;
     }
     dungeonStatus.unk_10 = (void *) ((s8 *) entity - 0x20);

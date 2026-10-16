@@ -11,7 +11,7 @@ typedef struct S_80170D58_0 {
         struct { u8 pad[0x2]; s16 v; } at02;
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_80170D58_0;   /* arg1 in func_80170D58 */
+} S_80170D58_0;   /* arg1 in dungeonUpdateMotionAndGrowSprite */
 
 typedef struct S_80170D58_1 {
     u8 pad_00[0x1A];
@@ -26,15 +26,15 @@ typedef struct S_80170D58_1 {
     s32 unk_60;
     s32 unk_64;
     s32 unk_68;
-} S_80170D58_1;   /* arg0 in func_80170D58 */
+} S_80170D58_1;   /* arg0 in dungeonUpdateMotionAndGrowSprite */
 
 
 extern void func_800478B8(void *entity);
-extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s32 dungeonCheckLeftTileAndCenterHeight(u16 x, u16 y, s16 z);
 extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Update motion with collision checks, grow the sprite, and flag expired objects. */
-void func_80170D58(void *motion, void *position, void *sprite)
+void dungeonUpdateMotionAndGrowSprite(void *motion, void *position, void *sprite)
 {
     s32 height;
     u16 frame_count;
@@ -46,7 +46,7 @@ void func_80170D58(void *motion, void *position, void *sprite)
     ((S_80170D58_1 *)motion)->unk_54 += ((S_80170D58_1 *)motion)->unk_60;
     if ((func_800BCB04(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
                        ((S_80170D58_0 *)position)->unk_08.at02.v) < 0x200) &&
-        ((s16)func_800A45D8(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
+        ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
                             ((S_80170D58_0 *)position)->unk_08.at02.v) != 0)) {
         ((S_80170D58_0 *)position)->unk_00.at00.v -= ((S_80170D58_1 *)motion)->unk_54;
         ((S_80170D58_1 *)motion)->unk_54 = 0;
@@ -57,7 +57,7 @@ void func_80170D58(void *motion, void *position, void *sprite)
     ((S_80170D58_1 *)motion)->unk_58 += ((S_80170D58_1 *)motion)->unk_64;
     if ((func_800BCB04(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
                        ((S_80170D58_0 *)position)->unk_08.at02.v) < 0x200) &&
-        ((s16)func_800A45D8(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
+        ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80170D58_0 *)position)->unk_00.at02.v, ((S_80170D58_0 *)position)->unk_04.at02.v,
                             ((S_80170D58_0 *)position)->unk_08.at02.v) != 0)) {
         ((S_80170D58_0 *)position)->unk_04.at00.v -= ((S_80170D58_1 *)motion)->unk_58;
         ((S_80170D58_1 *)motion)->unk_58 = 0;

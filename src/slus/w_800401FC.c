@@ -9,11 +9,11 @@ typedef struct Node {
 extern Node *D_80081498;
 
 extern void func_80044A50(Node *a0);
-extern void func_8003FFF0(Node *a0);
-extern void func_80040044(void *a0);
+extern void unlinkActiveNode(Node *a0);
+extern void pushNodeOntoFreeList(void *a0);
 
 /* Detaches nodes flagged 0x8000 from the global list and frees those without flag 0x80 after detachment. */
-void func_800401FC(void)
+void removeMarkedActiveNodes(void)
 {
     Node *node;
     Node *next;
@@ -24,9 +24,9 @@ void func_800401FC(void)
             next = node->next;
             if (node->field_1E & 0x8000) {
                 func_80044A50(node);
-                func_8003FFF0(node);
+                unlinkActiveNode(node);
                 if (!(node->field_1E & 0x80)) {
-                    func_80040044(node);
+                    pushNodeOntoFreeList(node);
                 }
             }
             node = next;

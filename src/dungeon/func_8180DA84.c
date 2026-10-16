@@ -13,8 +13,8 @@ typedef struct {
 } TableEntry;
 
 extern s32 func_80026ED0();
-extern s32 func_80027368();
-extern s32 func_8003DE58();
+extern s32 dungeonCreateOffsetSpriteObjectWithZ();
+extern s32 resolveRecordOrientationOrFallback();
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 
@@ -30,7 +30,7 @@ typedef struct S_80026A84_1 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80026A84_1;   /* temp_v0 in func_80026A84 */
+} S_80026A84_1;   /* temp_v0 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_2 {
     u8 pad_00[0x2];
@@ -39,7 +39,7 @@ typedef struct S_80026A84_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80026A84_2;   /* arg0 in func_80026A84 */
+} S_80026A84_2;   /* arg0 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_3 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_80026A84_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80026A84_3;   /* temp_a2 in func_80026A84 */
+} S_80026A84_3;   /* temp_a2 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_4 {
     u8 pad_00[0x8];
@@ -64,7 +64,7 @@ typedef struct S_80026A84_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026A84_4;   /* temp_a0 in func_80026A84 */
+} S_80026A84_4;   /* temp_a0 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
@@ -74,14 +74,14 @@ typedef struct S_80026A84_5 {
     s16 unk_66;
     u8 pad_68[0x6];
     s16 unk_6E;
-} S_80026A84_5;   /* temp_a3 in func_80026A84 */
+} S_80026A84_5;   /* temp_a3 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_6 {
     u8 pad_00[0x24];
     u16 unk_24;
     u16 unk_26;
     u16 unk_28;
-} S_80026A84_6;   /* var_a1 in func_80026A84 */
+} S_80026A84_6;   /* var_a1 in dungeonCreateSixOffsetEffects */
 
 typedef struct S_80026A84_7 {
     u8 pad_00[0x2];
@@ -90,10 +90,10 @@ typedef struct S_80026A84_7 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80026A84_7;   /* arg1 in func_80026A84 */
+} S_80026A84_7;   /* arg1 in dungeonCreateSixOffsetEffects */
 
 /* Creates six linked effects at an offset from the origin and initializes their points. */
-void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
+void *dungeonCreateSixOffsetEffects(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
 {
     u16 offset[3];
     s32 *callback;
@@ -110,7 +110,7 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
 
     chain_head = NULL;
     offset[0] = offset[1] = 0;
-    if (func_8003DE58(source->unk_08, source, offset, 0) == 0) {
+    if (resolveRecordOrientationOrFallback(source->unk_08, source, offset, 0) == 0) {
         offset[2] = (0 - D_800DDC40[0]) + 0x10;
     }
     effect_index = 0;
@@ -157,7 +157,7 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     func_80026ED0((s16)(origin->unk_02 + offset[0]),
                   (s16)(origin->unk_06 + offset[1]),
                   (s16)(origin->unk_0A + offset[2]), 0x800);
-    func_80027368(target_pos->unk_02, target_pos->unk_06,
+    dungeonCreateOffsetSpriteObjectWithZ(target_pos->unk_02, target_pos->unk_06,
                   target_pos->unk_0A, effect_param);
     return effect;
 }

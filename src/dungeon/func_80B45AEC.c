@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void func_801732EC(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
+void dungeonAdvanceEntityFadeEffect(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
     s32 state;
     s32 object_status;
     s32 status_mask;
@@ -25,7 +25,7 @@ void func_801732EC(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_
         if (object_status & 0x4000) {
             status_mask = object_status & 0x20000000;
             if (status_mask == 0) {
-                func_800ACF88(object);
+                dungeonAnnounceFamiliarDefeat(object);
             }
         }
         func_800A56E0(0x805);

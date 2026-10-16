@@ -11,10 +11,10 @@ extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
 
 extern void func_8004491C(void *, void *);
-extern void func_80047738(void *, u8, s8);
+extern void selectIndirectTableEntry(void *, u8, s8);
 extern void func_800478B8(void *);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
+extern void dungeonApplyMonsterKoyawData(s32, void *);
+extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
 
@@ -28,14 +28,14 @@ extern s32 func_800BCB04(s32, s32, s16);
 
 #ifndef __mips__
 static const u32 D_80F0928C[]
-__attribute__((section(".text.func_80170A8C"))) = {
+__attribute__((section(".text.dungeonUpdateEntityCallbacksAndFloor"))) = {
     0x3C028008,
     0x94423462,
 };
 #endif
 
 /* Update entity callbacks, appearance, movement, and floor contact. */
-void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
+void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motion, void *entity_part)
 {
     void *state_alias = entity_state;
     u16 part_flags;
@@ -75,7 +75,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
             call_part = entity_part;
             old_mode = (s8)U8_AT(entity_state, 0x6D);
             call_context = entity_state;
-            if (func_800A9E70(call_state, call_motion, call_part, call_context) != 0) {
+            if (dungeonRefreshActorFacingAndLifecycle(call_state, call_motion, call_part, call_context) != 0) {
                 return;
             }
         }
@@ -118,7 +118,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
             if (S16_AT(entity_state, 0x94) != direction) {
                 direction_frames = PTR_AT(entity_part, 0x2C);
                 if (direction_frames != 0) {
-                    func_80047738(entity_part, direction_frames[direction], S8_AT(entity_part, 4));
+                    selectIndirectTableEntry(entity_part, direction_frames[direction], S8_AT(entity_part, 4));
                 }
                 S16_AT(entity_state, 0x94) = direction;
             }
@@ -137,7 +137,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
             } else {
                 U16_AT(entity_part, 0x14) |= 0x7000;
             }
-            func_800A020C(S32_AT(state_alias, 0x1C), (u8 *)entity_part + 0xC);
+            dungeonApplyMonsterKoyawData(S32_AT(state_alias, 0x1C), (u8 *)entity_part + 0xC);
         } else {
             if (part_flags & 0x800) {
                 U16_AT(entity_part, 0x14) = part_flags & 0x8FFF;

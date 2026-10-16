@@ -87,7 +87,7 @@
           "kind": "observation",
           "summary": "Plain 2.7.2 gives the short-lived table-address quantity priority 10000 and v0 before the saved input quantity at priority 2000. CDK splits the global address into high/lo_sum RTL before allocation and ordinary source receives the retail registers.",
           "artifact": {
-            "path": "docs/PIN_RESEARCH_ROUND39.md",
+            "path": "docs/history/PIN_RESEARCH_ROUND39.md",
             "anchor": "#allocator-exemplar-dungeonfunc_81811388"
           }
         },

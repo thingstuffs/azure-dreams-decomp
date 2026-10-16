@@ -12,7 +12,7 @@ typedef struct S_80022E64_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80022E64_0;   /* obj in func_80022E64 */
+} S_80022E64_0;   /* obj in townCreateGymMeshObject */
 
 typedef struct S_80022E64_1 {
     s32 unk_00;
@@ -30,7 +30,7 @@ typedef struct S_80022E64_1 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_80022E64_1;   /* data in func_80022E64 */
+} S_80022E64_1;   /* data in townCreateGymMeshObject */
 
 
 extern void func_8004491C(void *, void *);
@@ -41,7 +41,7 @@ typedef struct Copy24 {
 } Copy24;
 
 /* Allocates an object, copies six source words, and initializes its data. */
-void func_80022E64(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20) {
+void townCreateGymMeshObject(void *source_words, s32 data_value_08, s32 object_value_10, s32 object_value_20) {
     S_80022E64_0 *object;
     void *copy_dst;
     S_80022E64_1 *object_data;

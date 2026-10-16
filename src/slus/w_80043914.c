@@ -16,7 +16,7 @@ extern S_800E3E48 D_800E3E48[];
 extern u8 D_800E2968;
 
 /* Maps the selected entry's code from 0xD/0xF to 0xF/0xA for type 0x16. */
-void func_80043914(S_80043914_Arg *input)
+void runtimeMapType16EntryCode(S_80043914_Arg *input)
 {
     S_80043914_Arg *entrySelector = input;
 

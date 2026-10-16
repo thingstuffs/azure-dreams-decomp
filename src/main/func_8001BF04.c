@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_80402A1C(void *buffer, void *layout);
-extern void func_80402BE0(u8 *state);
+extern void cardBootBuildFourLayoutCommandGroups(void *buffer, void *layout);
+extern void cardBootPositionFourDisplayItems(u8 *state);
 extern void func_8040274C(void *object);
-extern void func_804027F8(void);
+extern void cardBootHandleMenuActionsAndRepeat(void);
 extern void func_8040293C(void);
 extern u8 D_80408ADF[];
 
@@ -19,12 +19,12 @@ void func_8001BF04(Struct8001BF04 *object) {
     s32 callback;
     s32 table_offset;
 
-    func_80402A1C((void *)((s32) object + 0x24), object);
-    func_80402BE0(object);
+    cardBootBuildFourLayoutCommandGroups((void *)((s32) object + 0x24), object);
+    cardBootPositionFourDisplayItems(object);
     table_offset = object->unk08 * 4;
     object->unk00 = D_80408ADF[table_offset];
     func_8040274C(object);
-    callback = (s32) func_804027F8;
+    callback = (s32) cardBootHandleMenuActionsAndRepeat;
     if (object->unk0C == 2) {
         callback = (s32) func_8040293C;
     }

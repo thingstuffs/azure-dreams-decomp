@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_18d6800.h"
-void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = func_80025738;
+void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = dungeonAdvanceMovementTowardReachableTile;
 #include "../func_818B6824.c"
 #include "../func_818B68B8.c"
 #include "../func_818B6954.c"

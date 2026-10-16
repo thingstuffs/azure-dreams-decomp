@@ -8,12 +8,12 @@ typedef struct GroupLimit_8001D048 {
 } GroupLimit_8001D048;
 
 
-extern s32 func_8001D280(s32, s32, s32);
+extern s32 townGetIndexedVertexAndTrace(s32, s32, s32);
 extern s32 func_8001E7E4(s32);
 extern GroupLimit_8001D048 D_8001902C[][3];
 
 /* Invoke the callback for nonzero row entries using the selected mode and bounds. */
-void func_8001D048(void) {
+void townProcessHistoryEntriesByMode(void) {
     TownStateRecord *state;
     s32 mode;
     s32 i;
@@ -34,7 +34,7 @@ void func_8001D048(void) {
             if (entry == 0) {
                 break;
             }
-            D_80016000->unk_20->callback_2D0(func_8001D280(i, j, mode), entry, mode);
+            D_80016000->unk_20->callback_2D0(townGetIndexedVertexAndTrace(i, j, mode), entry, mode);
         }
     }
 }

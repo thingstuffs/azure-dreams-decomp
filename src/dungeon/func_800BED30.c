@@ -8,8 +8,8 @@
 
 
 extern s32 func_8003AD08();
-extern void func_8008D330();
-extern void func_80098B38();
+extern void dungeonBeginDeferredItemAction();
+extern void dungeonClearSlotAndUpdateLinkedState();
 extern s32 func_800990FC(void);
 extern s32 func_80099194();
 extern void func_80099290();
@@ -18,8 +18,8 @@ extern void func_800A5720();
 extern void func_800A5F38();
 extern void func_800A63B8();
 extern s32 func_800A6D30();
-extern s16 func_800AD6FC();
-extern void func_800C4AFC();
+extern s16 dungeonApplyActorFoodPreference();
+extern void dungeonCreateTimedPairedParticleEmitter();
 
 extern s32 D_800893E0;
 extern s32 D_800E18A4;
@@ -28,11 +28,11 @@ extern s32 D_800E18A4;
 typedef struct S_800C4490_0_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in func_800C4490, addressed as arg0[-1] */
+} S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in dungeonUseItemToHealSmallRandomAmount, addressed as arg0[-1] */
 
 
 /* Applies a capped random stat gain to the target and displays its effect message. */
-s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
+s32 dungeonUseItemToHealSmallRandomAmount(void *target, s32 source, s16 effect_mode) {
     s16 stat_gap;
     s32 stat_gain;
     s32 effect_text;
@@ -40,13 +40,13 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
 
     if (target == ((s32)D_800E3D7C)) {
         ((EntityRec *)target)->unk_110 = source;
-        func_8008D330(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
+        dungeonBeginDeferredItemAction(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A63B8(target, source, effect_mode);
-        if (func_800AD6FC(target,
+        if (dungeonApplyActorFoodPreference(target,
                           (*(u16 *)(((u8 *)D_800DDE84) +
                                     (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                           source) == 0) {
@@ -84,8 +84,8 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
         func_800A5720(message_context);
     }
 
-    func_800C4AFC(((S_800C4490_0_pre *)target)[-1].unk_00, 0x20E020, target);
-    func_80098B38(source);
+    dungeonCreateTimedPairedParticleEmitter(((S_800C4490_0_pre *)target)[-1].unk_00, 0x20E020, target);
+    dungeonClearSlotAndUpdateLinkedState(source);
     dungeonStatus.unk_0A--;
     return 1;
 }

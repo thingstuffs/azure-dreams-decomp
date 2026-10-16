@@ -11,7 +11,7 @@ typedef struct S_8003C128_0 {
 } S_8003C128_0;   /* temp_v0 in func_8003C128 */
 
 
-void *func_8003FE78();   /* extern */
+void *initializeSceneObjectInBuffer();   /* extern */
 extern u8 D_80082D38[];
 void func_8003C3B4();
 
@@ -19,7 +19,7 @@ void func_8003C3B4();
 void func_8003C128(void) {
     S_8003C128_0 *object;
 
-    object = func_8003FE78(0x15, &D_80082D38, 0x49);
+    object = initializeSceneObjectInBuffer(0x15, &D_80082D38, 0x49);
     object->unk_10 = &func_8003C3B4;
     object->unk_20 = 0;
 }

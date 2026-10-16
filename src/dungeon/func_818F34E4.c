@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19134e4.h"
 
-void func_80024CE4(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused) {
+void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused) {
     s16 initialized;
     s16 fade_ticks;
     s16 height_limit;

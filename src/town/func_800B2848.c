@@ -3,12 +3,12 @@
 #include "records/Rec_func_800AF254_arg1.h"
 
 extern int func_80049490();
-extern void func_800AF254();
-extern void func_800AF448(Rec_func_800AF254_arg1 *);
-extern void func_800AF520();
-extern void func_800AF674();
-extern void func_800AF784();
-extern void func_800AF858();
+extern void townPopulateItemMenuPageEntries();
+extern void townUpdateItemMenuEnabledRecord(Rec_func_800AF254_arg1 *);
+extern void townPopulateItemMenuLowerEntries();
+extern void townPopulateCurrentItemMenuPage();
+extern void townUpdateItemMenuPageBounds();
+extern void townItemMenuNoOp();
 
 
 typedef struct S_800AFFA8_1 {
@@ -16,18 +16,18 @@ typedef struct S_800AFFA8_1 {
     s32 unk_18;
     u8 pad_1C[0x4];
     s32 * unk_20;
-} S_800AFFA8_1;   /* temp_v1 in func_800AFFA8 */
+} S_800AFFA8_1;   /* temp_v1 in townProcessItemMenuSelectedEntry */
 
 /* Runs the record handlers, then processes the selected entry. */
-void func_800AFFA8(Rec_func_800AF254_arg1 *record) {
+void townProcessItemMenuSelectedEntry(Rec_func_800AF254_arg1 *record) {
     S_800AFFA8_1 *selection;
 
-    func_800AF448(record);
-    func_800AF520(record);
-    func_800AF674(record);
-    func_800AF784(record);
-    func_800AF254(record->unk_A8.as_s32, record);
-    func_800AF858(record->unk_A8.as_s32, record);
+    townUpdateItemMenuEnabledRecord(record);
+    townPopulateItemMenuLowerEntries(record);
+    townPopulateCurrentItemMenuPage(record);
+    townUpdateItemMenuPageBounds(record);
+    townPopulateItemMenuPageEntries(record->unk_A8.as_s32, record);
+    townItemMenuNoOp(record->unk_A8.as_s32, record);
     selection = record->unk_00;
     func_80049490(selection->unk_20[selection->unk_18]);
 }

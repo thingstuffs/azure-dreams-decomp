@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f0f7800_p07.h"
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
-void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
+void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in, void *part_a, void *part_b_in, void *actor) {
     s32 burst;
     s32 handle;
     s32 msg;

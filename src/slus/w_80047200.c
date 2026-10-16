@@ -3,7 +3,7 @@
 #include "common.h"
 
 // Sets bit 15 on 255 consecutive entries or the last 15 entries of each 16-entry group.
-void func_80047200(u16 *entry, s32 groupCount, s32 contiguousMode)
+void markPaletteColorsWithHighBit(u16 *entry, s32 groupCount, s32 contiguousMode)
 {
     register s32 groupIndex;
     register s32 entryIndex;

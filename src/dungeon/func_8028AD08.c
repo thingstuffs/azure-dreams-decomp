@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_8001DD08(void *step_state, s32 update_id)
+void dungeonAdvanceGenerationStepPair(void *step_state, s32 update_id)
 {
     if ((*((u16 *) (((u8 *) step_state) + 4))) < 9) {
         *((u16 *) (((u8 *) step_state) + 0)) = (*((u16 *) (((u8 *) step_state) + 0))) + 1;

@@ -19,32 +19,32 @@ typedef struct S_8009BE2C_1 {
     s16 unk_0A;
     s16 unk_0C;
     s16 unk_0E;
-} S_8009BE2C_1;   /* temp_s0 in func_8009BE2C */
+} S_8009BE2C_1;   /* temp_s0 in dungeonDrawFullscreenFade */
 
 typedef struct S_8009BE2C_2 {
     u8 pad_00[0x4];
     s8 unk_04;
     s8 unk_05;
     s16 unk_06;
-} S_8009BE2C_2;   /* arg2 in func_8009BE2C */
+} S_8009BE2C_2;   /* arg2 in dungeonDrawFullscreenFade */
 
 typedef struct S_8009BE2C_3 {
     void * unk_00;
-} S_8009BE2C_3;   /* temp_s1 in func_8009BE2C */
+} S_8009BE2C_3;   /* temp_s1 in dungeonDrawFullscreenFade */
 
 typedef struct S_8009BE2C_4_pre {
     u16 unk_00;
-} S_8009BE2C_4_pre;   /* the 0x2 bytes before arg0 in func_8009BE2C, addressed as arg0[-1] */
+} S_8009BE2C_4_pre;   /* the 0x2 bytes before arg0 in dungeonDrawFullscreenFade, addressed as arg0[-1] */
 
 typedef struct S_8009BE2C_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in func_8009BE2C */
+} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in dungeonDrawFullscreenFade */
 
 typedef struct S_8009BE2C_6 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_8009BE2C_6;   /* ((S_8009BE2C_3 *)temp_s1)->unk_00 in func_8009BE2C */
+} S_8009BE2C_6;   /* ((S_8009BE2C_3 *)temp_s1)->unk_00 in dungeonDrawFullscreenFade */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -54,7 +54,7 @@ M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
 /* Draw a full-screen fade and mark the effect complete when its countdown ends. */
-void func_8009BE2C(void *effect, s32 unused, S_8009BE2C_2 *fade) {
+void dungeonDrawFullscreenFade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     s32 intensity;
     s16 color_value;
     s8 frames_left;

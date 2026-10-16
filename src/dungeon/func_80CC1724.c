@@ -41,12 +41,12 @@ typedef struct S_80174F24_3 {
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800A4ACC(void *);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A9A04(void *);
-extern void func_800AD594(void *, s32);
-extern s32 func_800AD9B4(void *, void *);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+extern s32 dungeonCheckActorFloorTrap(void *, void *);
 
 extern s32 D_80173B98;
 extern u8 D_80176338[];
@@ -125,7 +125,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
-            func_800A2B04(motion_arg,
+            dungeonSetRecordIntegerTileCenter(motion_arg,
                 ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
@@ -153,10 +153,10 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
         ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
         ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
         ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
-        func_800A2B04(motion_arg,
+        dungeonSetRecordIntegerTileCenter(motion_arg,
             ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
-        func_800AD594(actor, 4);
-        func_800A4ACC(actor);
+        dungeonReduceActorFoodMeter(actor, 4);
+        dungeonAdvanceStatusTimers(actor);
 
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08--;
@@ -169,13 +169,13 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((EntityRec *)actor)->facing = func_800A0818(
+                ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
 
-        if ((func_800AD9B4(unit, actor) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(unit, actor) << 16) > 0) {
             ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
             func_800A9A04(actor);
         }

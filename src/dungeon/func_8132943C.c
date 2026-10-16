@@ -5,7 +5,7 @@ extern void *D_80174CE0[];
 extern void func_800A32A4(void *record);
 
 // Processes and clears slot zero's entry, setting entry and global status flags.
-void func_80170C3C(void) {
+void dungeonReleaseSecondaryOverlayObject(void) {
     void *entryData;
 
     entryData = D_80174CE0[0];

@@ -11,7 +11,7 @@ typedef struct S_8017169C_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_8017169C_0;   /* arg3 in func_8017169C */
+} S_8017169C_0;   /* arg3 in dungeonAdvanceActorPathAndFacing */
 
 typedef struct S_8017169C_1 {
     u8 pad_00[0x24];
@@ -19,32 +19,32 @@ typedef struct S_8017169C_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8017169C_1;   /* arg2 in func_8017169C */
+} S_8017169C_1;   /* arg2 in dungeonAdvanceActorPathAndFacing */
 
 typedef struct S_8017169C_2 {
     u8 pad_00[0x96];
     u16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_8017169C_2;   /* arg0 in func_8017169C */
+} S_8017169C_2;   /* arg0 in dungeonAdvanceActorPathAndFacing */
 
 typedef struct S_8017169C_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8017169C_3;   /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in func_8017169C */
+} S_8017169C_3;   /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in dungeonAdvanceActorPathAndFacing */
 
 
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s16 func_800A0818();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 
 extern u8 D_80175E40[];
 
 /* Advance the actor along its path and update its facing and movement timing. */
-void func_8017169C(void *motion, s32 unused, void *actor, void *path_state)
+void dungeonAdvanceActorPathAndFacing(void *motion, s32 unused, void *actor, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -91,7 +91,7 @@ void func_8017169C(void *motion, s32 unused, void *actor, void *path_state)
     }
     func_8009A21C(new_x, new_y, tile_mask);
 
-    ((S_8017169C_0 *)path_state)->unk_2A = func_800A0818(
+    ((S_8017169C_0 *)path_state)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
         old_x, old_y, ((S_8017169C_1 *)actor)->unk_24, ((S_8017169C_1 *)actor)->unk_25,
         (u8 *)motion + 0x98);
     ((S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;

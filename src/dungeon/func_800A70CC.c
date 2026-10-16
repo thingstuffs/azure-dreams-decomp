@@ -11,13 +11,13 @@ typedef struct EarlyCallData {
 } EarlyCallData;
 
 extern s16 D_800E3DA8[2];
-s32 func_8003DE58();
-s32 func_8004CAE8(s32, s32);
-void func_80094E34();
-s32 func_8009B88C();
-void func_800A2B04();
+s32 resolveRecordOrientationOrFallback();
+s32 findFlaggedRecordById(s32, s32);
+void dungeonClearPlayerLinkedActionFlags();
+s32 dungeonFindValidNearbyPosition();
+void dungeonSetRecordIntegerTileCenter();
 void func_800A9A0C();
-void func_800AACA4();
+void dungeonBeginActorThrowFromAttachment();
 void func_8009A21C();
 s32 func_800AA36C();
 s16 func_800BCB04();
@@ -94,19 +94,19 @@ s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_8008
         }
     } else {
         parent_data = ((S_800AC82C_7_pre *)((*(void **)((u8 *)actor + 0x60))))[-1].unk_00;
-        if (func_8004CAE8(((EarlyCallData *) parent_data)->value, 0) == 0) {
+        if (findFlaggedRecordById(((EarlyCallData *) parent_data)->value, 0) == 0) {
             return 0;
         }
         state->unk_9B.as_u8 = (u8) (state->unk_9B.as_u8 + 1);
     }
     if ((*(s16 *)((u8 *)actor + 0x64)) < 0) {
-        func_80094E34();
+        dungeonClearPlayerLinkedActionFlags();
     }
     if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
         func_800A9A0C(actor);
     }
     if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x200000) {
-        func_800AACA4(state, position, tile, actor);
+        dungeonBeginActorThrowFromAttachment(state, position, tile, actor);
         return 0;
     }
     parent = (*(void **)((u8 *)actor + 0x60));
@@ -122,17 +122,17 @@ s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_8008
         (*(u16 *)((u8 *)actor + 0x6A)) = facing;
         tile->unk_24 = (u8) (parent_data->unk_24 + *(u8 *) &dirStepX[(facing >> 9) & 7]);
         tile->unk_25 = (u8) (parent_data->unk_25 + *(u8 *) &dirStepY[((u16) (*(u16 *)((u8 *)actor + 0x6A)) >> 9) & 7]);
-        func_800A2B04(position, tile->unk_24, tile->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, tile->unk_24, tile->unk_25);
         ground_height = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) ((*(u16 *)((u8 *)actor
             + 0x88)) - 0x20));
         if (ground_height < 0x200) {
             state->unk_90.at02_s16.v = 0;
             (*(u16 *)((u8 *)actor + 0x88)) = (u16) ground_height;
         }
-        if ((func_8009B88C(actor, tile->unk_24, tile->unk_25, &dest_x, &dest_y) << 0x10) != 0) {
+        if ((dungeonFindValidNearbyPosition(actor, tile->unk_24, tile->unk_25, &dest_x, &dest_y) << 0x10) != 0) {
             tile->unk_24 = dest_x;
             tile->unk_25 = dest_y;
-            func_800A2B04(position, tile->unk_24, tile->unk_25);
+            dungeonSetRecordIntegerTileCenter(position, tile->unk_24, tile->unk_25);
             flags = (*(s32 *)((u8 *)actor + 0x1C)) | 0x40000000;
             (*(s32 *)((u8 *)actor + 0x1C)) = flags;
             tile_x = tile->unk_24;
@@ -145,11 +145,11 @@ s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_8008
             (*(s8 *)((u8 *)actor + 0x71)) = 0;
             return 1;
         }
-        func_800A2B04(position, tile->unk_24, tile->unk_25);
+        dungeonSetRecordIntegerTileCenter(position, tile->unk_24, tile->unk_25);
         func_800AA36C(state, position, tile, actor);
         return 0;
     }
-    if (func_8003DE58(parent_data->unk_08, parent_data, offset, 0) != 0) {
+    if (resolveRecordOrientationOrFallback(parent_data->unk_08, parent_data, offset, 0) != 0) {
         position->x.w.i = (u16) ((u16) *D_800E3DA8 + (parent_position->unk_02 + offset[0]));
         position->y.w.i = (u16) ((u16) D_800E3DA8[1] + (parent_position->unk_06 + offset[1]));
         parent_height = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_88;

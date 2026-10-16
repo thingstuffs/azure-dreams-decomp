@@ -37,7 +37,7 @@ extern u32 D_80012BCC[4];
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
 
-void func_8052AE20(S_80810220_0 *control_data, S_80810220_3 *value_data, S_80810220_2 *output_data) {
+void townUpdateItemPanelSelection(S_80810220_0 *control_data, S_80810220_3 *value_data, S_80810220_2 *output_data) {
     S_80810220_1 *child;
     s16 called;
     s16 state;

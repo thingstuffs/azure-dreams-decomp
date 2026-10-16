@@ -7,7 +7,7 @@ extern void func_8007BF50(void *a, void *b);
 extern int D_80010208;
 
 /* Initialize the destination from templates, apply index data, and set the mode flag. */
-void func_80406844(short *dest, int index, int mode)
+void mainInitializeDestinationTemplateState(short *dest, int index, int mode)
 {
     unsigned char index_data[16];
     short *dest_start;

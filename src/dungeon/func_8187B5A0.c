@@ -12,7 +12,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 func_80024DA0(u8 *render_data, u8 *source_vertex)
+s32 projectColoredPointToOrderingTable(u8 *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;

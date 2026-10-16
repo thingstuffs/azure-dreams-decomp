@@ -11,10 +11,10 @@ typedef struct Func37534State {
     s16 cursor_offset;
 } Func37534State;
 
-extern void func_80033C84(s32 *value);
-extern void func_80035090(void *node);
+extern void runtimeClearValue(s32 *value);
+extern void runtimeUnlinkDoublyLinkedNode(void *node);
 extern void func_80044A50(void *node);
-extern void func_8003FFF0(void *node);
+extern void unlinkActiveNode(void *node);
 
 /* Cleans up and unlinks the node when its enabled cursor has status 0xFF. */
 s32 func_80037534(Func37534State *state) {
@@ -34,10 +34,10 @@ s32 func_80037534(Func37534State *state) {
     }
 
     cursor[0x50] = 1;
-    func_80033C84((s32 *)state->clear_target);
-    func_80035090((u8 *)state + 0x54);
+    runtimeClearValue((s32 *)state->clear_target);
+    runtimeUnlinkDoublyLinkedNode((u8 *)state + 0x54);
     state = (Func37534State *)((u8 *)state - 0x20);
     func_80044A50(state);
-    func_8003FFF0(state);
+    unlinkActiveNode(state);
     return 1;
 }

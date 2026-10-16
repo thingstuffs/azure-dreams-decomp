@@ -10,7 +10,7 @@ typedef struct S_8009F868_0 {
     u16 unk_08;
     u16 unk_0A;
     u8 * unk_0C;
-} S_8009F868_0;   /* state in func_8009F868 */
+} S_8009F868_0;   /* state in dungeonAdvanceMonsterTimedSequence */
 
 extern u8 D_800DCE60[16];
 
@@ -19,7 +19,7 @@ extern void func_8004D7A8(s32);
 extern void func_8004D294(s32, void *, s32);
 
 /* Advances a timed sequence, following relative jumps and handling its end. */
-void *func_8009F868(void)
+void *dungeonAdvanceMonsterTimedSequence(void)
 {
     u8 *state;
     u8 *entry;
@@ -47,7 +47,7 @@ void *func_8009F868(void)
     if (opcode == 0xD0) {
         ((S_8009F868_0 *)state)->unk_08 = 0;
         ((S_8009F868_0 *)state)->unk_0A += (s8)entry[0];
-        return func_8009F868();
+        return dungeonAdvanceMonsterTimedSequence();
     }
 
     if ((s8)entry[0] < 0 ||

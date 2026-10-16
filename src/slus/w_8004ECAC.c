@@ -5,7 +5,7 @@ typedef struct {
     u16 flags; /* offset 0x1E */
 } S_8004ECAC;
 
-extern void func_8004EE90(u16 *a0);
+extern void setObjectAndGlobalRemovalFlag(u16 *a0);
 
 /* If flag 0x2000 is set, transfer it to the linked entity and mark this entity and global state dirty. */
 void func_8004ECAC(void *link_field)
@@ -16,6 +16,6 @@ void func_8004ECAC(void *link_field)
     if (self->flags & 0x2000) {
         self->flags &= 0xDFFF;
         (*linked_entity)[0xF] |= 0x2000;
-        func_8004EE90((u16 *)self);
+        setObjectAndGlobalRemovalFlag((u16 *)self);
     }
 }

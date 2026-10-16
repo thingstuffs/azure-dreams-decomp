@@ -5,10 +5,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_80080000[];
-M2C_UNK func_8008F294();             /* extern */
-M2C_UNK func_8008F664();             /* extern */
-M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_8009C1B4(); /* extern */
+M2C_UNK townCallTheSameContextBothProcessingRoutines();             /* extern */
+M2C_UNK townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis();             /* extern */
+M2C_UNK townAddMotionDeltasToPosition();                      /* extern */
+M2C_UNK townInitializeObjectAndMaybePlaySound(); /* extern */
 
 
 typedef struct S_7FFFE188_1 {
@@ -24,12 +24,12 @@ void func_7FFFE188(S_7FFFE188_1 *entity, M2C_UNK context, EntityRec *motion, M2C
     target_pos = D_80080000 + 0xDE0;
     motion->unk_0C = (s32) ((s32) (target_pos[0] - motion->x.v) / 2);
     motion->unk_10 = (s32) ((s32) (target_pos[1] - motion->y.v) / 2);
-    func_8009539C(motion);
-    func_8008F294(context, motion);
-    func_8008F664(context, motion);
+    townAddMotionDeltasToPosition(motion);
+    townCallTheSameContextBothProcessingRoutines(context, motion);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(context, motion);
     remaining_ticks = entity->unk_6C - 1;
     entity->unk_6C = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        func_8009C1B4(entity, context, motion, completion_data);
+        townInitializeObjectAndMaybePlaySound(entity, context, motion, completion_data);
     }
 }

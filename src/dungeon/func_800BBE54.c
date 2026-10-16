@@ -9,42 +9,42 @@ extern u8 D_800C152C[];
 extern u8 D_800DF514[];
 extern u8 D_800E14A6[];
 
-s32 func_80098864(s32, s32);
-void func_8008D344(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
+void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 void func_800A6480(void *, s32);
-s32 func_800AD6FC(void *, s32, s32);
+s32 dungeonApplyActorFoodPreference(void *, s32, s32);
 void func_800A5F38(void *, s32);
-s32 func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
+s32 dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void func_800997FC(void *);
-void func_80098B38(s32);
+void dungeonClearSlotAndUpdateLinkedState(s32);
 
 /* Dispatches a target action according to its type and address. */
-s32 func_800C15B4(void *target, s32 action_id, s16 action_type, s32 action_arg) {
+s32 dungeonUseItemToDrawFullRecoveryCircle(void *target, s32 action_id, s16 action_type, s32 action_arg) {
     void *target_data;
 
     if (action_type == 0xD) {
-        return func_80098864(action_id, action_arg);
+        return dungeonProcessRecordAndUpdateLinkedState(action_id, action_arg);
     }
     if (target == D_800E3D7C) {
         *(s32 *)((u8 *)target + 0x110) = action_id;
-        func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {
         func_800A6480(target, action_id);
-        if (func_800AD6FC(target, D_800DDE84[*(u8 *)((u8 *)target + 0x13)] & 3, action_id) == 0) {
+        if (dungeonApplyActorFoodPreference(target, D_800DDE84[*(u8 *)((u8 *)target + 0x13)] & 3, action_id) == 0) {
             func_800A5F38(target, action_id);
             return 1;
         }
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
     } else {
         target_data = *(void **)((u8 *)target - 0x14);
-        if (func_800BBA40(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25),
+        if (dungeonCreateFivePointEffect(*(u8 *)((u8 *)target_data + 0x24), *(u8 *)((u8 *)target_data + 0x25),
             *(s16 *)((u8 *)target + 0x88), &D_800DF514, 0x2800, 0x802020, &D_800C152C) == 0) {
             return 0;
         }
         func_800997FC(&D_800E14A6);
     }
-    func_80098B38(action_id);
+    dungeonClearSlotAndUpdateLinkedState(action_id);
     return 1;
 }

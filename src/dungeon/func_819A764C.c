@@ -48,7 +48,7 @@ extern u16 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
 /* Update randomized intermediate points and advance the effect state. */
-void func_80024E4C(void *self)
+void dungeonUpdateRandomizedIntermediatePoints(void *self)
 {
     s16 point_step[3];
     s32 state;

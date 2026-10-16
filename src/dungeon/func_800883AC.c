@@ -7,17 +7,17 @@
 typedef struct S_8008DB0C_1 {
     u8 pad_00[0x8A];
     s16 unk_8A;
-} S_8008DB0C_1;   /* call_obj in func_8008DB0C */
+} S_8008DB0C_1;   /* call_obj in dungeonBeginFamiliarDeploymentChange */
 
 
 extern void func_80048A44(void *, u8, s32, s32);
-extern s32 func_80098C80(s32);
-extern void func_8009F644(void *, s32, s16, s32);
+extern s32 dungeonGetSpecialTableDataIndex(s32);
+extern void dungeonAppendPackedActionRecord(void *, s32, s16, s32);
 
 extern u8 D_800DD130[];
 
 /* Initializes object state and its directional display, then dispatches an action. */
-void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
+void dungeonBeginFamiliarDeploymentChange(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
     u8 *direction_table = D_800DD130;
     s32 lookup_result;
     u16 saved_mode;
@@ -43,7 +43,7 @@ void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) 
         register s32 action_arg;
 
         if (D_80082E80.unk_030 != 0) {
-            lookup_result = func_80098C80(D_80082E80.unk_030);
+            lookup_result = dungeonGetSpecialTableDataIndex(D_80082E80.unk_030);
             action_obj = obj;
             action_kind = 0x68;
             field_value = ((Rec_func_8008ACDC_arg0 *)obj)->unk_8A;
@@ -54,7 +54,7 @@ void func_8008DB0C(void *obj, s32 unused, void *display, s32 mode, u16 variant) 
             field_value = ((S_8008DB0C_1 *)action_obj)->unk_8A;
             action_arg = 0;
         }
-        func_8009F644(action_obj, action_kind, field_value, action_arg);
+        dungeonAppendPackedActionRecord(action_obj, action_kind, field_value, action_arg);
     }
 }
 

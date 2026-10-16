@@ -12,7 +12,7 @@ extern s16 func_8008CB58(UnkStruct *, s32 *, s32);
 extern s32 D_800CFD98[];
 
 /* Check the position with its second coordinate adjusted by the stored offset. */
-s16 func_8008F46C(void *source_record) {
+s16 townCheckThePositionSecondCoordinateAdjustedStoredOffset(void *source_record) {
     UnkStruct adjusted_position;
 
     adjusted_position.unk0 = *(s32 *)((u8 *)source_record + 0);

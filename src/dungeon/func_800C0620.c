@@ -9,7 +9,7 @@ typedef struct S_800C5D80_0 {
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800C5D80_0;   /* arg1 in func_800C5D80 */
+} S_800C5D80_0;   /* arg1 in dungeonAdvanceEffectMotionAndFade */
 
 
 typedef struct S_800C5D80_2 {
@@ -18,13 +18,13 @@ typedef struct S_800C5D80_2 {
     s16 unk_0E;
     u8 pad_10[0x2];
     s16 unk_12;
-} S_800C5D80_2;   /* arg0 in func_800C5D80; pointer addresses record offset 0x2 */
+} S_800C5D80_2;   /* arg0 in dungeonAdvanceEffectMotionAndFade; pointer addresses record offset 0x2 */
 
 
 extern void func_800478B8();
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
-void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
+void dungeonAdvanceEffectMotionAndFade(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
     s16 ticks_left;
     u8 brightness;
 

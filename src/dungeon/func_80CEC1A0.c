@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates the display table and directional entry for kinds 13 through 15. */
-void func_801759A0(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
+void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
     T_801759A0_Obj2 *display = display_arg;
     T_801759A0_Obj3 *state = state_arg;
@@ -62,8 +62,8 @@ void func_801759A0(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *displ
     }
 
     if (func_800AC82C(actor, context, display, state) != 0) {
-        if ((func_800AD9B4(display, state) << 16) > 0) {
-            actor->field8c = func_801724BC;
+        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
+            actor->field8c = dungeonUpdateActorBehavior;
         }
         return;
     }

@@ -15,32 +15,32 @@ typedef struct S_80172374_0 {
     u8 unk_9B;
     u8 pad_9C[0x8];
     s32 unk_A4;
-} S_80172374_0;   /* arg0 in func_80172374 */
+} S_80172374_0;   /* arg0 in advanceJumpToTargetTile */
 
 
 typedef struct S_80172374_4 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80172374_4;   /* global in func_80172374 */
+} S_80172374_4;   /* global in advanceJumpToTargetTile */
 
 typedef struct S_80172374_5 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172374_5;   /* map in func_80172374 */
+} S_80172374_5;   /* map in advanceJumpToTargetTile */
 
 
-extern s16 func_800A0818();
-extern void func_800A2B04();
-extern void func_800A4ACC();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonAdvanceStatusTimers();
 extern void func_800A9A04();
-extern void func_800AD594();
-extern s32 func_800AD9B4();
+extern void dungeonReduceActorFoodMeter();
+extern s32 dungeonCheckActorFloorTrap();
 
 extern u8 D_80170E54;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
-void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
+void advanceJumpToTargetTile(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
     s32 direction_aux;
     s32 jump_state;
     s32 frames_left;
@@ -91,7 +91,7 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
+            dungeonSetRecordIntegerTileCenter(position, target_tile->unk_24, target_tile->unk_25);
             motion->unk_9B++;
         }
         break;
@@ -103,9 +103,9 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
-        func_800AD594(entity, 5);
-        func_800A4ACC(entity);
+        dungeonSetRecordIntegerTileCenter(position, target_tile->unk_24, target_tile->unk_25);
+        dungeonReduceActorFoodMeter(entity, 5);
+        dungeonAdvanceStatusTimers(entity);
 
         if (dungeonStatus.unk_08 != 0) {
             dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
@@ -119,13 +119,13 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
         } else if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {
 
-                entity->facing = func_800A0818(
+                entity->facing = dungeonGetRoundedFacingAndRoundingFlag(
                     target_tile->unk_24, target_tile->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
 
-        if ((func_800AD9B4(target_tile, entity) << 16) > 0) {
+        if ((dungeonCheckActorFloorTrap(target_tile, entity) << 16) > 0) {
             motion->unk_8C = &D_80170E54;
             func_800A9A04(entity);
         }

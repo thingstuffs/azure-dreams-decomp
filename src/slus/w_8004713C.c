@@ -1,6 +1,6 @@
 #include "slus/owned_8004713C.h"
 
-void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
+void runtimeUploadImageBlocksVRAMOffsetsSelectedTileBlockIndices(s32 image_addr, s32 tile_id, s32 num_blocks) {
     s32 image_data;
     s32 block_index;
     s32 block_count;

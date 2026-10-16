@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *func_80016D98(s32 id);
+extern void *townGetSpecialDataForLowValueId(s32 id);
 extern s32 func_800178A8(void *entry_table, s32 entry_id, s32 entry_type);
 extern void *func_80017960(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
 
@@ -14,7 +14,7 @@ void *func_800169F0(s32 entry_id, s32 unused, s32 entry_type)
     void *result;
     u8 *entry_table;
 
-    result = func_80016D98(entry_type);
+    result = townGetSpecialDataForLowValueId(entry_type);
     if (result != 0) {
         return result;
     }

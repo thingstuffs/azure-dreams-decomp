@@ -13,7 +13,7 @@ extern u8 D_800AB55C[];
 extern u8 D_800AB708[];
 
 /* Updates the state from the value and countdown, resetting an expired timer to ten. */
-void func_800AB50C(State *record) {
+void townUpdatePersonCountdownState(State *record) {
     u16 timer;
 
     if (record->value < 100) {

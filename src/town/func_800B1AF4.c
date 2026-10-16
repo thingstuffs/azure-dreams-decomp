@@ -7,16 +7,16 @@ s32 func_80049790();                             /* extern */
 typedef struct S_800AF254_0 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800AF254_0;   /* *arg1 in func_800AF254 */
+} S_800AF254_0;   /* *arg1 in townPopulateItemMenuPageEntries */
 
 typedef struct S_800AF254_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     s32 unk_20;
-} S_800AF254_1;   /* temp_v1 in func_800AF254 */
+} S_800AF254_1;   /* temp_v1 in townPopulateItemMenuPageEntries */
 
 /* Fills up to ten output slots with converted entries from the selected page. */
-void func_800AF254(s32 output_base, void **entries_ref) {
+void townPopulateItemMenuPageEntries(s32 output_base, void **entries_ref) {
     s32 *output_slot;
     s32 entry_value;
     s32 entry_index;

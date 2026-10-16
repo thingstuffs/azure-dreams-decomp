@@ -73,16 +73,16 @@ typedef struct GlobalObj {
 
 extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
-extern s32 func_80098C80();
-extern s32 func_80098920();
+extern s32 dungeonGetSpecialTableDataIndex();
+extern s32 dispatchDungeonCategoryAction();
 struct S_800BA33C_0;
-extern s32 func_800BA33C(struct S_800BA33C_0 *object);
+extern s32 dungeonIsSelectableMenuTarget(struct S_800BA33C_0 *object);
 extern void func_800478B8();
-extern void func_8009F644();
-extern s32 func_800C77D0();
+extern void dungeonAppendPackedActionRecord();
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
-void func_800B9A78(Work *work, Out *out, Render *render_arg)
+void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
     GameWork *controls;
@@ -161,7 +161,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *left;
                 left = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->left;
-                if (func_800BA33C(left)) {
+                if (dungeonIsSelectableMenuTarget(left)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
@@ -180,7 +180,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *right;
                 right = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->right;
-                if (func_800BA33C(right)) {
+                if (dungeonIsSelectableMenuTarget(right)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
@@ -217,19 +217,19 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                     s32 action;
                     s32 amount;
                     GlobalObj *object;
-                    result = func_80098C80(((Work *)work)->handle);
+                    result = dungeonGetSpecialTableDataIndex(((Work *)work)->handle);
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
                     object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
-                    func_8009F644(object, action, amount, 0);
+                    dungeonAppendPackedActionRecord(object, action, amount, 0);
                 } else {
                     s32 amount;
                     GlobalObj *object;
-                    result = func_80098C80((*(s32 *)((u8 *)work + 0x2C)));
+                    result = dungeonGetSpecialTableDataIndex((*(s32 *)((u8 *)work + 0x2C)));
                     amount = (s16)result;
                     object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
-                    func_8009F644(object, 0x50,
+                    dungeonAppendPackedActionRecord(object, 0x50,
                                   work->node->entity == object->right, amount);
                 }
             }
@@ -245,9 +245,9 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             counter_base_2 = (u8 *)D_800E0000;
             entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)entity - 0x18);
-            func_800C77D0((u8 *)entity - 0x20, target_pos, count,
+            dungeonSelectNearbyTargetAndInitializeSlot((u8 *)entity - 0x20, target_pos, count,
                           *(s16 *)(counter_base_2 - 0x319A));
-            result = func_80098920(work->node->entity, work->handle, 0x15, 0);
+            result = dispatchDungeonCategoryAction(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
                 return;
             }

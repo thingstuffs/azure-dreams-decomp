@@ -10,7 +10,7 @@ typedef struct S_80172F04_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172F04_0;   /* arg0 in func_80172F04 */
+} S_80172F04_0;   /* arg0 in dungeonAdvanceItemAnimationSequence */
 
 
 typedef struct S_80172F04_2 {
@@ -18,14 +18,14 @@ typedef struct S_80172F04_2 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_80172F04_2;   /* actor in func_80172F04 */
+} S_80172F04_2;   /* actor in dungeonAdvanceItemAnimationSequence */
 
 typedef struct S_80172F04_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172F04_3;   /* arg1 in func_80172F04 */
+} S_80172F04_3;   /* arg1 in dungeonAdvanceItemAnimationSequence */
 
 typedef struct S_80172F04_4 {
     u8 unk_00;
@@ -33,20 +33,20 @@ typedef struct S_80172F04_4 {
     s16 unk_3228;
     u8 pad_322A[0x242];
     s32 unk_346C;
-} S_80172F04_4;   /* (u8 *)work in func_80172F04 */
+} S_80172F04_4;   /* (u8 *)work in dungeonAdvanceItemAnimationSequence */
 
 
 extern void func_80047784(void *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 
 extern u8 D_801714B8[];
 extern u8 D_801760CC[];
 
 /* Advances a timed actor animation sequence and resets its action on completion. */
-void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *animation, void *actor_ptr)
+void dungeonAdvanceItemAnimationSequence(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *animation, void *actor_ptr)
 {
     void *actor;
     s32 state;
@@ -62,7 +62,7 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
         if (animation->unk_14.at00_u16.v & 0x8000) {
             action->unk_9B = 3;
             animation->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
             return;
         }
         motion->unk_14 = 0;
@@ -94,7 +94,7 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
         timer = action->unk_96 + 1;
         action->unk_96 = timer;
         if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
             current_state = action->unk_9B;
             action->unk_96 = 0;
             action->unk_9B = current_state + 1;
@@ -103,11 +103,11 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
         return;
     case 3:
         if (animation->unk_14.at00_u16.v & 0xE000) {
-            func_800AD594(actor, 0x140);
+            dungeonReduceActorFoodMeter(actor, 0x140);
             call_actor = actor;
             action->unk_8C = (u8 *)((u32)D_801714B8);
             ((S_80172F04_4 *)D_80080000)->unk_346C = 0;
-            func_800A4ACC(call_actor);
+            dungeonAdvanceStatusTimers(call_actor);
             ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
         }
         return;

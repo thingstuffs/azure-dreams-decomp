@@ -14,7 +14,7 @@ typedef struct Func8003A500State {
 } Func8003A500State;
 
 /* Stores the difference between two event-script variables in the result field. */
-void func_8003A500(Func8003A500State *state) {
+void vmOp61SetDifferenceResult(Func8003A500State *state) {
     u8 *script_cursor = state->read_ptr;
     u8 lhs_index = *script_cursor;
     u8 rhs_index;

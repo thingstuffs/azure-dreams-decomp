@@ -15,7 +15,7 @@ typedef struct S_800C9088_0 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_800C9088_0;   /* object in func_800C9088 */
+} S_800C9088_0;   /* object in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_1 {
     u8 pad_00[0x20];
@@ -54,7 +54,7 @@ typedef struct S_800C9088_1 {
     s32 unk_C0;
     u8 pad_C4[0x50];
     volatile s32 unk_114;
-} S_800C9088_1;   /* scratch in func_800C9088 */
+} S_800C9088_1;   /* scratch in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_2 {
     u8 unk_00;
@@ -66,47 +66,47 @@ typedef struct S_800C9088_2 {
     s16 unk_0A;
     u8 pad_0C[0x3154];
     u8 * unk_3160;
-} S_800C9088_2;   /* ptr_s0 in func_800C9088 */
+} S_800C9088_2;   /* ptr_s0 in dungeonTransformShadeAndQueueModelQuads */
 
-   /* state in func_800C9088 */
+   /* state in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_4 {
     u8 * unk_00;
     u8 * unk_04;
     u8 * unk_08;
-} S_800C9088_4;   /* descriptor in func_800C9088 */
+} S_800C9088_4;   /* descriptor in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_5 {
     u16 unk_00;
-} S_800C9088_5;   /* indices in func_800C9088 */
+} S_800C9088_5;   /* indices in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_6 {
     s32 unk_00;
-} S_800C9088_6;   /* table + next_index * 8 in func_800C9088 */
+} S_800C9088_6;   /* table + next_index * 8 in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_7 {
     s32 unk_00;
-} S_800C9088_7;   /* word2_ptr in func_800C9088 */
+} S_800C9088_7;   /* word2_ptr in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_8 {
     s32 unk_00;
-} S_800C9088_8;   /* word3_ptr in func_800C9088 */
+} S_800C9088_8;   /* word3_ptr in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_9 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800C9088_9;   /* table + half_index * 8 in func_800C9088 */
+} S_800C9088_9;   /* table + half_index * 8 in dungeonTransformShadeAndQueueModelQuads */
 
-   /* *(u8 **)state_base in func_800C9088 */
+   /* *(u8 **)state_base in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_12 {
     s32 unk_00;
-} S_800C9088_12;   /* table + ((S_800C9088_5 *)indices)->unk_00 * 8 in func_800C9088 */
+} S_800C9088_12;   /* table + ((S_800C9088_5 *)indices)->unk_00 * 8 in dungeonTransformShadeAndQueueModelQuads */
 
 typedef struct S_800C9088_13 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800C9088_13;   /* table + (*(u16 *)((u8 *)ptr_s1 + -0x1D)) * 8 in func_800C9088 */
+} S_800C9088_13;   /* table + (*(u16 *)((u8 *)ptr_s1 + -0x1D)) * 8 in dungeonTransformShadeAndQueueModelQuads */
 
 
 typedef struct {
@@ -133,7 +133,7 @@ extern void func_8006658C(void *, void *);
 extern void func_8006671C(void *);
 
 /* Transform, shade, and enqueue visible textured quads for the model. */
-void func_800C9088(void *parent_matrix, void *translation, void *model, s16 depth_bias)
+void dungeonTransformShadeAndQueueModelQuads(void *parent_matrix, void *translation, void *model, s16 depth_bias)
 {
     u8 *scratch;
     u8 *indices;

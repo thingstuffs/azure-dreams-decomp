@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void func_80025BF4(ovl_1830850_81810BF4_Entity *entity) {
+void inventoryApplyStepAndResetAfterFive(ovl_1830850_81810BF4_Entity *entity) {
     s32 next_state;
     s32 t;
 
@@ -12,5 +12,5 @@ void func_80025BF4(ovl_1830850_81810BF4_Entity *entity) {
         entity->state = 0;
         *(void **)((u8 *)entity - 0x10) = (void *)func_80025BD4;
     }
-    func_80025A0C((ovl_1830850_81810A0C_DungeonArg *)entity);
+    inventoryHandleMenuActionsAndRepeat((ovl_1830850_81810A0C_DungeonArg *)entity);
 }

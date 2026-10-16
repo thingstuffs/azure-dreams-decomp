@@ -3,7 +3,7 @@
 extern u8 D_80127A40[];
 
 /* Return the low bit of the packed two-bit flag selected by the lookup table. */
-s32 func_80123200(s32 index) {
+s32 townIsCatalogEntryAvailable(s32 index) {
     u8 flag_index;
 
     index &= 0xFF;

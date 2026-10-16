@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void func_8002654C(void *tracker) {
+void dungeonClearObjectBufferAndState(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     ovl_19a332c_81984D4C_S_81984D4C_2 *target;

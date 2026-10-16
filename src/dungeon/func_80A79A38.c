@@ -13,20 +13,20 @@ typedef struct S_8016D238_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8016D238_1;   /* arg0 in func_8016D238 */
+} S_8016D238_1;   /* arg0 in dungeonSettleDirectionalMotionVariant */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void func_800A2B04(void *, s32, s32);
-extern void func_800AAA54(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void func_800AD4D0(void *);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void dungeonApplyClampedActorValueDelta(void *);
 
 extern u8 D_8016AE54;
 extern u8 D_8016E150[];
 extern u8 D_8016E178[];
 
 /* Updates directional motion and settles the actor at its tile center. */
-void func_8016D238(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void dungeonSettleDirectionalMotionVariant(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 state;
     s32 direction;
@@ -37,7 +37,7 @@ void func_8016D238(void *action, EntityRec *motion, void *sprite, EntityRec *act
     state = ((S_8016D238_1 *)action)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         motion->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
         motion->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
         ((S_8016D238_1 *)action)->unk_9B++;
@@ -46,7 +46,7 @@ void func_8016D238(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, D_8016E178);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_8016E178);
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -82,7 +82,7 @@ void func_8016D238(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, sprite, D_8016E178);
+            dungeonBeginActorDisplayAction(action, motion, sprite, D_8016E178);
             return;
         } else {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016E150;
@@ -137,7 +137,7 @@ void func_8016D238(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->unk_0C = 0;
         motion->x.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
         motion->y.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         tracked_actor = ((s32)dungeonStatus.unk_10);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

@@ -1,0 +1,53 @@
+{
+  "schema": "azure-clean.recovered-function.v1",
+  "id": "town/func_806D4E00",
+  "group": "ovl_6541c0.c#55",
+  "foff": 6639104,
+  "size": 104,
+  "true_name": "func_80016E00",
+  "boundary_basis": "Twenty-six decoded instructions retain the incoming selector in s1 and nullable result in s0 across a real query; only selectors 11 and 28 below the signed -47 threshold return explicit byte-address anchors. The routine has an independent ra/s1/s0/sp epilogue at 0x654E50..0x654E64. These pointer values are proven by code; external storage ownership is explicitly held. This is code-boundary evidence only; it grants no data-ownership or native certificate claim.",
+  "raw_source": "raw/town/func_806D4E00.c",
+  "raw_sha256": "eaac5477c22ba434d7faf4a7681d457e834dc3902da7d441fa93c8d5c8ec9bab",
+  "byte_proof": {
+    "exact": true,
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "config": "2.7.2-cdk-G0",
+    "source_sha": "eaac5477c22ba434d7faf4a7681d457e834dc3902da7d441fa93c8d5c8ec9bab",
+    "target_sha": "a246df54c85e8a88fe8d08e15ae19442ff688a364698a46f14c825622cda2677",
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    }
+  },
+  "review": "pending",
+  "retail_words": [
+    "0x27BDFFE0",
+    "0xAFB10014",
+    "0x00808821",
+    "0xAFB00010",
+    "0xAFBF0018",
+    "0x0C0060E7",
+    "0x00008021",
+    "0x2842FFD1",
+    "0x1040000A",
+    "0x2402000B",
+    "0x16220004",
+    "0x2402001C",
+    "0x3C028002",
+    "0x08005B93",
+    "0x2450B5E7",
+    "0x16220004",
+    "0x02001021",
+    "0x3C028002",
+    "0x2450B71A",
+    "0x02001021",
+    "0x8FBF0018",
+    "0x8FB10014",
+    "0x8FB00010",
+    "0x27BD0020",
+    "0x03E00008",
+    "0x00000000"
+  ]
+}

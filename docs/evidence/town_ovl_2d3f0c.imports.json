@@ -1,0 +1,29 @@
+{
+  "module": "town_ovl_2d3f0c",
+  "review": "pending",
+  "reviewer": null,
+  "runtime_views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "runtime_data",
+      "vma": 2147573760,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "declaration": "include/shared/record_ptrs.h",
+      "evidence": "docs/evidence/town_ovl_2d3f0c.imports.json"
+    }
+  },
+  "basis": [
+    "D_80016000 is the existing shared runtime pointer word. This module imports it; it neither initializes nor allocates it. include/shared/record_ptrs.h and shared/town_root.h describe the observed pointer ABI.",
+    "The typed four-s32 prototype matches the existing definition in src/town/func_803301B8.c. Calls preserve all four constant register arguments."
+  ],
+  "functions": {
+    "func_8001A9B8": {
+      "foff": 2818488,
+      "region": "sweep_2AB9C0",
+      "delta": 2144774144,
+      "basis": "Existing proven TOWN core load map; exact retail jal operand and complete registered function at this true name."
+    }
+  },
+  "views": {}
+}

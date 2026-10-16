@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_e0365c.h"
-void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = func_80170854;
+void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = dungeonSpawnModeDependent112Object;
 #include "../func_80DE3054.c"
 #include "../func_80DE3258.c"
 #include "../func_80DE365C.c"

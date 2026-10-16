@@ -16,7 +16,7 @@ typedef struct Slot {
 
 
 /* Tests the global override or flag 0x20000 on the actor or its linked actors. */
-s32 func_800C7F68(Actor *actor) {
+s32 dungeonCheckGlobalOrLinkedFlag20000(Actor *actor) {
     if (D_800E296C & 0x10000000) {
         return 1;
     }

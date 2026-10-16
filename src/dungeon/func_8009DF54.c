@@ -7,31 +7,31 @@ typedef struct S_800A36B4_0 {
     u16 unk_3E;
     u8 pad_40[0x5C];
     u16 unk_9C;
-} S_800A36B4_0;   /* arg0 in func_800A36B4; pointer addresses record offset 0x14 */
+} S_800A36B4_0;   /* arg0 in dungeonCheckTilePathClear; pointer addresses record offset 0x14 */
 
 typedef struct S_800A36B4_1 {
     void * unk_00;
-} S_800A36B4_1;   /* arg1 in func_800A36B4; pointer addresses record offset 0x14 */
+} S_800A36B4_1;   /* arg1 in dungeonCheckTilePathClear; pointer addresses record offset 0x14 */
 
 typedef struct S_800A36B4_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A36B4_2;   /* temp_a3 in func_800A36B4 */
+} S_800A36B4_2;   /* temp_a3 in dungeonCheckTilePathClear */
 
 typedef struct S_800A36B4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A36B4_3;   /* temp_s3 in func_800A36B4 */
+} S_800A36B4_3;   /* temp_s3 in dungeonCheckTilePathClear */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 func_800A44E0(u16, u16, s16, s16);
+extern s32 dungeonCheckLayerOffsetHeight(u16, u16, s16, s16);
 extern s32 func_800BCB04(s32, s32, s16);
 
 /* Checks whether the tile path from source to target is clear. */
-s32 func_800A36B4(void *source, void *target) {
+s32 dungeonCheckTilePathClear(void *source, void *target) {
     s32 step_y;
     s32 step_x;
     S_800A36B4_2 *source_pos;
@@ -68,7 +68,7 @@ s32 func_800A36B4(void *source, void *target) {
     while (tile_x != target_pos->unk_24 ||
            tile_y != target_pos->unk_25) {
         check_height = height;
-        if ((func_800A44E0((tile_x << 6) & 0xFFC0,
+        if ((dungeonCheckLayerOffsetHeight((tile_x << 6) & 0xFFC0,
                            (tile_y << 6) & 0xFFC0,
                            check_height, check_param) << 16) != 0) {
             return 0;

@@ -22,14 +22,14 @@ extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
 extern u8 D_80170E94[];
 extern void *D_800E3DE8[];
-s32 func_8003DE58();
+s32 resolveRecordOrientationOrFallback();
 void *func_8003FD64(s32, void *);
 s32 func_8004491C();
 s16 func_80066460();
 s16 func_8006649C();
-void *func_8009C12C();
-void func_800A2B04();
-s32 func_800A4ACC();
+void *dungeonResolveAttackDamageAndEffects();
+void dungeonSetRecordIntegerTileCenter();
+s32 dungeonAdvanceStatusTimers();
 s32 func_800A56E0();
 extern M2C_UNK D_800DB618;
 extern M2C_UNK D_800DB660;
@@ -52,7 +52,7 @@ typedef struct S_801727B4_0 {
     u16 unk_AC;
     u16 unk_AE;
     u16 unk_B0;
-} S_801727B4_0;   /* arg0 in func_801727B4 */
+} S_801727B4_0;   /* arg0 in dungeonUpdateStagedMovementAndRestoreActor */
 
 
 typedef struct S_801727B4_4 {
@@ -75,10 +75,10 @@ typedef struct S_801727B4_4 {
     s16 unk_32;
     s16 unk_34;
     s16 unk_36;
-} S_801727B4_4;   /* temp_s0 in func_801727B4 */
+} S_801727B4_4;   /* temp_s0 in dungeonUpdateStagedMovementAndRestoreActor */
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
-void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
+void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
@@ -110,7 +110,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         if (animation->unk_14.at00_u16.v & 0x8000) {
             ((S_801727B4_0 *)action)->unk_9B = 5U;
             animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
-            func_8009C12C(actor, animation, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
             return;
         }
         facing = ((u16) actor->facing >> 9) & 7;
@@ -155,7 +155,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         return;
     case 3:
         if (animation->unk_04.as_s8 < 3) {
-            if (func_8003DE58(animation->unk_08, animation, action + 0xAC, 0) == 0) {
+            if (resolveRecordOrientationOrFallback(animation->unk_08, animation, action + 0xAC, 0) == 0) {
                 ((S_801727B4_0 *)action)->unk_B0 = 0U;
                 ((S_801727B4_0 *)action)->unk_AE = 0U;
                 ((S_801727B4_0 *)action)->unk_AC = 0U;
@@ -172,7 +172,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
                 effect_data->unk_12 = (u16) ((S_801727B4_0 *)action)->unk_AE;
                 effect_data->unk_14 = (u16) ((S_801727B4_0 *)action)->unk_B0;
-                has_offset = func_8003DE58(animation->unk_08, animation, action + 0xAC, 0);
+                has_offset = resolveRecordOrientationOrFallback(animation->unk_08, animation, action + 0xAC, 0);
                 if (has_offset == 0) {
                     ((S_801727B4_0 *)action)->unk_B0 = 0U;
                     ((S_801727B4_0 *)action)->unk_AE = 0U;
@@ -213,7 +213,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         ticks_left = ((S_801727B4_0 *)action)->unk_96 - 1;
         ((S_801727B4_0 *)action)->unk_96 = ticks_left;
         if ((ticks_left << 0x10) == 0 || (animation->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, animation, actor->facing, 1);
+            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
             func_800A56E0(0x808);
         }
         if (!(animation->unk_14.at00_u16.v & 0xE000)) {
@@ -231,7 +231,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         animation->unk_2C.as_pu8 = D_80174AAC;
         func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->unk_14.at00_u16.v & 0x8000) {
-            func_800A2B04(motion, animation->unk_24, animation->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
         }
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
@@ -251,10 +251,10 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
                 axis_distance = 0 - axis_distance;
             }
             if (axis_distance >= 0x41) {
-                func_800A2B04(motion, animation->unk_24, animation->unk_25);
+                dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
             }
         } else {
-            func_800A2B04(motion, animation->unk_24, animation->unk_25);
+            dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
         }
         if ((s16) ((u16)motion->x.w.i) != (s16) ((S_801727B4_0 *)action)->unk_A8) {
             return;
@@ -264,11 +264,11 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         }
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, animation->unk_24, animation->unk_25);
-        func_800AD594(actor, 0x100);
+        dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
         ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
+        dungeonAdvanceStatusTimers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         } else {
@@ -281,7 +281,7 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         if (actor->flags14 & 0x20000) {
             return;
         }
-        func_800C8EFC(actor_handle, 0x10);
+        dungeonRollActorStackSplit(actor_handle, 0x10);
         return;
     }
 }

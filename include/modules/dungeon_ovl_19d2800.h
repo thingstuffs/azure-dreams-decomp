@@ -2,14 +2,14 @@
 #define DUNGEON_OVL_19D2800_H
 #include "modules/dungeon_native_abi.h"
 
-void func_8002466C(void *);
+void dungeonUpdateAnimatedTargetEffect(void *);
 void func_80024B48(void *);
-s32 func_80024C14(void *);
+s32 dungeonDrawFadingRadialEffectGrid(void *);
 
 struct SpriteEffect;
-s32 func_80024440(struct SpriteEffect *);
+s32 dungeonDrawLinkedSpriteEffectQuads(struct SpriteEffect *);
 struct EffectRecord;
 struct SpriteEntry;
-void func_80024ACC(struct EffectRecord *, void *, struct SpriteEntry *);
+void dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(struct EffectRecord *, void *, struct SpriteEntry *);
 
 #endif

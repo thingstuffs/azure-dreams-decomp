@@ -16,7 +16,7 @@ extern M2C_UNK D_80173B34[3];
 typedef struct S_8016583C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8016583C_0;   /* arg0 in func_8016583C */
+} S_8016583C_0;   /* arg0 in dungeonCreateShortLivedColoredParticle */
 
 typedef struct S_8016583C_1 {
     u8 pad_00[0x4];
@@ -31,7 +31,7 @@ typedef struct S_8016583C_1 {
     u16 unk_42;
     u16 unk_44;
     u16 unk_46;
-} S_8016583C_1;   /* temp_s0 in func_8016583C */
+} S_8016583C_1;   /* temp_s0 in dungeonCreateShortLivedColoredParticle */
 
 typedef struct S_8016583C_2 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_8016583C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016583C_2;   /* temp_a0 in func_8016583C */
+} S_8016583C_2;   /* temp_a0 in dungeonCreateShortLivedColoredParticle */
 
 typedef struct S_8016583C_3 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_8016583C_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016583C_3;   /* (*(void **)((u8 *)temp_v0 + 8)) in func_8016583C */
+} S_8016583C_3;   /* (*(void **)((u8 *)temp_v0 + 8)) in dungeonCreateShortLivedColoredParticle */
 
 typedef struct S_8016583C_4 {
     u8 pad_00[0x2];
@@ -63,10 +63,10 @@ typedef struct S_8016583C_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8016583C_4;   /* ((S_8016583C_0 *)arg0)->unk_08 in func_8016583C */
+} S_8016583C_4;   /* ((S_8016583C_0 *)arg0)->unk_08 in dungeonCreateShortLivedColoredParticle */
 
 /* Spawn an effect at an offset from the source with randomized horizontal velocity. */
-void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
+void dungeonCreateShortLivedColoredParticle(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     S_8016583C_2 *sprite;
     S_8016583C_1 *effect_state;

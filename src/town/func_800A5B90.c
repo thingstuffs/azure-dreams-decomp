@@ -12,10 +12,10 @@ typedef struct S_800A32F0_0 {
     s32 unk_14;
     s32 unk_18;
     s32 unk_1C;
-} S_800A32F0_0;   /* arg0 in func_800A32F0 */
+} S_800A32F0_0;   /* arg0 in townInitializeAnimatedMenuRing */
 
 /* Initialize state values and install the next handler. */
-void func_800A32F0(S_800A32F0_0 *state) {
+void townInitializeAnimatedMenuRing(S_800A32F0_0 *state) {
     state->unk_14 = 0xC0;
     state->unk_1C = 0x60;
     state->unk_08 = 0x14;

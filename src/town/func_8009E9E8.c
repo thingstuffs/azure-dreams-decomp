@@ -5,13 +5,13 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 
-void func_8008F664();              /* extern */
+void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis();              /* extern */
 extern M2C_UNK D_8009B8E8;
 extern s32 D_800D0428[];
 
 
 /* Initializes the target parameters and updates the owner's state. */
-void func_8009C148(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters) {
+void townInitializeTargetMotion(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters) {
     s32 combinedValue;
 
     target->unk_15 = 0;
@@ -20,7 +20,7 @@ void func_8009C148(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, Entity
     parameters->unk_10 = 0;
     parameters->flags14 = 0;
     parameters->z.v = combinedValue;
-    func_8008F664(target, parameters);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(target, parameters);
     owner->unk_50 = &D_8009B8E8;
     owner->unk_6C.as_s16 = 4;
 }

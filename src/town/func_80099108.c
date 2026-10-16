@@ -9,11 +9,11 @@ extern s32 D_80097D2C[3];
 extern s32 D_800D04A4[];
 extern s32 D_800D04B8[];
 
-extern void func_80096918(void);
-extern void func_80096924(Unk99108 *, s32, s32);
+extern void townClearGlobal80100D20(void);
+extern void townComputeTheBasedPositionOffsetPublishesResultingVector(Unk99108 *, s32, s32);
 
 /* Dispatch to the matching or fallback handler using sentinel-terminated key lists. */
-void func_80096868(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor)
+void townDispatchToMatchingFallbackHandlerUsingSentinelTerminatedKeyLists(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor)
 {
     s32 *key_cursor;
     s32 entry_key;
@@ -28,18 +28,18 @@ void func_80096868(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match
                     if (*match_cursor != 0) {
                         do {
                             if (entry->unk4 == *match_cursor++) {
-                                func_80096924(entry, forwarded_a, forwarded_b);
+                                townComputeTheBasedPositionOffsetPublishesResultingVector(entry, forwarded_a, forwarded_b);
                                 return;
                             }
                         } while (*match_cursor != 0);
                     }
                 } else {
-                    func_80096924(entry, forwarded_a, forwarded_b);
+                    townComputeTheBasedPositionOffsetPublishesResultingVector(entry, forwarded_a, forwarded_b);
                     return;
                 }
             }
             key_cursor++;
         } while (*key_cursor != 0);
     }
-    func_80096918();
+    townClearGlobal80100D20();
 }

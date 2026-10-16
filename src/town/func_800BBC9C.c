@@ -8,10 +8,10 @@ extern M2C_UNK D_800B93F4;
 typedef struct S_800B93FC_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B93FC_0;   /* temp_v0 in func_800B93FC */
+} S_800B93FC_0;   /* temp_v0 in townAllocateThirdObjectVariant */
 
 /* Allocate an object and set its data pointer. */
-void func_800B93FC(void) {
+void townAllocateThirdObjectVariant(void) {
     S_800B93FC_0 *object;
 
     object = func_8003FC64(0);

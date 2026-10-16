@@ -9,14 +9,14 @@
 
 void func_80041E70(void *);             /* extern */
 s32 func_80042900();            /* extern */
-void func_8008D344(); /* extern */
-s32 func_80098864();           /* extern */
-void func_80098B38();                         /* extern */
+void dungeonBeginModeSelectedItemAction(); /* extern */
+s32 dungeonProcessRecordAndUpdateLinkedState();           /* extern */
+void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
 void func_800997FC();                   /* extern */
-void func_80099844();           /* extern */
+void dungeonAdjustSourceValueAndFinalize();           /* extern */
 void func_800A5F38();                 /* extern */
 void func_800A63B8();            /* extern */
-s32 func_800AD6FC();            /* extern */
+s32 dungeonApplyActorFoodPreference();            /* extern */
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
 extern void *D_800E3DF0[];
@@ -25,14 +25,14 @@ extern void *D_800E3DF0[];
 typedef struct S_800C22EC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C22EC_1;   /* counter in func_800C22EC */
+} S_800C22EC_1;   /* counter in dungeonUseItemToReviveSelectedActor */
 
 typedef struct S_800C22EC_2 {
     u8 pad_00[0x1];
     u8 unk_01;
     u8 pad_02[0x1];
     u8 unk_03;
-} S_800C22EC_2;   /* temp_a0 in func_800C22EC */
+} S_800C22EC_2;   /* temp_a0 in dungeonUseItemToReviveSelectedActor */
 
 typedef struct S_800C22EC_3 {
     u8 pad_00[0x1C];
@@ -40,10 +40,10 @@ typedef struct S_800C22EC_3 {
     u8 pad_20[0x8];
     s8 unk_28;
     u8 unk_29;
-} S_800C22EC_3;   /* temp_s0 in func_800C22EC */
+} S_800C22EC_3;   /* temp_s0 in dungeonUseItemToReviveSelectedActor */
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, void *context) {
+s32 dungeonUseItemToReviveSelectedActor(EntityRec *entity, s32 action, s16 action_type, void *context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;
@@ -52,20 +52,20 @@ s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, void *context)
 
     target_updated = 0;
     if (action_type == 0xD) {
-        return func_80098864(action, context);
+        return dungeonProcessRecordAndUpdateLinkedState(action, context);
     }
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
-        func_8008D344(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        dungeonBeginModeSelectedItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, action, action_type);
-        if (func_800AD6FC(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+        if (dungeonApplyActorFoodPreference(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(entity, action);
             return 1;
         }
-        func_80098B38(action);
+        dungeonClearSlotAndUpdateLinkedState(action);
         {
 
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
@@ -86,14 +86,14 @@ s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, void *context)
                 target->unk_1C = (s32) (target->unk_1C & flags_mask);
                 func_80041E70(update_target);
                 target_updated = 1;
-                func_80099844(target, &D_800E1580);
+                dungeonAdjustSourceValueAndFinalize(target, &D_800E1580);
             }
         }
     }
     if (target_updated == 0) {
         func_800997FC(&D_800E15A2);
     }
-    func_80098B38(action);
+    dungeonClearSlotAndUpdateLinkedState(action);
     {
 
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);

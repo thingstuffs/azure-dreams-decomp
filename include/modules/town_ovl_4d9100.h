@@ -5,5 +5,5 @@
 #include "shared/town_root.h"
 extern char D_800173FC[];
 extern char *D_80017494;
-void func_80016100(void *callback_arg);
+void townInvokeCallbackAndSetSharedPointer(void *callback_arg);
 #endif

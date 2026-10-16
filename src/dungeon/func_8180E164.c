@@ -34,7 +34,7 @@ typedef struct {
 extern s32 func_800644B8(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
-void func_80027164(Effect *effect, void *unused, Output *output) {
+void dungeonAdvanceEffectFadeScaleAndPulse(Effect *effect, void *unused, Output *output) {
     u16 tick;
     u16 brightness;
     u16 state;

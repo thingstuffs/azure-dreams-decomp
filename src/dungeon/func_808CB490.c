@@ -25,7 +25,7 @@ void func_80123928(u8 *text, s16 x, s16 y) {
             code_hi = ((S_80123928_0 *)cursor)->unk_00;
             code_lo = ((S_80123928_0 *)cursor)->unk_01;
             cursor += 2;
-            func_8004D91C(func_8004D880(code_lo | (code_hi << 8)) & 0xFF, &glyph);
+            getGlyphVramRectangle(func_8004D880(code_lo | (code_hi << 8)) & 0xFF, &glyph);
             func_800673A0(&glyph, draw_x, y);
             draw_x += 2;
         } while (*cursor != 0);

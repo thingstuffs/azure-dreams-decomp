@@ -102,20 +102,20 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s32 func_8009A180(void *, void *);
+extern s32 dungeonCheckEntityRelation(void *, void *);
 extern s8 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
+extern s16 dungeonGetRoundedFacingAndRoundingFlag(s32, s32, s32, s32, void *);
 extern s32 func_800A1C58(void *);
-extern void func_800A2B04(void *, s32, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
 extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
+extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
+extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
+extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *, void *, void *, void *);
-extern s32 func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern s32 dungeonResetActorActionState(void *, void *, void *, void *);
+extern s32 dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
+extern void dungeonBeginActorSpellAction(void *, void *, void *, void *, void *);
 
 extern void func_80159910(void);
 extern void func_80159B68(void *, void *, void *, void *);
@@ -133,7 +133,7 @@ extern u8 D_8015D290[];
 extern u8 D_8015D298[];
 extern u8 D_8015D2A0[];
 
-void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity)
+void dungeonUpdateActorSpecialAction(ActionState *action_state, ActorMotion *motion, ActorSprite *sprite, CreatureState *entity)
 {
     u16 initial_flags = dungeonStatus.flags;
     void *current_frames;
@@ -149,7 +149,7 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
 
     /* Inactive entities share the final animation update and return path. */
     if (entity->tileY == 0) {
-        func_800AA79C(action_state, motion, sprite, entity);
+        dungeonAdvanceActorPendingAction(action_state, motion, sprite, entity);
         {
             void *current =
                 sprite->directionFrames;
@@ -169,14 +169,14 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
             entity->flags &= ~0x40000;
             return;
         }
-        if (func_800AA924(action_state, motion, sprite, D_8015D298) != 0) {
+        if (dungeonResetActorActionState(action_state, motion, sprite, D_8015D298) != 0) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
         if (entity->flags & 0x100) {
-            func_800AA258(action_state, motion, sprite, entity);
+            dungeonBeginPushedActorMove(action_state, motion, sprite, entity);
             return;
         }
 
@@ -219,7 +219,7 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
                     dungeonStatus.unk_0A--;
                     motion->dy = 0;
                     motion->dx = 0;
-                    func_800A2B04(motion,
+                    dungeonSetRecordIntegerTileCenter(motion,
                         sprite->position.tile.x, sprite->position.tile.y);
                     entity->motionFlags &= ~0x20000;
                     action_state->specialPhase.u = 0;
@@ -340,7 +340,7 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
                     dungeonStatus.unk_0A--;
                     motion->dy = 0;
                     motion->dx = 0;
-                    func_800A2B04(motion,
+                    dungeonSetRecordIntegerTileCenter(motion,
                         sprite->position.tile.x, sprite->position.tile.y);
                     entity->motionFlags &= ~0x20000;
                     entity->facing.s = action_state->savedFacing;
@@ -359,14 +359,14 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
         } else {
             action_state->flags &= 0xFFF3;
             if (entity->reaction == 0 ||
-                func_800AA6B4(action_state, motion, sprite, D_8015D260) == 0) {
+                dungeonBeginReadyActorDirectionalAction(action_state, motion, sprite, D_8015D260) == 0) {
                 if (entity->flags & 0x80000) {
                     func_800AA888(action_state, motion, sprite, entity);
                     func_8015C250(action_state, motion, sprite, entity);
                     return;
                 }
                 if ((func_800A1C58(entity) << 16) != 0) {
-                    func_800AAB10(action_state, motion, sprite, entity);
+                    dungeonProcessSelectedActorRecord(action_state, motion, sprite, entity);
                 }
             } else {
                 return;
@@ -388,7 +388,7 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
         }
         if (!(entity->action & 0x8000)) {
             if ((dungeonStatus.flags & 0x2000) &&
-                ((func_8009A180(entity,
+                ((dungeonCheckEntityRelation(entity,
                     (u8 *)((PlayerContext *)(D_800814A8[0]))->actionContext + 0x20) << 16) != 0)) {
                 return;
             }
@@ -427,14 +427,14 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
             s16 next_facing;
             void *status_object;
 
-            next_facing = func_800A0818(
+            next_facing = dungeonGetRoundedFacingAndRoundingFlag(
                 sprite->position.tile.x, sprite->position.tile.y,
                 D_80082E80.tileX, D_80082E80.tileY,
                 &direction_aux);
             status_object = D_800814A8[0];
             entity->facing.s = next_facing;
             if (((PlayerAction *)status_object)->action == 0x11) {
-                func_800AAF00(action_state, motion, sprite, D_8015D290, func_80158F6C);
+                dungeonBeginActorSpellAction(action_state, motion, sprite, D_8015D290, dungeonUpdateActorSpecialAction);
                 return;
             }
         }
@@ -445,7 +445,7 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
         case 1:
         case 2:
         case 3:
-            func_800AAF00(action_state, motion, sprite, D_8015D290, func_80158F6C);
+            dungeonBeginActorSpellAction(action_state, motion, sprite, D_8015D290, dungeonUpdateActorSpecialAction);
             return;
 
         case 4:
@@ -466,10 +466,10 @@ void func_80158F6C(ActionState *action_state, ActorMotion *motion, ActorSprite *
                     final_flags & 0x430;
                 if (!final_mask) {
 
-                    if ((func_8009FD7C(
+                    if ((dungeonCompareMonsterNeighborValues(
                             sprite->position.tile.x, sprite->position.tile.y,
                             D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                        entity->facing.s = func_800A0818(
+                        entity->facing.s = dungeonGetRoundedFacingAndRoundingFlag(
                             sprite->position.tile.x, sprite->position.tile.y,
                             D_80082E80.tileX, D_80082E80.tileY,
                             &direction_aux);

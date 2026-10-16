@@ -30,7 +30,7 @@ typedef struct S_80050308 {
     u8 pad24[0x4];
     void *unk28;       /* arg passed to func_800502E0 */
     u8 pad2C[0x68 - 0x2C];
-    s32 unk68;         /* arg0 for func_800500B4 */
+    s32 unk68;         /* arg0 for slusAnimateSixEntrySelectionCursor */
 } S_80050308;
 
 typedef void (*StateFn_80050308)(void *);
@@ -41,8 +41,8 @@ extern void func_80050EA8(void *a0);
 extern s32 func_800502E0(void *a0);
 extern s32 func_8004FF20(void *a0);
 extern void func_8004FFA8(void *a0);
-extern s32 func_80049DE8(s32 a0, s32 a1, s32 a2);
-extern void func_800500B4(s32 a0, void *a1);
+extern s32 advanceIndexWithSingleWrap(s32 a0, s32 a1, s32 a2);
+extern void slusAnimateSixEntrySelectionCursor(s32 a0, void *a1);
 
 /* Handles object state changes and directional index updates from global input flags. */
 void func_80050308(void *object)
@@ -96,9 +96,9 @@ void func_80050308(void *object)
                 SD_Call(0x502);
                 obj->unk18 = obj->unk1C;
                 obj->unk14 = 0;
-                obj->unk1C = func_80049DE8(obj->unk1C, direction, 6);
+                obj->unk1C = advanceIndexWithSingleWrap(obj->unk1C, direction, 6);
             }
         }
     }
-    func_800500B4(obj->unk68, obj);
+    slusAnimateSixEntrySelectionCursor(obj->unk68, obj);
 }

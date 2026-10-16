@@ -1,13 +1,13 @@
 #include "modules/town_door.h"
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
-void func_800A0708(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
+void townHandleDoorCheckResult(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
 {
     s8 *linked_flag;
     s32 check_result;
     void (*callback)(void *, void *, void *, s32);
 
-    check_result = func_8009CFE0(object, callback_arg);
+    check_result = townClassifyObjectAgainstBounds(object, callback_arg);
     {
         register S_func_800A0708_0 *callback_object = object;
 

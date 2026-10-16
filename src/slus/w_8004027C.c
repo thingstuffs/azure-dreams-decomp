@@ -2,7 +2,7 @@
 
 /* Linked-list node with a next pointer at offset 0x0, a pointer to a
  * position/velocity vector block at offset 0x8, and a 16-bit flags/state
- * field at offset 0x1E (shared shape with func_80040418/func_800401FC/
+ * field at offset 0x1E (shared shape with func_80040418/removeMarkedActiveNodes/
  * func_8003FB98's D_80081498 view). */
 typedef struct Node {
     struct Node *next;      /* 0x00 */
@@ -25,7 +25,7 @@ typedef struct S_8004027C_vec {
 extern Node *D_80081498;
 
 /* Add velocity to position for each node in D_80081498 with flag 0x8 set. */
-void func_8004027C(void) {
+void integrateActiveNodeVectors(void) {
     Node *node = D_80081498;
 
     if (node != 0) {

@@ -7,7 +7,7 @@
 extern s32 func_800990FC(s32, u8 *, void *);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_8009929C(s8 value, s8 *dest);
+extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
 extern void func_800A5720(s8 *text);
 
 extern u8 D_8016A808[];
@@ -18,15 +18,15 @@ typedef struct S_8016A9FC_0 {
     union { s16 s; u16 u; } unk_12;   /* accessed as both */
     u8 pad_14[0x6];
     u16 unk_1A;
-} S_8016A9FC_0;   /* arg0 in func_8016A9FC */
+} S_8016A9FC_0;   /* arg0 in dungeonAnimateTimedFadeEffect */
 
 typedef struct S_8016A9FC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_8016A9FC_1;   /* counter_base in func_8016A9FC */
+} S_8016A9FC_1;   /* counter_base in dungeonAnimateTimedFadeEffect */
 
 /* Handles a timed fade-out and fade-in, then marks the effect complete. */
-void func_8016A9FC(void *effect) {
+void dungeonAnimateTimedFadeEffect(void *effect) {
     s32 state;
     s32 state_arg;
     u16 frames;
@@ -55,13 +55,13 @@ void func_8016A9FC(void *effect) {
         ((S_8016A9FC_0 *)effect)->unk_1A = 0;
         result = func_800990FC(state_arg, fade_colors, effect);
         first_result = result;
-        result = func_8009929C(0xA, result);
-        result = func_8009929C(0xA, result);
+        result = dungeonWriteTextByteAndAdvance(0xA, result);
+        result = dungeonWriteTextByteAndAdvance(0xA, result);
         result = func_80099194(D_8016A808, result);
-        result = func_8009929C(0xA, result);
-        result = func_8009929C(0xA, result);
-        result = func_8009929C(0xA, result);
-        result = func_8009929C(1, result);
+        result = dungeonWriteTextByteAndAdvance(0xA, result);
+        result = dungeonWriteTextByteAndAdvance(0xA, result);
+        result = dungeonWriteTextByteAndAdvance(0xA, result);
+        result = dungeonWriteTextByteAndAdvance(1, result);
         func_80099290(result);
         func_800A5720(first_result);
         return;

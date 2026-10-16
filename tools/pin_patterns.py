@@ -24,7 +24,7 @@ narrative - what each number means and what to do about it; this tool owns the n
 import argparse, collections, difflib, json, re, subprocess, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, LEDGER, rows, read_jsonl, sha_text, current_text, PARKED_CONTAINERS
+from common import clean_path, ROOT, LEDGER, rows, read_jsonl, sha_text, current_text, PARKED_CONTAINERS
 from pin_census import sites_of
 
 REG_RE = re.compile(r"\$(?:[a-z]+\d*|\d+)")
@@ -203,7 +203,7 @@ def history():
         for j in read_jsonl(LEDGER / f"sweeps/{tf}.jsonl"):
             if j.get("outcome") == "applied" and j.get("in_sha") and j.get("out_sha") and j["id"] in by:
                 r = by[j["id"]]
-                per_file[f"src/{r['container']}/{Path(r['c_path']).name}"].append((tf, j))
+                per_file[clean_path(r).relative_to(ROOT).as_posix()].append((tf, j))
     out, missing = [], 0
     for rel, items in per_file.items():
         texts = {}

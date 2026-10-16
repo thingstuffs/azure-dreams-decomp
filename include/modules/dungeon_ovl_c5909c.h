@@ -94,14 +94,14 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void func_800478E8(void *, void *, s32);
+extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(void *, void *, s32);
 
-extern void func_800D78C0();
+extern void dungeonProcessEffectBlockEntries();
 extern void func_8014CBB8();
 extern void func_8014D3A8();
 extern u8 D_80150494[];
 extern u8 D_801504FC[];
 
-void * func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword);
-extern void * func_800D71A8();
+void * dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword);
+extern void * dungeonDrawSpriteEffectQuads();
 #endif

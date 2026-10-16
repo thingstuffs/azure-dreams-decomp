@@ -2,13 +2,13 @@
 
 typedef s32 M2C_UNK;
 
-extern void func_80019730(void);
+extern void townAdvanceDispatchStateToTwo(void);
 extern M2C_UNK D_8001601C;
 extern u8 D_80017774[];
 extern M2C_UNK D_8002576F;
 
-/* Select data by mode, calling func_80019730 for modes other than four and five. */
-M2C_UNK *func_8001B020(s32 setup_value, s32 setup_option, s32 mode) {
+/* Select data by mode, calling townAdvanceDispatchStateToTwo for modes other than four and five. */
+M2C_UNK *townSelectEventDataWithModeSetup(s32 setup_value, s32 setup_option, s32 mode) {
     M2C_UNK *selected_data;
 
     if (mode == 5) {
@@ -16,7 +16,7 @@ M2C_UNK *func_8001B020(s32 setup_value, s32 setup_option, s32 mode) {
         return selected_data;
     }
     if (mode != 4) {
-        func_80019730();
+        townAdvanceDispatchStateToTwo();
         selected_data = &D_8002576F;
     } else {
         selected_data = &D_8001601C;

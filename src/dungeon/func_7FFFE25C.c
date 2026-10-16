@@ -52,13 +52,13 @@ extern s32 D_800933FC;
 extern s32 D_80093638;
 extern s32 D_800AA5F8;
 
-extern void func_8008F170(void *, void *);
-extern void func_8008F294(void *, void *);
-extern void func_8008F664(void *, void *);
+extern void townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(void *, void *);
+extern void townCallTheSameContextBothProcessingRoutines(void *, void *);
+extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
 extern s32 func_800352FC();
-extern s32 func_8009B120(void *);
+extern s32 townCheckObjectTypeAndDataTag(void *);
 extern void func_8009C340(void *, void *, void *, s32);
-extern void func_800C172C(void);
+extern void townRetrySoundSequenceWhenReady(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */
 void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
@@ -74,9 +74,9 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
     adjusted_pos->y.v = D_80083780.y.v;
     adjusted_pos->z.v = D_80083780.z.v + offset[2];
 
-    func_8008F170(adjusted_pos, ((u8 *)&D_800FE488));
-    func_8008F294(owner, adjusted_pos);
-    func_8008F664(owner, adjusted_pos);
+    townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(adjusted_pos, ((u8 *)&D_800FE488));
+    townCallTheSameContextBothProcessingRoutines(owner, adjusted_pos);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(owner, adjusted_pos);
 
     target_z = D_80083780.z.v + offset[2];
     if (target_z - adjusted_pos->z.v >= 0x10) {
@@ -127,7 +127,7 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
             dispatched = 0;
         }
     }
-    if (dispatched != 0 && func_8009B120((u8 *)context + 0x4C) != 0) {
-        func_800C172C();
+    if (dispatched != 0 && townCheckObjectTypeAndDataTag((u8 *)context + 0x4C) != 0) {
+        townRetrySoundSequenceWhenReady();
     }
 }

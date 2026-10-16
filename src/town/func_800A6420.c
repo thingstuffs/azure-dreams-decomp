@@ -4,19 +4,19 @@
 typedef struct S_800A3B80_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A3B80_0;   /* town in func_800A3B80 */
+} S_800A3B80_0;   /* town in townEmitBidirectionalAngularSegments */
 
 typedef struct S_800A3B80_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x3];
     u8 unk_0F;
-} S_800A3B80_1;   /* arg2_temp in func_800A3B80 */
+} S_800A3B80_1;   /* arg2_temp in townEmitBidirectionalAngularSegments */
 
 typedef struct S_800A3B80_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800A3B80_2;   /* arg2_data in func_800A3B80 */
+} S_800A3B80_2;   /* arg2_data in townEmitBidirectionalAngularSegments */
 
 typedef struct S_800A3B80_3 {
     s16 unk_00;
@@ -24,16 +24,16 @@ typedef struct S_800A3B80_3 {
     u8 unk_06;
     u8 pad_07[0x5];
     s16 unk_0C;
-} S_800A3B80_3;   /* arg0 in func_800A3B80 */
+} S_800A3B80_3;   /* arg0 in townEmitBidirectionalAngularSegments */
 
 typedef struct S_800A3B80_4 {
     void * unk_00;
-} S_800A3B80_4;   /* global_base in func_800A3B80 */
+} S_800A3B80_4;   /* global_base in townEmitBidirectionalAngularSegments */
 
 typedef struct S_800A3B80_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A3B80_5;   /* end_town in func_800A3B80 */
+} S_800A3B80_5;   /* end_town in townEmitBidirectionalAngularSegments */
 
 
 typedef struct TownGlobals {
@@ -66,10 +66,10 @@ extern u16 D_80100D8A;
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
+extern void *townProjectVisibleTexturedStrips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
 
 /* Emits segments in both angular directions and updates the town output pointer. */
-s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
+s32 townEmitBidirectionalAngularSegments(S_800A3B80_3 *object, s32 unused, void *context)
 {
     Scratch *scratch;
     s16 coord_y;
@@ -163,7 +163,7 @@ forward_segment:
     }
     scratch->data8A = result;
     scratch->data7A = result;
-    next_output = func_800A41D8(object, context, scratch, output, 0);
+    next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 0);
     if (next_output != 0) {
         output = next_output;
 
@@ -211,7 +211,7 @@ forward_segment:
         }
         scratch->data8A = result;
         scratch->data7A = result;
-        next_output = func_800A41D8(object, context, scratch, output, 1);
+        next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 1);
         if (next_output != 0) {
             output = next_output;
             goto forward_segment;
@@ -270,7 +270,7 @@ reverse_segment:
     }
     scratch->data82 = result;
     scratch->data72 = result;
-    next_output = func_800A41D8(object, context, scratch, output, 1);
+    next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 1);
     if (next_output != 0) {
         output = next_output;
 
@@ -318,7 +318,7 @@ reverse_segment:
         }
         scratch->data82 = result;
         scratch->data72 = result;
-        next_output = func_800A41D8(object, context, scratch, output, 0);
+        next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 0);
         if (next_output != 0) {
             output = next_output;
             goto reverse_segment;

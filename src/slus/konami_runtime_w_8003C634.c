@@ -1,7 +1,7 @@
 #include "slus/runtime_directory.h"
 
 /* Return the index of a matching table key, or -1 if absent. */
-s32 func_8003C634(s32 key)
+s32 findRuntimeTableKeyIndex(s32 key)
 {
     s32 entry_index;
     s32 result;

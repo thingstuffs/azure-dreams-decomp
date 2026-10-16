@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, append_jsonl, sha_text
+from source_layout import row_path as layout_row_path, source_files as layout_source_files
 from verify import verify
 
 NAMES = ROOT / "config" / "names.tsv"
@@ -49,7 +50,7 @@ def load_tree():
     """{path: text} for every src/ file, and the set of identifiers the tree uses."""
     texts = {}
     for c in CONTAINERS:
-        for p in sorted((ROOT / "src" / c).glob("*.c")):
+        for p in layout_source_files(c, ROOT):
             texts[p] = p.read_text(errors="replace")
     idents = set()
     for t in texts.values():           # code only: a developer name quoted in a summary comment is not a collision
@@ -62,6 +63,13 @@ def load_tree():
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--batch", action="store_true", help="stage an atomic function batch, gate SLUS once, verify the touched union")
+    ap.add_argument("--hold-unproven-references", action="store_true", help="with --batch, retain call spellings in placement-unproven rows")
+    ap.add_argument("--resume-proof", type=Path, help="resume exact receipts only when --resume-context matches all source/build inputs")
+    ap.add_argument("--resume-context", type=Path)
+    ap.add_argument("--holds-log", type=Path, help="write the explicitly held reference sites as JSON")
+    ap.add_argument("--proof-log", type=Path, help="with --batch, write every per-row result as JSONL")
+    ap.add_argument("--identity-map", type=Path, help="JSON new name (or proposal symbol) -> {row, symbol}; validate an explicit current C definition when row metadata is stale")
     ap.add_argument("tsv"); ap.add_argument("--limit", type=int); ap.add_argument("--only")
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--data", action="store_true", help="accept D_<addr> data aliases without a defining function row")
@@ -69,6 +77,9 @@ def main():
     a = ap.parse_args()
     if a.rewrite and not a.data:
         ap.error("--rewrite requires --data (function renames always rewrite)")
+    if a.batch:
+        from apply_names_batch import main as batch_main
+        return batch_main(a, sys.modules[__name__])
     proposed = []
     for raw in Path(a.tsv).read_text().splitlines():
         line = raw.split("#", 1)[0].rstrip()
@@ -79,12 +90,15 @@ def main():
         keep = set(a.only.split(",")); proposed = [p for p in proposed if p[1] in keep]
     if a.limit:
         proposed = proposed[:a.limit]
+    identity_map = json.loads(a.identity_map.read_text()) if a.identity_map else {}
+    if not isinstance(identity_map, dict):
+        ap.error("identity map must be an object")
     applied = {r[1]: r[2] for r in read_names()}
     taken = set(applied.values())
     texts, idents = load_tree()
     by_file = {}
     for r in rows():
-        by_file[ROOT / "src" / r["container"] / Path(r["c_path"]).name] = r
+        by_file[layout_row_path(r, ROOT)] = r
     defined = {}
     for r in rows():
         for n in {r["func"], r.get("true_name")} | set(r.get("defs") or []):
@@ -96,7 +110,18 @@ def main():
     for addr, old, new, evidence in proposed:
         rec = {"addr": addr, "old": old, "new": new, "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
         why = None
-        if not a.data and old in defined:      # the C defines the function under its true-space symbol; the evidence may name the row
+        explicit = identity_map.get(new) or identity_map.get(old)
+        if explicit:
+            row = next((r for r in rows() if r["id"] == explicit.get("row")), None)
+            symbol = explicit.get("symbol", "")
+            source = ROOT / "src" / row["container"] / Path(row["c_path"]).name if row else None
+            definition = applied.get(symbol, symbol)
+            pattern = r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b" + re.escape(definition) + r"\s*\([^;{]*\)[^{;]*\{"
+            if a.data or not re.fullmatch(r"func_[0-9A-Fa-f]{8}", symbol) or source not in texts or not re.search(pattern, texts[source], re.M):
+                raise ValueError("identity map does not name a current C definition: " + old)
+            old = symbol; addr = "0x" + old[5:]
+            rec.update({"old": old, "addr": addr, "identity_row": row["id"]})
+        elif not a.data and old in defined:      # the C defines the function under its true-space symbol; the evidence may name the row
             drow = defined[old]; old = drow.get("true_name") or drow.get("func") or old; addr = "0x" + old[5:]
             rec.update({"old": old, "addr": addr})
         if old in applied or old in done:
@@ -107,7 +132,7 @@ def main():
             why = "identifier already used in the tree"
         elif a.data and (not DATA_NAME.fullmatch(old) or addr.lower() != "0x" + old[2:].lower()):
             why = "data symbol and address must match (D_<addr>, 0x<addr>)"
-        elif not a.data and old not in defined:
+        elif not a.data and old not in defined and not explicit:
             why = "no defining row in the tree"
         if why:
             tally["refused"] = tally.get("refused", 0) + 1
@@ -127,7 +152,7 @@ def main():
         # 4. verify every touched row
         def one(rid):
             r = next(r for r in rows() if r["id"] == rid)
-            p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            p = layout_row_path(r, ROOT)
             v = verify(r, p, include_root=INCLUDE)
             return rid, v
         bad = []

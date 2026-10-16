@@ -13,15 +13,15 @@ typedef struct CdlATV {
 } CdlATV;
 
 extern void func_8005A3D4(void);
-extern int func_8005A3E0(void);
+extern int audioEnableMonoMix(void);
 extern int CdMix(CdlATV *vol);
 
 /* Applies the selected CD-audio mix and updates the corresponding status flags. */
-void func_80055B44(unsigned char mix_mode) {
+void setCdAudioMixMode(unsigned char mix_mode) {
     CdlATV cd_volume;
 
     if (mix_mode == 1) {
-        func_8005A3E0();
+        audioEnableMonoMix();
         cd_volume.val0 = cd_volume.val2 = 0x4F;
         cd_volume.val1 = cd_volume.val3 = 0x4F;
         D_800847D0.flags00 = (D_800847D0.flags00 & ~0x10) | 0x20;

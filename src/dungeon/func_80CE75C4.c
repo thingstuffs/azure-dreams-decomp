@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Decrement the countdown, update three scaled output components, and flag completion. */
-void func_80170DC4(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
+void dungeonUpdateNormalizedGrayFade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output) {
     s32 scaledRemaining;
     u16 remainingCount;
 

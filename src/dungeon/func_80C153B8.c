@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_80170BB8(void *actor, void *motion, void *object)
+void dungeonCreateAnchoredDirectionalObject(void *actor, void *motion, void *object)
 {
     u16 initial_flags = dungeonStatus.flags;
     s32 bob = 0;
@@ -29,7 +29,7 @@ void func_80170BB8(void *actor, void *motion, void *object)
 
 
     previous_index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
-    if (func_800A9E70(actor, motion, object, actor) != 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, object, actor) != 0) {
         return;
     }
 
@@ -61,7 +61,7 @@ void func_80170BB8(void *actor, void *motion, void *object)
             direction = ground_offset & 7;
         }
         if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
-            func_80047738(object, ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C[direction],
+            selectIndirectTableEntry(object, ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C[direction],
                           ((R17_80170BB8_S_80170BB8_1 *)object)->unk_04);
             (*(s16 *)((u8 *)actor + (0x94))) = direction;
         }
@@ -75,7 +75,7 @@ void func_80170BB8(void *actor, void *motion, void *object)
             ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 = flip_flags;
         }
         if ((*(u8 *)((u8 *)actor + (0x9A))) != 8) {
-            func_800A020C(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.s, (u8 *)object + 0xC);
+            dungeonApplyMonsterKoyawData(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.s, (u8 *)object + 0xC);
         }
 
         if (!(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0x20)) {

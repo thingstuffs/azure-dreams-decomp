@@ -66,7 +66,7 @@ typedef struct Scratch_8008EA20 {
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
-extern s32 func_8008CE08(Scratch_8008EA20 *scratch);
+extern s32 townCheckScratchQuadHalfTurnGaps(Scratch_8008EA20 *scratch);
 
 /* Returns the highest valid cell height within the scan limit, or zero if none. */
 s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
@@ -177,7 +177,7 @@ s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
                         scratch->quad[7] =
                             vertices[cell->v3].z - (u16)scratch->y;
 
-                        if (func_8008CE08(scratch) != 0) {
+                        if (townCheckScratchQuadHalfTurnGaps(scratch) != 0) {
                             s16 local_x = scratch->x;
 
                             cell_height =

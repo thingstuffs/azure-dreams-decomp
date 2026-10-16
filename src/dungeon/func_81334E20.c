@@ -11,14 +11,14 @@ typedef struct S_8016BE20_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     union { u8 n; u8 v; } unk_9B;   /* accessed as both */
-} S_8016BE20_0;   /* state in func_8016BE20 */
+} S_8016BE20_0;   /* state in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016BE20_1;   /* work in func_8016BE20 */
+} S_8016BE20_1;   /* work in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_2 {
     u8 pad_00[0x2A];
@@ -29,38 +29,38 @@ typedef struct S_8016BE20_2 {
     void * unk_60;
     u8 pad_64[0x9];
     u8 unk_6D;
-} S_8016BE20_2;   /* ctx in func_8016BE20 */
+} S_8016BE20_2;   /* ctx in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_3 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_8016BE20_3;   /* actor in func_8016BE20 */
+} S_8016BE20_3;   /* actor in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_4 {
     u8 pad_00[0x28];
     u8 unk_28;
-} S_8016BE20_4;   /* world in func_8016BE20 */
+} S_8016BE20_4;   /* world in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_8016BE20_5;   /* control in func_8016BE20 */
+} S_8016BE20_5;   /* control in dungeonAdvanceActorTransitionSequence */
 
 typedef struct S_8016BE20_6 {
     u8 pad_00[0x10];
     u32 unk_10;
-} S_8016BE20_6;   /* header in func_8016BE20 */
+} S_8016BE20_6;   /* header in dungeonAdvanceActorTransitionSequence */
 
 
 typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 
 extern void func_800353F4(void *);
 extern void func_80047784(void *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A4ACC(void *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
 extern void func_80164BA4(void *);
 
@@ -72,7 +72,7 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 
 /* Advances the actor sequence, then resets its state and updates world objects. */
-void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
+void dungeonAdvanceActorTransitionSequence(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
 {
     void *state = state_arg;
     void *work = work_arg;
@@ -128,7 +128,7 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
         timer = ((S_8016BE20_0 *)state)->unk_96.u + 1;
         ((S_8016BE20_0 *)state)->unk_96.u = timer;
         if ((s16)timer == 0x11) {
-            func_8009C12C(ctx, actor, ((S_8016BE20_2 *)ctx)->unk_2A, 1);
+            dungeonResolveAttackDamageAndEffects(ctx, actor, ((S_8016BE20_2 *)ctx)->unk_2A, 1);
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
         }
@@ -199,7 +199,7 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
         }
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
         dungeonStatus.unk_0C = 0;
-        func_800A4ACC(ctx);
+        dungeonAdvanceStatusTimers(ctx);
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         return;
     default:

@@ -19,7 +19,7 @@ typedef struct S_func_80406AA8_1 {
     void (*unk_10)(void);
 } S_func_80406AA8_1;
 
-extern void func_80406844(short *dest, int index, int mode);
+extern void mainInitializeDestinationTemplateState(short *dest, int index, int mode);
 extern s32 func_80402084(s32 entry_id, s32 request_id);
 extern void func_80403144(void *value);
 extern void func_80405A00(s32 object, s32 value);
@@ -27,21 +27,21 @@ extern void func_80404688(s32 object);
 extern void func_80400908(void);
 extern void func_804069FC(void);
 extern void func_80406A74(void);
-extern void func_80406DA0(void);
+extern void mainHandleMenuSelectionInput(void);
 extern s32 D_80010208;
 
 /* Updates the state and selects its next callback based on the current entry check. */
-void func_80406AA8(S_func_80406AA8_0 *state)
+void mainUpdateMenuObjectState(S_func_80406AA8_0 *state)
 {
     S_func_80406AA8_1 *state_base;
     s32 check_result;
 
-    func_80406844(0x80010000, state->unk_2C,
+    mainInitializeDestinationTemplateState(0x80010000, state->unk_2C,
                   state->unk_24);
     check_result = func_80402084(state->unk_2C, 0x80010000);
     state_base = (S_func_80406AA8_1 *)((u8 *)state - 0x20);
     if (check_result == 0) {
-        state->unk_34 = func_80406DA0;
+        state->unk_34 = mainHandleMenuSelectionInput;
         func_80403144(state_base);
         ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = func_804069FC;
     } else {
@@ -50,7 +50,7 @@ void func_80406AA8(S_func_80406AA8_0 *state)
         if (D_80010208 != 0) {
             ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = func_80406A74;
         } else {
-            ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = func_80406DA0;
+            ((S_func_80406AA8_1 *)((u8 *)state - 0x20))->unk_10 = mainHandleMenuSelectionInput;
         }
     }
     func_80400908();

@@ -11,8 +11,8 @@ typedef struct {
     u8 pad18[4];
 } S_80086A40; /* size 0x1C */
 
-extern s32 func_8005ECA0(s32 value);
-extern s32 func_8005EC40(s32 dest, s32 size);
+extern s32 lookupAndScaleDriverAddress(s32 value);
+extern s32 clampAndSubmitDriverParameter(s32 dest, s32 size);
 extern S_80086A40 D_80086A40[];
 
 /* Assigns an owner and updates the entry value when its marker matches and its transfer size is accepted. */
@@ -27,8 +27,8 @@ s16 func_8005AAA8(s32 owner, s16 entry_id)
     entry = &entries[entry_id];
     marker = entry->marker;
     if (marker == entry_id) {
-        updated_value = func_8005ECA0(entry->unk10);
-        if (func_8005EC40(owner, entry->unk14) == entry->unk14) {
+        updated_value = lookupAndScaleDriverAddress(entry->unk10);
+        if (clampAndSubmitDriverParameter(owner, entry->unk14) == entry->unk14) {
             entry->owner = owner;
             entry->unk10 = updated_value;
             return marker;

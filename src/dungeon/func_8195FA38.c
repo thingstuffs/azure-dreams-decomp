@@ -3,7 +3,7 @@
 
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
-s32 func_80025238(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
+s32 dungeonDispatchSevenBySevenTileGrid(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
     s32 column;
     s32 row;
     s32 tile_y;
@@ -33,7 +33,7 @@ s32 func_80025238(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
             } else {
                 *(s8 *)((s8 *)tile_data + 0xB) = tile_size;
             }
-            func_80024C3C(tile_data, draw_arg_1, draw_arg_2, (s16)column, row_arg);
+            dungeonProjectHeightGridObjectQuad(tile_data, draw_arg_1, draw_arg_2, (s16)column, row_arg);
             column += 1;
         } while (column < 7);
         row += 1;

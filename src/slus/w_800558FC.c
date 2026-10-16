@@ -9,7 +9,7 @@ extern s32 D_80084760[];
 extern s32 D_80084764[];
 
 /* Store the fetched value in the global selected by the low 16 bits. */
-void func_800558FC(s32 selector) {
+void soundAssignSequencePayloadSlot(s32 selector) {
     s32 slot_id;
     s32 value;
 

@@ -9,16 +9,16 @@ typedef struct Entry {
     u16 unk14;
 } Entry;
 
-extern void func_800D3738(void *unused, s32 position, Entry *sprite, s16 depth_bias);
+extern void dungeonRenderActorSpriteParts(void *unused, s32 position, Entry *sprite, s16 depth_bias);
 
 /* Processes unflagged entries while following the state chain. */
-s32 func_800D36D0(void *state_base, s32 entry_data, Entry *entry)
+s32 dungeonProcessActorStateChain(void *state_base, s32 entry_data, Entry *entry)
 {
     void *state = state_base;
 
     for (;;) {
         if (!(entry->unk14 & 0x80)) {
-            func_800D3738(state, entry_data, entry, entry->unk06);
+            dungeonRenderActorSpriteParts(state, entry_data, entry, entry->unk06);
         }
         entry = *(Entry **)((u8 *)state - 8);
         if (entry == 0) {

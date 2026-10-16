@@ -8,16 +8,16 @@ typedef struct {
     u16 output;
 } TownObject;
 
-extern void func_800C4174(TownObject *obj, s32 update_context, s32 setup_context);
+extern void townApplyObjectSetupAndUpdate(TownObject *obj, s32 update_context, s32 setup_context);
 
 /* Decrement the timer and lower output until expiry restores the base value. */
-void func_800C9F58(TownObject *obj, s32 update_input_1, s32 update_input_2) {
+void townLowerReactionOutputUntilExpiry(TownObject *obj, s32 update_input_1, s32 update_input_2) {
     u16 timer;
 
     timer = obj->timer - 1;
     obj->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800C4174(obj, update_input_1, update_input_2);
+        townApplyObjectSetupAndUpdate(obj, update_input_1, update_input_2);
         obj->output = obj->value;
         return;
     }

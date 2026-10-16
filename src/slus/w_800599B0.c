@@ -31,8 +31,8 @@ extern u8 *D_80085FA4[4];
 
 extern s32 func_80058B70(void);
 extern s32 func_800597A8(Entity *);
-extern s32 func_80058A04(s32);
-extern void func_80059814(Entity *);
+extern s32 readBase128Vlq(s32);
+extern void slusScaleValueWithRemainder(Entity *);
 
 /* Initialize playback slot offsets, timing, and state for the input format. */
 s32 func_800599B0(void)
@@ -84,14 +84,14 @@ s32 func_800599B0(void)
                 offset = entity->f00;
             }
             entity->f04 = entity->f00;
-            entity->f10 = func_80058A04((s32)entity);
+            entity->f10 = readBase128Vlq((s32)entity);
             entity->f48 = 0;
             entity->f4A = 0;
             entity->f49 = 0;
             entity->f2C = 0;
             entity->f40 = 0;
             if (*(s32 *)&D_800737C4 != 0) {
-                func_80059814(entity);
+                slusScaleValueWithRemainder(entity);
             }
             entity_index++;
         } while (entity_index < D_800869B4[0]);
@@ -117,14 +117,14 @@ init_spans:
         entity->f38 = start;
         offset += length;
         entity->f1C = entity->f00 + entity->f18;
-        entity->f10 = func_80058A04((s32)entity);
+        entity->f10 = readBase128Vlq((s32)entity);
         entity->f48 = 0;
         entity->f4A = 0;
         entity->f49 = 0;
         entity->f2C = 0;
         entity->f40 = 0;
         if (*(s32 *)&D_800737C4 != 0) {
-            func_80059814(entity);
+            slusScaleValueWithRemainder(entity);
         }
         entity_index++;
     } while (entity_index < D_800869B4[0]);

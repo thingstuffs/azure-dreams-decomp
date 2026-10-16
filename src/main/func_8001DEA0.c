@@ -4,7 +4,7 @@
 typedef struct S_80404EA0_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80404EA0_3;   /* temp_s2 in func_80404EA0 */
+} S_80404EA0_3;   /* temp_s2 in cardBuildSelectedSlotDetails */
 
 typedef struct S_80404EA0_4 {
     u8 pad_00[0x8];
@@ -17,13 +17,13 @@ typedef struct S_80404EA0_4 {
     s32 unk_2C;
     s32 unk_30;
     s32 unk_34;
-} S_80404EA0_4;   /* D_8009DDD8 + (((S_80404EA0_0 *)arg0)->unk_7C << 7) in func_80404EA0 */
+} S_80404EA0_4;   /* D_8009DDD8 + (((S_80404EA0_0 *)arg0)->unk_7C << 7) in cardBuildSelectedSlotDetails */
 
 typedef struct S_80404EA0_5 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80404EA0_5;   /* ((S_80404EA0_3 *)temp_s2)->unk_04 in func_80404EA0 */
+} S_80404EA0_5;   /* ((S_80404EA0_3 *)temp_s2)->unk_04 in cardBuildSelectedSlotDetails */
 
 
 typedef struct S_80404EA0_0 {
@@ -37,16 +37,16 @@ typedef struct S_80404EA0_0 {
     void * unk_B28;
     void * unk_B2C;
     void * unk_B30;
-} S_80404EA0_0;   /* arg0 in func_80404EA0 */
+} S_80404EA0_0;   /* arg0 in cardBuildSelectedSlotDetails */
 
 typedef struct S_80404EA0_1 {
     union { void * s; s32 u; } unk_00;   /* accessed as both */
-} S_80404EA0_1;   /* temp_s2 in func_80404EA0 */
+} S_80404EA0_1;   /* temp_s2 in cardBuildSelectedSlotDetails */
 
 typedef struct S_80404EA0_2 {
     u8 pad_00[0xB34];
     void * unk_B34;
-} S_80404EA0_2;   /* var_a1 in func_80404EA0 */
+} S_80404EA0_2;   /* var_a1 in cardBuildSelectedSlotDetails */
 
 typedef struct {
     s32 w0;
@@ -75,7 +75,7 @@ extern s32 D_80408CFC[];
 extern u8 D_8009DDD8[];
 
 /* Build the selected slot's text fields and position its status icons. */
-void func_80404EA0(void *panel) {
+void cardBuildSelectedSlotDetails(void *panel) {
     s16 text_buf[32];
     s16 number_buf[8];
     s16 time_buf[4];

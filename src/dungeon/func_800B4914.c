@@ -58,10 +58,10 @@ typedef struct D_80083780_t {
     u16 fA;
 } D_80083780_t;
 
-extern s32 func_8003FA44(s32);
+extern s32 hasEnoughAvailableRuntimeNodes(s32);
 extern s32 func_8004491C();
-extern s32 func_800C77D0();
-extern s32 func_8004A658(u8, u8);
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
+extern s32 lookupItemCategoryMappedValue(u8, u8);
 extern void func_8003DB94();
 extern void *func_800BA110();
 extern void *func_800BA1D0();
@@ -69,8 +69,8 @@ extern void *func_800BA224();
 extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 struct S_800BA33C_0;
-extern s32 func_800BA33C(struct S_800BA33C_0 *object);
-extern void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
+extern s32 dungeonIsSelectableMenuTarget(struct S_800BA33C_0 *object);
+extern void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
 extern s32 func_80045C34();
@@ -78,7 +78,7 @@ extern u8 D_80079444[];
 struct Work;
 struct Out;
 struct Render;
-extern void func_800B9A78(struct Work *work, struct Out *out, struct Render *render_arg);
+extern void dungeonUpdateItemTargetMarker(struct Work *work, struct Out *out, struct Render *render_arg);
 extern s16 D_800DCE66[5];
 extern u8 D_800DF368[];
 
@@ -86,21 +86,21 @@ extern u8 D_800DF368[];
 typedef struct S_800BA074_0 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_800BA074_0;   /* current in func_800BA074 */
+} S_800BA074_0;   /* current in dungeonCreateItemTargetSelector */
 
 typedef struct S_800BA074_1 {
     u8 pad_00[0x3D7C];
     u8 * unk_3D7C;
-} S_800BA074_1;   /* page in func_800BA074 */
+} S_800BA074_1;   /* page in dungeonCreateItemTargetSelector */
 
 typedef struct S_800BA074_2 {
     u8 pad_00[0xAC];
     s32 unk_AC;
     s32 unk_B0;
-} S_800BA074_2;   /* ((S_800BA074_1 *)page)->unk_3D7C in func_800BA074 */
+} S_800BA074_2;   /* ((S_800BA074_1 *)page)->unk_3D7C in dungeonCreateItemTargetSelector */
 
 /* Creates three linked display objects for the selection and initializes their appearance. */
-void *func_800BA074(u8 *selection_data) {
+void *dungeonCreateItemTargetSelector(u8 *selection_data) {
     Obj_800B4914 *objects[3];
     EntityRec *layout;
     Obj_800B4914 **object_slot;
@@ -109,7 +109,7 @@ void *func_800BA074(u8 *selection_data) {
     s32 last_part;
 
 
-    if (func_8003FA44(3) == 0) {
+    if (hasEnoughAvailableRuntimeNodes(3) == 0) {
         return 0;
     }
 
@@ -124,7 +124,7 @@ void *func_800BA074(u8 *selection_data) {
             SubA_800B4914 *transform;
             SubB_800B4914 *sprite;
 
-            (*object_slot)->state = func_800B9A78;
+            (*object_slot)->state = dungeonUpdateItemTargetMarker;
             if (part_index == last_part) {
                 func_8004491C(objects[2], func_80045C34);
             } else {
@@ -144,8 +144,8 @@ void *func_800BA074(u8 *selection_data) {
             sprite->f6 = 4;
 
             if (part_index == 0) {
-                func_800C77D0(objects[0], transform, 8, D_800DCE66[0]);
-                sprite->f8 = (void *)func_8004A658(selection_data[1], selection_data[0]);
+                dungeonSelectNearbyTargetAndInitializeSlot(objects[0], transform, 8, D_800DCE66[0]);
+                sprite->f8 = (void *)lookupItemCategoryMappedValue(selection_data[1], selection_data[0]);
             } else if (part_index == 1) {
                 sprite->f8 = D_800DF368;
             } else {
@@ -168,13 +168,13 @@ void *func_800BA074(u8 *selection_data) {
                 } else {
                     part_state->f2C = selection_data;
                 }
-                if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_AC) != 0) {
+                if (dungeonIsSelectableMenuTarget(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_AC) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xAC;
                     if (part_state->f12 == last_part) {
                         sprite->fC = 0x101080;
                     }
-                } else if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
+                } else if (dungeonIsSelectableMenuTarget(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
                     part_state->fE = 8;
                     part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xB0;
                     if (part_state->f12 == last_part) {
@@ -191,7 +191,7 @@ void *func_800BA074(u8 *selection_data) {
     {
         dungeonStatus.unk_0A += 1;
     }
-    func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);
+    dungeonBuildFloatingNumberWidget(0, 0x27, 0x40, 0x209, 0, 0);
     func_800B1B10(selection_data, 0x4C, 0x50, 0x200, 0, 2);
     return objects[0];
 }

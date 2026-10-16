@@ -9,7 +9,7 @@ extern Callback D_800D4668[];
 
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
-void func_800C1DD8(void) {
+void townInitializeObjectAndReplaceCallbacks(void) {
     Callback *callback_slot = D_800D4668;
     void *object = func_8003FC64(0x11);
 

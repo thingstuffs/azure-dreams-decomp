@@ -58,9 +58,9 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_8014CA3C();
-extern void func_8014CE68();
+extern void dispatchDungeonActorBehaviorAndFacing();
 extern u8 D_80150194[];
 extern u8 D_801501DC[];
 
-void * func_8014C870(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value);
+void * dungeonCreateActorWithKindParts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value);
 #endif

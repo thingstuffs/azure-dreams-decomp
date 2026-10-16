@@ -11,14 +11,14 @@
 extern u8 D_80080000[];
 
 void func_800353F4(void *);                   /* extern */
-void func_80047738(void *, u8, s8);              /* extern */
+void selectIndirectTableEntry(void *, u8, s8);              /* extern */
 void func_800478B8(void *);                      /* extern */
-void func_800A020C(s32, void *);                 /* extern */
-void func_800A1D4C(void *, s32);             /* extern */
-s32 func_800A9E70(void *, void *, void *, void *);  /* extern */
+void dungeonApplyMonsterKoyawData(s32, void *);                 /* extern */
+void raiseEntityLevel(void *, s32);             /* extern */
+s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);  /* extern */
 void func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(u16, u16, s16);                   /* extern */
-void func_8016A908(u8 *state);                         /* extern */
+void dungeonClearActorActionMarkers(u8 *state);                         /* extern */
 extern u8 D_80013610[0x3612];
 extern u32 D_800835E4[64];
 extern u8 D_800F927E[16];
@@ -47,13 +47,13 @@ typedef struct S_8016B0E8_0 {
     u8 unk_B1;
     u8 pad_B2[0x2];
     u8 unk_B4;
-} S_8016B0E8_0;   /* arg0 in func_8016B0E8 */
+} S_8016B0E8_0;   /* arg0 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_1 {
     u8 pad_00[0x3610];
     u8 unk_3610;
     u8 unk_3611;
-} S_8016B0E8_1;   /* page_8001 in func_8016B0E8 */
+} S_8016B0E8_1;   /* page_8001 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_2 {
     u8 pad_00[0x11];
@@ -70,58 +70,58 @@ typedef struct S_8016B0E8_2 {
     u8 unk_71;
     u8 pad_72[0x16];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_8016B0E8_2;   /* obj in func_8016B0E8 */
+} S_8016B0E8_2;   /* obj in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
     s32 unk_0C;
-} S_8016B0E8_3;   /* state_83460 in func_8016B0E8 */
+} S_8016B0E8_3;   /* state_83460 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_4 {
     u8 pad_00[0x3D7C];
     s32 unk_3D7C;
-} S_8016B0E8_4;   /* page_e in func_8016B0E8 */
+} S_8016B0E8_4;   /* page_e in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_5 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016B0E8_5;   /* entry_base in func_8016B0E8 */
+} S_8016B0E8_5;   /* entry_base in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_6 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8016B0E8_6;   /* temp_v1_2 in func_8016B0E8 */
+} S_8016B0E8_6;   /* temp_v1_2 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_8 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8016B0E8_8;   /* var_a0 in func_8016B0E8 */
+} S_8016B0E8_8;   /* var_a0 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_9_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016B0E8_9_pre;   /* the 0x14 bytes before temp_v0_2 in func_8016B0E8, addressed as temp_v0_2[-1] */
+} S_8016B0E8_9_pre;   /* the 0x14 bytes before temp_v0_2 in dungeonUpdateActorAnimationMovementAndTerrain, addressed as temp_v0_2[-1] */
 
 typedef struct S_8016B0E8_10 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016B0E8_10;   /* temp_v1_3 in func_8016B0E8 */
+} S_8016B0E8_10;   /* temp_v1_3 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_11 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016B0E8_11;   /* late_state_83460 in func_8016B0E8 */
+} S_8016B0E8_11;   /* late_state_83460 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_12 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_8016B0E8_12;   /* temp_v1_4 in func_8016B0E8 */
+} S_8016B0E8_12;   /* temp_v1_4 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_13 {
     u8 pad_00[0x3462];
     u16 unk_3462;
-} S_8016B0E8_13;   /* var_v0_2 in func_8016B0E8 */
+} S_8016B0E8_13;   /* var_v0_2 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_14 {
     u8 pad_00[0x4];
@@ -133,7 +133,7 @@ typedef struct S_8016B0E8_14 {
     u8 unk_25;
     u8 pad_26[0x6];
     s32 unk_2C;
-} S_8016B0E8_14;   /* arg2 in func_8016B0E8 */
+} S_8016B0E8_14;   /* arg2 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_15 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -143,12 +143,12 @@ typedef struct S_8016B0E8_15 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016B0E8_15;   /* arg1 in func_8016B0E8 */
+} S_8016B0E8_15;   /* arg1 in dungeonUpdateActorAnimationMovementAndTerrain */
 
 typedef struct S_8016B0E8_16 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016B0E8_16;   /* (temp_s1 + ((S_8016B0E8_4 *)page_e)->unk_3D7C) in func_8016B0E8 */
+} S_8016B0E8_16;   /* (temp_s1 + ((S_8016B0E8_4 *)page_e)->unk_3D7C) in dungeonUpdateActorAnimationMovementAndTerrain */
 
 static __inline__ u16 clamp_level(u32 level)
 {
@@ -158,7 +158,7 @@ static __inline__ u16 clamp_level(u32 level)
 }
 
 /* Update actor state, animation, movement, and terrain height. */
-void func_8016B0E8(void *entity, void *motion, void *sprite) {
+void dungeonUpdateActorAnimationMovementAndTerrain(void *entity, void *motion, void *sprite) {
     register M2C_UNK (*update_callback)(void *, void *, void *, void *);
     register M2C_UNK (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
@@ -227,7 +227,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
             level_limits = exp_limits;
             do {
                 {
-                    func_800A1D4C(actor, 0);
+                    raiseEntityLevel(actor, 0);
                 }
             } while (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18));
         }
@@ -254,7 +254,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 lookup_offset = actor_index * 4;
                 linked_actor = ((S_8016B0E8_16 *)((lookup_offset + ((S_8016B0E8_4 *)actors_page)->unk_3D7C)))->unk_AC;
                 if (linked_actor != 0) {
-                    func_8016A908(linked_actor);
+                    dungeonClearActorActionMarkers(linked_actor);
                     actor_slot = (void *)(lookup_offset + ((S_8016B0E8_4 *)actors_page)->unk_3D7C);
                     actor_header = ((S_8016B0E8_5 *)actor_slot)->unk_AC - 0x20;
                     ((S_8016B0E8_6 *)actor_header)->unk_10 = (s32) (((S_8016B0E8_6 *)actor_header)->unk_10
@@ -300,7 +300,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         return;
     }
     prior_state = (s8) ((S_8016B0E8_2 *)actor)->unk_6D;
-    if (func_800A9E70(entity, motion, sprite, actor) == 0) {
+    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, actor) == 0) {
         update_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (update_callback != NULL) {
             update_callback(entity, motion, sprite, actor);
@@ -319,7 +319,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;
                 if (direction_animations != 0) {
                     animation_id = *(direction_animations + direction_index);
-                    func_80047738(sprite, animation_id, ((S_8016B0E8_14 *)sprite)->unk_04);
+                    selectIndirectTableEntry(sprite, animation_id, ((S_8016B0E8_14 *)sprite)->unk_04);
                 }
                 ((S_8016B0E8_0 *)entity)->unk_94 = view_direction;
             }
@@ -338,7 +338,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x7000);
             }
 update_sprite:
-            func_800A020C(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
+            dungeonApplyMonsterKoyawData(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
         } else {
             mode_bits = sprite_flags & 0x800;
             if (mode_bits) {

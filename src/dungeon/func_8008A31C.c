@@ -11,10 +11,10 @@ typedef struct {
     s16 fieldA;
 } D_80083460_t;
 
-extern void func_80099F70(s32);
-extern void func_80099F04(s32);
+extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
+extern void dungeonProcessUnflaggedLinkedEntries(s32);
 extern void func_80048A44(void *, u8, s16, s32);
-extern s16 func_8009AF18(s16, void *, void *, s32);
+extern s16 dungeonMeasureDirectionalStoppingDistance(s16, void *, void *, s32);
 
 extern s32 D_80081484[3];
 extern u8 D_8008EAC8[];
@@ -29,12 +29,12 @@ extern s32 D_800E3540[];
 typedef struct S_8008FA7C_0 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8008FA7C_0;   /* arg1 in func_8008FA7C */
+} S_8008FA7C_0;   /* arg1 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_1 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_1;   /* state0_call_arg in func_8008FA7C */
+} S_8008FA7C_1;   /* state0_call_arg in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_2 {
     u8 pad_00[0x1C];
@@ -43,7 +43,7 @@ typedef struct S_8008FA7C_2 {
     s16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-} S_8008FA7C_2;   /* arg3 in func_8008FA7C */
+} S_8008FA7C_2;   /* arg3 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_3 {
     u8 pad_00[0x8C];
@@ -54,17 +54,17 @@ typedef struct S_8008FA7C_3 {
     u16 unk_A2;
     u8 pad_A4[0x80];
     union { u8 * p; u32 i; } unk_124;   /* accessed as both */
-} S_8008FA7C_3;   /* arg0 in func_8008FA7C */
+} S_8008FA7C_3;   /* arg0 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_4 {
     u8 pad_00[0x1C];
     u32 unk_1C;
-} S_8008FA7C_4;   /* object in func_8008FA7C */
+} S_8008FA7C_4;   /* object in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_5 {
     u8 pad_00[0x8A];
     s16 unk_8A;
-} S_8008FA7C_5;   /* object2 in func_8008FA7C */
+} S_8008FA7C_5;   /* object2 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_6 {
     u8 pad_00[0xA];
@@ -74,26 +74,26 @@ typedef struct S_8008FA7C_6 {
     u8 unk_85;
     u8 pad_86[0x34BA];
     s32 unk_3540;
-} S_8008FA7C_6;   /* (u8 *)state1_v1 in func_8008FA7C */
+} S_8008FA7C_6;   /* (u8 *)state1_v1 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_7 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_8008FA7C_7;   /* (u8 *)state1_a1 in func_8008FA7C */
+} S_8008FA7C_7;   /* (u8 *)state1_a1 in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_8 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_8;   /* call_arg in func_8008FA7C */
+} S_8008FA7C_8;   /* call_arg in dungeonUpdateThrowCarriedObject */
 
 typedef struct S_8008FA7C_9 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_9;   /* state2_call_arg in func_8008FA7C */
+} S_8008FA7C_9;   /* state2_call_arg in dungeonUpdateThrowCarriedObject */
 
 
 /* Advances an actor's action state, updating linked-object flags and directional animation. */
-void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
+void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     s16 countdown;
     s32 direction;
     s16 state;
@@ -131,7 +131,7 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
             return;
         }
 
-        action_result = func_8009AF18(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
+        action_result = dungeonMeasureDirectionalStoppingDistance(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
         if (action_result == 0) {
             actor[0x9B]++;
             return;
@@ -218,13 +218,13 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
             return;
         }
         dungeonStatus.flags |= 0x412;
-        func_80099F70(((S_8008FA7C_2 *)entity)->unk_5C);
-        func_80099F04(((S_8008FA7C_2 *)entity)->unk_5C);
+        dungeonProcessUnflaggedLinkedEntriesAlt(((S_8008FA7C_2 *)entity)->unk_5C);
+        dungeonProcessUnflaggedLinkedEntries(((S_8008FA7C_2 *)entity)->unk_5C);
         if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
             ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
         } else {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p2 = func_8008ACDC;
+            ((S_8008FA7C_3 *)actor)->unk_8C.p2 = dungeonHandlePlayerInput;
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
         }
         direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;

@@ -16,7 +16,7 @@ typedef struct {
 extern S_80084478 D_80084478[16];
 
 /* Initializes 16 records with template values and sets each f9 byte to its index times 16. */
-void func_80052A20(void)
+void initSixteenPackedTemplates(void)
 {
     s32 record_index;
     S_80084478 *record;

@@ -7,14 +7,14 @@
 #include "records/Rec_D_80082E80.h"
 
 void func_80048A44(void *, u8, s32, s32);
-s32 func_8004CAE8(s32, s32);
-void func_80091934(void *, s32, void *, void *);
+s32 findFlaggedRecordById(s32, s32);
+void dungeonBeginDeferredPlayerItemEffect(void *, s32, void *, void *);
 s32 func_800990FC(void);
 s32 func_80099194(u8 *src, u8 *dst);
 void func_80099290(s8 *byte_ptr);
-s32 func_8009929C(s8 value, s8 *dest);
-s32 func_80099368(s32, s32);
-s32 func_8009965C(s32, s32);
+s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
+s32 dungeonAppendTypedFormattedValue(s32, s32);
+s32 dungeonProcessEligibleObjectValue(s32, s32);
 s32 func_80099734(void *record, u8 *out);
 void func_800A56E0(s32);
 void func_800A5720(s8 *text);
@@ -29,13 +29,13 @@ extern u8 D_800E06EB[];
 typedef struct S_8009255C_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_8009255C_1;   /* base in func_8009255C */
+} S_8009255C_1;   /* base in dungeonUpdatePlayerEatingAction */
 
 
 typedef struct S_8009255C_3 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8009255C_3;   /* call_arg in func_8009255C */
+} S_8009255C_3;   /* call_arg in dungeonUpdatePlayerEatingAction */
 
 
 typedef struct S_8009255C_5 {
@@ -43,7 +43,7 @@ typedef struct S_8009255C_5 {
     void * unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_8009255C_5;   /* temp_v0 in func_8009255C */
+} S_8009255C_5;   /* temp_v0 in dungeonUpdatePlayerEatingAction */
 
 typedef struct S_8009255C_6 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_8009255C_6 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009255C_6;   /* temp_v1_2 in func_8009255C */
+} S_8009255C_6;   /* temp_v1_2 in dungeonUpdatePlayerEatingAction */
 
 typedef struct S_8009255C_7 {
     u8 pad_00[0x8C];
@@ -63,10 +63,10 @@ typedef struct S_8009255C_7 {
     u8 pad_A0[0x8];
     s16 unk_A8;
     s16 unk_AA;
-} S_8009255C_7;   /* temp_v1_3 in func_8009255C */
+} S_8009255C_7;   /* temp_v1_3 in dungeonUpdatePlayerEatingAction */
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
+void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
     s32 text_start;
     s32 text_cursor;
     s32 state;
@@ -101,7 +101,7 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
             (u16)transform->facing + 0x200;
         break;
     case 1:
-        if (func_8004CAE8(actor->unk_08, 0) == 0) {
+        if (findFlaggedRecordById(actor->unk_08, 0) == 0) {
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
@@ -127,13 +127,13 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
             spawned_state->unk_9C = controller + 0x108;
             text_cursor = func_800990FC();
             text_start = text_cursor;
-            text_cursor = func_8009929C(8, text_cursor);
+            text_cursor = dungeonWriteTextByteAndAdvance(8, text_cursor);
             text_cursor = func_80099734(transform, text_cursor);
             text_cursor = func_80099194(D_800E06E3, text_cursor);
-            text_cursor = func_80099368(
+            text_cursor = dungeonAppendTypedFormattedValue(
                 ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
             text_cursor = func_80099194(D_800E06EB, text_cursor);
-            text_cursor = func_8009965C(
+            text_cursor = dungeonProcessEligibleObjectValue(
                 ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
             func_80099290(text_cursor);
             func_800A5720(text_start);
@@ -147,10 +147,10 @@ void func_8009255C(void *controller, s32 action_id, Rec_D_80082E80 *actor, Entit
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
-            func_80091934(controller, action_id, actor, transform);
+            dungeonBeginDeferredPlayerItemEffect(controller, action_id, actor, transform);
             return;
         }
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)func_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)dungeonHandlePlayerInput;
         break;
     }
 }

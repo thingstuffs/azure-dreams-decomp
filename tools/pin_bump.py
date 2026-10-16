@@ -38,6 +38,7 @@ import argparse, json, os, re, shutil, subprocess, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, UP, UP_LIVE, LEDGER, CACHE, read_jsonl, write_jsonl, append_jsonl, sha_file, run
+from source_layout import row_path as layout_row_path
 
 STEPS = ["refresh", "import", "slus", "rowdb", "registry", "stale", "baseline", "sweeps", "refine", "reverify", "status", "gate_slus", "gate_ovl"]
 SWEEPS = ["t1_boiler", "t4_fields", "t2_pins", "t6_pin_notes"]   # t3_epilogue retired 2026-09-07 (window gate)
@@ -193,7 +194,7 @@ def step_stale(commit):
         name = Path(r["c_path"]).name; c = r["container"]
         up = UP / r["c_path"]
         if not up.exists(): continue
-        raw = ROOT / "raw" / c / name; src = ROOT / "src" / c / name; ref = ROOT / "refine" / c / name
+        raw = ROOT / "raw" / c / name; src = layout_row_path({"container": c, "c_path": name}, ROOT); ref = ROOT / "refine" / c / name
         raw.parent.mkdir(parents=True, exist_ok=True)
         if not raw.exists() or raw.read_bytes() != up.read_bytes(): shutil.copyfile(up, raw); n_raw += 1
         if src.exists():

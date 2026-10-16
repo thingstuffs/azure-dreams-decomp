@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Create an object, initialize its position and render state, and invoke its callback. */
-s32 func_8009D424(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
+s32 townCreateObjectAndInitializeRenderState(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
 {
     s32 saved_angle_index;
     void *object;
@@ -55,7 +55,7 @@ s32 func_8009D424(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u
     } else {
         ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = -0xC0;
     }
-    ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = func_800C2AE8(position);
+    ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = townQueryLoweredTransformPosition(position);
     if (position != 0) {
         color = 0x808080;
     }

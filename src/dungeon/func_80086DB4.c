@@ -16,10 +16,10 @@ typedef struct S_8008C514_1 {
     s32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_8008C514_1;   /* arg3 in func_8008C514 */
+} S_8008C514_1;   /* arg3 in dungeonBeginPlayerJump */
 
 /* Initialize the action state and select the actor's directional sprite. */
-void func_8008C514(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, S_8008C514_1 *actor) {
+void dungeonBeginPlayerJump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, S_8008C514_1 *actor) {
     state->unk_9A.as_s8 = 0x1A;
     state->unk_9B.as_s8 = 0;
     state->unk_8C.as_s32 = 0;

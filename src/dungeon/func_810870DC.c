@@ -37,7 +37,7 @@ typedef struct S_func_810870DC_3 {
 } S_func_810870DC_3;
 
 /* Updates directional animation and entity state when the transition flags allow. */
-void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
+void dungeonUpdateDirectionalTransitionState(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
     S_func_810870DC_2 *orientation)
 {
     GameWork *scene_data = &gameWork;

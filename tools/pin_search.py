@@ -402,7 +402,16 @@ def gate_slus_copy(source, destination, log_path, workers):
     """Independent full-executable gate over an isolated source view and build outputs."""
     if destination.exists(): shutil.rmtree(destination)
     shutil.copytree(ROOT/"build_slus",destination,symlinks=True)
-    (destination/"src").unlink();(destination/"src").symlink_to(source/"slus",target_is_directory=True)
+    from source_layout import materialize_flat
+    flat = materialize_flat(destination / "layout_flat", ROOT, source)
+    src_view = destination / "src"
+    if src_view.is_symlink():
+        src_view.unlink()
+    else:
+        if any(not p.is_symlink() for p in src_view.iterdir()):
+            raise RuntimeError("unmanaged isolated SLUS source view")
+        shutil.rmtree(src_view)
+    src_view.symlink_to(flat / "slus", target_is_directory=True)
     recipe=destination/"build.ninja"
     if sha_file(recipe)!=sha_file(ROOT/"ledger/splits/slus.build.ninja"):
         raise RuntimeError("isolated SLUS recipe differs from pinned recipe")

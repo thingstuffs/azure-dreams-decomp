@@ -36,14 +36,14 @@ typedef struct {
 
 
 extern void func_80047784(T_801727CC_Obj2 *, u8, s32);
-extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(T_801727CC_Obj3 *);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void dungeonAdvanceStatusTimers(T_801727CC_Obj3 *);
 extern void func_800A56E0(s32);
-extern void func_800AD594(T_801727CC_Obj3 *, s32);
+extern void dungeonReduceActorFoodMeter(T_801727CC_Obj3 *, s32);
 extern void * D_800E3DE8[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
-void func_801727CC(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);
+void dungeonAdvanceATimedActorAnimationAppliesCompletionEffects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);
 extern void func_80170F68();
 #endif

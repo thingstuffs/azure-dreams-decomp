@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_80019730(void);                            /* extern */
+void townAdvanceDispatchStateToTwo(void);                            /* extern */
 
-/* Forward both inputs to func_80019730. */
-void func_8001CFF0(s32 first_input, s32 second_input) {
-    func_80019730();
+/* Forward both inputs to townAdvanceDispatchStateToTwo. */
+void townIgnoreInputsAndRunEventReset(s32 first_input, s32 second_input) {
+    townAdvanceDispatchStateToTwo();
 }

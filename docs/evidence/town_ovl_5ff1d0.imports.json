@@ -1,0 +1,53 @@
+{
+  "module": "town_admit_5ff1d0",
+  "scope": "diagnostic absolute addresses only; no asset/storage ownership claim",
+  "absolute_symbols": [
+    {
+      "symbol": "D_80018770",
+      "vma": 2147583856,
+      "kind": "data"
+    },
+    {
+      "symbol": "D_80018790",
+      "vma": 2147583888,
+      "kind": "data"
+    },
+    {
+      "symbol": "D_800188BC",
+      "vma": 2147584188,
+      "kind": "data"
+    },
+    {
+      "symbol": "D_8001A714",
+      "vma": 2147591956,
+      "kind": "data"
+    },
+    {
+      "symbol": "D_8001A854",
+      "vma": 2147592276,
+      "kind": "data"
+    },
+    {
+      "symbol": "func_80017978",
+      "vma": 2147580280,
+      "kind": "function"
+    },
+    {
+      "symbol": "func_80017A54",
+      "vma": 2147580500,
+      "kind": "function"
+    },
+    {
+      "symbol": "func_80017B0C",
+      "vma": 2147580684,
+      "kind": "function"
+    },
+    {
+      "symbol": "func_80018604",
+      "vma": 2147583492,
+      "kind": "function"
+    }
+  ],
+  "native_hold": "CD-loader extent audit contradicts treating out-of-image addresses as linear storage in this bank. Their resident/asset ownership remains unproved. Strict code-byte proofs remain valid.",
+  "evidence": "Lane evidence/scene_record_candidates.json and evidence/loader_import_extent_audit.json record actual packed CD extents."
+}

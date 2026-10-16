@@ -14,9 +14,9 @@ typedef struct EffectColor {
     u8 blue;
 } EffectColor;
 
-/* Retail 81887570 (func_80024D70): fade the colour by 1/8 per call and mark the effect (header and global
+/* Retail 81887570 (dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */
-void func_80024D70(void *effect, s32 unused, EffectColor *color) {
+void dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark(void *effect, s32 unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;

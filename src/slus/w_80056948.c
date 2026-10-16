@@ -55,27 +55,27 @@ extern s32 D_80073734[4];
 extern S_80084960 D_80084960[16];
 extern S_80085458 D_80085458[64];
 
-extern void func_80056800(S_80084960 *state);
-extern void func_800568B4(S_80084960 *state);
-extern void func_80056098(S_80085458 *envelope);
-extern void func_80055E84(S_80085458 *envelope);
-extern void func_80056654(S_80085458 *envelope, s32 value);
+extern void soundStepBipolarOscillation(S_80084960 *state);
+extern void soundStepClampedSignedRamp(S_80084960 *state);
+extern void audioUpdateVoiceVibrato(S_80085458 *envelope);
+extern void audioUpdateVoiceTremolo(S_80085458 *envelope);
+extern void audioUpdateVoicePitch(S_80085458 *envelope, s32 value);
 
 /* Refresh all 16 entity slots, then update active D_80085458 slots. */
-void func_80056948(void) {
+void soundUpdateVoiceModulationSlots(void) {
     S_80084960 *entity;
     s32 slot;
 
     for (slot = 0, entity = D_80084960; slot < 0x10; slot++, entity++) {
-        func_80056800(entity);
-        func_800568B4(entity);
+        soundStepBipolarOscillation(entity);
+        soundStepClampedSignedRamp(entity);
     }
 
     for (slot = 0; slot < D_80073734[0]; slot++) {
         if ((u16)D_80085458[slot].f06 < 0x10) {
-            func_80056098(&D_80085458[slot]);
-            func_80055E84(&D_80085458[slot]);
-            func_80056654(&D_80085458[slot], 0);
+            audioUpdateVoiceVibrato(&D_80085458[slot]);
+            audioUpdateVoiceTremolo(&D_80085458[slot]);
+            audioUpdateVoicePitch(&D_80085458[slot], 0);
         }
     }
 }

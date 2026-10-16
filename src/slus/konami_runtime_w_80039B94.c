@@ -14,7 +14,7 @@ typedef struct {
 extern void func_800383D4(void);
 
 /* Consumes one event-script byte into value_2F and resumes with func_800383D4. */
-void func_80039B94(Func80039B94State *state) {
+void handleVmOpcode36(Func80039B94State *state) {
     u8 *stream = state->stream;
     u8 value = *stream;
 

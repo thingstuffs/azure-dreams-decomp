@@ -4,14 +4,14 @@
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
-void func_800B835C(void *, void *, s32, s32);
+void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
 extern u8 D_8002744C[9];
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
 extern s16 D_80083228;
 extern s32 D_800CEEFC[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
-void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
+void *dungeonCreateFourGroupsOfAngularEffects(s16 pos_x, s16 pos_y, s16 pos_z)
 {
     s32 rect[2];
     s32 angle;
@@ -35,7 +35,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
     facing = (u8)angle << 9;
     sprite = D_8002888C;
     data = rect;
-    func_800B835C(sprite, data, 1, 0);
+    dungeonDrawTexturedEllipse(sprite, data, 1, 0);
     base_angle = angle << 9;
     group_index = 0;
 next_group:

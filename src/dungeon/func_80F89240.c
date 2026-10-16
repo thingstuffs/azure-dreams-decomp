@@ -7,11 +7,11 @@
 extern int abs(int);
 
 
-extern s32 func_8003F270(void);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern s32 func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void func_800DAE44(EntityRec *source_pos, s16 initial_value);
+extern s32 getCdCommandQueueDepth(void);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void dungeonCreateSourcePositionedObject(EntityRec *source_pos, s16 initial_value);
 
 
 
@@ -27,18 +27,18 @@ typedef struct S_80172A40_0 {
     u8 unk_9B;
     u8 pad_9C[0x4];
     s16 unk_A0;
-} S_80172A40_0;   /* arg0 in func_80172A40 */
+} S_80172A40_0;   /* arg0 in dungeonUpdateBankActorTargetedAction */
 
 typedef struct S_80172A40_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172A40_2_pre;   /* the 0x14 bytes before target in func_80172A40, addressed as target[-1] */
+} S_80172A40_2_pre;   /* the 0x14 bytes before target in dungeonUpdateBankActorTargetedAction, addressed as target[-1] */
 
 typedef struct S_80172A40_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172A40_3;   /* record in func_80172A40 */
+} S_80172A40_3;   /* record in dungeonUpdateBankActorTargetedAction */
 
 typedef struct S_80172A40_4 {
     u8 pad_00[0x14];
@@ -48,11 +48,11 @@ typedef struct S_80172A40_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172A40_4;   /* arg2 in func_80172A40 */
+} S_80172A40_4;   /* arg2 in dungeonUpdateBankActorTargetedAction */
 
 
 /* Updates the selected action's targeting, motion, and completion state. */
-void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, EntityRec *object)
+void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_input, void *actor_input, EntityRec *object)
 {
     s16 special;
     u8 *item_slot;
@@ -140,7 +140,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
                         object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
                     }
                 } else {
-                    object->target = func_800A05A4(
+                    object->target = dungeonScanMonsterAlongHeading(
                         object, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25,
                         object->facing, 0x10);
 
@@ -151,12 +151,12 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
                 }
             }
 
-            if (func_800A94A0(object, item_slot, special,
+            if (dungeonCreateActorSpellEffect(object, item_slot, special,
                               (u16 *)((u8 *)owner_input + 0x98)) == 0) {
                 return;
             }
             ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
-            func_800DAE44(motion_input, 4);
+            dungeonCreateSourcePositionedObject(motion_input, 4);
             func_800A56E0(0x703);
             ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
             ((S_80172A40_0 *)owner_input)->unk_9B++;
@@ -169,19 +169,19 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         motion_input->flags14 = 0;
         motion_input->unk_10 = 0;
         motion_input->unk_0C = 0;
-        func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        func_800A4ACC(object);
+        dungeonAdvanceStatusTimers(object);
         (*(u8 *)&object->unk_6D)--;
-        ((S_80172A40_0 *)owner_input)->unk_8C = func_80171138;
+        ((S_80172A40_0 *)owner_input)->unk_8C = dungeonUpdateBankActorState;
         object->unk_73 = 0;
         object->unk_72 = 0;
         object->unk_46 &= 0x7FFF;
         return;
 
     case 1:
-        if (func_8003F270() != 0) {
+        if (getCdCommandQueueDepth() != 0) {
             ((S_80172A40_4 *)actor_input)->unk_14 |= 0x800;
             return;
         }
@@ -206,7 +206,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         motion_input->flags14 = 0;
         motion_input->unk_10 = 0;
         motion_input->unk_0C = 0;
-        func_800A2B04(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
         ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
         (*(u32 *)&object->flags1C) |= 0x08000000;
         (*(u32 *)&object->flags1C) |= 0x00040000;
@@ -224,8 +224,8 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         }
         dungeonStatus.unk_0A--;
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
-        ((S_80172A40_0 *)owner_input)->unk_8C = func_80171138;
-        func_800A4ACC(object);
+        ((S_80172A40_0 *)owner_input)->unk_8C = dungeonUpdateBankActorState;
+        dungeonAdvanceStatusTimers(object);
         if (object->unk_6D > 0) {
             (*(u8 *)&object->unk_6D)--;
         }

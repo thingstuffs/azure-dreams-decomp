@@ -68,7 +68,7 @@ static __inline__ u8 *grid_cell(u8 *grid, s32 row, s32 col)
 }
 
 /* Build a textured quad grid for each object in the linked list. */
-void func_800DBA90();
+void dungeonTransformRotatedVertices();
 void func_80065420();
 void func_800666F4();
 void func_80066640();

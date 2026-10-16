@@ -11,7 +11,7 @@ extern s32 D_8001B210;
 extern M2C_UNK D_8001B218;
 
 /* Refresh the shared state and subtract D_8001B210 from the context counter. */
-void func_80471334(void) {
+void func_80018334(void) {
     TownStateRecord *context;
 
     func_800181DC();

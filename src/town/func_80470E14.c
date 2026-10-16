@@ -1,10 +1,5 @@
-#include "common.h"
-#include "m2c_compat.h"
+#include "modules/town_ovl_3ef1c8.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8001A490();                     /* extern */
-
-/* Call func_8001A490 with request code 0x11FB. */
-void func_80017E14(void) {
+void townInvokeAlternateHandlerWithCode11FB(void) {
     func_8001A490(0x11FB);
 }

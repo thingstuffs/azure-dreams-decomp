@@ -51,11 +51,11 @@ typedef struct S_8003719C_3 {
 } S_8003719C_3;   /* sprite in func_8003719C */
 
 
-void func_80033C1C();                 /* extern */
+void runtimeInitializeStateValue();                 /* extern */
 M2C_UNK func_800350B0();                 /* extern */
-void func_80036C7C(); /* extern */
+void copyTextureDescriptorWithPageOffsets(); /* extern */
 M2C_UNK func_80037394();         /* extern */
-void *func_8003FF2C(); /* extern */
+void *initializeRuntimeNodeStorage(); /* extern */
 s32 func_8004491C();           /* extern */
 extern u8 D_8006A988[];
 extern u8 D_8006A994[];
@@ -70,7 +70,7 @@ extern u8 D_80082B90[];
 extern u8 D_80082BA0[];
 extern u8 D_80082BB0[];
 extern u8 D_80082BC0[];
-void func_80033D54();
+void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback();
 
 /* Initializes a sprite node, links it to its owner, and applies its initial display state. */
 void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base,
@@ -80,16 +80,16 @@ void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s
     S_8003719C_3 *sprite;
     void *node;
 
-    node = func_8003FF2C(0x11, node_addr, 0x49, &D_80082BC0);
+    node = initializeRuntimeNodeStorage(0x11, node_addr, 0x49, &D_80082BC0);
     ((S_8003719C_0 *)node)->unk_10 = func_80037394;
-    func_8004491C(node, &func_80033D54);
+    func_8004491C(node, &runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
     state = node + 0x20;
     render_data = ((S_8003719C_0 *)node)->unk_08;
     sprite = ((S_8003719C_0 *)node)->unk_0C;
     state->unk_44 = script_data;
     state->unk_48 = 1;
     state->unk_4A = cursor_offset;
-    func_80033C1C(transform, *script_data);
+    runtimeInitializeStateValue(transform, *script_data);
     ((S_8003719C_0 *)node)->unk_20 = transform;
     transform->unk_60 = 6;
     ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_10 = 0x47;
@@ -98,12 +98,12 @@ void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s
     state->unk_08 = 0;
     func_800350B0(owner, state);
     sprite->unk_0C = 0xC0C0C0;
-    func_80036C7C(state->unk_44 + 3, &D_8006A988, &D_80082B80);
-    func_80036C7C(state->unk_44 + 3, &D_8006A994, &D_80082B90);
-    func_80036C7C(state->unk_44 + 3, &D_8006A9A0, &D_80082BA0);
-    func_80036C7C(state->unk_44 + 3, &D_8006A9AC, &D_80082BB0);
-    func_80036C7C(state->unk_44 + 3, &D_8006A9B8, &D_80081E90);
-    func_80036C7C(state->unk_44 + 3, &D_8006A9C4, &D_80081EA0);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A988, &D_80082B80);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A994, &D_80082B90);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A9A0, &D_80082BA0);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A9AC, &D_80082BB0);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A9B8, &D_80081E90);
+    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A9C4, &D_80081EA0);
     sprite->unk_08 = &D_80082B90;
     sprite->unk_00 = 0;
     sprite->unk_04 = 0;

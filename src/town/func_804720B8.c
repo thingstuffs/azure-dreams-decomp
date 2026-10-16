@@ -5,6 +5,6 @@
 M2C_UNK func_80018FDC();                /* extern */
 
 /* Forwards the index plus four to func_80018FDC with mode 1. */
-void func_804720B8(s32 index) {
+void func_800190B8(s32 index) {
     func_80018FDC(index + 4, 1);
 }

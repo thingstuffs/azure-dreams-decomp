@@ -11,25 +11,25 @@ typedef struct S_80172CE0_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172CE0_0;   /* arg0 in func_80172CE0 */
+} S_80172CE0_0;   /* arg0 in dungeonReturnActorToTileCenter */
 
 
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
+extern void dungeonSetRecordIntegerTileCenter();
+extern void dungeonBeginActorDisplayAction();
+extern void dungeonApplyClampedActorValueDelta();
 
 extern s32 D_80171058;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
-void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
+void dungeonReturnActorToTileCenter(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s16 frames_left;
     s32 tracked_actor;
 
     switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(actor);
+        dungeonApplyClampedActorValueDelta(actor);
         motion->unk_0C =
             -((s16 *)((s8 *)dirStepX))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         motion->unk_10 =
@@ -40,7 +40,7 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, &D_801748C0);
+            dungeonBeginActorDisplayAction(action, motion, entity, &D_801748C0);
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -74,7 +74,7 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, entity, &D_801748C0);
+            dungeonBeginActorDisplayAction(action, motion, entity, &D_801748C0);
             return;
         } else {
             action->unk_96.s = 8;
@@ -109,7 +109,7 @@ void func_80172CE0(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *enti
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        func_800A2B04(motion, entity->unk_24, entity->unk_25);
+        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24, entity->unk_25);
 
         tracked_actor = ((s32)dungeonStatus.unk_10);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {

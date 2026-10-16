@@ -1,12 +1,12 @@
 #include "common.h"
 
 extern s32 DrawSync(s32 mode);
-extern void func_8003F80C(void *data, s32 vram, s32 palette, s32 flags);
+extern void uploadVramRowAndCache(void *data, s32 vram, s32 palette, s32 flags);
 
 extern u8 D_8007162C[];
 
 /* Builds and uploads a palette blending three RGB colors. */
-void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)
+void uploadThreeColorGradientPalette(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)
 {
     s16 colors[16];
     s32 color_index;
@@ -59,6 +59,6 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
         colors[color_index] = packed_color;
         color_index++;
     } while (color_index < 9);
-    func_8003F80C(colors, (palette_slot & 0xF) | 0x7D00, 1, 2);
+    uploadVramRowAndCache(colors, (palette_slot & 0xF) | 0x7D00, 1, 2);
     DrawSync(0);
 }

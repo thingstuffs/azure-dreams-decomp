@@ -35,10 +35,10 @@ typedef struct S_func_80D40744_1 {
     void *unk_10;
 } S_func_80D40744_1;
 
-extern void func_800A4ACC(void *);
+extern void dungeonAdvanceStatusTimers(void *);
 
 /* Initializes an entity action when the global state permits it. */
-void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
+void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
 {
     s32 state_or_flags;
     S_func_80D40744_0 *saved_entity = entity;
@@ -91,7 +91,7 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
         entity->unk_B2 = 0;
         entity->unk_B4 = raw_mode;
         if (mode == 0) {
-            func_800A4ACC(saved_entity);
+            dungeonAdvanceStatusTimers(saved_entity);
             saved_entity->unk_6D--;
         }
     }

@@ -13,7 +13,7 @@ extern s16 D_800DCF5E;
 extern u8 D_80174948[12];
 
 /* Initializes entity state and conditionally increments the dungeon count. */
-void func_80174948(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
+void dungeonInitializeCountedEntityAction(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
     u8 *other = other_data;

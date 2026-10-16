@@ -14,17 +14,17 @@ typedef struct S_80175858_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80175858_0;   /* temp_v0 in func_80175858 */
+} S_80175858_0;   /* temp_v0 in dungeonCreateDirectionalRenderObject */
 
 typedef struct S_80175858_1 {
     u8 pad_00[0x4];
     union { u16 s; s16 u; } unk_04;   /* accessed as both */
-} S_80175858_1;   /* temp_a2 in func_80175858 */
+} S_80175858_1;   /* temp_a2 in dungeonCreateDirectionalRenderObject */
 
 typedef struct S_80175858_2 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80175858_2;   /* arg0_hold in func_80175858 */
+} S_80175858_2;   /* arg0_hold in dungeonCreateDirectionalRenderObject */
 
 typedef struct S_80175858_3 {
     u8 pad_00[0xC];
@@ -34,14 +34,14 @@ typedef struct S_80175858_3 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80175858_3;   /* temp_a0 in func_80175858 */
+} S_80175858_3;   /* temp_a0 in dungeonCreateDirectionalRenderObject */
 
 typedef struct S_80175858_4 {
     u8 pad_00[0x12];
     u16 unk_12;
     u8 pad_14[0x14];
     s32 unk_28;
-} S_80175858_4;   /* arg2_hold in func_80175858 */
+} S_80175858_4;   /* arg2_hold in dungeonCreateDirectionalRenderObject */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -57,7 +57,7 @@ extern u8 D_8017573C;
 extern u8 D_80176498[];
 
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
-void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src) {
+void *dungeonCreateDirectionalRenderObject(void *direction_src, Copy24 *initial_data, void *render_src) {
     void *render_data;
     void *object_state;
     void *object;

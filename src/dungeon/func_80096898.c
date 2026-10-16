@@ -3,8 +3,8 @@
 #define NULL ((void *)0)
 
 s32 func_800A6D30(void);
-s32 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void * func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s32 func_800990FC(void);
 s32 func_80099194(u8 *src, u8 *dst);
 s32 func_8003AD08(s32, s32);
@@ -17,7 +17,7 @@ extern u8 D_800E0D51[];
 extern u8 D_800E0D6D[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
-void func_8009BFF8(void *source, void *target) {
+void dungeonAddRandomQuarterValue(void *source, void *target) {
     int direction_aux;
     s32 amount;
     s16 signed_amount;
@@ -36,14 +36,14 @@ void func_8009BFF8(void *source, void *target) {
             source_entity = *(void **)((s8 *)source - 0x14);
             target_entity = *(void **)((s8 *)target - 0x14);
             *(void **)((s8 *)target + 0x60) = source;
-            *(s16 *)((s8 *)target + 0x6A) = func_800A0818(
+            *(s16 *)((s8 *)target + 0x6A) = dungeonGetRoundedFacingAndRoundingFlag(
                 *(u8 *)((s8 *)source_entity + 0x24),
                 *(u8 *)((s8 *)source_entity + 0x25),
                 *(u8 *)((s8 *)target_entity + 0x24),
                 *(u8 *)((s8 *)target_entity + 0x25),
                 &direction_aux
                 );
-            func_800B4C7C(3, target, -amount, 0);
+            createActorValuePopup(3, target, -amount, 0);
             message_end = func_800990FC();
             message_start = message_end;
             message_end = func_80099194(D_800E0D51, message_start);

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* D_80085458[64]: stride 0x78 table; only fields f06 (dispatch index), f10, f12
-   (params forwarded to func_800563B0) are touched by this function. */
+   (params forwarded to soundSetIndexedVoiceVolumes) are touched by this function. */
 typedef struct S_800564A8_85458 {
     /* 0x00 */ u8 pad00[6];
     /* 0x06 */ u16 f06;
@@ -43,17 +43,17 @@ extern s32 D_80073734[4];
 extern S_800564A8_85458 D_80085458[64];
 extern S_80084960 D_80084960[16];
 
-extern void func_800561D8(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
-extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
+extern void audioComputeVoiceStereoVolumes(S_800564A8_85458 *voice_arg, S_80084960 *sound_params);
+extern s32 soundSetIndexedVoiceVolumes(s32 a0, u16 a1, u16 a2);
 
 /* Process each entry with a valid dispatch index using its dispatch record and parameters. */
-void func_800564A8(void) {
+void audioRefreshSequenceVoiceVolumes(void) {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
         if ((u16)D_80085458[entry_index].f06 < 0x10) {
-            func_800561D8(&D_80085458[entry_index], &D_80084960[D_80085458[entry_index].f06]);
-            func_800563B0(entry_index, D_80085458[entry_index].f10, D_80085458[entry_index].f12);
+            audioComputeVoiceStereoVolumes(&D_80085458[entry_index], &D_80084960[D_80085458[entry_index].f06]);
+            soundSetIndexedVoiceVolumes(entry_index, D_80085458[entry_index].f10, D_80085458[entry_index].f12);
         }
     }
 }

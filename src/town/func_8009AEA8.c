@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void func_80099754(void *);
+extern void townClearEntityRecordFields(void *);
 extern u8 D_80098544[8];
 
 /* Ease the object's value toward -0x800000 until the timer expires, then advance the state. */
-void func_80098608(void *state, void *object) {
+void townEaseObjectValueAndAdvanceState(void *state, void *object) {
     u16 ticks_left;
     s32 current_value;
 
@@ -18,7 +18,7 @@ void func_80098608(void *state, void *object) {
     }
 
     *(s32 *)((u8 *)object + 8) = (s32)0xFF800000;
-    func_80099754(object);
+    townClearEntityRecordFields(object);
     *(u16 *)((u8 *)state + 0xA) = 10;
     *(void **)((u8 *)state + 4) = D_80098544;
 }

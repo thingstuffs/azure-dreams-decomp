@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800948DC();                            /* extern */
-void func_80094984(); /* extern */
+void townDispatchSoundByGlobalFlag();                            /* extern */
+void townCallTheHandlerSelectsNonzeroEntry(); /* extern */
 extern s32 D_80092CD4;
 extern M2C_UNK D_800D0140;
 
@@ -13,8 +13,8 @@ typedef struct S_800945B8_0 {
 
 /* Initialize state and set the output pointer to the shared data. */
 void func_800945B8(s32 **outputData, S_800945B8_0 *state, s32 setupValue) {
-    func_800948DC();
+    townDispatchSoundByGlobalFlag();
     state->unk_14 = 0xFFEF0000;
-    func_80094984(&D_800D0140, outputData, setupValue);
+    townCallTheHandlerSelectsNonzeroEntry(&D_800D0140, outputData, setupValue);
     *outputData = &D_80092CD4;
 }

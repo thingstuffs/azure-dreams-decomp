@@ -29,13 +29,13 @@ extern S_80085458 D_80085458[64];
 extern s32 D_80073740[];
 extern s32 D_80085F98[3];
 
-extern s32 func_80056D44(s32 slot_index, S_80085458 *envelope);
-extern void func_80056DB4(s32 slot_index);
+extern s32 soundApplyIndexedVoiceEnvelope(s32 slot_index, S_80085458 *envelope);
+extern void soundResetIndexedVoiceEnvelope(s32 slot_index);
 extern void func_8005E97C(s32 key_on, s32 voices);
 extern s32 func_8005EB78(s32 voice_mask);
 
 /* Services an active SPU slot until completion and clears the busy flag. */
-s32 func_8005C4D0(s16 slot_id)
+s32 audioStopEffectVoice(s16 slot_id)
 {
     u8 *busy_or_slot = (u8 *)D_80085F98;
     u8 *slots = (u8 *)D_80085458;
@@ -53,8 +53,8 @@ s32 func_8005C4D0(s16 slot_id)
         busy_or_slot = slot;
         *(u16 *)(busy_or_slot + 0x1A) = 0;
         *(u16 *)(busy_or_slot + 0x0A) = 0;
-        func_80056D44(slot_index, (S_80085458 *)busy_or_slot);
-        func_80056DB4(slot_index);
+        soundApplyIndexedVoiceEnvelope(slot_index, (S_80085458 *)busy_or_slot);
+        soundResetIndexedVoiceEnvelope(slot_index);
         func_8005E97C(0, D_80073740[slot_index]);
         do {
             func_8005E97C(0, slot_handle);

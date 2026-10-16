@@ -67,7 +67,7 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         func_800A9C18(call_a1, part_a, part_b, flags);
         actor->byte9a = 0xFF;
         actor->byte9c = -1;
-        actor->ptr8c = &func_80171760;
+        actor->ptr8c = &dungeonUpdateActorBehaviorAndDirection;
         func_800AA36C(actor, part_a, part_b, work);
     }
     return work;

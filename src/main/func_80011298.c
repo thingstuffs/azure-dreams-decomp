@@ -1,18 +1,18 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80023E14();                         /* extern */
+void cardBootPopulateSlotWindowDisplay();                         /* extern */
 void func_800240EC();                         /* extern */
-void func_80024160();                         /* extern */
+void cardBootClearTenDisplaySlots();                         /* extern */
 
 /* Runs three update routines on the data of a non-null object. */
-void func_80024298(s32 object_addr) {
+void cardBootRefreshSlotWindow(s32 object_addr) {
     s32 object_data;
 
     if (object_addr != 0) {
         object_data = object_addr + 0x20;
         func_800240EC(object_data);
-        func_80024160(object_data);
-        func_80023E14(object_data);
+        cardBootClearTenDisplaySlots(object_data);
+        cardBootPopulateSlotWindowDisplay(object_data);
     }
 }

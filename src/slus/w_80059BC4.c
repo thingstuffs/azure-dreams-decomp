@@ -19,12 +19,12 @@ extern Entity D_80085FA8[];
 extern s32 D_800737C4[4];
 extern s32 D_800737C8[4];
 extern void func_8005947C(Entity *);
-extern s32 func_800595C0(Entity *);
-extern s32 func_80058A04(Entity *);
-extern void func_80059814(Entity *);
+extern s32 audioReadCompactSequenceEvent(Entity *);
+extern s32 readBase128Vlq(Entity *);
+extern void slusScaleValueWithRemainder(Entity *);
 
 /* Advances active entities' tick accumulators and processes actions when their delays expire. */
-s32 func_80059BC4(void)
+s32 audioTickSequenceTracks(void)
 {
     unsigned int entity_index;
     Entity *entity;
@@ -53,17 +53,17 @@ s32 func_80059BC4(void)
                             if (entity->f2c != 0) {
                                 break;
                             }
-                            entity->f10 = func_80058A04(entity);
-                        } else if ((func_800595C0(entity) & 0xFF) == 0) {
+                            entity->f10 = readBase128Vlq(entity);
+                        } else if ((audioReadCompactSequenceEvent(entity) & 0xFF) == 0) {
                             if (entity->f2c != 0) {
                                 break;
                             }
-                            entity->f10 = func_80058A04(entity);
+                            entity->f10 = readBase128Vlq(entity);
                         } else if (entity->f2c != 0) {
                             break;
                         }
                         if (entity->f10 != 0 && D_800737C4[0] != 0) {
-                            func_80059814(entity);
+                            slusScaleValueWithRemainder(entity);
                         }
                     } while (entity->f10 == 0);
                     if (entity->f10 != 0) {

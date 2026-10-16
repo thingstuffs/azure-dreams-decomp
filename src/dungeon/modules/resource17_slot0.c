@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = func_8017089C;
-void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = func_80170BB8;
+void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = dungeonCreateAnchoredDirectionalObject;
 #include "../func_80C1509C.c"
 #include "../func_80C153B8.c"
 #include "../func_80C15BA8.c"

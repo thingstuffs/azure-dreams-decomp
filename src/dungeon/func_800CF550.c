@@ -9,18 +9,18 @@ typedef struct S_800D4CB0_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D4CB0_0;   /* arg1 in func_800D4CB0 */
+} S_800D4CB0_0;   /* arg1 in dungeonAdvanceDampedEffectMotion */
 
 typedef struct S_800D4CB0_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_800D4CB0_1;   /* arg2 in func_800D4CB0 */
+} S_800D4CB0_1;   /* arg2 in dungeonAdvanceDampedEffectMotion */
 
 typedef struct S_800D4CB0_2_pre {
     u16 unk_00;
-} S_800D4CB0_2_pre;   /* the 0x2 bytes before arg0 in func_800D4CB0, addressed as arg0[-1] */
+} S_800D4CB0_2_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceDampedEffectMotion, addressed as arg0[-1] */
 
 typedef struct S_800D4CB0_2 {
     u8 pad_00[0xC];
@@ -30,11 +30,11 @@ typedef struct S_800D4CB0_2 {
     u8 pad_0F[0xF];
     s16 unk_1E;
     s16 unk_20;
-} S_800D4CB0_2;   /* arg0 in func_800D4CB0 */
+} S_800D4CB0_2;   /* arg0 in dungeonAdvanceDampedEffectMotion */
 
 
 /* Advance and damp motion, fade the effect color, and flag expiration. */
-void func_800D4CB0(void *effect, void *motion, void *color) {
+void dungeonAdvanceDampedEffectMotion(void *effect, void *motion, void *color) {
     s16 ticks_left;
 
     ((S_800D4CB0_0 *)motion)->unk_00 += ((S_800D4CB0_0 *)motion)->unk_0C;

@@ -9,14 +9,14 @@ typedef struct S_801722F0_1 {
     u8 pad_00[0x16];
     s16 unk_16;
     s16 unk_18;
-} S_801722F0_1;   /* temp_v1 in func_801722F0 */
+} S_801722F0_1;   /* temp_v1 in dungeonSpawnCascadingTrailEmitter */
 
 typedef struct S_801722F0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_801722F0_2;   /* temp_v0 in func_801722F0 */
+} S_801722F0_2;   /* temp_v0 in dungeonSpawnCascadingTrailEmitter */
 
 typedef struct S_801722F0_3 {
     u8 pad_00[0x6];
@@ -30,19 +30,19 @@ typedef struct S_801722F0_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_801722F0_3;   /* temp_a0 in func_801722F0 */
+} S_801722F0_3;   /* temp_a0 in dungeonSpawnCascadingTrailEmitter */
 
 typedef struct S_801722F0_4 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801722F0_4;   /* temp_v1_2 in func_801722F0 */
+} S_801722F0_4;   /* temp_v1_2 in dungeonSpawnCascadingTrailEmitter */
 
 typedef struct S_801722F0_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801722F0_5;   /* temp_s1 in func_801722F0 */
+} S_801722F0_5;   /* temp_s1 in dungeonSpawnCascadingTrailEmitter */
 
 
 s32 func_8004491C();
@@ -53,7 +53,7 @@ extern M2C_UNK D_80172274;
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Create an effect at the source position and play its sound. */
-void func_801722F0(void) {
+void dungeonSpawnCascadingTrailEmitter(void) {
     S_801722F0_3 *sprite;
     void *setup_data;
     S_801722F0_5 *source_pos;

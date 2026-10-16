@@ -7,8 +7,8 @@
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
-extern s32 func_8009A66C();
-extern s16 func_800A0818();
+extern s32 dungeonCheckMovementClearanceAndHeight();
+extern s16 dungeonGetRoundedFacingAndRoundingFlag();
 extern s32 func_8016C698();
 
 extern u8 D_80174674[];
@@ -23,7 +23,7 @@ typedef struct S_8016BD14_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_8016BD14_0;   /* ctx in func_8016BD14 */
+} S_8016BD14_0;   /* ctx in dungeonAdvanceEntityAlongPath */
 
 typedef struct S_8016BD14_1 {
     u8 pad_00[0x8C];
@@ -35,28 +35,28 @@ typedef struct S_8016BD14_1 {
     u8 unk_9A;
     u8 pad_9B[0x2];
     u8 unk_9D;
-} S_8016BD14_1;   /* arg0 in func_8016BD14 */
+} S_8016BD14_1;   /* arg0 in dungeonAdvanceEntityAlongPath */
 
 typedef struct S_8016BD14_2 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8016BD14_2;   /* arg1 in func_8016BD14 */
+} S_8016BD14_2;   /* arg1 in dungeonAdvanceEntityAlongPath */
 
 
 typedef struct S_8016BD14_4 {
     u8 pad_00[0x7C];
     u8 unk_7C;
-} S_8016BD14_4;   /* row in func_8016BD14 */
+} S_8016BD14_4;   /* row in dungeonAdvanceEntityAlongPath */
 
 typedef struct S_8016BD14_5 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in func_8016BD14 */
+} S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in dungeonAdvanceEntityAlongPath */
 
 /* Advance the entity along its path and update its heading and movement state. */
-void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
+void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void *path_arg) {
     register void *path;
     s32 step_index;
     s32 old_tile_flags;
@@ -101,11 +101,11 @@ void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
     old_tile_flags = old_tile_flags & 0x2000;
     func_8009A3D0(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
-    heading = func_800A0818(tile_x, tile_y,
+    heading = dungeonGetRoundedFacingAndRoundingFlag(tile_x, tile_y,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
                             (u8 *)actor + 0x98);
-    raw_result = func_8009A66C(heading, entity, path, 0x20);
+    raw_result = dungeonCheckMovementClearanceAndHeight(heading, entity, path, 0x20);
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;
     raw_result = raw_result << 16;

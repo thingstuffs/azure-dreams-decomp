@@ -6,7 +6,7 @@ typedef struct S_8017573C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
     s16 unk_04;
-} S_8017573C_0;   /* arg0 in func_8017573C */
+} S_8017573C_0;   /* arg0 in dungeonGrowObjectAfterDelay */
 
 
 extern void func_80047784(void *, u8, s32);
@@ -14,7 +14,7 @@ extern void func_800478B8(void *);
 extern u8 D_80176460[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
-void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
+void dungeonGrowObjectAfterDelay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
     s32 direction_index;
     s16 phase;
     u16 phase_u;

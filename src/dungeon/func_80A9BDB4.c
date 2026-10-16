@@ -32,9 +32,9 @@ void func_801715B4(void *action, s32 action_id, void *entity, void *move_state) 
     }
     func_8009A3D0(x, y, tile_mask);
 
-    direction = ((s16)func_800A0818((s16)(x),(s16)(y),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_7C),
+    direction = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(x),(s16)(y),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_74),(s16)(((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_7C),
         (u8 *)action + 0x98));
-    move_result = ((s16)func_8009A66C((s16)(direction), entity, state, 0x20));
+    move_result = ((s16)dungeonCheckMovementClearanceAndHeight((s16)(direction), entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((R08_801715B4_S_80171570_3 *)((u8 *)state + ((R08_801715B4_S_80171570_0 *)state)->unk_8A))->unk_74;

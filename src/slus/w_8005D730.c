@@ -1,7 +1,7 @@
 #include "slus/sound_dma_lifecycle.h"
 
 /* Multiplies a volatile stack value by 13 sixty times, then discards the result. */
-void func_8005D730(void) {
+void delayMultiplyLoop(void) {
     volatile s32 iteration;
     volatile s32 product;
 

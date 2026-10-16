@@ -22,7 +22,7 @@ typedef struct Func80039E1CReader {
 } Func80039E1CReader;
 
 /* Call the event script's indexed handler through a table reference and store its result. */
-void func_80039E1C(Func80039E1CReader *reader) {
+void vmOp47CallReferencedFunctionTable(Func80039E1CReader *reader) {
     u8 *read_ptr = reader->read_ptr;
     Func80039E1CTable *table = reader->table;
     u8 handler_index = *read_ptr++;

@@ -2,10 +2,10 @@
 #include "shared/entity_objects.h"
 
 extern u16 D_800E58F8[];
-extern s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
-void func_800C78A0(s32 object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
+void dungeonSetupObjectWithinPlanarRange(s32 object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
 {
     s32 saved_mode;
 
@@ -25,7 +25,7 @@ void func_800C78A0(s32 object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
             position[1] = x;
             position[3] = y;
             position[5] = height;
-            func_800C77D0((void *)object, position, (s16)saved_mode, settings);
+            dungeonSelectNearbyTargetAndInitializeSlot((void *)object, position, (s16)saved_mode, settings);
         }
     }
 }

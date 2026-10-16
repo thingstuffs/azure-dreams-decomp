@@ -61,17 +61,17 @@ typedef struct ColorPart {
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
 
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800A44E0(s32, s32, s32, s32);
+extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s32, s32);
 extern u16 func_800BCB04(s32 x, s32 y, s16 min_height);
 extern void func_80025344(EffectState *, Motion *);
-extern void func_8002558C(EffectState *, Motion *);
+extern void dungeonAdvanceGrayscaleFade(EffectState *, Motion *);
 extern void func_800A56E0(s32);
 extern void func_80024024(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) {
+s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(EffectState *state, Motion *motion, register ColorPart *part) {
     void *owner;
     u8 *color_part = (u8 *)part;
     void *owner_meta;
@@ -117,7 +117,7 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     case 1:
     owner_meta = (u8 *)owner - 0x20;
     owner_node = PTR_AT(owner_meta, 0xC);
-    if (!func_8003DE58(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
+    if (!resolveRecordOrientationOrFallback(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
         if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
             break;
         }
@@ -197,7 +197,7 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
         while (index < 8) {
             grid_x = (s16)tile_x;
             grid_y = (s16)tile_y;
-            if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0,
+            if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0,
                                    (grid_y << 6) & 0xFFC0,
                                    S16_AT(owner, 0x88),
                                    (s16)(state->direction << 9)) != 0) {
@@ -249,7 +249,7 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
         motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
         motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
         motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
-        func_8002558C(state, motion);
+        dungeonAdvanceGrayscaleFade(state, motion);
         next_state = 6;
     }
     state->state = next_state;

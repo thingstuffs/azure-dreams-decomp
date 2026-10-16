@@ -1,0 +1,129 @@
+# tools/prepublish_scan.py allowlist.  `<glob> <rule>` or `<glob> <rule> ~ <regex on the matched text>`.
+# Every entry says why.  An entry marked PENDING hides a finding that has an open owner/landing decision;
+# run `python3 tools/prepublish_scan.py --list-allowed` to see what is hidden, and delete entries as they are resolved.
+
+# ---- size: working truth read by the gates and tools (ledger_plan.md: KEEP) ----
+config/overlays/dungeon.rowbase.jsonl size
+docs/evidence/pin_research_round52_20260917.json size
+ledger/baseline.jsonl size
+ledger/census.jsonl size
+ledger/gate.jsonl size
+ledger/levels.jsonl size
+ledger/modules.jsonl size
+ledger/promotions.jsonl size
+ledger/rows.jsonl size
+ledger/splits/dungeon.jsonl size
+ledger/splits/overlay_modules.build.json size
+ledger/splits/town.jsonl size
+ledger/struct_census_structs.json size
+
+# ---- size: PENDING ledger archive (ledger_plan.md: ARCHIVE / ARCHIVE-AFTER-TOOL-CHANGE).  These lines go away
+# ---- when the archive landing removes the files.
+ledger/agents/gpt-6-astra-high-campaign.jsonl size
+ledger/pack_inputs/erase_r56.jsonl size
+ledger/pins.jsonl size
+ledger/pins_sample.jsonl size
+ledger/pins_site.jsonl size
+ledger/pins_strip.jsonl size
+ledger/pins_subsets.jsonl size
+ledger/recipe_trades.jsonl size
+ledger/sweeps/t10_epilogue.jsonl size
+ledger/sweeps/t124_skipgoto.jsonl size
+ledger/sweeps/t125_dropvolatile.jsonl size
+ledger/sweeps/t126_ppcollapse.jsonl size
+ledger/sweeps/t127_gotonext.jsonl size
+ledger/sweeps/t128_nonvoid.jsonl size
+ledger/sweeps/t129_defarity.jsonl size
+ledger/sweeps/t130_pagelocal.jsonl size
+ledger/sweeps/t131_ptrbeforecall.jsonl size
+ledger/sweeps/t138_protodef.jsonl size
+ledger/sweeps/t15_shapes.jsonl size
+ledger/sweeps/t16_absidiom.jsonl size
+ledger/sweeps/t16b_fieldabs.jsonl size
+ledger/sweeps/t18_groups.jsonl size
+ledger/sweeps/t19_modpow2.jsonl size
+ledger/sweeps/t1_boiler.jsonl size
+ledger/sweeps/t20_fencefree.jsonl size
+ledger/sweeps/t26_alloc.jsonl size
+ledger/sweeps/t29_addrsym.jsonl size
+ledger/sweeps/t2_pins.jsonl size
+ledger/sweeps/t31_cdk_t33_argconst.jsonl size
+ledger/sweeps/t31_cdk_t35_shiftspell.jsonl size
+ledger/sweeps/t33_argconst.jsonl size
+ledger/sweeps/t35_shiftspell.jsonl size
+ledger/sweeps/t36_paramwidth.jsonl size
+ledger/sweeps/t37_localwidth.jsonl size
+ledger/sweeps/t37b_localwidth_keep.jsonl size
+ledger/sweeps/t38_unstage.jsonl size
+ledger/sweeps/t39_signbit.jsonl size
+ledger/sweeps/t3_epilogue.jsonl size
+ledger/sweeps/t41_gotoloop.jsonl size
+ledger/sweeps/t41b_gotoloop_while.jsonl size
+ledger/sweeps/t41c_gotoloop_greedy.jsonl size
+ledger/sweeps/t42_sinkcopy.jsonl size
+ledger/sweeps/t44_doloop_greedy.jsonl size
+ledger/sweeps/t48_gotoreturn.jsonl size
+ledger/sweeps/t49_looptest.jsonl size
+ledger/sweeps/t4_fields.jsonl size
+ledger/sweeps/t51_sched_order.jsonl size
+ledger/sweeps/t51b_pairs.jsonl size
+ledger/sweeps/t53_reg_state.jsonl size
+ledger/sweeps/t53k_keep.jsonl size
+ledger/sweeps/t54_pagebase.jsonl size
+ledger/sweeps/t57_keepafterstore.jsonl size
+ledger/sweeps/t57b_keepafternext.jsonl size
+ledger/sweeps/t59_offsetsym.jsonl size
+ledger/sweeps/t60_alloc_inputs.jsonl size
+ledger/sweeps/t61_naturalkeep.jsonl size
+ledger/sweeps/t63_memdep.jsonl size
+ledger/sweeps/t64_varset.jsonl size
+ledger/sweeps/t66_sameregmerge.jsonl size
+ledger/sweeps/t67_tailform.jsonl size
+ledger/sweeps/t69_prologue.jsonl size
+ledger/sweeps/t6_pin_notes.jsonl size
+ledger/sweeps/t7_headers.jsonl size
+ledger/sweeps/t86_symaddr.jsonl size
+ledger/sweeps/t8_passthru.jsonl size
+ledger/sweeps/t9_regpins.jsonl size
+
+# ---- retail-hex ----
+# PENDING owner decision (README_PKG.md section 1b): JSON evidence files that embed words of retail code/data.
+# Most are only cited by path from config/overlays/*.rowbase.jsonl; none is opened by a tool except as noted.
+docs/evidence/dungeon_gap_*.json retail-hex
+docs/evidence/dungeon_ovl_*.json retail-hex
+docs/evidence/r10[6-9]_*.json retail-hex
+docs/evidence/r110_selector_*.json retail-hex
+docs/evidence/r107_*.json retail-hex
+docs/evidence/r108_*.json retail-hex
+docs/evidence/cd_command_state_receipt.json retail-hex
+docs/evidence/gp_cd_partition/buffer_extent.json retail-hex
+docs/evidence/r120_jtbl_slus_ownership_receipt.json retail-hex
+docs/evidence/slus_rodata_migration/ownership_receipt*.json retail-hex
+# tool-read: the SLUS data-piece manifest carries the bytes of 6 small jump tables (~3 KB of hex) that the
+# build checks; replace with a run-time derivation from the user's disc before publishing (README_PKG.md 1b).
+config/slus_modules.json retail-hex
+# false positive: a list of function addresses, not data words.
+docs/evidence/pin_research_round73_move_table.md retail-hex
+
+# ---- email ----
+# 1997 Cygnus ChangeLog entry quoted in a research note.
+docs/evidence/fidelity_step1b_epilogue.md email ~ law@cygnus\.com
+# `+@unittest.skipUnless` inside a quoted patch, not an address.
+docs/evidence/gp_data_pieces/*.patch email ~ @unittest
+docs/evidence/gp_data_pieces/*/*.patch email ~ @unittest
+# fixture address on a reserved .invalid domain.
+tools/tests/test_land_packages.py email ~ test@example\.invalid
+
+# ---- name / abs-path ----
+# The scrub-hook pattern list (split strings on purpose); the tool needs the literal words.
+tools/lanes/land_packages.py name
+# PENDING ledger sanitising (ledger_plan.md): session scratch paths inside journals.
+ledger/slus_rebaseline_landings.jsonl abs-path
+ledger/slus_rebaseline_landings.jsonl name
+ledger/sweeps/t45_orzero_aspsx.jsonl abs-path
+ledger/sweeps/t45_orzero_aspsx.jsonl name
+
+# ---- the scanner and this file quote the patterns they look for ----
+tools/prepublish_scan.py abs-path
+tools/prepublish_allowlist.txt email
+tools/prepublish_allowlist.txt abs-path

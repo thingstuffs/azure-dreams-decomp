@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_8009CFE0(void *, void *);
+extern s32 townClassifyObjectAgainstBounds(void *, void *);
 extern void func_80033D08(void *object);
 
 /* Clear the object's linked flag and mark completion, or advance its wrapped angle. */
@@ -9,7 +9,7 @@ void func_800B9CB8(void *object, void *context)
 {
     u8 *linked_flag;
 
-    if (func_8009CFE0(object, context) != 0) {
+    if (townClassifyObjectAgainstBounds(object, context) != 0) {
         linked_flag = *(u8 **)((u8 *)object + 0x98);
         if (linked_flag != 0) {
             *linked_flag = 0;

@@ -42,17 +42,17 @@ typedef struct Obj3 {
     struct Obj3 *field60;
 } Obj3;
 
-extern void func_800AD594(Obj3 *, s32);
-extern void func_800A2B04(void *, u8, u8);
+extern void dungeonReduceActorFoodMeter(Obj3 *, s32);
+extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
 extern void func_800A56E0(s32);
 extern void func_80047784(Obj2 *, u8, s32);
 extern void func_80174CB0(s32);
 extern void func_80174D0C(s32);
-extern void func_80175D04(Obj0 *, void *, Obj2 *);
+extern void dungeonCreateSourceAdjustedMotionObject(Obj0 *, void *, Obj2 *);
 extern void func_801762A4(s32, Obj3 *);
 
 /* Advance the timed object state sequence and update its direction from flags. */
-void func_80174AF4(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
+void dungeonAdvanceTimedObjectAction(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
     s32 state;
     s32 old_state;
     u16 ticks_left;
@@ -79,7 +79,7 @@ void func_80174AF4(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
                 break;
             }
         }
-        func_80175D04(controller, context, object);
+        dungeonCreateSourceAdjustedMotionObject(controller, context, object);
         actor_selector = 1;
         if ((actor->field14 & 0x4000) || (actor_selector = 0, (actor->field60->field14 & 0x4000) != 0)) {
             func_801762A4(actor_selector, actor);
@@ -109,8 +109,8 @@ void func_80174AF4(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
         if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
             return;
         }
-        func_800AD594(actor, 0x400);
-        func_800A2B04(context, object->field24, object->field25);
+        dungeonReduceActorFoodMeter(actor, 0x400);
+        dungeonSetRecordIntegerTileCenter(context, object->field24, object->field25);
         controller->field8c = D_80171094;
         dungeonStatus.unk_0C = 0;
         actor->field46 &= 0x7FFF;

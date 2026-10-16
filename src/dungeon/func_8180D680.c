@@ -16,7 +16,7 @@ extern s32 rand(void);
 extern u8 D_80028868[];
 
 /* Update a trailing effect's position, brightness, and animation frame. */
-void func_80026680(void *effect, void *transform, void *render_data)
+void dungeonUpdateTrailingEffectAnimation(void *effect, void *transform, void *render_data)
 {
     s32 history_index;
     s16 brightness;

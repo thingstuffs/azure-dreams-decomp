@@ -7,7 +7,7 @@
 
 extern s32 func_8009A3D0();
 extern s8 func_8009FB34();
-extern s32 func_800A4E2C();
+extern s32 selectDungeonSpawnTile();
 extern s32 func_800AA53C();
 typedef struct {
     u8 pad[10];
@@ -16,7 +16,7 @@ typedef struct {
 
 
 /* Resets entity state, selects a new position, and increments the dungeon counter. */
-void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, EntityRec *entity_state) {
+void dungeonBeginActorRandomWarp(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, EntityRec *entity_state) {
     s32 tile_mask;
     s32 flags;
     s32 tile_x;
@@ -38,7 +38,7 @@ void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position,
     }
     func_8009A3D0(tile_x, tile_y, tile_mask);
     tile_x_ptr = (u8 *)position + 0x24;
-    while ((s16)func_800A4E2C(tile_x_ptr, (u8 *)position + 0x25) < 0) {
+    while ((s16)selectDungeonSpawnTile(tile_x_ptr, (u8 *)position + 0x25) < 0) {
         tile_x_ptr = (u8 *)position + 0x24;
     }
     ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24,

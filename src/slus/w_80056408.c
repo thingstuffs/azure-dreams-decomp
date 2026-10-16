@@ -23,17 +23,17 @@ extern s32 D_80073734[4];
 extern S_80085458 D_80085458[64];
 extern S_80084960 D_80084960[16];
 
-extern void func_800561D8(S_80085458 *a0, S_80084960 *a1);
-extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
+extern void audioComputeVoiceStereoVolumes(S_80085458 *a0, S_80084960 *a1);
+extern s32 soundSetIndexedVoiceVolumes(s32 a0, u16 a1, u16 a2);
 
 /* Dispatch each active entry with its matching slot, then its field pair with its index. */
-void func_80056408(void)
+void audioRefreshAllVoiceVolumes(void)
 {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
         S_80085458 *entry = &D_80085458[entry_index];
-        func_800561D8(entry, &D_80084960[entry->f06]);
-        func_800563B0(entry_index, entry->f10, entry->f12);
+        audioComputeVoiceStereoVolumes(entry, &D_80084960[entry->f06]);
+        soundSetIndexedVoiceVolumes(entry_index, entry->f10, entry->f12);
     }
 }

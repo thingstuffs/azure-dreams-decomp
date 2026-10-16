@@ -101,14 +101,14 @@ extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
 extern s32 func_800A4778(u16, u16, s16, void *);
 
-extern s32 func_8009D218(void *, s32, void *);
+extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32, void *);
 extern s32 func_800A6D30(void);
 extern void func_800C8B84(void *entity, s16 chance, s16 effect_value);
 
 #include "shared/slus_callbacks.h"
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
-void func_80024668(Actor33 *actor, Motion33 *motion, Render33 *render)
+void updateActorEffectParticlesAndCleanup(Actor33 *actor, Motion33 *motion, Render33 *render)
 {
     s16 position_delta[4];
     PackedOffsets offsets;
@@ -379,7 +379,7 @@ state1_cleanup:
             s32 room_id;
             actor->timer84 = 40;
             actor->state++;
-            if (func_8009D218(entity->target, 4, entity) == 0) {
+            if (dungeonTryTriggerTargetRecordEffect(entity->target, 4, entity) == 0) {
                 s32 effect_kind;
                 effect_kind = (func_800A6D30() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;

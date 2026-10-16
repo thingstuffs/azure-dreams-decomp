@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* 0x1C-byte-stride slot table shared with func_80057A50 (D_80086A40). This
+/* 0x1C-byte-stride slot table shared with audioGetCurrentBankToneRecord (D_80086A40). This
  * function clears a slot: if the slot's s16 marker (offset 0x00) is not -1,
  * it calls func_8005A1D0 with the slot's data pointer (offset 0x10), then
  * marks the slot free by setting the marker to -1. */

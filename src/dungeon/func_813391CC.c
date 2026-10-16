@@ -4,7 +4,7 @@
 
 
 /* Decrease three state bytes, or set entry and global flags below the threshold. */
-void func_801701CC(u16 *entry)
+void dungeonDarkenEncounterViewColor(u16 *entry)
 {
 
     if (gameWork.view.unk_090 >= 0x3D) {

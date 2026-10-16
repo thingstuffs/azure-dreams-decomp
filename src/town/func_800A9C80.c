@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s16 func_800C2AE8();
+extern s16 townQueryLoweredTransformPosition();
 extern void func_80033D08(void *);
-extern void func_800A7308(void *, void *, s32);
-extern void func_80095388(void *record);
+extern void townCopyIndexedMotionValueAndAdvance(void *, void *, s32);
+extern void townAddHex20000SSignedOffsetHex14(void *record);
 
 typedef void (*S_800A9C80_Callback)(void *, void *, s32);
 
@@ -24,8 +24,8 @@ void func_800A73E0(void *entity, void *motion, s32 context) {
     *(s32 *)((u8 *)motion + 0x0) = x;
     *(s32 *)((u8 *)motion + 0x4) += velocity_y;
     *(s32 *)((u8 *)motion + 0x8) += velocity_z;
-    if (func_800C2AE8(motion, velocity_y, velocity_z) < *(s16 *)((u8 *)motion + 0xA)) {
-        *(s16 *)((u8 *)motion + 0xA) = func_800C2AE8(motion);
+    if (townQueryLoweredTransformPosition(motion, velocity_y, velocity_z) < *(s16 *)((u8 *)motion + 0xA)) {
+        *(s16 *)((u8 *)motion + 0xA) = townQueryLoweredTransformPosition(motion);
         counter = *(u16 *)((u8 *)entity + 0x90) - 1;
         *(u16 *)((u8 *)entity + 0x90) = counter;
         if ((s16)counter < 0) {
@@ -34,8 +34,8 @@ void func_800A73E0(void *entity, void *motion, s32 context) {
             callback(entity, motion, context);
             return;
         }
-        func_800A7308(entity, motion, context);
+        townCopyIndexedMotionValueAndAdvance(entity, motion, context);
         return;
     }
-    func_80095388(motion);
+    townAddHex20000SSignedOffsetHex14(motion);
 }

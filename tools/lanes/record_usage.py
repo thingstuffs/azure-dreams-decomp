@@ -7,7 +7,7 @@
     python3 tools/lanes/record_usage.py r76_opus_a1 --tokens 328384 --tool-uses 129 --duration-ms 2233693 \
             --model claude-opus-5-5
     # afterwards, mechanically, from the orchestrating session's transcript (every lane it launched):
-    python3 tools/lanes/record_usage.py --backfill ~/.claude/projects/-home-david-azure-clean/<session>.jsonl
+    python3 tools/lanes/record_usage.py --backfill ~/.claude/projects/<project-dir>/<session>.jsonl
     # a figure nobody measured (kept, but flagged; tools/lanes/ab_report.py leaves it out of tokens/exact)
     python3 tools/lanes/record_usage.py r76_opus_a1 --estimate 300000
     # the standard Agent-tool lane prompt, filled in for a lane (the codex lane prompt + the Claude rules)

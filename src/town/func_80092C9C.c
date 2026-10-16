@@ -1,7 +1,7 @@
 #include "modules/town_player_init.h"
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
+void townRebuildMenuNodeList(void *owner, EntityRec *node_in, s32 mode) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
     u8 *base;
@@ -11,17 +11,17 @@ void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
 
     handler = (*(void * *)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
-        func_800953D0(node_in);
+        townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive(node_in);
     }
-    func_8009539C(node_in);
+    townAddMotionDeltasToPosition(node_in);
 
     handler = (*(void * *)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
-        func_80096FF4(node_in);
+        townUpdateObjectAndClearStatusFields(node_in);
     }
 
     if (node_in->z.v > 0 && D_8006ADD4[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
-        if (func_800C1D44((u16)func_8008C180(node_in->x.w.i,
+        if (townCheckMaskedValueInCurrentRange((u16)townReadMapCellAtWorldPosition(node_in->x.w.i,
                                                   node_in->y.w.i)) == 0) {
             node_in->z.v = 0;
         }
@@ -31,8 +31,8 @@ void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
 
     work = (u8 *)&D_800FE490;
     ((func_80092C9C_S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
-    func_80095910(work);
-    if (func_8009593C(work) != 0) {
+    townUpdateTheSField10UsingCallee8008FE90(work);
+    if (townGetWhetherHasAttachedStateTypeN1N3(work) != 0) {
         (*(s32 *)((u8 *)owner + (0x2C))) = 0;
         func_8008B158(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
 
@@ -48,25 +48,25 @@ void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
                     u8 *update_work;
 
                     update_work = ((u8 *)&D_800FE488);
-                    value = func_80095978(node_in, update_work);
-                    func_80095A94(node_in, value, update_work);
+                    value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(node_in, update_work);
+                    townComputeAndClampsVectorBasedAdjustmentUpdatesTown(node_in, value, update_work);
                 }
             }
-            func_8009550C(node_in);
+            townRunTheThreeUpdateRoutinesContext(node_in);
             if ((*(void * *)((u8 *)owner + (0))) != D_80097D2C) {
-                func_80098868(owner, node_in, mode);
+                townInitializeRecordAndSelectActiveData(owner, node_in, mode);
             }
         }
     }
 
-    func_8008F664(&D_800CFCB4, node_in);
+    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(&D_800CFCB4, node_in);
     (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, mode);
 
     if ((*(void * *)((u8 *)owner + (-0x10))) == D_800A5638) {
-        func_800A573C(owner, node_in, mode);
+        townTurnEntityTowardTarget(owner, node_in, mode);
         return;
     }
-    func_8009065C(owner, node_in, mode);
+    townProcessSceneRecordUpdate(owner, node_in, mode);
 }
 
 /* MECHANISM: The 0x28 frame and s2/s1/s3 argument holds preserve the retail prologue.

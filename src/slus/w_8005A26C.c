@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* D_80086A40[16]: slot table, 0x1C-byte stride (see sibling funcs
- * func_8005AC68/func_80057A50/func_8005A428/func_8005B470). This function
+ * func_8005AC68/audioGetCurrentBankToneRecord/audioResetAndReleaseSequenceBanks/func_8005B470). This function
  * only touches the marker (0x00) and three trailing bytes (0x19/0x1A/0x1B),
  * likely default volume/pan values. */
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
 } S_800869C0; /* size 0x8 */
 
 /* D_80086C00: sound-slot table, 12-byte stride (canonical layout from
- * func_8005AE08/func_8005AE90/func_8005B2C8/func_8005B27C/func_8005C5D0).
+ * func_8005AE08/soundActivateLoadedSequenceSlot/slusCopyIndexedEntryPair/setSoundSlotBytePair/func_8005C5D0).
  * This init function walks 16 entries (0x80086A40 + 16*0x1C == 0x80086C00,
  * and 0x80086C00 + 16*0xC == 0x80086CC0), touching field_0/field_2/field_8/
  * field_A but not field_4. */

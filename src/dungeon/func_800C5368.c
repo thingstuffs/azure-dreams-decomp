@@ -3,8 +3,8 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_800AB1C0(void);
-extern void func_800A4ACC(void *);
+extern s32 dungeonUpdateActorMovementToTile(void);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800CAA94(void *, s32, s32);
 
 extern u8 D_800C9F34;
@@ -34,8 +34,8 @@ void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *act
     void *actor = actor_ptr;
     u16 remaining_count;
 
-    if (func_800AB1C0() != 0) {
-        func_800A4ACC(actor);
+    if (dungeonUpdateActorMovementToTile() != 0) {
+        dungeonAdvanceStatusTimers(actor);
         remaining_count = ((S_800CAAC8_0 *)entity_ptr)->unk_B6 - 1;
         ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
 

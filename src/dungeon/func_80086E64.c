@@ -8,9 +8,9 @@ extern u8 D_80080000[];
 typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80048A44();
-extern void func_80099844();
-extern s32 func_8009B5AC();
-extern void func_8009F644();
+extern void dungeonAdjustSourceValueAndFinalize();
+extern s32 dungeonSpawnObjectAtTargetPosition();
+extern void dungeonAppendPackedActionRecord();
 extern s32 func_800A56E0();
 extern u8 D_800DCFC8[];
 extern u8 D_800E0495[];
@@ -22,7 +22,7 @@ typedef struct S_8008C5C4_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8008C5C4_1;   /* arg2 in func_8008C5C4 */
+} S_8008C5C4_1;   /* arg2 in dungeonTryBeginLiftObject */
 
 typedef struct S_8008C5C4_2 {
     u8 pad_00[0x8C];
@@ -34,31 +34,31 @@ typedef struct S_8008C5C4_2 {
     s32 unk_11C;
     u8 pad_120[0x4];
     s32 unk_124;
-} S_8008C5C4_2;   /* arg0 in func_8008C5C4 */
+} S_8008C5C4_2;   /* arg0 in dungeonTryBeginLiftObject */
 
 typedef struct S_8008C5C4_3 {
     u8 pad_00[0x13];
     u8 unk_13;
     s32 unk_14;
-} S_8008C5C4_3;   /* temp_v0 in func_8008C5C4 */
+} S_8008C5C4_3;   /* temp_v0 in dungeonTryBeginLiftObject */
 
 typedef struct S_8008C5C4_4 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_8008C5C4_4;   /* (void *)tail_page in func_8008C5C4 */
+} S_8008C5C4_4;   /* (void *)tail_page in dungeonTryBeginLiftObject */
 
 typedef struct S_8008C5C4_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008C5C4_5;   /* temp_a3 in func_8008C5C4 */
+} S_8008C5C4_5;   /* temp_a3 in dungeonTryBeginLiftObject */
 
 typedef struct S_8008C5C4_6 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in func_8008C5C4 */
+} S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in dungeonTryBeginLiftObject */
 
 /* Find a target ahead of the actor and initialize the interaction state. */
-s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, EntityRec *actor) {
+s32 dungeonTryBeginLiftObject(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, EntityRec *actor) {
     s32 target;
     s32 target_result;
     s32 direction_offset;
@@ -69,7 +69,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
     register s32 target_kind;
 
     direction_offset = ((u16)((u16)actor->facing) >> 8) & 0xE;
-    target_result = func_8009B5AC(
+    target_result = dungeonSpawnObjectAtTargetPosition(
         actor,
         (s16)(position->unk_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
         (s16)(position->unk_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)));
@@ -87,7 +87,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
                     if ((target_kind == 0x39) || (target_kind == 2)) {
                         if (((s32)gameWork.unk_010) & 0x40) {
                             func_800A56E0(0x506);
-                            func_80099844(action->unk_124, &D_800E0495);
+                            dungeonAdjustSourceValueAndFinalize(action->unk_124, &D_800E0495);
                             tail_result = 0;
                         } else {
                             tail_result = 0;
@@ -95,7 +95,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
                         tail_page = (u32)D_80080000;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         action->unk_124 = 0;
-                        action->unk_8C.p = (void *)((u32)func_8008ACDC);
+                        action->unk_8C.p = (void *)((u32)dungeonHandlePlayerInput);
                         return tail_result;
                     }
                 }
@@ -103,7 +103,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
                 ((S_8008C5C4_5 *)target)->unk_1C |= 0x80000;
                 actor->flags1C |= 0x100000;
                 ((S_8008C5C4_6 *)(action->unk_124))->unk_60 = actor;
-                func_8009F644(actor, 0x20, 0, 0);
+                dungeonAppendPackedActionRecord(actor, 0x20, 0, 0);
                 func_800A56E0(0x511);
             }
             action->unk_9A = 0x1B;
@@ -120,7 +120,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, En
         }
         return result;
     }
-    action->unk_8C.p2 =func_8008ACDC;
+    action->unk_8C.p2 =dungeonHandlePlayerInput;
     result = 0;
     return result;
 }

@@ -74,7 +74,7 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
             if (!fade_started) {
                 s32 old_buttons = previous_buttons;
                 s32 skip;
-                previous_buttons = func_8003E240(1);
+                previous_buttons = readCombinedControllerButtons(1);
                 skip = 0;
                 skip = movie_skip_requested(previous_buttons,old_buttons);
                 if (skip) {
@@ -93,9 +93,9 @@ s32 func_8017719C(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
             }
             D_801B8EBC -= (s16)fade_step;
             if (D_801B8EBC < 0) D_801B8EBC = 0;
-            func_8005A56C(0,(s16)D_801B8EBC,(s16)D_801B8EBC);
+            submitScaledDriverHalfwordPair(0,(s16)D_801B8EBC,(s16)D_801B8EBC);
             if (!D_801B8EBC) {
-                func_8005A4E8(0,0,0);
+                submitTaggedDriverByte(0,0,0);
                 break;
             }
         }

@@ -1,6 +1,6 @@
 #include "modules/town_ovl_64f118.h"
 
-void func_80016118(s32 forwardedValue, s32 unused, s32 forwardedData) {
+void townLookupCodeWithSpecialResults(s32 forwardedValue, s32 unused, s32 forwardedData) {
     s32 biasedSelectionValue;
     s32 selectionValue;
 

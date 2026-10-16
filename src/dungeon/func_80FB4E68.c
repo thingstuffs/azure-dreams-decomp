@@ -13,7 +13,7 @@ typedef struct S_80174668_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80174668_0;   /* arg0 in func_80174668 */
+} S_80174668_0;   /* arg0 in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_1 {
     u8 pad_00[0x14];
@@ -23,7 +23,7 @@ typedef struct S_80174668_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80174668_1;   /* arg2 in func_80174668 */
+} S_80174668_1;   /* arg2 in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_2 {
     u8 pad_00[0x2A];
@@ -37,7 +37,7 @@ typedef struct S_80174668_2 {
     u8 pad_6E[0x4];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80174668_2;   /* arg3 in func_80174668 */
+} S_80174668_2;   /* arg3 in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_3 {
     u8 pad_00[0xA];
@@ -45,7 +45,7 @@ typedef struct S_80174668_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174668_3;   /* arg1 in func_80174668 */
+} S_80174668_3;   /* arg1 in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_4 {
     void * unk_00;
@@ -63,14 +63,14 @@ typedef struct S_80174668_4 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_80174668_4;   /* tile in func_80174668 */
+} S_80174668_4;   /* tile in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_80174668_5;   /* alloc in func_80174668 */
+} S_80174668_5;   /* alloc in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_6 {
     u8 pad_00[0x96];
@@ -83,29 +83,29 @@ typedef struct S_80174668_6 {
     u16 unk_A6;
     u8 pad_A8[0x4];
     u32 unk_AC;
-} S_80174668_6;   /* prim in func_80174668 */
+} S_80174668_6;   /* prim in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80174668_7;   /* state_object in func_80174668 */
+} S_80174668_7;   /* state_object in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_8 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_80174668_8;   /* inner in func_80174668 */
+} S_80174668_8;   /* inner in dungeonSpawnRotateAndRestoreActorState */
 
 
 typedef struct S_80174668_10 {
     s32 unk_00;
-} S_80174668_10;   /* D_8008346C in func_80174668 */
+} S_80174668_10;   /* D_8008346C in dungeonSpawnRotateAndRestoreActorState */
 
 typedef struct S_80174668_11_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_80174668_11_pre;   /* the 0x14 bytes before ((S_80174668_2 *)arg3)->unk_60.u in func_80174668, addressed as ((S_80174668_2 *)arg3)->unk_60.u[-1] */
+} S_80174668_11_pre;   /* the 0x14 bytes before ((S_80174668_2 *)arg3)->unk_60.u in dungeonSpawnRotateAndRestoreActorState, addressed as ((S_80174668_2 *)arg3)->unk_60.u[-1] */
 
 typedef struct S_80174668_12 {
     u8 pad_00[0x2];
@@ -114,7 +114,7 @@ typedef struct S_80174668_12 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80174668_12;   /* ((S_80174668_5 *)alloc)->unk_08 in func_80174668 */
+} S_80174668_12;   /* ((S_80174668_5 *)alloc)->unk_08 in dungeonSpawnRotateAndRestoreActorState */
 
 
 typedef struct {
@@ -137,14 +137,14 @@ extern s32 func_800990FC(void);
 extern s32 func_80099194(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
 extern s32 func_80099734(void *record, u8 *out);
-extern void *func_800A05A4(void *, u8, u8, s16, s32);
-extern void func_800A4ACC(void *);
+extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
+extern void dungeonAdvanceStatusTimers(void *);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s8 *text);
-extern void func_800AD594(void *, s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
 extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_800BCB04(u16, u16, s16);
-extern void func_800C8CD8(void *, s32, s32);
+extern void dungeonTryApplyConfusionStatus(void *, s32, s32);
 
 extern u8 D_800DEC50[];
 extern u32 D_800E3DE8[];
@@ -157,7 +157,7 @@ extern u8 D_80175174[];
 extern u8 D_80175258[];
 
 /* Spawns and rotates an object, emits particles, then restores the actor state. */
-void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *sprite, void *actor)
+void dungeonSpawnRotateAndRestoreActorState(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *sprite, void *actor)
 {
     SpawnOffset spawn = *(SpawnOffset *)D_8017086C;
     Position2 center;
@@ -179,7 +179,7 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
     state = effect->unk_9B;
     switch (state) {
     case 0:
-        spawned_object = func_800A05A4(actor, sprite->unk_24,
+        spawned_object = dungeonScanMonsterAlongHeading(actor, sprite->unk_24,
             sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
         ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
         direction_table = D_80175258;
@@ -301,13 +301,13 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
         }
         ((S_80174668_2 *)actor)->unk_73.s = 0;
         ((S_80174668_2 *)actor)->unk_72.s = 0;
-        func_800AD594(actor, 0x800);
+        dungeonReduceActorFoodMeter(actor, 0x800);
         {
             void *actor_to_reset;
             actor_to_reset = actor;
             effect->unk_8C = D_80170F6C;
             ((S_80174668_10 *)((u8 *)(&dungeonStatus.unk_0C)))->unk_00 = 0;
-            func_800A4ACC(actor_to_reset);
+            dungeonAdvanceStatusTimers(actor_to_reset);
         }
         if (((S_80174668_2 *)actor)->unk_6D == 0) {
             ((S_80174668_2 *)actor)->unk_46 &= 0x7FFF;
@@ -317,7 +317,7 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
 
         spawned_object = ((S_80174668_2 *)actor)->unk_60.u;
         if (spawned_object != 0) {
-            func_800C8CD8(spawned_object, 0x28, 0x10);
+            dungeonTryApplyConfusionStatus(spawned_object, 0x28, 0x10);
         }
 
         return;

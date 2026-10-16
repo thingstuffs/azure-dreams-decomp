@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80018094();            /* extern */
+void townApplyTargetGridRectangle();            /* extern */
 
-/* Calls func_80018094 with parameters 0x10 and 7. */
-void func_8001813C(void) {
-    func_80018094(0x10, 7);
+/* Calls townApplyTargetGridRectangle with parameters 0x10 and 7. */
+void townApplyRectanglePreset10x7(void) {
+    townApplyTargetGridRectangle(0x10, 7);
 }

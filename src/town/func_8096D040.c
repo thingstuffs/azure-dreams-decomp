@@ -14,12 +14,12 @@ typedef struct S_801254D8_0 {
     u8 unk_14;
     u8 pad_15[0x1];
     u8 unk_16;
-} S_801254D8_0;   /* arg0 in func_801254D8 */
+} S_801254D8_0;   /* arg0 in townLoadCatalogAdjacentDetailTexture */
 
 typedef struct S_801254D8_1 {
     u8 pad_00[0x17];
     u8 unk_17;
-} S_801254D8_1;   /* (u8 *)arg0 + ((S_801254D8_0 *)arg0)->unk_16 in func_801254D8 */
+} S_801254D8_1;   /* (u8 *)arg0 + ((S_801254D8_0 *)arg0)->unk_16 in townLoadCatalogAdjacentDetailTexture */
 
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 } Rect;
 
 extern s32 Control_CD();
-extern s32 func_8003F6D4();
+extern s32 packTaggedResourceDescriptor();
 extern s32 func_8004068C();
 extern s32 func_800672D8();
 
@@ -42,7 +42,7 @@ extern u8 D_80133198[];
 
 
 /* Loads an image and palette into VRAM, then updates the loading state. */
-void func_801254D8(void *context) {
+void townLoadCatalogAdjacentDetailTexture(void *context) {
     Rect image_rect;
     Rect palette_rect;
     u8 load_phase;
@@ -53,7 +53,7 @@ void func_801254D8(void *context) {
             return;
         }
     } else {
-        func_8003F6D4(8, D_8012A998, D_80133198,
+        packTaggedResourceDescriptor(8, D_8012A998, D_80133198,
                       D_80126D44[((S_801254D8_0 *)context)->unk_13][1]);
         Control_CD(6, D_80133198, 0);
         ((S_801254D8_0 *)context)->unk_0D = 0;

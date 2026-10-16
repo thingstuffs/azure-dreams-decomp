@@ -7,7 +7,7 @@ typedef struct {
     s32 words[3];
 } TableEntry;
 
-extern s32 func_8003DE58();
+extern s32 resolveRecordOrientationOrFallback();
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 
@@ -18,7 +18,7 @@ extern s32 D_800CEEFC[3];
 typedef struct S_80026C88_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80026C88_0;   /* callee_arg in func_80026C88 */
+} S_80026C88_0;   /* callee_arg in dungeonCreateAndLinkSixOffsetObjects */
 
 typedef struct S_80026C88_1 {
     u8 pad_00[0x8];
@@ -27,7 +27,7 @@ typedef struct S_80026C88_1 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80026C88_1;   /* temp_v0 in func_80026C88 */
+} S_80026C88_1;   /* temp_v0 in dungeonCreateAndLinkSixOffsetObjects */
 
 typedef struct S_80026C88_2 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_80026C88_2 {
     s16 unk_66;
     u8 pad_68[0x6];
     s16 unk_6E;
-} S_80026C88_2;   /* temp_a3 in func_80026C88 */
+} S_80026C88_2;   /* temp_a3 in dungeonCreateAndLinkSixOffsetObjects */
 
 typedef struct S_80026C88_3 {
     u8 pad_00[0x2];
@@ -57,7 +57,7 @@ typedef struct S_80026C88_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80026C88_3;   /* temp_a2 in func_80026C88 */
+} S_80026C88_3;   /* temp_a2 in dungeonCreateAndLinkSixOffsetObjects */
 
 typedef struct S_80026C88_4 {
     u8 pad_00[0x8];
@@ -67,17 +67,17 @@ typedef struct S_80026C88_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026C88_4;   /* temp_a0 in func_80026C88 */
+} S_80026C88_4;   /* temp_a0 in dungeonCreateAndLinkSixOffsetObjects */
 
 typedef struct S_80026C88_5 {
     u8 pad_00[0x24];
     u16 unk_24;
     u16 unk_26;
     u16 unk_28;
-} S_80026C88_5;   /* var_a1 in func_80026C88 */
+} S_80026C88_5;   /* var_a1 in dungeonCreateAndLinkSixOffsetObjects */
 
 /* Create and link up to six objects with source-relative positions and initialized render data. */
-void *func_80026C88(u16 x, u16 y, s16 z, void *source)
+void *dungeonCreateAndLinkSixOffsetObjects(u16 x, u16 y, s16 z, void *source)
 {
     u16 position_offset[3];
     s32 *callback;
@@ -95,7 +95,7 @@ void *func_80026C88(u16 x, u16 y, s16 z, void *source)
     source_object = source;
     pointers.offset = position_offset;
     position_offset[0] = position_offset[1] = 0;
-    if (func_8003DE58(source_object->unk_08, source_object, pointers.offset, 0) == 0) {
+    if (resolveRecordOrientationOrFallback(source_object->unk_08, source_object, pointers.offset, 0) == 0) {
         position_offset[2] = (0 - D_800DDC40[0]) + 0x10;
     }
     object_index = 0;
