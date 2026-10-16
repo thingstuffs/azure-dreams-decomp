@@ -1,9 +1,5 @@
-# Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
-# Do NOT add to configure.py / build.ninja.
-#
-# Covers addressing-lane candidate func_80A4B0F0 at file 0xA6B0F0. The
-# dungeon sweep marks this region as proven-engine/derived-backhalf:
-# vram = file_offset + 0x7FFE0000.
+# Expanded around complete native functions; the entire original window is retained.
+# Boundary evidence: docs/evidence/dungeon_resource06_slot0.membership.json.
 name: dungeon_deep_0a6b
 sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
 options:
@@ -12,34 +8,37 @@ options:
   base_path: ..
   platform: psx
   compiler: GCC
-  subalign: 4
-  find_file_boundaries: False
+  subalign: 0x4
+  find_file_boundaries: false
   gp_value: 0x80080994
   symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
 standalone_build:
   work_dir: work/s3_splat
   extract:
     extractor: work/overlay_recon/extract_bins.py
-    disc_path: "bin/Azure Dreams.bin"
+    disc_path: bin/Azure Dreams.bin
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0xA6B000
-    file_end: 0xA6C000
-    vram_start: 0x80A4B000
+    file_start: 0xa6ab34
+    file_end: 0xa6c034
+    vram_start: 0x80a4ab34
     base_confidence: proven-engine/derived-backhalf
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:
-    - name: overlays/dungeon
-      results: overlays/dungeon/overlay_first_pass_results.json
-      source_dir: overlays/dungeon/first_pass_matched
-      skip_rerun: true
+  - name: overlays/dungeon
+    results: overlays/dungeon/overlay_first_pass_results.json
+    source_dir: overlays/dungeon/first_pass_matched
+    skip_rerun: true
 segments:
-  - [0x0, bin]
-  - type: code
-    start: 0xA6B000
-    vram: 0x80A4B000
-    subsegments:
-      - [0xA6B000, asm]
-  - [0xA6C000, bin]
-  - [0x1A86800]
+- - 0x0
+  - bin
+- type: code
+  start: 0xa6ab34
+  vram: 0x80a4ab34
+  subsegments:
+  - - 0xa6ab34
+    - asm
+- - 0xa6c034
+  - bin
+- - 0x1a86800

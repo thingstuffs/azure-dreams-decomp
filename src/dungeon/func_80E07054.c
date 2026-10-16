@@ -1,21 +1,4 @@
-#include "common.h"
-#include "shared/object_node.h"
-
-typedef void (*Callback)(void);
-
-
-extern u8 *func_8003FD64(s32 kind, void *data);
-extern void func_8004491C(void *object, Callback callback);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *object, s32 attr_a, s16 attr_b);
-extern void func_800A9C18(void *object, void *attr_a, void *attr_b, s32 attr_c);
-extern void func_800AA36C(void *object, void *attr_a, void *attr_b, void *attr_c);
-
-extern void func_80045340(void);
-extern void func_8014CE5C(void);
-extern void func_80150510(void);
-extern void func_80150538(void);
-extern void func_8014CA58(void);
+#include "modules/dungeon_ovl_e27054.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
@@ -52,14 +35,14 @@ void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
-            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+            *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
         } else if ((spawn_flags & 3) >= 2) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
             *(u32 *)(work + 0x14) = flags0;
             *(u32 *)(work + 0x1C) = flags1;
-            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+            *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
         } else {
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
@@ -67,14 +50,14 @@ void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                     if ((func_800A6D30() & 1) != 0) {
                         random = func_800A6D30();
                         func_800A48F0(work, 1, (random & 0x3F) | 0x20);
-                        *(Callback *)((u8 *)part_b + 0x2C) = func_80150538;
+                        *(u8 **)((u8 *)part_b + 0x2C) = D_80150538;
                     }
                 }
                 *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-                *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+                *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
             } else {
                 *(Callback *)(work + 0x8C) = func_8014CE5C;
-                *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+                *(u8 **)((u8 *)part_b + 0x2C) = D_80150510;
             }
         }
 

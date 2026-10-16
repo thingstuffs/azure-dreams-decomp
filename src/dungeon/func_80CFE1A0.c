@@ -1,41 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-typedef struct {
-    u8 pad00[0x8c];
-    void *field8c;
-} Obj0;
-
-typedef struct {
-    u8 pad00[0x2c];
-    u8 *table2c;
-} Obj2;
-
-typedef struct {
-    u8 pad00[0x1c];
-    u32 flags1c;
-    u8 pad20[5];
-    u8 flag25;
-    u8 pad26[4];
-    s16 value2a;
-    u8 pad2c[0x1c];
-    u8 kind48;
-} Obj3;
-
-extern u8 D_801604BC[];
-extern s32 D_80163DC4;
-extern s32 D_80163DCC;
-extern s32 D_80163DD4;
-extern u8 D_80163E24[];
-extern u8 D_80163E2C[];
-extern u8 D_80163E34[];
-extern u8 D_80163E54[];
-extern u8 D_80163E5C[];
-extern u8 D_80163E64[];
-
-extern void func_80047784(Obj2 *, u8, s32);
-extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 func_800AD9B4(Obj2 *, Obj3 *);
+#include "modules/dungeon_ovl_d1cbc4_p02.h"
 
 /* Updates directional tables for kinds 13-15 and handles the owner state transition. */
 void func_801639A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
@@ -101,7 +64,7 @@ void func_801639A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
 
     if (func_800AC82C(owner, context, display, state) != 0) {
         if ((func_800AD9B4(display, state) << 16) > 0) {
-            owner->field8c = D_801604BC;
+            owner->field8c = func_801604BC;
         }
         return;
     }

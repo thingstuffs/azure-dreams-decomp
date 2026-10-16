@@ -1,53 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_resource12_slot0.h"
 
-typedef struct {
-    u8 pad0[0x96];
-    u16 countdown;
-    u8 pad98[3];
-    u8 state;
-    u8 pad9C[8];
-    u16 timer;
-} EffectState;
-
-typedef struct {
-    u8 pad0[4];
-    s8 type;
-    u8 pad5[7];
-    s32 value;
-    u16 field10;
-    u16 field12;
-    u16 flags;
-    u8 pad16[0xE];
-    u8 x;
-    u8 y;
-    u8 pad26[6];
-    u8 *table;
-} Entity;
-
-typedef struct {
-    u8 pad0[0x14];
-    s32 field14;
-    u8 pad18[4];
-    s32 flags;
-    u8 pad20[0xA];
-    s16 angle;
-} Object;
-
-extern void func_80047784(Entity *, u8, s32);
-extern void func_8009A028(Object *);
-extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A2FE0(Object *);
-extern void func_800A32A4(Object *);
-extern void func_800A56E0(s32);
-extern void func_800ACF88(void *);
-
-extern u8 D_80175AA4[];
-
-/* Advances the entity fade effect, updates its countdown, and cleans up when fading ends. */
-void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *object) {
+void func_801732EC(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
     s32 state;
     s32 object_status;
     s32 status_mask;
@@ -89,11 +42,11 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
             return;
         }
         object->flags |= 0x10000000;
-        entity->table = D_80175AA4;
+        entity->table = ((u8 *)D_80175AA4);
         effect->timer = 0x80;
         effect->countdown = 0;
         direction_index = ((gameWork.view.viewAngle + object->angle + 0x100) >> 9) & 7;
-        func_80047784(entity, entity->table[direction_index], 0);
+        func_80047784(entity,(u8)(entity->table[direction_index]), 0);
         effect->state++;
         return;
     case 3:
@@ -116,7 +69,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
         }
         if ((entity->type == 2) && (entity->flags & 0x1000)) {
             direction_index = ((gameWork.view.viewAngle + object->angle + 0x100) >> 9) & 7;
-            func_80047784(entity, entity->table[direction_index], 0);
+            func_80047784(entity,(u8)(entity->table[direction_index]), 0);
         }
         if ((u8)entity->value < 0x11) {
             if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)object - 0x20)) {
@@ -130,7 +83,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
             if (object->flags & 0x2000) {
                 strength = 0x300;
             }
-            func_8009A3D0(x, y, strength);
+            func_8009A3D0((u8)(x),(u8)(y), strength);
             func_8009A028(object);
             *(u16 *)((u8 *)object - 2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

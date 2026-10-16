@@ -1,0 +1,33 @@
+{
+  "module": "town_ovl_5c7308",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 6057984,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_5c7000",
+      "evidence": "docs/evidence/town_ovl_5c7308.imports.json"
+    },
+    "D_80017A34": {
+      "symbol": "D_80017A34",
+      "kind": "data",
+      "vma": 2147580468,
+      "foff": 6064692,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_5c7000",
+      "evidence": "docs/evidence/town_ovl_5c7308.imports.json"
+    },
+    "D_80017B3C": {
+      "symbol": "D_80017B3C",
+      "kind": "data",
+      "vma": 2147580732,
+      "foff": 6064956,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_scene_5c7000",
+      "evidence": "docs/evidence/town_ovl_5c7308.imports.json"
+    }
+  },
+  "basis": "Exact undefined-symbol inventory from the module object. Data views use the decoded scene load map and fingerprint four bytes, without asserting allocation extents."
+}

@@ -1,6 +1,4 @@
-#include "common.h"
-#include "shared/object_flags.h"
-
+#include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
 void func_80170EF4(void *effect, s32 unused, void *visual) {

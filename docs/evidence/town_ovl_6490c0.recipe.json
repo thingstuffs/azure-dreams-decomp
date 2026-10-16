@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_6490c0",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Whole-TU native retail and genuine-ASPSX proof; no per-member assembler flags."
+}

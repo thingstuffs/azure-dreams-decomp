@@ -1,0 +1,16 @@
+{
+  "module": "dungeon_ovl_18be820",
+  "maps": {},
+  "views": {},
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_18be820.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    }
+  }
+}

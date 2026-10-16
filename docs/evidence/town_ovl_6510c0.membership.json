@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_6510c0",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_6510c0.c",
+    "module_index": 52
+  },
+  "members": [
+    "town/func_806D10C0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete singleton ledger group; historical object boundary not observable.",
+  "basis": [
+    "The complete ledger group contains one function, with one uniform recipe.",
+    "The loader descriptor and two or more raw local j CFG correspondences independently establish the same image map.",
+    "The two data imports remain external views into the loaded scene image; the module emits exactly one function and owns no data."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

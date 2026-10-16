@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_64d298",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_64d298.c",
+    "module_index": 49
+  },
+  "members": [
+    "town/func_806CD298"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete singleton ledger group; historical TU boundary unobservable.",
+  "basis": [
+    "The entire ledger cohort is this 84-byte function under the supported 2.7.2-G0 recipe.",
+    "The row-only load map is independently established and does not consume or replace the neighboring off-grid record.",
+    "No data or rodata is emitted or imported; the three function imports are fixed by the retail jal targets."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

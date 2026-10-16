@@ -32,7 +32,7 @@ standalone_build:
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
     file_start: 0xBE1000
-    file_end: 0xBE13FC
+    file_end: 0xBE1528  # recovered complete fade callback through 0xBE1528
     vram_start: 0x80BC1000          # = 0xBE1000 + 0x7FFE0000 (synthetic sweep base)
     base_confidence: synthetic-self-consistent   # copied; see BASE NOTE
   split_results: overlays/dungeon/overlay_first_pass_results.json

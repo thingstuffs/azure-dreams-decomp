@@ -1,33 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "records/Rec_D_80082E80.h"
-#include "records/Rec_func_80024600_arg1.h"
-extern int abs(int);
+#include "modules/dungeon_ovl_1936800.h"
 
-
-extern void func_80024A34();
-extern void func_800478B8();
-extern s32 func_800644B8();
-extern s32 func_80064584();
-
-
-typedef struct S_80024C0C_0 {
-    void * unk_00;
-    union { s16 s; u16 u; } unk_04;   /* accessed as both */
-    u8 pad_06[0x8];
-    s16 unk_0E;
-    s16 unk_10;
-    s16 unk_12;
-} S_80024C0C_0;   /* arg0 in func_80024C0C */
-
-typedef struct S_80024C0C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u16 unk_16;
-} S_80024C0C_1;   /* object in func_80024C0C */
-
-
-/* Move the effect toward its target, then expand and fade it until completion. */
 void func_80024C0C(void *motion, void *position, void *effect) {
     s32 direction_scale;
     s32 sin_a;
@@ -44,23 +16,23 @@ void func_80024C0C(void *motion, void *position, void *effect) {
     ObjectFlagBlock *global_flags;
     s16 state;
 
-    object = ((S_80024C0C_0 *)motion)->unk_00;
-    ((S_80024C0C_1 *)object)->unk_14++;
-    state = ((S_80024C0C_0 *)motion)->unk_04.s;
+    object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
+    ((Row_8191740C_S_80024C0C_1 *)object)->unk_14++;
+    state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
     switch (state) {
     case 0:
         ((Rec_D_80082E80 *)effect)->unk_1A.as_u16 += 0x200;
-        sin_a = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_a >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+        sin_a = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_a >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
-        sin_b = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_b >> 4) * (func_80064584(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+        sin_b = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_b >> 4) * (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
-        ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
-        sin_c = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-        direction_scale = (sin_c >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+        ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
+        sin_c = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
+        direction_scale = (sin_c >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
-        state = ((S_80024C0C_0 *)motion)->unk_12;
+        state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_12;
         next_x = current_x + direction_scale * 0x1C;
         if (state != 0) {
             target_x = ((Rec_func_80024600_arg1 *)position)->unk_0C;
@@ -81,7 +53,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
             }
         }
         func_80024A34(motion, position, effect);
-        ((S_80024C0C_0 *)motion)->unk_04.u++;
+        ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:
         if (((Rec_D_80082E80 *)effect)->unk_0C.at00_u8.v != 0) {
@@ -96,8 +68,8 @@ void func_80024C0C(void *motion, void *position, void *effect) {
         func_800478B8(effect);
         func_800478B8(effect);
         if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
-            object = ((S_80024C0C_0 *)motion)->unk_00;
-            ((S_80024C0C_1 *)object)->unk_16++;
+            object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
+            ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
             global_flags = &objectFlagBlock;
             (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
             global_flags->flags |= 0x8000;

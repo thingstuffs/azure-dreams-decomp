@@ -1,11 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_7e71d800.h"
 
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-/* Advances the effect state and frame coordinates, setting flags when its timer expires. */
 void func_80024B60(void *effect)
 {
     s32 state;

@@ -1,14 +1,7 @@
-#include "shared/town_pointees.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/town_root.h"
-
-extern s32 D_8001601C;
-extern s32 D_80016084;
-extern void *D_80017508;
+#include "modules/town_ovl_71a1ec.h"
 
 /* Attach the global data pointers and invoke the state callback with mode 2. */
-void func_8079A1EC(void)
+void func_800161EC(void)
 {
     Rec_D_80016000 *state = D_80016000;
     void *callback_base;

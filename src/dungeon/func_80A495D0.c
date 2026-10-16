@@ -1,31 +1,6 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_resource06_slot0.h"
 
-
-typedef struct S_80172DD0_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172DD0_1;   /* arg0 in func_80172DD0 */
-
-
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
-
-extern u8 D_8017140C[];
-extern u8 D_8017586C[];
-extern u8 D_8017588C[];
-
-
-/* Update directional motion and settle the entity onto its target tile. */
-void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
+void func_80172DD0(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
 {
     s16 timer;
     s32 direction;
@@ -45,7 +20,7 @@ void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, D_8017586C);
+            func_800AAA54(action, motion, tile_state, ((u8 *)D_8017586C));
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -81,7 +56,7 @@ void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(action, motion, tile_state, D_8017588C);
+            func_800AAA54(action, motion, tile_state, ((u8 *)D_8017588C));
             return;
         }
         action->unk_96.s = 8;
@@ -119,7 +94,7 @@ void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = D_8017140C;
+        action->unk_8C = ((u8 *)func_8017140C);
         return;
 
     default:

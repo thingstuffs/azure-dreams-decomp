@@ -1,115 +1,17 @@
-#include "shared/object_node.h"
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "records/Rec_func_8017121C_arg1.h"
-#include "shared/entity.h"
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef struct S_8017121C_0 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x15];
-    s16 unk_18;
-    s16 unk_1A;
-    u8 pad_1C[0x3C];
-    s16 unk_58;
-    s16 unk_5A;
-    s16 unk_5C;
-    s16 unk_5E;
-    s16 unk_60;
-    s16 unk_62;
-} S_8017121C_0;   /* base in func_8017121C */
-
-typedef struct S_8017121C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8017121C_1;   /* effect in func_8017121C */
-
-typedef struct S_8017121C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_8017121C_2;   /* part in func_8017121C */
-
-typedef struct S_8017121C_3 {
-    u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
-    u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} S_8017121C_3;   /* coords in func_8017121C */
-
-
-typedef struct S_8017121C_5_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8017121C_5_pre;   /* the 0x14 bytes before arg0 in func_8017121C, addressed as arg0[-1] */
-
-typedef struct S_8017121C_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_8017121C_6;   /* source in func_8017121C */
-
-
-typedef struct S_8017121C_8_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_8017121C_8_pre;   /* the 0x18 bytes before owner in func_8017121C, addressed as owner[-1] */
-
-typedef struct S_8017121C_9 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8017121C_9;   /* tracked in func_8017121C */
-
-typedef struct S_8017121C_10 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_8017121C_10;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_8017121C */
-
-
-
-typedef struct Vec3u16 {
-    u16 raw_y;
-    u16 y;
-    u16 z;
-} Vec3u16;
-
-extern s32 func_8003DE58(void *, void *, Vec3u16 *, s32);
-extern void func_8004491C(void *, void *);
-
-extern u8 D_80170CEC[];
-extern u8 D_80170D40[];
-extern s16 D_80175EBC[];
+#include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
 void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
 {
-    Vec3u16 offset;
+    T_8017121C_Vec3u16 offset;
     void *effect;
     void *init_effect;
     void *init_data;
-    S_8017121C_3 *coords;
+    T_8017121C_S_8017121C_3 *coords;
     u8 *effect_state;
-    S_8017121C_6 *source;
-    S_8017121C_2 *part;
-    S_8017121C_9 *target_coords;
+    T_8017121C_S_8017121C_6 *source;
+    T_8017121C_S_8017121C_2 *part;
+    T_8017121C_S_8017121C_9 *target_coords;
     s16 *direction_table;
     void *tracked_target;
     s32 delta_x;
@@ -140,56 +42,56 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     }
 
     init_effect = effect;
-    init_data = D_80170CEC;
+    init_data = ((u8 *)func_80170CEC);
     effect_state = (u8 *)effect + 0x20;
-    ((S_8017121C_0 *)effect_state)->unk_18 = 2;
-    ((S_8017121C_0 *)effect_state)->unk_1A = 2;
-    ((S_8017121C_1 *)effect)->unk_10 = D_80170D40;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_18 = 2;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_1A = 2;
+    ((T_8017121C_S_8017121C_1 *)effect)->unk_10 = func_80170D40;
     func_8004491C(init_effect, init_data);
 
-    part = ((S_8017121C_1 *)effect)->unk_0C;
+    part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
     part->unk_14 &= 0xFFF3;
 
-    coords = ((S_8017121C_1 *)effect)->unk_08;
+    coords = ((T_8017121C_S_8017121C_1 *)effect)->unk_08;
     coords->unk_02.s = origin->unk_02;
     coords->unk_06.s = origin->unk_06;
     coords->unk_0A.s = origin->unk_0A;
 
-    source = ((S_8017121C_5_pre *)source_handle)[-1].unk_00;
+    source = ((T_8017121C_S_8017121C_5_pre *)source_handle)[-1].unk_00;
     if (func_8003DE58(source->unk_08, source, &offset, 0) != 0) {
         coords->unk_02.s += offset.raw_y;
         coords->unk_06.s += offset.y;
         coords->unk_0A.s += offset.z;
-        part = ((S_8017121C_1 *)effect)->unk_0C;
+        part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
     } else {
         coords->unk_0A.s -= 0x14;
-        part = ((S_8017121C_1 *)effect)->unk_0C;
+        part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
     }
     part->unk_0E = 0xA0;
     part->unk_0D = 0xA0;
     part->unk_0C = 0xA0;
-    ((S_8017121C_0 *)effect_state)->unk_00 = 0xA0;
-    ((S_8017121C_0 *)effect_state)->unk_01 = part->unk_0D;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_00 = 0xA0;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_01 = part->unk_0D;
 
-    ((S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
 
     if (target->target == NULL) {
-        ((S_8017121C_0 *)effect_state)->unk_60 = 0;
-        ((S_8017121C_0 *)effect_state)->unk_5C = 0;
-        ((S_8017121C_0 *)effect_state)->unk_58 = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
         grid_axis = ((u8)target->unk_73);
     } else {
         target_flags = ((u32)target->flags14);
         untracked_mask = 0x04000000;
         if ((target_flags & untracked_mask) == 0) {
-            direction_table = D_80175EBC;
-            ((S_8017121C_0 *)effect_state)->unk_60 = 0;
-            ((S_8017121C_0 *)effect_state)->unk_5C = 0;
-            ((S_8017121C_0 *)effect_state)->unk_58 = 0;
+            direction_table = ((s16 *)D_80175EBC);
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
 
             grid_axis = ((u16)target->facing);
             tracked_target = target->target;
@@ -198,13 +100,13 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
             grid_axis &= 0x1C;
             grid_axis += (u32)direction_table;
             x_entry = (s16 *)grid_axis;
-            target_coords = ((S_8017121C_8_pre *)tracked_target)[-1].unk_00;
+            target_coords = ((T_8017121C_S_8017121C_8_pre *)tracked_target)[-1].unk_00;
             x_offset = *x_entry;
             target_x = target_coords->unk_02;
             x_offset <<= 4;
             delta_x = target_x - effect_x;
             delta_x -= x_offset;
-            ((S_8017121C_0 *)effect_state)->unk_5A = delta_x / 2;
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5A = delta_x / 2;
 
             y_table_addr = ((u16)target->facing);
             centered_coord = target_coords->unk_06;
@@ -218,19 +120,19 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
             centered_coord -= y_offset;
             centered_coord += (u32)centered_coord >> 31;
             centered_coord >>= 1;
-            ((S_8017121C_0 *)effect_state)->unk_5E = centered_coord;
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = centered_coord;
 
             effect_z = coords->unk_0A.u;
             z_delta = target_coords->unk_0A - effect_z;
             delta_z = z_delta;
-            delta_z -= D_800DDC40[((S_8017121C_10 *)(target->target))->unk_13] >> 1;
-            ((S_8017121C_0 *)effect_state)->unk_62 = delta_z / 2;
+            delta_z -= D_800DDC40[((T_8017121C_S_8017121C_10 *)(target->target))->unk_13] >> 1;
+            ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = delta_z / 2;
             return;
         }
 
-        ((S_8017121C_0 *)effect_state)->unk_60 = 0;
-        ((S_8017121C_0 *)effect_state)->unk_5C = 0;
-        ((S_8017121C_0 *)effect_state)->unk_58 = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_60 = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5C = 0;
+        ((T_8017121C_S_8017121C_0 *)effect_state)->unk_58 = 0;
 
         grid_axis = ((u8)target->unk_73);
     }
@@ -252,13 +154,13 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     centered_coord -= 0x20;
 
     fallback_x = scaled_x - centered_coord;
-    ((S_8017121C_0 *)effect_state)->unk_5A = fallback_x / 2;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5A = fallback_x / 2;
     centered_coord = coords->unk_06.u;
     scaled_y = (grid_y << 16) >> 10;
-    ((S_8017121C_0 *)effect_state)->unk_62 = 0;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = 0;
     centered_coord -= 0x20;
     fallback_y = scaled_y - centered_coord;
-    ((S_8017121C_0 *)effect_state)->unk_5E = fallback_y / 2;
+    ((T_8017121C_S_8017121C_0 *)effect_state)->unk_5E = fallback_y / 2;
 }
 
 /* MECHANISM: The 0x38 frame and guarded register live ranges preserve the retail prologue, held bases, and table pipelines.

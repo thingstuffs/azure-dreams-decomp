@@ -1,23 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_9950e8.h"
 
-typedef struct S_809750E8_0 {
-    u16 unk_00;
-    u8 pad_02[0x96];
-    s16 unk_98;
-    u8 pad_9A[0x12];
-    s16 unk_AC;
-} S_809750E8_0;   /* arg0 in func_809750E8; pointer addresses record offset 0x2 */
-
-
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
-
-
-/* Applies countdown-scaled intensity and sets completion flags when the countdown expires. */
-void func_809750E8(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
+void func_801708E8(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
     s16 remaining_ticks;
     s32 intensity;
 

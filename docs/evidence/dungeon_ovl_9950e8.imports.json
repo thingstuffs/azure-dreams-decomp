@@ -1,0 +1,121 @@
+{
+  "module": "dungeon_ovl_9950e8",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE load header"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven runtime transfer map xfer_dungeon_A3000"
+    },
+    "effect_direction_view": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "w4d1_995_tail_view",
+      "file_start": 10062120,
+      "file_end": 10062128,
+      "delta": 2138945536,
+      "basis": "Same j-solved image and direction-byte access bounds; eight-byte external view only."
+    }
+  },
+  "views": {
+    "D_80174128": {
+      "symbol": "D_80174128",
+      "kind": "data",
+      "vma": 2149007656,
+      "foff": 10062120,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "effect_direction_view",
+      "evidence": "docs/evidence/dungeon_ovl_9950e8.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_9950e8.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_9950e8.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_9950e8.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "functions": {
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load",
+      "basis": "Direct retail callee at this load-mapped address; no imported storage ownership."
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "access_bounds": {
+    "D_80174128": {
+      "view_bytes": 8,
+      "sha256": "1c0324955a2915f2cd79f4082e87ea8d3fdd8e6903c2186b9bc32879bdb75b60",
+      "basis": "Largest statically indexed byte span in the module; pointer-only imports use a one-byte address view, not an allocation extent."
+    }
+  },
+  "source_access_bounds": {
+    "D_80174128": {
+      "view_bytes": 8,
+      "sha256": "1c0324955a2915f2cd79f4082e87ea8d3fdd8e6903c2186b9bc32879bdb75b60",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    }
+  }
+}

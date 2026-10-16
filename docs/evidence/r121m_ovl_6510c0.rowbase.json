@@ -1,0 +1,208 @@
+{
+  "module": "town_ovl_6510c0",
+  "group": "ovl_6510c0.c#52",
+  "delta": 2140950528,
+  "start": 6623232,
+  "end": 6629376,
+  "local_jumps": [
+    {
+      "foff": 6624324,
+      "word": "0x08005915",
+      "target": 2147574868,
+      "target_foff": 6624340,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 6624484,
+      "word": "0x0800593F",
+      "target": 2147575036,
+      "target_foff": 6624508,
+      "target_words": [
+        "0x0C005C8F",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 6625120,
+      "word": "0x080059DF",
+      "target": 2147575676,
+      "target_foff": 6625148,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6625192,
+      "word": "0x080059F6",
+      "target": 2147575768,
+      "target_foff": 6625240,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6625472,
+      "word": "0x08005A3C",
+      "target": 2147576048,
+      "target_foff": 6625520,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6626116,
+      "word": "0x08005ADD",
+      "target": 2147576692,
+      "target_foff": 6626164,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005CAD",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 6626364,
+      "word": "0x08005AFE",
+      "target": 2147576824,
+      "target_foff": 6626296,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 6626724,
+      "word": "0x08005B75",
+      "target": 2147577300,
+      "target_foff": 6626772,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 6627844,
+      "word": "0x08005C88",
+      "target": 2147578400,
+      "target_foff": 6627872,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6628232,
+      "word": "0x08005CE7",
+      "target": 2147578780,
+      "target_foff": 6628252,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x08A908A8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6628240,
+      "word": "0x08005CE7",
+      "target": 2147578780,
+      "target_foff": 6628252,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x08A908A8",
+        "0x00000000"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 6625120,
+      "word": "0x080059DF",
+      "target": 2147575676,
+      "target_foff": 6625148,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6628232,
+      "word": "0x08005CE7",
+      "target": 2147578780,
+      "target_foff": 6628252,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x08A908A8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6628240,
+      "word": "0x08005CE7",
+      "target": 2147578780,
+      "target_foff": 6628252,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x08A908A8",
+        "0x00000000"
+      ]
+    }
+  ],
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "loader_basis": "Packed scene descriptor names TOWN 0x651000; sector extent 3 sectors; destination 0x80016000. Deltas independently reproduce all 11 in-image direct-jump CFG targets, including the shared jr ra epilogue. TOWN input SHA256 matches the loader receipt.",
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_806D10C0",
+    "D_806D23A4"
+  ],
+  "additional_groups": [],
+  "old_regions": [
+    {
+      "base_confidence": "proven",
+      "delta": "0x7F9C5000",
+      "foff_end": "0x652800",
+      "foff_start": "0x6523a4",
+      "proof": "TOWN scene image [0x651000,0x652800) read whole to 0x80016000 (3 sectors). Receipt: descriptor entry 15 (0x8001C0AC, area 0xC room 0x1D) of the town map module's door descriptor array; its +8 record 0x8001C2BC = {0x01816000, 0x18A7}: 3 sectors to 0x80016000 from LBA 0x18A7 = TOWN 0x651000 (ISO extent LBA 0xC05); door actor record TOWN 0x2B46DC spawns its door. Loader chain (runtime-confirmed on sibling descriptor 7 in PCSX-Redux sstate5: scene state 0x8006ADBC record 0x8001C27C, CD ring entry, slot bytes): set_next_scene 0x8003BAF8 -> load_cur_scene 0x80053C6C -> Control_CD(6) -> worker dest=(w0&0x7FFFFF)|0x80000000, count=w0>>23. docs/evidence/town_scene_loader_receipt.json; docs/evidence/town_scene_loader_receipt.json (selfcheck). Extent = this re-carve's data rows; production window byte-exact at this base; review pending.",
+      "region": "scene_651000_tail",
+      "reviewer": "orchestrator-r117",
+      "schema": "azure-clean.rowbase.v1"
+    }
+  ],
+  "native_proof_artifacts": "work/module_proofs/town_ovl_6510c0/module/receipt.json",
+  "source_sha256": {
+    "src/town/modules/ovl_6510c0.c": "c9dc1e22f053447c00fd449e19d8605638c5b3f9a932da1d281b87412d92296f",
+    "include/modules/town_ovl_6510c0.h": "ef721da68c07f6cc3addb8c2465ed6e50a69b5f216477fe1622d038b0489a200",
+    "src/town/func_806D10C0.c": "3d9791b928c26c45d3c29f3edf5b641cd9b37ae676df13e6b960c8fca799eeb9"
+  },
+  "retail_body_sha256": {
+    "town/func_806D10C0": "36ec65f39639a135ca58e99d94b72b66a8fbc990aebd63871273fcc0bd187692"
+  }
+}

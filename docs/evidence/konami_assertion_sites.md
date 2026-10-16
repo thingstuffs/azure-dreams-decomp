@@ -127,10 +127,22 @@ proven base at all.
 
 ### 1.4 Containing function and dedup
 
-The containing function is bounded by the previous `jr $ra` + delay slot, refined to the last
-`addiu $sp,$sp,-N` at or before the site (which stops the search walking into an `.rdata` pool).
-Where the sweep in `overlays/*/overlay_first_pass_results.json` has a record at that exact file
-offset the sizes agree on **99 of 99** checks.
+The original scan bounded the containing function by the previous `jr $ra` + delay slot,
+then refined its start to the last `addiu $sp,$sp,-N` at or before the site. **A stack
+allocation is not necessarily the entry.** In all eight `tobjs.c` copies the compiler schedules
+`lui $v0,hi(flag); lw $v0,lo(flag)($v0)` before it. The original refinement discarded those
+instructions and invented entries eight bytes late. The old **99 of 99** exact-offset size
+checks did not exercise these eight entries: all eight were labelled `not-in-sweep`.
+
+The 2026-10-15 r121 audit corrects the eight CSV entries to the preceding return boundary,
+keeps their original ends, and finds a local `jal` to each corrected entry and none to its
+stack allocation in the recorded scan ranges. The loaded `$v0` reaches the assertion's
+`beq $v0,$zero` without being overwritten. Five corrected starts are existing MATCH rows;
+the other three remain unregistered physical copies. The reproducible, fail-closed check is
+`python3 tools/assertion_boundaries.py --check`, with exact extents and reference-scan ranges
+in `docs/evidence/tobjs_assertion_boundaries.json`. `--apply` repairs the historical data
+idempotently. This does not authorize rounding other assertion offsets down to a containing
+row: genuine composite rows still require a separate extent audit.
 
 Copies are collapsed on the semantic tuple `(kind, source file, line)` for `assert`/`mark` and
 `(source file, expression text)` for `expr` — that is the identity of the assertion *in the
@@ -223,10 +235,10 @@ Canonical chunk: TOWN.BIN pool/base `0x7FF01000`.
 
 | line | kind | expression | containing function (nominal) | true vram | decomp status | copies | note |
 |---|---|---|---|---|---|---|---|
-| 75 | assert | — | `func_808816E0` | `0x80700EE0` | not-in-sweep | 4 | chunk 0x7FEFF800 |
-| 89 | assert | — | `func_808802A0` | `0x807012A0` | not-in-sweep | 2 |  |
-| 225 | assert | — | `func_808B85F8` | `0x00003DF8` | not-in-sweep | 1 | chunk 0xFF7CB800 |
-| 226 | assert | — | `func_80878A80` | `0x80702A80` | not-in-sweep | 1 | chunk 0x7FF0A000 |
+| 75 | assert | — | `func_808816D8` | `0x80700ED8` | MATCH | 4 | chunk 0x7FEFF800; two registered and two unregistered copies |
+| 89 | assert | — | `func_80880298` | `0x80701298` | MATCH | 2 | one registered and one unregistered copy |
+| 225 | assert | — | `func_808B85F0` | `0x00003DF0` | MATCH | 1 | object-relative address; registered link name func_80003DF0 |
+| 226 | assert | — | `func_80878A78` | `0x80702A78` | MATCH | 1 | chunk 0x7FF0A000 |
 
 #### `sn_main.c` — 4 distinct sites, 21 copies
 
@@ -344,7 +356,7 @@ What this says about the sources:
 | `0x80700BC4` | `func_8087FBC4` | `kind`, `mode`, `sno` | probably `flgtst.o` |
 | `0x80700EF0` | `func_8087FEF0` | **`flgtst.c:201`** (`mark`) | `flgtst.o` |
 | `0x80701194` | `func_80880194` | **`sn_main.c:48`** (`mark`), `p->kind`, `ov_work.kind` | `sn_main.o` |
-| `0x807012A0` | `func_808802A0` | **`tobjs.c:89`** | `tobjs.o` |
+| `0x80701298` | `func_80880298` | **`tobjs.c:89`** | `tobjs.o` |
 
 `sn_main.c` also appears with `mark` at **line 47** (chunk `0x7FF0A000`), and `tobjs.c` with
 asserts at **lines 75, 89, 225, 226** across the nine devkit chunks — so `tobjs.c` is at least
@@ -646,7 +658,9 @@ container.
 3. **§5.3 — "every one of these 76 assertion sites is in a function that has not been
    decompiled yet" is no longer true.** Of the 458 located site copies, 426 sit in a function the
    first-pass sweep byte-matched (99 as the cluster representative, 327 as a retired duplicate);
-   32 are in functions not covered by a sweep record. The reason `rg '\bprintf\s*\('` finds
+   32 were classified as not covered by that sweep record. The r121 boundary correction in §1.4
+   moves five of those physical sites onto existing MATCH rows (current CSV: 431 MATCH/dup:MATCH,
+   27 not-in-sweep). The reason `rg '\bprintf\s*\('` finds
    nothing in `overlays/town/first_pass_matched` is that the overlays never call `printf`
    directly — they call it through a service-table `jalr` (§1.2), which m2c renders as an
    indirect call through a struct field.

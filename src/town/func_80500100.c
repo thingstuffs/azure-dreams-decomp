@@ -1,13 +1,6 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/town_root.h"
+#include "modules/town_ovl_480100.h"
 
-extern u8 D_80017478[];
-extern void *D_80017548[];
-extern void func_80017350();
-
-/* Selects the default data, enforces a minimum field value of 20, and triggers 0x552 and 0x553. */
-void func_80500100(void) {
+void func_80016100(void) {
     Rec_D_80016000 *town_state;
     void *field_base;
     s32 field_value;

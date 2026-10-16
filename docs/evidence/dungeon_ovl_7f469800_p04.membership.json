@@ -1,0 +1,154 @@
+{
+  "module": "dungeon_ovl_7f469800_p04",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f469800_p04.c",
+    "module_index": 129304
+  },
+  "members": [
+    "dungeon/func_80CEA86C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "original_group": "ovl_7f469800.c#93",
+  "original_members": [
+    "dungeon/func_80CE7540",
+    "dungeon/func_80CE75C4",
+    "dungeon/func_80CE762C",
+    "dungeon/func_80CE76F4",
+    "dungeon/func_80CE7794",
+    "dungeon/func_80CE7A1C",
+    "dungeon/func_80CE7CFC",
+    "dungeon/func_80CE7F90",
+    "dungeon/func_80CE8128",
+    "dungeon/func_80CE8238",
+    "dungeon/func_80CE83EC",
+    "dungeon/func_80CE8564",
+    "dungeon/func_80CE8CBC",
+    "dungeon/func_80CE94C0",
+    "dungeon/func_80CE9758",
+    "dungeon/func_80CE9E78",
+    "dungeon/func_80CE9F34",
+    "dungeon/func_80CEA348",
+    "dungeon/func_80CEA86C",
+    "dungeon/func_80CEABC4",
+    "dungeon/func_80CEAF2C",
+    "dungeon/func_80CEB444",
+    "dungeon/func_80CEB850",
+    "dungeon/func_80CEBD74",
+    "dungeon/func_80CEC1A0"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_7f469800_p01.c",
+      "module_index": 129301,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CE7540",
+        "dungeon/func_80CE75C4",
+        "dungeon/func_80CE762C",
+        "dungeon/func_80CE76F4",
+        "dungeon/func_80CE7794",
+        "dungeon/func_80CE7A1C",
+        "dungeon/func_80CE7CFC",
+        "dungeon/func_80CE7F90",
+        "dungeon/func_80CE8128",
+        "dungeon/func_80CE8238",
+        "dungeon/func_80CE83EC",
+        "dungeon/func_80CE8564"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p02.c",
+      "module_index": 129302,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80CE8CBC"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p03.c",
+      "module_index": 129303,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CE94C0",
+        "dungeon/func_80CE9758",
+        "dungeon/func_80CE9E78",
+        "dungeon/func_80CE9F34",
+        "dungeon/func_80CEA348"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p04.c",
+      "module_index": 129304,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEA86C"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p05.c",
+      "module_index": 129305,
+      "ready": false,
+      "rows": [
+        "dungeon/func_80CEABC4",
+        "dungeon/func_80CEAF2C"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p06.c",
+      "module_index": 129306,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEB444"
+      ]
+    },
+    {
+      "name": "ovl_7f469800_p07.c",
+      "module_index": 129307,
+      "ready": true,
+      "rows": [
+        "dungeon/func_80CEB850",
+        "dungeon/func_80CEBD74",
+        "dungeon/func_80CEC1A0"
+      ]
+    }
+  ],
+  "split_rationale": "Refine weak region bucket at physical gaps and independently emitted storage boundaries. Every assigned row remains in exactly one complete new cohort; native code runs claim no omitted row or gap storage. Historical original TU identity is not asserted.",
+  "tu_boundary": "Native boundary at a complete covered contiguous run. Historical original compiler object boundary is not observable.",
+  "basis": [
+    "Every original assigned row is accounted for once in the guarded boundary refinement.",
+    "This complete new ledger cohort is contiguous in retail order, has one recipe and authenticated load base, and shares no member.",
+    "The covered actor/state/effect functions use the same bank-local callback and table environment. Imported functions, tables and runtime objects retain separate ownership.",
+    "Whole TU natural-order code, genuine ASPSX and retail bytes agree with zero masks. Gaps and independently emitted tables are not filled or claimed."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80CEA86C": "cb4db7768bb6b7963a2a366bfa80df2645521b06f365d616caaa29a6caa9ecfa"
+  },
+  "call_graph": {
+    "functions": [
+      "func_8017406C"
+    ],
+    "imports": [
+      "func_800644B8",
+      "func_800A0818",
+      "func_800A2B04",
+      "func_800A4ACC",
+      "func_800A9A04",
+      "func_800AD594",
+      "func_800AD9B4"
+    ],
+    "callback_entries": [
+      "func_801724BC"
+    ]
+  },
+  "data_cohesion": {
+    "external_asset_views": [],
+    "runtime_views": [
+      "D_80082E80",
+      "D_80083460"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

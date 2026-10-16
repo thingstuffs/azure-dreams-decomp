@@ -1,21 +1,5 @@
-#include "common.h"
-#include "shared/object_node.h"
+#include "modules/dungeon_ovl_bbd094.h"
 
-
-extern u8 *func_8003FD64();
-extern void func_8004491C();
-extern void func_80045340(void);
-extern u32 func_800A6D30(void);
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
-
-extern void func_8016AE9C(void);
-extern void func_8016EED8(void);
-extern void func_8016EF00(void);
-extern void func_8016AA98(void);
-
-/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
 {
     u8 byte_kind_id = kind_id;

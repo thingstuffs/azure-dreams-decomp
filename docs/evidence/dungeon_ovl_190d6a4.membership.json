@@ -1,0 +1,87 @@
+{
+  "module": "dungeon_ovl_190d6a4",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_190d6a4.c",
+    "module_index": 174
+  },
+  "members": [
+    "dungeon/func_818ED6A4",
+    "dungeon/func_818ED6D4",
+    "dungeon/func_818ED7A0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete new ledger cohort, three contiguous functions at [0x190d6a4,0x190d8c0), one selector load base and recipe; all code emitted naturally once.",
+    "Guarded subdivision at complete function boundaries: the first sign helper and recovered finite-particle update/factory form a text-only contiguous run ending at 0x190d8c0. The following animation and rectangle rows emit switch storage at bank+8/+40, physically outside this run; their ownership is left held. No certified member is moved or shared.",
+    "The two recovered rows are delimited by complete prologue/epilogue and factory-to-updater callback. Signed 16-bit offset parameters reproduce the factory ABI and exact retail stack loads. No pins, raw words or new assembly."
+  ],
+  "run": {
+    "file_start": 26269348,
+    "file_end": 26269888,
+    "delta": 2121365504,
+    "selector": 37
+  },
+  "internal_calls": {
+    "dungeon/func_818ED6A4": [],
+    "dungeon/func_818ED6D4": [],
+    "dungeon/func_818ED7A0": [
+      "func_80024ED4"
+    ],
+    "dungeon/func_818ED8C0": [],
+    "dungeon/func_818ED9F0": [],
+    "dungeon/func_818EDB60": []
+  },
+  "data_references": {
+    "dungeon/func_818ED6A4": [],
+    "dungeon/func_818ED6D4": [
+      "D_80026428",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_818ED7A0": [],
+    "dungeon/func_818ED8C0": [
+      "D_80026428",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_818ED9F0": [
+      "D_80020000",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_818EDB60": [
+      "D_80024048",
+      "D_80026428",
+      "objectFlagBlock"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_818ED6A4": "4f3653383dea0f2a92b7fde0ee12b37bcb5480dfefcee8ccd8d0e60ae7b0bf14"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "original_ledger_cohorts": [
+    "ovl_7e717800.c#174"
+  ],
+  "boundary_reconciliation": {
+    "reason": "Guarded subdivision at complete function boundaries: the first sign helper and recovered finite-particle update/factory form a text-only contiguous run ending at 0x190d8c0. The following animation and rectangle rows emit switch storage at bank+8/+40, physically outside this run; their ownership is left held. No certified member is moved or shared.",
+    "original_assigned_rows": 4,
+    "assigned_rows_in_this_package": 1,
+    "remaining_assigned_rows": 3,
+    "cut_foff": "0x190d8c0",
+    "assignment_transaction": "records/assignments.guarded.jsonl"
+  },
+  "recovered_gap_rows": [
+    {
+      "id": "dungeon/func_818ED6D4",
+      "foff": 26269396,
+      "size": 204
+    },
+    {
+      "id": "dungeon/func_818ED7A0",
+      "foff": 26269600,
+      "size": 288
+    }
+  ],
+  "review": "reviewed"
+}

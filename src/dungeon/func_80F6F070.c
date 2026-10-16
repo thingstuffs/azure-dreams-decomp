@@ -1,60 +1,4 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-
-
-typedef s32 M2C_UNK;
-
-typedef struct S_8015E870_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8015E870_0;   /* obj in func_8015E870 */
-
-typedef struct S_8015E870_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8015E870_1;   /* work in func_8015E870 */
-
-typedef struct S_8015E870_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8015E870_2;   /* part_a in func_8015E870 */
-
-typedef struct S_8015E870_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8015E870_3;   /* part_b in func_8015E870 */
-
-typedef struct S_8015E870_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8015E870_4;   /* actor in func_8015E870 */
-
-
-extern void *func_8003FD64();
-extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
-extern u8 D_8015EA3C[];
-extern M2C_UNK D_8015EE68;
-extern u8 D_80162194[];
-extern u8 D_801621DC[];
+#include "modules/dungeon_ovl_f8f070.h"
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
 void *func_8015E870(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
@@ -80,7 +24,7 @@ void *func_8015E870(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8015E870_0 *)obj)->unk_10 = D_8015EA3C;
+        ((S_8015E870_0 *)obj)->unk_10 = func_8015EA3C;
         work->unk_13 = 0x25;
         func_8004491C(obj, func_80045340);
 
@@ -120,7 +64,7 @@ init_actor:
         func_800A9C18(init_obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_8015EE68;
+        actor->unk_8C = &func_8015EE68;
         part_b->unk_14 |= 0xC;
         func_800AA36C(actor, part_a, part_b, work);
     }

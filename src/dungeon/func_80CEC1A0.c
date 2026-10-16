@@ -1,47 +1,10 @@
-#include "common.h"
-#include "shared/game_work.h"
-
-typedef struct {
-    u8 pad00[0x8c];
-    void *field8c;
-} Obj0;
-
-typedef struct {
-    u8 pad00[0x2c];
-    u8 *table2c;
-} Obj2;
-
-typedef struct {
-    u8 pad00[0x1c];
-    u32 flags1c;
-    u8 pad20[5];
-    u8 flag25;
-    u8 pad26[4];
-    s16 value2a;
-    u8 pad2c[0x1c];
-    u8 kind48;
-} Obj3;
-
-extern u8 D_801724BC[];
-extern s32 D_80175DC4;
-extern s32 D_80175DCC;
-extern s32 D_80175DD4;
-extern u8 D_80175E24[];
-extern u8 D_80175E2C[];
-extern u8 D_80175E34[];
-extern u8 D_80175E54[];
-extern u8 D_80175E5C[];
-extern u8 D_80175E64[];
-
-extern void func_80047784(Obj2 *, u8, s32);
-extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 func_800AD9B4(Obj2 *, Obj3 *);
+#include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates the display table and directional entry for kinds 13 through 15. */
-void func_801759A0(Obj0 *actor, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void func_801759A0(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
-    Obj2 *display = display_arg;
-    Obj3 *state = state_arg;
+    T_801759A0_Obj2 *display = display_arg;
+    T_801759A0_Obj3 *state = state_arg;
     u32 selected_table;
     u32 current_table;
     u8 kind;
@@ -100,7 +63,7 @@ void func_801759A0(Obj0 *actor, void *context, Obj2 *display_arg, Obj3 *state_ar
 
     if (func_800AC82C(actor, context, display, state) != 0) {
         if ((func_800AD9B4(display, state) << 16) > 0) {
-            actor->field8c = D_801724BC;
+            actor->field8c = func_801724BC;
         }
         return;
     }

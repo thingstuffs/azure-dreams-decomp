@@ -1,70 +1,5 @@
-#include "common.h"
-#include "shared/sprite_frame_state.h"
-#include "shared/dungeon_floor.h"
-#include "shared/object_node.h"
-#include "shared/tile_object.h"
-#include "shared/record_ptrs.h"
-#include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_func_800A9E70_arg0.h"
-#include "shared/entity.h"
+#include "modules/dungeon_resource08_slot0.h"
 
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32);
-extern s32 rand(void);
-extern s32 func_8009A180(void *, void *);
-extern s8 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s16 func_800A0818(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern s32 func_800A1C58(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern s32 func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void func_801715B4(void *, void *, void *, void *);
-extern void func_801717F8(void *, void *, void *, void *);
-extern s32 func_80171FA4(void *, void *, void *, void *);
-extern void func_80172168(void *, void *, void *, void *);
-extern s32 func_80172280(void *, void *, void *, s32);
-extern void func_80173F20(void *, void *, void *, void *);
-extern void func_80174470(void *, void *, void *, void *);
-
-extern u8 D_800D79B0[];
-extern u8 D_800DEA68[];
-extern u8 D_80170E7C;
-extern u8 D_80174C34[];
-extern u8 D_80174C3C[];
-extern u8 D_80174C44[];
-extern u8 D_80174C84[];
-extern u8 D_80174C8C[];
-
-typedef struct S_80170E7C_7 {
-    void * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    void * unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80170E7C_7;   /* sub in func_80170E7C */
-
-typedef struct S_80170E7C_8 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_80170E7C_8;   /* base in func_80170E7C */
-
-/* Updates actor behavior, directional animation, and its attached visual effect. */
 void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, EntityRec *actor_data)
 {
     s32 distance;
@@ -81,25 +16,25 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
     if (actor_data->tileY == 0) {
         func_800AA79C(actor, position, object, actor_data);
-        if (object->frameTable == D_80174C8C) {
+        if (object->frameTable == ((u8 *)D_80174C8C)) {
             return;
         }
-        object->frameTable = D_80174C84;
+        object->frameTable = ((u8 *)D_80174C84);
         func_80047784(object,
-            D_80174C84[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C84)[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
 
     if (((u32)actor_data->flags1C) & 0x200) {
-        if (object->frameTable == D_80174C8C) {
+        if (object->frameTable == ((u8 *)D_80174C8C)) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (func_800AA924(actor, position, object, D_80174C84) != 0) {
+        if (func_800AA924(actor, position, object, ((u8 *)D_80174C84)) != 0) {
             return;
         }
     }
@@ -116,7 +51,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
             idle_state = 0xE;
             if (current_state != idle_state) {
-                anim_table = D_80174C3C;
+                anim_table = ((u8 *)D_80174C3C);
                 if (object->frameTable != anim_table) {
                     object->frameTable = anim_table;
                     func_80047784(object,
@@ -129,7 +64,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
         if (actor_data->unk_64 != 0) {
-            if (func_800AA6B4(actor, position, object, D_80174C44) != 0) {
+            if (func_800AA6B4(actor, position, object, ((u8 *)D_80174C44)) != 0) {
                 return;
             }
         }
@@ -138,9 +73,9 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
             func_800AA888(actor, position, object, actor_data);
             func_80173F20(actor, position, object, actor_data);
-            object->frameTable = D_80174C34;
+            object->frameTable = ((u8 *)D_80174C34);
             func_80047784(object,
-                D_80174C34[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80174C34)[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
@@ -152,7 +87,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         }
     }
 
-    room_id = func_8009FB34(object->unk_24, object->unk_25);
+    room_id = ((s8)func_8009FB34(object->unk_24, object->unk_25));
     object->unk_26 = room_id;
 
     if (actor_data->unk_6D > 0) {
@@ -202,14 +137,12 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
                 EntityRec *player;
                 s16 facing;
 
-                facing = func_800A0818(
-                    object->unk_24, object->unk_25,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &distance);
+                facing = ((s16)func_800A0818((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    &distance));
                 player = D_800814A8;
                 actor_data->facing = facing;
                 if (player->unk_9A == 0x11) {
-                    func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
+                    func_800AAF00(actor, position, object, ((u8 *)D_80174C34), ((void *)func_80170E7C));
                     return;
                 }
             }
@@ -221,7 +154,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             case 0:
             case 1:
             case 2:
-                func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
+                func_800AAF00(actor, position, object, ((u8 *)D_80174C34), ((void *)func_80170E7C));
                 return;
 
             default:
@@ -240,10 +173,8 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
                 if ((func_8009FD7C(
                         object->unk_24, object->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    actor_data->facing = func_800A0818(
-                        object->unk_24, object->unk_25,
-                        D_80082E80.tileX, D_80082E80.tileY,
-                        &distance);
+                    actor_data->facing = ((s16)func_800A0818((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        &distance));
                 }
             }
         }
@@ -256,9 +187,9 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         return;
     }
 
-    anim_table = D_80174C3C;
+    anim_table = ((u8 *)D_80174C3C);
     if ((object->frameTable != anim_table) &&
-        (object->frameTable != D_80174C34)) {
+        (object->frameTable != ((u8 *)D_80174C34))) {
         object->frameTable = anim_table;
         func_80047784(object,
             anim_table[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
@@ -272,9 +203,9 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = (rand() & 0x1F) + 0x20;
         }
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_AA < 2) {
-            object->frameTable = D_80174C3C;
+            object->frameTable = ((u8 *)D_80174C3C);
         } else {
-            object->frameTable = D_80174C34;
+            object->frameTable = ((u8 *)D_80174C34);
         }
         func_80047784(object,
             ((u8 *)object->frameTable)[
@@ -285,7 +216,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
     if (!func_8003DE58(object->source, object, effect_offset, 1)) {
         return;
     }
-    if (object->frameTable != D_80174C3C) {
+    if (object->frameTable != ((u8 *)D_80174C3C)) {
         return;
     }
 
@@ -303,7 +234,7 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         }
         func_8004491C(object, func_80045340);
         tint = (void *)0x00808080;
-        ((ObjectNodeHeader *)object)->unk_10 = D_800D79B0;
+        ((ObjectNodeHeader *)object)->unk_10 = ((u8 *)D_800D79B0);
         ((EntityRec *)((ObjectNodeHeader *)object)->unk_08)->x.w.i =
             ((u16)position->x.w.i) + effect_offset[0];
         ((EntityRec *)((ObjectNodeHeader *)object)->unk_08)->y.w.i =
@@ -311,18 +242,18 @@ void func_80170E7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         ((EntityRec *)((ObjectNodeHeader *)object)->unk_08)->z.w.i =
             ((u16)position->z.w.i) + effect_offset[2];
         sprite = ((ObjectNodeHeader *)object)->unk_0C;
-        sprite_data = D_800DEA68;
+        sprite_data = ((u8 *)D_800DEA68);
         ((EntityRec *)((ObjectNodeHeader *)object + 1))->unk_9B = 0;
-        ((S_80170E7C_7 *)sprite)->unk_1E = 0xC00;
-        ((S_80170E7C_7 *)sprite)->unk_1C = 0xC00;
-        ((S_80170E7C_7 *)sprite)->unk_0C = tint;
-        ((S_80170E7C_7 *)sprite)->unk_00 = sprite_data;
-        ((S_80170E7C_7 *)sprite)->unk_14 |= 0xC;
+        ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_1E = 0xC00;
+        ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_1C = 0xC00;
+        ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_0C = tint;
+        ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_00 = sprite_data;
+        ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_14 |= 0xC;
         {
-            s32 anim_data = ((S_80170E7C_8 *)sprite_data)->unk_04;
-            ((S_80170E7C_7 *)sprite)->unk_04 = 0;
-            ((S_80170E7C_7 *)sprite)->unk_05 = 0;
-            ((S_80170E7C_7 *)sprite)->unk_08 = anim_data;
+            s32 anim_data = ((R08_80170E7C_S_80170E7C_8 *)sprite_data)->unk_04;
+            ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_04 = 0;
+            ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_05 = 0;
+            ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_08 = anim_data;
         }
     }
 }

@@ -1,43 +1,13 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_19c088c.h"
 
-typedef struct S_func_819A0DB8_0 {
-    u8 pad_00[0x3A];
-    u16 unk_3A;
-    u8 pad_3C[0x50];
-    u8 unk_8C;
-    s8 unk_8D;
-    u8 pad_8E[0x4];
-    u8 unk_92;
-    u8 unk_93;
-    u8 pad_94[0x1];
-    u8 unk_95;
-    u8 pad_96[0x2];
-    u8 unk_98;
-    s8 unk_99;
-    u8 pad_9A[0x4];
-    u8 unk_9E;
-    u8 unk_9F;
-    u8 pad_A0[0x1];
-    u8 unk_A1;
-} S_func_819A0DB8_0;
-
-typedef struct S_func_819A0DB8_1 {
-    u8 pad_00[0x61B0];
-    s16 unk_61B0;
-} S_func_819A0DB8_1;
-
-extern u8 D_80020000[];
-
-/* Updates paired fields for the current countdown step and flags completion. */
 void func_800245B8(void *object_data)
 {
     s32 phase_index;
     s32 pair_offset;
-    S_func_819A0DB8_0 *object = object_data;
+    Row_819A0DB8_S_func_819A0DB8_0 *object = object_data;
 
     phase_index = (s16)(object->unk_3A - 3);
-    ((S_func_819A0DB8_1 *)D_80020000)->unk_61B0 = 1;
+    (*(s16 *)D_800261B0) = 1;
     switch (phase_index) {
     case 3:
     case 7:

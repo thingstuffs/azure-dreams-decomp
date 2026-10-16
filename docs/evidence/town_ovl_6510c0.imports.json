@@ -1,0 +1,29 @@
+{
+  "module": "town_ovl_6510c0",
+  "views": {
+    "func_80016A2C": {
+      "symbol": "func_80016A2C",
+      "kind": "function",
+      "vma": 2147576364
+    },
+    "D_800173B4": {
+      "symbol": "D_800173B4",
+      "kind": "data",
+      "vma": 2147578804,
+      "foff": 6628276,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_scene_651000",
+      "evidence": "docs/evidence/town_ovl_6510c0.imports.json"
+    },
+    "D_80017474": {
+      "symbol": "D_80017474",
+      "kind": "data",
+      "vma": 2147578996,
+      "foff": 6628468,
+      "view_bytes": 1,
+      "owner": "retail_asset:town:r121m_scene_651000",
+      "evidence": "docs/evidence/town_ovl_6510c0.imports.json"
+    }
+  },
+  "basis": "The handler call and two retained asset pointers are emitted by the original wrapper; storage views refer to the decoded complete image map. A one-byte view fingerprints the passed address, not the string/table allocation bound."
+}

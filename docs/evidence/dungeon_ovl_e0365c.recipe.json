@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_e0365c",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Retail effect/fade signed divides have no ASPSX zero/overflow guards. The genuine -0 choice applies uniformly to the complete TU; the canonical MASPSX recipe already emits the raw divides."
+}

@@ -1,0 +1,40 @@
+{
+  "resource_id": 16,
+  "slot": 0,
+  "lba": 18476,
+  "destination": 2148993024,
+  "file_start": 12627968,
+  "file_end": 12652544,
+  "delta": 2136365056,
+  "sectors": 12,
+  "status": "PROVEN_STATIC_TRANSFER",
+  "runtime_observed": false,
+  "loader_receipt": "docs/evidence/dungeon_normal_resource_loader.json",
+  "loader_receipt_sha256": "363507fb11e119d2f1abfb0dbae4c7d7ea63f39d61cbb5fecdeb1e39b78f3a87",
+  "disc_container_equal": true,
+  "all_sector_payloads_equal": true,
+  "loaded_bank_sha256": "4455d5da5c1797a9ded5ad969f0a7303d3d3a015561e9d59fcd19f2f103b7168",
+  "previous_regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "sweep_0C0B000",
+      "foff_start": "0xC0B000",
+      "foff_end": "0xC0D1D8",
+      "delta": "0x7F565800",
+      "base_confidence": "proven",
+      "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 4 row(s); scoring-only until a byte-exact recompile promotes to proven; promotion attempted and reverted 2026-07-27 \u2014 NOT because promotion caused harm (the window's gate baseline fails identically with this region left `solved` and nothing staged) but because banked neighbour func_80BEB814 has been stale since some point after its 2026-07-18 landing (1 word, link-address-sensitive jal->j). Repair that row, then promote.; PROMOTED solved->proven: byte-exact recompile func_80BEB258 at true base 0x80170A58 (candidate sha e8944a82bfc6 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_c0d1d8_801729d8",
+      "foff_start": "0xC0D1D8",
+      "foff_end": "0xC0EA0C",
+      "delta": "0x7F565800",
+      "base_confidence": "proven",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, image img0119@0xC0B060, verdict PROVEN, K 0x7F565800). M1 local-`j` containment: 17 of 32 functions in the image are pinned to this delta by 85 in-function absolute `j` target(s) that can only land inside their own function's span, 0 more by in-function switch-table containment, pin_conflict=false, under the measured image-base law K = 0 mod 0x800; M4 Evidence-B1 13 same-K `jal` onto in-image function start(s) of 13 in-band target(s), in-image coherence 1.00; M5 Evidence-B2 3/3 switch table(s) resolved in span, 0 violation(s); M6 Evidence-A 51 resident-EXE call confirm(s) over 20 distinct callee(s), 0 contra; M7 103 re-link resident identit(y/ies), 8 unexplained; M3 1/1 leading inline jump table(s) fully contained; corroborating methods: b1-same-K-call-hits, leading-jump-table-containment, evidence-A-resident-calls, rowbase-ledger-agreement, b2-switch-table-containment, relink-resident-identity; EXTENT = 20 of the image's own member function span(s), 0xC0D1D8-0xC0EA0C; the image's other bytes are either already covered by an existing rowbase record (sweep_0C0B000) or are not member spans, and are left uncovered rather than asserted; gate window dungeon_deep_c0b060_truebase_80170860 (0xC0B060-0xC0EA0C) states this same base and re-gated MATCH against the container on 2026-08-23 (381/381); 3 already-landed C TU(s) inside this extent -- func_80BEDF38, func_80BEE104, func_80BEE394 -- were recompiled and linked at this base inside that window during the 2026-08-23 apply and reproduced the container bytes exactly (the 105-window / 525-TU set); STATIC EVIDENCE ONLY -- no RAM capture, no overlay-streamer transfer observed at runtime, nothing here is a runtime observation. Scoring-grade (`solved`) until a byte-exact recompile at this base promotes it via tools/rowbase.py promote; PROMOTED solved->proven: byte-exact recompile func_80BEE394 at true base 0x80173B94 (candidate sha 2c968f2a11c6 @ 2.7.2-cdk-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    }
+  ],
+  "basis": "Complete twelve-sector load extent follows directly from verified retail loader arithmetic. Existing proven byte recompiles within this bank independently agree on the same delta. Coverage extends to external data without asserting native ownership of that data.",
+  "review": "pending",
+  "reviewer": null
+}

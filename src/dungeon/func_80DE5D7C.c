@@ -1,41 +1,12 @@
-#include "common.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_D_80082E80.h"
-#include "shared/entity.h"
+#include "modules/dungeon_ovl_e0365c.h"
 
-typedef struct S_8017357C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_8017357C_0;   /* arg0 in func_8017357C */
-
-
-extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_800A2C34(void *);
-extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void func_801737DC(void *, void *, void *, void *);
-
-extern u8 D_80170E5C[];
-extern u8 D_80174520[];
-extern u8 D_80174538[];
-
-
-/* Advance the actor state and select its directional effect. */
 void func_8017357C(void *controller, void *context, void *sprite, EntityRec *actor)
 {
     u8 state;
     u8 *effect;
     s32 direction;
 
-    state = ((S_8017357C_0 *)controller)->unk_9B;
+    state = ((E_8017357C_S_8017357C_0 *)controller)->unk_9B;
     switch (state) {
     case 0:
     {
@@ -50,7 +21,7 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
         (*(void * *)((u8 *)sprite + 0x2C)) = initial_effect;
         direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, initial_effect[direction & 7], 0);
-        ((S_8017357C_0 *)controller)->unk_9B++;
+        ((E_8017357C_S_8017357C_0 *)controller)->unk_9B++;
         return;
     }
     case 1:
@@ -109,7 +80,7 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
         (*(void * *)((u8 *)sprite + 0x2C)) = effect;
         direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, effect[direction & 7], 0);
-        ((S_8017357C_0 *)controller)->unk_8C = D_80170E5C;
+        ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = func_80170E5C;
         actor->flags1C &= ~0x200;
     }
 }

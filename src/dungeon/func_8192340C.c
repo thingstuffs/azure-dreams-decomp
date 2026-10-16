@@ -1,35 +1,12 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_7e6e1800.h"
 
-extern s32 func_800478B8(void *effect_data);
-
-typedef struct {
-    s16 value;
-    s16 pad_02[4];
-} DungeonActive;
-
-extern DungeonActive D_80025B60;
-
-typedef struct {
-    u8 pad_00[0xC];
-    s8 unk_C;
-    s8 unk_D;
-    s8 unk_E;
-    u8 pad_0F[5];
-    u16 flags_14;
-    u8 pad_16[6];
-    u16 unk_1C;
-    u16 unk_1E;
-} DungeonEffect;
-
-/* Advance the effect, fade it as its timer runs down, and flag it for removal when finished. */
-void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
+void func_80024C0C(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
     u16 ticks_left;
     u16 updated_value;
     s32 fade_level;
 
     ticks_left = *(u16 *)(entity_data + 0x5A);
-    *(s16 *)((u8 *)&D_80025B60) = 1;
+    *(s16 *)((u8 *)&(*(Row_8192340C_DungeonActive *)D_80025B60)) = 1;
     if (!(ticks_left & 3)) {
         func_800478B8(effect_data);
     }

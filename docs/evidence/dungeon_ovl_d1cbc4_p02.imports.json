@@ -1,0 +1,272 @@
+{
+  "module": "dungeon_ovl_d1cbc4_p02",
+  "maps": {
+    "native_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_slot_d19000_8015e800",
+      "file_start": 13733888,
+      "file_end": 13758464,
+      "delta": 2135185408,
+      "basis": "Authenticated complete slot transfer in docs/evidence/dungeon_ovl_d1cbc4_p02.slot_load.json"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident transfer map."
+    },
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE header load and payload size."
+    }
+  },
+  "views": {
+    "D_80163DC4": {
+      "symbol": "D_80163DC4",
+      "kind": "data",
+      "vma": 2148941252,
+      "foff": 13755844,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163DCC": {
+      "symbol": "D_80163DCC",
+      "kind": "data",
+      "vma": 2148941260,
+      "foff": 13755852,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163DD4": {
+      "symbol": "D_80163DD4",
+      "kind": "data",
+      "vma": 2148941268,
+      "foff": 13755860,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E24": {
+      "symbol": "D_80163E24",
+      "kind": "data",
+      "vma": 2148941348,
+      "foff": 13755940,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E2C": {
+      "symbol": "D_80163E2C",
+      "kind": "data",
+      "vma": 2148941356,
+      "foff": 13755948,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E34": {
+      "symbol": "D_80163E34",
+      "kind": "data",
+      "vma": 2148941364,
+      "foff": 13755956,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E54": {
+      "symbol": "D_80163E54",
+      "kind": "data",
+      "vma": 2148941396,
+      "foff": 13755988,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E5C": {
+      "symbol": "D_80163E5C",
+      "kind": "data",
+      "vma": 2148941404,
+      "foff": 13755996,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    },
+    "D_80163E64": {
+      "symbol": "D_80163E64",
+      "kind": "data",
+      "vma": 2148941412,
+      "foff": 13756004,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_d1cbc4_p02.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  },
+  "functions": {
+    "func_80047784": {
+      "vma": 2147776388,
+      "foff": 110468,
+      "map": "slus_load",
+      "first_word": "e8ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800AC82C": {
+      "vma": 2148190252,
+      "foff": 815308,
+      "map": "dungeon_resident",
+      "first_word": "c0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_800AD9B4": {
+      "vma": 2148194740,
+      "foff": 819796,
+      "map": "dungeon_resident",
+      "first_word": "e0ffbd27",
+      "source_clients": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Direct call or address-only callback token; natural whole-TU relocation verified against retail."
+    },
+    "func_801604BC": {
+      "vma": 2148926652,
+      "foff": 13741244,
+      "map": "native_bank",
+      "first_word": "0880023c",
+      "entry_bytes_hex": "0880023c62344294c8ffbd272000b0af218080002c00b3af2198a0002400b1af",
+      "source_clients": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "The source stores this address in the actor update callback field (+0x8c); retail entry has a MIPS function prologue. It is an imported code token, not an allocated byte array."
+    }
+  },
+  "source_access_bounds": {
+    "D_80163DC4": {
+      "view_bytes": 8,
+      "sha256": "29646f7cd23978782271a3939205ea1bb361bcd7d793803c04c5131b8758fbd5",
+      "bytes_hex": "0201000102030403",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163DCC": {
+      "view_bytes": 8,
+      "sha256": "db910241f1e1aea2497ab42acdabe7875c61b5c96e97bcc712a5640a3ab0a739",
+      "bytes_hex": "0706050607080908",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163DD4": {
+      "view_bytes": 8,
+      "sha256": "74c38c10d256b59d1756bd486dea8d7fa54e66b5a0a2be7767fc4cf7fd5b64ae",
+      "bytes_hex": "0c0b0a0b0c0d0e0d",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E24": {
+      "view_bytes": 8,
+      "sha256": "90d3fa2d70e4680ee35a583b839ef1f181caa70b89fa56c18e52c5597948944e",
+      "bytes_hex": "2f2e2d2e2f303130",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E2C": {
+      "view_bytes": 8,
+      "sha256": "af8628b039d94417f06dfcb2a878eb505095d2b6c9b03a33679156a9908d74bc",
+      "bytes_hex": "3433323334353635",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E34": {
+      "view_bytes": 8,
+      "sha256": "fa0099f11736d0c6366157767af3ae70eddeccfc023286ee2e6e4aa06431a181",
+      "bytes_hex": "39383738393a3b3a",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E54": {
+      "view_bytes": 8,
+      "sha256": "ee1a60c50f15d9f637814f8007ffac07e0828bc76afedcf2da4447f0b1d6bb98",
+      "bytes_hex": "4b4b4b4b4b4b4b4b",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E5C": {
+      "view_bytes": 8,
+      "sha256": "8f8ee6334ab2453cfb95393975b75f4a84587c89931aed7702c814510cb1028b",
+      "bytes_hex": "4c4c4c4c4c4c4c4c",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    },
+    "D_80163E64": {
+      "view_bytes": 8,
+      "sha256": "f05376020754754cd93523675801655b0fc1aa9ed027c87ace8d17ecdd995ab6",
+      "bytes_hex": "4d4d4d4d4d4d4d4d",
+      "sources": [
+        "src/dungeon/func_80CFE1A0.c"
+      ],
+      "basis": "Every table lookup uses ((gameWork.view.viewAngle + state->value2a + 0x100)>>9)&7, so exactly the eight-byte direction view is sufficient. This does not claim the complete external animation allocation."
+    }
+  },
+  "source_changes": {},
+  "review": "pending",
+  "reviewer": null
+}

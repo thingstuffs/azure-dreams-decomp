@@ -1,95 +1,5 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "m2c_compat.h"
-#include "records/Rec_D_80082E80.h"
-#include "shared/entity.h"
-#include "records/Rec_func_801732A4_arg0.h"
+#include "modules/dungeon_resource16_slot0.h"
 
-typedef struct S_80173CEC_11 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80173CEC_11;   /* temp_v0_2 in func_80173CEC */
-
-typedef struct S_80173CEC_12 {
-    s32 unk_00;
-    s32 unk_04;
-} S_80173CEC_12;   /* ((S_80173CEC_11 *)temp_v0_2)->unk_08 in func_80173CEC */
-
-
-typedef struct S_80173CEC_2 {
-    u8 unk_00;
-} S_80173CEC_2;   /* &D_801742E5 in func_80173CEC */
-
-typedef struct S_80173CEC_3 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 unk_A9;
-    u8 unk_AA;
-} S_80173CEC_3;   /* temp_s0_3 in func_80173CEC */
-
-typedef struct S_80173CEC_4 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-} S_80173CEC_4;   /* temp_a1 in func_80173CEC */
-
-typedef struct S_80173CEC_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80173CEC_5;   /* temp_v0_2 in func_80173CEC */
-
-
-typedef struct S_80173CEC_8 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80173CEC_8;   /* temp_a2 in func_80173CEC */
-
-typedef struct S_80173CEC_9 {
-    u8 pad_00[0xC];
-    union { s32 s; void * u; } unk_0C;   /* accessed as both */
-    s32 unk_10;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80173CEC_9;   /* temp_s0 in func_80173CEC */
-
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_8003DB94();
-s32 Control_CD();
-void func_8003F540();
-void func_80041588();
-int func_800445E0();
-s32 func_8004491C();
-s32 func_800498A0();
-s32 func_80069EF8();
-void func_8009A028();
-void func_8009A3D0();
-void func_800A18E8();
-s32 func_800A504C();
-s32 func_800A56E0();
-s32 func_800ADC4C();
-s32 func_800C77D0();
-void func_80173904();
-extern M2C_UNK D_8003E140;
-extern s32 D_8006CD58;
-extern M2C_UNK D_800DCEEC;
-extern M2C_UNK D_800DCF5C;
-extern M2C_UNK D_8014A000;
-extern M2C_UNK D_801736AC;
-extern M2C_UNK D_80173B94;
-extern M2C_UNK D_801742CC;
-extern s32 D_801742D4[];
-extern s16 D_801742E0;
-extern M2C_UNK D_801742E4;
-extern M2C_UNK D_801742E5;
-extern s32 D_801742E8;
-
-/* Advance the actor effect sequence through rotation, color blending, and particle spawning. */
 void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;
@@ -106,11 +16,11 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     s32 event_done;
     u8 phase;
     void *effect_model;
-    S_80173CEC_4 *target_color;
-    S_80173CEC_8 *effect_position;
-    S_80173CEC_9 *effect_sprite;
+    R16_80173CEC_S_80173CEC_4 *target_color;
+    R16_80173CEC_S_80173CEC_8 *effect_position;
+    R16_80173CEC_S_80173CEC_9 *effect_sprite;
     GameWork *scene_color;
-    S_80173CEC_5 *effect;
+    R16_80173CEC_S_80173CEC_5 *effect;
 
     scene_color = &gameWork;
     phase = state->unk_9B;
@@ -119,7 +29,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         state->unk_9B = (u8) (state->unk_9B + 1);
         return;
     case 1:
-        func_80041588(&D_801742CC, &D_801742E4, 0);
+        func_80041588(((s32 *)D_801742CC), ((s32 *)D_801742E4), 0);
         state->unk_A6 = 0;
         state->unk_9B = (u8) (state->unk_9B + 1);
         ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
@@ -128,18 +38,18 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     case 2:
         direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if ((*(u8 *)&D_801742E4) == 0 || direction != 2) {
+        if ((*(u8 *)((s32 *)D_801742E4)) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
             ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        func_80041588(&D_801742CC, &D_801742E4, 1);
-        func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        func_80041588(((s32 *)D_801742CC), ((s32 *)D_801742E4), 1);
+        func_8003F540(0, (*(s32 *)D_8006CD58), 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
-        (*(s8 *)&D_801742E5) = 0;
-        Control_CD(0xFF, &D_8003E140, &D_801742E5);
+        (*(s8 *)((s32 *)D_801742E5)) = 0;
+        Control_CD(0xFF, ((s32 *)D_8003E140), ((s32 *)D_801742E5));
         func_800C77D0(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -148,7 +58,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         fade_left = fade_timer - 1;
         state->unk_96 = fade_left;
         if ((fade_left << 0x10) <= 0) {
-            event_done = ((S_80173CEC_2 *)(&D_801742E5))->unk_00;
+            event_done = ((R16_80173CEC_S_80173CEC_2 *)(((s32 *)D_801742E5)))->unk_00;
             state->unk_96 = fade_timer;
             if (event_done == 0) {
                 return;
@@ -157,7 +67,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
             func_800A56E0(0x300);
             return;
         }
-        target_color = (*(void **)((u8 *)(&D_800DCEEC) + func_800498A0(model) * 4));
+        target_color = (*(void **)((u8 *)(((s32 *)D_800DCEEC)) + func_800498A0(model) * 4));
         scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
             - scene_color->view.unk_090) / (s16) state->unk_96));
         scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01
@@ -170,16 +80,16 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         if (effect == NULL) {
             return;
         }
-        effect->unk_10 = &D_80173B94;
-        func_8004491C(effect, &D_801736AC);
+        effect->unk_10 = ((void *)func_80173B94);
+        func_8004491C(effect, ((void *)func_801736AC));
         color = 0x808080;
         state->unk_AC = effect;
         effect_model = model;
-        ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
-        ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
+        ((R16_80173CEC_S_80173CEC_12 *)(((R16_80173CEC_S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+        ((R16_80173CEC_S_80173CEC_12 *)(((R16_80173CEC_S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
         effect_position = effect->unk_08;
         effect_value_2 = position->z.v;
-        D_801742E0 = -8;
+        (*(s16 *)D_801742E0) = -8;
         effect_position->unk_08 = effect_value_2;
         effect_sprite = effect->unk_0C;
         effect_sprite->unk_1E = 0x1000;
@@ -190,7 +100,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         if ((variant_index << 0x10) < 0) {
             effect_value = func_80069EF8() % 3;
         }
-        func_8003DB94(effect_sprite, D_801742D4[(s16) effect_value] + (s8 *) &D_8014A000, 0);
+        func_8003DB94(effect_sprite, ((s32 *)D_801742D4)[(s16) effect_value] + (s8 *) ((s32 *)D_8014A000), 0);
         actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
         spawn_count = 0;
         state->unk_96 = 0U;
@@ -223,7 +133,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         if (state->unk_9B != 6) {
             return;
         }
-        if (func_800ADC4C(position, D_801742E8, D_801742E0, &D_800DCF5C) == 0) {
+        if (func_800ADC4C(position, (*(s32 *)D_801742E8), (*(s16 *)D_801742E0), ((s32 *)D_800DCF5C)) == 0) {
             return;
         }
         state->unk_96 = 0x10U;

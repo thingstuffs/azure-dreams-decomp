@@ -1,0 +1,78 @@
+{
+  "module": "dungeon_ovl_190681c",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_190681c.c",
+    "module_index": 177
+  },
+  "members": [
+    "dungeon/func_818E6800"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 36 loads bank [0x1906800, 0x190c800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "Guarded separation of complete text and unresolved storage. The bank begins with a four-byte entry and 24-byte parameter object, ending exactly at bank+0x1c where the first complete function starts. Both original code rows are contiguous through their full epilogues. They form the complete native text cohort; both original storage rows retain their assignments and remain held. No numeric-prefix ownership or original compiler TU boundary is claimed.",
+    "The entry value points to the first included function. Shared contracts capture the effect lifecycle and drawing callbacks. Native imports retain proven external asset/runtime views, and no source allocation stands in for the unresolved parameter table.",
+    "Further separate the two text functions at the established rowbase boundary 0x1906f98. Preserve the existing certified module dungeon_ovl_7e71d800, its region identity and the parameter-table import map. Only its region extent expands backward over an adjacent identical-delta record; no existing source or membership changes."
+  ],
+  "run": {
+    "file_start": 26241052,
+    "file_end": 26242968,
+    "delta": 2121390080,
+    "selector": 36
+  },
+  "internal_calls": {
+    "dungeon/func_818E6800": [],
+    "dungeon/func_818E6F98": []
+  },
+  "data_references": {
+    "dungeon/func_818E6800": [
+      "D_80024798",
+      "D_800249DC",
+      "D_80024B60",
+      "D_80024C7C",
+      "D_80083498",
+      "D_800DECF8",
+      "D_800E3D68",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_818E6F98": [
+      "gameWork"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_818E6800": "c47ea61129ce4c9e2c10f0b27ebfa9b245e1e401db142a62d8a2533fadfe24f0"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "original_ledger_cohorts": [
+    "ovl_1906800.c#177"
+  ],
+  "boundary_reconciliation": {
+    "reason": "Guarded separation of complete text and unresolved storage. The bank begins with a four-byte entry and 24-byte parameter object, ending exactly at bank+0x1c where the first complete function starts. Both original code rows are contiguous through their full epilogues. They form the complete native text cohort; both original storage rows retain their assignments and remain held. No numeric-prefix ownership or original compiler TU boundary is claimed.",
+    "original_assigned_rows": 4,
+    "assigned_rows_in_this_package": 1,
+    "remaining_assigned_rows": 2,
+    "assignment_transaction": "records/assignments.guarded.jsonl",
+    "remaining_storage_rows": 2,
+    "code_boundary": "0x1906f98",
+    "preserved_module": "dungeon_ovl_7e71d800"
+  },
+  "unresolved_adjacent_storage": [
+    {
+      "id": "dungeon/D_818E6800",
+      "foff": 26241024,
+      "size": 4
+    },
+    {
+      "id": "dungeon/D_818E6804",
+      "foff": 26241028,
+      "size": 24
+    }
+  ],
+  "review": "reviewed"
+}

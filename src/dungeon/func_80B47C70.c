@@ -1,110 +1,9 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_resource12_slot0.h"
 
-
-extern s32 D_8003E140[];
-extern s32 D_8006CD58[];
-extern u8 *D_800DCEEC[];
-extern s32 D_800DCF5C;
-extern u8 D_8014A000[200000];
-extern u8 D_8017458C[];
-extern u8 D_80175318[];
-extern u8 D_80175B0C[];
-extern s32 D_80175B14[];
-extern s16 D_80175B20;
-extern u8 D_80175B24;
-extern u8 D_80175B25;
-extern void *D_80175B28;
-
-void func_8003DB94();
-s32 Control_CD();
-void func_8003F540();
-void func_80041588();
-s32 func_800445E0();
-s32 func_8004491C();
-void func_80047738();
-s32 func_800498A0();
-s32 func_80069EF8();
-void func_8009A028();
-void func_8009A3D0();
-void func_800A18E8();
-void *func_800A504C();
-s32 func_800A56E0();
-s32 func_800ADC4C();
-s32 func_800C77D0();
-void func_80175180();
-
-
-typedef struct S_80175470_0_pre {
-    u16 unk_00;
-} S_80175470_0_pre;   /* the 0x2 bytes before arg0 in func_80175470, addressed as arg0[-1] */
-
-typedef struct S_80175470_0 {
-    u8 pad_00[0x96];
-    union { u16 u; s16 s; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
-    u8 pad_9C[0xC];
-    void * unk_A8;
-    s16 unk_AC;
-} S_80175470_0;   /* arg0 in func_80175470 */
-
-typedef struct S_80175470_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x16];
-    union { u16 u; s16 s; } unk_2A;   /* accessed as both */
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x1C];
-    u16 unk_8A;
-} S_80175470_1;   /* arg3 in func_80175470 */
-
-typedef struct S_80175470_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    union { void * p; u32 i; } unk_10;   /* accessed as both */
-    u8 pad_14[0x16];
-    s16 unk_2A;
-} S_80175470_2;   /* node in func_80175470 */
-
-typedef struct S_80175470_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0xC];
-    void * unk_2C;
-} S_80175470_3;   /* model in func_80175470 */
-
-
-typedef struct S_80175470_5_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80175470_5_pre;   /* the 0x14 bytes before ((S_80175470_1 *)arg3)->unk_60 in func_80175470, addressed as ((S_80175470_1 *)arg3)->unk_60[-1] */
-
-typedef struct S_80175470_5 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80175470_5;   /* ((S_80175470_1 *)arg3)->unk_60 in func_80175470 */
-
-/* Advance the actor's effect sequence, fading colors and restoring its model and facing. */
 void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
     GameWork *scene_color = &gameWork;
-    S_80175470_2 *node;
-    S_80175470_3 *model;
+    R12_80175470_S_80175470_2 *node;
+    R12_80175470_S_80175470_3 *model;
     void *child;
     u8 *target_color;
     s32 direction;
@@ -118,63 +17,63 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
     s32 next_state;
     s16 effect_index;
 
-    state = ((S_80175470_0 *)sequence)->unk_9B.n;
+    state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n;
     switch (state) {
 
     case 0:
-        next_state = ((S_80175470_0 *)sequence)->unk_9B.v + 1;
-        ((S_80175470_0 *)sequence)->unk_9B.n = next_state;
+        next_state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.v + 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n = next_state;
         return;
 
     case 1:
-        func_80041588(D_80175B0C, &D_80175B24, 0);
-        ((S_80175470_0 *)sequence)->unk_AC = 0;
-        ((S_80175470_0 *)sequence)->unk_9B.n++;
-        ((S_80175470_1 *)actor)->unk_8A = ((S_80175470_1 *)actor)->unk_2A.u;
+        func_80041588(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 0);
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_AC = 0;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_1 *)actor)->unk_8A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
         return;
 
     case 2:
-        direction = ((gameWork.view.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-        if (D_80175B24 == 0 || direction != 2) {
+        direction = ((gameWork.view.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        if ((*(u8 *)D_80175B24) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
             }
-            ((S_80175470_1 *)actor)->unk_2A.u += 0x200;
+            ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u += 0x200;
             return;
         }
 
-        func_80041588(D_80175B0C, &D_80175B24, 1);
-        func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
+        func_80041588(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 1);
+        func_8003F540(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
-        D_80175B25 = 0;
-        Control_CD(0xFF, D_8003E140, &D_80175B25);
+        (*(u8 *)D_80175B25) = 0;
+        Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_80175B25));
         func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
-        ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
         func_80175180(sequence, position, record);
 
     case 3:
-        timer = ((S_80175470_0 *)sequence)->unk_96.u;
+        timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u;
         next_timer = timer - 1;
-        ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = next_timer;
         if ((s16)next_timer <= 0) {
-            cd_ready = D_80175B25;
-            ((S_80175470_0 *)sequence)->unk_96.u = timer;
+            cd_ready = (*(u8 *)D_80175B25);
+            ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = timer;
             if (cd_ready == 0) {
                 return;
             }
-            ((S_80175470_0 *)sequence)->unk_9B.n++;
+            ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
             func_800A56E0(0x300);
             return;
         }
         color_index = func_800498A0(actor);
-        target_color = D_800DCEEC[color_index];
+        target_color = ((u8 * *)D_800DCEEC)[color_index];
         scene_color->view.unk_090 += ((s32)target_color[0]
-            - scene_color->view.unk_090) / ((S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.unk_090) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
         scene_color->view.unk_091 += ((s32)target_color[1]
-            - scene_color->view.unk_091) / ((S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.unk_091) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
         scene_color->view.unk_092 += ((s32)target_color[2]
-            - scene_color->view.unk_092) / ((S_80175470_0 *)sequence)->unk_96.s;
+            - scene_color->view.unk_092) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
         return;
 
     case 4:
@@ -182,14 +81,14 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
         if (node == 0) {
             return;
         }
-        node->unk_10.p = D_80175318;
-        func_8004491C(node, D_8017458C);
-        ((S_80175470_0 *)sequence)->unk_A8 = node;
+        node->unk_10.p = ((u8 *)func_80175318);
+        func_8004491C(node, ((u8 *)func_8017458C));
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
         *(s32 *)node->unk_08 = ((s32 *)position)[0];
         ((s32 *)node->unk_08)[1] = ((s32 *)position)[1];
         ((s32 *)node->unk_08)[2] = ((s32 *)position)[2];
-        D_80175B20 = -12;
+        (*(s16 *)D_80175B20) = -12;
         model = node->unk_0C;
         model->unk_1E = 0x1000;
         model->unk_1C = 0x1000;
@@ -199,21 +98,21 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
         if ((s16)effect_choice < 0) {
             effect_index = func_80069EF8() % 3;
         }
-        func_8003DB94(model, D_8014A000 + D_80175B14[(s16)effect_index], 0);
+        func_8003DB94(model, ((u8 *)D_8014A000) + ((s32 *)D_80175B14)[(s16)effect_index], 0);
         record->unk_14.at00_u16.v |= 0x80;
-        ((S_80175470_0 *)sequence)->unk_96.u = 0;
-        next_state = ((S_80175470_0 *)sequence)->unk_9B.n + 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0;
+        next_state = ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n + 1;
 store_next_state:
-        ((S_80175470_0 *)sequence)->unk_9B.n = next_state;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n = next_state;
         return;
 
     case 5:
-        node = ((S_80175470_0 *)sequence)->unk_A8;
+        node = ((R12_80175470_S_80175470_0 *)sequence)->unk_A8;
         model = node->unk_0C;
         if (model->unk_14 & 0xE000) {
-            ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
-            ((S_80175470_0 *)sequence)->unk_9B.n++;
-            func_800A18E8(((S_80175470_1 *)actor)->unk_13, 3);
+            ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
+            ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+            func_800A18E8(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
             func_8009A3D0(record->unk_24, record->unk_25, 0x300);
             func_8009A028(actor);
             node = (u8 *)actor - 0x20;
@@ -221,15 +120,15 @@ store_next_state:
         }
 
     case 6:
-        if (((S_80175470_0 *)sequence)->unk_9B.n != 6) {
+        if (((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n != 6) {
             return;
         }
-        if (!func_800ADC4C(position, D_80175B28, D_80175B20, &D_800DCF5C)) {
+        if (!func_800ADC4C(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)D_800DCF5C))) {
             return;
         }
-        ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((S_80175470_0 *)sequence)->unk_9B.n++;
-        func_800A18E8(((S_80175470_1 *)actor)->unk_13, 3);
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        func_800A18E8(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
         func_8009A3D0(record->unk_24, record->unk_25, 0x300);
         func_8009A028(actor);
         node = (u8 *)actor - 0x20;
@@ -237,31 +136,31 @@ store_next_state:
         return;
 
     case 7:
-        ((S_80175470_1 *)actor)->unk_60 = func_800A504C(record, actor);
-        if (((S_80175470_1 *)actor)->unk_60 == 0) {
+        ((R12_80175470_S_80175470_1 *)actor)->unk_60 = func_800A504C(record, actor);
+        if (((R12_80175470_S_80175470_1 *)actor)->unk_60 == 0) {
             return;
         }
-        ((S_80175470_0 *)sequence)->unk_96.u = 0x10;
-        ((S_80175470_0 *)sequence)->unk_9B.n++;
-        ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_2A.u;
-        model = ((S_80175470_5_pre *)(((S_80175470_1 *)actor)->unk_60))[-1].unk_00;
-        node = ((S_80175470_1 *)actor)->unk_60;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
+        ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
+        model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
+        node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
         func_80047738(model, ((u8 *)model->unk_2C)[
                       ((gameWork.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                       model->unk_04);
         model->unk_14 &= 0xFFFE;
 
     case 8:
-        next_timer = ((S_80175470_0 *)sequence)->unk_96.u - 1;
-        ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
+        next_timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u - 1;
+        ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = next_timer;
         if ((s16)next_timer > 0) {
             return;
         }
-        ((S_80175470_5 *)(((S_80175470_1 *)actor)->unk_60))->unk_2A = ((S_80175470_1 *)actor)->unk_8A;
-        ((S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
+        ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_8A;
+        ((R12_80175470_S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         dungeonStatus.unk_0A--;
-        ((S_80175470_1 *)actor)->unk_6D = 0;
+        ((R12_80175470_S_80175470_1 *)actor)->unk_6D = 0;
     default:
         return;
     }

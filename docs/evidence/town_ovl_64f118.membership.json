@@ -1,0 +1,21 @@
+{
+  "module": "town_ovl_64f118",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_64f118.c",
+    "module_index": 51
+  },
+  "members": [
+    "town/func_806CF118"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete singleton ledger group; historical object boundary unobservable.",
+  "basis": [
+    "All 112 bytes of the complete ledger group are naturally emitted by one supported recipe.",
+    "This function uses the already proved complete 0x64F000 scene map, established before its native contract.",
+    "The common handler and retained argument declarations are shared with the companion wrapper. Data remains externally owned."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

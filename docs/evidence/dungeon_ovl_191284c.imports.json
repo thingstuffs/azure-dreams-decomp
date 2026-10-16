@@ -1,0 +1,16 @@
+{
+  "module": "dungeon_ovl_191284c",
+  "maps": {},
+  "views": {},
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_191284c.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  }
+}

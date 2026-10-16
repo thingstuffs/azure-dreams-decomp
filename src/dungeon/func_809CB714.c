@@ -1,30 +1,6 @@
-#include "common.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
-extern int abs(int);
+#include "modules/dungeon_resource03_slot0.h"
 
-
-typedef struct S_80172F14_1 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_80172F14_1;   /* arg0 in func_80172F14 */
-
-
-extern void func_800A2B04();
-extern void func_800AAA54();
-extern void func_800AD4D0();
-
-extern u8 D_80170E54;
-extern s32 D_80173CC4;
-
-/* Updates directional movement, slows it, and settles the object onto its grid tile. */
-void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
+void func_80172F14(R03_80172F14_S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -46,7 +22,7 @@ void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            func_800AAA54(controller, motion, entity, &D_80173CC4);
+            func_800AAA54(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -125,7 +101,7 @@ void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *
         }
         if (((EntityRec *)source)->unk_28 == 0) {
             motion->flags14 = 0;
-            func_800AAA54(controller, motion, entity, &D_80173CC4);
+            func_800AAA54(controller, motion, entity, ((s32 *)D_80173CC4));
             return;
         }
         controller->unk_96.s = 8;
@@ -164,7 +140,7 @@ void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *
         if (tracked_object == (s32)((u8 *)source - 0x20)) {
             dungeonStatus.unk_10 = tracked_object & 0x7FFFFFFF;
         }
-        controller->unk_8C = &D_80170E54;
+        controller->unk_8C = ((void *)func_80170E54);
         return;
 
     default:

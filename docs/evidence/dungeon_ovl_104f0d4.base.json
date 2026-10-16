@@ -1,0 +1,436 @@
+{
+  "module": "dungeon_ovl_104f0d4",
+  "delta": 2131892224,
+  "image_start": 17100800,
+  "image_end": 17125376,
+  "static_only": true,
+  "witnesses": [
+    {
+      "row": "func_8102F674",
+      "foff": 17102452,
+      "size": 456,
+      "jumps": [
+        {
+          "file": 17102640,
+          "target": 2148994900
+        },
+        {
+          "file": 17102680,
+          "target": 2148995008
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_8102F83C",
+      "foff": 17102908,
+      "size": 1148,
+      "jumps": [
+        {
+          "file": 17103000,
+          "target": 2148996240
+        },
+        {
+          "file": 17103020,
+          "target": 2148996240
+        },
+        {
+          "file": 17103320,
+          "target": 2148995564
+        },
+        {
+          "file": 17103392,
+          "target": 2148995640
+        },
+        {
+          "file": 17103472,
+          "target": 2148995740
+        },
+        {
+          "file": 17103496,
+          "target": 2148995740
+        },
+        {
+          "file": 17103524,
+          "target": 2148995792
+        },
+        {
+          "file": 17103544,
+          "target": 2148995792
+        },
+        {
+          "file": 17103620,
+          "target": 2148995900
+        },
+        {
+          "file": 17103800,
+          "target": 2148996076
+        },
+        {
+          "file": 17103816,
+          "target": 2148996052
+        },
+        {
+          "file": 17103952,
+          "target": 2148996204
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_8102FCB8",
+      "foff": 17104056,
+      "size": 1924,
+      "jumps": [
+        {
+          "file": 17104128,
+          "target": 2148998168
+        },
+        {
+          "file": 17104244,
+          "target": 2148998168
+        },
+        {
+          "file": 17104324,
+          "target": 2148998168
+        },
+        {
+          "file": 17104420,
+          "target": 2148998168
+        },
+        {
+          "file": 17104648,
+          "target": 2148998168
+        },
+        {
+          "file": 17105008,
+          "target": 2148998168
+        },
+        {
+          "file": 17105036,
+          "target": 2148998168
+        },
+        {
+          "file": 17105120,
+          "target": 2148998168
+        },
+        {
+          "file": 17105164,
+          "target": 2148998168
+        },
+        {
+          "file": 17105192,
+          "target": 2148998168
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_810312D8",
+      "foff": 17109720,
+      "size": 968,
+      "jumps": [
+        {
+          "file": 17109792,
+          "target": 2149002612
+        },
+        {
+          "file": 17109816,
+          "target": 2149002612
+        },
+        {
+          "file": 17110372,
+          "target": 2149002612
+        },
+        {
+          "file": 17110544,
+          "target": 2149002840
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_81031704",
+      "foff": 17110788,
+      "size": 480,
+      "jumps": [
+        {
+          "file": 17110844,
+          "target": 2149003468
+        },
+        {
+          "file": 17110872,
+          "target": 2149003468
+        },
+        {
+          "file": 17110936,
+          "target": 2149003468
+        },
+        {
+          "file": 17110952,
+          "target": 2149003376
+        },
+        {
+          "file": 17111076,
+          "target": 2149003376
+        },
+        {
+          "file": 17111164,
+          "target": 2149003468
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_810318E4",
+      "foff": 17111268,
+      "size": 1612,
+      "jumps": [
+        {
+          "file": 17111360,
+          "target": 2149005060
+        },
+        {
+          "file": 17111388,
+          "target": 2149005060
+        },
+        {
+          "file": 17111472,
+          "target": 2149003776
+        },
+        {
+          "file": 17111480,
+          "target": 2149003784
+        },
+        {
+          "file": 17111488,
+          "target": 2149003792
+        },
+        {
+          "file": 17111536,
+          "target": 2149003804
+        },
+        {
+          "file": 17111552,
+          "target": 2149003804
+        },
+        {
+          "file": 17111560,
+          "target": 2149003804
+        },
+        {
+          "file": 17111568,
+          "target": 2149003804
+        },
+        {
+          "file": 17111628,
+          "target": 2149003920
+        },
+        {
+          "file": 17111720,
+          "target": 2149004020
+        },
+        {
+          "file": 17111840,
+          "target": 2149005052
+        },
+        {
+          "file": 17111956,
+          "target": 2149005060
+        },
+        {
+          "file": 17111992,
+          "target": 2149005060
+        },
+        {
+          "file": 17112448,
+          "target": 2149005060
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_81031F30",
+      "foff": 17112880,
+      "size": 712,
+      "jumps": [
+        {
+          "file": 17112952,
+          "target": 2149005784
+        },
+        {
+          "file": 17112980,
+          "target": 2149005784
+        },
+        {
+          "file": 17113056,
+          "target": 2149005784
+        },
+        {
+          "file": 17113164,
+          "target": 2149005784
+        },
+        {
+          "file": 17113260,
+          "target": 2149005688
+        },
+        {
+          "file": 17113320,
+          "target": 2149005784
+        },
+        {
+          "file": 17113472,
+          "target": 2149005784
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_810332A4",
+      "foff": 17117860,
+      "size": 2544,
+      "jumps": [
+        {
+          "file": 17118036,
+          "target": 2149012508
+        },
+        {
+          "file": 17118168,
+          "target": 2149012576
+        },
+        {
+          "file": 17118644,
+          "target": 2149011672
+        },
+        {
+          "file": 17119508,
+          "target": 2149012576
+        },
+        {
+          "file": 17119844,
+          "target": 2149012144
+        },
+        {
+          "file": 17120140,
+          "target": 2149012576
+        },
+        {
+          "file": 17120304,
+          "target": 2149012576
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    },
+    {
+      "row": "func_81033FE0",
+      "foff": 17121248,
+      "size": 2116,
+      "jumps": [
+        {
+          "file": 17121392,
+          "target": 2149015536
+        },
+        {
+          "file": 17121448,
+          "target": 2149015536
+        },
+        {
+          "file": 17122012,
+          "target": 2149015432
+        },
+        {
+          "file": 17122736,
+          "target": 2149015436
+        },
+        {
+          "file": 17122748,
+          "target": 2149015536
+        },
+        {
+          "file": 17122820,
+          "target": 2149015416
+        },
+        {
+          "file": 17122956,
+          "target": 2149015536
+        },
+        {
+          "file": 17123040,
+          "target": 2149015424
+        },
+        {
+          "file": 17123104,
+          "target": 2149015424
+        },
+        {
+          "file": 17123176,
+          "target": 2149015416
+        },
+        {
+          "file": 17123212,
+          "target": 2149015536
+        }
+      ],
+      "aligned_delta_candidates": [
+        2131892224
+      ]
+    }
+  ],
+  "basis": "Leading assigned rows belong to the on-disc callback/switch-head image; the following local-j-bearing routines independently solve the delta under the existing 0x800-aligned image-base law. Position-independent recompiles are not base evidence.",
+  "method": "same-image local-j solve",
+  "header_entry_hits": [
+    {
+      "file": 17100800,
+      "vma": 2148994676,
+      "foff": 17102452
+    },
+    {
+      "file": 17100804,
+      "vma": 2148995132,
+      "foff": 17102908
+    }
+  ],
+  "members": [
+    {
+      "id": "dungeon/func_8102F0D4",
+      "foff": 17101012,
+      "size": 312
+    },
+    {
+      "id": "dungeon/func_8102F20C",
+      "foff": 17101324,
+      "size": 316
+    },
+    {
+      "id": "dungeon/func_8102F5D0",
+      "foff": 17102288,
+      "size": 164
+    },
+    {
+      "id": "dungeon/func_8102F674",
+      "foff": 17102452,
+      "size": 456
+    },
+    {
+      "id": "dungeon/func_81033FE0",
+      "foff": 17121248,
+      "size": 2116
+    }
+  ]
+}

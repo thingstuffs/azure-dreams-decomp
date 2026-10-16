@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_cd7000",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Retail signed divides in the final transition/fade callback have no ASPSX zero/overflow guards. Apply genuine -0 uniformly to the complete TU; the canonical MASPSX recipe already emits these raw divides."
+}

@@ -1,38 +1,6 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "records/Rec_D_80082E80.h"
-#include "shared/entity.h"
+#include "modules/dungeon_resource07_slot0.h"
 
-
-extern void func_80047784();
-extern void func_8009C12C();
-extern void func_800A2B04();
-extern void func_800A4ACC();
-extern void func_800A56E0();
-extern void func_800AD594();
-
-extern void *D_800E3DE8[];
-extern u8 D_80170E54;
-extern u8 D_80174140;
-extern u8 D_80174170;
-
-
-typedef struct S_8017284C_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u16 unk_98;
-    u8 pad_9A[0x1];
-    u8 unk_9B;
-} S_8017284C_0;   /* arg0 in func_8017284C */
-
-
-/* Updates staged movement and animation, then places the actor on its destination tile. */
-void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void func_8017284C(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     s16 timer;
     s32 direction_y;
@@ -68,9 +36,9 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
         direction_y = (*(s16 *)((u8 *)(((s8 *)dirStepY)) + (direction * 2)));
         motion->flags14 = 0;
         motion->unk_10 = direction_y * 0x60000;
-        sprite->unk_2C.as_pv = &D_80174140;
+        sprite->unk_2C.as_pv = ((u8 *)D_80174140);
         func_80047784(sprite,
-            (*(u8 *)((u8 *)(&D_80174140) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+            (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
             0);
         action->unk_96.s = 0;
         action->unk_9B += 1;
@@ -82,9 +50,9 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
         motion->unk_0C = x_velocity - (x_velocity >> 2);
         motion->unk_10 = y_velocity - (y_velocity >> 2);
         if (sprite->unk_14.at00_u16.v & 0xE000) {
-            sprite->unk_2C.as_pv = &D_80174170;
+            sprite->unk_2C.as_pv = ((u8 *)D_80174170);
             func_80047784(sprite,
-                (*(u8 *)((u8 *)(&D_80174170) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
+                (*(u8 *)((u8 *)(((u8 *)D_80174170)) + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7))),
                 0);
             action->unk_96.s = 0x14;
             action->unk_9B += 1;
@@ -145,7 +113,7 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
             motion->unk_0C = 0;
             func_800A2B04(motion, sprite->unk_24, sprite->unk_25);
             func_800AD594(actor, 0x100);
-            action->unk_8C = &D_80170E54;
+            action->unk_8C = ((void *)func_80170E54);
             dungeonStatus.unk_0C = 0;
             action->unk_98 &= 0xFFF7;
             func_800A4ACC(actor);
@@ -153,7 +121,7 @@ void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
                 actor->unk_46 &= 0x7FFF;
                 return;
             }
-            D_800E3DE8[0] = (u8 *)actor - 0x20;
+            ((void * *)D_800E3DE8)[0] = (u8 *)actor - 0x20;
         }
     }
 }

@@ -1,14 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_cb3000.h"
 
-#define F8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define FU16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-extern void func_80173CFC(void *, s32 *, s32, s32);
-
-/* Update an effect's color phases, burst, movement, and remaining lifetime. */
 void func_80174374(u8 *effect, s32 *position, s32 effect_param)
 {
     s16 state;

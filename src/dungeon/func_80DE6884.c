@@ -1,93 +1,15 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-typedef s32 M2C_UNK;
+#include "modules/dungeon_ovl_e0365c.h"
 
-typedef struct S_80DE6884_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80DE6884_0;   /* setup_arg1 in func_80DE6884 */
-
-typedef struct S_80DE6884_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80DE6884_1;   /* temp_v0 in func_80DE6884 */
-
-typedef struct S_80DE6884_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80DE6884_2;   /* temp_s0 in func_80DE6884 */
-
-typedef struct S_80DE6884_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80DE6884_3;   /* held_arg1 in func_80DE6884 */
-
-typedef struct S_80DE6884_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80DE6884_4;   /* temp_s0_2 in func_80DE6884 */
-
-typedef struct S_80DE6884_5 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_80DE6884_5;   /* held_arg0 in func_80DE6884 */
-
-typedef struct {
-    s32 words[6];
-} Copy24;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define NULL 0
-
-M2C_UNK func_8003DB94();
-s32 func_8003DE58(s32, void *, s16 *, s32);
-s32 func_8004491C();
-M2C_UNK func_800478B8();
-s32 func_800644B8();
-s32 func_80064584(s32);
-s32 rand();
-extern M2C_UNK D_800DEA68[3];
-extern M2C_UNK D_80173F8C[3];
-
-static __inline__ u16 offset_coord(u16 coord, u16 offset) {
-    return coord + offset;
-}
-
-static __inline__ u16 set_flags(u16 value, u16 flags) {
-    return value | flags;
-}
-
-/* Spawns four effects with origin offsets, random rotation, and velocity based on the owner heading. */
-void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
+void func_80174084(void *owner_arg, void *motion_arg, void *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
-    S_80DE6884_5 *owner;
-    M2C_UNK *effect_data;
-    S_80DE6884_0 *origin;
+    E_80174084_S_80DE6884_5 *owner;
+    E_80174084_M2C_UNK *effect_data;
+    E_80174084_S_80DE6884_0 *origin;
     void *render_config;
-    S_80DE6884_2 *render_data;
-    S_80DE6884_4 *motion;
-    S_80DE6884_1 *effect;
+    E_80174084_S_80DE6884_2 *render_data;
+    E_80174084_S_80DE6884_4 *motion;
+    E_80174084_S_80DE6884_1 *effect;
 
     origin = origin_arg;
     offsets[2] = 0;
@@ -96,7 +18,7 @@ void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
     owner = owner_arg;
     func_8003DE58(origin->unk_08, origin, (s16 *)offsets, 0);
     effect_index = 0;
-    effect_data = (M2C_UNK *)((u32)&D_80173F8C);
+    effect_data = (E_80174084_M2C_UNK *)((u32)func_80173F8C);
     do {
         effect = func_8003FC64(0x212);
         if (effect != NULL) {
@@ -115,7 +37,7 @@ void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
             render_data->unk_1C = 0x1000;
             func_8004491C(effect, func_80045340);
             motion = effect->unk_08;
-            *(S_80DE6884_3 *)motion = *(S_80DE6884_3 *)motion_arg;
+            *(E_80174084_S_80DE6884_3 *)motion = *(E_80174084_S_80DE6884_3 *)motion_arg;
             motion->unk_00.at02.v = offset_coord(motion->unk_00.at02.v, offsets[0]);
             motion->unk_04.at02.v = offset_coord(motion->unk_04.at02.v, offsets[1]);
             motion->unk_08.at02.v = offset_coord(motion->unk_08.at02.v, offsets[2]);

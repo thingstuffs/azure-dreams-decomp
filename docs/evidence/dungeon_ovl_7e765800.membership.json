@@ -1,0 +1,52 @@
+{
+  "module": "dungeon_ovl_7e765800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7e765800.c",
+    "module_index": 170
+  },
+  "members": [
+    "dungeon/func_8189E934",
+    "dungeon/func_8189EA64",
+    "dungeon/func_8189EBBC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 24 loads bank [0x18be800, 0x18c4800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services."
+  ],
+  "run": {
+    "file_start": 25946420,
+    "file_end": 25947376,
+    "delta": 2121684992,
+    "selector": 24
+  },
+  "internal_calls": {
+    "dungeon/func_8189E934": [],
+    "dungeon/func_8189EA64": [],
+    "dungeon/func_8189EBBC": []
+  },
+  "data_references": {
+    "dungeon/func_8189E934": [
+      "D_80024020",
+      "D_80024C78"
+    ],
+    "dungeon/func_8189EA64": [],
+    "dungeon/func_8189EBBC": [
+      "D_80024264",
+      "D_800D36D0",
+      "D_800DEF08"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_8189E934": "39206bc74ba45b41b6fc46d56e2f02045b9183bb1955fd02ebeb344a7d51e0d7",
+    "dungeon/func_8189EA64": "509724376190f3fd006919419a2128bdc7f1567ae561de1a0a1341c6921a1685",
+    "dungeon/func_8189EBBC": "412ee491a7a5f13e7d29953428b6c00e99487fa8f73dfe37e68fe1ded248ce19"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "review": "reviewed"
+}

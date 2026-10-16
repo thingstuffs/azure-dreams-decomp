@@ -1,42 +1,5 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-extern int abs(int);
+#include "modules/dungeon_ovl_190681c.h"
 
-extern void *func_8003FD64(s32, void *);
-extern void func_8004491C(void *, void *);
-extern s32 func_80069EF8();
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800A3820(s16 entry_index);
-extern s32 func_800A05A4(void *, u8, u8, s16, s32);
-extern s16 func_800BCB04(s32, s32, s16);
-extern void func_800A56E0(s32);
-extern void func_80044A50(void *);
-extern void func_800419EC(s32, s32);
-extern void func_8002506C(s32, s16);
-extern s32 func_8009D218(s32, s32, void *);
-extern void func_800C8900(s32, s32, s32);
-
-
-extern u8 D_80024C7C[];
-extern u8 D_80024B60[];
-extern u8 D_80024798[];
-extern u8 D_800249DC[];
-extern u8 D_800DECF8[];
-extern u8 D_800E3D68[];
-
-#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-void func_8002401C(u8 *effect, u8 *motion, void *context_arg)
-;
-
-/* Advance the effect through target selection, movement, impact, and cleanup. */
 void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
     u8 *actor;
     u8 *actor_data;
@@ -165,7 +128,7 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
                 }
                 {
                     u8 *effect_header = effect - 32;
-                    u8 *callback = D_80024798;
+                    u8 *callback = func_80024798;
                     S32(motion, 0) = S32(S32(actor_header, 8), 0) + ((s32)offset[0] << 16);
                     S32(motion, 4) = S32(S32(actor_header, 8), 4) + ((s32)offset[1] << 16);
                     S32(motion, 8) = S32(S32(actor_header, 8), 8) + ((s32)offset[2] << 16);

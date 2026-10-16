@@ -1,0 +1,15 @@
+{
+  "module": "town_ovl_65b134",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 6664192,
+      "view_bytes": 4,
+      "owner": "retail_asset:town:r121m_65b134_80016134",
+      "evidence": "docs/evidence/town_ovl_65b134.imports.json"
+    }
+  },
+  "basis": "The module imports only the root pointer word at file 0x65B000 / VMA 0x80016000. Pointee storage is external; no allocation of the runtime service/state records is claimed."
+}

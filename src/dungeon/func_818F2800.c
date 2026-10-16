@@ -1,129 +1,6 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_191284c.h"
 
-   /* gv in func_8002404C */
-
-typedef struct S_BODY_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_BODY_1;   /* state in func_8002404C */
-
-typedef struct S_BODY_2 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 pad_02[0x1];
-    u8 unk_03;
-    u16 unk_04;
-    u16 unk_06;
-    union {
-        struct { u8 v; } at00;
-        struct { void * v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-        struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_08;   /* overlapping accesses */
-} S_BODY_2;   /* sp in func_8002404C */
-
-typedef struct S_BODY_3 {
-    u8 pad_00[0x38];
-    s16 unk_38;
-    s16 unk_3A;
-    s16 unk_3C;
-} S_BODY_3;   /* root in func_8002404C */
-
-typedef struct S_BODY_4 {
-    u8 pad_00[0x2];
-    u8 unk_02;
-} S_BODY_4;   /* sq in func_8002404C */
-
-typedef struct S_BODY_5 {
-    u8 pad_00[0x20];
-    s16 unk_20;
-    u8 pad_22[0x6];
-    s16 unk_28;
-    u8 pad_2A[0x6];
-    s16 unk_30;
-    u8 pad_32[0x6];
-    s16 unk_38;
-} S_BODY_5;   /* rp in func_8002404C */
-
-typedef struct S_BODY_6 {
-    u8 pad_00[0x20];
-    union { s16 s; u16 u; } unk_20;   /* accessed as both */
-    u8 pad_22[0x6];
-    u16 unk_28;
-    u8 pad_2A[0x6];
-    u16 unk_30;
-    u8 pad_32[0x6];
-    u16 unk_38;
-} S_BODY_6;   /* q in func_8002404C */
-
-typedef struct S_BODY_7 {
-    u8 pad_m4[0x3];
-    s8 len;
-    s32 unk_00;
-    union { u16 u; s16 s; } unk_04;   /* accessed as both */
-    union { u16 u; s16 s; } unk_06;   /* accessed as both */
-    s16 unk_08;
-    s16 unk_0A;
-    u16 unk_0C;
-    u16 unk_0E;
-    union { s16 s16; u8 u8; } unk_10;   /* accessed as both */
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    union { struct { s16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_18;   /* overlapping accesses */
-    u8 pad_1A[0x2];
-    union { u16 u; s16 s; } unk_1C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_1E;   /* accessed as both */
-    union {
-        struct { s16 v; } at00;
-        struct { u8 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_20;   /* overlapping accesses */
-} S_BODY_7;   /* ent in func_8002404C */
-
-   /* gp[0] in func_8002404C */
-
-
-typedef struct { u8 v; } DmU8;
-typedef struct { u16 v; } DmU16;
-typedef struct { s16 v; } DmS16;
-typedef struct { u32 v; } DmU32;
-typedef struct { s32 v; } DmS32;
-
-#define DM_U8(o)  (((DmU8 *)(scratch + (o)))->v)
-#define DM_U16(o) (((DmU16 *)(scratch + (o)))->v)
-#define DM_S16(o) (((DmS16 *)(scratch + (o)))->v)
-#define DM_U32(o) (((DmU32 *)(scratch + (o)))->v)
-#define DM_S32(o) (((DmS32 *)(scratch + (o)))->v)
-
-extern s32 func_800644B8(s32);
-extern void func_80064840();
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0();
-extern void func_80064BC0();
-extern void func_80064CF0();
-extern void func_80064D80();
-extern s32 func_80065590();
-extern void func_80065820();
-
-
-
-void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset) ;
-/* Builds textured quad strips and adds visible quads to the ordering table. */
-void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 depth_offset)
+void func_8002404C(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
 {
     u8 *scratch;
     u8 *part;
@@ -144,7 +21,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
     s32 texture_value;
     s32 first_column;
     void **globals;
-    S_BODY_6 *cache;
+    Row_818F2800_S_BODY_6 *cache;
     s32 position_z;
 
     globals = ((void * *)(&gameWork));
@@ -183,25 +60,25 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
 
     do {
         half = 0;
-        if (!(((S_BODY_2 *)part)->unk_00 & 0x20)) {
+        if (!(((Row_818F2800_S_BODY_2 *)part)->unk_00 & 0x20)) {
             u8 *first_part;
             s16 start_x;
             s32 state_flags;
 
             angle = geometry->unk_3A;
-            first_column = ((S_BODY_2 *)part)->unk_08.at00.v;
-            texture_value = first_column + ((S_BODY_2 *)part)->unk_08.at02.v;
+            first_column = ((Row_818F2800_S_BODY_2 *)part)->unk_08.at00.v;
+            texture_value = first_column + ((Row_818F2800_S_BODY_2 *)part)->unk_08.at02.v;
             first_part = state->unk_08;
             end_column = (u16)texture_value;
-            start_x = ((S_BODY_4 *)first_part)->unk_02;
+            start_x = ((Row_818F2800_S_BODY_4 *)first_part)->unk_02;
             start_x = (s8)start_x;
             column = (u16)first_column;
             strip_x = start_x;
             do {
-                ((S_BODY_5 *)(edge_cache + half * 2))->unk_38 = (s16)invalid_coord;
-                ((S_BODY_5 *)(edge_cache + half * 2))->unk_30 = (s16)invalid_coord;
-                ((S_BODY_5 *)(edge_cache + half * 2))->unk_28 = (s16)invalid_coord;
-                ((S_BODY_5 *)(edge_cache + half * 2))->unk_20 = (s16)invalid_coord;
+                ((Row_818F2800_S_BODY_5 *)(edge_cache + half * 2))->unk_38 = (s16)invalid_coord;
+                ((Row_818F2800_S_BODY_5 *)(edge_cache + half * 2))->unk_30 = (s16)invalid_coord;
+                ((Row_818F2800_S_BODY_5 *)(edge_cache + half * 2))->unk_28 = (s16)invalid_coord;
+                ((Row_818F2800_S_BODY_5 *)(edge_cache + half * 2))->unk_20 = (s16)invalid_coord;
             } while (++half < 2);
 
             do {
@@ -218,21 +95,21 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                         DM_U32(0x0C) = texture_v;
                         {
                             s32 half_height;
-                            half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
+                            half_height = (u32)((Row_818F2800_S_BODY_2 *)part)->unk_08.at03.v >> 1;
                             DM_U32(0x14) = half_height;
                         }
                     } else {
                         s32 texture_v;
                         DM_U32(0x08) = texture_u;
-                        texture_v = ((S_BODY_2 *)part)->unk_08.at01.v;
-                        state_flags = ((S_BODY_2 *)part)->unk_08.at03.v;
+                        texture_v = ((Row_818F2800_S_BODY_2 *)part)->unk_08.at01.v;
+                        state_flags = ((Row_818F2800_S_BODY_2 *)part)->unk_08.at03.v;
                         DM_U32(0x10) = 1;
                         state_flags = (u32)state_flags >> 1;
                         texture_v = texture_v + state_flags;
                         DM_U32(0x0C) = texture_v;
                         {
                             s32 half_height;
-                            half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
+                            half_height = (u32)((Row_818F2800_S_BODY_2 *)part)->unk_08.at03.v >> 1;
                             DM_U32(0x14) = half_height;
                         }
                     }
@@ -266,7 +143,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                     }
                     {
                         s32 edge_x;
-                        if ((((S_BODY_2 *)part)->unk_00 ^ DM_U16(0x24)) & 1) {
+                        if ((((Row_818F2800_S_BODY_2 *)part)->unk_00 ^ DM_U16(0x24)) & 1) {
                             s32 left_x, width;
                             left_x = -strip_x;
                             width = DM_U16(0x10);
@@ -287,11 +164,11 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                     {
                         u16 part_flags;
                         s16 edge_y;
-                        part_flags = ((S_BODY_2 *)part)->unk_00;
+                        part_flags = ((Row_818F2800_S_BODY_2 *)part)->unk_00;
                         part_flags = (*(u16 *)(scratch + 0x24)) ^ part_flags;
                         if (part_flags & 2) {
                             if (half == 0) {
-                                edge_y = ((S_BODY_2 *)part)->unk_03;
+                                edge_y = ((Row_818F2800_S_BODY_2 *)part)->unk_03;
                                 packed_uv = DM_U16(0x14);
                                 edge_y = -(s32)(s8)edge_y;
                                 DM_S16(0x7A) = (s16)edge_y;
@@ -301,7 +178,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                                 DM_S16(0x82) = (s16)edge_y;
                             } else {
                                 s16 offset_y;
-                                edge_y = ((S_BODY_2 *)part)->unk_03;
+                                edge_y = ((Row_818F2800_S_BODY_2 *)part)->unk_03;
                                 edge_y = (s8)edge_y;
                                 packed_uv = DM_U16(0x14);
                                 position_z = -edge_y;
@@ -316,7 +193,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                             }
                         } else {
                             if (half == 0) {
-                                edge_y = ((S_BODY_2 *)part)->unk_03;
+                                edge_y = ((Row_818F2800_S_BODY_2 *)part)->unk_03;
                                 packed_uv = DM_U16(0x14);
                                 edge_y = (s8)edge_y;
                                 DM_S16(0x7A) = (s16)edge_y;
@@ -325,7 +202,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                                 DM_S16(0x8A) = (s16)edge_y;
                                 DM_S16(0x82) = (s16)edge_y;
                             } else {
-                                edge_y = ((S_BODY_2 *)part)->unk_03;
+                                edge_y = ((Row_818F2800_S_BODY_2 *)part)->unk_03;
                                 packed_uv = DM_U16(0x14);
                                 edge_y = (s8)edge_y;
                                 texture_value = packed_uv;
@@ -342,47 +219,47 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                                                   packet + 8, packet + 0x10, packet + 0x18, packet + 0x20,
                                                   scratch + 0x90, scratch + 0x94)
                                     - (s32)(s16)depth_bias) - 6;
-                    cache = (S_BODY_6 *)(half * 2 + (s32)edge_cache);
+                    cache = (Row_818F2800_S_BODY_6 *)(half * 2 + (s32)edge_cache);
                     if (cache->unk_20.s != invalid_coord) {
-                        ((S_BODY_7 *)packet)->unk_04.u = cache->unk_20.u;
-                        ((S_BODY_7 *)packet)->unk_06.u = cache->unk_30;
-                        ((S_BODY_7 *)packet)->unk_14 = cache->unk_28;
-                        ((S_BODY_7 *)packet)->unk_16 = cache->unk_38;
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_04.u = cache->unk_20.u;
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_06.u = cache->unk_30;
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_14 = cache->unk_28;
+                        ((Row_818F2800_S_BODY_7 *)packet)->unk_16 = cache->unk_38;
                     }
-                    cache->unk_20.u = ((S_BODY_7 *)packet)->unk_0C;
-                    cache->unk_28 = ((S_BODY_7 *)packet)->unk_1C.u;
-                    cache->unk_30 = ((S_BODY_7 *)packet)->unk_0E;
-                    cache->unk_38 = ((S_BODY_7 *)packet)->unk_1E.u;
+                    cache->unk_20.u = ((Row_818F2800_S_BODY_7 *)packet)->unk_0C;
+                    cache->unk_28 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1C.u;
+                    cache->unk_30 = ((Row_818F2800_S_BODY_7 *)packet)->unk_0E;
+                    cache->unk_38 = ((Row_818F2800_S_BODY_7 *)packet)->unk_1E.u;
                     if ((u32)DM_S32(0xC0) < 0x1E0U) {
                         s32 top_visible, three_visible, visible0, visible1, visible2, visible3;
                         visible0 = 0;
-                        if ((u32)((((S_BODY_7 *)packet)->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((S_BODY_7 *)packet)->unk_06.u + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_06.u + 0x20) & 0xFFFF;
                             visible0 = (u32)screen_y < 0x121U;
                         }
                         visible1 = 0;
-                        if ((u32)((((S_BODY_7 *)packet)->unk_0C + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_0C + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((S_BODY_7 *)packet)->unk_0E + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_0E + 0x20) & 0xFFFF;
                             visible1 = (u32)screen_y < 0x121U;
                         }
                         visible2 = 0;
                         top_visible = visible0 | visible1;
-                        if ((u32)((((S_BODY_7 *)packet)->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((S_BODY_7 *)packet)->unk_16 + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_16 + 0x20) & 0xFFFF;
                             visible2 = (u32)screen_y < 0x121U;
                         }
                         visible3 = 0;
                         three_visible = top_visible | visible2;
-                        if ((u32)((((S_BODY_7 *)packet)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
+                        if ((u32)((((Row_818F2800_S_BODY_7 *)packet)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
                             s32 screen_y;
-                            screen_y = (((S_BODY_7 *)packet)->unk_1E.u + 0x20) & 0xFFFF;
+                            screen_y = (((Row_818F2800_S_BODY_7 *)packet)->unk_1E.u + 0x20) & 0xFFFF;
                             visible3 = (u32)screen_y < 0x121U;
                         }
                         if ((three_visible | visible3) != 0) {
-                            ((S_BODY_7 *)packet)->len = 9;
+                            ((Row_818F2800_S_BODY_7 *)packet)->len = 9;
                             state->unk_14 = (u16)(state->unk_14 & 0x7FFF);
                             {
                                 s32 right_u, bottom_v;
@@ -402,63 +279,63 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                             if (DM_U16(0x24) & 0x100) {
                                 s32 clut;
                                 clut = state->unk_12;
-                                ((S_BODY_7 *)packet)->unk_0A = (s16)clut;
+                                ((Row_818F2800_S_BODY_7 *)packet)->unk_0A = (s16)clut;
                             } else {
                                 packed_uv = state->unk_12;
-                                packed_uv = packed_uv + ((S_BODY_2 *)part)->unk_06;
-                                ((S_BODY_7 *)packet)->unk_0A = (s16)packed_uv;
+                                packed_uv = packed_uv + ((Row_818F2800_S_BODY_2 *)part)->unk_06;
+                                ((Row_818F2800_S_BODY_7 *)packet)->unk_0A = (s16)packed_uv;
                             }
                                                                                     /* --- retail word 404 --- */
                             packed_uv = DM_U16(0x0C);
                             packed_uv = packed_uv + DM_U16(0x08);
-                            ((S_BODY_7 *)packet)->unk_08 = (s16)packed_uv;
+                            ((Row_818F2800_S_BODY_7 *)packet)->unk_08 = (s16)packed_uv;
                             packed_uv = DM_U16(0x0C);
                             packed_uv = packed_uv + DM_U16(0x10);
-                            ((S_BODY_7 *)packet)->unk_10.s16 = (s16)packed_uv;
+                            ((Row_818F2800_S_BODY_7 *)packet)->unk_10.s16 = (s16)packed_uv;
                             {
                                 s32 page_override, texture_page;
                                 page_override = state->unk_10;
                                 if (page_override != 0) {
                                     s32 masked_page;
-                                    masked_page = ((S_BODY_2 *)part)->unk_04 & 0xFF9F;
+                                    masked_page = ((Row_818F2800_S_BODY_2 *)part)->unk_04 & 0xFF9F;
                                     texture_page = page_override + masked_page;
                                 } else {
-                                    texture_page = ((S_BODY_2 *)part)->unk_04;
+                                    texture_page = ((Row_818F2800_S_BODY_2 *)part)->unk_04;
                                 }
                                                                                                 /* --- retail word 424 --- */
-                                ((S_BODY_7 *)packet)->unk_12 = (u16)texture_page;
+                                ((Row_818F2800_S_BODY_7 *)packet)->unk_12 = (u16)texture_page;
                             }
                             packed_uv = DM_U16(0x14);
                             packed_uv = packed_uv + DM_U16(0x08);
-                            ((S_BODY_7 *)packet)->unk_18.at00.v = (s16)packed_uv;
+                            ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at00.v = (s16)packed_uv;
                             packed_uv = DM_U16(0x14);
                             texture_value = DM_U16(0x10);
-                            column_or_x = ((S_BODY_7 *)packet)->unk_04.s;
+                            column_or_x = ((Row_818F2800_S_BODY_7 *)packet)->unk_04.s;
                             packed_uv = packed_uv + texture_value;
-                            ((S_BODY_7 *)packet)->unk_20.at00.v = (s16)packed_uv;
-                            if ((s32)((S_BODY_7 *)packet)->unk_1C.s < column_or_x) {
+                            ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00.v = (s16)packed_uv;
+                            if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1C.s < column_or_x) {
                                 u8 edge_uv, corner_uv;
-                                edge_uv = ((S_BODY_7 *)packet)->unk_10.u8;
-                                corner_uv = ((S_BODY_7 *)packet)->unk_20.at00u.v;
+                                edge_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_10.u8;
+                                corner_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00u.v;
                                 edge_uv = (u8)(edge_uv - 1);
                                 corner_uv = (u8)(corner_uv - 1);
-                                ((S_BODY_7 *)packet)->unk_10.u8 = edge_uv;
-                                ((S_BODY_7 *)packet)->unk_20.at00u.v = corner_uv;
+                                ((Row_818F2800_S_BODY_7 *)packet)->unk_10.u8 = edge_uv;
+                                ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at00u.v = corner_uv;
                             }
                             {
                                 s32 top_y;
-                                top_y = ((S_BODY_7 *)packet)->unk_06.s;
-                                if ((s32)((S_BODY_7 *)packet)->unk_1E.s < top_y) {
+                                top_y = ((Row_818F2800_S_BODY_7 *)packet)->unk_06.s;
+                                if ((s32)((Row_818F2800_S_BODY_7 *)packet)->unk_1E.s < top_y) {
                                     u8 edge_uv, corner_uv;
-                                    edge_uv = ((S_BODY_7 *)packet)->unk_18.at01.v;
-                                    corner_uv = ((S_BODY_7 *)packet)->unk_20.at01.v;
+                                    edge_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at01.v;
+                                    corner_uv = ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at01.v;
                                     edge_uv = (u8)(edge_uv - 1);
                                     corner_uv = (u8)(corner_uv - 1);
-                                    ((S_BODY_7 *)packet)->unk_18.at01.v = edge_uv;
-                                    ((S_BODY_7 *)packet)->unk_20.at01.v = corner_uv;
+                                    ((Row_818F2800_S_BODY_7 *)packet)->unk_18.at01.v = edge_uv;
+                                    ((Row_818F2800_S_BODY_7 *)packet)->unk_20.at01.v = corner_uv;
                                 }
                             }
-                            texture_value = ((S_BODY_2 *)part)->unk_01;
+                            texture_value = ((Row_818F2800_S_BODY_2 *)part)->unk_01;
                             state->unk_0C.at03.v = (u8)texture_value;
                             {
                                 s32 render_flags;
@@ -475,7 +352,7 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
                                     }
                                 }
                             }
-                            ((S_BODY_7 *)packet)->unk_00 = state->unk_0C.at00.v;
+                            ((Row_818F2800_S_BODY_7 *)packet)->unk_00 = state->unk_0C.at00.v;
                             {
                                 u32 ot_tag = ((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)];
                                 u32 packet_tag = *(u32 *)packet & 0xFF000000;
@@ -503,14 +380,14 @@ void func_8002404C(S_BODY_3 *geometry, void *position, S_BODY_1 *state, u16 dept
         } else {
             void (*callback)(void *, void *, void *, void *);
 
-            callback = ((S_BODY_2 *)part)->unk_08.at00u.v;
+            callback = ((Row_818F2800_S_BODY_2 *)part)->unk_08.at00u.v;
             if (callback != 0) {
                 callback(geometry, position, state, part);
             }
         }
         {
             s32 part_flags;
-            part_flags = (s8)((S_BODY_2 *)part)->unk_00;
+            part_flags = (s8)((Row_818F2800_S_BODY_2 *)part)->unk_00;
             part += 0xC;
             if (part_flags < 0) {
                 break;

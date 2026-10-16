@@ -1,0 +1,73 @@
+{
+  "original_group": "ovl_d16bc4.c#64",
+  "original_members": [
+    "dungeon/func_80CF6BC4",
+    "dungeon/func_80CF81A0"
+  ],
+  "boundary_parts": [
+    {
+      "name": "ovl_d16bc4_p01.c",
+      "module_index": 126401,
+      "rows": [
+        "dungeon/func_80CF6BC4"
+      ],
+      "ready": false
+    },
+    {
+      "name": "ovl_d16bc4_p02.c",
+      "module_index": 126402,
+      "rows": [
+        "dungeon/func_80CF81A0"
+      ],
+      "ready": true
+    }
+  ],
+  "split_rationale": "Refine the weak region bucket at the uncovered retail gap. All old members are assigned exactly once across the recorded new parts. The native TU claims this complete covered part; the switch-table part and hole remain separate.",
+  "module": "dungeon_ovl_d16bc4_p02",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_d16bc4_p02.c",
+    "module_index": 126402
+  },
+  "members": [
+    "dungeon/func_80CF81A0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Historical original object boundary is not observable. This native TU owns the complete existing singleton ledger cohort.",
+  "basis": [
+    "The sole complete function is a contiguous run with no shared ledger member.",
+    "The authenticated normal slot transfer proves one file-to-VMA map for every instruction and local external view.",
+    "The function allocates one actor and initializes the actor state, callbacks and imported tables. All storage and callbacks outside its code stay imported."
+  ],
+  "complete_body_sha256": {
+    "dungeon/func_80CF81A0": "ccbcb3bc9f0608bc23bfa60a8543348ef0cf324c279e92a4a518161fd22653b0"
+  },
+  "slot_load": "docs/evidence/dungeon_ovl_d16bc4_p02.slot_load.json",
+  "call_graph": {
+    "imported_functions": [
+      "func_80047784",
+      "func_800AC82C",
+      "func_800AD9B4"
+    ]
+  },
+  "data_cohesion": {
+    "external_views": [
+      "D_801664BC",
+      "D_80169DC4",
+      "D_80169DCC",
+      "D_80169DD4",
+      "D_80169E24",
+      "D_80169E2C",
+      "D_80169E34",
+      "D_80169E54",
+      "D_80169E5C",
+      "D_80169E64"
+    ],
+    "runtime_views": [
+      "D_80083160"
+    ]
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

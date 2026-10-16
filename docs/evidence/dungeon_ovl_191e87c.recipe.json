@@ -1,0 +1,14 @@
+{
+  "module": "dungeon_ovl_191e87c",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Uniform ledger compiler recipe for the complete cohort. Genuine ASPSX 2.79 -0 applies to the entire TU, matching the established certified native-module recipe. Both assembler paths and retail bytes must match."
+}

@@ -1,25 +1,7 @@
-#include "common.h"
-#include "shared/object_flags.h"
-
-
-typedef struct {
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 pad_03[0x15];
-    u16 remaining;
-    s16 divisor;
-} FadeState;
-
-typedef struct {
-    u8 pad_00[0xC];
-    s8 red;
-    s8 green;
-    s8 blue;
-} FadeOutput;
+#include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Advance the RGB fade toward black and set completion flags when it ends. */
-void func_80170E2C(FadeState *fade, s32 unused, FadeOutput *output)
+void func_80170E2C(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output)
 {
     s16 remaining;
 

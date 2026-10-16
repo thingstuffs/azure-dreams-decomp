@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_ovl_1954800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1954800.c",
+    "module_index": 188
+  },
+  "members": [
+    "dungeon/D_81934800",
+    "dungeon/func_81934800",
+    "dungeon/func_81934928",
+    "dungeon/func_81934C5C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Complete contiguous ledger run, single authenticated selector bank and uniform compiler recipe.",
+    "Native entry points into the second complete code member; helper and effect code consume dungeon object state. No member belongs to another group."
+  ],
+  "no_shared_members": true,
+  "run": {
+    "file_start": 26560512,
+    "file_end": 26562368,
+    "delta": 2121070592
+  },
+  "complete_body_sha256": {
+    "dungeon/D_81934800": "288ab89c4e0dce4cebf305150e98c39a35e3d0a16a8ffdac75503e81702e7693",
+    "dungeon/func_81934800": "a1bee1f49d5084e310e78d3c1421e9b07f1376ecb8b17c8fb43cefa854e060e8",
+    "dungeon/func_81934928": "a5bc466b2cf78c9039b57899dc5a71b922e9d8ea85e0b95e19841bb3962a2e3d",
+    "dungeon/func_81934C5C": "53962a047d96dd4c4ef05671a189650cb4dd3d85871926e6f81c9d70101c16f0"
+  },
+  "reviewer": "orchestrator-r120",
+  "review": "reviewed"
+}

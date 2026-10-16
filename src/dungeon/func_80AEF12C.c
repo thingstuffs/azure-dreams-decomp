@@ -1,53 +1,13 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_resource10_slot0.h"
 
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, u16, s32);
-
-
-
-typedef struct Scratch {
-    u8 pad0[4];
-    u16 in0;
-    u16 in1;
-    u16 in2;
-    u8 pad0A[0x12];
-    u8 *current;
-    u8 pad20[4];
-    u8 *table;
-    u8 pad28[0xA8];
-    u16 out0;
-    u16 padD2;
-    u16 out1;
-    u8 padD4[0x2A];
-    s32 index;
-} Scratch;
-
-typedef struct Packet {
-    u8 pad0[3];
-    u8 code;
-    union {
-        u32 link;
-        struct {
-            u8 r;
-            u8 g;
-            u8 b;
-            u8 command;
-        } color;
-    } data;
-} Packet;
-
-/* Projects a point and queues a semitransparent pixel and its drawing mode. */
-s32 func_80AEF12C(u8 *node_data, u16 *position)
+s32 func_8017092C(u8 *node_data, u16 *position)
 {
-    Scratch *scratch = (Scratch *)0x1F800000;
+    R10_8017092C_Scratch *scratch = (R10_8017092C_Scratch *)0x1F800000;
     void **global_state = ((void * *)(&gameWork));
     GpuContext *render_state = (GpuContext *)global_state[0];
-    Packet *first_packet = (Packet *)render_state->packetCursor;
-    Packet *packet;
-    Packet *mode_packet;
+    R10_8017092C_Packet *first_packet = (R10_8017092C_Packet *)render_state->packetCursor;
+    R10_8017092C_Packet *packet;
+    R10_8017092C_Packet *mode_packet;
     s32 depth_index;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
@@ -56,7 +16,7 @@ s32 func_80AEF12C(u8 *node_data, u16 *position)
     scratch->current = (u8 *)first_packet;
     for (;;) {
         scratch->in0 = position[1];
-        packet = (Packet *)scratch->current;
+        packet = (R10_8017092C_Packet *)scratch->current;
         scratch->in1 = position[3];
         scratch->in2 = position[5];
 
@@ -87,14 +47,14 @@ s32 func_80AEF12C(u8 *node_data, u16 *position)
                                     (((u32 *)scratch->table)[scratch->index] & length_mask) |
                                     ((u32)packet & addr_mask);
 
-            mode_packet = (Packet *)scratch->current;
+            mode_packet = (R10_8017092C_Packet *)scratch->current;
             scratch->current = (u8 *)mode_packet + 0xC;
             tpage = (u16)func_80066460(0, 1, 0, 0);
-            func_80067F20(mode_packet, 0, 0, tpage, 0);
+            func_80067F20(mode_packet, 0, 0,(u16)(tpage), 0);
 
             *(u32 *)mode_packet = (*(u32 *)mode_packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & addr_mask);
-            mode_packet = (Packet *)((u32)mode_packet & addr_mask);
+            mode_packet = (R10_8017092C_Packet *)((u32)mode_packet & addr_mask);
             ((u32 *)scratch->table)[scratch->index] =
                                     (((u32 *)scratch->table)[scratch->index] & length_mask) |
                                     (u32)mode_packet;

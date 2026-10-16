@@ -1,89 +1,16 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_191eef8.h"
 
-typedef s32 M2C_UNK;
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_UNALIGNED32(expr) (expr)
-
-typedef struct {
-    u32 word0;
-    u32 word4;
-    u32 word8;
-} __attribute__((packed)) Copy12;
-
-s32 func_8004491C();
-extern M2C_UNK D_80024750;
-extern Copy12 D_80025E64;
-
-
-typedef struct S_818FF5B8_0 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-    s32 unk_30;
-    void ** unk_34;
-} S_818FF5B8_0;   /* temp_v1 in func_818FF5B8 */
-
-typedef struct S_818FF5B8_1 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-} S_818FF5B8_1;   /* *arg0 in func_818FF5B8 */
-
-typedef struct S_818FF5B8_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818FF5B8_2;   /* temp_a3 in func_818FF5B8 */
-
-typedef struct S_818FF5B8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF5B8_3;   /* temp_v1_2 in func_818FF5B8 */
-
-typedef struct S_818FF5B8_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF5B8_4;   /* arg1 in func_818FF5B8 */
-
-typedef struct S_818FF5B8_5 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-} S_818FF5B8_5;   /* arg2 in func_818FF5B8 */
-
-/* Creates an owner-linked object with the supplied position and appearance. */
-void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appearance) {
-    S_818FF5B8_2 *sprite;
+void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
+    Row_818FF5B8_S_818FF5B8_2 *sprite;
     void *object;
-    S_818FF5B8_0 *state;
-    S_818FF5B8_3 *position;
+    Row_818FF5B8_S_818FF5B8_0 *state;
+    Row_818FF5B8_S_818FF5B8_3 *position;
 
     object = func_8003FC64(0x212);
     state = object + 0x20;
     if (object != NULL) {
         state->unk_2C = (void *) *owner_ref;
-        state->unk_30 = (s32) ((S_818FF5B8_1 *)(*owner_ref))->unk_60;
+        state->unk_30 = (s32) ((Row_818FF5B8_S_818FF5B8_1 *)(*owner_ref))->unk_60;
         state->unk_34 = owner_ref;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024750;
         func_8004491C(object, func_80045340);
@@ -102,7 +29,7 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
         sprite->unk_0D = (u8) appearance->unk_0D;
         sprite->unk_0E = (u8) appearance->unk_0E;
         sprite->unk_1A = (s16) (0x1000 - appearance->unk_1A);
-        *(Copy12 *)((u8 *)object + 0x40) = D_80025E64;
+        *(Row_818FF5B8_Copy12 *)((u8 *)object + 0x40) = D_80025E64;
         sprite->unk_08 = (void *) (object + 0x40);
     }
 }

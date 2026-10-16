@@ -1,0 +1,494 @@
+{
+  "method": "image-local j containment at 0x800 delta alignment, independently corroborated by callback head",
+  "image_file_start": 10047488,
+  "image_file_end": 10063872,
+  "delta": 2138945536,
+  "witnesses": [
+    {
+      "row": "func_809753B0",
+      "foff": 10048432,
+      "size": 504,
+      "jumps": [
+        {
+          "file": 10048624,
+          "target": 2148994196
+        },
+        {
+          "file": 10048664,
+          "target": 2148994304
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_809755A8",
+      "foff": 10048936,
+      "size": 1836,
+      "jumps": [
+        {
+          "file": 10049028,
+          "target": 2148996268
+        },
+        {
+          "file": 10049048,
+          "target": 2148996268
+        },
+        {
+          "file": 10049328,
+          "target": 2148994876
+        },
+        {
+          "file": 10049488,
+          "target": 2148995044
+        },
+        {
+          "file": 10049572,
+          "target": 2148995152
+        },
+        {
+          "file": 10049820,
+          "target": 2148995488
+        },
+        {
+          "file": 10050004,
+          "target": 2148996104
+        },
+        {
+          "file": 10050188,
+          "target": 2148996104
+        },
+        {
+          "file": 10050368,
+          "target": 2148996036
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80975CD4",
+      "foff": 10050772,
+      "size": 1348,
+      "jumps": [
+        {
+          "file": 10050840,
+          "target": 2148997624
+        },
+        {
+          "file": 10050956,
+          "target": 2148997624
+        },
+        {
+          "file": 10051036,
+          "target": 2148997624
+        },
+        {
+          "file": 10051132,
+          "target": 2148997624
+        },
+        {
+          "file": 10051412,
+          "target": 2148997624
+        },
+        {
+          "file": 10051772,
+          "target": 2148997624
+        },
+        {
+          "file": 10051856,
+          "target": 2148997624
+        },
+        {
+          "file": 10051896,
+          "target": 2148997624
+        },
+        {
+          "file": 10051924,
+          "target": 2148997624
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80976218",
+      "foff": 10052120,
+      "size": 540,
+      "jumps": [
+        {
+          "file": 10052352,
+          "target": 2148998064
+        },
+        {
+          "file": 10052580,
+          "target": 2148998160
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80976434",
+      "foff": 10052660,
+      "size": 1864,
+      "jumps": [
+        {
+          "file": 10052804,
+          "target": 2149000016
+        },
+        {
+          "file": 10052828,
+          "target": 2149000016
+        },
+        {
+          "file": 10052968,
+          "target": 2149000016
+        },
+        {
+          "file": 10053020,
+          "target": 2148999356
+        },
+        {
+          "file": 10053056,
+          "target": 2148999924
+        },
+        {
+          "file": 10053388,
+          "target": 2148999360
+        },
+        {
+          "file": 10053792,
+          "target": 2148999924
+        },
+        {
+          "file": 10053864,
+          "target": 2148999428
+        },
+        {
+          "file": 10054152,
+          "target": 2148999792
+        },
+        {
+          "file": 10054304,
+          "target": 2149000016
+        },
+        {
+          "file": 10054400,
+          "target": 2149000016
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80976E28",
+      "foff": 10055208,
+      "size": 324,
+      "jumps": [
+        {
+          "file": 10055340,
+          "target": 2149000980
+        },
+        {
+          "file": 10055360,
+          "target": 2149000980
+        },
+        {
+          "file": 10055380,
+          "target": 2149001036
+        },
+        {
+          "file": 10055404,
+          "target": 2149001036
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80977064",
+      "foff": 10055780,
+      "size": 484,
+      "jumps": [
+        {
+          "file": 10055908,
+          "target": 2149001560
+        },
+        {
+          "file": 10056028,
+          "target": 2149001776
+        },
+        {
+          "file": 10056144,
+          "target": 2149001776
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80977248",
+      "foff": 10056264,
+      "size": 2124,
+      "jumps": [
+        {
+          "file": 10056440,
+          "target": 2149002060
+        },
+        {
+          "file": 10056448,
+          "target": 2149002068
+        },
+        {
+          "file": 10056456,
+          "target": 2149002076
+        },
+        {
+          "file": 10056504,
+          "target": 2149002088
+        },
+        {
+          "file": 10056524,
+          "target": 2149002088
+        },
+        {
+          "file": 10056532,
+          "target": 2149002088
+        },
+        {
+          "file": 10056540,
+          "target": 2149002088
+        },
+        {
+          "file": 10056600,
+          "target": 2149002204
+        },
+        {
+          "file": 10056692,
+          "target": 2149002304
+        },
+        {
+          "file": 10056860,
+          "target": 2149003884
+        },
+        {
+          "file": 10056976,
+          "target": 2149003884
+        },
+        {
+          "file": 10057092,
+          "target": 2149003880
+        },
+        {
+          "file": 10057196,
+          "target": 2149003764
+        },
+        {
+          "file": 10057296,
+          "target": 2149003880
+        },
+        {
+          "file": 10057400,
+          "target": 2149003884
+        },
+        {
+          "file": 10057432,
+          "target": 2149003884
+        },
+        {
+          "file": 10057580,
+          "target": 2149003884
+        },
+        {
+          "file": 10057684,
+          "target": 2149003884
+        },
+        {
+          "file": 10057720,
+          "target": 2149003884
+        },
+        {
+          "file": 10057820,
+          "target": 2149003880
+        },
+        {
+          "file": 10057924,
+          "target": 2149003764
+        },
+        {
+          "file": 10058024,
+          "target": 2149003880
+        },
+        {
+          "file": 10058180,
+          "target": 2149003884
+        },
+        {
+          "file": 10058280,
+          "target": 2149003884
+        },
+        {
+          "file": 10058328,
+          "target": 2149003880
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80977A94",
+      "foff": 10058388,
+      "size": 724,
+      "jumps": [
+        {
+          "file": 10058460,
+          "target": 2149004616
+        },
+        {
+          "file": 10058480,
+          "target": 2149004616
+        },
+        {
+          "file": 10058636,
+          "target": 2149004616
+        },
+        {
+          "file": 10058748,
+          "target": 2149004316
+        },
+        {
+          "file": 10058848,
+          "target": 2149004616
+        },
+        {
+          "file": 10058868,
+          "target": 2149004616
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80977E0C",
+      "foff": 10059276,
+      "size": 1184,
+      "jumps": [
+        {
+          "file": 10059472,
+          "target": 2149005824
+        },
+        {
+          "file": 10059496,
+          "target": 2149005760
+        },
+        {
+          "file": 10059540,
+          "target": 2149005760
+        },
+        {
+          "file": 10059688,
+          "target": 2149005960
+        },
+        {
+          "file": 10059752,
+          "target": 2149005960
+        },
+        {
+          "file": 10059832,
+          "target": 2149005960
+        },
+        {
+          "file": 10060176,
+          "target": 2149005960
+        },
+        {
+          "file": 10060288,
+          "target": 2149005960
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_809782AC",
+      "foff": 10060460,
+      "size": 852,
+      "jumps": [
+        {
+          "file": 10060536,
+          "target": 2149006812
+        },
+        {
+          "file": 10060556,
+          "target": 2149006812
+        },
+        {
+          "file": 10060660,
+          "target": 2149006724
+        },
+        {
+          "file": 10060776,
+          "target": 2149006724
+        },
+        {
+          "file": 10060908,
+          "target": 2149006812
+        },
+        {
+          "file": 10060988,
+          "target": 2149006812
+        },
+        {
+          "file": 10061200,
+          "target": 2149006812
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    },
+    {
+      "row": "func_80978600",
+      "foff": 10061312,
+      "size": 356,
+      "jumps": [
+        {
+          "file": 10061388,
+          "target": 2149006964
+        },
+        {
+          "file": 10061532,
+          "target": 2149007172
+        }
+      ],
+      "aligned_delta_candidates": [
+        2138945536
+      ]
+    }
+  ],
+  "header_entry_hits": [
+    {
+      "file": 10047488,
+      "vma": 2148993968,
+      "foff": 10048432
+    },
+    {
+      "file": 10047492,
+      "vma": 2148994472,
+      "foff": 10048936
+    }
+  ],
+  "header_sha256": "50ebf4e243c70984733ced8ac5fc5cbff7b43521d11bdd7853561d58dec00220",
+  "basis": "Static on-disc image membership. Callback head and contiguous split roster tie the position-independent leading members to the following j-bearing code. No RAM observation; byte equality alone does not establish a base."
+}

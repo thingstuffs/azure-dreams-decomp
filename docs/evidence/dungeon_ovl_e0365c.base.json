@@ -1,0 +1,284 @@
+{
+  "module": "dungeon_ovl_e0365c",
+  "delta": 2134300672,
+  "image_start": 14692352,
+  "image_end": 14716928,
+  "static_only": true,
+  "witnesses": [
+    {
+      "row": "func_80DE365C",
+      "foff": 14693980,
+      "size": 1476,
+      "jumps": [
+        {
+          "file": 14694052,
+          "target": 2148996092
+        },
+        {
+          "file": 14694112,
+          "target": 2148996040
+        },
+        {
+          "file": 14694192,
+          "target": 2148996092
+        },
+        {
+          "file": 14694288,
+          "target": 2148996092
+        },
+        {
+          "file": 14694496,
+          "target": 2148996092
+        },
+        {
+          "file": 14694856,
+          "target": 2148996092
+        },
+        {
+          "file": 14694980,
+          "target": 2148996092
+        },
+        {
+          "file": 14695064,
+          "target": 2148996092
+        },
+        {
+          "file": 14695108,
+          "target": 2148996092
+        },
+        {
+          "file": 14695136,
+          "target": 2148996092
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE4CE8",
+      "foff": 14699752,
+      "size": 872,
+      "jumps": [
+        {
+          "file": 14699824,
+          "target": 2149001008
+        },
+        {
+          "file": 14699840,
+          "target": 2149001008
+        },
+        {
+          "file": 14700480,
+          "target": 2149001224
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE50B4",
+      "foff": 14700724,
+      "size": 420,
+      "jumps": [
+        {
+          "file": 14700788,
+          "target": 2149001788
+        },
+        {
+          "file": 14700808,
+          "target": 2149001788
+        },
+        {
+          "file": 14700872,
+          "target": 2149001788
+        },
+        {
+          "file": 14700904,
+          "target": 2149001788
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE56D0",
+      "foff": 14702288,
+      "size": 748,
+      "jumps": [
+        {
+          "file": 14702360,
+          "target": 2149003676
+        },
+        {
+          "file": 14702380,
+          "target": 2149003676
+        },
+        {
+          "file": 14702524,
+          "target": 2149003676
+        },
+        {
+          "file": 14702636,
+          "target": 2149003340
+        },
+        {
+          "file": 14702712,
+          "target": 2149003676
+        },
+        {
+          "file": 14702916,
+          "target": 2149003676
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE5A54",
+      "foff": 14703188,
+      "size": 808,
+      "jumps": [
+        {
+          "file": 14703256,
+          "target": 2149004632
+        },
+        {
+          "file": 14703376,
+          "target": 2149004632
+        },
+        {
+          "file": 14703520,
+          "target": 2149004632
+        },
+        {
+          "file": 14703584,
+          "target": 2149004632
+        },
+        {
+          "file": 14703640,
+          "target": 2149004632
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE5D7C",
+      "foff": 14703996,
+      "size": 608,
+      "jumps": [
+        {
+          "file": 14704060,
+          "target": 2149005244
+        },
+        {
+          "file": 14704176,
+          "target": 2149005244
+        },
+        {
+          "file": 14704320,
+          "target": 2149005244
+        },
+        {
+          "file": 14704376,
+          "target": 2149005244
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE6220",
+      "foff": 14705184,
+      "size": 704,
+      "jumps": [
+        {
+          "file": 14705264,
+          "target": 2149006520
+        },
+        {
+          "file": 14705284,
+          "target": 2149006520
+        },
+        {
+          "file": 14705320,
+          "target": 2149006520
+        },
+        {
+          "file": 14705448,
+          "target": 2149006520
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    },
+    {
+      "row": "func_80DE64E0",
+      "foff": 14705888,
+      "size": 360,
+      "jumps": [
+        {
+          "file": 14705960,
+          "target": 2149006888
+        },
+        {
+          "file": 14705980,
+          "target": 2149006888
+        },
+        {
+          "file": 14706016,
+          "target": 2149006888
+        },
+        {
+          "file": 14706128,
+          "target": 2149006888
+        }
+      ],
+      "aligned_delta_candidates": [
+        2134300672
+      ]
+    }
+  ],
+  "basis": "Leading assigned rows belong to the on-disc callback/switch-head image; the following local-j-bearing routines independently solve the delta under the existing 0x800-aligned image-base law. Position-independent recompiles are not base evidence.",
+  "method": "same-image local-j solve",
+  "header_entry_hits": [],
+  "members": [
+    {
+      "id": "dungeon/func_80DE365C",
+      "foff": 14693980,
+      "size": 1476
+    },
+    {
+      "id": "dungeon/func_80DE48EC",
+      "foff": 14698732,
+      "size": 640
+    },
+    {
+      "id": "dungeon/func_80DE678C",
+      "foff": 14706572,
+      "size": 248
+    },
+    {
+      "id": "dungeon/func_80DE6884",
+      "foff": 14706820,
+      "size": 464
+    },
+    {
+      "id": "dungeon/func_80DE6A54",
+      "foff": 14707284,
+      "size": 88
+    },
+    {
+      "id": "dungeon/func_80DE6AAC",
+      "foff": 14707372,
+      "size": 436
+    }
+  ]
+}

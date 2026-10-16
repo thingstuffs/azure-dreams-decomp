@@ -1,66 +1,14 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_18c4828.h"
 
-s32 func_8004491C();           /* extern */
-s32 rand();                                /* extern */
-extern u8 D_80024674[];
-extern u8 D_80025214[];
-
-typedef struct S_818A4ED0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xC];
-    s32 unk_20;
-} S_818A4ED0_0;   /* temp_v0 in func_818A4ED0 */
-
-typedef struct S_818A4ED0_1 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818A4ED0_1;   /* temp_s0 in func_818A4ED0 */
-
-typedef struct S_818A4ED0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818A4ED0_2;   /* temp_s0_2 in func_818A4ED0 */
-
-typedef struct S_818A4ED0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_818A4ED0_3;   /* arg1 in func_818A4ED0 */
-
-/* Creates an object at the supplied position with a randomized rotation. */
-s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
+s32 func_800246D0(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
     s32 rotation_rng;
-    S_818A4ED0_1 *render_state;
-    S_818A4ED0_2 *position;
-    S_818A4ED0_0 *object;
+    Row_818A4ED0_S_818A4ED0_1 *render_state;
+    Row_818A4ED0_S_818A4ED0_2 *position;
+    Row_818A4ED0_S_818A4ED0_0 *object;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
-        object->unk_10 = D_80024674;
+        object->unk_10 = func_80024674;
         object->unk_20 = object_param;
         render_state = object->unk_0C;
         render_state->unk_08 = D_80025214;

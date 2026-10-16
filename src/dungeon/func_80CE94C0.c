@@ -1,49 +1,4 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "records/Rec_D_80082E80.h"
-#include "records/Rec_func_80172CC0_arg0.h"
-
-typedef struct S_80172CC0_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1C];
-    u8 unk_48;
-    u8 pad_49[0x28];
-    union { s8 s; u8 u; } unk_71;   /* accessed as both */
-    u8 pad_72[0x18];
-    union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80172CC0_0;   /* state in func_80172CC0 */
-
-
-typedef struct S_80172CC0_2 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80172CC0_2;   /* entry in func_80172CC0 */
-
-
-typedef struct S_80172CC0_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80172CC0_4;   /* (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s in func_80172CC0 */
-
-
-extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern s32 func_80173678();
-
-extern s32 D_80175DC4;
-extern s32 D_80175DCC;
-extern s32 D_80175DD4;
+#include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Advances the actor along its stored path and updates its movement state. */
 void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_state)
@@ -61,15 +16,15 @@ void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_stat
     u8 *current_table;
     u8 *path_entry;
 
-    if (((S_80172CC0_0 *)state)->unk_71.s <= 0) {
+    if (((T_80172CC0_S_80172CC0_0 *)state)->unk_71.s <= 0) {
         return;
     }
-    path_length = ((S_80172CC0_0 *)state)->unk_71.u;
-    if (!(((S_80172CC0_0 *)state)->unk_8A.s < path_length)) {
+    path_length = ((T_80172CC0_S_80172CC0_0 *)state)->unk_71.u;
+    if (!(((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s < path_length)) {
         return;
     }
 
-    move_kind = ((S_80172CC0_0 *)state)->unk_48;
+    move_kind = ((T_80172CC0_S_80172CC0_0 *)state)->unk_48;
     switch (move_kind) {
     case 0xD:
         current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
@@ -89,7 +44,7 @@ void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_stat
     if (current_table != direction_table) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
         direction_addr =
-            ((gameWork.view.viewAngle + ((S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+            ((gameWork.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_addr += (unsigned long)direction_table;
         func_80047784(actor, *(u8 *)direction_addr, 0);
     }
@@ -98,36 +53,36 @@ setup:
     cell_flags = 0x3000;
     x = ((Rec_D_80082E80 *)actor)->unk_24;
     y = ((Rec_D_80082E80 *)actor)->unk_25;
-    if (((S_80172CC0_0 *)state)->unk_1C & 0x2000) {
+    if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
         cell_flags = 0x300;
     }
     func_8009A3D0(x, y, cell_flags);
 
     heading = func_800A0818(x, y,
-        ((S_80172CC0_4 *)((u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s))->unk_74,
-        ((S_80172CC0_4 *)((u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s))->unk_7C,
+        ((T_80172CC0_S_80172CC0_4 *)((u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s))->unk_74,
+        ((T_80172CC0_S_80172CC0_4 *)((u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)movement + 0x98);
     move_result = (s16)func_8009A66C(heading, actor, state, 0x20);
 
-    path_entry = (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s;
-    ((Rec_D_80082E80 *)actor)->unk_24 = ((S_80172CC0_2 *)path_entry)->unk_74;
+    path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
+    ((Rec_D_80082E80 *)actor)->unk_24 = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_74;
     cell_flags = 0x3000;
-    path_entry = (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s;
+    path_entry = (u8 *)state + ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.s;
     do {
     } while (0);
-    ((Rec_D_80082E80 *)actor)->unk_25 = ((S_80172CC0_2 *)path_entry)->unk_7C;
-    ((S_80172CC0_0 *)state)->unk_8A.u++;
+    ((Rec_D_80082E80 *)actor)->unk_25 = ((T_80172CC0_S_80172CC0_2 *)path_entry)->unk_7C;
+    ((T_80172CC0_S_80172CC0_0 *)state)->unk_8A.u++;
     {
         s32 next_x = ((Rec_D_80082E80 *)actor)->unk_24;
         s32 next_y = ((Rec_D_80082E80 *)actor)->unk_25;
 
-        if (((S_80172CC0_0 *)state)->unk_1C & 0x2000) {
+        if (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C & 0x2000) {
             cell_flags = 0x300;
         }
         func_8009A21C(next_x, next_y, cell_flags);
     }
 
-    ((S_80172CC0_0 *)state)->unk_2A = heading;
+    ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A = heading;
     if (move_result == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
         func_80173678(movement, actor_index, actor, state);
         ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
@@ -142,7 +97,7 @@ setup:
     }
 
     ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 8;
-    x = ((S_80172CC0_0 *)state)->unk_71.u;
+    x = ((T_80172CC0_S_80172CC0_0 *)state)->unk_71.u;
     if (x > 0) {
         ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 8 / x;
     }

@@ -1,9 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_7e711800.h"
 
-extern s16 D_800259AC;
-
-/* Subtracts 12 from the object counter and sets flags when it reaches zero. */
 void func_80024B6C(void *object)
 {
     u8 *object_bytes = object;

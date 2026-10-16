@@ -11,11 +11,11 @@ typedef struct S_80D65534_0 {
         struct { u8 pad[0x2]; u16 v; } at02;
         struct { u8 pad[0x2]; s16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_80D65534_0;   /* arg1 in func_80D65534 */
+} S_80D65534_0;   /* arg1 in func_80170D34 */
 
 typedef struct S_80D65534_1_pre {
     u16 unk_00;
-} S_80D65534_1_pre;   /* the 0x2 bytes before arg0 in func_80D65534, addressed as arg0[-1] */
+} S_80D65534_1_pre;   /* the 0x2 bytes before arg0 in func_80170D34, addressed as arg0[-1] */
 
 typedef struct S_80D65534_1 {
     u8 pad_00[0x2];
@@ -32,7 +32,7 @@ typedef struct S_80D65534_1 {
     s32 unk_38;
     s32 unk_3C;
     s32 unk_40;
-} S_80D65534_1;   /* arg0 in func_80D65534 */
+} S_80D65534_1;   /* arg0 in func_80170D34 */
 
 
 extern void func_800478B8(void *entity);
@@ -40,7 +40,7 @@ extern s32 func_800A45D8(u16 x, u16 y, s16 z);
 extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
-void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
+void func_80170D34(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
 {
     s16 life_left;
     s32 current_z;

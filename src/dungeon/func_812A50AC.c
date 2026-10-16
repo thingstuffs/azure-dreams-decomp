@@ -1,60 +1,6 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
+#include "modules/dungeon_ovl_12c50ac.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-typedef struct {
-    u8 pad0[2];
-    s16 field2;
-    u8 pad4[2];
-    s16 field6;
-    u8 pad8[2];
-    u16 fieldA;
-    u8 padC[0x18];
-    u8 field24;
-    u8 field25;
-    u8 pad26[6];
-    void *field2C;
-} Func812A5000Child;
-
-typedef struct {
-    u8 pad0[8];
-    Func812A5000Child *child1;
-    Func812A5000Child *child0;
-    void *field10;
-} Func812A5000Parent;
-
-typedef struct {
-    u8 pad0[0x13];
-    u8 field13;
-    u32 field14;
-    u8 pad18[4];
-    u32 field1C;
-    u8 pad20[0xA];
-    s16 field2A;
-    u8 pad2C[0x60];
-    void *field8C;
-    u8 pad90[2];
-    s16 field92;
-    u8 pad94[6];
-    u8 field9A;
-    u8 pad9B;
-    s8 field9C;
-} Func812A5000Entity;
-
-extern u8 D_80175C30[];
-extern u8 D_80171FA4[];
-void *func_8003FD64();                 /* extern */
-s32 func_8004491C();                /* extern */
-void func_800A9C18(); /* extern */
-s32 func_800AA36C(); /* extern */
-s32 func_800F6D28();                          /* extern */
-extern void *D_800FBE1C[];
-extern u8 D_80170A4C[];
-
-/* Creates and initializes an entity at the center of the specified tile. */
-void *func_812A50AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
+void *func_801708AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
     Func812A5000Child *tile_state;
     Func812A5000Child *position;
@@ -67,7 +13,7 @@ void *func_812A50AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
             D_800FBE1C[0] = parent;
         }
         entity = (Func812A5000Entity *)((u8 *)parent + 0x20);
-        parent->field10 = D_80170A4C;
+        parent->field10 = func_80170A4C;
         entity->field13 = 0x39;
         func_8004491C(parent, func_80045340);
         tile_state = parent->child0;

@@ -1,60 +1,7 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
+#include "modules/dungeon_resource17_slot0.h"
 
-typedef struct S_func_80C17E14_0 {
-    u8 pad_00[0x96];
-    union {
-        u8 unk_00_u8;
-        u16 unk_00_u16;
-    } unk_96;
-    u16 unk_98;
-    u8 pad_9A[1];
-    u8 unk_9B;
-} S_func_80C17E14_0;
-
-typedef struct S_func_80C17E14_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_func_80C17E14_1;
-
-typedef struct S_func_80C17E14_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[1];
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_func_80C17E14_2;
-
-typedef struct S_func_80C17E14_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[4];
-    u32 unk_1C;
-    u8 pad_20[0x4A];
-    u16 unk_6A;
-} S_func_80C17E14_3;
-
-void func_8009A028();
-void func_8009A3D0();
-void func_800A2FE0();
-s32 func_800A32A4();
-s32 func_800A56E0();
-extern void func_800ACF88(void *);
-
-
-/* Advances an entity removal animation, fading its sprite before cleanup. */
-void func_80173614(S_func_80C17E14_0 *action, S_func_80C17E14_1 *motion, S_func_80C17E14_2 *sprite,
-    S_func_80C17E14_3 *entity) {
+void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_80C17E14_1 *motion, R17_80173614_S_func_80C17E14_2 *sprite,
+    R17_80173614_S_func_80C17E14_3 *entity) {
     s32 direction_offset;
     s32 offset_x;
     s32 offset_y;

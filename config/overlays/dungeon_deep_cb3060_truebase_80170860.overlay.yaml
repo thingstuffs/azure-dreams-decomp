@@ -1,3 +1,5 @@
+# r121m W4D-1: include the complete typed head and two recovered tail callbacks.
+# Native cohort CB3000..CB7AAC; historical window name retained.
 # Standalone overlay-local gate for a statically base-proven DUNGEON
 # per-floor overlay IMAGE.  vram_start is the image's TRUE link base, not
 # the container's synthetic naming base -- hence the _truebase_ name marker
@@ -31,13 +33,13 @@ standalone_build:
     out_dir: work/s3_splat/extract
     container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
   window:
-    file_start: 0xCB3060
-    file_end: 0xCB7A3C
-    vram_start: 0x80170860
+    file_start: 0xCB3000
+    file_end: 0xCB7AAC
+    vram_start: 0x80170800
     # Stated again as true_vram_start so every consumer that keys on that
     # field (tools/campaign_sentinels.py, tools/test_tool_contracts.py)
     # reads the same proven runtime base as vram_start.
-    true_vram_start: 0x80170860
+    true_vram_start: 0x80170800
     base_confidence: jump-implied
   split_results: overlays/dungeon/overlay_first_pass_results.json
   matched_sources:

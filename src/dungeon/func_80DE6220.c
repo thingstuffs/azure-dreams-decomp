@@ -1,48 +1,5 @@
-#include "common.h"
-#include "shared/object_flags.h"
-#include "shared/dungeon_status.h"
-#include "shared/dir_step.h"
-#include "records/Rec_func_80173204_arg0.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_ovl_e0365c.h"
 
-
-typedef struct S_80173A20_2 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_80173A20_2;   /* shadow in func_80173A20 */
-
-typedef struct S_80173A20_3 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0xA];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x5C];
-    union { u16 s; s16 u; } unk_88;   /* accessed as both */
-} S_80173A20_3;   /* creature in func_80173A20 */
-
-typedef struct S_80173A20_4 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-    u8 unk_29;
-} S_80173A20_4;   /* object in func_80173A20 */
-
-
-extern void func_80042640(void *, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A56E0(s32);
-extern s32 func_800A6D30(void);
-extern void func_800AD594(void *, s32);
-extern s16 func_800BCB04(s32, s32, s16);
-extern void *func_800D3F74(s32, s16, s16, s16);
-extern void func_80174084(void *, void *, void *);
-extern void *func_801742AC(void *, void *, void *);
-extern void func_80174460(void *);
-
-extern u8 D_80170E5C[];
-
-/* Advance the actor state and spawn an adjacent object when entity flags allow. */
 void func_80173A20(void *actor, void *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
@@ -93,11 +50,11 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         }
 
         shadow = ((Rec_func_80173204_arg0 *)actor)->unk_A4;
-        ((S_80173A20_2 *)shadow)->unk_1E |= 0x8000;
+        ((E_80173A20_S_80173A20_2 *)shadow)->unk_1E |= 0x8000;
 
         global_flags = objectFlagBlock.flags;
-        direction_bits = ((S_80173A20_3 *)creature)->unk_2A >> 8;
-        creature_height = ((S_80173A20_3 *)creature)->unk_88.s;
+        direction_bits = ((E_80173A20_S_80173A20_3 *)creature)->unk_2A >> 8;
+        creature_height = ((E_80173A20_S_80173A20_3 *)creature)->unk_88.s;
         objectFlagBlock.flags = global_flags | 0x8000;
 
         x_offsets = (u8 *)((s8 *)dirStepX);
@@ -109,11 +66,11 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
             ((((Rec_D_80082E80 *)entity)->unk_25 + *y_offset) << 6) & 0xFFC0,
             (s16)(creature_height - 0x20));
 
-        if (((S_80173A20_3 *)creature)->unk_88.u < spawn_height) {
-            spawn_height = ((S_80173A20_3 *)creature)->unk_88.s;
+        if (((E_80173A20_S_80173A20_3 *)creature)->unk_88.u < spawn_height) {
+            spawn_height = ((E_80173A20_S_80173A20_3 *)creature)->unk_88.s;
         }
 
-        object_flag = ((S_80173A20_3 *)creature)->unk_1C & 0x2000;
+        object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & 0x2000;
         object = func_800D3F74(
             object_flag != 0,
             (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*x_offset),
@@ -121,19 +78,19 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
             spawn_height);
         func_80042640(object, 0x36);
 
-        value_bonus = (((S_80173A20_3 *)creature)->unk_11 * 2) + (func_800A6D30() & 3);
-        value_total = ((S_80173A20_4 *)object)->unk_29 + value_bonus;
+        value_bonus = (((E_80173A20_S_80173A20_3 *)creature)->unk_11 * 2) + (func_800A6D30() & 3);
+        value_total = ((E_80173A20_S_80173A20_4 *)object)->unk_29 + value_bonus;
         object_value = value_total;
         if (value_total >= 0x100) {
             object_value = 0xFF;
         }
-        ((S_80173A20_4 *)object)->unk_28 = object_value;
-        ((S_80173A20_4 *)object)->unk_29 = object_value;
+        ((E_80173A20_S_80173A20_4 *)object)->unk_28 = object_value;
+        ((E_80173A20_S_80173A20_4 *)object)->unk_29 = object_value;
 
         func_800AD594(creature, 0x400);
         func_800A2B04(context, ((Rec_D_80082E80 *)entity)->unk_24,
                       ((Rec_D_80082E80 *)entity)->unk_25);
-        ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = D_80170E5C;
+        ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = func_80170E5C;
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;
         return;

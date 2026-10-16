@@ -1,0 +1,47 @@
+{
+  "module": "dungeon_ovl_7e71d800",
+  "maps": {
+    "native_bank_row_1906800_80024000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 26241024,
+      "file_end": 26242968,
+      "delta": 2121390080,
+      "basis": "Authenticated selector load receipt; externally referenced data view only.",
+      "kind": "rowbase",
+      "region": "row_1906800_80024000"
+    }
+  },
+  "views": {
+    "D_80024004": {
+      "symbol": "D_80024004",
+      "kind": "data",
+      "vma": 2147631108,
+      "foff": 26241028,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank_row_1906800_80024000",
+      "evidence": "docs/evidence/dungeon_ovl_7e71d800.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7e71d800.imports.json",
+      "declaration": "include/shared/object_flags.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_7e71d800.imports.json",
+      "declaration": "include/shared/game_work.h"
+    }
+  }
+}

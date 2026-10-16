@@ -1,86 +1,9 @@
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_cb3000.h"
 
-typedef struct {
-    u8 pad0[2];
-    u16 x;
-    u8 pad4[2];
-    u16 y;
-    u8 pad8[2];
-    u16 z;
-} CopyFields;
-
-typedef struct {
-    u8 pad0[0xC];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 padF;
-    s16 field10;
-    u8 pad12[2];
-    u16 field14;
-    u8 pad16[6];
-    s16 field1C;
-    s16 field1E;
-} Part;
-
-typedef struct {
-    u8 pad0[8];
-    CopyFields *copy;
-    Part *part;
-    u8 pad10[0x50];
-    s32 field60;
-} Object;
-
-extern void func_8004491C(Object *, void *);
-
-#ifdef __mips__
-extern void func_80170A5C(void);
-extern void func_80170C24(void);
-extern void func_80171410(void);
-extern void func_8017143C(void);
-extern void func_801713BC(void);
-extern void func_80171384(void);
-extern void func_80171400(void);
-extern void func_80172CF0(void);
-extern void func_80172CE8(void);
-extern void func_80172CE0(void);
-extern void func_80172CF8(void);
-extern void func_80172CA0(void);
-extern void func_80172C98(void);
-extern void func_80172C90(void);
-extern void func_80174D74(void);
-extern void func_80174D80(void);
-extern void func_80174DB4(void);
-extern void func_80174EA4(void);
-extern void func_80174F78(void);
-extern void func_80175084(void);
-extern void func_801750B8(void);
-extern void func_80175138(void);
-extern void func_801751C0(void);
-
-static void (*const bank_table[])(void)
-__attribute__((section(".text.func_80C93000"))) = {
-    func_80170A5C, func_80170C24, func_80171410, func_80171410,
-    func_80171410, func_8017143C, func_801713BC, func_801713BC,
-    func_801713BC, func_80171384, func_80171384, func_8017143C,
-    func_8017143C, func_80171400, func_80172CF0, func_80172CE8,
-    func_80172CE0, func_80172CF8, func_80172CA0, func_80172C98,
-    func_80172C90, 0, func_80174D74, func_80174D80,
-    func_80174DB4, func_80174EA4, func_80174F78, func_80175084,
-    func_801750B8, func_80175138, func_801751C0,
-};
-
-#define BODY_NAME func_80C93000
-#else
-#define BODY_NAME func_80C93000
-#endif
-
-/* Initialize object part defaults and copy the supplied coordinates. */
-void BODY_NAME(Object *object, s32 field60_value, CopyFields *source_coords)
+void func_8017087C(CB_8017087C_Object *object, s32 field60_value, CB_8017087C_CopyFields *source_coords)
 {
-    Part *part;
-    CopyFields *copy;
+    CB_8017087C_Part *part;
+    CB_8017087C_CopyFields *copy;
 
     object->field60 = field60_value;
     func_8004491C(object, func_80045340);

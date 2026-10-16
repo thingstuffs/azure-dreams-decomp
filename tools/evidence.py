@@ -13,6 +13,7 @@ Commands:
   import --adrando-constants F --knowledge-dir D   one-time import (paths on the command line; nothing standing)
   build                                            (re)derive ledger/evidence/{assertions.jsonl,dev_identifiers.json,
                                                    vm_tables.json,rows.jsonl} from the in-tree sources
+  assertions [--only ID,ID]                         refresh assertion evidence without scanning unrelated C sources
   show <row-id>                                    print the evidence block a lane receives for one row
   census                                           coverage table (markdown) for STATUS.md
   symbols                                          write docs/SYMBOLS.md, the human-readable catalogue
@@ -329,19 +330,21 @@ def cmd_import(a):
             (kd / p.name).write_text(s); n += 1
         print(f"knowledge: {n} files with doc/globals/calls")
 
-def build():
-    EV.mkdir(parents=True, exist_ok=True)
-    rs = rows(); by_id = {r["id"]: r for r in rs}
+def assertion_evidence(rs, sites):
+    """Derive assertion ownership from audited CSV entries, never nearest-row guesses.
+
+    A stack allocation need not be the entry: scheduled flag loads can precede it.
+    tools/assertion_boundaries.py checks the eight audited tobjs.c corrections.
+    """
+    by_id = {r["id"]: r for r in rs}
     by_foff = {(r["container"], r["foff"]): r for r in rs if r.get("foff") is not None}
     by_true = defaultdict(list)
     for r in rs:
         if r.get("true_name"): by_true[(r["container"], r["true_name"])].append(r)
-    names = _names(); idx = _addr_index(rs)
     per = defaultdict(lambda: {"assert_sites": [], "identifiers": [], "knowledge": [], "adrando": [], "data": [], "vm": [], "name": [], "script_function": []})
-    # 1. assertion sites -> rows (by container+foff for the representative copy, by true_name for retired duplicates)
     asserts, unowned = [], []
-    if CSV.exists():
-        for s in csv.DictReader(CSV.open()):
+    if sites is not None:
+        for s in sites:
             cont = CONT[s["container"]]; foff = int(s["containing_func_foff"], 16)
             site = {"source_file": s["source_file"] or None, "line": int(s["line"]) if s["line"] else None, "kind": s["kind"],
                     "expression": s["expression_or_null"] or None, "distinct_id": s["distinct_id"], "site_vram": s["site_vram"],
@@ -373,6 +376,61 @@ def build():
             for x in exprs:
                 meta = IDENTIFIERS.get(x)
                 per[rid]["identifiers"].append({"text": x, "file": meta[0] if meta else None, "meaning": meta[1] if meta else None})
+    asserts.sort(key=lambda x: (x["container"], x["func"]))
+    return asserts, unowned, per
+
+
+def refresh_assertions(only=None):
+    """Refresh only assertion-derived evidence; do not rescan unrelated sources."""
+    rs = rows(); by_id = {r["id"]: r for r in rs}
+    with CSV.open() as f:
+        asserts, unowned, per = assertion_evidence(rs, list(csv.DictReader(f)))
+    if only is not None:
+        only = set(only)
+        unknown = only - set(by_id)
+        if unknown:
+            raise ValueError(f"unknown assertion row ids: {sorted(unknown)}")
+        asserts = [e for e in read_jsonl(EV / "assertions.jsonl") if e["id"] not in only] + [e for e in asserts if e["id"] in only]
+        asserts.sort(key=lambda x: (x["container"], x["func"]))
+    write_jsonl(EV / "assertions.jsonl", asserts)
+    (EV / "assertions_unowned.json").write_text(json.dumps(unowned, indent=1) + "\n")
+    old = {e["id"]: e for e in read_jsonl(EV / "rows.jsonl")}
+    result = []
+    for rid in sorted(set(old) | set(per)):
+        if only is not None and rid not in only:
+            if rid in old: result.append(old[rid])
+            continue
+        r = by_id[rid]; e = old.get(rid)
+        if e is None:
+            e = {"id": rid, "container": r["container"], "size": r["size"], "func": r["func"],
+                 "true_name": r.get("true_name"), **{k: [] for k in
+                 ("assert_sites", "identifiers", "knowledge", "adrando", "data", "vm", "name", "script_function")}}
+        sites = per[rid]["assert_sites"]
+        e["assert_sites"] = [s for s in sites if s.get("own_copy")] or sites[:1]
+        e["assert_copies"] = len(sites)
+        e["identifiers"] = per[rid]["identifiers"]
+        if any(e.get(k) for k in ("assert_sites", "identifiers", "knowledge", "adrando", "data", "vm", "name", "script_function")):
+            result.append(e)
+    result.sort(key=lambda x: (x["container"], x["func"] or x["id"]))
+    write_jsonl(EV / "rows.jsonl", result)
+    p = EV / "dev_identifiers.json"
+    if p.exists():
+        dev = json.loads(p.read_text())
+        for item in dev["identifiers"]:
+            item["rows"] = sorted(e["id"] for e in result if any(i["text"] == item["text"] for i in e["identifiers"]))
+        p.write_text(json.dumps(dev, indent=1) + "\n")
+    print(f"assertions: {len(asserts)} rows carry {sum(a['copies'] for a in asserts)} site copies; {len(unowned)} unowned")
+
+
+def build():
+    EV.mkdir(parents=True, exist_ok=True)
+    rs = rows(); by_id = {r["id"]: r for r in rs}
+    names = _names(); idx = _addr_index(rs)
+    if CSV.exists():
+        with CSV.open() as f:
+            asserts, unowned, per = assertion_evidence(rs, list(csv.DictReader(f)))
+    else:
+        asserts, unowned, per = assertion_evidence(rs, [])
     asserts.sort(key=lambda x: (x["container"], x["func"]))
     write_jsonl(EV / "assertions.jsonl", asserts)
     (EV / "assertions_unowned.json").write_text(json.dumps(unowned, indent=1) + "\n")
@@ -803,10 +861,12 @@ Examples: """ + ", ".join(f"`{n}`={v}" for v, n in F[:10]) + " ...\n")
 def main():
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
     i = sub.add_parser("import"); i.add_argument("--adrando-constants"); i.add_argument("--knowledge-dir"); i.add_argument("--town-bin", help="TOWN.BIN container: parse the script symbol dump + FNO dispatch table")
-    sub.add_parser("build"); s = sub.add_parser("show"); s.add_argument("row"); sub.add_parser("census"); sub.add_parser("symbols")
+    sub.add_parser("build"); ass = sub.add_parser("assertions"); ass.add_argument("--only", help="comma-separated row ids; preserve all other row evidence")
+    s = sub.add_parser("show"); s.add_argument("row"); sub.add_parser("census"); sub.add_parser("symbols")
     a = ap.parse_args()
     if a.cmd == "import": cmd_import(a)
     elif a.cmd == "build": build()
+    elif a.cmd == "assertions": refresh_assertions(a.only.split(",") if a.only else None)
     elif a.cmd == "show": print(prompt_block(a.row) or f"(no evidence for {a.row})")
     elif a.cmd == "census": print(census())
     elif a.cmd == "symbols":

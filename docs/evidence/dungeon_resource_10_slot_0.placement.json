@@ -1,0 +1,49 @@
+{
+  "resource_id": 10,
+  "slot": 0,
+  "lba": 17972,
+  "destination": 2148993024,
+  "file_start": 11595776,
+  "file_end": 11620352,
+  "delta": 2137397248,
+  "sectors": 12,
+  "status": "PROVEN_STATIC_TRANSFER",
+  "runtime_observed": false,
+  "loader_receipt": "docs/evidence/dungeon_normal_resource_loader.json",
+  "loader_receipt_sha256": "363507fb11e119d2f1abfb0dbae4c7d7ea63f39d61cbb5fecdeb1e39b78f3a87",
+  "disc_container_equal": true,
+  "all_sector_payloads_equal": true,
+  "loaded_bank_sha256": "cfde81668c239ef6daf44813974b57a668bc20a58f3030ef8adc1f2fbaaff34e",
+  "previous_regions": [
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "carve_b0f000_80170800",
+      "foff_start": "0xB0F000",
+      "foff_end": "0xB0F30C",
+      "delta": "0x7F661800",
+      "base_confidence": "proven",
+      "proof": "bounded row-local carve 2026-08-28: 75-word data bank [0xB0F000,0xB0F12C) is followed by an addiu sp,sp,-0x38 entry at 0xB0F12C; the sole body j at 0xB0F2CC maps to 0x80170984 and is contained in derived true code span [0x8017092C,0x80170B0C) under the adjacent proven img0077 K=0x7F661800. Mapping is conditional/scoring-only until a byte-exact recompile; no true symbol is minted.; PROMOTED solved->proven: byte-exact recompile func_80AEF12C at true base 0x8017092C (candidate sha d77dfd8e89d7 @ 2.7.2-cdk-G0 -fno-cse-skip-blocks, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "sweep_0B0F904",
+      "foff_start": "0xB0F904",
+      "foff_end": "0xB14110",
+      "delta": "0x7F661800",
+      "base_confidence": "proven",
+      "proof": "j-solve sweep 2026-07-19 (decision C): unique 0x800-aligned delta with full j-consistency across 6 row(s); scoring-only until a byte-exact recompile promotes to proven; PROMOTED solved->proven: byte-exact recompile func_80AF1880 at true base 0x80173080 (candidate sha 8501a7bf4339 @ 2.8.1-G0, linked-strict isolation compare, phase-2 item-3 hook)"
+    },
+    {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "img_b0f73c_80170f3c",
+      "foff_start": "0xB0F73C",
+      "foff_end": "0xB0F904",
+      "delta": "0x7F661800",
+      "base_confidence": "proven",
+      "proof": "static per-floor image base proof 2026-08-23 (docs/port_handback_20260822/dungeon_base_proofs/proofs.json, Evidence A/B) + gate window dungeon_deep_b0f73c_truebase_80170f3c re-gated MATCH at this base (381/381) + byte-exact recompile at this base of func_80AEF73C (work/codex_wave/dungeon_lane_20260823, tools/aligned_score oracle via work/g3/overlay_func_compare.py)"
+    }
+  ],
+  "basis": "Complete twelve-sector load extent follows directly from verified retail loader arithmetic. Existing proven byte recompiles within this bank independently agree on the same delta. Coverage extends to external data without asserting native ownership of that data.",
+  "review": "pending",
+  "reviewer": null
+}

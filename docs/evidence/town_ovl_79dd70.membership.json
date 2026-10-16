@@ -1,0 +1,25 @@
+{
+  "module": "town_ovl_79dd70",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_79dd70.c",
+    "module_index": 69
+  },
+  "members": [
+    "town/func_8081DD70"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Model: complete single-row ledger group; historical object boundary not observable.",
+  "basis": [
+    "Complete ledger group 69 contains exactly this 352-byte function. Preceding row ends before this group and following row starts at its end 0x79DED0.",
+    "The callback stored by this function is 0x800206D0, the next body at file 0x79DED0. That body and its sibling local jumps independently establish delta 0x7F882800.",
+    "One ordinary 2.7.2-cdk-G0 recipe; no owned data emitted; all storage references remain external bounded asset views."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120",
+  "complete_body_sha256": {
+    "town/func_8081DD70": "a6036b99fcbc051ea6bc838eb948376f1251ac5c7263f9990b31381732fc59c0"
+  },
+  "byte_identical_complete_helpers": []
+}

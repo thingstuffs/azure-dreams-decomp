@@ -1,108 +1,6 @@
-#include "shared/gpu_packets.h"
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_resource12_slot0.h"
 
-typedef struct S_80174618_0 {
-    u8 pad_00[0x24];
-    union { u8 * s; u32 * u; } unk_24;   /* accessed as both */
-    u16 unk_28;
-    u8 pad_2A[0xA];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    u8 pad_40[0x48];
-    s32 unk_88;
-    s32 unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x10];
-    u16 unk_A4;
-    u16 unk_A6;
-    u16 unk_A8;
-    u8 pad_AA[0x6];
-    u16 unk_B0;
-    u16 unk_B2;
-    u16 unk_B4;
-    u8 pad_B6[0x2];
-    u16 unk_B8;
-    u16 unk_BA;
-    u16 unk_BC;
-    u8 pad_BE[0x2];
-    u16 unk_C0;
-    u16 unk_C2;
-    u16 unk_C4;
-    u8 pad_C6[0x2];
-    u16 unk_C8;
-    u16 unk_CA;
-    u16 unk_CC;
-    u8 pad_CE[0x32];
-    s32 unk_100;
-} S_80174618_0;   /* scratch in func_80174618 */
-
-typedef struct S_80174618_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80174618_1;   /* arg1 in func_80174618 */
-
-typedef struct S_80174618_2 {
-    u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_80174618_2;   /* arg2 in func_80174618 */
-
-   /* context in func_80174618 */
-
-typedef struct S_80174618_4 {
-    u8 pad_00[0x64];
-    u16 unk_64;
-    u16 unk_66;
-    u16 unk_68;
-    u16 unk_6A;
-    u16 unk_6C;
-    u16 unk_6E;
-} S_80174618_4;   /* arg0 in func_80174618 */
-
-typedef struct S_80174618_5 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80174618_5;   /* packet in func_80174618 */
-
-
-typedef struct {
-    s16 m[3][3];
-    s16 pad;
-    s32 t[3];
-} MATRIX;
-
-typedef struct {
-} EMPTY_ARG;
-
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} P_TAG;
-
-extern void func_80064840(void *, void *, void *);
-extern void func_800649A0(void);
-extern void func_80064A40(void);
-extern void func_80064AE0(void *);
-extern void func_80064BC0(void *, void *);
-extern void func_80064CF0(void *);
-extern void func_80064D80(void *);
-extern s32 func_80065590();
-extern void func_80065820(void *, void *);
-extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
-
-/* Transform a line and add its drawing packets to the ordering table. */
-void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render_params, s16 depth_bias)
+void func_80174618(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
     u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;
@@ -119,24 +17,24 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     s32 color_word;
     u16 end_z;
     s32 depth_index;
-    MATRIX matrix;
-    EMPTY_ARG no_arg;
+    R12_80174618_MATRIX matrix;
+    R12_80174618_EMPTY_ARG no_arg;
 
     context = (u8 *)&gameWork;
-    ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
-    ((S_80174618_0 *)scratch)->unk_88 = position->unk_02;
-    ((S_80174618_0 *)scratch)->unk_8C = position->unk_06;
-    ((S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
-    ((S_80174618_2 *)render_params)->unk_14 |= 0x8000;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_88 = position->unk_02;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_8C = position->unk_06;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
+    ((R12_80174618_S_80174618_2 *)render_params)->unk_14 |= 0x8000;
 
     func_800649A0();
 
-    ((S_80174618_0 *)scratch)->unk_3C = 0x2000;
-    ((S_80174618_0 *)scratch)->unk_38 = 0x2000;
-    ((S_80174618_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80174618_0 *)scratch)->unk_A4 = ((S_80174618_2 *)render_params)->unk_16;
-    ((S_80174618_0 *)scratch)->unk_A8 = ((S_80174618_2 *)render_params)->unk_1A;
-    ((S_80174618_0 *)scratch)->unk_A6 = ((S_80174618_2 *)render_params)->unk_18;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_3C = 0x2000;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_38 = 0x2000;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_34 = 0x2000;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A4 = ((R12_80174618_S_80174618_2 *)render_params)->unk_16;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A8 = ((R12_80174618_S_80174618_2 *)render_params)->unk_1A;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_A6 = ((R12_80174618_S_80174618_2 *)render_params)->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -148,27 +46,27 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     transform_flags = scratch + 0xD4;
     start_vertex = scratch + 0xB0;
 
-    field_value = ((S_80174618_2 *)render_params)->unk_14;
+    field_value = ((R12_80174618_S_80174618_2 *)render_params)->unk_14;
     context = *(u8 **)context;
-    ((S_80174618_0 *)scratch)->unk_28 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_28 = field_value;
     line_packet = ((GpuContext *)context)->packetCursor;
     ((GpuContext *)context)->packetCursor = line_packet + 0x10;
 
     field_value = endpoints->unk_64;
-    ((S_80174618_0 *)scratch)->unk_C0 = field_value;
-    ((S_80174618_0 *)scratch)->unk_B0 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_C0 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_B0 = field_value;
     field_value = endpoints->unk_6A;
-    ((S_80174618_0 *)scratch)->unk_C8 = field_value;
-    ((S_80174618_0 *)scratch)->unk_B8 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_C8 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_B8 = field_value;
     field_value = endpoints->unk_66;
-    ((S_80174618_0 *)scratch)->unk_C2 = field_value;
-    ((S_80174618_0 *)scratch)->unk_B2 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_C2 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_B2 = field_value;
     field_value = endpoints->unk_6C;
-    ((S_80174618_0 *)scratch)->unk_CA = field_value;
-    ((S_80174618_0 *)scratch)->unk_BA = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_CA = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_BA = field_value;
     field_value = endpoints->unk_68;
-    ((S_80174618_0 *)scratch)->unk_C4 = field_value;
-    ((S_80174618_0 *)scratch)->unk_B4 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_C4 = field_value;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_B4 = field_value;
     end_z = endpoints->unk_6E;
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
@@ -178,28 +76,28 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
                           screen_start, screen_end,
                           screen_start, screen_end,
                           depth_cue, transform_flags,
-                          (((S_80174618_0 *)scratch)->unk_CC = end_z,
-                           ((S_80174618_0 *)scratch)->unk_BC = end_z,
+                          (((R12_80174618_S_80174618_0 *)scratch)->unk_CC = end_z,
+                           ((R12_80174618_S_80174618_0 *)scratch)->unk_BC = end_z,
                            no_arg));
     depth_index = depth_index - depth_bias - 6;
-    ((S_80174618_0 *)scratch)->unk_100 = depth_index;
-    flags = ((S_80174618_0 *)scratch)->unk_28;
+    ((R12_80174618_S_80174618_0 *)scratch)->unk_100 = depth_index;
+    flags = ((R12_80174618_S_80174618_0 *)scratch)->unk_28;
 
     if (flags & 8) {
         u8 color_code;
         if (flags & 4) {
-            color_code = ((S_80174618_2 *)render_params)->unk_0C.at03.v | 2;
+            color_code = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v | 2;
         } else {
-            color_code = ((S_80174618_2 *)render_params)->unk_0C.at03.v & 0xFD;
+            color_code = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v & 0xFD;
         }
-        ((S_80174618_2 *)render_params)->unk_0C.at03.v = color_code;
+        ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at03.v = color_code;
     }
 
-    color_word = ((S_80174618_2 *)render_params)->unk_0C.at00.v;
-    ((S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
-    ((S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
-    ((S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
-    flags = ((S_80174618_0 *)scratch)->unk_28;
+    color_word = ((R12_80174618_S_80174618_2 *)render_params)->unk_0C.at00.v;
+    ((R12_80174618_S_80174618_5 *)line_packet)->unk_00.at03.v = 3;
+    ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at00.v = color_word;
+    ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = 0x40;
+    flags = ((R12_80174618_S_80174618_0 *)scratch)->unk_28;
     if (flags & 8) {
         s32 line_code = flags & 4;
         if (line_code) {
@@ -207,21 +105,21 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
         } else {
             line_code = 0x40;
         }
-        ((S_80174618_5 *)line_packet)->unk_04.at03.v = line_code;
+        ((R12_80174618_S_80174618_5 *)line_packet)->unk_04.at03.v = line_code;
     }
 
     {
         u8 *draw_context;
-        ((P_TAG *)line_packet)->addr = ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr;
-        ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
+        ((R12_80174618_P_TAG *)line_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
+        ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
 
         draw_context = work_base->unk_000;
         draw_packet = ((GpuContext *)draw_context)->packetCursor;
         ((GpuContext *)draw_context)->packetCursor = draw_packet + 0xC;
         func_80067F20(draw_packet, 0, 0, (u16)func_80066460(0, 1, 0, 0), 0);
 
-        ((P_TAG *)draw_packet)->addr = ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr;
-        ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr = (u32)draw_packet;
+        ((R12_80174618_P_TAG *)draw_packet)->addr = ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr;
+        ((R12_80174618_P_TAG *)&((R12_80174618_S_80174618_0 *)scratch)->unk_24.u[((R12_80174618_S_80174618_0 *)scratch)->unk_100])->addr = (u32)draw_packet;
 
         func_80064A40();
     }

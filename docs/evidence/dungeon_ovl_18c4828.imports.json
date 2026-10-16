@@ -1,0 +1,70 @@
+{
+  "module": "dungeon_ovl_18c4828",
+  "maps": {
+    "native_bank_native_ovl_18c4828_map": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 25970688,
+      "file_end": 25995264,
+      "delta": 2121660416,
+      "basis": "Authenticated selector load receipt; externally referenced data view only.",
+      "kind": "rowbase",
+      "region": "native_ovl_18c4828_map"
+    },
+    "dungeon_resident": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Existing proven resident xfer_dungeon_A3000 load map.",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000"
+    }
+  },
+  "views": {
+    "D_80025214": {
+      "symbol": "D_80025214",
+      "kind": "data",
+      "vma": 2147635732,
+      "foff": 25975316,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank_native_ovl_18c4828_map",
+      "evidence": "docs/evidence/dungeon_ovl_18c4828.imports.json"
+    },
+    "D_80025238": {
+      "symbol": "D_80025238",
+      "kind": "data",
+      "vma": 2147635768,
+      "foff": 25975352,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "native_bank_native_ovl_18c4828_map",
+      "evidence": "docs/evidence/dungeon_ovl_18c4828.imports.json"
+    },
+    "D_800DEAE0": {
+      "symbol": "D_800DEAE0",
+      "kind": "data",
+      "vma": 2148395744,
+      "foff": 1020800,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18c4828.imports.json"
+    },
+    "D_800DECF8": {
+      "symbol": "D_800DECF8",
+      "kind": "data",
+      "vma": 2148396280,
+      "foff": 1021336,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "dungeon_resident",
+      "evidence": "docs/evidence/dungeon_ovl_18c4828.imports.json"
+    }
+  },
+  "runtime_views": {}
+}

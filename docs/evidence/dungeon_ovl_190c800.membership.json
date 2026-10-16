@@ -1,0 +1,64 @@
+{
+  "module": "dungeon_ovl_190c800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_190c800.c",
+    "module_index": 178
+  },
+  "members": [
+    "dungeon/func_818EC800",
+    "dungeon/func_818ED25C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 37 loads bank [0x190c800, 0x1912800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "Repair the inherited composite first row: its first 148 bytes are three unused section-pinned array scaffolds, followed by the actual stack-frame entry at bank+0x94. Separate those exact bytes as one raw storage segment and retain the existing logical function ID for its complete 2504-byte body. The second function directly calls the real 0x80024094 entry, corroborating the boundary.",
+    "Remove all three unused arrays and their section attributes. The 148-byte storage predecessor stays byte-identical and outside native ownership; its jump destinations are not asserted as callback ABI contracts. Both actual complete function bodies emit 3008 text bytes and no rodata. Historical exact baselines remain historical; the guarded split records disclose the extent correction."
+  ],
+  "run": {
+    "file_start": 26265748,
+    "file_end": 26268756,
+    "delta": 2121365504,
+    "selector": 37
+  },
+  "internal_calls": {
+    "dungeon/func_818EC800": [],
+    "dungeon/func_818ED25C": [
+      "func_80024094"
+    ]
+  },
+  "data_references": {
+    "dungeon/func_818EC800": [
+      "D_8006CD10",
+      "gameWork"
+    ],
+    "dungeon/func_818ED25C": [
+      "D_801C9E40",
+      "gameWork"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_818EC800": "767b441c1ad1372c67db06a40e90311ff2add18e7b34b01511d455598daf8968",
+    "dungeon/func_818ED25C": "9e2e7a4fc8da019dc980e0b2f0bb64a8cb18ce66f0d4f5727424bd319321fdbb"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "boundary_reconciliation": {
+    "transaction": "records/splits.guarded.jsonl",
+    "logical_id": "dungeon/func_818EC800",
+    "before_foff": 26265600,
+    "before_size": 2652,
+    "after_foff": 26265748,
+    "after_size": 2504,
+    "separated_raw_storage": 148,
+    "first_instruction": "0x27bdff48",
+    "call_target": "0x80024094",
+    "removed_sections": "three unused arrays pinned into .text.func_818EC800",
+    "native_storage_claim": false
+  },
+  "review": "reviewed"
+}

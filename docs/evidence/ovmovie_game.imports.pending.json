@@ -1,0 +1,362 @@
+{
+  "status": "PENDING_OWNERSHIP_NOT_NATIVE_MANIFEST_IMPORTS",
+  "imports": [
+    {
+      "symbol": "D_80080A88",
+      "vma": 2148010632,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80082E60",
+      "vma": 2148019808,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80082E6B",
+      "vma": 2148019819,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80083160",
+      "vma": 2148020576,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80086D8C",
+      "vma": 2148035980,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_801781D0",
+      "vma": 2149024208,
+      "kind": "candidate_storage",
+      "map": "ovmovie",
+      "basis": "Scalar ownership remains held; not bound as an external owner to bypass that hold."
+    },
+    {
+      "symbol": "D_801781D4",
+      "vma": 2149024212,
+      "kind": "candidate_storage",
+      "map": "ovmovie",
+      "basis": "Scalar ownership remains held; not bound as an external owner to bypass that hold."
+    },
+    {
+      "symbol": "D_801781D8",
+      "vma": 2149024216,
+      "kind": "candidate_storage",
+      "map": "ovmovie",
+      "basis": "Scalar ownership remains held; not bound as an external owner to bypass that hold."
+    },
+    {
+      "symbol": "D_801781DC",
+      "vma": 2149024220,
+      "kind": "candidate_storage",
+      "map": "ovmovie",
+      "basis": "Scalar ownership remains held; not bound as an external owner to bypass that hold."
+    },
+    {
+      "symbol": "D_801781E0",
+      "vma": 2149024224,
+      "kind": "candidate_storage",
+      "map": "ovmovie",
+      "basis": "Scalar ownership remains held; not bound as an external owner to bypass that hold."
+    },
+    {
+      "symbol": "D_80189388",
+      "vma": 2149094280,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80189390",
+      "vma": 2149094288,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80189394",
+      "vma": 2149094292,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_80189398",
+      "vma": 2149094296,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_801B8EB8",
+      "vma": 2149289656,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_801B8EBC",
+      "vma": 2149289660,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "D_801C9E40",
+      "vma": 2149359168,
+      "kind": "runtime_view",
+      "map": "runtime",
+      "basis": "Observed shared memory address only; no allocation or original storage ownership is granted."
+    },
+    {
+      "symbol": "func_8003E240",
+      "vma": 2147738176,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8003E4FC",
+      "vma": 2147738876,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8003F320",
+      "vma": 2147742496,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80053DA8",
+      "vma": 2147827112,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_800542BC",
+      "vma": 2147828412,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8005A4E8",
+      "vma": 2147853544,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8005A56C",
+      "vma": 2147853676,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8005FE18",
+      "vma": 2147876376,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80060B04",
+      "vma": 2147879684,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80060D90",
+      "vma": 2147880336,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80060DE8",
+      "vma": 2147880424,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80061208",
+      "vma": 2147881480,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8006124C",
+      "vma": 2147881548,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80061350",
+      "vma": 2147881808,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80063424",
+      "vma": 2147890212,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80063538",
+      "vma": 2147890488,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_800636AC",
+      "vma": 2147890860,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80063734",
+      "vma": 2147890996,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80063828",
+      "vma": 2147891240,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8006390C",
+      "vma": 2147891468,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8006636C",
+      "vma": 2147902316,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80066424",
+      "vma": 2147902500,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80066F78",
+      "vma": 2147905400,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80067014",
+      "vma": 2147905556,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_800671A8",
+      "vma": 2147905960,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_800672D8",
+      "vma": 2147906264,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_8006751C",
+      "vma": 2147906844,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_80067688",
+      "vma": 2147907208,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_800678E0",
+      "vma": 2147907808,
+      "kind": "function",
+      "map": "slus",
+      "basis": "Resident PS-X EXE code range."
+    },
+    {
+      "symbol": "func_801776D8",
+      "vma": 2149021400,
+      "kind": "function",
+      "map": "ovmovie",
+      "basis": "Registered LIBPRESS public function."
+    },
+    {
+      "symbol": "func_80177844",
+      "vma": 2149021764,
+      "kind": "function",
+      "map": "ovmovie",
+      "basis": "Registered LIBPRESS public function."
+    },
+    {
+      "symbol": "func_801778C0",
+      "vma": 2149021888,
+      "kind": "function",
+      "map": "ovmovie",
+      "basis": "Registered LIBPRESS public function."
+    },
+    {
+      "symbol": "func_8017797C",
+      "vma": 2149022076,
+      "kind": "function",
+      "map": "ovmovie",
+      "basis": "Registered LIBPRESS public function."
+    },
+    {
+      "symbol": "func_80177E6C",
+      "vma": 2149023340,
+      "kind": "function",
+      "map": "ovmovie",
+      "basis": "Unregistered VLC assembly routine at proven file offset 0x166C; not GAME text."
+    }
+  ]
+}

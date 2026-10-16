@@ -1,0 +1,23 @@
+{
+  "module": "town_ovl_65b134",
+  "ledger_group": {
+    "container": "town",
+    "module": "ovl_65b134.c",
+    "module_index": 57
+  },
+  "members": [
+    "town/func_806DB134",
+    "town/func_806DB17C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Complete contiguous two-row ledger cohort; historical object boundary unobservable.",
+  "basis": [
+    "The second member calls address 0x80016134 and the first complete body starts at file 0x65B134, independently fixing delta 0x7F9BB000.",
+    "Raw common-code direct jumps, including two js to one physical jr ra return, independently agree with that exact delta.",
+    "The proven extent is deliberately restricted to the imported root pointer word plus the complete two-member code cohort. No loader read extent or runtime transfer is claimed.",
+    "The callback_050 slot is declared int-returning in shared/town_services.h; the first member now explicitly returns that value as u32. The caller passes two ignored parameters. The isolated candidate reproduced all 18 words before joining."
+  ],
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

@@ -1,0 +1,6 @@
+#include "modules/dungeon_ovl_7f469800_p03.h"
+#include "../func_80CE94C0.c"
+#include "../func_80CE9758.c"
+#include "../func_80CE9E78.c"
+#include "../func_80CE9F34.c"
+#include "../func_80CEA348.c"

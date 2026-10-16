@@ -167,7 +167,7 @@ def build(m,out,root,G,substitutions=None):
  gcc=root/'toolchain/compilers'/('gcc-'+G.module_compiler(m))
  def run(cmd,name,stdin=None,cwd=root):return G.command(cmd,cwd,env,out/(name+'.log'),stdin)
  member_dirs=sorted({str((root/a['source']).parent) for a in m['members']})
- run([gcc/'gcc','-B'+str(gcc)+'/', '-S','-O2','-G0','-I'+str(root/'include'),*['-I'+p for p in member_dirs],'-w',source,'-o',out/'module.s'],'compile')
+ run([gcc/'gcc','-B'+str(gcc)+'/', '-S',*G.module_cflags(m),'-I'+str(root/'include'),*['-I'+p for p in member_dirs],'-w',source,'-o',out/'module.s'],'compile')
  raw=(out/'module.s').read_bytes();processed=run([sys.executable,G.gate_tool(root,'ccproc.py'),'--names-tsv',root/'config/names.tsv'],'ccproc',raw);(out/'sectioned.s').write_bytes(processed)
  run([root/'.venv/bin/python',root/'toolchain/maspsx/maspsx.py','--aspsx-version=2.79','--dont-force-G0','--run-assembler','--gnu-as-path=mipsel-linux-gnu-as','-I'+str(root),'-I'+str(root/'include'),'-EL','-march=r3000','-G8','-o',out/'module.o'],'assemble',processed)
  original=(out/'module.o').read_bytes();(out/'module.untrimmed.o').write_bytes(original);cooked,padding=prepare(m,original,root);(out/'module.o').write_bytes(cooked)

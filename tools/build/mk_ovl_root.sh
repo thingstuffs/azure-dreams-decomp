@@ -53,6 +53,7 @@ ln -sfn "$ROOT/build_slus/build" "$B/build"
 ln -sfn "$SRCROOT" "$B/src"
 ln -sfn "$ROOT/ledger" "$B/ledger"
 ln -sfn "$ROOT/docs" "$B/docs"
+ln -sfn "$ROOT/raw" "$B/raw"   # module review_inputs may cite raw/ m2c first passes
 mkdir -p "$B/tools/fidelity" "$B/tools/build" "$B/work/disc"
 cp "$ROOT/tools/build/slus_rodata_trim.py" "$B/tools/build/slus_rodata_trim.py"
 ln -sfn "$ROOT/work/disc/containers" "$B/work/disc/containers"

@@ -1,68 +1,13 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_resource08_slot0.h"
 
-
-typedef s32 M2C_UNK;
-
-typedef struct S_8017087C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8017087C_0;   /* obj in func_8017087C */
-
-typedef struct S_8017087C_1 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_8017087C_1;   /* work in func_8017087C */
-
-typedef struct S_8017087C_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8017087C_2;   /* part_a in func_8017087C */
-
-typedef struct S_8017087C_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8017087C_3;   /* part_b in func_8017087C */
-
-typedef struct S_8017087C_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_8017087C_4;   /* actor in func_8017087C */
-
-
-extern void *func_8003FD64();
-extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
-extern u8 D_80170A50[];
-extern u8 D_80170E7C;
-extern u8 D_80174C3C[];
-extern u8 D_80174C8C[];
-
-/* Creates an actor and initializes its parts, position, and flags. */
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
-    S_8017087C_2 *part_a;
-    S_8017087C_3 *part_b;
-    S_8017087C_1 *work;
-    S_8017087C_4 *actor;
+    R08_8017087C_S_8017087C_2 *part_a;
+    R08_8017087C_S_8017087C_3 *part_b;
+    R08_8017087C_S_8017087C_1 *work;
+    R08_8017087C_S_8017087C_4 *actor;
     s32 flags_or_roll;
     s32 secondary_flags;
     s8 saved_tile_x;
@@ -76,17 +21,17 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8017087C_0 *)obj)->unk_10 = D_80170A50;
+        ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)func_80170A50);
         work->unk_13 = 0x8;
         func_8004491C(obj, func_80045340);
 
-        part_a = ((S_8017087C_0 *)obj)->unk_08;
+        part_a = ((R08_8017087C_S_8017087C_0 *)obj)->unk_08;
         part_a->unk_0A = saved_part_id;
-        part_b = ((S_8017087C_0 *)obj)->unk_0C;
+        part_b = ((R08_8017087C_S_8017087C_0 *)obj)->unk_0C;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_tile_y;
         actor = work;
-        part_b->unk_2C = D_80174C3C;
+        part_b->unk_2C = ((u8 *)D_80174C3C);
         part_b->unk_24 = saved_tile_x;
 
         if (kind == 1) {
@@ -105,14 +50,14 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                     work->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
                                   (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80174C8C;
+                    part_b->unk_2C = ((u8 *)D_80174C8C);
                 }
             }
         }
         func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80170E7C;
+        actor->unk_8C = ((void *)func_80170E7C);
         func_800AA36C(actor, part_a, part_b, work);
     }
     return work;

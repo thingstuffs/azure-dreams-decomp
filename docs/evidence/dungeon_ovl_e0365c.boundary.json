@@ -1,0 +1,838 @@
+{
+  "module": "dungeon_ovl_e0365c",
+  "delta": 2134300672,
+  "method": "At least two independent image-local absolute j instructions per witness; intersect all 0x800-aligned containment solutions. Fresh complete-TU reproof is required separately.",
+  "witnesses": [
+    {
+      "row": "dungeon/func_80DE3054",
+      "function": "func_80170854",
+      "foff": 14692436,
+      "size": 516,
+      "local_j": [
+        {
+          "site_foff": 14692628,
+          "target": 2148993496,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14692688,
+          "target": 2148993496,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14692800,
+          "target": 2148993488,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE3258",
+      "function": "func_80170A58",
+      "foff": 14692952,
+      "size": 1028,
+      "local_j": [
+        {
+          "site_foff": 14693048,
+          "target": 2148994608,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693068,
+          "target": 2148994608,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693252,
+          "target": 2148993944,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693324,
+          "target": 2148994020,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693360,
+          "target": 2148994056,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693552,
+          "target": 2148994280,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693720,
+          "target": 2148994444,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693736,
+          "target": 2148994420,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14693872,
+          "target": 2148994572,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE365C",
+      "function": "func_80170E5C",
+      "foff": 14693980,
+      "size": 1476,
+      "local_j": [
+        {
+          "site_foff": 14694052,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694112,
+          "target": 2148996040,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694192,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694288,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694496,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694856,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14694980,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695064,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695108,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695136,
+          "target": 2148996092,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE3C20",
+      "function": "func_80171420",
+      "foff": 14695456,
+      "size": 1864,
+      "local_j": [
+        {
+          "site_foff": 14695600,
+          "target": 2148997948,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695624,
+          "target": 2148997948,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695764,
+          "target": 2148997948,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695816,
+          "target": 2148997288,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14695852,
+          "target": 2148997856,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14696184,
+          "target": 2148997292,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14696588,
+          "target": 2148997856,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14696660,
+          "target": 2148997360,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14696948,
+          "target": 2148997724,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14697100,
+          "target": 2148997948,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14697196,
+          "target": 2148997948,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE4368",
+      "function": "func_80171B68",
+      "foff": 14697320,
+      "size": 580,
+      "local_j": [
+        {
+          "site_foff": 14697756,
+          "target": 2148998448,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14697816,
+          "target": 2148998532,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE4CE8",
+      "function": "func_801724E8",
+      "foff": 14699752,
+      "size": 872,
+      "local_j": [
+        {
+          "site_foff": 14699824,
+          "target": 2149001008,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14699840,
+          "target": 2149001008,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14700480,
+          "target": 2149001224,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE50B4",
+      "function": "func_801728B4",
+      "foff": 14700724,
+      "size": 420,
+      "local_j": [
+        {
+          "site_foff": 14700788,
+          "target": 2149001788,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14700808,
+          "target": 2149001788,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14700872,
+          "target": 2149001788,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14700904,
+          "target": 2149001788,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE5258",
+      "function": "func_80172A58",
+      "foff": 14701144,
+      "size": 1144,
+      "local_j": [
+        {
+          "site_foff": 14701228,
+          "target": 2149002920,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701248,
+          "target": 2149002920,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701332,
+          "target": 2149002084,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701340,
+          "target": 2149002092,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701348,
+          "target": 2149002100,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701396,
+          "target": 2149002112,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701412,
+          "target": 2149002112,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701420,
+          "target": 2149002112,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701428,
+          "target": 2149002112,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701488,
+          "target": 2149002228,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701580,
+          "target": 2149002328,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701704,
+          "target": 2149002920,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701820,
+          "target": 2149002920,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14701856,
+          "target": 2149002920,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE56D0",
+      "function": "func_80172ED0",
+      "foff": 14702288,
+      "size": 748,
+      "local_j": [
+        {
+          "site_foff": 14702360,
+          "target": 2149003676,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14702380,
+          "target": 2149003676,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14702524,
+          "target": 2149003676,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14702636,
+          "target": 2149003340,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14702712,
+          "target": 2149003676,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14702916,
+          "target": 2149003676,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE5A54",
+      "function": "func_80173254",
+      "foff": 14703188,
+      "size": 808,
+      "local_j": [
+        {
+          "site_foff": 14703256,
+          "target": 2149004632,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14703376,
+          "target": 2149004632,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14703520,
+          "target": 2149004632,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14703584,
+          "target": 2149004632,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14703640,
+          "target": 2149004632,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE5D7C",
+      "function": "func_8017357C",
+      "foff": 14703996,
+      "size": 608,
+      "local_j": [
+        {
+          "site_foff": 14704060,
+          "target": 2149005244,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14704176,
+          "target": 2149005244,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14704320,
+          "target": 2149005244,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14704376,
+          "target": 2149005244,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE6220",
+      "function": "func_80173A20",
+      "foff": 14705184,
+      "size": 704,
+      "local_j": [
+        {
+          "site_foff": 14705264,
+          "target": 2149006520,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14705284,
+          "target": 2149006520,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14705320,
+          "target": 2149006520,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14705448,
+          "target": 2149006520,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE64E0",
+      "function": "func_80173CE0",
+      "foff": 14705888,
+      "size": 360,
+      "local_j": [
+        {
+          "site_foff": 14705960,
+          "target": 2149006888,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14705980,
+          "target": 2149006888,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14706016,
+          "target": 2149006888,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14706128,
+          "target": 2149006888,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    },
+    {
+      "row": "dungeon/func_80DE6648",
+      "function": "func_80173E48",
+      "foff": 14706248,
+      "size": 324,
+      "local_j": [
+        {
+          "site_foff": 14706380,
+          "target": 2149007156,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14706400,
+          "target": 2149007156,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14706420,
+          "target": 2149007212,
+          "candidates": [
+            2134300672
+          ]
+        },
+        {
+          "site_foff": 14706444,
+          "target": 2149007212,
+          "candidates": [
+            2134300672
+          ]
+        }
+      ],
+      "solution": [
+        2134300672
+      ]
+    }
+  ],
+  "solution": [
+    2134300672
+  ],
+  "boundary": {
+    "image_start": 14692352,
+    "code_start": 14692436,
+    "code_end": 14707984,
+    "function_count": 38,
+    "code_bytes": 15548,
+    "first_frame_data_vma": 2149008656,
+    "first_frame_bytes": "020100010203040307060506070809080c0b0a0b0c0d0e0d11100f101112131216151415161718171b1a191a1b1c1d1c201f1e1f2021222125242324252627262a2928292a2b2c2b2f2e2d2e2f3031303433323334353635",
+    "head_bytes": 84,
+    "head_sha256": "2244b8511bd7a2b12d56b2af5f40bc2cd067636e28a16e29606298873d2d557f"
+  },
+  "callback_table": {
+    "vma": 2149008744,
+    "foff": 14708072,
+    "entries": [
+      2149003804,
+      2149003740,
+      2149003772,
+      2149005576,
+      2149005632,
+      2149004668,
+      0,
+      2149002960,
+      2149003708,
+      0,
+      2149001296,
+      2149005276,
+      2149005476,
+      2149003860,
+      2148178960,
+      2149000300,
+      2149000424,
+      2149001396,
+      2149001816,
+      2149005688,
+      2148191204,
+      2149005744,
+      2149005800,
+      2149005856,
+      2149006560
+    ],
+    "local_functions": [
+      "func_8017321C",
+      "func_801731DC",
+      "func_801731FC",
+      "func_80173908",
+      "func_80173940",
+      "func_8017357C",
+      "func_80172ED0",
+      "func_801731BC",
+      "func_80172850",
+      "func_801737DC",
+      "func_801738A4",
+      "func_80173254",
+      "func_8017246C",
+      "func_801724E8",
+      "func_801728B4",
+      "func_80172A58",
+      "func_80173978",
+      "func_801739B0",
+      "func_801739E8",
+      "func_80173A20",
+      "func_80173CE0"
+    ],
+    "resident_functions": [
+      2148178960,
+      2148191204
+    ],
+    "null_entries": 2
+  },
+  "suffix_views": [
+    {
+      "vma": 2149008844,
+      "foff": 14708172,
+      "bytes": 44
+    },
+    {
+      "vma": 2149008888,
+      "foff": 14708216,
+      "bytes": 53
+    }
+  ],
+  "review": "pending",
+  "adjacent_data_carve_repair": {
+    "identity": "func_80DE1BB4",
+    "foff": 14687156,
+    "old_end": 14692952,
+    "new_end": 14692352,
+    "old_bytes": 5796,
+    "new_bytes": 5196,
+    "recovered_native_bytes": 600,
+    "basis": "Unregistered M2C_FAIL data-segment placeholder, no C function or immutable function baseline. Independently bounded native prefix and complete constructor prove every replacement byte. Fresh affected window must prove the unchanged preceding data plus all native bytes."
+  }
+}

@@ -1,71 +1,6 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_resource06_slot0.h"
 
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} Vec3i;
-
-typedef struct {
-    u8 pad_00[0x0C];
-    u8 field_0C;
-    u8 field_0D;
-    u8 field_0E;
-    u8 pad_0F;
-    u16 field_10;
-    u8 pad_12[2];
-    u16 field_14;
-    u8 pad_16[6];
-    s16 field_1C;
-    s16 field_1E;
-} Prim;
-
-typedef struct {
-    u8 pad_00[4];
-    u8 field_04;
-    u8 field_05;
-    u8 field_06;
-    u8 pad_07[0x13];
-    s16 field_1A;
-    u16 field_1C;
-    u8 pad_1E[0x46];
-    s16 field_64;
-    s16 field_66;
-    s16 field_68;
-    s16 field_6A;
-    s16 field_6C;
-    s16 field_6E;
-    s16 field_70;
-    s16 field_72;
-    s16 field_74;
-    s16 field_76;
-    s16 field_78;
-    s16 field_7A;
-} Sub;
-
-typedef struct {
-    u8 pad_00[8];
-    Vec3i *vec;
-    Prim *prim;
-    void (*callback)(void);
-    u8 pad_14[0x0C];
-    Sub sub;
-} Entity;
-
-typedef struct {
-    u8 pad_00[0x96];
-    u16 field_96;
-} Source;
-
-extern void func_8004491C(Entity *, void *);
-extern s32 func_80064584(s32);
-extern s32 func_800644B8(s32);
-extern void func_80174934(void);
-
-/* Creates a 16-segment ring effect at the supplied position. */
-void func_80174E78(Source *source, Vec3i *center)
+void func_80174E78(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
 {
     s16 segment_index;
     void (*update_callback)(void);
@@ -75,22 +10,22 @@ void func_80174E78(Source *source, Vec3i *center)
     update_callback = func_80174934;
     base_level = 32;
     for (; segment_index < 16; segment_index++) {
-        Entity *entity;
-        Sub *sub;
-        Vec3i *position;
-        Prim *prim;
+        R06_80174E78_Entity *entity;
+        R06_80174E78_Sub *sub;
+        R06_80174E78_Vec3i *position;
+        R06_80174E78_Prim *prim;
         s32 angle;
         s32 next_angle;
         s16 radial_offset;
         u16 prim_flags;
         u16 *prim_flags_ptr;
-        Entity *setup_entity;
+        R06_80174E78_Entity *setup_entity;
         s32 initial_count;
         s32 unit_scale;
         s32 trig_angle;
         s32 trig_value;
 
-        entity = (Entity *)func_8003FC64(18);
+        entity = (R06_80174E78_Entity *)func_8003FC64(18);
         if (entity == 0) {
             continue;
         }

@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_79dd70",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Whole TU uses PsyQ 4.4 ASPSX 2.79 with -0; checked against the one gcc stream and retail by the native module gate."
+}

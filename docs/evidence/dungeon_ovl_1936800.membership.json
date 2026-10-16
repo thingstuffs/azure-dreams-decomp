@@ -1,0 +1,162 @@
+{
+  "module": "dungeon_ovl_1936800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_1936800.c",
+    "module_index": 185
+  },
+  "members": [
+    "dungeon/D_81916800",
+    "dungeon/D_81916804",
+    "dungeon/D_81916808",
+    "dungeon/func_81916800",
+    "dungeon/func_8191696C",
+    "dungeon/func_819169E4",
+    "dungeon/func_81916AEC",
+    "dungeon/func_81916C1C",
+    "dungeon/func_81916D2C",
+    "dungeon/func_81916D7C",
+    "dungeon/func_81916E00",
+    "dungeon/func_81916F10",
+    "dungeon/func_81917004",
+    "dungeon/func_81917234",
+    "dungeon/func_8191740C",
+    "dungeon/func_81917680",
+    "dungeon/func_81917894",
+    "dungeon/func_81917A70",
+    "dungeon/func_81917C08"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 44 loads bank [0x1936800, 0x193c800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "Both complete original cohorts are included: three native storage rows and sixteen contiguous functions. Thirteen guarded assignments join the owner of the switch table and entry pointer, including func_80025408 which is beyond both original holes.",
+    "The entry pointer targets the complete native state machine with its exact shared-header signature. GCC supplies the four-byte alignment and the seven-entry switch table; their existing data rows remain separately projected and keep historical exact baselines."
+  ],
+  "run": {
+    "file_start": 26437632,
+    "file_end": 26444560,
+    "delta": 2121193472,
+    "selector": 44
+  },
+  "internal_calls": {
+    "dungeon/func_81916800": [],
+    "dungeon/func_8191696C": [],
+    "dungeon/func_819169E4": [],
+    "dungeon/func_81916AEC": [],
+    "dungeon/func_81916C1C": [],
+    "dungeon/func_81916D2C": [],
+    "dungeon/func_81916D7C": [],
+    "dungeon/func_81916E00": [],
+    "dungeon/func_81916F10": [],
+    "dungeon/func_81917004": [],
+    "dungeon/func_81917234": [
+      "func_80024600"
+    ],
+    "dungeon/func_8191740C": [
+      "func_80024A34"
+    ],
+    "dungeon/func_81917680": [
+      "func_80024804"
+    ],
+    "dungeon/func_81917894": [
+      "func_80024E80"
+    ],
+    "dungeon/func_81917A70": [],
+    "dungeon/func_81917C08": [
+      "func_8002416C",
+      "func_800242EC",
+      "func_8002452C",
+      "func_80025270"
+    ]
+  },
+  "data_references": {
+    "dungeon/func_81916800": [
+      "D_80025B1C",
+      "D_800E3D20",
+      "gameWork"
+    ],
+    "dungeon/func_8191696C": [
+      "D_80024024",
+      "D_800E3D20",
+      "gameWork"
+    ],
+    "dungeon/func_819169E4": [],
+    "dungeon/func_81916AEC": [
+      "D_800241E4",
+      "D_800DEC70"
+    ],
+    "dungeon/func_81916C1C": [
+      "gameWork",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81916D2C": [
+      "D_8002441C"
+    ],
+    "dungeon/func_81916D7C": [
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81916E00": [
+      "D_8002457C",
+      "D_800DEC50"
+    ],
+    "dungeon/func_81916F10": [],
+    "dungeon/func_81917004": [
+      "D_80024710",
+      "D_80025B10"
+    ],
+    "dungeon/func_81917234": [
+      "D_800DEDB0"
+    ],
+    "dungeon/func_8191740C": [
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81917680": [
+      "D_80024C0C",
+      "D_800DE39C"
+    ],
+    "dungeon/func_81917894": [
+      "objectFlagBlock"
+    ],
+    "dungeon/func_81917A70": [
+      "D_80025094",
+      "D_800DEB70"
+    ],
+    "dungeon/func_81917C08": [
+      "D_8008346C",
+      "D_800DDC40",
+      "objectFlagBlock"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_81916800": "a95adcfac7fc10dd747d312d325624e98a3e5de15efa7d4ca603e2af37e7a7ac",
+    "dungeon/func_8191696C": "9463060b5d7be0379c4c73d88667bde82ccbb956adcce90cc632cc521a2d5485",
+    "dungeon/func_819169E4": "d58e91d0cd32c7945afcbccd403444aaad4540b15866e7c6e0dbc71389bcc0ed",
+    "dungeon/func_81916AEC": "d2aa31f8f37044693a99cd6e3360aa61c701898012f5c95927cb307cea90c211",
+    "dungeon/func_81916C1C": "87877922d3384dad56f2bc0127f25d7ffc2426a7c49a202609162f3650ecdb79",
+    "dungeon/func_81916D2C": "ca02aecb638ec0b3e3f6b34d91f58478f30bd6435cc3b0f4bbb7e5c5869ec2ce",
+    "dungeon/func_81916D7C": "c6972ae752630017b044219d2534323a05ec4e7b16a4088c671da55e3dfaf058",
+    "dungeon/func_81916E00": "2af8f61ae0275709a4bcd226a2fae43a52363c2dfec35dcd72067a1c701a9251",
+    "dungeon/func_81916F10": "f90a93e8a133e546966c10f9e8b5961b812f9ba3da29c7da864dc5088e2e7b54",
+    "dungeon/func_81917004": "cc528ee5a739098f58da111ecde1fd57c9b51fb005de7ffafbff1ea3619f16ab",
+    "dungeon/func_81917234": "d8038cdc3aea6b1e5e76a2fc0876f6c4209c032edc82cf9f1b4a26cb36c7326d",
+    "dungeon/func_8191740C": "ecb6f93876521e2a02cfdd97daa4f84f69b8425219c51fce438eaeafeeedf3da",
+    "dungeon/func_81917680": "2040d7239a47b1235cf0e1d5d9b522c58ca9a50e97f1fc1eb1db0e0c97790bec",
+    "dungeon/func_81917894": "a21c430bbd5684f171009e2e3da923dfe42aa33024fa290cdcf4908a84cba388",
+    "dungeon/func_81917A70": "b3abb7a0f7c191aa6d29e2f94f447994608c9537aa1a2acf913ac72ba898b7d1",
+    "dungeon/func_81917C08": "dec8122e0b78449044163950ff1943c5ed496eb02a2f2561bb0998b699d5af57",
+    "dungeon/D_81916800": "f3049cf258ee1e1d728d2e92dabd049b1cd34e5ca8b4be4b67f631d3329af88c",
+    "dungeon/D_81916804": "7700ddb10c167a0b929a9902631580b94d7ea72fe2b9273eb3d2f142ea7a8419",
+    "dungeon/D_81916808": "3e9db1fbe315ee982dba4c7925f1e43c580bb3114f4b3b0da19274794fd21d83"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "original_ledger_cohorts": [
+    "ovl_1936800.c#185",
+    "ovl_7e6ed800.c#180"
+  ],
+  "review": "reviewed"
+}

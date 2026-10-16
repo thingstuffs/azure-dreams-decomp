@@ -1,0 +1,80 @@
+#ifndef DUNGEON_OVL_1906F98_H
+#define DUNGEON_OVL_1906F98_H
+#include "common.h"
+#include "m2c_compat.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "shared/object_flags.h"
+#include "shared/dungeon_status.h"
+#include "shared/game_work.h"
+#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
+#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
+#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
+#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+
+/* Advance the effect through target selection, movement, impact, and cleanup. */
+typedef struct Row_818E6F98_Primitive {
+    u32 tag;
+    u32 color;
+    s16 x0;
+    s16 y0;
+    u8 u0;
+    u8 v0;
+    u16 clut;
+    s16 x1;
+    s16 y1;
+    u8 u1;
+    u8 v1;
+    u16 tpage;
+    s16 x2;
+    s16 y2;
+    u8 u2;
+    u8 v2;
+    u16 pad1;
+    s16 x3;
+    s16 y3;
+    u8 u3;
+    u8 v3;
+    u8 pad2[0xE];
+} Row_818E6F98_Primitive;
+
+typedef struct Row_818E6F98_DungeonState {
+    u8 pad0[0xB0];
+    u32 ordering_table[0x208];
+    Row_818E6F98_Primitive *next_primitive;
+} Row_818E6F98_DungeonState;
+
+typedef union Row_818E6F98_WorkOutput {
+    u16 h[4];
+    s32 w[2];
+} Row_818E6F98_WorkOutput;
+
+/* Queues a textured quad at the supplied world position. */
+int abs(int);
+void *func_8003FD64(s32, void *);
+void func_8004491C(void *, void *);
+s32 func_80069EF8();
+s32 func_8003DE58(void *, void *, void *, s32);
+s32 func_800A3820(s16 entry_index);
+s32 func_800A05A4(void *, u8, u8, s16, s32);
+s16 func_800BCB04(s32, s32, s16);
+void func_800A56E0(s32);
+void func_80044A50(void *);
+void func_800419EC(s32, s32);
+void func_8002506C(s32, s16);
+s32 func_8009D218(s32, s32, void *);
+void func_800C8900(s32, s32, s32);
+s32 func_80065420(void *, void *, void *, void *);
+s16 func_80066460(s32, s32, s32, s32);
+s16 func_8006649C(s32, s32);
+void func_80066640(void *, s32);
+void func_800666F4(void *);
+extern u8 D_80024C7C[];
+extern u8 D_80024B60[];
+extern u8 D_800249DC[];
+extern u8 D_800DECF8[];
+extern u8 D_800E3D68[];
+void func_8002401C(u8 *effect, u8 *motion, void *context_arg);
+s32 func_80024798(void *sprite_data, void *position);
+#endif

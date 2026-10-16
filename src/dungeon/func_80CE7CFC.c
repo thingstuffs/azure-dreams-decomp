@@ -1,85 +1,4 @@
-#include "shared/entity_height_offsets.h"
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
-#include "shared/game_work.h"
-#include "shared/entity.h"
-#include "records/Rec_func_8017121C_arg1.h"
-
-
-typedef struct { s32 w0, w1, w2, w3; } Blk16;
-
-extern void *func_8003FD64();
-extern s32 func_8003DE58();
-extern void func_8004491C();
-extern void func_80047784();
-
-extern u8 D_80170DC4[];
-extern u8 D_80175EB4[];
-extern u8 D_80175EBC[];
-
-
-typedef struct S_801714FC_1 {
-    u8 pad_00[0x94];
-    s16 unk_94;
-    s16 unk_96;
-    u8 pad_98[0x6];
-    s16 unk_9E;
-} S_801714FC_1;   /* v1 in func_801714FC */
-
-typedef struct S_801714FC_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801714FC_2;   /* s2 in func_801714FC */
-
-typedef struct S_801714FC_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_801714FC_3;   /* s0v in func_801714FC */
-
-typedef struct S_801714FC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801714FC_4;   /* q in func_801714FC */
-
-
-typedef struct S_801714FC_6_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801714FC_6_pre;   /* the 0x14 bytes before arg0 in func_801714FC, addressed as arg0[-1] */
-
-typedef struct S_801714FC_7 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_801714FC_7;   /* r in func_801714FC */
-
-typedef struct S_801714FC_8_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_801714FC_8_pre;   /* the 0x18 bytes before ((S_801714FC_0 *)arg3)->unk_60.p in func_801714FC, addressed as ((S_801714FC_0 *)arg3)->unk_60.p[-1] */
-
-typedef struct S_801714FC_8 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-} S_801714FC_8;   /* ((S_801714FC_0 *)arg3)->unk_60.p in func_801714FC */
+#include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void func_801714FC(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
@@ -99,11 +18,11 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
         return;
     }
     effect_state = (u8 *)effect + 0x20;
-    ((S_801714FC_1 *)effect_state)->unk_96 = 0xa;
-    ((S_801714FC_1 *)effect_state)->unk_9E = 0xa;
-    ((S_801714FC_2 *)effect)->unk_10 = (void *)&D_80170DC4;
-    ((S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
-    effect_data = ((S_801714FC_2 *)effect)->unk_0C;
+    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
+    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
+    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&func_80170DC4;
+    ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
+    effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_0C;
     template_data = sprite_template;
     {
         Blk16 *src_block = (Blk16 *)template_data;
@@ -115,27 +34,27 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
             src_block++;
         } while (src_block != src_end);
     }
-    ((S_801714FC_3 *)effect_data)->unk_1E = 0x1000;
-    ((S_801714FC_3 *)effect_data)->unk_1C = 0x1000;
-    ((S_801714FC_3 *)effect_data)->unk_0E = 0x80;
-    ((S_801714FC_3 *)effect_data)->unk_0D = 0x80;
-    ((S_801714FC_3 *)effect_data)->unk_0C = 0x80;
-    ((S_801714FC_3 *)effect_data)->unk_14 = ((S_801714FC_3 *)effect_data)->unk_14 & 0xfff3;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_1E = 0x1000;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_1C = 0x1000;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0E = 0x80;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0D = 0x80;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0C = 0x80;
+    ((T_801714FC_S_801714FC_3 *)effect_data)->unk_14 = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_14 & 0xfff3;
     func_8004491C(effect, func_80045340);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     func_80047784(effect_data,
         ((u8 *)&D_80175EB4)[(((s32)gameWork.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
-    effect_data = ((S_801714FC_2 *)effect)->unk_08;
+    effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_08;
     if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
-        u8 *direction_offsets = (u8 *)&D_80175EBC;
-        linked_pos = ((S_801714FC_8_pre *)(actor->target))[-1].unk_00;
-        ((S_801714FC_3 *)effect_data)->unk_02 = ((S_801714FC_4 *)linked_pos)->unk_02
+        u8 *direction_offsets = (u8 *)((u8 *)D_80175EBC);
+        linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_02
         - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
-        ((S_801714FC_3 *)effect_data)->unk_06 = ((S_801714FC_4 *)linked_pos)->unk_06
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_06
         - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
-        ((S_801714FC_3 *)effect_data)->unk_0A = ((S_801714FC_4 *)linked_pos)->unk_0A
-        - (D_800DDC40[((S_801714FC_8 *)(actor->target))->unk_13] >> 1);
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_0A
+        - (D_800DDC40[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
     if (actor->unk_72 < 0) {
@@ -145,17 +64,17 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
             actor->unk_73 = -(u8)((u8)actor->unk_73);
         }
         tile_x = actor->unk_72;
-        ((S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_02 = (tile_x << 6) + 0x20;
         tile_y = actor->unk_73;
-        ((S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
-        ((S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = (tile_y << 6) + 0x20;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {
-            void *source_data = ((S_801714FC_6_pre *)source_object)[-1].unk_00;
-            if (func_8003DE58(((S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
-                ((S_801714FC_3 *)effect_data)->unk_0A = ((S_801714FC_3 *)effect_data)->unk_0A + pos_offset[2];
+            void *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
+            if (func_8003DE58(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
+                ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A + pos_offset[2];
                 return;
             }
         }
-        ((S_801714FC_3 *)effect_data)->unk_0A = ((S_801714FC_3 *)effect_data)->unk_0A - 0x28;
+        ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A - 0x28;
     }
 }

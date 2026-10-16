@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_8d2114",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-G0",
+    "row_asflags": ""
+  },
+  "basis": "The existing supported plain 2.7.2-G0 row recipe is used for the complete TU."
+}

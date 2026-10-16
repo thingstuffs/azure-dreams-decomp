@@ -1,39 +1,8 @@
-#include "common.h"
-#include "shared/dir_step.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
-#include "shared/entity.h"
-#include "records/Rec_D_80082E80.h"
+#include "modules/dungeon_resource16_slot0.h"
 
-
-typedef void (*Callback)(void *, void *, void *, void *);
-
-extern void func_80047738(void *, u8, s8);
-extern void func_800478B8(void *);
-extern s32 func_800644B8(s32);
-extern void func_800A020C(s32, void *);
-extern s32 func_800A9E70(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
-
-extern u8 D_80171014[];
-extern u8 D_8017420C[];
-extern Callback D_8017426C[];
-
-
-typedef struct S_80170A58_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_80170A58_2;   /* state in func_80170A58 */
-
-/* Update entity callbacks, movement, sprite facing, and ground-relative height. */
 void func_80170A58(void *entity, EntityRec *motion, void *sprite)
 {
-    S_80170A58_2 *state = entity;
+    R16_80170A58_S_80170A58_2 *state = entity;
     s16 previous_state;
     s32 view_dir;
     u8 dir_index;
@@ -41,15 +10,15 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
     u16 height_bits;
     s32 hover_limit;
     s16 ground_delta;
-    s32 ground_height;
+    s16 ground_height;
     u16 part_flags;
     s32 entity_flags;
-    Callback gated_callback;
-    Callback update_callback;
+    R16_80170A58_Callback gated_callback;
+    R16_80170A58_Callback update_callback;
 
     if (dungeonStatus.flags & 0x2000) {
-        gated_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (gated_callback == (Callback)D_80171014) {
+        gated_callback = (*(R16_80170A58_Callback *)((u8 *)entity + 0x8C));
+        if (gated_callback == (R16_80170A58_Callback)((u8 *)func_80171014)) {
             gated_callback(entity, motion, sprite, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -62,11 +31,11 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
         return;
     }
 
-    update_callback = (*(Callback *)((u8 *)entity + 0x8C));
+    update_callback = (*(R16_80170A58_Callback *)((u8 *)entity + 0x8C));
     if (update_callback != 0) {
         update_callback(entity, motion, sprite, entity);
     }
-    D_8017426C[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    ((R16_80170A58_Callback *)D_8017426C)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     if (previous_state != (*(s8 *)((u8 *)entity + 0x6D))) {
         func_800AA36C(entity, motion, sprite, entity);
     }
@@ -87,8 +56,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
         view_dir = ((gameWork.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
-            func_80047738(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index],
-                          ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+            func_80047738(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
             (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
         if (dirSpriteFlag[dir_index] != 0) {
@@ -112,15 +80,14 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
         entity_flags &= 0x40000;
         if (entity_flags != 0) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_8017420C) {
+                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),
-                              (s16)(state->unk_88 - 0x20));
+                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
                 hover_limit = -0x20;
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
@@ -136,8 +103,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = 0;
             (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),
-                                      (s16)(state->unk_88 - 0x20)) -
+                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
@@ -164,8 +130,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = 0;
             (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),
-                                      (s16)(state->unk_88 - 0x20)) -
+                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
@@ -176,15 +141,14 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
             }
         } else {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_8017420C) {
+                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == ((u8 *)D_8017420C)) {
                     u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
                     (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
                     (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),
-                              (s16)(state->unk_88 - 0x20));
+                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
                 hover_limit = -0x20;
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
@@ -201,8 +165,7 @@ void func_80170A58(void *entity, EntityRec *motion, void *sprite)
     if (entity_flags & 0x40000000) {
         state->unk_1C = entity_flags & 0xBFFFFFFF;
         ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
-                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
-                               (s16)(state->unk_88 - 0x20));
+                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,(s16)((s16)(state->unk_88 - 0x20)));
         if ((s16)ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
                 (*(u16 *)((u8 *)entity + 0x92)) + (state->unk_88 - ground_height);

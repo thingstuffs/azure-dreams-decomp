@@ -1,18 +1,6 @@
-#include "common.h"
-#include "shared/object_flags.h"
+#include "modules/dungeon_ovl_e0365c.h"
 
-extern void func_800478B8(void *arg);
-
-typedef struct {
-    u8 pad14[0x14];
-    u16 flags;
-    u8 pad16[6];
-    u16 field1c;
-    u16 field1e;
-} Func80DE678C_Obj;
-
-/* Update object motion unless its flags trigger termination. */
-void func_80DE678C(void *state_data, s32 *motion, Func80DE678C_Obj *object) {
+void func_80173F8C(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
     func_800478B8(object);
     if (object->flags & 0x6000) {
         *(u16 *)((u8 *)state_data - 2) |= 0x8000;

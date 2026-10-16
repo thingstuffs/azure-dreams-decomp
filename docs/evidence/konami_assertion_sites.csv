@@ -378,7 +378,7 @@ TOWN.BIN,0x7F7FCC,0x7F8060,0x80702060,0x7FF0A000,,,expr,sno,func_80877FEC,0x7F7F
 TOWN.BIN,0x7F88B0,0x7F89EC,0x807029EC,0x7FF0A000,sn_main.c,,expr,p->kind,func_80878974,0x7F8974,0x80702974,224,MATCH,func_80878974,D086,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x7F88B0,0x7F8A10,0x80702A10,0x7FF0A000,sn_main.c,,expr,ov_work.kind,func_80878974,0x7F8974,0x80702974,224,MATCH,func_80878974,D085,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x7F88D4,0x7F8A38,0x80702A38,0x7FF0A000,sn_main.c,47,mark,,func_80878974,0x7F8974,0x80702974,224,MATCH,func_80878974,D088,direct,
-TOWN.BIN,0x7F88F4,0x7F8ABC,0x80702ABC,0x7FF0A000,tobjs.c,226,assert,,func_80878A80,0x7F8A80,0x80702A80,296,not-in-sweep,,D067,direct,
+TOWN.BIN,0x7F88F4,0x7F8ABC,0x80702ABC,0x7FF0A000,tobjs.c,226,assert,,func_80878A78,0x7F8A78,0x80702A78,304,MATCH,,D067,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x7FFB10,0x7FFBF0,0x80700BF0,0x7FF01000,,,expr,kind,func_8087FBC4,0x7FFBC4,0x80700BC4,144,dup:MATCH,func_80883004,D072,unattributed,pool-neighbours after:flgtst.c
 TOWN.BIN,0x7FFB10,0x7FFC14,0x80700C14,0x7FF01000,,,expr,mode,func_8087FBC4,0x7FFBC4,0x80700BC4,144,dup:MATCH,func_80883004,D073,unattributed,pool-neighbours after:flgtst.c
 TOWN.BIN,0x7FFB10,0x7FFC38,0x80700C38,0x7FF01000,,,expr,sno,func_8087FBC4,0x7FFBC4,0x80700BC4,144,dup:MATCH,func_80883004,D079,unattributed,pool-neighbours after:flgtst.c
@@ -386,18 +386,18 @@ TOWN.BIN,0x7FFB30,0x7FFF50,0x80700F50,0x7FF01000,flgtst.c,201,mark,,func_8087FEF
 TOWN.BIN,0x7FFB50,0x80020C,0x8070120C,0x7FF01000,sn_main.c,,expr,p->kind,func_80880194,0x800194,0x80701194,224,not-in-sweep,,D086,same-function,pool-neighbours before:flgtst.c; after:sn_main.c
 TOWN.BIN,0x7FFB50,0x800230,0x80701230,0x7FF01000,sn_main.c,,expr,ov_work.kind,func_80880194,0x800194,0x80701194,224,not-in-sweep,,D085,same-function,pool-neighbours before:flgtst.c; after:sn_main.c
 TOWN.BIN,0x7FFB74,0x800258,0x80701258,0x7FF01000,sn_main.c,48,mark,,func_80880194,0x800194,0x80701194,224,not-in-sweep,,D089,direct,
-TOWN.BIN,0x7FFB94,0x8002D4,0x807012D4,0x7FF01000,tobjs.c,89,assert,,func_808802A0,0x8002A0,0x807012A0,252,not-in-sweep,,D069,direct,
+TOWN.BIN,0x7FFB94,0x8002D4,0x807012D4,0x7FF01000,tobjs.c,89,assert,,func_80880298,0x800298,0x80701298,260,MATCH,,D069,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x800F44,0x801004,0x80700804,0x7FEFF800,,,expr,kind,func_80880FD8,0x800FD8,0x807007D8,144,dup:MATCH,func_80883004,D072,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x800F44,0x801028,0x80700828,0x7FEFF800,,,expr,mode,func_80880FD8,0x800FD8,0x807007D8,144,dup:MATCH,func_80883004,D073,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x800F44,0x80104C,0x8070084C,0x7FEFF800,,,expr,sno,func_80880FD8,0x800FD8,0x807007D8,144,dup:MATCH,func_80883004,D079,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x800F64,0x80164C,0x80700E4C,0x7FEFF800,sn_main.c,,expr,p->kind,func_808815D4,0x8015D4,0x80700DD4,224,not-in-sweep,,D086,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x800F64,0x801670,0x80700E70,0x7FEFF800,sn_main.c,,expr,ov_work.kind,func_808815D4,0x8015D4,0x80700DD4,224,not-in-sweep,,D085,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x800F88,0x801698,0x80700E98,0x7FEFF800,sn_main.c,48,mark,,func_808815D4,0x8015D4,0x80700DD4,224,not-in-sweep,,D089,direct,
-TOWN.BIN,0x800FA8,0x80170C,0x80700F0C,0x7FEFF800,tobjs.c,75,assert,,func_808816E0,0x8016E0,0x80700EE0,228,not-in-sweep,,D068,direct,
+TOWN.BIN,0x800FA8,0x80170C,0x80700F0C,0x7FEFF800,tobjs.c,75,assert,,func_808816D8,0x8016D8,0x80700ED8,236,MATCH,,D068,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x802FB4,0x803030,0x80700830,0x7FEFD800,,,expr,kind,func_80883004,0x803004,0x80700804,144,MATCH,func_80883004,D072,unattributed,pool-neighbours after:tobjs.c
 TOWN.BIN,0x802FB4,0x803054,0x80700854,0x7FEFD800,,,expr,mode,func_80883004,0x803004,0x80700804,144,MATCH,func_80883004,D073,unattributed,pool-neighbours after:tobjs.c
 TOWN.BIN,0x802FB4,0x803078,0x80700878,0x7FEFD800,,,expr,sno,func_80883004,0x803004,0x80700804,144,MATCH,func_80883004,D079,unattributed,pool-neighbours after:tobjs.c
-TOWN.BIN,0x802FD4,0x80357C,0x80700D7C,0x7FEFD800,tobjs.c,75,assert,,func_80883550,0x803550,0x80700D50,228,not-in-sweep,,D068,direct,
+TOWN.BIN,0x802FD4,0x80357C,0x80700D7C,0x7FEFD800,tobjs.c,75,assert,,func_80883548,0x803548,0x80700D48,236,not-in-sweep,,D068,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x832944,0x833698,0xA0700E98,0x9FECD800,sn_main.c,,expr,p->kind,func_808B3620,0x833620,0xA0700E20,252,MATCH,func_808B3620,D086,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x832944,0x8336BC,0xA0700EBC,0x9FECD800,sn_main.c,,expr,ov_work.kind,func_808B3620,0x833620,0xA0700E20,252,MATCH,func_808B3620,D085,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x832968,0x8336E4,0xA0700EE4,0x9FECD800,sn_main.c,48,mark,,func_808B3620,0x833620,0xA0700E20,252,MATCH,func_808B3620,D089,direct,
@@ -407,7 +407,7 @@ TOWN.BIN,0x837CB0,0x837DB8,0x000035B8,0xFF7CB800,,,expr,sno,func_808B7D44,0x837D
 TOWN.BIN,0x837CD0,0x838548,0x00003D48,0xFF7CB800,sn_main.c,,expr,p->kind,func_808B84D0,0x8384D0,0x00003CD0,252,not-in-sweep,,D086,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x837CD0,0x83856C,0x00003D6C,0xFF7CB800,sn_main.c,,expr,ov_work.kind,func_808B84D0,0x8384D0,0x00003CD0,252,not-in-sweep,,D085,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x837CF4,0x838594,0x00003D94,0xFF7CB800,sn_main.c,47,mark,,func_808B84D0,0x8384D0,0x00003CD0,252,not-in-sweep,,D088,direct,
-TOWN.BIN,0x837D14,0x838634,0x00003E34,0xFF7CB800,tobjs.c,225,assert,,func_808B85F8,0x8385F8,0x00003DF8,296,not-in-sweep,,D066,direct,
+TOWN.BIN,0x837D14,0x838634,0x00003E34,0xFF7CB800,tobjs.c,225,assert,,func_808B85F0,0x8385F0,0x00003DF0,304,MATCH,,D066,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x839100,0x8391E0,0xA07001E0,0x9FEC7000,,,expr,kind,func_808B91B4,0x8391B4,0xA07001B4,144,dup:MATCH,func_80883004,D072,unattributed,pool-neighbours after:flgtst.c
 TOWN.BIN,0x839100,0x839204,0xA0700204,0x9FEC7000,,,expr,mode,func_808B91B4,0x8391B4,0xA07001B4,144,dup:MATCH,func_80883004,D073,unattributed,pool-neighbours after:flgtst.c
 TOWN.BIN,0x839100,0x839228,0xA0700228,0x9FEC7000,,,expr,sno,func_808B91B4,0x8391B4,0xA07001B4,144,dup:MATCH,func_80883004,D079,unattributed,pool-neighbours after:flgtst.c
@@ -415,18 +415,18 @@ TOWN.BIN,0x839120,0x839540,0xA0700540,0x9FEC7000,flgtst.c,201,mark,,func_808B94E
 TOWN.BIN,0x839140,0x839828,0xA0700828,0x9FEC7000,sn_main.c,,expr,p->kind,func_808B97B0,0x8397B0,0xA07007B0,252,dup:MATCH,func_808B3620,D086,same-function,pool-neighbours before:flgtst.c; after:sn_main.c
 TOWN.BIN,0x839140,0x83984C,0xA070084C,0x9FEC7000,sn_main.c,,expr,ov_work.kind,func_808B97B0,0x8397B0,0xA07007B0,252,dup:MATCH,func_808B3620,D085,same-function,pool-neighbours before:flgtst.c; after:sn_main.c
 TOWN.BIN,0x839164,0x839874,0xA0700874,0x9FEC7000,sn_main.c,48,mark,,func_808B97B0,0x8397B0,0xA07007B0,252,dup:MATCH,func_808B3620,D089,direct,
-TOWN.BIN,0x839184,0x83990C,0xA070090C,0x9FEC7000,tobjs.c,89,assert,,func_808B98D8,0x8398D8,0xA07008D8,252,not-in-sweep,,D069,direct,
+TOWN.BIN,0x839184,0x83990C,0xA070090C,0x9FEC7000,tobjs.c,89,assert,,func_808B98D0,0x8398D0,0xA07008D0,260,not-in-sweep,,D069,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x83AE30,0x83AEF0,0x000006F0,0xFF7C5800,,,expr,kind,func_808BAEC4,0x83AEC4,0x000006C4,144,dup:MATCH,func_80883004,D072,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x83AE30,0x83AF14,0x00000714,0xFF7C5800,,,expr,mode,func_808BAEC4,0x83AEC4,0x000006C4,144,dup:MATCH,func_80883004,D073,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x83AE30,0x83AF38,0x00000738,0xFF7C5800,,,expr,sno,func_808BAEC4,0x83AEC4,0x000006C4,144,dup:MATCH,func_80883004,D079,unattributed,pool-neighbours after:sn_main.c
 TOWN.BIN,0x83AE50,0x83B544,0x00000D44,0xFF7C5800,sn_main.c,,expr,p->kind,func_808BB4CC,0x83B4CC,0x00000CCC,252,dup:MATCH,func_808B3620,D086,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x83AE50,0x83B568,0x00000D68,0xFF7C5800,sn_main.c,,expr,ov_work.kind,func_808BB4CC,0x83B4CC,0x00000CCC,252,dup:MATCH,func_808B3620,D085,same-function,pool-neighbours after:sn_main.c
 TOWN.BIN,0x83AE74,0x83B590,0x00000D90,0xFF7C5800,sn_main.c,48,mark,,func_808BB4CC,0x83B4CC,0x00000CCC,252,dup:MATCH,func_808B3620,D089,direct,
-TOWN.BIN,0x83AE94,0x83B620,0x00000E20,0xFF7C5800,tobjs.c,75,assert,,func_808BB5F4,0x83B5F4,0x00000DF4,228,not-in-sweep,,D068,direct,
+TOWN.BIN,0x83AE94,0x83B620,0x00000E20,0xFF7C5800,tobjs.c,75,assert,,func_808BB5EC,0x83B5EC,0x00000DEC,236,MATCH,,D068,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x844710,0x84478C,0x0000078C,0xFF7BC000,,,expr,kind,func_808C4760,0x844760,0x00000760,144,dup:MATCH,func_80883004,D072,unattributed,pool-neighbours after:tobjs.c
 TOWN.BIN,0x844710,0x8447B0,0x000007B0,0xFF7BC000,,,expr,mode,func_808C4760,0x844760,0x00000760,144,dup:MATCH,func_80883004,D073,unattributed,pool-neighbours after:tobjs.c
 TOWN.BIN,0x844710,0x8447D4,0x000007D4,0xFF7BC000,,,expr,sno,func_808C4760,0x844760,0x00000760,144,dup:MATCH,func_80883004,D079,unattributed,pool-neighbours after:tobjs.c
-TOWN.BIN,0x844730,0x844CE4,0x00000CE4,0xFF7BC000,tobjs.c,75,assert,,func_808C4CB8,0x844CB8,0x00000CB8,228,not-in-sweep,,D068,direct,
+TOWN.BIN,0x844730,0x844CE4,0x00000CE4,0xFF7BC000,tobjs.c,75,assert,,func_808C4CB0,0x844CB0,0x00000CB0,236,not-in-sweep,,D068,direct,r121: entry includes the two-word flag load before stack allocation; retail return boundary and incoming jal corroborate it (tobjs_assertion_boundaries.json).
 TOWN.BIN,0x8CD084,0x8CD1C0,0x800161C0,0x7F749000,main.c,39,assert,,func_8094D140,0x8CD140,0x80016140,196,dup:MATCH,func_8095013C,D059,direct,
 TOWN.BIN,0x8CD084,0x8CD28C,0x8001628C,0x7F749000,main.c,54,assert,,func_8094D204,0x8CD204,0x80016204,204,dup:MATCH,func_800162B0,D061,direct,
 TOWN.BIN,0x8CE0B4,0x8CD8DC,0x800158DC,0x7F748000,main.c,,expr,((u_long)p - (u_long)ost_w)/ sizeof(OSETDT),func_8094D774,0x8CD774,0x80015774,716,dup:MATCH,func_800168B4,D082,rdata-block-before,pool-neighbours before:main.c

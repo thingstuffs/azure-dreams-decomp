@@ -1,0 +1,49 @@
+{
+  "module": "dungeon_ovl_7f559800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7f559800.c",
+    "module_index": 79
+  },
+  "members": [
+    "dungeon/func_80BF1078"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": "Complete original singleton ledger cohort; one complete routine in the proven conditional resource bank. The natural code allocation is the exact row extent. The verified loader establishes the full surrounding bank; external data remains imported. No row is shared with another module.",
+  "boundary": {
+    "file_start": 12652664,
+    "file_end": 12653144,
+    "region": {
+      "schema": "azure-clean.rowbase.v1",
+      "region": "native_resource_16_slot_1",
+      "foff_start": "0xc11000",
+      "foff_end": "0xc17000",
+      "delta": "0x7f559800",
+      "base_confidence": "proven",
+      "proof": "Verified conditional normal resource-loader transfer (func_800A0B94): resource 16, slot 1, twelve sectors at LBA 0x4838 -> 0x8016a800. Retail instruction words, descriptor decoder, ISO extent and every disc/container sector verified in docs/evidence/dungeon_resource_16_slot_1.placement.json. Existing proven row recompiles agree with this delta; no runtime occurrence is claimed."
+    },
+    "other_rows_intersecting": [],
+    "resource_loader_receipt": "docs/evidence/dungeon_resource_16_slot_1.placement.json"
+  },
+  "cohesion": {
+    "function": "func_8016A878",
+    "external_symbols": [
+      "D_80083498",
+      "D_8016AA58",
+      "D_8016B014",
+      "D_8016E20C",
+      "D_8016E25C",
+      "func_8003FD64",
+      "func_8004491C",
+      "func_80045340",
+      "func_800A48F0",
+      "func_800A6D30",
+      "func_800A9C18",
+      "func_800AA36C"
+    ],
+    "description": "One complete routine and its referenced external services/storage; no invented cross-row cohesion."
+  },
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_64d298",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-G0",
+    "row_asflags": ""
+  },
+  "basis": "Stock gcc-2.7.2 -O2 -G0, with the supported whole-TU genuine-ASPSX recipe; no per-member flags."
+}

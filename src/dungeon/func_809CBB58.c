@@ -1,79 +1,26 @@
-#include "common.h"
-#include "shared/tile_object.h"
-#include "shared/entity.h"
-#include "shared/record_ptrs.h"
-#include "shared/game_work.h"
-#include "shared/dungeon_status.h"
+#include "modules/dungeon_resource03_slot0.h"
 
-typedef struct S_80173358_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_80173358_0;   /* arg0 in func_80173358 */
-
-typedef struct S_80173358_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_80173358_1;   /* arg2 in func_80173358 */
-
-typedef struct S_80173358_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173358_2;   /* arg3 in func_80173358 */
-
-
-extern s32 func_80042900(void *, s32);
-extern void func_80042B68(void *, s32);
-extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
-extern s16 func_8009FD40(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30(void);
-extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void func_80173A30(void *, void *, void *, void *);
-
-extern u8 D_80170E54[];
-extern u8 D_80173CDC[];
-extern u8 D_80173CE4[];
-
-/* Updates actor status and directional animation, then restores the default handler. */
 void func_80173358(void *in_controller, void *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
     s32 state;
 
-    state = ((S_80173358_0 *)in_controller)->unk_9B;
+    state = ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B;
     switch (state) {
     case 0:
-        if (((S_80173358_1 *)sprite)->unk_14 & 0xE000) {
+        if (((R03_80173358_S_80173358_1 *)sprite)->unk_14 & 0xE000) {
             u8 *direction_anims;
             DungeonGlobalStatus *system_base;
 
-            direction_anims = D_80173CDC;
+            direction_anims = ((u8 *)D_80173CDC);
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             func_80047784(sprite,
-                direction_anims[((gameWork.view.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((gameWork.view.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             system_base = &dungeonStatus;
             (*(u16 *)&system_base->unk_0A)--;
-            ((S_80173358_0 *)in_controller)->unk_9B++;
+            ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B++;
         }
         return;
 
@@ -87,12 +34,12 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
                 return;
             }
 
-            if ((((S_80173358_2 *)actor)->unk_64 != 0) &&
+            if ((((R03_80173358_S_80173358_2 *)actor)->unk_64 != 0) &&
                 (func_800AA6B4(in_controller, context, sprite, 0) != 0)) {
                 return;
             }
 
-            if (((S_80173358_2 *)actor)->unk_25 == 0) {
+            if (((R03_80173358_S_80173358_2 *)actor)->unk_25 == 0) {
                 if (system_base->flags & 0x2008) {
                     return;
                 }
@@ -104,7 +51,7 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
                 return;
             }
 
-            actor_flags = ((S_80173358_2 *)actor)->unk_1C;
+            actor_flags = ((R03_80173358_S_80173358_2 *)actor)->unk_1C;
             if (actor_flags & 0x100) {
                 func_800AA258(in_controller, context, sprite, actor);
                 return;
@@ -116,7 +63,7 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
                 return;
             }
 
-            if (((S_80173358_2 *)actor)->unk_6D == 0) {
+            if (((R03_80173358_S_80173358_2 *)actor)->unk_6D == 0) {
                 return;
             }
 
@@ -135,10 +82,10 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
                 s8 coordinate;
 
                 origin = &D_80082E80;
-                coordinate = ((S_80173358_1 *)sprite)->unk_26;
+                coordinate = ((R03_80173358_S_80173358_1 *)sprite)->unk_26;
                 if ((((coordinate == origin->unk_026) &&
                     (coordinate >= 0)) ||
-                    (func_8009FD40(origin, sprite) < 2)) &&
+                    (((s16)func_8009FD40(origin, sprite)) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
                     func_80042B68(actor, 1);
                 }
@@ -152,10 +99,10 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
         {
             u8 *direction_anims;
 
-            direction_anims = D_80173CE4;
+            direction_anims = ((u8 *)D_80173CE4);
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
             func_80047784(sprite,
-                direction_anims[((gameWork.view.viewAngle + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                direction_anims[((gameWork.view.viewAngle + ((R03_80173358_S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -164,13 +111,13 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
             DungeonGlobalStatus *system_base = &dungeonStatus;
 
             (*(u16 *)&system_base->unk_0A)++;
-            ((S_80173358_0 *)in_controller)->unk_9B++;
+            ((R03_80173358_S_80173358_0 *)in_controller)->unk_9B++;
             return;
         }
         break;
 
     case 2:
-        if (!(((S_80173358_1 *)sprite)->unk_14 & 0xE000)) {
+        if (!(((R03_80173358_S_80173358_1 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
         {
@@ -182,7 +129,7 @@ void func_80173358(void *in_controller, void *in_context, void *sprite, void *in
     default:
         return;
     }
-    ((S_80173358_2 *)actor)->unk_1C &= ~0x200;
+    ((R03_80173358_S_80173358_2 *)actor)->unk_1C &= ~0x200;
     in_controller = (u8 *)in_controller + 0x8C;
-    *(void **)in_controller = D_80170E54;
+    *(void **)in_controller = ((u8 *)func_80170E54);
 }

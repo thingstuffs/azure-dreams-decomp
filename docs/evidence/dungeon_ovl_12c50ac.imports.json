@@ -1,0 +1,635 @@
+{
+  "module": "dungeon_ovl_12c50ac",
+  "maps": {
+    "slus_load": {
+      "asset": "baserom/slus_006.14",
+      "kind": "psx_exe",
+      "file_start": 2048,
+      "file_end": 348160,
+      "delta": 2147665920,
+      "basis": "PS-X EXE load header"
+    },
+    "xfer_dungeon_A3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "basis": "Proven prior load-map evidence; native image consolidation is separately byte-reproved."
+    },
+    "bank_7ce800_assets": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "bank_7ce800_assets",
+      "file_start": 8196676,
+      "file_end": 8210432,
+      "delta": 2140305408,
+      "basis": "Proven prior load-map evidence; native image consolidation is separately byte-reproved."
+    },
+    "native_7ce800_800f6000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "native_7ce800_800f6000",
+      "file_start": 8185856,
+      "file_end": 8196676,
+      "delta": 2140305408,
+      "basis": "Proven prior load-map evidence; native image consolidation is separately byte-reproved."
+    },
+    "w4d1_12c5000_bank": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "kind": "rowbase",
+      "region": "w4d1_12c5000_bank",
+      "file_start": 19681280,
+      "file_end": 19705856,
+      "delta": 2129311744,
+      "basis": "Proven prior load-map evidence; native image consolidation is separately byte-reproved."
+    }
+  },
+  "views": {
+    "D_8006CCF8": {
+      "symbol": "D_8006CCF8",
+      "kind": "data",
+      "vma": 2147929336,
+      "foff": 263416,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006EE9C": {
+      "symbol": "D_8006EE9C",
+      "kind": "data",
+      "vma": 2147937948,
+      "foff": 272028,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006F47A": {
+      "symbol": "D_8006F47A",
+      "kind": "data",
+      "vma": 2147939450,
+      "foff": 273530,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006F50D": {
+      "symbol": "D_8006F50D",
+      "kind": "data",
+      "vma": 2147939597,
+      "foff": 273677,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006F6B9": {
+      "symbol": "D_8006F6B9",
+      "kind": "data",
+      "vma": 2147940025,
+      "foff": 274105,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006F9D0": {
+      "symbol": "D_8006F9D0",
+      "kind": "data",
+      "vma": 2147940816,
+      "foff": 274896,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006FD01": {
+      "symbol": "D_8006FD01",
+      "kind": "data",
+      "vma": 2147941633,
+      "foff": 275713,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_8006FFB7": {
+      "symbol": "D_8006FFB7",
+      "kind": "data",
+      "vma": 2147942327,
+      "foff": 276407,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800703D9": {
+      "symbol": "D_800703D9",
+      "kind": "data",
+      "vma": 2147943385,
+      "foff": 277465,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80070684": {
+      "symbol": "D_80070684",
+      "kind": "data",
+      "vma": 2147944068,
+      "foff": 278148,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80070AF8": {
+      "symbol": "D_80070AF8",
+      "kind": "data",
+      "vma": 2147945208,
+      "foff": 279288,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80070C11": {
+      "symbol": "D_80070C11",
+      "kind": "data",
+      "vma": 2147945489,
+      "foff": 279569,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80070E63": {
+      "symbol": "D_80070E63",
+      "kind": "data",
+      "vma": 2147946083,
+      "foff": 280163,
+      "view_bytes": 16,
+      "owner": "retail_asset:baserom/slus_006.14",
+      "asset": "baserom/slus_006.14",
+      "map": "slus_load",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800E296C": {
+      "symbol": "D_800E296C",
+      "kind": "data",
+      "vma": 2148411756,
+      "foff": 1036812,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "xfer_dungeon_A3000",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FB3C8": {
+      "symbol": "D_800FB3C8",
+      "kind": "data",
+      "vma": 2148512712,
+      "foff": 8207304,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FB8DF": {
+      "symbol": "D_800FB8DF",
+      "kind": "data",
+      "vma": 2148514015,
+      "foff": 8208607,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBAD7": {
+      "symbol": "D_800FBAD7",
+      "kind": "data",
+      "vma": 2148514519,
+      "foff": 8209111,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBD96": {
+      "symbol": "D_800FBD96",
+      "kind": "data",
+      "vma": 2148515222,
+      "foff": 8209814,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBE1C": {
+      "symbol": "D_800FBE1C",
+      "kind": "data",
+      "vma": 2148515356,
+      "foff": 8209948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBE20": {
+      "symbol": "D_800FBE20",
+      "kind": "data",
+      "vma": 2148515360,
+      "foff": 8209952,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBE22": {
+      "symbol": "D_800FBE22",
+      "kind": "data",
+      "vma": 2148515362,
+      "foff": 8209954,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_800FBE54": {
+      "symbol": "D_800FBE54",
+      "kind": "data",
+      "vma": 2148515412,
+      "foff": 8210004,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "bank_7ce800_assets",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80170804": {
+      "symbol": "D_80170804",
+      "kind": "data",
+      "vma": 2148993028,
+      "foff": 19681284,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "w4d1_12c5000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80171FA4": {
+      "symbol": "D_80171FA4",
+      "kind": "data",
+      "vma": 2148999076,
+      "foff": 19687332,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "w4d1_12c5000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80175C30": {
+      "symbol": "D_80175C30",
+      "kind": "data",
+      "vma": 2149014576,
+      "foff": 19702832,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "w4d1_12c5000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    },
+    "D_80175CC8": {
+      "symbol": "D_80175CC8",
+      "kind": "data",
+      "vma": 2149014728,
+      "foff": 19702984,
+      "view_bytes": 1024,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "w4d1_12c5000_bank",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json"
+    }
+  },
+  "runtime_views": {
+    "D_80013714": {
+      "symbol": "D_80013714",
+      "kind": "runtime_data",
+      "vma": 2147563284,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/sys_flags.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 512,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/game_work.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/dungeon_status.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/object_node.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 300,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_ovl_12c50ac.imports.json",
+      "declaration": "include/shared/entity_objects.h"
+    }
+  },
+  "functions": {
+    "func_800353F4": {
+      "vma": 2147701748,
+      "foff": 35828,
+      "map": "slus_load"
+    },
+    "func_8003FD64": {
+      "vma": 2147745124,
+      "foff": 79204,
+      "map": "slus_load"
+    },
+    "func_80042B68": {
+      "vma": 2147756904,
+      "foff": 90984,
+      "map": "slus_load"
+    },
+    "func_8004491C": {
+      "vma": 2147764508,
+      "foff": 98588,
+      "map": "slus_load"
+    },
+    "func_80045340": {
+      "vma": 2147767104,
+      "foff": 101184,
+      "map": "slus_load"
+    },
+    "func_80047738": {
+      "vma": 2147776312,
+      "foff": 110392,
+      "map": "slus_load"
+    },
+    "func_800478B8": {
+      "vma": 2147776696,
+      "foff": 110776,
+      "map": "slus_load"
+    },
+    "func_800644B8": {
+      "vma": 2147894456,
+      "foff": 228536,
+      "map": "slus_load"
+    },
+    "func_800A020C": {
+      "vma": 2148139532,
+      "foff": 764588,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800A2C34": {
+      "vma": 2148150324,
+      "foff": 775380,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800A48F0": {
+      "vma": 2148157680,
+      "foff": 782736,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800A9A0C": {
+      "vma": 2148178444,
+      "foff": 803500,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800A9C18": {
+      "vma": 2148178968,
+      "foff": 804024,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800A9E70": {
+      "vma": 2148179568,
+      "foff": 804624,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800AA36C": {
+      "vma": 2148180844,
+      "foff": 805900,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800BCB04": {
+      "vma": 2148256516,
+      "foff": 881572,
+      "map": "xfer_dungeon_A3000"
+    },
+    "func_800F6D28": {
+      "vma": 2148494632,
+      "foff": 8189224,
+      "map": "native_7ce800_800f6000"
+    },
+    "func_800F6DFC": {
+      "vma": 2148494844,
+      "foff": 8189436,
+      "map": "native_7ce800_800f6000"
+    }
+  },
+  "review": "pending",
+  "reviewer": null,
+  "source_access_bounds": {
+    "D_8006CCF8": {
+      "view_bytes": 16,
+      "sha256": "5177a14da7b4e970a6b7a233b13d9dc12a3edb47973d81e67d2e8a07c8e9d4f2",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006EE9C": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006F47A": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006F50D": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006F6B9": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006F9D0": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006FD01": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_8006FFB7": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800703D9": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80070684": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80070AF8": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80070C11": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80070E63": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800E296C": {
+      "view_bytes": 16,
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800E3D7C": {
+      "view_bytes": 16,
+      "sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FB3C8": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FB8DF": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBAD7": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBD96": {
+      "view_bytes": 16,
+      "sha256": "7d18d0ef6898ab0e0b290d6b4c4e7c3b6fa59c7131791b44c3da5891ce85c355",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBE1C": {
+      "view_bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBE20": {
+      "view_bytes": 16,
+      "sha256": "27af508f6e374704472626023e89ed31cff4028ce9e60719119ba78976c7dd2b",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBE22": {
+      "view_bytes": 16,
+      "sha256": "56aa2d041b62841e59e4e16b7efcd5332f3547eef0f4c02251e91aa6d4f40ce4",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_800FBE54": {
+      "view_bytes": 16,
+      "sha256": "8ec79b651f5f7f2c78b033beae2d2c6aa5ab3f1419be6e97d20858eaffbac45e",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80170804": {
+      "view_bytes": 16,
+      "sha256": "f9c92714f3a23308a861db8678ea170427bc197bd0d93f042e2a9352c309a7ea",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80171FA4": {
+      "view_bytes": 16,
+      "sha256": "b30a5afb57b40091a009eff24e4faf7801965a829d32761a2a3790dfdd6f3f28",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80175C30": {
+      "view_bytes": 16,
+      "sha256": "bb1dd7e571f863c01ab61bfce7be361e819341450adb89d3f9937eb099037636",
+      "basis": "Imported declaration/address view. Fixed direct accesses lie inside this span; pointer arguments grant no external allocation ownership."
+    },
+    "D_80175CC8": {
+      "view_bytes": 1024,
+      "sha256": "721275cae38bf61d95f462d4fd1e7e6f72ccb06cef68269eb20959d2d37fd1b9",
+      "basis": "Unsigned-byte callback index: 256 four-byte pointer positions; bounded external asset view only, no ownership."
+    }
+  }
+}

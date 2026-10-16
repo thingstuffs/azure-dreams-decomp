@@ -1,0 +1,17 @@
+{
+  "module": "dungeon_ovl_ca1084",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "One original GCC 2.7.2-cdk -O2 -G0 recipe for the complete cohort.",
+    "ASPSX 2.79 -0 selects R3000 instructions, matching the canonical maspsx -march=r3000 path. Whole TU genuine and retail comparisons use zero masks."
+  ]
+}

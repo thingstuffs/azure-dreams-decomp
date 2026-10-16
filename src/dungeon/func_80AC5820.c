@@ -10,11 +10,11 @@ typedef struct S_80AC5820_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80AC5820_0;   /* arg1 in func_80AC5820 */
+} S_80AC5820_0;   /* arg1 in func_80171020 */
 
 typedef struct S_80AC5820_1_pre {
     u16 unk_00;
-} S_80AC5820_1_pre;   /* the 0x2 bytes before arg0 in func_80AC5820, addressed as arg0[-1] */
+} S_80AC5820_1_pre;   /* the 0x2 bytes before arg0 in func_80171020, addressed as arg0[-1] */
 
 typedef struct S_80AC5820_1 {
     u8 pad_00[0x94];
@@ -22,7 +22,7 @@ typedef struct S_80AC5820_1 {
     u16 unk_96;
     u8 pad_98[0x10];
     void * unk_A8;
-} S_80AC5820_1;   /* arg0 in func_80AC5820 */
+} S_80AC5820_1;   /* arg0 in func_80171020 */
 
 typedef struct S_80AC5820_2 {
     u8 pad_00[0x2];
@@ -31,7 +31,7 @@ typedef struct S_80AC5820_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80AC5820_2;   /* other in func_80AC5820 */
+} S_80AC5820_2;   /* other in func_80171020 */
 
 
 extern void func_800478B8();
@@ -50,7 +50,7 @@ typedef struct StackWork {
 } StackWork;
 
 /* Updates the relative position value with an angle bias and flags countdown completion. */
-void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
+void func_80171020(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
 {
     StackWork work;
     s16 ticks_left;

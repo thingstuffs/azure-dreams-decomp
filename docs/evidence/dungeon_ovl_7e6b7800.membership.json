@@ -1,0 +1,123 @@
+{
+  "module": "dungeon_ovl_7e6b7800",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_7e6b7800.c",
+    "module_index": 183
+  },
+  "members": [
+    "dungeon/func_8194C81C",
+    "dungeon/func_8194C8F0",
+    "dungeon/func_8194CC94",
+    "dungeon/func_8194CD5C",
+    "dungeon/func_8194CF00",
+    "dungeon/func_8194D118",
+    "dungeon/func_8194D1E4",
+    "dungeon/func_8194D354"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "tu_boundary": "Native grouping of the complete ledger run; original compiler TU boundary is not separately observable.",
+  "basis": [
+    "Complete ledger cohort, strictly contiguous in file order with one selector load delta, a uniform recipe, no member assigned to another certified module.",
+    "Authenticated selector 53 loads bank [0x196c800, 0x1972800) to 0x80024000; all members lie within it.",
+    "Shared header reconciles private structure views and declarations; retail control-flow edges and shared data references recorded below. Singleton cohorts are complete standalone helper units; multirow cohorts share the same loaded bank and effect/object services.",
+    "One guarded assignment replacement joins the original singleton helper with the complete seven-row switch cohort. These are all eight members of the new complete physical run.",
+    "The complete switch owner at 0x80024B54 naturally emits five entries at bank+8. Transfer 20 adjacent raw bytes, preserve the eight-byte predecessor header, and expand the first helper row with body_offset 20.",
+    "A single shared FourWords type retains the original caller four-byte alignment; Packed4/Packed8 retain their unaligned word semantics. Normal structure views precede the old GCC aligned(1) typedef so its alignment effect does not change unrelated records. The 0x80024918 consumer explicitly preserves the original unsigned right shift of the shared sine-service result."
+  ],
+  "run": {
+    "file_start": 26658824,
+    "file_end": 26663740,
+    "delta": 2120972288,
+    "selector": 53
+  },
+  "internal_calls": {
+    "dungeon/func_8194C81C": [],
+    "dungeon/func_8194C8F0": [],
+    "dungeon/func_8194CC94": [],
+    "dungeon/func_8194CD5C": [],
+    "dungeon/func_8194CF00": [],
+    "dungeon/func_8194D118": [
+      "func_80024700"
+    ],
+    "dungeon/func_8194D1E4": [],
+    "dungeon/func_8194D354": [
+      "func_8002401C",
+      "func_80024494",
+      "func_800249E4"
+    ]
+  },
+  "data_references": {
+    "dungeon/func_8194C81C": [],
+    "dungeon/func_8194C8F0": [
+      "D_800814A8",
+      "D_80082E80",
+      "D_800E3D18",
+      "gameWork",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_8194CC94": [
+      "D_800240F0",
+      "D_80083498"
+    ],
+    "dungeon/func_8194CD5C": [
+      "D_800814A0",
+      "objectFlagBlock"
+    ],
+    "dungeon/func_8194CF00": [
+      "D_8002455C",
+      "D_800DE938"
+    ],
+    "dungeon/func_8194D118": [
+      "objectFlagBlock"
+    ],
+    "dungeon/func_8194D1E4": [
+      "D_80024918"
+    ],
+    "dungeon/func_8194D354": [
+      "D_800814A8",
+      "D_80082E80",
+      "D_80083780",
+      "D_800DE5DC",
+      "D_800E3D18",
+      "gameWork",
+      "objectFlagBlock"
+    ]
+  },
+  "complete_body_sha256": {
+    "dungeon/func_8194C81C": "268adf774803a650a25ee060b6e98ad70cad345c0a560899a1eee36e6d07a2ae",
+    "dungeon/func_8194C8F0": "474d71b973542c963a8c9d587cb059bd37d6519da21546ce72c15c6fe0ccda30",
+    "dungeon/func_8194CC94": "b628f7770fdc82ef6c65413f60d4ef92338c517f35bfd8e853f7c630b18743d1",
+    "dungeon/func_8194CD5C": "c8dd0a273ef14ad3c834ebae2d270437b662225147cef626dfd6bb73f96c9db5",
+    "dungeon/func_8194CF00": "d90fe2e8f07a27862b6fac31af254585bfb16acfb1d1826214dd16ab116639e0",
+    "dungeon/func_8194D118": "51ff375e1c5b56044927023963598baf1e2786f8d10629d54731b4fcc80b54e3",
+    "dungeon/func_8194D1E4": "9c04bee72c6435e4cffdbd62d28f46002209101af2a5a9b1bdace8be4e0adcaa",
+    "dungeon/func_8194D354": "7c7296b555bdd2287281d099f31d850af585e7e861e921753b78c34d4f1ebf83"
+  },
+  "no_shared_members": true,
+  "reviewer": "orchestrator-r120",
+  "original_ledger_cohorts": [
+    "ovl_196c81c.c#191",
+    "ovl_7e6b7800.c#183"
+  ],
+  "boundary_reconciliation": {
+    "before_cohort_rows": [
+      1,
+      7
+    ],
+    "after_cohort_rows": 8,
+    "supersedes_pending_package": "dungeon_ovl_196c81c",
+    "assignment_transaction": "records/assignments.guarded.jsonl",
+    "no_added_or_missing_members": true,
+    "reason": "Both complete original weak cohorts are adjacent in selector bank 53, use one recipe, and have direct caller/helper and aggregate contracts. Combining all eight functions puts the previously separated switch storage immediately before the full code run. The singleton package is retired from the current plan; no row is shared."
+  },
+  "raw_data_prefix_carve": {
+    "original_start": 26658816,
+    "original_end": 26658844,
+    "remaining_raw_end": 26658824,
+    "native_start": 26658824,
+    "native_end": 26658844
+  },
+  "review": "reviewed"
+}

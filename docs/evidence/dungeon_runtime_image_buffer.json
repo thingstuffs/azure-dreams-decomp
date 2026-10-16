@@ -1,0 +1,44 @@
+{
+  "symbol": "D_8014A000",
+  "vma": 2148835328,
+  "storage": "Existing runtime image scratch area, external to every normal-resource code bank.",
+  "claim": "Address-only runtime import. No fixed disc mapping, initialization, byte contents or allocation extent is asserted.",
+  "declaration": "include/shared/dungeon_image_buffer.h",
+  "asset": "baserom/slus_006.14",
+  "psx_exe": {
+    "load": 2147667968,
+    "size": 346112
+  },
+  "resident_argument_proof": {
+    "caller": "func_80047EEC",
+    "callee": "func_80047AB0",
+    "words": [
+      {
+        "vma": 2147778384,
+        "foff": 112464,
+        "word": 1006862357,
+        "sha256": "ff9bcb4a5b4bacb2d54e3110cc7626c8c3c5bf10bd751071fab6eeacc01f159a"
+      },
+      {
+        "vma": 2147778388,
+        "foff": 112468,
+        "word": 610508800,
+        "sha256": "162156e9cda51ec01f4c6210952e0b955bf714768c7aba0078cbe8aeb094b181"
+      },
+      {
+        "vma": 2147778416,
+        "foff": 112496,
+        "word": 201399980,
+        "sha256": "3a784c801cd5fd4fa2177556ea3c070b6ce8e016c464508b9866e5053b87092a"
+      },
+      {
+        "vma": 2147778420,
+        "foff": 112500,
+        "word": 2946695184,
+        "sha256": "af0608ccae6d58dd9c73c20ab7b3da1d488a1ac3f253036087f7958c30f26c00"
+      }
+    ],
+    "dataflow": "lui v1,0x8015; addiu v1,-0x6000 constructs 0x8014A000; sw v1,16(sp) in the jal delay slot passes it as the fifth image input to the resident image-tile uploader."
+  },
+  "bank_use": "Each importing member adds a bank-owned retail offset table entry to this runtime base and passes the resulting image record to resident func_8003DB94. Offsets remain external retail asset views."
+}

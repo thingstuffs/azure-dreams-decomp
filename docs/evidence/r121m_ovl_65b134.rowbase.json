@@ -1,0 +1,211 @@
+{
+  "group": "ovl_65b134.c#57",
+  "start": 6664192,
+  "end": 6664636,
+  "delta": 2140909568,
+  "local_jumps": [
+    {
+      "foff": 6665452,
+      "word": "0x0800593F",
+      "target": 2147575036,
+      "target_foff": 6665468,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 6665612,
+      "word": "0x08005969",
+      "target": 2147575204,
+      "target_foff": 6665636,
+      "target_words": [
+        "0x0C005CB9",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 6666248,
+      "word": "0x08005A09",
+      "target": 2147575844,
+      "target_foff": 6666276,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6666320,
+      "word": "0x08005A20",
+      "target": 2147575936,
+      "target_foff": 6666368,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6666600,
+      "word": "0x08005A66",
+      "target": 2147576216,
+      "target_foff": 6666648,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 6667244,
+      "word": "0x08005B07",
+      "target": 2147576860,
+      "target_foff": 6667292,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005CD7",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 6667492,
+      "word": "0x08005B28",
+      "target": 2147576992,
+      "target_foff": 6667424,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 6667852,
+      "word": "0x08005B9F",
+      "target": 2147577468,
+      "target_foff": 6667900,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 6668972,
+      "word": "0x08005CB2",
+      "target": 2147578568,
+      "target_foff": 6669000,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 6669360,
+      "word": "0x08005D11",
+      "target": 2147578948,
+      "target_foff": 6669380,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6669368,
+      "word": "0x08005D11",
+      "target": 2147578948,
+      "target_foff": 6669380,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6669612,
+      "word": "0x08005D50",
+      "target": 2147579200,
+      "target_foff": 6669632,
+      "target_words": [
+        "0x26100001",
+        "0x0213102A",
+        "0x1440FFF4",
+        "0x32220001"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 6666248,
+      "word": "0x08005A09",
+      "target": 2147575844,
+      "target_foff": 6666276,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 6669360,
+      "word": "0x08005D11",
+      "target": 2147578948,
+      "target_foff": 6669380,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    },
+    {
+      "foff": 6669368,
+      "word": "0x08005D11",
+      "target": 2147578948,
+      "target_foff": 6669380,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x3C028001",
+        "0x8C426000"
+      ]
+    }
+  ],
+  "internal_call_correspondences": [
+    {
+      "foff": 6664580,
+      "word": "0x0C00584D",
+      "target": 2147574068,
+      "target_foff": 6664500
+    }
+  ],
+  "source_sha256": {
+    "src/town/modules/ovl_65b134.c": "79f4072b8eabb21113d17f65f7445be56771d8a35caf5e52a106ce15cc653a80",
+    "include/modules/town_ovl_65b134.h": "4202c59ed44bb228ea08bf43511742e2dea8b7ee8373394619b02044f299b63d",
+    "src/town/func_806DB134.c": "a47bc95594273826de2a779beccf64e38e63ea57d63cd7d7c27118085f586021",
+    "src/town/func_806DB17C.c": "3e51d9bbd5dba250b1476134d07cf668bb0e3d860c392a1383bdbf4fdf6e85e5"
+  },
+  "basis": [
+    "The second member calls address 0x80016134 and the first complete body starts at file 0x65B134, independently fixing delta 0x7F9BB000.",
+    "Raw common-code direct jumps, including two js to one physical jr ra return, independently agree with that exact delta.",
+    "The proven extent is deliberately restricted to the imported root pointer word plus the complete two-member code cohort. No loader read extent or runtime transfer is claimed.",
+    "The callback_050 slot is declared int-returning in shared/town_services.h; the first member now explicitly returns that value as u32. The caller passes two ignored parameters. The isolated candidate reproduced all 18 words before joining."
+  ],
+  "native_proof_artifacts": "work/module_proofs/town_ovl_65b134/module/receipt.json"
+}

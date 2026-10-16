@@ -1,11 +1,7 @@
-#include "common.h"
-
-extern s32 func_80176F2C(void *arg0);
-extern s32 func_80177E6C(s32 arg0, void *arg1);
-extern s32 func_80063734(s32 arg0);
+#include "modules/ovmovie_game.h"
 
 /* Polls for a result and switches buffers when the result is negative. */
-s32 func_80040690(void *buffer_state) {
+s32 func_80176E90(void *buffer_state) {
     s32 result;
     s32 buffer_index;
     s32 polls_left;

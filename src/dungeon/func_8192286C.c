@@ -1,9 +1,6 @@
-#include "common.h"
+#include "modules/dungeon_ovl_194286c.h"
 
-s32 func_80069EF8(void);
-
-/* Samples a random value below the limit, yielding zero for nonpositive limits. */
-s32 func_8192286C(s32 limit) {
+s32 func_8002406C(s32 limit) {
     s16 result;
     s32 sample;
 

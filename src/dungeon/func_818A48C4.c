@@ -1,21 +1,8 @@
-#include "common.h"
+#include "modules/dungeon_ovl_18c4828.h"
 
-typedef struct {
-    u8 pad14[0x14];
-    u16 flags;
-    u8 pad1a[4];
-    s16 value;
-} Func818A48C4Object;
-
-extern void func_8003DB94(void *, void *, s32);
-extern void func_800478B8(void *);
-extern s32 rand(void);
-extern u8 D_80025238[];
-
-/* Increment the source flags and update the target with a random value. */
-void func_818A48C4(Func818A48C4Object **source_ref, s32 unused,
-                   Func818A48C4Object *target) {
-    Func818A48C4Object *source;
+void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
+                   Row_818A48C4_Func818A48C4Object *target) {
+    Row_818A48C4_Func818A48C4Object *source;
     s32 random_value;
 
     source = *source_ref;

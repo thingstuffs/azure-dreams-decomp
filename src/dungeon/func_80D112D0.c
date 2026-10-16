@@ -1,76 +1,9 @@
-#include "common.h"
-#include "shared/game_work.h"
-#include "shared/object_flags.h"
-
-typedef long long s64;
-
-typedef struct S_80170AD0_0 {
-    u8 pad_00[0x94];
-    s16 unk_94;
-    union { s16 s; u16 u; } unk_96;   /* accessed as both */
-    u8 pad_98[0xA];
-    s16 unk_A2;
-    u8 pad_A4[0x4];
-    void * unk_A8;
-} S_80170AD0_0;   /* arg0 in func_80170AD0 */
-
-typedef struct S_80170AD0_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x2];
-    s16 unk_22;
-} S_80170AD0_1;   /* effect in func_80170AD0 */
-
-typedef struct S_80170AD0_2 {
-    u8 pad_00[0x3];
-    s8 unk_03;
-    u8 pad_04[0x7];
-    u8 unk_0B;
-} S_80170AD0_2;   /* stats in func_80170AD0 */
-
-typedef struct S_80170AD0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170AD0_3;   /* coords in func_80170AD0 */
-
-typedef struct S_80170AD0_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170AD0_4;   /* other in func_80170AD0 */
-
-
-extern void func_800478B8();
-extern s32 func_80065420();
-
-extern s8 D_800DCECC[8];
-
-typedef struct {
-    u16 xyz[3];
-    u16 pad;
-    s64 out18;
-    s32 out20;
-    s32 out24;
-} StackWork;
+#include "modules/dungeon_ovl_7f43f800_p01.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
 void func_80170AD0(void *state, void *position, void *effect_arg)
 {
-    StackWork coord_work;
+    T_80170AD0_StackWork coord_work;
     void *effect_coords;
     void *effect;
     s16 ticks_left;
@@ -84,69 +17,69 @@ void func_80170AD0(void *state, void *position, void *effect_arg)
 
     effect_coords = position;
 
-    ticks_left = ((S_80170AD0_0 *)state)->unk_96.s;
+    ticks_left = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.s;
     effect = effect_arg;
     if (ticks_left < 0x15) {
         brightness = (ticks_left << 7) / 20;
-        ((S_80170AD0_1 *)effect)->unk_0C = ((S_80170AD0_1 *)effect)->unk_0D =
-            ((S_80170AD0_1 *)effect)->unk_0E = brightness;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_0C = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_0D =
+            ((T_80170AD0_S_80170AD0_1 *)effect)->unk_0E = brightness;
     }
 
-    ticks_left = ((S_80170AD0_0 *)state)->unk_96.s;
+    ticks_left = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.s;
     if (ticks_left >= 0x2B) {
-        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x2BC;
-        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
-        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+        effect_size = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E + 0x2BC;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1C = effect_size;
     } else if (ticks_left >= 0x28) {
-        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x226;
-        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
-        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+        effect_size = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E + 0x226;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1C = effect_size;
     } else if (ticks_left >= 0x26) {
-        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x190;
-        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
-        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+        effect_size = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E + 0x190;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1C = effect_size;
     } else if (ticks_left >= 0x24) {
-        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0xC8;
-        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
-        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+        effect_size = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E + 0xC8;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1C = effect_size;
     } else if (ticks_left >= 0x1A) {
-        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x64;
-        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
-        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+        effect_size = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E + 0x64;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1C = effect_size;
     }
 
     {
         void *effect_params;
 
-        effect_params = ((S_80170AD0_1 *)effect)->unk_08;
-        scaled_offset = (((S_80170AD0_2 *)effect_params)->unk_0B + ((S_80170AD0_2 *)effect_params)->unk_03) *
-                  ((S_80170AD0_1 *)effect)->unk_1E;
+        effect_params = ((T_80170AD0_S_80170AD0_1 *)effect)->unk_08;
+        scaled_offset = (((T_80170AD0_S_80170AD0_2 *)effect_params)->unk_0B + ((T_80170AD0_S_80170AD0_2 *)effect_params)->unk_03) *
+                  ((T_80170AD0_S_80170AD0_1 *)effect)->unk_1E;
     }
     if (scaled_offset < 0) {
         scaled_offset += 0xFFF;
     }
     scaled_offset >>= 12;
-    ((S_80170AD0_1 *)effect)->unk_22 = ((s32)(-scaled_offset)) / 2;
+    ((T_80170AD0_S_80170AD0_1 *)effect)->unk_22 = ((s32)(-scaled_offset)) / 2;
 
-    if (((S_80170AD0_0 *)state)->unk_A2 == 0) {
-        coord_work.xyz[0] = ((S_80170AD0_3 *)effect_coords)->unk_02;
-        coord_work.xyz[1] = ((S_80170AD0_3 *)effect_coords)->unk_06;
-        coord_work.xyz[2] = ((S_80170AD0_3 *)effect_coords)->unk_0A;
+    if (((T_80170AD0_S_80170AD0_0 *)state)->unk_A2 == 0) {
+        coord_work.xyz[0] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_02;
+        coord_work.xyz[1] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_06;
+        coord_work.xyz[2] = ((T_80170AD0_S_80170AD0_3 *)effect_coords)->unk_0A;
         position_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
 
-        reference_coords = ((S_80170AD0_0 *)state)->unk_A8;
-        coord_work.xyz[0] = ((S_80170AD0_4 *)reference_coords)->unk_02;
-        coord_work.xyz[1] = ((S_80170AD0_4 *)reference_coords)->unk_06;
-        coord_work.xyz[2] = ((S_80170AD0_4 *)reference_coords)->unk_0A;
+        reference_coords = ((T_80170AD0_S_80170AD0_0 *)state)->unk_A8;
+        coord_work.xyz[0] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_02;
+        coord_work.xyz[1] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_06;
+        coord_work.xyz[2] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_0A;
         reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
-        ((S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
-            (D_800DCECC[((gameWork.view.viewAngle + ((S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
+            (D_800DCECC[((gameWork.view.viewAngle + ((T_80170AD0_S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
     } else {
-        ((S_80170AD0_1 *)effect)->unk_06 = 4;
+        ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = 4;
     }
     func_800478B8(effect);
-    next_ticks = ((S_80170AD0_0 *)state)->unk_96.u - 1;
-    ((S_80170AD0_0 *)state)->unk_96.u = next_ticks;
+    next_ticks = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u - 1;
+    ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

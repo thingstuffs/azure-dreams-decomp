@@ -1,61 +1,5 @@
-#include "common.h"
-#include "shared/object_node.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_e1b054.h"
 
-
-typedef s32 M2C_UNK;
-
-typedef struct S_80158854_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x6C];
-    void * unk_8C;
-} S_80158854_0;   /* work in func_80158854 */
-
-typedef struct S_80158854_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80158854_1;   /* obj in func_80158854 */
-
-typedef struct S_80158854_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80158854_2;   /* part_a in func_80158854 */
-
-typedef struct S_80158854_3 {
-    u8 pad_00[0x24];
-    s8 unk_24;
-    s8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80158854_3;   /* part_b in func_80158854 */
-
-typedef struct S_80158854_4 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 pad_9B[0x1];
-    s8 unk_9C;
-} S_80158854_4;   /* actor in func_80158854 */
-
-
-extern u8 D_80158A58[];
-extern u8 D_80158E5C[];
-extern u8 D_8015C510[];
-extern u8 D_8015C538[];
-
-extern void *func_8003FD64();
-extern s32 func_8004491C();
-extern s32 func_800A6D30(void);
-extern s16 func_800A48F0();
-extern void func_800A9C18();
-extern s32 func_800AA36C();
 
 void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_a_value)
 {
@@ -92,7 +36,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
         kind = value & 3;
 
         if (kind == 1) {
-            ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+            ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
             left = ((S_80158854_0 *)work)->unk_14 | 0x6000;
             right = ((S_80158854_0 *)work)->unk_1C | 0x6000;
             ((S_80158854_0 *)work)->unk_14 = left;
@@ -100,7 +44,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
             part_b->unk_2C = D_8015C510;
         } else {
             if (kind >= 2) {
-                ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+                ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
                 left = ((S_80158854_0 *)work)->unk_14 | 0x2000;
                 right = ((S_80158854_0 *)work)->unk_1C | 0x2000;
                 ((S_80158854_0 *)work)->unk_14 = left;
@@ -116,15 +60,15 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
                         }
                     }
                     ;
-                    ((S_80158854_4 *)actor)->unk_8C = D_80158E5C;
+                    ((S_80158854_4 *)actor)->unk_8C = func_80158E5C;
                 part_b->unk_2C = D_8015C510;
                 } else {
-                    ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+                    ((S_80158854_0 *)work)->unk_8C = func_80158E5C;
                 part_b->unk_2C = D_8015C510;
                 }
             }
         }
-        ((S_80158854_1 *)obj)->unk_10 = D_80158A58;
+        ((S_80158854_1 *)obj)->unk_10 = func_80158A58;
         func_800A9C18(obj, part_a, part_b, (s16)final_arg0);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;

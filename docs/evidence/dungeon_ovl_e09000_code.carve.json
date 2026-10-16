@@ -1,0 +1,127 @@
+{
+  "schema": "native-legacy-carrier-carve-v1",
+  "id": "dungeon/func_80DE9000",
+  "source_head": "c674e38360b0177e66fd56c48707b4064c76ca75",
+  "original_registry": {
+    "id": "dungeon/func_80DE9000",
+    "container": "dungeon",
+    "func": "func_80DE9000",
+    "true_name": "func_8016A800",
+    "cfg": "2.7.2-cdk-G0",
+    "cell": "2.7.2-cdk",
+    "flags": "-G0",
+    "size": 600,
+    "foff": 14716928,
+    "c_path": "overlays/dungeon/first_pass_matched/func_80DE9000.c",
+    "exists": true,
+    "src_sha": "6bd4207e8055f4825b4569d6a6ec77f229dfdd1f479a69e83ff36d157219f4ac",
+    "gate_config": "config/overlays/dungeon_deep_t8b_e09000.overlay.yaml",
+    "instances": 2,
+    "row_asflags": null,
+    "stock": true,
+    "kind": "overlay"
+  },
+  "native_registry": {
+    "id": "dungeon/func_80DE9000",
+    "container": "dungeon",
+    "func": "func_80DE9000",
+    "true_name": "func_8016A854",
+    "cfg": "2.7.2-cdk-G0",
+    "cell": "2.7.2-cdk",
+    "flags": "-G0",
+    "size": 516,
+    "foff": 14717012,
+    "c_path": "overlays/dungeon/first_pass_matched/func_80DE9000.c",
+    "exists": true,
+    "src_sha": "6bd4207e8055f4825b4569d6a6ec77f229dfdd1f479a69e83ff36d157219f4ac",
+    "gate_config": "config/overlays/dungeon_deep_t8b_e09000.overlay.yaml",
+    "instances": 1,
+    "row_asflags": null,
+    "stock": true,
+    "kind": "overlay"
+  },
+  "source_guard_sha256": "887c7218d9937b49cd6aebc3878066c480966ec32e7fa64ab8296ab593f4e667",
+  "original_split": {
+    "func_vram": "func_80DE9000",
+    "true_name": "func_8016A800",
+    "vram": 2162069504,
+    "foff": 14716928,
+    "size": 600,
+    "result": "MATCH",
+    "config": "2.7.2-cdk-G0",
+    "c_path": "overlays/dungeon/first_pass_matched/func_80DE9000.c",
+    "gate_config": "config/overlays/dungeon_deep_t8b_e09000.overlay.yaml",
+    "gate_verified": true,
+    "instances": 2,
+    "base_confidence": "proven-engine/derived-backhalf",
+    "words_off": 0,
+    "config_was": "2.8.1-G0",
+    "config_note": "cdk211: recipe moved to the retail-proven recipe (fidelity step 4)"
+  },
+  "split_after": [
+    {
+      "func_vram": "D_80DE9000",
+      "true_name": "D_8016A800",
+      "vram": 2162069504,
+      "true_vram": 2148968448,
+      "foff": 14716928,
+      "size": 84,
+      "result": "NOMATCH",
+      "config": "2.7.2-cdk-G0",
+      "gate_config": "config/overlays/dungeon_deep_t8b_e09000.overlay.yaml",
+      "data_segment": true,
+      "base_confidence": "authenticated-normal-slot",
+      "instances": 1
+    },
+    {
+      "func_vram": "func_80DE9000",
+      "true_name": "func_8016A854",
+      "vram": 2162069588,
+      "foff": 14717012,
+      "size": 516,
+      "result": "MATCH",
+      "config": "2.7.2-cdk-G0",
+      "c_path": "overlays/dungeon/first_pass_matched/func_80DE9000.c",
+      "gate_config": "config/overlays/dungeon_deep_t8b_e09000.overlay.yaml",
+      "gate_verified": true,
+      "instances": 1,
+      "base_confidence": "proven-engine/derived-backhalf",
+      "words_off": 0,
+      "config_was": "2.8.1-G0",
+      "config_note": "cdk211: recipe moved to the retail-proven recipe (fidelity step 4)",
+      "true_vram": 2148968532
+    }
+  ],
+  "original_bytes": 600,
+  "native_bytes": 516,
+  "held_raw_bytes": 84,
+  "original_sha256": "4370e47dc6d886a4fe6e4b0c87336374ffe33b92f658864cad3f4325c958932f",
+  "native_sha256": "9cc9c71fabd5e56edf2ac36ce9c9bf955bc5a8251e9fbb4a6735ca3400489993",
+  "held_raw_sha256": "6b539e085f5e6324f3edf766d3271ae7242e608051f0810628c69738886c779e",
+  "full_coverage": true,
+  "held_reason": "One entry pointer, a zero word and two foreign compiler branch-target tables are inherited prefix storage. Their complete C owners remain unregistered; no literal branch-label array or padding object is introduced.",
+  "prefix_breakdown": [
+    {
+      "offset": 0,
+      "size": 4,
+      "kind": "constructor pointer",
+      "target": 2148968532
+    },
+    {
+      "offset": 4,
+      "size": 4,
+      "kind": "unattributed zero word"
+    },
+    {
+      "offset": 8,
+      "size": 48,
+      "kind": "foreign twelve-target switch table"
+    },
+    {
+      "offset": 56,
+      "size": 28,
+      "kind": "foreign seven-target switch table"
+    }
+  ],
+  "baseline_policy": "Keep the original 150-word composite baseline and original source SHA as historical provenance. The new complete-TU proof establishes the 129-word constructor. Never report the 84-byte raw prefix as native."
+}

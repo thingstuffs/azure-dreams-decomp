@@ -1,0 +1,55 @@
+#include "modules/dungeon_ovl_e0365c.h"
+
+void *func_80170854(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
+ E_80170854_SpawnActor *actor=0;
+ E_80170854_SpawnObject *object;
+ E_80170854_SpawnMotion *motion;
+ s16 saved_flags;
+ s32 kind;
+ s8 tile_x; s16 height; s8 tile_y;
+ {
+ E_80170854_SpawnSprite *sprite;
+ E_80170854_SpawnState *state;
+ tile_x=attr_x; height=attr_height; tile_y=attr_y;
+ object=func_8003FD64(0x112,&D_80083498);
+ saved_flags=flags;
+ if(object) {
+  actor=(E_80170854_SpawnActor *)((u8 *)object+0x20);
+  actor->kind=0x1C;
+  func_8004491C(object,func_80045340);
+  motion=object->motion;
+  kind=flags&3;
+  motion->height=height;
+  sprite=object->sprite;
+  sprite->tile_x=tile_x;
+  sprite->tile_y=tile_y;
+  state=(E_80170854_SpawnState *)actor;
+  if(kind==1) {
+   actor->handler=func_80170E5C;
+   actor->flags14|=0x6000;
+   actor->flags1C|=0x6000;
+   sprite->frames=D_80174510;
+  } else if(kind>=2) {
+   actor->handler=func_80170E5C;
+   actor->flags14|=0x2000;
+   actor->flags1C|=0x2000;
+   sprite->frames=D_80174510;
+  } else if((s16)(flags&~3)==0) {
+   if(!(actor->flags14&0x200) && (func_800A6D30()&1)) {
+    func_800A48F0(actor,1,(func_800A6D30()&0x3F)|0x20);
+    sprite->frames=D_80174538;
+   }
+   state->handler=func_80170E5C;
+   sprite->frames=D_80174510;
+  } else { actor->handler=func_80170E5C;
+   sprite->frames=D_80174510;
+  }
+  object->update=func_80170A58;
+  func_800A9C18(object,motion,sprite,saved_flags);
+  state->action_id=0xFF;
+  state->direction=-1;
+  func_800AA36C(state,motion,sprite,actor);
+ }
+ }
+ return actor;
+}

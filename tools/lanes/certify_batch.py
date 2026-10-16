@@ -195,7 +195,7 @@ def _renewal_cost(root,key):
     except (OSError,ValueError,KeyError,TypeError,AttributeError):return 0,0
 
 
-def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,timeout=7200,invalid_only=False,validate_only=False,force_renew=(),worker_mode='subprocess',issue=()):
+def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,timeout=7200,invalid_only=False,validate_only=False,force_renew=(),worker_mode='subprocess',issue=(),final_validation=True):
     roster=jobs(root);log_dir.mkdir(parents=True,exist_ok=True);start=time.monotonic()
     forced=set(force_renew)
     # First certificates: modules absent from the roster whose manifest review
@@ -258,12 +258,15 @@ def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,tim
                 os.killpg(os.getpgrp(),signal.SIGTERM)
             raise
     if jobs(root)!=expected:raise ValueError('certificate identities/reviewers changed during renewal')
-    if invalid_only:
+    # --no-final-validation: the caller runs its own --validate-only pass later (land_direct does,
+    # after levels/status), so this identical full-roster check would only run twice.
+    if invalid_only and final_validation:
         final_invalid=invalid_certificates(root,expected,workers)
         if final_invalid:raise ValueError('invalid certificates after renewal: '+json.dumps(final_invalid,sort_keys=True))
     summary={'result':'PASS','workers':workers,'window_workers':window_workers,'worker_mode':worker_mode,'seconds':round(time.monotonic()-start,3),
              'certificates':sorted(results,key=lambda r:r['module']),'validated':len(roster),'issued':sorted(new),
-             'retained':sorted(set(roster)-set(selected)),'invalid_before':invalid,'forced':sorted(forced)}
+             'retained':sorted(set(roster)-set(selected)),'invalid_before':invalid,'forced':sorted(forced),
+             'final_validation':bool(invalid_only and final_validation)}
     (log_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     print(json.dumps(summary),flush=True)
     return summary
@@ -277,13 +280,14 @@ def main():
                     help='persistent certificate interpreters or legacy one subprocess per module')
     mode=ap.add_mutually_exclusive_group();mode.add_argument('--invalid-only',action='store_true');mode.add_argument('--validate-only',action='store_true')
     ap.add_argument('--renew',action='append',default=[],help='force renewal of a new or transaction-changed certificate (repeatable)')
+    ap.add_argument('--no-final-validation',action='store_true',help='skip the post-renewal full-roster validation; the caller MUST run --validate-only afterwards')
     ap.add_argument('--issue',action='append',default=[],help='issue a FIRST certificate for a reviewed module that has none (repeatable; reviewer = its manifest review.reviewer)')
     a=ap.parse_args()
     if min(a.workers,a.window_workers,a.timeout)<1 or bool(a.gate_receipts)!=bool(a.transaction):ap.error('positive worker counts/timeouts and a receipt directory/token pair are required')
     if os.getpgrp()!=os.getpid():os.setsid()
     def interrupted(signum,frame):raise RuntimeError('certification interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted)
-    try:renew(a.root.resolve(),a.workers,a.window_workers,a.log_dir.resolve(),a.gate_receipts,a.transaction,a.timeout,a.invalid_only,a.validate_only,a.renew,a.worker_mode,a.issue)
+    try:renew(a.root.resolve(),a.workers,a.window_workers,a.log_dir.resolve(),a.gate_receipts,a.transaction,a.timeout,a.invalid_only,a.validate_only,a.renew,a.worker_mode,a.issue,not a.no_final_validation)
     except Exception as e:
         print(str(e),file=sys.stderr,flush=True);signal.signal(signal.SIGTERM,signal.SIG_DFL);os.killpg(os.getpgrp(),signal.SIGTERM)
         return 1

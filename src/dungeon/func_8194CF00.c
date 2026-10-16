@@ -1,66 +1,5 @@
-#include "shared/object_node.h"
-#include "common.h"
-#include "shared/slus_callbacks.h"
+#include "modules/dungeon_ovl_7e6b7800.h"
 
-typedef s32 M2C_UNK;
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 w;
-} WordQuad;
-
-extern M2C_UNK func_8003DB94();
-extern s32 func_8004491C();
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern M2C_UNK func_800649A0();
-extern M2C_UNK func_80064A40();
-extern M2C_UNK func_80064B30();
-
-extern M2C_UNK D_8002455C[];
-extern u8 D_800DE938[];
-
-
-typedef struct S_80024700_0 {
-    u8 pad_00[0x24];
-    u16 unk_24;
-    u16 unk_26;
-    u8 pad_28[0x4];
-    union { u16 u; s16 s; } unk_2C;   /* accessed as both */
-    union { u16 u; s16 s; } unk_2E;   /* accessed as both */
-    u8 unk_30;
-} S_80024700_0;   /* data in func_80024700 */
-
-typedef struct S_80024700_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    union { u16 u16; s32 s32; } unk_10;   /* accessed as both */
-    union {
-        struct { u16 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-    } unk_14;   /* overlapping accesses */
-    s16 unk_18;
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024700_1;   /* primitive in func_80024700 */
-
-/* Creates a textured object from the source and applies a transformed positional offset. */
 void func_80024700(void *source_object)
 {
     s16 local_offset[3];
@@ -75,7 +14,7 @@ void func_80024700(void *source_object)
     s32 *link;
     void *source = source_object;
     void *object;
-    S_80024700_0 *data;
+    Row_8194CF00_S_80024700_0 *data;
     void *primitive;
     void *primitive_2;
     s32 angle_or_zero;
@@ -87,8 +26,8 @@ void func_80024700(void *source_object)
         value = (*(s32 *)((u8 *)source + 0));
         data = (u8 *)object + 0x20;
         (*(s32 *)((u8 *)object + 0x20)) = value;
-        (*(WordQuad *)((u8 *)object + 0x24)) = (*(WordQuad *)((u8 *)source + 0x4C));
-        (*(WordQuad *)((u8 *)object + 0x34)) = (*(WordQuad *)((u8 *)source + 0x5C));
+        (*(Row_8194CF00_WordQuad *)((u8 *)object + 0x24)) = (*(Row_8194CF00_WordQuad *)((u8 *)source + 0x4C));
+        (*(Row_8194CF00_WordQuad *)((u8 *)object + 0x34)) = (*(Row_8194CF00_WordQuad *)((u8 *)source + 0x5C));
 
         offset_length = (*(u16 *)((u8 *)source + 0x78));
         angle_or_zero = 0;
@@ -98,34 +37,34 @@ void func_80024700(void *source_object)
         data->unk_2E.u = offset_angle;
 
         primitive = (*(void * *)((u8 *)object + 0xC));
-        ((S_80024700_1 *)primitive)->unk_0C.at02.v = 0x40;
-        ((S_80024700_1 *)primitive)->unk_0C.at01.v = 0x40;
-        ((S_80024700_1 *)primitive)->unk_0C.at00.v = 0x40;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at02.v = 0x40;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at01.v = 0x40;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_0C.at00.v = 0x40;
         func_8003DB94(primitive, D_800DE938, angle_or_zero);
 
         value = 0x2000;
-        ((S_80024700_1 *)primitive)->unk_1E = value;
-        ((S_80024700_1 *)primitive)->unk_1C = value;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1E = value;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1C = value;
         scale_component = data->unk_24;
-        ((S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
         scale_component = data->unk_26;
-        ((S_80024700_1 *)primitive)->unk_18 = scale_component >> 12;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_18 = scale_component >> 12;
         angle_or_zero = data->unk_2E.u;
-        ((S_80024700_1 *)primitive)->unk_10.u16 |= 0x20;
-        ((S_80024700_1 *)primitive)->unk_14.at00.v |= 0xC;
-        ((S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_10.u16 |= 0x20;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_14.at00.v |= 0xC;
+        ((Row_8194CF00_S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
         func_8004491C(object, func_80045340);
 
         primitive_2 = (*(void * *)((u8 *)object + 8));
         word_x = (*(s32 *)((u8 *)source + 0x34));
-        ((S_80024700_1 *)primitive_2)->unk_0C.at00u.v = word_x;
-        ((S_80024700_1 *)primitive_2)->unk_00.at00.v = word_x;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_0C.at00u.v = word_x;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_00.at00.v = word_x;
         word_y = (*(s32 *)((u8 *)source + 0x38));
-        ((S_80024700_1 *)primitive_2)->unk_10.s32 = word_y;
-        ((S_80024700_1 *)primitive_2)->unk_04.at00.v = word_y;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_10.s32 = word_y;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_04.at00.v = word_y;
         word_z = (*(s32 *)((u8 *)source + 0x3C));
-        ((S_80024700_1 *)primitive_2)->unk_14.at00u.v = word_z;
-        ((S_80024700_1 *)primitive_2)->unk_08.at00.v = word_z;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_14.at00u.v = word_z;
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_08.at00.v = word_z;
 
         local_offset[0] = ((func_800644B8(data->unk_2E.s) >> 4) *
             data->unk_2C.s) >> 8;
@@ -136,8 +75,8 @@ void func_80024700(void *source_object)
         func_80064B30((u8 *)object + 0x24, local_offset, world_offset);
         func_80064A40();
 
-        ((S_80024700_1 *)primitive_2)->unk_00.at02.v += world_offset[0];
-        ((S_80024700_1 *)primitive_2)->unk_04.at02.v += world_offset[1];
-        ((S_80024700_1 *)primitive_2)->unk_08.at02.v += world_offset[2];
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_00.at02.v += world_offset[0];
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_04.at02.v += world_offset[1];
+        ((Row_8194CF00_S_80024700_1 *)primitive_2)->unk_08.at02.v += world_offset[2];
     }
 }

@@ -1,20 +1,9 @@
-typedef signed short s16;
-typedef signed int s32;
+#include "modules/dungeon_ovl_7e6b7800.h"
 
-extern s32 func_80065F90(s32, s32);
-extern s32 func_80064710(s32);
-
-struct Delta {
-    s32 x;
-    s32 y;
-    s32 z;
-};
-
-/* Computes orientation angles from the displacement between two points. */
-void func_8194C81C(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+void func_8002401C(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
 {
-    struct Delta delta;
+    struct Row_8194C81C_Delta delta;
     s32 divisor;
 
     delta.x = end_x - start_x;

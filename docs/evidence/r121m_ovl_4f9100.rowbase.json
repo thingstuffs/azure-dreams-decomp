@@ -1,0 +1,222 @@
+{
+  "module": "town_ovl_4f9100",
+  "group": "ovl_4f9100.c#31",
+  "start": 5214208,
+  "end": 5222400,
+  "delta": 2142359552,
+  "loader_descriptor": {
+    "addr": "0x8001bf58",
+    "index_from_D_8001BF80": -2,
+    "area": 12,
+    "room": 12,
+    "record_ptr": "0x8001c234",
+    "word0": "0x02016000",
+    "word1": "0x000015f7",
+    "sectors": 4,
+    "dest": "0x80016000",
+    "lba": "0x15f7",
+    "town_file": "0x4f9000",
+    "door_actor_records": [
+      "0x2b427c"
+    ]
+  },
+  "loader_evidence": "docs/evidence/town_scene_loader_receipt.json",
+  "local_jumps": [
+    {
+      "foff": 5214680,
+      "word": "0x0800587A",
+      "target": 2147574248,
+      "target_foff": 5214696,
+      "target_words": [
+        "0x8FBF0010",
+        "0x27BD0018",
+        "0x03E00008",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 5215528,
+      "word": "0x0800594E",
+      "target": 2147575096,
+      "target_foff": 5215544,
+      "target_words": [
+        "0x9223FFED",
+        "0x24020080",
+        "0x1462FFE5",
+        "0x02002021"
+      ]
+    },
+    {
+      "foff": 5215688,
+      "word": "0x08005978",
+      "target": 2147575264,
+      "target_foff": 5215712,
+      "target_words": [
+        "0x0C005CC8",
+        "0x00042403",
+        "0x8FBF0020",
+        "0x8FB3001C"
+      ]
+    },
+    {
+      "foff": 5216324,
+      "word": "0x08005A18",
+      "target": 2147575904,
+      "target_foff": 5216352,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 5216396,
+      "word": "0x08005A2F",
+      "target": 2147575996,
+      "target_foff": 5216444,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 5216676,
+      "word": "0x08005A75",
+      "target": 2147576276,
+      "target_foff": 5216724,
+      "target_words": [
+        "0x8FBF0018",
+        "0x8FB10014",
+        "0x8FB00010",
+        "0x27BD0020"
+      ]
+    },
+    {
+      "foff": 5217320,
+      "word": "0x08005B16",
+      "target": 2147576920,
+      "target_foff": 5217368,
+      "target_words": [
+        "0x00521021",
+        "0x84440000",
+        "0x0C005CE6",
+        "0x26310001"
+      ]
+    },
+    {
+      "foff": 5217568,
+      "word": "0x08005B37",
+      "target": 2147577052,
+      "target_foff": 5217500,
+      "target_words": [
+        "0x8E420010",
+        "0x00118100",
+        "0x02021021",
+        "0x8444000C"
+      ]
+    },
+    {
+      "foff": 5217928,
+      "word": "0x08005BAE",
+      "target": 2147577528,
+      "target_foff": 5217976,
+      "target_words": [
+        "0x26310001",
+        "0x001110C0",
+        "0x00511023",
+        "0x00021080"
+      ]
+    },
+    {
+      "foff": 5219048,
+      "word": "0x08005CC1",
+      "target": 2147578628,
+      "target_foff": 5219076,
+      "target_words": [
+        "0x90A20000",
+        "0x00000000",
+        "0x1440FFF8",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 5219436,
+      "word": "0x08005D20",
+      "target": 2147579008,
+      "target_foff": 5219456,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05CE05CD",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 5219444,
+      "word": "0x08005D20",
+      "target": 2147579008,
+      "target_foff": 5219456,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05CE05CD",
+        "0x00000000"
+      ]
+    }
+  ],
+  "shared_epilogue_anchors": [
+    {
+      "foff": 5216324,
+      "word": "0x08005A18",
+      "target": 2147575904,
+      "target_foff": 5216352,
+      "target_words": [
+        "0x03E00008",
+        "0x01001021",
+        "0x27BDFFE0",
+        "0xAFBF0018"
+      ]
+    },
+    {
+      "foff": 5219436,
+      "word": "0x08005D20",
+      "target": 2147579008,
+      "target_foff": 5219456,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05CE05CD",
+        "0x00000000"
+      ]
+    },
+    {
+      "foff": 5219444,
+      "word": "0x08005D20",
+      "target": 2147579008,
+      "target_foff": 5219456,
+      "target_words": [
+        "0x03E00008",
+        "0x00000000",
+        "0x05CE05CD",
+        "0x00000000"
+      ]
+    }
+  ],
+  "town_sha256": "907725012d8d9e1deab18c28b62f4d304057e86a6415df605b9ffb87cfb2fe18",
+  "affected_rows": [
+    "func_80579100"
+  ],
+  "old_regions": [],
+  "native_proof_artifacts": "work/module_proofs/town_ovl_4f9100/module/receipt.json",
+  "source_sha256": {
+    "src/town/modules/ovl_4f9100.c": "6d8454200c9c09e39e8c81d13100f2434db1d1e1d92e03d9158b4bc3c1bfd084",
+    "include/modules/town_ovl_4f9100.h": "268620e48e3764ad1c206b7ee0a499708b633727e6b6a4a0cd6bc7beff01617c",
+    "src/town/func_80579100.c": "7abf684d9b443cb7eea94fcb5107c660b22f6111b16c51f21689cb38e01b11bf"
+  },
+  "retail_body_sha256": {
+    "town/func_80579100": "d816b6ce41518d02c7d911c93d862b041f5f15823bd8fdd316faf51ee8dede73"
+  }
+}

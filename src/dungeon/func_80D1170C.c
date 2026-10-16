@@ -1,48 +1,7 @@
-#include "common.h"
-#include "shared/object_flags.h"
-
-typedef struct S_func_80D1170C_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[1];
-    union {
-        s32 unk_04;
-        struct {
-            s8 unk_04;
-            s8 unk_05;
-            s8 unk_06;
-            u8 pad_07[1];
-        } bytes;
-    } unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x26];
-    union {
-        s16 unk_32;
-        u16 unk_32_u;
-    } unk_32;
-    s16 unk_34;
-    u8 pad_36[0xA];
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
-    u8 pad_4C[8];
-    s32 unk_54;
-} S_func_80D1170C_1;
-
-typedef struct S_func_80D1170C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_func_80D1170C_2;
-
-typedef struct S_func_80D1170C_3 {
-    u16 unk_00;
-} S_func_80D1170C_3;
-
+#include "modules/dungeon_ovl_7f43f800_p02.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
-void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
+void func_80170F0C(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position)
 {
     s16 life_left;
     s32 red;
@@ -72,7 +31,7 @@ void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
     effect->unk_08 = effect->unk_04.unk_04;
 
     if ((life_left << 16) <= 0) {
-        ((S_func_80D1170C_3 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
+        ((T_80170F0C_S_func_80D1170C_3 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
         flag_page = (s32 *)0x80080000;
         flag_page[0x14A0 / sizeof(s32)] =
             flag_page[0x14A0 / sizeof(s32)] | 0x8000;

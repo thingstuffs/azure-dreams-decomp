@@ -1,0 +1,18 @@
+{
+  "result": "MATCH",
+  "foff": 26292376,
+  "vma": 2147633304,
+  "size": 84,
+  "retail_sha256": "7b764c39bd4b5646406978271b7acd1bf1f3e62d3e6ca98ff43b2d678a059f60",
+  "source_sha256": "27e47a80cb10b6e970cde3289e47c379519f4d769ba32123e3661f3bf95534ed",
+  "masked": 0,
+  "raw_substitution_bytes": 0,
+  "genuine": "MATCH",
+  "recipe": "2.7.2-cdk-G0",
+  "source": "staging/recovered/func_80024898.c",
+  "basis": "Complete control flow from prologue to jr-ra and delay slot; adjacent factory/update callback contracts; C matches every retail and genuine byte.",
+  "logical_row": "dungeon/func_818F3098",
+  "raw_source": "raw/dungeon/func_818F3098.c",
+  "retail_hex": "e8ffbd271000b0af218080001400bfaf0600c7841390000c21200002f8ff068e000000000500c0102000d0240800c58c0c00c68c2a92000800000000211000001400bf8f1000b08f1800bd270800e00300000000",
+  "review": "pending"
+}

@@ -1,0 +1,14 @@
+{
+  "module": "town_ovl_64f118",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": "Whole-TU native retail/genuine proof under the existing supported row recipe; no per-member flags."
+}

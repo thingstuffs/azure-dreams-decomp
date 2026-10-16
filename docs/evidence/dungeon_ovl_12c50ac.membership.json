@@ -1,0 +1,16 @@
+{
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ovl_12c50ac.c",
+    "module_index": 137
+  },
+  "members": [
+    "dungeon/func_812A50AC",
+    "dungeon/func_812A524C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": "All two ledger-group rows form one contiguous code range, with a distinct preceding data head and following registered function; no row or gap omitted.",
+  "review": "reviewed",
+  "reviewer": "orchestrator-r120"
+}

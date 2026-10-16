@@ -1,65 +1,21 @@
-#include "common.h"
-#include "shared/game_work.h"
+#include "modules/dungeon_ovl_1906f98.h"
 
-typedef struct Primitive {
-    u32 tag;
-    u32 color;
-    s16 x0;
-    s16 y0;
-    u8 u0;
-    u8 v0;
-    u16 clut;
-    s16 x1;
-    s16 y1;
-    u8 u1;
-    u8 v1;
-    u16 tpage;
-    s16 x2;
-    s16 y2;
-    u8 u2;
-    u8 v2;
-    u16 pad1;
-    s16 x3;
-    s16 y3;
-    u8 u3;
-    u8 v3;
-    u8 pad2[0xE];
-} Primitive;
-
-typedef struct DungeonState {
-    u8 pad0[0xB0];
-    u32 ordering_table[0x208];
-    Primitive *next_primitive;
-} DungeonState;
-
-typedef union WorkOutput {
-    u16 h[4];
-    s32 w[2];
-} WorkOutput;
-
-extern s32 func_80065420(void *, void *, void *, void *);
-extern s16 func_80066460(s32, s32, s32, s32);
-extern s16 func_8006649C(s32, s32);
-extern void func_80066640(Primitive *, s32);
-extern void func_800666F4(Primitive *);
-
-/* Queues a textured quad at the supplied world position. */
-s32 func_818E6F98(void *sprite_data, void *position)
+s32 func_80024798(void *sprite_data, void *position)
 {
     u16 world_pos[4];
     s16 screen_points[4];
-    WorkOutput scratch;
+    Row_818E6F98_WorkOutput scratch;
     u8 *uv_source;
-    DungeonState **state_address;
+    Row_818E6F98_DungeonState **state_address;
     s16 *screen_base;
-    WorkOutput *scratch_base;
+    Row_818E6F98_WorkOutput *scratch_base;
     s16 *screen_cursor;
     s32 point_index;
     u32 ordering_index;
     s32 width;
-    Primitive *primitive;
-    DungeonState *state;
-    DungeonState *table_state;
+    Row_818E6F98_Primitive *primitive;
+    Row_818E6F98_DungeonState *state;
+    Row_818E6F98_DungeonState *table_state;
     s32 uv;
     s32 uv_low;
     s32 uv_high;
@@ -68,7 +24,7 @@ s32 func_818E6F98(void *sprite_data, void *position)
     u16 center_x;
     u32 table_offset;
 
-    state_address = (DungeonState **)((u8 *)(&gameWork));
+    state_address = (Row_818E6F98_DungeonState **)((u8 *)(&gameWork));
     screen_base = screen_points;
     scratch_base = &scratch;
 loop:

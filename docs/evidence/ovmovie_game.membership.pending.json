@@ -1,0 +1,39 @@
+{
+  "ledger_group": {
+    "container": "ovmovie",
+    "module": "ovmovie_game.c",
+    "module_index": 0
+  },
+  "members": [
+    "ovmovie/func_800400AC",
+    "ovmovie/func_800402D8",
+    "ovmovie/func_8004033C",
+    "ovmovie/func_80040360",
+    "ovmovie/func_800403EC",
+    "ovmovie/func_800404A8",
+    "ovmovie/func_80040690",
+    "ovmovie/func_8004072C",
+    "ovmovie/func_800408BC",
+    "ovmovie/func_80040954",
+    "ovmovie/func_8004099C"
+  ],
+  "confidence": "weak",
+  "coverage_complete": true,
+  "registry_coverage_complete": true,
+  "historical_TU_complete": false,
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "foff_start": 172,
+  "foff_end": 3800,
+  "text_bytes": 3628,
+  "basis": "Complete reviewer-stamped ledger group, no intervening registered row, one recipe, natural text proof exact under both assembler arms. Original storage/TU ownership remains held.",
+  "review": "pending",
+  "reviewer": null,
+  "boundaries": {
+    "before": "LIBPRESS owns strings [0,0xA9); three alignment bytes precede GAME text at 0xAC.",
+    "after": "LIBPRESS native text starts exactly at 0xED8 with a different compiler recipe, 2.7.2-G0.",
+    "storage": "Candidate [0x19D0,0x1A3C) unproven; preceding VLC workspace and following proven LIBPRESS data are excluded."
+  }
+}

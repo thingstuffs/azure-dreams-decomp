@@ -1,19 +1,7 @@
-#include "common.h"
-
-typedef struct {
-    u8 pad00[0x10];
-    u16 unk10;
-    u16 unk12;
-    u8 pad14[0x0C];
-    s32 unk20;
-    u16 unk24;
-    u16 unk26;
-    u8 pad28[0x04];
-    s32 unk2C;
-} MovieEntity;
+#include "modules/ovmovie_game.h"
 
 /* Waits for readiness, switching entries and copying the selected pair on timeout. */
-void func_801770BC(MovieEntity *entity) {
+void func_801770BC(MovieEntity *entity, s32 unused) {
     volatile s32 timeout;
     s32 entry_index;
     u16 *entry;

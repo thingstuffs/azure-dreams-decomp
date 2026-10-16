@@ -1,8 +1,4 @@
-#include "common.h"
+#include "modules/dungeon_ovl_1954800.h"
 
-extern void func_80024128(void *, void *);
-
-/* Bank entry pointer. Storage owner remains unresolved. */
-const u32 D_80024000[1] __attribute__((aligned(4))) = {
-    (u32)func_80024128,
-};
+/* Selector bank entry calls the complete native initialization member. */
+void (*const D_80024000)(void *, void *) = func_80024128;
