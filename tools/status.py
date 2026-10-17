@@ -95,6 +95,150 @@ def coverage_summary(root):
         return None
 
 
+def not_yet_c(root):
+    """Per-container split of the code that is not (yet) C, from the ledger alone, with the same interval arithmetic and priorities as
+    tools/coverage.py (loaded by path; its helpers do the set work) extended by the undecompiled split segments inside overlay windows:
+    {container: dict(in_c, copies, split, recorded, heuristic)} in bytes.  Every byte belongs to at most one class."""
+    import importlib.util
+    root = Path(root)
+    spec = importlib.util.spec_from_file_location("azure_coverage", root / "tools" / "coverage.py")
+    cv = importlib.util.module_from_spec(spec); spec.loader.exec_module(cv)
+    merge, subtract, inter, size, ext = cv.merge, cv.subtract, cv.intersection, cv.size, cv.extent
+    led = root / "ledger"
+    rows_, inst, regs = cv.records(led / "rows.jsonl"), cv.records(led / "instances.jsonl"), cv.records(led / "coverage_regions.jsonl")
+    conts = {r["container"]: r for r in cv.records(led / "containers.jsonl")}
+    latest = {}
+    for r in regs: latest[(r["container"], r["foff"], r["size"], r["category"])] = r
+    regs = [r for r in latest.values() if r.get("active", True)]
+    li = {}
+    for r in inst: li[(r["container"], r["foff"], r["size"])] = r
+    blocked = {(r["container"], r["foff"], r["size"]) for r in regs if r["category"] == "instance_excluded"}
+    proven = [r for r in li.values() if r.get("result") == "proven" and (r["container"], r["foff"], r["size"]) not in blocked]
+    # overlay windows: config/overlays yaml file_start/file_end pairs (the container a yaml belongs to is named by its target path)
+    file2c = {str(r.get("file", "")).upper(): c for c, r in conts.items()}
+    ywin = collections.defaultdict(list)
+    for yp in sorted((root / "config/overlays").glob("*.overlay.yaml")):
+        t = yp.read_text(errors="replace")
+        m = re.search(r"(?:container_path|target_path):\s*(\S+)", t)
+        c = file2c.get(Path(m.group(1)).name.upper()) if m else None
+        fs = re.findall(r"file_start:\s*(0x[0-9a-fA-F]+|\d+)", t); fe = re.findall(r"file_end:\s*(0x[0-9a-fA-F]+|\d+)", t)
+        if c and fs and len(fs) == len(fe):
+            ywin[c] += [[int(a, 0), int(b, 0)] for a, b in zip(fs, fe)]
+    res = {}
+    for c in sorted(conts):
+        if c == "slus":
+            continue
+        cats = collections.defaultdict(list)
+        for r in regs:
+            if r["container"] == c: cats[r["category"]].append(ext(r))
+        win = merge(cats["window"] + ywin.get(c, []))
+        C = merge([ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and (r.get("func") or "").startswith("func_")])
+        drow = [ext(r) for r in rows_ if r["container"] == c and r.get("foff") is not None and not (r.get("func") or "").startswith("func_")]
+        data = merge(cats["data_excluded"] + drow)
+        cop = subtract([ext(r) for r in proven if r["container"] == c], C + data)
+        ss, dseg = [], []
+        for key in [c] + (["dungeon_engine"] if c == "dungeon" else []):
+            for sp in cv.records(led / "splits" / (key + ".jsonl")):
+                if sp.get("foff") is None: continue
+                e = ext(sp)
+                if sp.get("data_segment") or sp.get("result") == "data": dseg.append(e); continue
+                if sp.get("result") == "MERGE_FAIL": continue
+                if sp.get("result") in ("CFAIL", "M2C_FAIL") and sp["size"] > 8192: continue   # a whole-window view, not a function
+                ss.append(e)
+        data_all = merge(data + dseg)
+        raw = inter(subtract(ss, C + data_all + cop), win)
+        occ = merge(C + cop + raw)
+        got_ = {}
+        for k in ("unported", "sdk_asm", "estimated_code"):
+            got_[k] = subtract(cats[k], occ + data_all); occ = merge(occ + got_[k])
+        res[c] = dict(in_c=size(C), copies=size(cop), split=size(raw), sdk=size(got_["sdk_asm"]), unported=size(got_["unported"]), heuristic=size(got_["estimated_code"]))
+    return res
+
+
+BINARY_NAMES = collections.OrderedDict([("slus", "SLUS_006.14 executable"), ("main", "MAIN.BIN"), ("town", "TOWN overlays"),
+                                        ("dungeon", "DUNGEON overlays"), ("ovmovie", "OVMOVIE overlay")])
+
+
+def container_legend(containers):
+    return ", ".join("`%s` = %s" % (c, BINARY_NAMES.get(c, c)) for c in containers)
+
+
+def slus_text(root):
+    """SLUS executable text by linked-section ownership (not row sizes, which are stale pre-partition sizes): the linker script's
+    `._800` text range, with the objects listed in it classed by where they come from.  None when there is no SLUS build here.
+    in_c = text - SDK library asm (build/asm/psyq, PsyQ objects identified against the SDK signatures) - other asm
+    (build/asm/*.o hand code) - retail data blobs inside the range (build/assets)."""
+    import shutil, subprocess
+    b = Path(root) / "build_slus" / "build"
+    ld = next((b / n for n in ("slus_006.14_ordered.ld", "slus_006.14.ld") if (b / n).exists()), None)
+    elf = b / "slus_006.14.elf"
+    readelf, nm = shutil.which("mipsel-linux-gnu-readelf"), shutil.which("mipsel-linux-gnu-nm")
+    if not (ld and elf.exists() and readelf and nm):
+        return None
+    syms = {}
+    for line in subprocess.run([nm, str(elf)], capture_output=True, text=True).stdout.splitlines():
+        t = line.split()
+        if len(t) == 3 and t[2] in ("_800_TEXT_START", "_800_TEXT_END"):
+            syms[t[2]] = int(t[0], 16)
+    text = syms["_800_TEXT_END"] - syms["_800_TEXT_START"]
+    lines = ld.read_text().splitlines()
+    a = next(i for i, l in enumerate(lines) if "_800_TEXT_START = ." in l); z = next(i for i, l in enumerate(lines) if "_800_TEXT_END = ." in l)
+    def section_bytes(path, prefix):
+        out = subprocess.run([readelf, "-SW", str(Path(root) / "build_slus" / path)], capture_output=True, text=True).stdout
+        return sum(int(m.group(2), 16) for m in re.finditer(r"\]\s+(\.\S+)\s+PROGBITS\s+\S+\s+\S+\s+([0-9a-f]+)", out) if m.group(1).startswith(prefix))
+    sdk = other = blobs = 0
+    for l in lines[a:z]:
+        for obj, sec in re.findall(r"(build/\S+?\.o)\((\.\w+)\)", l):
+            if obj.startswith("build/asm/psyq/"): sdk += section_bytes(obj, sec)
+            elif obj.startswith("build/asm/"): other += section_bytes(obj, sec)
+            elif obj.startswith("build/assets/"): blobs += section_bytes(obj, sec)
+    return dict(text=text, sdk=sdk, other=other + blobs, in_c=text - sdk - other - blobs)
+
+
+def not_yet_c_section(root):
+    root = Path(root)
+    if not (root / "tools" / "coverage.py").exists():
+        return ""   # a bare tree without the coverage tool: like the glance row, the section is simply absent
+    res = not_yet_c(root)
+    head = ["container", "code bytes", "in C", "C %", "byte-identical copies of C", "undecompiled split segments",
+            "SDK library asm", "other hand asm / unported", "heuristic only", "not yet C (excl. library)"]
+    out = ["## Not yet C\n",
+           "Code bytes per binary: " + container_legend(list(BINARY_NAMES)) + ". Columns **in C** and **SDK library asm** are done: "
+           "C is compiled and matched, and PsyQ SDK library code is reported as library, not a decompile target (decision 55). "
+           "The columns **byte-identical copies of C**, **undecompiled split segments**, **other hand asm / unported** and **heuristic only** "
+           "are not yet C; **not yet C** is their sum.\n",
+           "| " + " | ".join(head) + " |", "|" + "---|" + "---:|" * (len(head) - 1)]
+    tot = collections.Counter()
+    def line(name, v):
+        code = v["in_c"] + v["copies"] + v["split"] + v["sdk"] + v["unported"] + v["heuristic"]
+        rest = v["copies"] + v["split"] + v["unported"] + v["heuristic"]
+        tot.update(v)
+        return (f"| {name} | {code:,} | {v['in_c']:,} | {100 * v['in_c'] / code:.1f}% | {v['copies']:,} | {v['split']:,} | {v['sdk']:,} | {v['unported']:,} | {v['heuristic']:,} | {rest:,} |"
+                if code else f"| {name} | 0 | 0 | - | 0 | 0 | 0 | 0 | 0 | 0 |")
+    st = slus_text(root)
+    if st:
+        out.append(line("`slus` (SLUS_006.14)", dict(in_c=st["in_c"], copies=0, split=0, sdk=st["sdk"], unported=st["other"], heuristic=0)))
+    for c in sorted(res, key=lambda c: list(BINARY_NAMES).index(c) if c in BINARY_NAMES else 99):
+        out.append(line(f"`{c}` ({BINARY_NAMES.get(c, c)})", res[c]))
+    code = sum(tot[k] for k in tot)
+    if code:
+        rest = tot["copies"] + tot["split"] + tot["unported"] + tot["heuristic"]
+        out.append(f"| **total** | {code:,} | {tot['in_c']:,} | {100 * tot['in_c'] / code:.1f}% | {tot['copies']:,} | {tot['split']:,} | {tot['sdk']:,} | {tot['unported']:,} | {tot['heuristic']:,} | {rest:,} |")
+    sdk_objs = sum(1 for _ in read_jsonl(LEDGER / "sdk_objects.jsonl")) if (LEDGER / "sdk_objects.jsonl").exists() else 0
+    out += ["",
+            "- **in C**: code whose C is compiled and compared byte for byte with retail.",
+            "- **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.",
+            "- **undecompiled split segments**: code the split tables carve out inside an overlay window that has no C row yet.",
+            "- **SDK library asm**: PsyQ / Sony library code kept as assembler of the retail bytes (library code, decision 55); "
+            f"in `slus` the PsyQ objects linked into the text, in the overlays the regions recorded as `sdk_asm` ({sdk_objs} whole Sony SDK objects are also listed in `ledger/sdk_objects.jsonl`).",
+            "- **other hand asm / unported**: hand-written assembler of the original program (`slus`: `main.s` and retail data blobs inside the text range) or regions recorded as deliberately unported.",
+            "- **heuristic only**: spans that look like functions (`jr ra` shape) with no row, split or proven copy; an estimate.",
+            ("- **`slus`** is measured from the linked image: text range, SDK objects and hand asm by linker-script ownership, the rest is C (row sizes are stale pre-partition sizes and are not used)."
+             if st else "- **`slus`** needs a SLUS build (`build_slus/`) to be measured by linked-section ownership; it is absent from this table when there is none."),
+            ""]
+    return "\n".join(out)
+
+
 # SLUS regions (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
 def _slus_want(r):
     """Region build of a SLUS row: its w_<addr> id address, else the majority region of its function definitions."""
@@ -180,32 +324,42 @@ def _recipe_tracker(rs, curc):
         members[k].append("%s %s (yardstick %s)" % (r["id"], r["cfg"], best or "?"))
         if n:
             worst.append((n, r["id"], r["cfg"], best or "?"))
+    tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
     out = ["\n## Likely incorrect compiler (registered recipe vs the real build)\n",
            "The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects "
-           "(r84_fable_build). A row listed here carries a recipe its module's pin-free rows do not use - usually pins fitted "
-           "at the wrong compiler. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.\n",
-           "| class | rows | slus / ovmovie / dungeon / town / main | pinned rows | pins |", "|---|---:|---|---:|---:|"]
+           "(r84_fable_build). A row is listed when its recipe differs from the one its module's pin-free rows use. Module recipe = "
+           "ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.\n",
+           (f"**{tot} rows** differ from their module's recipe ({tp} pins among them)." if tot else "**Compilers are aligned: 0 rows differ from their module's recipe.**")
+           + f" {len(rev)} rows sit at a registered recipe backed by per-row compiler evidence; {len(unconf)} attributions are unconfirmed; "
+           f"{len(sdk)} are Sony SDK library objects (not the game build); {len(tied)} rows sit at a recipe the module census cannot separate from the best one.\n"]
+    body = ["| class | rows | slus / ovmovie / dungeon / town / main | pinned rows | pins |", "|---|---:|---|---:|---:|"]
     for k, v in cats.items():
-        out.append(f"| {k} | {v['rows']} | {v['slus']} / {v['ovmovie']} / {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
-    tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
-    out.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
+        body.append(f"| {k} | {v['rows']} | {v['slus']} / {v['ovmovie']} / {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
+    body.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
     for k, v in members.items():
         if v:
-            out.append(f"\n- {k}: " + "; ".join(v[:40]) + (f"; ... +{len(v) - 40}" if len(v) > 40 else ""))
-    if tied:
-        out.append("\nRows at a recipe the module census cannot separate from best_recipe (tie_with; not listed above, text cannot decide): "
-                   + ", ".join("%s %s (best %s)" % t for t in tied) + ".")
-    if rev:
-        out.append("\nRows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl, not listed above): "
-                   + ", ".join("%s %s (%s)" % (i, x["cfg"], x["confidence"]) for i, x in sorted(rev.items())) + ".")
-    if unconf:
-        out.append("\nUnconfirmed compiler attributions (still listed above; ledger/recipe_evidence.jsonl `to_confirm` names the measurement): "
-                   + ", ".join("%s %s" % (i, x["cfg"]) for i, x in sorted(unconf.items())) + ".")
-    if sdk:
-        out.append(f"\nSony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match; not listed above): {', '.join(sorted(sdk))}.")
+            body.append(f"\n- {k}: " + "; ".join(v[:40]) + (f"; ... +{len(v) - 40}" if len(v) > 40 else ""))
     if worst:
-        out.append("\nMost-pinned rows off their build recipe: " + "; ".join(
-            f"{i} {n} pins ({cfg} -> {best})" for n, i, cfg, best in sorted(worst, reverse=True)[:12]) + ".\n")
+        body.append("\nMost-pinned rows off their build recipe: " + "; ".join(
+            f"{i} {n} pins ({cfg} -> {best})" for n, i, cfg, best in sorted(worst, reverse=True)[:12]) + ".")
+    if tot:
+        out += body
+        body = []
+    out.extend(_details("class table" if not tot else "other lists", [], body) if body else [])
+    lists = []
+    if tied:
+        lists += _details(f"rows whose recipe the module census cannot separate from best_recipe (tie_with): {len(tied)}", [],
+                          [", ".join("%s %s (best %s)" % t for t in tied) + "."])
+    if rev:
+        lists += _details(f"rows at a registered recipe backed by per-row compiler evidence (ledger/recipe_evidence.jsonl): {len(rev)}", [],
+                          [", ".join("%s %s (%s)" % (i, x["cfg"], x["confidence"]) for i, x in sorted(rev.items())) + "."])
+    if unconf:
+        lists += _details(f"unconfirmed compiler attributions (ledger/recipe_evidence.jsonl `to_confirm` names the measurement): {len(unconf)}", [],
+                          [", ".join("%s %s" % (i, x["cfg"]) for i, x in sorted(unconf.items())) + "."])
+    if sdk:
+        lists += _details(f"Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match): {len(sdk)}", [], [", ".join(sorted(sdk)) + "."])
+    out += lists
+    out.append("")
     return "\n".join(out)
 
 
@@ -217,42 +371,45 @@ def at_a_glance(denom, containers, slus_groups, ov_groups, cov, pins_now, pins_n
     total = {k: sc[k] + oc[k] for k in CERT_STATES}
     n_cert = sum(total.values())
     out = ["## At a glance\n",
-           "**Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** "
-           "This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.\n",
            "| | |", "|---|---|",
-           f"| **What is matched** | {denom['rows']:,} functions and data rows, {denom['bytes']:,} bytes, in {len(containers)} containers "
-           f"({', '.join('`%s`' % c for c in containers)}) |",
-           f"| **Verified byte-identical to retail** | {denom['exact']:,} of {denom['rows']:,} rows ({100*denom['exact']/denom['rows']:.1f}%), "
+           f"| **Matched** | {denom['rows']:,} functions and data rows, {denom['bytes']:,} bytes, in {len(containers)} containers "
+           f"({container_legend(containers)}) |",
+           f"| **Byte-identical to retail** | {denom['exact']:,} of {denom['rows']:,} rows ({100*denom['exact']/denom['rows']:.1f}%), "
            f"{denom['exact_bytes']:,} bytes; {denom['unverified']:,} unverified |"]
     if cov:
-        out.append(f"| **Share of the code that is C** | {cov['c_pct']:.1f}% C rows; {cov['copy_pct']:.1f}% counting byte-identical copies of C functions proven elsewhere "
-                   f"in the images (of {cov['code_bytes']:,} bytes of classified or estimated code in {', '.join('`%s`' % c for c in cov['containers'])}; "
-                   f"`slus` is accounted by its own rows above; `tools/coverage.py`) |")
-    out.append(f"| **Assembler scaffolding left** | {pins_now:,} pin sites in {pins_now_rows:,} rows (from {pins_pin:,} at the pin) |")
+        out.append(f"| **Code that is C** | {cov['c_pct']:.1f}% as C; {cov['copy_pct']:.1f}% counting byte-identical copies of C functions proven elsewhere "
+                   f"(of {cov['code_bytes']:,} bytes of classified or estimated code in {', '.join('`%s`' % c for c in cov['containers'])}; "
+                   f"`slus` is accounted by its own rows; breakdown under Not yet C) |")
+    out.append(f"| **Assembler scaffolding left** | {pins_now:,} pin sites in {pins_now_rows:,} rows (from {pins_pin:,} at the first pass) |")
     if levels_pct:
         out.append("| **Readability** | " + ", ".join(f"L{l} {levels_pct[l]:.1f}%" for l in (3, 4, 5)) + " of bytes (levels below) |")
     if n_cert:
         out.append(f"| **Module certificates** | {total['current']} of {n_cert} current"
                    + "".join(f", {total[k]} {CERT_STATES[k][0].split(':')[0]}" for k in ("stale", "missing", "unchecked", "attention") if total[k]) + " |")
     out.append("")
-    out.append("**How a match is proven.** (1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the "
-               "retail bytes. (2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. "
-               "(3) Module certificates: a certificate records that a module's complete translation unit and every affected window rebuild to retail with the "
-               "genuine assembler; it is bound to a fingerprint of the module's sources, recipe, headers and tools, so any change to those makes it stale.\n")
     if n_cert and total["current"] < n_cert:
-        parts = [f"{total[k]} {CERT_STATES[k][0].split(':')[0]}" for k in ("stale", "missing", "unchecked", "attention") if total[k]]
-        l45 = (f"; levels L4 and L5, which need the row's module certificate, read {levels_pct[4]:.1f}% and {levels_pct[5]:.1f}%" if levels_pct else "")
-        out.append(f"**Current proof state.** {n_cert - total['current']} of {n_cert} module certificates are not current ({', '.join(parts)}){l45}. "
-                   "A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch. Change batches currently "
-                   "land with cheap checks only and one consolidation gate renews every certificate afterwards (`docs/evidence/r97_decisions.md`, decision 53). "
-                   "Per-row exactness is recorded separately in the first table above.\n")
-    elif n_cert:
-        out.append(f"**Current proof state.** All {n_cert} module certificates are current.\n")
-    out.append("**Read next.** [README](README.md) (project overview) - [docs/README.md](docs/README.md) (documentation index) - [docs/PLAN.md](docs/PLAN.md) "
-               "(levels L0-L5) - [docs/FIDELITY.md](docs/FIDELITY.md) (what scaffolding means) - [docs/SLUS_MODULES.md](docs/SLUS_MODULES.md) (executable modules) - "
-               "[CONTRIBUTING.md](CONTRIBUTING.md). Module lists below are collapsed: click a state to expand it.\n")
+        l45 = (f"; L4 and L5, which need the module certificate, read {levels_pct[4]:.1f}% and {levels_pct[5]:.1f}%" if levels_pct else "")
+        out.append(f"**Current proof state.** {n_cert - total['current']} of {n_cert} module certificates are not current{l45}. "
+                   "A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; "
+                   "one consolidation gate renews them after change batches (decision 53).\n")
     return "\n".join(out)
 
+
+def placed_shapes(f, curc, by):
+    """Link-list placement rows (`source_row`, docs/LINK_LISTS.md) whose home TU satisfies the shape predicate `f`:
+    a placement links the home's text at another address, so its bytes carry the home's shape, but the file is
+    counted once (the home's entry in `curc`; cur_facts returns None for a placement)."""
+    return [r for r in by.values() if r.get("source_row") and r["container"] not in PARKED_CONTAINERS
+            and curc.get(r["source_row"]) and f(curc[r["source_row"]])]
+
+SECTIONS = ("head", "glance", "notyet", "progress", "levels", "shape", "modules", "compiler", "trades", "trade_notes", "evidence", "proof")
+PROOF_TEXT = ("(1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the retail bytes. "
+              "(2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. "
+              "(3) Module certificates: a certificate records that a module's complete translation unit and every affected window rebuild to retail with the "
+              "genuine assembler; it is bound to a fingerprint of the module's sources, recipe, headers and tools, so any change to those makes it stale.\n")
+READ_NEXT = ("\n**Read next.** [README](README.md) (project overview) - [docs/README.md](docs/README.md) (documentation index) - [docs/PLAN.md](docs/PLAN.md) "
+             "(levels L0-L5) - [docs/FIDELITY.md](docs/FIDELITY.md) (what scaffolding means) - [docs/SLUS_MODULES.md](docs/SLUS_MODULES.md) (executable modules) - "
+             "[CONTRIBUTING.md](CONTRIBUTING.md).\n")
 
 def main():
     cache = RowCache(ROOT, "status")
@@ -260,23 +417,30 @@ def main():
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
     cen = {c["id"]: c for c in current_row_records(read_jsonl(LEDGER / "census.jsonl"), by)}
     pin = json.load(open(LEDGER / "pin.json"))
-    out = []
-    out.append(f"# azure-dreams-decomp status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
-    glance_at = len(out)   # "At a glance" is filled in at the end, once every number below exists
-    out.append("## Denominator (rows matched at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
-    T = collections.Counter()
+    # The page is assembled from named sections at the end (order = SECTIONS); `out` is rebound to the section being written.
+    sec = collections.OrderedDict((k, []) for k in SECTIONS)
+    out = sec["head"]
+    out.append(f"# azure-dreams-decomp status\n\n**Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** "
+               f"This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.\n\n"
+               f"Generated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Baseline: first-pass text frozen {str(pin['extracted_at'])[:10]}.\n")
+    out = sec["progress"]
+    out.append("## Progress by container\n\n| container | rows | bytes | verified byte-identical | verified bytes | unverified |\n|---|---:|---:|---:|---:|---:|")
+    T = collections.Counter(); nonstock = 0
     for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):
         sel = [r for r in rs if (c == "ALL" and r["container"] not in PARKED_CONTAINERS) or r["container"] == c]
         st = [r for r in sel if r["stock"]]
         ex = [r for r in st if base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")]
         nb = [r for r in st if r["id"] not in base]
-        out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
+        if c == "ALL": nonstock = len(sel) - len(st)
+        out.append(f"| {c} | {len(sel):,} | {sum(r['size'] for r in sel):,} | {len(ex):,} | {sum(r['size'] for r in ex):,} | {len(nb):,} |")
         if c == "ALL":
             denom = dict(rows=len(sel), bytes=sum(r['size'] for r in sel), exact=len(ex), exact_bytes=sum(r['size'] for r in ex), unverified=len(nb))
     out.append(placement_unproven_status(rs))
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
     parked = (", ".join(sorted(PARKED_CONTAINERS)) + " parked by the owner (listed, excluded from ALL).") if PARKED_CONTAINERS else "No container is parked (ovmovie unparked by the owner 2026-10-14)."
-    out.append(f"\n{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    sec["proof"].append(f"{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are {nonstock} at the pin.\n")
+    out.append(f"\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    out = sec["modules"]
     from slus_module_evidence import module_status
     with cache.phase("slus_placements"):
         module_records = module_status()
@@ -326,7 +490,9 @@ def main():
                 out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | rows |", "|---|---:|"],
                                     [f"| {n} | {r} |" for n, r in g]))
         out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
-    out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
+    out = sec["shape"]
+    shape_full = ["| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |", "|---|---:|---:|---:|---:|---:|---:|"]
+    shape_now = ["| defect still in the clean tree | files | bytes | % of bytes |", "|---|---:|---:|---:|"]
     tot = sum(r["size"] for r in rs)
     import re as _re
     from pathlib import Path as _P
@@ -340,6 +506,7 @@ def main():
     with cache.phase("dependencies"):
         facts = FactInputs(ROOT, _levels)
     def cur_facts(r):
+        if r.get("source_row"): return None   # link-list placement: its home's TU is counted once (placed_shapes adds the bytes)
         cp = layout_row_path(r, ROOT)
         p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
         if not p.exists(): return None
@@ -391,8 +558,10 @@ def main():
         b = sum(r["size"] for r in sel)
         # parked containers excluded like "Pin sites now" and the L4 line (r91_luna_offby1: ovmovie/func_80041044 made it 151 vs 150)
         sel2 = [by[i] for i, c in curc.items() if c and i.split("/")[0] not in PARKED_CONTAINERS and f(c)]
-        b2 = sum(r["size"] for r in sel2)
-        out.append(f"| {name} | {len(sel)} | {b:,} | {100*b/tot:.1f}% | {len(sel2)} | {b2:,} | {100*b2/tot:.1f}% |")
+        b2 = sum(r["size"] for r in sel2 + placed_shapes(f, curc, by))   # files = TUs; bytes also cover the placements of a TU
+        shape_full.append(f"| {name} | {len(sel)} | {b:,} | {100*b/tot:.1f}% | {len(sel2)} | {b2:,} | {100*b2/tot:.1f}% |")
+        if sel2 or b2:
+            shape_now.append(f"| {name.split(' (')[0]} | {len(sel2):,} | {b2:,} | {100*b2/tot:.1f}% |")
     pins = collections.Counter(); 
     for c in cen.values():
         for k, v in c.get("pins", {}).items(): pins[k] += v
@@ -408,23 +577,34 @@ def main():
     now = collections.Counter()
     for c in live.values():
         now.update(c["pins_by"])
+    out.append("## Code shape: what is left to clean in the C\n\nDefects still present in the current tree (files = source files, bytes = image bytes of the functions in them; "
+               "the last row is the positive one). The comparison with the frozen first-pass text is collapsed below.\n")
+    out.extend(shape_now)
+    out.extend(_details("pinned first-pass text vs current tree, every defect", shape_full[:2], shape_full[2:]))
     out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in live.values() if c['pin_total']):,} rows; "
                + (", ".join(f"{k} {v:,}" for k, v in now.most_common(8)) or "none left")
                + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
+    notes = sec["trade_notes"]; trade_tab = []   # (kind, count, ledger file): the compact table; `notes` keeps the full descriptions (lines some tools parse)
+    out = notes
     hid = collections.Counter()
     for c in live.values(): hid.update(c["hidden"])
     _odd = [json.loads(l) for l in open(ROOT / "ledger/oddities.jsonl")] if (ROOT / "ledger/oddities.jsonl").exists() else []
     _ot = [json.loads(l) for l in open(ROOT / "ledger/onetrip_barrier_rows.jsonl")] if (ROOT / "ledger/onetrip_barrier_rows.jsonl").exists() else []
     _otl = [json.loads(l) for l in open(ROOT / "ledger/onetrip_loadbearing.jsonl") if l.strip()] if (ROOT / "ledger/onetrip_loadbearing.jsonl").exists() else []
+    trade_tab += [("oddities (zero-byte fences retail needs)", f"{len(_odd)}", "ledger/oddities.jsonl"),
+                  ("one-trip barrier rows", f"{len(_ot)}", "ledger/onetrip_barrier_rows.jsonl"),
+                  ("load-bearing one-trip rows", f"{len(_otl)}", "ledger/onetrip_loadbearing.jsonl")]
     out.append(f"Tracked, not pins (owner 2026-10-06): oddities {len(_odd)} (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, "
                f"not removal targets: {', '.join(o['id'] for o in _odd) or '-'}); one-trip barrier rows {len(_ot)} (ledger/onetrip_barrier_rows.jsonl); "
                f"load-bearing one-trip rows {len(_otl)} (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{{}}while(0) row above).")
     _comp = [i for i, c in live.items() if c["composite_asm"]]
+    trade_tab.append(("carve debt: composite rows", f"{sum(live[i]['composite_asm'] for i in _comp):,} statements in {len(_comp):,} rows", "tools/pin_census.py composite_asm_spans"))
     out.append(f"Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function "
                f"carving, owned by module placement): the `asm(\"func_X\")` data prefix (another function's jump table / overlay data that retail "
                f"places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), "
                f"{sum(live[i]['composite_asm'] for i in _comp):,} statements in {len(_comp):,} rows - counted here, not in the inline-asm row "
                f"above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.")
+    trade_tab.append(("hidden scaffolding (not pins)", f"{sum(hid.values()):,} sites ({hid['symbol-alias']:,} symbol aliases)", "pin_census.hidden_asm"))
     out.append(f"Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements {hid['raw-pin']:,}, "
                f"calls of local asm wrappers {hid['wrapper-call']:,}, hand-written asm in function bodies {hid['asm-code']:,} "
                f"(C that is missing); symbol aliases {hid['symbol-alias']:,} (a second typed name for one symbol: a missing type); "
@@ -432,15 +612,17 @@ def main():
                f"(`register T g asm(\"$R\")`).\n")
     nfl = collections.Counter(min(2, len([x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]))
                           for r in rs if r["id"].split("/")[0] not in PARKED_CONTAINERS)
+    trade_tab.append(("per-row optimization flags", f"{nfl[1]:,} rows with one, {nfl[2]:,} with two or more", "ledger/rows.jsonl"))
     out.append(f"Per-row optimization flags (weak evidence about the real build; each switch is undone from the "
                f"`t30_cellpins` journal's `cell_from`): {nfl[1]:,} rows carry one flag, {nfl[2]:,} carry two or more.\n")
 
     try:
-        out.append(_recipe_tracker(rs, curc))
+        sec["compiler"].append(_recipe_tracker(rs, curc))
     except Exception as e:
-        out.append(f"\n(recipe tracker unavailable: {e})")
+        sec["compiler"].append(f"\n(recipe tracker unavailable: {e})")
     trades = list(read_jsonl(LEDGER / "recipe_trades.jsonl")) if (LEDGER / "recipe_trades.jsonl").exists() else []
     site_for_pin = sum(1 for t in trades if t.get("kind") == "site_for_pin")
+    trade_tab.append(("site-for-pin trades", f"{site_for_pin:,}", "ledger/recipe_trades.jsonl"))
     out.append(f"Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped "
                f'`{{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,'
                f'"residue_without_pin":str,"at":iso,"note":str}}` -- one pin, or two when one is not enough '
@@ -448,6 +630,7 @@ def main():
                f'a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): '
                f"{site_for_pin:,}.\n")
     dead_init = sum(1 for t in trades if t.get("kind") == "dead_init")
+    trade_tab.append(("dead-initializer trades", f"{dead_init:,}", "ledger/recipe_trades.jsonl"))
     out.append(f"Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped "
                f'`{{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}}` -- a '
                f"never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling "
@@ -460,9 +643,10 @@ def main():
         def _union_line(kind, label):
             sites = [u for u in unions if u.get("kind") == kind]
             per_row = collections.Counter(u["id"] for u in sites)
-            live = sum(1 for r in per_row if (layout_row_path(r, ROOT)).exists() and "union" in (layout_row_path(r, ROOT)).read_text(errors="replace"))
+            live = sum(1 for r in per_row if not by.get(r, {}).get("source_row") and (layout_row_path(r, ROOT)).exists() and "union" in (layout_row_path(r, ROOT)).read_text(errors="replace"))
             top = ", ".join(f"{r.split('/')[-1]} {n}" for r, n in per_row.most_common(4))
             return f"{label}: {len(sites):,} sites in {len(per_row):,} rows ({live:,} rows still carry a union; most: {top})"
+        trade_tab.append(("union trades (tracked, plausibility unproven)", f"{len(unions):,} open of {len(unions_all):,} sites", "ledger/union_trades.jsonl"))
         out.append("Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their "
                    "plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): "
                    + _union_line("union_idiom", "zero-init one-member idiom (accepted trade)") + "; "
@@ -472,6 +656,7 @@ def main():
 
     dead_branch = sorted({t["id"] for t in trades if t.get("kind") == "dead_branch"})
     if dead_branch:
+        trade_tab.append(("dead-branch trades (decision 45)", f"{len(dead_branch):,} rows", "ledger/recipe_trades.jsonl"))
         out.append(f"Dead-branch trades (decision 45, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_branch - a one-arm "
                    f"`if (value) {{ local = 0; }}` over a retail-evidenced value whose arm sets a never-read local, reconstructing a "
                    f"set-but-unused leftover that jump2 deletes while delete_computation keeps the load): {len(dead_branch):,} rows "
@@ -479,6 +664,7 @@ def main():
 
     dead_arm = sorted({t["id"] for t in trades if t.get("kind") == "dead_arm"})
     if dead_arm:
+        trade_tab.append(("dead-arm trades (decision 46)", f"{len(dead_arm):,} rows", "ledger/recipe_trades.jsonl"))
         out.append(f"Dead-arm trades (decision 46, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_arm - a never-taken "
                    f"arm over a never-reassigned local that combine folds after flow counted it, so sched/global/reload still see "
                    f"it and jump2 deletes it; the arm body is a RECONSTRUCTION, only its shape is byte-evidenced): {len(dead_arm):,} rows "
@@ -517,7 +703,7 @@ def main():
         full_void = void_exact_targets()          # census.declared_void_callees() unioned in, both tiers
         reduced_void = full_void - tierB_syms
         for r in rs:
-            if r["container"] in PARKED_CONTAINERS: continue
+            if r["container"] in PARKED_CONTAINERS or r.get("source_row"): continue   # a placement shares its home's TU (counted once)
             keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
             pt_sites = []
             for k in keys:
@@ -535,6 +721,7 @@ def main():
                 tb_rows.append(r)
         _census_mod._VOID_EXACT_TARGETS = full_void   # restore: every other call in this run sees both tiers
     tb_bytes = sum(r["size"] for r in tb_rows)
+    trade_tab.append(("void callees (tier A in-tree / tier B explicit)", f"{tier_a} + {tier_b} symbols; {len(tb_rows)} rows rest on tier B", "config/void_callees.txt"))
     out.append(f"Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no "
                f"per-line marker exists): tier A {tier_a}, tier B {tier_b} symbols" +
                (f"; WARNING {len(tier_drift)} symbol(s) differ from `census.declared_void_callees()` -- header "
@@ -543,7 +730,8 @@ def main():
                f"were dropped, tier-A/in-tree exemptions do not cover them): {len(tb_rows)} rows, {tb_bytes:,} B.\n")
 
     lv = LEDGER / "levels.jsonl"
-    out.append("## Cleanliness levels (bytes at or above each level)\n")
+    out = sec["levels"]
+    out.append("## Readability levels (bytes at or above each level)\n")
     if lv.exists():
         level_rows = current_row_records(read_jsonl(lv), by)
         L = collections.Counter()
@@ -569,20 +757,38 @@ def main():
     else:
         exb = sum(r["size"] for r in rs if r["stock"] and (base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")))
         out.append(f"L0 (verified byte-exact at the pin): {exb:,} bytes ({100*exb/tot:.1f}%). No transforms applied yet; every row is at L0.\n")
+    out = sec["evidence"]
     try:
         from evidence import census as _ev_census
-        out.append("\n## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)\n")
-        out.append(_ev_census())
+        ev = _ev_census().splitlines()
+        i0 = next((i for i, l in enumerate(ev) if l.startswith("|")), None)
+        if i0 is None:
+            out.extend(_details("Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)", [], ev))
+        else:
+            out.extend(_details("Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)", ev[i0:i0 + 2], ev[i0 + 2:]))
         out.append("\nEvery lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.")
     except Exception as e:
-        out.append(f"\n(evidence census unavailable: {e})")
+        out.append(f"\n(evidence census unavailable: {type(e).__name__})")
     try:
         lvp = {l: 100 * L[l] / tot for l in range(6)} if lv.exists() else None
-        out.insert(glance_at, at_a_glance(denom, sorted({r["container"] for r in rs if r["container"] not in PARKED_CONTAINERS}, key=("slus", "main", "town", "dungeon", "ovmovie").index),
+        sec["glance"].append(at_a_glance(denom, sorted({r["container"] for r in rs if r["container"] not in PARKED_CONTAINERS}, key=("slus", "main", "town", "dungeon", "ovmovie").index),
                                           slus_groups, ov_groups, coverage_summary(ROOT), sum(now.values()), sum(1 for c in live.values() if c["pin_total"]),
                                           sum(pins.values()), lvp))
     except Exception as e:
-        out.insert(glance_at, f"## At a glance\n\n(summary unavailable: {type(e).__name__})\n")
+        sec["glance"].append(f"## At a glance\n\n(summary unavailable: {type(e).__name__})\n")
+    try:
+        sec["notyet"].append(not_yet_c_section(ROOT))
+    except Exception as e:
+        sec["notyet"].append(f"## Not yet C\n\n(summary unavailable: {type(e).__name__})\n")
+    sec["trades"].extend(_details(f"Tracked spellings and trades: {len(trade_tab)} kinds (none is an assembler pin)", ["| kind | count | where recorded |", "|---|---|---|"],
+                                  [f"| {k} | {n} | `{w}` |" for k, n, w in trade_tab]))
+    sec["trades"].insert(0, "## Tracked spellings and trades\n\nChoices the tree keeps on purpose and tracks; none is an assembler pin. The compact table and the full descriptions are collapsed.\n")
+    sec["trades"].extend(_details("full descriptions", [], sec.pop("trade_notes")))
+    sec["proof"].insert(0, "## How a match is proven\n")
+    sec["proof"].insert(1, PROOF_TEXT)
+    sec["proof"][2:] = _details("How rows are verified", [], sec["proof"][2:])
+    sec["proof"].append(READ_NEXT)
+    out = [x for part in sec.values() for x in part + [""]]
     (ROOT / "STATUS.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
     try:   # src/<container>/INDEX.md mirrors the ledger (stale since import until 2026-10-01)

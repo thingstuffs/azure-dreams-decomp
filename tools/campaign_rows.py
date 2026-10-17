@@ -25,7 +25,7 @@ def main():
     lv = {x["id"]: x for x in read_jsonl(LEDGER / "levels.jsonl")}
     small, large, fields = [], [], []
     for r in rows():
-        if not r["stock"]: continue
+        if not r["stock"] or r.get("source_row"): continue   # lanes target the home TU, never a placement row
         cp = layout_row_path(r, ROOT)
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         live = live_audit(r, text)

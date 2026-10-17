@@ -210,6 +210,8 @@ def _fakedep(text):
 
 
 def census_one(row, audit):
+    if row.get("source_row"):   # link-list placement: the home's TU is censused once, under the home row
+        return {"id": row["id"], "missing": True, "source_row": row["source_row"]}
     p = raw_path(row)
     if not p.exists():
         return {"id": row["id"], "missing": True}

@@ -387,11 +387,15 @@ def fidelity_index():
         _FID = (fp, dep)
     return _FID
 
+def _fid_id(r):
+    """Fidelity-ledger key: a link-list placement is the same object as its home, so it uses the home's record."""
+    return r.get("source_row") or r["id"]
+
 def _fid_cell(r):
-    return int(r["id"] in fidelity_index()[0] and not cfg_splits(r.get("cfg")))
+    return int(_fid_id(r) in fidelity_index()[0] and not cfg_splits(r.get("cfg")))
 
 def _fid_has(r, kind):
-    return int(kind in fidelity_index()[1].get(r["id"], ()))
+    return int(kind in fidelity_index()[1].get(_fid_id(r), ()))
 
 def cfg_splits(cfg):
     toks = (cfg or "").split()
@@ -460,15 +464,15 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None, ca
                 # L4 = module placement AND pins == 0 (strict, not the t2_pins sweep loophole)
                 # AND zero tail-jump dependency of any kind, audited or not.
                 fp_rows, dep = fidelity_index()
-                cell_imitation = int(r["id"] in fp_rows and not cfg_splits(r.get("cfg")))
-                maspsx_pass = int("maspsx_pass" in dep.get(r["id"], ()))
+                cell_imitation = int(_fid_id(r) in fp_rows and not cfg_splits(r.get("cfg")))
+                maspsx_pass = int("maspsx_pass" in dep.get(_fid_id(r), ()))
                 if in_module and pins == 0 and tail_jumps == 0 and not cell_imitation and not maspsx_pass:
                     level = 4
                     # L5 is strict on what is left once L4's pins/tail-jump gate has already run:
                     # no fidelity site of any audit class, no computed-goto table, no inline asm,
                     # no NON_MATCHING guard.  A row that cannot get there stays at L4 (T6 notes).
                     if not any_site and computed_goto == 0 and inline_asm == 0 and "NON_MATCHING" not in text \
-                            and "maspsx_dependent" not in dep.get(r["id"], ()):
+                            and "maspsx_dependent" not in dep.get(_fid_id(r), ()):
                         level = 5
     recs = sorted(set(re.findall(r'#include "records/(Rec_[A-Za-z0-9_]+)\.h"', text)))
     extra = {"tail_calls_verified": tail_calls_verified} if tail_calls_verified else {}
@@ -476,7 +480,22 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx, defidx=None, ca
             "tail_jumps": tail_jumps, "split_audit": tj_kinds,
             "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text)), ("maspsx_dependent", _fid_has(r, "maspsx_dependent"))) if v],
             "l4_residue": [k for k, v in (("pins", pins), ("tail_jump", tail_jumps), ("not_in_module", int(not in_module)), ("placement_unproven", int(placement_unproven)), ("cell_imitation", _fid_cell(r)), ("maspsx_pass", _fid_has(r, "maspsx_pass"))) if v],
-            "l5_fidelity": sorted(fidelity_index()[1].get(r["id"], ()))}
+            "l5_fidelity": sorted(fidelity_index()[1].get(_fid_id(r), ()))}
+
+def row_view(r, by_id, root=None):
+    """(fact row, current text, pinned text) for one row.  A link-list placement (`source_row`,
+    docs/LINK_LISTS.md) has no text of its own: it reads its HOME's TU and pinned raw, and takes the
+    home's names (func/defs/true_name) for the text-keyed facts (audit sites, tail-jump extent), so it
+    inherits the home's L-facts.  The row's own id, size, foff, cfg and the gate/module/split-audit
+    facts keyed by id stay its own.  Any other row returns itself unchanged."""
+    home = by_id.get(r.get("source_row") or "")
+    h = home or r
+    cp = layout_row_path(r, root or ROOT)
+    text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
+    raw_text = raw_path(h).read_text(errors="replace") if raw_path(h).exists() else ""
+    if home:
+        r = dict(r, func=h["func"], defs=h.get("defs"), true_name=h.get("true_name"))
+    return r, text, raw_text
 
 def main():
     cache = RowCache(ROOT, "levels")
@@ -514,14 +533,13 @@ def main():
     for rid, target in call_verified:
         verified_by_row[rid].append(target)
     out = []; tally = collections.Counter()
-    for r in rows():
+    all_rows = rows(); by_id = {x["id"]: x for x in all_rows}
+    for r in all_rows:
         b = base.get(r["id"], {})
         l0 = r["stock"] and (b.get("exact") is True or (r["kind"] == "slus" and b.get("status") == "ok"))
         if not l0:
             out.append({"id": r["id"], "level": -1}); tally[-1] += r["size"]; continue
-        cp = layout_row_path(r, ROOT)
-        text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
-        raw_text = raw_path(r).read_text(errors="replace") if raw_path(r).exists() else ""
+        er, text, raw_text = row_view(r, by_id)   # a placement reads its home's text (facts), keeps its own id
         context = module_contexts.get(r["id"], "")
         if context:
             text += "\n" + context
@@ -530,12 +548,12 @@ def main():
             # All non-argument reads of evaluate_row are represented explicitly:
             # audit/arity/void config, scoped raw tail symbols and fidelity ledger.
             fp, dep = fidelity_index()
-            inputs = [r, text_key(text), text_key(raw_text), facts.for_row(r),
+            inputs = [er, text_key(text), text_key(raw_text), facts.for_row(er),
                       r["id"] in promoted, sorted(k for k, v in sweeps.items() if r["id"] in v),
                       split_by_row[r["id"]], sorted(verified_by_row[r["id"]], key=str),
-                      sorted(row_tail_syms(r)), r["id"] in fp, sorted(dep.get(r["id"], ()))]
+                      sorted(row_tail_syms(er)), _fid_id(er) in fp, sorted(dep.get(_fid_id(er), ()))]
         rec = cache.get(r["id"], inputs, lambda: evaluate_row(
-            r, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified))
+            er, text, raw_text, promoted, sweeps, split_idx, call_verified=call_verified))
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")

@@ -56,7 +56,7 @@ def main():
         funcs = collections.defaultdict(lambda: {"definition": None, "prototypes": collections.defaultdict(list)})
         data = collections.defaultdict(lambda: {"types": collections.defaultdict(list), "records": []})
         for r in rows():
-            if r["container"] != cont: continue
+            if r["container"] != cont or r.get("source_row"): continue   # a placement shares its home's TU (read once)
             p = layout_row_path(r, ROOT)
             if not p.exists(): continue
             t = strip(p.read_text(errors="replace"))

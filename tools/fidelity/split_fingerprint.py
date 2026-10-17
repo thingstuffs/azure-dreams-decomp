@@ -514,7 +514,7 @@ def _job(r):
 
 
 def run(args):
-    rs = [r for r in rows() if r["exists"]]
+    rs = [r for r in rows() if r["exists"] and not r.get("source_row")]
     if args.container: rs = [r for r in rs if r["container"] == args.container]
     if args.only: keep = set(args.only.split(",")); rs = [r for r in rs if r["id"] in keep]
     prev = {x["id"]: x for x in read_jsonl(OUT)}
