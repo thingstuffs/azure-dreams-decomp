@@ -53,7 +53,7 @@ def main():
     calls = collections.defaultdict(list)   # callee -> [(caller_row, args)]
     texts = {}
     for r in rs:
-        if not r["exists"]: continue
+        if not r["exists"] or r.get("source_row"): continue   # a placement shares its home's TU (read once)
         t = current_text(r); texts[r["id"]] = t
         for m in TYPEDEF.finditer(t):
             note = m.group(3); mm = re.match(r"(.+?) in (\S+)", note)

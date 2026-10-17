@@ -57,7 +57,7 @@ class Rendering(unittest.TestCase):
     def test_all_current_has_no_gap_paragraph(self):
         text = self.render({'current': [('a', 2)]}, {})
         self.assertIn('1 of 1 current', text)
-        self.assertIn('All 1 module certificates are current.', text)
+        self.assertNotIn('Current proof state', text)   # shown only when something is not current
         self.assertNotIn('not current', text)
 
     def test_nothing_leaks_exception_text_or_paths(self):
@@ -78,6 +78,40 @@ class Rendering(unittest.TestCase):
         self.assertTrue(block[1].startswith('<details><summary>'))
         self.assertEqual(block[2], '')
         self.assertEqual(block[-2:], ['', '</details>'])
+
+
+class NotYetC(unittest.TestCase):
+    """Synthetic ledger: 1 C row, 1 proven copy, 1 raw split segment inside a window, 1 sdk region, 1 heuristic span; every byte once."""
+    def setUp(self):
+        import json, shutil, tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        r = Path(self.tmp.name)
+        (r / 'ledger/splits').mkdir(parents=True); (r / 'tools').mkdir(); (r / 'config/overlays').mkdir(parents=True)
+        shutil.copy(TOOLS / 'coverage.py', r / 'tools/coverage.py')
+        w = lambda name, recs: (r / 'ledger' / name).write_text(''.join(json.dumps(x) + '\n' for x in recs))
+        w('containers.jsonl', [{'container': 'town', 'file': 'TOWN.BIN', 'bytes': 4096}, {'container': 'slus', 'file': 'S', 'bytes': 1}])
+        w('rows.jsonl', [{'container': 'town', 'func': 'func_80010000', 'foff': 0, 'size': 64}])
+        w('instances.jsonl', [{'container': 'town', 'foff': 64, 'size': 32, 'result': 'proven'}])
+        w('coverage_regions.jsonl', [{'container': 'town', 'foff': 0, 'size': 4096, 'category': 'window'},
+                                     {'container': 'town', 'foff': 128, 'size': 16, 'category': 'sdk_asm'},
+                                     {'container': 'town', 'foff': 144, 'size': 8, 'category': 'estimated_code'},
+                                     {'container': 'town', 'foff': 64, 'size': 32, 'category': 'estimated_code'}])
+        w('splits/town.jsonl', [{'container': 'town', 'foff': 96, 'size': 32, 'result': 'M2C_FAIL'},
+                                {'container': 'town', 'foff': 0, 'size': 64, 'result': 'MATCH'}])
+        self.root = r
+
+    def test_every_byte_is_in_one_class(self):
+        res = S.not_yet_c(self.root)
+        self.assertEqual(res, {'town': dict(in_c=64, copies=32, split=32, sdk=16, unported=0, heuristic=8)})   # the 32 B estimate under the copy is not counted twice
+
+    def test_section_has_totals_and_slus_note(self):
+        text = S.not_yet_c_section(self.root)
+        self.assertIn('| `town` (TOWN overlays) | 152 | 64 | 42.1% | 32 | 32 | 16 | 0 | 8 | 72 |', text)
+        self.assertIn('decision 55', text)
+        self.assertIn('`slus` = SLUS_006.14 executable', text)
+        self.assertIn('needs a SLUS build', text)   # no build_slus in the synthetic tree
+        self.assertNotIn('/ho' + 'me/', text)
 
 
 if __name__ == '__main__':

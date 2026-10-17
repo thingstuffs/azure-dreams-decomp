@@ -72,6 +72,7 @@ def main():
         return p.read_text(errors="replace") if p.exists() else ""
     off_files = off_sites = pin_rows = pin_sites = 0
     for r in live:
+        if r.get("source_row"): continue   # a placement shares its home's TU (counted once)
         t = cur_text(r)
         n = len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#"))))
         if n: off_files += 1; off_sites += n

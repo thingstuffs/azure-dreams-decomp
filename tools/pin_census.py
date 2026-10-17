@@ -544,7 +544,7 @@ def main():
     a = ap.parse_args()
     if a.report:
         report(a.report); return
-    rs = [r for r in rows() if r["exists"] and r["stock"] and (not a.container or r["container"] == a.container)]
+    rs = [r for r in rows() if r["exists"] and not r.get("source_row") and r["stock"] and (not a.container or r["container"] == a.container)]
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
     pinned = [r for r in rs if cen.get(r["id"], {}).get("pin_total", 0) > 0]
     if a.sample:
