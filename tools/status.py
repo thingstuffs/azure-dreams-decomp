@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, re, time
+from pathlib import Path
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from source_layout import row_path as layout_row_path
 from pin_census import sites_of, hidden_asm, strip_composite_asm, composite_asm_spans
@@ -22,6 +23,76 @@ def placement_unproven_status(rs):
             f"\nPlacement unproven (excluded from L4 module placement): {len(unproven)} rows "
             f"({sum(r['size'] for r in unproven):,} B)" +
             (": " + ", ".join(r['id'] for r in unproven) if unproven else "") + "\n")
+
+
+# --- module certificate states (STATUS.md must never print exception text or file paths) -------------------------
+# Order is the display order.  The reasons come from overlay_module_evidence.certificate_reason,
+# slus_module_evidence.certificate_reason and certify_batch._validate_certificate; anything unrecognised lands in
+# "attention" so a new reason string can never leak into the page.
+CERT_STATES = collections.OrderedDict([
+    ("current", ("current", "complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs")),
+    ("stale", ("stale: inputs changed", "a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing")),
+    ("missing", ("not certified yet", "no certificate has been issued for this module")),
+    ("unchecked", ("not checked here", "an input the check reads (compiler, disc image) is not present in this checkout, so the certificate could not be validated")),
+    ("attention", ("needs attention", "the certificate is unreadable or its recorded proof does not hold; it needs a rerun")),
+])
+_STALE_RE = re.compile(r"changed|stale|migration|differs", re.I)
+
+
+def cert_state(reason):
+    """Classify a certificate_reason string (None = valid) into a CERT_STATES key; the raw text is never shown."""
+    if reason is None:
+        return "current"
+    r = str(reason)
+    if "FileNotFoundError" in r or "No such file" in r:
+        # the certificate file itself (ledger/modules/...) vs some input of the check that this checkout lacks
+        return "missing" if "ledger/modules/" in r else "unchecked"
+    if r.startswith(("certificate missing/invalid", "certificate unavailable", "manifest invalid", "invalid ")) or "retail" in r:
+        return "attention"
+    return "stale" if _STALE_RE.search(r) else "attention"
+
+
+_UNIVERSAL_HEADERS = ("include/common.h", "include/game.h", "include/globals.h", "include/include_asm.h")
+
+
+def _short_headers(headers):
+    """Header column: names relative to include/, without the four headers every module pulls in."""
+    keep = [h[len("include/"):] if h.startswith("include/") else h for h in headers if h not in _UNIVERSAL_HEADERS]
+    return ", ".join(f"`{h}`" for h in keep) or "-"
+
+
+def _state_table(groups, unit="modules"):
+    """Summary table: one line per state with module and row counts."""
+    out = ["| state | modules | rows | meaning |", "|---|---:|---:|---|"]
+    for k, (word, meaning) in CERT_STATES.items():
+        g = groups.get(k, [])
+        if not g and k != "current":
+            continue   # a state nobody is in is noise; "current" always shows (0 current is the news)
+        out.append(f"| {word} | {len(g)} | {sum(x[1] for x in g):,} | {meaning} |")
+    return out
+
+
+def _details(summary, header, lines):
+    """A collapsed GitHub block (blank lines around the table keep the markdown rendering)."""
+    return ["", f"<details><summary>{summary}</summary>", "", *header, *lines, "", "</details>"]
+
+
+def coverage_summary(root):
+    """Whole-image code coverage from the ledger alone (tools/coverage.py: no binary reads); None when unavailable.
+    slus is not in that report (it has its own row accounting), so these figures are main + town + dungeon + ovmovie."""
+    try:
+        import importlib.util   # by path: a site-packages `coverage` must never shadow tools/coverage.py
+        spec = importlib.util.spec_from_file_location("azure_coverage", Path(root) / "tools" / "coverage.py")
+        _cov = importlib.util.module_from_spec(spec); spec.loader.exec_module(_cov)
+        rep = _cov.coverage(root)["containers"]
+        num_c = num_all = den = 0
+        for v in rep.values():
+            w = v["whole_image"]
+            den += w["code_bytes_classified_or_estimated"]
+            num_c += w["c_rows"]; num_all += w["c_rows"] + w["proven_instances"]
+        return {"containers": sorted(rep), "c_pct": 100 * num_c / den, "copy_pct": 100 * num_all / den, "code_bytes": den} if den else None
+    except Exception:
+        return None
 
 
 # SLUS regions (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
@@ -138,6 +209,51 @@ def _recipe_tracker(rs, curc):
     return "\n".join(out)
 
 
+def at_a_glance(denom, containers, slus_groups, ov_groups, cov, pins_now, pins_now_rows, pins_pin, levels_pct):
+    """Top-of-page summary for a visitor.  Everything is computed; the proof-state paragraph follows the certificate counts."""
+    def counts(g):
+        return {k: len(g.get(k, [])) for k in CERT_STATES}
+    sc, oc = counts(slus_groups), counts(ov_groups)
+    total = {k: sc[k] + oc[k] for k in CERT_STATES}
+    n_cert = sum(total.values())
+    out = ["## At a glance\n",
+           "**Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** "
+           "This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.\n",
+           "| | |", "|---|---|",
+           f"| **What is matched** | {denom['rows']:,} functions and data rows, {denom['bytes']:,} bytes, in {len(containers)} containers "
+           f"({', '.join('`%s`' % c for c in containers)}) |",
+           f"| **Verified byte-identical to retail** | {denom['exact']:,} of {denom['rows']:,} rows ({100*denom['exact']/denom['rows']:.1f}%), "
+           f"{denom['exact_bytes']:,} bytes; {denom['unverified']:,} unverified |"]
+    if cov:
+        out.append(f"| **Share of the code that is C** | {cov['c_pct']:.1f}% C rows; {cov['copy_pct']:.1f}% counting byte-identical copies of C functions proven elsewhere "
+                   f"in the images (of {cov['code_bytes']:,} bytes of classified or estimated code in {', '.join('`%s`' % c for c in cov['containers'])}; "
+                   f"`slus` is accounted by its own rows above; `tools/coverage.py`) |")
+    out.append(f"| **Assembler scaffolding left** | {pins_now:,} pin sites in {pins_now_rows:,} rows (from {pins_pin:,} at the pin) |")
+    if levels_pct:
+        out.append("| **Readability** | " + ", ".join(f"L{l} {levels_pct[l]:.1f}%" for l in (3, 4, 5)) + " of bytes (levels below) |")
+    if n_cert:
+        out.append(f"| **Module certificates** | {total['current']} of {n_cert} current"
+                   + "".join(f", {total[k]} {CERT_STATES[k][0].split(':')[0]}" for k in ("stale", "missing", "unchecked", "attention") if total[k]) + " |")
+    out.append("")
+    out.append("**How a match is proven.** (1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the "
+               "retail bytes. (2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. "
+               "(3) Module certificates: a certificate records that a module's complete translation unit and every affected window rebuild to retail with the "
+               "genuine assembler; it is bound to a fingerprint of the module's sources, recipe, headers and tools, so any change to those makes it stale.\n")
+    if n_cert and total["current"] < n_cert:
+        parts = [f"{total[k]} {CERT_STATES[k][0].split(':')[0]}" for k in ("stale", "missing", "unchecked", "attention") if total[k]]
+        l45 = (f"; levels L4 and L5, which need the row's module certificate, read {levels_pct[4]:.1f}% and {levels_pct[5]:.1f}%" if levels_pct else "")
+        out.append(f"**Current proof state.** {n_cert - total['current']} of {n_cert} module certificates are not current ({', '.join(parts)}){l45}. "
+                   "A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch. Change batches currently "
+                   "land with cheap checks only and one consolidation gate renews every certificate afterwards (`docs/evidence/r97_decisions.md`, decision 53). "
+                   "Per-row exactness is recorded separately in the first table above.\n")
+    elif n_cert:
+        out.append(f"**Current proof state.** All {n_cert} module certificates are current.\n")
+    out.append("**Read next.** [README](README.md) (project overview) - [docs/README.md](docs/README.md) (documentation index) - [docs/PLAN.md](docs/PLAN.md) "
+               "(levels L0-L5) - [docs/FIDELITY.md](docs/FIDELITY.md) (what scaffolding means) - [docs/SLUS_MODULES.md](docs/SLUS_MODULES.md) (executable modules) - "
+               "[CONTRIBUTING.md](CONTRIBUTING.md). Module lists below are collapsed: click a state to expand it.\n")
+    return "\n".join(out)
+
+
 def main():
     cache = RowCache(ROOT, "status")
     rs = rows(); by = {r["id"]: r for r in rs}
@@ -146,6 +262,7 @@ def main():
     pin = json.load(open(LEDGER / "pin.json"))
     out = []
     out.append(f"# azure-dreams-decomp status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
+    glance_at = len(out)   # "At a glance" is filled in at the end, once every number below exists
     out.append("## Denominator (rows matched at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
     T = collections.Counter()
     for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):
@@ -154,6 +271,8 @@ def main():
         ex = [r for r in st if base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")]
         nb = [r for r in st if r["id"] not in base]
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
+        if c == "ALL":
+            denom = dict(rows=len(sel), bytes=sum(r['size'] for r in sel), exact=len(ex), exact_bytes=sum(r['size'] for r in ex), unverified=len(nb))
     out.append(placement_unproven_status(rs))
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
     parked = (", ".join(sorted(PARKED_CONTAINERS)) + " parked by the owner (listed, excluded from ALL).") if PARKED_CONTAINERS else "No container is parked (ovmovie unparked by the owner 2026-10-14)."
@@ -161,31 +280,51 @@ def main():
     from slus_module_evidence import module_status
     with cache.phase("slus_placements"):
         module_records = module_status()
+    slus_groups = {}
+    slus_partition = []
     if module_records:
-        out.append("## SLUS modules\n\n| module | logical rows | placement evidence | shared headers |\n|---|---:|---|---|")
         for entry in module_records:
             module = entry["module"]
+            item = (module["name"], len(module["members"]), module["headers"])
             if module.get("partition_only"):
-                proof = "not applicable (partition owner)"
+                slus_partition.append(item)
             elif entry["valid"]:
-                proof = "current: retail + genuine ASPSX 2.79"
+                slus_groups.setdefault("current", []).append(item)
             elif not (LEDGER / "modules" / (module["name"] + ".json")).exists():
-                proof = "not certified"
+                slus_groups.setdefault("missing", []).append(item)
             else:
-                proof = "unproved: " + entry["reason"]
-            out.append(f"| {module['name']} | {len(module['members'])} | {proof} | " + ", ".join(module["headers"]) + " |")
-        out.append("\nNot certified means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement.\n")
+                slus_groups.setdefault(cert_state(entry["reason"]), []).append(item)
+        n_slus = sum(len(g) for g in slus_groups.values())
+        out.append(f"## SLUS modules\n\n{len(module_records)} modules: {n_slus} need a placement certificate, {len(slus_partition)} are partition owners "
+                   f"(they grant no whole-row placement, so there is nothing to certify). State of the {n_slus}:\n")
+        out.extend(_state_table(slus_groups))
+        for k, (word, _) in CERT_STATES.items():
+            g = slus_groups.get(k, [])
+            if g:
+                out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
+                                    [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in g]))
+        if slus_partition:
+            out.extend(_details(f"partition owners: {len(slus_partition)} modules", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
+                                [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in slus_partition]))
+        out.append("\nNot certified yet means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement. "
+                   "Shared headers lists exclude the four every module includes (`common.h`, `game.h`, `globals.h`, `include_asm.h`).\n")
         out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
     from accounting_modules import overlay_statuses as overlay_module_status
     with cache.phase("overlay_placements"):
         overlay_records = overlay_module_status(ROOT)
+    ov_groups = {}
+    for entry in overlay_records:
+        ov_groups.setdefault(cert_state(entry["reason"] if not entry["valid"] else None), []).append(
+            (entry["module"]["key"], len(entry["module"]["members"])))
     if overlay_records:
-        out.append("## Overlay modules\n\n| module | rows | placement proof |\n|---|---:|---|")
-        for entry in overlay_records:
-            proof = "current: complete TU + all windows + genuine" if entry["valid"] else entry["reason"]
-            # a missing certificate's OSError names the absolute path; STATUS.md is tracked (scrub hook)
-            proof = proof.replace(str(ROOT) + "/", "").replace("|", "/").replace("\n", " ")
-            out.append(f"| {entry['module']['key']} | {len(entry['module']['members'])} | {proof} |")
+        out.append(f"## Overlay modules\n\n{len(overlay_records)} modules ({sum(len(entry['module']['members']) for entry in overlay_records):,} rows). "
+                   f"Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:\n")
+        out.extend(_state_table(ov_groups))
+        for k, (word, _) in CERT_STATES.items():
+            g = ov_groups.get(k, [])
+            if g:
+                out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | rows |", "|---|---:|"],
+                                    [f"| {n} | {r} |" for n, r in g]))
         out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
     out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
@@ -270,7 +409,7 @@ def main():
     for c in live.values():
         now.update(c["pins_by"])
     out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in live.values() if c['pin_total']):,} rows; "
-               + ", ".join(f"{k} {v:,}" for k, v in now.most_common(8))
+               + (", ".join(f"{k} {v:,}" for k, v in now.most_common(8)) or "none left")
                + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
     hid = collections.Counter()
     for c in live.values(): hid.update(c["hidden"])
@@ -412,6 +551,8 @@ def main():
             for l in range(0, x["level"] + 1): L[l] += by[x["id"]]["size"]
         out.append("| level | bytes | % |\n|---|---:|---:|")
         for l in range(6): out.append(f"| L{l} | {L[l]:,} | {100*L[l]/tot:.1f}% |")
+        out.append("\nL0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a "
+                   "module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.")
         recs = [x for x in level_rows if x.get("records")]
         rb = sum(by[x["id"]]["size"] for x in recs)
         out.append(f"\nOn shared record headers (T7, `include/records/`): {len(recs)} rows, {rb:,} bytes ({100*rb/tot:.1f}%); "
@@ -435,6 +576,13 @@ def main():
         out.append("\nEvery lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.")
     except Exception as e:
         out.append(f"\n(evidence census unavailable: {e})")
+    try:
+        lvp = {l: 100 * L[l] / tot for l in range(6)} if lv.exists() else None
+        out.insert(glance_at, at_a_glance(denom, sorted({r["container"] for r in rs if r["container"] not in PARKED_CONTAINERS}, key=("slus", "main", "town", "dungeon", "ovmovie").index),
+                                          slus_groups, ov_groups, coverage_summary(ROOT), sum(now.values()), sum(1 for c in live.values() if c["pin_total"]),
+                                          sum(pins.values()), lvp))
+    except Exception as e:
+        out.insert(glance_at, f"## At a glance\n\n(summary unavailable: {type(e).__name__})\n")
     (ROOT / "STATUS.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
     try:   # src/<container>/INDEX.md mirrors the ledger (stale since import until 2026-10-01)

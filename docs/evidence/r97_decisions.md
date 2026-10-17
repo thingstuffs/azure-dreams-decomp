@@ -374,3 +374,14 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     of a C function, 690 KB) stay in label 1, proven code. (c) gcc-shaped spans without a reference (T4) or without a
     placed base (T5) are admitted as a separate, visible sub-tier "strongly code (shape only)" at their measured
     precision (1.0 on proven spans). Method and validation: work/native_lane/_r120/census/REPORT.md. SECOND LOOK: no.
+58. **(r121, orchestrator, delegated) Census corrections land in existing ledger conventions; the explicit-parent
+    revision mechanism is declined.** r121_census2 delivered 370 corrections (175 split data_segment view cuts /
+    withdrawals, 195 coverage data_excluded cuts / withdrawals) through a new `revision_of_sha256` reader in
+    tools/common.py and tools/gate/gate_read_cache.py. Review (work/native_lane/_r120/b8/review/REVIEW_r121_census2.md):
+    readers outside the helper see parent + revision (gate_all validate_view roster check fails on every main/town/
+    dungeon window; coverage.py keeps the full-size exclusion, ~75 KB disagreement), and row writers (set_row_cfg,
+    promote_honest) write back the effective view and break the chain. Splits are edited in place (row_db convention,
+    as the nodonor fixups in B4/B5); coverage regions re-append the parent with `active:false` then the shortened
+    record. Spot checks: every removed span is code (leaf / framed functions, stale-image code fragments); nothing loses
+    a label. A real append-only revision layer would need its own tools lane converting every reader and writer.
+    SECOND LOOK: no.

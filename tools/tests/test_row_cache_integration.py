@@ -120,6 +120,8 @@ class AccountingIntegration(unittest.TestCase):
             with patch.dict(os.environ,AZURE_ROW_CACHE=enabled),patch.object(S,'sites_of',wraps=S.sites_of) as sites,contextlib.redirect_stdout(io.StringIO()):S.main()
             return sites.call_count,(self.root/'STATUS.md').read_bytes()
         count,first=status('1');self.assertGreater(count,0)
+        text=first.decode();self.assertIn('## At a glance',text);self.assertNotIn('summary unavailable',text)
+        self.assertIn('Pin sites now: ',text)   # the line the landing scripts grep
         count,warm=status('1');self.assertEqual(count,0);self.assertEqual(first,warm)
         count,oracle=status('0');self.assertGreater(count,0);self.assertEqual(first,oracle)
         self.assertEqual(M.overlay_statuses.call_count,3)

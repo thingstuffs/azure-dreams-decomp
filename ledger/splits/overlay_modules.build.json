@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 16590,
+  "logical_rows": 16604,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -135631,6 +135631,16 @@
       ]
     },
     {
+      "source": "src/town/func_80468248.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80468248"
+      ]
+    },
+    {
       "source": "src/town/func_80468280.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136281,6 +136291,16 @@
       ]
     },
     {
+      "source": "src/town/func_8046A1E4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046A1E4"
+      ]
+    },
+    {
       "source": "src/town/func_8046A24C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -136318,6 +136338,16 @@
       },
       "rows": [
         "town/func_8046A408"
+      ]
+    },
+    {
+      "source": "src/town/func_8046A45C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046A45C"
       ]
     },
     {
@@ -136758,6 +136788,16 @@
       },
       "rows": [
         "town/func_8046B62C"
+      ]
+    },
+    {
+      "source": "src/town/func_8046B708.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046B708"
       ]
     },
     {
@@ -138081,6 +138121,16 @@
       ]
     },
     {
+      "source": "src/town/func_804763E4.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804763E4"
+      ]
+    },
+    {
       "source": "src/town/func_8047641C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -139131,6 +139181,16 @@
       ]
     },
     {
+      "source": "src/town/func_80480130.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80480130"
+      ]
+    },
+    {
       "source": "src/town/func_8048013C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -139158,6 +139218,16 @@
       },
       "rows": [
         "town/func_80480154"
+      ]
+    },
+    {
+      "source": "src/town/func_80480198.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80480198"
       ]
     },
     {
@@ -140441,6 +140511,16 @@
       ]
     },
     {
+      "source": "src/town/func_8051E8C0.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051E8C0"
+      ]
+    },
+    {
       "source": "src/town/func_8051E904.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -140981,6 +141061,26 @@
       ]
     },
     {
+      "source": "src/town/func_8051FD20.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051FD20"
+      ]
+    },
+    {
+      "source": "src/town/func_8051FD58.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8051FD58"
+      ]
+    },
+    {
       "source": "src/town/func_8051FED4.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
@@ -141148,6 +141248,16 @@
       },
       "rows": [
         "town/func_8054FB14"
+      ]
+    },
+    {
+      "source": "src/town/func_8054FB58.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8054FB58"
       ]
     },
     {
@@ -142621,6 +142731,16 @@
       ]
     },
     {
+      "source": "src/town/func_806148F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806148F8"
+      ]
+    },
+    {
       "source": "src/town/func_80614930.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144091,6 +144211,16 @@
       ]
     },
     {
+      "source": "src/town/func_8069752C.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8069752C"
+      ]
+    },
+    {
       "source": "src/town/func_806975C4.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -144378,6 +144508,16 @@
       },
       "rows": [
         "town/func_806AA18C"
+      ]
+    },
+    {
+      "source": "src/town/func_806C50F8.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806C50F8"
       ]
     },
     {
