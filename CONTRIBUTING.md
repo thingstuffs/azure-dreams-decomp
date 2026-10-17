@@ -59,7 +59,7 @@ Renames go through `tools/apply_names.py` (below).
 
 | thing | style | example |
 |---|---|---|
-| functions | `camelCase`, starts with a verb where it does something | `initMonsterFromStats`, `bcdToInt` |
+| functions | `snake_case`, no binary prefix, starts with a verb where it does something (decision 61; older `camelCase` names are being converted) | `init_monster_from_stats`, `bcd_to_int` |
 | types (struct, union, enum, typedef) | `PascalCase` | `MonsterStats` |
 | local variables, parameters | `snake_case` | `slot_index` |
 | macros and constants | `UPPER_SNAKE_CASE` | |

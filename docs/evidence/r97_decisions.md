@@ -405,3 +405,15 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     textures, audio, video); lane deliveries keep hashes and receipts only. (g) No releases for now: a plain source
     repo; the raw/ removal drops its release-archive step; a first release (e.g. 0.95) is decided later.
     SECOND LOOK: no.
+61. **(r121, OWNER calibration answers 2026-10-17) Source tree and naming rules.** Guiding rule: readable, clean
+    structure following good practice, except where evidence proves the original structure. (a) Dungeon actor/monster
+    modules: named by monster once the bank-to-monster table is decoded; grouped by behaviour until then. (b) File
+    names: proven Konami names kept exactly (lshop.c, c_server.c, sn_main.c ...); names we coin are plain short
+    English. (c) Function names: snake_case English with no binary prefix (the directory gives the context); names must
+    stay unique within what one link sees (SLUS plus each overlay binary). This replaces the camelCase rule in
+    CONTRIBUTING.md; the 4,800 applied camelCase names are converted in one mechanical batch (names.tsv + apply_names;
+    object bytes unchanged because ccproc keeps the address section names) landed with a gate after LL2. (d) Up to
+    three directory levels, only where a directory would pass about 40 files. (e) Unplaceable modules stay in
+    <binary>/unsorted/ with address names. (f) Headers: a separate include/ tree organised by shared concept (types,
+    subsystem interfaces), not one header per .c; include/shared/ for cross-binary types (fits the type consolidation
+    rulings). SECOND LOOK: no.
