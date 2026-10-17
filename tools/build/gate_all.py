@@ -6,6 +6,11 @@
 One line per window in ledger/gate.jsonl: window, container, result (MATCH / NO MATCH / ERROR),
 bytes, first mismatch text, seconds, and the sha256 of the window's C inputs so a later run can
 skip windows whose inputs did not change (--retry re-runs non-MATCH windows regardless).
+The committed journal is compact: each window's LAST verdict only, sorted by window name
+(compact_journal). A run appends verdicts as windows finish (so an interrupted run loses nothing:
+every reader keeps the last line per window) and rewrites the file compact when it ends. Every
+verdict is also appended to the local, untracked history ledger/cache/gate_history.jsonl (default
+journal only; nothing reads it, it is there for forensics).
 Run tools/build/mk_slus_root.sh + `splat split` and tools/build/mk_ovl_root.sh first.
 
 GATE_BUILD_ROOT names the view root to gate in (default build_ovl, exactly as before).  An
@@ -26,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / os.environ.get("GATE_BUILD_ROOT", "build_ovl")
 JOURNAL = Path(os.environ.get("GATE_JOURNAL", ROOT / "ledger/gate.jsonl"))
 if not JOURNAL.is_absolute(): JOURNAL = ROOT / JOURNAL
+DEFAULT_JOURNAL = JOURNAL
 sys.path.insert(0, str(ROOT / "tools"))
 from common import read_jsonl, append_jsonl
 from source_layout import row_path as layout_row_path
@@ -49,6 +55,28 @@ def superseded(yamls):
         if "_truebase_" in stem or y.name in owned: continue
         if any(n.startswith(stem + "_truebase_") for n in names): out.add(y.name)
     return out
+
+def journal(rec):
+    """Record one verdict: appended to the journal (collapsed by compact_journal) and the history."""
+    append_jsonl(JOURNAL, rec)
+    if JOURNAL == DEFAULT_JOURNAL == ROOT / "ledger/gate.jsonl":
+        history = ROOT / "ledger/cache/gate_history.jsonl"
+        history.parent.mkdir(parents=True, exist_ok=True)
+        append_jsonl(history, rec)
+
+def compact_journal(drop=()):
+    """Rewrite the journal as each window's last verdict, one line per window sorted by window name,
+    leaving out the yaml names in `drop` (superseded seeds). Returns {window: record}. Atomic
+    replace; skipped when the file is already in that form. Lines keep their exact bytes (same
+    key order and separators as append_jsonl), so an unchanged window is an unchanged line."""
+    last = {}
+    for j in read_jsonl(JOURNAL): last[j["window"]] = j
+    keep = {w: last[w] for w in sorted(last) if w + ".overlay.yaml" not in drop}
+    text = "".join(json.dumps(r, separators=(",", ":")) + "\n" for r in keep.values())
+    if not JOURNAL.exists() or JOURNAL.read_text() != text:
+        tmp = JOURNAL.with_name(JOURNAL.name + ".compact.tmp")
+        tmp.write_text(text); os.replace(tmp, JOURNAL)
+    return keep
 
 def container_of(name):
     name = name.replace(".overlay", "")
@@ -162,6 +190,95 @@ def inputs_sha(yaml_path):
     # No historical v3 journal digest can be promoted without a new proof.
     from lanes.proof_receipts import window_inputs, hashed
     return hashed(window_inputs(ROOT, 'config/overlays/'+yaml_path.name))
+
+def plan_groups(yamls):
+    """Scheduling hint for plan_shas: [[yaml, ...], ...], largest estimated cost first.
+
+    Windows that share an overlay module form one group (union-find over shared module keys), so a
+    worker computes each module fingerprint once for all of them under one snapshot, as the serial
+    sweep did. Module-free windows go in chunks. Geometry only (window_map ranges against each
+    module's member/allocation extents, within the module's family - the overlap test
+    proof_receipts.modules_for_window applies); a wrong hint costs time, never a different sha,
+    because every group still runs the unchanged inputs_sha(y) for each of its windows."""
+    from common import window_map
+    by_name = {y.name: y for y in yamls}
+    spans = {}
+    for fam, wins in window_map().items():
+        for name, fs, fe, _ in wins:
+            if name in by_name: spans.setdefault(fam, []).append((fs, fe, name))
+    parent = {name: name for name in by_name}
+    def find(x):
+        while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    nmods = {}
+    manifest = ROOT / "config/overlays/modules.json"
+    if manifest.exists() and not (ROOT / "config/overlay_modules_disabled").exists():
+        from gate.overlay_module_gate import module_extents
+        for m in json.loads(manifest.read_text()).get("modules", []):
+            fam = "dungeon" if m.get("container") == "dungeon_engine" else m.get("container")
+            try: extents = module_extents(m)
+            except (KeyError, TypeError, ValueError): continue
+            hit = [n for fs, fe, n in spans.get(fam, []) if any(fs < e and s < fe for s, e in extents)]
+            for n in hit:
+                nmods[n] = nmods.get(n, 0) + 1
+                parent[find(n)] = find(hit[0])
+    groups = {}
+    for name in sorted(by_name): groups.setdefault(find(name), []).append(name)
+    shared = [g for g in groups.values() if any(nmods.get(n) for n in g)]
+    plain = [n for g in groups.values() if not any(nmods.get(n) for n in g) for n in g]
+    out = [(len(g) + 8 * max(nmods.get(n, 0) for n in g), g) for g in shared]
+    for i in range(0, len(plain), 16): out.append((len(plain[i:i + 16]), plain[i:i + 16]))
+    out.sort(key=lambda item: (-item[0], item[1][0]))
+    return [[by_name[n] for n in g] for _, g in out]
+
+class PlannedError:
+    """An exception inputs_sha(y) raised while planning, re-raised where the serial sweep raised it."""
+    def __init__(self, exc): self.exc = exc
+
+def planned_sha(plan, y):
+    value = plan[y.name]
+    if isinstance(value, PlannedError): raise value.exc
+    return value
+
+def _plan_one(y):
+    try: return inputs_sha(y)
+    except Exception as e: return PlannedError(e)
+
+def _plan_task(paths):
+    # One inputs_snapshot per group: the serial sweep's sharing scope, narrowed to windows that
+    # share inputs. Nothing crosses processes but the resulting digests.
+    with inputs_snapshot():
+        return [(p.name, _plan_one(p)) for p in paths]
+
+def plan_shas(yamls, workers, label="planning"):
+    """{yaml name: inputs_sha(y)} for every window in yamls (read it with planned_sha, which
+    re-raises an inputs_sha exception at the point of use); the planning sweep and the final
+    gate_current audit both use it.
+
+    workers <= 1 is the original serial sweep (one snapshot, in this process). Otherwise windows
+    are computed by `workers` forked processes, grouped by plan_groups; each value is the same
+    inputs_sha(y) over the same tree (proof: REPORT, every window and every window_inputs key
+    identical between the two modes). Progress is printed as groups finish."""
+    yamls = list(yamls)
+    t0 = time.time(); out = {}; step = max(1, len(yamls) // 20); shown = [0]
+    def progress(final=False):
+        if final or len(out) - shown[0] >= step:
+            shown[0] = len(out)
+            print(f"{label}: inputs_sha {len(out)}/{len(yamls)} windows {time.time() - t0:.0f}s", flush=True)
+    if workers <= 1 or len(yamls) < 2:
+        with inputs_snapshot():
+            for y in yamls:
+                out[y.name] = _plan_one(y); progress()
+        progress(True)
+        return out
+    import multiprocessing
+    groups = plan_groups(yamls)
+    with ProcessPoolExecutor(max_workers=min(workers, len(groups)), mp_context=multiprocessing.get_context("fork")) as ex:
+        for future in as_completed([ex.submit(_plan_task, g) for g in groups]):
+            out.update(future.result()); progress()
+    if set(out) != {y.name for y in yamls}: raise RuntimeError(label + ": incomplete inputs_sha plan")
+    progress(True)
+    return out
 
 _MODULE_SHA_SNAPSHOT = ContextVar("gate_module_sha_snapshot", default=None)
 
@@ -352,12 +469,17 @@ def main():
     ap.add_argument('--carried-proofs',type=Path,help='reviewed index mapping production configs to portable lane evidence directories')
     ap.add_argument('--require-window', action='append', default=[], help='production config that must be freshly gated even when its input hash is current')
     ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=default_workers()); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true"); ap.add_argument("--all", action="store_true", help="gate every window regardless of its cached inputs_sha (after a pipeline/tool change, which inputs_sha does not cover)")
+    ap.add_argument("--plan-workers", type=int, help="processes for the inputs_sha planning sweep and the final audit (default: --workers; 1 = the original serial sweep)")
     ap.add_argument("--worker-mode", choices=("process", "subprocess"), default="process",
                     help="persistent gate interpreters (default) or the legacy per-window subprocess")
     ap.add_argument('--receipts', type=Path, help='new directory for this invocation only; cached windows are never published')
     ap.add_argument('--transaction', help='caller-owned fresh transaction token, required with --receipts')
     a = ap.parse_args()
-    if a.workers<1:ap.error('workers must be positive')
+    # progress lines reach a redirected log as they happen (python3 -u semantics for print)
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"): stream.reconfigure(line_buffering=True)
+    if a.plan_workers is None: a.plan_workers = a.workers
+    if a.workers<1 or a.plan_workers<1:ap.error('workers must be positive')
     if bool(a.receipts)!=bool(a.transaction):ap.error('--receipts and --transaction are required together')
     global _RECEIPTS,_TRANSACTION,_PORTABLE_OUTPUT
     _PORTABLE_OUTPUT=a.portable_output.resolve() if a.portable_output else None
@@ -379,12 +501,9 @@ def main():
         ap.error('required windows outside active production scope: ' + ', '.join(sorted(required - active)))
     if required and a.limit:
         ap.error('--limit cannot truncate required window proofs')
-    prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
-    dead = [w for w in prior if w + ".overlay.yaml" in sup]
+    dead = {j["window"] for j in read_jsonl(JOURNAL) if j["window"] + ".overlay.yaml" in sup}
+    prior = compact_journal(drop=sup)
     if dead:
-        from common import write_jsonl
-        write_jsonl(JOURNAL, [j for j in read_jsonl(JOURNAL) if j["window"] + ".overlay.yaml" not in sup])
-        prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
         print(f"{len(sup)} superseded synthetic-base seed windows skipped ({len(dead)} stale journal records dropped); their _truebase_ twins are gated")
     carried={}
     if a.carried_proofs:
@@ -392,6 +511,10 @@ def main():
         if not isinstance(carried,dict) or set(carried)-active:ap.error('carried windows outside active production scope')
     reused={}
     todo = []
+    # every inputs_sha the loop below can consult, computed up front in parallel (plan_shas)
+    need = [] if a.all or a.retry else [y for y in yamls if prior.get(y.stem.replace(".overlay", "")) or y.relative_to(B).as_posix() in carried]
+    print(f"{len(yamls)} active windows; computing inputs_sha for {len(need)} with journal records, {a.plan_workers} workers", flush=True)
+    planned = plan_shas(need, a.plan_workers)
     with inputs_snapshot():
         for y in yamls:
             w = y.stem.replace(".overlay", ""); p = prior.get(w)
@@ -401,18 +524,18 @@ def main():
             if target in carried and not a.all and not a.retry:
                 from lanes import proof_receipts as P
                 try:
-                    current=inputs_sha(y)
+                    current=planned_sha(planned, y)
                     rec=dict(window=w,container=container_of(y.stem),result='MATCH',inputs_sha=current,
                              detail='input-bound lane proof',secs=0,at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
                     if _RECEIPTS is not None:P.import_window(ROOT,B,target,carried[target],_RECEIPTS,_TRANSACTION,rec)
                     else:P.verify(ROOT,carried[target],expected_kind='overlay-window',expected_target=target)
-                    append_jsonl(JOURNAL,rec);prior[w]=rec;reused[target]=carried[target]
+                    journal(rec);prior[w]=rec;reused[target]=carried[target]
                     continue
                 except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as e:
                     print('portable proof miss '+target+': '+str(e),flush=True)
                     todo.append(y);continue
-            if p and p["result"] == "MATCH" and p.get("inputs_sha") == inputs_sha(y) and not a.retry and not a.all and y.relative_to(B).as_posix() not in required: continue
-            if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == inputs_sha(y): continue
+            if p and p["result"] == "MATCH" and p.get("inputs_sha") == planned_sha(planned, y) and not a.retry and not a.all and y.relative_to(B).as_posix() not in required: continue
+            if p and p["result"] != "MATCH" and not a.retry and not a.all and p.get("inputs_sha") == planned_sha(planned, y): continue
             todo.append(y)
     if a.limit: todo = todo[:a.limit]
     print(f'{len(reused)} windows use current input-bound lane proofs',flush=True)
@@ -425,19 +548,20 @@ def main():
     with pool(max_workers=a.workers, **options) as ex:
         for future in as_completed([ex.submit(run_window, y, in_process) for y in todo]):
             rec = future.result()
-            append_jsonl(JOURNAL, rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
+            journal(rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
             if n % 50 == 0: print(f"{n}/{len(todo)} {time.time()-t0:.0f}s {tally}", flush=True)
     # a parallel run can leave transient failures (shared extract reads); retry those serially
     last = {j["window"]: j for j in read_jsonl(JOURNAL)}
     retry = [y for y in todo if (lambda w: w and w["result"] != "MATCH" and "No such file" not in w["detail"])(last.get(y.stem.replace(".overlay", "")))]
     for y in retry:
-        rec = run_window(y); rec["retry"] = True; append_jsonl(JOURNAL, rec); tally[rec["result"] + " (retry)"] = tally.get(rec["result"] + " (retry)", 0) + 1
+        rec = run_window(y); rec["retry"] = True; journal(rec); tally[rec["result"] + " (retry)"] = tally.get(rec["result"] + " (retry)", 0) + 1
+        print(f"serial retry {y.stem.replace('.overlay', '')}: {rec['result']} {rec['secs']}s", flush=True)
     print(f"done {n} (+{len(retry)} serial retries) in {time.time()-t0:.0f}s: {tally}")
     # A completed subprocess is not a successful gate. Include cached failures, too.
-    last = {j["window"]: j for j in read_jsonl(JOURNAL)}
+    last = compact_journal(drop=sup)
     scope = todo if a.limit else yamls
-    with inputs_snapshot():
-        bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), inputs_sha(y))]
+    current = plan_shas(scope, a.plan_workers, label="final audit")
+    bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), planned_sha(current, y))]
     from lanes import proof_receipts as P
     with P.input_snapshot():
         for target,directory in reused.items():P.verify(ROOT,directory,expected_kind='overlay-window',expected_target=target)

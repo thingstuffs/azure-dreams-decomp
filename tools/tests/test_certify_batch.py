@@ -48,6 +48,19 @@ with Path('events.jsonl').open('a') as f:f.write(json.dumps({'key':a.key,'at':ti
             rec=json.loads((self.logs/(key+'.log')).read_text());self.assertEqual(rec['reviewer'],'reviewer-'+key)
             self.assertEqual(rec['window_workers'],'3');self.assertEqual(rec['transaction'],'token')
 
+    def test_invalid_from_plan_renews_exactly_the_planned_keys_without_revalidating(self):
+        # the temp root has no certificate reader: any roster validation here would fail
+        plan=self.base/'certplan.json';plan.write_text(json.dumps({'renew':['b','d'],'issue':[],'windows':[]}))
+        result=subprocess.run(self.argv()+['--invalid-only','--no-final-validation','--invalid-from',str(plan)],capture_output=True,text=True,timeout=15)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        summary=json.loads((self.logs/'summary.json').read_text())
+        self.assertEqual([c['module'] for c in summary['certificates']],['b','d']);self.assertEqual(summary['retained'],['a','c'])
+        plan.write_text(json.dumps({'renew':['zz'],'issue':[],'windows':[]}))
+        result=subprocess.run(self.argv()+['--invalid-only','--invalid-from',str(plan)],capture_output=True,text=True,timeout=15)
+        self.assertNotEqual(result.returncode,0)
+        result=subprocess.run(self.argv()+['--invalid-from',str(plan)],capture_output=True,text=True,timeout=15)
+        self.assertNotEqual(result.returncode,0)
+
     def assert_children_stopped(self):
         for p in self.root.glob('*.pid'):
             value=p.read_text()

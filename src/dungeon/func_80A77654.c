@@ -1,0 +1,267 @@
+/* Relink of matched dungeon/func_80A71654; every changed retail word is a paired relocation. */
+#define D_80174140 D_8016E140
+#define D_80174148 D_8016E148
+#define D_80174150 D_8016E150
+#define D_80174188 D_8016E188
+#define D_80174190 D_8016E190
+#include "modules/dungeon_resource07_slot0.h"
+extern s32 func_80069EF8(void);
+extern void func_8016B7B4(void *, void *, void *, void *);
+extern void func_8016C184(void *, void *, void *, void *);
+extern s32 func_8016BFC0(void *, s32, void *, void *);
+extern s32 func_8016C29C(void *, void *, void *, s32);
+extern void func_8016DEF4(void *, s32, void *, void *);
+extern void func_8016B570(void *, s32, void *, void *);
+
+void func_8016AE54(void *record, EntityRec *entity, void *object, EntityRec *other_entity)
+{
+    s32 scratch;
+    s16 offset[3];
+    s8 result;
+    u16 state;
+    u8 *table;
+    u8 *high_table; /* MATCH: both table-selection paths feed the shared tail in a1. */
+
+    if (dungeonStatus.flags & 0x1000) {
+        ((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 = 0xE;
+        func_8016B570(record, entity, object, other_entity);
+        return;
+    }
+
+    if (other_entity->tileY == 0) {
+        dungeonAdvanceActorPendingAction(record, entity, object, other_entity);
+        if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p == ((u8 *)D_8016E190)) {
+            return;
+        }
+        {
+            void *next_state;
+
+            next_state = ((u8 *)D_8016E188);
+            high_table = next_state;
+        }
+        (*(void * *)((u8 *)object + 0x2C)) = high_table;
+        func_80047784(object,
+            *((u8 *)(((gameWork.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)high_table),
+            0);
+        return;
+    }
+
+    if (((u32)other_entity->flags1C) & 0x200) {
+        if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p == ((u8 *)D_8016E190)) {
+            ((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)record)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)record)->unk_8C = 0;
+            other_entity->flags1C &= 0xFFFBFFFF;
+            return;
+        }
+        if (dungeonResetActorActionState(record, entity, object, ((u8 *)D_8016E188)) != 0) {
+            return;
+        }
+    }
+
+    if (!(dungeonStatus.flags & 0x2000)) {
+        if (((u32)other_entity->flags1C) & 0x100) {
+            dungeonBeginPushedActorMove(record, entity, object, other_entity);
+            return;
+        }
+
+        if (((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 != 0xE) {
+            table = ((u8 *)D_8016E148);
+            if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != table) {
+                (*(void * *)((u8 *)object + 0x2C)) = table;
+                func_80047784(object,
+                    table[((gameWork.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+                    0);
+            }
+            ((Rec_func_800A9E70_arg0 *)record)->unk_9A.as_u8 = 0xE;
+        }
+
+        ((Rec_func_800A9E70_arg0 *)record)->unk_98 &= 0xFFF3;
+        if (other_entity->unk_64 != 0) {
+            if (dungeonBeginReadyActorDirectionalAction(record, entity, object, ((u8 *)D_8016E150)) != 0) {
+                return;
+            }
+        }
+
+        if (((u32)other_entity->flags1C) & 0x80000) {
+            func_800AA888(record, entity, object, other_entity);
+            func_8016DEF4(record, entity, object, other_entity);
+            (*(void * *)((u8 *)object + 0x2C)) = ((u8 *)D_8016E140);
+            func_80047784(object,
+                *((u8 *)(((gameWork.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)((u8 *)D_8016E140)),
+                0);
+            return;
+        }
+
+        if ((func_800A1C58(other_entity) << 16) != 0) {
+            dungeonProcessSelectedActorRecord(record, entity, object, other_entity);
+        }
+    }
+
+    result = ((s8)func_8009FB34(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v, ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v));
+    ((R07_80170E54_S_80170E54_2 *)object)->unk_26 = result;
+
+    if (other_entity->unk_6D > 0) {
+        if (((u32)other_entity->flags1C) & 0x20) {
+            func_800A9A0C(other_entity);
+            return;
+        }
+        if (((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            func_8016B7B4(record, entity, object, other_entity);
+            return;
+        }
+        if (!(other_entity->unk_46 & 0x8000)) {
+            if (dungeonStatus.flags & 0x2000) {
+                if ((dungeonCheckEntityRelation(other_entity,
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+            if ((func_8016C29C(record, entity, object, 0) << 16) == 0) {
+                return;
+            }
+            state = other_entity->unk_46 | 0x4000;
+            other_entity->unk_46 = state;
+            if (!(state & 0x8000)) {
+                func_8016B7B4(record, entity, object, other_entity);
+                return;
+            }
+        }
+
+        state = other_entity->unk_46 & 0x3FFF;
+        switch (state) {
+        case 8:
+        case 9:
+            if ((func_8016BFC0(record, entity, object, other_entity) << 16) != 0) {
+                return;
+            }
+            func_8016C184(record, entity, object, other_entity);
+            return;
+
+        case 5:
+        case 6:
+        case 7:
+        {
+            EntityRec *player;
+            s16 coordinate;
+
+            coordinate = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                &scratch));
+            player = D_800814A8;
+            other_entity->facing = coordinate;
+            if (player->unk_9A == 0x11) {
+                dungeonBeginActorSpellAction(record, entity, object, ((u8 *)D_8016E140), ((void *)func_8016AE54));
+                return;
+            }
+        }
+
+        case 12:
+            func_800A9A0C(other_entity);
+            return;
+
+        case 1:
+        case 2:
+        case 3:
+            dungeonBeginActorSpellAction(record, entity, object, ((u8 *)D_8016E140), ((void *)func_8016AE54));
+            return;
+
+        case 11:
+        default:
+            func_8016B7B4(record, entity, object, other_entity);
+            return;
+        }
+    }
+
+    if (!(((u32)other_entity->flags1C) & 0x2000)) {
+        s32 index = result;
+
+        if ((index < 0) || !(D_800E2970[index].flags & 2)) {
+            if (!(((u32)other_entity->flags1C) & 0x430)) {
+
+                if ((dungeonCompareMonsterNeighborValues(
+                        ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v, ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    other_entity->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                        &scratch));
+                }
+            }
+        }
+    }
+
+    if (dungeonStatus.flags & 0x2000) {
+        return;
+    }
+    if (((R07_80170E54_S_80170E54_2 *)object)->unk_14 & 0x40) {
+        return;
+    }
+
+    table = ((u8 *)D_8016E148);
+    if ((((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != table) &&
+        (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != ((u8 *)D_8016E140))) {
+        (*(void * *)((u8 *)object + 0x2C)) = table;
+        func_80047784(object,
+            table[((gameWork.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+            0);
+        ((Rec_func_800A9E70_arg0 *)record)->unk_AA = 1;
+    } else if (((R07_80170E54_S_80170E54_2 *)object)->unk_14 & 0x6000) {
+        s16 timer = ((Rec_func_800A9E70_arg0 *)record)->unk_AA - 1;
+
+        ((Rec_func_800A9E70_arg0 *)record)->unk_AA = timer;
+        if (timer < 0) {
+            ((Rec_func_800A9E70_arg0 *)record)->unk_AA = (func_80069EF8() & 0x1F) + 0x20;
+        }
+        if (((Rec_func_800A9E70_arg0 *)record)->unk_AA < 2) {
+            ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p = ((u8 *)D_8016E148);
+        } else {
+            ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p = ((u8 *)D_8016E140);
+        }
+        func_80047784(object,
+            ((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p2[
+                ((gameWork.view.viewAngle + other_entity->facing + 0x100) >> 9) & 7],
+            0);
+    }
+
+    if (!resolveRecordOrientationOrFallback(((R07_80170E54_S_80170E54_2 *)object)->unk_08, object, offset, 1)) {
+        return;
+    }
+    if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p != ((u8 *)D_8016E148)) {
+        return;
+    }
+
+    {
+        void *created;
+        void *sub;
+        void *color;
+        u8 *base;
+        s32 base_word;
+
+        created = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+        ((Rec_func_800A9E70_arg0 *)record)->unk_A0.at00_pv.v = created;
+        object = created;
+        if (object == 0) {
+            return;
+        }
+        func_8004491C(object, func_80045340);
+        color = (void *)0x00808080;
+        ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = ((u8 *)D_800D79B0);
+        ((R07_80170E54_S_80170E54_9 *)(((R07_80170E54_S_80170E54_2 *)object)->unk_08))->unk_02 =
+            ((u16)entity->x.w.i) + offset[0];
+        ((R07_80170E54_S_80170E54_9 *)(((R07_80170E54_S_80170E54_2 *)object)->unk_08))->unk_06 =
+            ((u16)entity->y.w.i) + offset[1];
+        ((R07_80170E54_S_80170E54_9 *)(((R07_80170E54_S_80170E54_2 *)object)->unk_08))->unk_0A =
+            ((u16)entity->z.w.i) + offset[2];
+        sub = ((R07_80170E54_S_80170E54_2 *)object)->unk_0C;
+        base = ((u8 *)D_800DEA68);
+        ((R07_80170E54_S_80170E54_2 *)object)->unk_BB = 0;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_1E = 0xC00;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_1C = 0xC00;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_0C = color;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_00 = base;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_14 |= 0xC;
+        base_word = ((R07_80170E54_S_80170E54_8 *)base)->unk_04;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_04 = 0;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_05 = 0;
+        ((R07_80170E54_S_80170E54_7 *)sub)->unk_08 = base_word;
+    }
+}
+

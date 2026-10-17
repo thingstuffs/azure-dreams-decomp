@@ -1,0 +1,335 @@
+/* Relink of matched dungeon/func_809F4F90; every changed retail word is a paired relocation. */
+#define dungeonUpdateStagedActorMovement func_8015A790
+#define D_80171400 D_80159400
+#define D_801743EC D_8015C3EC
+#define D_80175148 D_8015D148
+#define D_80175160 D_8015D160
+#include "common.h"
+#include "shared/object_node.h"
+#include "shared/slus_callbacks.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/dir_step.h"
+
+typedef u32 az_uptr;
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+typedef struct S_80172790_0 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    union { u16 s; s16 u; } unk_2A;   /* accessed as both */
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x25];
+    s8 unk_6D;
+} S_80172790_0;   /* arg3 in func_8015A790 */
+
+typedef struct S_80172790_1 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0x2];
+    s16 unk_92;
+    u8 pad_94[0x2];
+    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    u16 unk_98;
+    u8 pad_9A[0x1];
+    u8 unk_9B;
+    u8 pad_9C[0xC];
+    s16 unk_A8;
+} S_80172790_1;   /* arg0 in func_8015A790 */
+
+typedef struct S_80172790_2 {
+    u8 pad_00[0xC];
+    void * unk_0C;
+    void * unk_10;
+} S_80172790_2;   /* object in func_8015A790 */
+
+typedef struct S_80172790_3 {
+    u8 pad_00[0xC];
+    s16 unk_0C;
+    s16 unk_0E;
+    s16 unk_10;
+    u8 pad_12[0x2];
+    s16 unk_14;
+    s16 unk_16;
+    u16 unk_18;
+    u8 pad_1A[0x2E];
+    s16 unk_48;
+    u8 pad_4A[0x2];
+    s16 unk_4C;
+} S_80172790_3;   /* part in func_8015A790 */
+
+typedef struct S_80172790_4 {
+    u8 pad_00[0x2];
+    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    u8 pad_04[0x2];
+    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    u8 pad_08[0x2];
+    u16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_80172790_4;   /* arg1 in func_8015A790 */
+
+typedef struct S_80172790_5 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    s8 unk_05;
+    u8 pad_06[0x2];
+    s32 unk_08;
+} S_80172790_5;   /* sprite in func_8015A790 */
+
+typedef struct S_80172790_6 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+} S_80172790_6;   /* arg2 in func_8015A790 */
+
+extern void *func_8003FD64(s32, void *);
+extern void func_8004491C(void *, void *);
+extern void func_80047784(void *, s32, s32);
+extern s32 rand(void);
+extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
+extern void dungeonAdvanceStatusTimers(void *);
+extern void func_800A56E0(s32);
+extern void dungeonReduceActorFoodMeter(void *, s32);
+
+extern u8 D_800DEC28[];
+extern void *D_800E3DE8;
+extern u8 D_80159400[];
+extern u8 D_8015C3EC[];
+extern u8 D_8015D148[];
+extern u8 D_8015D160[];
+
+/* Updates an actor's staged movement, particle effects, and return to its tile. */
+void func_8015A790(void *action, void *motion, void *tile, void *actor)
+{
+    s32 particle_x_offset;
+    u8 *move_frames;
+    s32 move_angle;
+    s32 move_direction;
+    u8 *idle_frames;
+    s32 idle_angle;
+    s32 idle_direction;
+    s32 heading_byte;
+    s32 direction_offset;
+    s32 return_speed;
+    s32 return_speed_2;
+    s32 state;
+    s32 random_offset;
+    u16 flags;
+    s32 vertical_speed;
+    s32 origin_x;
+    s32 origin_y;
+    s32 x_speed;
+    s32 y_speed;
+    s32 z_speed;
+    u32 color;
+    s32 sprite_params;
+    u8 *sprite_data;
+    s32 x_step;
+    s32 y_step;
+    s32 particle_y;
+    s32 heading_raw;
+    void *particle;
+    S_80172790_3 *particle_motion;
+    void *sprite;
+    u8 *x_step_entry;
+    u8 *x_step_base;
+
+    heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
+    x_step_entry = (u8 *)dirStepX;
+    heading_byte = (u32)heading_raw >> 8;
+    direction_offset = heading_byte & 0xE;
+    x_step_base = x_step_entry;
+    x_step = *(s16 *)((u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base));
+    y_step = *(s16 *)(direction_offset + (u8 *)dirStepY);
+    ((S_80172790_1 *)action)->unk_96.s--;
+
+    if ((u32)(((S_80172790_1 *)action)->unk_9B - 1) < 3U) {
+        heading_byte = 15;
+        particle_x_offset = (x_step << 5) - 8;
+        do {
+            particle = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
+            if (particle != NULL) {
+                func_8004491C(particle, func_80045340);
+                particle_motion = (u8 *)particle + 0x20;
+                ((S_80172790_2 *)particle)->unk_10 = D_8015C3EC;
+                sprite = ((S_80172790_2 *)particle)->unk_0C;
+                if (((S_80172790_1 *)action)->unk_9B < 3U) {
+                    particle_motion->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) - 8;
+                    random_offset = rand();
+                    origin_x = -0x500;
+                    particle_y = ((S_80172790_4 *)motion)->unk_06.s;
+                    random_offset &= 0xF;
+                    particle_motion->unk_16 = origin_x;
+                    particle_y += random_offset;
+                    particle_y -= 8;
+                } else {
+                    particle_motion->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) + particle_x_offset;
+                    random_offset = rand();
+                    origin_x = -0x200;
+                    particle_y = ((S_80172790_4 *)motion)->unk_06.s;
+                    random_offset &= 0xF;
+                    particle_motion->unk_16 = origin_x;
+                    particle_y += random_offset;
+                    random_offset = (y_step << 5) - 8;
+                    particle_y += random_offset;
+                }
+                particle_motion->unk_0E = particle_y;
+                particle_motion->unk_10 = ((S_80172790_4 *)motion)->unk_0A + 8;
+                particle_motion->unk_14 = rand();
+                heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
+                color = 0x00C00000;
+                particle_motion->unk_4C = 0;
+                particle_motion->unk_48 = 0;
+                particle_motion->unk_18 = heading_raw;
+                (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
+                (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
+                (*(s16 *)((u8 *)sprite + 0x10)) = 0x60;
+                sprite_data = D_800DEC28;
+                (*(void * *)((u8 *)sprite + 0)) = sprite_data;
+                (*(u16 *)((u8 *)sprite + 0x14)) |= 0xC;
+                sprite_params = *(s32 *)(sprite_data + 4);
+                color |= 0xC0C0;
+                ((S_80172790_5 *)sprite)->unk_04 = 0;
+                ((S_80172790_5 *)sprite)->unk_05 = 0;
+                (*(s32 *)((u8 *)sprite + 0xC)) = color;
+                ((S_80172790_5 *)sprite)->unk_08 = sprite_params;
+            }
+            heading_byte--;
+        } while (heading_byte >= 0);
+    }
+
+    state = ((S_80172790_1 *)action)->unk_9B;
+    switch (state) {
+    case 0:
+        flags = ((S_80172790_6 *)tile)->unk_14;
+        if (flags & 0x8000) {
+            ((S_80172790_1 *)action)->unk_9B = 0xFF;
+            ((S_80172790_6 *)tile)->unk_14 |= 0x6000;
+            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            return;
+        }
+        if (flags & 0xE000) {
+            move_frames = D_8015D160;
+            (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
+            move_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_direction = ((move_angle + 0x100) >> 9) & 7;
+            func_80047784(tile, move_frames[move_direction], 0);
+            ((S_80172790_4 *)motion)->unk_0C = (-x_step) << 0x12;
+            ((S_80172790_4 *)motion)->unk_10 = (-y_step) << 0x12;
+            ((S_80172790_1 *)action)->unk_98 |= 8;
+            ((S_80172790_0 *)actor)->unk_1C &= 0xF7FFFFFF;
+            ((S_80172790_0 *)actor)->unk_1C &= 0xFFFBFFFF;
+            ((S_80172790_1 *)action)->unk_96.s = 4;
+            ((S_80172790_4 *)motion)->unk_14 = 0xFFFC0000;
+            ((S_80172790_1 *)action)->unk_9B++;
+            return;
+        }
+        return;
+
+    case 1:
+        vertical_speed = ((S_80172790_4 *)motion)->unk_14;
+        ((S_80172790_4 *)motion)->unk_14 = vertical_speed + (vertical_speed >> 2);
+        if (((S_80172790_1 *)action)->unk_96.u <= 0) {
+            ((S_80172790_1 *)action)->unk_96.u = 3;
+            ((S_80172790_1 *)action)->unk_9B++;
+            return;
+        }
+        return;
+
+    case 2:
+        x_speed = ((S_80172790_4 *)motion)->unk_0C;
+        y_speed = ((S_80172790_4 *)motion)->unk_10;
+        ((S_80172790_4 *)motion)->unk_0C = x_speed - (x_speed >> 2);
+        z_speed = ((S_80172790_4 *)motion)->unk_14;
+        ((S_80172790_4 *)motion)->unk_10 = y_speed - (y_speed >> 2);
+        ((S_80172790_4 *)motion)->unk_14 = z_speed - (z_speed >> 2);
+        if (((S_80172790_1 *)action)->unk_96.u <= 0) {
+            ((S_80172790_1 *)action)->unk_96.u = 7;
+            ((S_80172790_4 *)motion)->unk_0C = x_step << 0x12;
+            ((S_80172790_4 *)motion)->unk_10 = y_step << 0x12;
+            ((S_80172790_4 *)motion)->unk_14 = 0x30000;
+            func_800A56E0(0x80E);
+        } else {
+            return;
+        }
+        ((S_80172790_1 *)action)->unk_9B++;
+        return;
+
+    case 3:
+        ((S_80172790_4 *)motion)->unk_0C += x_step << 0x12;
+        ((S_80172790_4 *)motion)->unk_10 += y_step << 0x12;
+        if (((S_80172790_1 *)action)->unk_96.u < 2) {
+            ((S_80172790_4 *)motion)->unk_10 = 0;
+            ((S_80172790_4 *)motion)->unk_0C = 0;
+        }
+        if (((S_80172790_1 *)action)->unk_96.u == 1) {
+            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            func_800A56E0(0x808);
+        }
+        if (((S_80172790_1 *)action)->unk_96.u <= 0) {
+            ((S_80172790_4 *)motion)->unk_14 = 0xFFF60000;
+            ((S_80172790_1 *)action)->unk_96.u = 0x14;
+            ((S_80172790_1 *)action)->unk_9B = 0xFF;
+        }
+        return;
+
+    case 0xFF:
+        return_speed_2 = ((S_80172790_6 *)tile)->unk_24 << 6;
+        origin_x = ((S_80172790_4 *)motion)->unk_02.u - 0x20;
+        return_speed_2 -= origin_x;
+        return_speed_2 <<= 0xF;
+        return_speed_2 >>= 1;
+        ((S_80172790_4 *)motion)->unk_0C = return_speed_2;
+        return_speed = ((S_80172790_6 *)tile)->unk_25 << 6;
+        origin_y = ((S_80172790_4 *)motion)->unk_06.u - 0x20;
+        return_speed -= origin_y;
+        return_speed <<= 0xF;
+        return_speed >>= 1;
+        ((S_80172790_4 *)motion)->unk_10 = return_speed;
+        if (((S_80172790_1 *)action)->unk_96.u >= 0xA) {
+            ((S_80172790_4 *)motion)->unk_14 += 0x10000;
+        } else {
+            ((S_80172790_4 *)motion)->unk_14 = -((S_80172790_1 *)action)->unk_92 << 0xD;
+        }
+        if (((S_80172790_1 *)action)->unk_96.u > 0 && !(((S_80172790_6 *)tile)->unk_14 & 0x8000)) {
+            return;
+        }
+        ((S_80172790_4 *)motion)->unk_10 = 0;
+        ((S_80172790_4 *)motion)->unk_0C = 0;
+        ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
+        dungeonSetRecordIntegerTileCenter(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
+        dungeonReduceActorFoodMeter(actor, 0x100);
+        ((S_80172790_1 *)action)->unk_8C = D_80159400;
+        dungeonStatus.unk_0C = 0;
+        dungeonAdvanceStatusTimers(actor);
+        ((S_80172790_4 *)motion)->unk_14 = 0;
+        ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;
+        ((S_80172790_0 *)actor)->unk_1C |= 0x08000000;
+        ((S_80172790_1 *)action)->unk_A8 = 7;
+        idle_frames = D_8015D148;
+        (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
+        idle_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_direction = ((idle_angle + 0x100) >> 9) & 7;
+        func_80047784(tile, idle_frames[idle_direction], 2);
+        if (((S_80172790_0 *)actor)->unk_6D == 0) {
+            ((S_80172790_0 *)actor)->unk_46 &= 0x7FFF;
+        } else {
+            D_800E3DE8 = (u8 *)actor - 0x20;
+        }
+        return;
+
+    default:
+        return;
+    }
+    return;
+}

@@ -195,7 +195,7 @@ def _renewal_cost(root,key):
     except (OSError,ValueError,KeyError,TypeError,AttributeError):return 0,0
 
 
-def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,timeout=7200,invalid_only=False,validate_only=False,force_renew=(),worker_mode='subprocess',issue=(),final_validation=True):
+def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,timeout=7200,invalid_only=False,validate_only=False,force_renew=(),worker_mode='subprocess',issue=(),final_validation=True,invalid_from=None):
     roster=jobs(root);log_dir.mkdir(parents=True,exist_ok=True);start=time.monotonic()
     forced=set(force_renew)
     # First certificates: modules absent from the roster whose manifest review
@@ -210,7 +210,17 @@ def renew(root,workers,window_workers,log_dir,receipts=None,transaction=None,tim
         if validate_only:raise ValueError('issue conflicts with validate-only')
     if forced-set(roster):raise ValueError('forced renewal absent from certificate roster: '+str(sorted(forced-set(roster))))
     if validate_only and forced:raise ValueError('forced renewal conflicts with validate-only')
-    invalid=invalid_certificates(root,roster,workers) if invalid_only or validate_only else {}
+    if invalid_from is not None:
+        # The caller already ran this exact full-roster validation on this tree (land_direct's
+        # cert_windows.py plan, under the landing lock; only ledger/gate.jsonl changes in between,
+        # and no certificate reads it). The selection is a scheduling input only: the caller's
+        # mandatory --validate-only pass (or the final validation below) still decides validity.
+        if not invalid_only:raise ValueError('--invalid-from requires --invalid-only')
+        plan=json.loads(Path(invalid_from).read_text())
+        if set(plan['renew'])-set(roster):raise ValueError('planned renewal absent from certificate roster: '+str(sorted(set(plan['renew'])-set(roster))))
+        invalid={key:'invalid in certificate plan '+Path(invalid_from).name for key in plan['renew']}
+    else:
+        invalid=invalid_certificates(root,roster,workers) if invalid_only or validate_only else {}
     if validate_only and invalid:raise ValueError('invalid final certificates: '+json.dumps(invalid,sort_keys=True))
     selected={} if validate_only else {key:reviewer for key,reviewer in roster.items() if not invalid_only or key in invalid or key in forced}
     selected.update(new)
@@ -281,13 +291,14 @@ def main():
     mode=ap.add_mutually_exclusive_group();mode.add_argument('--invalid-only',action='store_true');mode.add_argument('--validate-only',action='store_true')
     ap.add_argument('--renew',action='append',default=[],help='force renewal of a new or transaction-changed certificate (repeatable)')
     ap.add_argument('--no-final-validation',action='store_true',help='skip the post-renewal full-roster validation; the caller MUST run --validate-only afterwards')
+    ap.add_argument('--invalid-from',type=Path,help='with --invalid-only: renew the "renew" keys of this certificate plan (cert_windows.py output for the same tree) instead of re-validating the whole roster first')
     ap.add_argument('--issue',action='append',default=[],help='issue a FIRST certificate for a reviewed module that has none (repeatable; reviewer = its manifest review.reviewer)')
     a=ap.parse_args()
     if min(a.workers,a.window_workers,a.timeout)<1 or bool(a.gate_receipts)!=bool(a.transaction):ap.error('positive worker counts/timeouts and a receipt directory/token pair are required')
     if os.getpgrp()!=os.getpid():os.setsid()
     def interrupted(signum,frame):raise RuntimeError('certification interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted)
-    try:renew(a.root.resolve(),a.workers,a.window_workers,a.log_dir.resolve(),a.gate_receipts,a.transaction,a.timeout,a.invalid_only,a.validate_only,a.renew,a.worker_mode,a.issue,not a.no_final_validation)
+    try:renew(a.root.resolve(),a.workers,a.window_workers,a.log_dir.resolve(),a.gate_receipts,a.transaction,a.timeout,a.invalid_only,a.validate_only,a.renew,a.worker_mode,a.issue,not a.no_final_validation,a.invalid_from)
     except Exception as e:
         print(str(e),file=sys.stderr,flush=True);signal.signal(signal.SIGTERM,signal.SIG_DFL);os.killpg(os.getpgrp(),signal.SIGTERM)
         return 1

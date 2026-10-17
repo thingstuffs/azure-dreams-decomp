@@ -1,0 +1,316 @@
+/* Relink of matched dungeon/func_80EF9FB0; every changed retail word is a paired relocation. */
+#define updateActorAbilityAction func_801557B0
+#define D_80159CE8 D_80153CE8
+#define D_8015CEB8 D_80156EB8
+#include "shared/object_node.h"
+#include "common.h"
+#include "shared/def_table.h"
+#include "shared/record_ptrs.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
+#include "shared/entity.h"
+#include "records/Rec_D_80082E80.h"
+
+/* Partial action view: timer loads keep their observed signedness. */
+typedef struct ActorActionView {
+    u8 pad_00[0x8C];
+    union { s32 code; void *record; u8 *frames; s32 *word; } nextAction;
+    Fixed1616 motionOffset;
+    u8 pad_94[2];
+    union { u16 unsignedTicks; s16 signedTicks; } timer;
+    u16 flags;
+    u8 behavior;
+    u8 phase;
+    u8 pad_9C[4];
+    s16 frameParameter;
+    u8 pad_A2[4];
+    u16 effectTicks;
+    union { s16 signedPhase; u16 phase; u16 startX; } effectState;
+    union { u16 facing; u16 startY; } saved;
+    u16 effectX;
+    u16 effectY;
+    u16 effectZ;
+} ActorActionView;
+
+typedef union TilePairView {
+    struct { u8 x; u8 y; } tile;
+    u16 packed;
+} TilePairView;
+
+typedef struct ActorSpriteView {
+    u8 pad_00[4];
+    s8 frame;
+    u8 pad_05[3];
+    s32 animationKey;
+    u8 pad_0C[8];
+    u16 flags;
+    u8 pad_16[0xE];
+    TilePairView position;
+    union { s8 signedIndex; u8 unsignedIndex; } tileIndex;
+    u8 pad_27[5];
+    u8 *directionFrames;
+} ActorSpriteView;
+
+/* The selected three-byte action records overlap the entity's position view. */
+typedef struct ActorActionSlotsView {
+    u8 pad_00[8];
+    u8 first[3];
+    u8 second[3];
+    u8 third[3];
+} ActorActionSlotsView;
+
+/* Halfword view of the player's action counter at EntityRec + 0xA6. */
+typedef struct PlayerActionCountView {
+    u8 pad_00[0xA6];
+    u16 remaining;
+} PlayerActionCountView;
+
+extern int abs(int);
+
+extern u8 D_80153CE8[];
+extern u8 D_80156EB8[];
+
+extern s32 getCdCommandQueueDepth();
+extern s32 func_80047784();
+extern s32 func_80069EF8();
+extern void *dungeonScanMonsterAlongHeading();
+extern s32 dungeonSetRecordIntegerTileCenter();
+extern s32 dungeonAdvanceStatusTimers();
+extern s32 func_800A56E0();
+extern s32 dungeonCreateActorSpellEffect();
+extern void func_80153498(void *, s16, s32, s16, s16, s16, s16);
+
+void func_801557B0(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+{
+    s32 use_player_target;
+    s32 particle_count;
+    s32 offset_z;
+    s32 selection;
+    s32 selected;
+    s32 particle_zero;
+    s32 particle_color;
+    s32 offset_x;
+    s32 offset_y;
+    u16 timer;
+    u16 sprite_flags;
+    u16 raw_kind;
+    u32 kind_index;
+    u8 state;
+    u8 *action_data;
+    ObjectNodeHeader *particle_origin;
+
+    state = action->phase;
+    use_player_target = 0;
+    switch (state) {
+    case 0:
+        if (actor->flags1C & 0x2000) {
+            raw_kind = actor->unk_46 & 0x3FFF;
+            kind_index = raw_kind - 1;
+            switch (kind_index) {
+            case 6:
+                use_player_target = 1;
+        /* fall through */
+            case 2:
+                action_data = ((ActorActionSlotsView *)actor)->third;
+                break;
+            case 5:
+                use_player_target = 1;
+        /* fall through */
+            case 1:
+                action_data = ((ActorActionSlotsView *)actor)->second;
+                break;
+            case 4:
+                use_player_target = 1;
+        /* fall through */
+            case 0:
+                action_data = ((ActorActionSlotsView *)actor)->first;
+                break;
+            default:
+                action_data = 0;
+                break;
+            }
+        } else {
+            selected = actor->unk_46 & 0x3FFF;
+            switch (selected) {
+            case 3:
+                action_data = ((ActorActionSlotsView *)actor)->third;
+                break;
+            case 2:
+                action_data = ((ActorActionSlotsView *)actor)->second;
+                break;
+            case 1:
+                action_data = ((ActorActionSlotsView *)actor)->first;
+                break;
+            default:
+                action_data = 0;
+                break;
+            }
+        }
+        if (*action_data != 0) {
+
+            selection = action->flags;
+            selection = (s32)(selection & 0xFF7F);
+            action->flags = selection;
+            selection = use_player_target;
+            if (selection != 0) {
+                selection = (s32)(D_800814A8);
+                actor->target = ((EntityRec *)selection);
+                {
+                    u8 target_coordinate;
+
+                    selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
+                    target_coordinate = ((EntityRec *)selected)->tileX;
+                    actor->unk_72 = target_coordinate;
+                    target_coordinate = ((EntityRec *)selected)->tileY;
+                    actor->unk_73 = target_coordinate;
+                }
+            } else if (D_8006DE24[*action_data].kind == 2) {
+                selection = (s32)(actor->target);
+                if (((EntityRec *)selection) != 0) {
+                    {
+                        u8 target_coordinate;
+
+                        selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
+                        target_coordinate = ((EntityRec *)selected)->tileX;
+                        actor->unk_72 = target_coordinate;
+                        target_coordinate = ((EntityRec *)selected)->tileY;
+                        actor->unk_73 = target_coordinate;
+                    }
+                }
+            } else {
+
+                actor->target = dungeonScanMonsterAlongHeading(
+                    actor,
+                    sprite->position.tile.x,
+                    sprite->position.tile.y,
+                    actor->facing,
+                    0x10);
+
+                actor->unk_72 = abs(actor->unk_72);
+                actor->unk_73 = abs(actor->unk_73);
+            }
+
+            if (dungeonCreateActorSpellEffect(actor, action_data, use_player_target, &action->flags) == 0) {
+                return;
+            }
+            action->phase++;
+            return;
+
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
+        dungeonStatus.unk_0C = 0;
+        ((PlayerActionCountView *)D_800814A8)->remaining--;
+        dungeonAdvanceStatusTimers(actor);
+        actor->unk_6D--;
+        action->nextAction.record = D_80153CE8;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
+        return;
+
+    case 1:
+        if (getCdCommandQueueDepth() != 0) {
+            sprite->flags |= 0x800;
+            return;
+        }
+        sprite->flags &= 0xF7FF;
+        action->phase++;
+        func_800A56E0(0x703);
+        /* fall through */
+    case 2:
+        sprite_flags = sprite->flags;
+        if (sprite_flags & 0x8000) {
+            action->timer.unsignedTicks = 0;
+            action->phase++;
+            action->flags |= 0x80;
+            return;
+        }
+
+        if ((sprite->frame == 2) && (sprite_flags & 0x1000)) {
+            sprite->flags = sprite_flags | 0x800;
+            action->timer.unsignedTicks = 0x16;
+        }
+        if (sprite->frame < 2) {
+            return;
+        }
+
+        timer = action->timer.unsignedTicks - 1;
+        action->timer.unsignedTicks = timer;
+        if ((s16)timer <= 0) {
+            action->timer.unsignedTicks = 0;
+            action->phase++;
+        }
+        if (action->timer.signedTicks == 2) {
+            action->flags |= 0x80;
+        }
+        if (action->timer.signedTicks < 0xA) {
+            return;
+        }
+
+        particle_count = 0;
+        do {
+            particle_count++;
+            offset_x = (s16)((func_80069EF8() & 0x3F) - 0x20);
+            offset_y = (s16)((func_80069EF8() & 0x3F) - 0x20);
+            offset_z = func_80069EF8();
+            particle_origin = ((ObjectNodeHeader *)action) - 1;
+            particle_zero = 0;
+            particle_color = 0xC0C0C0;
+            offset_z = (s16)((offset_z & 0x3F) - 0x20);
+            func_80153498(
+                particle_origin,
+                particle_zero,
+                particle_color,
+                (s16)(action->timer.unsignedTicks - 2),
+                offset_x,
+                offset_y,
+                offset_z);
+        } while ((u32)(particle_count & 0xFFFF) < 3U);
+        return;
+
+    case 3:
+        action->timer.unsignedTicks = 0x14;
+        action->phase++;
+
+        /* fall through */
+    case 4:
+        if (((s32)dungeonStatus.unk_0C) == 0) {
+            action->timer.unsignedTicks = 0;
+        }
+        timer = action->timer.unsignedTicks - 1;
+        action->timer.unsignedTicks = timer;
+        if ((s16)timer <= 0) {
+            action->timer.unsignedTicks = 0;
+            sprite->flags &= 0xF7FF;
+        }
+        if (!(sprite->flags & 0xE000)) {
+            return;
+        }
+
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
+
+        if (sprite->directionFrames != D_80156EB8) {
+            sprite->directionFrames = D_80156EB8;
+            selection = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            func_80047784(sprite, D_80156EB8[selection], 0);
+        }
+        if (((s32)dungeonStatus.unk_0C) != 0) {
+            return;
+        }
+
+        dungeonStatus.unk_0A--;
+        action->nextAction.record = D_80153CE8;
+        dungeonAdvanceStatusTimers(actor);
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_6D--;
+        actor->unk_46 &= 0x7FFF;
+        func_800A56E0(0xB4);
+    }
+}

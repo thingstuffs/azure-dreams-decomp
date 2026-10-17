@@ -1,0 +1,117 @@
+/* Relink of matched dungeon/func_80F8A70C; every changed retail word is a paired relocation. */
+#define dungeonUpdateBankEffectFade func_8014FF0C
+#include "common.h"
+#include "shared/object_flags.h"
+#include "records/Rec_D_80082E80.h"
+
+typedef struct S_80173F0C_0 {
+    u8 pad_00[0x4];
+    u16 unk_04;
+    u8 pad_06[0x2];
+    u16 unk_08;
+    u8 pad_0A[0xA];
+    u16 unk_14;
+    u8 pad_16[0x32];
+    u16 unk_48;
+    u8 pad_4A[0x2];
+    union { s16 s; u16 u; } unk_4C;   /* accessed as both */
+} S_80173F0C_0;   /* arg0 in func_8014FF0C */
+
+
+typedef struct S_80173F0C_2 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x2];
+    u16 unk_06;
+    u8 pad_08[0x2];
+    u16 unk_0A;
+} S_80173F0C_2;   /* arg1 in func_8014FF0C */
+
+
+typedef struct {
+    u8 bytes[8];
+} Unaligned8;
+
+typedef struct {
+    void *field0;
+    void *field4;
+    Unaligned8 field8;
+    Unaligned8 field10;
+    s16 field18;
+    s16 field1A;
+    u32 unused1C;
+} CallRecord;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 pad;
+} OutputVector;
+
+extern void func_800478B8(void *);
+extern s32 rand(void);
+extern void dungeonTransformRotatedVertices(void *);
+
+/* Updates the effect's motion and fade, then marks it for removal. */
+void func_8014FF0C(void *effect, void *position, void *visual)
+{
+    CallRecord transform;
+    OutputVector transformed_pos;
+    s16 state;
+    s32 quarter_angle;
+    u16 angle;
+
+    state = ((S_80173F0C_0 *)effect)->unk_4C.s;
+    switch (state) {
+    case 0:
+        func_800478B8(visual);
+        if (((Rec_D_80082E80 *)visual)->unk_14.at00_u16.v & 0x6000) {
+            ((Rec_D_80082E80 *)visual)->unk_04.as_s8 = 0;
+            ((Rec_D_80082E80 *)visual)->unk_05.as_s8 = 0;
+        }
+        ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+        if ((u8)((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v < 0x30U) {
+            ((S_80173F0C_0 *)effect)->unk_4C.u++;
+        }
+
+        angle = ((S_80173F0C_0 *)effect)->unk_08 + 10;
+        quarter_angle = (s32)(angle << 16) >> 18;
+        ((S_80173F0C_0 *)effect)->unk_08 = angle;
+        ((S_80173F0C_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
+
+        {
+            s32 height_jitter;
+            s32 height;
+
+            height_jitter = rand() & 0x7F;
+
+            height = ((S_80173F0C_0 *)effect)->unk_14;
+            height += 0x140;
+            height += height_jitter;
+            ((S_80173F0C_0 *)effect)->unk_14 = height;
+        }
+        ((S_80173F0C_0 *)effect)->unk_04 += (s32)(((S_80173F0C_0 *)effect)->unk_48 << 16) >> 17;
+        if (((S_80173F0C_0 *)effect)->unk_48 & 1) {
+            ((S_80173F0C_0 *)effect)->unk_08++;
+        }
+
+        transform.field0 = (u8 *)effect + 4;
+        transform.field4 = &transformed_pos;
+        transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
+        transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
+        transform.field18 = 1;
+        transform.field1A = 1;
+        dungeonTransformRotatedVertices(&transform);
+        ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
+        ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
+        ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
+        ((S_80173F0C_0 *)effect)->unk_48--;
+        break;
+    case 1:
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
+    }
+}
+
