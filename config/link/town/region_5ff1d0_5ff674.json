@@ -1,0 +1,32 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/region_5ff1d0_5ff674",
+ "container": "town",
+ "foff": "0x5ff1d0",
+ "size": "0x4a4",
+ "vma": "0x800161d0",
+ "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+ "entries": [
+  {
+   "row": "town/func_8067F230",
+   "home": "town/func_8067F230",
+   "tu": "src/town/func_8067F230.c",
+   "foff": "0x5ff230",
+   "vma": "0x80016230",
+   "size": 144
+  },
+  {
+   "row": "town/func_8067F410",
+   "home": "town/func_8067F230",
+   "tu": "src/town/func_8067F230.c",
+   "foff": "0x5ff410",
+   "vma": "0x80016410",
+   "size": 144,
+   "bindings": {
+    "0x80018770": "0x800187b0",
+    "0x8001a714": "0x8001a904"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8067F410"
+  }
+ ]
+}

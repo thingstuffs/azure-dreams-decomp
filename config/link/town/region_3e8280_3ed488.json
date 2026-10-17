@@ -8,6 +8,153 @@
  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4t2_bank_3e8280",
  "entries": [
   {
+   "row": "town/func_804692F0",
+   "home": "town/func_804692F0",
+   "tu": "src/town/func_804692F0.c",
+   "foff": "0x3e92f0",
+   "vma": "0x8001a2f0",
+   "size": 112
+  },
+  {
+   "row": "town/func_80469360",
+   "home": "town/func_80469360",
+   "tu": "src/town/func_80469360.c",
+   "foff": "0x3e9360",
+   "vma": "0x8001a360",
+   "size": 136
+  },
+  {
+   "row": "town/func_804694F0",
+   "home": "town/func_804694F0",
+   "tu": "src/town/func_804694F0.c",
+   "foff": "0x3e94f0",
+   "vma": "0x8001a4f0",
+   "size": 156
+  },
+  {
+   "row": "town/func_8046C7CC",
+   "home": "town/func_8032F060",
+   "tu": "src/town/func_8032F060.c",
+   "foff": "0x3ec7cc",
+   "vma": "0x8001d7cc",
+   "size": 148,
+   "bindings": {
+    "0x8001ace8": "0x8001e578",
+    "0x8001ad60": "0x8001e5f0",
+    "0x8001ade0": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046C7CC"
+  },
+  {
+   "row": "town/func_8046CB2C",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x3ecb2c",
+   "vma": "0x8001db2c",
+   "size": 84,
+   "bindings": {
+    "0x8001ACE8": "0x8001E578",
+    "0x80020000": "0x800225EC"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CB2C; B10 re-homed from town/func_8028F414 (now an LL placement of town/func_8032F3C0): bindings translated through town/func_8028F414's object-screen resolution"
+  },
+  {
+   "row": "town/func_8046CB80",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x3ecb80",
+   "vma": "0x8001db80",
+   "size": 84,
+   "bindings": {
+    "0x8001ACE8": "0x8001E5F0",
+    "0x80020000": "0x800225EC"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CB80; B10 re-homed from town/func_8028F414 (now an LL placement of town/func_8032F3C0): bindings translated through town/func_8028F414's object-screen resolution"
+  },
+  {
+   "row": "town/func_8046CBD4",
+   "home": "town/func_8032F468",
+   "tu": "src/town/func_8032F468.c",
+   "foff": "0x3ecbd4",
+   "vma": "0x8001dbd4",
+   "size": 112,
+   "bindings": {
+    "0x8001ace8": "0x8001e578",
+    "0x8001ad60": "0x8001e5f0",
+    "0x8001ade0": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CBD4"
+  },
+  {
+   "row": "town/func_8046CC44",
+   "home": "town/func_8032F4D8",
+   "tu": "src/town/func_8032F4D8.c",
+   "foff": "0x3ecc44",
+   "vma": "0x8001dc44",
+   "size": 108,
+   "bindings": {
+    "0x8001ade0": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CC44"
+  },
+  {
+   "row": "town/func_8046CCB0",
+   "home": "town/func_8032F544",
+   "tu": "src/town/func_8032F544.c",
+   "foff": "0x3eccb0",
+   "vma": "0x8001dcb0",
+   "size": 92,
+   "bindings": {
+    "0x800194e4": "0x8001d450",
+    "0x8001ade0": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CCB0"
+  },
+  {
+   "row": "town/func_8046CD68",
+   "home": "town/func_8032F5FC",
+   "tu": "src/town/func_8032F5FC.c",
+   "foff": "0x3ecd68",
+   "vma": "0x8001dd68",
+   "size": 172,
+   "bindings": {
+    "0x800194e4": "0x8001d450",
+    "0x80019860": "0x8001d7cc",
+    "0x80019cd8": "0x8001dc44",
+    "0x8001ace8": "0x8001e578"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CD68"
+  },
+  {
+   "row": "town/func_8046CE14",
+   "home": "town/func_8032F6A8",
+   "tu": "src/town/func_8032F6A8.c",
+   "foff": "0x3ece14",
+   "vma": "0x8001de14",
+   "size": 220,
+   "bindings": {
+    "0x8001b8a8": "0x800178b8",
+    "0x8001ace8": "0x8001e578",
+    "0x8001ad60": "0x8001e5f0",
+    "0x8001ade0": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CE14"
+  },
+  {
+   "row": "town/func_8046CF00",
+   "home": "town/func_804D1484",
+   "tu": "src/town/func_804D1484.c",
+   "foff": "0x3ecf00",
+   "vma": "0x8001df00",
+   "size": 176,
+   "bindings": {
+    "0x80017594": "0x8001e964",
+    "0x80016b98": "0x8001de14",
+    "0x800173f4": "0x8001e670"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CF00"
+  },
+  {
    "row": "town/func_8046CFB0",
    "home": "town/func_8032F844",
    "tu": "src/town/func_8032F844.c",

@@ -1,0 +1,27 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_d21e78",
+ "container": "dungeon",
+ "foff": "0xd21e78",
+ "size": "0xbc",
+ "vma": "0x8015b678",
+ "evidence": "work/native_lane/r121_heur/evidence/placements2.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80D21E78",
+   "tu": "src/dungeon/func_80CE9E78.c",
+   "home": "dungeon/func_80CE9E78",
+   "foff": "0xd21e78",
+   "vma": "0x8015b678",
+   "size": 188,
+   "bindings": {
+    "0x80175e9c": "0x8015de9c",
+    "0x80175ea4": "0x8015dea4",
+    "0x80175eac": "0x8015deac",
+    "0x80173724": "0x8015b724",
+    "0x801736ec": "0x8015b6ec"
+   },
+   "evidence": "work/native_lane/r121_heur/evidence/placements2.json: complete donor, strict base promotion, native ELF relocation replay and final scoped production gate"
+  }
+ ]
+}

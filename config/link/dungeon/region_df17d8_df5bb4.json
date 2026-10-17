@@ -1,0 +1,23 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/region_df17d8_df5bb4",
+ "container": "dungeon",
+ "foff": "0xdf17d8",
+ "size": "0x43dc",
+ "vma": "0x80158fd8",
+ "evidence": "docs/evidence/r121w_s1_wave2.receipt.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80DD17D8",
+   "home": "dungeon/func_800CDF70",
+   "tu": "src/dungeon/func_800CDF70.c",
+   "foff": "0xdf17d8",
+   "vma": "0x80158fd8",
+   "size": 104,
+   "bindings": {
+    "0x800D3738": "0x80158874"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80DD17D8; B10 re-homed from dungeon/func_80DB97D8 (now an LL placement of dungeon/func_800CDF70): bindings translated through dungeon/func_80DB97D8's object-screen resolution"
+  }
+ ]
+}

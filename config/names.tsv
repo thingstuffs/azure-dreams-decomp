@@ -4891,3 +4891,6 @@
 0x800CA60C	func_800CA60C	initialize_actor_primary_handler	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor primary handler
 0x800B0198	func_800B0198	load_actor_display_resource	work/native_lane/r121_heur/evidence/variant_code.json: load actor display resource
 0x800CDF00	func_800CDF00	initialize_actor_reaction_and_fixed_state	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor reaction and fixed state
+0x8002522C	func_8002522C	create_moving_fading_particle	work/native_lane/r121_heur/evidence/new_code2.json: Semantic variant: display color constant changes from 0xE04020 to 0x40E020.
+0x80171E60	func_80171E60	update_receding_scaled_rgb_fade	work/native_lane/r121_heur/evidence/new_code2.json: Semantic variant: progress changes by -0x20000 rather than +0x10000.
+0x800CE4C4	func_800CE4C4	advance_actor_reaction_downward	work/native_lane/r121_heur/evidence/new_code2.json: Complete semantic variant: subtract 0x15555 from the second accumulator and set bitmap bit 0x43.

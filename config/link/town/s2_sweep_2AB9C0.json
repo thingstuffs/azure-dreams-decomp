@@ -21,6 +21,14 @@
    "evidence": "docs/evidence/r121w_s2_receipts.json#town/func_8028D574"
   },
   {
+   "row": "town/func_8032F354",
+   "tu": "src/town/func_8032F354.c",
+   "home": "town/func_8032F354",
+   "foff": "0x2af354",
+   "vma": "0x80019b54",
+   "size": 108
+  },
+  {
    "row": "town/func_8032F844",
    "tu": "src/town/func_8032F844.c",
    "home": "town/func_8032F844",

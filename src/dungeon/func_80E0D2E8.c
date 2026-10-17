@@ -208,7 +208,24 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
                 }
             }
         } else {
-            goto ground_reset;
+            s32 reset_correction;
+
+            reset_correction = input_actor->correctionA4;
+            input_actor->correctionCountAC = 0;
+            input_actor->correctionA4 = 0;
+            input_actor->position90 -= reset_correction;
+            if (!(input_actor->state98 & 8)) {
+                ground = (s16)(func_800BCB04(
+                    *(u16 *)((u8 *)input_motion + 2),
+                    *(u16 *)((u8 *)input_motion + 6),
+                    (s16)(subject->height88 - 0x20)) - subject->height88);
+                if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
+                    *(s16 *)((u8 *)input_actor + 0x92) = ground;
+                    input_actor->counter9D = 0;
+                    input_motion->dz = 0;
+                    subject->flags |= 0x08000000;
+                }
+            }
         }
     } else {
         actor_flags = subject->flags;
@@ -216,7 +233,6 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
         subject->flags = actor_flags;
         actor_flags &= 0x00040000;
         if (!actor_flags) {
-ground_reset:
             correction = input_actor->correctionA4;
             input_actor->correctionCountAC = 0;
             input_actor->correctionA4 = 0;

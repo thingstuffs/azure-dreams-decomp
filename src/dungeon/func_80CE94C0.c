@@ -29,18 +29,6 @@ void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_stat
     case 0xD:
         current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
         direction_table = (u8 *)&D_80175DC4;
-        break;
-    case 0xE:
-        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
-        direction_table = (u8 *)&D_80175DCC;
-        break;
-    case 0xF:
-        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
-        direction_table = (u8 *)&D_80175DD4;
-        break;
-    default:
-        goto setup;
-    }
     if (current_table != direction_table) {
         (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
         direction_addr =
@@ -48,8 +36,33 @@ void func_80172CC0(void *movement, s32 actor_index, void *actor, void *path_stat
         direction_addr += (unsigned long)direction_table;
         func_80047784(actor, *(u8 *)direction_addr, 0);
     }
+        break;
+    case 0xE:
+        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
+        direction_table = (u8 *)&D_80175DCC;
+    if (current_table != direction_table) {
+        (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
+        direction_addr =
+            ((gameWork.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+        direction_addr += (unsigned long)direction_table;
+        func_80047784(actor, *(u8 *)direction_addr, 0);
+    }
+        break;
+    case 0xF:
+        current_table = ((Rec_D_80082E80 *)actor)->unk_2C.as_pu8;
+        direction_table = (u8 *)&D_80175DD4;
+    if (current_table != direction_table) {
+        (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
+        direction_addr =
+            ((gameWork.view.viewAngle + ((T_80172CC0_S_80172CC0_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+        direction_addr += (unsigned long)direction_table;
+        func_80047784(actor, *(u8 *)direction_addr, 0);
+    }
+        break;
+    default:
+        break;
+    }
 
-setup:
     cell_flags = 0x3000;
     x = ((Rec_D_80082E80 *)actor)->unk_24;
     y = ((Rec_D_80082E80 *)actor)->unk_25;

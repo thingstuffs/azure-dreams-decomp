@@ -8,6 +8,234 @@
  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4t2_bank_3f6298",
  "entries": [
   {
+   "row": "town/func_80476460",
+   "home": "town/func_80476460",
+   "tu": "src/town/func_80476460.c",
+   "foff": "0x3f6460",
+   "vma": "0x80017460",
+   "size": 208
+  },
+  {
+   "row": "town/func_8047653C",
+   "home": "town/func_8047653C",
+   "tu": "src/town/func_8047653C.c",
+   "foff": "0x3f653c",
+   "vma": "0x8001753c",
+   "size": 92
+  },
+  {
+   "row": "town/func_804765B0",
+   "home": "town/func_804692F0",
+   "tu": "src/town/func_804692F0.c",
+   "foff": "0x3f65b0",
+   "vma": "0x800175b0",
+   "size": 112,
+   "bindings": {
+    "0x8001791c": "0x80016470",
+    "0x8001e670": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_804765B0"
+  },
+  {
+   "row": "town/func_8047664C",
+   "home": "town/func_80469360",
+   "tu": "src/town/func_80469360.c",
+   "foff": "0x3f664c",
+   "vma": "0x8001764c",
+   "size": 136,
+   "bindings": {
+    "0x8001791c": "0x80016470",
+    "0x8001e578": "0x800197d8",
+    "0x8001e670": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047664C"
+  },
+  {
+   "row": "town/func_804766D4",
+   "home": "town/func_804766D4",
+   "tu": "src/town/func_804766D4.c",
+   "foff": "0x3f66d4",
+   "vma": "0x800176d4",
+   "size": 220
+  },
+  {
+   "row": "town/func_804767D4",
+   "home": "town/func_804767D4",
+   "tu": "src/town/func_804767D4.c",
+   "foff": "0x3f67d4",
+   "vma": "0x800177d4",
+   "size": 104
+  },
+  {
+   "row": "town/func_80476848",
+   "home": "town/func_80476848",
+   "tu": "src/town/func_80476848.c",
+   "foff": "0x3f6848",
+   "vma": "0x80017848",
+   "size": 72
+  },
+  {
+   "row": "town/func_8047696C",
+   "home": "town/func_804694F0",
+   "tu": "src/town/func_804694F0.c",
+   "foff": "0x3f696c",
+   "vma": "0x8001796c",
+   "size": 156,
+   "bindings": {
+    "0x8001791c": "0x80016470",
+    "0x80017bc0": "0x80016568",
+    "0x8001e670": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8047696C"
+  },
+  {
+   "row": "town/func_80476A08",
+   "home": "town/func_80476A08",
+   "tu": "src/town/func_80476A08.c",
+   "foff": "0x3f6a08",
+   "vma": "0x80017a08",
+   "size": 188
+  },
+  {
+   "row": "town/func_80476AC4",
+   "home": "town/func_80476AC4",
+   "tu": "src/town/func_80476AC4.c",
+   "foff": "0x3f6ac4",
+   "vma": "0x80017ac4",
+   "size": 76
+  },
+  {
+   "row": "town/func_80476B28",
+   "home": "town/func_80476B28",
+   "tu": "src/town/func_80476B28.c",
+   "foff": "0x3f6b28",
+   "vma": "0x80017b28",
+   "size": 72
+  },
+  {
+   "row": "town/func_80477A2C",
+   "home": "town/func_8032F060",
+   "tu": "src/town/func_8032F060.c",
+   "foff": "0x3f7a2c",
+   "vma": "0x80018a2c",
+   "size": 148,
+   "bindings": {
+    "0x8001ace8": "0x800197d8",
+    "0x8001ad60": "0x80019850",
+    "0x8001ade0": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477A2C"
+  },
+  {
+   "row": "town/func_80477D8C",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x3f7d8c",
+   "vma": "0x80018d8c",
+   "size": 84,
+   "bindings": {
+    "0x8001ACE8": "0x800197D8",
+    "0x80020000": "0x8001D848"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477D8C; B10 re-homed from town/func_8028F414 (now an LL placement of town/func_8032F3C0): bindings translated through town/func_8028F414's object-screen resolution"
+  },
+  {
+   "row": "town/func_80477DE0",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x3f7de0",
+   "vma": "0x80018de0",
+   "size": 84,
+   "bindings": {
+    "0x8001ACE8": "0x80019850",
+    "0x80020000": "0x8001D848"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477DE0; B10 re-homed from town/func_8028F414 (now an LL placement of town/func_8032F3C0): bindings translated through town/func_8028F414's object-screen resolution"
+  },
+  {
+   "row": "town/func_80477E34",
+   "home": "town/func_8032F468",
+   "tu": "src/town/func_8032F468.c",
+   "foff": "0x3f7e34",
+   "vma": "0x80018e34",
+   "size": 112,
+   "bindings": {
+    "0x8001ace8": "0x800197d8",
+    "0x8001ad60": "0x80019850",
+    "0x8001ade0": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477E34"
+  },
+  {
+   "row": "town/func_80477EA4",
+   "home": "town/func_8032F4D8",
+   "tu": "src/town/func_8032F4D8.c",
+   "foff": "0x3f7ea4",
+   "vma": "0x80018ea4",
+   "size": 108,
+   "bindings": {
+    "0x8001ade0": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477EA4"
+  },
+  {
+   "row": "town/func_80477F10",
+   "home": "town/func_8032F544",
+   "tu": "src/town/func_8032F544.c",
+   "foff": "0x3f7f10",
+   "vma": "0x80018f10",
+   "size": 92,
+   "bindings": {
+    "0x800194e4": "0x800186b0",
+    "0x8001ade0": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477F10"
+  },
+  {
+   "row": "town/func_80477FC8",
+   "home": "town/func_8032F5FC",
+   "tu": "src/town/func_8032F5FC.c",
+   "foff": "0x3f7fc8",
+   "vma": "0x80018fc8",
+   "size": 172,
+   "bindings": {
+    "0x800194e4": "0x800186b0",
+    "0x80019860": "0x80018a2c",
+    "0x80019cd8": "0x80018ea4",
+    "0x8001ace8": "0x800197d8"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80477FC8"
+  },
+  {
+   "row": "town/func_80478074",
+   "home": "town/func_8032F6A8",
+   "tu": "src/town/func_8032F6A8.c",
+   "foff": "0x3f8074",
+   "vma": "0x80019074",
+   "size": 220,
+   "bindings": {
+    "0x8001b8a8": "0x80016320",
+    "0x8001ace8": "0x800197d8",
+    "0x8001ad60": "0x80019850",
+    "0x8001ade0": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80478074"
+  },
+  {
+   "row": "town/func_80478160",
+   "home": "town/func_804D1484",
+   "tu": "src/town/func_804D1484.c",
+   "foff": "0x3f8160",
+   "vma": "0x80019160",
+   "size": 176,
+   "bindings": {
+    "0x80017594": "0x80019bc4",
+    "0x80016b98": "0x80019074",
+    "0x800173f4": "0x800198d0"
+   },
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80478160"
+  },
+  {
    "row": "town/func_80478210",
    "home": "town/func_8032F844",
    "tu": "src/town/func_8032F844.c",

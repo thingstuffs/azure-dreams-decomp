@@ -16,6 +16,16 @@
    "size": 452,
    "bindings": {},
    "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_804FEBF4"
+  },
+  {
+   "row": "dungeon/func_805022F8",
+   "home": "dungeon/func_80286AF8",
+   "tu": "src/dungeon/func_80286AF8.c",
+   "foff": "0x5222f8",
+   "vma": "0x80019af8",
+   "size": 3096,
+   "bindings": {},
+   "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_805022F8"
   }
  ]
 }

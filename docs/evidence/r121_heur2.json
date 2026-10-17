@@ -1,0 +1,28 @@
+{
+ "base": "after delivery_wave1.patch",
+ "wave1_patch_sha256": "4487ee3e2e9432708f9d8a8b6eeea85be2a610a12cace79171291a3dfd5da7ab",
+ "input_hold_items": 767,
+ "input_hold_bytes": 70492,
+ "delivered_placements": 9,
+ "placement_bytes": 8856,
+ "new_C_rows": 3,
+ "new_C_bytes": 784,
+ "delivered_bytes": 9640,
+ "remaining_hold_items": 742,
+ "remaining_hold_bytes": 60852,
+ "holds_by_reason": {
+  "no complete registered donor / boundary evidence": 27060,
+  "donor source debt: volatile": 17476,
+  "native replay mismatch / symbolic-address recovery": 8592,
+  "no unique proven rowbase for complete target": 5052,
+  "entry lacks independent boundary/reference": 1448,
+  "existing return-row ownership conflict": 388,
+  "new C scheduling/lifetime mismatch": 348,
+  "complete unported variant twin; genuine m2c, clean C rebuild and production proof needed": 272,
+  "internal tail / full-function ownership": 216
+ },
+ "combined_delivered_bytes": 316460,
+ "gate_windows": 9,
+ "C_extent_checks": 12,
+ "ELF_fields": 234
+}
