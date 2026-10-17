@@ -393,3 +393,15 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (d) raw/ m2c first passes: work towards removing them so the tree holds only the clean source; remove the copies'
     raw/ now if nothing still needs it and it does not impede the process, else as soon as the dependants are moved.
     Design: work/native_lane/_r120/linklist/REPORT.md. SECOND LOOK: no.
+60. **(r121, OWNER rulings 2026-10-17) Plan to the clean tree.** (a) The taxonomy tree (LL7 layout by feature) is
+    reviewed by the owner once LL1-LL6 are done (the TU set is fixed then); everything up to that point proceeds on
+    delegated decisions. (b) Link lists are extended to cover each image completely, in address order: code TUs,
+    data objects, padding and asset blobs, so `link/` is the byte map and the census can be derived from it. Data
+    mapping follows the code migration. (c) The tree and git history hold no actual retail data, only the way to
+    derive it from a copy the user supplies (offsets, sizes, types, extraction tools). (d) The history rewrite
+    (filter-repo + force-push) happens after the repo cleanup, with owner confirmation at that point. (e) Model
+    routing as standing guidelines: Opus 1-2 concurrent, Sonnet < 3, codex tiers at the orchestrator's discretion.
+    (f) STANDING: git never holds binaries or asset data (retail bytes, retail-equal compiled objects, images,
+    textures, audio, video); lane deliveries keep hashes and receipts only. (g) No releases for now: a plain source
+    repo; the raw/ removal drops its release-archive step; a first release (e.g. 0.95) is decided later.
+    SECOND LOOK: no.
