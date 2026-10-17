@@ -417,3 +417,11 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     <binary>/unsorted/ with address names. (f) Headers: a separate include/ tree organised by shared concept (types,
     subsystem interfaces), not one header per .c; include/shared/ for cross-binary types (fits the type consolidation
     rulings). SECOND LOOK: no.
+62. **(r121, delegated 2026-10-17) Lane receipts stay small in git.** A lane receipt over about 2 MB keeps a compact
+    summary in docs/evidence/ (per row: id, function, offset, size, home address, recipe, template, window, source /
+    raw / retail sha256, score class; windows; hold counts by reason) plus the full receipt's sha256 and size; the
+    full receipt goes to the project evidence archive outside git. No tool reads these receipts (they are cited as
+    text only); the gate's own per-window receipts are unaffected. Applied to r121_twins2 (65.0 MB -> 5.0 MB) and
+    r121_sdk (9.5 MB -> 0.4 MB); later lanes slim at assembly. Clone size is dominated by history (ledger/sweeps,
+    ledger/gate.jsonl rewritten every landing, old receipts): that is the repo-tidy archive step and the approved
+    history rewrite, not this decision. SECOND LOOK: no.
