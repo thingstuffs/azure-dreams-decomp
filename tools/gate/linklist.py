@@ -1,0 +1,323 @@
+"""Link lists: one TU, many placements (azure-clean.linklist.v0, decision 59, docs/LINK_LISTS.md).
+
+config/link/<container>/<image>.json describes ONE load image (a bank / floor slot / scene image):
+
+    {"schema": "azure-clean.linklist.v0", "image": "dungeon/bank_fad000", "container": "dungeon",
+     "foff": "0xFAD000", "size": "0x6000", "vma": "0x8016A800", "layout": "bank_fa7000_family",
+     "evidence": "...", "symbols": {},
+     "entries": [{"row": "dungeon/func_80F90664", "tu": "src/dungeon/func_80F8A664.c",
+                  "home": "dungeon/func_80F8A664", "foff": "0xFB0664", "vma": "0x8016DE64", "size": 56,
+                  "bindings": {}}]}
+
+An entry places the TU of its `home` row at `vma` inside this image. The TU's object spells every symbol by its
+HOME address name (func_/D_<addr in the home image>; tools/ccproc.py turns names.tsv aliases back into those), so
+a placement is resolved by ADDRESS, never by a readable name (`binding` lists the rules). A rename in
+config/names.tsv or in the TU therefore cannot change what a placement links to. The home row is itself an entry
+of its own image's link list and compiles without rebinding.
+
+The window gate (overlay_local_gate.compile_c_segments) compiles the TU for the placement's segment, rewrites the
+object's symbols with objcopy (`rebind_object`), and the unchanged mini-link + window compare proves the bytes at
+that address. tools/lanes/proof_receipts.window_inputs binds the TU (through source_layout's `source_row`
+redirection) and the link-list files that decide the placement's symbols (`window_files`).
+
+With no config/link/ directory every function here is inert: no placement, no rebinding, no extra inputs.
+"""
+from __future__ import annotations
+import json, re, subprocess
+from functools import lru_cache
+from pathlib import Path
+
+SCHEMA = "azure-clean.linklist.v0"
+ADDR = re.compile(r"^(func|D)_([0-9A-F]{8})$")
+OBJCOPY = "mipsel-linux-gnu-objcopy"
+NM = "mipsel-linux-gnu-nm"
+ENTRY_KEYS = {"row", "tu", "home", "foff", "vma", "size"}
+ENTRY_OPTIONAL = {"bindings", "evidence"}
+IMAGE_KEYS = {"schema", "image", "container", "foff", "size", "vma", "entries"}
+IMAGE_OPTIONAL = {"layout", "evidence", "symbols"}
+
+
+def num(v):
+    if isinstance(v, bool):
+        raise ValueError("not an address: " + repr(v))
+    return int(v) if isinstance(v, int) else int(str(v), 0)
+
+
+def family(container):
+    return "dungeon" if container == "dungeon_engine" else container
+
+
+def link_dir(root):
+    return Path(root) / "config" / "link"
+
+
+def files(root):
+    d = link_dir(root)
+    if not d.is_dir():
+        return []
+    return sorted(p for x in d.iterdir() if x.is_dir() for p in x.glob("*.json"))
+
+
+def _stamp(paths):
+    out = []
+    for p in paths:
+        s = p.stat()
+        out.append((str(p), s.st_ino, s.st_mtime_ns, s.st_ctime_ns, s.st_size))
+    return tuple(out)
+
+
+def _addr_map(value, what):
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise ValueError(what + " must be an object")
+    return {num(k): num(v) for k, v in value.items()}
+
+
+@lru_cache(maxsize=8)
+def _load(stamp):
+    images, by_place, by_row = {}, {}, {}
+    for path, *_ in stamp:
+        doc = json.loads(Path(path).read_text())
+        if doc.get("schema") != SCHEMA:
+            raise ValueError("unknown link list schema: " + path)
+        if not IMAGE_KEYS <= set(doc) or set(doc) - IMAGE_KEYS - IMAGE_OPTIONAL:
+            raise ValueError("link list image keys: " + path)
+        if doc["container"] != Path(path).parent.name or not doc["image"].startswith(doc["container"] + "/"):
+            raise ValueError("link list lives outside its container directory: " + path)
+        img = dict(doc, foff=num(doc["foff"]), size=num(doc["size"]), vma=num(doc["vma"]), path=path,
+                   symbols=_addr_map(doc.get("symbols"), "image symbols"))
+        if img["size"] <= 0:
+            raise ValueError("empty image: " + path)
+        if img["image"] in images:
+            raise ValueError("duplicate image " + img["image"])
+        images[img["image"]] = img
+        last = img["foff"]
+        for raw in doc["entries"]:
+            if not ENTRY_KEYS <= set(raw) or set(raw) - ENTRY_KEYS - ENTRY_OPTIONAL:
+                raise ValueError("link list entry keys: %s in %s" % (raw.get("row"), path))
+            e = dict(raw, foff=num(raw["foff"]), vma=num(raw["vma"]), size=int(raw["size"]), image=img["image"],
+                     container=doc["container"], bindings=_addr_map(raw.get("bindings"), "entry bindings"))
+            if e["size"] <= 0 or not img["foff"] <= e["foff"] < e["foff"] + e["size"] <= img["foff"] + img["size"]:
+                raise ValueError("entry outside its image: " + e["row"])
+            if e["vma"] - img["vma"] != e["foff"] - img["foff"]:
+                raise ValueError("entry vma is not image vma + offset: " + e["row"])
+            if e["foff"] < last:
+                raise ValueError("entries out of order or overlapping in %s at %s" % (img["image"], e["row"]))
+            last = e["foff"] + e["size"]
+            if family(e["row"].split("/", 1)[0]) != doc["container"]:
+                raise ValueError("entry row belongs to another container: " + e["row"])
+            key = (doc["container"], e["foff"])
+            if key in by_place or e["row"] in by_row:
+                raise ValueError("placement listed twice: " + e["row"])
+            by_place[key] = e
+            by_row[e["row"]] = e
+    for e in by_row.values():
+        if e["home"] not in by_row:
+            raise ValueError("home row is not placed in any link list: " + e["home"])
+        h = by_row[e["home"]]
+        if h["home"] != h["row"] or h["tu"] != e["tu"]:
+            raise ValueError("home entry must be its own home and share the TU: " + e["row"])
+        if h["size"] != e["size"]:
+            raise ValueError("placement size differs from its home: " + e["row"])
+        if e is h and e["bindings"]:
+            raise ValueError("a home entry takes no bindings: " + e["row"])
+    # rule 3 table: image -> home vma -> [(home image, vma of that TU's placement in this image)]
+    local = {}
+    for e in by_row.values():
+        h = by_row[e["home"]]
+        if e is not h:
+            local.setdefault(e["image"], {}).setdefault(h["vma"], []).append((h["image"], e["vma"]))
+    return images, by_place, by_row, local
+
+
+def load(root):
+    """(images, {(container, foff): entry}, {row id: entry}, rule-3 table) over EVERY link list (a placement's
+    home may live in another container's lists); four empty maps without config/link/."""
+    return _load(_stamp(files(root)))
+
+
+def placement(root, container, foff, row=None):
+    """The link-list entry placing a TU at (container, foff), or None for an own-file row. `row` (the segment's
+    registered row id) must be the entry's row: a list naming another row at this span is refused."""
+    e = load(root)[1].get((family(container), foff))
+    if e is not None and row is not None and e["row"] != row:
+        raise ValueError("link list entry at %s 0x%X names %s, the segment is %s" % (container, foff, e["row"], row))
+    return e
+
+
+def is_placement(root, row_id):
+    e = load(root)[2].get(row_id)
+    return e is not None and e["home"] != row_id
+
+
+def evidence_foff(root, entry):
+    """The file offset whose frozen bank evidence (maspsx noreturn census) a placement compiles with: its HOME's.
+    The TU's assembly spells home addresses, so the census must too; the home's census is the one that proved
+    the home bytes, and the same text saw the same declarations in every bank it was linked into."""
+    home = load(root)[2][entry["home"]]
+    if home["container"] != entry["container"]:
+        raise ValueError("cross-container placement evidence is not modelled yet: " + entry["row"])
+    return home["foff"]
+
+
+def evidence_offsets(root, container, offsets):
+    """Home offsets of the placements among (container, offsets): the extra evidence a window binds."""
+    by_place = load(root)[1]
+    out = set()
+    for off in offsets:
+        e = by_place.get((family(container), off))
+        if e is not None and e["home"] != e["row"]:
+            out.add(evidence_foff(root, e))
+    return out
+
+
+def _inside(img, address):
+    return img["vma"] <= address < img["vma"] + img["size"]
+
+
+def binding(root, entry, address):
+    """Linker semantics for one placement, by address (first rule that applies):
+    1. the TU's own entry point -> this placement's vma
+    2. entry.bindings (per-placement override, evidence-backed)
+    3. a symbol whose home row is ALSO placed in this image -> that placement (local definition wins); a symbol
+       inside the TU's home image means that image's row, any other address must be unambiguous
+    4. both images carry the same `layout` tag (same-layout copies, e.g. the banks of one bank family) and the
+       symbol lies in the home image -> shifted by the image delta
+    5. image.symbols (per-image map, e.g. the image's own data objects)
+    6. unchanged (resident: SLUS / the engine build this image links against)"""
+    images, _, by_row, local = load(root)
+    home = by_row[entry["home"]]
+    if entry["row"] == home["row"]:
+        return address
+    if address == home["vma"]:
+        return entry["vma"]
+    if address in entry["bindings"]:
+        return entry["bindings"][address]
+    img, himg = images[entry["image"]], images[home["image"]]
+    hits = local.get(entry["image"], {}).get(address, [])
+    if _inside(himg, address):
+        hits = [h for h in hits if h[0] == himg["image"]]
+    if len(hits) > 1:
+        raise ValueError("link list %s: address 0x%08X is the home of %d TUs placed here; bind it explicitly in %s"
+                         % (img["image"], address, len(hits), entry["row"]))
+    if hits:
+        return hits[0][1]
+    if img.get("layout") and img.get("layout") == himg.get("layout") and _inside(himg, address):
+        return address + (img["vma"] - himg["vma"])
+    return img["symbols"].get(address, address)
+
+
+def rebind_object(root, entry, obj, log=None):
+    """Rewrite the TU object's home-address symbols to this placement's addresses (in place)."""
+    by_row = load(root)[2]
+    if entry["row"] == by_row[entry["home"]]["row"]:
+        return {}
+    out = subprocess.run([NM, str(obj)], capture_output=True, text=True, check=True).stdout
+    names = {l.split()[-1] for l in out.splitlines() if l.split()}
+    renames = {}
+    for n in sorted(names):
+        m = ADDR.match(n)
+        if not m:
+            continue
+        new = "%s_%08X" % (m.group(1), binding(root, entry, int(m.group(2), 16)))
+        if new != n:
+            renames[n] = new
+    if log is not None:
+        Path(log).write_text("".join("%s -> %s\n" % kv for kv in sorted(renames.items())))
+    if not renames:
+        return {}
+    if len(set(renames.values())) != len(renames) or set(renames.values()) & (names - set(renames)):
+        raise SystemExit("link list %s: rebinding of %s collides with an existing symbol" % (entry["image"], entry["row"]))
+    args = [OBJCOPY]
+    for o, n in renames.items():
+        args += ["--redefine-sym", o + "=" + n, "--rename-section", ".text." + o + "=.text." + n,
+                 "--rename-section", ".rel.text." + o + "=.rel.text." + n]
+    subprocess.run(args + [str(obj)], check=True, capture_output=True, text=True)
+    return renames
+
+
+def window_files(root, row_ids):
+    """Link-list files that decide the bytes of these rows (bound into window inputs): for every placement among
+    them its own image (rules 1-3, 5), its home's image (rule 4) and the home image of every other placement in
+    its image (rule 3). Home rows and own-file rows bind nothing, so with no placements this is [] and a
+    link-list edit re-keys only the windows holding affected placements."""
+    images, _, by_row, _ = load(root)
+    members = {}
+    for e in by_row.values():
+        members.setdefault(e["image"], []).append(e)
+    out = set()
+    for rid in row_ids:
+        e = by_row.get(rid)
+        if e is None or e["home"] == rid:
+            continue
+        out.add(images[e["image"]]["path"])
+        for x in [e, *members[e["image"]]]:
+            if x["home"] != x["row"]:
+                out.add(images[by_row[x["home"]]["image"]]["path"])
+    base = Path(root).absolute()
+    return sorted(str(Path(p).absolute().relative_to(base)) for p in out)
+
+
+def split_vma(rec):
+    """The address a split record's object is linked at (its true base when it has one)."""
+    if isinstance(rec.get("true_vram"), int):
+        return rec["true_vram"]
+    if rec.get("true_name") and ADDR.match(rec["true_name"]):
+        return int(rec["true_name"][-8:], 16)
+    return rec.get("vram")
+
+
+def check(root, splits, registry, tu_of):
+    """Consistency of the link lists with the row database (tools/row_db.py check). Returns a list of problems.
+    splits: {container: [split records]} (dungeon_engine mirror excluded); registry: {row id: rows.jsonl record};
+    tu_of(row id) -> the resolved source path of an own-file row, relative to the root."""
+    try:
+        images, _, by_row, _ = load(root)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return ["link lists: " + str(exc)]
+    if not by_row:
+        return []
+    bad = []
+    index = {}
+    for cont, recs in splits.items():
+        for r in recs:
+            if r.get("func_vram") and not r.get("rerun"):
+                index.setdefault(cont + "/" + r["func_vram"], []).append(r)
+    module_rows = set()
+    mpath = Path(root) / "config/overlays/modules.json"
+    if mpath.exists():
+        for m in json.loads(mpath.read_text()).get("modules", []):
+            module_rows.update(a["id"] for k in ("members", "data_members") for a in m.get(k, []))
+    for rid, e in sorted(by_row.items()):
+        where = "link list %s: %s" % (e["image"], rid)
+        recs = index.get(rid, [])
+        if len(recs) != 1:
+            bad.append("%s has %d split records" % (where, len(recs))); continue
+        s = recs[0]
+        if s.get("result") != "MATCH" or s.get("source_kind", "c") != "c":
+            bad.append(where + " is not a MATCH C row")
+        if s.get("foff") != e["foff"] or int(s.get("size") or 0) != e["size"]:
+            bad.append(where + " extent differs from its split record")
+        if split_vma(s) != e["vma"]:
+            bad.append("%s vma 0x%X, split record links at 0x%X" % (where, e["vma"], split_vma(s) or 0))
+        if e["container"] != by_row[e["home"]]["container"]:
+            bad.append(where + " has a home in another container (cross-container placements are not modelled yet)")
+        if rid in module_rows and e["home"] != rid:
+            # A home may be a module member: its member file is compiled standalone at the placement and the
+            # window gate proves it (or fails closed). A placement row inside a module is a module placement.
+            bad.append(where + " is a module member (module placements are not modelled yet)")
+        reg = registry.get(rid)
+        if reg is None:
+            bad.append(where + " is not registered"); continue
+        if e["home"] == rid:
+            if reg.get("source_row"):
+                bad.append(where + " is a home but carries source_row")
+            elif tu_of(rid) != e["tu"]:
+                bad.append("%s tu %s, the home row's source is %s" % (where, e["tu"], tu_of(rid)))
+        elif reg.get("source_row") != e["home"]:
+            bad.append("%s source_row %s, link list home %s (rerun tools/registry.py)" % (where, reg.get("source_row"), e["home"]))
+    for rid, reg in registry.items():
+        if reg.get("source_row") and rid not in by_row:
+            bad.append("registry: %s carries source_row but no link list places it" % rid)
+    return bad

@@ -528,6 +528,12 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
                 sources.update(include_inputs(root,[name],version,flags,G))
             else:
                 sources.update({n:G.sha(root/n) for n in G.closure(root,[r['asm_path']])})
+    import linklist
+    observe(linklist.link_dir(root))  # memo invalidation: the directory, each container directory, each list
+    if linklist.link_dir(root).is_dir():
+        for d in linklist.link_dir(root).iterdir():observe(d)
+    for f in linklist.files(root):observe(f)
+    off|=linklist.evidence_offsets(root,fam,off)  # placements compile with their home's bank evidence
     for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms.{fam}.txt']:
         if name:symbol_inputs[name]=G.sha(root/name) if _exists(root/name) else None
     window={'config':cfg,'registry':wr,'splits':roster,'edges':edges,'modules':wm,'sources':sources,'symbols':symbol_inputs,
@@ -535,6 +541,10 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
             'rowbase':[r for r in regions.get(fam,[]) if num(r['foff_start'])<fe and fs<num(r['foff_end'])],
             'owned_data':[r for r in owners.get(fam,[]) if num(r['foff'])<fe and fs<num(r['foff'])+num(r['rodata_size'])],
             'noreturn':noreturn(root,fam,off,splits,regions,G),'retail':retail(root,fam,fs,fe-fs,G),'tools':identities(root,versions,G)}
+    # Link-list files deciding this window's placement rows (docs/LINK_LISTS.md); the key is absent while the
+    # window holds none, so a tree without config/link/ keeps every existing digest.
+    links=linklist.window_files(root,sorted(wid))
+    if links:window['link_lists']={n:G.sha(root/n) for n in links}
     # Every neighbor TU can consume own review/storage evidence too.
     window['module_inputs']={v['key']:{p:G.sha(root/p) for p in v['review_inputs']} for v in wm}
     window['module_registry']={v['key']:[reg[a['id']] for a in G.all_members(v)] for v in wm}

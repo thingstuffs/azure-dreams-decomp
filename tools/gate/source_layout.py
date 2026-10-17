@@ -4,6 +4,9 @@ ledger/layout.jsonl contains {"id": row_id, "path": "src/<container>/.../<stem>.
 Missing entries (and an absent ledger) use the historical flat path. This first
 stage moves whole row files only; merging rows into one TU is deliberately a
 separate operation. Raw sources and lane base/out names never use this map.
+
+A link-list placement row (registry `source_row`, derived by tools/registry.py from config/link/,
+docs/LINK_LISTS.md) has no file of its own: it resolves to its home row's source.
 """
 from __future__ import annotations
 import argparse
@@ -74,6 +77,8 @@ def _load(path, stamp, rows_path, rows_stamp):
         if not isinstance(rid, str) or rid not in reg or rid in mapping:
             raise ValueError("unknown or duplicate layout row: " + str(rid))
         row = reg[rid]
+        if row.get("source_row"):
+            raise ValueError("a link-list placement has no source path of its own: " + rid)
         value = _safe_path(record["path"], row["container"])
         if Path(value).name != Path(row["c_path"]).name:
             raise ValueError("layout must preserve the row filename: " + rid)
@@ -110,6 +115,12 @@ def row_relative(row_or_id, root=ROOT, *, layout=None):
     rid = row.get("id")
     if rid is None:
         rid = row["container"] + "/" + Path(row["c_path"]).stem
+    # Link-list placement row: no file of its own; it compiles its home row's TU (docs/LINK_LISTS.md).
+    ref = registry(root).get(rid, {}).get("source_row")
+    if ref:
+        if ref == rid or registry(root).get(ref, {}).get("source_row"):
+            raise ValueError("placement must reference an own-file home row: " + rid)
+        return row_relative(ref, root, layout=layout)
     current = mapping(root) if layout is None else layout
     if rid in current:
         return current[rid]  # Already validated when this map was loaded.
@@ -140,7 +151,8 @@ def source_items(root=ROOT):
     """Stable (row id, current path) pairs, including historical flat auxiliaries."""
     root = Path(root).absolute()
     reg = registry(root)
-    by_path = {row_path(r, root): rid for rid, r in reg.items()}
+    # A placement shares its home's file: the file belongs to the home row (counted once).
+    by_path = {row_path(r, root): rid for rid, r in reg.items() if not r.get("source_row")}
     items = []
     for container in sorted(CONTAINERS - {"dungeon_engine"}):
         for p in source_files(container, root):
@@ -171,6 +183,28 @@ def validate(root=ROOT, *, require_files=True):
     return len(reg)
 
 
+def projection_plan(root=ROOT, source_root=None):
+    """{"<container>/<entry name>": target} of the managed flat projection over source_root."""
+    root = Path(root).absolute()
+    canonical = root / "src"
+    source_root = Path(source_root).absolute() if source_root else canonical
+    reg = registry(root)
+    wanted = {}
+    for container_dir in source_root.iterdir():
+        if not container_dir.is_dir():
+            continue
+        for entry in container_dir.iterdir():
+            # Preserve nested manifest/wrapper paths as well as flat aliases.
+            if entry.is_file() or entry.is_dir():
+                wanted[container_dir.name + "/" + entry.name] = entry
+    for r in reg.values():
+        target = row_path(r, root) if source_root == canonical else source_root / Path(row_relative(r, root)).relative_to("src")
+        if source_root != canonical and not target.is_file():
+            target = source_root / r["container"] / Path(r["c_path"]).name
+        wanted[r["container"] + "/" + Path(r["c_path"]).name] = target
+    return wanted
+
+
 def materialize_flat(destination, root=ROOT, source_root=None):
     """Managed live symlink projection for legacy gates. Never copy row bytes.
 
@@ -191,19 +225,7 @@ def materialize_flat(destination, root=ROOT, source_root=None):
     marker = destination / ".source_layout_projection"
     if destination.exists() and not marker.is_file():
         raise ValueError("refusing unmanaged projection: " + str(destination))
-    wanted = {}
-    for container_dir in source_root.iterdir():
-        if not container_dir.is_dir():
-            continue
-        for entry in container_dir.iterdir():
-            # Preserve nested manifest/wrapper paths as well as flat aliases.
-            if entry.is_file() or entry.is_dir():
-                wanted[container_dir.name + "/" + entry.name] = entry
-    for r in reg.values():
-        target = row_path(r, root) if source_root == canonical else source_root / Path(row_relative(r, root)).relative_to("src")
-        if source_root != canonical and not target.is_file():
-            target = source_root / r["container"] / Path(r["c_path"]).name
-        wanted[r["container"] + "/" + Path(r["c_path"]).name] = target
+    wanted = projection_plan(root, source_root)
     # Validate every existing entry BEFORE changing any of the view.
     if destination.exists():
         for folder in destination.iterdir():
@@ -244,10 +266,11 @@ def revision(root=ROOT):
 def row_ids_for_paths(paths, root=ROOT):
     """Inverse for git/package paths. Also recognize the immutable flat aliases."""
     root = Path(root).absolute()
+    # A shared TU (link-list home) maps to its home row AND every placement compiled from it.
     inverse = {}
     for rid, row in registry(root).items():
-        inverse[flat_relative(row)] = rid
-        inverse[row_relative(row, root)] = rid
+        inverse.setdefault(flat_relative(row), set()).add(rid)
+        inverse.setdefault(row_relative(row, root), set()).add(rid)
     result = set()
     for name in paths:
         p = Path(name.strip())
@@ -256,9 +279,7 @@ def row_ids_for_paths(paths, root=ROOT):
                 p = p.relative_to(root)
             except ValueError:
                 continue
-        rid = inverse.get(p.as_posix())
-        if rid:
-            result.add(rid)
+        result.update(inverse.get(p.as_posix(), ()))
     return sorted(result)
 
 

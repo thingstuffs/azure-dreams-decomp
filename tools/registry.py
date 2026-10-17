@@ -33,6 +33,9 @@ def assign_window(container, rows_named):
 
 def overlay_rows():
     out = []
+    sys.path.insert(0, str(ROOT / "tools/gate"))
+    import linklist
+    placements = linklist.load(ROOT)[2]
     for ovl in OVERLAYS:
         db = read_jsonl(SPLITS / f"{ovl}.jsonl")
         asflags = {}
@@ -69,6 +72,11 @@ def overlay_rows():
                     rec[field] = r[field]
             if derived:
                 rec["gate_config_derived"] = True
+            # link-list placement (config/link/, docs/LINK_LISTS.md): the row compiles its home row's TU;
+            # derived here because rows.jsonl is regenerated (a hand-added field would be dropped)
+            entry = placements.get(rec["id"])
+            if entry is not None and entry["home"] != rec["id"]:
+                rec["source_row"] = entry["home"]
             out.append(rec)
     return out
 

@@ -899,12 +899,24 @@ def compile_c_segments(
         out_o = obj_dir / f"{segment_obj_key(seg, dup_funcs)}.o"
         seg_env = env
         source_text = Path(seg.match.source).read_text(errors="replace")
+        # Link-list placement (config/link/, docs/LINK_LISTS.md): the segment's source is a SHARED TU whose
+        # object spells its home placement's addresses. It compiles with its HOME's frozen bank evidence and
+        # is then rebound to this placement BY ADDRESS (tools/gate/linklist.py). No config/link/ -> no entry
+        # -> nothing below changes.
+        import linklist
+        _place = None
+        if overlay:
+            _place = linklist.placement(ROOT, family_for(overlay), seg.match.start,
+                                        row=family_for(overlay) + "/" + Path(seg.match.source).stem)
+            if _place is not None and _place["home"] == _place["row"]:
+                _place = None
         if family_for(overlay) in {"town", "dungeon"}:
             ev_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".evidence")
             ev_dir.mkdir(exist_ok=True)
             seg_env = dict(env or {})
             seg_env.update(evidence_env_with_candidate(
-                overlay, source_text, ev_dir, foff=seg.match.start))
+                overlay, source_text, ev_dir,
+                foff=seg.match.start if _place is None else linklist.evidence_foff(ROOT, _place)))
             own = set()  # the per-row merge above already includes this TU
         else:
             own = candidate_noreturn_syms(source_text)
@@ -931,6 +943,11 @@ def compile_c_segments(
             ],
             env=seg_env,
         )
+        if _place is not None:
+            if _place["size"] != seg.size:
+                raise SystemExit(f"link list entry {_place['row']}: size {_place['size']} != segment {seg.size}")
+            linklist.rebind_object(ROOT, _place, out_o,
+                                   log=obj_dir / f"{segment_obj_key(seg, dup_funcs)}.rebind.txt")
         objects.append(out_o)
     return objects
 

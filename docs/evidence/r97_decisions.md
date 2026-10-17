@@ -385,3 +385,11 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     record. Spot checks: every removed span is code (leaf / framed functions, stale-image code fragments); nothing loses
     a label. A real append-only revision layer would need its own tools lane converting every reader and writer.
     SECOND LOOK: no.
+59. **(r121, OWNER rulings 2026-10-17) Link-list structure.** (a) The link-list gate tooling (LL0) is reviewed, then
+    lands immediately before the consolidation gate, so one full gate proves B3-B8, sdk2 and the new tooling together.
+    (b) Public tree top level by function: engine/ (SLUS), frontend/ (MAIN), town/, dungeon/, movie/; load images in
+    link/ keep physical names (bank_fad000 ...) until their role is proven. (c) Disc leftovers live in a top-level
+    leftovers/ area: gated byte-exact like everything else, outside the game totals, with a README per item.
+    (d) raw/ m2c first passes: work towards removing them so the tree holds only the clean source; remove the copies'
+    raw/ now if nothing still needs it and it does not impede the process, else as soon as the dependants are moved.
+    Design: work/native_lane/_r120/linklist/REPORT.md. SECOND LOOK: no.
