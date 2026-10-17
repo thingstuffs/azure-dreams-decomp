@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_809A35A0; every changed retail word is a paired relocation. */
 #define D_80175F90 D_80151D7C
-#define func_80174AD4 func_801515A0
+#define dungeonUpdateActorRenderEffectAndPosition func_801515A0
 #include "modules/dungeon_ovl_9c32d4.h"
 
 void func_8015186C(EntityRec *parent, s32 effect_param, u8 *effect_data)
