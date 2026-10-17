@@ -98,7 +98,8 @@ def main():
     texts, idents = load_tree()
     by_file = {}
     for r in rows():
-        by_file[layout_row_path(r, ROOT)] = r
+        if not r.get("source_row"):   # a link-list placement shares its home's file; the file is the home's
+            by_file[layout_row_path(r, ROOT)] = r
     defined = {}
     for r in rows():
         for n in {r["func"], r.get("true_name")} | set(r.get("defs") or []):

@@ -32,6 +32,8 @@ for o in main town dungeon dungeon_engine ovmovie; do
 done
 python3 "$ROOT/tools/row_db.py" export "$B" >/dev/null
 ln -sfn "$ROOT/config/overlays"   "$B/config/overlays"
+# link lists (docs/LINK_LISTS.md); a dangling link when the tree has none (proof_receipts.validate_view checks it)
+ln -sfn "$ROOT/config/link" "$B/config/link"
 ln -sfn "$ROOT/include"           "$B/include"
 rm -rf "$B/tools"; mkdir -p "$B/tools"; cp -rL "$ROOT/tools/gate/." "$B/tools/"   # real files: the gate resolves __file__
 ln -sfn "$ROOT/toolchain"         "$B/toolchain"

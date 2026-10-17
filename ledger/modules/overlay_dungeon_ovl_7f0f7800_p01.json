@@ -5,20 +5,20 @@
   "members": [
     "dungeon/func_810592A4"
   ],
-  "at": "2026-10-16T01:15:14Z",
+  "at": "2026-10-17T11:23:50Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "a8d1f9ab003bd722eb349a388e4550cba1c9df39e51db51a94c4443a63445ff5",
+    "sha256": "5c68630bf30921b8cebdf66051fce0cfeb694e486f0903a269402fd3a5555e6f",
     "module": {
-      "sha256": "e219fa77ef50afe2b7be87fb533c85118fd7beebf3b7ac63206565263289e258"
+      "sha256": "ae66bdca17c217858a6f207ae324dfc3d3d95fdb80bcf946fa8c9a57126e5838"
     },
     "windows": {
       "config/overlays/dungeon_deep_10792a4_truebase_80170aa4.overlay.yaml": {
-        "sha256": "82a2ca8d0c0261b3e0c09b9bdac7e946789c3af0b40d33806408adc3f8c4fbf9"
+        "sha256": "616457cbfab2bce0a2850cc18f1738d6f9f78ff6f4ef3a5a777a2bf8dc5ebdbd"
       },
       "config/overlays/dungeon_deep_t8b_1078894.overlay.yaml": {
-        "sha256": "7fada6c387b083c1ec0e8c76f4e51edaa51ad456a492a3228a9895ba1e843da6"
+        "sha256": "8d5aab0b36f367bf1ac8ad3805e66006cbaee0b1d7a5d5922f8b334da1fbfb71"
       }
     },
     "required_windows": [
@@ -27,7 +27,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_7f0f7800_p01/module",
-  "receipt_sha256": "6992c494b3b8af9def27fe8383c5791a7f2c6e1dc76a8b087ceb15e9b7c202a8",
+  "receipt_sha256": "600bcf990eb1921ea08b4c9d9806547985b156cdca641b318388ba4f11bfa2e2",
   "windows": [
     {
       "config": "config/overlays/dungeon_deep_10792a4_truebase_80170aa4.overlay.yaml",
@@ -36,13 +36,13 @@
       "file_end": 17287088,
       "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_7f0f7800_p01/windows/dungeon_deep_10792a4_truebase_80170aa4",
       "artifacts": {
-        "gate.log": "92d0b2a8d7a52a6d3e4903cb9f98e732fb2446417cf5aababd82973200f3f598",
+        "gate.log": "047776a4606ff8a04635f0a3b82d875c0359a49ecbf47094d5fa4793d5a9ec1e",
         "window.bin": "be3a617bec0135f417ae9e62ce9462893b427930b9e9d27f5d7db74128a9d267",
-        "manifest.json": "100fb2b590ceaa0dd88181e708a4b5bb46686ea54a59601081ec009b611c06c4",
-        "projection.json": "6ce6e19a313fc2b2e4ff4ec66bb039f14cf02b3202989bd013654a8d2e2521dc",
-        "module/receipt.json": "6992c494b3b8af9def27fe8383c5791a7f2c6e1dc76a8b087ceb15e9b7c202a8"
+        "manifest.json": "a6f6880d71ecbb06e5421a88d3752c0c4914f0d9a9659a4f11ef42718e295581",
+        "projection.json": "4325580828bf4ee4a203696cde34a5bb6a3e8bf7ec71f9519111328265855334",
+        "module/receipt.json": "600bcf990eb1921ea08b4c9d9806547985b156cdca641b318388ba4f11bfa2e2"
       },
-      "digest": "82a2ca8d0c0261b3e0c09b9bdac7e946789c3af0b40d33806408adc3f8c4fbf9"
+      "digest": "616457cbfab2bce0a2850cc18f1738d6f9f78ff6f4ef3a5a777a2bf8dc5ebdbd"
     },
     {
       "config": "config/overlays/dungeon_deep_t8b_1078894.overlay.yaml",
@@ -51,13 +51,13 @@
       "file_end": 17276176,
       "proof_dir": "build_ovl_gate/work/module_proofs/dungeon_ovl_7f0f7800_p01/windows/dungeon_deep_t8b_1078894",
       "artifacts": {
-        "gate.log": "b705ae9eefb214144c76a7966fa30c3627b717b01b12b5a4befb6258fbd74711",
+        "gate.log": "6bf4e926ca4c1870cf9c7bcfd22591a0550937055604fb0cc10cae4c4576dd03",
         "window.bin": "5c0ebfa0cec395b8a8c3452cf0d3fd2f339b0890f03b6f881987c13bf15dfc2a",
-        "manifest.json": "a93806da11f97c6df34b89cdf00f4f8d4a8caf7d26af2e10f7567329f3289fe1",
-        "projection.json": "d60aef2bc5fe2dfeefc505aae9aace1581afeee167f8ab1092335b8ad8f5cc97",
-        "module/receipt.json": "d47a0a4ba554efc3e323104a4a211be7dc793756d15a038e55f3bf1fc2495574"
+        "manifest.json": "f7775d6b0b060605ee41f5770132c63e68462c99c6a0f2ba853805caac5e92f7",
+        "projection.json": "67944c9395137788f47817ee817b1f50ba702817542ce4ef4b6b1a7e455d2742",
+        "module/receipt.json": "3645387f2f1c814e5f1fdcec7eeb37186b0fdab7a9d6ad363181afc3537b87c8"
       },
-      "digest": "7fada6c387b083c1ec0e8c76f4e51edaa51ad456a492a3228a9895ba1e843da6"
+      "digest": "8d5aab0b36f367bf1ac8ad3805e66006cbaee0b1d7a5d5922f8b334da1fbfb71"
     }
   ]
 }

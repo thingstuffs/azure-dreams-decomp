@@ -6,17 +6,17 @@
     "town/func_80500100",
     "town/func_80500158"
   ],
-  "at": "2026-10-16T01:16:36Z",
+  "at": "2026-10-17T11:26:54Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "a86d0c4f8850545708fa4aa8838d0e9eb3037e8f37be356dad52e1d2a5fd2abf",
+    "sha256": "0d4043880ff9018e20a91bd49faaa36444208e585a6340efd619cca541b2b50c",
     "module": {
-      "sha256": "1349d461ce38db10741726725d3496122d3a48deca36fcfa926e6aa5f4e894df"
+      "sha256": "530c9786c29154fb00e12245e7f0a0cbd2ea0536b90440286a9a2284670d653d"
     },
     "windows": {
       "config/overlays/town_deep_t8b_480100.overlay.yaml": {
-        "sha256": "4522d83b4ca1795439b89679263580f46f9afc4e50b856a0037e685ac8ebdf78"
+        "sha256": "ea936a5afeca74885fc7da2337e6fa33e29245ac81d17a6b9481eab0e7cbb2c3"
       }
     },
     "required_windows": [
@@ -24,7 +24,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_ovl_480100/module",
-  "receipt_sha256": "024e408fb03ea0c41940cb2bc167e02eacc901f1a51bee829331179178de9148",
+  "receipt_sha256": "8a4cff2101b43932ecc3d34b8e5050308f99b751e9e38d4fce8b2c8ab18ec8e7",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_480100.overlay.yaml",
@@ -36,10 +36,10 @@
         "gate.log": "89895391d8720b5550a43b1cc3daf44df28e5b635a462567f01ddf0d60e0d365",
         "window.bin": "4d6cbb47f13f6d6c7bc0eefa356b7f4ff7c8ae80a12feaffe57c62414efe3d77",
         "manifest.json": "771449dff21253b64e8b9ad3f0dec1e2ba736c329b5d7ed677c6bce5a4e0fef5",
-        "projection.json": "99751b149e69afbbbe2de53fed1260aa2d91d28c4c904a2e8253628815b4b743",
-        "module/receipt.json": "024e408fb03ea0c41940cb2bc167e02eacc901f1a51bee829331179178de9148"
+        "projection.json": "26b04badf2e7378a79539495caa0c9821536bc5b2af8f1703041469df52e67e9",
+        "module/receipt.json": "8a4cff2101b43932ecc3d34b8e5050308f99b751e9e38d4fce8b2c8ab18ec8e7"
       },
-      "digest": "4522d83b4ca1795439b89679263580f46f9afc4e50b856a0037e685ac8ebdf78"
+      "digest": "ea936a5afeca74885fc7da2337e6fa33e29245ac81d17a6b9481eab0e7cbb2c3"
     }
   ]
 }

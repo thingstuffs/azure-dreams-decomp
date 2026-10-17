@@ -5,17 +5,17 @@
   "members": [
     "town/func_80952114"
   ],
-  "at": "2026-10-16T01:16:57Z",
+  "at": "2026-10-17T11:26:28Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "b8b8857d94307afe2a568c70bdb34830697ec8eb2e3be909a5d404086aba06df",
+    "sha256": "e205fa0f129240c334f02ed04d5f4be55a3762f63d865d4a06c7f620a7dad98c",
     "module": {
-      "sha256": "98e80c1a2aeeea7ed91dc40e7da461b9f23836b5fdc651e4d92f3922e64582cd"
+      "sha256": "eeb1b7fda57090b154e82506604651f43224df1d23ef1acf76cca3ddff465319"
     },
     "windows": {
       "config/overlays/town_deep_t8b_8d1cc0.overlay.yaml": {
-        "sha256": "2c87661a4273418234568db86f73e6e00614a5dc5f11e5983905ed59e332b71a"
+        "sha256": "5ca1ed28993d8f7c741ff8af48228dbdd3fb827e53f7462aef5be344211685eb"
       }
     },
     "required_windows": [
@@ -23,7 +23,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_ovl_8d2114/module",
-  "receipt_sha256": "61e8938bb5656c44b725286ed4080360ad20711f7aec7b12fb63e7143a84fffc",
+  "receipt_sha256": "922ac958894440d60d29ec78058550ad1dbeb8dd14a6a52f95f05ffdc39e0edf",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_8d1cc0.overlay.yaml",
@@ -35,10 +35,10 @@
         "gate.log": "45c204c049a4180a8229a96e6e2e791cd188420459b4b565be05b8e037957e3e",
         "window.bin": "3a0dc54a5cc0967f239d930a54502b0c6a9c27f723cd87f85c1c1233259318ee",
         "manifest.json": "acb93ad0b31ead888d374d0699ff5520799d3e705732550572e47bcca9563d4e",
-        "projection.json": "53e00a302db0d0293c235f794909bf3e4f83d7a6e3b5a89e00cef2510c5a9101",
-        "module/receipt.json": "61e8938bb5656c44b725286ed4080360ad20711f7aec7b12fb63e7143a84fffc"
+        "projection.json": "2dd0d2de63f7cf64282bcdc5163183d5a2de78f27353388a1afcccfd364b6efe",
+        "module/receipt.json": "922ac958894440d60d29ec78058550ad1dbeb8dd14a6a52f95f05ffdc39e0edf"
       },
-      "digest": "2c87661a4273418234568db86f73e6e00614a5dc5f11e5983905ed59e332b71a"
+      "digest": "5ca1ed28993d8f7c741ff8af48228dbdd3fb827e53f7462aef5be344211685eb"
     }
   ]
 }

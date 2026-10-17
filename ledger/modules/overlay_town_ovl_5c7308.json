@@ -5,17 +5,17 @@
   "members": [
     "town/func_80647308"
   ],
-  "at": "2026-10-16T01:16:42Z",
+  "at": "2026-10-17T11:27:05Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "f0676f6110b59f68742bffa4b89d1a7c85c1e761fbbcd07d08d319e08830ece2",
+    "sha256": "821f545e4c34644d202630156eb24e43b534798c98b6b06fe3cd3566b20b1c2d",
     "module": {
-      "sha256": "38c5dc6cf2d53553361827d253aca040e822797515ef44cd17287fefa3f0f93f"
+      "sha256": "5be92edbccab89460b954ab907e1fedbcb29e4d99bdaa4405ef9f7f785d05ecc"
     },
     "windows": {
       "config/overlays/town_deep_t8b_05c7.overlay.yaml": {
-        "sha256": "b36375998d967c6587f5a62c996c922b7f0e6ca3ca2029f69144c1a7d443797a"
+        "sha256": "2784fe1b0883280bcabb8b661df3d09f30f490fcdae7a03da73eeefdcdd696b1"
       }
     },
     "required_windows": [
@@ -23,7 +23,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/town_ovl_5c7308/module",
-  "receipt_sha256": "61d7984dd853c9042924db65755b39ed07d170f6da06965dceff60edc66f2f95",
+  "receipt_sha256": "ae5fa2f397a02b99dbac6d1497fb7c8b78193353cc5667d128ce179db77c0f80",
   "windows": [
     {
       "config": "config/overlays/town_deep_t8b_05c7.overlay.yaml",
@@ -35,10 +35,10 @@
         "gate.log": "f70505def5d61cf858e3d7a2d84cde5f508ce46a3edf72e553acc65939af4d8b",
         "window.bin": "f248781e36a1eb6432d193b60638addf399eab0d1f5605def5673546a2928bc7",
         "manifest.json": "8d2e3c03c81c5550d7ec15aea64bcf5634359bfc1c839a8aef1809c8ee11d314",
-        "projection.json": "858315ae5232f16381af229f4905bd2e8fab003c15446dc3bcc01ff9db5c0229",
-        "module/receipt.json": "61d7984dd853c9042924db65755b39ed07d170f6da06965dceff60edc66f2f95"
+        "projection.json": "2f15623dfebe09b69997429e6debf895c72f6cfdce64363174689672b71016f5",
+        "module/receipt.json": "ae5fa2f397a02b99dbac6d1497fb7c8b78193353cc5667d128ce179db77c0f80"
       },
-      "digest": "b36375998d967c6587f5a62c996c922b7f0e6ca3ca2029f69144c1a7d443797a"
+      "digest": "2784fe1b0883280bcabb8b661df3d09f30f490fcdae7a03da73eeefdcdd696b1"
     }
   ]
 }

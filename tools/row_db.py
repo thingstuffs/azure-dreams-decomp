@@ -134,6 +134,21 @@ def cmd_check(a):
     except (OSError, ValueError) as exc:
         print(f"slus: {exc}"); bad += 1
     wm = window_map()
+    # Link lists (docs/LINK_LISTS.md): a placement row has no raw/ or src/ file of its own; its home row carries
+    # both. With no config/link/ nothing here changes.
+    sys.path.insert(0, str(ROOT / "tools/gate"))
+    import linklist
+    from source_layout import registry as layout_registry, row_relative
+    placements = {rid for rid, e in linklist.load(ROOT)[2].items() if e["home"] != rid}
+    if placements or linklist.files(ROOT):
+        reg = layout_registry(ROOT)
+        splits = {c: read_jsonl(SPLITS / f"{c}.jsonl") for c in CONTAINERS if c != "dungeon_engine"}
+        for problem in linklist.check(ROOT, splits, reg, lambda rid: row_relative(rid, ROOT)):
+            print(problem); bad += 1
+        for rid in sorted(placements):
+            r = reg.get(rid)
+            if r and (ROOT / "src" / r["container"] / Path(r["c_path"]).name).exists():
+                print(f"{rid}: link-list placement still has a copy file src/{r['container']}/{Path(r['c_path']).name}"); bad += 1
     for ovl in CONTAINERS:
         rows = read_jsonl(SPLITS / f"{ovl}.jsonl")
         last = -1
@@ -148,7 +163,9 @@ def cmd_check(a):
             name = Path(r["c_path"]).name if r.get("c_path") else None
             if not name:
                 print(f"{ovl}: MATCH row {r['func_vram']} has no c_path"); bad += 1; continue
-            if not (RAW / fam / name).exists():
+            if f"{fam}/{r['func_vram']}" in placements:
+                pass  # placement: raw/ is optional (decision 59); src/ resolves to the home TU below
+            elif not (RAW / fam / name).exists():
                 print(f"{ovl}: raw/{fam}/{name} missing"); bad += 1
             if not (layout_row_path({"container": fam, "c_path": name}, ROOT)).exists():
                 print(f"{ovl}: src/{fam}/{name} missing"); bad += 1

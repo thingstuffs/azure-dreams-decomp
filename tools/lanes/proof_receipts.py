@@ -327,6 +327,9 @@ def window_inputs(root, target):
                 sources.update(assembly_inputs(root, row['asm_path']))
             else:
                 raise ValueError('unknown window source kind: ' + kind)
+    # Link-list placements compile with their home's bank evidence (linklist.evidence_foff): bind it too.
+    from gate import linklist
+    offsets.update(linklist.evidence_offsets(root, family, offsets))
     modules = []
     selected_modules=modules_for_window(root,cfg,target)
     if selected_modules:
@@ -347,6 +350,10 @@ def window_inputs(root, target):
                f'config/overlays/{family}.rowbase.jsonl','config/overlay_modules_disabled']
     suffix = '' if family == 'main' else '.'+family
     symbols.extend(f'config/{kind}_syms{suffix}.txt' for kind in ('noreturn','sibcall'))
+    # Link lists (docs/LINK_LISTS.md): the image files that decide this window's placements. Empty (and
+    # therefore no change to any digest) while the window holds no placement row.
+    symbols.extend(linklist.window_files(root, ids))
+
     # Capture all include namespace bytes conservatively; source-local header
     # additions and transitive/macro includes are independently rediscovered -M.
     headers = {str(p.relative_to(root)):sha(p) for p in tree_files(root/'include')}
@@ -436,6 +443,37 @@ def verify(root, directory, *, expected_kind=None, expected_target=None):
     return doc
 
 
+_PROJ_OK = {}
+def _projection_current(root, view, source_dir, family):
+    """The exported facade is the managed source_layout projection of THIS tree (link-list placements and
+    layout moves): exactly the planned entries, each a symlink to its planned target, nothing else - no
+    shadowing header, no stale copy file, no real file. Cached per projection/source directory state."""
+    from source_layout import projection_plan, revision
+    proj = view/'layout_flat'
+    if proj.is_symlink() or not (proj/'.source_layout_projection').is_file():
+        return False
+    folder = (view/source_dir).resolve()
+    if folder.parent != proj.resolve() or folder.name != family or not folder.is_dir():
+        return False
+    def stamp(p):
+        s = p.stat();return (s.st_dev, s.st_ino, s.st_mtime_ns, s.st_ctime_ns)
+    key = (str(root), str(folder), revision(root), stamp(folder), stamp(root/'src'/family))
+    if key in _PROJ_OK:
+        return _PROJ_OK[key]
+    prefix = family+'/'
+    plan = {k[len(prefix):]:v for k,v in projection_plan(root).items() if k.startswith(prefix)}
+    ok = True
+    entries = {e.name:e for e in folder.iterdir()}
+    if set(entries) != set(plan):
+        ok = False
+    else:
+        for name, entry in entries.items():
+            if not entry.is_symlink() or (entry.parent/os.readlink(entry)).resolve() != Path(plan[name]).resolve():
+                ok = False;break
+    _PROJ_OK[key] = ok
+    return ok
+
+
 def validate_view(root,view,target):
     """A current source hash cannot authorize a stale exported tool/row facade."""
     import yaml
@@ -443,6 +481,10 @@ def validate_view(root,view,target):
     for name in ('src','include','ledger','config/overlays','toolchain','.venv'):
         if (view/name).resolve()!=(root/name).resolve():
             raise ValueError('proof view differs from canonical inputs: '+name)
+    # The gate reads link lists from the VIEW; receipts bind the canonical ones (window_inputs).
+    if (root/'config/link').exists() or os.path.lexists(view/'config/link'):
+        if os.path.realpath(view/'config/link')!=os.path.realpath(root/'config/link'):
+            raise ValueError('proof view differs from canonical inputs: config/link')
     expected_tools={p.name for p in (root/'tools/gate').iterdir() if p.is_file() and p.suffix in ('.py','.sh')}|{'overlay_module_evidence.py'}
     actual_tools={p.name for p in (view/'tools').iterdir() if p.is_file() and p.suffix in ('.py','.sh')}
     if actual_tools!=expected_tools:raise ValueError('exported gate tool namespace differs')
@@ -476,7 +518,10 @@ def validate_view(root,view,target):
                 raise ValueError('unmodelled source facade')
             family={'dungeon_engine':'dungeon','dungeon_engine_pilot_only':'dungeon_engine'}.get(parts[1],parts[1])
             if (view/group['source_dir']).resolve()!=(root/'src'/family).resolve():
-                raise ValueError('exported source facade differs: '+group['source_dir'])
+                # link-list placements / layout moves: accept only the managed source_layout projection
+                # of this tree, entry for entry (_projection_current)
+                if not _projection_current(root, view, group['source_dir'], family):
+                    raise ValueError('exported source facade differs: '+group['source_dir'])
     return True
 
 

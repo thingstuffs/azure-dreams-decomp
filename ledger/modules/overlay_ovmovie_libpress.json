@@ -21,17 +21,17 @@
     "ovmovie/func_800414F0",
     "ovmovie/func_80041508"
   ],
-  "at": "2026-10-16T01:14:33Z",
+  "at": "2026-10-17T11:25:58Z",
   "reviewer": "orchestrator-r120",
   "fingerprint": {
     "schema": "overlay-module-scoped-v2",
-    "sha256": "3d2fa265f274e0c9dc45666de16b45f0cb040432431a2c315f512de7f6eed421",
+    "sha256": "563a4be43a4b1ccd01c17607294b64c225ad3436b7088dc4f3e8e6f6215c99b7",
     "module": {
-      "sha256": "d645f64d2ec1f9ef1d661c4fb157092fcb943892e3db8863910091bda2001ae8"
+      "sha256": "e970b7843cd9751a8b0c5421a83921fb60066d4a0450c69bca947d32afbeabe0"
     },
     "windows": {
       "config/overlays/ovmovie.overlay.yaml": {
-        "sha256": "d6f63d0779607ac434cfd943b7e6f8d4944ecd25eec4a11acbbdf967cfd63532"
+        "sha256": "78a792f5cc77f25dad529b74a9b5679d697eccebd93fcb61769587e7b210b26c"
       }
     },
     "required_windows": [
@@ -39,7 +39,7 @@
     ]
   },
   "proof_dir": "build_ovl_gate/work/module_proofs/ovmovie_libpress/module",
-  "receipt_sha256": "051695652a36c365f1c489e2d3742d436a2bb5314a848dd125aa8e0a0bebb0bf",
+  "receipt_sha256": "afc41b4d428cc77cfa765928f4f5d979ad641f91ebaea8a61881256ff630653f",
   "windows": [
     {
       "config": "config/overlays/ovmovie.overlay.yaml",
@@ -51,10 +51,10 @@
         "gate.log": "fdf7f0ebbb6e412664a7c4ca37e78c89e8692a2af1e395bd460e94d36ff815b8",
         "window.bin": "3728150db3cd6137be49142b923d7e8a39bd3ce497451bbc592a169027ae70f4",
         "manifest.json": "15e03eff523302ae0126211d9fd66609f310f3d6026635585fb8a1bed96c1366",
-        "projection.json": "789a62f81b1157807611b3c4ab05b352a6710af1fb85ab22b0c24044bcafc829",
-        "module/receipt.json": "051695652a36c365f1c489e2d3742d436a2bb5314a848dd125aa8e0a0bebb0bf"
+        "projection.json": "ba40a6f66d8b0869c878c3825ca790cc4da73f55d86e4e92cfb18a23fe1f20c8",
+        "module/receipt.json": "afc41b4d428cc77cfa765928f4f5d979ad641f91ebaea8a61881256ff630653f"
       },
-      "digest": "d6f63d0779607ac434cfd943b7e6f8d4944ecd25eec4a11acbbdf967cfd63532"
+      "digest": "78a792f5cc77f25dad529b74a9b5679d697eccebd93fcb61769587e7b210b26c"
     }
   ]
 }

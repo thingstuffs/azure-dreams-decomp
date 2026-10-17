@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-17T09:10:29Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-17T11:31:41Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## At a glance
 
@@ -12,12 +12,12 @@ Generated 2026-10-17T09:10:29Z. Pin `82f20568` (82f20568997a, raw/ frozen at 202
 | **Verified byte-identical to retail** | 17,488 of 17,488 rows (100.0%), 6,272,364 bytes; 0 unverified |
 | **Share of the code that is C** | 76.1% C rows; 95.0% counting byte-identical copies of C functions proven elsewhere in the images (of 7,604,536 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows above; `tools/coverage.py`) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the pin) |
-| **Readability** | L3 99.1%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 268 current, 186 stale, 82 not certified yet |
+| **Readability** | L3 99.1%, L4 11.6%, L5 11.2% of bytes (levels below) |
+| **Module certificates** | 194 of 268 current, 2 stale, 72 not certified yet |
 
 **How a match is proven.** (1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the retail bytes. (2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. (3) Module certificates: a certificate records that a module's complete translation unit and every affected window rebuild to retail with the genuine assembler; it is bound to a fingerprint of the module's sources, recipe, headers and tools, so any change to those makes it stale.
 
-**Current proof state.** 268 of 268 module certificates are not current (186 stale, 82 not certified yet); levels L4 and L5, which need the row's module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch. Change batches currently land with cheap checks only and one consolidation gate renews every certificate afterwards (`docs/evidence/r97_decisions.md`, decision 53). Per-row exactness is recorded separately in the first table above.
+**Current proof state.** 74 of 268 module certificates are not current (2 stale, 72 not certified yet); levels L4 and L5, which need the row's module certificate, read 11.6% and 11.2%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch. Change batches currently land with cheap checks only and one consolidation gate renews every certificate afterwards (`docs/evidence/r97_decisions.md`, decision 53). Per-row exactness is recorded separately in the first table above.
 
 **Read next.** [README](README.md) (project overview) - [docs/README.md](docs/README.md) (documentation index) - [docs/PLAN.md](docs/PLAN.md) (levels L0-L5) - [docs/FIDELITY.md](docs/FIDELITY.md) (what scaffolding means) - [docs/SLUS_MODULES.md](docs/SLUS_MODULES.md) (executable modules) - [CONTRIBUTING.md](CONTRIBUTING.md). Module lists below are collapsed: click a state to expand it.
 
@@ -141,11 +141,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 184 | 1,444 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 28 | 320 | no certificate has been issued for this module |
+| current | 194 | 1,471 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| not certified yet | 18 | 293 | no certificate has been issued for this module |
 
-<details><summary>stale: inputs changed - 184 modules, 1,444 rows</summary>
+<details><summary>current - 194 modules, 1,471 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -333,10 +332,20 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | town_ovl_4d9100 | 1 |
 | town_ovl_71a1ec | 1 |
 | town_ovl_8d2114 | 1 |
+| dungeon_ovl_51e800 | 1 |
+| town_ovl_2d3f0c | 3 |
+| town_ovl_2da5e4 | 1 |
+| dungeon_ovl_7f43f800_p04 | 1 |
+| dungeon_ovl_7f43f800_p05 | 1 |
+| dungeon_ovl_7f43f800_p06 | 1 |
+| dungeon_ovl_7f43f800_p08 | 2 |
+| dungeon_ovl_7f511800_p04 | 4 |
+| dungeon_ovl_1829800 | 12 |
+| town_ovl_6f48d0 | 1 |
 
 </details>
 
-<details><summary>not certified yet - 28 modules, 320 rows</summary>
+<details><summary>not certified yet - 18 modules, 293 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -358,16 +367,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_18b8824 | 9 |
 | dungeon_floor_spawns | 12 |
 | dungeon_floor_generate | 50 |
-| dungeon_ovl_51e800 | 1 |
-| town_ovl_2d3f0c | 3 |
-| town_ovl_2da5e4 | 1 |
-| dungeon_ovl_7f43f800_p04 | 1 |
-| dungeon_ovl_7f43f800_p05 | 1 |
-| dungeon_ovl_7f43f800_p06 | 1 |
-| dungeon_ovl_7f43f800_p08 | 2 |
-| dungeon_ovl_7f511800_p04 | 4 |
-| dungeon_ovl_1829800 | 12 |
-| town_ovl_6f48d0 | 1 |
 
 </details>
 
@@ -442,14 +441,14 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L1 | 6,272,364 | 100.0% |
 | L2 | 6,270,232 | 100.0% |
 | L3 | 6,217,456 | 99.1% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 728,428 | 11.6% |
+| L5 | 703,460 | 11.2% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3944 rows, 2,321,580 bytes (37.0%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 19 rows (14,352 B), not_in_module 17,488 rows (6,272,364 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 19 rows (14,352 B), not_in_module 16,005 rows (5,543,760 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
