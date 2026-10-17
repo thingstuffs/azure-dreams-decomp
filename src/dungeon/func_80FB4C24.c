@@ -1,5 +1,12 @@
 #include "common.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x8];
+    u16 field_08;
+} ColorPtrFieldView_80FB4C24;
+
+
 typedef struct S_80174424_0_pre {
     u16 unk_00;
 } S_80174424_0_pre;   /* the 0x2 bytes before arg0 in dungeonBlendAnimationPaletteAndComplete, addressed as arg0[-1] */
@@ -117,11 +124,11 @@ unpack_pair:
                 palette_index--;
                 buffer[0x10C] = (u16)buffer[0x10C] + blue_step;
                 color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
-                sample_index = *(u16 *)((s8 *)color_ptr + 8);
+                sample_index = ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08;
                 result_color = (u16)sample_index;
                 column--;
                 result_color &= 0x8000;
-                *(u16 *)((s8 *)color_ptr + 8) = result_color;
+                ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08 = result_color;
                 {
                     s16 red;
                     s32 green;
@@ -135,7 +142,7 @@ unpack_pair:
                     blue += green;
                     red += blue;
                     result_color += red;
-                    *(u16 *)((s8 *)color_ptr + 8) = result_color;
+                    ((ColorPtrFieldView_80FB4C24 *)color_ptr)->field_08 = result_color;
                 }
             }
         } while (column >= 0);

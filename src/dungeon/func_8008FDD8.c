@@ -17,7 +17,7 @@ typedef struct S_80095538_0 {
     u8 pad_08[0x5C];
     s32 unk_64;
     s32 unk_68;
-} S_80095538_0;   /* var_s1 in dungeonDispatchSelectedItemUse; pointer addresses record offset 0x18 */
+} S_80095538_0;   /* Pointer addresses record offset 0x18. */
 
 typedef struct S_80095538_1 {
     union { s32 s; void * u; } unk_00;   /* accessed as both */

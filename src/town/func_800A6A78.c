@@ -57,21 +57,23 @@ typedef struct S_800A41D8_2 {
     s8 unk_06;
     u8 pad_07[0x1];
     s32 unk_08;
-    u8 pad_0C[0x4];
+    s32 uv_0;
     s16 unk_10;
     s16 unk_12;
-    u8 pad_14[0x4];
+    s32 uv_1;
     s32 unk_18;
-    u8 pad_1C[0x4];
+    s16 uv_2;
+    u8 pad_1E[2];
     s16 unk_20;
     s16 unk_22;
-    u8 pad_24[0x8];
+    s16 uv_3;
+    u8 pad_26[6];
     s8 unk_2C;
     u8 pad_2D[0xB];
     s32 unk_38;
     u8 pad_3C[0xC];
     s32 unk_48;
-} S_800A41D8_2;   /* var_s3 in townProjectVisibleTexturedStrips */
+} S_800A41D8_2;
 
 typedef struct S_800A41D8_3 {
     u8 pad_00[0x8];
@@ -80,13 +82,13 @@ typedef struct S_800A41D8_3 {
     u8 pad_0C[0xC];
     s16 unk_18;
     s16 unk_1A;
-} S_800A41D8_3;   /* temp_a0 in townProjectVisibleTexturedStrips */
+} S_800A41D8_3;
 
 typedef struct S_800A41D8_4 {
     u8 pad_00[0x5];
     s8 unk_05;
     s8 unk_06;
-} S_800A41D8_4;   /* temp_v0_7 in townProjectVisibleTexturedStrips */
+} S_800A41D8_4;
 
 typedef struct S_800A41D8_5 {
     u8 pad_00[0x7];
@@ -116,7 +118,6 @@ typedef struct S_800A41D8_7 {
 } S_800A41D8_7;   /* texture_entry in townProjectVisibleTexturedStrips */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_80065610();
 extern s32 func_80066460();
@@ -276,17 +277,17 @@ void *townProjectVisibleTexturedStrips(void *origin, void *render_flags, void *d
                     ((S_800A41D8_1 *)draw_state)->unk_14.n = uv_value;
                     ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) (((S_800A41D8_1 *)draw_state)->unk_10 + uv_left);
                     uv_value_2 = ((S_800A41D8_1 *)draw_state)->unk_08.v;
-                    (*(s32 *)((u8 *)prim_buffer + 0xC)) = (s32) ((uv_top + uv_value_2)
+                    ((S_800A41D8_2 *)prim_buffer)->uv_0 = (s32) ((uv_top + uv_value_2)
                         | (((S_800A41D8_7 *)texture_entry)->unk_06 << 0x10));
-                    (*(s32 *)((u8 *)prim_buffer + 0x14)) = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n
+                    ((S_800A41D8_2 *)prim_buffer)->uv_1 = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n
                         + ((S_800A41D8_1 *)draw_state)->unk_10) | (((S_800A41D8_7 *)texture_entry)->unk_04 << 0x10));
-                    (*(s16 *)((u8 *)prim_buffer + 0x1C)) = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n
+                    ((S_800A41D8_2 *)prim_buffer)->uv_2 = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n
                         + (u16) ((S_800A41D8_1 *)draw_state)->unk_08.n);
                     right_u = (u8)(((S_800A41D8_5 *)prim_buffer)->unk_14 - 1);
                     uv_bottom = (u16) ((S_800A41D8_1 *)draw_state)->unk_14.n;
                     uv_right = (u16) ((S_800A41D8_1 *)draw_state)->unk_10;
                     bottom_right_uv = uv_bottom + uv_right;
-                    (*(s16 *)((u8 *)prim_buffer + 0x24)) = (s16) bottom_right_uv;
+                    ((S_800A41D8_2 *)prim_buffer)->uv_3 = (s16) bottom_right_uv;
                     do {
                         ((S_800A41D8_5 *)prim_buffer)->unk_14 = (u8) right_u;
                     } while (0);

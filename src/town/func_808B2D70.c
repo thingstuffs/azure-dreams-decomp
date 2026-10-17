@@ -4,7 +4,7 @@
 typedef struct S_808B2D70_0 {
     u8 pad_00[0xE];
     u8 unk_0E;
-} S_808B2D70_0;   /* temp_v1 in townStoreStateByteAndReturn */
+} S_808B2D70_0;
 
 /* Writes back the state byte at offset 0x0E and returns the input value. */
 s32 townStoreStateByteAndReturn(s32 value) {

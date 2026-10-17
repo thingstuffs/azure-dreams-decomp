@@ -21,7 +21,7 @@ typedef struct S_80026748_1 {
 typedef struct S_80026748_2 {
     u8 pad_00[0x58];
     u16 unk_58;
-} S_80026748_2;   /* temp_t0 in func_80026748 */
+} S_80026748_2;
 
 typedef struct S_80026748_3 {
     u8 pad_00[0x1C];

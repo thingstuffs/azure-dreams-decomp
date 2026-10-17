@@ -9,14 +9,14 @@ extern M2C_UNK D_800A7C0C;
 typedef struct S_800A7B98_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_800A7B98_0;   /* temp_v0 in townCreateTimedEffectObject */
+} S_800A7B98_0;
 
 typedef struct S_800A7B98_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_800A7B98_1;   /* temp_v1 in townCreateTimedEffectObject */
+} S_800A7B98_1;
 
 typedef struct S_800A7B98_2 {
     u8 pad_00[0x8];
@@ -28,7 +28,7 @@ typedef struct S_800A7B98_2 {
 typedef struct S_800A7B98_3 {
     u8 pad_00[0x6C];
     s16 unk_6C;
-} S_800A7B98_3;   /* temp_s0 in townCreateTimedEffectObject */
+} S_800A7B98_3;
 
 /* Creates an object, copies its source data fields, and initializes its state. */
 void townCreateTimedEffectObject(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *sourceData) {

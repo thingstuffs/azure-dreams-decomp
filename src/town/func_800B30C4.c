@@ -10,12 +10,12 @@ typedef struct S_800B0824_0 {
 typedef struct S_800B0824_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800B0824_1;   /* temp_v0 in townIncreaseShopSubrecordValue */
+} S_800B0824_1;
 
 typedef struct S_800B0824_2 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800B0824_2;   /* temp_v1 in townIncreaseShopSubrecordValue */
+} S_800B0824_2;
 
 
 extern M2C_UNK D_800B07D0;

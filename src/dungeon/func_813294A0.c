@@ -8,7 +8,7 @@ typedef struct S_80170CA0_0 {
     s16 unk_96;
     u8 pad_98[0x2];
     s8 unk_9A;
-} S_80170CA0_0;   /* temp_v0 in dungeonClearTheSTwoStateFields */
+} S_80170CA0_0;
 
 /* Clear the current object's two state fields. */
 void dungeonClearTheSTwoStateFields(void) {

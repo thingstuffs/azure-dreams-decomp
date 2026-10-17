@@ -90,7 +90,7 @@ void func_8016BFA4(void *actor, void *context, void *sprite, EntityRec *entity)
             return;
         }
         anim_table = D_8016FCA0;
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (((S_8016BFA4_2 *)sprite)->unk_2C) = anim_table;
         func_80047784(sprite,
             ((u8 *)anim_table)[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -131,7 +131,7 @@ void func_8016BFA4(void *actor, void *context, void *sprite, EntityRec *entity)
                 if (((S_8016BFA4_2 *)sprite)->unk_14 & 0xE000) {
                     void *idle_anim; /* MATCH: form the jump arm anim_table address in a1. */
                     idle_anim = D_8016FC30;
-                    (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
+                    (((S_8016BFA4_2 *)sprite)->unk_2C) = idle_anim;
                     func_80047784(sprite,
                         ((u8 *)idle_anim)[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
@@ -142,7 +142,7 @@ void func_8016BFA4(void *actor, void *context, void *sprite, EntityRec *entity)
             } else {
                 anim_table = D_8016FC30;
                 if (current_anim != anim_table) {
-                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                    (((S_8016BFA4_2 *)sprite)->unk_2C) = anim_table;
                     func_80047784(sprite,
                         ((u8 *)anim_table)[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
@@ -203,56 +203,55 @@ void func_8016BFA4(void *actor, void *context, void *sprite, EntityRec *entity)
             }
             action = entity->unk_46 | 0x4000;
             entity->unk_46 = action;
-            if (!(action & 0x8000)) {
-                goto generic;
-            }
         }
 
-        action = entity->unk_46 & 0x3FFF;
-        switch (action) {
-        case 8:
-        case 9:
-            if ((func_8016CE10(actor, context, sprite, entity) << 16) != 0) {
+        if (entity->unk_46 & 0x8000) {
+            action = entity->unk_46 & 0x3FFF;
+            switch (action) {
+            case 8:
+            case 9:
+                if ((func_8016CE10(actor, context, sprite, entity) << 16) != 0) {
+                    return;
+                }
+                func_8016D0A8(actor, context, sprite, entity);
                 return;
+
+            case 5:
+            case 6:
+            case 7:
+            {
+                EntityRec *player;
+                s16 facing;
+
+                facing = dungeonGetRoundedFacingAndRoundingFlag(
+                    ((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_flags);
+                player = D_800814A8;
+                entity->facing = facing;
+                if (player->unk_9A == 0x11) {
+                    dungeonBeginActorSpellAction(actor, context, sprite, D_8016FC88, D_8016BFA4);
+                    return;
+                }
             }
-            func_8016D0A8(actor, context, sprite, entity);
-            return;
 
-        case 5:
-        case 6:
-        case 7:
-        {
-            EntityRec *player;
-            s16 facing;
+            case 12:
+                func_800A9A0C(entity);
+                return;
 
-            facing = dungeonGetRoundedFacingAndRoundingFlag(
-                ((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_flags);
-            player = D_800814A8;
-            entity->facing = facing;
-            if (player->unk_9A == 0x11) {
+            case 1:
+            case 2:
+            case 3:
                 dungeonBeginActorSpellAction(actor, context, sprite, D_8016FC88, D_8016BFA4);
                 return;
+
+            case 11:
+            default:
+                break;
             }
         }
-
-        case 12:
-            func_800A9A0C(entity);
-            return;
-
-        case 1:
-        case 2:
-        case 3:
-            dungeonBeginActorSpellAction(actor, context, sprite, D_8016FC88, D_8016BFA4);
-            return;
-
-        case 11:
-        default:
-generic:
-            func_8016C6C8(actor, context, sprite, entity);
-            return;
-        }
+        func_8016C6C8(actor, context, sprite, entity);
+        return;
     }
 
     if (!(((u32)entity->flags1C) & 0x2000)) {

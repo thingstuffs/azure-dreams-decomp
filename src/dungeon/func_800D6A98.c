@@ -32,43 +32,43 @@ typedef struct S_800DC1F8_1 {
 typedef struct S_800DC1F8_2 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800DC1F8_2;   /* temp_s0 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_2;
 
 typedef struct S_800DC1F8_3 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800DC1F8_3;   /* temp_a3 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_3;
 
 typedef struct S_800DC1F8_4 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800DC1F8_4;   /* temp_a2 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_4;
 
 typedef struct S_800DC1F8_5 {
     u8 unk_00;
-} S_800DC1F8_5;   /* temp_a1 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_5;
 
 typedef struct S_800DC1F8_6 {
     u8 unk_00;
-} S_800DC1F8_6;   /* temp_a0_2 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_6;
 
 typedef struct S_800DC1F8_7 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800DC1F8_7;   /* temp_v1_2 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_7;
 
 typedef struct S_800DC1F8_8 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800DC1F8_8;   /* temp_v0_6 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_8;
 
 typedef struct S_800DC1F8_9 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_800DC1F8_9;   /* temp_v0_7 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_9;
 
 typedef struct S_800DC1F8_10 {
     u8 pad_00[0x14A8];

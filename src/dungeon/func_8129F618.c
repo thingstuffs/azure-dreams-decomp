@@ -33,14 +33,14 @@ typedef struct S_80170E18_0 {
     s16 unk_A8;
     u8 pad_AA[0x2];
     void * unk_AC;
-} S_80170E18_0;   /* temp_v1 in func_8014BE18 */
+} S_80170E18_0;
 
 typedef struct S_80170E18_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80170E18_1;   /* temp_v0 in func_8014BE18 */
+} S_80170E18_1;
 
 typedef struct S_80170E18_2 {
     u8 pad_00[0xC];
@@ -58,7 +58,7 @@ typedef struct S_80170E18_2 {
     u16 unk_22;
     u8 pad_24[0x8];
     M2C_UNK * unk_2C;
-} S_80170E18_2;   /* temp_s0 in func_8014BE18 */
+} S_80170E18_2;
 
 typedef struct S_80170E18_3 {
     u8 pad_00[0x2A];
@@ -72,7 +72,7 @@ typedef struct S_80170E18_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170E18_4;   /* temp_v1_2 in func_8014BE18 */
+} S_80170E18_4;
 
 typedef struct S_80170E18_5 {
     u8 pad_00[0x2];

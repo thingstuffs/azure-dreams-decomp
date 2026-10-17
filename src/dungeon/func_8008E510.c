@@ -12,7 +12,7 @@ typedef struct S_80093C70_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80093C70_0;   /* temp_v0 in func_80093C70 */
+} S_80093C70_0;
 
 typedef struct S_80093C70_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_80093C70_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80093C70_1;   /* temp_v1 in func_80093C70 */
+} S_80093C70_1;
 
 
 typedef struct S_80093C70_3 {
@@ -36,14 +36,14 @@ typedef struct S_80093C70_3 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80093C70_3;   /* temp_s0 in func_80093C70 */
+} S_80093C70_3;
 
 
 typedef struct S_80093C70_5 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
-} S_80093C70_5;   /* temp_v1_2 in func_80093C70 */
+} S_80093C70_5;
 
 
 void *func_8003FD64();                  /* extern */

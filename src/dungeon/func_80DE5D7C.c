@@ -1,5 +1,12 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    void *field_2C;
+} SpriteFieldView_80DE5D7C;
+
+
 void func_8017357C(void *controller, void *context, void *sprite, EntityRec *actor)
 {
     u8 state;
@@ -18,7 +25,7 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
 
         initial_effect = D_80174538;
         dungeonStatus.unk_0A--;
-        (*(void * *)((u8 *)sprite + 0x2C)) = initial_effect;
+        (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
         direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, initial_effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_9B++;
@@ -77,7 +84,7 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
         }
 
         effect = D_80174520;
-        (*(void * *)((u8 *)sprite + 0x2C)) = effect;
+        (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = effect;
         direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = func_80170E5C;

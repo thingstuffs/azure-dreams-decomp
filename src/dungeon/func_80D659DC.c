@@ -6,15 +6,13 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 
 typedef struct S_80D659DC_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80D659DC_6;   /* temp_v0 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_6;
 
 
 typedef struct S_80D659DC_8 {
@@ -27,7 +25,7 @@ typedef struct S_80D659DC_8 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80D659DC_8;   /* ((S_80D659DC_6 *)temp_v0)->unk_08 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_8;
 
 typedef struct S_80D659DC_9 {
     u8 pad_00[0x2];
@@ -68,32 +66,32 @@ typedef struct S_80D659DC_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80D659DC_0;   /* temp_v0 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_0;
 
 typedef struct S_80D659DC_1 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80D659DC_1;   /* temp_a0 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_1;
 
 typedef struct S_80D659DC_2 {
     s16 unk_00;
     s16 unk_02;
-} S_80D659DC_2;   /* temp_s0 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_2;
 
 typedef struct S_80D659DC_3 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80D659DC_3;   /* temp_a0_2 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_3;
 
 typedef struct S_80D659DC_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_80D659DC_4;   /* temp_a1 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_4;
 
 typedef struct S_80D659DC_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80D659DC_5;   /* temp_a2 in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_5;
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
 void dungeonSpawnAngledRandomVelocityEffect(EntityRec *source, u32 angle, s32 effect_param) {

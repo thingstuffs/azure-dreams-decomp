@@ -12,7 +12,7 @@ typedef struct S_800C1770_1 {
     s16 unk_02;
     s16 unk_04;
     s16 unk_06;
-} S_800C1770_1;   /* temp_v0 in town_sdall_reserve */
+} S_800C1770_1;
 
 /* town_sdall_reserve: reserve the four town sound effect and sequence values. */
 void town_sdall_reserve(s16 effect_id, s16 sound_id, s16 sequence_effect, s16 sequence_id) {

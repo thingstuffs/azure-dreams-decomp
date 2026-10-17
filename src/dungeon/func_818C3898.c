@@ -18,7 +18,7 @@ typedef struct S_818C3898_0 {
 typedef struct S_818C3898_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_818C3898_1;   /* temp_v1 in dungeonUpdateRotatingEffectLifetime */
+} S_818C3898_1;
 
 
 typedef struct S_818C3898_3 {
@@ -28,7 +28,7 @@ typedef struct S_818C3898_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818C3898_3;   /* temp_arg1 in dungeonUpdateRotatingEffectLifetime */
+} S_818C3898_3;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

@@ -30,7 +30,7 @@ typedef struct S_80026A84_1 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80026A84_1;   /* temp_v0 in dungeonCreateSixOffsetEffects */
+} S_80026A84_1;
 
 typedef struct S_80026A84_2 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_80026A84_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80026A84_3;   /* temp_a2 in dungeonCreateSixOffsetEffects */
+} S_80026A84_3;
 
 typedef struct S_80026A84_4 {
     u8 pad_00[0x8];
@@ -64,7 +64,7 @@ typedef struct S_80026A84_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026A84_4;   /* temp_a0 in dungeonCreateSixOffsetEffects */
+} S_80026A84_4;
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
@@ -74,14 +74,14 @@ typedef struct S_80026A84_5 {
     s16 unk_66;
     u8 pad_68[0x6];
     s16 unk_6E;
-} S_80026A84_5;   /* temp_a3 in dungeonCreateSixOffsetEffects */
+} S_80026A84_5;
 
 typedef struct S_80026A84_6 {
     u8 pad_00[0x24];
     u16 unk_24;
     u16 unk_26;
     u16 unk_28;
-} S_80026A84_6;   /* var_a1 in dungeonCreateSixOffsetEffects */
+} S_80026A84_6;
 
 typedef struct S_80026A84_7 {
     u8 pad_00[0x2];

@@ -12,12 +12,12 @@ typedef struct S_800C8078_0 {
 typedef struct S_800C8078_1 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800C8078_1;   /* var_v1 in dungeonCheckEntityFlag4000 */
+} S_800C8078_1;
 
 typedef struct S_800C8078_2 {
     u8 pad_00[0x54];
     s32 unk_54;
-} S_800C8078_2;   /* temp_v0 in dungeonCheckEntityFlag4000 */
+} S_800C8078_2;
 
 /* Checks flag 0x4000 on the entity or its two global linked entities. */
 s32 dungeonCheckEntityFlag4000(S_800C8078_0 *entity) {

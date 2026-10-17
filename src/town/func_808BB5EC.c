@@ -1,6 +1,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
+typedef struct TownRecord {
+    u8 tag;
+    u8 pad_01[0x13];
+} TownRecord;
+
 typedef void (*TownFunc3)(const u8 *, const u8 *, s32);
 typedef void (*TownFunc1)(s32);
 typedef struct {
@@ -37,14 +42,14 @@ void townSetupDataAndResolveRecordIndices(void) {
     data = D_00001034[0]->ptr_10;
     if (data[1] != 0x80) {
         s32 end_tag;
+        s32 index;
+        TownRecord *records;
         end_tag = 0x80;
-        record_tag = data + 1;
-loop_0:
-        {
-            *(s32 *)(record_tag + 0xB) = D_0000103C[0][*(s32 *)(record_tag + 0xB)];
-            record_tag += 0x14;
-        }
-        if (*record_tag != end_tag)
-            goto loop_0;
+        records = (TownRecord *)(data + 1);
+        index = 0;
+        do {
+            *(s32 *)((u8 *)&records[index] + 0xB) = D_0000103C[0][*(s32 *)((u8 *)&records[index] + 0xB)];
+            index++;
+        } while (records[index].tag != end_tag);
     }
 }

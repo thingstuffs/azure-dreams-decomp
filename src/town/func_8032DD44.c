@@ -4,9 +4,6 @@
 #include "m2c_compat.h"
 
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern s32 townCheckCallbackRecordBytes(s32, s32);
 extern void townSetCurrentEntryScriptFlag(void);
 extern void townApplyEntryPosition(void *, void *, s32, s32);

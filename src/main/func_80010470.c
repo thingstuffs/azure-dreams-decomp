@@ -10,27 +10,27 @@ typedef struct S_80023470_0 {
     void * unk_1C8;
     u8 pad_1CC[0xC];
     void * unk_1D8;
-} S_80023470_0;   /* var_a0 in cardBootResetThreeRowHighlight */
+} S_80023470_0;
 
 typedef struct S_80023470_1 {
     u8 pad_00[0x4];
     s8 * unk_04;
-} S_80023470_1;   /* ((S_80023470_0 *)var_a0)->unk_1C8 in cardBootResetThreeRowHighlight */
+} S_80023470_1;
 
 typedef struct S_80023470_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023470_2;   /* ((S_80023470_0 *)var_a0)->unk_1A8 in cardBootResetThreeRowHighlight */
+} S_80023470_2;
 
 typedef struct S_80023470_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023470_3;   /* ((S_80023470_0 *)var_a0)->unk_1B8 in cardBootResetThreeRowHighlight */
+} S_80023470_3;
 
 typedef struct S_80023470_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023470_4;   /* ((S_80023470_0 *)var_a0)->unk_1D8 in cardBootResetThreeRowHighlight */
+} S_80023470_4;
 
 typedef struct S_80023470_5 {
     u8 pad_00[0x1];
@@ -38,22 +38,22 @@ typedef struct S_80023470_5 {
     s8 unk_02;
     u8 pad_03[0x5];
     s16 unk_08;
-} S_80023470_5;   /* ((S_80023470_1 *)(((S_80023470_0 *)var_a0)->unk_1C8))->unk_04 in cardBootResetThreeRowHighlight */
+} S_80023470_5;
 
 typedef struct S_80023470_6 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023470_6;   /* ((S_80023470_2 *)(((S_80023470_0 *)var_a0)->unk_1A8))->unk_04 in cardBootResetThreeRowHighlight */
+} S_80023470_6;
 
 typedef struct S_80023470_7 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023470_7;   /* ((S_80023470_3 *)(((S_80023470_0 *)var_a0)->unk_1B8))->unk_04 in cardBootResetThreeRowHighlight */
+} S_80023470_7;
 
 typedef struct S_80023470_8 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80023470_8;   /* ((S_80023470_4 *)(((S_80023470_0 *)var_a0)->unk_1D8))->unk_04 in cardBootResetThreeRowHighlight */
+} S_80023470_8;
 
 /* Initialize three entries in each of the four object groups. */
 void cardBootResetThreeRowHighlight(void *object) {

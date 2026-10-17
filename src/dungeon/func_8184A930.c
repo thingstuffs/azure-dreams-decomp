@@ -9,7 +9,7 @@ typedef struct S_80024130_0 {
     void * unk_10;
     u8 pad_14[0x18];
     s32 unk_2C;
-} S_80024130_0;   /* temp_v0 in dungeonCreateRandomizedEffectObject */
+} S_80024130_0;
 
 typedef struct S_80024130_1 {
     u8 pad_00[0xC];
@@ -20,7 +20,7 @@ typedef struct S_80024130_1 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80024130_1;   /* temp_s0 in dungeonCreateRandomizedEffectObject */
+} S_80024130_1;
 
 typedef struct S_80024130_2 {
     u8 pad_00[0x2];
@@ -29,7 +29,7 @@ typedef struct S_80024130_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024130_2;   /* temp_v1_2 in dungeonCreateRandomizedEffectObject */
+} S_80024130_2;
 
 typedef struct S_80024130_3 {
     u8 pad_00[0x2];

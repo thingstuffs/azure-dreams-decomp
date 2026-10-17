@@ -18,7 +18,7 @@ typedef struct S_818BC888_0 {
 typedef struct S_818BC888_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818BC888_1;   /* temp_v1 in func_818BC888 */
+} S_818BC888_1;
 
 
 

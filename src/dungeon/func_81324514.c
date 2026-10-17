@@ -88,7 +88,7 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
     }
 
     if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != D_80174674) {
-        (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174674;
+        (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8) = D_80174674;
         func_80047784(
             entity,
             D_80174674[((gameWork.view.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
@@ -135,7 +135,7 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
     }
 
     ((S_8016BD14_1 *)actor)->unk_8C = 0;
-    (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
+    ((S_8016BD14_0 *)path)->unk_1C |= 0x40000000;
     if (dungeonStatus.flags & 0x80) {
         ((S_8016BD14_1 *)actor)->unk_96 = 0;
         return;

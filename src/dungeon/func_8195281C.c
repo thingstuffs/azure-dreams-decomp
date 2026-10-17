@@ -30,29 +30,29 @@ typedef struct S_8195281C_2 {
     u8 pad_00[0xA6];
     u16 unk_A6;
     u8 unk_A8;
-} S_8195281C_2;   /* temp_v1_7 in func_8195281C */
+} S_8195281C_2;
 
 typedef struct S_8195281C_3 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x7D];
     u8 unk_A9;
-} S_8195281C_3;   /* temp_v1_3 in func_8195281C */
+} S_8195281C_3;
 
 typedef struct S_8195281C_4 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_8195281C_4;   /* temp_v1_5 in func_8195281C */
+} S_8195281C_4;
 
 typedef struct S_8195281C_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8195281C_5_pre;   /* the 0x14 bytes before temp_a0 in func_8195281C, addressed as temp_a0[-1] */
+} S_8195281C_5_pre;
 
 typedef struct S_8195281C_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8195281C_5;   /* temp_a0 in func_8195281C */
+} S_8195281C_5;
 
 typedef struct S_8195281C_6 {
     u8 pad_00[0xC];
@@ -62,7 +62,7 @@ typedef struct S_8195281C_6 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_8195281C_6;   /* var_a1 in func_8195281C */
+} S_8195281C_6;
 
 typedef struct S_8195281C_7 {
     u8 pad_00[0x60];
@@ -73,7 +73,7 @@ typedef struct S_8195281C_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_8195281C_8;   /* temp_v1_2 in func_8195281C */
+} S_8195281C_8;
 
 typedef struct S_8195281C_9 {
     s32 unk_00;

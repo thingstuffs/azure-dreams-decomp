@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void cardBootRecheckSelectedChannel(void);
 extern s32 cardBootWriteSaveViaTemporaryPath(s32, s32);
@@ -26,7 +25,7 @@ typedef struct S_80025398_0 {
 typedef struct S_80025398_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80025398_1;   /* var_s0 in func_80025398 */
+} S_80025398_1;
 
 /* Process five context entries if checks pass, or schedule the fallback callback. */
 void func_80025398(void *context) {

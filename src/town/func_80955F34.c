@@ -22,8 +22,6 @@ typedef struct {
     s16 f3;
 } Entry;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK D_800240F0;
 

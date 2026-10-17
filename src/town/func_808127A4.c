@@ -18,13 +18,14 @@ typedef struct S_808127A4_0 {
 typedef struct S_808127A4_1 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_808127A4_1;   /* temp_s1 in townAnimateLinkedValueThreshold */
+} S_808127A4_1;
 
 
 M2C_UNK func_80058588();           /* extern */
 extern s32 D_80084D5C;
 
 void townAnimateLinkedValueThreshold(void *record_ptr) {
+    u16 *flags;
     s16 state;
     u16 threshold_value;
     void *related_record;
@@ -49,7 +50,8 @@ void townAnimateLinkedValueThreshold(void *record_ptr) {
         ((S_808127A4_0 *)record_ptr)->unk_16.u += ((S_808127A4_0 *)record_ptr)->unk_02.s >> 2;
         threshold_value = (((S_808127A4_0 *)record_ptr)->unk_16.u + 8) & 0xFFFF;
         if (threshold_value >= 0xF9U) {
-            (*(u16 *)((u8 *)record_ptr + -2)) = (u16) (((S_808127A4_0_pre *)record_ptr)[-1].unk_00 | 0x8000);
+            flags = &((S_808127A4_0_pre *)record_ptr)[-1].unk_00;
+            *flags = (u16) (((S_808127A4_0_pre *)record_ptr)[-1].unk_00 | 0x8000);
             *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
         }
     }

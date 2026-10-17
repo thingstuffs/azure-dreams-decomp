@@ -12,8 +12,6 @@ typedef struct S_800BF72C_4 {
 } S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in func_800BF72C */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 void townCreateDirectionalSpriteEffect(void *, s16);
 
 /* The final state reset is coupled to the non-overflow path.  This is a

@@ -14,7 +14,6 @@ typedef struct S_801740F4_1 {
 } S_801740F4_1;   /* work in dungeonStartBankActorHitReaction */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 extern s32 func_800990FC(void);
@@ -55,7 +54,7 @@ void dungeonStartBankActorHitReaction(void *work, void *part_a, void *part_b, En
             (s16)((u16)actor->facing));
         table_base = D_80174B0C;
         actor->target = field_60;
-        (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
+        (((Rec_D_80082E80 *)part_b)->unk_2C.as_pu8) = table_base;
         func_80047784(part_b, table_base[((s32)(gameWork.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);

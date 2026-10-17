@@ -11,7 +11,7 @@ typedef struct S_800BDC98_1 {
     u8 pad_16[0x2];
     u16 unk_18;
     s16 unk_1A;
-} S_800BDC98_1;   /* temp_t2 in func_800BDC98 */
+} S_800BDC98_1;
 
 /* Writes a selected pair of 16-bit values to adjacent positions in the wrapped buffer. */
 void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {

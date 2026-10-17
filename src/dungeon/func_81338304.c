@@ -9,7 +9,7 @@ typedef struct S_8016F304_0 {
     u8 pad_98[0x2];
     s8 unk_9A;
     s8 unk_9B;
-} S_8016F304_0;   /* temp_v0 in dungeonSetMultiFormActorAction */
+} S_8016F304_0;
 
 /* Sets the state ID and clears the associated byte and halfword. */
 void dungeonSetMultiFormActorAction(s8 state_id) {

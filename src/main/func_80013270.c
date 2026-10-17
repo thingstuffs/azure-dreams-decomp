@@ -6,7 +6,7 @@ void cardBootRefreshSlotWindow();                         /* extern */
 typedef struct S_80026270_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_80026270_0;   /* var_s0 in cardBootRefreshFiveSlotObjects */
+} S_80026270_0;
 
 /* Runs cardBootRefreshSlotWindow on each of five stored object addresses. */
 void cardBootRefreshFiveSlotObjects(void *object_list) {

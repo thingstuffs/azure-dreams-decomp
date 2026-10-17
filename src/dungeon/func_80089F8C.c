@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80048A44();
 s32 dungeonCheckMovementClearanceAndHeight();

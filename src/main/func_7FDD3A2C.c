@@ -4,12 +4,12 @@
 typedef struct S_7FDD3A2C_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FDD3A2C_3;   /* temp_v0 in func_8008A98C */
+} S_7FDD3A2C_3;
 
 typedef struct S_7FDD3A2C_4 {
     s32 unk_00;
     s32 unk_04;
-} S_7FDD3A2C_4;   /* ((S_7FDD3A2C_3 *)temp_v0)->unk_08 in func_8008A98C */
+} S_7FDD3A2C_4;
 
 
 void *func_8003FC64();                       /* extern */
@@ -22,7 +22,7 @@ typedef struct S_7FDD3A2C_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_7FDD3A2C_0;   /* temp_v0 in func_8008A98C */
+} S_7FDD3A2C_0;
 
 typedef struct S_7FDD3A2C_1 {
     s32 unk_00;
@@ -36,7 +36,7 @@ typedef struct S_7FDD3A2C_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FDD3A2C_2;   /* temp_v0_2 in func_8008A98C */
+} S_7FDD3A2C_2;
 
 /* Creates a type 0x136 object and initializes its position and rendering state. */
 void *func_8008A98C(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s32 extra_value) {

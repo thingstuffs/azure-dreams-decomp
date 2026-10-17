@@ -17,14 +17,14 @@ typedef struct S_7FFE93E8_0 {
     s16 unk_3E;
     u8 pad_40[0x4];
     void * unk_44;
-} S_7FFE93E8_0;   /* temp_v0 in func_7FFE93E8 */
+} S_7FFE93E8_0;
 
 typedef struct S_7FFE93E8_1 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_7FFE93E8_1;   /* temp_a0 in func_7FFE93E8 */
+} S_7FFE93E8_1;
 
 typedef struct S_7FFE93E8_2 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_7FFE93E8_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE93E8_2;   /* temp_v1 in func_7FFE93E8 */
+} S_7FFE93E8_2;
 
 typedef struct S_7FFE93E8_3 {
     u8 pad_00[0x8];
@@ -54,7 +54,7 @@ typedef struct S_7FFE93E8_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFE93E8_4;   /* temp_a0_2 in func_7FFE93E8 */
+} S_7FFE93E8_4;
 
 typedef struct S_7FFE93E8_5 {
     u8 pad_00[0x2];
@@ -66,7 +66,6 @@ typedef struct S_7FFE93E8_5 {
 } S_7FFE93E8_5;   /* ((S_7FFE93E8_3 *)arg0)->unk_08 in func_7FFE93E8 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8003A7C4();
 void *func_8003CF18();

@@ -20,7 +20,7 @@ typedef struct S_80024F40_0 {
 typedef struct S_80024F40_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024F40_1;   /* temp_v0 in dungeonFadePackedObjectColorToZero */
+} S_80024F40_1;
 
 s16 func_8006649C();
 s32 func_80069EF8();

@@ -4,7 +4,7 @@
 typedef struct S_800A4A9C_0 {
     u8 pad_00[0x2C];
     s8 unk_2C;
-} S_800A4A9C_0;   /* var_a0 in dungeonHasEmptyStatusSlot */
+} S_800A4A9C_0;
 
 /* Return whether any of the four spaced status bytes is zero. */
 s32 dungeonHasEmptyStatusSlot(s32 record_addr) {

@@ -40,7 +40,7 @@ typedef struct S_8008C5C4_3 {
     u8 pad_00[0x13];
     u8 unk_13;
     s32 unk_14;
-} S_8008C5C4_3;   /* temp_v0 in dungeonTryBeginLiftObject */
+} S_8008C5C4_3;
 
 typedef struct S_8008C5C4_4 {
     u8 pad_00[0x1484];
@@ -50,7 +50,7 @@ typedef struct S_8008C5C4_4 {
 typedef struct S_8008C5C4_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008C5C4_5;   /* temp_a3 in dungeonTryBeginLiftObject */
+} S_8008C5C4_5;
 
 typedef struct S_8008C5C4_6 {
     u8 pad_00[0x60];

@@ -79,7 +79,7 @@ typedef struct S_8009E798_3 {
     u16 unk_22;
     u8 pad_24[0x1];
     u8 unk_25;
-} S_8009E798_3;   /* var_s2 in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_3;
 
 
 typedef struct S_8009E798_5_pre {
@@ -91,7 +91,7 @@ typedef struct S_8009E798_5_pre {
     u8 pad_14[0x4];
     u32 unk_18;
     u8 pad_1C[0x4];
-} S_8009E798_5_pre;   /* the 0x20 bytes before var_s1 in dungeonBuildTransformedSpriteQuads, addressed as var_s1[-1] */
+} S_8009E798_5_pre;   /* 0x20-byte header immediately before the payload. */
 
 typedef struct S_8009E798_5 {
     u8 pad_00[0x2];
@@ -116,7 +116,7 @@ typedef struct S_8009E798_5 {
     u32 unk_0C;
     u32 unk_10;
     u32 unk_14;
-} S_8009E798_5;   /* var_s1 in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_5;
 
 typedef struct S_8009E798_6 {
     u8 pad_00[0x4];
@@ -135,7 +135,7 @@ typedef struct S_8009E798_7 {
     u16 unk_06;
     u16 unk_08;
     u16 unk_0A;
-} S_8009E798_7;   /* var_s4 in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_7;
 
    /* ret_state in dungeonBuildTransformedSpriteQuads */
 

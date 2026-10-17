@@ -14,12 +14,12 @@ typedef struct S_800A32A4_2 {
     s32 unk_AC;
     u8 pad_B0[0x20];
     void * unk_D0;
-} S_800A32A4_2;   /* temp_a0 in func_800A32A4 */
+} S_800A32A4_2;
 
 typedef struct S_800A32A4_3 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800A32A4_3;   /* temp_s2 in func_800A32A4 */
+} S_800A32A4_3;
 
 typedef struct S_800A32A4_4 {
     u8 pad_00[0xD0];
@@ -30,7 +30,7 @@ typedef struct S_800A32A4_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800A32A4_5;   /* var_a2 in func_800A32A4 */
+} S_800A32A4_5;
 
 struct S_800E3E48 {
     u8 pad00[0x14];

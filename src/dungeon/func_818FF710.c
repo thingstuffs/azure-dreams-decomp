@@ -52,7 +52,7 @@ typedef struct S_818FF710_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_818FF710_0;   /* temp_s0 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_0;
 
 typedef struct S_818FF710_1 {
     u8 pad_00[0x8];
@@ -75,7 +75,7 @@ typedef struct S_818FF710_1 {
 typedef struct S_818FF710_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818FF710_2_pre;   /* the 0x14 bytes before temp_s7 in dungeonUpdateEffectParticlesAndCleanup, addressed as temp_s7[-1] */
+} S_818FF710_2_pre;
 
 typedef struct S_818FF710_2 {
     u8 pad_00[0x2A];
@@ -87,7 +87,7 @@ typedef struct S_818FF710_2 {
     s8 unk_73;
     u8 pad_74[0x14];
     u16 unk_88;
-} S_818FF710_2;   /* temp_s7 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_2;
 
 typedef struct S_818FF710_3 {
     s16 unk_00;
@@ -96,7 +96,7 @@ typedef struct S_818FF710_3 {
 typedef struct S_818FF710_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_818FF710_4;   /* temp_a1 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_4;
 
 typedef struct S_818FF710_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -114,55 +114,55 @@ typedef struct S_818FF710_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818FF710_6;   /* temp_s2 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_6;
 
 typedef struct S_818FF710_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_818FF710_7_pre;   /* the 0x18 bytes before temp_v1_3 in dungeonUpdateEffectParticlesAndCleanup, addressed as temp_v1_3[-1] */
+} S_818FF710_7_pre;
 
 typedef struct S_818FF710_7 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_7;   /* temp_v1_3 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_7;
 
 typedef struct S_818FF710_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_818FF710_8;   /* temp_a3_case1 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_8;
 
 typedef struct S_818FF710_9 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_818FF710_9;   /* temp_a0 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_9;
 
 typedef struct S_818FF710_10_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818FF710_10_pre;   /* the 0x14 bytes before temp_v1_9 in dungeonUpdateEffectParticlesAndCleanup, addressed as temp_v1_9[-1] */
+} S_818FF710_10_pre;
 
 typedef struct S_818FF710_10 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_10;   /* temp_v1_9 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_10;
 
 typedef struct S_818FF710_11 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_11;   /* temp_v1_10 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_11;
 
 typedef struct S_818FF710_12 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_818FF710_12;   /* temp_a0_2 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_12;
 
 typedef struct S_818FF710_13 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_818FF710_13;   /* temp_a3 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_13;
 
 typedef struct S_818FF710_14 {
     u8 pad_00[0x2];
@@ -177,7 +177,7 @@ typedef struct S_818FF710_14 {
     void * unk_38;
     void * unk_3C;
     void * unk_40;
-} S_818FF710_14;   /* temp_s1 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_14;
 
 typedef struct S_818FF710_15 {
     u8 pad_00[0x6];
@@ -195,19 +195,19 @@ typedef struct S_818FF710_15 {
     s16 unk_1E;
     u8 pad_20[0x2];
     s16 unk_22;
-} S_818FF710_15;   /* temp_s0_2 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_15;
 
 typedef struct S_818FF710_16 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_16;   /* temp_v1_12 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_16;
 
 typedef struct S_818FF710_17 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_17;   /* temp_a3_3 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_17;
 
 typedef struct S_818FF710_18 {
     u8 pad_00[0x6];
@@ -223,19 +223,19 @@ typedef struct S_818FF710_18 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_18;   /* temp_s0_4 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_18;
 
 typedef struct S_818FF710_19 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_19;   /* temp_v1_13 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_19;
 
 typedef struct S_818FF710_20 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_20;   /* temp_a3_4 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_20;
 
 typedef struct S_818FF710_21 {
     u8 pad_00[0x6];
@@ -251,19 +251,19 @@ typedef struct S_818FF710_21 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_21;   /* temp_s0_6 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_21;
 
 typedef struct S_818FF710_22 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_22;   /* temp_v1_14 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_22;
 
 typedef struct S_818FF710_23 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_23;   /* temp_a3_5 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_23;
 
 typedef struct S_818FF710_24 {
     u8 pad_00[0x6];
@@ -279,55 +279,55 @@ typedef struct S_818FF710_24 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_24;   /* temp_s0_8 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_24;
 
 typedef struct S_818FF710_25 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_25;   /* temp_v1_15 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_25;
 
 typedef struct S_818FF710_26 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_26;   /* temp_a3_6 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_26;
 
 typedef struct S_818FF710_27 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_27;   /* temp_v1_18 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_27;
 
 typedef struct S_818FF710_28 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_818FF710_28;   /* temp_a0_3 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_28;
 
 typedef struct S_818FF710_30 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_30;   /* ((S_818FF710_0 *)temp_s0)->unk_0C in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_30;
 
 typedef struct S_818FF710_31_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_818FF710_31_pre;   /* the 0x18 bytes before ((S_818FF710_2 *)temp_s7)->unk_60 in dungeonUpdateEffectParticlesAndCleanup, addressed as ((S_818FF710_2 *)temp_s7)->unk_60[-1] */
+} S_818FF710_31_pre;
 
 typedef struct S_818FF710_31 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_31;   /* ((S_818FF710_2 *)temp_s7)->unk_60 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_31;
 
 typedef struct S_818FF710_32 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_818FF710_32;   /* ((S_818FF710_15 *)temp_s0_2)->unk_08 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_32;
 
 typedef struct S_818FF710_33 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_818FF710_33;   /* ((S_818FF710_18 *)temp_s0_4)->unk_08 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_33;
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
 void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sprite) {

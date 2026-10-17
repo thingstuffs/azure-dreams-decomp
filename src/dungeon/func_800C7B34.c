@@ -16,7 +16,7 @@ typedef struct S_800CD294_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD294_1;   /* temp_v1 in dungeonCheckTrapRecordAndTriggerEffects */
+} S_800CD294_1;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

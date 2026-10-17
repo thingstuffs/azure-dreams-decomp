@@ -1,4 +1,4 @@
-/* Relinked copy of town/func_808BB5EC (func_808BB5EC.c); retail differs only at relocation sites; the twin's goto loop is spelled as the indexed do-while of its sibling func_808816D8. */
+/* Relinked copy of town/func_808BB5EC (func_808BB5EC.c); retail differs only at relocation sites; the twin's jump loop is spelled as the indexed do-while of its sibling func_808816D8. */
 #include "common.h"
 
 typedef void (*TownFunc3)(const u8 *, const u8 *, s32);

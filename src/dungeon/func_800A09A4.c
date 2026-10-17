@@ -14,7 +14,7 @@ typedef struct S_800A6104_1 {
     s32 unk_04;
     u8 pad_08[0x4];
     s16 unk_0C;
-} S_800A6104_1;   /* temp_v1 in func_800A6104 */
+} S_800A6104_1;
 
 /* Initialize the optional object settings to their default values. */
 void func_800A6104(void) {

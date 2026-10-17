@@ -2,8 +2,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 void townApplyObjectSetupAndUpdate(void *object, s32 update_context, s32 setup_context);
 
 

@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_1080c04",
+ "container": "dungeon",
+ "foff": "0x1080c04",
+ "size": "0x364",
+ "vma": "0x8016c404",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_81060C04",
+   "tu": "src/dungeon/func_81060C04.c",
+   "home": "dungeon/func_81060C04",
+   "foff": "0x1080c04",
+   "vma": "0x8016c404",
+   "size": 868
+  }
+ ]
+}

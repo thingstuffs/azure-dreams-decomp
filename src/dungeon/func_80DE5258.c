@@ -1,60 +1,60 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
 void func_80172A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172A58_5 *arg2, void *arg3) {
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s16 var_s5;
-    s8 var_v0_2;
-    s8 var_v1;
-    u16 temp_v0_2;
-    u8 *var_s0;
-    u8 temp_v1;
-    E_80172A58_S_80172A58_4 *temp_v1_3;
-    void *var_v0;
+    s32 result;
+    s32 next_ticks;
+    s16 use_player_target;
+    s8 unused_result_byte;
+    s8 unused_state_byte;
+    u16 remaining_ticks;
+    u8 *action_entry;
+    u8 phase;
+    E_80172A58_S_80172A58_4 *target_position;
+    void *target_link;
 
-    temp_v1 = ((E_80172A58_S_80172A58_0 *)arg0)->unk_9B;
-    var_s5 = 0;
-    switch (temp_v1) {                              /* switch 1; irregular */
+    phase = ((E_80172A58_S_80172A58_0 *)arg0)->unk_9B;
+    use_player_target = 0;
+    switch (phase) {                              /* switch 1; irregular */
     case 0:                                         /* switch 1 */
         if (((E_80172A58_S_80172A58_1 *)arg3)->unk_1C & 0x2000) {
             switch (((E_80172A58_S_80172A58_1 *)arg3)->unk_46 & 0x3FFF) {
-            case 7: var_s5=1;
-            case 3: var_s0=(u8 *)arg3+0xE; break;
-            case 6: var_s5=1;
-            case 2: var_s0=(u8 *)arg3+0xB; break;
-            case 5: var_s5=1;
-            case 1: var_s0=(u8 *)arg3+8; break;
-            default: var_s0=0; break;
+            case 7: use_player_target=1;
+            case 3: action_entry=(u8 *)arg3+0xE; break;
+            case 6: use_player_target=1;
+            case 2: action_entry=(u8 *)arg3+0xB; break;
+            case 5: use_player_target=1;
+            case 1: action_entry=(u8 *)arg3+8; break;
+            default: action_entry=0; break;
             }
         } else {
             switch (((E_80172A58_S_80172A58_1 *)arg3)->unk_46 & 0x3FFF) {
-            case 3: var_s0=(u8 *)arg3+0xE; break;
-            case 2: var_s0=(u8 *)arg3+0xB; break;
-            case 1: var_s0=(u8 *)arg3+8; break;
-            default: var_s0=0; break;
+            case 3: action_entry=(u8 *)arg3+0xE; break;
+            case 2: action_entry=(u8 *)arg3+0xB; break;
+            case 1: action_entry=(u8 *)arg3+8; break;
+            default: action_entry=0; break;
             }
         }
-        if (*var_s0 != 0) {
+        if (*action_entry != 0) {
             ((E_80172A58_S_80172A58_0 *)arg0)->unk_98 = (u16) (((E_80172A58_S_80172A58_0 *)arg0)->unk_98 & 0xFF7F);
-            if (var_s5 != 0) {
-                var_v0 = D_800814A8;
-                ((E_80172A58_S_80172A58_1 *)arg3)->unk_60 = var_v0;
-                    temp_v1_3 = ((E_80172A58_S_80172A58_3_pre *)var_v0)[-1].unk_00;
-                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = (s8) temp_v1_3->unk_24;
-                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = (s8) temp_v1_3->unk_25;
-            } else if (((E_80172A58_S_80172A58_2 *)(((*var_s0 * 0x14) + D_8006DE24)))->unk_12 == 2) {
-                var_v0 = ((E_80172A58_S_80172A58_1 *)arg3)->unk_60;
-                if (var_v0 != NULL) {
-                    temp_v1_3 = ((E_80172A58_S_80172A58_3_pre *)var_v0)[-1].unk_00;
-                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = (s8) temp_v1_3->unk_24;
-                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = (s8) temp_v1_3->unk_25;
+            if (use_player_target != 0) {
+                target_link = D_800814A8;
+                ((E_80172A58_S_80172A58_1 *)arg3)->unk_60 = target_link;
+                    target_position = ((E_80172A58_S_80172A58_3_pre *)target_link)[-1].unk_00;
+                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = (s8) target_position->unk_24;
+                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = (s8) target_position->unk_25;
+            } else if (((E_80172A58_S_80172A58_2 *)(((*action_entry * 0x14) + D_8006DE24)))->unk_12 == 2) {
+                target_link = ((E_80172A58_S_80172A58_1 *)arg3)->unk_60;
+                if (target_link != NULL) {
+                    target_position = ((E_80172A58_S_80172A58_3_pre *)target_link)[-1].unk_00;
+                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = (s8) target_position->unk_24;
+                    ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = (s8) target_position->unk_25;
                 }
             } else {
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_60 = dungeonScanMonsterAlongHeading(arg3, arg2->unk_24, arg2->unk_25, ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A, 0x10);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = abs(((E_80172A58_S_80172A58_1 *)arg3)->unk_72);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = abs(((E_80172A58_S_80172A58_1 *)arg3)->unk_73);
             }
-            if (dungeonCreateActorSpellEffect(arg3, var_s0, var_s5, arg0 + 0x98) != 0) {
+            if (dungeonCreateActorSpellEffect(arg3, action_entry, use_player_target, arg0 + 0x98) != 0) {
                 dungeonCreateActorLinkedEffect(arg3);
                 ((E_80172A58_S_80172A58_0 *)arg0)->unk_9B = (u8) (((E_80172A58_S_80172A58_0 *)arg0)->unk_9B + 1);
                 return;
@@ -87,9 +87,9 @@ void func_80172A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172
             ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 = 1U;
             ((E_80172A58_S_80172A58_0 *)arg0)->unk_98 = (u16) (((E_80172A58_S_80172A58_0 *)arg0)->unk_98 | 0x80);
         }
-        temp_v0_2 = ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 - 1;
-        ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
+        remaining_ticks = ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 - 1;
+        ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 = remaining_ticks;
+        if ((remaining_ticks << 0x10) <= 0) {
             ((E_80172A58_S_80172A58_0 *)arg0)->unk_96 = 0U;
             arg2->unk_14 = (u16) (arg2->unk_14 & 0xF7FF);
         }

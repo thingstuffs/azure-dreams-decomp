@@ -7,7 +7,7 @@
 typedef struct S_807B0238_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_807B0238_3;   /* temp_v0 in func_800F7A38 */
+} S_807B0238_3;
 
 
 typedef struct S_807B0238_5 {
@@ -17,7 +17,7 @@ typedef struct S_807B0238_5 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_807B0238_5;   /* ((S_807B0238_3 *)temp_v0)->unk_08 in func_800F7A38 */
+} S_807B0238_5;
 
 typedef struct S_807B0238_6 {
     u8 pad_00[0x2];
@@ -36,7 +36,7 @@ typedef struct S_807B0238_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_807B0238_0;   /* temp_v0 in func_800F7A38 */
+} S_807B0238_0;
 
 typedef struct S_807B0238_1 {
     u8 pad_00[0x6];
@@ -46,14 +46,14 @@ typedef struct S_807B0238_1 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_807B0238_1;   /* temp_v1 in func_800F7A38 */
+} S_807B0238_1;
 
 typedef struct S_807B0238_2 {
     u8 pad_00[0x14];
     s16 unk_14;
     u8 pad_16[0x1C];
     s16 unk_32;
-} S_807B0238_2;   /* temp_s0 in func_800F7A38 */
+} S_807B0238_2;
 
 /* Creates an effect at a randomized offset from the source and initializes its state. */
 void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {

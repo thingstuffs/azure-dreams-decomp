@@ -15,12 +15,12 @@ extern u8 D_800B5B20[16];
 typedef struct S_800B6E3C_1 {
     s16 unk_00;
     s16 unk_02;
-} S_800B6E3C_1;   /* temp_a0 in townInvalidateCachedStateAndQueueRead */
+} S_800B6E3C_1;
 
 typedef struct S_800B6E3C_2 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800B6E3C_2;   /* (void *)temp_idx in townInvalidateCachedStateAndQueueRead */
+} S_800B6E3C_2;
 
 /* Invalidates changed cached state and starts the corresponding CD operations. */
 s32 townInvalidateCachedStateAndQueueRead(void *state) {

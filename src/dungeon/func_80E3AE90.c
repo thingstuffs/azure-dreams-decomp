@@ -5,12 +5,12 @@
 typedef struct S_80174690_4 {
     u8 pad_00[0x18];
     void * unk_18;
-} S_80174690_4;   /* temp_a1 in dungeonCreateActionSpriteEffect */
+} S_80174690_4;
 
 typedef struct S_80174690_5 {
     u8 pad_00[0x28];
     s32 unk_28;
-} S_80174690_5;   /* ((S_80174690_4 *)temp_a1)->unk_18 in dungeonCreateActionSpriteEffect */
+} S_80174690_5;
 
 
 void *func_8003FD64();               /* extern */
@@ -22,13 +22,13 @@ typedef struct S_80174690_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80174690_0;   /* temp_v0 in dungeonCreateActionSpriteEffect */
+} S_80174690_0;
 
 typedef struct S_80174690_1 {
     u8 pad_00[0x18];
     void * unk_18;
     s32 unk_1C;
-} S_80174690_1;   /* temp_a1 in dungeonCreateActionSpriteEffect */
+} S_80174690_1;
 
 typedef struct S_80174690_2 {
     u8 pad_00[0x8];
@@ -47,7 +47,7 @@ typedef struct S_80174690_3 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80174690_3;   /* temp_a0 in dungeonCreateActionSpriteEffect */
+} S_80174690_3;
 
 /* Creates an effect from the source and initializes its sprite and callbacks. */
 void dungeonCreateActionSpriteEffect(S_80174690_2 *source) {

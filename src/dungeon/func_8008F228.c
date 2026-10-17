@@ -68,12 +68,12 @@ typedef struct S_80094988_4 {
 typedef struct S_80094988_5 {
     u8 pad_00[0x2D52];
     u8 unk_2D52;
-} S_80094988_5;   /* var_v1_2 in dungeonRestoreInventoryAndFamiliars */
+} S_80094988_5;
 
 typedef struct S_80094988_6 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_80094988_6;   /* var_a0 in dungeonRestoreInventoryAndFamiliars */
+} S_80094988_6;
 
 typedef struct S_80094988_7 {
     u8 pad_00[0x21E0];

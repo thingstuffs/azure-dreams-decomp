@@ -14,14 +14,14 @@ typedef struct S_81971760_0 {
     u16 unk_44;
     u16 unk_46;
     u16 unk_48;
-} S_81971760_0;   /* temp_s0 in func_80024F60 */
+} S_81971760_0;
 
 typedef struct S_81971760_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_81971760_1;   /* temp_v0 in func_80024F60 */
+} S_81971760_1;
 
 typedef struct S_81971760_2 {
     u8 pad_00[0x6];
@@ -37,7 +37,7 @@ typedef struct S_81971760_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81971760_2;   /* temp_a3 in func_80024F60 */
+} S_81971760_2;
 
 typedef struct S_81971760_3 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_81971760_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81971760_3;   /* temp_s1 in func_80024F60 */
+} S_81971760_3;
 
 typedef struct S_81971760_4 {
     u8 pad_00[0x2];
@@ -55,7 +55,7 @@ typedef struct S_81971760_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81971760_4;   /* temp_arg1 in func_80024F60 */
+} S_81971760_4;
 
 typedef struct {
     s32 y;

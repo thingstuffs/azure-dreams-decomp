@@ -8,7 +8,7 @@ typedef struct S_805D3860_1 {
     s32 unk_00;
     u8 pad_04[0x2];
     u8 unk_06;
-} S_805D3860_1;   /* temp_v1 in func_805D3860 */
+} S_805D3860_1;
 
 
 extern s32 D_80019B00;
@@ -20,6 +20,6 @@ s32 func_805D3860(void) {
 
     selected_record = ((s32)D_80016000->unk_40) + (D_80016000->unk_08 * 8);
     D_80019B8C = (s32) ((S_805D3860_1 *)selected_record)->unk_06;
-    D_80019B00 = (*(s32 *)((u8 *)selected_record + 0));
+    D_80019B00 = ((S_805D3860_1 *)selected_record)->unk_00;
     return ((S_805D3860_1 *)selected_record)->unk_00;
 }

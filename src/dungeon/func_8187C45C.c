@@ -119,11 +119,10 @@ void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite)
             U16(motion, 6) = U16(motion, 6) + origin_offset[1];
             effect_z = U16(motion, 0xA) + origin_offset[2];
             U16(motion, 0xA) = effect_z;
-            goto await_launch;
+        } else {
+            U16(motion, 0xA) = owner_z - 0x40;
         }
-        U16(motion, 0xA) = owner_z - 0x40;
 
-await_launch:
         if (!(U16(PTR(effect, 4), 0) & 0x80)) {
             return;
         }

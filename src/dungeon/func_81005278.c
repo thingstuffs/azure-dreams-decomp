@@ -3,6 +3,39 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x1C];
+    s32 field_1C;
+    u8 pad_20[0x4D];
+    s8 field_6D;
+    u8 pad_6E[0x3];
+    u8 field_71;
+    u8 pad_72[0x1E];
+    union {
+        s32 s32;
+        struct { u8 pad[0x2]; s16 value; } s16_at_2;
+        struct { u8 pad[0x2]; u16 value; } u16_at_2;
+    } field_90;
+    s16 field_94;
+    u8 pad_96[0x2];
+    u16 field_98;
+    u8 field_9A;
+    u8 pad_9B[0x2];
+    union {
+        s8 s8;
+        u8 u8;
+    } field_9D;
+    u8 pad_9E[0x6];
+    union {
+        s32 s32;
+        struct { u8 pad[0x2]; u16 value; } u16_at_2;
+    } field_A4;
+    u8 pad_A8[0xA];
+    u16 field_B2;
+} ObjFieldView_81005278;
+
+
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -75,12 +108,12 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
             callback(entry_obj, input_motion, input_part, entry_obj);
             return;
         } else {
-            (*(u8 *)((u8 *)obj + 0x71)) &= 0x7F;
+            (((ObjFieldView_81005278 *)obj)->field_71) &= 0x7F;
             return;
         }
     }
 
-    saved_mode = *(s8 *)((u8 *)obj + 0x6D);
+    saved_mode = ((ObjFieldView_81005278 *)obj)->field_6D;
     if (dungeonRefreshActorFacingAndLifecycle(obj, input_motion, input_part, obj) != 0) {
         return;
     }
@@ -92,8 +125,8 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
             update_callback(obj, input_motion, input_part, obj);
         }
     }
-    D_80174900[(*(u8 *)((u8 *)obj + 0x9A))](obj, input_motion, input_part, obj);
-    if (saved_mode != (*(s8 *)((u8 *)obj + 0x6D))) {
+    D_80174900[(((ObjFieldView_81005278 *)obj)->field_9A)](obj, input_motion, input_part, obj);
+    if (saved_mode != (((ObjFieldView_81005278 *)obj)->field_6D)) {
         func_800AA36C(obj, input_motion, input_part, obj);
     }
 
@@ -105,16 +138,16 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
         ((S_80170A78_0 *)input_motion)->unk_00.at00.v = old_x + velocity_x;
         ((S_80170A78_0 *)input_motion)->unk_04.at00.v = old_y + velocity_y;
 
-        if (!((*(s32 *)((u8 *)obj + 0x1C)) & 0x40000) &&
-            !((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-            ((S_80170A78_0 *)input_motion)->unk_14 += (*(s8 *)((u8 *)obj + 0x9D)) * 0x14000;
-            (*(u8 *)((u8 *)obj + 0x9D)) += 1;
+        if (!((((ObjFieldView_81005278 *)obj)->field_1C) & 0x40000) &&
+            !((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
+            ((S_80170A78_0 *)input_motion)->unk_14 += (((ObjFieldView_81005278 *)obj)->field_9D.s8) * 0x14000;
+            (((ObjFieldView_81005278 *)obj)->field_9D.u8) += 1;
         } else {
-            (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+            (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
         }
     }
 
-    (*(s32 *)((u8 *)obj + 0x90)) += ((S_80170A78_0 *)input_motion)->unk_14;
+    (((ObjFieldView_81005278 *)obj)->field_90.s32) += ((S_80170A78_0 *)input_motion)->unk_14;
     part_flags = ((S_80170A78_1 *)input_part)->unk_14;
     if (!(part_flags & 0x8000)) {
         value_bits = *(s16 *)((u8 *)((u8 *)(&dungeonStatus)) - 0x238) +
@@ -122,16 +155,16 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
         direction = ((s32)value_bits >> 9) & 7;
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
-        if ((*(s16 *)((u8 *)obj + 0x94)) != mode_or_dir) {
+        if ((((ObjFieldView_81005278 *)obj)->field_94) != mode_or_dir) {
             selectIndirectTableEntry(input_part,
                 *(u8 *)(((S_80170A78_1 *)input_part)->unk_2C.p + mode_or_dir),
                 ((S_80170A78_1 *)input_part)->unk_04);
-            (*(s16 *)((u8 *)obj + 0x94)) = direction;
+            (((ObjFieldView_81005278 *)obj)->field_94) = direction;
         }
         value_bits = (u32)&dirSpriteFlag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
-            value_bits = *(u16 *)((u8 *)input_part + 0x14) | 1;
+            value_bits = ((S_80170A78_1 *)input_part)->unk_14 | 1;
         } else {
             value_bits = ((S_80170A78_1 *)input_part)->unk_14 & 0xFFFE;
         }
@@ -155,20 +188,20 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
 
         if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
             ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
-            bob_phase = (*(u16 *)((u8 *)obj + 0xB2));
-            (*(u16 *)((u8 *)obj + 0xB2)) = bob_phase + 1;
-            (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+            bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
+            (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
+            (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
-        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
             floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
-            height_offset = (*(s16 *)((u8 *)obj + 0x92));
+            height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
             if (height_offset > floor_delta - 0x18) {
-                (*(s16 *)((u8 *)obj + 0x92)) = (*(s16 *)((u8 *)obj + 0x92)) - 8;
+                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
             } else if (height_offset < floor_delta - 0x20) {
-                (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
             }
         }
     } else {
@@ -181,18 +214,18 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
     mode_or_dir = (((S_80170A78_2 *)state)->unk_1C &= state_mask_b);
     if (!(mode_or_dir & 0x40000)) {
 reset_height:
-        bob_offset = (*(s32 *)((u8 *)obj + 0xA4));
-        (*(u16 *)((u8 *)obj + 0xB2)) = 0;
-        (*(s32 *)((u8 *)obj + 0xA4)) = 0;
-        (*(s32 *)((u8 *)obj + 0x90)) -= bob_offset;
-        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+        bob_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
+        (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
+        (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
+        (((ObjFieldView_81005278 *)obj)->field_90.s32) -= bob_offset;
+        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
             floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
-            if (floor_delta < (*(s16 *)((u8 *)obj + 0x92))) {
-                (*(s16 *)((u8 *)obj + 0x92)) = floor_delta;
-                (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+            if (floor_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
+                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = floor_delta;
+                (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
                 ((S_80170A78_0 *)input_motion)->unk_14 = 0;
                 ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
             }
@@ -201,20 +234,20 @@ reset_height:
         if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
             ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
             u16 bob_phase;
-            bob_phase = (*(u16 *)((u8 *)obj + 0xB2));
-            (*(u16 *)((u8 *)obj + 0xB2)) = bob_phase + 1;
-            (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+            bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
+            (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
+            (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
-        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
             floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
-            height_offset = (*(s16 *)((u8 *)obj + 0x92));
+            height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
             if (height_offset > floor_delta - 0x18) {
-                (*(s16 *)((u8 *)obj + 0x92)) = (*(s16 *)((u8 *)obj + 0x92)) - 8;
+                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
             } else if (height_offset < floor_delta - 0x20) {
-                (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
             }
         }
     }
@@ -226,11 +259,11 @@ reset_height:
             (((S_80170A78_1 *)input_part)->unk_25 << 6) | 0x20,
             (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20));
         if ((s16)floor_delta < 0x200) {
-            (*(s16 *)((u8 *)obj + 0x92)) += ((S_80170A78_2 *)state)->unk_88 - floor_delta;
+            (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) += ((S_80170A78_2 *)state)->unk_88 - floor_delta;
             ((S_80170A78_2 *)state)->unk_88 = floor_delta;
         }
     }
     ((S_80170A78_0 *)input_motion)->unk_0A = ((S_80170A78_2 *)state)->unk_88 +
-        (*(u16 *)((u8 *)obj + 0x92)) - (*(u16 *)((u8 *)obj + 0xA6));
+        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) - (((ObjFieldView_81005278 *)obj)->field_A4.u16_at_2.value);
     ((S_80170A78_1 *)input_part)->unk_14 |= 0x40;
 }

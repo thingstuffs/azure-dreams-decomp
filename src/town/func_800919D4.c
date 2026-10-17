@@ -6,7 +6,7 @@
 typedef struct S_8008F134_1 {
     u8 pad_00[0x4];
     void ** unk_04;
-} S_8008F134_1;   /* temp_v1 in townUnlinkSceneListNode */
+} S_8008F134_1;
 
 /* Unlink a linked node and clear its neighbor pointers. */
 void townUnlinkSceneListNode(Rec_func_80094268_arg0 *node) {

@@ -44,36 +44,36 @@ typedef struct S_800BD688_2 {
 typedef struct S_800BD688_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BD688_3;   /* var_a0 in townRandomizePairedObjectMotion */
+} S_800BD688_3;
 
 typedef struct S_800BD688_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BD688_4;   /* temp_v1_2 in townRandomizePairedObjectMotion */
+} S_800BD688_4;
 
 typedef struct S_800BD688_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800BD688_5;   /* temp_v1_3 in townRandomizePairedObjectMotion */
+} S_800BD688_5;
 
 typedef struct S_800BD688_6 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800BD688_6;   /* temp_a0 in townRandomizePairedObjectMotion */
+} S_800BD688_6;
 
 typedef struct S_800BD688_7 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800BD688_7;   /* temp_a1 in townRandomizePairedObjectMotion */
+} S_800BD688_7;
 
 typedef struct S_800BD688_8 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800BD688_8;   /* temp_a0_2 in townRandomizePairedObjectMotion */
+} S_800BD688_8;
 
 
 s32 rand(void);                      /* extern */

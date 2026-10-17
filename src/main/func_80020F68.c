@@ -10,7 +10,6 @@ typedef struct S_80020F68_0 {
 
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8040316C(void *first_ptr, void *second_ptr);
 

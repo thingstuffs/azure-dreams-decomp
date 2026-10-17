@@ -11,7 +11,7 @@ typedef struct S_800B8228_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800B8228_0;   /* temp_v0 in dungeonCreateEffectOrFallback */
+} S_800B8228_0;
 
 typedef struct S_800B8228_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800B8228_1 {
     s16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
-} S_800B8228_1;   /* temp_v1 in dungeonCreateEffectOrFallback */
+} S_800B8228_1;
 
 typedef struct S_800B8228_2 {
     u8 pad_00[0x8];
@@ -31,13 +31,13 @@ typedef struct S_800B8228_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B8228_2;   /* temp_s0 in dungeonCreateEffectOrFallback */
+} S_800B8228_2;
 
 typedef struct S_800B8228_3 {
     u8 pad_00[0xB0];
     s16 unk_B0;
     s16 unk_B2;
-} S_800B8228_3;   /* temp_v1_2 in dungeonCreateEffectOrFallback */
+} S_800B8228_3;
 
 
 typedef struct {

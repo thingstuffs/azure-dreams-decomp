@@ -15,7 +15,7 @@ typedef struct S_8001C8C8_2 {
     void * unk_1E0;
     u8 pad_1E4[0xC];
     void * unk_1F0;
-} S_8001C8C8_2;   /* var_a0 in func_8001C8C8 */
+} S_8001C8C8_2;
 
 typedef struct S_8001C8C8_3 {
     u8 pad_00[0x4];
@@ -25,22 +25,22 @@ typedef struct S_8001C8C8_3 {
 typedef struct S_8001C8C8_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C8C8_4;   /* ((S_8001C8C8_2 *)var_a0)->unk_1F0 in func_8001C8C8 */
+} S_8001C8C8_4;
 
 typedef struct S_8001C8C8_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C8C8_5;   /* ((S_8001C8C8_2 *)var_a0)->unk_1C0 in func_8001C8C8 */
+} S_8001C8C8_5;
 
 typedef struct S_8001C8C8_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C8C8_6;   /* ((S_8001C8C8_2 *)var_a0)->unk_1D0 in func_8001C8C8 */
+} S_8001C8C8_6;
 
 typedef struct S_8001C8C8_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C8C8_7;   /* ((S_8001C8C8_2 *)var_a0)->unk_1E0 in func_8001C8C8 */
+} S_8001C8C8_7;
 
 typedef struct S_8001C8C8_8 {
     u8 pad_00[0xA];
@@ -51,25 +51,25 @@ typedef struct S_8001C8C8_9 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_8001C8C8_9;   /* ((S_8001C8C8_4 *)(((S_8001C8C8_2 *)var_a0)->unk_1F0))->unk_04 in func_8001C8C8 */
+} S_8001C8C8_9;
 
 typedef struct S_8001C8C8_10 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_8001C8C8_10;   /* ((S_8001C8C8_5 *)(((S_8001C8C8_2 *)var_a0)->unk_1C0))->unk_04 in func_8001C8C8 */
+} S_8001C8C8_10;
 
 typedef struct S_8001C8C8_11 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_8001C8C8_11;   /* ((S_8001C8C8_6 *)(((S_8001C8C8_2 *)var_a0)->unk_1D0))->unk_04 in func_8001C8C8 */
+} S_8001C8C8_11;
 
 typedef struct S_8001C8C8_12 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_8001C8C8_12;   /* ((S_8001C8C8_7 *)(((S_8001C8C8_2 *)var_a0)->unk_1E0))->unk_04 in func_8001C8C8 */
+} S_8001C8C8_12;
 
 
 void func_80403698();                      /* extern */

@@ -10,12 +10,12 @@ typedef struct S_800B1664_0_pre {
 typedef struct S_800B1664_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800B1664_1;   /* temp_a1 in townDecayShopStateAndCleanup */
+} S_800B1664_1;
 
 typedef struct S_800B1664_2 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800B1664_2;   /* temp_v1 in townDecayShopStateAndCleanup */
+} S_800B1664_2;
 
 
 typedef s32 M2C_UNK;
@@ -27,7 +27,6 @@ typedef struct S_800B1664_4 {
 } S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in townDecayShopStateAndCleanup */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8004B248();
 void townResetFiveShopSlots();

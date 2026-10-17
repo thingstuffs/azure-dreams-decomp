@@ -13,7 +13,6 @@ typedef struct S_800AA888_4 {
 } S_800AA888_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_800AA888 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8009A3D0();
 

@@ -15,7 +15,7 @@ typedef struct S_8009D6F4_0 {
     u8 pad_00[0x14];
     s16 unk_14;
     s16 unk_16;
-} S_8009D6F4_0;   /* temp_t1 in dungeonRefreshPackedGridNibbles */
+} S_8009D6F4_0;
 
 /* Refresh nonzero packed grid nibbles from clamped table values, then pass on the saved data. */
 void dungeonRefreshPackedGridNibbles(void) {

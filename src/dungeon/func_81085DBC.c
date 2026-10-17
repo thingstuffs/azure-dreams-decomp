@@ -4,6 +4,13 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x8C];
+    void *field_8C;
+} StateWorkFieldView_81085DBC;
+
+
 extern void func_80047784(void *, s32, s32);
 extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
@@ -57,14 +64,15 @@ void dungeonAdvanceMultiStageActorEffect(void *incoming_state_work, void *incomi
         if ((s16)timer > 0) {
             return;
         }
-        (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F40;
+        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F40;
         func_80047784(object,
             D_80175F40[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         entity->flags14 = 0;
         entity->unk_10 = 0;
         entity->unk_0C = 0;
-        goto Ladvance;
+        ((S_801735BC_0 *)state_work)->unk_9B++;
+        return;
 
     case 1:
         flags = ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v;
@@ -92,19 +100,18 @@ void dungeonAdvanceMultiStageActorEffect(void *incoming_state_work, void *incomi
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F68;
+        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F68;
         func_80047784(object,
             D_80175F68[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v |= 0x0800;
-Ladvance:
         ((S_801735BC_0 *)state_work)->unk_9B++;
         return;
 
     case 3:
         flags3 = ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v;
         if (flags3 & 0x8000) {
-            (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F68;
+            (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F68;
             func_80047784(object,
                 D_80175F68[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -114,7 +121,7 @@ Ladvance:
         if (!(flags3 & 0x6000)) {
             return;
         }
-        (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F10;
+        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F10;
         func_80047784(object,
             D_80175F10[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -126,7 +133,7 @@ Ladvance:
         dungeonSetRecordIntegerTileCenter(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
         dungeonReduceActorFoodMeter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
         dungeonStatus.unk_0C = 0;
         break;
 
@@ -134,7 +141,7 @@ Ladvance:
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F10;
+        (((Rec_D_80082E80 *)object)->unk_2C.as_pu8) = D_80175F10;
         func_80047784(object,
             D_80175F10[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -146,7 +153,7 @@ Ladvance:
         dungeonSetRecordIntegerTileCenter(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
         dungeonReduceActorFoodMeter(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
+        (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
         dungeonStatus.unk_0C = 0;
         break;
     default:

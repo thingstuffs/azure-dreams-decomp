@@ -18,14 +18,14 @@ typedef struct S_818C3A3C_0 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_818C3A3C_0;   /* temp_v0 in func_818C3A3C */
+} S_818C3A3C_0;
 
 typedef struct S_818C3A3C_1 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     s16 unk_14;
-} S_818C3A3C_1;   /* temp_s2 in func_818C3A3C */
+} S_818C3A3C_1;
 
 typedef struct S_818C3A3C_2 {
     u8 pad_00[0x14];
@@ -45,7 +45,7 @@ typedef struct S_818C3A3C_3 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818C3A3C_3;   /* temp_s0 in func_818C3A3C */
+} S_818C3A3C_3;
 
 typedef struct S_818C3A3C_4 {
     s32 unk_00;
@@ -63,7 +63,7 @@ typedef struct S_818C3A3C_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818C3A3C_5;   /* temp_v1_ptr in func_818C3A3C */
+} S_818C3A3C_5;
 
 /* Creates an effect with randomized rotation, owner-dependent scale, and copied instance data. */
 s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {

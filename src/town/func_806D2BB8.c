@@ -14,7 +14,7 @@ typedef struct S_806D2BB8_1 {
     union { s32 * s; s32 u; } unk_04;   /* accessed as both */
     u8 pad_08[0x4];
     s32 unk_0C;
-} S_806D2BB8_1;   /* temp_v0 in func_806D2BB8 */
+} S_806D2BB8_1;
 
 
 void *townSelectDB8Handler();                           /* extern */

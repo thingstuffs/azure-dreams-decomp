@@ -15,7 +15,7 @@ typedef struct S_80024A30_0 {
 typedef struct S_80024A30_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_80024A30_1;   /* temp_v0 in townFadeSceneTileAfterCompletionFlag */
+} S_80024A30_1;
 
 
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */

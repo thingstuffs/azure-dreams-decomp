@@ -29,7 +29,7 @@ typedef struct S_818330F0_1 {
 typedef struct S_818330F0_3 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818330F0_3;   /* temp_v1 in func_800248F0 */
+} S_818330F0_3;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

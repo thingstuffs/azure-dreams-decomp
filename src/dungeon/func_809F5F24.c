@@ -3,7 +3,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 
@@ -102,7 +101,7 @@ void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void 
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     }
     case 1:
-        (*(s32 *)((u8 *)motion + (0x14))) += 0x1C000;
+        (((S_80173724_2 *)motion)->unk_14) += 0x1C000;
         if (dungeonStatus.unk_0A != 0) {
             return;
         }

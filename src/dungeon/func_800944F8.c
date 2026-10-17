@@ -8,7 +8,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8004491C(void *, u8 *, s32, void *);
 extern s32 func_800644B8(s32);

@@ -12,18 +12,18 @@ typedef struct S_800BA810_1 {
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800BA810_1;   /* temp_v1 in dungeonUpdateSelectionTileMarkers */
+} S_800BA810_1;
 
 typedef struct S_800BA810_2 {
     void * unk_00;
-} S_800BA810_2;   /* temp_a0_2 in dungeonUpdateSelectionTileMarkers; pointer addresses record offset 0x18 */
+} S_800BA810_2;   /* Pointer addresses record offset 0x18. */
 
 typedef struct S_800BA810_3 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800BA810_3;   /* temp_v0_4 in dungeonUpdateSelectionTileMarkers */
+} S_800BA810_3;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

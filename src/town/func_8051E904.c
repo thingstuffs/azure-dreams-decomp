@@ -4,7 +4,7 @@
 typedef struct S_8051E904_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8051E904_1;   /* ((temp_s0 * 8) + arg0) in func_8051E904 */
+} S_8051E904_1;
 
 
 extern s32 func_80017710(s32, M2C_UNK);

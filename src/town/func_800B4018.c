@@ -9,7 +9,7 @@ typedef struct S_800B1778_0 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_800B1778_0;   /* temp_s0 in townSetShopSubrecordValues */
+} S_800B1778_0;
 
 /* Set two subrecord values and run their associated update routines. */
 void townSetShopSubrecordValues(s32 record_address, s32 value_10, s32 value_08) {

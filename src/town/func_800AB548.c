@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 extern s32 func_800644B8();
@@ -36,7 +35,7 @@ typedef struct S_800A8CA8_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_800A8CA8_1;   /* temp_src in townUpdateProjectedEffectPoints */
+} S_800A8CA8_1;
 
 typedef struct S_800A8CA8_2 {
     u8 pad_00[0x1C];

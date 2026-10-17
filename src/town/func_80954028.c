@@ -17,7 +17,7 @@ typedef struct S_80021028_1 {
     u8 pad_00[0x4];
     u16 unk_04;
     s16 unk_06;
-} S_80021028_1;   /* temp_a0 in townUpdateDerivedValueAndFlag */
+} S_80021028_1;
 
 
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */

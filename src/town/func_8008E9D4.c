@@ -9,7 +9,7 @@ typedef struct S_8008C134_0 {
     u8 pad_16[0x2];
     u16 unk_18;
     u16 unk_1A;
-} S_8008C134_0;   /* temp_a2 in townReadMapCellAtTile */
+} S_8008C134_0;
 
 /* Read the low 14 bits of the map entry at masked tile coordinates. */
 s32 townReadMapCellAtTile(s32 tile_x, s32 tile_y) {

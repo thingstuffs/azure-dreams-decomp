@@ -1,0 +1,409 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/image_2ab800",
+ "container": "town",
+ "foff": "0x2AB800",
+ "size": "0x8000",
+ "vma": "0x80016000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FD6A800: r121c3_2B3574, r121c3_2B35A0, sweep_2AB9C0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "town/func_8032C020",
+   "tu": "src/town/func_8032C020.c",
+   "home": "town/func_8032C020",
+   "foff": "0x2AC020",
+   "vma": "0x80016820",
+   "size": 84
+  },
+  {
+   "row": "town/func_8032C0AC",
+   "tu": "src/town/func_8032C0AC.c",
+   "home": "town/func_8032C0AC",
+   "foff": "0x2AC0AC",
+   "vma": "0x800168AC",
+   "size": 84
+  },
+  {
+   "row": "town/func_8032C138",
+   "tu": "src/town/func_8032C138.c",
+   "home": "town/func_8032C138",
+   "foff": "0x2AC138",
+   "vma": "0x80016938",
+   "size": 84
+  },
+  {
+   "row": "town/func_8032C18C",
+   "tu": "src/town/func_8032C18C.c",
+   "home": "town/func_8032C18C",
+   "foff": "0x2AC18C",
+   "vma": "0x8001698C",
+   "size": 100
+  },
+  {
+   "row": "town/func_8032C1F0",
+   "tu": "src/town/func_8032C1F0.c",
+   "home": "town/func_8032C1F0",
+   "foff": "0x2AC1F0",
+   "vma": "0x800169F0",
+   "size": 84
+  },
+  {
+   "row": "town/func_8032C364",
+   "tu": "src/town/func_8032C364.c",
+   "home": "town/func_8032C364",
+   "foff": "0x2AC364",
+   "vma": "0x80016B64",
+   "size": 32
+  },
+  {
+   "row": "town/func_8028C3BC",
+   "tu": "src/town/func_8032C020.c",
+   "home": "town/func_8032C020",
+   "foff": "0x2AC3BC",
+   "vma": "0x80016BBC",
+   "size": 84,
+   "bindings": {
+    "0x80019BC0": "0x80019BC0"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8028C448",
+   "tu": "src/town/func_8032C0AC.c",
+   "home": "town/func_8032C0AC",
+   "foff": "0x2AC448",
+   "vma": "0x80016C48",
+   "size": 84,
+   "bindings": {
+    "0x80019BC0": "0x80019BC0"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8028C4D4",
+   "tu": "src/town/func_8032C138.c",
+   "home": "town/func_8032C138",
+   "foff": "0x2AC4D4",
+   "vma": "0x80016CD4",
+   "size": 84,
+   "bindings": {
+    "0x80019BC0": "0x80019BC0"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8028C528",
+   "tu": "src/town/func_8032C18C.c",
+   "home": "town/func_8032C18C",
+   "foff": "0x2AC528",
+   "vma": "0x80016D28",
+   "size": 100
+  },
+  {
+   "row": "town/func_8028C58C",
+   "tu": "src/town/func_8032C1F0.c",
+   "home": "town/func_8032C1F0",
+   "foff": "0x2AC58C",
+   "vma": "0x80016D8C",
+   "size": 84,
+   "bindings": {
+    "0x80019BC0": "0x80019BC0"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8028C6C0",
+   "tu": "src/town/func_8032C364.c",
+   "home": "town/func_8032C364",
+   "foff": "0x2AC6C0",
+   "vma": "0x80016EC0",
+   "size": 32
+  },
+  {
+   "row": "town/func_8032C958",
+   "tu": "src/town/func_8032C958.c",
+   "home": "town/func_8032C958",
+   "foff": "0x2AC958",
+   "vma": "0x80017158",
+   "size": 72
+  },
+  {
+   "row": "town/func_8028CC10",
+   "tu": "src/town/func_8032C958.c",
+   "home": "town/func_8032C958",
+   "foff": "0x2ACC10",
+   "vma": "0x80017410",
+   "size": 72
+  },
+  {
+   "row": "town/func_8032CFFC",
+   "tu": "src/town/func_8032CFFC.c",
+   "home": "town/func_8032CFFC",
+   "foff": "0x2ACFFC",
+   "vma": "0x800177FC",
+   "size": 128
+  },
+  {
+   "row": "town/func_8028D09C",
+   "tu": "src/town/func_8032CFFC.c",
+   "home": "town/func_8032CFFC",
+   "foff": "0x2AD09C",
+   "vma": "0x8001789C",
+   "size": 128
+  },
+  {
+   "row": "town/func_8028D13C",
+   "tu": "src/town/func_8032CFFC.c",
+   "home": "town/func_8032CFFC",
+   "foff": "0x2AD13C",
+   "vma": "0x8001793C",
+   "size": 128,
+   "bindings": {
+    "0x8001BB7C": "0x8001BB8C"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8028DA2C",
+   "tu": "src/town/func_8032C020.c",
+   "home": "town/func_8032C020",
+   "foff": "0x2ADA2C",
+   "vma": "0x8001822C",
+   "size": 84,
+   "bindings": {
+    "0x80019BC0": "0x80019BC0"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_8032E364",
+   "tu": "src/town/func_8032E364.c",
+   "home": "town/func_8032E364",
+   "foff": "0x2AE364",
+   "vma": "0x80018B64",
+   "size": 232
+  },
+  {
+   "row": "town/func_8032E44C",
+   "tu": "src/town/func_8032E44C.c",
+   "home": "town/func_8032E44C",
+   "foff": "0x2AE44C",
+   "vma": "0x80018C4C",
+   "size": 200
+  },
+  {
+   "row": "town/func_8032E514",
+   "tu": "src/town/func_8032E514.c",
+   "home": "town/func_8032E514",
+   "foff": "0x2AE514",
+   "vma": "0x80018D14",
+   "size": 288
+  },
+  {
+   "row": "town/func_8032E634",
+   "tu": "src/town/func_8032E634.c",
+   "home": "town/func_8032E634",
+   "foff": "0x2AE634",
+   "vma": "0x80018E34",
+   "size": 116
+  },
+  {
+   "row": "town/func_8032E6A8",
+   "tu": "src/town/func_8032E6A8.c",
+   "home": "town/func_8032E6A8",
+   "foff": "0x2AE6A8",
+   "vma": "0x80018EA8",
+   "size": 120
+  },
+  {
+   "row": "town/func_8032E720",
+   "tu": "src/town/func_8032E720.c",
+   "home": "town/func_8032E720",
+   "foff": "0x2AE720",
+   "vma": "0x80018F20",
+   "size": 416
+  },
+  {
+   "row": "town/func_8032E8C0",
+   "tu": "src/town/func_8032E8C0.c",
+   "home": "town/func_8032E8C0",
+   "foff": "0x2AE8C0",
+   "vma": "0x800190C0",
+   "size": 260
+  },
+  {
+   "row": "town/func_8032EA2C",
+   "tu": "src/town/func_8032EA2C.c",
+   "home": "town/func_8032EA2C",
+   "foff": "0x2AEA2C",
+   "vma": "0x8001922C",
+   "size": 188
+  },
+  {
+   "row": "town/func_8032EB94",
+   "tu": "src/town/func_8032EB94.c",
+   "home": "town/func_8032EB94",
+   "foff": "0x2AEB94",
+   "vma": "0x80019394",
+   "size": 96
+  },
+  {
+   "row": "town/func_8032EBF4",
+   "tu": "src/town/func_8032EBF4.c",
+   "home": "town/func_8032EBF4",
+   "foff": "0x2AEBF4",
+   "vma": "0x800193F4",
+   "size": 40
+  },
+  {
+   "row": "town/func_8032EC1C",
+   "tu": "src/town/func_8032EC1C.c",
+   "home": "town/func_8032EC1C",
+   "foff": "0x2AEC1C",
+   "vma": "0x8001941C",
+   "size": 44
+  },
+  {
+   "row": "town/func_8032EC48",
+   "tu": "src/town/func_8032EC48.c",
+   "home": "town/func_8032EC48",
+   "foff": "0x2AEC48",
+   "vma": "0x80019448",
+   "size": 60
+  },
+  {
+   "row": "town/func_8032EC84",
+   "tu": "src/town/func_8032EC84.c",
+   "home": "town/func_8032EC84",
+   "foff": "0x2AEC84",
+   "vma": "0x80019484",
+   "size": 96
+  },
+  {
+   "row": "town/func_8032ECE4",
+   "tu": "src/town/func_8032ECE4.c",
+   "home": "town/func_8032ECE4",
+   "foff": "0x2AECE4",
+   "vma": "0x800194E4",
+   "size": 212
+  },
+  {
+   "row": "town/func_8032EDB8",
+   "tu": "src/town/func_8032EDB8.c",
+   "home": "town/func_8032EDB8",
+   "foff": "0x2AEDB8",
+   "vma": "0x800195B8",
+   "size": 240
+  },
+  {
+   "row": "town/func_8032EEA8",
+   "tu": "src/town/func_8032EEA8.c",
+   "home": "town/func_8032EEA8",
+   "foff": "0x2AEEA8",
+   "vma": "0x800196A8",
+   "size": 60
+  },
+  {
+   "row": "town/func_8032EEE4",
+   "tu": "src/town/func_8032EEE4.c",
+   "home": "town/func_8032EEE4",
+   "foff": "0x2AEEE4",
+   "vma": "0x800196E4",
+   "size": 136
+  },
+  {
+   "row": "town/func_8032F0F4",
+   "tu": "src/town/func_8032F0F4.c",
+   "home": "town/func_8032F0F4",
+   "foff": "0x2AF0F4",
+   "vma": "0x800198F4",
+   "size": 100
+  },
+  {
+   "row": "town/func_8032F2DC",
+   "tu": "src/town/func_8032F2DC.c",
+   "home": "town/func_8032F2DC",
+   "foff": "0x2AF2DC",
+   "vma": "0x80019ADC",
+   "size": 120
+  },
+  {
+   "row": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "home": "town/func_8032F3C0",
+   "foff": "0x2AF3C0",
+   "vma": "0x80019BC0",
+   "size": 84
+  },
+  {
+   "row": "town/func_8028F414",
+   "tu": "src/town/func_8032F3C0.c",
+   "home": "town/func_8032F3C0",
+   "foff": "0x2AF414",
+   "vma": "0x80019C14",
+   "size": 84
+  },
+  {
+   "row": "town/func_8032FBA4",
+   "tu": "src/town/func_8032FBA4.c",
+   "home": "town/func_8032FBA4",
+   "foff": "0x2AFBA4",
+   "vma": "0x8001A3A4",
+   "size": 88
+  },
+  {
+   "row": "town/func_8032FBFC",
+   "tu": "src/town/func_8032FBFC.c",
+   "home": "town/func_8032FBFC",
+   "foff": "0x2AFBFC",
+   "vma": "0x8001A3FC",
+   "size": 124
+  },
+  {
+   "row": "town/func_8032FC84",
+   "tu": "src/town/func_8032FC84.c",
+   "home": "town/func_8032FC84",
+   "foff": "0x2AFC84",
+   "vma": "0x8001A484",
+   "size": 132
+  },
+  {
+   "row": "town/func_8032FDE4",
+   "tu": "src/town/func_8032FDE4.c",
+   "home": "town/func_8032FDE4",
+   "foff": "0x2AFDE4",
+   "vma": "0x8001A5E4",
+   "size": 68
+  },
+  {
+   "row": "town/func_803302F0",
+   "tu": "src/town/func_803302F0.c",
+   "home": "town/func_803302F0",
+   "foff": "0x2B02F0",
+   "vma": "0x8001AAF0",
+   "size": 48
+  },
+  {
+   "row": "town/func_80330320",
+   "tu": "src/town/func_80330320.c",
+   "home": "town/func_80330320",
+   "foff": "0x2B0320",
+   "vma": "0x8001AB20",
+   "size": 84
+  },
+  {
+   "row": "town/func_80330374",
+   "tu": "src/town/func_80330374.c",
+   "home": "town/func_80330374",
+   "foff": "0x2B0374",
+   "vma": "0x8001AB74",
+   "size": 248
+  }
+ ],
+ "symbols": {
+  "0x8001ACE8": "0x8001AD60",
+  "0x8001B924": "0x8001BA34",
+  "0x8001B944": "0x8001BA54",
+  "0x8001BB7C": "0x8001BB84"
+ }
+}

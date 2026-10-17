@@ -19,7 +19,7 @@ typedef struct S_80020510_0 {
 typedef struct S_80020510_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80020510_1;   /* temp_s2 in townTickSummedSceneValueText */
+} S_80020510_1;
 
 
 void formatDecimalFieldSpacePadded();               /* extern */
@@ -28,6 +28,7 @@ extern s16 D_800272A0[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */
 void townTickSummedSceneValueText(void *entry) {
+    u16 *flags;
     s16 state;
     s32 value_index;
     s32 value_sum;
@@ -58,7 +59,8 @@ void townTickSummedSceneValueText(void *entry) {
         formatDecimalFieldSpacePadded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
                       ((S_80020510_0 *)entry)->unk_04);
         if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
-            (*(u16 *)((u8 *)entry + -2)) =
+            flags = &((S_80020510_0_pre *)entry)[-1].unk_00;
+            *flags =
                 (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags |= 0x8000;
         }

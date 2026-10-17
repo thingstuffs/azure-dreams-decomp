@@ -14,11 +14,10 @@ typedef struct S_80098864_0 {
 typedef struct S_80098864_1 {
     u8 pad_00[0x60];
     s32 unk_60;
-} S_80098864_1;   /* temp_a0 in dungeonProcessRecordAndUpdateLinkedState */
+} S_80098864_1;
 
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void dungeonClearSlotAndUpdateLinkedState();
 void copyItemCategoryDamage();

@@ -11,7 +11,7 @@ typedef struct S_80099F70_1 {
     s32 unk_14;
     u8 pad_18[0x44];
     s32 unk_5C;
-} S_80099F70_1;   /* var_s0 in dungeonProcessUnflaggedLinkedEntriesAlt */
+} S_80099F70_1;
 
 // Process linked entries with flag 0x4000 until reaching the global sentinel.
 void dungeonProcessUnflaggedLinkedEntriesAlt(s32 firstNodeBase) {

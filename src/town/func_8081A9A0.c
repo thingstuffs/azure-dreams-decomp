@@ -17,7 +17,7 @@ typedef struct S_800249A0_0 {
 typedef struct S_800249A0_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_800249A0_1;   /* temp_s1 in func_800249A0 */
+} S_800249A0_1;
 
 
 void formatDecimalFieldSpacePadded();               /* extern */

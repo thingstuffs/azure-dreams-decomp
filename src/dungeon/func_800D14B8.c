@@ -21,7 +21,7 @@ typedef struct S_800D6C18_0 {
 typedef struct S_800D6C18_1 {
     u8 pad_00[0x14];
     u32 unk_14;
-} S_800D6C18_1;   /* temp_v1 in dungeonUpdateExpiringSpriteEffect */
+} S_800D6C18_1;
 
 typedef struct S_800D6C18_2 {
     u8 pad_00[0x14];
@@ -33,7 +33,7 @@ typedef struct S_800D6C18_3 {
     s16 unk_44;
     u8 pad_46[0x6];
     s16 unk_4C;
-} S_800D6C18_3;   /* var_a0 in dungeonUpdateExpiringSpriteEffect */
+} S_800D6C18_3;
 
 
 void dungeonCreateOffsetSpriteEffect(); /* extern */

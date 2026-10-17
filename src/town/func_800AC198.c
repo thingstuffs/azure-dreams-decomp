@@ -5,25 +5,14 @@ s32 testResidentBitmapBit();
 /* Returns the selected query result, testing for zero for check type 3. */
 s32 func_800A98F8(s32 check_type)
 {
-    if (check_type == 2) {
-        goto case_2;
-    }
-    if (check_type < 3) {
-        if (check_type == 0) {
-            goto case_0;
-        }
+    switch (check_type) {
+    case 0:
+        return testResidentBitmapBit(0x11FA);
+    case 2:
+        return testResidentBitmapBit(0x11FB);
+    case 3:
+        return testResidentBitmapBit(0x4FA) == 0;
+    default:
         return 0;
     }
-    if (check_type == 3) {
-        goto case_3;
-    }
-    goto tail;
-case_0:
-    return testResidentBitmapBit(0x11FA);
-case_2:
-    return testResidentBitmapBit(0x11FB);
-case_3:
-    return testResidentBitmapBit(0x4FA) == 0;
-tail:
-    return 0;
 }

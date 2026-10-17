@@ -8,7 +8,7 @@ typedef struct S_80BFD000_0 {
     void * unk_08;
     void * unk_0C;
     u8 * unk_10;
-} S_80BFD000_0;   /* temp_v0 in dungeonCreateDungeonActor */
+} S_80BFD000_0;
 
 typedef struct S_80BFD000_1 {
     u8 pad_00[0x13];
@@ -16,12 +16,12 @@ typedef struct S_80BFD000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80BFD000_1;   /* var_s0 in dungeonCreateDungeonActor */
+} S_80BFD000_1;
 
 typedef struct S_80BFD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80BFD000_2;   /* temp_s4 in dungeonCreateDungeonActor */
+} S_80BFD000_2;
 
 typedef struct S_80BFD000_3 {
     u8 pad_00[0x24];
@@ -29,7 +29,7 @@ typedef struct S_80BFD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80BFD000_3;   /* temp_s2 in dungeonCreateDungeonActor */
+} S_80BFD000_3;
 
 typedef struct S_80BFD000_4 {
     u8 pad_00[0x8C];

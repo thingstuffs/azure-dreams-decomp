@@ -9,7 +9,7 @@
 typedef struct S_800D5294_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800D5294_5;   /* temp_a0 in dungeonEmitRandomizedRelativeParticles */
+} S_800D5294_5;
 
 typedef struct S_800D5294_6 {
     u8 pad_00[0x2];
@@ -18,7 +18,7 @@ typedef struct S_800D5294_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D5294_6;   /* ((S_800D5294_5 *)temp_a0)->unk_08 in dungeonEmitRandomizedRelativeParticles */
+} S_800D5294_6;
 
 
 typedef struct S_800D5294_0_pre {
@@ -30,14 +30,14 @@ typedef struct S_800D5294_2 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     s16 unk_20;
-} S_800D5294_2;   /* temp_v0_3 in dungeonEmitRandomizedRelativeParticles */
+} S_800D5294_2;
 
 typedef struct S_800D5294_3 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_800D5294_3;   /* temp_v0_2 in dungeonEmitRandomizedRelativeParticles */
+} S_800D5294_3;
 
 typedef struct S_800D5294_4 {
     u8 pad_00[0x2];
@@ -48,7 +48,7 @@ typedef struct S_800D5294_4 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800D5294_4;   /* temp_s0 in dungeonEmitRandomizedRelativeParticles */
+} S_800D5294_4;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

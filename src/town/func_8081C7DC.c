@@ -11,7 +11,7 @@ typedef struct S_800267DC_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800267DC_0;   /* temp_v0 in townCreateRandomizedTrailParticle */
+} S_800267DC_0;
 
 typedef struct S_800267DC_1 {
     s32 unk_00;
@@ -20,7 +20,7 @@ typedef struct S_800267DC_1 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_800267DC_1;   /* temp_s1 in townCreateRandomizedTrailParticle */
+} S_800267DC_1;
 
 typedef struct S_800267DC_2 {
     s32 unk_00;
@@ -42,7 +42,7 @@ typedef struct S_800267DC_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800267DC_3;   /* temp_s0 in townCreateRandomizedTrailParticle */
+} S_800267DC_3;
 
 typedef struct S_800267DC_4 {
     u8 pad_00[0x4];

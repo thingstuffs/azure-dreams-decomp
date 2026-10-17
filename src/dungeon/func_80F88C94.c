@@ -1,3 +1,4 @@
+#include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -49,7 +50,7 @@ typedef struct S_80172494_4 {
     u8 pad_00[0xC];
     void * unk_0C;
     void * unk_10;
-} S_80172494_4;   /* temp_v0_2 in dungeonUpdateBankStagedMovement */
+} S_80172494_4;
 
 typedef struct S_80172494_5 {
     u8 pad_00[0x4];
@@ -66,7 +67,7 @@ typedef struct S_80172494_5 {
     u16 unk_18;
     u8 pad_1A[0x2E];
     s16 unk_48;
-} S_80172494_5;   /* temp_s0_2 in dungeonUpdateBankStagedMovement */
+} S_80172494_5;
 
 typedef struct S_80172494_6 {
     void * unk_00;
@@ -81,17 +82,17 @@ typedef struct S_80172494_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80172494_6;   /* temp_s1 in dungeonUpdateBankStagedMovement */
+} S_80172494_6;
 
 typedef struct S_80172494_7 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80172494_7;   /* temp_fp in dungeonUpdateBankStagedMovement */
+} S_80172494_7;
 
 typedef struct S_80172494_8 {
     u8 pad_00[0x3DE8];
     void * unk_3DE8;
-} S_80172494_8;   /* (void *)temp_v1 in dungeonUpdateBankStagedMovement */
+} S_80172494_8;
 
 
 extern s32 rand(void);
@@ -191,7 +192,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
             ((S_80172494_3 *)motion)->unk_0C = 0;
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
-            (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AE4;
+            (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AE4;
             direction_index = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             func_80047784(map_actor, D_80174AE4[direction_index & 7], 0);
         }
@@ -294,7 +295,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
         dungeonReduceActorFoodMeter(actor_arg, 0x100);
         ((S_80172494_1 *)action)->unk_8C = dungeonUpdateBankActorState;
         dungeonStatus.unk_0C = 0;
-        (*(void * *)((u8 *)map_actor + 0x2C)) = D_80174AD4;
+        (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AD4;
         direction_index_2 = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);
         dungeonAdvanceStatusTimers(actor_arg);

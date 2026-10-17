@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     s8 pad_00[0x2A];
@@ -22,12 +21,12 @@ extern void func_80048A44(void *, u8, s32, s32);
 typedef struct S_8008D024_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8008D024_0;   /* temp_a3 in dungeonBeginFamiliarCommandSelection */
+} S_8008D024_0;
 
 typedef struct S_8008D024_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008D024_1;   /* temp_a0 in dungeonBeginFamiliarCommandSelection */
+} S_8008D024_1;
 
 
 /* Selects an eligible linked target and initializes the actor's action and directional display. */

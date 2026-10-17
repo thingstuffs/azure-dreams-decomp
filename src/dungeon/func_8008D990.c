@@ -29,7 +29,7 @@ typedef struct S_800930F0_2 {
 typedef struct S_800930F0_3 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_800930F0_3;   /* var_s2 in dungeonUpdateFloorExitTransition */
+} S_800930F0_3;
 
 typedef struct S_800930F0_4 {
     u8 pad_00[0x234];
@@ -41,7 +41,7 @@ typedef struct S_800930F0_4 {
     s16 unk_3716;
     s16 unk_3718;
     s16 unk_371A;
-} S_800930F0_4;   /* var_s0 in dungeonUpdateFloorExitTransition */
+} S_800930F0_4;
 
 typedef struct S_800930F0_5 {
     union { M2C_UNK * s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
@@ -60,7 +60,7 @@ typedef struct S_800930F0_7 {
 typedef struct S_800930F0_8 {
     u8 pad_00[0x3CD0];
     union { u8 s; s8 u; } unk_3CD0;   /* accessed as both */
-} S_800930F0_8;   /* var_v1 in dungeonUpdateFloorExitTransition */
+} S_800930F0_8;
 
 typedef struct S_800930F0_9 {
     u8 pad_00[0x2E76];

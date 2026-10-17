@@ -49,7 +49,7 @@ typedef struct S_800927EC_1 {
 typedef struct S_800927EC_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800927EC_4;   /* var_v0 in townUpdateActorMovementAndInteraction */
+} S_800927EC_4;
 
 typedef struct S_800927EC_5 {
     u8 pad_00[0x50];

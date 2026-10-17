@@ -36,7 +36,7 @@ typedef struct S_7FFE89B0_1 {
 typedef struct S_7FFE89B0_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE89B0_2;   /* temp_a0 in dungeonEmitParentRelativeParticles */
+} S_7FFE89B0_2;
 
 typedef struct S_7FFE89B0_3 {
     u8 pad_00[0x8];
@@ -46,7 +46,7 @@ typedef struct S_7FFE89B0_3 {
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
-} S_7FFE89B0_3;   /* temp_v0_2 in dungeonEmitParentRelativeParticles */
+} S_7FFE89B0_3;
 
 typedef struct S_7FFE89B0_4 {
     u8 pad_00[0xA];
@@ -54,7 +54,7 @@ typedef struct S_7FFE89B0_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_7FFE89B0_4;   /* temp_s0 in dungeonEmitParentRelativeParticles */
+} S_7FFE89B0_4;
 
 typedef struct S_7FFE89B0_5 {
     u8 pad_00[0x2];
@@ -63,7 +63,7 @@ typedef struct S_7FFE89B0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE89B0_5;   /* ((S_7FFE89B0_2 *)temp_a0)->unk_08 in dungeonEmitParentRelativeParticles */
+} S_7FFE89B0_5;
 
 typedef struct S_7FFE89B0_6 {
     u8 pad_00[0x13];
@@ -71,7 +71,6 @@ typedef struct S_7FFE89B0_6 {
 } S_7FFE89B0_6;   /* ((S_7FFE89B0_0 *)arg0)->unk_00 in dungeonEmitParentRelativeParticles */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_7003CF18();
 s32 func_700750E0();

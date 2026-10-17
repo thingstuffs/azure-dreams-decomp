@@ -1,0 +1,34 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_c2f814",
+ "container": "dungeon",
+ "foff": "0xc2f814",
+ "size": "0x560",
+ "vma": "0x8014d014",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80C2F814",
+   "tu": "src/dungeon/func_80BFD814.c",
+   "home": "dungeon/func_80BFD814",
+   "foff": "0xc2f814",
+   "vma": "0x8014d014",
+   "size": 1376,
+   "bindings": {
+    "0x8015F574": "0x8014D574",
+    "0x8015F784": "0x8014D784",
+    "0x8015FECC": "0x8014DECC",
+    "0x80160090": "0x8014E090",
+    "0x801601B4": "0x8014E1B4",
+    "0x80161468": "0x8014F468",
+    "0x80161AE8": "0x8014FAE8",
+    "0x8016220C": "0x8015020C",
+    "0x8016221C": "0x8015021C",
+    "0x8016224C": "0x8015024C",
+    "0x80162254": "0x80150254",
+    "0x8016225C": "0x8015025C"
+   },
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80C03814 (now an LL placement of dungeon/func_80BFD814): bindings translated through dungeon/func_80C03814's object-screen resolution"
+  }
+ ]
+}

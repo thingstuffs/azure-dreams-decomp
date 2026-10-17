@@ -3,6 +3,13 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x20];
+    s32 field_20;
+} EffectFieldView_8132E83C;
+
+
 typedef struct Copy12 {
     M2C_UNK word[3];
 } __attribute__((packed)) Copy12;
@@ -31,7 +38,7 @@ typedef struct S_8016583C_1 {
     u16 unk_42;
     u16 unk_44;
     u16 unk_46;
-} S_8016583C_1;   /* temp_s0 in dungeonCreateShortLivedColoredParticle */
+} S_8016583C_1;
 
 typedef struct S_8016583C_2 {
     u8 pad_00[0x8];
@@ -42,7 +49,7 @@ typedef struct S_8016583C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016583C_2;   /* temp_a0 in dungeonCreateShortLivedColoredParticle */
+} S_8016583C_2;
 
 typedef struct S_8016583C_3 {
     u8 pad_00[0x2];
@@ -54,7 +61,7 @@ typedef struct S_8016583C_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016583C_3;   /* (*(void **)((u8 *)temp_v0 + 8)) in dungeonCreateShortLivedColoredParticle */
+} S_8016583C_3;
 
 typedef struct S_8016583C_4 {
     u8 pad_00[0x2];
@@ -76,30 +83,30 @@ void dungeonCreateShortLivedColoredParticle(S_8016583C_0 *source, s16 duration, 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         held_scale = scale;
-        (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_801654F0;
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 =
+        (((ObjectNodeHeader *)effect)->unk_10) = &D_801654F0;
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
             (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + offset_x);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 =
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
             (s16) (((S_8016583C_4 *)(source->unk_08))->unk_06 + offset_y);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A =
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
             (s16) (((S_8016583C_4 *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
         effect_state->unk_42 = (u16) ((S_8016583C_4 *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((S_8016583C_4 *)(source->unk_08))->unk_06;
         effect_state->unk_46 = (u16) ((S_8016583C_4 *)(source->unk_08))->unk_0A;
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_14 = velocity_z;
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = velocity_z;
         effect_state->unk_14 = duration;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
         func_8004491C(effect, func_80045340);
-        sprite = (*(void **)((u8 *)effect + 0xC));
+        sprite = (((ObjectNodeHeader *)effect)->unk_0C);
         sprite->unk_1E = 0x200;
         sprite->unk_1C = 0x200;
         sprite->unk_0C = held_scale;
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
-        (*(s32 *)((u8 *)effect + 0x20)) = held_scale;
+        (((EffectFieldView_8132E83C *)effect)->field_20) = held_scale;
         effect_state->unk_04 = held_scale;
         effect_state->unk_08 = held_scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =

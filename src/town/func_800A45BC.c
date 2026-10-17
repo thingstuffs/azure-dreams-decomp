@@ -35,7 +35,7 @@ typedef struct S_800A1D1C_1 {
     s16 unk_0A;
     u8 pad_0C[0x4];
     union { u8 u8; s16 s16; } unk_10;   /* accessed as both */
-} S_800A1D1C_1;   /* temp_s1 in townRenderShadedObjectPrimitive */
+} S_800A1D1C_1;
 
 typedef struct S_800A1D1C_2 {
     u8 pad_00[0x14A0];

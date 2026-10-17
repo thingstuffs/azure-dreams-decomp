@@ -27,7 +27,6 @@ typedef struct S_81977E0C_3 {
     u16 unk_0A;
 } S_81977E0C_3;   /* D_80026208 in func_81977E0C */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_800478B8(void *);
 s32 func_800644B8();

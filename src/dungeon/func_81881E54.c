@@ -8,7 +8,7 @@ typedef struct S_80025654_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80025654_0;   /* temp_v0 in dungeonCreateEffectFromEndpoints */
+} S_80025654_0;
 
 typedef struct S_80025654_1 {
     u8 pad_00[0x2];
@@ -23,7 +23,7 @@ typedef struct S_80025654_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_80025654_1;   /* temp_a0 in dungeonCreateEffectFromEndpoints */
+} S_80025654_1;
 
 typedef struct S_80025654_2 {
     u8 pad_00[0x2];
@@ -49,7 +49,7 @@ typedef struct S_80025654_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80025654_3;   /* temp_v1 in dungeonCreateEffectFromEndpoints */
+} S_80025654_3;
 
 typedef struct S_80025654_4 {
     u8 pad_00[0x8];

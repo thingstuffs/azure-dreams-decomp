@@ -55,12 +55,9 @@ void *dungeonCreateKindActor(s16 kind_flags, s16 part_value_24, s16 part_value_2
                 func_800A48F0(work, 1,
                               (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_8015C1DC;
-            } else {
-                goto init_actor;
             }
         }
         init_obj = obj;
-init_actor:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

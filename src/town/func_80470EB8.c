@@ -8,11 +8,11 @@
 typedef struct S_80017EB8_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_80017EB8_3;   /* ((temp_a1 * 0x14) + ((S_80017EB8_2 *)(((S_80017EB8_1 *)(D_80016000[0]))->unk_24))->unk_6C) in func_80017EB8 */
+} S_80017EB8_3;
 
 typedef struct S_80017EB8_4 {
     s16 unk_00;
-} S_80017EB8_4;   /* (temp_a0 * 0x14) + ((S_80017EB8_3 *)(((temp_a1 * 0x14) + ((S_80017EB8_2 *)(((S_80017EB8_1 *)(D_80016000[0]))->unk_24))->unk_6C)))->unk_0C in func_80017EB8 */
+} S_80017EB8_4;
 
 extern s32 func_800186D8();
 

@@ -13,6 +13,25 @@ typedef struct S_80402A1C_0 {
     u32 unk_1C;
 } S_80402A1C_0;   /* arg1 in cardBootBuildFourLayoutCommandGroups */
 
+typedef struct LayoutCommand {
+    u8 id;
+    u8 opcode;
+    u8 pad_02[2];
+    u32 shade;
+    u8 pad_08[2];
+    u8 half_width;
+    u8 half_height;
+} LayoutCommand;
+
+typedef struct LayoutQuadColors {
+    u8 pad_00[4];
+    u32 first;
+    u8 pad_08[4];
+    u32 second;
+    u32 third;
+    u32 fourth;
+} LayoutQuadColors;
+
 /* Builds four groups of drawing commands sized from the selected layout. */
 void *cardBootBuildFourLayoutCommandGroups(void *buffer, S_80402A1C_0 *layout) {
     M2C_UNK command_ids;
@@ -63,36 +82,36 @@ void *cardBootBuildFourLayoutCommandGroups(void *buffer, S_80402A1C_0 *layout) {
     layout->unk_1C = height;
 loop:
     do {
-        size_ptr[-1] = (u8)half_width;
-        size_ptr[0] = (u8)half_height;
-        size_ptr[-0xA] = (u8)opcode;
-        *(u32 *)(size_ptr - 7) = shade;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)half_width;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)half_height;
+        ((LayoutCommand *)(size_ptr - 0xB))->opcode = (u8)opcode;
+        ((LayoutCommand *)(size_ptr - 0xB))->shade = shade;
         size_ptr += 0xC;
-        write_ptr[0] = *id_ptr;
+        ((LayoutCommand *)write_ptr)->id = *id_ptr;
         write_ptr += 0xC;
-        size_ptr[-1] = (u8)outer_half_width;
-        size_ptr[0] = (u8)((u32)outer_height >> 1);
-        size_ptr[-0xA] = (u8)opcode;
-        *(u32 *)(size_ptr - 7) = shade;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)outer_half_width;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)((u32)outer_height >> 1);
+        ((LayoutCommand *)(size_ptr - 0xB))->opcode = (u8)opcode;
+        ((LayoutCommand *)(size_ptr - 0xB))->shade = shade;
         command_id = *id_ptr;
         size_ptr += 0xC;
-        write_ptr[0] = command_id;
+        ((LayoutCommand *)write_ptr)->id = command_id;
         write_ptr += 0xC;
         memcpy(write_ptr, D_80410000 - 0x7394, 0x18);
-        *(u32 *)(size_ptr - 7) = 0x30BFC0;
-        *(u32 *)(size_ptr + 1) = 0x30BFC0;
-        *(u32 *)(size_ptr + 5) = 0x30BFC0;
-        *(u32 *)(size_ptr + 9) = 0x30BFC0;
-        size_ptr[-1] = (u8)half_width;
-        size_ptr[0] = (u8)half_height;
+        ((LayoutCommand *)(size_ptr - 0xB))->shade = 0x30BFC0;
+        ((LayoutQuadColors *)(size_ptr - 0xB))->second = 0x30BFC0;
+        ((LayoutQuadColors *)(size_ptr - 0xB))->third = 0x30BFC0;
+        ((LayoutQuadColors *)(size_ptr - 0xB))->fourth = 0x30BFC0;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)half_width;
+        ((LayoutCommand *)(size_ptr - 0xB))->half_height = (u8)half_height;
         size_ptr += 0x18;
         command_id = *id_ptr;
         id_ptr += 1;
-        write_ptr[0] = command_id;
+        ((LayoutCommand *)write_ptr)->id = command_id;
         write_ptr += 0x18;
     } while (0);
     if ((s32)id_ptr < (s32)stack_end)
         goto loop;
-    write_ptr[-0x18] |= 0x80;
+    ((LayoutCommand *)(write_ptr - 0x18))->id |= 0x80;
     return write_ptr;
 }

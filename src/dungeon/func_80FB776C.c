@@ -138,7 +138,18 @@ void dungeonUpdateComplexActorActionState(ActorActionView *action, EntityRec *mo
             table = (u8 *)&D_8016F298;
             current_frames = current;
             direction_frames = table;
-            goto update_direction_frames;
+            if (current_frames != direction_frames) {
+                u32 direction_index;
+
+                sprite->directionFrames = direction_frames;
+                direction_index = ((gameWork.view.viewAngle +
+                    entity->facing + 0x100) >> 9) & 7;
+                /* Keep the integer addition order used by the retail compiler. */
+                func_80047784(sprite,
+                    *(u8 *)((u32)direction_index + (u32)direction_frames),
+                    0);
+            }
+            return;
         }
     }
 
@@ -465,7 +476,6 @@ void dungeonUpdateComplexActorActionState(ActorActionView *action, EntityRec *mo
         current_frames =
             sprite->directionFrames;
         direction_frames = (u8 *)&D_8016F258;
-update_direction_frames:
         if (current_frames != direction_frames) {
             u32 direction_index;
 

@@ -36,7 +36,7 @@ typedef struct S_800CABA8_2 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_800CABA8_2;   /* temp_s2 in func_800CABA8 */
+} S_800CABA8_2;
 
 
 void *dungeonResolveAttackDamageAndEffects();
@@ -171,7 +171,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
         dungeonSetRecordIntegerTileCenter(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
         dungeonStatus.unk_0C = 0;
-        ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((*(u16 *)((u8 *)actor_state + 0x46)) & 0x7FFF);
+        ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
         dungeonAdvanceStatusTimers(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;

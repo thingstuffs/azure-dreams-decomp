@@ -23,9 +23,6 @@ typedef struct S_80125800_4 {
 } S_80125800_4;   /* ((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04 in townInterpolateCatalogGridCursor */
 
 
-#define M2C_BREAK() M2C_ERROR("break")
-#define M2C_SYNC() M2C_ERROR("sync")
-
 typedef struct SpriteFields {
     u32 pad0;
     u16 f4;
@@ -92,8 +89,8 @@ void townInterpolateCatalogGridCursor(TownObject *obj) {
         sprite_slot = slot_offset + 35;
         *obj->town->slots[sprite_slot] = D_801269D0[entry_number % 10];
     }
-    ((S_80125800_4 *)(((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04))->unk_0A =
-        (s16) ((u16) D_80126B24[((S_80125800_0 *)obj)->unk_12 & 7]
-        + (((s32) (D_80126B24[((S_80125800_0 *)obj)->unk_11 & 7]
-        - D_80126B24[((S_80125800_0 *)obj)->unk_12 & 7]) / (s16) ((S_80125800_0 *)obj)->unk_06) * ((S_80125800_0 *)obj)->unk_04));
+    obj->town->display->src->fA =
+        (s16) ((u16) D_80126B24[obj->column & 7]
+        + (((s32) (D_80126B24[obj->index & 7]
+        - D_80126B24[obj->column & 7]) / (s16) obj->field6) * obj->field4));
 }

@@ -11,12 +11,12 @@ typedef struct S_80099FDC_2 {
     u8 pad_00[0x58];
     void * unk_58;
     void * unk_5C;
-} S_80099FDC_2;   /* temp_a1 in dungeonClearEntryFlagAndLinkOwner */
+} S_80099FDC_2;
 
 typedef struct S_80099FDC_3 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_80099FDC_3;   /* temp_v1 in dungeonClearEntryFlagAndLinkOwner */
+} S_80099FDC_3;
 
 
 /* Clear the entry flag and link the entry into the current owner list. */

@@ -21,17 +21,17 @@ typedef struct S_800B3D10_1 {
 typedef struct S_800B3D10_2 {
     u8 unk_00;
     u8 unk_01;
-} S_800B3D10_2;   /* temp_a0 in dungeonApplyEffectBonuses */
+} S_800B3D10_2;
 
 typedef struct S_800B3D10_3 {
     u8 unk_00;
     u8 unk_01;
-} S_800B3D10_3;   /* temp_a0_2 in dungeonApplyEffectBonuses */
+} S_800B3D10_3;
 
 typedef struct S_800B3D10_4 {
     u8 unk_00;
     u8 unk_01;
-} S_800B3D10_4;   /* temp_a0_3 in dungeonApplyEffectBonuses */
+} S_800B3D10_4;
 
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
 void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {

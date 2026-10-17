@@ -25,7 +25,7 @@ typedef struct S_800C13C8_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C13C8_2;   /* temp_v0 in dungeonUseItemToDrawFlameCircle */
+} S_800C13C8_2;
 
 
 void dungeonBeginModeSelectedItemAction(); /* extern */

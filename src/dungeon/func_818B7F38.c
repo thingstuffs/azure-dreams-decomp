@@ -8,33 +8,33 @@ extern int abs(int);
 
    /* arg0 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_s7 in dungeonAdvanceMovementTowardReachableTile */
+
 
    /* arg2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_s2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_a1 in dungeonAdvanceMovementTowardReachableTile */
+
+
 
    /* arg1 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v1_2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_a3 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v0 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* var_a1 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* temp_v1_4 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* var_a2 in dungeonAdvanceMovementTowardReachableTile */
 
-   /* ((B28_818B7F38_S_80025738_3 *)temp_s2)->unk_0C in dungeonAdvanceMovementTowardReachableTile */
 
-   /* the 0x18 bytes before ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in dungeonAdvanceMovementTowardReachableTile, addressed as ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60[-1] */
 
-   /* ((B28_818B7F38_S_80025738_1 *)temp_s7)->unk_60 in dungeonAdvanceMovementTowardReachableTile */
+
+
+
+
+
+
+
+
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

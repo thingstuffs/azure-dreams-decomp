@@ -9,15 +9,14 @@ typedef int s32;
 typedef struct S_800C135C_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C135C_0_pre;   /* the 0x14 bytes before temp_v0 in dungeonCreateAndInitializePlayerTileActor, addressed as temp_v0[-1] */
+} S_800C135C_0_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800C135C_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800C135C_1;   /* ((S_800C135C_0_pre *)temp_v0)[-1].unk_00 in dungeonCreateAndInitializePlayerTileActor */
+} S_800C135C_1;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_80042640();
 extern void *func_800C9850();
@@ -25,7 +24,7 @@ extern void *func_800C9850();
 typedef struct S_800C135C_0 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_800C135C_0;   /* temp_v0 in dungeonCreateAndInitializePlayerTileActor */
+} S_800C135C_0;
 
 
 /* Looks up an entry, clears its linked state, and processes it if found. */

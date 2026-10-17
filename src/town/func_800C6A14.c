@@ -11,8 +11,6 @@ typedef struct S_800C4174_1 {
 extern void townInitializeObjectEntries(void *state, M2C_UNK output, M2C_UNK entries);
 extern void townInstallObjectHandlerAndClearSlotFlag(void *object, M2C_UNK update_context, M2C_UNK setup_context);
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 
 /* Apply setup from the object descriptor and then run the object update. */
 void townApplyObjectSetupAndUpdate(void *object, M2C_UNK update_context, M2C_UNK setup_context) {

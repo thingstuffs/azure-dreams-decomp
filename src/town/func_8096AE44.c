@@ -2,7 +2,7 @@
 
 typedef struct S_801232DC_0 {
     void * unk_00;
-} S_801232DC_0;   /* *var_a1 in townLayoutCatalogEntryGrid */
+} S_801232DC_0;
 
 typedef struct S_801232DC_1 {
     void * unk_00;
@@ -13,12 +13,12 @@ typedef struct S_801232DC_1 {
 typedef struct S_801232DC_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_801232DC_2;   /* *var_a2 in townLayoutCatalogEntryGrid */
+} S_801232DC_2;
 
 typedef struct S_801232DC_3 {
     void * unk_00;
     void * unk_04;
-} S_801232DC_3;   /* *var_a1_2 in townLayoutCatalogEntryGrid */
+} S_801232DC_3;
 
 typedef struct S_801232DC_4 {
     void * unk_00;
@@ -27,7 +27,7 @@ typedef struct S_801232DC_4 {
 typedef struct S_801232DC_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801232DC_5;   /* *var_a0_2 in townLayoutCatalogEntryGrid */
+} S_801232DC_5;
 
 typedef struct S_801232DC_6 {
     u8 pad_00[0x8];
@@ -39,18 +39,18 @@ typedef struct S_801232DC_7 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_801232DC_7;   /* ((S_801232DC_2 *)(*var_a2))->unk_04 in townLayoutCatalogEntryGrid */
+} S_801232DC_7;
 
 typedef struct S_801232DC_8 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_801232DC_8;   /* ((S_801232DC_3 *)(*var_a1_2))->unk_04 in townLayoutCatalogEntryGrid */
+} S_801232DC_8;
 
 typedef struct S_801232DC_9 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_801232DC_9;   /* ((S_801232DC_5 *)(*var_a0_2))->unk_08 in townLayoutCatalogEntryGrid */
+} S_801232DC_9;
 
 typedef struct S_801232DC_10 {
     u8 pad_00[0x8];

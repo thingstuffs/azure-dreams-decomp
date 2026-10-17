@@ -4,8 +4,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8004E99C();
 
@@ -19,7 +17,7 @@ typedef struct S_800B15B8_1 {
     s32 * unk_4C;
     u8 pad_50[0x10];
     s32 * unk_60;
-} S_800B15B8_1;   /* var_s0 in townResetFiveShopSlots */
+} S_800B15B8_1;
 
 /* Resets five slots and clears their associated resource handles. */
 void townResetFiveShopSlots(Rec_func_800B15B8_arg0 *owner) {

@@ -32,10 +32,9 @@ typedef struct S_8102F0D4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F0D4_2;   /* temp_v1 in dungeonUpdateRelativeDepthAndExpire */
+} S_8102F0D4_2;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s8 D_800DCECC[];
 s32 func_80065420();

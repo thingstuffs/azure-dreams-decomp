@@ -7,7 +7,7 @@ typedef struct S_800F643C_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800F643C_0;   /* temp_v0 in func_800F643C */
+} S_800F643C_0;
 
 typedef struct S_800F643C_1 {
     u8 pad_00[0x6];
@@ -18,7 +18,7 @@ typedef struct S_800F643C_1 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800F643C_1;   /* temp_s1 in func_800F643C */
+} S_800F643C_1;
 
 typedef struct S_800F643C_2 {
     u8 pad_00[0x2];
@@ -27,7 +27,7 @@ typedef struct S_800F643C_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800F643C_2;   /* temp_s0 in func_800F643C */
+} S_800F643C_2;
 
 typedef struct S_800F643C_3 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800F643C_3 {
     u8 pad_0A[0x4];
     s16 unk_0E;
     s16 unk_10;
-} S_800F643C_3;   /* temp_a0 in func_800F643C */
+} S_800F643C_3;
 
 
 s32 func_80046398(void *,s32,void *);

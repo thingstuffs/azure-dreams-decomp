@@ -13,14 +13,14 @@ typedef struct S_808B3620_0 {
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_808B3620_0;   /* var_a2 in devCopyOverlayWorkAndTrace48 */
+} S_808B3620_0;
 
 typedef struct S_808B3620_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_808B3620_1;   /* var_a3 in devCopyOverlayWorkAndTrace48 */
+} S_808B3620_1;
 
 typedef struct S_808B3620_2 {
     u8 pad_00[0x8];

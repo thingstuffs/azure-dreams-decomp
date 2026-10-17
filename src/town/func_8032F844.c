@@ -25,14 +25,14 @@ typedef struct S_8001A044_3 {
     s32 unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_8001A044_3;   /* temp_s0 in townBuildObjectSetAndSelectLists */
+} S_8001A044_3;
 
 typedef struct S_8001A044_4 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_8001A044_4;   /* temp_v0_2_ptr in townBuildObjectSetAndSelectLists */
+} S_8001A044_4;
 
 
 typedef struct S_8001A044_6 {
@@ -43,23 +43,22 @@ typedef struct S_8001A044_6 {
 typedef struct S_8001A044_7 {
     union { void * p; s32 i; } unk_00;   /* accessed as both */
     s32 unk_04;
-} S_8001A044_7;   /* temp_v0_4 in townBuildObjectSetAndSelectLists */
+} S_8001A044_7;
 
 typedef struct S_8001A044_8 {
     u8 pad_00[0x18];
     s32 * unk_18;
-} S_8001A044_8;   /* temp_v0_3 in townBuildObjectSetAndSelectLists */
+} S_8001A044_8;
 
 typedef struct S_8001A044_9 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8001A044_9;   /* var_v1 in townBuildObjectSetAndSelectLists */
+} S_8001A044_9;
 
 typedef struct S_8001A044_11 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8001A044_11;   /* (temp_v0_2 * 0x10) +
-                                    (u8 *)((S_8001A044_3 *)temp_s0)->unk_10 in townBuildObjectSetAndSelectLists */
+} S_8001A044_11;
 
 
 extern void *townFindMaskedRecordAndInitialize(void *, void *);

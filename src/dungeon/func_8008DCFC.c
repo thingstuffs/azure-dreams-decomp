@@ -86,7 +86,7 @@ typedef struct S_8009345C_2 {
 typedef struct S_8009345C_3 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8009345C_3;   /* ((temp_idx * 4) + actor) in dungeonUpdateFamiliarDeploymentChange */
+} S_8009345C_3;
 
 typedef struct S_8009345C_4 {
     union { u16 u; s16 s; } unk_00;   /* accessed as both */
@@ -94,7 +94,7 @@ typedef struct S_8009345C_4 {
 
 typedef struct S_8009345C_5_pre {
     u16 unk_00;
-} S_8009345C_5_pre;   /* the 0x2 bytes before temp_v1_2 in dungeonUpdateFamiliarDeploymentChange, addressed as temp_v1_2[-1] */
+} S_8009345C_5_pre;   /* 0x2-byte header immediately before the payload. */
 
 typedef struct S_8009345C_7 {
     u8 unk_00;
@@ -116,20 +116,20 @@ typedef struct S_8009345C_10_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_8009345C_10_pre;   /* the 0x18 bytes before temp_v0_5 in dungeonUpdateFamiliarDeploymentChange, addressed as temp_v0_5[-1] */
+} S_8009345C_10_pre;   /* 0x18-byte header immediately before the payload. */
 
 typedef struct S_8009345C_10 {
     u8 pad_00[0x13];
     u8 unk_13;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_8009345C_10;   /* temp_v0_5 in dungeonUpdateFamiliarDeploymentChange */
+} S_8009345C_10;
 
 typedef struct S_8009345C_11 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009345C_11;   /* temp_v1_3 in dungeonUpdateFamiliarDeploymentChange */
+} S_8009345C_11;
 
 typedef struct S_8009345C_12 {
     u8 pad_00[0x2];
@@ -138,7 +138,7 @@ typedef struct S_8009345C_12 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009345C_12;   /* temp_v1_4 in dungeonUpdateFamiliarDeploymentChange */
+} S_8009345C_12;
 
 typedef struct S_8009345C_13 {
     u8 pad_00[0x2];
@@ -152,7 +152,7 @@ typedef struct S_8009345C_13 {
 typedef struct S_8009345C_14 {
     u8 pad_00[0xD0];
     void * unk_D0;
-} S_8009345C_14;   /* ((temp_slot * 4) + actor) in dungeonUpdateFamiliarDeploymentChange */
+} S_8009345C_14;
 
 typedef struct S_8009345C_15 {
     u8 pad_00[0x13];
@@ -227,7 +227,7 @@ void dungeonUpdateFamiliarDeploymentChange(void *actor, void *map, void *entity,
             return;
         }
         next_state = ((S_8009345C_0 *)actor)->unk_9B + 2;
-        goto set_state;
+        break;
     case 2:
         if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
             return;
@@ -255,7 +255,7 @@ void dungeonUpdateFamiliarDeploymentChange(void *actor, void *map, void *entity,
         if (D_80082EB0[0] == NULL) {
             ((S_8009345C_0 *)actor)->unk_96 = 0U;
             next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
-            goto set_state;
+            break;
         }
         ((S_8009345C_0 *)actor)->unk_9B++;
         return;
@@ -327,11 +327,11 @@ void dungeonUpdateFamiliarDeploymentChange(void *actor, void *map, void *entity,
                 func_800A56E0(0x704);
             }
         }
-start_end_delay:
         next_state = ((S_8009345C_0 *)actor)->unk_9B;
         start_ticks = 0x10U;
         ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
-        goto increment_state;
+        next_state = next_state + 1;
+        break;
     case 7:
         end_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
         ((S_8009345C_0 *)actor)->unk_96 = end_ticks;
@@ -359,9 +359,5 @@ start_end_delay:
     default:
         return;
     }
-    next_state = ((S_8009345C_0 *)actor)->unk_9B;
-increment_state:
-    next_state = next_state + 1;
-set_state:
     ((S_8009345C_0 *)actor)->unk_9B = next_state;
 }

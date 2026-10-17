@@ -4,12 +4,12 @@
 typedef struct S_800C52D0_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800C52D0_6;   /* temp_a0 in func_800C52D0 */
+} S_800C52D0_6;
 
 typedef struct S_800C52D0_7 {
     u8 pad_00[0x3];
     s8 unk_03;
-} S_800C52D0_7;   /* ((S_800C52D0_6 *)temp_a0)->unk_08 in func_800C52D0 */
+} S_800C52D0_7;
 
 
 extern const s32 D_800D5138;
@@ -24,7 +24,7 @@ typedef struct S_800C52D0_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800C52D0_1;   /* temp_v0 in func_800C52D0 */
+} S_800C52D0_1;
 
 typedef struct S_800C52D0_2 {
     s32 unk_00;
@@ -36,13 +36,13 @@ typedef struct S_800C52D0_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800C52D0_3;   /* temp_a3 in func_800C52D0 */
+} S_800C52D0_3;
 
 typedef struct S_800C52D0_4 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800C52D0_4;   /* temp_a0 in func_800C52D0 */
+} S_800C52D0_4;
 
 typedef struct S_800C52D0_5 {
     u8 pad_00[0x1A];

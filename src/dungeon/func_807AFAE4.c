@@ -11,7 +11,7 @@ typedef struct S_807AFAE4_0 {
     void * unk_20;
     u8 pad_24[0x6];
     u16 unk_2A;
-} S_807AFAE4_0;   /* temp_v0 in func_800F72E4 */
+} S_807AFAE4_0;
 
 typedef struct S_807AFAE4_1 {
     s32 unk_00;

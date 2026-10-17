@@ -1,4 +1,5 @@
 #include "modules/dungeon_resource16_slot0.h"
+#include "records/Rec_D_80082E80.h"
 
 void func_80172D50(void *actor, void *context, void *render_record, EntityRec *actor_state)
 {
@@ -14,7 +15,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
         if (!(((Rec_D_80082E80 *)render_record)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)render_record + 0x2C)) = ((u8 *)D_8017425C);
+        ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_8017425C);
         func_80047784(render_record,(u8)(((u8 *)D_8017425C)[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         dungeonStatus.unk_0A--;
@@ -87,7 +88,7 @@ void func_80172D50(void *actor, void *context, void *render_record, EntityRec *a
                 return;
             }
         }
-        (*(void * *)((u8 *)render_record + 0x2C)) = ((u8 *)D_80174264);
+        ((Rec_D_80082E80 *)render_record)->unk_2C.as_pv = ((u8 *)D_80174264);
         func_80047784(render_record,(u8)(((u8 *)D_80174264)[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7]),
             0);
         (*(u32 *)&actor_state->flags1C) |= 0x40000;

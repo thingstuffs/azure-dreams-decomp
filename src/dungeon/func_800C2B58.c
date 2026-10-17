@@ -6,7 +6,7 @@
 typedef struct S_800C82B8_0 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_800C82B8_0;   /* var_v1 in dungeonCountOccupiedEntitySlots */
+} S_800C82B8_0;
 
 typedef struct S_800C82B8_1 {
     u8 pad_00[0x54];

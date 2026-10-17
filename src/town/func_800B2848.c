@@ -16,7 +16,7 @@ typedef struct S_800AFFA8_1 {
     s32 unk_18;
     u8 pad_1C[0x4];
     s32 * unk_20;
-} S_800AFFA8_1;   /* temp_v1 in townProcessItemMenuSelectedEntry */
+} S_800AFFA8_1;
 
 /* Runs the record handlers, then processes the selected entry. */
 void townProcessItemMenuSelectedEntry(Rec_func_800AF254_arg1 *record) {

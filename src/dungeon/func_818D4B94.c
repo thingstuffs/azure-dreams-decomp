@@ -6,7 +6,7 @@
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_818D4B94_2;   /* temp_v0 in func_80024394 */
+} S_818D4B94_2;
 
 
 typedef struct S_818D4B94_4 {
@@ -16,7 +16,7 @@ typedef struct S_818D4B94_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_818D4B94_4;   /* ((S_818D4B94_2 *)temp_v0)->unk_08 in func_80024394 */
+} S_818D4B94_4;
 
 typedef struct S_818D4B94_5 {
     u8 pad_00[0x2];
@@ -36,7 +36,7 @@ typedef struct S_818D4B94_5 {
 typedef struct S_818D4B94_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_818D4B94_0;   /* temp_v0 in func_80024394 */
+} S_818D4B94_0;
 
 typedef struct S_818D4B94_1 {
     u8 pad_00[0x8];
@@ -52,7 +52,7 @@ typedef struct S_818D4B94_1 {
     s32 unk_48;
     s32 unk_4C;
     s32 unk_50;
-} S_818D4B94_1;   /* temp_s0 in func_80024394 */
+} S_818D4B94_1;
 
 /* Creates an offset effect with velocity directed back toward the source position. */
 void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {

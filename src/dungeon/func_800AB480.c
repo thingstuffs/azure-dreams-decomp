@@ -42,18 +42,18 @@ typedef struct S_800B0BE0_3 {
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800B0BE0_3;   /* temp_v1 in dungeonSubmitTexturedQuad */
+} S_800B0BE0_3;
 
 typedef struct S_800B0BE0_4 {
     u8 pad_00[0x9];
     u8 unk_09;
     u8 pad_0A[0x1];
     u8 unk_0B;
-} S_800B0BE0_4;   /* temp_v1_2 in dungeonSubmitTexturedQuad */
+} S_800B0BE0_4;
 
 typedef struct S_800B0BE0_5 {
     s8 unk_00;
-} S_800B0BE0_5;   /* temp_v1_3 in dungeonSubmitTexturedQuad */
+} S_800B0BE0_5;
 
 /* Fill and submit a textured quad, then advance the primitive and texture cursors. */
 void *dungeonSubmitTexturedQuad(s32 draw_context, S_800B0BE0_1 *draw_settings, void **texture_cursor, void *primitive) {

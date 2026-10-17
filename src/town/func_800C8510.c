@@ -3,8 +3,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-#define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
-
 extern void townInitializeObjectEntries(void *state, s32 output, void *entries);
 extern void townApplyObjectSetupAndUpdate(void *object, s32 update_context, s32 setup_context);
 extern M2C_UNK D_800D5518;

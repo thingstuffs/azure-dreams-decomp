@@ -24,12 +24,12 @@ typedef struct S_800974DC_0 {
 typedef struct S_800974DC_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800974DC_4_pre;   /* the 0x14 bytes before temp_a2 in dungeonUpdateAirborneActorMotion, addressed as temp_a2[-1] */
+} S_800974DC_4_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800974DC_6 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800974DC_6;   /* ((S_800974DC_4_pre *)temp_a2)[-1].unk_00 in dungeonUpdateAirborneActorMotion */
+} S_800974DC_6;
 
 
 void func_8003DB94();

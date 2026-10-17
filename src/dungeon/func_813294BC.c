@@ -8,7 +8,7 @@ typedef struct S_80170CBC_0 {
     s16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_80170CBC_0;   /* temp_v1 in dungeonAdvanceBossEffectCounter */
+} S_80170CBC_0;
 
 /* Clear the object's halfword field and increment its byte counter. */
 void dungeonAdvanceBossEffectCounter(void) {

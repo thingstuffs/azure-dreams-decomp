@@ -1,5 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/object_node.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
  * (rowbase img_1942998_80024198 delta 0x7E6E1800 continued).  Five-state handler:
  * spawn a directional effect object, follow it, then print the result message and
@@ -29,140 +29,215 @@ extern s16 D_80025B60;
 extern u8 D_80045340[];
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
-extern u8 D_800814A0[];
-extern u8 D_80083228[];
-extern u8 D_8008346C[];
-extern u8 D_80083498[];
+#include "shared/object_flags.h"
+#include "shared/game_work.h"
+#include "shared/dungeon_status.h"
 extern u8 D_800DEC00[];
-void dungeonProcessResolvedItemValue(void *arg0, void *arg1, void *arg2) {
+
+typedef struct {
+    void * owner;
+    u16 * animation_flags;
+    u8 reserved_08[0x1];
+    u8 kind;
+    s16 phase;
+    u8 reserved_0c[0x72];
+    s16 direction;
+    u8 reserved_80[0x4];
+    u16 frame;
+    s16 complete;
+    s16 value;
+    u8 reserved_8a[0x16];
+    s8 tile_x;
+    s8 tile_y;
+    u8 reserved_a2[0x6];
+    void * spawned;
+    void * motion;
+} ResolvedEffect;
+typedef struct {
+    u8 reserved_00[0x8];
+    void * packet;
+    s32 color;
+    s16 mode;
+    u8 reserved_12[0x2];
+    u16 flags;
+    u8 reserved_16[0x6];
+    s16 scale_x;
+    s16 scale_y;
+    u8 reserved_20[0x4];
+    u8 tile_x;
+    u8 tile_y;
+    u8 reserved_26[0x6];
+    s32 script;
+} ResolvedSprite;
+typedef struct {
+    u8 reserved_00[0x2A];
+    u16 facing;
+    u8 reserved_2c[0x34];
+    s32 target;
+    u8 reserved_64[0xE];
+    u8 tile_x;
+    u8 tile_y;
+} ResolvedActor;
+typedef struct {
+    u8 reserved_00[0x58];
+    s16 phase;
+    s16 timer;
+    s16 range;
+    u8 reserved_5e[0x2];
+    s16 has_target;
+    u8 reserved_62[0x8];
+    u8 kind;
+    u8 reserved_6b[0x1];
+    u16 direction;
+    u8 reserved_6e[0x16];
+    void * owner;
+    s32 target;
+    void * controller;
+    s16 target_x;
+    s16 target_y;
+    s16 origin_x;
+    s16 origin_y;
+    s32 velocity_x;
+    s32 velocity_y;
+} ResolvedSpawn;
+typedef struct {
+    u8 reserved_00[12];
+    u8 red, green, blue;
+} ResolvedSpriteColor;
+typedef union {
+    s32 fixed;
+    struct { u16 fraction, whole; } half;
+} ResolvedCoordinate;
+typedef struct { ResolvedCoordinate axes[3]; } ResolvedMotion;
+
+void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *sprite) {
     DirectionTable directions;
-    M2C_UNK temp_a1;
-    s16 temp_a0;
+    s16 phase;
     s32 done_flag;
     u16 direction;
-    s32 temp_t0;
-    u16 temp_v0_4;
-    u16 temp_v1_3;
-    void *temp_a0_2;
-    void *temp_a1_2;
-    void *temp_s0;
-    void *temp_s0_2;
-    void *temp_s2;
-    void *temp_s5;
-    void *temp_v0;
-    void *temp_v0_2;
-    void *temp_v1;
-    void *temp_v1_2;
-    void *var_a2;
-    void *var_a3;
+    s32 source_packet_end;
+    u16 next_frame;
+    u16 frame;
+    void *spawn_state;
+    void *owner_sprite;
+    void *owner_motion;
+    void *spawn_sprite;
+    void *owner;
+    void *source_sprite;
+    void *owner_header;
+    void *spawned;
+    void *spawn_motion;
+    void *follow_motion;
+    void *packet_source;
+    void *packet_destination;
 
-    temp_s2 = M2C_FIELD(arg0, void **, 0);
+    owner = (((ResolvedEffect *)effect_state)->owner);
     directions = D_80024004;
-    temp_a0 = M2C_FIELD(arg0, s16 *, 0xA);
-    temp_v0 = temp_s2 - 0x20;
-    temp_s0 = M2C_FIELD(temp_v0, void **, 8);
-    temp_s5 = M2C_FIELD(temp_v0, void **, 0xC);
-    switch (temp_a0) {
+    phase = (((ResolvedEffect *)effect_state)->phase);
+    owner_header = owner - 0x20;
+    owner_motion = (((ObjectNodeHeader *)owner_header)->unk_08);
+    source_sprite = (((ObjectNodeHeader *)owner_header)->unk_0C);
+    switch (phase) {
     case 0:
-        M2C_FIELD(arg2, s32 *, 0xC) = 0x808080;
-        M2C_FIELD(arg2, s16 *, 0x1E) = 0x1000;
-        M2C_FIELD(arg2, s16 *, 0x1C) = 0x1000;
-        func_8003DB94(arg2, ((u32)D_800DEC00), 0);
-        direction = M2C_FIELD(temp_s2, u16 *, 0x2A);
+        (((ResolvedSprite *)sprite)->color) = 0x808080;
+        (((ResolvedSprite *)sprite)->scale_y) = 0x1000;
+        (((ResolvedSprite *)sprite)->scale_x) = 0x1000;
+        func_8003DB94(sprite, ((u32)D_800DEC00), 0);
+        direction = (((ResolvedActor *)owner)->facing);
         D_80025B60 = 1;
-        M2C_FIELD(arg0, s16 *, 0x7E) = (direction >> 9) & 7;
-        M2C_FIELD(arg0, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(arg0, s16 *, 0xA) + 1);
+        (((ResolvedEffect *)effect_state)->direction) = (direction >> 9) & 7;
+        (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
     case 1:
-        M2C_FIELD(arg1, u16 *, 2) = (u16) M2C_FIELD(temp_s0, u16 *, 2);
-        M2C_FIELD(arg1, u16 *, 6) = (u16) M2C_FIELD(temp_s0, u16 *, 6);
-        M2C_FIELD(arg1, u16 *, 0xA) = (u16) M2C_FIELD(temp_s0, u16 *, 0xA);
-        if (*M2C_FIELD(arg0, u16 **, 4) & 0x80) {
-            M2C_FIELD(arg0, u16 *, 0x84) = 0U;
-            M2C_FIELD(arg0, s16 *, 0xA) = (u16) M2C_FIELD(arg0, s16 *, 0xA) + 1;
+        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[0].half.whole);
+        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[1].half.whole);
+        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[2].half.whole);
+        if (*(((ResolvedEffect *)effect_state)->animation_flags) & 0x80) {
+            (((ResolvedEffect *)effect_state)->frame) = 0U;
+            (((ResolvedEffect *)effect_state)->phase) = (u16) (((ResolvedEffect *)effect_state)->phase) + 1;
             return;
         }
     default:
         return;
     case 2:
-        temp_v0_2 = func_8003FD64(0x112, ((u32)D_80083498));
-        if (temp_v0_2 != NULL) {
-            temp_a0_2 = temp_v0_2 + 0x20;
-            M2C_FIELD(temp_a0_2, s32 *, 0x98) = (s32) (directions.v[M2C_FIELD(arg0, s16 *, 0x7E)].x << 0x10);
-            M2C_FIELD(temp_a0_2, s32 *, 0x9C) = (s32) (directions.v[M2C_FIELD(arg0, s16 *, 0x7E)].y << 0x10);
-            M2C_FIELD(temp_a0_2, s16 *, 0x58) = 0;
-            M2C_FIELD(temp_a0_2, void **, 0x84) = temp_s2;
-            M2C_FIELD(temp_a0_2, s32 *, 0x88) = (s32) M2C_FIELD(temp_s2, s32 *, 0x60);
-            M2C_FIELD(temp_a0_2, void **, 0x8C) = arg0;
-            M2C_FIELD(temp_a0_2, u8 *, 0x6A) = (u8) M2C_FIELD(arg0, u8 *, 9);
-            M2C_FIELD(temp_a0_2, u16 *, 0x6C) = (u16) M2C_FIELD(arg0, s16 *, 0x7E);
-            temp_a1_2 = M2C_FIELD(temp_s2, void **, -0x14);
-            M2C_FIELD(arg0, s8 *, 0xA0) = (s8) (M2C_FIELD(temp_a1_2, u8 *, 0x24) + M2C_FIELD((M2C_FIELD(arg0, s16 *, 0x7E) * 2), u8 *, ((u32)D_8006CCD8)));
-            M2C_FIELD(arg0, s8 *, 0xA1) = (s8) (M2C_FIELD(temp_a1_2, u8 *, 0x25) + M2C_FIELD((M2C_FIELD(arg0, s16 *, 0x7E) * 2), u8 *, ((u32)D_8006CCE8)));
-            if (M2C_FIELD(temp_s2, s32 *, 0x60) != 0) {
-                M2C_FIELD(temp_a0_2, s16 *, 0x90) = (s16) (s8) M2C_FIELD(temp_s2, u8 *, 0x72);
-                M2C_FIELD(temp_a0_2, s16 *, 0x92) = (s16) (s8) M2C_FIELD(temp_s2, u8 *, 0x73);
-                M2C_FIELD(temp_a0_2, s16 *, 0x94) = (s16) M2C_FIELD(temp_a1_2, u8 *, 0x24);
-                M2C_FIELD(temp_a0_2, s16 *, 0x96) = (s16) M2C_FIELD(temp_a1_2, u8 *, 0x25);
-                M2C_FIELD(temp_a0_2, s16 *, 0x60) = 1;
-                M2C_FIELD(temp_a0_2, s16 *, 0x5A) = 0;
-                func_800A48F0(M2C_FIELD(temp_s2, s32 *, 0x60), 0x1D, (s8) (((u8) M2C_FIELD(arg0, u8 *, 9) >> 2) + 3 + (func_800A6D30() & 3)));
-                var_a2 = temp_s5;
+        spawned = func_8003FD64(0x112, ((u32)&D_80083498));
+        if (spawned != 0) {
+            spawn_state = spawned + 0x20;
+            (((ResolvedSpawn *)spawn_state)->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);
+            (((ResolvedSpawn *)spawn_state)->velocity_y) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].y << 0x10);
+            (((ResolvedSpawn *)spawn_state)->phase) = 0;
+            (((ResolvedSpawn *)spawn_state)->owner) = owner;
+            (((ResolvedSpawn *)spawn_state)->target) = (s32) (((ResolvedActor *)owner)->target);
+            (((ResolvedSpawn *)spawn_state)->controller) = effect_state;
+            (((ResolvedSpawn *)spawn_state)->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
+            (((ResolvedSpawn *)spawn_state)->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
+            owner_sprite = (((ObjectNodeHeader *)(owner))[-1].unk_0C);
+            (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_x) + D_8006CCD8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_y) + D_8006CCE8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
+            if ((((ResolvedActor *)owner)->target) != 0) {
+                (((ResolvedSpawn *)spawn_state)->target_x) = (s16) (s8) (((ResolvedActor *)owner)->tile_x);
+                (((ResolvedSpawn *)spawn_state)->target_y) = (s16) (s8) (((ResolvedActor *)owner)->tile_y);
+                (((ResolvedSpawn *)spawn_state)->origin_x) = (s16) (((ResolvedSprite *)owner_sprite)->tile_x);
+                (((ResolvedSpawn *)spawn_state)->origin_y) = (s16) (((ResolvedSprite *)owner_sprite)->tile_y);
+                (((ResolvedSpawn *)spawn_state)->has_target) = 1;
+                (((ResolvedSpawn *)spawn_state)->timer) = 0;
+                func_800A48F0((((ResolvedActor *)owner)->target), 0x1D, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (func_800A6D30() & 3)));
+                packet_source = source_sprite;
             } else {
-                M2C_FIELD(temp_a0_2, s16 *, 0x5C) = 0x20;
-                M2C_FIELD(temp_a0_2, s16 *, 0x5A) = 0;
-                M2C_FIELD(temp_a0_2, s16 *, 0x60) = 0;
-                var_a2 = temp_s5;
+                (((ResolvedSpawn *)spawn_state)->range) = 0x20;
+                (((ResolvedSpawn *)spawn_state)->timer) = 0;
+                (((ResolvedSpawn *)spawn_state)->has_target) = 0;
+                packet_source = source_sprite;
             }
-            temp_t0 = var_a2 + 0x30;
-            M2C_FIELD(arg0, s16 *, 0x86) = 0;
-            temp_s0_2 = M2C_FIELD(temp_v0_2, void **, 0xC);
-            var_a3 = temp_s0_2;
-            M2C_FIELD(temp_s0_2, u8 *, 0xE) = 0x80;
-            M2C_FIELD(temp_s0_2, u8 *, 0xD) = 0x80;
-            M2C_FIELD(temp_s0_2, u8 *, 0xC) = 0x80;
-            M2C_FIELD(temp_s0_2, s16 *, 0x1E) = 0x1000;
-            M2C_FIELD(temp_s0_2, s16 *, 0x1C) = 0x1000;
-            *(Packet48 *)temp_s0_2 = *(Packet48 *)temp_s5;
-            M2C_FIELD(temp_s0_2, s16 *, 0x10) = 0x20;
-            M2C_FIELD(temp_s0_2, u16 *, 0x14) = (u16) (M2C_FIELD(temp_s0_2, u16 *, 0x14) | 0xC);
-            M2C_FIELD(temp_v0_2, s32 *, 0x10) = ((u32)D_80024E5C);
-            func_8004491C(temp_v0_2, ((u32)D_80045340));
-            M2C_FIELD(temp_s0_2, s32 *, 0x2C) = ((u32)D_80025B40);
-            func_80047784(temp_s0_2, M2C_FIELD((((s32) (*(s16 *)((u32)D_80083228) + (s16) M2C_FIELD(temp_s2, u16 *, 0x2A) + 0x100) >> 9) & 7), u8 *, ((u32)D_80025B40)), 0);
-            temp_v1 = M2C_FIELD(temp_v0_2, void **, 8);
-            M2C_FIELD(temp_v1, s32 *, 0) = (s32) M2C_FIELD(arg1, s32 *, 0);
-            M2C_FIELD(temp_v1, s32 *, 4) = (s32) M2C_FIELD(arg1, s32 *, 4);
-            M2C_FIELD(temp_v1, s32 *, 8) = (s32) M2C_FIELD(arg1, s32 *, 8);
-            M2C_FIELD(arg0, void **, 0xA8) = temp_v0_2;
-            M2C_FIELD(arg0, void **, 0xAC) = temp_v1;
-            M2C_FIELD(arg0, s16 *, 0x88) = 0x63;
+            source_packet_end = packet_source + 0x30;
+            (((ResolvedEffect *)effect_state)->complete) = 0;
+            spawn_sprite = (((ObjectNodeHeader *)spawned)->unk_0C);
+            packet_destination = spawn_sprite;
+            (((ResolvedSpriteColor *)spawn_sprite)->blue) = 0x80;
+            (((ResolvedSpriteColor *)spawn_sprite)->green) = 0x80;
+            (((ResolvedSpriteColor *)spawn_sprite)->red) = 0x80;
+            (((ResolvedSprite *)spawn_sprite)->scale_y) = 0x1000;
+            (((ResolvedSprite *)spawn_sprite)->scale_x) = 0x1000;
+            *(Packet48 *)spawn_sprite = *(Packet48 *)source_sprite;
+            (((ResolvedSprite *)spawn_sprite)->mode) = 0x20;
+            (((ResolvedSprite *)spawn_sprite)->flags) = (u16) ((((ResolvedSprite *)spawn_sprite)->flags) | 0xC);
+            (((ObjectNodeHeader *)spawned)->unk_10) = ((u32)D_80024E5C);
+            func_8004491C(spawned, ((u32)D_80045340));
+            (((ResolvedSprite *)spawn_sprite)->script) = ((u32)D_80025B40);
+            func_80047784(spawn_sprite, D_80025B40[(((s32) (gameWork.view.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
+            spawn_motion = (((ObjectNodeHeader *)spawned)->unk_08);
+            (((ResolvedMotion *)spawn_motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
+            (((ResolvedMotion *)spawn_motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
+            (((ResolvedMotion *)spawn_motion)->axes[2].fixed) = (s32) (((ResolvedMotion *)motion)->axes[2].fixed);
+            (((ResolvedEffect *)effect_state)->spawned) = spawned;
+            (((ResolvedEffect *)effect_state)->motion) = spawn_motion;
+            (((ResolvedEffect *)effect_state)->value) = 0x63;
         }
-        M2C_FIELD(arg0, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(arg0, s16 *, 0xA) + 1);
+        (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         return;
     case 3:
-        if (M2C_FIELD(arg0, s16 *, 0x88) == 0x63) {
-            temp_v0_2 = M2C_FIELD(arg0, void **, 0xA8);
-            temp_v1_2 = M2C_FIELD(arg0, void **, 0xAC);
-            if (M2C_FIELD(temp_v0_2, u16 *, 0x1E) & 0x8000) {
-                M2C_FIELD(arg0, s16 *, 0x88) = 0;
+        if ((((ResolvedEffect *)effect_state)->value) == 0x63) {
+            spawned = (((ResolvedEffect *)effect_state)->spawned);
+            follow_motion = (((ResolvedEffect *)effect_state)->motion);
+            if ((((ObjectNodeHeader *)spawned)->flags) & 0x8000) {
+                (((ResolvedEffect *)effect_state)->value) = 0;
             } else {
-                M2C_FIELD(arg1, s32 *, 0) = (s32) M2C_FIELD(temp_v1_2, s32 *, 0);
-                M2C_FIELD(arg1, s32 *, 4) = (s32) M2C_FIELD(temp_v1_2, s32 *, 4);
-                M2C_FIELD(arg1, s32 *, 8) = (s32) M2C_FIELD(temp_v1_2, s32 *, 8);
+                (((ResolvedMotion *)motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[0].fixed);
+                (((ResolvedMotion *)motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[1].fixed);
+                (((ResolvedMotion *)motion)->axes[2].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[2].fixed);
             }
         }
-        if (M2C_FIELD(arg0, s16 *, 0x86) != 0) {
-            M2C_FIELD(arg0, u16 *, 0x84) = 0U;
-            M2C_FIELD(arg0, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(arg0, s16 *, 0xA) + 1);
-            if (M2C_FIELD(temp_s2, s32 *, 0x60) != 0) {
+        if ((((ResolvedEffect *)effect_state)->complete) != 0) {
+            (((ResolvedEffect *)effect_state)->frame) = 0U;
+            (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
+            if ((((ResolvedActor *)owner)->target) != 0) {
                 {
                     u8 *message_end;
                     u8 *message_start;
 
                     message_end = func_800990FC();
                     message_start = message_end;
-                    message_end = func_80099734(M2C_FIELD(temp_s2, s32 *, 0x60), message_end);
+                    message_end = func_80099734((((ResolvedActor *)owner)->target), message_end);
                     message_end = func_80099194(((u32)D_80024024), message_end);
                     func_80099290(message_end);
                     func_800A5720((s8 *)message_start);
@@ -172,16 +247,16 @@ void dungeonProcessResolvedItemValue(void *arg0, void *arg1, void *arg2) {
         }
         break;
     case 4:
-        temp_v1_3 = M2C_FIELD(arg0, u16 *, 0x84);
-        temp_v0_4 = temp_v1_3 + 1;
-        M2C_FIELD(arg0, u16 *, 0x84) = temp_v0_4;
-        if ((s16) temp_v0_4 >= 0xB) {
+        frame = (((ResolvedEffect *)effect_state)->frame);
+        next_frame = frame + 1;
+        (((ResolvedEffect *)effect_state)->frame) = next_frame;
+        if ((s16) next_frame >= 0xB) {
             done_flag = D_80025B60;
-            M2C_FIELD(arg0, u16 *, 0x84) = temp_v1_3;
+            (((ResolvedEffect *)effect_state)->frame) = frame;
             if (done_flag == 0) {
-                *(s32 *)((u32)D_8008346C) = 0;
-                M2C_FIELD(arg0, u16 *, -2) = (u16) (M2C_FIELD(arg0, u16 *, -2) | 0x8000);
-                *(s32 *)((u32)D_800814A0) |= 0x8000;
+                dungeonStatus.unk_0C = 0;
+                (((ObjectNodeHeader *)(effect_state))[-1].flags) = (u16) ((((ObjectNodeHeader *)(effect_state))[-1].flags) | 0x8000);
+                objectFlagBlock.flags |= 0x8000;
                 return;
             }
             D_80025B60 = 0;

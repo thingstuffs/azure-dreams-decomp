@@ -10,7 +10,7 @@ typedef struct S_800F65CC_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x10];
     s16 unk_24;
-} S_800F65CC_0;   /* temp_v0_2 in func_800F65CC */
+} S_800F65CC_0;
 
 typedef struct S_800F65CC_1 {
     u8 pad_00[0x14];
@@ -20,7 +20,7 @@ typedef struct S_800F65CC_1 {
 typedef struct S_800F65CC_2 {
     u8 pad_00[0x4];
     union { u16 s; s16 u; } unk_04;   /* accessed as both */
-} S_800F65CC_2;   /* temp_v1 in func_800F65CC */
+} S_800F65CC_2;
 
 
 struct S_8003E2D8 {

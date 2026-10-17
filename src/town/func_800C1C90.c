@@ -11,7 +11,7 @@ typedef struct S_800BF3F0_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800BF3F0_0;   /* temp_v0 in func_800BF3F0 */
+} S_800BF3F0_0;
 
 typedef struct S_800BF3F0_1 {
     u8 pad_00[0x8];
@@ -22,18 +22,18 @@ typedef struct S_800BF3F0_1 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800BF3F0_1;   /* temp_v1 in func_800BF3F0 */
+} S_800BF3F0_1;
 
 typedef struct S_800BF3F0_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BF3F0_2;   /* temp_a1 in func_800BF3F0 */
+} S_800BF3F0_2;
 
 typedef struct S_800BF3F0_3 {
     u8 pad_00[0x48];
     s32 unk_48;
-} S_800BF3F0_3;   /* temp_a0 in func_800BF3F0 */
+} S_800BF3F0_3;
 
 typedef struct S_800BF3F0_4_pre {
     u16 unk_00;

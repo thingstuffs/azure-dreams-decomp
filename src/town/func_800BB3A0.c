@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     s32 value[5];
@@ -12,12 +11,12 @@ typedef struct S_800B8B00_0 {
     u8 pad_00[0x33A4];
     u8 unk_33A4;
     u8 unk_33A5;
-} S_800B8B00_0;   /* temp_v1 in townStoreNormalizedBuildingCode */
+} S_800B8B00_0;
 
 typedef struct S_800B8B00_1 {
     u8 pad_00[0x33A5];
     u8 unk_33A5;
-} S_800B8B00_1;   /* temp_v1_2 in townStoreNormalizedBuildingCode */
+} S_800B8B00_1;
 
 /* Stores a normalized code in its designated slot, avoiding duplicate code 9 entries. */
 void townStoreNormalizedBuildingCode(s32 code) {

@@ -6,7 +6,7 @@
 typedef struct S_800B2400_8 {
     u8 pad_00[0x3C];
     s32 unk_3C;
-} S_800B2400_8;   /* ((temp_v1 * 4) + arg0) in func_800B2400 */
+} S_800B2400_8;
 
 typedef struct S_800B2400_9 {
     u8 pad_00[0x3C];
@@ -16,11 +16,11 @@ typedef struct S_800B2400_9 {
 typedef struct S_800B2400_10 {
     u8 pad_00[0x3C];
     s32 unk_3C;
-} S_800B2400_10;   /* ((temp_v1_2 * 4) + arg0) in func_800B2400 */
+} S_800B2400_10;
 
 typedef struct S_800B2400_11 {
     s32 unk_00;
-} S_800B2400_11;   /* (temp_a0->unk_24 * 4) + ((S_800B2400_8 *)(((temp_v1 * 4) + arg0)))->unk_3C in func_800B2400 */
+} S_800B2400_11;
 
 
 typedef struct {
@@ -37,38 +37,38 @@ s32 func_800B29A4();
 typedef struct S_800B2400_1 {
     u8 pad_00[0x28];
     s32 unk_28;
-} S_800B2400_1;   /* temp_v1_5 in func_800B2400 */
+} S_800B2400_1;
 
 typedef struct S_800B2400_2 {
     u8 pad_00[0x24];
     s32 unk_24;
     s32 unk_28;
-} S_800B2400_2;   /* temp_a0 in func_800B2400 */
+} S_800B2400_2;
 
 typedef struct S_800B2400_3 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800B2400_3;   /* temp_s2 in func_800B2400 */
+} S_800B2400_3;
 
 typedef struct S_800B2400_4 {
     M2C_UNK * unk_00;
     s32 unk_04;
-} S_800B2400_4;   /* temp_s0 in func_800B2400 */
+} S_800B2400_4;
 
 typedef struct S_800B2400_5 {
     u8 pad_00[0x24];
     s32 unk_24;
-} S_800B2400_5;   /* temp_sp in func_800B2400 */
+} S_800B2400_5;
 
 typedef struct S_800B2400_6 {
     u8 pad_00[0x28];
     s32 unk_28;
-} S_800B2400_6;   /* temp_v1_3 in func_800B2400 */
+} S_800B2400_6;
 
 typedef struct S_800B2400_7 {
     u8 pad_00[0x28];
     s32 unk_28;
-} S_800B2400_7;   /* temp_v1_4 in func_800B2400 */
+} S_800B2400_7;
 
 /* Move the selected item to the destination list and return a status code. */
 s32 func_800B2400(void *state) {

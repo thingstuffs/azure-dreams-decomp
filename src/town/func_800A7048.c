@@ -8,14 +8,13 @@
 typedef struct S_800A47A8_4 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_800A47A8_4;   /* temp_v0 in townCreateResourceDisplayObject */
+} S_800A47A8_4;
 
 typedef struct S_800A47A8_5 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A47A8_5;   /* ((S_800A47A8_4 *)temp_v0)->unk_0C in townCreateResourceDisplayObject */
+} S_800A47A8_5;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_8004491C();
 extern s32 D_800A3918[];
@@ -33,7 +32,7 @@ typedef struct S_800A47A8_0 {
     void * unk_08;
     void * unk_0C;
     s32 * unk_10;
-} S_800A47A8_0;   /* temp_v0 in townCreateResourceDisplayObject */
+} S_800A47A8_0;
 
 typedef struct S_800A47A8_1 {
     u8 pad_00[0x2];
@@ -45,13 +44,13 @@ typedef struct S_800A47A8_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_800A47A8_1;   /* temp_v1 in townCreateResourceDisplayObject */
+} S_800A47A8_1;
 
 typedef struct S_800A47A8_2 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A47A8_2;   /* temp_v1_2 in townCreateResourceDisplayObject */
+} S_800A47A8_2;
 
 typedef struct S_800A47A8_3 {
     u8 pad_00[0x2];
@@ -61,7 +60,7 @@ typedef struct S_800A47A8_3 {
     u8 pad_0E[0x4];
     s16 unk_12;
     s16 unk_14;
-} S_800A47A8_3;   /* temp_v0_2 in townCreateResourceDisplayObject */
+} S_800A47A8_3;
 
 /* Creates an object with the selected resource and initializes its display and state. */
 void townCreateResourceDisplayObject(s16 resource_index) {

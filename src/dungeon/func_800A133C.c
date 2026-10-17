@@ -28,7 +28,7 @@ typedef struct S_800A6A9C_0 {
     u8 unk_02;
     u8 pad_03[0x9];
     DungeonItem * unk_0C;
-} S_800A6A9C_0;   /* var_a2 in restoreItemFlag400Bitmap */
+} S_800A6A9C_0;
 
 /* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clearItemFlag400ForEggOne. */
 void restoreItemFlag400Bitmap(void)

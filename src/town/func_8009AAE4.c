@@ -13,18 +13,13 @@ void townRaiseRecordValueToTarget(s32 context_id, EntityRec *record, s32 context
     u16 current_value;
 
     current_value = (u16) record->x.w.i;
-    if (record->x.w.i < 0x4C2) {
-        raised_value = current_value + 4;
-        record->x.w.i = raised_value;
-        if (raised_value >= 0x4C2) {
-            goto target_reached;
-        }
-        return;
-    }
-    lowered_value = current_value - 4;
-    record->x.w.i = lowered_value;
-    if (lowered_value < 0x4C3) {
-target_reached:
+    if (record->x.w.i < 0x4C2
+            ? (raised_value = current_value + 4,
+               record->x.w.i = raised_value,
+               raised_value >= 0x4C2)
+            : (lowered_value = current_value - 4,
+               record->x.w.i = lowered_value,
+               lowered_value < 0x4C3)) {
         record->x.w.i = 0x4C2;
         setResidentBitmapBit(0x12);
         townInitializeRecordWithHandlerTable(context_id, record, context);

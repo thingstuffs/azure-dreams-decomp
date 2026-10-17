@@ -1,9 +1,12 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct S_8001EDE0_0 {
     u8 pad_00[0x2C];
     s32 unk_2C;
-    u8 pad_30[0x10];
+    u8 pad_30[4];
+    void (*menu_update)(void);
+    u8 pad_38[8];
     s32 unk_40;
 } S_8001EDE0_0;   /* ptr in func_8001EDE0 */
 
@@ -13,7 +16,6 @@ typedef struct S_8001EDE0_1 {
 } S_8001EDE0_1;   /* entry_ptr in func_8001EDE0 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_80400908(void);
 extern s32 func_80402084(s32, s32);
@@ -52,9 +54,9 @@ void mainProcessObjectEntryBatch(void *ptr) {
         }
     }
     offset_ptr = (u8 *)ptr - 0x20;
-    *(void (**)(void))((u8 *)ptr + 0x34) = mainHandleObjectMenuInput;
+    ((S_8001EDE0_0 *)ptr)->menu_update = mainHandleObjectMenuInput;
     func_8040334C(offset_ptr);
-    *(void **)((u8 *)ptr - 0x10) = (void *)func_80405A3C;
+    ((ObjectNodeHeader *)ptr)[-1].unk_10 = (void *)func_80405A3C;
     func_80400908();
     ((S_8001EDE0_0 *)ptr)->unk_40 = 0;
 }

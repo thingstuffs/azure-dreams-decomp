@@ -8,7 +8,7 @@ typedef struct S_80024F3C_0 {
     u8 pad_00[0x7C];
     s32 unk_7C;
     s32 unk_80;
-} S_80024F3C_0;   /* temp_s0 in cardBootSetSlotDetailsSelection */
+} S_80024F3C_0;
 
 /* Stores two object values and runs the associated update routines. */
 void cardBootSetSlotDetailsSelection(s32 object_addr, s32 value_7c, s32 value_80) {

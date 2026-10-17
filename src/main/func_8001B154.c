@@ -19,10 +19,9 @@ s32 func_80402154(s32 index, void *data_ptr) {
         if (result != 0) {
             result = func_80401D28(buffer, D_8009DDD8 + (index << 7), 1, 4,
                                    *(s32 *)(D_8009DDD8 + (index << 7)));
-            goto done;
+        } else {
+            func_8007BF18(D_80400138);
         }
-        func_8007BF18(D_80400138);
     }
-done:
     return result;
 }

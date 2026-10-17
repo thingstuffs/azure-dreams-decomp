@@ -90,7 +90,7 @@ setup:
         ((Rec_func_80172CC0_arg0 *)movement)->unk_9A.as_u8 = 0xF;
         ((Rec_func_80172CC0_arg0 *)movement)->unk_8C.as_s32 = 0;
     }
-    (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+    (((T_80172CC0_S_80172CC0_0 *)state)->unk_1C) |= 0x40000000;
     if (dungeonStatus.flags & 0x80) {
         ((Rec_func_80172CC0_arg0 *)movement)->unk_96.as_s16 = 0;
         return;

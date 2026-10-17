@@ -8,7 +8,7 @@ extern M2C_UNK D_800B9260;
 typedef struct S_800B9384_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B9384_0;   /* temp_v0 in townAllocateFirstObjectVariant */
+} S_800B9384_0;
 
 /* Allocate an object and set its data pointer. */
 void townAllocateFirstObjectVariant(void) {

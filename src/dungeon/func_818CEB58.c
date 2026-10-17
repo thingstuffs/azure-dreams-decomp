@@ -5,7 +5,7 @@
 #define NULL 0
 #endif
 
-   /* temp_s0 in func_80024358 */
+
 
    /* held_arg0 in func_80024358 */
 

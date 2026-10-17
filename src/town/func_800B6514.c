@@ -10,17 +10,17 @@ void townMoveColorChannelsTowardNeutral(u8 *channels);                    /* ext
 typedef struct S_800B3C74_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800B3C74_0;   /* var_s0 in func_800B3C74 */
+} S_800B3C74_0;
 
 typedef struct S_800B3C74_1 {
     u8 pad_00[0x5C];
     s32 * unk_5C;
-} S_800B3C74_1;   /* var_s2 in func_800B3C74 */
+} S_800B3C74_1;
 
 typedef struct S_800B3C74_2 {
     u8 pad_00[0x4];
     u8 * unk_04;
-} S_800B3C74_2;   /* (s32 *)temp_v0 in func_800B3C74 */
+} S_800B3C74_2;
 
 /* Decrement countdowns for slots 2 through 4, processing resources whose countdown is zero. */
 void func_800B3C74(void *state) {

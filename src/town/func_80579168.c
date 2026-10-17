@@ -1,7 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
-extern void * D_80016000;
 s16 func_80016168(void) {
-    return M2C_FIELD(M2C_FIELD(D_80016000, void **, 0x38), s16 *, 0x35C0);
+    return D_80016000->unk_38->unk_35C0;
 }

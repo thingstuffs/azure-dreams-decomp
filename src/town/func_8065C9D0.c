@@ -12,7 +12,7 @@ typedef struct S_8065C9D0_0 {
 typedef struct S_8065C9D0_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_8065C9D0_1;   /* temp_a1 in func_8065C9D0 */
+} S_8065C9D0_1;
 
 /* Pass the indexed record and its identifier to the shared handler. */
 void func_8065C9D0(S_8065C9D0_0 *record_table, s32 record_index) {

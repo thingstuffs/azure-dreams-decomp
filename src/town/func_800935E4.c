@@ -5,8 +5,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern void townDispatchActorInteractionActions(void *, void *, s32);
 extern void townInitializeSharedSceneData(void *record, void *context, s32 update_arg);

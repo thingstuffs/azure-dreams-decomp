@@ -1,0 +1,200 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/image_3e8000",
+ "container": "town",
+ "foff": "0x3E8000",
+ "size": "0x6000",
+ "vma": "0x80019000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC31000: census2_3E8248_3E8248, r121nd_3ED7E4, w4t2_bank_3e8280; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "town/func_80468BB0",
+   "tu": "src/town/func_80468BB0.c",
+   "home": "town/func_80468BB0",
+   "foff": "0x3E8BB0",
+   "vma": "0x80019BB0",
+   "size": 76
+  },
+  {
+   "row": "town/func_803C8BFC",
+   "tu": "src/town/func_80468BB0.c",
+   "home": "town/func_80468BB0",
+   "foff": "0x3E8BFC",
+   "vma": "0x80019BFC",
+   "size": 76
+  },
+  {
+   "row": "town/func_803C8C48",
+   "tu": "src/town/func_80468BB0.c",
+   "home": "town/func_80468BB0",
+   "foff": "0x3E8C48",
+   "vma": "0x80019C48",
+   "size": 76,
+   "bindings": {
+    "0x80017B30": "0x80017B60"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_803C8C94",
+   "tu": "src/town/func_80468BB0.c",
+   "home": "town/func_80468BB0",
+   "foff": "0x3E8C94",
+   "vma": "0x80019C94",
+   "size": 76,
+   "bindings": {
+    "0x80017B30": "0x80017B78"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "town/func_80468CE0",
+   "tu": "src/town/func_80468CE0.c",
+   "home": "town/func_80468CE0",
+   "foff": "0x3E8CE0",
+   "vma": "0x80019CE0",
+   "size": 128
+  },
+  {
+   "row": "town/func_803C8D60",
+   "tu": "src/town/func_80468CE0.c",
+   "home": "town/func_80468CE0",
+   "foff": "0x3E8D60",
+   "vma": "0x80019D60",
+   "size": 128
+  },
+  {
+   "row": "town/func_80469664",
+   "tu": "src/town/func_80469664.c",
+   "home": "town/func_80469664",
+   "foff": "0x3E9664",
+   "vma": "0x8001A664",
+   "size": 108
+  },
+  {
+   "row": "town/func_803C96D0",
+   "tu": "src/town/func_80469664.c",
+   "home": "town/func_80469664",
+   "foff": "0x3E96D0",
+   "vma": "0x8001A6D0",
+   "size": 108
+  },
+  {
+   "row": "town/func_8046979C",
+   "tu": "src/town/func_8046979C.c",
+   "home": "town/func_8046979C",
+   "foff": "0x3E979C",
+   "vma": "0x8001A79C",
+   "size": 76
+  },
+  {
+   "row": "town/func_803C97E8",
+   "tu": "src/town/func_8046979C.c",
+   "home": "town/func_8046979C",
+   "foff": "0x3E97E8",
+   "vma": "0x8001A7E8",
+   "size": 76
+  },
+  {
+   "row": "town/func_80469C10",
+   "tu": "src/town/func_80469C10.c",
+   "home": "town/func_80469C10",
+   "foff": "0x3E9C10",
+   "vma": "0x8001AC10",
+   "size": 104
+  },
+  {
+   "row": "town/func_803C9C9C",
+   "tu": "src/town/func_80469C10.c",
+   "home": "town/func_80469C10",
+   "foff": "0x3E9C9C",
+   "vma": "0x8001AC9C",
+   "size": 104
+  },
+  {
+   "row": "town/func_8046C280",
+   "tu": "src/town/func_8046C280.c",
+   "home": "town/func_8046C280",
+   "foff": "0x3EC280",
+   "vma": "0x8001D280",
+   "size": 404
+  },
+  {
+   "row": "town/func_803CC450",
+   "tu": "src/town/func_8032ECE4.c",
+   "home": "town/func_8032ECE4",
+   "foff": "0x3EC450",
+   "vma": "0x8001D450",
+   "size": 212
+  },
+  {
+   "row": "town/func_803CC524",
+   "tu": "src/town/func_8032EDB8.c",
+   "home": "town/func_8032EDB8",
+   "foff": "0x3EC524",
+   "vma": "0x8001D524",
+   "size": 240
+  },
+  {
+   "row": "town/func_803CC614",
+   "tu": "src/town/func_8032EEA8.c",
+   "home": "town/func_8032EEA8",
+   "foff": "0x3EC614",
+   "vma": "0x8001D614",
+   "size": 60
+  },
+  {
+   "row": "town/func_803CC650",
+   "tu": "src/town/func_8032EEE4.c",
+   "home": "town/func_8032EEE4",
+   "foff": "0x3EC650",
+   "vma": "0x8001D650",
+   "size": 136
+  },
+  {
+   "row": "town/func_803CC860",
+   "tu": "src/town/func_8032F0F4.c",
+   "home": "town/func_8032F0F4",
+   "foff": "0x3EC860",
+   "vma": "0x8001D860",
+   "size": 100
+  },
+  {
+   "row": "town/func_803CCA48",
+   "tu": "src/town/func_8032F2DC.c",
+   "home": "town/func_8032F2DC",
+   "foff": "0x3ECA48",
+   "vma": "0x8001DA48",
+   "size": 120
+  },
+  {
+   "row": "town/func_803CD310",
+   "tu": "src/town/func_8032FBA4.c",
+   "home": "town/func_8032FBA4",
+   "foff": "0x3ED310",
+   "vma": "0x8001E310",
+   "size": 88
+  },
+  {
+   "row": "town/func_803CD368",
+   "tu": "src/town/func_8032FBFC.c",
+   "home": "town/func_8032FBFC",
+   "foff": "0x3ED368",
+   "vma": "0x8001E368",
+   "size": 124
+  }
+ ],
+ "symbols": {
+  "0x80016064": "0x8001919C",
+  "0x8001608C": "0x800191C4",
+  "0x80017AC4": "0x80017AB8",
+  "0x80017B30": "0x80017B48",
+  "0x80017BD8": "0x80017C14",
+  "0x80017CE0": "0x80017D20",
+  "0x80019860": "0x8001D7CC",
+  "0x8001A7E8": "0x8001AB68",
+  "0x8001C370": "0x8001E95C",
+  "0x8001C374": "0x8001E960",
+  "0x8001DCCC": "0x8001EE3C"
+ }
+}

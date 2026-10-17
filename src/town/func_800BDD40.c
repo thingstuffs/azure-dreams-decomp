@@ -8,7 +8,7 @@ extern M2C_UNK D_800BB218;
 typedef struct S_800BB4A0_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800BB4A0_0;   /* temp_a0 in func_800BB4A0 */
+} S_800BB4A0_0;
 
 typedef struct S_800BB4A0_1 {
     u8 pad_00[0x66];

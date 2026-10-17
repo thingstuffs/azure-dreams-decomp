@@ -17,14 +17,14 @@ typedef struct S_7FFE7CBC_0 {
     s16 unk_3E;
     u8 pad_40[0x4];
     void * unk_44;
-} S_7FFE7CBC_0;   /* temp_v0 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_0;
 
 typedef struct S_7FFE7CBC_1 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_7FFE7CBC_1;   /* temp_a0 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_1;
 
 typedef struct S_7FFE7CBC_2 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_7FFE7CBC_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE7CBC_2;   /* temp_v1 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_2;
 
 typedef struct S_7FFE7CBC_3 {
     u8 pad_00[0x8];
@@ -54,7 +54,7 @@ typedef struct S_7FFE7CBC_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFE7CBC_4;   /* temp_a0_2 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_4;
 
 typedef struct S_7FFE7CBC_5 {
     u8 pad_00[0x2];
@@ -66,8 +66,6 @@ typedef struct S_7FFE7CBC_5 {
 } S_7FFE7CBC_5;   /* ((S_7FFE7CBC_3 *)arg0)->unk_08 in dungeonCreateColoredSourceEffect */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_7003A7C4();
 void *func_7003CF18();

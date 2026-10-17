@@ -23,8 +23,6 @@ typedef struct S_8001D188_1 {
 } S_8001D188_1;   /* cursor in townPrependEntryToGroupHistory */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern s32 townQueryPriorityEventState(void);
 extern s8 D_8001902C[];
 

@@ -11,12 +11,12 @@ typedef struct S_800C4AEC_0 {
     u16 unk_8A;
     u8 pad_8C[0xC];
     void * unk_98;
-} S_800C4AEC_0;   /* temp_a3 in townUpdateSpriteOffsetAndPosition */
+} S_800C4AEC_0;
 
 typedef struct S_800C4AEC_1 {
     u8 pad_00[0x8];
     u32 unk_08;
-} S_800C4AEC_1;   /* temp_t0 in townUpdateSpriteOffsetAndPosition */
+} S_800C4AEC_1;
 
 typedef struct S_800C4AEC_2 {
     u8 pad_00[0x10];

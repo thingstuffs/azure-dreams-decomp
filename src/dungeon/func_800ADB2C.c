@@ -17,7 +17,7 @@ typedef struct S_800B328C_0 {
 typedef struct S_800B328C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800B328C_1;   /* temp_a1 in func_800B328C */
+} S_800B328C_1;
 
 typedef struct S_800B328C_2 {
     u8 pad_00[0x2];
@@ -35,7 +35,7 @@ typedef struct S_800B328C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B328C_3;   /* temp_a0 in func_800B328C */
+} S_800B328C_3;
 
 typedef struct S_800B328C_4 {
     u8 pad_00[0x8];

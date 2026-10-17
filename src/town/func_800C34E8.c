@@ -8,7 +8,7 @@ extern M2C_UNK D_800C0C28;
 typedef struct S_800C0C48_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800C0C48_0;   /* temp_v0 in townRunSetupAndGetObjectHandler */
+} S_800C0C48_0;
 
 /* Run setup, assign the retrieved object handler when present, and return -1. */
 s32 townRunSetupAndGetObjectHandler(s32 context, s32 value, s32 options) {

@@ -10,13 +10,13 @@ typedef struct S_818BD1C4_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_818BD1C4_0;   /* temp_v0 in func_818BD1C4 */
+} S_818BD1C4_0;
 
 typedef struct S_818BD1C4_1 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
-} S_818BD1C4_1;   /* temp_v0_2 in func_818BD1C4 */
+} S_818BD1C4_1;
 
 typedef struct S_818BD1C4_2 {
     u8 pad_00[0xC];
@@ -31,7 +31,7 @@ typedef struct S_818BD1C4_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818BD1C4_2;   /* temp_s0 in func_818BD1C4 */
+} S_818BD1C4_2;
 
 
 typedef struct Copy24 {

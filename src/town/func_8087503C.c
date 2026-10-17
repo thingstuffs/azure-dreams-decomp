@@ -4,7 +4,7 @@
 typedef struct S_8087503C_0 {
     u8 pad_00[0x30];
     s32 unk_30;
-} S_8087503C_0;   /* temp_a1 in townClearDevkitStateBit30 */
+} S_8087503C_0;
 
 /* Clears bit 30 in the global state's flags and returns the supplied value. */
 s32 townClearDevkitStateBit30(s32 result) {

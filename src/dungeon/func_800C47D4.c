@@ -7,7 +7,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 dungeonCheckEntityRelation();
 extern s8 func_8009FB34();

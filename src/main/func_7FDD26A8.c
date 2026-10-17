@@ -22,19 +22,19 @@ typedef struct S_80089608_1 {
     s16 unk_20;
     u8 pad_22[0x4];
     u16 unk_26;
-} S_80089608_1;   /* temp_t1 in mainUpdateSettingsEffect */
+} S_80089608_1;
 
 typedef struct S_80089608_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80089608_2;   /* temp_v0 in mainUpdateSettingsEffect */
+} S_80089608_2;
 
 typedef struct S_80089608_3 {
     u8 pad_00[0x28];
     s16 unk_28;
-} S_80089608_3;   /* var_s4 in mainUpdateSettingsEffect */
+} S_80089608_3;
 
 typedef struct S_80089608_4 {
     u8 pad_00[0x4];
@@ -50,25 +50,25 @@ typedef struct S_80089608_4 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80089608_4;   /* temp_s1 in mainUpdateSettingsEffect */
+} S_80089608_4;
 
 typedef struct S_80089608_5 {
     s32 unk_00;
     u8 pad_04[0x3C];
     s32 unk_40;
-} S_80089608_5;   /* var_s5 in mainUpdateSettingsEffect */
+} S_80089608_5;
 
 typedef struct S_80089608_6 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_80089608_6;   /* var_sub in mainUpdateSettingsEffect */
+} S_80089608_6;
 
 typedef struct S_80089608_7 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80089608_7;   /* ((S_80089608_2 *)temp_v0)->unk_08 in mainUpdateSettingsEffect */
+} S_80089608_7;
 
 
 s32 func_8004491C();           /* extern */

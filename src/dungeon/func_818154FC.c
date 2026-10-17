@@ -39,13 +39,13 @@ typedef struct S_818154FC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_818154FC_1;   /* temp_s2 in func_818154FC */
+} S_818154FC_1;
 
 
 typedef struct S_818154FC_3_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_818154FC_3_pre;   /* the 0x14 bytes before temp_s1 in func_818154FC, addressed as temp_s1[-1] */
+} S_818154FC_3_pre;
 
 typedef struct S_818154FC_3 {
     u8 pad_00[0x2A];
@@ -55,12 +55,12 @@ typedef struct S_818154FC_3 {
     u8 pad_64[0xE];
     s8 unk_72;
     s8 unk_73;
-} S_818154FC_3;   /* temp_s1 in func_818154FC */
+} S_818154FC_3;
 
 typedef struct S_818154FC_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_818154FC_4;   /* temp_a1 in func_818154FC */
+} S_818154FC_4;
 
 typedef struct S_818154FC_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -77,7 +77,7 @@ typedef struct S_818154FC_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818154FC_6;   /* temp_s4 in func_818154FC */
+} S_818154FC_6;
 
 typedef struct S_818154FC_7 {
     u8 pad_00[0x2];
@@ -121,7 +121,7 @@ typedef struct S_818154FC_11 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818154FC_11;   /* temp_a0_5 in func_818154FC */
+} S_818154FC_11;
 
 typedef struct S_818154FC_12 {
     u8 pad_00[0xC];
@@ -131,7 +131,7 @@ typedef struct S_818154FC_12 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_818154FC_12;   /* temp_v1_3 in func_818154FC */
+} S_818154FC_12;
 
 typedef struct S_818154FC_13 {
     s32 unk_00;
@@ -142,12 +142,12 @@ typedef struct S_818154FC_13 {
 typedef struct S_818154FC_14 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818154FC_14;   /* ((S_818154FC_1 *)temp_s2)->unk_0C in func_818154FC */
+} S_818154FC_14;
 
 typedef struct S_818154FC_15_pre {
     u8 * unk_00;
     u8 pad_04[0x14];
-} S_818154FC_15_pre;   /* the 0x18 bytes before ((S_818154FC_3 *)temp_s1)->unk_60.p in func_818154FC, addressed as ((S_818154FC_3 *)temp_s1)->unk_60.p[-1] */
+} S_818154FC_15_pre;
 
 
 typedef struct {

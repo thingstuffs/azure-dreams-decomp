@@ -19,7 +19,7 @@ typedef struct S_800A027C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800A027C_0;   /* temp_v0 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_0;
 
 typedef struct S_800A027C_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800A027C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A027C_1;   /* temp_s2 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_1;
 
 typedef struct S_800A027C_2 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_800A027C_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A027C_3;   /* temp_s1 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_3;
 
 typedef struct S_800A027C_4 {
     u8 pad_00[0xC];
@@ -61,7 +61,7 @@ typedef struct S_800A027C_4 {
     s8 unk_93;
     u8 pad_94[0x4];
     s32 unk_98;
-} S_800A027C_4;   /* temp_s0 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_4;
 
 typedef struct S_800A027C_5 {
     u8 unk_00;

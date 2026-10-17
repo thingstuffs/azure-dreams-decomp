@@ -10,12 +10,12 @@ typedef struct S_806D85A0_1 {
     void * unk_2D0;
     u8 pad_2D4[0x5D2C];
     void * unk_6000;
-} S_806D85A0_1;   /* temp_func in func_806D85A0 */
+} S_806D85A0_1;
 
 typedef struct S_806D85A0_4 {
     s16 unk_00;
     s16 unk_02;
-} S_806D85A0_4;   /* temp_s3 in func_806D85A0 */
+} S_806D85A0_4;
 
 
 void *func_80017024();                 /* extern */

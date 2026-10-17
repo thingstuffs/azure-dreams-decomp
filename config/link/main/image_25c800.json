@@ -1,0 +1,215 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "main/image_25c800",
+ "container": "main",
+ "foff": "0x25C800",
+ "size": "0x9000",
+ "vma": "0x8001F800",
+ "evidence": "config/overlays/main.rowbase.jsonl proven regions with delta 0x7FDC3000: xfer_main_25CA6C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "main/func_8000E904",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x25E904",
+   "vma": "0x80021904",
+   "size": 8
+  },
+  {
+   "row": "main/func_800105A0",
+   "tu": "src/main/func_800105A0.c",
+   "home": "main/func_800105A0",
+   "foff": "0x2605A0",
+   "vma": "0x800235A0",
+   "size": 96
+  },
+  {
+   "row": "main/func_80010A00",
+   "tu": "src/main/func_80010A00.c",
+   "home": "main/func_80010A00",
+   "foff": "0x260A00",
+   "vma": "0x80023A00",
+   "size": 80
+  },
+  {
+   "row": "main/func_80240BE4",
+   "tu": "src/main/func_800105A0.c",
+   "home": "main/func_800105A0",
+   "foff": "0x260BE4",
+   "vma": "0x80023BE4",
+   "size": 96
+  },
+  {
+   "row": "main/func_80241184",
+   "tu": "src/main/func_80010A00.c",
+   "home": "main/func_80010A00",
+   "foff": "0x261184",
+   "vma": "0x80024184",
+   "size": 80
+  },
+  {
+   "row": "main/func_8024126C",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x26126C",
+   "vma": "0x8002426C",
+   "size": 8
+  },
+  {
+   "row": "main/func_80241D50",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x261D50",
+   "vma": "0x80024D50",
+   "size": 8
+  },
+  {
+   "row": "main/func_80241EEC",
+   "tu": "src/main/func_80010A00.c",
+   "home": "main/func_80010A00",
+   "foff": "0x261EEC",
+   "vma": "0x80024EEC",
+   "size": 80,
+   "bindings": {
+    "0x800239B0": "0x80024E44"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "main/func_80011F7C",
+   "tu": "src/main/func_80011F7C.c",
+   "home": "main/func_80011F7C",
+   "foff": "0x261F7C",
+   "vma": "0x80024F7C",
+   "size": 48
+  },
+  {
+   "row": "main/func_80011FAC",
+   "tu": "src/main/func_80011FAC.c",
+   "home": "main/func_80011FAC",
+   "foff": "0x261FAC",
+   "vma": "0x80024FAC",
+   "size": 80
+  },
+  {
+   "row": "main/func_80012494",
+   "tu": "src/main/func_80012494.c",
+   "home": "main/func_80012494",
+   "foff": "0x262494",
+   "vma": "0x80025494",
+   "size": 80
+  },
+  {
+   "row": "main/func_802431C0",
+   "tu": "src/main/func_80011F7C.c",
+   "home": "main/func_80011F7C",
+   "foff": "0x2631C0",
+   "vma": "0x800261C0",
+   "size": 48
+  },
+  {
+   "row": "main/func_802431F0",
+   "tu": "src/main/func_80011FAC.c",
+   "home": "main/func_80011FAC",
+   "foff": "0x2631F0",
+   "vma": "0x800261F0",
+   "size": 80
+  },
+  {
+   "row": "main/func_802433C0",
+   "tu": "src/main/func_80012494.c",
+   "home": "main/func_80012494",
+   "foff": "0x2633C0",
+   "vma": "0x800263C0",
+   "size": 80
+  },
+  {
+   "row": "main/func_80013494",
+   "tu": "src/main/func_80013494.c",
+   "home": "main/func_80013494",
+   "foff": "0x263494",
+   "vma": "0x80026494",
+   "size": 68
+  },
+  {
+   "row": "main/func_802434D8",
+   "tu": "src/main/func_80013494.c",
+   "home": "main/func_80013494",
+   "foff": "0x2634D8",
+   "vma": "0x800264D8",
+   "size": 68
+  },
+  {
+   "row": "main/func_80243860",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x263860",
+   "vma": "0x80026860",
+   "size": 8
+  },
+  {
+   "row": "main/func_802439AC",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x2639AC",
+   "vma": "0x800269AC",
+   "size": 8
+  },
+  {
+   "row": "main/func_80244080",
+   "tu": "src/main/func_800105A0.c",
+   "home": "main/func_800105A0",
+   "foff": "0x264080",
+   "vma": "0x80027080",
+   "size": 96
+  },
+  {
+   "row": "main/func_8024435C",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x26435C",
+   "vma": "0x8002735C",
+   "size": 8
+  },
+  {
+   "row": "main/func_80244458",
+   "tu": "src/main/func_80010A00.c",
+   "home": "main/func_80010A00",
+   "foff": "0x264458",
+   "vma": "0x80027458",
+   "size": 80,
+   "bindings": {
+    "0x800239B0": "0x8002742C"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "main/func_802444D8",
+   "tu": "src/main/func_80011FAC.c",
+   "home": "main/func_80011FAC",
+   "foff": "0x2644D8",
+   "vma": "0x800274D8",
+   "size": 80,
+   "bindings": {
+    "0x80024F7C": "0x800274A8",
+    "0x8002593C": "0x8002789C"
+   },
+   "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "row": "main/func_8024472C",
+   "tu": "src/main/func_8000E904.c",
+   "home": "main/func_8000E904",
+   "foff": "0x26472C",
+   "vma": "0x8002772C",
+   "size": 8
+  }
+ ],
+ "symbols": {
+  "0x80022FB4": "0x80022FDC",
+  "0x800230CC": "0x80022F64",
+  "0x800239B0": "0x800240EC",
+  "0x8002546C": "0x80026398",
+  "0x8002593C": "0x800265B8"
+ }
+}

@@ -11,11 +11,11 @@ typedef struct S_800242D8_0 {
 
 typedef struct S_800242D8_1_pre {
     s8 unk_00;
-} S_800242D8_1_pre;   /* the 0x1 bytes before var_v1 in cardBootBuildShadedPanelPackets, addressed as var_v1[-1] */
+} S_800242D8_1_pre;
 
 typedef struct S_800242D8_1 {
     s8 unk_00;
-} S_800242D8_1;   /* var_v1 in cardBootBuildShadedPanelPackets */
+} S_800242D8_1;
 
 
 extern u8 D_80027FD0[];

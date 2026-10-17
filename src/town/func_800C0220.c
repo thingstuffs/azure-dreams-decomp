@@ -3,6 +3,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "shared/entity.h"
 
 extern M2C_UNK D_800E9E14;
 
@@ -20,14 +21,14 @@ typedef struct S_800BD980_0 {
     u16 unk_0C;
     u16 unk_0E;
     u16 unk_10;
-} S_800BD980_0;   /* temp_v1 in event_tori_in */
+} S_800BD980_0;
 
 typedef struct S_800BD980_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
     s32 unk_0C;
-} S_800BD980_1;   /* temp_a3 in event_tori_in */
+} S_800BD980_1;
 
 typedef struct S_800BD980_2 {
     u8 pad_00[0xC];
@@ -35,7 +36,23 @@ typedef struct S_800BD980_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BD980_2;   /* temp_a0 in event_tori_in */
+} S_800BD980_2;
+
+typedef struct LinkedMotionObject {
+    u8 pad_00[0x10];
+    union {
+        void (*parent)(void *);
+        void (*child)(void *, void *, s32);
+    } update;
+    u8 pad_14[0x14];
+    Copy16 position;
+    Copy8 motion;
+} LinkedMotionObject;
+
+typedef struct MotionSource {
+    Copy16 position;
+    Copy8 motion;
+} MotionSource;
 
 /* event_tori_in: Creates a parent object and two linked render objects offset from the supplied position. */
 s32 event_tori_in(void *source) {
@@ -54,9 +71,9 @@ s32 event_tori_in(void *source) {
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         child_slot = object + 0x20;
-        (*(void (**)(void *))((u8 *)object + 0x10)) = townRandomizePairedObjectMotion;
-        (*(Copy16 *)((u8 *)object + 0x28)) = (*(Copy16 *)((u8 *)source_data + 0));
-        (*(Copy8 *)((u8 *)object + 0x38)) = (*(Copy8 *)((u8 *)source_data + 0x10));
+        ((LinkedMotionObject *)object)->update.parent = townRandomizePairedObjectMotion;
+        ((LinkedMotionObject *)object)->position = ((MotionSource *)source_data)->position;
+        ((LinkedMotionObject *)object)->motion = ((MotionSource *)source_data)->motion;
     }
     child_index = 1;
     child_handler = townAdvanceMotionAndFlagZeroVelocity;
@@ -76,27 +93,27 @@ s32 event_tori_in(void *source) {
             func_8004491C(object, func_80045340);
             motion_base = 0xFFF88000;
             color = 0x800000;
-            transform = (*(void **)((u8 *)object + 8));
+            transform = ((ObjectNodeHeader *)object)->unk_08;
             color |= 0x8080;
-            (*(void (**)(void *, void *, s32))((u8 *)object + 0x10)) = child_handler;
+            ((LinkedMotionObject *)object)->update.child = child_handler;
             *(void **)child_slot = transform;
-            render_state = (*(void **)((u8 *)object + 0xC));
-            source_x_hi = (*(u16 *)((u8 *)source_data + 2));
+            render_state = ((ObjectNodeHeader *)object)->unk_0C;
+            source_x_hi = (u16)((EntityRec *)source_data)->x.w.i;
             origin = object + 0x20;
             origin->unk_0C = source_x_hi;
-            source_y_hi = (*(u16 *)((u8 *)source_data + 6));
+            source_y_hi = (u16)((EntityRec *)source_data)->y.w.i;
             origin->unk_0E = source_y_hi;
-            origin->unk_10 = (*(u16 *)((u8 *)source_data + 0xA));
+            origin->unk_10 = (u16)((EntityRec *)source_data)->z.w.i;
             x_offset = x_step + 0x01400000;
-            transform->unk_00 = (s32) ((*(s32 *)((u8 *)source_data + 0)) + x_offset);
+            transform->unk_00 = (s32) (((EntityRec *)source_data)->x.v + x_offset);
             {
                 s32 source_y;
-                source_y = (*(s32 *)((u8 *)source_data + 4));
+                source_y = ((EntityRec *)source_data)->y.v;
                 y_offset = child_index << 0x15;
                 transform->unk_04 = (s32) (source_y + y_offset);
             }
             z_offset = (child_index << 0x13) + 0xFF800000;
-            transform->unk_08 = (s32) ((*(s32 *)((u8 *)source_data + 8)) + z_offset);
+            transform->unk_08 = (s32) (((EntityRec *)source_data)->z.v + z_offset);
             transform->unk_0C = (s32) (motion_base - (child_index << 0x10));
             render_state->unk_1E = 0x1000;
             render_state->unk_1C = 0x1000;

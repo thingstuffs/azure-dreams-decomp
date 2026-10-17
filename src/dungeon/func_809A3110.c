@@ -11,7 +11,7 @@ typedef struct S_80174910_6 {
 typedef struct S_80174910_7 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_80174910_7;   /* temp_v0 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_7;
 
 typedef struct S_80174910_8 {
     u8 pad_00[0x2];
@@ -30,19 +30,20 @@ typedef struct S_80174910_9 {
 typedef struct S_80174910_10 {
     u8 pad_00[0x10];
     s16 unk_10;
-} S_80174910_10;   /* ((S_80174910_7 *)temp_v0)->unk_0C in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_10;
 
 
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();           /* extern */
 M2C_UNK func_800672D8();              /* extern */
 extern M2C_UNK D_801747B8;
+extern u8 D_80175F70[];
 
 typedef struct S_80174910_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     void * unk_10;
-} S_80174910_0;   /* temp_v0 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_0;
 
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];
@@ -61,7 +62,7 @@ typedef struct S_80174910_1 {
     u16 unk_30;
     u8 pad_32[0x2];
     s16 unk_34;
-} S_80174910_1;   /* temp_v1 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_1;
 
 typedef struct S_80174910_2 {
     u8 pad_00[0x8];
@@ -73,17 +74,17 @@ typedef struct S_80174910_3 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_80174910_3;   /* temp_v1_2 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_3;
 
 typedef struct S_80174910_4 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80174910_4;   /* var_v1 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_4;
 
 typedef struct S_80174910_5 {
     u8 pad_00[0x12];
     u16 unk_12;
-} S_80174910_5;   /* temp_v1_3 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_5;
 
 /* Creates three linked objects and initializes their shared palette data. */
 void dungeonCreateThreeLinkedPaletteObjects(S_80174910_2 *source, s32 effect_param) {
@@ -101,11 +102,9 @@ void dungeonCreateThreeLinkedPaletteObjects(S_80174910_2 *source, s32 effect_par
     S_80174910_3 *scale_state;
     S_80174910_5 *render_state;
     void *object_callback;
-    u8 *callback_page;
 
     object_index = 0;
     object_callback = &D_801747B8;
-    callback_page = (u8 *) 0x80170000;
     do {
         object = func_8003FD64(0x12, source);
         object_data = object + 0x20;
@@ -147,7 +146,7 @@ void dungeonCreateThreeLinkedPaletteObjects(S_80174910_2 *source, s32 effect_par
                 palette_rect[0] = 0;
                 palette_rect[1] = (s16) ((u32) (((clut_id & 0xFFC0) - 0x40) & 0xFFFF) >> 6);
                 do {
-                    func_800672D8((s16 *) palette_rect, callback_page + 0x5F70);
+                    func_800672D8((s16 *) palette_rect, D_80175F70);
                     next_palette_x = palette_rect[0] + 0x10;
                     palette_rect[0] = next_palette_x;
                 } while (next_palette_x < 0x100);
@@ -160,7 +159,5 @@ void dungeonCreateThreeLinkedPaletteObjects(S_80174910_2 *source, s32 effect_par
     } while (object_index < 3);
 }
 
-/* MECHANISM: Explicit object and 0x80170000 page bases restore the s4/s3 holds
-   and the exact 0x38 frame; one four-halfword array preserves every call-visible slot.
-   A 32-bit outer counter removes sign extensions, and ASM_KEEP at the pointer
-   decrement prevents lhu -6 folding, emitting retail's addiu -0xC; lhu +6 seam. */
+/* The external palette symbol lets the compiler keep its upper half in s3 and
+   form the complete call argument in the original delay slot. */

@@ -149,6 +149,12 @@ def cmd_check(a):
             r = reg.get(rid)
             if r and (ROOT / "src" / r["container"] / Path(r["c_path"]).name).exists():
                 print(f"{rid}: link-list placement still has a copy file src/{r['container']}/{Path(r['c_path']).name}"); bad += 1
+    # Ratchet (LL2): no new `#define <ident> func_/D_<addr>` relocation lines or `Relink of matched` copy files
+    # outside config/lint/relink_text.allow, and no stale allowlist entries (tools/relink_lint.py).
+    if (ROOT / "config/lint/relink_text.allow").exists():
+        import relink_lint
+        for problem in relink_lint.problems(ROOT):
+            print("relink lint: " + problem); bad += 1
     for ovl in CONTAINERS:
         rows = read_jsonl(SPLITS / f"{ovl}.jsonl")
         last = -1

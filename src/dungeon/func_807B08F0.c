@@ -8,7 +8,7 @@ typedef struct S_807B08F0_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     u16 unk_20;
-} S_807B08F0_0;   /* temp_v0 in func_800F80F0 */
+} S_807B08F0_0;
 
 typedef struct S_807B08F0_1 {
     u8 pad_00[0x2];
@@ -16,7 +16,7 @@ typedef struct S_807B08F0_1 {
     s16 unk_04;
     s16 unk_06;
     s16 unk_08;
-} S_807B08F0_1;   /* temp_s0 in func_800F80F0 */
+} S_807B08F0_1;
 
 /* Allocate and initialize an object at the center of the specified tile. */
 void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {

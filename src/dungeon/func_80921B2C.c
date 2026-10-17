@@ -14,7 +14,7 @@ typedef struct S_80921B2C_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80921B2C_0;   /* temp_v0 in func_80921B2C */
+} S_80921B2C_0;
 
 typedef struct S_80921B2C_1 {
     u8 pad_00[0x6];
@@ -23,7 +23,7 @@ typedef struct S_80921B2C_1 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80921B2C_1;   /* temp_a0 in func_80921B2C */
+} S_80921B2C_1;
 
 typedef struct S_80921B2C_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -31,7 +31,7 @@ typedef struct S_80921B2C_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
-} S_80921B2C_2;   /* temp_a0_2 in func_80921B2C */
+} S_80921B2C_2;
 
 typedef struct S_80921B2C_3 {
     s32 unk_00;
@@ -42,7 +42,7 @@ typedef struct S_80921B2C_3 {
 typedef struct S_80921B2C_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80921B2C_4;   /* temp_s6 in func_80921B2C */
+} S_80921B2C_4;
 
 typedef struct S_80921B2C_5 {
     u8 pad_00[0xC];
@@ -52,12 +52,12 @@ typedef struct S_80921B2C_5 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80921B2C_5;   /* temp_a0_3 in func_80921B2C */
+} S_80921B2C_5;
 
 typedef struct S_80921B2C_6 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80921B2C_6;   /* (s8 *)temp_buf + (((u16) ((S_80921B2C_4 *)temp_s6)->unk_2A >> 7) & 0x1C) in func_80921B2C */
+} S_80921B2C_6;
 
 /* Creates an effect at an offset position with direction-based motion and sprite settings. */
 void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_offset) {

@@ -15,7 +15,7 @@ typedef struct S_7FFE7BE8_1 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_7FFE7BE8_1;   /* temp_a0 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_1;
 
 typedef struct S_7FFE7BE8_2 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_7FFE7BE8_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE7BE8_2;   /* temp_v1 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_2;
 
 typedef struct S_7FFE7BE8_3 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_7FFE7BE8_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFE7BE8_4;   /* temp_a0_2 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_4;
 
 typedef struct S_7FFE7BE8_5 {
     u8 pad_00[0xC];

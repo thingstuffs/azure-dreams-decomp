@@ -1,0 +1,7 @@
+offset,vram,.rodata
+D13050,80164850,switch_table
+offset,vram,.data
+D1306C,8016486C,gap
+offset,vram,.text
+D16F2C,8016872C,body
+D17444,80168C44,.end

@@ -6,7 +6,6 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8003FD64();
 
@@ -15,20 +14,20 @@ typedef struct S_8009C390_0 {
     void * unk_08;
     void * unk_0C;
     s32 unk_10;
-} S_8009C390_0;   /* temp_v0 in townCreateTownEffectObject */
+} S_8009C390_0;
 
 typedef struct S_8009C390_1 {
     u8 pad_00[0x50];
     s32 unk_50;
     u8 pad_54[0x48];
     s32 unk_9C;
-} S_8009C390_1;   /* temp_a0 in townCreateTownEffectObject */
+} S_8009C390_1;
 
 typedef struct S_8009C390_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009C390_2;   /* temp_a1 in townCreateTownEffectObject */
+} S_8009C390_2;
 
 typedef struct S_8009C390_3 {
     s32 unk_00;
@@ -42,7 +41,7 @@ typedef struct S_8009C390_4 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009C390_4;   /* temp_a2 in townCreateTownEffectObject */
+} S_8009C390_4;
 
 /* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
 void *townCreateTownEffectObject(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {

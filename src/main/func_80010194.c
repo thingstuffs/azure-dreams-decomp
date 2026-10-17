@@ -6,7 +6,7 @@ M2C_UNK func_8004E994();                         /* extern */
 typedef struct S_80023194_0 {
     u8 pad_00[0x8CC];
     s32 * unk_8CC;
-} S_80023194_0;   /* var_s0 in cardBootReleaseFiveMessageEntries */
+} S_80023194_0;
 
 /* Processes the values referenced by five consecutive record entries. */
 void cardBootReleaseFiveMessageEntries(void *record) {

@@ -35,7 +35,7 @@ typedef struct S_800AE630_1 {
     s16 unk_08;
     s16 unk_0A;
     s16 unk_0C;
-} S_800AE630_1;   /* temp_a1 in townAdvanceItemMenuObjectAnimation */
+} S_800AE630_1;
 
 
 extern M2C_UNK D_800AE600;

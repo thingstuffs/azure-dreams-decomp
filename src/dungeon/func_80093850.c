@@ -5,7 +5,7 @@
 typedef struct S_80098FB0_0 {
     u8 pad_00[0x249];
     u8 unk_249;
-} S_80098FB0_0;   /* var_a0 in dungeonFindLastZeroEntryRunStart */
+} S_80098FB0_0;
 
 /* Find the start of the last contiguous run of zero entries. */
 s32 dungeonFindLastZeroEntryRunStart(void) {

@@ -12,7 +12,7 @@ typedef struct S_800B30D8_0 {
 typedef struct S_800B30D8_1 {
     u8 pad_00[0x3C];
     s32 unk_3C;
-} S_800B30D8_1;   /* temp_a1 in townUpdateLinkedRecordData */
+} S_800B30D8_1;
 
 /* Update the linked data at offset 0x18 using the source record. */
 void townUpdateLinkedRecordData(S_800B30D8_0 *record) {

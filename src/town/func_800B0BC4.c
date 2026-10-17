@@ -56,19 +56,14 @@ s32 townCreateItemMenuObject(s32 selector) {
         runtimeCallSelectedModeHandler();
         result = townCreateItemMenuChildObject(object);
         ((S_800AE324_1 *)object)->unk_20 = result;
-        if (result == 0) {
-            goto failure;
-        }
-        result = townCreateDualBufferObject(object, 0x48, -0x5C);
-        state->unk_08 = result;
-        if (result == 0) {
-            townStartItemMenuObjectProcessing(state);
-            return 0;
+        if (result != 0) {
+            result = townCreateDualBufferObject(object, 0x48, -0x5C);
+            state->unk_08 = result;
         }
     }
-    return (s32)object;
-failure:
+    if (object == 0 || result != 0) {
+        return (s32)object;
+    }
     townStartItemMenuObjectProcessing(state);
     return 0;
 }
-

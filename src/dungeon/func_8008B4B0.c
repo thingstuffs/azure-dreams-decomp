@@ -20,7 +20,7 @@ typedef struct S_80090C10_4 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_80090C10_4;   /* temp_v0_2 in processDungeonMenuSelection */
+} S_80090C10_4;
 
 typedef struct S_80090C10_5 {
     s32 unk_00;
@@ -39,7 +39,7 @@ typedef struct S_80090C10_8 {
     s32 unk_1C;
     u8 pad_20[0x40];
     s32 unk_60;
-} S_80090C10_8;   /* (void *)temp_a0 in processDungeonMenuSelection */
+} S_80090C10_8;
 
 typedef struct S_80090C10_9 {
     u8 pad_00[0xAC];
@@ -51,7 +51,7 @@ typedef struct S_80090C10_10 {
     u8 unk_13;
     u8 pad_14[0x32];
     u16 unk_46;
-} S_80090C10_10;   /* temp_v1_3 in processDungeonMenuSelection */
+} S_80090C10_10;
 
 typedef struct S_80090C10_11 {
     void * unk_00;

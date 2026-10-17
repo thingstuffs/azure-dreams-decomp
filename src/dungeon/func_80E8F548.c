@@ -3,6 +3,14 @@
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AD058_arg2.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x48];
+    u8 field_48;
+    u8 field_49;
+} AppearanceFieldView_80E8F548;
+
+
 typedef s32 M2C_UNK;
 typedef struct {
     s32 value;
@@ -26,7 +34,7 @@ typedef struct S_80174D48_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80174D48_0;   /* temp_v0 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
+} S_80174D48_0;
 
 typedef struct S_80174D48_1 {
     s32 unk_00;
@@ -35,7 +43,7 @@ typedef struct S_80174D48_1 {
     u8 pad_0C[0x9C];
     s16 unk_A8;
     s16 unk_AA;
-} S_80174D48_1;   /* temp_s2 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
+} S_80174D48_1;
 
 typedef struct S_80174D48_2 {
     s32 unk_00;
@@ -44,7 +52,7 @@ typedef struct S_80174D48_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174D48_2;   /* temp_v1 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
+} S_80174D48_2;
 
 typedef struct S_80174D48_3 {
     u8 pad_00[0x8];
@@ -53,7 +61,7 @@ typedef struct S_80174D48_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80174D48_3;   /* temp_s1 in dungeonCreateAndInitializesDisplaySourcePositionAppearance */
+} S_80174D48_3;
 
 
 /* Creates and initializes a display object from the source position and appearance. */
@@ -74,7 +82,7 @@ void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Re
     void *object;
     S_80174D48_2 *transform;
 
-    if (((*(u8 *)((u8 *)appearance + 0x49)) != 0) &&
+    if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
         (object = func_8003FC64(0x12), object != NULL)) {
         init_object = object;
         transform = ((S_80174D48_0 *)object)->unk_08;
@@ -95,13 +103,13 @@ void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Re
         sprite->unk_1E = sprite_size;
         sprite->unk_1C = sprite_size;
         data_base = object_data;
-        if ((*(u8 *)((u8 *)appearance + 0x49)) == 0x12) {
+        if ((((AppearanceFieldView_80E8F548 *)appearance)->field_49) == 0x12) {
             texture = D_8006E240;
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)lookupItemCategoryMappedValue((*(u8 *)((u8 *)appearance + 0x49)),
-                          (*(u8 *)((u8 *)appearance + 0x48)));
+            texture = (void *)lookupItemCategoryMappedValue((((AppearanceFieldView_80E8F548 *)appearance)->field_49),
+                          (((AppearanceFieldView_80E8F548 *)appearance)->field_48));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         }

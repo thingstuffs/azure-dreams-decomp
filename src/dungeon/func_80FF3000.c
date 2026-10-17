@@ -9,7 +9,7 @@ typedef struct S_80FF3000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FF3000_0;   /* temp_v0 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
+} S_80FF3000_0;
 
 typedef struct S_80FF3000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FF3000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FF3000_1;   /* var_s0 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
+} S_80FF3000_1;
 
 typedef struct S_80FF3000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FF3000_2;   /* temp_s4 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
+} S_80FF3000_2;
 
 typedef struct S_80FF3000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80FF3000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FF3000_3;   /* temp_s2 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
+} S_80FF3000_3;
 
 typedef struct S_80FF3000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80FF3000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FF3000_4;   /* temp_s5 in dungeonCreateAndInitializesDungeonFlagsPlacementParameters */
+} S_80FF3000_4;
 
 
 void *func_8003FD64();

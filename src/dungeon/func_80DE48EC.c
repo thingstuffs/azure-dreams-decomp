@@ -1,5 +1,12 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    u8 *field_2C;
+} SpriteFieldView_80DE48EC;
+
+
 s32 dungeonCheckActorAheadHeight(void *action_state, void *source_pos, void *sprite, void *actor)
 {
     void *output;
@@ -81,7 +88,7 @@ return_tail:
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_9B = 0;
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_8C = 0;
     ((E_801720EC_S_801720EC_2 *)action_state)->unk_9A = 0x17;
-    (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
+    (((SpriteFieldView_80DE48EC *)sprite)->field_2C) = D_80174558;
     func_80047784(sprite,
                   D_80174558[((gameWork.view.viewAngle + ((E_801720EC_S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                   0);

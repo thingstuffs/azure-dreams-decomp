@@ -4,33 +4,33 @@
 typedef struct S_800B6B10_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B6B10_2;   /* temp_a0 in townProcessHandledEntryTypes */
+} S_800B6B10_2;
 
 typedef struct S_800B6B10_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B6B10_3;   /* *var_s0 in townProcessHandledEntryTypes */
+} S_800B6B10_3;
 
 typedef struct S_800B6B10_4 {
     u8 pad_00[0xE];
     u8 unk_0E;
-} S_800B6B10_4;   /* ((S_800B6B10_2 *)temp_a0)->unk_04 in townProcessHandledEntryTypes */
+} S_800B6B10_4;
 
 typedef struct S_800B6B10_5 {
     u8 pad_00[0xE];
     s8 unk_0E;
-} S_800B6B10_5;   /* ((S_800B6B10_3 *)(*var_s0))->unk_04 in townProcessHandledEntryTypes */
+} S_800B6B10_5;
 
 M2C_UNK func_8004B1A4();
 M2C_UNK func_8004E99C();
 
 typedef struct S_800B6B10_0 {
     s32 unk_00;
-} S_800B6B10_0;   /* temp_a0 in townProcessHandledEntryTypes */
+} S_800B6B10_0;
 
 typedef struct S_800B6B10_1 {
     s32 unk_00;
-} S_800B6B10_1;   /* *var_s0 in townProcessHandledEntryTypes */
+} S_800B6B10_1;
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
 void townProcessHandledEntryTypes(void **entries) {

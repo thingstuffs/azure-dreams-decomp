@@ -26,12 +26,12 @@ typedef struct S_7FFEA1CC_1 {
     u8 pad_14[0x2A];
     s16 unk_3E;
     s16 unk_40;
-} S_7FFEA1CC_1;   /* temp_v0 in dungeonSpawnPeriodicSourceEffect */
+} S_7FFEA1CC_1;
 
 typedef struct S_7FFEA1CC_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_7FFEA1CC_2;   /* temp_a0 in dungeonSpawnPeriodicSourceEffect */
+} S_7FFEA1CC_2;
 
 typedef struct S_7FFEA1CC_3 {
     u8 pad_00[0x6];
@@ -41,7 +41,7 @@ typedef struct S_7FFEA1CC_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFEA1CC_3;   /* temp_v1_2 in dungeonSpawnPeriodicSourceEffect */
+} S_7FFEA1CC_3;
 
 typedef struct S_7FFEA1CC_4 {
     u8 pad_00[0x13];
@@ -49,7 +49,6 @@ typedef struct S_7FFEA1CC_4 {
 } S_7FFEA1CC_4;   /* ((S_7FFEA1CC_0 *)arg0)->unk_00 in dungeonSpawnPeriodicSourceEffect */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
 void *func_7003CF18();

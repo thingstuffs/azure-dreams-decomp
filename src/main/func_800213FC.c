@@ -17,20 +17,13 @@ extern u8 D_804083A0[];
 Effect *func_804083FC(void *first, void *second) {
     Effect *effect = &D_8040C5C0;
     void *work = (u8 *)effect + 0x20;
-    if (!func_80047FD8(effect)) {
-        effect = func_8003C714(0, effect, 0x19);
-        if (effect != 0) {
-            goto ready;
-        }
-        {
-            func_8007C040(D_8040086C, D_80400894, 0x173);
-            func_8007BEF0(1);
-        }
-    }
-    memoryProcessHandlesAndMarkObject(effect);
+    if (func_80047FD8(effect) ||
+        ((effect = func_8003C714(0, effect, 0x19)) == 0 &&
+         (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
+        memoryProcessHandlesAndMarkObject(effect);
         D_8040C5DE &= 0x7FFF;
-    func_8007BFE0(work, 0x44);
-ready:
+        func_8007BFE0(work, 0x44);
+    }
     func_80408394(work, first, second);
     effect->callback = D_804083A0;
     return effect;

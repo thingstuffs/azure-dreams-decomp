@@ -7,12 +7,12 @@
 typedef struct S_8001A200_1 {
     u8 pad_00[0x2D4];
     s32 (*unk_2D4)(M2C_UNK);
-} S_8001A200_1;   /* temp_v0 in townDispatchRecordsByKind */
+} S_8001A200_1;
 
 typedef struct S_8001A200_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_8001A200_2;   /* var_s0 in townDispatchRecordsByKind */
+} S_8001A200_2;
 
 
 void copyTownRecordPairFields();     /* extern */

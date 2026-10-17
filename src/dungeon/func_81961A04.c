@@ -8,20 +8,19 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 D_800273B0;
 extern M2C_UNK D_800CEEFC;
 
-   /* temp_v0 in dungeonAllocateNinePositionObjects */
 
-   /* temp_s3 in dungeonAllocateNinePositionObjects */
 
-   /* temp_v1 in dungeonAllocateNinePositionObjects */
 
-   /* temp_a2 in dungeonAllocateNinePositionObjects */
 
-   /* temp_a1 in dungeonAllocateNinePositionObjects */
+
+
+
+
+
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
 void *dungeonAllocateNinePositionObjects(void *position)

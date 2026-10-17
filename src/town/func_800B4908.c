@@ -13,7 +13,7 @@ typedef struct S_800B2068_1 {
     u8 pad_04[0x4];
     s32 unk_08;
     s32 unk_0C;
-} S_800B2068_1;   /* temp_s0 in func_800B2068 */
+} S_800B2068_1;
 
 /* Decrement the selected entry value, update its quotient, and invoke entry callbacks. */
 void func_800B2068(void *state) {

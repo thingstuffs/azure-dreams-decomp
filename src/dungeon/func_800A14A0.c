@@ -1,8 +1,8 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_8004491C(void *entry, s32 registration_id);
 s32 func_8004DA74();
@@ -27,31 +27,31 @@ typedef struct S_800A6C00_0 {
     u8 pad_C4[0x2C];
     s32 unk_F0;
     s32 unk_F4;
-} S_800A6C00_0;   /* temp_v0 in func_800A6C00 */
+} S_800A6C00_0;
 
 typedef struct S_800A6C00_1 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800A6C00_1;   /* temp_v1 in func_800A6C00 */
+} S_800A6C00_1;
 
 typedef struct S_800A6C00_2 {
     u8 pad_00[0x4];
     void * unk_04;
     s16 unk_08;
-} S_800A6C00_2;   /* temp_s1 in func_800A6C00 */
+} S_800A6C00_2;
 
 typedef struct S_800A6C00_3 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A6C00_3;   /* temp_a2 in func_800A6C00 */
+} S_800A6C00_3;
 
 typedef struct S_800A6C00_4 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800A6C00_4;   /* temp_s0 in func_800A6C00 */
+} S_800A6C00_4;
 
 /* Allocate an object and initialize its sprite, position, scale, and render state. */
 void *func_800A6C00(void) {

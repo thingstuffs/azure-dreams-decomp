@@ -52,7 +52,7 @@ typedef struct S_80171D74_4 {
     union { u16 n; u16 v; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80171D74_4;   /* temp_s3 in advanceLinkedActorMotionScript */
+} S_80171D74_4;
 
 typedef struct S_80171D74_5 {
     u8 pad_00[0x4];
@@ -71,14 +71,14 @@ typedef struct S_80171D74_7 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_80171D74_7;   /* temp_s4 in advanceLinkedActorMotionScript */
+} S_80171D74_7;
 
 typedef struct S_80171D74_8 {
     u8 pad_00[0x27];
     u8 unk_27;
     u8 pad_28[0x2];
     u16 unk_2A;
-} S_80171D74_8;   /* temp_a1_2 in advanceLinkedActorMotionScript */
+} S_80171D74_8;
 
 
 typedef struct S_80171D74_10 {
@@ -94,60 +94,58 @@ typedef struct S_80171D74_11 {
 typedef struct S_80171D74_13 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_13;   /* temp_v0_12 in advanceLinkedActorMotionScript */
+} S_80171D74_13;
 
 typedef struct S_80171D74_14 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_14;   /* temp_v0_13 in advanceLinkedActorMotionScript */
+} S_80171D74_14;
 
 typedef struct S_80171D74_15 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_15;   /* temp_v0_14 in advanceLinkedActorMotionScript */
+} S_80171D74_15;
 
 typedef struct S_80171D74_16 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_16;   /* temp_v0_15 in advanceLinkedActorMotionScript */
+} S_80171D74_16;
 
 typedef struct S_80171D74_17 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_17;   /* temp_v0_16 in advanceLinkedActorMotionScript */
+} S_80171D74_17;
 
 typedef struct S_80171D74_18 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_18;   /* temp_v0_17 in advanceLinkedActorMotionScript */
+} S_80171D74_18;
 
 typedef struct S_80171D74_19 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_19;   /* temp_v0_18 in advanceLinkedActorMotionScript */
+} S_80171D74_19;
 
 typedef struct S_80171D74_20 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_20;   /* temp_v0_19 in advanceLinkedActorMotionScript */
+} S_80171D74_20;
 
 typedef struct S_80171D74_21 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80171D74_21;   /* temp_v0_20 in advanceLinkedActorMotionScript */
+} S_80171D74_21;
 
 
 typedef struct { u32 v; } __attribute__((packed)) UA32;
 typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
-#define SP1_X(a) M2C_FIELD((u8 *)&offset_table + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP1_Y(a) M2C_FIELD((u8 *)&offset_table + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
-#define SP2_X(a) M2C_FIELD((u8 *)&direction_table + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP2_Y(a) M2C_FIELD((u8 *)&direction_table + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
-#define SP1_X_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP1_Y_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
-#define SP2_X_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), s16 *, 0)
-#define SP2_Y_AT(base, a) M2C_FIELD((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C), u16 *, 2)
+typedef struct { s16 x; u16 y; } ScriptDirection;
+
+#define SP1_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
+#define SP1_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
+#define SP2_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
+#define SP2_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
 
 void func_80041094(); /* extern */
 void selectIndirectTableEntry();              /* extern */

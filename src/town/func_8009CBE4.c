@@ -11,7 +11,6 @@ typedef struct S_8009A344_1 {
 extern void townCallTheHandlerSelectsNonzeroEntry(M2C_UNK entries, void *record, M2C_UNK handler_param);
 extern void townSetPlayerTravelTiming(void *actor, M2C_UNK motion, M2C_UNK context);
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 /* Initialize the record from linked data and apply its update parameters. */

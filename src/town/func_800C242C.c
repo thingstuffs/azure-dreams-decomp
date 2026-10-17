@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_800BFB8C_0_pre {
     u16 unk_00;
-} S_800BFB8C_0_pre;   /* the 0x2 bytes before temp_s2 in townSpawnRandomizedTimedObjects, addressed as temp_s2[-1] */
+} S_800BFB8C_0_pre;
 
 typedef struct S_800BFB8C_0 {
     u8 pad_00[0x8];
@@ -19,12 +19,12 @@ typedef struct S_800BFB8C_0 {
     s16 unk_0A;
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
-} S_800BFB8C_0;   /* temp_s2 in townSpawnRandomizedTimedObjects */
+} S_800BFB8C_0;
 
 typedef struct S_800BFB8C_1 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800BFB8C_1;   /* var_a0 in townSpawnRandomizedTimedObjects */
+} S_800BFB8C_1;
 
 typedef struct S_800BFB8C_2 {
     u8 pad_00[0xBC];
@@ -42,9 +42,8 @@ typedef struct S_800BFB8C_3 {
     s16 unk_22;
     u8 pad_24[0x2];
     s16 unk_26;
-} S_800BFB8C_3;   /* temp_s0 in townSpawnRandomizedTimedObjects */
+} S_800BFB8C_3;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_80033BC0();
 void *func_8003FD64();

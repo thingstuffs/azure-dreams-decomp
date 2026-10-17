@@ -1,0 +1,24 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/heur_3f2a60",
+ "container": "town",
+ "foff": "0x3f2a60",
+ "size": "0x5c",
+ "vma": "0x80019a60",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "town/func_803F2A60",
+   "tu": "src/town/func_80481B84.c",
+   "home": "town/func_80481B84",
+   "foff": "0x3f2a60",
+   "vma": "0x80019a60",
+   "size": 92,
+   "bindings": {
+    "0x800172c8": "0x800191a4",
+    "0x80018668": "0x8001a510"
+   },
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+  }
+ ]
+}

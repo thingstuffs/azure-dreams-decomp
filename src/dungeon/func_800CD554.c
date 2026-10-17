@@ -31,14 +31,14 @@ typedef struct S_800D2CB4_0 {
     s8 unk_9C;
     u8 pad_9D[0x1];
     s16 unk_9E;
-} S_800D2CB4_0;   /* var_s2 in dungeonCreateActorGraphicsAtTile */
+} S_800D2CB4_0;
 
 typedef struct S_800D2CB4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800D2CB4_1;   /* temp_v0 in dungeonCreateActorGraphicsAtTile */
+} S_800D2CB4_1;
 
 typedef struct S_800D2CB4_2 {
     u8 pad_00[0x2];
@@ -47,7 +47,7 @@ typedef struct S_800D2CB4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D2CB4_2;   /* temp_s1 in dungeonCreateActorGraphicsAtTile */
+} S_800D2CB4_2;
 
 typedef struct S_800D2CB4_3 {
     u8 pad_00[0xC];
@@ -62,7 +62,7 @@ typedef struct S_800D2CB4_3 {
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800D2CB4_3;   /* temp_s0 in dungeonCreateActorGraphicsAtTile */
+} S_800D2CB4_3;
 
 /* Creates a dungeon object at the given tile and initializes its graphics and state. */
 void *dungeonCreateActorGraphicsAtTile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {

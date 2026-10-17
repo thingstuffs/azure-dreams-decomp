@@ -17,7 +17,7 @@ typedef struct S_800ADC4C_0 {
     s8 * unk_20;
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800ADC4C_0;   /* temp_v0 in dungeonCreateStatusLinkedRenderEffect */
+} S_800ADC4C_0;
 
 typedef struct S_800ADC4C_1 {
     u8 pad_00[0x2];
@@ -26,7 +26,7 @@ typedef struct S_800ADC4C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800ADC4C_1;   /* temp_v1 in dungeonCreateStatusLinkedRenderEffect */
+} S_800ADC4C_1;
 
 
 typedef struct S_800ADC4C_3 {
@@ -36,7 +36,7 @@ typedef struct S_800ADC4C_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800ADC4C_3;   /* temp_v0_2 in dungeonCreateStatusLinkedRenderEffect */
+} S_800ADC4C_3;
 
 /* Create an object with the supplied position and render settings, and clear its status flag. */
 void *dungeonCreateStatusLinkedRenderEffect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status) {

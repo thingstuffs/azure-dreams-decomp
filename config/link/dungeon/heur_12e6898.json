@@ -1,0 +1,28 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_12e6898",
+ "container": "dungeon",
+ "foff": "0x12e6898",
+ "size": "0x578",
+ "vma": "0x80156098",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_812E6898",
+   "tu": "src/dungeon/func_809A1D60.c",
+   "home": "dungeon/func_809A1D60",
+   "foff": "0x12e6898",
+   "vma": "0x80156098",
+   "size": 1400,
+   "bindings": {
+    "0x801710EC": "0x80153FA4",
+    "0x80175814": "0x800F72E4",
+    "0x80175D7C": "0x800F784C",
+    "0x80175E40": "0x80157C30",
+    "0x80175F40": "0x80157D2C",
+    "0x80175F6E": "0x80157D5A"
+   },
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_809BFD60 (now an LL placement of dungeon/func_809A1D60): bindings translated through dungeon/func_809BFD60's object-screen resolution"
+  }
+ ]
+}

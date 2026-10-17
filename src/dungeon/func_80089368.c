@@ -42,7 +42,7 @@ void dungeonSetRecordIntegerTileCenter();              /* extern */
 s32 func_800A2C34();                          /* extern */
 void dungeonSelectPositionDataAndUpdateOwner();              /* extern */
 s32 dungeonLookupDefinitionPairValue();                          /* extern */
-s32 func_800A6D30();                          /* extern */
+s32 func_800A6D30(void);                          /* extern */
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
@@ -81,22 +81,22 @@ typedef struct S_8008EAC8_6 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_8008EAC8_6;   /* temp_v0 in dungeonHandleCarryingPlayerInput */
+} S_8008EAC8_6;
 
 typedef struct S_8008EAC8_7 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8008EAC8_7;   /* ((((u32) temp_v0) * 4) + arg0) in dungeonHandleCarryingPlayerInput */
+} S_8008EAC8_7;
 
 typedef struct S_8008EAC8_8 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_8008EAC8_8;   /* ((temp_v1_7 * 4) + arg0) in dungeonHandleCarryingPlayerInput */
+} S_8008EAC8_8;
 
 typedef struct S_8008EAC8_9 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_8008EAC8_9;   /* temp_v0_2 in dungeonHandleCarryingPlayerInput */
+} S_8008EAC8_9;
 
 typedef struct S_8008EAC8_10 {
     s8 unk_00;
@@ -122,7 +122,7 @@ void dungeonHandleCarryingPlayerInput(void *object, void *aux_entity, void *spri
     u8 data_70;
     s32 expected_facing;
     u16 direction;
-    void *code8_a0;
+    void *move_state;
     s32 tail_data_flags;
     void *call_arg;
     void *record;
@@ -330,8 +330,8 @@ void dungeonHandleCarryingPlayerInput(void *object, void *aux_entity, void *spri
                         D_800DD830[((S_8008EAC8_6 *)record)->unk_00 & 0x7F](target_facing, facing);
                         return;
                     case 8:
-                        code8_a0 = object;
-                        dungeonTryMoveCarryingPlayer(code8_a0, aux_entity, sprite, entity);
+                        move_state = object;
+                        dungeonTryMoveCarryingPlayer(move_state, aux_entity, sprite, entity);
                         return;
                     case 0x28:
                         dungeonTryBeginPutDownCarriedObject(object, aux_entity, sprite, entity);
@@ -373,15 +373,12 @@ void dungeonHandleCarryingPlayerInput(void *object, void *aux_entity, void *spri
                             flags_a2_late = ((Rec_func_8008ACDC_arg0 *)object)->unk_A2;
                             if (!(flags_a2_late & 0x400)) {
                                 ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 = (u16) (flags_a2_late & 0xFFFE);
-                                code8_a0 = object;
                                 if (((S_8008EAC8_1 *)entity)->unk_1C & 0x400) {
                                     ((S_8008EAC8_1 *)entity)->unk_2A.u =
-                                        (u16) (((S_8008EAC8_1 *)entity)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
-                                    do {
-                                        code8_a0 = object;
-                                    } while (0);
+                                        (u16) (((S_8008EAC8_1 *)entity)->unk_2A.u + (func_800A6D30() & 0xE00));
                                 }
-                                dungeonTryMoveCarryingPlayer(code8_a0, aux_entity, sprite, entity);
+                                move_state = object;
+                                dungeonTryMoveCarryingPlayer(move_state, aux_entity, sprite, entity);
                                 return;
                             }
                         }

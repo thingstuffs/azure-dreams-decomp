@@ -90,12 +90,12 @@ typedef struct S_800D07C8_3 {
 
 typedef struct S_800D07C8_4 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
-} S_800D07C8_4;   /* temp_s3 in dungeonTransformSpritePartsToQuads */
+} S_800D07C8_4;
 
 typedef struct S_800D07C8_5_pre {
     s8 unk_00;
     u8 pad_01[0x3];
-} S_800D07C8_5_pre;   /* the 0x4 bytes before temp_s0 in dungeonTransformSpritePartsToQuads, addressed as temp_s0[-1] */
+} S_800D07C8_5_pre;
 
 typedef struct S_800D07C8_5 {
     u8 unk_00;
@@ -106,7 +106,7 @@ typedef struct S_800D07C8_5 {
     u8 pad_1F[0xA];
     u8 unk_29;
     u8 unk_2A;
-} S_800D07C8_5;   /* temp_s0 in dungeonTransformSpritePartsToQuads */
+} S_800D07C8_5;
 
    /* table[0] in dungeonTransformSpritePartsToQuads */
 

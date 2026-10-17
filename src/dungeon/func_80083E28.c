@@ -5,12 +5,12 @@
 
 typedef struct S_80089588_3 {
     s32 unk_00;
-} S_80089588_3;   /* temp_s1 in dungeonQueueFramebufferStripQuads */
+} S_80089588_3;
 
 typedef struct S_80089588_4 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_80089588_4;   /* ((S_80089588_3 *)temp_s1)->unk_00 in dungeonQueueFramebufferStripQuads */
+} S_80089588_4;
 
 
 typedef struct S_80089588_1 {
@@ -25,11 +25,11 @@ typedef struct S_80089588_1 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80089588_1;   /* temp_s2 in dungeonQueueFramebufferStripQuads */
+} S_80089588_1;
 
 typedef struct S_80089588_2 {
     s32 unk_00;
-} S_80089588_2;   /* temp_s1 in dungeonQueueFramebufferStripQuads */
+} S_80089588_2;
 
 
 struct S_8003E2D8;

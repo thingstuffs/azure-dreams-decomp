@@ -6,13 +6,7 @@
 
 extern u16 D_80026326;
 
-/* The effect's colour record: three bytes fading toward black. */
-typedef struct EffectColor {
-    u8 pad_00[12];
-    u8 red;
-    u8 green;
-    u8 blue;
-} EffectColor;
+
 
 /* Retail 81887570 (dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */

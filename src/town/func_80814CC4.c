@@ -20,7 +20,7 @@ typedef struct S_80814CC4_1 {
 typedef struct S_80814CC4_2 {
     u8 pad_00[0x58];
     u16 unk_58;
-} S_80814CC4_2;   /* temp_t0 in townAdvanceEffectAndReduceScale */
+} S_80814CC4_2;
 
 typedef struct S_80814CC4_3 {
     u8 pad_00[0x1C];
@@ -33,6 +33,7 @@ extern s32 D_80084D5C;
 
 /* Advance motion and reduce scale, marking the effect complete at the scale threshold. */
 void townAdvanceEffectAndReduceScale(void *effect, void *motion, void *scale) {
+    u16 *flags;
     u16 next_scale;
     void *object;
 
@@ -45,7 +46,8 @@ void townAdvanceEffectAndReduceScale(void *effect, void *motion, void *scale) {
     ((S_80814CC4_3 *)scale)->unk_1E = next_scale;
     if ((u16) ((S_80814CC4_3 *)scale)->unk_1C < 0x201U) {
         ((S_80814CC4_2 *)object)->unk_58 = (u16) (((S_80814CC4_2 *)object)->unk_58 & 0xFFFE);
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80814CC4_0_pre *)effect)[-1].unk_00 | 0x8000);
+        flags = &((S_80814CC4_0_pre *)effect)[-1].unk_00;
+        *flags = (u16) (((S_80814CC4_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }

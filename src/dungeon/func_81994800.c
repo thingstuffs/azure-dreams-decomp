@@ -23,7 +23,6 @@ typedef struct S_81994800_2 {
     s16 unk_46;
 } S_81994800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern s16 D_80025384;
 void func_8002405C(void *effect, void *unused_context, void *effect_params);
 /* Advance the effect countdown, update its parameters, and flag completion. */

@@ -6,7 +6,6 @@ typedef struct {
     s32 words[4];
 } __attribute__((packed)) Copy16;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
 

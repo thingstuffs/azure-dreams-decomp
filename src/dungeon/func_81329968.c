@@ -23,12 +23,12 @@ typedef struct S_80171168_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80171168_1;   /* temp_s0 in dungeonMoveBossEffectToOffset */
+} S_80171168_1;
 
 typedef struct S_80171168_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80171168_2;   /* temp_s2 in dungeonMoveBossEffectToOffset */
+} S_80171168_2;
 
 /* Move the entity to a selected offset from the origin and update its cell flags. */
 void dungeonMoveBossEffectToOffset(s32 offset_index) {

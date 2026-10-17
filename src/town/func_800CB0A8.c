@@ -2,8 +2,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 void townInitializeObjectEntries();
 extern M2C_UNK D_800C8788;
 extern M2C_UNK D_800D627C;

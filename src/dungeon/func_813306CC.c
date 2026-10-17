@@ -14,27 +14,27 @@ typedef struct S_801676CC_0 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_801676CC_0;   /* temp_v0_2 in dungeonCreateLayeredSpritePulse */
+} S_801676CC_0;
 
 typedef struct S_801676CC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_801676CC_1;   /* temp_v0 in dungeonCreateLayeredSpritePulse */
+} S_801676CC_1;
 
 typedef struct S_801676CC_2 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_801676CC_2;   /* temp_a0 in dungeonCreateLayeredSpritePulse */
+} S_801676CC_2;
 
 typedef struct S_801676CC_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801676CC_3;   /* temp_a0_2 in dungeonCreateLayeredSpritePulse */
+} S_801676CC_3;
 
 
 typedef struct S_801676CC_5 {
@@ -50,7 +50,7 @@ typedef struct S_801676CC_5 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_801676CC_5;   /* temp_a0_3 in dungeonCreateLayeredSpritePulse */
+} S_801676CC_5;
 
 /* Creates sixteen effects at the given position with increasing sprite scales. */
 void dungeonCreateLayeredSpritePulse(EntityRec *origin) {

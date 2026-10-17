@@ -19,7 +19,6 @@ extern void func_800A6508();
 extern s32 func_800A6D30(void);
 extern s32 dungeonBeginActorRandomWarp(void *, s32, s32, void *);
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 dungeonResolveRandomTrapOutcome(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {

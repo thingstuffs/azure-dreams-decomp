@@ -5,7 +5,14 @@
 #include "modules/dungeon_native_abi.h"
 struct FadeEndpoints; struct FadeSettings;
 struct S_8002569C_2; struct S_80025160_1;
-struct Actor; struct Motion; struct EffectColor;
+struct Actor; struct Motion;
+/* The effect's colour record: three bytes fading toward black. */
+typedef struct EffectColor {
+    u8 pad_00[12];
+    u8 red;
+    u8 green;
+    u8 blue;
+} EffectColor;
 ObjectNodeHeader *dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(struct FadeEndpoints *, struct FadeSettings *);
 void *func_8002569C(struct S_8002569C_2 *, s16, s16, s16, s32);
 void dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor(void *, s32, struct S_80025160_1 *);

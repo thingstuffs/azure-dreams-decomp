@@ -4,7 +4,6 @@
 #include "shared/town_root.h"
 
 
-
 typedef struct S_806F18F8_3 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -14,9 +13,6 @@ typedef struct S_806F18F8_4 {
     u8 pad_00[0x208];
     M2C_UNK (*unk_208)(M2C_UNK);
 } S_806F18F8_4;   /* ((S_806F18F8_1 *)state)->unk_20 in func_806F18F8 */
-
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 /* Builds a record from the current state and submits it after calling the first state callback. */

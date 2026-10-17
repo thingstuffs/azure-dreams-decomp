@@ -5,18 +5,18 @@ typedef struct S_800CBB68_0 {
     u8 pad_00[0x8];
     void * unk_08;
     s32 unk_0C;
-} S_800CBB68_0;   /* temp_v0 in townAllocateVariantObject */
+} S_800CBB68_0;
 
 typedef struct S_800CBB68_1 {
     s32 unk_00;
     s32 unk_04;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800CBB68_1;   /* temp_s0 in townAllocateVariantObject */
+} S_800CBB68_1;
 
 typedef struct S_800CBB68_2 {
     u8 pad_00[0x96];
     s8 unk_96;
-} S_800CBB68_2;   /* temp_s1 in townAllocateVariantObject */
+} S_800CBB68_2;
 
 
 extern void *townCreateTownEffectObject();

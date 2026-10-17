@@ -1,17 +1,41 @@
 #include "common.h"
+#include "shared/entity.h"
 extern int abs(int);
 
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
-#define SC32(p, o)   (*(s32 *)((u8 *)(p) + (o)))
-#define VSC32(p, o)  (*(s32 *)((u8 *)(p) + (o)))
-#define SCU8(p, o)   (*(u8 *)((u8 *)(p) + (o)))
-#define SCPTR(p, o)  (*(void **)((u8 *)(p) + (o)))
 
 extern void townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(void *, void *, void *);
 extern void func_8008F5B4(void *, void *, void *);
 extern void func_8008F60C(void *, void *, void *);
+
+typedef struct CollisionBounds {
+    s32 offset_x, offset_y, offset_z;
+    s32 size_x, size_y, size_z;
+} CollisionBounds;
+
+typedef struct ColliderView {
+    void *unused_00;
+    void *linked;
+    void *position;
+    void *bounds;
+    u8 pad_10[5];
+    u8 enabled;
+    u8 pad_16[0x1E];
+    u8 response_flags[6];
+    u8 pending_flags[6];
+} ColliderView;
+
+typedef struct CollisionScratch {
+    void *self_bounds;
+    void *other;
+    void *other_position;
+    void *other_bounds;
+    s32 x_near, x_far;
+    s32 y_near, y_far;
+    s32 z_near, z_far;
+    u8 face_x, face_y, face_z, pad_2B;
+    s32 axis_x, axis_y, axis_z;
+    s32 face_index;
+} CollisionScratch;
 
 /* Resolve bounding-box overlaps with linked colliders along the least-penetrating axis. */
 void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *collider, void *position) {
@@ -27,28 +51,28 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
     void *box_operand;
     register s32 axis_operand;
 
-    bounds = PTR_AT(collider, 0xC);
+    bounds = ((ColliderView *)(collider))->bounds;
     scratch = (u8 *)0x1F800000;
-    SC32(scratch, 0x38) = 0;
-    SCPTR(scratch, 0) = bounds;
+    ((CollisionScratch *)scratch)->face_index = 0;
+    ((CollisionScratch *)scratch)->self_bounds = bounds;
     do {
-        *(u8 *)((u32)collider + SC32(scratch, 0x38) + 0x3A) = 0;
-        face_index = SC32(scratch, 0x38) + 1;
-        SC32(scratch, 0x38) = face_index;
+        ((ColliderView *)collider)->pending_flags[((CollisionScratch *)scratch)->face_index] = 0;
+        face_index = ((CollisionScratch *)scratch)->face_index + 1;
+        ((CollisionScratch *)scratch)->face_index = face_index;
     } while (face_index < 6);
 
-    SCPTR(scratch, 4) = PTR_AT(collider, 4);
-    for (; SCPTR(scratch, 4) != collider; SCPTR(scratch, 4) = PTR_AT(SCPTR(scratch, 4), 4)) {
+    ((CollisionScratch *)scratch)->other = ((ColliderView *)(collider))->linked;
+    for (; ((CollisionScratch *)scratch)->other != collider; ((CollisionScratch *)scratch)->other = ((ColliderView *)(((CollisionScratch *)scratch)->other))->linked) {
         {
             void *other;
             void *object_ref;
 
-            SCPTR(scratch, 8) = PTR_AT(SCPTR(scratch, 4), 8);
-            other = SCPTR(scratch, 4);
-            other_bounds = PTR_AT(other, 0xC);
-            SCPTR(scratch, 0xC) = other_bounds;
-            object_ref = SCPTR(scratch, 4);
-            if (U8_AT(object_ref, 0x15) == 0) {
+            ((CollisionScratch *)scratch)->other_position = ((ColliderView *)(((CollisionScratch *)scratch)->other))->position;
+            other = ((CollisionScratch *)scratch)->other;
+            other_bounds = ((ColliderView *)(other))->bounds;
+            ((CollisionScratch *)scratch)->other_bounds = other_bounds;
+            object_ref = ((CollisionScratch *)scratch)->other;
+            if (((ColliderView *)(object_ref))->enabled == 0) {
                 continue;
             }
         }
@@ -59,20 +83,20 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 other_edge;
             s32 other_offset;
 
-            self_box = SCPTR(scratch, 0);
+            self_box = ((CollisionScratch *)scratch)->self_bounds;
             do {
-                min_separation = S32_AT(position, 0);
+                min_separation = ((EntityRec *)(position))->x.v;
             } while (0);
-            self_offset = S32_AT(self_box, 0);
-            axis_operand = (s32)SCPTR(scratch, 8);
+            self_offset = ((CollisionBounds *)(self_box))->offset_x;
+            axis_operand = (s32)((CollisionScratch *)scratch)->other_position;
             min_separation += self_offset;
-            other_edge = S32_AT(axis_operand, 0);
-            other_offset = S32_AT(other_bounds, 0);
-            box_operand = (void *)S32_AT(other_bounds, 0xC);
+            other_edge = ((EntityRec *)(axis_operand))->x.v;
+            other_offset = ((CollisionBounds *)(other_bounds))->offset_x;
+            box_operand = (void *)((CollisionBounds *)(other_bounds))->size_x;
             other_edge += other_offset;
             other_edge += (s32)box_operand;
             min_separation -= other_edge;
-            SC32(scratch, 0x10) = min_separation;
+            ((CollisionScratch *)scratch)->x_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -83,19 +107,19 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 separation;
             s32 other_edge;
 
-            box_operand = SCPTR(scratch, 0);
-            separation = S32_AT(position, 0);
-            other_pos = (void *)S32_AT(box_operand, 0);
-            self_size = S32_AT(box_operand, 0xC);
-            box_operand = SCPTR(scratch, 0xC);
+            box_operand = ((CollisionScratch *)scratch)->self_bounds;
+            separation = ((EntityRec *)(position))->x.v;
+            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_x;
+            self_size = ((CollisionBounds *)(box_operand))->size_x;
+            box_operand = ((CollisionScratch *)scratch)->other_bounds;
             separation += (s32)other_pos;
-            other_pos = SCPTR(scratch, 8);
-            box_operand = (void *)S32_AT(box_operand, 0);
-            other_edge = S32_AT(other_pos, 0);
+            other_pos = ((CollisionScratch *)scratch)->other_position;
+            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_x;
+            other_edge = ((EntityRec *)(other_pos))->x.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            SC32(scratch, 0x14) = separation;
+            ((CollisionScratch *)scratch)->x_far = separation;
             if (separation < 0) {
                 continue;
             }
@@ -108,21 +132,21 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 self_offset;
             s32 other_edge;
 
-            self_box = SCPTR(scratch, 0);
+            self_box = ((CollisionScratch *)scratch)->self_bounds;
             do {
-                min_separation = S32_AT(position, 4);
-                self_offset = S32_AT(self_box, 4);
+                min_separation = ((EntityRec *)(position))->y.v;
+                self_offset = ((CollisionBounds *)(self_box))->offset_y;
             } while (0);
-            other_box = SCPTR(scratch, 0xC);
+            other_box = ((CollisionScratch *)scratch)->other_bounds;
             min_separation += self_offset;
-            other_pos = SCPTR(scratch, 8);
-            box_operand = (void *)S32_AT(other_box, 4);
-            other_edge = S32_AT(other_pos, 4);
-            axis_operand = S32_AT(other_box, 0x10);
+            other_pos = ((CollisionScratch *)scratch)->other_position;
+            box_operand = (void *)((CollisionBounds *)(other_box))->offset_y;
+            other_edge = ((EntityRec *)(other_pos))->y.v;
+            axis_operand = ((CollisionBounds *)(other_box))->size_y;
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
             min_separation -= other_edge;
-            SC32(scratch, 0x18) = min_separation;
+            ((CollisionScratch *)scratch)->y_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -133,19 +157,19 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 separation;
             s32 other_edge;
 
-            box_operand = SCPTR(scratch, 0);
-            separation = S32_AT(position, 4);
-            other_pos = (void *)S32_AT(box_operand, 4);
-            self_size = S32_AT(box_operand, 0x10);
-            box_operand = SCPTR(scratch, 0xC);
+            box_operand = ((CollisionScratch *)scratch)->self_bounds;
+            separation = ((EntityRec *)(position))->y.v;
+            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_y;
+            self_size = ((CollisionBounds *)(box_operand))->size_y;
+            box_operand = ((CollisionScratch *)scratch)->other_bounds;
             separation += (s32)other_pos;
-            other_pos = SCPTR(scratch, 8);
-            box_operand = (void *)S32_AT(box_operand, 4);
-            other_edge = S32_AT(other_pos, 4);
+            other_pos = ((CollisionScratch *)scratch)->other_position;
+            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_y;
+            other_edge = ((EntityRec *)(other_pos))->y.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            SC32(scratch, 0x1C) = separation;
+            ((CollisionScratch *)scratch)->y_far = separation;
             if (separation < 0) {
                 continue;
             }
@@ -158,21 +182,21 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 self_offset;
             s32 other_edge;
 
-            self_box = SCPTR(scratch, 0);
+            self_box = ((CollisionScratch *)scratch)->self_bounds;
             do {
-                min_separation = S32_AT(position, 8);
-                self_offset = S32_AT(self_box, 8);
+                min_separation = ((EntityRec *)(position))->z.v;
+                self_offset = ((CollisionBounds *)(self_box))->offset_z;
             } while (0);
-            other_box = SCPTR(scratch, 0xC);
+            other_box = ((CollisionScratch *)scratch)->other_bounds;
             min_separation += self_offset;
-            other_pos = SCPTR(scratch, 8);
-            box_operand = (void *)S32_AT(other_box, 8);
-            other_edge = S32_AT(other_pos, 8);
-            axis_operand = S32_AT(other_box, 0x14);
+            other_pos = ((CollisionScratch *)scratch)->other_position;
+            box_operand = (void *)((CollisionBounds *)(other_box))->offset_z;
+            other_edge = ((EntityRec *)(other_pos))->z.v;
+            axis_operand = ((CollisionBounds *)(other_box))->size_z;
             other_edge += (s32)box_operand;
             other_edge += axis_operand;
             min_separation -= other_edge;
-            SC32(scratch, 0x20) = min_separation;
+            ((CollisionScratch *)scratch)->z_near = min_separation;
             if (min_separation > 0) {
                 continue;
             }
@@ -183,19 +207,19 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 separation;
             s32 other_edge;
 
-            box_operand = SCPTR(scratch, 0);
-            separation = S32_AT(position, 8);
-            other_pos = (void *)S32_AT(box_operand, 8);
-            self_size = S32_AT(box_operand, 0x14);
-            box_operand = SCPTR(scratch, 0xC);
+            box_operand = ((CollisionScratch *)scratch)->self_bounds;
+            separation = ((EntityRec *)(position))->z.v;
+            other_pos = (void *)((CollisionBounds *)(box_operand))->offset_z;
+            self_size = ((CollisionBounds *)(box_operand))->size_z;
+            box_operand = ((CollisionScratch *)scratch)->other_bounds;
             separation += (s32)other_pos;
-            other_pos = SCPTR(scratch, 8);
-            box_operand = (void *)S32_AT(box_operand, 8);
-            other_edge = S32_AT(other_pos, 8);
+            other_pos = ((CollisionScratch *)scratch)->other_position;
+            box_operand = (void *)((CollisionBounds *)(box_operand))->offset_z;
+            other_edge = ((EntityRec *)(other_pos))->z.v;
             separation += self_size;
             other_edge += (s32)box_operand;
             separation -= other_edge;
-            SC32(scratch, 0x24) = separation;
+            ((CollisionScratch *)scratch)->z_far = separation;
             if (separation < 0) {
                 continue;
             }
@@ -205,67 +229,67 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 max_shift;
             s32 max_depth;
 
-            axis_operand = SC32(scratch, 0x10);
-            max_shift = SC32(scratch, 0x14);
+            axis_operand = ((CollisionScratch *)scratch)->x_near;
+            max_shift = ((CollisionScratch *)scratch)->x_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
-                SC32(scratch, 0x2C) = 2;
+                ((CollisionScratch *)scratch)->face_x = ((ColliderView *)(collider))->response_flags[3];
+                ((CollisionScratch *)scratch)->axis_x = 2;
             } else {
-                SC32(scratch, 0x10) = max_shift;
-                SCU8(scratch, 0x28) = U8_AT(collider, 0x36);
-                SC32(scratch, 0x2C) = 3;
+                ((CollisionScratch *)scratch)->x_near = max_shift;
+                ((CollisionScratch *)scratch)->face_x = ((ColliderView *)(collider))->response_flags[2];
+                ((CollisionScratch *)scratch)->axis_x = 3;
             }
 
-            axis_operand = SC32(scratch, 0x18);
-            max_shift = SC32(scratch, 0x1C);
+            axis_operand = ((CollisionScratch *)scratch)->y_near;
+            max_shift = ((CollisionScratch *)scratch)->y_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
-                SC32(scratch, 0x30) = 4;
+                ((CollisionScratch *)scratch)->face_y = ((ColliderView *)(collider))->response_flags[5];
+                ((CollisionScratch *)scratch)->axis_y = 4;
             } else {
-                SC32(scratch, 0x18) = max_shift;
-                SCU8(scratch, 0x29) = U8_AT(collider, 0x38);
-                SC32(scratch, 0x30) = 5;
+                ((CollisionScratch *)scratch)->y_near = max_shift;
+                ((CollisionScratch *)scratch)->face_y = ((ColliderView *)(collider))->response_flags[4];
+                ((CollisionScratch *)scratch)->axis_y = 5;
             }
 
-            axis_operand = SC32(scratch, 0x20);
-            max_shift = SC32(scratch, 0x24);
+            axis_operand = ((CollisionScratch *)scratch)->z_near;
+            max_shift = ((CollisionScratch *)scratch)->z_far;
             axis_operand = abs(axis_operand);
             max_depth = max_shift;
             max_depth = abs(max_depth);
             axis_operand = axis_operand < max_depth;
             if (axis_operand) {
-                SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
-                SC32(scratch, 0x34) = 0;
+                ((CollisionScratch *)scratch)->face_z = ((ColliderView *)(collider))->response_flags[1];
+                ((CollisionScratch *)scratch)->axis_z = 0;
             } else {
-                SC32(scratch, 0x20) = max_shift;
-                SCU8(scratch, 0x2A) = U8_AT(collider, 0x34);
-                SC32(scratch, 0x34) = 1;
+                ((CollisionScratch *)scratch)->z_near = max_shift;
+                ((CollisionScratch *)scratch)->face_z = ((ColliderView *)(collider))->response_flags[0];
+                ((CollisionScratch *)scratch)->axis_z = 1;
             }
         }
 
-        shift_x = SC32(scratch, 0x10);
+        shift_x = ((CollisionScratch *)scratch)->x_near;
         if (shift_x == 0) {
-            if (SC32(scratch, 0x18) == 0) {
+            if (((CollisionScratch *)scratch)->y_near == 0) {
                 continue;
             }
-            if (SC32(scratch, 0x20) == 0) {
+            if (((CollisionScratch *)scratch)->z_near == 0) {
                 continue;
             }
         }
-        shift_y = SC32(scratch, 0x18);
-        if (shift_y == 0 && SC32(scratch, 0x20) == 0) {
+        shift_y = ((CollisionScratch *)scratch)->y_near;
+        if (shift_y == 0 && ((CollisionScratch *)scratch)->z_near == 0) {
             continue;
         }
-        shift_z = SC32(scratch, 0x20);
-        if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
+        shift_z = ((CollisionScratch *)scratch)->z_near;
+        if (shift_z > 0 && ((EntityRec *)(position))->flags14 >= shift_z && shift_x != 0 && shift_y != 0) {
             func_8008F60C(collider, position, scratch);
             continue;
         }
@@ -275,10 +299,10 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
             s32 z_depth;
             s32 abs_z;
 
-            abs_x = abs(VSC32(scratch, 0x10));
-            y_depth = abs(VSC32(scratch, 0x18));
+            abs_x = abs(((CollisionScratch *)scratch)->x_near);
+            y_depth = abs(((CollisionScratch *)scratch)->y_near);
             if (abs_x < y_depth) {
-                z_depth = VSC32(scratch, 0x20);
+                z_depth = ((CollisionScratch *)scratch)->z_near;
                 abs_z = z_depth;
                 abs_z = abs(abs_z);
                 z_depth = y_depth < abs_z;
@@ -292,7 +316,7 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
                 townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(collider, position, scratch);
                 continue;
             }
-            z_depth = VSC32(scratch, 0x20);
+            z_depth = ((CollisionScratch *)scratch)->z_near;
             z_depth = abs(z_depth);
             if (y_depth >= z_depth) {
                 func_8008F60C(collider, position, scratch);
@@ -302,10 +326,10 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
         }
     }
 
-    SC32(scratch, 0x38) = 0;
+    ((CollisionScratch *)scratch)->face_index = 0;
     do {
-        *(u8 *)((u32)collider + SC32(scratch, 0x38) + 0x34) = 0;
-        face_index = SC32(scratch, 0x38) + 1;
-        SC32(scratch, 0x38) = face_index;
+        ((ColliderView *)collider)->response_flags[((CollisionScratch *)scratch)->face_index] = 0;
+        face_index = ((CollisionScratch *)scratch)->face_index + 1;
+        ((CollisionScratch *)scratch)->face_index = face_index;
     } while (face_index < 6);
 }

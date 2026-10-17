@@ -6,6 +6,13 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    void *field_2C;
+} SpriteFieldView_80DBC9D8;
+
+
 typedef struct S_801741D8_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -70,7 +77,7 @@ void dungeonAdvanceActorDirectionalAction(void *controller, void *context, void 
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
             DungeonGlobalStatus *counter;
 
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80175404;
+            (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_80175404;
             func_80047784(sprite,
                 D_80175404[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -158,7 +165,7 @@ final_call:
         }
         }
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_8017540C;
+        (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_8017540C;
         func_80047784(sprite,
             D_8017540C[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);

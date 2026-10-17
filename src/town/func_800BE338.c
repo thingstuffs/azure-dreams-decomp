@@ -8,7 +8,7 @@ typedef struct S_800BBA98_0 {
     s16 unk_4A;
     u8 pad_4C[0x2];
     union { s16 s; u16 u; } unk_4E;   /* accessed as both */
-} S_800BBA98_0;   /* temp_a3 in townUpdateEffectMotionAndFade; pointer addresses record offset 0x2 */
+} S_800BBA98_0;
 
 
 typedef struct {

@@ -30,7 +30,7 @@ typedef struct S_8102F20C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F20C_2;   /* temp_v1 in dungeonApplyRelativeProjectedDepth */
+} S_8102F20C_2;
 
 typedef struct S_8102F20C_3 {
     u8 pad_00[0x6];

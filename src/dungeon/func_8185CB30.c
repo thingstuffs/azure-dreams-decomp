@@ -3,7 +3,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8002421C();
 extern M2C_UNK func_8003DB94();
@@ -29,7 +28,7 @@ typedef struct S_8185CB30_0 {
 typedef struct S_8185CB30_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8185CB30_1;   /* temp_v1 in func_8185CB30 */
+} S_8185CB30_1;
 
 typedef struct S_8185CB30_2 {
     u8 pad_00[0x2];

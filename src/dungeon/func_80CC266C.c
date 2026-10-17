@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -16,14 +17,14 @@ typedef struct S_80175E6C_1 {
 typedef struct S_80175E6C_2 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80175E6C_2;   /* temp_v0 in dungeonSelectNearbyTargetAndStartAction */
+} S_80175E6C_2;
 
 
 typedef struct S_80175E6C_5 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80175E6C_5;   /* temp_v0_2 in dungeonSelectNearbyTargetAndStartAction */
+} S_80175E6C_5;
 
 typedef struct S_80175E6C_6_pre {
     void * unk_00;
@@ -90,7 +91,7 @@ s32 dungeonSelectNearbyTargetAndStartAction(void *action_state, void *unused, vo
         ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(((S_80175E6C_1 *)actor_pos_arg)->unk_24,
             ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
             ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
-        (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
+        ((Rec_D_80082E80 *)actor_pos_arg)->unk_2C.as_pu8 = D_80176348;
         func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7], 0);
         dungeonBuildAndDisplayEncodedMessage(actor);

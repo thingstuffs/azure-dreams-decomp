@@ -12,7 +12,7 @@ typedef struct S_800DC724_0 {
 typedef struct S_800DC724_1 {
     u16 unk_00;
     u16 unk_02;
-} S_800DC724_1;   /* temp_v0 in dungeonMoveIndexedPositionAndApply */
+} S_800DC724_1;
 
 typedef struct S_800DC724_2 {
     u8 pad_00[0x4];
@@ -23,7 +23,7 @@ typedef struct S_800DC724_3 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800DC724_3;   /* temp_a0 in dungeonMoveIndexedPositionAndApply */
+} S_800DC724_3;
 
 
 extern s32 SD_Call();

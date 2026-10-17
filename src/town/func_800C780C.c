@@ -39,7 +39,7 @@ typedef struct S_800C4F6C_4 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_800C4F6C_4;   /* temp_a1 in func_800C4F6C */
+} S_800C4F6C_4;
 
 
 void townCreateResourceDisplayObject();                     /* extern */

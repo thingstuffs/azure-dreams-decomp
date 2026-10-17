@@ -3,7 +3,6 @@
 #include "shared/slus_callbacks.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct Bank7ce_18_Pair {
     s32 first;
@@ -20,7 +19,7 @@ typedef struct S_807B004C_0 {
     u8 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_807B004C_0;   /* temp_v0 in func_800F784C */
+} S_807B004C_0;
 
 typedef struct S_807B004C_1 {
     u8 pad_00[0x8];
@@ -28,13 +27,13 @@ typedef struct S_807B004C_1 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_807B004C_1;   /* temp_v1 in func_800F784C */
+} S_807B004C_1;
 
 typedef struct S_807B004C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s16 unk_0C;
-} S_807B004C_2;   /* temp_v1_2 in func_800F784C */
+} S_807B004C_2;
 
 typedef struct S_807B004C_3 {
     u8 pad_00[0x2A];

@@ -15,13 +15,13 @@ typedef struct S_8002222C_0 {
 typedef struct S_8002222C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_8002222C_1_pre;   /* the 0x8 bytes before var_s3 in townDrawTranslucentGradientLineList, addressed as var_s3[-1] */
+} S_8002222C_1_pre;
 
 typedef struct S_8002222C_1 {
     u8 pad_00[0x18];
     s32 unk_18;
     s32 unk_1C;
-} S_8002222C_1;   /* var_s3 in townDrawTranslucentGradientLineList */
+} S_8002222C_1;
 
 typedef struct S_8002222C_2 {
     s32 unk_00;
@@ -29,7 +29,7 @@ typedef struct S_8002222C_2 {
     s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
-} S_8002222C_2;   /* temp_s0 in townDrawTranslucentGradientLineList */
+} S_8002222C_2;
 
 typedef struct S_8002222C_3 {
     s32 unk_00;

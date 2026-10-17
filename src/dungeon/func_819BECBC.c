@@ -8,20 +8,20 @@ typedef struct S_800244BC_0 {
     u8 pad_24[0x4];
     s16 unk_28;
     s16 unk_2A;
-} S_800244BC_0;   /* temp_v0_2 in func_800244BC */
+} S_800244BC_0;
 
 typedef struct S_800244BC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800244BC_1;   /* temp_v0 in func_800244BC */
+} S_800244BC_1;
 
 typedef struct S_800244BC_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800244BC_2;   /* temp_v1 in func_800244BC */
+} S_800244BC_2;
 
 typedef struct S_800244BC_3 {
     s32 unk_00;
@@ -39,7 +39,7 @@ typedef struct S_800244BC_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800244BC_4;   /* temp_v1_2 in func_800244BC */
+} S_800244BC_4;
 
 
 

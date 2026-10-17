@@ -49,23 +49,23 @@ typedef struct S_80091430_1 {
 typedef struct S_80091430_2_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_80091430_2_pre;   /* the 0x18 bytes before temp_t0 in dungeonUpdateFamiliarCommandSelection, addressed as temp_t0[-1] */
+} S_80091430_2_pre;   /* 0x18-byte header immediately before the payload. */
 
 
 typedef struct S_80091430_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80091430_4;   /* temp_a0 in dungeonUpdateFamiliarCommandSelection */
+} S_80091430_4;
 
 typedef struct S_80091430_5 {
     u8 pad_00[0x46];
     u16 unk_46;
-} S_80091430_5;   /* temp_a0_2 in dungeonUpdateFamiliarCommandSelection */
+} S_80091430_5;
 
 typedef struct S_80091430_6 {
     u8 pad_00[0x46];
     u16 unk_46;
-} S_80091430_6;   /* temp_v1_2 in dungeonUpdateFamiliarCommandSelection */
+} S_80091430_6;
 
 typedef struct S_80091430_7 {
     u8 pad_00[0x2A];

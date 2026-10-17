@@ -13,8 +13,6 @@ typedef struct {
     u16 field_A;
 } D_80083460_Type;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void dungeonBeginDeferredItemAction();
 void dungeonClearSlotAndUpdateLinkedState();

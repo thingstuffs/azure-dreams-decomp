@@ -27,7 +27,7 @@ typedef struct S_800AC82C_2_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_800AC82C_2_pre;   /* the 0x18 bytes before temp_v0 in func_800AC82C, addressed as temp_v0[-1] */
+} S_800AC82C_2_pre;   /* 0x18-byte header immediately before the payload. */
 
 typedef struct S_800AC82C_3 {
     u8 pad_00[0x8];
@@ -35,7 +35,7 @@ typedef struct S_800AC82C_3 {
     u8 pad_0C[0x18];
     u8 unk_24;
     u8 unk_25;
-} S_800AC82C_3;   /* temp_a1 in func_800AC82C */
+} S_800AC82C_3;
 
 
 typedef struct S_800AC82C_5 {
@@ -45,12 +45,12 @@ typedef struct S_800AC82C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800AC82C_5;   /* temp_s2 in func_800AC82C */
+} S_800AC82C_5;
 
 typedef struct S_800AC82C_6 {
     u8 pad_00[0x2A];
     union { u16 v; s16 n; } unk_2A;   /* accessed as both */
-} S_800AC82C_6;   /* temp_v0_5 in func_800AC82C */
+} S_800AC82C_6;
 
 typedef struct S_800AC82C_7_pre {
     EarlyCallData * unk_00;

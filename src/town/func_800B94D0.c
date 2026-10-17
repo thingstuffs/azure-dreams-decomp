@@ -11,7 +11,7 @@ typedef struct S_800B6C30_0 {
     s16 unk_08;
     u8 pad_0A[0x8E];
     s32 unk_98;
-} S_800B6C30_0;   /* temp_s0 in townChangeMonsterStatusDisplayTarget */
+} S_800B6C30_0;
 
 /* Updates the embedded object state and runs its associated helpers. */
 void townChangeMonsterStatusDisplayTarget(s32 objectAddress, s32 field04Value, s16 field08Value) {

@@ -4,14 +4,14 @@
 
 typedef struct S_800AF148_0_pre {
     u16 unk_00;
-} S_800AF148_0_pre;   /* the 0x2 bytes before temp_s0 in townReleaseItemMenuListObject, addressed as temp_s0[-1] */
+} S_800AF148_0_pre;
 
 typedef struct S_800AF148_0 {
     u8 pad_00[0x28];
     s32 unk_28;
     u8 pad_2C[0xAC];
     s32 unk_D8;
-} S_800AF148_0;   /* temp_s0 in townReleaseItemMenuListObject */
+} S_800AF148_0;
 
 
 M2C_UNK func_8004B248();                         /* extern */

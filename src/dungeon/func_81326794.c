@@ -3,6 +3,28 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0xC];
+    u8 *field_0C;
+} ActiveObjectFieldView_81326794;
+
+typedef struct {
+    u8 pad_00[0x2A];
+    u16 field_2A;
+} MapDataFieldView_81326794;
+
+typedef struct {
+    u8 pad_00[0x3D7C];
+    u8 *field_3D7C;
+} EntryPageFieldView_81326794;
+
+typedef struct {
+    u8 pad_00[0x10];
+    u32 field_10;
+} EntryFieldView_81326794;
+
+
 typedef struct {
     u8 pad[0x3714];
     u16 flags;        /* 0x3714 */
@@ -50,25 +72,25 @@ void dungeonResetMapStateAndProcessEntries(void) {
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = D_800834E2;
     sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
-    map_object = *(u8 **)(active_object + 0xC);
+    map_object = ((ActiveObjectFieldView_81326794 *)active_object)->field_0C;
     D_800DCF4D = -1;
     map_data = active_object + 0x20;
     coord_result = dungeonGetRoundedFacingAndRoundingFlag(map_object[0x24], map_object[0x25],
                            D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
-    *(u16 *)(map_data + 0x2A) = coord_result;
+    ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
 loop:
     slot_offset = ((s32)entry_slot << 16) >> 14;
-    entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
+    entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
     if (entry != 0) {
 
         dungeonClearActorActionMarkers(entry);
-        func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC]);
-        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[slot_offset + 0xAC];
+        func_8009A028(*(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC]);
+        entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
         entry -= 0x20;
-        *(u32 *)(entry + 0x10) |= 0x80000000;
+        ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;
     }
     entry_slot++;
     if (entry_slot < 2)

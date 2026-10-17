@@ -9,7 +9,7 @@ extern u8 D_800A2690[9];
 typedef struct S_800A25CC_0 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_800A25CC_0;   /* temp_s2 in townAllocateRandomizedEffectObject */
+} S_800A25CC_0;
 
 typedef struct S_800A25CC_1 {
     u8 pad_00[0x4];
@@ -21,7 +21,7 @@ typedef struct S_800A25CC_1 {
     u8 pad_0E[0x2];
     s32 unk_10;
     s32 unk_14;
-} S_800A25CC_1;   /* temp_s1 in townAllocateRandomizedEffectObject */
+} S_800A25CC_1;
 
 /* Allocates an object and initializes its randomized state. */
 void *townAllocateRandomizedEffectObject(s32 state_value)

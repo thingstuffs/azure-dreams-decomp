@@ -110,20 +110,21 @@ void func_808119EC(void) {
             switch (i) {
             case 0:
                 case_value = 1;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
                 break;
             case 1:
             case 2:
                 case_value = 2;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
                 break;
             case 3:
             case 4:
                 case_value = 3;
+                *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
                 break;
             default:
-                goto next_icon;
+                break;
             }
-            *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
-        next_icon:
             i--;
         } else {
             i--;

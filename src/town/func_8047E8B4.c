@@ -12,7 +12,7 @@ typedef struct S_8047E8B4_0 {
 typedef struct S_8047E8B4_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_8047E8B4_1;   /* temp_a1 in townBuildObjectSetAndSelectListsRevB */
+} S_8047E8B4_1;
 
 /* Pass the indexed entry and its identifier to func_80017568. */
 void townBuildObjectSetAndSelectListsRevB(S_8047E8B4_0 *entry_table, s32 entry_index) {

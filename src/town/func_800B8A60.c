@@ -7,7 +7,7 @@ typedef struct S_800B61C0_0 {
     s32 unk_2C;
     u8 pad_30[0x8];
     void * unk_38;
-} S_800B61C0_0;   /* temp_s0 in townPopulateDisplayRow */
+} S_800B61C0_0;
 
 typedef struct S_800B61C0_1 {
     u8 unk_00;
@@ -17,13 +17,13 @@ typedef struct S_800B61C0_1 {
 typedef struct S_800B61C0_2 {
     s32 unk_00;
     void * unk_04;
-} S_800B61C0_2;   /* ((S_800B61C0_0 *)temp_s0)->unk_38 in townPopulateDisplayRow */
+} S_800B61C0_2;
 
 typedef struct S_800B61C0_3 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B61C0_3;   /* ((S_800B61C0_2 *)(((S_800B61C0_0 *)temp_s0)->unk_38))->unk_04 in townPopulateDisplayRow */
+} S_800B61C0_3;
 
 
 extern s32 lookupItemCategoryMappedValue();

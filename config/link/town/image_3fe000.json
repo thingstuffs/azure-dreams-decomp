@@ -1,0 +1,83 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/image_3fe000",
+ "container": "town",
+ "foff": "0x3FE000",
+ "size": "0x2000",
+ "vma": "0x80016000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC18000: w4t2_bank_3fe0d0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "town/func_803DE440",
+   "tu": "src/town/func_8032ECE4.c",
+   "home": "town/func_8032ECE4",
+   "foff": "0x3FE440",
+   "vma": "0x80016440",
+   "size": 212
+  },
+  {
+   "row": "town/func_803DE514",
+   "tu": "src/town/func_8032EDB8.c",
+   "home": "town/func_8032EDB8",
+   "foff": "0x3FE514",
+   "vma": "0x80016514",
+   "size": 240
+  },
+  {
+   "row": "town/func_803DE604",
+   "tu": "src/town/func_8032EEA8.c",
+   "home": "town/func_8032EEA8",
+   "foff": "0x3FE604",
+   "vma": "0x80016604",
+   "size": 60
+  },
+  {
+   "row": "town/func_803DE640",
+   "tu": "src/town/func_8032EEE4.c",
+   "home": "town/func_8032EEE4",
+   "foff": "0x3FE640",
+   "vma": "0x80016640",
+   "size": 136
+  },
+  {
+   "row": "town/func_803DE850",
+   "tu": "src/town/func_8032F0F4.c",
+   "home": "town/func_8032F0F4",
+   "foff": "0x3FE850",
+   "vma": "0x80016850",
+   "size": 100
+  },
+  {
+   "row": "town/func_803DEA38",
+   "tu": "src/town/func_8032F2DC.c",
+   "home": "town/func_8032F2DC",
+   "foff": "0x3FEA38",
+   "vma": "0x80016A38",
+   "size": 120
+  },
+  {
+   "row": "town/func_803DF300",
+   "tu": "src/town/func_8032FBA4.c",
+   "home": "town/func_8032FBA4",
+   "foff": "0x3FF300",
+   "vma": "0x80017300",
+   "size": 88
+  },
+  {
+   "row": "town/func_803DF358",
+   "tu": "src/town/func_8032FBFC.c",
+   "home": "town/func_8032FBFC",
+   "foff": "0x3FF358",
+   "vma": "0x80017358",
+   "size": 124
+  }
+ ],
+ "symbols": {
+  "0x80016064": "0x80016024",
+  "0x8001608C": "0x8001604C",
+  "0x80019860": "0x800167BC",
+  "0x8001C370": "0x8001794C",
+  "0x8001C374": "0x80017950",
+  "0x8001DCCC": "0x80017B5C"
+ }
+}

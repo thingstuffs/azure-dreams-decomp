@@ -10,7 +10,7 @@ typedef struct S_800BB044_0 {
     void * unk_20;
     u8 pad_24[0x8];
     u16 unk_2C;
-} S_800BB044_0;   /* temp_v0 in dungeonCreateActorLinkedEffect */
+} S_800BB044_0;
 
 typedef struct S_800BB044_1 {
     s32 unk_00;

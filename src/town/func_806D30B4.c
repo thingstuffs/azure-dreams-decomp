@@ -3,22 +3,18 @@
 #include "shared/town_root.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
-
 typedef void (*ReportFunc)(void *, void *, u32);
 
 typedef struct S_800168B4_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800168B4_1;   /* (temp_a1 & 0x7E0) +
-                          *((s32 *)((u8 *)((s32)D_80016000->unk_30) +
-                                    (temp_a3 * 4))) in townBuildObjectSetAndSelectListsRevB */
+} S_800168B4_1;
 
 
 typedef struct S_800168B4_3 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800168B4_3;   /* var_v1 in townBuildObjectSetAndSelectListsRevB */
+} S_800168B4_3;
 
 
 typedef struct TownEntry {

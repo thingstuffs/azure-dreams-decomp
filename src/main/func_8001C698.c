@@ -21,7 +21,7 @@ typedef struct S_8001C698_1 {
     void ** unk_1E0;
     u8 pad_1E4[0xC];
     void ** unk_1F0;
-} S_8001C698_1;   /* var_a0 in func_8001C698 */
+} S_8001C698_1;
 
 /* Initializes an object's value and four sets of shared and per-entry pointers. */
 void func_8001C698(void *object) {

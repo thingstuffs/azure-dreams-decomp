@@ -13,7 +13,7 @@ typedef struct S_800B1F80_1 {
     u8 pad_04[0x4];
     s32 unk_08;
     s32 unk_0C;
-} S_800B1F80_1;   /* temp_s0 in func_800B1F80 */
+} S_800B1F80_1;
 
 /* Update the active entry index and notify handlers when its index or ten-entry group changes. */
 void func_800B1F80(s8 *state, s32 input) {

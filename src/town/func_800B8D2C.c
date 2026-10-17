@@ -9,7 +9,7 @@ typedef struct S_800B648C_0 {
 typedef struct S_800B648C_1 {
     u8 pad_00[0xC];
     union { s32 s; void * u; } unk_0C;   /* accessed as both */
-} S_800B648C_1;   /* var_s1 in townJoinMonsterStatusDisplayChains */
+} S_800B648C_1;
 
 
 void *townLinkMonsterStatusMainEntries();                       /* extern */

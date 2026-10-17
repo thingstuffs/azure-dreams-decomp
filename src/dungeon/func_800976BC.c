@@ -50,7 +50,7 @@ typedef struct S_8009CE1C_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8009CE1C_2;   /* temp_t1 in func_8009CE1C */
+} S_8009CE1C_2;
 
 
 extern u8 D_800E3E41;

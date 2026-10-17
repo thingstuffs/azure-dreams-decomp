@@ -19,7 +19,7 @@ typedef struct S_800BBA40_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800BBA40_0;   /* temp_v0 in dungeonCreateFivePointEffect */
+} S_800BBA40_0;
 
 typedef struct S_800BBA40_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800BBA40_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BBA40_1;   /* temp_v1 in dungeonCreateFivePointEffect */
+} S_800BBA40_1;
 
 typedef struct S_800BBA40_2 {
     u8 pad_00[0x6];
@@ -38,7 +38,7 @@ typedef struct S_800BBA40_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BBA40_2;   /* temp_v1_2 in dungeonCreateFivePointEffect */
+} S_800BBA40_2;
 
 typedef struct S_800BBA40_3 {
     u8 pad_00[0x18];
@@ -51,7 +51,7 @@ typedef struct S_800BBA40_3 {
     u8 pad_3E[0x1E];
     s32 unk_5C;
     s32 unk_60;
-} S_800BBA40_3;   /* var_v1 in dungeonCreateFivePointEffect */
+} S_800BBA40_3;
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
 void *dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,

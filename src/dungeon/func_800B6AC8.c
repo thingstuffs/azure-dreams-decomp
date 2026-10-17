@@ -9,7 +9,7 @@ typedef struct S_800BC228_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x18];
     s16 unk_2C;
-} S_800BC228_0;   /* temp_v0 in dungeonCreateWrappedTextureScroll */
+} S_800BC228_0;
 
 /* Create an object with dungeonUpdateWrappedTextureScroll as its data pointer and store the supplied value. */
 void dungeonCreateWrappedTextureScroll(s16 value) {

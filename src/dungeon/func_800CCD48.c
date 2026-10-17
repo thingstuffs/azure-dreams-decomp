@@ -17,14 +17,14 @@ typedef struct S_800D24A8_0 {
     s8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_800D24A8_0;   /* var_s2 in dungeonCreateActorSpriteAtTile */
+} S_800D24A8_0;
 
 typedef struct S_800D24A8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800D24A8_1;   /* temp_v0 in dungeonCreateActorSpriteAtTile */
+} S_800D24A8_1;
 
 typedef struct S_800D24A8_2 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_800D24A8_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D24A8_2;   /* temp_s1 in dungeonCreateActorSpriteAtTile */
+} S_800D24A8_2;
 
 typedef struct S_800D24A8_3 {
     u8 pad_00[0x8];
@@ -53,7 +53,7 @@ typedef struct S_800D24A8_3 {
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800D24A8_3;   /* temp_s0 in dungeonCreateActorSpriteAtTile */
+} S_800D24A8_3;
 
 
 void *func_8003FD64();            /* extern */

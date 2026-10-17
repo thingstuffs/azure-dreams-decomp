@@ -4,12 +4,12 @@
 typedef struct S_7FFEA9D4_4 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_7FFEA9D4_4;   /* temp_v0_2 in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_4;
 
 typedef struct S_7FFEA9D4_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_7FFEA9D4_5;   /* ((S_7FFEA9D4_4 *)temp_v0_2)->unk_0C in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_5;
 
 
 typedef struct S_7FFEA9D4_0 {
@@ -30,7 +30,7 @@ typedef struct S_7FFEA9D4_1 {
     s16 unk_40;
     u8 pad_42[0x1E];
     u16 unk_60;
-} S_7FFEA9D4_1;   /* temp_v0_2 in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_1;
 
 typedef struct S_7FFEA9D4_2 {
     u8 pad_00[0x2];
@@ -39,12 +39,12 @@ typedef struct S_7FFEA9D4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFEA9D4_2;   /* temp_s0 in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_2;
 
 typedef struct S_7FFEA9D4_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_7FFEA9D4_3;   /* temp_s1 in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_3;
 
 
 void *func_7003CF18();                       /* extern */

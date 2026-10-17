@@ -10,8 +10,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8004491C();
 extern s32 rand();
@@ -25,14 +23,14 @@ typedef struct S_818BDD8C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_818BDD8C_0;   /* temp_v0 in func_818BDD8C */
+} S_818BDD8C_0;
 
 typedef struct S_818BDD8C_1 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_818BDD8C_1;   /* temp_v1 in func_818BDD8C */
+} S_818BDD8C_1;
 
 typedef struct S_818BDD8C_2 {
     u8 pad_00[0x12];
@@ -53,7 +51,7 @@ typedef struct S_818BDD8C_3 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818BDD8C_3;   /* temp_s0 in func_818BDD8C */
+} S_818BDD8C_3;
 
 typedef struct S_818BDD8C_4 {
     s32 unk_00;
@@ -71,7 +69,7 @@ typedef struct S_818BDD8C_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818BDD8C_5;   /* temp_v1_4 in func_818BDD8C */
+} S_818BDD8C_5;
 
 /* Creates an object with its owner, rendering parameters, and supplied data. */
 void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)

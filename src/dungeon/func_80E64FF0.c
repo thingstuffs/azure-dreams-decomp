@@ -1,6 +1,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct { u16 flags; } MotionFieldView_80E64FF0Prefix;
+
+
 typedef struct S_801747F0_0 {
     u8 pad_00[0x1C];
     union { s16 s; u16 u; } unk_1C;   /* accessed as both */
@@ -160,7 +164,7 @@ settle:
             colors[3] = ((S_801747F0_0 *)motion)->unk_2F;
             func_800A7A7C(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
                           ((S_801747F0_1 *)position)->unk_16, ((S_801747F0_2 *)object)->unk_08, colors);
-            (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
+            (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
             return;
         }
@@ -190,7 +194,7 @@ fall:
                     (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
                     (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
                 ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
-                (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
+                (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
                 objectFlagBlock.flags |= 0x8000;
                 return;
             }

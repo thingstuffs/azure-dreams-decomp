@@ -10,7 +10,7 @@ s16 func_800BCB04(s32, s32, s16);
 typedef struct S_800D5F80_2 {
     s16 unk_00;
     s16 unk_02;
-} S_800D5F80_2;   /* temp_a1 in dungeonCheckForwardCollisionAndHeight */
+} S_800D5F80_2;
 
 /* Checks whether the position ahead passes the collision and height tests. */
 s32 dungeonCheckForwardCollisionAndHeight(EntityRec *position, EntityRec *orientation) {

@@ -26,7 +26,7 @@ typedef struct S_800DC628_1 {
     s16 unk_34;
     u8 pad_36[0x22];
     s16 unk_58;
-} S_800DC628_1;   /* temp_v0 in dungeonSetObjectValueAndNegation */
+} S_800DC628_1;
 
 /* Sets four fields in the object's data to a value and a fifth to its negation. */
 void dungeonSetObjectValueAndNegation(S_800DC628_0 *object, s16 value) {

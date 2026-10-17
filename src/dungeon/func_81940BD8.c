@@ -33,7 +33,7 @@ typedef struct S_800243D8_0 {
     s16 unk_2A;
     u8 pad_2C[0x34];
     void * unk_60;
-} S_800243D8_0;   /* temp_v1 in func_800243D8 */
+} S_800243D8_0;
 
 typedef struct S_800243D8_1_pre {
     void * unk_00;
@@ -44,13 +44,13 @@ typedef struct S_800243D8_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243D8_2;   /* temp_a0 in func_800243D8 */
+} S_800243D8_2;
 
 typedef struct S_800243D8_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243D8_3;   /* temp_v1_2 in func_800243D8 */
+} S_800243D8_3;
 
 /* Creates an object linked to the source with its position and default part data. */
 void func_800243D8(void *source) {

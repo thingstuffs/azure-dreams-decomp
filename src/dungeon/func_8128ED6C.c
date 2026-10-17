@@ -105,17 +105,20 @@ void advanceActorActionAndCompletion(ActorActionWork *action, EntityRec *motion,
                 usePlayerTarget = 1;
                 /* fallthrough */
             case 3:
-                goto selectAction3;
+                actionEntry = ((ActorActionSlots *)actor)->third;
+                break;
             case 6:
                 usePlayerTarget = 1;
                 /* fallthrough */
             case 2:
-                goto selectAction2;
+                actionEntry = ((ActorActionSlots *)actor)->second;
+                break;
             case 5:
                 usePlayerTarget = 1;
                 /* fallthrough */
             case 1:
-                goto selectAction1;
+                actionEntry = ((ActorActionSlots *)actor)->first;
+                break;
             default:
                 actionEntry = 0;
                 break;
@@ -124,15 +127,12 @@ void advanceActorActionAndCompletion(ActorActionWork *action, EntityRec *motion,
             actionKindOrTargetAddress = actor->unk_46 & 0x3FFF;
             switch (actionKindOrTargetAddress) {
             case 3:
-selectAction3:
                 actionEntry = ((ActorActionSlots *)actor)->third;
                 break;
             case 2:
-selectAction2:
                 actionEntry = ((ActorActionSlots *)actor)->second;
                 break;
             case 1:
-selectAction1:
                 actionEntry = ((ActorActionSlots *)actor)->first;
                 break;
             default:
@@ -148,38 +148,36 @@ selectAction1:
                 if (use_player_target) {
                     target_link = D_800803DC;
                     actor->target = target_link;
-                    goto copyLinkedTarget;
-                }
-            }
-
-            if (D_8006CC74[*actionEntry].kind == 2) {
-                target_link = actor->target;
-                if (target_link != 0) {
-copyLinkedTarget:
                     /* Both target paths read the link in the object prefix. */
                     actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
 
                     actor->unk_72 = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
                     actor->unk_73 = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
-                    goto executeAction;
+                } else if (D_8006CC74[*actionEntry].kind == 2) {
+                    target_link = actor->target;
+                    if (target_link != 0) {
+                        /* Both target paths read the link in the object prefix. */
+                        actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
+
+                        actor->unk_72 = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
+                        actor->unk_73 = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
+                    }
+                } else {
+                    s32 abs_x;
+                    s32 abs_y;
+
+                    actor->target = func_8009F394(
+                        actor,
+                        sprite->position.tile.x,
+                        sprite->position.tile.y,
+                        actor->facing,
+                        0x10);
+                    abs_x = abs(actor->unk_72);
+                    abs_y = abs(actor->unk_73);
+                    actor->unk_72 = abs_x;
+                    actor->unk_73 = abs_y;
                 }
-            } else {
-                s32 abs_x;
-                s32 abs_y;
-
-                actor->target = func_8009F394(
-                    actor,
-                    sprite->position.tile.x,
-                    sprite->position.tile.y,
-                    actor->facing,
-                    0x10);
-                abs_x = abs(actor->unk_72);
-                abs_y = abs(actor->unk_73);
-                actor->unk_72 = abs_x;
-                actor->unk_73 = abs_y;
             }
-
-executeAction:
             if (func_800A8158(actor, actionEntry, usePlayerTarget, &action->actionFlags) == 0) {
                 return;
             }

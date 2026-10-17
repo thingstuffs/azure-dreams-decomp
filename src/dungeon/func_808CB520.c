@@ -8,7 +8,7 @@ s32 townGetCachedCatalogGlyph();                             /* extern */
 typedef struct S_801239B8_0 {
     u8 unk_00;
     u8 unk_01;
-} S_801239B8_0;   /* var_s0 in func_801239B8 */
+} S_801239B8_0;
 
 /* Draws a zero-terminated sequence of two-byte character codes at successive horizontal positions. */
 void func_801239B8(u8 *text, s16 start_x, s16 y) {

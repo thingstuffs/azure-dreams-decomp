@@ -38,7 +38,7 @@ typedef struct S_8008ACDC_6 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_8008ACDC_6;   /* temp_v0 in dungeonHandlePlayerInput */
+} S_8008ACDC_6;
 
 typedef struct S_8008ACDC_7 {
     u8 pad_00[0xAC];
@@ -53,7 +53,7 @@ typedef struct S_8008ACDC_8 {
 typedef struct S_8008ACDC_9 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_8008ACDC_9;   /* temp_v0_2 in dungeonHandlePlayerInput */
+} S_8008ACDC_9;
 
 void func_8002534C(); /* extern */
 void func_80040AA0();                     /* extern */

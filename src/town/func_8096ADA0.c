@@ -6,14 +6,12 @@ typedef struct S_80123238_0_pre {
     s8 unk_07;
     s8 unk_08;
     s8 unk_09;
-} S_80123238_0_pre;   /* the 0xA bytes before var_a1 in townInitializeCatalogEntryPackets, addressed as var_a1[-1] */
+} S_80123238_0_pre;
 
 typedef struct S_80123238_0 {
     s8 unk_00;
-} S_80123238_0;   /* var_a1 in townInitializeCatalogEntryPackets */
+} S_80123238_0;
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct Row {
     u8 f0;
@@ -45,10 +43,10 @@ void townInitializeCatalogEntryPackets(void)
         entry_tail = (s8 *)entry + 0xB;
         entry->f0 = 0xC0;
         ((S_80123238_0_pre *)entry_tail)[-1].unk_00 = 0x2C;
-        (*(s8 *)((u8 *)entry_tail + -9)) = 0;
-        (*(s8 *)((u8 *)entry_tail + -8)) = 0;
-        (*(s16 *)((u8 *)entry_tail + -7)) = 6;
-        (*(s16 *)((u8 *)entry_tail + -5)) = 0x7C81;
+        entry->f2 = 0;
+        entry->f3 = 0;
+        entry->f4 = 6;
+        entry->f6 = 0x7C81;
         grid_row = entry_index / 3;
         grid_col = entry_index % 3;
         entry_index += 1;

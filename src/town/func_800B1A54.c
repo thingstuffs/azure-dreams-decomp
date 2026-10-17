@@ -13,7 +13,7 @@ typedef struct S_800AF1B4_0 {
     s32 unk_20;
     u8 pad_24[0x4];
     s32 unk_28;
-} S_800AF1B4_0;   /* temp_s0 in townChangeItemMenuSelection */
+} S_800AF1B4_0;
 
 typedef struct S_800AF1B4_1 {
     u8 pad_00[0x20];

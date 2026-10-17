@@ -89,12 +89,12 @@ typedef struct S_800AB778_6 {
     s32 unk_AC;
     u8 pad_B0[0x20];
     s32 unk_D0;
-} S_800AB778_6;   /* temp_v0_7 in dungeonAdvanceActorRemoval */
+} S_800AB778_6;
 
 typedef struct S_800AB778_7 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_800AB778_7;   /* *temp_a1_4 in dungeonAdvanceActorRemoval */
+} S_800AB778_7;
 
 typedef struct S_800AB778_8 {
     u8 pad_00[0x3D7C];
@@ -121,12 +121,12 @@ typedef struct S_800AB778_12 {
     s32 unk_AC;
     u8 pad_B0[0x20];
     s32 unk_D0;
-} S_800AB778_12;   /* temp_v0_2 in dungeonAdvanceActorRemoval */
+} S_800AB778_12;
 
 typedef struct S_800AB778_13 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_800AB778_13;   /* *temp_a1 in dungeonAdvanceActorRemoval */
+} S_800AB778_13;
 
 typedef struct S_800AB778_14 {
     u8 pad_00[0x3D7C];

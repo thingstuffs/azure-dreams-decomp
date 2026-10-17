@@ -18,13 +18,67 @@ extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *)
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s32 func_800BCB04(s32, s32, s16);
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-#define CB_AT(p, o)  (*(EntityCallback *)((u8 *)(p) + (o)))
+/* Local views retain the signed and packed accesses used by this actor update. */
+typedef union {
+    s32 value;
+    struct { u16 fraction; u16 integer; } halves;
+} MotionCoordinate;
+
+typedef struct {
+    u8 pad_00[0x1C];
+    s32 flags;
+    u8 pad_20[0xA];
+    s16 facing;
+    u8 pad_2C[0x41];
+    union { s8 signed_value; u8 value; } action_count;
+    u8 pad_6E[3];
+    u8 status;
+    u8 pad_72[0x16];
+    u16 floor_height;
+    u8 pad_8A[2];
+    EntityCallback callback;
+    union {
+        s32 value;
+        struct { u16 fraction; s16 integer; } signed_halves;
+        struct { u16 fraction; u16 integer; } unsigned_halves;
+    } height_offset;
+    s16 sprite_direction;
+    u8 pad_96[2];
+    u16 action_flags;
+    u8 handler_index;
+    u8 pad_9B[2];
+    union { s8 signed_value; u8 value; } fall_ticks;
+    u8 pad_9E[6];
+    union { s16 signed_value; u16 value; } fade_frame;
+    s16 fade_state;
+} CallbackActorState;
+
+typedef struct {
+    MotionCoordinate x;
+    MotionCoordinate y;
+    union {
+        MotionCoordinate coordinate;
+        struct { u16 fraction; s16 integer; } signed_halves;
+    } z;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+} CallbackActorMotion;
+
+typedef struct {
+    u8 pad_00[4];
+    s8 frame;
+    u8 pad_05[7];
+    s32 color;
+    u8 pad_10[2];
+    u16 color_offset;
+    u16 flags;
+    u8 pad_16[0xE];
+    u8 tile_x;
+    u8 tile_y;
+    u8 pad_26[6];
+    u8 *direction_frames;
+} CallbackActorSprite;
 
 #ifndef __mips__
 static const u32 D_80F0928C[]
@@ -49,11 +103,11 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
     if (dungeonStatus.flags & 0x2000) {
         EntityCallback early_callback;
 
-        early_callback = CB_AT(entity_state, 0x8C);
+        early_callback = ((CallbackActorState *)entity_state)->callback;
         if (early_callback == (EntityCallback)D_80170F74) {
             early_callback(entity_state, entity_motion, entity_part, entity_state);
         } else {
-            U8_AT(entity_state, 0x71) &= 0x7F;
+            ((CallbackActorState *)entity_state)->status &= 0x7F;
         }
         return;
     }
@@ -73,127 +127,128 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
             call_state = entity_state;
             call_motion = entity_motion;
             call_part = entity_part;
-            old_mode = (s8)U8_AT(entity_state, 0x6D);
+            old_mode = (s8)((CallbackActorState *)entity_state)->action_count.value;
             call_context = entity_state;
             if (dungeonRefreshActorFacingAndLifecycle(call_state, call_motion, call_part, call_context) != 0) {
                 return;
             }
         }
 
-        callback = CB_AT(entity_state, 0x8C);
+        callback = ((CallbackActorState *)entity_state)->callback;
         if (callback != 0) {
             callback(entity_state, entity_motion, entity_part, entity_state);
         }
-        D_80173D90[U8_AT(entity_state, 0x9A)](entity_state, entity_motion, entity_part, entity_state);
+        D_80173D90[((CallbackActorState *)entity_state)->handler_index](entity_state, entity_motion, entity_part, entity_state);
 
-        if ((s16)old_mode != S8_AT(entity_state, 0x6D)) {
+        if ((s16)old_mode != ((CallbackActorState *)entity_state)->action_count.signed_value) {
             func_800AA36C(entity_state, entity_motion, entity_part, entity_state);
         }
 
-        if ((D_800E296C & 4) && (S16_AT(entity_state, 0xA4) < 0)) {
-            if (S16_AT(entity_state, 0xA6) != 0) {
-                S16_AT(entity_state, 0xA4) = 0;
-                S16_AT(entity_state, 0xA6) = 0;
-                S32_AT(entity_part, 0xC) = 0;
+        if ((D_800E296C & 4) && (((CallbackActorState *)entity_state)->fade_frame.signed_value < 0)) {
+            if (((CallbackActorState *)entity_state)->fade_state != 0) {
+                ((CallbackActorState *)entity_state)->fade_frame.signed_value = 0;
+                ((CallbackActorState *)entity_state)->fade_state = 0;
+                ((CallbackActorSprite *)entity_part)->color = 0;
                 func_8004491C((u8 *)entity_state - 0x20, func_80045340);
             }
         }
 
-        if (S16_AT(entity_state, 0xA4) >= 0) {
-            S32_AT(entity_part, 0xC) += 0x101010;
-            fade_frame = U16_AT(entity_state, 0xA4);
-            S16_AT(entity_state, 0xA4) = fade_frame + 1;
+        if (((CallbackActorState *)entity_state)->fade_frame.signed_value >= 0) {
+            ((CallbackActorSprite *)entity_part)->color += 0x101010;
+            fade_frame = ((CallbackActorState *)entity_state)->fade_frame.value;
+            ((CallbackActorState *)entity_state)->fade_frame.signed_value = fade_frame + 1;
             if ((s16)fade_frame >= 9) {
-                S32_AT(entity_part, 0xC) = 0x808080;
-                U16_AT(entity_part, 0x14) &= 0xFFF3;
-                U16_AT(entity_part, 0x12) += 0x80;
-                S16_AT(entity_state, 0xA4) = -1;
+                ((CallbackActorSprite *)entity_part)->color = 0x808080;
+                ((CallbackActorSprite *)entity_part)->flags &= 0xFFF3;
+                ((CallbackActorSprite *)entity_part)->color_offset += 0x80;
+                ((CallbackActorState *)entity_state)->fade_frame.signed_value = -1;
             }
         }
 
-        part_flags = U16_AT(entity_part, 0x14);
+        part_flags = ((CallbackActorSprite *)entity_part)->flags;
         if (!(part_flags & 0x8000)) {
-            view_direction = (gameWork.view.viewAngle + S16_AT(state_alias, 0x2A) + 0x100) >> 9;
+            view_direction = (gameWork.view.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
             direction = view_direction & 7;
-            if (S16_AT(entity_state, 0x94) != direction) {
-                direction_frames = PTR_AT(entity_part, 0x2C);
+            if (((CallbackActorState *)entity_state)->sprite_direction != direction) {
+                direction_frames = ((CallbackActorSprite *)entity_part)->direction_frames;
                 if (direction_frames != 0) {
-                    selectIndirectTableEntry(entity_part, direction_frames[direction], S8_AT(entity_part, 4));
+                    selectIndirectTableEntry(entity_part, direction_frames[direction], ((CallbackActorSprite *)entity_part)->frame);
                 }
-                S16_AT(entity_state, 0x94) = direction;
+                ((CallbackActorState *)entity_state)->sprite_direction = direction;
             }
 
             direction_enabled = dirSpriteFlag[direction];
             if (direction_enabled != 0) {
-                U16_AT(entity_part, 0x14) |= 1;
+                ((CallbackActorSprite *)entity_part)->flags |= 1;
             } else {
-                U16_AT(entity_part, 0x14) &= 0xFFFE;
+                ((CallbackActorSprite *)entity_part)->flags &= 0xFFFE;
             }
 
-            if (!(S32_AT(state_alias, 0x1C) & 0x20)) {
-                if (!(U16_AT(entity_part, 0x14) & 0x40)) {
+            if (!(((CallbackActorState *)state_alias)->flags & 0x20)) {
+                if (!(((CallbackActorSprite *)entity_part)->flags & 0x40)) {
                     func_800478B8(entity_part);
                 }
             } else {
-                U16_AT(entity_part, 0x14) |= 0x7000;
+                ((CallbackActorSprite *)entity_part)->flags |= 0x7000;
             }
-            dungeonApplyMonsterKoyawData(S32_AT(state_alias, 0x1C), (u8 *)entity_part + 0xC);
+            dungeonApplyMonsterKoyawData(((CallbackActorState *)state_alias)->flags, &((CallbackActorSprite *)entity_part)->color);
         } else {
             if (part_flags & 0x800) {
-                U16_AT(entity_part, 0x14) = part_flags & 0x8FFF;
+                ((CallbackActorSprite *)entity_part)->flags = part_flags & 0x8FFF;
             } else {
-                U16_AT(entity_part, 0x14) = part_flags | 0x7000;
+                ((CallbackActorSprite *)entity_part)->flags = part_flags | 0x7000;
             }
         }
 
-        S32_AT(entity_motion, 0) += S32_AT(entity_motion, 0xC);
-        S32_AT(entity_motion, 4) += S32_AT(entity_motion, 0x10);
+        ((CallbackActorMotion *)entity_motion)->x.value += ((CallbackActorMotion *)entity_motion)->velocity_x;
+        ((CallbackActorMotion *)entity_motion)->y.value += ((CallbackActorMotion *)entity_motion)->velocity_y;
 
-        if (U16_AT(entity_state, 0x98) & 8) {
-            S8_AT(entity_state, 0x9D) = 0;
+        if (((CallbackActorState *)entity_state)->action_flags & 8) {
+            ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
         } else {
-            S32_AT(entity_motion, 0x14) += S8_AT(entity_state, 0x9D) * 0x14000;
-            U8_AT(entity_state, 0x9D)++;
+            ((CallbackActorMotion *)entity_motion)->velocity_z += ((CallbackActorState *)entity_state)->fall_ticks.signed_value * 0x14000;
+            ((CallbackActorState *)entity_state)->fall_ticks.value++;
         }
 
-        S32_AT(entity_state, 0x90) += S32_AT(entity_motion, 0x14);
-        if (!(U16_AT(entity_state, 0x98) & 4)) {
-            sample_height = func_800BCB04(U16_AT(entity_motion, 2), U16_AT(entity_motion, 6),
-                                          (s16)(U16_AT(state_alias, 0x88) - 0x20));
+        ((CallbackActorState *)entity_state)->height_offset.value += ((CallbackActorMotion *)entity_motion)->velocity_z;
+        if (!(((CallbackActorState *)entity_state)->action_flags & 4)) {
+            sample_height = func_800BCB04(((CallbackActorMotion *)entity_motion)->x.halves.integer, ((CallbackActorMotion *)entity_motion)->y.halves.integer,
+                                          (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
             if ((s16)sample_height < 0x200) {
-                base_height = U16_AT(state_alias, 0x88);
-                if ((S16_AT(entity_state, 0x92) + base_height) < (s16)sample_height) {
-                    S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
+                base_height = ((CallbackActorState *)state_alias)->floor_height;
+                if ((((CallbackActorState *)entity_state)->height_offset.signed_halves.integer + base_height) < (s16)sample_height) {
+                    ((CallbackActorState *)state_alias)->flags &= 0xF7FFFFFF;
                 } else {
                     if ((s16)sample_height >= base_height) {
-                        S32_AT(entity_state, 0x90) = 0;
-                        S32_AT(entity_motion, 0x14) = 0;
-                        S32_AT(state_alias, 0x1C) |= 0x08000000;
-                        S8_AT(entity_state, 0x9D) = 0;
+                        ((CallbackActorState *)entity_state)->height_offset.value = 0;
+                        ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
+                        ((CallbackActorState *)state_alias)->flags |= 0x08000000;
+                        ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
                     } else {
-                        S32_AT(entity_motion, 0x14) = 0;
-                        S32_AT(state_alias, 0x1C) |= 0x08000000;
-                        S8_AT(entity_state, 0x9D) = 0;
-                        S16_AT(entity_state, 0x92) = (s16)sample_height - U16_AT(state_alias, 0x88);
+                        ((CallbackActorMotion *)entity_motion)->velocity_z = 0;
+                        ((CallbackActorState *)state_alias)->flags |= 0x08000000;
+                        ((CallbackActorState *)entity_state)->fall_ticks.signed_value = 0;
+                        ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer = (s16)sample_height - ((CallbackActorState *)state_alias)->floor_height;
                     }
                 }
-                state_flags = S32_AT(state_alias, 0x1C);
+                state_flags = ((CallbackActorState *)state_alias)->flags;
                 if (state_flags & 0x40000000) {
-                    S32_AT(state_alias, 0x1C) = state_flags & 0xBFFFFFFF;
-                    sample_height = func_800BCB04((U8_AT(entity_part, 0x24) << 6) | 0x20,
-                                                 (U8_AT(entity_part, 0x25) << 6) | 0x20,
-                                                 (s16)(U16_AT(state_alias, 0x88) - 0x20));
-                    S16_AT(entity_state, 0x92) += U16_AT(state_alias, 0x88) - sample_height;
-                    U16_AT(state_alias, 0x88) = sample_height;
+                    ((CallbackActorState *)state_alias)->flags = state_flags & 0xBFFFFFFF;
+                    sample_height = func_800BCB04((((CallbackActorSprite *)entity_part)->tile_x << 6) | 0x20,
+                                                 (((CallbackActorSprite *)entity_part)->tile_y << 6) | 0x20,
+                                                 (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
+                    ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += ((CallbackActorState *)state_alias)->floor_height - sample_height;
+                    ((CallbackActorState *)state_alias)->floor_height = sample_height;
                 }
-                goto final_update;
+                ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = ((CallbackActorState *)state_alias)->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
+                ((CallbackActorSprite *)entity_part)->flags |= 0x40;
+                return;
             }
         }
-        S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
+        ((CallbackActorState *)state_alias)->flags &= 0xF7FFFFFF;
 
-final_update:
-        S16_AT(entity_motion, 0xA) = U16_AT(state_alias, 0x88) + U16_AT(entity_state, 0x92);
-        U16_AT(entity_part, 0x14) |= 0x40;
+        ((CallbackActorMotion *)entity_motion)->z.signed_halves.integer = ((CallbackActorState *)state_alias)->floor_height + ((CallbackActorState *)entity_state)->height_offset.unsigned_halves.integer;
+        ((CallbackActorSprite *)entity_part)->flags |= 0x40;
     }
 
     return;

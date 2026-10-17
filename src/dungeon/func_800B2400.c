@@ -11,7 +11,7 @@ typedef struct S_800B7B60_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800B7B60_0;   /* temp_v0 in dungeonAllocateObjectAtCoordinates */
+} S_800B7B60_0;
 
 typedef struct S_800B7B60_1_pre {
     void * unk_00;
@@ -25,7 +25,7 @@ typedef struct S_800B7B60_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B7B60_2;   /* temp_v1 in dungeonAllocateObjectAtCoordinates */
+} S_800B7B60_2;
 
 typedef struct S_800B7B60_3 {
     u8 pad_00[0x2];
@@ -34,14 +34,13 @@ typedef struct S_800B7B60_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B7B60_3;   /* temp_a1 in dungeonAllocateObjectAtCoordinates */
+} S_800B7B60_3;
 
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void dungeonSpawnDirectedAndScatteredParticles();
 extern M2C_UNK D_800B7774;

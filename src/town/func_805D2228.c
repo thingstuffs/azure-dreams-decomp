@@ -1,10 +1,17 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
-extern void * D_80016000;
+/* Eight-byte entries selected by the town root's current index. */
+typedef struct TownEntryStatus {
+    u8 pad_00[4];
+    s8 state;
+    u8 pad_05[3];
+} TownEntryStatus;
+
 void func_80016228(void) {
-    void *temp_v1;
+    Rec_D_80016000 *context;
 
-    temp_v1 = D_80016000;
-    M2C_FIELD(((M2C_FIELD(temp_v1, s32 *, 8) * 8) + M2C_FIELD(temp_v1, s32 *, 0x40)), s8 *, 4) = 3;
+    context = D_80016000;
+    ((TownEntryStatus *)((context->unk_08 * 8) + (s32)context->unk_40))->state = 3;
 }

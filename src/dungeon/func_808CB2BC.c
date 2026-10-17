@@ -4,12 +4,12 @@
 typedef struct S_80123754_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80123754_0;   /* *var_a0 in func_80123754 */
+} S_80123754_0;
 
 typedef struct S_80123754_1 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_80123754_1;   /* ((S_80123754_0 *)(*var_a0))->unk_08 in func_80123754 */
+} S_80123754_1;
 
 extern s32 D_80126A88;
 extern M2C_UNK D_80129728;

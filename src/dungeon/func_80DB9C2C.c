@@ -2,6 +2,10 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct { u16 flags; } EffectFieldView_80DB9C2CPrefix;
+
+
 typedef struct S_8017142C_0 {
     s16 unk_00;
     u8 pad_02[0x18];
@@ -29,7 +33,6 @@ typedef struct S_8017142C_1 {
 } S_8017142C_1;   /* arg1 in dungeonUpdateGrowingCollidingEffect */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800478B8();
 extern s32 dungeonCheckLeftTileAndCenterHeight();
@@ -107,7 +110,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
             ((S_8017142C_0 *)effect)->unk_00 = (u16)((S_8017142C_0 *)effect)->unk_00 + 1;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
     }
@@ -152,7 +155,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         fade_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
     }

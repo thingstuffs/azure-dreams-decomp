@@ -21,12 +21,12 @@ typedef struct S_800CB9DC_1_pre {
     void * unk_04;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_800CB9DC_1_pre;   /* the 0x18 bytes before temp_s1 in advanceGoUpTrapSequence, addressed as temp_s1[-1] */
+} S_800CB9DC_1_pre;
 
 typedef struct S_800CB9DC_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800CB9DC_1;   /* temp_s1 in advanceGoUpTrapSequence */
+} S_800CB9DC_1;
 
 typedef struct S_800CB9DC_2 {
     u8 pad_00[0x14];
@@ -40,7 +40,7 @@ typedef struct S_800CB9DC_2 {
 typedef struct S_800CB9DC_3 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800CB9DC_3;   /* temp_a0 in advanceGoUpTrapSequence */
+} S_800CB9DC_3;
 
 typedef struct S_800CB9DC_4 {
     u8 pad_00[0x14];
@@ -56,7 +56,7 @@ typedef struct S_800CB9DC_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CB9DC_6;   /* temp_a1 in advanceGoUpTrapSequence */
+} S_800CB9DC_6;
 
 typedef struct S_800CB9DC_7 {
     u8 pad_00[0x14A0];

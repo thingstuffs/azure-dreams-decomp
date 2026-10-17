@@ -2,6 +2,16 @@
 
 extern u8 D_800D2644[];
 
+typedef struct BuildingMarkRecord {
+    u8 pad_00[0xA];
+    s16 marked;
+} BuildingMarkRecord;
+
+typedef struct BuildingIndexPage {
+    u8 pad_00[0x33A4];
+    u8 record_index;
+} BuildingIndexPage;
+
 /* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
 void townMarkReferencedBuildingRecords(void) {
     s32 entryIndex;
@@ -15,7 +25,7 @@ void townMarkReferencedBuildingRecords(void) {
     recordCursor = D_800D2644;
     recordCursor += 0x840;
     do {
-        *(s16 *)(recordCursor + 0xA) = 0;
+        ((BuildingMarkRecord *)recordCursor)->marked = 0;
         entryIndex--;
         recordCursor -= 0x20;
     } while (entryIndex >= 0);
@@ -27,10 +37,10 @@ void townMarkReferencedBuildingRecords(void) {
         indexPageCursor = (u8 *)0x80010000;
     } while (0);
     do {
-        recordIndex = indexPageCursor[0x33A4];
+        recordIndex = ((BuildingIndexPage *)indexPageCursor)->record_index;
         if (recordIndex != 0) {
             u8 *record = (u8 *)((recordIndex << 5) + (u32)recordBase);
-            *(s16 *)(record + 0xA) = markedFlag;
+            ((BuildingMarkRecord *)record)->marked = markedFlag;
         }
         entryIndex++;
         indexPageCursor += 2;

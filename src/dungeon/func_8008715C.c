@@ -9,7 +9,6 @@ typedef long long s64;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void dungeonProcessUnflaggedLinkedEntriesAlt();
 s32 dungeonCheckDiagonalSideHeight();
@@ -47,7 +46,7 @@ typedef struct S_8008C8BC_2 {
 typedef struct S_8008C8BC_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8008C8BC_3;   /* temp_v1 in dungeonBeginFrontTileAttack */
+} S_8008C8BC_3;
 
 typedef struct S_8008C8BC_4 {
     u8 pad_00[0x8C];

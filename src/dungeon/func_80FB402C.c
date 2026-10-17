@@ -111,7 +111,7 @@ void dungeonAdvanceActorEntryActiveExitStates(void *action, void *context, void 
             ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
 
         direction_table = D_80175298;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
         func_80047784(
             sprite,
             direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -201,7 +201,7 @@ void dungeonAdvanceActorEntryActiveExitStates(void *action, void *context, void 
 
         if ((s16)func_80042900(actor, 1) == 0) {
             direction_table = D_80175298;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+            (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
             func_80047784(
                 sprite,
                 direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -303,7 +303,7 @@ second_call:
         }
 
         exit_table = D_80175298;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = exit_table;
+        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = exit_table;
         func_80047784(
             sprite,
             exit_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],

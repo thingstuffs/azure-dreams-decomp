@@ -3,7 +3,6 @@
 #include "records/Rec_func_80090C68_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void townDispatchActorInteractionActions(void *, s32, s32);
 extern void townInitializeSharedSceneData();

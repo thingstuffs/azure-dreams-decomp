@@ -12,7 +12,7 @@ typedef struct S_800CB9B8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800CB9B8_1;   /* temp_v0 in townUpdateEntityRelativePosition */
+} S_800CB9B8_1;
 
 typedef struct S_800CB9B8_2 {
     s32 unk_00;
@@ -24,12 +24,12 @@ typedef struct S_800CB9B8_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800CB9B8_3;   /* temp_s0 in townUpdateEntityRelativePosition */
+} S_800CB9B8_3;
 
 typedef struct S_800CB9B8_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800CB9B8_4;   /* temp_s3 in townUpdateEntityRelativePosition */
+} S_800CB9B8_4;
 
 typedef struct S_800CB9B8_5 {
     u8 pad_00[0x72];
@@ -39,7 +39,7 @@ typedef struct S_800CB9B8_5 {
 typedef struct S_800CB9B8_6 {
     u8 pad_00[0x3];
     s8 unk_03;
-} S_800CB9B8_6;   /* ((S_800CB9B8_4 *)temp_s3)->unk_08 in townUpdateEntityRelativePosition */
+} S_800CB9B8_6;
 
 /* extern */
 

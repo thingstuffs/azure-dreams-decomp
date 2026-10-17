@@ -8,6 +8,38 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x1C];
+    u32 field_1C;
+    u8 pad_20[0xA];
+    union {
+        s16 s16;
+        u16 u16;
+    } field_2A;
+    u8 pad_2C[0x1A];
+    u16 field_46;
+    u8 pad_48[0x18];
+    void *field_60;
+    u8 pad_64[0x9];
+    u8 field_6D;
+    u8 pad_6E[0x4];
+    union {
+        s8 s8;
+        u8 u8;
+    } field_72;
+    union {
+        s8 s8;
+        u8 u8;
+    } field_73;
+} ActorFieldView_810318E4;
+
+typedef struct {
+    u8 pad_00[0xA6];
+    u16 field_A6;
+} ActiveFieldView_810318E4;
+
+
 
 typedef struct Copy48 {
     u32 words[12];
@@ -116,8 +148,8 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
     state = ((S_801730E4_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+        if ((((ActorFieldView_810318E4 *)actor)->field_1C) & 0x2000) {
+            switch ((((ActorFieldView_810318E4 *)actor)->field_46) & 0x3FFF) {
             case 7:
                 is_special = 1;
                 /* fallthrough */
@@ -141,7 +173,7 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
                 break;
             }
         } else {
-            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            switch ((((ActorFieldView_810318E4 *)actor)->field_46) & 0x3FFF) {
             case 3:
                 selection = (u8 *)actor + 0xE;
                 break;
@@ -164,13 +196,13 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
 
                 if (use_special != 0) {
                     active = D_800814A8;
-                    (*(void * *)((u8 *)actor + 0x60)) = active;
+                    (((ActorFieldView_810318E4 *)actor)->field_60) = active;
                 } else {
                     linked = D_8006DE24[*selection].kind;
                     if (linked != 2) {
                         goto create_active;
                     }
-                    active = (*(void * *)((u8 *)actor + 0x60));
+                    active = (((ActorFieldView_810318E4 *)actor)->field_60);
                     if (active == 0) {
                         goto active_ready;
                     }
@@ -178,8 +210,8 @@ void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
             }
 copy_active:
             linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
-            (*(u8 *)((u8 *)actor + 0x72)) = ((S_801730E4_2 *)linked)->unk_24;
-            (*(u8 *)((u8 *)actor + 0x73)) = ((S_801730E4_2 *)linked)->unk_25;
+            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
+            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
             goto active_ready;
 
 create_active:
@@ -189,18 +221,18 @@ create_active:
 
                 target_x = (s32)dungeonScanMonsterAlongHeading(
                     actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                    (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
+                    (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
                 (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
-                target_x = (*(s8 *)((u8 *)actor + 0x72));
-                target_y = (*(s8 *)((u8 *)actor + 0x73));
+                target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
+                target_y = (((ActorFieldView_810318E4 *)actor)->field_73.s8);
                 if (target_x < 0) {
                     target_x = -target_x;
                 }
                 if (target_y < 0) {
                     target_y = -target_y;
                 }
-                (*(u8 *)((u8 *)actor + 0x72)) = target_x;
-                (*(u8 *)((u8 *)actor + 0x73)) = target_y;
+                (((ActorFieldView_810318E4 *)actor)->field_72.u8) = target_x;
+                (((ActorFieldView_810318E4 *)actor)->field_73.u8) = target_y;
             }
 
 active_ready:
@@ -221,14 +253,14 @@ active_ready:
 
             active = D_800814A8;
             dungeonStatus.unk_0C = 0;
-            (*(u16 *)((u8 *)active + 0xA6))--;
+            (((ActiveFieldView_810318E4 *)active)->field_A6)--;
         }
         dungeonAdvanceStatusTimers(actor);
-        (*(u8 *)((u8 *)actor + 0x6D))--;
+        (((ActorFieldView_810318E4 *)actor)->field_6D)--;
         ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
+        (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;
+        (((ActorFieldView_810318E4 *)actor)->field_46) &= 0x7FFF;
         return;
 
     case 1:
@@ -253,7 +285,7 @@ active_ready:
                 ((S_801730E4_5 *)effect_state)->unk_96 = 0xF;
                 ((S_801730E4_6 *)effect_object)->unk_10 = &D_801708D4;
                 ((S_801730E4_5 *)effect_state)->unk_A8 = position;
-                ((S_801730E4_5 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
+                ((S_801730E4_5 *)effect_state)->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
                 effect_data = ((S_801730E4_6 *)effect_object)->unk_0C;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
                 ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;
@@ -326,8 +358,8 @@ active_ready:
             if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8017609C) {
                 s32 direction_index;
 
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017609C;
-                direction_index = ((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+                (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_8017609C;
+                direction_index = ((gameWork.view.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
                 func_80047784(sprite, D_8017609C[direction_index], 0);
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             }
@@ -338,10 +370,10 @@ active_ready:
         }
         ((S_801730E4_0 *)action)->unk_8C = &D_801714B8;
         dungeonAdvanceStatusTimers(actor);
-        (*(u8 *)((u8 *)actor + 0x73)) = 0;
-        (*(u8 *)((u8 *)actor + 0x72)) = 0;
-        (*(u8 *)((u8 *)actor + 0x6D))--;
-        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        (((ActorFieldView_810318E4 *)actor)->field_73.u8) = 0;
+        (((ActorFieldView_810318E4 *)actor)->field_72.u8) = 0;
+        (((ActorFieldView_810318E4 *)actor)->field_6D)--;
+        (((ActorFieldView_810318E4 *)actor)->field_46) &= 0x7FFF;
         func_800A56E0(0xB4);
         return;
     default:

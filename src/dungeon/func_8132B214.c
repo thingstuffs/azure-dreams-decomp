@@ -10,7 +10,7 @@ typedef struct S_80172A14_1 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80172A14_1;   /* temp_v0 in dungeonCreateBossLinkedEffect */
+} S_80172A14_1;
 
 typedef struct S_80172A14_2 {
     u8 pad_00[0x18];
@@ -18,14 +18,14 @@ typedef struct S_80172A14_2 {
     u8 pad_1A[0x6];
     void * unk_20;
     void * unk_24;
-} S_80172A14_2;   /* temp_v0_2 in dungeonCreateBossLinkedEffect */
+} S_80172A14_2;
 
 typedef struct S_80172A14_3 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80172A14_3;   /* temp_a0 in dungeonCreateBossLinkedEffect */
+} S_80172A14_3;
 
 typedef struct S_80172A14_4 {
     u8 pad_00[0x2];
@@ -34,7 +34,7 @@ typedef struct S_80172A14_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172A14_4;   /* temp_v1 in dungeonCreateBossLinkedEffect */
+} S_80172A14_4;
 
 typedef struct S_80172A14_5 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_80172A14_6 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80172A14_6;   /* temp_a0_2 in dungeonCreateBossLinkedEffect */
+} S_80172A14_6;
 
 
 extern void *func_8003FD64(s32, void *);

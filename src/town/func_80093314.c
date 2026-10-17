@@ -35,13 +35,13 @@ typedef struct S_80090A74_2 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_80090A74_2;   /* temp_s4 in townDispatchActorInteractionActions */
+} S_80090A74_2;
 
 
 typedef struct S_80090A74_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80090A74_4;   /* temp_s3 in townDispatchActorInteractionActions */
+} S_80090A74_4;
 
 /* Update the actor and dispatch town actions from input and interaction state. */
 void townDispatchActorInteractionActions(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context) {

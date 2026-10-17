@@ -15,7 +15,7 @@ typedef struct S_800BEAD0_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800BEAD0_0;   /* temp_v0 in event_pool_clean_in */
+} S_800BEAD0_0;
 
 typedef struct S_800BEAD0_1 {
     u8 pad_00[0x8];
@@ -24,11 +24,9 @@ typedef struct S_800BEAD0_1 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BEAD0_1;   /* temp_v1 in event_pool_clean_in */
+} S_800BEAD0_1;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8004491C();
 extern M2C_UNK SD_Call();
@@ -53,7 +51,7 @@ s32 event_pool_clean_in(void)
         ((S_800BEAD0_0 *)object)->unk_10 = &D_800BEBA4;
         body = (u8 *)object + 0x20;
         func_8004491C(object, func_80045340);
-        (*(s16 *)((u8 *)body + 2)) = 0x10;
+        ((EntityRec *)body)->x.w.i = 0x10;
         color = 0x00800000;
         motion[0] = D_80083780.x.v;
         origin = &D_80083780;

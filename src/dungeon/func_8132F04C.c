@@ -23,7 +23,7 @@ typedef struct S_8016604C_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_8016604C_1;   /* temp_v0_2 in dungeonScatterLandingSparksOnGrid */
+} S_8016604C_1;
 
 typedef struct S_8016604C_2 {
     u8 pad_00[0x8];
@@ -36,7 +36,7 @@ typedef struct S_8016604C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016604C_2;   /* temp_s0 in dungeonScatterLandingSparksOnGrid */
+} S_8016604C_2;
 
 typedef struct S_8016604C_3 {
     u8 pad_00[0x2];
@@ -56,7 +56,7 @@ typedef struct S_8016604C_4 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8016604C_4;   /* (*(void **)((u8 *)temp_v0 + 8)) in dungeonScatterLandingSparksOnGrid */
+} S_8016604C_4;
 
 /* Spawn particles at random positions in a grid around the source. */
 void dungeonScatterLandingSparksOnGrid(S_8016604C_0 *source) {
@@ -79,22 +79,22 @@ void dungeonScatterLandingSparksOnGrid(S_8016604C_0 *source) {
             if (!(rand() & 7)) {
                 particle = func_8003FC64(0x12);
                 if (particle != NULL) {
-                    (*(M2C_UNK **)((u8 *)particle + 0x10)) = effect_data;
+                    (((ObjectNodeHeader *)particle)->unk_10) = effect_data;
                     jitter_or_scale = rand();
                     x_base = ((S_8016604C_3 *)(source->unk_08))->unk_02 + (grid_x << 6);
                     x_base -= 0x20;
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_02 = (s16) (x_base + (jitter_or_scale & 0x3F));
+                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_02 = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
                     y_base = ((S_8016604C_3 *)(source->unk_08))->unk_06 + (grid_y << 6);
                     y_base -= 0x20;
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_06 = (s16) (y_base + (y_random & 0x3F));
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_0A = (s16) (((S_8016604C_3 *)(source->unk_08))->unk_0A - 0x100);
-                    motion = (*(void **)((u8 *)particle + 8));
+                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_06 = (s16) (y_base + (y_random & 0x3F));
+                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_0A = (s16) (((S_8016604C_3 *)(source->unk_08))->unk_0A - 0x100);
+                    motion = (((ObjectNodeHeader *)particle)->unk_08);
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_14 = 0x200000;
+                    ((S_8016604C_4 *)((((ObjectNodeHeader *)particle)->unk_08)))->unk_14 = 0x200000;
                     func_8004491C(particle, &D_80045C34);
-                    sprite = (*(void **)((u8 *)particle + 0xC));
+                    sprite = (((ObjectNodeHeader *)particle)->unk_0C);
                     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
                     jitter_or_scale = 0x1000 / (s32) (func_80167088(5) + 6);
                     sprite->unk_0C = 0xFF;

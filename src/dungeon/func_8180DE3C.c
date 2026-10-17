@@ -21,7 +21,6 @@ typedef struct S_80026E3C_1 {
     s8 unk_0E;
 } S_80026E3C_1;   /* arg2 in dungeonAlternateEffectShadeAndDecay */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */

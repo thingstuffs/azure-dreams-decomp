@@ -3,6 +3,42 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2A];
+    union {
+        s16 s16;
+        u16 u16;
+    } field_2A;
+    u8 pad_2C[0x5C];
+    s16 field_88;
+} ActorBytesFieldView_80EAF000;
+
+typedef struct {
+    u8 pad_00[0x24];
+    u8 field_24;
+    u8 field_25;
+} OriginBytesFieldView_80EAF000;
+
+typedef struct {
+    u8 pad_00[0x249];
+    u8 field_249;
+    u8 pad_24A[0x1];
+    u8 field_24B;
+} SlotBaseFieldView_80EAF000;
+
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x48];
+    union {
+        s32 s32;
+        struct { u8 pad[0x1]; u8 value; } u8_at_1;
+        struct { u8 pad[0x3]; u8 value; } u8_at_3;
+    } field_48;
+} TargetFieldView_80EAF000;
+
+
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
@@ -29,19 +65,19 @@ extern s32 D_80150FE4[];
     u8 *slot_base;
     u8 *item_ptr;
 
-    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
+    direction_offset = (((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.u16 >> 8) & 0xE;
     ground_slot = func_800A70E4(
-        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
-        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
-        *(s16 *)(actor_bytes + 0x88));
+        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
+        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
+        ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_88);
     if (ground_slot >= 0) {
         D_80150FE4[0] = ((s32 *)D_800E3548)[ground_slot];
         ((s32 *)D_800E3548)[ground_slot] = 0;
         return (s32)D_80150FE4;
     }
 
-    target = dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
-                           *(s16 *)(actor_bytes + 0x2A));
+    target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
+                           ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.s16);
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
@@ -73,11 +109,11 @@ scan_loop:
                 }
                 slot_offset = (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
                 slot_base = (u8 *)(slot_offset + 0x80010000);
-                item_ptr = (u8 *)(u32)*(u8 *)(slot_base + 0x249);
+                item_ptr = (u8 *)(u32)((SlotBaseFieldView_80EAF000 *)slot_base)->field_249;
                 if ((u32)item_ptr == 0 || (u32)item_ptr == 0x13) {
                     return 0;
                 }
-                if (*(u8 *)(slot_base + 0x24B) & 0x20) {
+                if (((SlotBaseFieldView_80EAF000 *)slot_base)->field_24B & 0x20) {
                     return 0;
                 }
                 {
@@ -92,18 +128,18 @@ scan_loop:
                 }
             }
         }
-        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+        if (((TargetFieldView_80EAF000 *)target)->field_48.u8_at_1.value == 0) {
             return 0;
         }
-        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
+        if (((TargetFieldView_80EAF000 *)target)->field_48.u8_at_3.value & 0x20) {
             return 0;
         }
         {
             s32 item_word;
 
-            item_word = *(s32 *)((u8 *)target + 0x48);
+            item_word = ((TargetFieldView_80EAF000 *)target)->field_48.s32;
             D_80150FE4[0] = item_word;
-            *(s32 *)((u8 *)target + 0x48) = 0;
+            ((TargetFieldView_80EAF000 *)target)->field_48.s32 = 0;
             return (s32)D_80150FE4;
         }
     }

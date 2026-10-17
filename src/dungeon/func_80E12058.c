@@ -3,6 +3,13 @@
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x12];
+    u16 field_12;
+} RenderDataFieldView_80E12058;
+
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -14,12 +21,12 @@ typedef struct S_80175858_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80175858_0;   /* temp_v0 in dungeonCreateDirectionalRenderObject */
+} S_80175858_0;
 
 typedef struct S_80175858_1 {
     u8 pad_00[0x4];
     union { u16 s; s16 u; } unk_04;   /* accessed as both */
-} S_80175858_1;   /* temp_a2 in dungeonCreateDirectionalRenderObject */
+} S_80175858_1;
 
 typedef struct S_80175858_2 {
     u8 pad_00[0x2A];
@@ -34,7 +41,7 @@ typedef struct S_80175858_3 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80175858_3;   /* temp_a0 in dungeonCreateDirectionalRenderObject */
+} S_80175858_3;
 
 typedef struct S_80175858_4 {
     u8 pad_00[0x12];
@@ -44,8 +51,6 @@ typedef struct S_80175858_4 {
 } S_80175858_4;   /* arg2_hold in dungeonCreateDirectionalRenderObject */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     s32 words[6];
@@ -81,7 +86,7 @@ void *dungeonCreateDirectionalRenderObject(void *direction_src, Copy24 *initial_
         ((S_80175858_3 *)render_data)->unk_0C = 0x808080;
         ((S_80175858_3 *)render_data)->unk_1E = 0x800;
         ((S_80175858_3 *)render_data)->unk_1C = 0x800;
-        (*(u16 *)((u8 *)render_data + 0x12)) = render_attr;
+        (((RenderDataFieldView_80E12058 *)render_data)->field_12) = render_attr;
         func_80047784(
             render_data,
             D_80176498[

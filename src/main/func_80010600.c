@@ -12,7 +12,7 @@ typedef struct S_80023600_2 {
     void * unk_1C8;
     u8 pad_1CC[0xC];
     void * unk_1D8;
-} S_80023600_2;   /* var_a0 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_2;
 
 typedef struct S_80023600_3 {
     u8 pad_00[0x4];
@@ -22,22 +22,22 @@ typedef struct S_80023600_3 {
 typedef struct S_80023600_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_4;   /* ((S_80023600_2 *)var_a0)->unk_1D8 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_4;
 
 typedef struct S_80023600_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_5;   /* ((S_80023600_2 *)var_a0)->unk_1A8 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_5;
 
 typedef struct S_80023600_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_6;   /* ((S_80023600_2 *)var_a0)->unk_1B8 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_6;
 
 typedef struct S_80023600_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_7;   /* ((S_80023600_2 *)var_a0)->unk_1C8 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_7;
 
 typedef struct S_80023600_8 {
     u8 pad_00[0xA];
@@ -48,25 +48,25 @@ typedef struct S_80023600_9 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80023600_9;   /* ((S_80023600_4 *)(((S_80023600_2 *)var_a0)->unk_1D8))->unk_04 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_9;
 
 typedef struct S_80023600_10 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80023600_10;   /* ((S_80023600_5 *)(((S_80023600_2 *)var_a0)->unk_1A8))->unk_04 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_10;
 
 typedef struct S_80023600_11 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80023600_11;   /* ((S_80023600_6 *)(((S_80023600_2 *)var_a0)->unk_1B8))->unk_04 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_11;
 
 typedef struct S_80023600_12 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80023600_12;   /* ((S_80023600_7 *)(((S_80023600_2 *)var_a0)->unk_1C8))->unk_04 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_12;
 
 
 void cardBootBindCommandPanelResources();                      /* extern */

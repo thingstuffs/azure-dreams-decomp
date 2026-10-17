@@ -2,8 +2,6 @@
 #include "m2c_compat.h"
 
 
-#define M2C_BREAK() M2C_ERROR(0)
-#define M2C_SYNC() M2C_ERROR(0)
 
 void setResidentBitmapBit();
 void clearResidentBitmapBit();
@@ -17,16 +15,16 @@ extern u8 D_800D2EA4[];
 typedef struct S_800B98B4_0 {
     u8 unk_00;
     u8 unk_01;
-} S_800B98B4_0;   /* temp_v1 in func_800B98B4 */
+} S_800B98B4_0;
 
 typedef struct S_800B98B4_1 {
     u8 unk_00;
     u8 unk_01;
-} S_800B98B4_1;   /* var_s1 in func_800B98B4 */
+} S_800B98B4_1;
 
 typedef struct S_800B98B4_2 {
     u8 unk_00;
-} S_800B98B4_2;   /* temp_v2 in func_800B98B4 */
+} S_800B98B4_2;
 
 typedef struct S_800B98B4_3 {
     u8 pad_00[0x33A4];

@@ -4,9 +4,6 @@
 #include "shared/town_root.h"
 
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern M2C_UNK func_800193E0();
 extern M2C_UNK func_80019458();
 extern M2C_UNK D_80019890;

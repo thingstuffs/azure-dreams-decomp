@@ -3,7 +3,6 @@
 #include "shared/town_root.h"
 
 
-
 typedef struct S_80016844_2 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -16,8 +15,6 @@ typedef struct S_80016844_3 {
 } S_80016844_3;   /* ((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
                        ((S_80016844_1 *)(D_80016000[0]))->unk_40) in townRunObjectHandlerAndClearEntry */
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800176B8();
 extern s32 func_800177CC();

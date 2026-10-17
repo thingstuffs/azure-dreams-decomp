@@ -37,17 +37,17 @@ typedef struct S_819715D4_0 {
     u8 pad_00[0x38];
     s16 unk_38;
     s16 unk_3A;
-} S_819715D4_0;   /* temp_v1 in func_80024DD4 */
+} S_819715D4_0;
 
 typedef struct S_819715D4_1 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_819715D4_1;   /* temp_a0 in func_80024DD4 */
+} S_819715D4_1;
 
 typedef struct S_819715D4_2 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_819715D4_2;   /* temp_s0 in func_80024DD4 */
+} S_819715D4_2;
 
 /* Creates a sprite object with randomized offsets from the source position. */
 void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base_y, s16 base_z) {

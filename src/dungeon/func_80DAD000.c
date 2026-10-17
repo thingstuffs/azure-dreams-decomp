@@ -9,7 +9,7 @@ typedef struct S_80DAD000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DAD000_0;   /* temp_v0 in dungeonAllocateObjectWithFlagsAndPlacement */
+} S_80DAD000_0;
 
 typedef struct S_80DAD000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DAD000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DAD000_1;   /* var_s0 in dungeonAllocateObjectWithFlagsAndPlacement */
+} S_80DAD000_1;
 
 typedef struct S_80DAD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DAD000_2;   /* temp_s4 in dungeonAllocateObjectWithFlagsAndPlacement */
+} S_80DAD000_2;
 
 typedef struct S_80DAD000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DAD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DAD000_3;   /* temp_s2 in dungeonAllocateObjectWithFlagsAndPlacement */
+} S_80DAD000_3;
 
 typedef struct S_80DAD000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80DAD000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DAD000_4;   /* temp_s5 in dungeonAllocateObjectWithFlagsAndPlacement */
+} S_80DAD000_4;
 
 
 
@@ -73,7 +73,6 @@ void *dungeonAllocateObjectWithFlagsAndPlacement(s16 spawn_flags, s16 spawn_x, s
     s32 flags_14;
     s32 flags_1c;
 
-    M2C_ERROR(/* Read from unset register $t0 */) | 0x4481;
     saved_x = spawn_x;
     saved_value = initial_value;
     saved_y = spawn_y;

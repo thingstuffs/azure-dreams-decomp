@@ -9,19 +9,19 @@ typedef struct S_80089C24_0 {
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_80089C24_0;   /* temp_v0 in mainInitializeSettingsScreen */
+} S_80089C24_0;
 
 typedef struct S_80089C24_1 {
     u8 pad_00[0x12];
     s16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80089C24_1;   /* var_s4 in mainInitializeSettingsScreen */
+} S_80089C24_1;
 
 typedef struct S_80089C24_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80089C24_2;   /* ((S_80089C24_0 *)temp_v0)->unk_08 in mainInitializeSettingsScreen */
+} S_80089C24_2;
 
 
 typedef struct Sol9Copy8 {

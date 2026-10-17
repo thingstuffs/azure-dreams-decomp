@@ -7,7 +7,7 @@ void func_80016BDC(s16);                         /* extern */
 typedef struct S_808B16A0_0 {
     s16 unk_00;
     s16 unk_02;
-} S_808B16A0_0;   /* var_s0 in func_808B16A0 */
+} S_808B16A0_0;
 
 /* Pass both signed 16-bit values in each pair to func_80016BDC. */
 void func_808B16A0(void *pairs, s32 pairCount) {

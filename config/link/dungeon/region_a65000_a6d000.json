@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/region_a65000_a6d000",
+ "container": "dungeon",
+ "foff": "0xa65000",
+ "size": "0x8000",
+ "vma": "0x8016e800",
+ "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase beldo_boss_cluster",
+ "entries": [
+  {
+   "row": "dungeon/func_80A4AB34",
+   "home": "dungeon/func_80A4AB34",
+   "tu": "src/dungeon/func_80A4AB34.c",
+   "foff": "0xa6ab34",
+   "vma": "0x80174334",
+   "size": 1384
+  }
+ ]
+}

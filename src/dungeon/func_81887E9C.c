@@ -6,7 +6,7 @@
 typedef struct S_8002569C_6 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8002569C_6;   /* temp_v0 in func_8002569C */
+} S_8002569C_6;
 
 
                   /* extern */
@@ -22,7 +22,7 @@ typedef struct S_8002569C_0 {
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_8002569C_0;   /* temp_v0 in func_8002569C */
+} S_8002569C_0;
 
 typedef struct S_8002569C_1 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_8002569C_1 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_8002569C_1;   /* temp_s2 in func_8002569C */
+} S_8002569C_1;
 
 typedef struct S_8002569C_2 {
     u8 pad_00[0x2];
@@ -56,19 +56,19 @@ typedef struct S_8002569C_3 {
     s16 unk_1C;
     u8 pad_1E[0x4];
     u16 unk_22;
-} S_8002569C_3;   /* temp_v1 in func_8002569C */
+} S_8002569C_3;
 
 typedef struct S_8002569C_4 {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
-} S_8002569C_4;   /* temp_a0 in func_8002569C */
+} S_8002569C_4;
 
 typedef struct S_8002569C_5 {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
-} S_8002569C_5;   /* temp_v0_3 in func_8002569C */
+} S_8002569C_5;
 
 /* Create an object offset from an origin and record its starting position. */
 void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {

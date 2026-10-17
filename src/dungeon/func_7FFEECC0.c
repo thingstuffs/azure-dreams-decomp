@@ -13,7 +13,7 @@ typedef struct S_8008C420_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C420_1;   /* temp_s0 in townQueryOffsetPositionMinusZ */
+} S_8008C420_1;
 
 /* Queries the combined position and subtracts the offset's integer Z component. */
 s16 townQueryOffsetPositionMinusZ(S_8008C420_0 *origin, s32 offset_table, s32 offset_index) {

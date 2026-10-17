@@ -10,11 +10,11 @@
 
 
 
-   /* temp_v0 in func_80024154 */
 
-   /* temp_v0_2 in func_80024154 */
 
-   /* temp_s0_2 in func_80024154 */
+
+
+
 
 
 extern s32 rand();

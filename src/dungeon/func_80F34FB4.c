@@ -75,7 +75,7 @@ typedef struct S_801727B4_4 {
     s16 unk_32;
     s16 unk_34;
     s16 unk_36;
-} S_801727B4_4;   /* temp_s0 in dungeonUpdateStagedMovementAndRestoreActor */
+} S_801727B4_4;
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
 void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
@@ -166,7 +166,7 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         } else {
             effect = func_8003FD64(1, ((u8 *)(&D_80083498)));
             if (effect != NULL) {
-                (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_800DB618;
+                (((ObjectNodeHeader *)effect)->unk_10) = &D_800DB618;
                 func_8004491C(effect, &D_800DB660);
                 effect_data = effect + 0x20;
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;

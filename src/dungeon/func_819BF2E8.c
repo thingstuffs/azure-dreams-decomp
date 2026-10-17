@@ -10,20 +10,20 @@ typedef struct S_80024AE8_0 {
     u8 pad_24[0x4];
     s16 unk_28;
     s16 unk_2A;
-} S_80024AE8_0;   /* temp_v0_2 in func_80024AE8 */
+} S_80024AE8_0;
 
 typedef struct S_80024AE8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80024AE8_1;   /* temp_v0 in func_80024AE8 */
+} S_80024AE8_1;
 
 typedef struct S_80024AE8_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80024AE8_2;   /* temp_v1 in func_80024AE8 */
+} S_80024AE8_2;
 
 typedef struct S_80024AE8_3 {
     s32 unk_00;
@@ -34,7 +34,7 @@ typedef struct S_80024AE8_3 {
 typedef struct S_80024AE8_4 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80024AE8_4;   /* temp_v1_2 in func_80024AE8 */
+} S_80024AE8_4;
 
 /* Create and initialize an effect at the supplied position. */
 void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {

@@ -1,0 +1,42 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/s2_native_resource_16_slot_1",
+ "container": "dungeon",
+ "foff": "0xc11000",
+ "size": "0x6000",
+ "vma": "0x8016a800",
+ "evidence": "docs/evidence/r121w_s2_receipts.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80BF1258",
+   "tu": "src/dungeon/func_80BF1258.c",
+   "home": "dungeon/func_80BF1258",
+   "foff": "0xc11258",
+   "vma": "0x8016aa58",
+   "size": 1468
+  },
+  {
+   "row": "dungeon/func_80BF1814",
+   "tu": "src/dungeon/func_80BEB814.c",
+   "home": "dungeon/func_80BEB814",
+   "foff": "0xc11814",
+   "vma": "0x8016b014",
+   "size": 1376,
+   "bindings": {
+    "0x8017420c": "0x8016e20c",
+    "0x8017421c": "0x8016e21c",
+    "0x8017424c": "0x8016e24c",
+    "0x80174254": "0x8016e254",
+    "0x8017425c": "0x8016e25c",
+    "0x80171574": "0x8016b574",
+    "0x80171784": "0x8016b784",
+    "0x80171ecc": "0x8016becc",
+    "0x80172090": "0x8016c090",
+    "0x801721b4": "0x8016c1b4",
+    "0x80173468": "0x8016d468",
+    "0x80173ae8": "0x8016dae8"
+   },
+   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80BF1814"
+  }
+ ]
+}

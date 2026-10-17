@@ -23,7 +23,7 @@ typedef struct S_800A4C10_0 {
 
 typedef struct S_800A4C10_1 {
     s32 unk_00;
-} S_800A4C10_1;   /* temp_v1 in townRestartOrAdvanceTargetInterpolation */
+} S_800A4C10_1;
 
 typedef struct S_800A4C10_2 {
     u8 pad_00[0x4];

@@ -52,3 +52,11 @@ Module placements (certified-module members and their bank copies), cross-contai
 image has no proven rowbase region (the gate links at a true base only inside one). Text-reading reporting tools
 (status shape census, decl/struct census, levels record facts, dashboard) still read the home text once per
 placement; LL1 must make them count each TU once (`source_layout.source_items` already does).
+
+## Relink text ratchet (LL2)
+
+`tools/relink_lint.py` (run by `tools/row_db.py check`) refuses new `#define <ident> func_/D_<addr>` relocation lines
+and new `/* Relink of matched` copy files: a copy is a link-list placement. The files that still carry such text
+(copies not yet convertible: cross-container homes, solved rowbase regions, homes outside proven regions, objects
+that differ) are frozen in `config/lint/relink_text.allow`. The list only shrinks; a stale entry is an error too, so
+a conversion removes it in the same change (`tools/relink_lint.py shrink`).

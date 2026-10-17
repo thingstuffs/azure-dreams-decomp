@@ -51,7 +51,7 @@ typedef struct S_800BB55C_3 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_800BB55C_3;   /* temp_a0 in dungeonUpdateFivePointEffect */
+} S_800BB55C_3;
 
 typedef struct S_800BB55C_4 {
     u8 pad_00[0xA];

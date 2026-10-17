@@ -25,7 +25,7 @@ typedef struct S_800C01DC_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800C01DC_0;   /* temp_v0 in townInitializeObjectAtCurrentPosition */
+} S_800C01DC_0;
 
 typedef struct S_800C01DC_1 {
     u8 pad_00[0x10];

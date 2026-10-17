@@ -50,7 +50,7 @@ typedef struct S_80527D5C_1 {
     void * unk_08;
     u8 pad_0C[0x7C];
     s16 unk_88;
-} S_80527D5C_1;   /* temp_a0 in townRunCollectionRoundSequence */
+} S_80527D5C_1;
 
 typedef struct S_80527D5C_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -72,7 +72,7 @@ typedef struct S_80527D5C_3 {
 typedef struct S_80527D5C_4 {
     u8 pad_00[0x68];
     s16 unk_68;
-} S_80527D5C_4;   /* temp_s4 in townRunCollectionRoundSequence */
+} S_80527D5C_4;
 
 typedef struct S_80527D5C_5 {
     u16 unk_00;
@@ -111,25 +111,25 @@ typedef struct S_80527D5C_8 {
     void * unk_08;
     u8 pad_0C[0x1C];
     u16 unk_28;
-} S_80527D5C_8;   /* temp_a1 in townRunCollectionRoundSequence */
+} S_80527D5C_8;
 
 typedef struct S_80527D5C_9 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80527D5C_9;   /* (void *) var_a0 in townRunCollectionRoundSequence */
+} S_80527D5C_9;
 
 typedef struct S_80527D5C_10 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80527D5C_10;   /* temp_s2 in townRunCollectionRoundSequence */
+} S_80527D5C_10;
 
 typedef struct S_80527D5C_11 {
     u16 unk_00;
-} S_80527D5C_11;   /* temp_v1_2 in townRunCollectionRoundSequence */
+} S_80527D5C_11;
 
 /* extern */
 

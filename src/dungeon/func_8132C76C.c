@@ -38,19 +38,19 @@ typedef struct S_80173F6C_0 {
     s8 unk_9A;
     u8 pad_9B[0x1B];
     s8 unk_B6;
-} S_80173F6C_0;   /* temp_s1 in dungeonCreateBossDirectionalAnimation */
+} S_80173F6C_0;
 
 typedef struct S_80173F6C_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80173F6C_1;   /* temp_v0 in dungeonCreateBossDirectionalAnimation */
+} S_80173F6C_1;
 
 typedef struct S_80173F6C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173F6C_2;   /* temp_s3 in dungeonCreateBossDirectionalAnimation */
+} S_80173F6C_2;
 
 typedef struct S_80173F6C_3 {
     u8 pad_00[0x14];
@@ -63,7 +63,7 @@ typedef struct S_80173F6C_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80173F6C_3;   /* temp_s0 in dungeonCreateBossDirectionalAnimation */
+} S_80173F6C_3;
 
 /* Create and initialize an object with offset coordinates and directional animation. */
 void dungeonCreateBossDirectionalAnimation(void) {

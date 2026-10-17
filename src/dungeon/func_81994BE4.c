@@ -29,7 +29,7 @@ typedef struct S_800243E4_0 {
     s16 unk_2A;
     u8 pad_2C[0x34];
     void * unk_60;
-} S_800243E4_0;   /* temp_v1 in dungeonCreateAnLinkedParentInitializePositionPartData */
+} S_800243E4_0;
 
 typedef struct S_800243E4_1_pre {
     void * unk_00;
@@ -40,13 +40,13 @@ typedef struct S_800243E4_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243E4_2;   /* temp_a0 in dungeonCreateAnLinkedParentInitializePositionPartData */
+} S_800243E4_2;
 
 typedef struct S_800243E4_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243E4_3;   /* temp_v1_2 in dungeonCreateAnLinkedParentInitializePositionPartData */
+} S_800243E4_3;
 
 /* Create an object linked to its parent and initialize its position and part data. */
 void dungeonCreateAnLinkedParentInitializePositionPartData(void *parent, void *unused_context, void *unused_parameters) {

@@ -20,7 +20,7 @@ typedef struct S_8182718C_0 {
 typedef struct S_8182718C_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_8182718C_1;   /* temp_v1 in func_8182718C */
+} S_8182718C_1;
 
 
 /* Advance a timed two-state action and propagate target status flags. */

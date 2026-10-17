@@ -2,7 +2,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #ifndef NULL
 #define NULL 0
 #endif
@@ -17,13 +16,13 @@ extern M2C_UNK D_8012A4F8;
 typedef struct S_801264AC_0 {
     u8 pad_00[0x4];
     M2C_UNK * unk_04;
-} S_801264AC_0;   /* var_a0 in townInitializeCatalogDisplayNodes */
+} S_801264AC_0;
 
 typedef struct S_801264AC_1 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
     M2C_UNK * unk_0C;
-} S_801264AC_1;   /* *var_v1 in townInitializeCatalogDisplayNodes */
+} S_801264AC_1;
 
 typedef struct S_801264AC_2 {
     u8 pad_00[0x54];

@@ -9,7 +9,7 @@ typedef struct S_8107D000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8107D000_0;   /* temp_v0 in func_8014C898 */
+} S_8107D000_0;
 
 typedef struct S_8107D000_1 {
     u8 pad_00[0x13];
@@ -19,12 +19,12 @@ typedef struct S_8107D000_1 {
     s32 unk_1C;
     u8 pad_20[0x78];
     u16 unk_98;
-} S_8107D000_1;   /* var_s0 in func_8014C898 */
+} S_8107D000_1;
 
 typedef struct S_8107D000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8107D000_2;   /* temp_s4 in func_8014C898 */
+} S_8107D000_2;
 
 typedef struct S_8107D000_3 {
     u8 pad_00[0x14];
@@ -34,7 +34,7 @@ typedef struct S_8107D000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_8107D000_3;   /* temp_s2 in func_8014C898 */
+} S_8107D000_3;
 
 typedef struct S_8107D000_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_8107D000_4 {
     s8 unk_9C;
     u8 pad_9D[0xD];
     s16 unk_AA;
-} S_8107D000_4;   /* temp_s5 in func_8014C898 */
+} S_8107D000_4;
 
 
 

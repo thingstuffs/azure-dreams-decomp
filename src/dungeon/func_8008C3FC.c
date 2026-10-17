@@ -28,7 +28,7 @@ typedef struct S_80091B5C_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80091B5C_4;   /* temp_v0 in dungeonBeginActorTurnTowardTarget */
+} S_80091B5C_4;
 
 typedef struct S_80091B5C_5_pre {
     void * unk_00;

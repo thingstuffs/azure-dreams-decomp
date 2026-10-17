@@ -8,7 +8,7 @@ typedef struct S_800A1B44_1 {
     s32 unk_00;
     u8 pad_04[0x6C];
     s32 unk_70;
-} S_800A1B44_1;   /* var_s0 in dungeonUpdateAllActorProximityFlags; pointer addresses record offset 0x14 */
+} S_800A1B44_1;   /* Pointer addresses record offset 0x14. */
 
 
 s32 dungeonUpdateActorProximityFlag(); /* extern */

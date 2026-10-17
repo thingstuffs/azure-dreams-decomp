@@ -28,7 +28,6 @@ typedef struct S_800B0544_6 {
     s16 unk_0A;
 } S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in dungeonCreateDefaultStateObject */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK loadIndexedResourcePackage();
 extern s32 func_8004491C();
@@ -50,18 +49,18 @@ typedef struct S_800B0544_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_800B0544_1;   /* temp_v1 in dungeonCreateDefaultStateObject */
+} S_800B0544_1;
 
 typedef struct S_800B0544_2 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B0544_2;   /* temp_v1_2 in dungeonCreateDefaultStateObject */
+} S_800B0544_2;
 
 typedef struct S_800B0544_3 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800B0544_3;   /* temp_a0 in dungeonCreateDefaultStateObject */
+} S_800B0544_3;
 
 /* Update the current state and create an object with default color, scale, and mode flags. */
 void dungeonCreateDefaultStateObject(s16 new_state) {

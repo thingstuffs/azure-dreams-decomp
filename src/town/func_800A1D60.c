@@ -6,7 +6,7 @@
 typedef struct S_8009F4C0_3 {
     u8 pad_00[0xAC3];
     u8 unk_AC3;
-} S_8009F4C0_3;   /* (temp_s0 + (u8 *)baseD) in townInitializeTheTownEntitySynchronizeSlotState */
+} S_8009F4C0_3;
 
 typedef struct S_8009F4C0_4 {
     u8 pad_00[0x983];
@@ -16,7 +16,7 @@ typedef struct S_8009F4C0_4 {
 typedef struct S_8009F4C0_5 {
     u8 pad_00[0xA94];
     s32 unk_A94;
-} S_8009F4C0_5;   /* ((temp_s3 * 0x54) + (u8 *)baseD) in townInitializeTheTownEntitySynchronizeSlotState */
+} S_8009F4C0_5;
 
 
 struct PackedTownEntry {
@@ -46,14 +46,14 @@ extern struct TownCopy84 D_80100AF8;
 typedef struct S_8009F4C0_1 {
     u8 pad_00[0x981];
     s8 unk_981;
-} S_8009F4C0_1;   /* temp_v2 in townInitializeTheTownEntitySynchronizeSlotState */
+} S_8009F4C0_1;
 
 typedef struct S_8009F4C0_2 {
     u8 pad_00[0x981];
     u8 unk_981;
     u8 pad_982[0x1];
     u8 unk_983;
-} S_8009F4C0_2;   /* temp_v1 in townInitializeTheTownEntitySynchronizeSlotState */
+} S_8009F4C0_2;
 
 /* Initialize the town entity record and synchronize its slot state. */
 void townInitializeTheTownEntitySynchronizeSlotState(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {

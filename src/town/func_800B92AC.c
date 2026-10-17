@@ -18,13 +18,13 @@ typedef struct S_800B6A0C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
-} S_800B6A0C_0;   /* var_s0 in func_800B6A0C */
+} S_800B6A0C_0;
 
 typedef struct S_800B6A0C_1 {
     u8 pad_00[0x94];
     s32 unk_94;
     s32 unk_98;
-} S_800B6A0C_1;   /* temp_s1 in func_800B6A0C */
+} S_800B6A0C_1;
 
 /* Allocate and initialize an object, marking it for cleanup if setup fails. */
 void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {

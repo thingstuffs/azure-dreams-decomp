@@ -9,7 +9,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
@@ -25,7 +24,7 @@ typedef struct S_8185CE28_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_8185CE28_0;   /* temp_v0 in func_8185CE28 */
+} S_8185CE28_0;
 
 typedef struct S_8185CE28_1 {
     u8 pad_00[0x6];
@@ -40,7 +39,7 @@ typedef struct S_8185CE28_1 {
     s16 unk_20;
     s16 unk_22;
     s16 unk_24;
-} S_8185CE28_1;   /* temp_s1 in func_8185CE28 */
+} S_8185CE28_1;
 
 typedef struct S_8185CE28_2 {
     u8 pad_00[0x2];
@@ -68,7 +67,7 @@ typedef struct S_8185CE28_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8185CE28_3;   /* temp_s0 in func_8185CE28 */
+} S_8185CE28_3;
 
 /* Creates an effect at an indexed radial offset from the supplied position. */
 s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)

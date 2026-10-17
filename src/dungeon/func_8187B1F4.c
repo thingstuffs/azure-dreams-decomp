@@ -47,7 +47,7 @@ typedef struct S_8187B1F4_4 {
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x3]; s8 v; } at03;
     } unk_04;   /* overlapping accesses */
-} S_8187B1F4_4;   /* temp_s0 in projectShadedPointsToOrderingTable */
+} S_8187B1F4_4;
 
 typedef struct S_8187B1F4_5 {
     u32 unk_00;
@@ -63,7 +63,7 @@ typedef struct S_8187B1F4_6 {
 
 typedef struct S_8187B1F4_7 {
     u32 unk_00;
-} S_8187B1F4_7;   /* temp_s0_2 in projectShadedPointsToOrderingTable */
+} S_8187B1F4_7;
 
 typedef struct S_8187B1F4_8 {
     u32 unk_00;

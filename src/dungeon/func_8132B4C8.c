@@ -8,7 +8,7 @@ typedef struct S_80172CC8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80172CC8_0;   /* temp_v1 in dungeonCreateBossDisplayVariant */
+} S_80172CC8_0;
 
 typedef struct S_80172CC8_1 {
     s32 unk_00;
@@ -17,7 +17,6 @@ typedef struct S_80172CC8_1 {
 } S_80172CC8_1;   /* arg0 in dungeonCreateBossDisplayVariant */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     u8 unk00[6];

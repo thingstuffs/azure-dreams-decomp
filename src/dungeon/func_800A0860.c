@@ -7,7 +7,7 @@
 typedef struct S_800A5FC0_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A5FC0_0;   /* temp_v1 in func_800A5FC0 */
+} S_800A5FC0_0;
 
 
 typedef struct S_800A5FC0_2 {
@@ -27,18 +27,17 @@ typedef struct S_800A5FC0_3 {
     s32 unk_10;
     u16 unk_14;
     s16 unk_16;
-} S_800A5FC0_3;   /* temp_s0 in func_800A5FC0 */
+} S_800A5FC0_3;
 
 typedef struct S_800A5FC0_4 {
     void * unk_00;
-} S_800A5FC0_4;   /* temp_s3 in func_800A5FC0 */
+} S_800A5FC0_4;
 
 typedef struct S_800A5FC0_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
 } S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in func_800A5FC0 */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8006658C(void *, void *);
 extern void func_80066640(void *, s32);

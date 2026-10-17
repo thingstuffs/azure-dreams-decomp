@@ -4,7 +4,8 @@
 
 extern s32 func_8004491C();
 s32 rand();                                /* extern */
-extern s32 dungeonDrawParticleEffectPrimitives(DungeonObject *object, u16 *position);
+struct DungeonObject;
+extern s32 dungeonDrawParticleEffectPrimitives(struct DungeonObject *object, u16 *position);
 
 
 typedef struct S_800BAF04_0_pre {
@@ -25,7 +26,7 @@ typedef struct S_800BAF04_0 {
 typedef struct S_800BAF04_1 {
     u8 pad_00[0x12];
     s8 unk_12;
-} S_800BAF04_1;   /* (arg0 + var_s0) in dungeonAdvanceParticleEffectState */
+} S_800BAF04_1;
 
 /* Initializes random values, advances counters, and flags the object when inactive. */
 void dungeonAdvanceParticleEffectState(void *object) {

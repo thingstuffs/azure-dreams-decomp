@@ -9,7 +9,7 @@ typedef struct S_80DA7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DA7000_0;   /* temp_v0 in func_80158874 */
+} S_80DA7000_0;
 
 typedef struct S_80DA7000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DA7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DA7000_1;   /* var_s0 in func_80158874 */
+} S_80DA7000_1;
 
 typedef struct S_80DA7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DA7000_2;   /* temp_s4 in func_80158874 */
+} S_80DA7000_2;
 
 typedef struct S_80DA7000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DA7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DA7000_3;   /* temp_s2 in func_80158874 */
+} S_80DA7000_3;
 
 typedef struct S_80DA7000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80DA7000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DA7000_4;   /* temp_s5 in func_80158874 */
+} S_80DA7000_4;
 
 
 
@@ -71,7 +71,6 @@ void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
     void *object_arg;
     void *data_arg;
 
-    M2C_ERROR(/* Read from unset register $t0 */) | 0x4481;
     saved_value_24 = value_24;
     saved_value_0a = value_0a;
     saved_value_25 = value_25;

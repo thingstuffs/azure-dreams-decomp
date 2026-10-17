@@ -39,12 +39,12 @@ typedef struct S_8008F878_2 {
 typedef struct S_8008F878_3 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_8008F878_3;   /* temp_v0 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_3;
 
 typedef struct S_8008F878_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008F878_4;   /* temp_v1_2 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_4;
 
 typedef struct S_8008F878_5 {
     u8 pad_00[0x1C];
@@ -61,7 +61,7 @@ typedef struct S_8008F878_7 {
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_8008F878_7;   /* temp_s0 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_7;
 
 typedef struct S_8008F878_8 {
     u8 pad_00[0x6D];

@@ -8,7 +8,7 @@ typedef struct S_80170510_0 {
     u16 unk_12;
     u8 pad_14[0x4];
     s16 unk_18;
-} S_80170510_0;   /* temp_v1 in dungeonAdvanceSecondaryObjectState */
+} S_80170510_0;
 
 /* Clear the state value at 0x18 and increment the counter at 0x12. */
 void dungeonAdvanceSecondaryObjectState(void) {

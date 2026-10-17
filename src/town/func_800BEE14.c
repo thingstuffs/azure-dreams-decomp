@@ -7,13 +7,13 @@
 typedef struct S_800BC574_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800BC574_6;   /* temp_v0 in townCreateDirectionalSpriteEffect */
+} S_800BC574_6;
 
 typedef struct S_800BC574_7 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_800BC574_7;   /* ((S_800BC574_6 *)temp_v0)->unk_08 in townCreateDirectionalSpriteEffect */
+} S_800BC574_7;
 
 
 void *func_8003FD64();            /* extern */
@@ -28,7 +28,7 @@ typedef struct S_800BC574_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800BC574_0;   /* temp_v0 in townCreateDirectionalSpriteEffect */
+} S_800BC574_0;
 
 typedef struct S_800BC574_1 {
     s32 unk_00;
@@ -59,7 +59,7 @@ typedef struct S_800BC574_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BC574_4;   /* temp_s2 in townCreateDirectionalSpriteEffect */
+} S_800BC574_4;
 
 typedef struct S_800BC574_5 {
     u8 pad_00[0xC];

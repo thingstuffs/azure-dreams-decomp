@@ -91,22 +91,22 @@ typedef struct S_8016B0E8_5 {
 typedef struct S_8016B0E8_6 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8016B0E8_6;   /* temp_v1_2 in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_6;
 
 typedef struct S_8016B0E8_8 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8016B0E8_8;   /* var_a0 in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_8;
 
 typedef struct S_8016B0E8_9_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016B0E8_9_pre;   /* the 0x14 bytes before temp_v0_2 in dungeonUpdateActorAnimationMovementAndTerrain, addressed as temp_v0_2[-1] */
+} S_8016B0E8_9_pre;
 
 typedef struct S_8016B0E8_10 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016B0E8_10;   /* temp_v1_3 in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_10;
 
 typedef struct S_8016B0E8_11 {
     u8 pad_00[0xA];
@@ -116,12 +116,12 @@ typedef struct S_8016B0E8_11 {
 typedef struct S_8016B0E8_12 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_8016B0E8_12;   /* temp_v1_4 in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_12;
 
 typedef struct S_8016B0E8_13 {
     u8 pad_00[0x3462];
     u16 unk_3462;
-} S_8016B0E8_13;   /* var_v0_2 in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_13;
 
 typedef struct S_8016B0E8_14 {
     u8 pad_00[0x4];
@@ -148,7 +148,7 @@ typedef struct S_8016B0E8_15 {
 typedef struct S_8016B0E8_16 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016B0E8_16;   /* (temp_s1 + ((S_8016B0E8_4 *)page_e)->unk_3D7C) in dungeonUpdateActorAnimationMovementAndTerrain */
+} S_8016B0E8_16;
 
 static __inline__ u16 clamp_level(u32 level)
 {
@@ -330,14 +330,12 @@ void dungeonUpdateActorAnimationMovementAndTerrain(void *entity, void *motion, v
                 ((S_8016B0E8_14 *)sprite)->unk_14 &= 0xFFFE;
             }
             if (!(((S_8016B0E8_2 *)actor)->unk_1C & 0x20)) {
-                if (((S_8016B0E8_14 *)sprite)->unk_14 & 0x40) {
-                    goto update_sprite;
+                if (!(((S_8016B0E8_14 *)sprite)->unk_14 & 0x40)) {
+                    func_800478B8(sprite);
                 }
-                func_800478B8(sprite);
             } else {
                 ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x7000);
             }
-update_sprite:
             dungeonApplyMonsterKoyawData(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
         } else {
             mode_bits = sprite_flags & 0x800;
@@ -394,11 +392,13 @@ update_sprite:
                         + (((S_8016B0E8_2 *)actor)->unk_88.u - floor_height));
                     ((S_8016B0E8_2 *)actor)->unk_88.s = floor_height;
                 }
-                goto update_height;
+                ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
+                    + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
+                ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);
+                return;
             }
         }
         ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (((S_8016B0E8_2 *)actor)->unk_1C & 0xF7FFFFFF);
-update_height:
         ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
             + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
         ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x40);

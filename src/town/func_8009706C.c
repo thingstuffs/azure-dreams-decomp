@@ -3,7 +3,6 @@
 #include "shared/town_handler.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern u8 D_80093458[];
 extern M2C_UNK D_800D00A0;

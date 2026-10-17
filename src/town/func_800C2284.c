@@ -21,7 +21,7 @@ typedef struct S_800BF9E4_2 {
     void * unk_08;
     void * unk_0C;
     u8 * unk_10;
-} S_800BF9E4_2;   /* temp_v0 in func_800BF9E4 */
+} S_800BF9E4_2;
 
 typedef struct S_800BF9E4_3 {
     u8 pad_00[0x8];
@@ -32,21 +32,19 @@ typedef struct S_800BF9E4_3 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800BF9E4_3;   /* temp_v1 in func_800BF9E4 */
+} S_800BF9E4_3;
 
 typedef struct S_800BF9E4_4 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BF9E4_4;   /* temp_v1_2 in func_800BF9E4 */
+} S_800BF9E4_4;
 
 typedef struct S_800BF9E4_5 {
     u8 pad_00[0xA0];
     void * unk_A0;
-} S_800BF9E4_5;   /* temp_v0_2 in func_800BF9E4 */
+} S_800BF9E4_5;
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();

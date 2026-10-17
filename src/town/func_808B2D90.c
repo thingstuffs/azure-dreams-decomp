@@ -24,14 +24,16 @@ void townDispatchByLeadingIdFlags(void) {
         s32 flag_group;
         flag_bits = D_A0700F40;
         flag_cursor = flag_ids;
-check_flag:
+        do {
         flag_id = (s32)*flag_cursor;
         flag_group = flag_id / 32;
         flag_cursor++;
         if (((s32)flag_bits[flag_group] >> (flag_id % 32)) & 1) {
             set_count++;
-            if (*flag_cursor != 0) goto check_flag;
+        } else {
+            break;
         }
+        } while (*flag_cursor != 0);
     }
     callbacks.entry[set_count](set_count);
 }

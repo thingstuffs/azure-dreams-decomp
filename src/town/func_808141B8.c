@@ -7,7 +7,7 @@
  *
  * The row's 7 `j` words are the function's OWN local jumps in its true address
  * space, not calls to external noreturn dispatchers:
- *     j 0x8052F1E0 (x4) = `goto done`      -> function offset +0x428
+ *     j 0x8052F1E0 (x4) = `jump done`      -> function offset +0x428
  *     j 0x8052F1F0 (x2) = `return`         -> function offset +0x438 (epilogue)
  *     j 0x8052F1A0 (x1) = if/else else-skip-> function offset +0x3E8
  * All three independently solve link base 0x8052EDB8, i.e. delta 0x7FD9AC00 --

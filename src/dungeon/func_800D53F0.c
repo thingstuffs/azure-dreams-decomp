@@ -7,7 +7,7 @@
 
 typedef struct S_800DAB50_0_pre {
     u16 unk_00;
-} S_800DAB50_0_pre;   /* the 0x2 bytes before var_s2 in dungeonUpdateRotatingEffectVertices, addressed as var_s2[-1] */
+} S_800DAB50_0_pre;
 
 typedef struct S_800DAB50_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -29,7 +29,7 @@ typedef struct S_800DAB50_0 {
         u16 unk_04;
         u16 unk_06;
     } points[4];
-} S_800DAB50_0;   /* var_s2 in dungeonUpdateRotatingEffectVertices */
+} S_800DAB50_0;
 
 
 typedef struct WorkBlock {
@@ -52,7 +52,6 @@ typedef struct WorkBlock {
     s16 unk2C;
 } WorkBlock;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800644B8();
 extern s32 func_80066460();

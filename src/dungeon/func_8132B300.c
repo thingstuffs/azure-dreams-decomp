@@ -11,14 +11,14 @@ typedef struct S_80172B00_0 {
     s16 unk_96;
     u8 pad_98[0x14];
     s32 unk_AC;
-} S_80172B00_0;   /* temp_s3 in dungeonCreateBossChildEffect */
+} S_80172B00_0;
 
 typedef struct S_80172B00_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80172B00_1;   /* temp_v0 in dungeonCreateBossChildEffect */
+} S_80172B00_1;
 
 typedef struct S_80172B00_2 {
     u8 pad_00[0x2A];
@@ -39,7 +39,7 @@ typedef struct S_80172B00_3 {
     u16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80172B00_3;   /* temp_s1 in dungeonCreateBossChildEffect */
+} S_80172B00_3;
 
 typedef struct S_80172B00_4 {
     u8 pad_00[0xC8];
@@ -53,7 +53,7 @@ typedef struct S_80172B00_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172B00_5;   /* temp_v1 in dungeonCreateBossChildEffect */
+} S_80172B00_5;
 
 typedef struct S_80172B00_6 {
     u8 pad_00[0x2];

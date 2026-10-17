@@ -16,7 +16,6 @@ typedef struct S_8009B014_1 {
 } S_8009B014_1;   /* arg0 in townAdvancePlayerTowardTarget */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void townCallTheHandlerSelectsNonzeroEntry(void *entries, void *record, s32 handler_param);
 extern void townClearEntityRecordFields(void *record);

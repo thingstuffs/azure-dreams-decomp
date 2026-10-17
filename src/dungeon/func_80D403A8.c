@@ -58,7 +58,7 @@ typedef struct S_80175BA8_4 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80175BA8_4;   /* temp_v0_3 in dungeonEnterActorAuraMode */
+} S_80175BA8_4;
 
 typedef struct S_80175BA8_5 {
     u8 pad_00[0x38];
@@ -66,7 +66,7 @@ typedef struct S_80175BA8_5 {
     u8 pad_3A[0x6];
     void * unk_40;
     void * unk_44;
-} S_80175BA8_5;   /* temp_v0_4 in dungeonEnterActorAuraMode */
+} S_80175BA8_5;
 
 typedef struct S_80175BA8_6 {
     u8 pad_00[0x8];
@@ -81,7 +81,7 @@ typedef struct S_80175BA8_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80175BA8_6;   /* temp_a0 in dungeonEnterActorAuraMode */
+} S_80175BA8_6;
 
 typedef struct S_80175BA8_7 {
     u8 pad_00[0x2];
@@ -90,7 +90,7 @@ typedef struct S_80175BA8_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80175BA8_7;   /* temp_v1_2 in dungeonEnterActorAuraMode */
+} S_80175BA8_7;
 
 
 extern void *func_8003FD64();

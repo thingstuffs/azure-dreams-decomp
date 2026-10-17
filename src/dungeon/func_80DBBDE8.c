@@ -5,7 +5,6 @@
 #include "shared/entity.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern u8 D_80171E20[];
 extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void dungeonAdvanceStatusTimers(void *);

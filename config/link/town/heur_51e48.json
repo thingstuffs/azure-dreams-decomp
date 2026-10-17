@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/heur_51e48",
+ "container": "town",
+ "foff": "0x51e48",
+ "size": "0x48",
+ "vma": "0x800cf5a8",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "town/func_800D1E48",
+   "tu": "src/town/func_800D1E48.c",
+   "home": "town/func_800D1E48",
+   "foff": "0x51e48",
+   "vma": "0x800cf5a8",
+   "size": 72
+  }
+ ]
+}

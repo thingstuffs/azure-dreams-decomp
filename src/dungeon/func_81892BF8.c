@@ -7,7 +7,7 @@
 
    /* arg0 in func_800243F8 */
 
-   /* temp_v1 in func_800243F8 */
+
 
 
 /* Increment both counters and set completion flags when the count reaches its limit. */

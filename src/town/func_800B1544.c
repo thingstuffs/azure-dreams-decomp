@@ -19,7 +19,7 @@ typedef struct S_800AECA4_3 {
 typedef struct S_800AECA4_4 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_800AECA4_4;   /* temp_s0 in townInitializeItemMenuListEntries */
+} S_800AECA4_4;
 
 typedef struct S_800AECA4_5 {
     s32 * unk_00;
@@ -44,7 +44,7 @@ typedef struct S_800AECA4_8 {
 typedef struct S_800AECA4_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AECA4_9;   /* ((S_800AECA4_4 *)temp_s0)->unk_50 in townInitializeItemMenuListEntries */
+} S_800AECA4_9;
 
 typedef struct S_800AECA4_10 {
     u8 pad_00[0x4];
@@ -69,7 +69,7 @@ typedef struct S_800AECA4_13 {
 typedef struct S_800AECA4_14 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AECA4_14;   /* ((S_800AECA4_9 *)(((S_800AECA4_4 *)temp_s0)->unk_50))->unk_04 in townInitializeItemMenuListEntries */
+} S_800AECA4_14;
 
 typedef struct S_800AECA4_15 {
     u8 pad_00[0xA];

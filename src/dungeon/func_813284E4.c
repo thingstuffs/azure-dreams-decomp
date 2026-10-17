@@ -38,13 +38,13 @@ typedef struct S_8016FCE4_1 {
 typedef struct S_8016FCE4_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016FCE4_2_pre;   /* the 0x14 bytes before temp_v0 in dungeonAdvanceBossActorMovementState, addressed as temp_v0[-1] */
+} S_8016FCE4_2_pre;
 
 typedef struct S_8016FCE4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8016FCE4_3;   /* temp_v0_2 in dungeonAdvanceBossActorMovementState */
+} S_8016FCE4_3;
 
 typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];

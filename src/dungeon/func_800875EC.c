@@ -29,7 +29,6 @@ typedef struct S_8008CD4C_3 {
 } S_8008CD4C_3;   /* control in dungeonBeginPlayerPush */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 M2C_UNK func_80048A44();
 s16 dungeonCheckTileEntryAtAdjustedHeight();

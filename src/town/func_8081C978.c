@@ -11,7 +11,7 @@ typedef struct S_80026978_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80026978_0;   /* temp_v0 in townCreateBriefRandomizedParticle */
+} S_80026978_0;
 
 typedef struct S_80026978_1 {
     u8 pad_00[0x2];
@@ -33,12 +33,12 @@ typedef struct S_80026978_2 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_80026978_2;   /* temp_s2 in townCreateBriefRandomizedParticle */
+} S_80026978_2;
 
 typedef struct S_80026978_3 {
     u8 pad_00[0xE];
     s16 unk_0E;
-} S_80026978_3;   /* temp_v1 in townCreateBriefRandomizedParticle */
+} S_80026978_3;
 
 typedef struct S_80026978_4 {
     u8 pad_00[0x4];
@@ -52,7 +52,7 @@ typedef struct S_80026978_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026978_4;   /* temp_s0 in townCreateBriefRandomizedParticle */
+} S_80026978_4;
 
 
 extern void func_8004491C();

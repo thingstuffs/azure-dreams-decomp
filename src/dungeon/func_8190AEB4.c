@@ -111,13 +111,17 @@ void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s3
         position[2] += 0x180000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E + 0x300;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C - 0x300;
-        goto store_xy;
+        ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
+        ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
+        next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
+        next_state++;
+        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        return;
 
     case 4:
         position[2] -= 0x80000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x100;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x100;
-store_xy:
         ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
         ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;

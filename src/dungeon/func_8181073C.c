@@ -18,7 +18,7 @@ typedef struct S_8002573C_1 {
     s32 unk_1C;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_8002573C_1;   /* temp_s2 in dungeonProcessChangedItemText */
+} S_8002573C_1;
 
 /* Process changed text, then finalize its context. */
 s32 dungeonProcessChangedItemText(void *context) {

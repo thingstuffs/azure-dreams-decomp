@@ -12,7 +12,7 @@
 typedef struct S_807B09A0_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_807B09A0_4;   /* temp_v0_2 in func_800F81A0 */
+} S_807B09A0_4;
 
 typedef struct S_807B09A0_5 {
     u8 pad_00[0x2];
@@ -23,9 +23,8 @@ typedef struct S_807B09A0_5 {
     s16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_807B09A0_5;   /* ((S_807B09A0_4 *)temp_v0_2)->unk_08 in func_800F81A0 */
+} S_807B09A0_5;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 rand();
 extern M2C_UNK D_800DEED0;
@@ -42,7 +41,7 @@ typedef struct S_807B09A0_1 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_807B09A0_1;   /* temp_v0_2 in func_800F81A0 */
+} S_807B09A0_1;
 
 typedef struct S_807B09A0_2 {
     M2C_UNK * unk_00;
@@ -57,7 +56,7 @@ typedef struct S_807B09A0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_807B09A0_2;   /* temp_s0 in func_800F81A0 */
+} S_807B09A0_2;
 
 typedef struct S_807B09A0_3 {
     u8 pad_00[0x4];

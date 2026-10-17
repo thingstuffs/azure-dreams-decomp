@@ -19,7 +19,7 @@ typedef struct S_8017364C_0 {
 
 typedef struct S_8017364C_2 {
     u8 * unk_00;
-} S_8017364C_2;   /* (u8 *)var_v0 - 0x14 in dungeonUpdateAbilityActionAndCompletion */
+} S_8017364C_2;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

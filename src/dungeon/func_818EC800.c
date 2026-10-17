@@ -204,15 +204,10 @@ void func_80024094(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
         if (clut_offset != 0) {
             if ((*((u16 *) (((s8 *) scratch) + 0x24))) & 0x100) {
                 *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
-                *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C))))
-                    + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
-                *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C))))
-                    + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
-                ;
-                goto clut_done_done_done;
-            }
+            } else {
             texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
             *((u16 *) (((s8 *) packet) + 0xE)) = (u16) texture_word;
+            }
         }
         else {
             *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
@@ -222,7 +217,6 @@ void func_80024094(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
         *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C))))
             + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
         ;
-clut_done_done_done:
         ;
         tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
         if (tpage_offset != 0) {

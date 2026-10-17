@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 extern void func_80047784();

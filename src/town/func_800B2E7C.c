@@ -16,12 +16,12 @@ typedef struct S_800B05DC_0 {
     u8 pad_10[0x4];
     s32 unk_14;
     s32 unk_18;
-} S_800B05DC_0;   /* temp_s0 in townCreateItemMenuDisplayController */
+} S_800B05DC_0;
 
 typedef struct S_800B05DC_1 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B05DC_1;   /* var_s1 in townCreateItemMenuDisplayController */
+} S_800B05DC_1;
 
 /* Create a display controller and its child display object. */
 void *townCreateItemMenuDisplayController(s32 owner, s32 display_config, M2C_UNK x, M2C_UNK y, s32 init_config) {

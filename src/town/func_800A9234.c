@@ -10,17 +10,15 @@ typedef struct S_800A6994_0 {
     s32 unk_10;
     u8 pad_14[0x24];
     u16 unk_38;
-} S_800A6994_0;   /* temp_a0 in townUpdateActorPositionAndHeading */
+} S_800A6994_0;
 
 
 typedef struct S_800A6994_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A6994_2;   /* temp_v0 in townUpdateActorPositionAndHeading */
+} S_800A6994_2;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void townSelectObjectValueByHeightBand();
 void townSetFlaggedEntryValues();
@@ -42,7 +40,7 @@ void townUpdateActorPositionAndHeading(void *actor, s32 update_context, void *po
         townSetFlaggedEntryValues(&D_800D0D54, 0);
         D_800D0C78 = ((EntityRec *)position)->x.v;
         saved_position = &D_800D0C78;
-        (*(s32 *)((u8 *)saved_position + 4)) = ((EntityRec *)position)->y.v;
+        ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
         ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
         townInitializeObjectEntries(actor, setup_context, D_80100E24);
         townSelectObjectValueByHeightBand(actor, update_context, position, setup_context);

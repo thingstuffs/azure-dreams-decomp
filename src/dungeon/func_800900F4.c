@@ -22,7 +22,7 @@ typedef struct S_80095854_0 {
 typedef struct S_80095854_1 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_80095854_1;   /* temp_v1 in dungeonBeginFamiliarSummoning */
+} S_80095854_1;
 
 typedef struct S_80095854_2 {
     u8 pad_00[0x24];
@@ -67,7 +67,7 @@ s32 dungeonBeginFamiliarSummoning(void *record, s32 input1, void *pointer_input,
     func_80048A44(pointer_data, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
     D_80082E80.unk_030 = input_value;
-    direction_index = ((u16) (*(s16 *)((u8 *)record + 0x2A)) >> 8) & 0xE;
+    direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
     ((S_80095854_0 *)record)->unk_72 = (s8) (((S_80095854_2 *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dirStepX)));
     next_y = ((S_80095854_2 *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dirStepY));
     ((S_80095854_0 *)record)->unk_73 = next_y;

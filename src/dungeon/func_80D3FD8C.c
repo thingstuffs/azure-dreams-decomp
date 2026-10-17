@@ -38,7 +38,7 @@ typedef struct S_8017558C_4 {
     void * unk_08;
     s32 * unk_0C;
     u8 * unk_10;
-} S_8017558C_4;   /* temp_v0_3 in dungeonUpdateActorTimedEffectAction */
+} S_8017558C_4;
 
 typedef struct S_8017558C_5 {
     u8 pad_00[0x38];
@@ -46,7 +46,7 @@ typedef struct S_8017558C_5 {
     u8 pad_3A[0x6];
     void * unk_40;
     void * unk_44;
-} S_8017558C_5;   /* temp_v0_4 in dungeonUpdateActorTimedEffectAction */
+} S_8017558C_5;
 
 typedef struct S_8017558C_6 {
     u8 pad_00[0x8];
@@ -61,7 +61,7 @@ typedef struct S_8017558C_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8017558C_6;   /* temp_a0 in dungeonUpdateActorTimedEffectAction */
+} S_8017558C_6;
 
 typedef struct S_8017558C_7 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_8017558C_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017558C_7;   /* temp_v1_2 in dungeonUpdateActorTimedEffectAction */
+} S_8017558C_7;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

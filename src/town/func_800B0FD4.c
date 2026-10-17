@@ -10,27 +10,27 @@ typedef struct S_800AE734_1 {
     void * unk_38;
     u8 pad_3C[0x14];
     void * unk_50;
-} S_800AE734_1;   /* (temp_v1 + arg0->unk_D8) in townStyleItemMenuEntryRecords */
+} S_800AE734_1;
 
 typedef struct S_800AE734_2 {
     u8 pad_00[0x4];
     union { void * s; s8 * u; } unk_04;   /* accessed as both */
-} S_800AE734_2;   /* ((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38 in townStyleItemMenuEntryRecords */
+} S_800AE734_2;
 
 typedef struct S_800AE734_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AE734_3;   /* ((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_08 in townStyleItemMenuEntryRecords */
+} S_800AE734_3;
 
 typedef struct S_800AE734_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AE734_4;   /* ((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_20 in townStyleItemMenuEntryRecords */
+} S_800AE734_4;
 
 typedef struct S_800AE734_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AE734_5;   /* ((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_50 in townStyleItemMenuEntryRecords */
+} S_800AE734_5;
 
 typedef struct S_800AE734_6 {
     u8 pad_00[0x1];
@@ -38,22 +38,22 @@ typedef struct S_800AE734_6 {
     s8 unk_02;
     u8 pad_03[0x5];
     s16 unk_08;
-} S_800AE734_6;   /* ((S_800AE734_2 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38))->unk_04.s in townStyleItemMenuEntryRecords */
+} S_800AE734_6;
 
 typedef struct S_800AE734_7 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AE734_7;   /* ((S_800AE734_3 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_08))->unk_04 in townStyleItemMenuEntryRecords */
+} S_800AE734_7;
 
 typedef struct S_800AE734_8 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AE734_8;   /* ((S_800AE734_4 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_20))->unk_04 in townStyleItemMenuEntryRecords */
+} S_800AE734_8;
 
 typedef struct S_800AE734_9 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AE734_9;   /* ((S_800AE734_5 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_50))->unk_04 in townStyleItemMenuEntryRecords */
+} S_800AE734_9;
 
 
 typedef struct S_800AE734_0 {

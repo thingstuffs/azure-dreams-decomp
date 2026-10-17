@@ -59,33 +59,33 @@ typedef struct S_800277F4_0 {
     s32 unk_54;
     u8 pad_58[0xE];
     u8 unk_66;
-} S_800277F4_0;   /* var_s2 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_0;
 
 typedef struct S_800277F4_1 {
     s8 unk_00;
     u8 pad_01[0x1];
     s8 unk_02;
-} S_800277F4_1;   /* temp_v0_2 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_1;
 
 typedef struct S_800277F4_2 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_2;   /* temp_s0 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_2;
 
 typedef struct S_800277F4_3 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_3;   /* temp_a0_3 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_3;
 
 typedef struct S_800277F4_4 {
     u8 unk_00;
     u8 pad_01[0x1];
     u8 unk_02;
-} S_800277F4_4;   /* temp_a0_5 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_4;
 
 typedef struct S_800277F4_5 {
     u8 pad_00[0x8];
@@ -99,20 +99,20 @@ typedef struct S_800277F4_6 {
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_6;   /* temp_s1 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_6;
 
 typedef struct S_800277F4_7 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_7;   /* temp_a1_2 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_7;
 
 typedef struct S_800277F4_8_pre {
     void * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800277F4_8_pre;   /* the 0x14 bytes before var_s4 in dungeonMergeCreatureAbilitiesAndState, addressed as var_s4[-1] */
+} S_800277F4_8_pre;
 
 typedef struct S_800277F4_8 {
     u8 pad_00[0xE];
@@ -127,35 +127,35 @@ typedef struct S_800277F4_8 {
     u8 unk_43;
     u8 pad_44[0x10];
     s32 unk_54;
-} S_800277F4_8;   /* var_s4 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_8;
 
 typedef struct S_800277F4_9 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800277F4_9;   /* (var_a0 + temp_s1_2) in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_9;
 
 typedef struct S_800277F4_10 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800277F4_10;   /* (var_v0_3 + temp_s1_2) in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_10;
 
 typedef struct S_800277F4_11 {
     u8 pad_00[0xA];
     u8 unk_0A;
-} S_800277F4_11;   /* temp_a1 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_11;
 
 typedef struct S_800277F4_12 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_12;   /* (var_v1 + temp_a0) in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_12;
 
 typedef struct S_800277F4_13 {
     u8 unk_00;
     u8 pad_01[0x1];
     u8 unk_02;
-} S_800277F4_13;   /* temp_a3 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_13;
 
 typedef struct S_800277F4_14 {
     u8 pad_00[0x8];
@@ -168,14 +168,14 @@ typedef struct S_800277F4_15 {
     u8 unk_00;
     u8 pad_01[0x1];
     s8 unk_02;
-} S_800277F4_15;   /* temp_a0_8 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_15;
 
 typedef struct S_800277F4_16 {
     u8 pad_00[0x8];
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_16;   /* (var_s2 + (var_s3 * 3)) in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_16;
 
 typedef struct S_800277F4_17 {
     u8 pad_00[0xD0];
@@ -186,7 +186,7 @@ typedef struct S_800277F4_18 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800277F4_18;   /* temp_a0_9 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_18;
 
 typedef struct S_800277F4_19 {
     u8 pad_00[0xD0];
@@ -196,7 +196,7 @@ typedef struct S_800277F4_19 {
 typedef struct S_800277F4_20 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800277F4_20;   /* temp_s1_3 in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_20;
 
 /* Merges two creatures' abilities and state, optionally copying the result and removing the donor. */
 void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *destination) {

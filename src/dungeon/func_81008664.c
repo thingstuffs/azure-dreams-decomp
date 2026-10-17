@@ -4,6 +4,20 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    u8 *field_2C;
+} LocalSpriteFieldView_81008664;
+
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    u8 *field_2C;
+} SpriteFieldView_81008664;
+
 typedef long long s64;
 typedef s32 M2C_UNK;
 
@@ -117,6 +131,7 @@ extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_81008664_4 *sprite, void *entity) {
+    u8 **direction_slot;
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -230,7 +245,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         angle |= 0xFFFF;
         cleared_flags &= angle;
         ((S_func_81008664_3 *)entity)->unk_1C = cleared_flags;
-        actor_flags = (*(u16 *)((u8 *)actor + 0x98));
+        actor_flags = (((S_func_81008664_1 *)actor)->unk_98);
         angle = ((S_func_81008664_3 *)entity)->unk_2A;
         actor_flags |= 0xC;
         angle >>= 9;
@@ -266,7 +281,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
         anim_table0 = D_801748F0;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = anim_table0;
+        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
         func_80047784(sprite, ((S_func_81008664_9 *) launch_anim)->unk_00, 0);
@@ -277,7 +292,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         if (launch_ticks == 8) {
             height_offset = D_800DDC40[partner->unk_13];
             height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
-            entity_height = (*(s16 *)((u8 *)entity + 0x88));
+            entity_height = (((S_func_81008664_3 *)entity)->unk_88);
             motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
             partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
@@ -296,7 +311,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
             actor->unk_96 = fall_anim;
         }
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = anim_table1;
+        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
         func_80047784(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
@@ -372,12 +387,13 @@ place_actors:
         motion->unk_04 = world_coord;
         motion->unk_08.unk_08 = (s32) (((s16) partner->unk_88 - 0x100) << 0x10);
         partner_actor->unk_90.unk_90 = (s32) actor->unk_90.unk_90;
-        *(s16 *)((u8 *)actor + 0x96) = 8;
+        ((S_func_81008664_1 *)actor)->unk_96 = 8;
         motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10)
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
         anim_table2 = D_801748F8;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = anim_table2;
+        direction_slot = &((LocalSpriteFieldView_81008664 *)sprite)->field_2C;
+        *direction_slot = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
         func_80047784(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
@@ -440,7 +456,7 @@ place_actors:
         motion->unk_00 = final_x;
         final_y = sprite->unk_25;
         reset_entity = entity;
-        *(s32 *)((u8 *)motion + 0x10) = 0;
+        ((S_func_81008664_5 *)motion)->unk_10 = 0;
         motion->unk_0C = 0;
         final_y = ((final_y << 6) + 0x20) << 0x10;
         motion->unk_04 = final_y;
@@ -454,7 +470,7 @@ place_actors:
         active_count -= 1;
         dungeonStatus.unk_0A = active_count;
         dungeonAdvanceStatusTimers(finish_entity);
-        *(u16 *)((u8 *)actor + 0x98) = (u16) (actor->unk_98 & 0xFFF3);
+        ((S_func_81008664_1 *)actor)->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
 
         {
             u32 restore_flags;
@@ -481,7 +497,7 @@ place_actors:
             u32 restore_y;
 
             restore_flags = partner->unk_1C;
-            restore_x = (*(u8 *)((u8 *)partner_sprite + 0x24));
+            restore_x = (((S_func_81008664_4 *)partner_sprite)->unk_24);
             restore_y = partner_sprite->unk_25;
             restore_flags &= 0x2000;
             restore_partner_mask = 0x3000;
@@ -492,7 +508,7 @@ place_actors:
         }
         anim_table3 = D_80174888;
         angle_or_count = &gameWork.view.viewAngle;
-        *(u8 **)((u8 *)sprite + 0x2C) = anim_table3;
+        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
         func_80047784(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);

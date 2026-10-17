@@ -9,7 +9,7 @@ typedef struct S_8016F2BC_0 {
     u8 pad_98[0x2];
     s8 unk_9A;
     s8 unk_9B;
-} S_8016F2BC_0;   /* temp_v0 in dungeonResetMultiFormActorAction */
+} S_8016F2BC_0;
 
 /* Clears three state fields in the current object. */
 void dungeonResetMultiFormActorAction(void) {

@@ -1,7 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
+#include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
-extern void * D_80016000;
+/* This byte has no identified member in the shared town-state view. */
+typedef struct TownStateByteView {
+    u8 pad_0000[0x33BA];
+    u8 state_byte;
+} TownStateByteView;
+
 u8 func_80016788(void) {
-    return M2C_FIELD(M2C_FIELD(D_80016000, void **, 0x38), u8 *, 0x33BA);
+    return ((TownStateByteView *)D_80016000->unk_38)->state_byte;
 }

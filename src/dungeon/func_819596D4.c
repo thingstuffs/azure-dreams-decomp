@@ -20,7 +20,7 @@ typedef struct S_80024ED4_1 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80024ED4_1;   /* temp_v0 in dungeonCreateLinkedEffectSegments */
+} S_80024ED4_1;
 
 typedef struct S_80024ED4_2 {
     u8 pad_00[0x2];
@@ -35,7 +35,7 @@ typedef struct S_80024ED4_2 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80024ED4_2;   /* temp_s0 in dungeonCreateLinkedEffectSegments */
+} S_80024ED4_2;
 
 typedef struct S_80024ED4_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_80024ED4_3 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024ED4_3;   /* temp_v1 in dungeonCreateLinkedEffectSegments */
+} S_80024ED4_3;
 
 typedef struct S_80024ED4_4 {
     u8 pad_00[0x8];
@@ -56,7 +56,7 @@ typedef struct S_80024ED4_4 {
     s16 unk_30;
     u8 pad_32[0x6];
     s16 unk_38;
-} S_80024ED4_4;   /* temp_s1 in dungeonCreateLinkedEffectSegments */
+} S_80024ED4_4;
 
 /* Creates up to sixteen linked effect segments at the given position. */
 void *dungeonCreateLinkedEffectSegments(Rec_func_800243C4_arg1 *position) {

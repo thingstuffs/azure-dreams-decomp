@@ -4,24 +4,24 @@
 typedef struct S_80026CF0_1 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80026CF0_1;   /* temp_a2 in func_80026CF0 */
+} S_80026CF0_1;
 
 typedef struct S_80026CF0_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80026CF0_2;   /* temp_a2_2 in func_80026CF0 */
+} S_80026CF0_2;
 
 typedef struct S_80026CF0_3 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80026CF0_3;   /* ((S_80026CF0_1 *)temp_a2)->unk_04 in func_80026CF0 */
+} S_80026CF0_3;
 
 typedef struct S_80026CF0_4 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80026CF0_4;   /* ((S_80026CF0_2 *)temp_a2_2)->unk_04 in func_80026CF0 */
+} S_80026CF0_4;
 
 
 M2C_UNK func_8004CBFC();   /* extern */

@@ -21,7 +21,7 @@ typedef struct S_800244BC_0 {
 typedef struct S_800244BC_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_800244BC_1;   /* temp_v1 in func_800244BC */
+} S_800244BC_1;
 
 typedef struct S_800244BC_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -34,7 +34,7 @@ typedef struct S_800244BC_3 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800244BC_3;   /* temp_v0 in func_800244BC */
+} S_800244BC_3;
 
 typedef struct S_800244BC_4 {
     u8 pad_00[0x24];
@@ -49,7 +49,7 @@ typedef struct S_800244BC_4 {
     s16 unk_3C;
     s16 unk_3E;
     s16 unk_40;
-} S_800244BC_4;   /* temp_s0 in func_800244BC */
+} S_800244BC_4;
 
 
 typedef struct {

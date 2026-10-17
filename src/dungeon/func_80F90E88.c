@@ -26,12 +26,12 @@ typedef struct S_80F90E88_1 {
     s32 unk_1C;
     s16 unk_20;
     s16 unk_22;
-} S_80F90E88_1;   /* temp_s0 in func_80F90E88 */
+} S_80F90E88_1;
 
 typedef struct S_80F90E88_2 {
     u8 pad_00[0xB0];
     s32 unk_B0;
-} S_80F90E88_2;   /* temp_s4 + link_global in func_80F90E88 */
+} S_80F90E88_2;
 
 
 

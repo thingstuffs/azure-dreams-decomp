@@ -9,7 +9,7 @@ extern void dungeonAdvanceCyclicPanelEntry(struct S_800B1E80_0 *state);
 typedef struct S_800B1F00_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B1F00_0;   /* temp_v0 in dungeonCreateEntityPanelObject */
+} S_800B1F00_0;
 
 /* Create an object and assign dungeonAdvanceCyclicPanelEntry to its data pointer. */
 void dungeonCreateEntityPanelObject(void) {

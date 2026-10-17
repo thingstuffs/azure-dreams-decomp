@@ -13,7 +13,6 @@ typedef struct S_801722E4_5_pre {
 } S_801722E4_5_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in dungeonFaceTargetAndStartAction, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80047784();
 extern s16 dungeonGetRoundedFacingAndRoundingFlag();
@@ -36,7 +35,7 @@ typedef struct S_801722E4_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801722E4_2;   /* temp_v0 in dungeonFaceTargetAndStartAction */
+} S_801722E4_2;
 
 typedef struct S_801722E4_3 {
     u8 pad_00[0x8C];

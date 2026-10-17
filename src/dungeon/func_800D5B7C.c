@@ -1,5 +1,5 @@
-#include "m2c_compat.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 
 
@@ -7,7 +7,7 @@
 typedef struct S_800DB2DC_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800DB2DC_6;   /* var_a2 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_6;
 
 typedef struct S_800DB2DC_7 {
     u8 pad_00[0x2];
@@ -16,11 +16,9 @@ typedef struct S_800DB2DC_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800DB2DC_7;   /* ((S_800DB2DC_6 *)var_a2)->unk_08 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_7;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64();
 struct D_800DB420_Obj;
@@ -36,7 +34,7 @@ typedef struct S_800DB2DC_0 {
     void * unk_20;
     u8 pad_24[0x26];
     u16 unk_4A;
-} S_800DB2DC_0;   /* var_a2 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_0;
 
 typedef struct S_800DB2DC_1 {
     u8 pad_00[0x2A];
@@ -64,7 +62,7 @@ typedef struct S_800DB2DC_3 {
     u8 pad_20[0x8];
     s32 unk_28;
     s32 unk_2C;
-} S_800DB2DC_3;   /* temp_a0 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_3;
 
 typedef struct S_800DB2DC_4 {
     u8 pad_00[0x2];
@@ -79,7 +77,7 @@ typedef struct S_800DB2DC_5 {
     u8 pad_00[0x4];
     s16 unk_04;
     s16 unk_06;
-} S_800DB2DC_5;   /* temp_v1 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_5;
 
 /* Creates two groups of four effects using the source position and visual state. */
 void dungeonCreateTwoEffectGroups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {

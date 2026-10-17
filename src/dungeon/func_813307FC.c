@@ -2,13 +2,19 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2];
+    u16 field_02;
+} DirectionEntryFieldView_813307FC;
+
+
 #ifndef NULL
 #define NULL 0
 #endif
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 typedef struct {
     s32 words[8];
@@ -31,38 +37,38 @@ typedef struct S_801677FC_1 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_801677FC_1;   /* temp_v1 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_1;
 
 typedef struct S_801677FC_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_801677FC_2;   /* temp_v0 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_2;
 
 typedef struct S_801677FC_3 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_801677FC_3;   /* temp_a0 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_3;
 
 typedef struct S_801677FC_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_801677FC_4;   /* temp_a0_2 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_4;
 
 typedef struct S_801677FC_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801677FC_5;   /* temp_s2 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_5;
 
 typedef struct S_801677FC_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801677FC_6;   /* temp_s3 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_6;
 
 typedef struct S_801677FC_7 {
     u8 pad_00[0x6];
@@ -77,7 +83,7 @@ typedef struct S_801677FC_7 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_801677FC_7;   /* temp_a0_3 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_7;
 
 /* Spawn sixteen effects offset in the current object's facing direction with increasing sizes. */
 void dungeonCreateForwardLayeredSpritePulse(void)
@@ -122,7 +128,7 @@ void dungeonCreateForwardLayeredSpritePulse(void)
             direction_entry = (u8 *)&direction_offsets + ((source_state->unk_2A >> 7) & 0x1C);
             effect_pos->unk_04.at02.v =
                 (u16)(effect_pos->unk_04.at02.v +
-                ((s16)*(u16 *)(direction_entry + 2) * 0x14));
+                ((s16)((DirectionEntryFieldView_813307FC *)direction_entry)->field_02 * 0x14));
             sprite = ((S_801677FC_2 *)effect)->unk_0C;
             sprite->unk_1C = (s16)(size_step + 0x1C00);
             sprite->unk_1E = (s16)(size_step + 0x1400);

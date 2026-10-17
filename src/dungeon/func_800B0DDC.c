@@ -17,7 +17,7 @@ typedef struct S_800B653C_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800B653C_0;   /* temp_s1 in dungeonSpawnOppositeOffsetEffect */
+} S_800B653C_0;
 
 typedef struct S_800B653C_1 {
     u8 pad_00[0x2];
@@ -42,7 +42,7 @@ typedef struct S_800B653C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B653C_2;   /* temp_s0 in dungeonSpawnOppositeOffsetEffect */
+} S_800B653C_2;
 
 
 typedef struct {

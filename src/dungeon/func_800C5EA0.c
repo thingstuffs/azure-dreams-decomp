@@ -51,7 +51,7 @@ typedef struct S_800CB600_2 {
 typedef struct S_800CB600_3 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800CB600_3;   /* temp_a0 in func_800CB600 */
+} S_800CB600_3;
 
 /* Updates a pulsing effect through growth, activation, and shrinkage before marking it for removal. */
 void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearance) {

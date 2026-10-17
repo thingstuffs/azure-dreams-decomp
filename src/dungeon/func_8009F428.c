@@ -15,7 +15,7 @@ typedef struct S_800A4B88_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A4B88_1;   /* temp_s0 in dungeonApplyEntityActionFlags */
+} S_800A4B88_1;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -129,8 +129,7 @@ void dungeonApplyEntityActionFlags(void *object, s32 action) {
         dungeonRestorePlayerControlCallback(object, object);
         update_state = &D_80082E80;
         (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
-        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)object
-            + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
+        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = D_80083110;
         reset_slot += 3;

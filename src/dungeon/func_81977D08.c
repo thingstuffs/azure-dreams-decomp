@@ -14,7 +14,7 @@ typedef struct S_81977D08_0 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_81977D08_0;   /* temp_v0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_0;
 
 typedef struct S_81977D08_1 {
     u8 pad_00[0xC];
@@ -28,13 +28,13 @@ typedef struct S_81977D08_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81977D08_1;   /* temp_s0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_1;
 
 typedef struct S_81977D08_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81977D08_2;   /* temp_a2 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_2;
 
 typedef struct S_81977D08_3 {
     s32 unk_00;

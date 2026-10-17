@@ -24,7 +24,7 @@ extern M2C_UNK D_800E180E;
 typedef struct S_800C3900_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C3900_1;   /* var_v1 in dungeonApplyFamiliarMagicDrainItem */
+} S_800C3900_1;
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
 s32 dungeonApplyFamiliarMagicDrainItem(EntityRec *entity, s32 action, s16 action_param) {

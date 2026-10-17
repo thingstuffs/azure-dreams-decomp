@@ -4,7 +4,7 @@
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800B2964_0;   /* var_v1 in func_800B2964 */
+} S_800B2964_0;
 
 /* Collect pointers to enabled entries and terminate the list with NULL. */
 void func_800B2964(M2C_UNK *entries, s32 entry_count) {

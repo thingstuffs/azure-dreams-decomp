@@ -8,19 +8,18 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 
 extern s32 D_800E2178;
 
-   /* temp_v0 in func_800242F0 */
 
-   /* temp_v0_2 in func_800242F0 */
 
-   /* temp_s0 in func_800242F0 */
 
-   /* temp_a1 in func_800242F0 */
+
+
+
+
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
 void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {

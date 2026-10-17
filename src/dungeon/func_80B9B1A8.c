@@ -11,14 +11,14 @@
 typedef struct S_801749A8_8 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801749A8_8;   /* temp_s0 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_8;
 
 
 typedef struct S_801749A8_10 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801749A8_10;   /* ((S_801749A8_8 *)temp_s0)->unk_08 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_10;
 
 typedef struct S_801749A8_11 {
     u8 pad_00[0x2A];
@@ -53,24 +53,24 @@ typedef struct S_801749A8_2 {
     u8 unk_A8;
     u8 unk_A9;
     u8 unk_AA;
-} S_801749A8_2;   /* temp_s0 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_2;
 
 typedef struct S_801749A8_3 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_801749A8_3;   /* temp_a1 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_3;
 
 
 typedef struct S_801749A8_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801749A8_6_pre;   /* the 0x14 bytes before temp_v1_3 in dungeonUpdateTurningFadeEffectAndModel, addressed as temp_v1_3[-1] */
+} S_801749A8_6_pre;
 
 typedef struct S_801749A8_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801749A8_6;   /* temp_v1_3 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_6;
 
 typedef struct S_801749A8_7 {
     u8 pad_00[0x4];
@@ -79,7 +79,7 @@ typedef struct S_801749A8_7 {
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_801749A8_7;   /* temp_s0_2 in dungeonUpdateTurningFadeEffectAndModel */
+} S_801749A8_7;
 
 
 extern s32 D_8006CD58[];

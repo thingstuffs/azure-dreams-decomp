@@ -13,7 +13,6 @@ extern int abs(int);
 #endif
 
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
-typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
 
 /* ---- ordinary callees ---- */
 extern s32 func_80042900();
@@ -53,12 +52,12 @@ extern s32 dungeonCheckGlobalOrLinkedFlag20000();
 
 #define STEPVEC(neighbor_result)                                                            \
     {                                                                                    \
-        u16 facing = (*(u16 *)(creature + 0x2A) >> 9) & 7;                                  \
+        u16 facing = ((*(u16 *)&((EntityRec *)creature)->facing) >> 9) & 7;                                  \
         direction = facing;                                                                 \
         neighbor_result = findEligibleActorAtTileAndHeight(creature,                                           \
-            (u16)(position[0x24] + *(u16 *)((facing * 2) + (u8 *)dirStepX)),              \
-            (u16)(position[0x25] + *(u16 *)((facing * 2) + (u8 *)dirStepY)),              \
-            *(s16 *)(creature + 0x88));                                                     \
+            (u16)(((TileObject *)position)->tileX + *(u16 *)((facing * 2) + (u8 *)dirStepX)),              \
+            (u16)(((TileObject *)position)->tileY + *(u16 *)((facing * 2) + (u8 *)dirStepY)),              \
+            ((EntityRec *)creature)->unk_88);                                                     \
     }
 
 /* Selects a creature's next action and target from its behavior, species, and nearby tiles. */
@@ -114,7 +113,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
 
     default_action = 2;
     saved_lower_limit = lower_limit;
-    ((CFlags46 *)creature)->f46 |= 0x4000;
+    ((EntityRec *)creature)->unk_46 |= 0x4000;
     if (D_80013714 & 8) {
         func_800A9A0C(creature);
         return -1;
@@ -129,8 +128,8 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 if ((func_800A2C34(creature) << 16) != 0) {
                     return -1;
                 }
-                if (tile_x == position[0x24] && tile_y == position[0x25]) {
-                    s16 entry_index = func_800A70E4(tile_x, tile_y, *(s16 *)(creature + 0x88));
+                if (tile_x == ((TileObject *)position)->tileX && tile_y == ((TileObject *)position)->tileY) {
+                    s16 entry_index = func_800A70E4(tile_x, tile_y, ((EntityRec *)creature)->unk_88);
                     if (entry_index >= 0) {
                         s32 hp = *(u16 *)(creature + 0x24);
                         if (0x10000 < (s32)hp) {
@@ -138,7 +137,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                         }
                         *(u16 *)(creature + 0x24) = hp;
                         if (creature[0x25] != 0) {
-                            *(s32 *)(creature + 0x1C) &= ~8;
+                            ((EntityRec *)creature)->flags1C &= ~8;
                         }
                         {
                             u8 max_hp = creature[0x66];
@@ -151,22 +150,22 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                     }
                     return 0;
                 }
-                *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                    position[0x24], position[0x25],
+                (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                     tile_x, tile_y, &slot_or_distance);
-                *(u16 *)(creature + 0x46) = 0x800B;
+                ((EntityRec *)creature)->unk_46 = 0x800B;
                 return 2;
             }
         }
     }
 
     dungeonUpdateActorProximityFlag(position, creature, (s16)saved_lower_limit, (s16)upper_limit, status_out_addr);
-    if ((*(s32 *)(creature + 0x1C) & 0x2410) == 0x2000) {
+    if ((((EntityRec *)creature)->flags1C & 0x2410) == 0x2000) {
         {
             EntityRec *player = D_800E3D7C;
             behavior_byte = creature[0x12];
             if ((player->flags1C & 0x220) || (func_80042900(player, 0xA) << 16) != 0) {
-                if (*(s32 *)(creature + 0x1C) & 0x20000) {
+                if (((EntityRec *)creature)->flags1C & 0x20000) {
                     if (behavior_byte != 0) {
                         behavior_byte = 1;
                     }
@@ -183,7 +182,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 s32 found_slot = dungeonFindSlotByDefinitionKind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (*(s32 *)(creature + 0x1C) & 0x20000) {
+                    if (((EntityRec *)creature)->flags1C & 0x20000) {
                         idle_player_pos = &D_80082E80;
                         idle_player_dist = dungeonGetTileChebyshevDistance(position, idle_player_pos);
                         idle_player_range = dungeonGetDefinitionFieldFromTriple(creature, slot_or_distance);
@@ -191,13 +190,13 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                             if ((dungeonCheckScaledValueThreshold(((u8 *)D_800E3D7C)) << 16) != 0) {
                                 s32 result;
                                 register EntityRec *player_target;
-                                *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
-                                *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                    position[0x24], position[0x25],
+                                ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
+                                (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                     idle_player_pos->tileX, idle_player_pos->tileY, &slot_or_distance);
                                 player_target = D_800814A8;
                                 result = 4;
-                                *(void **)(creature + 0x60) = player_target;
+                                ((EntityRec *)creature)->target = player_target;
                                 return result;
                             }
                         }
@@ -223,14 +222,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                                             slot_action = slot_index + 1;
                                             slot_action |= 0x8000;
                                             ally_slot_base = (u8 *)(ally_offset + player_base);
-                                            *(u16 *)(creature + 0x46) = slot_action;
+                                            ((EntityRec *)creature)->unk_46 = slot_action;
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                                position[0x24], position[0x25],
+                                            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
-                                        *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
+                                        ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                                         return 4;
                                     }
                                 }
@@ -243,7 +242,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             }
 
             move_target = dungeonChooseBestEligibleEntry(position, creature, 4);
-            *(void **)(creature + 0x60) = move_target;
+            ((EntityRec *)creature)->target = move_target;
             if (move_target == NULL) {
                 break;
             }
@@ -252,14 +251,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 s32 result;
                 action_code = dungeonChooseUsableAbilityOrAttack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
+                (*(u16 *)&((EntityRec *)creature)->facing) = *(u16 *)&direction;
                 case_code0 = action_code;
                 if ((case_code0 << 16) < 0) {
-                    *(u16 *)(creature + 0x46) = 0x800B;
+                    ((EntityRec *)creature)->unk_46 = 0x800B;
                     return 2;
                 }
                 pending_action = case_code0 | 0x8000;
-                *(u16 *)(creature + 0x46) = pending_action;
+                ((EntityRec *)creature)->unk_46 = pending_action;
                 return 1;
             }
 
@@ -271,7 +270,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 s32 found_slot = dungeonFindSlotByDefinitionKind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (*(s32 *)(creature + 0x1C) & 0x20000) {
+                    if (((EntityRec *)creature)->flags1C & 0x20000) {
                         follow_player_pos = &D_80082E80;
                         follow_player_dist = dungeonGetTileChebyshevDistance(position, follow_player_pos);
                         follow_player_range = dungeonGetDefinitionFieldFromTriple(creature, slot_or_distance);
@@ -279,13 +278,13 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                             if ((dungeonCheckScaledValueThreshold(D_800814A8) << 16) != 0) {
                                 EntityRec *player_target;
                                 register s32 target_direction;
-                                *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
+                                ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                                 target_direction = dungeonGetRoundedFacingAndRoundingFlag(
-                                    position[0x24], position[0x25],
+                                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                     follow_player_pos->tileX, follow_player_pos->tileY, &slot_or_distance);
                                 player_target = D_800814A8;
-                                *(u16 *)(creature + 0x2A) = target_direction;
-                                *(void **)(creature + 0x60) = player_target;
+                                (*(u16 *)&((EntityRec *)creature)->facing) = target_direction;
+                                ((EntityRec *)creature)->target = player_target;
                                 return 4;
                             }
                         }
@@ -309,14 +308,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                                             slot_action = slot_index + 1;
                                             slot_action |= 0x8000;
                                             ally_slot_base = (u8 *)(ally_offset + player_base);
-                                            *(u16 *)(creature + 0x46) = slot_action;
+                                            ((EntityRec *)creature)->unk_46 = slot_action;
                                         }
                                         if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                                position[0x24], position[0x25],
+                                            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                                 target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                         }
-                                        *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
+                                        ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                                         return 4;
                                     }
                                 }
@@ -329,7 +328,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             }
 
             move_target = dungeonChooseBestEligibleEntry(position, creature, -3);
-            *(void **)(creature + 0x60) = move_target;
+            ((EntityRec *)creature)->target = move_target;
             if (move_target == NULL) {
                 break;
             }
@@ -338,14 +337,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 s32 result;
                 action_code = dungeonChooseUsableAbilityOrAttack(creature, move_target, &direction, 0);
                 action_or_flags = action_code;
-                *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
+                (*(u16 *)&((EntityRec *)creature)->facing) = *(u16 *)&direction;
                 case_code1 = action_code;
                 if ((s16)case_code1 < 4) {
-                    *(u16 *)(creature + 0x46) = 0x800B;
+                    ((EntityRec *)creature)->unk_46 = 0x800B;
                     return 2;
                 }
                 pending_action = case_code1 | 0x8000;
-                *(u16 *)(creature + 0x46) = pending_action;
+                ((EntityRec *)creature)->unk_46 = pending_action;
                 return 1;
             }
 
@@ -354,7 +353,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                 s32 found_slot = dungeonFindSlotByDefinitionKind(creature, 0x1E);
                 slot_or_distance = found_slot;
                 if ((found_slot << 16) >= 0) {
-                    if (*(s32 *)(creature + 0x1C) & 0x20000) {
+                    if (((EntityRec *)creature)->flags1C & 0x20000) {
                         assist_player_pos = &D_80082E80;
                         assist_player_dist = dungeonGetTileChebyshevDistance(position, assist_player_pos);
                         assist_player_range = dungeonGetDefinitionFieldFromTriple(creature, slot_or_distance);
@@ -366,13 +365,13 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                                 {
                                     EntityRec *player_target;
                                     register s32 target_direction;
-                                    *(u16 *)(creature + 0x46) = (*(u16 *)&slot_or_distance + 1) | 0x8000;
+                                    ((EntityRec *)creature)->unk_46 = (*(u16 *)&slot_or_distance + 1) | 0x8000;
                                     target_direction = dungeonGetRoundedFacingAndRoundingFlag(
-                                        position[0x24], position[0x25],
+                                        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                         assist_player_pos->tileX, assist_player_pos->tileY, &slot_or_distance);
                                     player_target = D_800814A8;
-                                    *(u16 *)(creature + 0x2A) = target_direction;
-                                    *(void **)(creature + 0x60) = player_target;
+                                    (*(u16 *)&((EntityRec *)creature)->facing) = target_direction;
+                                    ((EntityRec *)creature)->target = player_target;
                                     return 4;
                                 }
                             }
@@ -399,14 +398,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                                         slot_action = slot_index + 1;
                                         slot_action |= 0x8000;
                                         ally_slot_base = (u8 *)(ally_offset + player_base);
-                                        *(u16 *)(creature + 0x46) = slot_action;
+                                        ((EntityRec *)creature)->unk_46 = slot_action;
                                     }
                                     if (creature != *(u8 **)(ally_slot_base + 0xAC)) {
-                                        *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                            position[0x24], position[0x25],
+                                        (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                            ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                             target_pos[0x24], target_pos[0x25], &slot_or_distance);
                                     }
-                                    *(void **)(creature + 0x60) = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
+                                    ((EntityRec *)creature)->target = *(void **)((ally_offset + (s32)D_800814A8) + 0xAC);
                                     return 4;
                                 }
                             }
@@ -415,7 +414,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                         ally_index ^= 1;
                     } while (scan_index < 2);
                 }
-                if (*(s32 *)(creature + 0x1C) & 0x20000) {
+                if (((EntityRec *)creature)->flags1C & 0x20000) {
                     if ((dungeonCheckActiveObjectState567() << 16) == 0) {
                         EntityRec *player = D_800814A8;
                         if (player->unk_9A == 0x11) {
@@ -429,9 +428,9 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                                         checked_action = action_or_flags;
                                         if ((checked_action << 16) >= 0) {
                                             action_code = checked_action | 0x8000;
-                                            *(u16 *)(creature + 0x46) = action_code;
-                                            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                                position[0x24], position[0x25],
+                                            ((EntityRec *)creature)->unk_46 = action_code;
+                                            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                                 D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
                                             return 3;
                                         }
@@ -451,9 +450,9 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             if ((func_800A2C34(creature) << 16) != 0) {
                 return -1;
             }
-            move_target = dungeonFindMonsterNeighborCandidate(creature, position[0x24], position[0x25]);
+            move_target = dungeonFindMonsterNeighborCandidate(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY);
             default_action = 0;
-            *(void **)(creature + 0x60) = move_target;
+            ((EntityRec *)creature)->target = move_target;
             if (move_target != NULL) {
                 {
                     s32 action_code;
@@ -464,8 +463,8 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                         break;
                     }
                     move_direction = direction;
-                    *(u16 *)(creature + 0x46) = action_code | 0x8000;
-                    *(u16 *)(creature + 0x2A) = move_direction;
+                    ((EntityRec *)creature)->unk_46 = action_code | 0x8000;
+                    (*(u16 *)&((EntityRec *)creature)->facing) = move_direction;
                     return 1;
                 }
             }
@@ -479,12 +478,12 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if ((func_800A2C34(creature) << 16) != 0) {
         return -1;
     }
-    if (*(s32 *)(creature + 0x1C) & 0x10) {
+    if (((EntityRec *)creature)->flags1C & 0x10) {
         delta_or_result = default_action << 16;
         return (u32)delta_or_result >> 16;
     }
     {
-        s8 room_index = *(s8 *)(position + 0x26);
+        s8 room_index = ((TileObject *)position)->unk_026;
         if (room_index >= 0) {
             if (D_800E2970[room_index].flags & 2) {
                 delta_or_result = default_action << 16;
@@ -499,8 +498,8 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         if ((found_slot << 16) >= 0) {
             if ((dungeonCheckScaledValueThreshold(creature) << 16) != 0) {
                 slot_index = *(u16 *)&slot_or_distance;
-                *(void **)(creature + 0x60) = creature;
-                *(u16 *)(creature + 0x46) = (slot_index + 1) | 0x8000;
+                ((EntityRec *)creature)->target = creature;
+                ((EntityRec *)creature)->unk_46 = (slot_index + 1) | 0x8000;
                 return 4;
             }
         }
@@ -510,7 +509,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
 
     case 25:
     dungeonRollActorFlagOnce(creature, 0x10);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -520,14 +519,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if ((dungeonCheckScaledValueThreshold(creature) << 16) == 0) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x800A;
+    ((EntityRec *)creature)->unk_46 = 0x800A;
     return 6;
 
     case 22:
     if (creature[0x48] != 0xF) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     near_player_pos = &D_80082E80;
@@ -540,18 +539,18 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if (dungeonCheckTilePathClear(creature, ((u8 *)D_800E3D7C)) == 0) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8008;
-    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-        position[0x24], position[0x25],
+    ((EntityRec *)creature)->unk_46 = 0x8008;
+    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
         near_player_pos->tileX, near_player_pos->tileY, &action_or_flags);
     return 1;
 
     case 44:
     dungeonRollActorFlagOnce(creature, 4);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     ranged_player_pos = &D_80082E80;
@@ -569,7 +568,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             break;
         }
     }
-    target = dungeonScanMonsterAlongHeading(creature, position[0x24], position[0x25], *(s16 *)(creature + 0x2A), (s16)ranged_distance);
+    target = dungeonScanMonsterAlongHeading(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, ((EntityRec *)creature)->facing, (s16)ranged_distance);
     if ((func_800A2CB8(creature, target) << 16) == 0) {
         break;
     }
@@ -579,38 +578,38 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if (creature[0xAE] != 0) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
-    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-        position[0x24], position[0x25],
+    ((EntityRec *)creature)->unk_46 = 0x8009;
+    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
         ranged_player_pos->tileX, ranged_player_pos->tileY, &action_or_flags);
     return 5;
 
     case 43:
     dungeonRollActorFlagOnce(creature, 0x20);
     {
-        u16 ability_flags = *(u16 *)(creature + 0x98);
+        u16 ability_flags = ((EntityRec *)creature)->unk_98;
         if (!(ability_flags & 0x100)) {
             break;
         }
-        if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+        if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
             break;
         }
         if (ability_flags & 0x8000) {
             break;
         }
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
-    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-        position[0x24], position[0x25],
+    ((EntityRec *)creature)->unk_46 = 0x8009;
+    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
         D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
     return 5;
 
     case 34:
     dungeonRollActorFlagOnce(creature, 0x20);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     if ((s8)position[0x26] < 0) {
@@ -621,9 +620,9 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         ally = *(void **)(((u8 *)((u8 *)D_800E3D7C) + scan_index * 4) + 0xAC);
         if (ally != NULL) {
             if ((func_800A2CAC(ally) << 16) != 0) {
-                *(u16 *)(creature + 0x46) = 0x8009;
-                *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                    position[0x24], position[0x25],
+                ((EntityRec *)creature)->unk_46 = 0x8009;
+                (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                    ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                     D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
                 return 5;
             }
@@ -635,7 +634,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     case 41:
     dungeonRollActorFlagOnce(creature, 0x10);
     scan_index = 0;
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     do {
@@ -648,10 +647,10 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                     target_pos = *(void **)(target - 0x14);
                     if ((s16)dungeonGetTileChebyshevDistance(target_pos, position) == 1) {
                         if (dungeonCheckGlobalOrLinkedFlag20000(target) == 0) {
-                            *(u16 *)(creature + 0x46) = 0x8009;
+                            ((EntityRec *)creature)->unk_46 = 0x8009;
                             *(void **)(creature + 0xA8) = target;
-                            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                                position[0x24], position[0x25],
+                            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                                 target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
                         }
@@ -666,20 +665,20 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     case 40:
     dungeonRollActorFlagOnce(creature, 0x40);
     {
-        u16 ability_flags = *(u16 *)(creature + 0x98);
+        u16 ability_flags = ((EntityRec *)creature)->unk_98;
         if (ability_flags & 0x100) {
-            *(u16 *)(creature + 0x98) = ability_flags | 0x8000;
+            ((EntityRec *)creature)->unk_98 = ability_flags | 0x8000;
             break;
         }
-        *(u16 *)(creature + 0x98) = ability_flags & 0x7FFF;
+        ((EntityRec *)creature)->unk_98 = ability_flags & 0x7FFF;
         break;
     }
 
     case 26:
     dungeonRollActorFlagOnce(creature, 2);
     {
-        u16 ability_flags = *(u16 *)(creature + 0x98);
-        *(u16 *)(creature + 0x98) = ability_flags & 0x7FFF;
+        u16 ability_flags = ((EntityRec *)creature)->unk_98;
+        ((EntityRec *)creature)->unk_98 = ability_flags & 0x7FFF;
         if (!(ability_flags & 0x100)) {
             break;
         }
@@ -695,15 +694,15 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if ((func_80042900(target, 1) << 16) != 0) {
         break;
     }
-    *(u16 *)(creature + 0x98) |= 0x8000;
+    ((EntityRec *)creature)->unk_98 |= 0x8000;
     break;
 
     case 35:
     dungeonRollActorFlagOnce(creature, 4);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     if (*(s16 *)(creature + 0xA6) != 0) {
@@ -712,12 +711,12 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if (D_800E296C & 4) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     return 5;
 
     case 38:
     dungeonRollActorFlagOnce(creature, 2);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -732,14 +731,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if ((func_80042900(target, 4) << 16) != 0) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     return 5;
 
     case 39:
     dungeonRollActorFlagOnce(creature, 0x10);
     {
-        u16 ability_flags = *(u16 *)(creature + 0x98);
-        *(u16 *)(creature + 0x98) = ability_flags & 0x7FFF;
+        u16 ability_flags = ((EntityRec *)creature)->unk_98;
+        ((EntityRec *)creature)->unk_98 = ability_flags & 0x7FFF;
         if (!(ability_flags & 0x100)) {
             break;
         }
@@ -756,29 +755,29 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         break;
     }
     {
-        *(u16 *)(creature + 0x46) = 0x8009;
-        *(u16 *)(creature + 0x98) |= 0x8000;
+        ((EntityRec *)creature)->unk_46 = 0x8009;
+        ((EntityRec *)creature)->unk_98 |= 0x8000;
         return 5;
     }
 
     case 32:
     if (creature[0x49] == 0) {
         dungeonRollActorFlagOnce(creature, 2);
-        if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+        if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
             break;
         }
         STEPVEC(neighbor);
         if (neighbor != ((u8 *)D_800E3D7C)) {
             break;
         }
-        *(u16 *)(creature + 0x46) = 0x8009;
+        ((EntityRec *)creature)->unk_46 = 0x8009;
         return 5;
     }
-    if (*(s32 *)(creature + 0x1C) & 0x410) {
+    if (((EntityRec *)creature)->flags1C & 0x410) {
         break;
     }
     func_800AA53C(creature);
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
@@ -786,18 +785,18 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     } else {
         flee_player_pos = &D_80082E80;
         if ((s16)dungeonGetTileChebyshevDistance(position, flee_player_pos) == 1) {
-            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                position[0x24], position[0x25],
+            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                 flee_player_pos->tileX, flee_player_pos->tileY, creature + 0x98) + 0x800;
         }
     }
-    *(u16 *)(creature + 0x46) = 0x800B;
+    ((EntityRec *)creature)->unk_46 = 0x800B;
     return 2;
 
     case 36:
     {
-        u16 ability_flags = *(u16 *)(creature + 0x98);
-        *(u16 *)(creature + 0x98) = ability_flags & 0x7FFF;
+        u16 ability_flags = ((EntityRec *)creature)->unk_98;
+        ((EntityRec *)creature)->unk_98 = ability_flags & 0x7FFF;
     }
     if (creature[0x49] != 0) {
         break;
@@ -805,13 +804,13 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if ((findNearestFloorItemInRoom(position, 0x12, &tile_x, &tile_y) << 16) == 0) {
         break;
     }
-    action_result = dungeonGetRoundedFacingAndRoundingFlag(position[0x24], position[0x25], tile_x, tile_y, creature + 0x98);
+    action_result = dungeonGetRoundedFacingAndRoundingFlag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, tile_x, tile_y, creature + 0x98);
     {
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
-        s32 ability_flags = *(u16 *)(creature + 0x98);
+        s32 ability_flags = ((EntityRec *)creature)->unk_98;
         s32 x_delta, y_distance, y_delta;
-        *(u16 *)(creature + 0x2A) = action_result;
+        (*(u16 *)&((EntityRec *)creature)->facing) = action_result;
         ability_flags |= 0x8000;
         *(u16 *)(creature + 0xA8) = target_x;
         target_x <<= 16;
@@ -819,14 +818,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         *(u16 *)(creature + 0xAA) = target_y;
         target_y <<= 16;
         target_y >>= 16;
-        *(u16 *)(creature + 0x98) = ability_flags;
-        x_delta = position[0x24];
+        ((EntityRec *)creature)->unk_98 = ability_flags;
+        x_delta = ((TileObject *)position)->tileX;
         x_delta -= target_x;
         x_delta = abs(x_delta);
         tile_x = x_delta;
         idle_ally_range = x_delta;
         x_delta <<= 16;
-        y_delta = position[0x25] - target_y;
+        y_delta = ((TileObject *)position)->tileY - target_y;
         y_distance = y_delta;
         y_distance = abs(y_distance);
         tile_y = y_distance;
@@ -837,24 +836,24 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         if ((s16)distance == 1) {
             goto return_ability;
         }
-        *(u16 *)(creature + 0x46) = 0x800B;
+        ((EntityRec *)creature)->unk_46 = 0x800B;
         return 2;
     }
 
     case 37:
     dungeonRollActorFlagOnce(creature, 0x20);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     return 5;
 
     case 24:
     if ((s16)dungeonGetTileChebyshevDistance(position, ((u8 *)(&D_80082E80))) >= 2) {
         if (creature[0xB5] == 0) {
             dungeonRollActorFlagOnce(creature, 8);
-            if (*(u16 *)(creature + 0x98) & 0x100) {
-                *(u16 *)(creature + 0x46) = 0x800A;
+            if (((EntityRec *)creature)->unk_98 & 0x100) {
+                ((EntityRec *)creature)->unk_46 = 0x800A;
                 return 6;
             }
         }
@@ -862,25 +861,25 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if (creature[0xB5] == 0) {
         break;
     }
-    neighbor = findEligibleActorAtTileAndHeight(creature, position[0x24], position[0x25], *(s16 *)(creature + 0x88));
+    neighbor = findEligibleActorAtTileAndHeight(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, ((EntityRec *)creature)->unk_88);
     if (neighbor == NULL) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
-        *(u16 *)(creature + 0x46) = 0x800B;
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
+        ((EntityRec *)creature)->unk_46 = 0x800B;
         return 2;
     }
-    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-        position[0x24], position[0x25],
+    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
         D_80082E80.tileX, D_80082E80.tileY, creature + 0x98);
     goto return_wait;
 
     case 42:
     dungeonRollActorFlagOnce(creature, 4);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     {
@@ -895,9 +894,9 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         }
         height = *(u16 *)(creature + 0x88);
         scan_index = 0;
-        direction = ((u32)dungeonGetRoundedFacingAndRoundingFlag(position[0x24], position[0x25], player_pos->tileX, player_pos->tileY, &action_or_flags) >> 9) & 7;
-        tile_x = position[0x24];
-        tile_y = position[0x25];
+        direction = ((u32)dungeonGetRoundedFacingAndRoundingFlag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_pos->tileX, player_pos->tileY, &action_or_flags) >> 9) & 7;
+        tile_x = ((TileObject *)position)->tileX;
+        tile_y = ((TileObject *)position)->tileY;
         if ((distance << 16) > 0) {
             u16 *x_steps = dirStepX;
             u16 *y_steps = dirStepY;
@@ -938,8 +937,8 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             result = 5;
             facing = direction;
             action_word = 0x8009;
-            *(u16 *)(creature + 0x46) = action_word;
-            *(u16 *)(creature + 0x2A) = facing << 9;
+            ((EntityRec *)creature)->unk_46 = action_word;
+            (*(u16 *)&((EntityRec *)creature)->facing) = facing << 9;
             return result;
         }
     }
@@ -947,7 +946,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     case 27:
     dungeonRollActorFlagOnce(creature, 4);
     scan_index = 0;
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     do {
@@ -960,8 +959,8 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
                     if ((func_80042900(target, 0xC) << 16) == 0) {
                         target_pos = *(void **)(target - 0x14);
                         if ((s16)dungeonGetTileChebyshevDistance(target_pos, position) == 1) {
-                            *(u16 *)(creature + 0x46) = 0x8009;
-                            *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag( position[0x24], position[0x25], target_pos[0x24], target_pos[0x25], &action_or_flags);
+                            ((EntityRec *)creature)->unk_46 = 0x8009;
+                            (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag( ((TileObject *)position)->tileX, ((TileObject *)position)->tileY, target_pos[0x24], target_pos[0x25], &action_or_flags);
                             return 5;
                         }
                     }
@@ -974,23 +973,23 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
 
     case 9:
     case 10:
-    target = dungeonFindValidMonsterNeighbor(creature, position[0x24], position[0x25]);
+    target = dungeonFindValidMonsterNeighbor(creature, ((TileObject *)position)->tileX, ((TileObject *)position)->tileY);
     if (target == NULL) {
         break;
     }
     if ((u32)(target[0x13] - 0x33) >= 4) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     target_pos = *(void **)(target - 0x14);
-    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-        position[0x24], position[0x25],
+    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
 
     case 23:
     dungeonRollActorFlagOnce(creature, 0x10);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -1004,24 +1003,24 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
     if (target == ((u8 *)D_800E3D7C)) {
         break;
     }
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     return 5;
 
     case 28:
-    if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
+    if (!(((EntityRec *)creature)->flags1C & 0x20000)) {
         break;
     }
     dungeonRollActorFlagOnce(creature, 0x20);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     {
         s16 *tile_flags_out = &action_or_flags;
         TileObject *player_pos = &D_80082E80;
         u16 player_direction;
-        player_direction = ((u32)dungeonGetRoundedFacingAndRoundingFlag(position[0x24], position[0x25], player_pos->tileX, player_pos->tileY, tile_flags_out) >> 9) & 7;
+        player_direction = ((u32)dungeonGetRoundedFacingAndRoundingFlag(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_pos->tileX, player_pos->tileY, tile_flags_out) >> 9) & 7;
         direction = player_direction;
-        if ((getOffsetMapCellValueAndFlags(position[0x24], position[0x25], player_direction, tile_flags_out) << 16) == 0) {
+        if ((getOffsetMapCellValueAndFlags(((TileObject *)position)->tileX, ((TileObject *)position)->tileY, player_direction, tile_flags_out) << 16) == 0) {
             break;
         }
         if (action_or_flags & 0xB712) {
@@ -1038,14 +1037,14 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         result = 5;
         facing = direction;
         action_word = 0x8009;
-        *(u16 *)(creature + 0x46) = action_word;
-        *(u16 *)(creature + 0x2A) = facing << 9;
+        ((EntityRec *)creature)->unk_46 = action_word;
+        (*(u16 *)&((EntityRec *)creature)->facing) = facing << 9;
         return result;
     }
 
     case 29:
     dungeonRollActorFlagOnce(creature, 8);
-    if (!(*(u16 *)(creature + 0x98) & 0x100)) {
+    if (!(((EntityRec *)creature)->unk_98 & 0x100)) {
         break;
     }
     STEPVEC(neighbor);
@@ -1064,7 +1063,7 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         if ((func_80042900(target, 4) << 16) != 0) {
             break;
         }
-        *(u16 *)(creature + 0x46) = 0x8009;
+        ((EntityRec *)creature)->unk_46 = 0x8009;
         return 5;
     }
 
@@ -1075,9 +1074,9 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
             target = neighbor;
             if (target != NULL) {
                 if (target == ((u8 *)D_800E3D7C)) {
-                    *(u16 *)(creature + 0x46) = 0x8009;
-                    *(u16 *)(creature + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
-                        position[0x24], position[0x25],
+                    ((EntityRec *)creature)->unk_46 = 0x8009;
+                    (*(u16 *)&((EntityRec *)creature)->facing) = dungeonGetRoundedFacingAndRoundingFlag(
+                        ((TileObject *)position)->tileX, ((TileObject *)position)->tileY,
                         D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
                     return 5;
                 }
@@ -1088,40 +1087,40 @@ s32 dungeonSelectCreatureActionAndTarget(s32 unused, u8 *position, u8 *creature,
         break;
     }
     move_target = dungeonChooseBestEligibleEntry(position, creature, 2);
-    *(void **)(creature + 0x60) = move_target;
+    ((EntityRec *)creature)->target = move_target;
     if (move_target != NULL) {
         action_result = dungeonChooseUsableAbilityOrAttack(creature, move_target, &direction, 1);
         action_or_flags = action_result;
-        *(u16 *)(creature + 0x2A) = *(u16 *)&direction;
+        (*(u16 *)&((EntityRec *)creature)->facing) = *(u16 *)&direction;
         if ((action_result << 16) < 0) {
-            *(u16 *)(creature + 0x46) = 0x800B;
+            ((EntityRec *)creature)->unk_46 = 0x800B;
             return 2;
         }
         pending_action = action_result | 0x8000;
-        *(u16 *)(creature + 0x46) = pending_action;
+        ((EntityRec *)creature)->unk_46 = pending_action;
         return 1;
     }
     goto check_forward_target;
 
 return_wait:
-    *(u16 *)(creature + 0x46) = 0x800B;
+    ((EntityRec *)creature)->unk_46 = 0x800B;
     return 2;
 
 check_forward_target:
     {
         u8 kind = creature[0x13];
-        if (kind != 0x1E || (*(s32 *)(creature + 0x14) & 0x20000000)) {
+        if (kind != 0x1E || (((EntityRec *)creature)->flags14 & 0x20000000)) {
             goto check_room;
         }
         {
-            u16 facing = (*(u16 *)(creature + 0x2A) >> 9) & 7;
+            u16 facing = ((*(u16 *)&((EntityRec *)creature)->facing) >> 9) & 7;
             direction = facing;
-            tile_x = position[0x24] + *(u16 *)((facing * 2) + (u8 *)dirStepX);
-            tile_y = position[0x25] + *(u16 *)((facing * 2) + (u8 *)dirStepY);
+            tile_x = ((TileObject *)position)->tileX + *(u16 *)((facing * 2) + (u8 *)dirStepX);
+            tile_y = ((TileObject *)position)->tileY + *(u16 *)((facing * 2) + (u8 *)dirStepY);
         }
         target = NULL;
         if (creature[0xAC] == 0) {
-            target = findEligibleActorAtTileAndHeight(creature, *(u16 *)&tile_x, *(u16 *)&tile_y, *(s16 *)(creature + 0x88));
+            target = findEligibleActorAtTileAndHeight(creature, *(u16 *)&tile_x, *(u16 *)&tile_y, ((EntityRec *)creature)->unk_88);
             if (target != NULL) {
                 u8 target_kind = target[0x13];
                 if ((u32)(target_kind - 1) >= 0x2D || target_kind == kind) {
@@ -1131,9 +1130,9 @@ check_forward_target:
         }
         if (creature[0xAC] < 2) {
             if (target == NULL) {
-                target = (u8 *)((s16)func_800A70E4(tile_x, tile_y, *(s16 *)(creature + 0x88)) + 1);
+                target = (u8 *)((s16)func_800A70E4(tile_x, tile_y, ((EntityRec *)creature)->unk_88) + 1);
             } else {
-                *(u16 *)(creature + 0x46) = 0x8009;
+                ((EntityRec *)creature)->unk_46 = 0x8009;
                 return 5;
             }
         }
@@ -1142,7 +1141,7 @@ check_forward_target:
         }
     }
 return_ability:
-    *(u16 *)(creature + 0x46) = 0x8009;
+    ((EntityRec *)creature)->unk_46 = 0x8009;
     return 5;
 
 check_room:

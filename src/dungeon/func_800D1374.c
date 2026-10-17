@@ -7,7 +7,7 @@ typedef s32 M2C_UNK;
 typedef struct S_800D6AD4_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800D6AD4_6;   /* temp_v0 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_6;
 
 
 typedef struct S_800D6AD4_8 {
@@ -19,7 +19,7 @@ typedef struct S_800D6AD4_8 {
     u16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800D6AD4_8;   /* ((S_800D6AD4_6 *)temp_v0)->unk_08 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_8;
 
 typedef struct S_800D6AD4_9 {
     u8 pad_00[0x2];
@@ -31,8 +31,6 @@ typedef struct S_800D6AD4_9 {
 } S_800D6AD4_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateOffsetSpriteEffect */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64();
 extern s32 func_8004491C();
@@ -46,28 +44,28 @@ typedef struct S_800D6AD4_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800D6AD4_0;   /* temp_v0 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_0;
 
 typedef struct S_800D6AD4_1 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800D6AD4_1;   /* temp_v1 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_1;
 
 typedef struct S_800D6AD4_2 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800D6AD4_2;   /* temp_v1_2 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_2;
 
 typedef struct S_800D6AD4_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800D6AD4_3;   /* temp_v1_3 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_3;
 
 typedef struct S_800D6AD4_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_800D6AD4_4;   /* temp_v0_2 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_4;
 
 typedef struct S_800D6AD4_5 {
     u8 pad_00[0x8];
@@ -75,7 +73,7 @@ typedef struct S_800D6AD4_5 {
     u8 pad_0C[0x26];
     s16 unk_32;
     s16 unk_34;
-} S_800D6AD4_5;   /* temp_s0 in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_5;
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
 void dungeonCreateOffsetSpriteEffect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,

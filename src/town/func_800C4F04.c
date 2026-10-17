@@ -3,7 +3,6 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
 
 extern void townConfigureTheSetModeN1();
 extern M2C_UNK D_800C26C0[3];

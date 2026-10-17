@@ -9,7 +9,7 @@ M2C_UNK func_8003DB94();  /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
 
-   /* temp_v0 in dungeonCreateASpriteEffectPositionRandomizedRotation */
+
 
 typedef struct S_8002596C_1 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_8002596C_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_8002596C_1;   /* temp_s0 in dungeonCreateASpriteEffectPositionRandomizedRotation */
+} S_8002596C_1;
 
 typedef struct S_8002596C_2 {
     u8 pad_00[0xC];
@@ -35,7 +35,7 @@ typedef struct S_8002596C_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8002596C_2;   /* temp_s0_2 in dungeonCreateASpriteEffectPositionRandomizedRotation */
+} S_8002596C_2;
 
 /* Create a sprite effect at the given position with a randomized rotation. */
 void dungeonCreateASpriteEffectPositionRandomizedRotation(s16 x, s16 y, s16 z) {

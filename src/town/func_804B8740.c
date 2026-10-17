@@ -5,10 +5,6 @@
 #include "m2c_compat.h"
 
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-
 /* Set the current record's two state values to 0x560 and 0x3E0. */
 void townSetSceneRecordStateOffsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 0x560;

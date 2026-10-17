@@ -27,7 +27,7 @@ typedef struct S_800B490C_0 {
 typedef struct S_800B490C_1 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800B490C_1;   /* temp_v0 in dungeonUpdateAttachedFadingEffect */
+} S_800B490C_1;
 
 typedef struct S_800B490C_2 {
     u8 pad_00[0x2];
@@ -42,7 +42,7 @@ typedef struct S_800B490C_2 {
 typedef struct S_800B490C_3 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B490C_3;   /* temp_v0_2 in dungeonUpdateAttachedFadingEffect */
+} S_800B490C_3;
 
 typedef struct S_800B490C_4 {
     u8 pad_00[0xC];
@@ -67,7 +67,6 @@ typedef struct S_800B490C_5 {
 } S_800B490C_5;   /* ((S_800B490C_0 *)arg0)->unk_14 in dungeonUpdateAttachedFadingEffect */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_8004491C();
 extern s32 D_80044C54;

@@ -1,0 +1,30 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/bank_191e800",
+ "container": "dungeon",
+ "foff": "0x191E800",
+ "size": "0x6000",
+ "vma": "0x80024000",
+ "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E705800: jtbl_191EDEC, native_ovl_7e705800_map, native_selector_40_external_1920628, row_191e800_80024000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "dungeon/func_818FE9B0",
+   "tu": "src/dungeon/func_818F96DC.c",
+   "home": "dungeon/func_818F96DC",
+   "foff": "0x191E9B0",
+   "vma": "0x800241B0",
+   "size": 592
+  },
+  {
+   "row": "dungeon/func_818FEC00",
+   "tu": "src/dungeon/func_818F995C.c",
+   "home": "dungeon/func_818F995C",
+   "foff": "0x191EC00",
+   "vma": "0x80024400",
+   "size": 204
+  }
+ ],
+ "symbols": {
+  "0x800266BC": "0x80025E80"
+ }
+}

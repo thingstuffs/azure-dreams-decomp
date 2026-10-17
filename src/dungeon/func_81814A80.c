@@ -6,7 +6,6 @@ typedef struct S_81814A80_0 {
 } S_81814A80_0;   /* state in func_81814A80; pointer addresses record offset 0x2 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     unsigned char pad00[2];

@@ -13,7 +13,7 @@ typedef struct S_80025B78_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80025B78_0;   /* temp_v0 in dungeonCreateCopiedEffectObject */
+} S_80025B78_0;
 
 typedef struct S_80025B78_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_80025B78_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80025B78_1;   /* temp_v1 in dungeonCreateCopiedEffectObject */
+} S_80025B78_1;
 
 typedef struct S_80025B78_2 {
     u8 pad_00[0x2];
@@ -48,7 +48,7 @@ typedef struct S_80025B78_3 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025B78_3;   /* temp_v1_2 in dungeonCreateCopiedEffectObject */
+} S_80025B78_3;
 
 typedef struct S_80025B78_4 {
     s32 unk_00;

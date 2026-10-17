@@ -69,7 +69,7 @@ typedef struct S_80089AA0_1 {
     s32 unk_B8;
     u8 pad_BC[0x9E4];
     union { u8 u; s8 s; } unk_AA0;   /* accessed as both */
-} S_80089AA0_1;   /* var_s0 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_1;
 
 typedef struct S_80089AA0_2 {
     u8 pad_00[0xB0];
@@ -91,7 +91,7 @@ typedef struct S_80089AA0_4 {
     s32 unk_04;
     s32 unk_08;
     s16 unk_0C;
-} S_80089AA0_4;   /* temp_a1 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_4;
 
 typedef struct S_80089AA0_5 {
     u8 pad_00[0x2];
@@ -102,7 +102,7 @@ typedef struct S_80089AA0_5 {
     s32 unk_0C;
     s32 unk_10;
     s16 unk_14;
-} S_80089AA0_5;   /* var_v1_2 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_5;
 
 typedef struct S_80089AA0_6 {
     s32 unk_00;
@@ -120,7 +120,7 @@ typedef struct S_80089AA0_9 {
 typedef struct S_80089AA0_10 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80089AA0_10;   /* var_a3 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_10;
 
 typedef struct S_80089AA0_11 {
     u8 pad_00[0x25];
@@ -128,7 +128,7 @@ typedef struct S_80089AA0_11 {
     u8 pad_26[0x2];
     u8 unk_28;
     u8 unk_29;
-} S_80089AA0_11;   /* temp_a1_2 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_11;
 
 typedef struct S_80089AA0_13 {
     u32 unk_00;
@@ -141,7 +141,7 @@ typedef struct S_80089AA0_14 {
     s16 unk_6C;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_80089AA0_14;   /* var_a0 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_14;
 
 typedef struct S_80089AA0_16 {
     u8 pad_00[0x4];
@@ -176,7 +176,7 @@ typedef struct S_80089AA0_18 {
 typedef struct S_80089AA0_19_pre {
     union { void * p; s32 i; } unk_00;   /* accessed as both */
     u8 pad_04[0x10];
-} S_80089AA0_19_pre;   /* the 0x14 bytes before var_s1 in dungeonUpdatePlayerAndActorTurns, addressed as var_s1[-1] */
+} S_80089AA0_19_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_80089AA0_19 {
     u8 pad_00[0x2A];
@@ -192,12 +192,12 @@ typedef struct S_80089AA0_19 {
     u8 pad_72[0x16];
     u16 unk_88;
     u16 unk_8A;
-} S_80089AA0_19;   /* var_s1 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_19;
 
 typedef struct S_80089AA0_20 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80089AA0_20;   /* temp_v0_13 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_20;
 
 typedef struct S_80089AA0_21 {
     u8 pad_00[0x2];
@@ -218,7 +218,7 @@ typedef struct S_80089AA0_24 {
     void * unk_0C;
     s32 unk_10;
     s16 unk_14;
-} S_80089AA0_24;   /* var_v0_4 in dungeonUpdatePlayerAndActorTurns */
+} S_80089AA0_24;
 
 typedef struct S_80089AA0_27 {
     u8 pad_00[0x3DE8];

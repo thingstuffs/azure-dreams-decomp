@@ -17,7 +17,7 @@ extern M2C_UNK D_800B260C;
 typedef struct S_800B2BA0_0_pre {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
-} S_800B2BA0_0_pre;   /* the 0x10 bytes before temp_s0 in open_twin_souko, addressed as temp_s0[-1] */
+} S_800B2BA0_0_pre;
 
 typedef struct S_800B2BA0_0 {
     u8 pad_00[0x4];
@@ -25,12 +25,12 @@ typedef struct S_800B2BA0_0 {
     s32 unk_08;
     u8 pad_0C[0x3C];
     s32 unk_48;
-} S_800B2BA0_0;   /* temp_s0 in open_twin_souko */
+} S_800B2BA0_0;
 
 typedef struct S_800B2BA0_1 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_800B2BA0_1;   /* temp_v0 in open_twin_souko */
+} S_800B2BA0_1;
 
 /* Initializes the task and resources for open_twin_souko. */
 s32 open_twin_souko(s32 option) {
@@ -42,37 +42,27 @@ s32 open_twin_souko(s32 option) {
 
     task = func_8003FC64(0);
     state = task + 0x20;
-    if (task != NULL) {
-        func_800B2B60(state);
-        if (func_800B29D0(state) == 0) {
-            func_800B2C6C(state);
-            return 0;
+    if (task == NULL ||
+        (func_800B2B60(state),
+         func_800B29D0(state) != 0 &&
+         (func_800B2394(state, 0),
+          resource_08 = func_800B4588(task),
+          ((S_800B2BA0_0 *)state)->unk_08 = resource_08,
+          resource_08 != 0) &&
+         (resource_00 = func_800B3924(task),
+          ((S_800B2BA0_1 *)task)->unk_20 = resource_00,
+          resource_00 != 0) &&
+         (resource_04 = func_800B4F60(task),
+          ((S_800B2BA0_0 *)state)->unk_04 = resource_04,
+          resource_04 != 0))) {
+        if (task != NULL) {
+            came_bright_set(5);
+            obj_disp23_cancel_sw_set(1);
+            ((S_800B2BA0_0 *)state)->unk_48 = option;
+            ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &D_800B260C;
         }
-        func_800B2394(state, 0);
-        resource_08 = func_800B4588(task);
-        ((S_800B2BA0_0 *)state)->unk_08 = resource_08;
-        if (resource_08 == 0) {
-            func_800B2C6C(state);
-            return 0;
-        }
-        resource_00 = func_800B3924(task);
-        ((S_800B2BA0_1 *)task)->unk_20 = resource_00;
-        if (resource_00 == 0) {
-            func_800B2C6C(state);
-            return 0;
-        }
-        resource_04 = func_800B4F60(task);
-        ((S_800B2BA0_0 *)state)->unk_04 = resource_04;
-        if (resource_04 == 0) {
-            goto fail;
-        }
-        came_bright_set(5);
-        obj_disp23_cancel_sw_set(1);
-        ((S_800B2BA0_0 *)state)->unk_48 = option;
-        ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &D_800B260C;
+        return (s32)task;
     }
-    return (s32)task;
-fail:
     func_800B2C6C(state);
     return 0;
 }

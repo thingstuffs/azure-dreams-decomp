@@ -30,7 +30,6 @@ typedef struct S_80173B98_2 {
 } S_80173B98_2;   /* arg2 in dungeonUpdateCreatureActionsAndAnimation */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784(void *sprite, u8 frame, s32 mode);
 s32 dungeonCheckEntityRelation(void *creature, s32 offset);
@@ -57,7 +56,7 @@ extern M2C_UNK D_80176360;
 extern M2C_UNK D_80176370;
 
 static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
-    (*(void **)((u8 *)sprite + 0x2C)) = (void *)direction_map;
+    (((S_80173B98_2 *)sprite)->unk_2C) = (void *)direction_map;
     func_80047784(sprite, direction_map[((s32) (gameWork.view.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
         >> 9) & 7], 0);
 }

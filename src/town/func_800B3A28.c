@@ -16,7 +16,7 @@ typedef struct S_800B1188_2 {
     void * unk_4C;
     u8 pad_50[0x10];
     void * unk_60;
-} S_800B1188_2;   /* (temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32) in townInitializeShopWindowLayout */
+} S_800B1188_2;
 
 typedef struct S_800B1188_3 {
     M2C_UNK ** unk_00;
@@ -28,27 +28,27 @@ typedef struct S_800B1188_3 {
 typedef struct S_800B1188_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_4;   /* ((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_10 in townInitializeShopWindowLayout */
+} S_800B1188_4;
 
 typedef struct S_800B1188_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_5;   /* ((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_24 in townInitializeShopWindowLayout */
+} S_800B1188_5;
 
 typedef struct S_800B1188_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_6;   /* ((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_38 in townInitializeShopWindowLayout */
+} S_800B1188_6;
 
 typedef struct S_800B1188_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_7;   /* ((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_4C in townInitializeShopWindowLayout */
+} S_800B1188_7;
 
 typedef struct S_800B1188_8 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_8;   /* ((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_60 in townInitializeShopWindowLayout */
+} S_800B1188_8;
 
 typedef struct S_800B1188_9 {
     u8 pad_00[0x4];
@@ -59,31 +59,31 @@ typedef struct S_800B1188_10 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B1188_10;   /* ((S_800B1188_4 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_10))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_10;
 
 typedef struct S_800B1188_11 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B1188_11;   /* ((S_800B1188_5 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_24))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_11;
 
 typedef struct S_800B1188_12 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B1188_12;   /* ((S_800B1188_6 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_38))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_12;
 
 typedef struct S_800B1188_13 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B1188_13;   /* ((S_800B1188_7 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_4C))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_13;
 
 typedef struct S_800B1188_14 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B1188_14;   /* ((S_800B1188_8 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_60))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_14;
 
 typedef struct S_800B1188_15 {
     u8 pad_00[0xA];
@@ -91,7 +91,6 @@ typedef struct S_800B1188_15 {
 } S_800B1188_15;   /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in townInitializeShopWindowLayout */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_8004CBFC();
 extern void townProcessShopRecordAndSubrecord();

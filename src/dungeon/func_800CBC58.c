@@ -11,7 +11,7 @@ typedef struct S_800D13B8_1 {
     u8 pad_00[0xA4];
     u16 unk_A4;
     u16 unk_A6;
-} S_800D13B8_1;   /* temp_s1 in dungeonProcessCurrentFacingDirections */
+} S_800D13B8_1;
 
 /* Processes directions around the current position based on the facing angle. */
 void dungeonProcessCurrentFacingDirections(void) {

@@ -6,16 +6,16 @@ void func_800B2164();                 /* extern */
 typedef struct S_800B2190_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800B2190_0;   /* temp_a0 in func_800B2190 */
+} S_800B2190_0;
 
 typedef struct S_800B2190_1 {
     s32 unk_00;
-} S_800B2190_1;   /* *var_s0 in func_800B2190 */
+} S_800B2190_1;
 
 typedef struct S_800B2190_2 {
     void * unk_00;
     void * unk_04;
-} S_800B2190_2;   /* var_s0 in func_800B2190 */
+} S_800B2190_2;
 
 /* Clear the selected entry and remove its pointer from the null-terminated list. */
 void func_800B2190(s32 list_addr, s32 index) {

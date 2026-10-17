@@ -21,7 +21,7 @@ typedef struct S_800C30D4_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C30D4_1;   /* temp_v0 in dungeonUseItemToApplyPoison */
+} S_800C30D4_1;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

@@ -8,7 +8,7 @@ M2C_UNK func_800673A0();         /* extern */
 typedef struct S_80123928_0 {
     u8 unk_00;
     u8 unk_01;
-} S_80123928_0;   /* var_s0 in func_80123928 */
+} S_80123928_0;
 
 /* Outputs two-byte character codes, advancing the position by two per character. */
 void func_80123928(u8 *text, s16 start_x, s16 y) {

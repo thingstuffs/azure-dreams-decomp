@@ -90,7 +90,7 @@ void dungeonUpdateDungeonActorAnimation(void *actor, void *actor_aux, void *spri
             return;
         }
         anim_table = D_80169CA0;
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (((S_80165FA4_2 *)sprite)->unk_2C) = anim_table;
         func_80047784(sprite,
             ((u8 *)anim_table)[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
@@ -129,7 +129,7 @@ void dungeonUpdateDungeonActorAnimation(void *actor, void *actor_aux, void *spri
             current_anim = ((S_80165FA4_2 *)sprite)->unk_2C;
             if (current_anim != D_80169CA8 || (((S_80165FA4_2 *)sprite)->unk_14 & 0xE000)) {
                 if (current_anim == D_80169CA8) {
-                    (*(void * *)((u8 *)sprite + 0x2C)) = D_80169C30;
+                    (((S_80165FA4_2 *)sprite)->unk_2C) = D_80169C30;
                     func_80047784(sprite,
                         D_80169C30[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
@@ -138,7 +138,7 @@ void dungeonUpdateDungeonActorAnimation(void *actor, void *actor_aux, void *spri
                     if (current_anim == anim_table) {
                         goto state_done;
                     }
-                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                    (((S_80165FA4_2 *)sprite)->unk_2C) = anim_table;
                     func_80047784(sprite,
                         *(u8 *)((((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
                         0);

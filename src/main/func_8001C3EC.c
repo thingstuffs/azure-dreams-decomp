@@ -6,7 +6,7 @@ M2C_UNK func_80051FBC();                         /* extern */
 typedef struct S_8001C3EC_0 {
     u8 pad_00[0x68C];
     s32 * unk_68C;
-} S_8001C3EC_0;   /* var_s0 in func_8001C3EC */
+} S_8001C3EC_0;
 
 /* Pass each of four referenced values to func_80051FBC. */
 void func_8001C3EC(void *object) {

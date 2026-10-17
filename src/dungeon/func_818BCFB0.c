@@ -29,7 +29,7 @@ typedef struct S_818BCFB0_2 {
 typedef struct S_818BCFB0_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_818BCFB0_3;   /* temp_a3 in func_818BCFB0 */
+} S_818BCFB0_3;
 
 
 

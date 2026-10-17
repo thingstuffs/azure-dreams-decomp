@@ -3,7 +3,6 @@
 extern int abs(int);
 
 typedef s32 M2C_UNK;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct Position {
     s16 pad0;

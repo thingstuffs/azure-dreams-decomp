@@ -21,7 +21,6 @@ typedef struct S_81940800_2 {
     s16 unk_46;
 } S_81940800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in func_8002405C */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 extern s16 D_8002571C;
 /* Advance the effect fade and mark it finished when its countdown expires. */
 void func_8002405C(void *effect, void *unused, void *primitive) {

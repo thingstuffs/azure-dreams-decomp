@@ -9,7 +9,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 scaleRandomToUnsignedHalfwordLimit();
 extern M2C_UNK func_8003DB94();
@@ -22,7 +21,7 @@ typedef struct S_800A84D0_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800A84D0_0;   /* temp_v0 in townCreateRandomizedPositionEffect */
+} S_800A84D0_0;
 
 typedef struct S_800A84D0_1 {
     u8 pad_00[0x2];
@@ -31,7 +30,7 @@ typedef struct S_800A84D0_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A84D0_1;   /* temp_s1 in townCreateRandomizedPositionEffect */
+} S_800A84D0_1;
 
 typedef struct S_800A84D0_2 {
     u8 pad_00[0x2];
@@ -54,12 +53,12 @@ typedef struct S_800A84D0_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A84D0_3;   /* temp_s0 in townCreateRandomizedPositionEffect */
+} S_800A84D0_3;
 
 typedef struct S_800A84D0_4 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800A84D0_4;   /* temp_v1 in townCreateRandomizedPositionEffect */
+} S_800A84D0_4;
 
 /* Creates an effect at the supplied position and initializes its sprite and random state. */
 void *townCreateRandomizedPositionEffect(S_800A84D0_2 *source_position) {

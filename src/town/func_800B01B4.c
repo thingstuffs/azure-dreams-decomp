@@ -9,7 +9,7 @@ typedef struct S_800AD914_0 {
 typedef struct S_800AD914_1 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800AD914_1;   /* var_a0 in townCountEntriesWithFlag20 */
+} S_800AD914_1;
 
 /* Count entries with flag 0x20, excluding IDs 0x17 and 0x18. */
 s32 townCountEntriesWithFlag20(void *entries) {

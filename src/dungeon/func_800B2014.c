@@ -64,7 +64,7 @@ typedef struct S_800B7774_1 {
 typedef struct S_800B7774_2_pre {
     s32 unk_00;
     u8 pad_04[0x10];
-} S_800B7774_2_pre;   /* the 0x14 bytes before temp_v0 in advanceEggBombSequence, addressed as temp_v0[-1] */
+} S_800B7774_2_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800B7774_2 {
     u8 pad_00[0x11];
@@ -82,7 +82,7 @@ typedef struct S_800B7774_2 {
     union { u16 u; s16 s; } unk_46;   /* accessed as both */
     u8 pad_48[0x18];
     s32 unk_60;
-} S_800B7774_2;   /* temp_v0 in advanceEggBombSequence */
+} S_800B7774_2;
 
 
 typedef struct S_800B7774_4 {
@@ -97,7 +97,7 @@ typedef struct S_800B7774_5 {
 
 typedef struct S_800B7774_6_pre {
     u16 unk_00;
-} S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in advanceEggBombSequence, addressed as temp_v0_6[-1] */
+} S_800B7774_6_pre;   /* 0x2-byte header immediately before the payload. */
 
 /* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
 void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {

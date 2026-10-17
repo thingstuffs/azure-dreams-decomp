@@ -8,7 +8,7 @@
 typedef struct S_80024810_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80024810_2;   /* temp_v1 in dungeonUpdateJitteredEffectPoints */
+} S_80024810_2;
 
 typedef struct S_80024810_3 {
     u8 pad_00[0x2];
@@ -17,7 +17,7 @@ typedef struct S_80024810_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024810_3;   /* ((S_80024810_2 *)temp_v1)->unk_08 in dungeonUpdateJitteredEffectPoints */
+} S_80024810_3;
 
 
 typedef struct S_80024810_0_pre {
@@ -46,7 +46,7 @@ typedef struct S_80024810_0 {
 typedef struct S_80024810_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024810_1;   /* temp_a0 in dungeonUpdateJitteredEffectPoints */
+} S_80024810_1;
 
 
 /* micro-lane E 2026-08-14: true base 0x80024810 (delta 0x7E65D800) */

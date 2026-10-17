@@ -13,8 +13,6 @@ typedef struct S_8001ADF8_1 {
 } S_8001ADF8_1;   /* arg0 in townStoreLookupInState7Entry */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern s32 func_8001A6D0();
 
 /* Stores the lookup result in the selected entry when the current record has code 7. */

@@ -3,8 +3,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern M2C_UNK soundSetCdCueParameters();
 extern M2C_UNK SD_Call();
 extern void townInitializeObjectEntries();
@@ -18,7 +16,7 @@ void townInitializeFadeAction(Rec_func_80094268_arg0 *entity, M2C_UNK unused, M2
     soundSetCdCueParameters(0, 0x2C3D, 0x02000002, 0x010000EA);
     SD_Call(0x300);
     townInitializeObjectEntries(entity, context, &D_800D6CF0);
-    *((s8 *)((M2C_UNK *)D_80082660) + (entity->unk_60 * 8)) = 0;
+    D_80082660[entity->unk_60].unk_00 = 0;
     entity->unk_54 = &D_800CC4B0;
     entity->unk_6C.as_s16 = 0x19;
 }

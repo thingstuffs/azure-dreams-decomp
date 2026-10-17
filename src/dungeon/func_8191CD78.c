@@ -133,120 +133,118 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
                 (((s32)((Row_8191CD78_S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
                  position->unk_08.s32) / effect->unk_12;
             effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
-            goto set_state;
-        }
+        } else {
+            index = 0;
+            map_data = work_base->unk_0C;
+            page_base = 0x80070000;
+            {
+                u16 tile_x;
+                s32 tile_y;
+                u16 last_tile_x;
+                u16 tile_y_bits;
+                s32 floor_x;
+                s32 floor_limit;
+                s32 floor_y;
+                s32 signed_tile_x;
+                s32 signed_tile_y;
+                s32 x_adjust;
+                s32 y_adjust;
+                s16 *x_adjust_table;
 
-        index = 0;
-        map_data = (*(void **)((u8 *)work_base + 0xC));
-        page_base = 0x80070000;
-        {
-            u16 tile_x;
-            s32 tile_y;
-            u16 last_tile_x;
-            u16 tile_y_bits;
-            s32 floor_x;
-            s32 floor_limit;
-            s32 floor_y;
-            s32 signed_tile_x;
-            s32 signed_tile_y;
-            s32 x_adjust;
-            s32 y_adjust;
-            s16 *x_adjust_table;
+                tile_y = map_data->unk_25;
+                tile_x = map_data->unk_24;
+                last_tile_y = (u16)tile_y;
+                last_tile_x = tile_x;
+                do {
+                    signed_tile_x = (s16)tile_x;
+                    signed_tile_y = (s16)tile_y;
+                    if ((dungeonCheckLayerOffsetHeight((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
+                                       actor->unk_88.s16,
+                                       (s16)(effect->unk_0E << 9)) << 16) == 0) {
+                        s16 floor = func_800BCB04(
+                            ((signed_tile_x + ((s16 *)((u8 *)dirStepX))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                            ((signed_tile_y + ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                            (s16)(actor->unk_88.s16 - 0x20));
+                        if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
+                            u16 next_tile_x;
+                            s32 next_tile_y;
 
-            tile_y = map_data->unk_25;
-            tile_x = map_data->unk_24;
-            last_tile_y = (u16)tile_y;
-            last_tile_x = tile_x;
-            do {
-                signed_tile_x = (s16)tile_x;
-                signed_tile_y = (s16)tile_y;
-                if ((dungeonCheckLayerOffsetHeight((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
-                                   actor->unk_88.s16,
-                                   (s16)(effect->unk_0E << 9)) << 16) == 0) {
-                    s16 floor = func_800BCB04(
-                        ((signed_tile_x + ((s16 *)((u8 *)dirStepX))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                        ((signed_tile_y + ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                        (s16)(actor->unk_88.s16 - 0x20));
-                    if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
-                        u16 next_tile_x;
-                        s32 next_tile_y;
-
-                        index++;
-                        next_tile_x = tile_x + ((u16 *)((u8 *)dirStepX))[(s16)effect->unk_0E];
-                        tile_x = next_tile_x;
-                        next_tile_y = tile_y + ((u16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
-                        last_tile_y = (u16)next_tile_y;
-                        tile_y = next_tile_y;
-                        last_tile_x = next_tile_x;
-                        if (index < 8) {
-                            continue;
+                            index++;
+                            next_tile_x = tile_x + ((u16 *)((u8 *)dirStepX))[(s16)effect->unk_0E];
+                            tile_x = next_tile_x;
+                            next_tile_y = tile_y + ((u16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
+                            last_tile_y = (u16)next_tile_y;
+                            tile_y = next_tile_y;
+                            last_tile_x = next_tile_x;
+                            if (index < 8) {
+                                continue;
+                            }
                         }
                     }
+                    break;
+                } while (index < 8);
+
+                work_base = (Row_8191CD78_S_func_80024578_5 *)scratch;
+                x_base = (last_tile_x << 16) >> 10;
+                floor_x = (x_base + 0x20);
+                floor_x &= 0xFFE0;
+                x_adjust_table = (s16 *)((u8 *)dirStepX);
+                floor_limit = -0x400;
+
+                tile_y_bits = last_tile_y;
+                y_base = (s32)tile_y_bits << 16;
+                y_base >>= 10;
+                floor_y = y_base + 0x20;
+                x_adjust = x_adjust_table[(s16)effect->unk_0E];
+                work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
+                y_adjust = ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
+                floor_y &= 0xFFE0;
+                work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
+                final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
+                index = 1;
+                {
+                    s32 widened_y;
+                    s32 position_y;
+                    s16 *delta_scan = (s16 *)(scratch + 2);
+
+                    work_base->unk_08.parts_0A.unk_0A = final_floor;
+                    expanded_floor = (s32)final_floor << 16;
+                    abs_delta_x_2 = abs((s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16);
+                    DELTA(0) = (s16)abs_delta_x_2;
+                    widened_y = work_base->unk_04.parts_06.unk_06.u16;
+                    position_y = position->unk_04.parts_06.unk_06.s16;
+                    widened_y <<= 16;
+                    widened_y >>= 16;
+                    widened_y -= position_y;
+                    widened_y = abs(widened_y);
+                    DELTA(1) = (s16)widened_y;
+                    expanded_floor >>= 16;
+                    expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
+                    DELTA(2) = (s16)(abs(expanded_floor));
+                    effect->unk_12 = DELTA(0);
+                    do {
+                        if (((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {
+                            effect->unk_12 = ((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16;
+                        }
+                        index++;
+                        delta_scan++;
+                    } while (index < 3);
                 }
-                break;
-            } while (index < 8);
-
-            work_base = (Row_8191CD78_S_func_80024578_5 *)scratch;
-            x_base = (last_tile_x << 16) >> 10;
-            floor_x = (x_base + 0x20);
-            floor_x &= 0xFFE0;
-            x_adjust_table = (s16 *)((u8 *)dirStepX);
-            floor_limit = -0x400;
-
-            tile_y_bits = last_tile_y;
-            y_base = (s32)tile_y_bits << 16;
-            y_base >>= 10;
-            floor_y = y_base + 0x20;
-            x_adjust = x_adjust_table[(s16)effect->unk_0E];
-            work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
-            y_adjust = ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
-            floor_y &= 0xFFE0;
-            work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
-            final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
-            index = 1;
-            {
-                s32 widened_y;
-                s32 position_y;
-                s16 *delta_scan = (s16 *)(scratch + 2);
-
-                work_base->unk_08.parts_0A.unk_0A = final_floor;
-                expanded_floor = (s32)final_floor << 16;
-                abs_delta_x_2 = abs((s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16);
-                DELTA(0) = (s16)abs_delta_x_2;
-                widened_y = work_base->unk_04.parts_06.unk_06.u16;
-                position_y = position->unk_04.parts_06.unk_06.s16;
-                widened_y <<= 16;
-                widened_y >>= 16;
-                widened_y -= position_y;
-                widened_y = abs(widened_y);
-                DELTA(1) = (s16)widened_y;
-                expanded_floor >>= 16;
-                expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
-                DELTA(2) = (s16)(abs(expanded_floor));
-                effect->unk_12 = DELTA(0);
-                do {
-                    if (((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {
-                        effect->unk_12 = ((Row_8191CD78_S_func_80024578_9 *)(delta_scan))->unk_18.s16;
-                    }
-                    index++;
-                    delta_scan++;
-                } while (index < 3);
             }
-        }
-        travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
-        effect->unk_12 = travel_frames;
-        if (travel_frames == 0) {
-            effect->unk_12 = 1;
-        }
-        position->unk_0C =
-            (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
-        position->unk_10 =
-            (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
-        position->unk_14 =
-            (work_base->unk_08.s32 - position->unk_08.s32) / effect->unk_12;
+            travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
+            effect->unk_12 = travel_frames;
+            if (travel_frames == 0) {
+                effect->unk_12 = 1;
+            }
+            position->unk_0C =
+                (work_base->unk_00.s32 - position->unk_00.s32) / effect->unk_12;
+            position->unk_10 =
+                (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
+            position->unk_14 =
+                (work_base->unk_08.s32 - position->unk_08.s32) / effect->unk_12;
 
-        effect->unk_0A.u16 = 11;
-set_state:
+            effect->unk_0A.u16 = 11;
+        }
         effect->unk_10.u16 = 0;
 
         func_800243CC(effect, position);
@@ -267,17 +265,20 @@ set_state:
 
             effect->unk_1A.u16 = 0;
             flags = owner->unk_14;
-            if ((flags & 0x100000) != 0) {
-                goto advance_state;
+            if ((flags & 0x100000) == 0) {
+                owner->unk_14 = flags | 0x100000;
+                effect->unk_1A.u16 = 1;
             }
-            owner->unk_14 = flags | 0x100000;
-            effect->unk_1A.u16 = 1;
         }
-        goto advance_state;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        break;
 
     case 4:
         if (func_80053EF0(4) == 1) {
-            goto advance_state;
+            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+            effect->unk_10.u16 = 0;
+            break;
         }
         break;
 
@@ -292,7 +293,9 @@ set_state:
             state = finished_render->unk_1A;
             state += 0x800;
             finished_render->unk_1A = state;
-            goto advance_state;
+            effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+            effect->unk_10.u16 = 0;
+            break;
         }
         break;
 
@@ -322,13 +325,13 @@ set_state:
                     (u16)(max_height - height_entry->unk_00);
                 func_800419EC(delta_x, effect_size);
                 index = 0;
-case_3_loop:
-                func_80024138(effect);
-                index++;
-                if (index >= 8) {
-                    goto advance_state;
-                }
-                goto case_3_loop;
+                do {
+                    func_80024138(effect);
+                    index++;
+                } while (index < 8);
+                effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+                effect->unk_10.u16 = 0;
+                break;
             }
         }
         break;
@@ -346,7 +349,9 @@ case_3_loop:
         if (effect->unk_10.s16 < 12) {
             break;
         }
-        goto advance_state;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        break;
 
     case 9:
         if (effect->unk_10.s16 < 4) {
@@ -360,7 +365,9 @@ case_3_loop:
         ((Row_8191CD78_S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
         func_8009CE1C(actor->unk_60, 24, effect->unk_09, 4,
                       (s16)(effect->unk_0E << 9), actor, 1);
-        goto advance_state;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        break;
 
     case 10:
         if (effect->unk_14.s16 != 0) {
@@ -395,13 +402,17 @@ case_3_loop:
         }
         func_800A56E0(0x300);
         func_800542BC();
-        goto advance_state;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        break;
 
     case 13:
         if (func_80053EF0(4) != 1) {
             break;
         }
-        goto advance_state;
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_10.u16 = 0;
+        break;
 
     case 5:
     case 14:
@@ -409,7 +420,6 @@ case_3_loop:
             break;
         }
 
-advance_state:
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         effect->unk_10.u16 = 0;
         break;

@@ -19,17 +19,14 @@ s32 townCheckMaskedValueInCurrentRange(s32 value) {
         return;
     }
     if (*(s16 *)(state + 0x1A) == 0xD) {
-        if (townFindContainingRangeGroup(value, &D_800D4658) == 0) {
-            goto return_zero;
+        if (townFindContainingRangeGroup(value, &D_800D4658) != 0) {
+            return 6;
         }
-        return 6;
-    }
-    if (*(s16 *)(state + 0x1A) == 0x2A) {
+    } else if (*(s16 *)(state + 0x1A) == 0x2A) {
         if (townFindContainingRangeGroup(value, &D_800D4660) != 0) {
             return 7;
         }
     }
-return_zero:
     result = 0;
     return result;
 }

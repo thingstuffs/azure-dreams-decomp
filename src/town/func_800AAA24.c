@@ -13,18 +13,18 @@ typedef struct S_800A8184_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-} S_800A8184_0;   /* temp_v0 in townCreateIndexedEffectObject */
+} S_800A8184_0;
 
 typedef struct S_800A8184_1 {
     u8 pad_00[0x4C];
     u8 unk_4C;
     u8 unk_4D;
-} S_800A8184_1;   /* temp_s0 in townCreateIndexedEffectObject */
+} S_800A8184_1;
 
 typedef struct S_800A8184_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A8184_2;   /* temp_s1 in townCreateIndexedEffectObject */
+} S_800A8184_2;
 
 /* Creates an object, selects its data, and initializes its state. */
 void townCreateIndexedEffectObject(s32 index, s32 kind) {

@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/s2_native_resource_08_slot_0",
+ "container": "dungeon",
+ "foff": "0xabb000",
+ "size": "0x6000",
+ "vma": "0x80170800",
+ "evidence": "docs/evidence/r121w_s2_receipts.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80A9EE48",
+   "tu": "src/dungeon/func_80A9EE48.c",
+   "home": "dungeon/func_80A9EE48",
+   "foff": "0xabee48",
+   "vma": "0x80174648",
+   "size": 1396
+  }
+ ]
+}

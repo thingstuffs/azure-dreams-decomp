@@ -4,12 +4,12 @@
 typedef struct S_800B65D8_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B65D8_4;   /* temp_s1 in townUpdateModeDisplaySpacing */
+} S_800B65D8_4;
 
 typedef struct S_800B65D8_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B65D8_5;   /* ((S_800B65D8_4 *)temp_s1)->unk_04 in townUpdateModeDisplaySpacing */
+} S_800B65D8_5;
 
 
 s32 func_80048DA0();                         /* extern */
@@ -21,17 +21,17 @@ extern u8 D_80089344[];
 typedef struct S_800B65D8_0 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_800B65D8_0;   /* var_s4 in townUpdateModeDisplaySpacing */
+} S_800B65D8_0;
 
 typedef struct S_800B65D8_1 {
     s32 unk_00;
     void * unk_04;
-} S_800B65D8_1;   /* temp_s1 in townUpdateModeDisplaySpacing */
+} S_800B65D8_1;
 
 typedef struct S_800B65D8_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B65D8_2;   /* temp_ptr in townUpdateModeDisplaySpacing */
+} S_800B65D8_2;
 
 typedef struct S_800B65D8_3 {
     u8 pad_00[0x5C];

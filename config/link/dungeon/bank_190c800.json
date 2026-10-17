@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/bank_190c800",
+ "container": "dungeon",
+ "foff": "0x190C800",
+ "size": "0x6000",
+ "vma": "0x80024000",
+ "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7E717800: native_ovl_7e717800_map",
+ "entries": [
+  {
+   "row": "dungeon/func_818ED454",
+   "tu": "src/dungeon/func_818F96DC.c",
+   "home": "dungeon/func_818F96DC",
+   "foff": "0x190D454",
+   "vma": "0x80024C54",
+   "size": 592
+  }
+ ]
+}

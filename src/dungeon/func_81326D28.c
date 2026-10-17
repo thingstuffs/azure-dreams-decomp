@@ -67,7 +67,7 @@ typedef struct S_8016E528_2 {
 typedef struct S_8016E528_3 {
     s16 unk_00;
     s16 unk_02;
-} S_8016E528_3;   /* temp_a1 in dungeonUpdateObjectMotionAndLanding */
+} S_8016E528_3;
 
 typedef struct S_8016E528_4 {
     u8 pad_00[0x2];
@@ -199,7 +199,7 @@ check_falling:
             - 0x20));
         ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
 mark_removed:
-        (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
+        ((S_8016E528_0_pre *)motion)[-1].unk_00 = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
         return;
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);

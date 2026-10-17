@@ -73,7 +73,7 @@ typedef struct S_8009C12C_2 {
 typedef struct S_8009C12C_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8009C12C_3_pre;   /* the 0x14 bytes before temp_s1 in dungeonResolveAttackDamageAndEffects, addressed as temp_s1[-1] */
+} S_8009C12C_3_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_8009C12C_3 {
     u8 pad_00[0x14];
@@ -89,14 +89,14 @@ typedef struct S_8009C12C_3 {
     union { s16 n; s16 v; } unk_64;   /* accessed as both */
     u8 pad_66[0x22];
     u16 unk_88;
-} S_8009C12C_3;   /* temp_s1 in dungeonResolveAttackDamageAndEffects */
+} S_8009C12C_3;
 
 typedef struct S_8009C12C_4 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0x3D66];
     void * unk_3D7C;
-} S_8009C12C_4;   /* temp_ptr in dungeonResolveAttackDamageAndEffects */
+} S_8009C12C_4;
 
 typedef struct S_8009C12C_7 {
     u8 pad_00[0x88];

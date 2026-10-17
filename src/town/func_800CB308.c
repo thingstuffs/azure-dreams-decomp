@@ -16,7 +16,7 @@ typedef struct S_800C8A68_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800C8A68_0;   /* temp_v0 in func_800C8A68 */
+} S_800C8A68_0;
 
 typedef struct S_800C8A68_1 {
     s32 unk_00;
@@ -24,7 +24,7 @@ typedef struct S_800C8A68_1 {
     s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
-} S_800C8A68_1;   /* temp_a1 in func_800C8A68 */
+} S_800C8A68_1;
 
 typedef struct S_800C8A68_2 {
     s32 unk_00;
@@ -35,7 +35,7 @@ typedef struct S_800C8A68_2 {
 typedef struct S_800C8A68_3 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_800C8A68_3;   /* temp_s0 in func_800C8A68 */
+} S_800C8A68_3;
 
 typedef struct S_800C8A68_4 {
     u8 pad_00[0xC];
@@ -43,7 +43,7 @@ typedef struct S_800C8A68_4 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C8A68_4;   /* temp_s1 in func_800C8A68 */
+} S_800C8A68_4;
 
 /* Allocate and initialize an object at an offset from the supplied position. */
 s32 func_800C8A68(S_800C8A68_2 *source_pos) {

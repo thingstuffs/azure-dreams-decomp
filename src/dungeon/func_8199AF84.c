@@ -7,54 +7,76 @@ typedef struct { u8 packets[0x54]; } PacketRing;
 extern s8 D_80024AE0[];
 
 extern u16 D_80024A70;
-extern s32 D_800814A0;
+#include "shared/object_flags.h"
+
+typedef union { u16 bits; s16 value; } JitterHalf;
+typedef struct { u16 fraction; JitterHalf whole; } JitterAxis;
+typedef struct { JitterAxis axes[6]; } JitterMotion;
+typedef struct {
+    u8 reserved_00[0x14];
+    void *anchor;
+    u16 base_position[3];
+    u8 reserved_1e[0x14];
+    s16 phase;
+    u8 reserved_34[8];
+    JitterHalf fade;
+} JitterEffect;
+typedef struct {
+    u8 reserved_00[8];
+    u32 packet;
+    u8 red, green, blue;
+    u8 reserved_0f[0xD];
+    u16 scale_x, scale_y;
+} JitterSprite;
+typedef struct { u16 flags; } JitterHeader;
+
 void func_80024784(void *arg0, void *arg1, void *arg2) {
-    s32 var_s0;
-    u16 *var_s1;
+    s32 axes_left;
+    u16 *base_coord;
     s32 jitter;
     s32 fade;
-    u16 temp_v0;
-    u16 temp_v0_3;
-    u32 temp_v0_2;
-    u8 temp_v0_4;
-    void *temp_a0;
-    void *var_s2;
+    u16 base_value;
+    u16 next_scale;
+    u32 next_packet;
+    u8 brightness;
+    void *anchor;
+    JitterAxis *motion_axis;
 
-    temp_a0 = M2C_FIELD(arg0, void **, 0x14);
+    anchor = (((JitterEffect *)arg0)->anchor);
     D_80024A70 += 1;
-    if (temp_a0 != NULL) {
-        M2C_FIELD(arg1, u16 *, 0xE) = (u16) M2C_FIELD(temp_a0, u16 *, 2);
-        M2C_FIELD(arg1, u16 *, 0x12) = (u16) M2C_FIELD(M2C_FIELD(arg0, void **, 0x14), u16 *, 6);
-        M2C_FIELD(arg1, u16 *, 0x16) = (u16) M2C_FIELD(M2C_FIELD(arg0, void **, 0x14), u16 *, 0xA);
+    if (anchor != NULL) {
+        (((JitterMotion *)(arg1))->axes[3].whole.bits) = (u16) (((JitterMotion *)(anchor))->axes[0].whole.bits);
+        (((JitterMotion *)(arg1))->axes[4].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)arg0)->anchor)))->axes[1].whole.bits);
+        (((JitterMotion *)(arg1))->axes[5].whole.bits) = (u16) (((JitterMotion *)((((JitterEffect *)arg0)->anchor)))->axes[2].whole.bits);
     }
-    var_s2 = arg1;
-    var_s1 = arg0 + 0x18;
-    var_s0 = 3;
+    motion_axis = arg1;
+    base_coord = ((JitterEffect *)arg0)->base_position;
+    axes_left = 3;
     do {
-        var_s0 -= 1;
+        axes_left -= 1;
         jitter = (func_80069EF8() & 0xF) - 8;
-        temp_v0 = *var_s1;
-        var_s1 += 1;
-        M2C_FIELD(var_s2, s16 *, 2) = (s16) (temp_v0 + (jitter * D_80024AE0[M2C_FIELD(arg0, s16 *, 0x32)]));
-        var_s2 += 4;
-    } while (var_s0 > 0);
-    temp_v0_2 = M2C_FIELD(arg2, u32 *, 8) + 0xC;
-    M2C_FIELD(arg2, u32 *, 8) = temp_v0_2;
-    if (temp_v0_2 >= (u32)D_80024AE0) {
-        M2C_FIELD(arg2, u32 *, 8) = (u32)((PacketRing *)((u8 *)D_80024AE0 - sizeof(PacketRing)))->packets;
+        base_value = *base_coord;
+        base_coord += 1;
+        (((JitterAxis *)motion_axis)->whole.value) = (s16) (base_value + (jitter * D_80024AE0[(((JitterEffect *)arg0)->phase)]));
+        motion_axis++;
+    } while (axes_left > 0);
+    next_packet = (((JitterSprite *)arg2)->packet) + 0xC;
+    (((JitterSprite *)arg2)->packet) = next_packet;
+    if (next_packet >= (u32)D_80024AE0) {
+        (((JitterSprite *)arg2)->packet) = (u32)((PacketRing *)((u8 *)D_80024AE0 - sizeof(PacketRing)))->packets;
     }
-    temp_v0_3 = M2C_FIELD(arg2, u16 *, 0x1E) - (M2C_FIELD(arg2, u16 *, 0x1E) / 24);
-    M2C_FIELD(arg2, u16 *, 0x1E) = temp_v0_3;
-    M2C_FIELD(arg2, u16 *, 0x1C) = temp_v0_3;
-    fade = M2C_FIELD(arg0, u16 *, 0x3C);
+    next_scale = (((JitterSprite *)arg2)->scale_y) - ((((JitterSprite *)arg2)->scale_y) / 24);
+    (((JitterSprite *)arg2)->scale_y) = next_scale;
+    (((JitterSprite *)arg2)->scale_x) = next_scale;
+    fade = (((JitterEffect *)arg0)->fade.bits);
     fade -= 8;
-    M2C_FIELD(arg0, u16 *, 0x3C) = fade + ((s16) (u16) M2C_FIELD(arg0, s16 *, 0x32) / 2);
-    temp_v0_4 = (u8) M2C_FIELD(arg0, u16 *, 0x3C);
-    M2C_FIELD(arg2, u8 *, 0xE) = temp_v0_4;
-    M2C_FIELD(arg2, u8 *, 0xD) = temp_v0_4;
-    M2C_FIELD(arg2, u8 *, 0xC) = temp_v0_4;
-    if ((s16) M2C_FIELD(arg0, u16 *, 0x3C) <= 0) {
-        M2C_FIELD(arg0, u16 *, -2) = (u16) (M2C_FIELD(arg0, u16 *, -2) | 0x8000);
-        D_800814A0 |= 0x8000;
+    (((JitterEffect *)arg0)->fade.bits) = fade + ((s16) (u16) (((JitterEffect *)arg0)->phase) / 2);
+    brightness = (u8) (((JitterEffect *)arg0)->fade.bits);
+    (((JitterSprite *)arg2)->blue) = brightness;
+    (((JitterSprite *)arg2)->green) = brightness;
+    (((JitterSprite *)arg2)->red) = brightness;
+    if ((s16) (((JitterEffect *)arg0)->fade.bits) <= 0) {
+        (((JitterHeader *)arg0)[-1].flags) = (u16) ((((JitterHeader *)arg0)[-1].flags) | 0x8000);
+        objectFlagBlock.flags |= 0x8000;
     }
 }

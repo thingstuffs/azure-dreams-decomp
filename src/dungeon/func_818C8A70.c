@@ -9,17 +9,17 @@
 
    /* arg0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s4 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_v0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
+
+
+
 
    /* arg1 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s2 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
 
-   /* temp_s7 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
+
+
 
    /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
 

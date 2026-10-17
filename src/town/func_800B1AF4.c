@@ -13,7 +13,7 @@ typedef struct S_800AF254_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     s32 unk_20;
-} S_800AF254_1;   /* temp_v1 in townPopulateItemMenuPageEntries */
+} S_800AF254_1;
 
 /* Fills up to ten output slots with converted entries from the selected page. */
 void townPopulateItemMenuPageEntries(s32 output_base, void **entries_ref) {

@@ -13,7 +13,7 @@
 typedef struct S_800C1F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C1F28_1;   /* temp_v1 in dungeonTeleportFamiliarNearPlayer */
+} S_800C1F28_1;
 
 
 typedef struct {

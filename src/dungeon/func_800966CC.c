@@ -19,7 +19,7 @@ typedef struct S_8009BE2C_1 {
     s16 unk_0A;
     s16 unk_0C;
     s16 unk_0E;
-} S_8009BE2C_1;   /* temp_s0 in dungeonDrawFullscreenFade */
+} S_8009BE2C_1;
 
 typedef struct S_8009BE2C_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_8009BE2C_2 {
 
 typedef struct S_8009BE2C_3 {
     void * unk_00;
-} S_8009BE2C_3;   /* temp_s1 in dungeonDrawFullscreenFade */
+} S_8009BE2C_3;
 
 typedef struct S_8009BE2C_4_pre {
     u16 unk_00;
@@ -44,7 +44,7 @@ typedef struct S_8009BE2C_5 {
 typedef struct S_8009BE2C_6 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_8009BE2C_6;   /* ((S_8009BE2C_3 *)temp_s1)->unk_00 in dungeonDrawFullscreenFade */
+} S_8009BE2C_6;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

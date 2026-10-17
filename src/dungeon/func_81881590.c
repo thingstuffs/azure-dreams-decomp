@@ -10,7 +10,7 @@ typedef struct S_80024D90_0 {
     void * unk_08;
     void * unk_0C;
     s32 * unk_10;
-} S_80024D90_0;   /* temp_v0 in dungeonSpawnRingEffects */
+} S_80024D90_0;
 
 typedef struct S_80024D90_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_80024D90_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80024D90_2;   /* temp_s1 in dungeonSpawnRingEffects */
+} S_80024D90_2;
 
 typedef struct S_80024D90_3 {
     u8 pad_00[0xC];
@@ -48,7 +48,7 @@ typedef struct S_80024D90_4 {
     s16 unk_1E;
     u8 pad_20[0x4];
     s16 unk_24;
-} S_80024D90_4;   /* temp_a0 in dungeonSpawnRingEffects */
+} S_80024D90_4;
 
 
 

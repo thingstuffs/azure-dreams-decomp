@@ -11,7 +11,7 @@ typedef struct S_80026ED0_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80026ED0_0;   /* temp_v0 in func_80026ED0 */
+} S_80026ED0_0;
 
 typedef struct S_80026ED0_1 {
     u8 pad_00[0x2];
@@ -20,7 +20,7 @@ typedef struct S_80026ED0_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80026ED0_1;   /* temp_v0_2 in func_80026ED0 */
+} S_80026ED0_1;
 
 typedef struct S_80026ED0_2 {
     u8 pad_00[0x8];
@@ -32,14 +32,14 @@ typedef struct S_80026ED0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026ED0_2;   /* temp_v1 in func_80026ED0 */
+} S_80026ED0_2;
 
 typedef struct S_80026ED0_3 {
     u8 pad_00[0x66];
     s16 unk_66;
     u8 pad_68[0x2];
     s16 unk_6A;
-} S_80026ED0_3;   /* temp_v1_2 in func_80026ED0 */
+} S_80026ED0_3;
 
 
 extern void *func_8003FD64();

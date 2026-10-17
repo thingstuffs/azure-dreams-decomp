@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784();
 void *dungeonResolveAttackDamageAndEffects();

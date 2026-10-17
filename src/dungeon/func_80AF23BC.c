@@ -77,21 +77,21 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
                 if ((coordinate != origin->unk_026) || (coordinate < 0)) {
                     probe_result = ((s16)dungeonGetTileChebyshevDistance(origin, sprite_in));
                     actor_to_check = actor_in;
-                    if (probe_result >= 2) {
-                        goto final_check_call;
-                    }
-                    if (!(func_800A6D30(actor_in) & 7)) {
-                        func_80042B68(actor_in, 1);
+                    if (probe_result < 2) {
+                        if (!(func_800A6D30(actor_in) & 7)) {
+                            func_80042B68(actor_in, 1);
+                        }
+                        actor_to_check = actor_in;
                     }
                 } else {
                     if (!(func_800A6D30(origin) & 7)) {
                         func_80042B68(actor_in, 1);
                     }
+                    actor_to_check = actor_in;
                 }
+            } else {
+                actor_to_check = actor_in;
             }
-
-            actor_to_check = actor_in;
-final_check_call:
             if ((func_80042900(actor_to_check, 1) << 16) != 0) {
                 return;
             }

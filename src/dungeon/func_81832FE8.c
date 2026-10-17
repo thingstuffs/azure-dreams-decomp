@@ -16,7 +16,7 @@ typedef struct S_81832FE8_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_81832FE8_1;   /* temp_v1 in func_800247E8 */
+} S_81832FE8_1;
 
 /* Set flag 0x20 and apply a randomized effect to an eligible attached object. */
 void func_800247E8(S_81832FE8_0 *owner) {

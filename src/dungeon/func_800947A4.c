@@ -11,7 +11,7 @@ typedef struct S_80099F04_1 {
     s32 unk_14;
     u8 pad_18[0x44];
     s32 unk_5C;
-} S_80099F04_1;   /* var_s0 in dungeonProcessUnflaggedLinkedEntries */
+} S_80099F04_1;
 
 /* Walk the linked entries and process those without flag 0x4000. */
 void dungeonProcessUnflaggedLinkedEntries(s32 firstEntryBase) {

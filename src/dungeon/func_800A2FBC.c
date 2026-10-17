@@ -27,7 +27,7 @@ extern s32 D_800E3540;
 typedef struct S_800A871C_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800A871C_0;   /* temp_v1 in func_800A871C */
+} S_800A871C_0;
 
 typedef struct S_800A871C_1_pre {
     u16 unk_00;
@@ -68,58 +68,58 @@ typedef struct S_800A871C_4 {
 typedef struct S_800A871C_5 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_800A871C_5;   /* temp_a1 in func_800A871C */
+} S_800A871C_5;
 
 typedef struct S_800A871C_6 {
     s16 unk_00;
-} S_800A871C_6;   /* temp_table_y_derived in func_800A871C */
+} S_800A871C_6;
 
 typedef struct S_800A871C_7 {
     u8 unk_00;
-} S_800A871C_7;   /* (u8 *)((unsigned long)temp_a0_5 + (unsigned long)temp_table_x_2) in func_800A871C */
+} S_800A871C_7;
 
 typedef struct S_800A871C_8 {
     u8 unk_00;
-} S_800A871C_8;   /* temp_a0_6 in func_800A871C */
+} S_800A871C_8;
 
 typedef struct S_800A871C_9 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A871C_9;   /* temp_a1_2 in func_800A871C */
+} S_800A871C_9;
 
 typedef struct S_800A871C_11_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800A871C_11_pre;   /* the 0x14 bytes before temp_v0_5 in func_800A871C, addressed as temp_v0_5[-1] */
+} S_800A871C_11_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800A871C_11 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_800A871C_11;   /* temp_v0_5 in func_800A871C */
+} S_800A871C_11;
 
 typedef struct S_800A871C_12 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A871C_12;   /* temp_a1_3 in func_800A871C */
+} S_800A871C_12;
 
 typedef struct S_800A871C_13 {
     u8 unk_00;
-} S_800A871C_13;   /* (u8 *)((unsigned long)temp_a0_8 + (unsigned long)temp_table_x_3) in func_800A871C */
+} S_800A871C_13;
 
 typedef struct S_800A871C_14 {
     u8 unk_00;
-} S_800A871C_14;   /* (u8 *)((s8 *)dirStepY) + temp_a0_8 in func_800A871C */
+} S_800A871C_14;
 
 typedef struct S_800A871C_15 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800A871C_15;   /* temp_e_page in func_800A871C */
+} S_800A871C_15;
 
 typedef struct S_800A871C_16 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800A871C_16;   /* temp_flags_page in func_800A871C */
+} S_800A871C_16;
 
 typedef struct S_800A871C_17 {
     u8 pad_00[0x13];
@@ -129,18 +129,18 @@ typedef struct S_800A871C_17 {
     s32 unk_1C;
     u8 pad_20[0x28];
     s32 unk_48;
-} S_800A871C_17;   /* temp_v0_2 in func_800A871C */
+} S_800A871C_17;
 
 typedef struct S_800A871C_18 {
     u8 unk_00;
-} S_800A871C_18;   /* (u8 *)((unsigned long)temp_a0_2 + (unsigned long)temp_table_x_4) in func_800A871C */
+} S_800A871C_18;
 
 typedef struct S_800A871C_19 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_800A871C_19;   /* (*(void **)((u8 *)temp_s0 + (0x60))) in func_800A871C */
+} S_800A871C_19;
 
 typedef struct S_800A871C_20 {
     u8 pad_00[0x24];
@@ -163,7 +163,7 @@ typedef struct S_800A871C_21 {
 typedef struct S_800A871C_22 {
     u8 pad_00[0x124];
     s32 unk_124;
-} S_800A871C_22;   /* ((S_800A871C_15 *)temp_e_page)->unk_3D7C in func_800A871C */
+} S_800A871C_22;
 
 typedef struct S_800A871C_23 {
     s32 unk_00;
@@ -227,9 +227,9 @@ void func_800A871C(void *object, register void *motion, void *tile) {
     s32 height;
 
     object_data = object;
-    payload = (*(s32 **)((u8 *)object_data + (0x9C)));
+    payload = (((S_800A871C_1 *)object_data)->unk_9C);
     if ((payload == &D_80081484) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
-        (*(s32 **)((u8 *)object_data + (0x9C))) = &D_800E3540;
+        (((S_800A871C_1 *)object_data)->unk_9C) = &D_800E3540;
     }
     state = ((S_800A871C_1 *)object)->unk_A0;
     switch (state) {

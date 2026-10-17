@@ -60,7 +60,6 @@ typedef struct S_80024390_4 {
     void * unk_B68;
 } S_80024390_4;   /* recordCursor in cardBootFormatSavedSlotDetails */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 u8 *func_8003AD08(); /* extern */
 void *func_8004DA74(); /* extern */

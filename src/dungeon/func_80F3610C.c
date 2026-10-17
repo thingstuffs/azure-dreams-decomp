@@ -26,7 +26,7 @@ typedef struct S_8017390C_2 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017390C_2;   /* temp_s0 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_2;
 
 typedef struct S_8017390C_3 {
     s32 unk_00;
@@ -44,7 +44,7 @@ typedef struct S_8017390C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8017390C_4;   /* temp_v1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_4;
 
 typedef struct S_8017390C_5 {
     u8 pad_00[0x8];
@@ -53,7 +53,7 @@ typedef struct S_8017390C_5 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_8017390C_5;   /* temp_s1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_5;
 
 
 typedef struct {

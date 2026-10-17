@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #ifndef NULL
 #define NULL 0
@@ -8,6 +9,11 @@
 typedef struct FiveWords {
     s32 words[5];
 } FiveWords;
+
+typedef struct ObjectWithInitialWords {
+    ObjectNodeHeader header;
+    FiveWords initial_words;
+} ObjectWithInitialWords;
 
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
@@ -20,7 +26,7 @@ typedef struct S_808139C8_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_808139C8_0;   /* temp_a0 in func_808139C8 */
+} S_808139C8_0;
 
 typedef struct S_808139C8_1 {
     u8 pad_00[0x4];
@@ -34,7 +40,7 @@ typedef struct S_808139C8_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_808139C8_1;   /* temp_v1 in func_808139C8 */
+} S_808139C8_1;
 
 /* Creates an object and initializes its position and sprite data. */
 void func_808139C8(FiveWords *init_data, s32 y_position)
@@ -45,11 +51,11 @@ void func_808139C8(FiveWords *init_data, s32 y_position)
 
     object = func_800373DC(0x136);
     if (object != NULL) {
-        (*(FiveWords *)((u8 *)object + 0x20)) = *init_data;
-        (*(s32 *)((u8 *)object + 0x10)) = (s32)D_8052F2C8;
+        ((ObjectWithInitialWords *)object)->initial_words = *init_data;
+        ((ObjectNodeHeader *)object)->unk_10 = D_8052F2C8;
         func_8003BC18(object, D_8003C558);
-        position = (*(u8 * *)((u8 *)object + 8));
-        sprite = (*(u8 * *)((u8 *)object + 0xC));
+        position = ((ObjectNodeHeader *)object)->unk_08;
+        sprite = ((ObjectNodeHeader *)object)->unk_0C;
         ((S_808139C8_0 *)position)->unk_00 = 0x05380000;
         ((S_808139C8_0 *)position)->unk_04 = y_position;
         ((S_808139C8_0 *)position)->unk_08 = 0xFFE00000;

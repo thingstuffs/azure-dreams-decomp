@@ -30,7 +30,7 @@ typedef struct S_81876014_1 {
     s16 unk_0A;
     u8 pad_0C[0x90];
     s16 unk_9C;
-} S_81876014_1;   /* temp_s3 in dungeonUpdateEffectQuadAndCompletion */
+} S_81876014_1;
 
 typedef struct S_81876014_2 {
     s32 unk_00;
@@ -40,7 +40,7 @@ typedef struct S_81876014_2 {
 
 typedef struct S_81876014_3 {
     s32 unk_00;
-} S_81876014_3;   /* temp_v1_data in dungeonUpdateEffectQuadAndCompletion */
+} S_81876014_3;
 
 typedef struct S_81876014_4 {
     u8 pad_00[0xC];

@@ -11,7 +11,7 @@ typedef struct S_80173140_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80173140_0;   /* temp_v0 in dungeonCreateScriptedEncounterObject */
+} S_80173140_0;
 
 typedef struct S_80173140_1 {
     u8 pad_00[0x13];
@@ -22,12 +22,12 @@ typedef struct S_80173140_1 {
     s16 unk_92;
     u8 pad_94[0xC];
     s32 unk_A0;
-} S_80173140_1;   /* temp_s1 in dungeonCreateScriptedEncounterObject */
+} S_80173140_1;
 
 typedef struct S_80173140_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173140_2;   /* temp_a1 in dungeonCreateScriptedEncounterObject */
+} S_80173140_2;
 
 
 typedef struct S_80173140_4 {
@@ -39,7 +39,7 @@ typedef struct S_80173140_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { M2C_UNK * s; void * u; } unk_2C;   /* accessed as both */
-} S_80173140_4;   /* temp_s0 in dungeonCreateScriptedEncounterObject */
+} S_80173140_4;
 
 typedef struct S_80173140_5 {
     u8 pad_00[0xA];

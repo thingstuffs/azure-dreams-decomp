@@ -4,11 +4,10 @@
 #include "m2c_compat.h"
 
 
-
 typedef struct S_80019A34_0 {
     u8 unk_00;
     u8 unk_01;
-} S_80019A34_0;   /* temp_v0 in townCheckCallbackRecordBytes */
+} S_80019A34_0;
 
 
 /* Checks whether the callback's record matches the two expected bytes. */

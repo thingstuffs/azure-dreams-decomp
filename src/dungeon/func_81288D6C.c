@@ -19,6 +19,13 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0xA6];
+    u16 field_A6;
+} D800803DcFieldView_81288D6C;
+
 extern int abs(int);
 
 
@@ -128,17 +135,20 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
                 is_special = 1;
                 /* fallthrough */
             case 3:
-                goto kind3;
+                action_entry = (u8 *)actor + 0xE;
+                break;
             case 6:
                 is_special = 1;
                 /* fallthrough */
             case 2:
-                goto kind2;
+                action_entry = (u8 *)actor + 0xB;
+                break;
             case 5:
                 is_special = 1;
                 /* fallthrough */
             case 1:
-                goto kind1;
+                action_entry = (u8 *)actor + 8;
+                break;
             default:
                 action_entry = 0;
                 break;
@@ -147,15 +157,12 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
             kind = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
             switch (kind) {
             case 3:
-kind3:
                 action_entry = (u8 *)actor + 0xE;
                 break;
             case 2:
-kind2:
                 action_entry = (u8 *)actor + 0xB;
                 break;
             case 1:
-kind1:
                 action_entry = (u8 *)actor + 8;
                 break;
             default:
@@ -171,40 +178,36 @@ kind1:
                 if (use_player_target) {
                     target_link = D_800803DC;
                     ((S_8017256C_1 *)actor)->unk_60.p = target_link;
-                    goto state0_linked;
-                }
-            }
-
-
-            if (D_8006CC74[*action_entry].kind == 2) {
-                target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
-                if (target_link != 0) {
-state0_linked:
                     kind = (s32)((S_8017256C_2_pre *)target_link)[-1].unk_00;
 
                     ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
                     ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
-                    goto state0_copy;
+                } else if (D_8006CC74[*action_entry].kind == 2) {
+                    target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
+                    if (target_link != 0) {
+                        kind = (s32)((S_8017256C_2_pre *)target_link)[-1].unk_00;
+
+                        ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
+                        ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
+                    }
+                } else {
+                    s32 x;
+                    s32 abs_x;
+                    s32 abs_y;
+                    s32 y;
+
+                    ((S_8017256C_1 *)actor)->unk_60.p = func_8009F394(
+                        actor,
+                        ((S_8017256C_4 *)sprite)->unk_24,
+                        ((S_8017256C_4 *)sprite)->unk_25,
+                        ((S_8017256C_1 *)actor)->unk_2A,
+                        0x10);
+                    abs_x = abs(((S_8017256C_1 *)actor)->unk_72.s);
+                    abs_y = abs(((S_8017256C_1 *)actor)->unk_73.s);
+                    ((S_8017256C_1 *)actor)->unk_72.u = abs_x;
+                    ((S_8017256C_1 *)actor)->unk_73.u = abs_y;
                 }
-            } else {
-                s32 x;
-                s32 abs_x;
-                s32 abs_y;
-                s32 y;
-
-                ((S_8017256C_1 *)actor)->unk_60.p = func_8009F394(
-                    actor,
-                    ((S_8017256C_4 *)sprite)->unk_24,
-                    ((S_8017256C_4 *)sprite)->unk_25,
-                    ((S_8017256C_1 *)actor)->unk_2A,
-                    0x10);
-                abs_x = abs(((S_8017256C_1 *)actor)->unk_72.s);
-                abs_y = abs(((S_8017256C_1 *)actor)->unk_73.s);
-                ((S_8017256C_1 *)actor)->unk_72.u = abs_x;
-                ((S_8017256C_1 *)actor)->unk_73.u = abs_y;
             }
-
-state0_copy:
             if (func_800A8158(actor, action_entry, is_special, (u8 *)action + 0x98) == 0) {
                 return;
             }
@@ -220,7 +223,7 @@ state0_copy:
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         func_800A17D4(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)D_800803DC + (0xA6)))--;
+        ((D800803DcFieldView_81288D6C *)D_800803DC)->field_A6--;
         func_800A3784(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
         ((S_8017256C_0 *)action)->unk_8C = &D_80164514;
@@ -263,7 +266,7 @@ state0_copy:
         ((S_8017256C_0 *)action)->unk_96 = 0;
         ((S_8017256C_0 *)action)->unk_9B++;
         func_800A4398(0x703);
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80166EDC;
+        (((S_8017256C_4 *)sprite)->unk_2C) = D_80166EDC;
         func_80047320(
             sprite,
             D_80166EDC[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -314,7 +317,7 @@ state0_copy:
         if (((S_8017256C_4 *)sprite)->unk_2C == D_80166E8C) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80166E8C;
+        (((S_8017256C_4 *)sprite)->unk_2C) = D_80166E8C;
         func_80047320(
             sprite,
             D_80166E8C[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],

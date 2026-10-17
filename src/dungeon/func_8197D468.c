@@ -22,7 +22,7 @@ typedef struct S_8197D468_0 {
 typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_8197D468_1;   /* temp_v0 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_1;
 
 typedef struct S_8197D468_2 {
     M2C_UNK * unk_00;
@@ -59,7 +59,7 @@ typedef struct S_8197D468_5 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_8197D468_5;   /* temp_v0_2 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_5;
 
 typedef struct S_8197D468_6 {
     u8 * unk_00;
@@ -74,13 +74,13 @@ typedef struct S_8197D468_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8197D468_6;   /* temp_s0 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_6;
 
 
 typedef struct S_8197D468_8 {
     u8 pad_00[0x4C];
     s16 unk_4C;
-} S_8197D468_8;   /* temp_v0_4 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_8;
 
 typedef struct S_8197D468_9 {
     s32 unk_00;
@@ -89,7 +89,7 @@ typedef struct S_8197D468_9 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8197D468_9;   /* ((S_8197D468_5 *)temp_v0_2)->unk_08 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_9;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

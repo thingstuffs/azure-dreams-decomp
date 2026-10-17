@@ -4,22 +4,22 @@
 typedef struct S_800A6F48_12 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A6F48_12;   /* temp_v0_2 in townCreatePairedOffsetEffects */
+} S_800A6F48_12;
 
 typedef struct S_800A6F48_13 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800A6F48_13;   /* temp_v0_3 in townCreatePairedOffsetEffects */
+} S_800A6F48_13;
 
 typedef struct S_800A6F48_14 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800A6F48_14;   /* ((S_800A6F48_12 *)temp_v0_2)->unk_08 in townCreatePairedOffsetEffects */
+} S_800A6F48_14;
 
 typedef struct S_800A6F48_15 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800A6F48_15;   /* ((S_800A6F48_13 *)temp_v0_3)->unk_08 in townCreatePairedOffsetEffects */
+} S_800A6F48_15;
 
 
 void *townCreatePresetSpriteObject();                         /* extern */
@@ -50,43 +50,43 @@ typedef struct S_800A6F48_3 {
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_800A6F48_3;   /* temp_v1 in townCreatePairedOffsetEffects */
+} S_800A6F48_3;
 
 typedef struct S_800A6F48_4 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0xA4];
     s16 unk_B0;
-} S_800A6F48_4;   /* temp_v0_2 in townCreatePairedOffsetEffects */
+} S_800A6F48_4;
 
 typedef struct S_800A6F48_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800A6F48_5;   /* temp_v1_2 in townCreatePairedOffsetEffects */
+} S_800A6F48_5;
 
 typedef struct S_800A6F48_6 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800A6F48_6;   /* temp_v1_3 in townCreatePairedOffsetEffects */
+} S_800A6F48_6;
 
 typedef struct S_800A6F48_7 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_800A6F48_7;   /* temp_v1_4 in townCreatePairedOffsetEffects */
+} S_800A6F48_7;
 
 typedef struct S_800A6F48_8 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0xA4];
     s16 unk_B0;
-} S_800A6F48_8;   /* temp_v0_3 in townCreatePairedOffsetEffects */
+} S_800A6F48_8;
 
 typedef struct S_800A6F48_9 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800A6F48_9;   /* temp_v1_5 in townCreatePairedOffsetEffects */
+} S_800A6F48_9;
 
 typedef struct S_800A6F48_10 {
     u8 pad_00[0x50];

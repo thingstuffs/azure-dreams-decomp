@@ -1,7 +1,6 @@
 #include "modules/ovmovie_libpress.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 

@@ -176,7 +176,7 @@ void dungeonAdvanceItemActionAndCleanup(void *action, EntityRec *motion, void *s
         ((S_80173560_0 *)action)->unk_9B.n++;
     } else {
         ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
-        *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
+        D_80175F6E &= 0xFF7F;
         dungeonCreateActorLinkedEffect(actor);
         ((S_80173560_0 *)action)->unk_9B.n++;
     }

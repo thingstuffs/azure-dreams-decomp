@@ -3,7 +3,6 @@
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 

@@ -17,12 +17,12 @@ typedef struct S_801715D0_1 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_801715D0_1;   /* temp_v0 in dungeonCreateActionOffsetObject */
+} S_801715D0_1;
 
 typedef struct S_801715D0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_801715D0_2;   /* temp_v1 in dungeonCreateActionOffsetObject */
+} S_801715D0_2;
 
 typedef struct S_801715D0_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_801715D0_3 {
     u8 pad_28[0x30];
     s8 unk_58;
     s8 unk_59;
-} S_801715D0_3;   /* temp_s3 in dungeonCreateActionOffsetObject */
+} S_801715D0_3;
 
 typedef struct S_801715D0_4 {
     u8 pad_00[0x2];
@@ -39,7 +39,7 @@ typedef struct S_801715D0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801715D0_4;   /* temp_a0 in dungeonCreateActionOffsetObject */
+} S_801715D0_4;
 
 typedef struct S_801715D0_5 {
     u8 pad_00[0x2];
@@ -48,12 +48,12 @@ typedef struct S_801715D0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801715D0_5;   /* temp_s2 in dungeonCreateActionOffsetObject */
+} S_801715D0_5;
 
 typedef struct S_801715D0_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801715D0_6;   /* temp_s1 in dungeonCreateActionOffsetObject */
+} S_801715D0_6;
 
 typedef struct S_801715D0_7 {
     s16 unk_00;
@@ -69,7 +69,7 @@ typedef struct S_801715D0_8 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_801715D0_8;   /* temp_v1_2 in dungeonCreateActionOffsetObject */
+} S_801715D0_8;
 
 /* Creates and initializes an object offset in its owner's facing direction. */
 void dungeonCreateActionOffsetObject(void) {

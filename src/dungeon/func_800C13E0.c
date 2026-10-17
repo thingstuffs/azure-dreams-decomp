@@ -35,7 +35,7 @@ typedef struct S_800C6B40_1 {
         struct { u8 pad[0x2]; u8 v; } at02;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_08;   /* overlapping accesses */
-} S_800C6B40_1;   /* var_s3 in dungeonDrawSpritePartsAsQuadGrid */
+} S_800C6B40_1;
 
 typedef struct {
     u8 pad_00[0x3];

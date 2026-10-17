@@ -16,7 +16,7 @@ typedef struct S_800CE4E8_0 {
     u8 pad_6A[0x2];
     s16 unk_6C;
     union { u16 s; s16 u; } unk_6E;   /* accessed as both */
-} S_800CE4E8_0;   /* temp_s3 in dungeonCreateDualGridTrapEffect */
+} S_800CE4E8_0;
 
 typedef struct S_800CE4E8_1 {
     u8 pad_00[0xA];

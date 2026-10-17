@@ -5,17 +5,17 @@
 typedef struct S_800B6094_4 {
     u8 pad_00[0x38];
     void * unk_38;
-} S_800B6094_4;   /* temp_v1 in townPopulateDisplayRowWithIcon */
+} S_800B6094_4;
 
 typedef struct S_800B6094_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B6094_5;   /* ((S_800B6094_4 *)temp_v1)->unk_38 in townPopulateDisplayRowWithIcon */
+} S_800B6094_5;
 
 typedef struct S_800B6094_6 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800B6094_6;   /* ((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04 in townPopulateDisplayRowWithIcon */
+} S_800B6094_6;
 
 
 s32 runtimeTestTableBytePattern();
@@ -38,13 +38,13 @@ typedef struct S_800B6094_1 {
     s32 unk_2C;
     u8 pad_30[0x8];
     s32 * unk_38;
-} S_800B6094_1;   /* temp_s1 in townPopulateDisplayRowWithIcon */
+} S_800B6094_1;
 
 typedef struct S_800B6094_2 {
     s32 unk_00;
     u8 pad_04[0xC];
     u8 unk_10;
-} S_800B6094_2;   /* temp_s0 in townPopulateDisplayRowWithIcon */
+} S_800B6094_2;
 
 typedef struct S_800B6094_3 {
     u8 pad_00[0x4];
@@ -53,7 +53,7 @@ typedef struct S_800B6094_3 {
     s16 unk_0A;
     u8 pad_0C[0x2C];
     void * unk_38;
-} S_800B6094_3;   /* temp_v1 in townPopulateDisplayRowWithIcon */
+} S_800B6094_3;
 
 /* Populate a display row with entry text and a positioned icon. */
 void townPopulateDisplayRowWithIcon(void *entry_data, s32 display_base, s32 row_index) {

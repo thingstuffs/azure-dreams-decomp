@@ -53,7 +53,13 @@ void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param
         mode_table = D_801739B8;
         break;
     default:
-        goto call_common;
+        if (func_800AC82C(object, update_param, state, input) != 0) {
+            if ((dungeonCheckActorFloorTrap(state, input) << 0x10) > 0) {
+                object->field_8C = D_8016A36C;
+            }
+        }
+        return;
+        return;
     }
     if (current_table != mode_table) {
         state->field_2C = mode_table;
@@ -61,7 +67,6 @@ void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param
             + (u32) mode_table), 0);
     }
 
-call_common:
     if (func_800AC82C(object, update_param, state, input) != 0) {
         if ((dungeonCheckActorFloorTrap(state, input) << 0x10) > 0) {
             object->field_8C = D_8016A36C;

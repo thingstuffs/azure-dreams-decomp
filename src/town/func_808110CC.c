@@ -128,12 +128,12 @@ state0_finish:
         }
         ((S_8052BCCC_0 *)obj)->unk_A2 = a0;
         ((S_8052BCCC_0 *)obj)->unk_A6 = a0;
-        (*(s32 *)((u8 *)(motion) + (0x10))) = (s32)0xFFC00000 / (*(s16 *)((u8 *)(obj) + (0xA2)));
+        ((S_8052BCCC_1 *)motion)->unk_10 = (s32)0xFFC00000 / (*(s16 *)((u8 *)(obj) + (0xA2)));
         if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
             ((S_8052BCCC_3 *)out)->unk_14 |= 1;
         if ((*(u16 *)((u8 *)(obj) + (0xA0))) & 1) {
             ((S_8052BCCC_3 *)out)->unk_06 = -256;
-            (*(s32 *)((u8 *)(motion) + (0x10))) = 0 - (*(s32 *)((u8 *)(motion) + (0x10)));
+            ((S_8052BCCC_1 *)motion)->unk_10 = 0 - ((S_8052BCCC_1 *)motion)->unk_10;
         } else {
             ((S_8052BCCC_3 *)out)->unk_06 = -64;
             func_80034A1C(out, D_8028E600, 0);
@@ -146,13 +146,13 @@ state0_finish:
     {
         s32 case1_value;
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
-            (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
+            ((S_8052BCCC_1 *)motion)->unk_10 = 0;
             phase_u16 = ((S_8052BCCC_0 *)obj)->unk_A6;
             case1_value = (s32)0x800000 / (s16)(phase_u16 * 2);
             ((S_8052BCCC_0 *)obj)->unk_A2 = phase_u16 * 2;
-            (*(s32 *)((u8 *)(motion) + (0xC))) = case1_value;
+            ((S_8052BCCC_1 *)motion)->unk_0C = case1_value;
             if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
-                (*(s32 *)((u8 *)(motion) + (0xC))) = 0 - case1_value;
+                ((S_8052BCCC_1 *)motion)->unk_0C = 0 - case1_value;
             func_80034A1C(out, D_8028E590, 0);
             ((S_8052BCCC_0 *)obj)->unk_68 = 2;
             break;
@@ -173,11 +173,11 @@ state0_finish:
                     a0 = value;
                 else
                     a0 = 0 - value;
-                (*(s32 *)((u8 *)(motion) + (0xC))) = a0;
-                (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
+                ((S_8052BCCC_1 *)motion)->unk_0C = a0;
+                ((S_8052BCCC_1 *)motion)->unk_10 = 0;
             } else {
-                (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
-                (*(s32 *)((u8 *)(motion) + (0x10))) = value;
+                ((S_8052BCCC_1 *)motion)->unk_0C = 0;
+                ((S_8052BCCC_1 *)motion)->unk_10 = value;
             }
             ((S_8052BCCC_0 *)obj)->unk_68 = 3;
             break;
@@ -187,8 +187,8 @@ state0_finish:
 
     case 3:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
-            (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
-            (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
+            ((S_8052BCCC_1 *)motion)->unk_10 = 0;
+            ((S_8052BCCC_1 *)motion)->unk_0C = 0;
             ((S_8052BCCC_1 *)motion)->unk_04 += (s32)0xFFFC0000;
             (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
             ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
@@ -280,11 +280,11 @@ state0_finish:
                 a0 = a1;
                 if ((s16)flag != 1)
                     a0 = 0x80000;
-                (*(s32 *)((u8 *)(motion) + (0xC))) = a0;
-                (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
+                ((S_8052BCCC_1 *)motion)->unk_0C = a0;
+                ((S_8052BCCC_1 *)motion)->unk_10 = 0;
             } else {
-                (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
-                (*(s32 *)((u8 *)(motion) + (0x10))) = a1;
+                ((S_8052BCCC_1 *)motion)->unk_0C = 0;
+                ((S_8052BCCC_1 *)motion)->unk_10 = a1;
             }
             ((S_8052BCCC_0 *)obj)->unk_68 = 8;
         }
@@ -326,17 +326,17 @@ state0_finish:
     func_8003EA54(out);
     if ((((S_8052BCCC_0 *)obj)->unk_A4 & 2) && func_80252550(D_8053013C, motion) != 0) {
         ((S_8052BCCC_1 *)motion)->unk_14 = 0;
-        (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
-        (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
+        ((S_8052BCCC_1 *)motion)->unk_10 = 0;
+        ((S_8052BCCC_1 *)motion)->unk_0C = 0;
         {
             void *tail_aux = (*(void **)((u8 *)(obj) + (0xAC)));
             (*(u16 *)((u8 *)(tail_aux) + (6))) += 1;
         }
         (*(u16 *)((u8 *)(obj) + (0xA4))) &= 0xFFFD;
         (*(s32 *)((u8 *)(out) + (0))) = D_8028E568;
-        (*(s32 *)((u8 *)(out) + (8))) = *(s32 *)D_8028E56C;
-        (*(s8 *)((u8 *)(out) + (4))) = 0;
-        (*(s8 *)((u8 *)(out) + (5))) = 0;
+        ((S_8052BCCC_3 *)out)->unk_08 = *(s32 *)D_8028E56C;
+        ((S_8052BCCC_3 *)out)->unk_04 = 0;
+        ((S_8052BCCC_3 *)out)->unk_05 = 0;
         (*(u16 *)((u8 *)(obj) + (0xA2))) = 14;
         (*(s16 *)((u8 *)(obj) + (0x68))) = 9;
     }

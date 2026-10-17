@@ -4,12 +4,12 @@
 typedef struct S_800249B4_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800249B4_3;   /* temp_v0 in dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments */
+} S_800249B4_3;
 
 typedef struct S_800249B4_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800249B4_4;   /* ((S_800249B4_3 *)temp_v0)->unk_04 in dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments */
+} S_800249B4_4;
 
 
 extern void *func_8004DA74(void *a0, u8 *a1, s32 a2);
@@ -18,17 +18,17 @@ extern u8 *D_800283EC[];
 typedef struct S_800249B4_0 {
     u8 pad_00[0xB4C];
     void * unk_B4C;
-} S_800249B4_0;   /* var_a1 in dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments */
+} S_800249B4_0;
 
 typedef struct S_800249B4_1 {
     s32 unk_00;
     void * unk_04;
-} S_800249B4_1;   /* temp_v0 in dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments */
+} S_800249B4_1;
 
 typedef struct S_800249B4_2 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800249B4_2;   /* temp_v1 in dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments */
+} S_800249B4_2;
 
 /* Initialize two resource buffers and assign them to vertically spaced entries. */
 void dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments(void *context) {

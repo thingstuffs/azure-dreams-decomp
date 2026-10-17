@@ -15,7 +15,7 @@ typedef struct S_800D4954_0 {
 typedef struct S_800D4954_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800D4954_1_pre;   /* the 0x18 bytes before temp_a0 in dungeonUpdateAttachedEffect, addressed as temp_a0[-1] */
+} S_800D4954_1_pre;
 
 typedef struct S_800D4954_2 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_800D4954_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D4954_3;   /* temp_v1 in dungeonUpdateAttachedEffect */
+} S_800D4954_3;
 
 typedef struct S_800D4954_4 {
     u8 pad_00[0xC];
@@ -49,7 +49,7 @@ typedef struct S_800D4954_4 {
 typedef struct S_800D4954_5 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800D4954_5;   /* temp_s1 in dungeonUpdateAttachedEffect */
+} S_800D4954_5;
 
 
 extern s32 func_80042900(void *, s32);

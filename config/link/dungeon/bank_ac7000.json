@@ -1,0 +1,233 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/bank_ac7000",
+ "container": "dungeon",
+ "foff": "0xAC7000",
+ "size": "0x6000",
+ "vma": "0x80164800",
+ "layout": "bank_abb000_family",
+ "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F69D800: img_ac7250_80164a50, img_ac9a34_80167234, img_ac9e88_80167688; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
+ "entries": [
+  {
+   "row": "dungeon/func_80AA7250",
+   "tu": "src/dungeon/func_809C9228.c",
+   "home": "dungeon/func_809C9228",
+   "foff": "0xAC7250",
+   "vma": "0x80164A50",
+   "size": 1068
+  },
+  {
+   "row": "dungeon/func_80AA7DB4",
+   "tu": "src/dungeon/func_80A71D70.c",
+   "home": "dungeon/func_80A71D70",
+   "foff": "0xAC7DB4",
+   "vma": "0x801655B4",
+   "size": 580
+  },
+  {
+   "row": "dungeon/func_80AA8740",
+   "tu": "src/dungeon/func_809CA53C.c",
+   "home": "dungeon/func_809CA53C",
+   "foff": "0xAC8740",
+   "vma": "0x80165F40",
+   "size": 100
+  },
+  {
+   "row": "dungeon/func_80AA87A4",
+   "tu": "src/dungeon/func_809CA5A0.c",
+   "home": "dungeon/func_809CA5A0",
+   "foff": "0xAC87A4",
+   "vma": "0x80165FA4",
+   "size": 452
+  },
+  {
+   "row": "dungeon/func_80AA8968",
+   "tu": "src/dungeon/func_809CA764.c",
+   "home": "dungeon/func_809CA764",
+   "foff": "0xAC8968",
+   "vma": "0x80166168",
+   "size": 280
+  },
+  {
+   "row": "dungeon/func_80AA8A80",
+   "tu": "src/dungeon/func_80976E28.c",
+   "home": "dungeon/func_80976E28",
+   "foff": "0xAC8A80",
+   "vma": "0x80166280",
+   "size": 324
+  },
+  {
+   "row": "dungeon/func_80AA8BC4",
+   "tu": "src/dungeon/func_800D4124.c",
+   "home": "dungeon/func_800D4124",
+   "foff": "0xAC8BC4",
+   "vma": "0x801663C4",
+   "size": 152
+  },
+  {
+   "row": "dungeon/func_80AA8FCC",
+   "tu": "src/dungeon/func_800CEE70.c",
+   "home": "dungeon/func_800CEE70",
+   "foff": "0xAC8FCC",
+   "vma": "0x801667CC",
+   "size": 100
+  },
+  {
+   "row": "dungeon/func_80AA9030",
+   "tu": "src/dungeon/func_80A9D030.c",
+   "home": "dungeon/func_80A9D030",
+   "foff": "0xAC9030",
+   "vma": "0x80166830",
+   "size": 1208
+  },
+  {
+   "row": "dungeon/func_80AA94E8",
+   "tu": "src/dungeon/func_80A9D4E8.c",
+   "home": "dungeon/func_80A9D4E8",
+   "foff": "0xAC94E8",
+   "vma": "0x80166CE8",
+   "size": 1356
+  },
+  {
+   "row": "dungeon/func_80AA9EA8",
+   "tu": "src/dungeon/func_800AD90C.c",
+   "home": "dungeon/func_800AD90C",
+   "foff": "0xAC9EA8",
+   "vma": "0x801676A8",
+   "size": 32
+  },
+  {
+   "row": "dungeon/func_80AA9EC8",
+   "tu": "src/dungeon/func_800AD92C.c",
+   "home": "dungeon/func_800AD92C",
+   "foff": "0xAC9EC8",
+   "vma": "0x801676C8",
+   "size": 32
+  },
+  {
+   "row": "dungeon/func_80AA9EE8",
+   "tu": "src/dungeon/func_80F89D44.c",
+   "home": "dungeon/func_80F89D44",
+   "foff": "0xAC9EE8",
+   "vma": "0x801676E8",
+   "size": 56
+  },
+  {
+   "row": "dungeon/func_80AAA3E4",
+   "tu": "src/dungeon/func_809CBEF4.c",
+   "home": "dungeon/func_809CBEF4",
+   "foff": "0xACA3E4",
+   "vma": "0x80167BE4",
+   "size": 828
+  },
+  {
+   "row": "dungeon/func_80AAA720",
+   "tu": "src/dungeon/func_809A2D74.c",
+   "home": "dungeon/func_809A2D74",
+   "foff": "0xACA720",
+   "vma": "0x80167F20",
+   "size": 200
+  },
+  {
+   "row": "dungeon/func_80AAA7E8",
+   "tu": "src/dungeon/func_80F8A600.c",
+   "home": "dungeon/func_80F8A600",
+   "foff": "0xACA7E8",
+   "vma": "0x80167FE8",
+   "size": 100
+  },
+  {
+   "row": "dungeon/func_80AAA84C",
+   "tu": "src/dungeon/func_800ADA84.c",
+   "home": "dungeon/func_800ADA84",
+   "foff": "0xACA84C",
+   "vma": "0x8016804C",
+   "size": 56
+  },
+  {
+   "row": "dungeon/func_80AAA884",
+   "tu": "src/dungeon/func_800ADABC.c",
+   "home": "dungeon/func_800ADABC",
+   "foff": "0xACA884",
+   "vma": "0x80168084",
+   "size": 56
+  },
+  {
+   "row": "dungeon/func_80AAA8BC",
+   "tu": "src/dungeon/func_800ADAF4.c",
+   "home": "dungeon/func_800ADAF4",
+   "foff": "0xACA8BC",
+   "vma": "0x801680BC",
+   "size": 56
+  },
+  {
+   "row": "dungeon/func_80AAA8F4",
+   "tu": "src/dungeon/func_809F6D74.c",
+   "home": "dungeon/func_809F6D74",
+   "foff": "0xACA8F4",
+   "vma": "0x801680F4",
+   "size": 140
+  },
+  {
+   "row": "dungeon/func_80AAA980",
+   "tu": "src/dungeon/func_80A9E980.c",
+   "home": "dungeon/func_80A9E980",
+   "foff": "0xACA980",
+   "vma": "0x80168180",
+   "size": 80
+  },
+  {
+   "row": "dungeon/func_80AAAB18",
+   "tu": "src/dungeon/func_80A9EB18.c",
+   "home": "dungeon/func_80A9EB18",
+   "foff": "0xACAB18",
+   "vma": "0x80168318",
+   "size": 164
+  },
+  {
+   "row": "dungeon/func_80AAABBC",
+   "tu": "src/dungeon/func_80A9EBBC.c",
+   "home": "dungeon/func_80A9EBBC",
+   "foff": "0xACABBC",
+   "vma": "0x801683BC",
+   "size": 180
+  },
+  {
+   "row": "dungeon/func_80AAAC70",
+   "tu": "src/dungeon/func_809F7148.c",
+   "home": "dungeon/func_809F7148",
+   "foff": "0xACAC70",
+   "vma": "0x80168470",
+   "size": 172
+  },
+  {
+   "row": "dungeon/func_80AAAD1C",
+   "tu": "src/dungeon/func_809F71F4.c",
+   "home": "dungeon/func_809F71F4",
+   "foff": "0xACAD1C",
+   "vma": "0x8016851C",
+   "size": 300
+  }
+ ],
+ "symbols": {
+  "0x800B2A60": "0x80164E7C",
+  "0x800D4494": "0x80164E7C",
+  "0x800D8C64": "0x80164E7C",
+  "0x80170E54": "0x80164E7C",
+  "0x801710EC": "0x80164E7C",
+  "0x80171138": "0x80164E7C",
+  "0x80171C34": "0x801657F8",
+  "0x80171EFC": "0x80165F40",
+  "0x80173A30": "0x80167F20",
+  "0x80173C7C": "0x80168C3C",
+  "0x80173C8C": "0x80168C4C",
+  "0x80173CD4": "0x80168C84",
+  "0x80173CDC": "0x80168C8C",
+  "0x80173CEC": "0x80168C94",
+  "0x80174138": "0x80168C2C",
+  "0x80175218": "0x80168D14",
+  "0x80175220": "0x80168D1C",
+  "0x80175E40": "0x80168C2C",
+  "0x80175EA0": "0x80168C8C"
+ }
+}

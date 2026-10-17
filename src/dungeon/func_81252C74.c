@@ -2,7 +2,6 @@
 #include "shared/dungeon_status.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 dungeonAdvanceStatusTimers();
 s32 dungeonUpdateActorMovementToTile();

@@ -20,7 +20,7 @@ typedef struct S_800D4AB0_0 {
     s16 unk_5C;
     u8 pad_5E[0x2A];
     void * unk_88;
-} S_800D4AB0_0;   /* temp_v1 in func_800D4AB0 */
+} S_800D4AB0_0;
 
 
 typedef struct S_800D4AB0_2 {
@@ -37,7 +37,7 @@ typedef struct S_800D4AB0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800D4AB0_2;   /* temp_a3 in func_800D4AB0 */
+} S_800D4AB0_2;
 
 typedef struct S_800D4AB0_3 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_800D4AB0_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D4AB0_3;   /* temp_a0 in func_800D4AB0 */
+} S_800D4AB0_3;
 
 typedef struct S_800D4AB0_4 {
     u8 pad_00[0x2];
@@ -55,7 +55,7 @@ typedef struct S_800D4AB0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D4AB0_4;   /* temp_v1_2 in func_800D4AB0 */
+} S_800D4AB0_4;
 
 typedef struct S_800D4AB0_5_pre {
     void * unk_00;
@@ -76,18 +76,18 @@ void func_800D4AB0(Rec_func_800247B8_arg0 *owner) {
         effect_state->unk_5A = 0x78;
         effect_state->unk_5C = 0x78;
         effect_state->unk_88 = owner->unk_88;
-        (*(s32 * *)((u8 *)effect + 0x10)) = &D_800D4954;
+        ((ObjectNodeHeader *)effect)->unk_10 = &D_800D4954;
         func_8004491C(effect, func_80045340);
-        render_data = (*(void * *)((u8 *)effect + 0xC));
+        render_data = ((ObjectNodeHeader *)effect)->unk_0C;
         render_data->unk_10 = 0x60;
         render_data->unk_06 = 0;
         render_data->unk_14 = render_data->unk_14 | 0xC;
         source_position = ((S_800D4AB0_5_pre *)(owner->unk_88))[-1].unk_00;
-        position = (*(void * *)((u8 *)effect + 0x8));
+        position = ((ObjectNodeHeader *)effect)->unk_08;
         position->unk_02 = source_position->unk_02;
         position->unk_06 = source_position->unk_06;
         position->unk_0A = source_position->unk_0A - 0x32;
-        render_data = (*(void * *)((u8 *)effect + 0xC));
+        render_data = ((ObjectNodeHeader *)effect)->unk_0C;
         render_data->unk_0E = 0x80;
         render_data->unk_0D = 0x80;
         render_data->unk_0C = 0x80;

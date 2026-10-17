@@ -94,7 +94,7 @@ typedef struct S_80174704_3 {
     u8 unk_A8;
     u8 unk_A9;
     u8 unk_AA;
-} S_80174704_3;   /* var_s0 in dungeonAdvanceActorTransitionReplacement */
+} S_80174704_3;
 
 typedef struct S_80174704_4 {
     u8 unk_00;
@@ -128,7 +128,7 @@ typedef struct S_80174704_10 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80174704_10;   /* ((S_80174704_3 *)var_s0)->unk_08 in dungeonAdvanceActorTransitionReplacement */
+} S_80174704_10;
 
 typedef struct S_80174704_11 {
     u8 pad_00[0x2A];

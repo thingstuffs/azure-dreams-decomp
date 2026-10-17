@@ -2,6 +2,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct { u16 flags; } AnimationFieldView_813374E8Prefix;
+
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -153,7 +157,7 @@ void dungeonEmitMultiFormRingGeometry(void *animation, s32 *origin, void *color)
         break;
 
     case 5:
-        (*(u16 *)((u8 *)animation + -2)) |= 0x8000;
+        (((AnimationFieldView_813374E8Prefix *)animation)[-1].flags) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
     }

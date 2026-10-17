@@ -18,11 +18,11 @@ extern s32 D_80029498;
 typedef struct S_80025198_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80025198_0;   /* temp_v0 in dungeonAllocateItemObject */
+} S_80025198_0;
 
 typedef struct S_80025198_1_pre {
     u16 unk_00;
-} S_80025198_1_pre;   /* the 0x2 bytes before temp_s2 in dungeonAllocateItemObject, addressed as temp_s2[-1] */
+} S_80025198_1_pre;
 
 typedef struct S_80025198_1 {
     u8 pad_00[0x4];
@@ -38,28 +38,28 @@ typedef struct S_80025198_1 {
     s32 unk_2C;
     s32 unk_30;
     s32 unk_34;
-} S_80025198_1;   /* temp_s2 in dungeonAllocateItemObject */
+} S_80025198_1;
 
 typedef struct S_80025198_2 {
     u8 unk_00;
     u8 unk_01;
-} S_80025198_2;   /* temp_a1 in dungeonAllocateItemObject */
+} S_80025198_2;
 
 typedef struct S_80025198_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_80025198_3;   /* temp_s0 in dungeonAllocateItemObject */
+} S_80025198_3;
 
 typedef struct S_80025198_4 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80025198_4;   /* var_v1 in dungeonAllocateItemObject */
+} S_80025198_4;
 
 typedef struct S_80025198_5 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80025198_5;   /* temp_s5 in dungeonAllocateItemObject */
+} S_80025198_5;
 
 /* Allocate and initialize an object, cleaning up if any required resource is missing. */
 void *dungeonAllocateItemObject(s32 value_00, s32 value_10, s32 value_18, void *descriptor, s32 setup_arg) {

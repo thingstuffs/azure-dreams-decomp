@@ -13,7 +13,7 @@ typedef struct S_8008C610_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C610_1;   /* temp_s0 in dungeonEvaluateSummedPositionMinusYOffset */
+} S_8008C610_1;
 
 /* Evaluates the summed position and subtracts the offset's integer Y component. */
 s16 dungeonEvaluateSummedPositionMinusYOffset(S_8008C610_0 *base_pos, s32 offsets_addr, s32 offset_index) {

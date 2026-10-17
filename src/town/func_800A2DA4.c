@@ -8,7 +8,7 @@ void townHandleShiftEntriesLeftUntilFreeEntryLimitClearTail();                  
 typedef struct S_800A0504_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800A0504_0;   /* temp_v0 in townRunTheFollowUpActionHasEligibleTypePassesCheck */
+} S_800A0504_0;
 
 /* Run the follow-up action when the current record has an eligible type and passes the check. */
 void townRunTheFollowUpActionHasEligibleTypePassesCheck(s32 check_value) {

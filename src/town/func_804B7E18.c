@@ -23,5 +23,5 @@ s32 townProcessSceneStatusActions(void *object, s32 value)
 }
 
 /* MECHANISM: A 24-byte frame holds arg0 in the sole saved register s0 across
-   func_8001611C; explicit goto blocks preserve retail's nonzero-first layout.
+   func_8001611C; explicit jump blocks preserve retail's nonzero-first layout.
    The two arms merge at one literal-zero epilogue, with no phantom tail call. */

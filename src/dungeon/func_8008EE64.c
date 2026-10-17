@@ -5,12 +5,12 @@
 typedef struct S_800945C4_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800945C4_0;   /* temp_a0 + temp_v0 in dungeonSetLinkedActorPendingHalfword */
+} S_800945C4_0;
 
 typedef struct S_800945C4_1 {
     u8 pad_00[0x46];
     s16 unk_46;
-} S_800945C4_1;   /* ((S_800945C4_0 *)(temp_a0 + temp_v0))->unk_AC in dungeonSetLinkedActorPendingHalfword */
+} S_800945C4_1;
 
 
 /* Store the value with bit 15 set in the indexed entry's linked record. */

@@ -11,7 +11,7 @@
 typedef struct S_80174B20_13 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80174B20_13;   /* temp_v0_2 in func_80174B20 */
+} S_80174B20_13;
 
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
@@ -21,7 +21,7 @@ typedef struct S_80174B20_14 {
 typedef struct S_80174B20_15 {
     s32 unk_00;
     s32 unk_04;
-} S_80174B20_15;   /* ((S_80174B20_13 *)temp_v0_2)->unk_08 in func_80174B20 */
+} S_80174B20_15;
 
 typedef struct S_80174B20_16 {
     u8 pad_00[0x2A];
@@ -58,20 +58,20 @@ typedef struct S_80174B20_3 {
     u8 unk_A8;
     u8 unk_A9;
     u8 unk_AA;
-} S_80174B20_3;   /* temp_s0_base in func_80174B20 */
+} S_80174B20_3;
 
 typedef struct S_80174B20_4 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_80174B20_4;   /* temp_a1 in func_80174B20 */
+} S_80174B20_4;
 
 typedef struct S_80174B20_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80174B20_5;   /* temp_v0_2 in func_80174B20 */
+} S_80174B20_5;
 
 
 typedef struct S_80174B20_7 {
@@ -79,12 +79,12 @@ typedef struct S_80174B20_7 {
     s32 unk_14A0;
     u8 pad_14A4[0x3D74];
     s16 unk_5218;
-} S_80174B20_7;   /* temp_a1_base in func_80174B20 */
+} S_80174B20_7;
 
 typedef struct S_80174B20_8 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80174B20_8;   /* temp_a2 in func_80174B20 */
+} S_80174B20_8;
 
 typedef struct S_80174B20_9 {
     u8 pad_00[0x4];
@@ -98,23 +98,23 @@ typedef struct S_80174B20_9 {
     s16 unk_1E;
     u8 pad_20[0xC];
     u8 * unk_2C;
-} S_80174B20_9;   /* temp_s0 in func_80174B20 */
+} S_80174B20_9;
 
 
 typedef struct S_80174B20_11_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80174B20_11_pre;   /* the 0x14 bytes before temp_v1_3 in func_80174B20, addressed as temp_v1_3[-1] */
+} S_80174B20_11_pre;
 
 typedef struct S_80174B20_11 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80174B20_11;   /* temp_v1_3 in func_80174B20 */
+} S_80174B20_11;
 
 typedef struct S_80174B20_12 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80174B20_12;   /* temp_a0_2 in func_80174B20 */
+} S_80174B20_12;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

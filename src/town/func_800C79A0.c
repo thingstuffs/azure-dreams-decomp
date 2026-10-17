@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/entity.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
 

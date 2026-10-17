@@ -10,7 +10,7 @@ typedef struct S_8070207C_0 {
     u8 pad_00[0x1DCC];
     u16 unk_1DCC;
     u16 unk_1DCE;
-} S_8070207C_0;   /* (D_80700000 + temp_s0) in townShopDispatchEntryValue */
+} S_8070207C_0;
 
 typedef struct S_8070207C_1 {
     u8 pad_00[0x1DCC];

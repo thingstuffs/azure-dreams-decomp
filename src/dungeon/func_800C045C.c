@@ -16,7 +16,7 @@ typedef struct S_800C5BBC_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800C5BBC_0;   /* temp_v0 in dungeonSpawnRandomizedParticleBurst */
+} S_800C5BBC_0;
 
 typedef struct S_800C5BBC_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800C5BBC_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800C5BBC_1;   /* temp_s0 in dungeonSpawnRandomizedParticleBurst */
+} S_800C5BBC_1;
 
 typedef struct S_800C5BBC_2 {
     u8 pad_00[0xC];
@@ -39,19 +39,19 @@ typedef struct S_800C5BBC_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C5BBC_2;   /* temp_s0_2 in dungeonSpawnRandomizedParticleBurst */
+} S_800C5BBC_2;
 
 typedef struct S_800C5BBC_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
     u8 pad_0E[0x2];
     s16 unk_10;
-} S_800C5BBC_3;   /* temp_v1 in dungeonSpawnRandomizedParticleBurst */
+} S_800C5BBC_3;
 
 typedef struct S_800C5BBC_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C5BBC_4;   /* var_s5 in dungeonSpawnRandomizedParticleBurst */
+} S_800C5BBC_4;
 
 /* Spawn a burst of randomized particles and return the first particle. */
 void *dungeonSpawnRandomizedParticleBurst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound) {

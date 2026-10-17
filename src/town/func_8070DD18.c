@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 
 typedef s32 M2C_UNK;
@@ -9,8 +10,6 @@ typedef struct S_80016D18_1 {
     s32 (*unk_78)(s32);
 } S_80016D18_1;   /* ((S_80016D18_0 *)(*(void **)D_80016000))->unk_20 in func_80016D18 */
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800197FC();
 extern M2C_UNK func_8001A554();
@@ -26,7 +25,7 @@ typedef struct S_80016D18_0 {
 /* Processes event conditions and returns the corresponding data pointer, or null. */
 M2C_UNK *func_80016D18(void) {
     if (func_800197FC(0xD, 6) != 0) {
-        ((S_80016D18_1 *)(((S_80016D18_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20))->unk_78(0);
+        D_80016000->unk_20->callback_078(0);
         func_8001A554(0x92C);
         func_8001A554(0x92D);
         func_8001A554(0x92E);

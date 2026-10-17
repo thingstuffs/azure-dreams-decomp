@@ -148,7 +148,7 @@ typedef struct S_800CEFB8_8 {
 typedef struct S_800CEFB8_9 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800CEFB8_9;   /* ((S_800CEFB8_5 *)temp_s7)->unk_00 in func_800CEFB8 */
+} S_800CEFB8_9;
 
 
 M2C_UNK func_80064840();
@@ -201,7 +201,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     S_800CEFB8_6 *part;
     GameWork *render_state;
     S_800CEFB8_8 *packet_next;
-    
+
     S_SCRATCH *scratch;
     scratch = (S_SCRATCH *)0x1F800000;
     global_base = *(void **)((s8 *)(&gameWork));
@@ -441,18 +441,18 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
                 if (texture_override != 0) {
                     if (scratch->unk_024 & 0x100) {
                         packet_next->unk_0E = texture_override;
-                        goto continuation_coords;
-                    }
-                    coord_work = part->unk_06;
-                    {
-                        s32 texture_sum = texture_override + coord_work;
-                        coord_work = texture_sum;
+                    } else {
+                        coord_work = part->unk_06;
+                        {
+                            s32 texture_sum = texture_override + coord_work;
+                            coord_work = texture_sum;
+                        }
+                        packet_next->unk_0E = coord_work;
                     }
                 } else {
                     coord_work = (u16) part->unk_06;
+                    packet_next->unk_0E = coord_work;
                 }
-                packet_next->unk_0E = coord_work;
-continuation_coords:
                 packet_next->unk_0C = (s16) ((u16) scratch->unk_00C + (u16) scratch->unk_008.s32);
                 packet_next->unk_14.s16 = (s16) ((u16) scratch->unk_00C + (u16) scratch->unk_010.s32);
                 texture_override = ((S_800CEFB8_1 *)sprite)->unk_10;

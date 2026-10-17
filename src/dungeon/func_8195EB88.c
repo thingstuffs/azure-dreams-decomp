@@ -7,11 +7,11 @@
 
    /* arg0 in dungeonUpdateBrighteningFadingEffect */
 
-   /* temp_s0 in dungeonUpdateBrighteningFadingEffect */
+
 
    /* arg1 in dungeonUpdateBrighteningFadingEffect */
 
-   /* temp_a0_2 in dungeonUpdateBrighteningFadingEffect */
+
 
    /* arg2 in dungeonUpdateBrighteningFadingEffect */
 

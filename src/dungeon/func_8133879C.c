@@ -2,12 +2,20 @@
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2];
+    u16 field_02;
+    u8 pad_04[0x2];
+    u16 field_06;
+} RecordFieldView_8133879C;
+
+
 
 typedef s32 M2C_UNK;
 extern u8 *D_80175D50[3];
 extern s16 func_8016F428(void *arg);
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct S_8016F79C_0 {
     u8 pad_00[0x2A];
@@ -35,7 +43,7 @@ void dungeonApplyScriptDirectionRecord(void *unused_0, u8 *record, void *unused_
     }
     {
         register u16 *default_words = (u16 *)((u8 *)(&D_80083780));
-        *(u16 *)(record + 2) = default_words[1];
-        *(u16 *)(record + 6) = default_words[3];
+        ((RecordFieldView_8133879C *)record)->field_02 = default_words[1];
+        ((RecordFieldView_8133879C *)record)->field_06 = default_words[3];
     }
 }

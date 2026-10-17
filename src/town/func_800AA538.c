@@ -14,7 +14,6 @@ typedef struct S_800A7C98_0 {
 } S_800A7C98_0;   /* arg0 in townInitializeResourceObject */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80033CD8();
 extern void townClearObjectStatusAndDispatchTarget();

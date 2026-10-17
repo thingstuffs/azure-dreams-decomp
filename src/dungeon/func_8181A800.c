@@ -8,7 +8,6 @@ typedef struct S_8181A800_0 {
 } S_8181A800_0;   /* arg0 in func_8002404C; pointer addresses record offset 0x2 */
 
 typedef s32 M2C_UNK;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_800478B8(void *);
 extern s16 D_80025914[9];

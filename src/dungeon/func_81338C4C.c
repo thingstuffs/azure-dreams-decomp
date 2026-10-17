@@ -9,17 +9,17 @@ extern u8 D_80170000[];
 typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8016FC4C_0;   /* var_a0 in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_0;
 
 typedef struct S_8016FC4C_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016FC4C_1_pre;   /* the 0x14 bytes before temp_v0 in dungeonAdvanceEncounterActorEffectPhase, addressed as temp_v0[-1] */
+} S_8016FC4C_1_pre;
 
 typedef struct S_8016FC4C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016FC4C_2;   /* temp_v1 in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_2;
 
 typedef struct S_8016FC4C_3 {
     u8 pad_00[0x94];
@@ -32,7 +32,7 @@ typedef struct S_8016FC4C_3 {
 typedef struct S_8016FC4C_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8016FC4C_4;   /* temp_s5 in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_4;
 
 typedef struct S_8016FC4C_5 {
     u8 pad_00[0x4];

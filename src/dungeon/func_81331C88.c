@@ -2,6 +2,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct { u16 flags; } EffectFieldView_81331C88Prefix;
+
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -28,11 +32,11 @@ typedef struct S_80168C88_1 {
 typedef struct S_80168C88_2 {
     u8 pad_00[0x54];
     s16 unk_54;
-} S_80168C88_2;   /* temp_v0 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_2;
 
 typedef struct S_80168C88_3 {
     s16 unk_00;
-} S_80168C88_3;   /* (void *)temp_a1 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_3;
 
 typedef struct S_80168C88_4 {
     s8 unk_00;
@@ -53,27 +57,27 @@ typedef struct S_80168C88_4 {
     u8 pad_0F[0x9];
     s16 unk_18;
     s16 unk_1A;
-} S_80168C88_4;   /* temp_s0 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_4;
 
 typedef struct S_80168C88_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80168C88_5;   /* temp_v0_2 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_5;
 
 typedef struct S_80168C88_6 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80168C88_6;   /* temp_a3 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_6;
 
 typedef struct S_80168C88_7 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80168C88_7;   /* temp_v1_3 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_7;
 
 typedef struct S_80168C88_8 {
     s32 unk_00;
@@ -91,23 +95,23 @@ typedef struct S_80168C88_9 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80168C88_9;   /* temp_a3_2 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_9;
 
 typedef struct S_80168C88_10 {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
-} S_80168C88_10;   /* var_a0 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_10;
 
 typedef struct S_80168C88_11 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_80168C88_11;   /* temp_a0_3 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_11;
 
 typedef struct S_80168C88_12 {
     u8 pad_00[0x9];
     u8 unk_09;
-} S_80168C88_12;   /* temp_a0_4 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_12;
 
 
 extern void func_8004491C();
@@ -293,7 +297,7 @@ loop_2:
     ticks_left = ((S_80168C88_0 *)effect)->unk_18.u - 1;
     ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 }

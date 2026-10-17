@@ -19,7 +19,7 @@ typedef struct S_818BD3B0_0 {
 typedef struct S_818BD3B0_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818BD3B0_1;   /* temp_v1 in func_818BD3B0 */
+} S_818BD3B0_1;
 
 typedef struct S_818BD3B0_2 {
     s32 unk_00;

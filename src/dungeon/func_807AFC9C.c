@@ -13,7 +13,7 @@ typedef struct S_807AFC9C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_807AFC9C_0;   /* temp_v0 in func_800F749C */
+} S_807AFC9C_0;
 
 typedef struct S_807AFC9C_1 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_807AFC9C_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_807AFC9C_1;   /* temp_s0 in func_800F749C */
+} S_807AFC9C_1;
 
 typedef struct S_807AFC9C_2 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_807AFC9C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_807AFC9C_3;   /* temp_a0 in func_800F749C */
+} S_807AFC9C_3;
 
 typedef struct S_807AFC9C_4 {
     u8 pad_00[0x14];
@@ -57,7 +57,7 @@ typedef struct S_807AFC9C_5 {
     void * unk_04;
     u8 pad_08[0x4];
     s16 unk_0C;
-} S_807AFC9C_5;   /* temp_v1 in func_800F749C */
+} S_807AFC9C_5;
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
 void func_800F749C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {

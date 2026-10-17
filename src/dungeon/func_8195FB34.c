@@ -3,13 +3,13 @@
 #include "m2c_compat.h"
 
 
-   /* temp_v0_3 in func_80025334 */
 
-   /* temp_v0_4 in func_80025334 */
 
-   /* temp_a0 in func_80025334 */
 
-   /* temp_v1 in func_80025334 */
+
+
+
+
 
 /* Clears the 8-by-8 grid and initializes an object at the given position. */
 void func_80025334(s16 x, s16 y, s16 z) {

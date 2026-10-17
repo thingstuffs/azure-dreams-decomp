@@ -24,7 +24,6 @@ typedef struct {
     void *entries[9];
 } AnimTable;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 extern void *const D_80089684[9];

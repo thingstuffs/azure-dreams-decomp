@@ -5,8 +5,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 scaleRandomToUnsignedHalfwordLimit();
 M2C_UNK func_80094048();
@@ -28,7 +26,7 @@ typedef struct S_800917EC_2 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_800917EC_2;   /* temp_s0 in townUpdateActorWithPeriodicEffect */
+} S_800917EC_2;
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
 void townUpdateActorWithPeriodicEffect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context) {

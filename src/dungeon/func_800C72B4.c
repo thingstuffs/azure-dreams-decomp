@@ -15,7 +15,7 @@ typedef struct S_800CCA14_0 {
     u16 unk_24;
     u8 pad_26[0x1];
     s8 unk_27;
-} S_800CCA14_0;   /* temp_v0 in dungeonCreateFivePartTargetEffect */
+} S_800CCA14_0;
 
 typedef struct S_800CCA14_1 {
     u8 pad_00[0xA];
@@ -31,14 +31,15 @@ typedef struct S_800CCA14_2 {
     u16 unk_24;
     s8 unk_26;
     s8 unk_27;
-} S_800CCA14_2;   /* temp_v0_2 in dungeonCreateFivePartTargetEffect */
+} S_800CCA14_2;
 
 
 void *initializeSceneObjectInBuffer();      /* extern */
 s32 dungeonFindObjectNearTileHeight();                   /* extern */
 void func_8009CE1C(); /* extern */
 extern void * dungeonCreateTileCenterQuadEffect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
-ObjectBlock *dungeonCreateGridEffectObject();     /* extern */
+struct ObjectBlock;
+struct ObjectBlock *dungeonCreateGridEffectObject();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 D_800E5908;

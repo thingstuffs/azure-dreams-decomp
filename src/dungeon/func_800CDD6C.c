@@ -38,7 +38,7 @@ typedef struct S_800D34CC_2 {
 typedef struct S_800D34CC_3 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800D34CC_3;   /* var_v0 in dungeonUpdateActorFadeState */
+} S_800D34CC_3;
 
 
 s32 func_80042900();                 /* extern */

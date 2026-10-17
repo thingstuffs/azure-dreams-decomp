@@ -9,7 +9,7 @@ typedef struct S_800243E0_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800243E0_0;   /* temp_v0 in dungeonCreateType212EffectObject */
+} S_800243E0_0;
 
 typedef struct S_800243E0_1 {
     u8 pad_00[0xC];
@@ -19,7 +19,7 @@ typedef struct S_800243E0_1 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_800243E0_1;   /* temp_s0 in dungeonCreateType212EffectObject */
+} S_800243E0_1;
 
 typedef struct S_800243E0_2 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800243E0_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800243E0_2;   /* temp_v1 in dungeonCreateType212EffectObject */
+} S_800243E0_2;
 
 typedef struct S_800243E0_3 {
     u8 pad_00[0x2];

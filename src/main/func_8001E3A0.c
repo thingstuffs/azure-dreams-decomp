@@ -3,18 +3,17 @@
 typedef struct S_802EE3A0_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_802EE3A0_2;   /* temp_v1 in func_802EE3A0 */
+} S_802EE3A0_2;
 
 typedef struct S_802EE3A0_3 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_802EE3A0_3;   /* ((S_802EE3A0_2 *)temp_v1)->unk_04 in func_802EE3A0 */
+} S_802EE3A0_3;
 
 
 typedef struct Local64 { s32 word; s8 byte; u8 pad[59]; } Local64;
 typedef struct Local16 { u8 data[16]; } Local16;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_8003830C(s32, void *);
 s32 func_80051B50(s32, void *, s32);
@@ -30,11 +29,11 @@ extern u8 D_8040071C[];
 typedef struct S_802EE3A0_0 {
     u8 pad_00[0xB18];
     void * unk_B18;
-} S_802EE3A0_0;   /* (base + var_v1) in func_802EE3A0 */
+} S_802EE3A0_0;
 
 typedef struct S_802EE3A0_1 {
     s32 unk_00;
-} S_802EE3A0_1;   /* temp_v1 in func_802EE3A0 */
+} S_802EE3A0_1;
 
 /* Builds count-dependent text and sets its display position. */
 void townBuildMemoryTaskText(s32 panel_addr) {

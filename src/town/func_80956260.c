@@ -39,17 +39,17 @@ typedef struct S_80023260_3 {
     u16 unk_06;
     u8 pad_08[0x6];
     u16 unk_0E;
-} S_80023260_3;   /* temp_s2 in townUpdatePathFollowingActor */
+} S_80023260_3;
 
 typedef struct S_80023260_4 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80023260_4;   /* temp_s5 in townUpdatePathFollowingActor */
+} S_80023260_4;
 
 typedef struct S_80023260_5 {
     u8 pad_00[0x3C];
     s16 unk_3C;
-} S_80023260_5;   /* ((((S_80023260_0 *)arg0)->unk_24 * 2) + temp_fp) in townUpdatePathFollowingActor */
+} S_80023260_5;
 
 
 void townUpdateDirectionalRecord();      /* extern */
@@ -179,7 +179,7 @@ init_sprite:
     ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
     goto update_motion;
 reset_sprite:
-    (*(u8 **)((u8 *)sprite + 0x2C)) = D_800D2388 - 8;
+    ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_800D2388 - 8;
     func_80047784(sprite, (D_800D2388 - 8)[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
         >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = idle_state;

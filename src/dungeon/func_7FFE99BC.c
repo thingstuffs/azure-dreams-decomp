@@ -10,8 +10,6 @@ typedef struct {
     s32 words[3];
 } __attribute__((packed)) Packed12;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_7003CF18();
 M2C_UNK func_7010C274();
@@ -38,7 +36,7 @@ typedef struct S_7FFE99BC_0 {
 typedef struct S_7FFE99BC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_7FFE99BC_1;   /* temp_a0 in dungeonSpawnOddTickEmitterEffects */
+} S_7FFE99BC_1;
 
 typedef struct S_7FFE99BC_2 {
     u8 pad_00[0x6];
@@ -47,7 +45,7 @@ typedef struct S_7FFE99BC_2 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_7FFE99BC_2;   /* temp_v1_2 in dungeonSpawnOddTickEmitterEffects */
+} S_7FFE99BC_2;
 
 typedef struct S_7FFE99BC_3 {
     u8 pad_00[0x13];

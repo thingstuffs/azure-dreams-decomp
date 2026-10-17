@@ -9,7 +9,6 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void townInitializeSceneActionRecord();
 extern void func_800942B0();

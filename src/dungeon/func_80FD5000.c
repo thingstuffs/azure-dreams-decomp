@@ -9,7 +9,7 @@ typedef struct S_80FD5000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80FD5000_0;   /* temp_s1 in dungeonCreateMonsterActorAndPalette */
+} S_80FD5000_0;
 
 typedef struct S_80FD5000_1 {
     u8 pad_00[0x13];
@@ -25,12 +25,12 @@ typedef struct S_80FD5000_1 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     s16 unk_AE;
-} S_80FD5000_1;   /* var_s0 in dungeonCreateMonsterActorAndPalette */
+} S_80FD5000_1;
 
 typedef struct S_80FD5000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FD5000_2;   /* temp_s6 in dungeonCreateMonsterActorAndPalette */
+} S_80FD5000_2;
 
 typedef struct S_80FD5000_3 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_80FD5000_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80FD5000_3;   /* temp_s2 in dungeonCreateMonsterActorAndPalette */
+} S_80FD5000_3;
 
 
 typedef struct S_80FD5000_4 {

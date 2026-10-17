@@ -90,10 +90,10 @@ void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, vo
         align_frames = FIELD_S16(action, 0x96);
         if (align_frames != 0) {
             tile_coord = FIELD_U8(actor, 0x24);
-            do {
-                center_offset = FIELD_S16(motion, 2);
-            } while (0);
-            FIELD_S32(motion, 0xC) = (((tile_coord << 6) - (center_offset -= 0x20)) << 15) /
+            tile_coord <<= 6;
+            center_offset = FIELD_S16(motion, 2) - 0x20;
+
+            FIELD_S32(motion, 0xC) = ((tile_coord - center_offset) << 15) /
                                    align_frames;
             center_offset = FIELD_S16(motion, 6) - 0x20;
             FIELD_S32(motion, 0x10) = ((((FIELD_U8(actor, 0x25)) << 6) - center_offset) << 15) /

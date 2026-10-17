@@ -6,7 +6,7 @@ typedef s32 (*M2C_CALLBACK)(void *, s32);
 typedef struct S_80019F94_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_80019F94_1;   /* (temp_s0 + held_arg0->unk_10) in townFindEligibleEntry */
+} S_80019F94_1;
 
 
 void townProcessTownRecords();

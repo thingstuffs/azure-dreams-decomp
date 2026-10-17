@@ -9,7 +9,7 @@ typedef struct S_8008C4C8_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C4C8_1;   /* temp_s0 in dungeonEvaluateSummedVectorMinusBase */
+} S_8008C4C8_1;
 
 /* Evaluates the summed vectors and subtracts the entry's first fixed-point component. */
 s16 dungeonEvaluateSummedVectorMinusBase(Rec_func_8008ACDC_arg0 *base_vector, s32 entries, s32 entry_index) {

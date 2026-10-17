@@ -42,7 +42,7 @@ typedef struct S_800243C4_1 {
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_800243C4_1;   /* temp_s0 in func_800243C4 */
+} S_800243C4_1;
 
 
 typedef struct S_800243C4_3 {
@@ -52,7 +52,7 @@ typedef struct S_800243C4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800243C4_3;   /* temp_a0_2 in func_800243C4 */
+} S_800243C4_3;
 
 typedef struct S_800243C4_4 {
     u8 pad_00[0xC];

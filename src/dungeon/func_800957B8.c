@@ -33,7 +33,7 @@ typedef struct S_8009AF18_2 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8009AF18_2;   /* temp_v0 in dungeonMeasureDirectionalStoppingDistance */
+} S_8009AF18_2;
 
 typedef struct S_8009AF18_3 {
     u8 pad_00[0x124];

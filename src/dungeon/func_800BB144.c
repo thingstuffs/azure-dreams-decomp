@@ -17,7 +17,7 @@ typedef struct S_800C08A4_0 {
     u8 unk_63;
     u8 pad_64[0xC4];
     u8 * unk_128;
-} S_800C08A4_0;   /* temp_s1 in dungeonApplyMonsterEquipmentItem; pointer addresses record offset 0x18 */
+} S_800C08A4_0;   /* Pointer addresses record offset 0x18. */
 
 typedef struct S_800C08A4_1 {
     u8 pad_00[0x2];
@@ -26,7 +26,7 @@ typedef struct S_800C08A4_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800C08A4_1;   /* temp_s0 in dungeonApplyMonsterEquipmentItem */
+} S_800C08A4_1;
 
 typedef struct S_800C08A4_2 {
     u8 pad_00[0xA];

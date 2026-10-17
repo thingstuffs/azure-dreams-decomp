@@ -8,7 +8,7 @@ typedef struct S_800A9D00_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     s32 unk_0C;
-} S_800A9D00_0;   /* temp_v0 in func_800A9D00 */
+} S_800A9D00_0;
 
 typedef struct S_800A9D00_1 {
     u8 pad_00[0x2C];

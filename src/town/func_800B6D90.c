@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_80048FBC();
 s32 func_80049004();
@@ -23,7 +22,7 @@ typedef struct S_800B44F0_1 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_800B44F0_1;   /* temp_v1 in townInitializeStateData */
+} S_800B44F0_1;
 
 /* Initializes state data, applies defaults, and reports initialization success. */
 s32 townInitializeStateData(void *state, s32 input)

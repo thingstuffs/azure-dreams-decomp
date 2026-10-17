@@ -8,13 +8,13 @@ typedef struct S_818C32F4_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_818C32F4_0;   /* temp_v0 in func_818C32F4 */
+} S_818C32F4_0;
 
 typedef struct S_818C32F4_1 {
     u8 pad_00[0x4];
     s16 unk_04;
     s16 unk_06;
-} S_818C32F4_1;   /* temp_v0_2 in func_818C32F4 */
+} S_818C32F4_1;
 
 typedef struct S_818C32F4_2 {
     u8 pad_00[0xC];
@@ -26,7 +26,7 @@ typedef struct S_818C32F4_2 {
     u16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818C32F4_2;   /* temp_s0 in func_818C32F4 */
+} S_818C32F4_2;
 
 typedef struct S_818C32F4_3 {
     u8 pad_00[0xC];
@@ -51,7 +51,7 @@ typedef struct S_818C32F4_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818C32F4_5;   /* temp_v1 in func_818C32F4 */
+} S_818C32F4_5;
 
 
 

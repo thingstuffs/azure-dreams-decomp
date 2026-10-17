@@ -36,7 +36,7 @@ typedef struct S_7FFE79F4_1 {
 typedef struct S_7FFE79F4_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE79F4_2;   /* temp_a0 in dungeonUpdateEmitterAndSpawnParticles */
+} S_7FFE79F4_2;
 
 typedef struct S_7FFE79F4_3 {
     u8 pad_00[0x8];
@@ -52,7 +52,7 @@ typedef struct S_7FFE79F4_3 {
     u8 pad_4C[0xC];
     u16 unk_58;
     u16 unk_5A;
-} S_7FFE79F4_3;   /* temp_v0_2 in dungeonUpdateEmitterAndSpawnParticles */
+} S_7FFE79F4_3;
 
 typedef struct S_7FFE79F4_4 {
     u8 pad_00[0x2];
@@ -61,7 +61,7 @@ typedef struct S_7FFE79F4_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_7FFE79F4_4;   /* temp_s0 in dungeonUpdateEmitterAndSpawnParticles */
+} S_7FFE79F4_4;
 
 typedef struct S_7FFE79F4_5 {
     u8 pad_00[0x2];
@@ -70,10 +70,9 @@ typedef struct S_7FFE79F4_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE79F4_5;   /* ((S_7FFE79F4_2 *)temp_a0)->unk_08 in dungeonUpdateEmitterAndSpawnParticles */
+} S_7FFE79F4_5;
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_7003CF18();
 s32 func_7006DC5C();

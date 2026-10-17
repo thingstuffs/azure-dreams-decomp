@@ -16,7 +16,7 @@ typedef struct S_80810F00_0 {
 typedef struct S_80810F00_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_80810F00_1;   /* temp_s1 in func_80810F00 */
+} S_80810F00_1;
 
 
 M2C_UNK func_80058588();               /* extern */
@@ -25,6 +25,7 @@ extern s32 D_80084D5C;
 
 /* Process an entry in state zero and propagate its linked status flag. */
 void func_80810F00(void *entry) {
+    u16 *flags;
     void *flag_data;
 
     flag_data = ((S_80810F00_0 *)entry)->unk_0C;
@@ -32,7 +33,8 @@ void func_80810F00(void *entry) {
         func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04),
             ((S_80810F00_0 *)entry)->unk_04);
         if (((S_80810F00_1 *)flag_data)->unk_0C & 2) {
-            (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_80810F00_0_pre *)entry)[-1].unk_00 | 0x8000);
+            flags = &((S_80810F00_0_pre *)entry)[-1].unk_00;
+            *flags = (u16) (((S_80810F00_0_pre *)entry)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
     }

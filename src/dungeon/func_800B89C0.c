@@ -5,7 +5,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void dungeonBeginDeferredItemAction();
 void dungeonClearSlotAndUpdateLinkedState();

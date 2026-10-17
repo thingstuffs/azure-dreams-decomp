@@ -1,0 +1,26 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_e1e4e0",
+ "container": "dungeon",
+ "foff": "0xe1e4e0",
+ "size": "0x168",
+ "vma": "0x8015bce0",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80E1E4E0",
+   "tu": "src/dungeon/func_80DE64E0.c",
+   "home": "dungeon/func_80DE64E0",
+   "foff": "0xe1e4e0",
+   "vma": "0x8015bce0",
+   "size": 360,
+   "bindings": {
+    "0x80173e28": "0x8015be28",
+    "0x801744b8": "0x8015c4b8",
+    "0x80174084": "0x8015c084",
+    "0x80170e5c": "0x80158e5c"
+   },
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+  }
+ ]
+}

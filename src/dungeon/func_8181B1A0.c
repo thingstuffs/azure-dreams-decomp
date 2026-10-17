@@ -28,14 +28,14 @@ typedef struct S_8181B1A0_0 {
     s16 unk_02;
     u8 pad_04[0x5C];
     s32 unk_60;
-} S_8181B1A0_0;   /* temp_s0 in func_8181B1A0 */
+} S_8181B1A0_0;
 
 typedef struct S_8181B1A0_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8181B1A0_1;   /* temp_v0 in func_8181B1A0 */
+} S_8181B1A0_1;
 
 typedef struct S_8181B1A0_2 {
     u8 pad_00[0x8];
@@ -48,7 +48,7 @@ typedef struct S_8181B1A0_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8181B1A0_2;   /* temp_a3 in func_8181B1A0 */
+} S_8181B1A0_2;
 
 typedef struct S_8181B1A0_3 {
     u8 pad_00[0x2];
@@ -57,7 +57,7 @@ typedef struct S_8181B1A0_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8181B1A0_3;   /* temp_v1 in func_8181B1A0 */
+} S_8181B1A0_3;
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
 void func_8181B1A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {

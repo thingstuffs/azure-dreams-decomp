@@ -28,8 +28,6 @@ typedef struct S_800AB1C0_2 {
 } S_800AB1C0_2;   /* arg1 in dungeonUpdateActorMovementToTile */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void dungeonSetRecordIntegerTileCenter(Motion *, s32, s32);
 u16 func_800BCB04(s32 x, s32 y, s16 min_height);

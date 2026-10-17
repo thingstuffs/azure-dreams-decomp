@@ -20,14 +20,14 @@ typedef struct S_80025C7C_0 {
     s32 unk_28;
     u8 pad_2C[0x1C];
     s32 unk_48;
-} S_80025C7C_0;   /* temp_s1 in cardBootCreateSlotSelectionMenu */
+} S_80025C7C_0;
 
 typedef struct S_80025C7C_1 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80025C7C_1;   /* temp_v0 in cardBootCreateSlotSelectionMenu */
+} S_80025C7C_1;
 
 /* Creates an object and initializes its state. */
 void *cardBootCreateSlotSelectionMenu(s32 init_value) {

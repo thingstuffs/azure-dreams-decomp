@@ -8,7 +8,7 @@ extern s32 D_80081508;
 typedef struct S_800AC454_0 {
     u8 pad_00[0x20];
     s8 unk_20;
-} S_800AC454_0;   /* temp_v0 in func_800AC454 */
+} S_800AC454_0;
 
 /* Selects record zero, stores its field address, and clears the field and global counter. */
 void func_800AC454(void) {

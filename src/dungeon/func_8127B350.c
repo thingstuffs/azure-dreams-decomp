@@ -19,7 +19,7 @@ typedef struct S_80170B50_0 {
     void * unk_08;
     void * unk_0C;
     void ** unk_10;
-} S_80170B50_0;   /* temp_v0 in func_8016FB50 */
+} S_80170B50_0;
 
 typedef struct S_80170B50_1 {
     u8 pad_00[0x2A];
@@ -32,7 +32,7 @@ typedef struct S_80170B50_1 {
     u16 unk_B2;
     u16 unk_B4;
     s16 unk_B6;
-} S_80170B50_1;   /* temp_s2 in func_8016FB50 */
+} S_80170B50_1;
 
 typedef struct S_80170B50_2 {
     void * unk_00;
@@ -54,7 +54,7 @@ typedef struct S_80170B50_3 {
     u16 unk_1E;
     u8 pad_20[0xC];
     M2C_UNK * unk_2C;
-} S_80170B50_3;   /* temp_s1 in func_8016FB50 */
+} S_80170B50_3;
 
 typedef struct S_80170B50_4 {
     u8 pad_00[0x2];
@@ -63,7 +63,7 @@ typedef struct S_80170B50_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170B50_4;   /* temp_s0 in func_8016FB50 */
+} S_80170B50_4;
 
 typedef struct S_80170B50_5 {
     u8 pad_00[0x2];
@@ -77,7 +77,7 @@ typedef struct S_80170B50_5 {
 typedef struct S_80170B50_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80170B50_6;   /* temp_a1 in func_8016FB50 */
+} S_80170B50_6;
 
 typedef struct S_80170B50_7 {
     u8 pad_00[0x1C];

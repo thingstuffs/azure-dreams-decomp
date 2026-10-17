@@ -9,7 +9,7 @@ typedef struct S_8009ED7C_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009ED7C_1;   /* temp_a0 in townMoveTowardTargetFinalizeCountdownExpires */
+} S_8009ED7C_1;
 
 typedef struct S_8009ED7C_2_pre {
     u16 unk_00;

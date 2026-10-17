@@ -7,7 +7,7 @@ extern M2C_UNK D_80010248;
 typedef struct S_800F6514_0 {
     u8 unk_00;
     u8 unk_01;
-} S_800F6514_0;   /* var_s0 in func_800F6514 */
+} S_800F6514_0;
 
 /* Process entries whose first two bytes are 2 and 0x13 in the 20-entry table. */
 void func_800F6514(void) {

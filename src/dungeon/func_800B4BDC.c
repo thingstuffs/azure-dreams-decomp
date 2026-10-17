@@ -5,7 +5,6 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct S_800BA33C_0 {
     u8 pad_00[0x13];

@@ -471,7 +471,7 @@ s32 func_800F833C(void *object, s32 caller_a1, void *caller_a2) {
                 bucket_tag = ((S_807B0B3C_10 *)bucket)->unk_B0 & 0xFF000000U;
                 bucket_tag |= (u32)shaded_prim & 0xFFFFFFU;
 
-                (*(u32 *)((u8 *)bucket + 0xB0)) = bucket_tag;
+                (((S_807B0B3C_10 *)bucket)->unk_B0) = bucket_tag;
                 bucket_ptr_m = ((RenderRootSlot *)global_slot)->root;
                 page_x = draw_value;
                 draw_prim = *(u8 **)(bucket_ptr_m + 0x8D0);

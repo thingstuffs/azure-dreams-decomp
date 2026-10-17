@@ -89,14 +89,14 @@ typedef struct S_80025C80_3 {
     u16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80025C80_3;   /* temp_v1_6 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_3;
 
 typedef struct S_80025C80_6 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x12];
     u16 unk_1E;
-} S_80025C80_6;   /* temp_a0 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_6;
 
 typedef struct S_80025C80_7 {
     u8 pad_00[0x4];
@@ -110,7 +110,7 @@ typedef struct S_80025C80_7 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025C80_7;   /* temp_s0 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_7;
 
 typedef struct S_80025C80_8 {
     u8 pad_00[0xC];

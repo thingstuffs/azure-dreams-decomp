@@ -10,7 +10,7 @@ typedef struct S_800B0FD4_2 {
     s32 * unk_4C;
     u8 pad_50[0x10];
     s32 * unk_60;
-} S_800B0FD4_2;   /* (var_s2 + ctx->unk_CC) in func_800B0FD4 */
+} S_800B0FD4_2;
 
 
 s32 get_item_sell_money();                             /* extern */
@@ -44,7 +44,7 @@ typedef struct S_800B0FD4_0 {
 typedef struct S_800B0FD4_1 {
     u8 unk_00;
     u8 unk_01;
-} S_800B0FD4_1;   /* temp_v0 in func_800B0FD4 */
+} S_800B0FD4_1;
 
 /* Populate up to five shop item rows with item details and buy or sell prices. */
 void func_800B0FD4(S_800B0FD4_0 *ctx) {

@@ -41,12 +41,12 @@ typedef struct S_80092018_3 {
 typedef struct S_80092018_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80092018_4;   /* temp_v1_2 in dungeonUpdatePlayerPush */
+} S_80092018_4;
 
 typedef struct S_80092018_5 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_80092018_5;   /* temp_s4 in dungeonUpdatePlayerPush */
+} S_80092018_5;
 
 typedef struct S_80092018_7 {
     u8 pad_00[0x60];

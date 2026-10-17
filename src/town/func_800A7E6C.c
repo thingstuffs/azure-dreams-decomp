@@ -9,8 +9,6 @@ typedef struct S_800A55CC_0_pre {
 } S_800A55CC_0_pre;   /* the 0x10 bytes before arg0 in townInitializeEffectAndAdjustValue, addressed as arg0[-1] */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80033CD8(void *object, void *setup_data);
 void func_800942B0(void *object, EntityRec *state, s32 initData);

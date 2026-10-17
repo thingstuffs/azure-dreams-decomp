@@ -6,6 +6,18 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2C];
+    s32 *field_2C;
+} EffectSpriteFieldView_80EB6FC8;
+
+typedef struct {
+    u8 pad_00[0xA6];
+    u16 field_A6;
+} D800814A8FieldView_80EB6FC8;
+
 extern int abs(int);
 
 typedef struct S_801727C8_0 {
@@ -31,13 +43,13 @@ typedef struct S_801727C8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801727C8_3;   /* temp_v1_3 in dungeonUpdateActorActionTargetAndAnimation */
+} S_801727C8_3;
 
 
 typedef struct S_801727C8_5 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_801727C8_5;   /* temp_s6 in dungeonUpdateActorActionTargetAndAnimation */
+} S_801727C8_5;
 
 
 extern void *D_80170838[];
@@ -123,7 +135,7 @@ void dungeonUpdateActorActionTargetAndAnimation(void *action, EntityRec *motion,
             }
         }
         if (*entry != 0) {
-            *(u16 *)((s8 *)action + 0x98) = (u16) (((S_801727C8_0 *)action)->unk_98 & 0xFF7F);
+            ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 & 0xFF7F);
             {
                 s32 special_check;
 
@@ -161,7 +173,7 @@ void dungeonUpdateActorActionTargetAndAnimation(void *action, EntityRec *motion,
             }
             anim_table = &D_801741B4;
             ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
-            (*(M2C_UNK **)((u8 *)effect_sprite + 0x2C)) = anim_table;
+            (((EffectSpriteFieldView_80EB6FC8 *)effect_sprite)->field_2C) = anim_table;
             func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + (s32) anim_table)), 0);
             if (dungeonCreateActorSpellEffect(actor, entry, is_special, action + 0x98) == 0) {
@@ -184,7 +196,7 @@ void dungeonUpdateActorActionTargetAndAnimation(void *action, EntityRec *motion,
         motion->unk_0C = 0;
         dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)D_800814A8)->field_A6) - 1);
         dungeonAdvanceStatusTimers(actor);
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         ((S_801727C8_0 *)action)->unk_8C = &D_801711A4;
@@ -213,7 +225,7 @@ void dungeonUpdateActorActionTargetAndAnimation(void *action, EntityRec *motion,
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741BC;
+        (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm) = &D_801741BC;
         func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
         current_state = ((S_801727C8_0 *)action)->unk_9B;
         ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
@@ -231,7 +243,7 @@ void dungeonUpdateActorActionTargetAndAnimation(void *action, EntityRec *motion,
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
                 ((S_801727C8_0 *)action)->unk_A8 = 0;
-                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
+                (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm) = &D_8017418C;
                 func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + &D_8017418C), 0);
             }

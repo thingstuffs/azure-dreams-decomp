@@ -9,6 +9,13 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0xA6];
+    u16 field_A6;
+} D800814A8FieldView_810AF0B4;
+
+
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
     M2C_UNK * unk_8C;
@@ -25,13 +32,13 @@ typedef struct S_801728B4_0 {
 typedef struct S_801728B4_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801728B4_2_pre;   /* the 0x14 bytes before var_v0 in func_801728B4, addressed as var_v0[-1] */
+} S_801728B4_2_pre;
 
 typedef struct S_801728B4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801728B4_3;   /* temp_v1_3 in func_801728B4 */
+} S_801728B4_3;
 
 
 typedef struct S_801728B4_6 {
@@ -43,7 +50,7 @@ typedef struct S_801728B4_6 {
     u16 unk_4A;
     u8 pad_4C[0x6F];
     s8 unk_BB;
-} S_801728B4_6;   /* temp_v0_2 in func_801728B4 */
+} S_801728B4_6;
 
 typedef struct S_801728B4_7 {
     u8 pad_00[0xC];
@@ -56,7 +63,7 @@ typedef struct S_801728B4_7 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_801728B4_7;   /* temp_a0 in func_801728B4 */
+} S_801728B4_7;
 
 
 typedef struct S_801728B4_9 {
@@ -64,13 +71,13 @@ typedef struct S_801728B4_9 {
     void * unk_0C;
     u8 pad_10[0xAB];
     u8 unk_BB;
-} S_801728B4_9;   /* var_s0 in func_801728B4 */
+} S_801728B4_9;
 
 typedef struct S_801728B4_11 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801728B4_11;   /* ((S_801728B4_6 *)temp_v0_2)->unk_08 in func_801728B4 */
+} S_801728B4_11;
 
 s32 getCdCommandQueueDepth(void);
 void *func_8003FD64();
@@ -206,7 +213,7 @@ void func_801728B4(void *actor, EntityRec *motion, void *sprite, EntityRec *acti
             motion->unk_0C = 0;
             dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             dungeonStatus.unk_0C = 0;
-            (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+            (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)D_800814A8)->field_A6) - 1);
             dungeonAdvanceStatusTimers(action);
             action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
             ((S_801728B4_0 *)actor)->unk_8C = &D_80170E54;
@@ -252,7 +259,7 @@ void func_801728B4(void *actor, EntityRec *motion, void *sprite, EntityRec *acti
         motion->unk_0C = 0;
         dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != &D_80173C6C) {
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173C6C;
+            (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm) = &D_80173C6C;
             func_80047784(sprite, D_80173C6C[((s32) (gameWork.view.viewAngle + action->facing + 0x100) >> 9) & 7], 0);
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {

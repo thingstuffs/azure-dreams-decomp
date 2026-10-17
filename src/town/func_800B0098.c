@@ -6,7 +6,7 @@
 typedef struct S_800AD7F8_1 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800AD7F8_1;   /* temp_a0 in townToggleSelectedEntryFlag */
+} S_800AD7F8_1;
 
 /* Toggle the selected entry flag 0x20 when flag 0x80 is clear. */
 void townToggleSelectedEntryFlag(Rec_func_800AD7F8_arg0 *state) {

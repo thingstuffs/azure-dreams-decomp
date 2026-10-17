@@ -10,7 +10,7 @@ typedef struct S_800A613C_0 {
     s16 unk_08;
     u8 pad_0A[0x2];
     s16 unk_0C;
-} S_800A613C_0;   /* temp_v1 in func_800A613C */
+} S_800A613C_0;
 
 /* Create an object, attach its descriptor, and initialize its data fields. */
 s32 func_800A613C(void) {

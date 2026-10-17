@@ -10,14 +10,14 @@ extern M2C_UNK D_800A624C;
 typedef struct S_800A634C_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800A634C_0;   /* temp_v0 in func_800A634C */
+} S_800A634C_0;
 
 typedef struct S_800A634C_1 {
     u8 pad_00[0x8];
     s16 unk_08;
     u8 pad_0A[0x2];
     s16 unk_0C;
-} S_800A634C_1;   /* temp_v1 in func_800A634C */
+} S_800A634C_1;
 
 /* Allocates an object and initializes its state with the supplied value. */
 void *func_800A634C(s16 initialValue) {

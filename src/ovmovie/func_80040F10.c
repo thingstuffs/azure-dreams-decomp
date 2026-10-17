@@ -3,27 +3,27 @@
 
 typedef struct S_80040F10_0 {
     s32 unk_00;
-} S_80040F10_0;   /* var_a1 in func_80177710 */
+} S_80040F10_0;
 
 typedef struct S_80040F10_1 {
     s32 unk_00;
-} S_80040F10_1;   /* var_a2 in func_80177710 */
+} S_80040F10_1;
 
 typedef struct S_80040F10_2 {
     s32 unk_00;
-} S_80040F10_2;   /* var_a1_2 in func_80177710 */
+} S_80040F10_2;
 
 typedef struct S_80040F10_3 {
     s32 unk_00;
-} S_80040F10_3;   /* var_a2_2 in func_80177710 */
+} S_80040F10_3;
 
 typedef struct S_80040F10_4 {
     s32 unk_00;
-} S_80040F10_4;   /* var_a1_3 in func_80177710 */
+} S_80040F10_4;
 
 typedef struct S_80040F10_5 {
     s32 unk_00;
-} S_80040F10_5;   /* var_a2_3 in func_80177710 */
+} S_80040F10_5;
 
 /* Copy three global data blocks into a contiguous 256-byte buffer. */
 s32 *func_80177710(s8 *buffer) {

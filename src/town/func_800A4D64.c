@@ -10,7 +10,7 @@ typedef struct S_800A24C4_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x18];
     s16 unk_2C;
-} S_800A24C4_0;   /* temp_v0 in townCreateAndResetResourceObject */
+} S_800A24C4_0;
 
 /* Create an object, install its handler, and clear its state. */
 void townCreateAndResetResourceObject(void) {

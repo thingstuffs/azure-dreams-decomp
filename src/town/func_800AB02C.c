@@ -16,7 +16,7 @@ typedef struct S_800A878C_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800A878C_0;   /* temp_v0 in townCreateReverseMotionEffect */
+} S_800A878C_0;
 
 typedef struct S_800A878C_1 {
     u8 pad_00[0x2];
@@ -28,7 +28,7 @@ typedef struct S_800A878C_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A878C_1;   /* temp_s1 in townCreateReverseMotionEffect */
+} S_800A878C_1;
 
 typedef struct S_800A878C_2 {
     u8 pad_00[0x2];
@@ -53,13 +53,13 @@ typedef struct S_800A878C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A878C_3;   /* temp_s0 in townCreateReverseMotionEffect */
+} S_800A878C_3;
 
 typedef struct S_800A878C_4 {
     u8 pad_00[0x2];
     s16 unk_02;
     s32 unk_04;
-} S_800A878C_4;   /* temp_s3 in townCreateReverseMotionEffect */
+} S_800A878C_4;
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
 void *townCreateReverseMotionEffect(S_800A878C_2 *source_motion, u32 flags) {

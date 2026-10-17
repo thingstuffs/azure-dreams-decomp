@@ -6,8 +6,6 @@ typedef struct Copy12 {
     M2C_UNK word[3];
 } __attribute__((packed)) Copy12;
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
 extern s32 func_8004491C();
@@ -26,13 +24,13 @@ typedef struct S_80165F00_0 {
 typedef struct S_80165F00_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80165F00_1;   /* temp_base2 in dungeonCreateJitteredLandingSpark */
+} S_80165F00_1;
 
 typedef struct S_80165F00_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_80165F00_2;   /* temp_v0_2 in dungeonCreateJitteredLandingSpark */
+} S_80165F00_2;
 
 typedef struct S_80165F00_3 {
     u8 pad_00[0x8];
@@ -45,7 +43,7 @@ typedef struct S_80165F00_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80165F00_3;   /* temp_s0 in dungeonCreateJitteredLandingSpark */
+} S_80165F00_3;
 
 typedef struct S_80165F00_4 {
     u8 pad_00[0x2];
@@ -63,7 +61,7 @@ typedef struct S_80165F00_5 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_80165F00_5;   /* (*(void **)((u8 *)temp_v0 + 8)) in dungeonCreateJitteredLandingSpark */
+} S_80165F00_5;
 
 /* Spawns an effect near the source with randomized position and sprite scale. */
 void dungeonCreateJitteredLandingSpark(S_80165F00_0 *source)
@@ -80,26 +78,26 @@ void dungeonCreateJitteredLandingSpark(S_80165F00_0 *source)
 
     effect = func_8003FC64(0x12);
     if (effect != 0) {
-        (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_80165AB8;
+        (((ObjectNodeHeader *)effect)->unk_10) = &D_80165AB8;
         x_jitter = rand() & 0x3F;
         base_x =
             ((S_80165F00_4 *)(source->unk_08))->unk_02 - 0x20;
-        ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_02 =
+        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
         base_y = source_pos->unk_06 - 0x1A0;
-        ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_06 =
+        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
             base_y + y_jitter;
-        ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_0A =
+        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
             (s16)(((S_80165F00_4 *)(source->unk_08))->unk_0A -
                   0x100);
-        effect_transform = (*(void **)((u8 *)effect + 8));
+        effect_transform = (((ObjectNodeHeader *)effect)->unk_08);
         effect_transform->unk_10 = 0;
         effect_transform->unk_0C = 0;
-        ((S_80165F00_5 *)((*(void **)((u8 *)effect + 8))))->unk_14 = 0x200000;
+        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = 0x200000;
         func_8004491C(effect, (void *)((s32)&D_80045C34));
-        sprite = (*(void **)((u8 *)effect + 0xC));
+        sprite = (((ObjectNodeHeader *)effect)->unk_0C);
         sprite->unk_14 =
             (u16)(sprite->unk_14 & 0xFFF3);
         scale = 0x1000 / (s32)(func_80167088(5) + 6);

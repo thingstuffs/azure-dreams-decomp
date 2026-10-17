@@ -15,7 +15,6 @@ typedef struct S_800A7E7C_1 {
 } S_800A7E7C_1;   /* arg2 in townInitializeIndexedResourceObject */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80033CD8();
 extern M2C_UNK D_8006E240;

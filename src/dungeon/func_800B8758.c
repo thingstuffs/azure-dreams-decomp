@@ -29,7 +29,7 @@ extern u8 D_800E0FD7[];
 typedef struct S_800BDEB8_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800BDEB8_0_pre;   /* the 0x14 bytes before var_s2 in dungeonApplyFrogTransformationItem, addressed as var_s2[-1] */
+} S_800BDEB8_0_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_800BDEB8_0 {
     u8 pad_00[0x13];
@@ -42,12 +42,12 @@ typedef struct S_800BDEB8_0 {
     s16 unk_AA;
     u8 pad_AC[0x64];
     s32 unk_110;
-} S_800BDEB8_0;   /* var_s2 in dungeonApplyFrogTransformationItem */
+} S_800BDEB8_0;
 
 typedef struct S_800BDEB8_1 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_800BDEB8_1;   /* ((S_800BDEB8_0_pre *)var_s2)[-1].unk_00 in dungeonApplyFrogTransformationItem */
+} S_800BDEB8_1;
 
 /* Applies an interaction to an entity and displays the outcome. */
 s32 dungeonApplyFrogTransformationItem(void *entity, s32 action_id, s16 mode) {

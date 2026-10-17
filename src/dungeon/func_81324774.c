@@ -45,13 +45,13 @@ typedef struct S_8016BF74_2 {
 typedef struct S_8016BF74_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016BF74_3_pre;   /* the 0x14 bytes before temp_v0 in advanceActorPath, addressed as temp_v0[-1] */
+} S_8016BF74_3_pre;
 
 typedef struct S_8016BF74_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8016BF74_4;   /* temp_v0_2 in advanceActorPath */
+} S_8016BF74_4;
 
 typedef struct S_8016BF74_5 {
     u8 pad_00[0x98];
@@ -66,7 +66,7 @@ typedef struct S_8016BF74_5 {
 typedef struct S_8016BF74_7 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8016BF74_7;   /* temp_v0_5 in advanceActorPath */
+} S_8016BF74_7;
 
 typedef struct S_8016BF74_8 {
     u8 pad_00[0x8];
@@ -214,7 +214,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                     world_y = D_80082E80[0x25];
                     x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dirStepX)) + direction_offset));
                     y_offset = (*(u16 *)((u8 *)(((s32 *)dirStepY)) + direction_offset));
-                    current_x = (*(u8 *)((u8 *)position + 0x24));
+                    current_x = (((S_8016BF74_2 *)position)->unk_24.at00.v);
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;
                     if ((current_x != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {

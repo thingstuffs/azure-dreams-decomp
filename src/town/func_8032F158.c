@@ -11,7 +11,7 @@ typedef struct S_80019958_0 {
 typedef struct S_80019958_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_80019958_1;   /* temp_a1 in townSetIndexedEntryFlag */
+} S_80019958_1;
 
 /* Set the indexed entry flag using its identifier and entry pointer. */
 void townSetIndexedEntryFlag(S_80019958_0 *record, s32 entry_index) {

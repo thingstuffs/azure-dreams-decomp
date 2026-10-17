@@ -37,7 +37,7 @@ typedef struct S_800C035C_2 {
     s16 unk_38;
     u8 pad_3A[0x2];
     s16 unk_3C;
-} S_800C035C_2;   /* temp_s5 in townUpdatePlayerMinigameMotion */
+} S_800C035C_2;
 
 typedef struct S_800C035C_3 {
     u8 pad_00[0x8];
@@ -46,33 +46,33 @@ typedef struct S_800C035C_3 {
     s32 unk_10;
     u8 pad_14[0xB4];
     union { s16 s; s16 u; u16 p; } unk_C8;   /* accessed as both */
-} S_800C035C_3;   /* temp_s3 in townUpdatePlayerMinigameMotion */
+} S_800C035C_3;
 
 typedef struct S_800C035C_4 {
     s16 unk_00;
     s16 unk_02;
-} S_800C035C_4;   /* temp_s4 in townUpdatePlayerMinigameMotion */
+} S_800C035C_4;
 
 typedef struct S_800C035C_5 {
     u8 pad_00[0x30];
     u16 unk_30;
-} S_800C035C_5;   /* ((temp_v1_6 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
+} S_800C035C_5;
 
 typedef struct S_800C035C_6 {
     u8 pad_00[0x30];
     s16 unk_30;
-} S_800C035C_6;   /* ((temp_s0 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
+} S_800C035C_6;
 
 typedef struct S_800C035C_7 {
     u8 pad_00[0x30];
     u16 unk_30;
-} S_800C035C_7;   /* ((temp_v1_9 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
+} S_800C035C_7;
 
 
 typedef struct S_800C035C_10 {
     u8 pad_00[0x30];
     s16 unk_30;
-} S_800C035C_10;   /* ((((S_800C035C_4 *)temp_s4)->unk_00 * 2) + (s8 *) temp_s5) in townUpdatePlayerMinigameMotion */
+} S_800C035C_10;
 
 
 typedef struct {

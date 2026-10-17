@@ -34,7 +34,7 @@ typedef struct S_80170F84_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80170F84_0;   /* temp_v0 in func_80169F84 */
+} S_80170F84_0;
 
 typedef struct S_80170F84_1 {
     u8 pad_00[0x13];
@@ -49,14 +49,14 @@ typedef struct S_80170F84_1 {
     s8 unk_9C;
     u8 pad_9D[0x1];
     s16 unk_9E;
-} S_80170F84_1;   /* var_s4 in func_80169F84 */
+} S_80170F84_1;
 
 typedef struct S_80170F84_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
     u8 pad_0C[0xA];
     s16 unk_16;
-} S_80170F84_2;   /* temp_s1 in func_80169F84 */
+} S_80170F84_2;
 
 typedef struct S_80170F84_3 {
     u8 pad_00[0x10];
@@ -71,7 +71,7 @@ typedef struct S_80170F84_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80170F84_3;   /* temp_s0 in func_80169F84 */
+} S_80170F84_3;
 
 /* Create a dungeon entity and initialize its state and placement. */
 void *func_80169F84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {

@@ -10,27 +10,27 @@ typedef struct S_8001C738_0 {
     void * unk_1E0;
     u8 pad_1E4[0xC];
     void * unk_1F0;
-} S_8001C738_0;   /* var_a0 in func_8001C738 */
+} S_8001C738_0;
 
 typedef struct S_8001C738_1 {
     u8 pad_00[0x4];
     s8 * unk_04;
-} S_8001C738_1;   /* ((S_8001C738_0 *)var_a0)->unk_1E0 in func_8001C738 */
+} S_8001C738_1;
 
 typedef struct S_8001C738_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C738_2;   /* ((S_8001C738_0 *)var_a0)->unk_1C0 in func_8001C738 */
+} S_8001C738_2;
 
 typedef struct S_8001C738_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C738_3;   /* ((S_8001C738_0 *)var_a0)->unk_1D0 in func_8001C738 */
+} S_8001C738_3;
 
 typedef struct S_8001C738_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8001C738_4;   /* ((S_8001C738_0 *)var_a0)->unk_1F0 in func_8001C738 */
+} S_8001C738_4;
 
 typedef struct S_8001C738_5 {
     u8 pad_00[0x1];
@@ -38,22 +38,22 @@ typedef struct S_8001C738_5 {
     s8 unk_02;
     u8 pad_03[0x5];
     s16 unk_08;
-} S_8001C738_5;   /* ((S_8001C738_1 *)(((S_8001C738_0 *)var_a0)->unk_1E0))->unk_04 in func_8001C738 */
+} S_8001C738_5;
 
 typedef struct S_8001C738_6 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_8001C738_6;   /* ((S_8001C738_2 *)(((S_8001C738_0 *)var_a0)->unk_1C0))->unk_04 in func_8001C738 */
+} S_8001C738_6;
 
 typedef struct S_8001C738_7 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_8001C738_7;   /* ((S_8001C738_3 *)(((S_8001C738_0 *)var_a0)->unk_1D0))->unk_04 in func_8001C738 */
+} S_8001C738_7;
 
 typedef struct S_8001C738_8 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_8001C738_8;   /* ((S_8001C738_4 *)(((S_8001C738_0 *)var_a0)->unk_1F0))->unk_04 in func_8001C738 */
+} S_8001C738_8;
 
 /* Initializes values in four groups of four linked records. */
 void func_8001C738(void *record_groups) {

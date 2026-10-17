@@ -1,0 +1,21 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_527024",
+ "container": "dungeon",
+ "foff": "0x527024",
+ "size": "0x148",
+ "vma": "0x8001e824",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80527024",
+   "tu": "src/dungeon/func_8028B824.c",
+   "home": "dungeon/func_8028B824",
+   "foff": "0x527024",
+   "vma": "0x8001e824",
+   "size": 328,
+   "bindings": {},
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+  }
+ ]
+}

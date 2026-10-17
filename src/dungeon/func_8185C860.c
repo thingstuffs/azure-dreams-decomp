@@ -6,13 +6,13 @@ typedef struct S_8185C860_0 {
     void * unk_00;
     u8 pad_04[0x6C];
     s32 unk_70;
-} S_8185C860_0;   /* var_s0 in dungeonApplyRandomizedEffectNearCenter; pointer addresses record offset 0x14 */
+} S_8185C860_0;
 
 typedef struct S_8185C860_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8185C860_1;   /* temp_v1 in dungeonApplyRandomizedEffectNearCenter */
+} S_8185C860_1;
 
 s32 func_800A2CB8();
 s32 dungeonCheckEntityEligibility();

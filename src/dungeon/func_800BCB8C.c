@@ -32,7 +32,7 @@ typedef struct S_800C22EC_2 {
     u8 unk_01;
     u8 pad_02[0x1];
     u8 unk_03;
-} S_800C22EC_2;   /* temp_a0 in dungeonUseItemToReviveSelectedActor */
+} S_800C22EC_2;
 
 typedef struct S_800C22EC_3 {
     u8 pad_00[0x1C];
@@ -40,7 +40,7 @@ typedef struct S_800C22EC_3 {
     u8 pad_20[0x8];
     s8 unk_28;
     u8 unk_29;
-} S_800C22EC_3;   /* temp_s0 in dungeonUseItemToReviveSelectedActor */
+} S_800C22EC_3;
 
 /* Processes an entity action and updates the selected target or reports failure. */
 s32 dungeonUseItemToReviveSelectedActor(EntityRec *entity, s32 action, s16 action_type, void *context) {

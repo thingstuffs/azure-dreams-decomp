@@ -153,7 +153,7 @@ void dungeonUpdateActorTimedEffects(void *actor_arg, void *context_arg, void *sp
         if (((S_801714B8_2 *)sprite)->unk_2C != D_801760EC) {
             u8 *state_table = D_801760E4;
 
-            (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+            (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
             func_80047784(sprite,
                 state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
@@ -187,7 +187,7 @@ void dungeonUpdateActorTimedEffects(void *actor_arg, void *context_arg, void *sp
             u8 *state_table = D_8017609C;
 
             if (((S_801714B8_2 *)sprite)->unk_2C != state_table) {
-                (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+                (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
                 func_80047784(sprite,
                     state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
@@ -326,7 +326,7 @@ ordinary_cleanup:
 
         if (((S_801714B8_2 *)sprite)->unk_2C != main_table) {
             if (((S_801714B8_2 *)sprite)->unk_2C != D_801760A4) {
-                (*(void * *)((u8 *)sprite + (0x2C))) = main_table;
+                (((S_801714B8_2 *)sprite)->unk_2C) = main_table;
                 func_80047784(sprite,
                     main_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
@@ -345,7 +345,7 @@ ordinary_cleanup:
 
                 u8 *alt_table = D_801760A4;
 
-                (*(void * *)((u8 *)sprite + (0x2C))) = alt_table;
+                (((S_801714B8_2 *)sprite)->unk_2C) = alt_table;
                 func_80047784(sprite,
                     alt_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
@@ -387,7 +387,7 @@ ordinary_cleanup:
         (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
         u8 *state_table = D_8017609C;
 
-        (*(void * *)((u8 *)sprite + (0x2C))) = state_table;
+        (((S_801714B8_2 *)sprite)->unk_2C) = state_table;
         func_80047784(sprite,
             state_table[((gameWork.view.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
             0);

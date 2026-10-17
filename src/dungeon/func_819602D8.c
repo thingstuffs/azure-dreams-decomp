@@ -8,7 +8,7 @@ extern u16 D_800273CC[];
 extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
 
-   /* temp_v0 in dungeonFlagNearbySevenBySevenTiles */
+
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void dungeonFlagNearbySevenBySevenTiles(s32 input_x, s32 center_y) {

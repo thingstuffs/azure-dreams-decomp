@@ -1,17 +1,17 @@
 #include "common.h"
 extern s32 *D_80701968;
-void func_80701808(s32 arg0) {
-    s32 *temp_a0;
-    s32 temp_v1;
-    s32 var_v1;
+void func_80701808(s32 flag_id) {
+    s32 *flag_word;
+    s32 word_index;
+    s32 rounded_id;
 
-    if (arg0 != 0) {
-        var_v1 = arg0;
-        if (arg0 < 0) {
-            var_v1 = arg0 + 0x1F;
+    if (flag_id != 0) {
+        rounded_id = flag_id;
+        if (flag_id < 0) {
+            rounded_id = flag_id + 0x1F;
         }
-        temp_v1 = var_v1 >> 5;
-        temp_a0 = D_80701968 + temp_v1;
-        *temp_a0 |= 1 << (arg0 - (temp_v1 << 5));
+        word_index = rounded_id >> 5;
+        flag_word = D_80701968 + word_index;
+        *flag_word |= 1 << (flag_id - (word_index << 5));
     }
 }

@@ -51,7 +51,6 @@ typedef struct S_80170E9C_2 {
 } S_80170E9C_2;   /* arg2 in dungeonUpdateEntityActionsFacingAndAnimation */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784();
 s32 dungeonCheckEntityRelation();
@@ -104,7 +103,7 @@ void dungeonUpdateEntityActionsFacingAndAnimation(void *entity, s32 context, voi
         if (((S_80170E9C_2 *)sprite)->unk_2C == &D_80174F00) {
             return;
         }
-        (*(void **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
+        (((S_80170E9C_2 *)sprite)->unk_2C) = &D_80174EF8;
         func_80047784(sprite, *(u8 *)((((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
             >> 9) & 7) + (u32)&D_80174EF8), 0);
         return;
@@ -136,7 +135,7 @@ void dungeonUpdateEntityActionsFacingAndAnimation(void *entity, s32 context, voi
         idle_mode = 0xE;
         if (current_mode != idle_mode) {
             if (((S_80170E9C_2 *)sprite)->unk_2C != D_80174EE0) {
-                (*(void **)((u8 *)sprite + 0x2C)) = D_80174EE0;
+                (((S_80170E9C_2 *)sprite)->unk_2C) = D_80174EE0;
                 func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
@@ -244,7 +243,7 @@ block_59:
     if (((S_80170E9C_2 *)sprite)->unk_2C == (void *)D_80174EE0) {
         return;
     }
-    (*(void **)((u8 *)sprite + 0x2C)) = (void *)D_80174EE0;
+    (((S_80170E9C_2 *)sprite)->unk_2C) = (void *)D_80174EE0;
     func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
         >> 9) & 7], 0);
     return;

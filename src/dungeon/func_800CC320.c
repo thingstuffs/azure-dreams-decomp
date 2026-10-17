@@ -35,7 +35,7 @@ typedef struct S_800D1A80_2_pre {
 typedef struct S_800D1A80_3 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800D1A80_3;   /* var_a0 in dungeonFadeActorToRemoval */
+} S_800D1A80_3;
 
 
 #define M2C_BREAK() 0

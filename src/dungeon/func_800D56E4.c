@@ -6,7 +6,7 @@
 typedef struct S_800DAE44_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800DAE44_3;   /* temp_v0 in dungeonCreateSourcePositionedObject */
+} S_800DAE44_3;
 
 typedef struct S_800DAE44_4 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_800DAE44_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800DAE44_4;   /* ((S_800DAE44_3 *)temp_v0)->unk_08 in dungeonCreateSourcePositionedObject */
+} S_800DAE44_4;
 
 
 void *func_8003FD64();            /* extern */
@@ -25,7 +25,7 @@ extern void dungeonSpawnScatteredTimedObjects(void *source_owner, void *spawn_pa
 typedef struct S_800DAE44_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800DAE44_0;   /* temp_v0 in dungeonCreateSourcePositionedObject */
+} S_800DAE44_0;
 
 
 typedef struct S_800DAE44_2 {
@@ -33,7 +33,7 @@ typedef struct S_800DAE44_2 {
     s16 unk_10;
     u8 pad_12[0x36];
     s16 unk_48;
-} S_800DAE44_2;   /* temp_s0 in dungeonCreateSourcePositionedObject */
+} S_800DAE44_2;
 
 /* Create an object at the source position and initialize its data. */
 void dungeonCreateSourcePositionedObject(EntityRec *source_pos, s16 initial_value) {

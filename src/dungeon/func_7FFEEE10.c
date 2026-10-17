@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern s32 townEvaluateSurfaceComponentsA(s32 *);
 
@@ -15,7 +14,7 @@ typedef struct S_8008C570_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C570_1;   /* temp_s0 in townQueryOffsetPositionMinusX */
+} S_8008C570_1;
 
 /* Evaluates the summed vector and subtracts the entry's integer first component on success. */
 s32 townQueryOffsetPositionMinusX(S_8008C570_0 *vector, s32 entry_base, s32 entry_index) {

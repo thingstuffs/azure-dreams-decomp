@@ -19,7 +19,7 @@ typedef struct S_80019DE0_0 {
 typedef struct S_80019DE0_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80019DE0_1;   /* temp_a0 in townApplyHalfStepPositionDeltas */
+} S_80019DE0_1;
 
 /* Calls the active callback and adds signed half-deltas, rounded toward zero, to two target fields. */
 void townApplyHalfStepPositionDeltas(S_80019DE0_0 *deltas) {
@@ -31,7 +31,7 @@ void townApplyHalfStepPositionDeltas(S_80019DE0_0 *deltas) {
 
     ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_258)(1);
     first_delta = deltas->unk_00;
-    first_target = ((S_80019DE0_6 *)((*(void **)((u8 *)((s8 *)(&D_80016000)) + 0))))->unk_1C;
+    first_target = D_80016000->unk_1C;
     shifted_delta = (u32) first_delta << 0x10;
     first_target->unk_04 = (s32) (first_target->unk_04 + ((s32) (((s32) shifted_delta >> 0x10) + (shifted_delta
         >> 0x1F)) >> 1));

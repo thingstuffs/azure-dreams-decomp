@@ -10,7 +10,7 @@ typedef struct S_80175060_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80175060_0;   /* temp_v0 in dungeonCreateRandomizedMotionObject */
+} S_80175060_0;
 
 typedef struct S_80175060_1 {
     u8 pad_00[0x4];
@@ -26,7 +26,7 @@ typedef struct S_80175060_1 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80175060_1;   /* temp_s0 in dungeonCreateRandomizedMotionObject */
+} S_80175060_1;
 
 
 typedef struct S_80175060_3 {
@@ -36,7 +36,7 @@ typedef struct S_80175060_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175060_3;   /* temp_v1_2 in dungeonCreateRandomizedMotionObject */
+} S_80175060_3;
 
 
 void func_8003DB94(void *, void *, s32);  /* extern */

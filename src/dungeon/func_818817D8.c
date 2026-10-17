@@ -6,7 +6,7 @@ typedef struct S_80024FD8_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80024FD8_0;   /* temp_v0 in dungeonCreateEffectRenderObject */
+} S_80024FD8_0;
 
 typedef struct S_80024FD8_1 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_80024FD8_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024FD8_1;   /* temp_v1 in dungeonCreateEffectRenderObject */
+} S_80024FD8_1;
 
 typedef struct S_80024FD8_2 {
     u8 pad_00[0x2];
@@ -36,7 +36,7 @@ typedef struct S_80024FD8_3 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024FD8_3;   /* temp_s0 in dungeonCreateEffectRenderObject */
+} S_80024FD8_3;
 
 typedef struct S_80024FD8_4 {
     u8 pad_00[0x14];
@@ -45,7 +45,7 @@ typedef struct S_80024FD8_4 {
     s16 unk_1E;
     u8 pad_20[0x4];
     s16 unk_24;
-} S_80024FD8_4;   /* temp_v1_2 in dungeonCreateEffectRenderObject */
+} S_80024FD8_4;
 
 
 

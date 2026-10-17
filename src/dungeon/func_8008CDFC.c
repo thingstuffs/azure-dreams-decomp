@@ -43,7 +43,7 @@ typedef struct S_8009255C_5 {
     void * unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_8009255C_5;   /* temp_v0 in dungeonUpdatePlayerEatingAction */
+} S_8009255C_5;
 
 typedef struct S_8009255C_6 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_8009255C_6 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009255C_6;   /* temp_v1_2 in dungeonUpdatePlayerEatingAction */
+} S_8009255C_6;
 
 typedef struct S_8009255C_7 {
     u8 pad_00[0x8C];
@@ -63,7 +63,7 @@ typedef struct S_8009255C_7 {
     u8 pad_A0[0x8];
     s16 unk_A8;
     s16 unk_AA;
-} S_8009255C_7;   /* temp_v1_3 in dungeonUpdatePlayerEatingAction */
+} S_8009255C_7;
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
 void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {

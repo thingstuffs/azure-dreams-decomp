@@ -1,0 +1,25 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/s2_img_c17060_80164860",
+ "container": "dungeon",
+ "foff": "0xc17060",
+ "size": "0x244c",
+ "vma": "0x80164860",
+ "evidence": "docs/evidence/r121w_s2_receipts.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80BF7258",
+   "tu": "src/dungeon/func_80BF1258.c",
+   "home": "dungeon/func_80BF1258",
+   "foff": "0xc17258",
+   "vma": "0x80164a58",
+   "size": 1468,
+   "bindings": {
+    "0x8016e20c": "0x8016820c",
+    "0x8016e26c": "0x8016826c",
+    "0x8016b014": "0x80165014"
+   },
+   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80BF7258"
+  }
+ ]
+}

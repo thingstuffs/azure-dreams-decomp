@@ -6,9 +6,8 @@
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
     M2C_UNK (*unk_208)(M2C_UNK);
-} S_8051E954_3;   /* (*(void **)((u8 *)temp_v1 + 0x20)) in func_8051E954 */
+} S_8051E954_3;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 D_80019158;
 
@@ -16,7 +15,7 @@ typedef struct S_8051E954_0 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_8051E954_0;   /* temp_s0 in func_8051E954 */
+} S_8051E954_0;
 
 /* Builds and submits a three-word command sequence from the low 16 bits of the input. */
 void func_8051E954(s32 command_value) {

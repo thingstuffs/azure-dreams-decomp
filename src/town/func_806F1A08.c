@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 extern s32 func_800177BC();
 extern s32 D_80017D64;
@@ -13,8 +14,8 @@ s32 func_806F1A08(void) {
     ptr = D_80016000;
     do {
         value = &D_80017D64;
-        ptr = *(void **)((s8 *)ptr + 0x1C);
+        ptr = ((Rec_D_80016000 *)ptr)->unk_1C;
     } while (0);
-    *(s32 **)((s8 *)ptr + 0x40) = value;
+    ((TownPositionState *)ptr)->unk_40 = value;
     return 0;
 }

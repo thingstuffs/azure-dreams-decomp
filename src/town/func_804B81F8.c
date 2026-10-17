@@ -7,7 +7,7 @@
 typedef struct S_800169F8_1 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800169F8_1;   /* temp_v1 in func_800169F8 */
+} S_800169F8_1;
 
 
 s32 func_8001894C();                         /* extern */

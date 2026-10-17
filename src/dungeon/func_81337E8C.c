@@ -7,12 +7,21 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x3716];
+    s16 field_3716;
+    s16 field_3718;
+    s16 field_371A;
+} Page8001FieldView_81337E8C;
+
+
 typedef struct S_8016EE8C_0 {
     u8 pad_00[0xAB];
     s8 unk_AB;
     u8 pad_AC[0x3];
     s8 unk_AF;
-} S_8016EE8C_0;   /* temp_a3 in dungeonBeginMultiFormRingScript */
+} S_8016EE8C_0;
 
 typedef struct S_8016EE8C_1 {
     u8 pad_00[0x296C];
@@ -30,12 +39,12 @@ typedef struct S_8016EE8C_2 {
 typedef struct S_8016EE8C_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8016EE8C_4;   /* temp_v1 in dungeonBeginMultiFormRingScript */
+} S_8016EE8C_4;
 
 typedef struct S_8016EE8C_5 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016EE8C_5;   /* (temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v) in dungeonBeginMultiFormRingScript */
+} S_8016EE8C_5;
 
 
 void func_8009A028();                         /* extern */
@@ -61,9 +70,9 @@ void dungeonBeginMultiFormRingScript(void) {
     page_800e = (void *)0x800E0000;
     active_data = D_80175D50 + 0x20;
     ((S_8016EE8C_0 *)active_data)->unk_AF = 1;
-    (*(s16 *)((u8 *)page_8001 + 0x371A)) = 0;
-    (*(s16 *)((u8 *)page_8001 + 0x3718)) = 0;
-    (*(s16 *)((u8 *)page_8001 + 0x3716)) = 0;
+    (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
+    (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
+    (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
     dungeonStatus.unk_0C = 0;
     D_80175DC8 = 0;
     ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);

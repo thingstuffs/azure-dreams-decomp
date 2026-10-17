@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/region_cb3000_cb7bb0",
+ "container": "dungeon",
+ "foff": "0xcb3000",
+ "size": "0x4bb0",
+ "vma": "0x80170800",
+ "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4d1_cb3000_bank",
+ "entries": [
+  {
+   "row": "dungeon/func_80C96640",
+   "home": "dungeon/func_80C96640",
+   "tu": "src/dungeon/func_80C96640.c",
+   "foff": "0xcb6640",
+   "vma": "0x80173e40",
+   "size": 1248
+  }
+ ]
+}

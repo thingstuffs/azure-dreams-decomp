@@ -14,7 +14,21 @@ typedef struct S_800B5B20_0 {
     u8 unk_09;
     u8 unk_0A;
     u8 unk_0B;
-} S_800B5B20_0;   /* temp_s0 in townCompleteDisplayTransfer */
+} S_800B5B20_0;
+
+typedef struct DisplayTransferState {
+    u8 pad_00[8];
+    s16 slot_index;
+    u16 texture_slot;
+    u8 pad_0C[4];
+    union { s32 palette_offset; u16 palette_slot; } palette;
+    void *texture;
+    u8 pad_18[0xB8];
+    s32 transfer_phase;
+    s32 transfer_pending;
+    u8 pad_D8[8];
+    s32 data;
+} DisplayTransferState;
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
 void townCompleteDisplayTransfer(void *texture_state) {
@@ -24,35 +38,35 @@ void townCompleteDisplayTransfer(void *texture_state) {
     void *texture;
     s16 *slot_table;
 
-    if ((*(s32 *)((u8 *)state + 0xD4)) != 0) {
+    if (((DisplayTransferState *)state)->transfer_pending != 0) {
         func_80067014(0);
         slot_table = D_80083D78;
-        table_index = (*(s16 *)((u8 *)state + 8));
-        texture = (*(void * *)((u8 *)state + 0x14));
-        (*(s32 *)((u8 *)state + 0xD0)) = 0;
-        (*(s32 *)((u8 *)state + 0xD4)) = 0;
-        slot_table[table_index * 2] = (*(u16 *)((u8 *)state + 0xA));
-        slot_table[((*(s16 *)((u8 *)state + 8)) * 2) + 1] = (*(u16 *)((u8 *)state + 0x10));
+        table_index = ((DisplayTransferState *)state)->slot_index;
+        texture = ((DisplayTransferState *)state)->texture;
+        ((DisplayTransferState *)state)->transfer_phase = 0;
+        ((DisplayTransferState *)state)->transfer_pending = 0;
+        slot_table[table_index * 2] = ((DisplayTransferState *)state)->texture_slot;
+        slot_table[(((DisplayTransferState *)state)->slot_index * 2) + 1] = ((DisplayTransferState *)state)->palette.palette_slot;
 
         rect.x = ((u8) ((S_800B5B20_0 *)texture)->unk_08 >> 2) + ((((S_800B5B20_0 *)texture)->unk_04 << 6) & 0x3C0);
-        rect.y = ((S_800B5B20_0 *)texture)->unk_09 + (((*(u16 *)((u8 *)texture + 4)) * 0x10) & 0x100);
+        rect.y = ((S_800B5B20_0 *)texture)->unk_09 + ((((S_800B5B20_0 *)texture)->unk_04 * 0x10) & 0x100);
         rect.w = (s16) ((u8) ((S_800B5B20_0 *)texture)->unk_0A >> 2);
         rect.h = (s16) ((S_800B5B20_0 *)texture)->unk_0B;
-        func_800672D8(&rect, (*(s32 *)((u8 *)state + 0xE0)));
-        if ((*(s16 *)((u8 *)state + 8)) != 0) {
+        func_800672D8(&rect, ((DisplayTransferState *)state)->data);
+        if (((DisplayTransferState *)state)->slot_index != 0) {
             u16 palette_y;
             s32 palette_offset;
             s32 data_base;
 
             rect.x = (((S_800B5B20_0 *)texture)->unk_06 & 0x3F) * 0x10;
-            palette_y = (*(u16 *)((u8 *)texture + 6));
+            palette_y = ((S_800B5B20_0 *)texture)->unk_06;
             rect.w = 0x10;
             rect.h = 1;
             palette_y >>= 6;
             rect.y = (s16) palette_y;
 
-            palette_offset = (*(s32 *)((u8 *)state + 0x10));
-            data_base = (*(s32 *)((u8 *)state + 0xE0));
+            palette_offset = ((DisplayTransferState *)state)->palette.palette_offset;
+            data_base = ((DisplayTransferState *)state)->data;
             palette_offset <<= 5;
             palette_offset += 0x200;
 
@@ -60,5 +74,5 @@ void townCompleteDisplayTransfer(void *texture_state) {
         }
         func_80067014(0);
     }
-    (*(s32 *)((u8 *)state + 0xE0)) = 0;
+    ((DisplayTransferState *)state)->data = 0;
 }

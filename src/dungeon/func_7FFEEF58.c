@@ -14,7 +14,7 @@ typedef struct S_8008C6B8_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C6B8_1;   /* temp_s0 in dungeonAdjustSummedVectorByEntryComponent */
+} S_8008C6B8_1;
 
 /* Evaluates the summed vector and adjusts nonzero results by the entry's integer second component. */
 s16 dungeonAdjustSummedVectorByEntryComponent(S_8008C6B8_0 *base_vector, s32 entries_addr, s32 entry_index) {

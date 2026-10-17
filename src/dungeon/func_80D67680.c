@@ -8,7 +8,6 @@ typedef struct Ent Ent;
 
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784();
 Ent *dungeonPrepareDirectionalAttack();
@@ -82,7 +81,7 @@ s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, voi
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 &= 0xFFF7;
         ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
         anim_table = &D_800E2378;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = anim_table;
+        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
         func_80047784(sprite,
                       anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                       0);

@@ -157,7 +157,18 @@ void dungeonUpdateActorSpecialAction(ActionState *action_state, ActorMotion *mot
             table = (u8 *)&D_8015D298;
             current_frames = current;
             next_frames = table;
-            goto update_direction_frames;
+            if (current_frames != next_frames) {
+                u32 post_index;
+
+                sprite->directionFrames = next_frames;
+                post_index = ((gameWork.view.viewAngle +
+                    entity->facing.s + 0x100) >> 9) & 7;
+                func_80047784(sprite,
+                    *(u8 *)((unsigned long)post_index +
+                            (unsigned long)next_frames),
+                    0);
+            }
+            return;
         }
     }
 
@@ -484,7 +495,6 @@ void dungeonUpdateActorSpecialAction(ActionState *action_state, ActorMotion *mot
         current_frames =
             sprite->directionFrames;
         next_frames = (u8 *)&D_8015D258;
-update_direction_frames:
         if (current_frames != next_frames) {
             u32 post_index;
 

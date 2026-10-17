@@ -4,12 +4,12 @@
 typedef struct S_8009C648_6 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8009C648_6;   /* temp_v0 in townSpawnRandomizedEffectParts */
+} S_8009C648_6;
 
 typedef struct S_8009C648_7 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8009C648_7;   /* ((S_8009C648_6 *)temp_v0)->unk_0C in townSpawnRandomizedEffectParts */
+} S_8009C648_7;
 
 
 extern s32 rand(void);
@@ -21,13 +21,13 @@ extern M2C_UNK D_800D06C8[3];
 typedef struct S_8009C648_0 {
     s32 unk_00;
     s32 unk_04;
-} S_8009C648_0;   /* var_s4 in townSpawnRandomizedEffectParts */
+} S_8009C648_0;
 
 typedef struct S_8009C648_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8009C648_1;   /* temp_v0 in townSpawnRandomizedEffectParts */
+} S_8009C648_1;
 
 typedef struct S_8009C648_2 {
     u8 pad_00[0x80];
@@ -37,13 +37,13 @@ typedef struct S_8009C648_2 {
 typedef struct S_8009C648_3 {
     u8 pad_00[0x60];
     s32 unk_60;
-} S_8009C648_3;   /* temp_s1 in townSpawnRandomizedEffectParts */
+} S_8009C648_3;
 
 typedef struct S_8009C648_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_8009C648_4;   /* temp_s0 in townSpawnRandomizedEffectParts */
+} S_8009C648_4;
 
 typedef struct S_8009C648_5 {
     s32 unk_00;

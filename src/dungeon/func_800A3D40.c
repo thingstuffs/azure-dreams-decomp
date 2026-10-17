@@ -28,14 +28,14 @@ typedef struct S_800A94A0_2 {
     u8 pad_14[0xA];
     u16 unk_1E;
     void * unk_20;
-} S_800A94A0_2;   /* temp_v0 in dungeonCreateActorSpellEffect */
+} S_800A94A0_2;
 
 typedef struct S_800A94A0_3 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 unk_08;
     u8 unk_09;
-} S_800A94A0_3;   /* temp_v0_3 in dungeonCreateActorSpellEffect */
+} S_800A94A0_3;
 
 typedef struct S_800A94A0_4 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_800A94A0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A94A0_4;   /* temp_s0 in dungeonCreateActorSpellEffect */
+} S_800A94A0_4;
 
 typedef struct S_800A94A0_5 {
     u8 pad_00[0x2];
@@ -53,16 +53,16 @@ typedef struct S_800A94A0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A94A0_5;   /* temp_v1 in dungeonCreateActorSpellEffect */
+} S_800A94A0_5;
 
 typedef struct S_800A94A0_6 {
     s32 unk_00;
-} S_800A94A0_6;   /* temp_v0_4 in dungeonCreateActorSpellEffect; pointer addresses record offset 0x14 */
+} S_800A94A0_6;   /* Pointer addresses record offset 0x14. */
 
 typedef struct S_800A94A0_7 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800A94A0_7;   /* temp_s5 in dungeonCreateActorSpellEffect */
+} S_800A94A0_7;
 
 typedef struct S_800A94A0_8 {
     u8 pad_00[0x14];
@@ -70,7 +70,7 @@ typedef struct S_800A94A0_8 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800A94A0_8;   /* temp_t0 in dungeonCreateActorSpellEffect */
+} S_800A94A0_8;
 
 typedef struct S_800A94A0_9 {
     u8 pad_00[0x2A];

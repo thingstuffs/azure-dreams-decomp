@@ -21,7 +21,7 @@ typedef struct S_8072A398_0 {
     u8 pad_00[0x4];
     s32 unk_04;
     s32 unk_08;
-} S_8072A398_0;   /* temp_a0 in func_8072A398 */
+} S_8072A398_0;
 
 /* Configures the active object with two 16.16 coordinates and a zero third component. */
 void func_8072A398(void) {

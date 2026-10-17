@@ -4,9 +4,6 @@
 #include "m2c_compat.h"
 
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 void townDispatchEventD8A();
 extern M2C_UNK D_80018AE8;
 extern s32 D_80018BE8;

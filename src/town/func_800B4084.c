@@ -6,7 +6,7 @@ void townSetShopSlotColors();                 /* extern */
 typedef struct S_800B17E4_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800B17E4_0;   /* temp_a0 in townProcessShopObjectData */
+} S_800B17E4_0;
 
 /* Pass the object's data at offset 0x20 and its unk_08 value to townSetShopSlotColors. */
 void townProcessShopObjectData(s32 object_addr) {

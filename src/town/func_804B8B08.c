@@ -9,8 +9,6 @@ typedef struct S_80017308_1 {
 } S_80017308_1;   /* ((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32) in townRunSceneOperation514 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern s32 func_80018854();
 
 /* Invoke operation 0x514 and set the current entry counter to two. */

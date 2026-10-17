@@ -9,7 +9,7 @@ typedef struct S_808138C0_0 {
     void * unk_08;
     void * unk_0C;
     s32 unk_10;
-} S_808138C0_0;   /* temp_v0 in func_808138C0 */
+} S_808138C0_0;
 
 typedef struct S_808138C0_1 {
     s32 unk_00;
@@ -24,7 +24,7 @@ typedef struct S_808138C0_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_808138C0_1;   /* temp_a0 in func_808138C0 */
+} S_808138C0_1;
 
 typedef struct S_808138C0_2 {
     s32 unk_00;
@@ -32,7 +32,7 @@ typedef struct S_808138C0_2 {
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_808138C0_2;   /* ((S_808138C0_0 *)temp_v0)->unk_08 in func_808138C0 */
+} S_808138C0_2;
 
 
 extern void *func_800373DC();

@@ -27,7 +27,7 @@ typedef struct S_80026C88_1 {
     s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80026C88_1;   /* temp_v0 in dungeonCreateAndLinkSixOffsetObjects */
+} S_80026C88_1;
 
 typedef struct S_80026C88_2 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_80026C88_2 {
     s16 unk_66;
     u8 pad_68[0x6];
     s16 unk_6E;
-} S_80026C88_2;   /* temp_a3 in dungeonCreateAndLinkSixOffsetObjects */
+} S_80026C88_2;
 
 typedef struct S_80026C88_3 {
     u8 pad_00[0x2];
@@ -57,7 +57,7 @@ typedef struct S_80026C88_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80026C88_3;   /* temp_a2 in dungeonCreateAndLinkSixOffsetObjects */
+} S_80026C88_3;
 
 typedef struct S_80026C88_4 {
     u8 pad_00[0x8];
@@ -67,14 +67,14 @@ typedef struct S_80026C88_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80026C88_4;   /* temp_a0 in dungeonCreateAndLinkSixOffsetObjects */
+} S_80026C88_4;
 
 typedef struct S_80026C88_5 {
     u8 pad_00[0x24];
     u16 unk_24;
     u16 unk_26;
     u16 unk_28;
-} S_80026C88_5;   /* var_a1 in dungeonCreateAndLinkSixOffsetObjects */
+} S_80026C88_5;
 
 /* Create and link up to six objects with source-relative positions and initialized render data. */
 void *dungeonCreateAndLinkSixOffsetObjects(u16 x, u16 y, s16 z, void *source)

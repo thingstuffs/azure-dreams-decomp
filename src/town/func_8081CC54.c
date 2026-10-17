@@ -15,7 +15,7 @@ typedef struct S_80026C54_0 {
 typedef struct S_80026C54_1 {
     u8 pad_00[0x1A];
     u16 unk_1A;
-} S_80026C54_1;   /* temp_v0 in townFadeSceneTileAfterLinkedFlag */
+} S_80026C54_1;
 
 
 /* Waits for the linked object flag, then fades the stored value and marks completion. */

@@ -4,17 +4,17 @@
 typedef struct S_800B59A4_3 {
     u8 pad_00[0x30];
     void * unk_30;
-} S_800B59A4_3;   /* var_s1 in townPopulateDisplayRows */
+} S_800B59A4_3;
 
 typedef struct S_800B59A4_4 {
     s32 unk_00;
     void * unk_04;
-} S_800B59A4_4;   /* ((S_800B59A4_3 *)var_s1)->unk_30 in townPopulateDisplayRows */
+} S_800B59A4_4;
 
 typedef struct S_800B59A4_5 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800B59A4_5;   /* ((S_800B59A4_4 *)(((S_800B59A4_3 *)var_s1)->unk_30))->unk_04 in townPopulateDisplayRows */
+} S_800B59A4_5;
 
 
 s32 lookupItemCategoryMappedValue();
@@ -30,17 +30,17 @@ typedef struct S_800B59A4_0 {
     s32 unk_18;
     u8 pad_1C[0x8];
     s32 unk_24;
-} S_800B59A4_0;   /* var_s1 in townPopulateDisplayRows */
+} S_800B59A4_0;
 
 typedef struct S_800B59A4_1 {
     u8 unk_00;
     u8 unk_01;
-} S_800B59A4_1;   /* temp_v0 in townPopulateDisplayRows */
+} S_800B59A4_1;
 
 typedef struct S_800B59A4_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B59A4_2;   /* temp_v0_2 in townPopulateDisplayRows */
+} S_800B59A4_2;
 
 /* Populate up to three display rows with entry text and positioned icons. */
 void townPopulateDisplayRows(s32 source_id, void *display) {

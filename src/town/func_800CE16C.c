@@ -14,14 +14,14 @@ typedef struct S_800CB8CC_0 {
     s32 unk_08;
     void * unk_0C;
     M2C_UNK (*unk_10)(void *, s32, void *);
-} S_800CB8CC_0;   /* temp_v0 in townCreateAndInvokeRenderObject */
+} S_800CB8CC_0;
 
 typedef struct S_800CB8CC_1 {
     u8 pad_00[0x60];
     s32 unk_60;
     u8 pad_64[0x38];
     s32 unk_9C;
-} S_800CB8CC_1;   /* temp_s1 in townCreateAndInvokeRenderObject */
+} S_800CB8CC_1;
 
 typedef struct S_800CB8CC_2 {
     u8 pad_00[0x8];
@@ -30,7 +30,7 @@ typedef struct S_800CB8CC_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CB8CC_2;   /* temp_s0 in townCreateAndInvokeRenderObject */
+} S_800CB8CC_2;
 
 /* Creates an object, initializes its render data, and invokes its callback. */
 s32 townCreateAndInvokeRenderObject(s32 initial_value, s32 resource_index) {

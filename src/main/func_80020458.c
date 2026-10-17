@@ -9,12 +9,12 @@ typedef struct S_80020458_2 {
 typedef struct S_80020458_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80020458_3;   /* temp_a2 in func_80020458 */
+} S_80020458_3;
 
 typedef struct S_80020458_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80020458_4;   /* temp_a2_2 in func_80020458 */
+} S_80020458_4;
 
 typedef struct S_80020458_5 {
     void * unk_00;
@@ -25,13 +25,13 @@ typedef struct S_80020458_6 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80020458_6;   /* ((S_80020458_3 *)temp_a2)->unk_04 in func_80020458 */
+} S_80020458_6;
 
 typedef struct S_80020458_7 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_80020458_7;   /* ((S_80020458_4 *)temp_a2_2)->unk_04 in func_80020458 */
+} S_80020458_7;
 
 
 /* Callback function addresses outside this overlay's own window (0x8000D000-
@@ -43,11 +43,11 @@ extern M2C_UNK D_80409128;
 
 typedef struct S_80020458_0 {
     M2C_UNK * unk_00;
-} S_80020458_0;   /* temp_a2 in func_80020458 */
+} S_80020458_0;
 
 typedef struct S_80020458_1 {
     M2C_UNK * unk_00;
-} S_80020458_1;   /* temp_a2_2 in func_80020458 */
+} S_80020458_1;
 
 /* Initializes two child objects and assigns their callbacks. */
 void func_80020458(S_80020458_2 *owner) {

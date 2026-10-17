@@ -23,12 +23,12 @@ typedef struct S_800AF520_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     s32 unk_20;
-} S_800AF520_1;   /* temp_struct in townPopulateItemMenuLowerEntries */
+} S_800AF520_1;
 
 typedef struct S_800AF520_2 {
     u8 unk_00;
     u8 unk_01;
-} S_800AF520_2;   /* temp_v0 in townPopulateItemMenuLowerEntries */
+} S_800AF520_2;
 
 /* Fill slots 6 through 15 from the current page of entries, then clear unused slots. */
 void townPopulateItemMenuLowerEntries(void *context) {

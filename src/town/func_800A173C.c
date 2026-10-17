@@ -2,7 +2,6 @@
 #include "records/Rec_func_8009EE9C_arg0.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800644B8();
 void townInitializeTheEntitySActionCopySelectedStateHex13();

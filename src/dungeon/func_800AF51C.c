@@ -17,7 +17,7 @@ extern M2C_UNK D_800DF24C[];
 typedef struct S_800B4C7C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800B4C7C_0;   /* temp_v0_3 in createActorValuePopup */
+} S_800B4C7C_0;
 
 typedef struct S_800B4C7C_1 {
     u8 pad_00[0xE];
@@ -30,12 +30,12 @@ typedef struct S_800B4C7C_1 {
     u16 unk_1C;
     u8 pad_1E[0x5];
     u8 unk_23;
-} S_800B4C7C_1;   /* temp_s2 in createActorValuePopup */
+} S_800B4C7C_1;
 
 typedef struct S_800B4C7C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B4C7C_2;   /* temp_v0_4 in createActorValuePopup */
+} S_800B4C7C_2;
 
 typedef struct S_800B4C7C_3 {
     u8 pad_00[0x2];
@@ -44,25 +44,25 @@ typedef struct S_800B4C7C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B4C7C_3;   /* temp_a0_2 in createActorValuePopup */
+} S_800B4C7C_3;
 
 typedef struct S_800B4C7C_4 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B4C7C_4;   /* temp_v1_ptr in createActorValuePopup */
+} S_800B4C7C_4;
 
 typedef struct S_800B4C7C_5 {
     u8 pad_00[0x6];
     s16 unk_06;
     void * unk_08;
-} S_800B4C7C_5;   /* temp_a1 in createActorValuePopup */
+} S_800B4C7C_5;
 
 typedef struct S_800B4C7C_6 {
     u8 pad_00[0x2];
     s8 unk_02;
-} S_800B4C7C_6;   /* dungeonFindFirstEndedRecord(temp_s3) in createActorValuePopup */
+} S_800B4C7C_6;
 
 /* Creates and positions a text object showing a formatted value or preset message. */
 void *createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {

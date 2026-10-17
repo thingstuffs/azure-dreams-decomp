@@ -6,14 +6,14 @@
 typedef struct S_80016BD4_2 {
     u8 pad_00[0x4];
     M2C_UNK (*unk_04)(void *, u8, s32);
-} S_80016BD4_2;   /* ((temp_a1 * 0x10) + temp_a0->unk_10) in townDispatchFlagTestState */
+} S_80016BD4_2;
 
 
 typedef struct S_80016BD4_1 {
     u8 unk_00;
     u8 pad_01[0xF];
     s32 unk_10;
-} S_80016BD4_1;   /* temp_a0 in townDispatchFlagTestState */
+} S_80016BD4_1;
 
 
 extern s32 D_80016E40;

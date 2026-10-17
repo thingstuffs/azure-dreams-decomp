@@ -10,7 +10,7 @@ typedef struct S_80175814_0 {
     void * unk_20;
     u8 pad_24[0x6];
     u16 unk_2A;
-} S_80175814_0;   /* temp_v0 in dungeonCreateLinkedSourceObject */
+} S_80175814_0;
 
 typedef struct S_80175814_1 {
     s32 unk_00;

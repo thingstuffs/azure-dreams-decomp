@@ -15,7 +15,7 @@ typedef struct S_818C2F10_0 {
 typedef struct S_818C2F10_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_818C2F10_1;   /* temp_v1 in func_818C2F10 */
+} S_818C2F10_1;
 
 typedef struct S_818C2F10_2 {
     u8 pad_00[0x8];

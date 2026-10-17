@@ -5,13 +5,18 @@
 typedef struct S_800B62A4_0 {
     u8 pad_00[0x8];
     u8 unk_08;
-} S_800B62A4_0;   /* var_s2 in townFillDisplaySlots */
+} S_800B62A4_0;
 
 
 M2C_UNK bzero();            /* extern */
 void townCollectSelectedRecordValues();             /* extern */
 void townPopulateDisplayRowWithIcon();            /* extern */
 void townPopulateDisplayRow();            /* extern */
+
+typedef struct DisplaySlot {
+    u8 pad_00[0x38];
+    s32 *value;
+} DisplaySlot;
 
 /* Fill up to three output slots from source entries and clear unused slots. */
 void townFillDisplaySlots(EntityRec *source, s32 output) {
@@ -63,7 +68,7 @@ void townFillDisplaySlots(EntityRec *source, s32 output) {
     if (index < 3) {
         slot_cursor = (index * 4) + output;
         do {
-            slot_value = (*(s32 * *)((u8 *)slot_cursor + 0x38));
+            slot_value = ((DisplaySlot *)slot_cursor)->value;
             slot_cursor += 4;
             index += 1;
             *slot_value = 0;

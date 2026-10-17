@@ -176,7 +176,18 @@ void dungeonUpdateLongActorAction(void *self_object, void *aux_entity, void *spr
             table = (u8 *)&D_80175298;
             post_current = current;
             post_table = table;
-            goto post_compare;
+            if (post_current != post_table) {
+                u32 post_index;
+
+                ((S_80170F6C_2 *)sprite)->unk_2C = post_table;
+                post_index = ((gameWork.view.viewAngle +
+                    ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7;
+                func_80047784(sprite,
+                    *(u8 *)((unsigned long)post_index +
+                            (unsigned long)post_table),
+                    0);
+            }
+            return;
         }
     }
 
@@ -503,7 +514,6 @@ void dungeonUpdateLongActorAction(void *self_object, void *aux_entity, void *spr
         post_current =
             ((S_80170F6C_2 *)sprite)->unk_2C;
         post_table = (u8 *)&D_80175258;
-post_compare:
         if (post_current != post_table) {
             u32 post_index;
 

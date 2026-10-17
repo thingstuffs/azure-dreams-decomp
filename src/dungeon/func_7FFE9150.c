@@ -1,7 +1,6 @@
 #include "common.h"
 
 typedef s32 M2C_UNK;
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     u32 word0;
@@ -47,19 +46,19 @@ typedef struct S_7FFE9150_1 {
 typedef struct S_7FFE9150_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE9150_2;   /* temp_a0 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_2;
 
 typedef struct S_7FFE9150_3 {
     s32 unk_00;
     s32 unk_04;
-} S_7FFE9150_3;   /* temp_s0 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_3;
 
 typedef struct S_7FFE9150_4 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x10];
     s16 unk_1C;
-} S_7FFE9150_4;   /* temp_v1 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_4;
 
 typedef struct S_7FFE9150_5 {
     u8 pad_00[0x2];
@@ -68,7 +67,7 @@ typedef struct S_7FFE9150_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE9150_5;   /* ((S_7FFE9150_2 *)temp_a0)->unk_08 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_5;
 
 /* Update the emitter position, spawn scattered particles, and retire it when its lifetime expires. */
 void dungeonSpawnScatteredEmitterParticles(void *emitter, void *position, M2C_UNK spawn_context) {

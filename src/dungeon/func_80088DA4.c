@@ -33,7 +33,7 @@ typedef struct S_8008E504_2 {
 typedef struct S_8008E504_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008E504_3;   /* temp_a0 in dungeonUpdatePlayerLandingRecovery */
+} S_8008E504_3;
 
 typedef struct S_8008E504_4 {
     u8 pad_00[0x14];

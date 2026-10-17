@@ -4,7 +4,7 @@
 typedef struct S_80024F7C_0 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_80024F7C_0;   /* temp_a1 in cardBootRestoreSavedSelectionCallback */
+} S_80024F7C_0;
 
 typedef struct S_80024F7C_1 {
     s32 unk_00;

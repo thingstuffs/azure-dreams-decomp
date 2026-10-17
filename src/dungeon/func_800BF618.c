@@ -9,7 +9,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FD64();
 s32 func_800A56E0();
@@ -22,7 +21,7 @@ typedef struct S_800C4D78_0 {
     s32 unk_20;
     u8 pad_24[0x2];
     s16 unk_26;
-} S_800C4D78_0;   /* temp_v0 in dungeonCreateViewColorFlash */
+} S_800C4D78_0;
 
 typedef struct S_800C4D78_1 {
     u8 pad_00[0xA];

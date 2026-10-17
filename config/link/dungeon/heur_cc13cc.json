@@ -1,0 +1,36 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/heur_cc13cc",
+ "container": "dungeon",
+ "foff": "0xcc13cc",
+ "size": "0x514",
+ "vma": "0x80166bcc",
+ "evidence": "work/native_lane/r121_heur/evidence/placements.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80CA13CC",
+   "tu": "src/dungeon/func_80CA73CC.c",
+   "home": "dungeon/func_80CA73CC",
+   "foff": "0xcc13cc",
+   "vma": "0x80166bcc",
+   "size": 1300,
+   "bindings": {
+    "0x801610b8": "0x801670b8",
+    "0x8015e838": "0x80164838",
+    "0x80160ce0": "0x80166ce0",
+    "0x80160ce8": "0x80166ce8",
+    "0x80160cf0": "0x80166cf0",
+    "0x80160cfc": "0x80166cfc",
+    "0x80160d70": "0x80166d70",
+    "0x80160dd4": "0x80166dd4",
+    "0x8015f02c": "0x8016502c",
+    "0x8015e87c": "0x8016487c",
+    "0x8015e920": "0x80164920",
+    "0x8016339c": "0x8016939c",
+    "0x801610b0": "0x801670b0",
+    "0x801632b4": "0x801692b4"
+   },
+   "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
+  }
+ ]
+}

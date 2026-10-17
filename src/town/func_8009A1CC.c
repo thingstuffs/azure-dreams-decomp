@@ -10,8 +10,6 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 scaleRandomToUnsignedHalfwordLimit();
 extern M2C_UNK func_8003DB94();
@@ -25,7 +23,7 @@ typedef struct S_8009792C_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8009792C_0;   /* temp_v0 in townCreateRandomizedOffsetEffect */
+} S_8009792C_0;
 
 typedef struct S_8009792C_1 {
     u8 pad_00[0x2];
@@ -37,7 +35,7 @@ typedef struct S_8009792C_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8009792C_1;   /* temp_s2 in townCreateRandomizedOffsetEffect */
+} S_8009792C_1;
 
 typedef struct S_8009792C_2 {
     u8 pad_00[0x2];
@@ -62,7 +60,7 @@ typedef struct S_8009792C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8009792C_3;   /* temp_s0 in townCreateRandomizedOffsetEffect */
+} S_8009792C_3;
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
 void *townCreateRandomizedOffsetEffect(S_8009792C_2 *source, u32 angle) {

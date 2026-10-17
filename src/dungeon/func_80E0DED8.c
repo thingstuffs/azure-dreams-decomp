@@ -21,7 +21,7 @@ typedef struct S_801716D8_2 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_801716D8_2;   /* temp_v0 in dungeonAdvancePathMotion */
+} S_801716D8_2;
 
 typedef struct S_801716D8_3 {
     u8 pad_00[0x8C];
@@ -64,7 +64,7 @@ void dungeonAdvancePathMotion(void *motion, void *unused, void *entity, void *pa
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
         > ((S_801716D8_0 *)state)->unk_8A)) {
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
-            (*(void **)((u8 *)entity + 0x2C)) = D_80176460;
+            (((Rec_D_80082E80 *)entity)->unk_2C.as_pv) = D_80176460;
             func_80047784(entity, D_80176460[((gameWork.view.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
@@ -95,7 +95,7 @@ void dungeonAdvancePathMotion(void *motion, void *unused, void *entity, void *pa
         ((S_801716D8_0 *)state)->unk_2A = heading;
         ((S_801716D8_3 *)motion)->unk_9A = 0xF;
         ((S_801716D8_3 *)motion)->unk_8C = 0;
-        (*(s32 *)((u8 *)state + 0x1C)) = (s32) (((S_801716D8_0 *)state)->unk_1C | 0x40000000);
+        (((S_801716D8_0 *)state)->unk_1C) = (s32) (((S_801716D8_0 *)state)->unk_1C | 0x40000000);
         if (dungeonStatus.flags & 0x80) {
             ((S_801716D8_3 *)motion)->unk_96 = 0;
             return;

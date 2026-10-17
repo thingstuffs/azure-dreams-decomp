@@ -64,9 +64,9 @@ TownRecord *townPopulateRecordsAndNormalizeKind(void)
             if (record->kind == 11) {
                 end_flags = 128;
                 if (townApplyStoredValue17974() != 0)
-                    goto done;
+                    break;
                 ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
-                goto done;
+                break;
             } else {
                 end_flags = 128;
             }
@@ -76,6 +76,5 @@ TownRecord *townPopulateRecordsAndNormalizeKind(void)
                 break;
         }
     }
-done:
     return D_80018A18;
 }

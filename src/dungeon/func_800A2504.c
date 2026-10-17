@@ -9,7 +9,7 @@ typedef struct S_800A7C64_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     s32 unk_10;
-} S_800A7C64_0;   /* temp_v0 in func_800A7C64 */
+} S_800A7C64_0;
 
 typedef struct S_800A7C64_1 {
     u8 pad_00[0xC];
@@ -19,7 +19,7 @@ typedef struct S_800A7C64_1 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A7C64_1;   /* temp_s0 in func_800A7C64 */
+} S_800A7C64_1;
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
 void func_800A7C64(void) {

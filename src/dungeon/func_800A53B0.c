@@ -28,7 +28,7 @@ typedef struct S_800AAB10_0 {
 typedef struct S_800AAB10_2_pre {
     u16 unk_00;
     u8 pad_02[0x12];
-} S_800AAB10_2_pre;   /* the 0x14 bytes before ((temp_a0 * 0x14) + D_8007359C) in dungeonProcessSelectedActorRecord, addressed as ((temp_a0 * 0x14) + D_8007359C)[-1] */
+} S_800AAB10_2_pre;   /* 0x14-byte header immediately before the payload. */
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */

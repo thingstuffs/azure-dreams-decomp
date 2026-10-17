@@ -26,7 +26,7 @@ typedef struct S_800D58D8_2 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800D58D8_2;   /* temp_v0_3 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_2;
 
 typedef struct S_800D58D8_3 {
     u8 pad_00[0x6];
@@ -42,7 +42,7 @@ typedef struct S_800D58D8_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800D58D8_3;   /* temp_a0 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_3;
 
 typedef struct S_800D58D8_4 {
     u8 pad_00[0x2];
@@ -51,7 +51,7 @@ typedef struct S_800D58D8_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D58D8_4;   /* temp_s0_2 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_4;
 
 typedef struct S_800D58D8_5 {
     u8 pad_00[0x2];
@@ -65,7 +65,7 @@ typedef struct S_800D58D8_5 {
 typedef struct S_800D58D8_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800D58D8_6;   /* temp_a1 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_6;
 
 
 typedef struct {

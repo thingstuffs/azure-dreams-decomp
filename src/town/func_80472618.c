@@ -12,7 +12,7 @@ typedef struct S_80472618_0 {
 typedef struct S_80472618_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_80472618_1;   /* temp_a1 in func_80019618 */
+} S_80472618_1;
 
 /* Pass the indexed entry and its signed 16-bit value to func_8001A418. */
 void func_80019618(S_80472618_0 *entry_table, s32 entry_index) {

@@ -33,18 +33,18 @@ typedef struct S_801732A4_3 {
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_801732A4_3;   /* var_v0 in func_801732A4 */
+} S_801732A4_3;
 
 
 typedef struct S_801732A4_5 {
     u8 pad_00[0x26];
     s8 unk_26;
-} S_801732A4_5;   /* temp_base_2 in func_801732A4 */
+} S_801732A4_5;
 
 typedef struct S_801732A4_6 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_801732A4_6;   /* temp_base in func_801732A4 */
+} S_801732A4_6;
 
 typedef struct S_801732A4_7 {
     u8 pad_00[0xC];
@@ -58,12 +58,12 @@ typedef struct S_801732A4_7 {
     u8 pad_20[0x8];
     s32 unk_28;
     u8 * unk_2C;
-} S_801732A4_7;   /* temp_a0 in func_801732A4 */
+} S_801732A4_7;
 
 typedef struct S_801732A4_8 {
     u8 pad_00[0xBB];
     u8 unk_BB;
-} S_801732A4_8;   /* temp_v1_7 in func_801732A4 */
+} S_801732A4_8;
 
 typedef struct Copy24 { u32 words[6]; } Copy24;
 
@@ -117,7 +117,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
     case 0:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
             return;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741DC;
+        (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741DC;
         func_80047784(sprite, D_801741DC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
@@ -138,7 +138,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if (dungeonStatus.flags & 0x1000)
             return;
         if ((func_80042900(actor_state, 1) << 0x10) == 0) {
-            (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741E4;
+            (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741E4;
             func_80047784(sprite, D_801741E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -214,7 +214,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         }
         if ((func_80042900(actor_state, 1) << 0x10) != 0)
             return;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741E4;
+        (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741E4;
         func_80047784(sprite, D_801741E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -239,7 +239,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
     case 2:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
             return;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741EC;
+        (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741EC;
         func_80047784(sprite, D_801741EC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);

@@ -14,7 +14,6 @@ typedef struct {
     s32 words[4];
 } Copy16;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define MULT_HI(a, b) (0)
 
 extern s32 D_80045C34[3];
@@ -30,7 +29,7 @@ typedef struct S_818C370C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_818C370C_0;   /* temp_v0 in func_818C370C */
+} S_818C370C_0;
 
 typedef struct S_818C370C_1 {
     u8 pad_00[0xE];
@@ -38,7 +37,7 @@ typedef struct S_818C370C_1 {
     s16 unk_10;
     s16 unk_12;
     u16 unk_14;
-} S_818C370C_1;   /* temp_s2 in func_818C370C */
+} S_818C370C_1;
 
 typedef struct S_818C370C_2 {
     u8 pad_00[0x14];
@@ -58,7 +57,7 @@ typedef struct S_818C370C_3 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818C370C_3;   /* temp_s0 in func_818C370C */
+} S_818C370C_3;
 
 /* Creates an object with randomized state and initializes its rendering and data. */
 s32 func_818C370C(S_818C370C_2 *owner, void *source_data) {

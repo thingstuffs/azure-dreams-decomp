@@ -35,7 +35,6 @@ typedef struct S_800A21EC_3 {
 } S_800A21EC_3;   /* ((S_800A21EC_2 *)arg0)->unk_14 in townInitializeDirectionalObjectState */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8004491C();
 extern M2C_UNK D_80046398;

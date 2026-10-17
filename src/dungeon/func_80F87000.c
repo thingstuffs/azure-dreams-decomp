@@ -108,17 +108,15 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                 call_a1 = part_a;
                 left = func_800A6D30();
                 call_a0 = obj;
-                if (!(left & 1)) {
-                    goto call_a1_setup;
+                if (left & 1) {
+                    ((S_80F87000_1 *)work)->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_80174AFC;
                 }
-                ((S_80F87000_1 *)work)->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
-                part_b->unk_2C = D_80174AFC;
             }
         }
         call_a0 = obj;
-call_a1_setup:
         func_800A9C18(call_a0, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

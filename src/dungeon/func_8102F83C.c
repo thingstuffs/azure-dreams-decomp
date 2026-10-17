@@ -3,6 +3,35 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x2A];
+    s16 field_2A;
+    u8 pad_2C[0x41];
+    union {
+        s8 s8;
+        u8 u8;
+    } field_6D;
+    u8 pad_6E[0x3];
+    u8 field_71;
+    u8 pad_72[0x1E];
+    union {
+        s32 s32;
+        struct { u8 pad[0x2]; s16 value; } s16_at_2;
+        struct { u8 pad[0x2]; u16 value; } u16_at_2;
+    } field_90;
+    s16 field_94;
+    u8 pad_96[0x2];
+    u16 field_98;
+    u8 field_9A;
+    u8 pad_9B[0x2];
+    union {
+        s8 s8;
+        u8 u8;
+    } field_9D;
+} EntityArgFieldView_8102F83C;
+
+
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -79,14 +108,14 @@ void dungeonUpdateMonsterAppearanceMotion(void *entity_arg, void *motion_arg, vo
             first_callback(entity_arg, motion_arg, monster_arg, entity_arg);
             return;
         } else {
-            (*(u8 *)((u8 *)entity_arg + 0x71)) &= 0x7F;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_71) &= 0x7F;
             return;
         }
     } else {
         call_entity = entity_arg;
         call_motion = motion;
         call_monster = monster;
-        old_direction = (s8)(*(u8 *)((u8 *)entity_arg + 0x6D));
+        old_direction = (s8)(((EntityArgFieldView_8102F83C *)entity_arg)->field_6D.u8);
         call_context = entity_arg;
     }
 
@@ -103,27 +132,27 @@ void dungeonUpdateMonsterAppearanceMotion(void *entity_arg, void *motion_arg, vo
             callback(entity_arg, motion, monster, entity_arg);
         }
     }
-    D_80176138[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion, monster, entity_arg);
+    D_80176138[(((EntityArgFieldView_8102F83C *)entity_arg)->field_9A)](entity_arg, motion, monster, entity_arg);
 
-    if ((s16)old_direction != (*(s8 *)((u8 *)entity_arg + 0x6D))) {
+    if ((s16)old_direction != (((EntityArgFieldView_8102F83C *)entity_arg)->field_6D.s8)) {
         func_800AA36C(entity_arg, motion, monster, entity_arg);
     }
 
     monster_flags = ((S_8017103C_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        facing_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity_arg + 0x2A)) + 0x100;
+        facing_angle = gameWork.view.viewAngle + (((EntityArgFieldView_8102F83C *)entity_arg)->field_2A) + 0x100;
         direction = (facing_angle >> 9) & 7;
         direction_copy = direction;
         direction_index = direction;
 
-        if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
+        if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_94) != direction_index) {
             u8 *tile_map = ((S_8017103C_0 *)monster)->unk_2C;
 
             if (tile_map != 0) {
                 selectIndirectTableEntry(monster, tile_map[direction_index],
                               ((S_8017103C_0 *)monster)->unk_04);
             }
-            (*(s16 *)((u8 *)entity_arg + 0x94)) = direction;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_94) = direction;
         }
 
         if (dirSpriteFlag[direction_copy] != 0) {
@@ -176,31 +205,31 @@ flags_done:
     motion->unk_00.at00.v += motion->unk_0C;
     motion->unk_04.at00.v += motion->unk_10;
 
-    if ((*(u16 *)((u8 *)entity_arg + 0x98)) & 8) {
-        (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+    if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_98) & 8) {
+        (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
     } else {
-        motion->unk_14 += (*(s8 *)((u8 *)entity_arg + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)entity_arg + 0x9D))++;
+        motion->unk_14 += (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.s8) * 0x14000;
+        (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8)++;
     }
 
-    (*(s32 *)((u8 *)entity_arg + 0x90)) += motion->unk_14;
+    (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s32) += motion->unk_14;
 
-    if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4) && (floor_height = func_800BCB04(motion->unk_00.at02.v,
+    if (!((((EntityArgFieldView_8102F83C *)entity_arg)->field_98) & 4) && (floor_height = func_800BCB04(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
                               (s16)(actor->unk_88.u - 0x20))) < 0x200) {
         actor_height = actor->unk_88.s;
-        if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
+        if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) + actor_height < floor_height) {
             actor->unk_1C &= 0xF7FFFFFF;
         } else if (floor_height >= actor_height) {
-            (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s32) = 0;
             motion->unk_14 = 0;
             actor->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
         } else {
-            (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - actor->unk_88.u;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) = floor_height - actor->unk_88.u;
             motion->unk_14 = 0;
             actor->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_9D.u8) = 0;
         }
         if (actor->unk_1C & 0x40000000) {
             actor->unk_1C &= 0xBFFFFFFF;
@@ -208,7 +237,7 @@ flags_done:
                 (((S_8017103C_0 *)monster)->unk_24 << 6) | 0x20,
                 (((S_8017103C_0 *)monster)->unk_25 << 6) | 0x20,
                 (s16)(actor->unk_88.u - 0x20));
-            (*(s16 *)((u8 *)entity_arg + 0x92)) +=
+            (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) +=
                 actor->unk_88.u - floor_height;
             actor->unk_88.u = floor_height;
         }
@@ -216,7 +245,7 @@ flags_done:
         actor->unk_1C &= 0xF7FFFFFF;
     }
     motion->unk_0A =
-        actor->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
+        actor->unk_88.u + (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.u16_at_2.value);
     ((S_8017103C_0 *)monster)->unk_14 |= 0x40;
 
 }

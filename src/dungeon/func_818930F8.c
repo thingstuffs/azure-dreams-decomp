@@ -7,7 +7,7 @@
 
    /* arg0 in func_800248F8 */
 
-   /* temp_v1 in func_800248F8 */
+
 
 
 

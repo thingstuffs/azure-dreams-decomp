@@ -24,7 +24,7 @@ typedef struct S_8001ACA0_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8001ACA0_1;   /* temp_v1 in townCopyCurrentRecordComponents3 */
+} S_8001ACA0_1;
 
 /* Copy three 16-bit components from the current nested record to the output. */
 void townCopyCurrentRecordComponents3(S_8001ACA0_0 *components) {

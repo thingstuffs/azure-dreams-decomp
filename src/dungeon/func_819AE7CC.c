@@ -8,7 +8,7 @@ typedef struct S_80025FCC_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80025FCC_0;   /* temp_v0 in func_80025FCC */
+} S_80025FCC_0;
 
 typedef struct S_80025FCC_1 {
     u8 pad_00[0x2];
@@ -23,7 +23,7 @@ typedef struct S_80025FCC_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_80025FCC_1;   /* temp_v0_2 in func_80025FCC */
+} S_80025FCC_1;
 
 typedef struct S_80025FCC_2 {
     u8 pad_00[0x8];
@@ -37,7 +37,7 @@ typedef struct S_80025FCC_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80025FCC_2;   /* temp_v1 in func_80025FCC */
+} S_80025FCC_2;
 
 typedef struct S_80025FCC_3 {
     u8 pad_00[0x1C];
@@ -52,7 +52,7 @@ typedef struct S_80025FCC_3 {
     u8 pad_3A[0x4];
     s16 unk_3E;
     s16 unk_40;
-} S_80025FCC_3;   /* temp_s0 in func_80025FCC */
+} S_80025FCC_3;
 
 /* Creates an effect at the supplied position and initializes its rendering and state. */
 void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {

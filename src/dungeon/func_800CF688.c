@@ -18,20 +18,20 @@ typedef struct S_800D4DE8_0_pre {
 typedef struct S_800D4DE8_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800D4DE8_2;   /* temp_a0 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_2;
 
 typedef struct S_800D4DE8_3 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     s16 unk_20;
-} S_800D4DE8_3;   /* temp_v0_3 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_3;
 
 typedef struct S_800D4DE8_4 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_800D4DE8_4;   /* temp_v0_2 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_4;
 
 typedef struct S_800D4DE8_5 {
     u8 pad_00[0xA];
@@ -39,7 +39,7 @@ typedef struct S_800D4DE8_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D4DE8_5;   /* temp_s0 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_5;
 
 typedef struct S_800D4DE8_6 {
     u8 pad_00[0xA];
@@ -53,7 +53,7 @@ typedef struct S_800D4DE8_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D4DE8_7;   /* ((S_800D4DE8_2 *)temp_a0)->unk_08 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_7;
 
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];

@@ -4,13 +4,13 @@
 typedef struct S_800B3178_3 {
     u8 pad_00[0x4];
     s8 * unk_04;
-} S_800B3178_3;   /* *var_s0 in townPopulatePagedEntriesWithBrightness */
+} S_800B3178_3;
 
 typedef struct S_800B3178_4 {
     u8 pad_00[0x1];
     s8 unk_01;
     s8 unk_02;
-} S_800B3178_4;   /* ((S_800B3178_3 *)(*var_s0))->unk_04 in townPopulatePagedEntriesWithBrightness */
+} S_800B3178_4;
 
 
 s32 func_8004AC3C();                   /* extern */
@@ -25,12 +25,12 @@ typedef struct S_800B3178_0 {
 typedef struct S_800B3178_1 {
     s32 unk_00;
     s8 * unk_04;
-} S_800B3178_1;   /* *var_s0 in townPopulatePagedEntriesWithBrightness */
+} S_800B3178_1;
 
 typedef struct S_800B3178_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800B3178_2;   /* *var_s1 in townPopulatePagedEntriesWithBrightness */
+} S_800B3178_2;
 
 /* Populate up to ten page entries and set their type-dependent brightness. */
 void townPopulatePagedEntriesWithBrightness(void **entries, S_800B3178_0 *page_info, s32 source_table) {

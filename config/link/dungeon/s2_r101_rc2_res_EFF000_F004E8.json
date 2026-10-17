@@ -1,0 +1,19 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "dungeon/s2_r101_rc2_res_EFF000_F004E8",
+ "container": "dungeon",
+ "foff": "0xeff000",
+ "size": "0x14e8",
+ "vma": "0x80170800",
+ "evidence": "docs/evidence/r121w_s2_receipts.json",
+ "entries": [
+  {
+   "row": "dungeon/func_80EDFC98",
+   "tu": "src/dungeon/func_80EDFC98.c",
+   "home": "dungeon/func_80EDFC98",
+   "foff": "0xeffc98",
+   "vma": "0x80171498",
+   "size": 640
+  }
+ ]
+}

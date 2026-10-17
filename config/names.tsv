@@ -4814,3 +4814,80 @@
 0x803334D4	func_803334D4	townInvokeEnabledEntryCallback	(medium) src/town/func_803334D4.c:14-40: Invokes the town callback for an enabled entry using its mode and adjusted position.; caller none in local inventory
 0x800164BC	func_800164BC	townTickSceneStateCounter	(medium) src/town/func_804804BC.c:11-16: Decrements the current state's counter by D_80019438.; caller none in local inventory
 0x800A4300	func_800A4300	dungeonSelectPositionDataAndUpdateOwner	(high) src/dungeon/func_8009EBA0.c:22-68: looks up position-pair data and updates the owning map or floor entry using the entity's coordinates; caller func_800A4474 at src/dungeon/func_8009EBA0.c:33
+0x800CEDB8	func_800CEDB8	initialize_scene_slot_60	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEE14	func_800CEE14	initialize_scene_slot_59	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEE70	func_800CEE70	initialize_scene_slot_83	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEECC	func_800CEECC	initialize_scene_slot_84	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEF28	func_800CEF28	initialize_scene_slot_58	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEF84	func_800CEF84	initialize_scene_slot_45	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CEFE0	func_800CEFE0	initialize_scene_slot_62	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF03C	func_800CF03C	initialize_scene_slot_57	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF098	func_800CF098	initialize_scene_slot_48	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF0F4	func_800CF0F4	initialize_scene_slot_47	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF150	func_800CF150	initialize_scene_slot_52	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF26C	func_800CF26C	initialize_scene_slot_16	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF388	func_800CF388	initialize_scene_slot_41	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF3E4	func_800CF3E4	initialize_scene_slot_42	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C90D4	func_800C90D4	initialize_scene_slot_59_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C911C	func_800C911C	initialize_scene_slot_31	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C91AC	func_800C91AC	initialize_scene_slot_36	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C925C	func_800C925C	initialize_scene_slot_68	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C97AC	func_800C97AC	initialize_scene_slot_11	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF440	func_800CF440	initialize_scene_slot_10	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF488	func_800CF488	initialize_scene_slot_12	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF4D0	func_800CF4D0	initialize_scene_slot_11_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF518	func_800CF518	initialize_scene_slot_8	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF560	func_800CF560	initialize_scene_slot_9	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF5A8	func_800CF5A8	initialize_scene_slot_13	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF5F0	func_800CF5F0	initialize_scene_slot_7	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF638	func_800CF638	initialize_scene_slot_6	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CF6D8	func_800CF6D8	initialize_scene_slot_37	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C7284	func_800C7284	initialize_scene_slot_53	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C72CC	func_800C72CC	initialize_scene_slot_55	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C7314	func_800C7314	initialize_scene_slot_49	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C73C4	func_800C73C4	initialize_scene_slot_52_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C740C	func_800C740C	initialize_scene_slot_54	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C7454	func_800C7454	initialize_scene_slot_56	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C749C	func_800C749C	initialize_scene_slot_60_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C74E4	func_800C74E4	initialize_scene_slot_41_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C752C	func_800C752C	initialize_scene_slot_42_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C7574	func_800C7574	initialize_scene_slot_27	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C75BC	func_800C75BC	initialize_scene_slot_4	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAC28	func_800CAC28	initialize_scene_slot_18	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAC70	func_800CAC70	initialize_scene_slot_18_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CADC8	func_800CADC8	initialize_scene_slot_46	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAE10	func_800CAE10	initialize_scene_slot_38	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAE58	func_800CAE58	initialize_scene_slot_30	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAEA0	func_800CAEA0	initialize_scene_slot_57_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAEE8	func_800CAEE8	initialize_scene_slot_62_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAF30	func_800CAF30	initialize_scene_slot_24	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAFE0	func_800CAFE0	initialize_scene_slot_69	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CAA44	func_800CAA44	initialize_scene_slot_45_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CCA64	func_800CCA64	initialize_scene_slot_12_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800CC864	func_800CC864	initialize_scene_slot_1	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C6F20	func_800C6F20	initialize_scene_slot_6_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C7070	func_800C7070	initialize_scene_slot_3	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C53B0	func_800C53B0	initialize_scene_slot_1_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C6DC8	func_800C6DC8	initialize_scene_slot_15	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C6E70	func_800C6E70	initialize_scene_slot_47_context	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x800C6880	func_800C6880	initialize_scene_entry_group_5	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800C694C	func_800C694C	initialize_scene_entry_group_9	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800C6AE4	func_800C6AE4	initialize_scene_entry_group_5_2	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800C8A08	func_800C8A08	initialize_scene_entry_group_8	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CC6FC	func_800CC6FC	initialize_scene_entry_group_120	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CC960	func_800CC960	initialize_scene_entry_group_300	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CCAAC	func_800CCAAC	initialize_scene_entry_group_28	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CCB0C	func_800CCB0C	initialize_scene_entry_group_28_2	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CF1AC	func_800CF1AC	initialize_scene_entry_group_13	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CF20C	func_800CF20C	initialize_scene_entry_group_4	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CF2C8	func_800CF2C8	initialize_scene_entry_group_13_2	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CF328	func_800CF328	initialize_scene_entry_group_4_2	(high) bounded SDK callback; matched handler and callee contracts; docs/evidence/r121w_s2_receipts.json
+0x800CC5FC	func_800CC5FC	initialize_scene_slot_11_context_variant	(high) bounded SDK callback, complete pointer-table entry and strict source proof; docs/evidence/r121w_s2_receipts.json
+0x80019320	func_80019320	invoke_scene_service	work/native_lane/r121_heur/evidence/new_code.json: invokes the service table callback at +0x280 with code 0x1704
+0x800CBE88	func_800CBE88	initialize_actor_twenty_eight_tick_countdown	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor twenty eight tick countdown
+0x800C44B4	func_800C44B4	reset_actor_handler_from_linked_entries	work/native_lane/r121_heur/evidence/variant_code.json: reset actor handler from linked entries
+0x800CA56C	func_800CA56C	initialize_actor_slot_eleven_countdown	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor slot eleven countdown
+0x800C7F60	func_800C7F60	initialize_actor_slot_four_countdown	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor slot four countdown
+0x800CA60C	func_800CA60C	initialize_actor_primary_handler	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor primary handler
+0x800B0198	func_800B0198	load_actor_display_resource	work/native_lane/r121_heur/evidence/variant_code.json: load actor display resource
+0x800CDF00	func_800CDF00	initialize_actor_reaction_and_fixed_state	work/native_lane/r121_heur/evidence/variant_code.json: initialize actor reaction and fixed state

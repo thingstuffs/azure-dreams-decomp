@@ -13,7 +13,7 @@ typedef struct S_80088BD0_0 {
     union { s16 s16; void * p32; } unk_20;   /* accessed as both */
     u8 pad_24[0xA];
     s16 unk_2E;
-} S_80088BD0_0;   /* temp_v0 in mainCreateSettingsController */
+} S_80088BD0_0;
 
 typedef struct S_80088BD0_1 {
     u8 pad_00[0x1A];
@@ -21,12 +21,12 @@ typedef struct S_80088BD0_1 {
     s16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80088BD0_1;   /* var_fp in mainCreateSettingsController */
+} S_80088BD0_1;
 
 typedef struct S_80088BD0_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80088BD0_2;   /* var_s5 in mainCreateSettingsController */
+} S_80088BD0_2;
 
 typedef struct S_80088BD0_3 {
     u8 pad_00[0x4];
@@ -38,23 +38,23 @@ typedef struct S_80088BD0_3 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80088BD0_3;   /* temp_s1 in mainCreateSettingsController */
+} S_80088BD0_3;
 
 typedef struct S_80088BD0_4 {
     s32 unk_00;
-} S_80088BD0_4;   /* (s8 *)stack_desc + (s32)var_s4 in mainCreateSettingsController */
+} S_80088BD0_4;
 
 typedef struct S_80088BD0_5 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_80088BD0_5;   /* (s8 *)temp_s3 - 0x20 in mainCreateSettingsController */
+} S_80088BD0_5;
 
 typedef struct S_80088BD0_6 {
     void * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
     s16 unk_0C;
-} S_80088BD0_6;   /* temp_s3 in mainCreateSettingsController */
+} S_80088BD0_6;
 
 typedef struct S_80088BD0_7 {
     u8 pad_00[0x4];
@@ -66,12 +66,12 @@ typedef struct S_80088BD0_7 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80088BD0_7;   /* temp_v1 in mainCreateSettingsController */
+} S_80088BD0_7;
 
 typedef struct S_80088BD0_8 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_80088BD0_8;   /* (s8 *)var_fp + (var_s2 << 2) in mainCreateSettingsController */
+} S_80088BD0_8;
 
 typedef struct S_80088BD0_9 {
     u8 pad_00[0x2];
@@ -81,7 +81,7 @@ typedef struct S_80088BD0_9 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_80088BD0_9;   /* ((S_80088BD0_0 *)temp_v0)->unk_08 in mainCreateSettingsController */
+} S_80088BD0_9;
 
 
 M2C_UNK func_8003DB94();  /* extern */

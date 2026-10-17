@@ -6,7 +6,6 @@
 #define NULL 0
 #endif
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 
@@ -14,7 +13,7 @@ typedef struct S_801656F8_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_801656F8_2;   /* temp_v0 in dungeonCreateShortLivedChildParticle */
+} S_801656F8_2;
 
 
 typedef struct S_801656F8_4 {
@@ -27,7 +26,7 @@ typedef struct S_801656F8_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801656F8_4;   /* ((S_801656F8_2 *)temp_v0)->unk_08 in dungeonCreateShortLivedChildParticle */
+} S_801656F8_4;
 
 typedef struct S_801656F8_5 {
     u8 pad_00[0x2];
@@ -41,7 +40,7 @@ typedef struct S_801656F8_5 {
 typedef struct S_801656F8_6 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_801656F8_6;   /* ((S_801656F8_2 *)temp_v0)->unk_0C in dungeonCreateShortLivedChildParticle */
+} S_801656F8_6;
 
 
 void *func_8003FD64();
@@ -55,7 +54,7 @@ typedef struct S_801656F8_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_801656F8_0;   /* temp_v0 in dungeonCreateShortLivedChildParticle */
+} S_801656F8_0;
 
 typedef struct S_801656F8_1 {
     u8 pad_00[0x8];
@@ -65,7 +64,7 @@ typedef struct S_801656F8_1 {
     u8 pad_16[0x1C];
     s16 unk_32;
     s16 unk_34;
-} S_801656F8_1;   /* temp_s0 in dungeonCreateShortLivedChildParticle */
+} S_801656F8_1;
 
 /* Creates an effect offset from its source with randomized motion. */
 void dungeonCreateShortLivedChildParticle(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,

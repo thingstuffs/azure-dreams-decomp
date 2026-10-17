@@ -3,7 +3,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 

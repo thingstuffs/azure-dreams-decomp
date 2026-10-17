@@ -7,7 +7,7 @@ typedef struct S_800BFB00_0 {
     void (*unk_10)(void);
     u8 pad_14[0xC];
     u16 unk_20;
-} S_800BFB00_0;   /* temp_v0 in town_rain_in */
+} S_800BFB00_0;
 
 typedef struct S_800BFB00_1 {
     u8 pad_00[0x2];
@@ -18,11 +18,8 @@ typedef struct S_800BFB00_1 {
     s16 unk_0A;
     u8 pad_0C[0x2];
     s16 unk_0E;
-} S_800BFB00_1;   /* temp_a0 in town_rain_in */
+} S_800BFB00_1;
 
-
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64(s32, void *);
 extern void townSpawnRandomizedTimedObjects(void);

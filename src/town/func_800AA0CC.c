@@ -14,7 +14,6 @@ typedef struct S_800A782C_1 {
 } S_800A782C_1;   /* arg1 in townInitializeTimedScaleObject */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80033CD8();
 void townInitializeRandomizedScaleTimer();

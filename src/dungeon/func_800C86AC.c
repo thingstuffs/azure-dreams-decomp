@@ -9,7 +9,7 @@ typedef struct S_800CDE0C_0 {
     s32 unk_1C;
     u8 pad_20[0x3C];
     s32 unk_5C;
-} S_800CDE0C_0;   /* var_a0 in dungeonMarkAllActorsWithHighFlag */
+} S_800CDE0C_0;
 
 /* Set flag 0x40000000 on every record in the circular list. */
 void dungeonMarkAllActorsWithHighFlag(void) {

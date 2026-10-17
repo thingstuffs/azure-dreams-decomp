@@ -3,6 +3,25 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
+/* Sparse views for fields not covered by the existing record types. */
+typedef struct {
+    u8 pad_00[0x92];
+    union {
+        s16 s16;
+        u16 u16;
+    } field_92;
+    u8 pad_94[0x12];
+    u16 field_A6;
+} InputActorFieldView_80E0D2E8;
+
+typedef struct {
+    u8 pad_00[0x2];
+    u16 field_02;
+    u8 pad_04[0x2];
+    u16 field_06;
+} InputMotionFieldView_80E0D2E8;
+
+
 typedef struct Actor Actor;
 typedef struct Motion Motion;
 typedef struct Entity Entity;
@@ -175,16 +194,16 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
-                height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-                entity_flags = *(u16 *)((u8 *)input_actor + 0x92);
+                height_offset = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16;
+                entity_flags = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16;
                 if (height_adjust < height_offset) {
                     height_adjust = entity_flags - 8;
-                    *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
                 } else {
                     height_adjust = height_offset < -0x20;
                     if (height_adjust) {
                         height_adjust = entity_flags + 8;
-                        *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                        ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
                     }
                 }
             }
@@ -204,11 +223,11 @@ ground_reset:
             input_actor->position90 -= correction;
             if (!(input_actor->state98 & 8)) {
                 ground = (s16)(func_800BCB04(
-                    *(u16 *)((u8 *)input_motion + 2),
-                    *(u16 *)((u8 *)input_motion + 6),
+                    ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_02,
+                    ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_06,
                     (s16)(subject->height88 - 0x20)) - subject->height88);
-                if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
-                    *(s16 *)((u8 *)input_actor + 0x92) = ground;
+                if (ground < ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16) {
+                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = ground;
                     input_actor->counter9D = 0;
                     input_motion->dz = 0;
                     subject->flags |= 0x08000000;
@@ -222,16 +241,16 @@ ground_reset:
             }
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
-                height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-                entity_flags = *(u16 *)((u8 *)input_actor + 0x92);
+                height_offset = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16;
+                entity_flags = ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16;
                 if (height_adjust < height_offset) {
                     height_adjust = entity_flags - 8;
-                    *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                    ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
                 } else {
                     height_adjust = height_offset < -0x20;
                     if (height_adjust) {
                         height_adjust = entity_flags + 8;
-                        *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                        ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 = height_adjust;
                     }
                 }
             }
@@ -245,14 +264,14 @@ ground_reset:
                                (input_entity->tileY << 6) | 0x20,
                                (s16)(subject->height88 - 0x20));
         if (ground < 0x200) {
-            *(s16 *)((u8 *)input_actor + 0x92) += subject->height88 - ground;
+            ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.s16 += subject->height88 - ground;
             subject->height88 = ground;
         }
     }
 
     input_motion->height0A = subject->height88 +
-                       *(u16 *)((u8 *)input_actor + 0x92) -
-                       *(u16 *)((u8 *)input_actor + 0xA6);
+                       ((InputActorFieldView_80E0D2E8 *)input_actor)->field_92.u16 -
+                       ((InputActorFieldView_80E0D2E8 *)input_actor)->field_A6;
     input_entity->flags14 |= 0x40;
 
     return;

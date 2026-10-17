@@ -1,7 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800352FC(void);
 extern void townDispatchObjectState();
@@ -13,7 +12,7 @@ extern volatile M2C_UNK D_800D5084[20];
 typedef struct S_800C3988_1_pre {
     M2C_UNK (*unk_00)(void *, M2C_UNK, M2C_UNK);
     u8 pad_04[0x54];
-} S_800C3988_1_pre;   /* the 0x58 bytes before (((s8) temp_v1 * 4) + ((Rec_func_80094268_arg0 *)arg0)->unk_5C) in townDispatchRecordHandler, addressed as (((s8) temp_v1 * 4) + ((Rec_func_80094268_arg0 *)arg0)->unk_5C)[-1] */
+} S_800C3988_1_pre;
 
 /* Dispatches the record handler or clears its pending state. */
 void townDispatchRecordHandler(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK dispatch_data, M2C_UNK check_arg) {

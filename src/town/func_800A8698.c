@@ -10,7 +10,7 @@ typedef struct S_800A5DF8_0 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800A5DF8_0;   /* var_s0 in townUpdateActorEffectTransition */
+} S_800A5DF8_0;
 
 typedef struct S_800A5DF8_1 {
     u8 unk_00;
@@ -21,7 +21,7 @@ typedef struct S_800A5DF8_4 {
     u8 pad_04[0x4];
     s16 unk_08;
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} S_800A5DF8_4;   /* var_s2 in townUpdateActorEffectTransition */
+} S_800A5DF8_4;
 
 
 s32 townReadMapCellAtWorldPosition();                        /* extern */

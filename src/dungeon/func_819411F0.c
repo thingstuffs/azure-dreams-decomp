@@ -14,14 +14,14 @@ extern M2C_UNK D_800249A0;
 typedef struct S_800249F0_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_800249F0_0;   /* temp_s0 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState */
+} S_800249F0_0;
 
 typedef struct S_800249F0_1 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_800249F0_1;   /* temp_a3 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState */
+} S_800249F0_1;
 
 typedef struct S_800249F0_2_pre {
     void * unk_00;
@@ -32,13 +32,13 @@ typedef struct S_800249F0_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800249F0_3;   /* temp_a0 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState */
+} S_800249F0_3;
 
 typedef struct S_800249F0_4 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800249F0_4;   /* temp_v1 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState */
+} S_800249F0_4;
 
 typedef struct S_800249F0_5 {
     u8 pad_00[0x8];
@@ -49,7 +49,7 @@ typedef struct S_800249F0_5 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_800249F0_5;   /* temp_a3_2 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState */
+} S_800249F0_5;
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
 void *dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x,

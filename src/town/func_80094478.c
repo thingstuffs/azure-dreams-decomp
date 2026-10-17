@@ -4,7 +4,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();

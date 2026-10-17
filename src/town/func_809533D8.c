@@ -15,7 +15,7 @@ typedef struct S_800203D8_0 {
 typedef struct S_800203D8_1 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800203D8_1;   /* temp_v0 in townFadeLinkedObjectColor */
+} S_800203D8_1;
 
 
 /* Waits for the linked object flag, then dims the color and sets completion flags. */

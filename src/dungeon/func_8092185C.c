@@ -17,17 +17,19 @@ s32 func_8092185C(void) {
     key_low = 1;
     table_or_result = (u8 *)((M2C_UNK *)D_800E3548);
     entry = table_or_result + 0xFC;
-loop_1:
-    if ((entry[1] != key_high) || (entry[0] != key_low)) {
-        entry_index -= 1;
-        entry -= 4;
-        if (entry_index < 0) {
-            table_or_result = (u8 *)1;
+    for (;;) {
+        if ((entry[1] != key_high) || (entry[0] != key_low)) {
+            entry_index -= 1;
+            entry -= 4;
+            if (entry_index < 0) {
+                table_or_result = (u8 *)1;
+            } else {
+                continue;
+            }
         } else {
-            goto loop_1;
+            table_or_result = (u8 *)0;
         }
-    } else {
-        table_or_result = (u8 *)0;
+        break;
     }
     return (s32)table_or_result;
 }

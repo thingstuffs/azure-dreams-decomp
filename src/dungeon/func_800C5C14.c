@@ -35,7 +35,7 @@ typedef struct S_800CB374_2 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_800CB374_2;   /* temp_v1 in func_800CB374 */
+} S_800CB374_2;
 
 typedef struct S_800CB374_3 {
     u8 pad_00[0xC];

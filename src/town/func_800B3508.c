@@ -7,7 +7,7 @@ typedef struct S_800B0C68_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B0C68_2;   /* temp_v1 in townPositionShopRowWidgets */
+} S_800B0C68_2;
 
 typedef struct S_800B0C68_3 {
     u8 pad_00[0x8];
@@ -18,12 +18,12 @@ typedef struct S_800B0C68_3 {
 typedef struct S_800B0C68_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B0C68_4;   /* ((S_800B0C68_2 *)temp_v1)->unk_0C in townPositionShopRowWidgets */
+} S_800B0C68_4;
 
 typedef struct S_800B0C68_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B0C68_5;   /* ((S_800B0C68_2 *)temp_v1)->unk_08 in townPositionShopRowWidgets */
+} S_800B0C68_5;
 
 typedef struct S_800B0C68_6 {
     u8 pad_00[0x4];
@@ -38,12 +38,12 @@ typedef struct S_800B0C68_7 {
 typedef struct S_800B0C68_8 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B0C68_8;   /* ((S_800B0C68_4 *)(((S_800B0C68_2 *)temp_v1)->unk_0C))->unk_04 in townPositionShopRowWidgets */
+} S_800B0C68_8;
 
 typedef struct S_800B0C68_9 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800B0C68_9;   /* ((S_800B0C68_5 *)(((S_800B0C68_2 *)temp_v1)->unk_08))->unk_04 in townPositionShopRowWidgets */
+} S_800B0C68_9;
 
 typedef struct S_800B0C68_10 {
     u8 pad_00[0x8];

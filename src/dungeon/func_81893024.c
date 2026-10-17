@@ -11,7 +11,7 @@
 
 
 
-   /* temp_v1 in func_80024824 */
+
 
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
 void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {

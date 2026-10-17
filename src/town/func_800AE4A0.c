@@ -17,7 +17,7 @@ typedef struct S_800ABC00_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800ABC00_0;   /* temp_s1 in townSpawnPersonOffsetEffect */
+} S_800ABC00_0;
 
 typedef struct S_800ABC00_1 {
     u8 pad_00[0x2];
@@ -42,12 +42,12 @@ typedef struct S_800ABC00_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800ABC00_2;   /* temp_s0 in townSpawnPersonOffsetEffect */
+} S_800ABC00_2;
 
 typedef struct S_800ABC00_3 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800ABC00_3;   /* temp_s2 in townSpawnPersonOffsetEffect */
+} S_800ABC00_3;
 
 
 typedef struct {

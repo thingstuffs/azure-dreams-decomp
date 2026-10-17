@@ -6,7 +6,7 @@ extern s32 D_800E5910;
 typedef struct S_800DBF38_0 {
     u8 pad_00[0x54];
     s32 unk_54;
-} S_800DBF38_0;   /* temp_v1 in dungeonClearStateFlagBit */
+} S_800DBF38_0;
 
 /* Clears bit 0 of the flags in the current state record. */
 void dungeonClearStateFlagBit(void) {

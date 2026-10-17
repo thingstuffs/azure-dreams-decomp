@@ -36,7 +36,6 @@ void func_80921020(EntityRec *state) {
     u16 anim_ticks;
     u16 anim_offset;
 
-    M2C_ERROR(/* Read from unset register $at */) << 0;
     anim_ticks = ((u16)state->x.w.i) - 1;
     state->x.w.i = anim_ticks;
     if ((anim_ticks << 0x10) <= 0) {

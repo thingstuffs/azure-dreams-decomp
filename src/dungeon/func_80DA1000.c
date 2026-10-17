@@ -9,7 +9,7 @@ typedef struct S_80DA1000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80DA1000_0;   /* temp_v0 in func_8015E874 */
+} S_80DA1000_0;
 
 typedef struct S_80DA1000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80DA1000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80DA1000_1;   /* var_s0 in func_8015E874 */
+} S_80DA1000_1;
 
 typedef struct S_80DA1000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80DA1000_2;   /* temp_s4 in func_8015E874 */
+} S_80DA1000_2;
 
 typedef struct S_80DA1000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80DA1000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80DA1000_3;   /* temp_s2 in func_8015E874 */
+} S_80DA1000_3;
 
 typedef struct S_80DA1000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80DA1000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80DA1000_4;   /* temp_s5 in func_8015E874 */
+} S_80DA1000_4;
 
 
 
@@ -73,7 +73,6 @@ void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
     void *object_arg;
     void *type_arg;
 
-    M2C_ERROR(/* Read from unset register $t0 */) | 0x4481;
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;

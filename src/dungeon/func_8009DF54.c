@@ -17,13 +17,13 @@ typedef struct S_800A36B4_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A36B4_2;   /* temp_a3 in dungeonCheckTilePathClear */
+} S_800A36B4_2;
 
 typedef struct S_800A36B4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A36B4_3;   /* temp_s3 in dungeonCheckTilePathClear */
+} S_800A36B4_3;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

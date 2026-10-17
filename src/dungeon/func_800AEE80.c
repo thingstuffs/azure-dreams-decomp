@@ -23,7 +23,7 @@ typedef struct S_800B45E0_0 {
 typedef struct S_800B45E0_1 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800B45E0_1;   /* temp_v0 in dungeonUpdateAnchoredFadingEffect */
+} S_800B45E0_1;
 
 typedef struct S_800B45E0_2 {
     u8 pad_00[0x2];
@@ -38,7 +38,7 @@ typedef struct S_800B45E0_2 {
 typedef struct S_800B45E0_3 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B45E0_3;   /* temp_v0_2 in dungeonUpdateAnchoredFadingEffect */
+} S_800B45E0_3;
 
 typedef struct S_800B45E0_4 {
     u8 pad_00[0xC];

@@ -5,7 +5,7 @@
 typedef struct S_80026FD4_0 {
     u8 pad_00[0x24];
     s32 unk_24;
-} S_80026FD4_0;   /* temp_a0 in cardBootSetPairedChoiceSelection */
+} S_80026FD4_0;
 
 /* Stores a value in the object's embedded state and processes that state. */
 void cardBootSetPairedChoiceSelection(s32 object_addr, s32 value) {

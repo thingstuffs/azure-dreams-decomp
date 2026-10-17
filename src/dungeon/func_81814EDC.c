@@ -33,7 +33,7 @@ typedef struct S_81814EDC_1 {
     M2C_UNK * unk_10;
     u8 pad_14[0xE];
     s16 unk_22;
-} S_81814EDC_1;   /* temp_v0 in func_81814EDC */
+} S_81814EDC_1;
 
 typedef struct S_81814EDC_2 {
     u8 pad_00[0x6];
@@ -47,7 +47,7 @@ typedef struct S_81814EDC_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81814EDC_2;   /* temp_s0_2 in func_81814EDC */
+} S_81814EDC_2;
 
 typedef struct S_81814EDC_3 {
     u8 pad_00[0x2];
@@ -65,7 +65,7 @@ typedef struct S_81814EDC_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-} S_81814EDC_4;   /* temp_s1_2 in func_81814EDC */
+} S_81814EDC_4;
 
 typedef struct S_81814EDC_5 {
     u8 pad_00[0x2];
@@ -78,7 +78,7 @@ typedef struct S_81814EDC_5 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_81814EDC_5;   /* temp_s1_4 in func_81814EDC */
+} S_81814EDC_5;
 
 typedef struct S_81814EDC_6 {
     u8 pad_00[0x2];
@@ -87,7 +87,7 @@ typedef struct S_81814EDC_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81814EDC_6;   /* temp_s3 in func_81814EDC */
+} S_81814EDC_6;
 
 typedef struct S_81814EDC_7_pre {
     void * unk_00;
@@ -97,19 +97,19 @@ typedef struct S_81814EDC_7_pre {
 typedef struct S_81814EDC_8_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_81814EDC_8_pre;   /* the 0x14 bytes before temp_a0 in func_81814EDC, addressed as temp_a0[-1] */
+} S_81814EDC_8_pre;
 
 typedef struct S_81814EDC_8 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_81814EDC_8;   /* temp_a0 in func_81814EDC */
+} S_81814EDC_8;
 
 typedef struct S_81814EDC_9 {
     u8 pad_00[0xC];
     union { s8 s; u8 u; } unk_0C;   /* accessed as both */
     union { s8 s; u8 u; } unk_0D;   /* accessed as both */
     union { s8 s; u8 u; } unk_0E;   /* accessed as both */
-} S_81814EDC_9;   /* temp_a1 in func_81814EDC */
+} S_81814EDC_9;
 
 typedef struct S_81814EDC_10 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -120,7 +120,7 @@ typedef struct S_81814EDC_10 {
 typedef struct S_81814EDC_11 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_81814EDC_11;   /* temp_a0_3 in func_81814EDC */
+} S_81814EDC_11;
 
 typedef struct S_81814EDC_12_pre {
     void * unk_00;

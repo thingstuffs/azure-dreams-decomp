@@ -15,7 +15,7 @@ typedef struct S_81959B44_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_81959B44_0;   /* temp_v0 in dungeonCreateRingObjectGroup */
+} S_81959B44_0;
 
 typedef struct S_81959B44_1 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_81959B44_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_81959B44_1;   /* temp_s2 in dungeonCreateRingObjectGroup */
+} S_81959B44_1;
 
 typedef struct S_81959B44_2 {
     u8 pad_00[0x14];
@@ -41,7 +41,7 @@ typedef struct S_81959B44_2 {
     s16 unk_38;
     u8 pad_3A[0x2];
     u16 unk_3C;
-} S_81959B44_2;   /* temp_s0 in dungeonCreateRingObjectGroup */
+} S_81959B44_2;
 
 typedef struct S_81959B44_3 {
     u8 pad_00[0x8];
@@ -51,7 +51,7 @@ typedef struct S_81959B44_3 {
     s16 unk_18;
     s16 unk_1A;
     s16 unk_1C;
-} S_81959B44_3;   /* temp_s2_2 in dungeonCreateRingObjectGroup */
+} S_81959B44_3;
 
 /* Create sixteen objects in a ring around the given center with a scaled radius. */
 void *dungeonCreateRingObjectGroup(s16 center_x, s16 center_y, s16 center_z, s16 radius_scale) {

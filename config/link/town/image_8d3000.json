@@ -1,0 +1,27 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/image_8d3000",
+ "container": "town",
+ "foff": "0x8D3000",
+ "size": "0x6000",
+ "vma": "0x80020000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F74D000: r121c3_8D6FA8, r121nd_8D6E64, sweep_8D33D8",
+ "entries": [
+  {
+   "row": "town/func_808B408C",
+   "tu": "src/town/func_808166F4.c",
+   "home": "town/func_808166F4",
+   "foff": "0x8D408C",
+   "vma": "0x8002108C",
+   "size": 148
+  },
+  {
+   "row": "town/func_808B4120",
+   "tu": "src/town/func_80816788.c",
+   "home": "town/func_80816788",
+   "foff": "0x8D4120",
+   "vma": "0x80021120",
+   "size": 164
+  }
+ ]
+}

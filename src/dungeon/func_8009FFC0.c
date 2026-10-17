@@ -6,7 +6,7 @@ extern s32 func_800353F4(s8 *text);
 typedef struct S_800A5720_0 {
     u8 unk_00;
     u8 unk_01;
-} S_800A5720_0;   /* var_a1 in func_800A5720 */
+} S_800A5720_0;
 
 /* When enabled, uppercase a fullwidth Latin letter after the ASCII prefix and process the text. */
 s32 func_800A5720(s8 *text) {

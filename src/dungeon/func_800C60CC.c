@@ -14,7 +14,7 @@ typedef struct S_800CB82C_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
-} S_800CB82C_0;   /* temp_v0 in func_800CB82C */
+} S_800CB82C_0;
 
 typedef struct S_800CB82C_1 {
     u8 pad_00[0x2];
@@ -23,7 +23,7 @@ typedef struct S_800CB82C_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800CB82C_1;   /* temp_a1 in func_800CB82C */
+} S_800CB82C_1;
 
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
@@ -41,7 +41,7 @@ typedef struct S_800CB82C_3 {
     u8 pad_16[0xE];
     s8 unk_24;
     s8 unk_25;
-} S_800CB82C_3;   /* temp_a0_2 in func_800CB82C */
+} S_800CB82C_3;
 
 typedef struct S_800CB82C_4 {
     u8 pad_00[0x8];
@@ -63,7 +63,7 @@ typedef struct S_800CB82C_4 {
     u16 unk_88;
     u8 pad_8A[0x6];
     s32 unk_90;
-} S_800CB82C_4;   /* temp_a0_3 in func_800CB82C */
+} S_800CB82C_4;
 
 typedef struct S_800CB82C_5 {
     u8 pad_00[0x1];
@@ -80,7 +80,7 @@ typedef struct S_800CB82C_7 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CB82C_7;   /* temp_v1 in func_800CB82C */
+} S_800CB82C_7;
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */

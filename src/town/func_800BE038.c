@@ -21,20 +21,20 @@ typedef struct S_800BB798_0 {
 typedef struct S_800BB798_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_800BB798_1;   /* temp_s1 in townCreateObjectFromPolarSpawnData */
+} S_800BB798_1;
 
 typedef struct S_800BB798_2 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     M2C_UNK * unk_10;
-} S_800BB798_2;   /* temp_v0 in townCreateObjectFromPolarSpawnData */
+} S_800BB798_2;
 
 typedef struct S_800BB798_3 {
     u8 pad_00[0x48];
     s16 unk_48;
     s16 unk_4A;
-} S_800BB798_3;   /* temp_v0_2 in townCreateObjectFromPolarSpawnData */
+} S_800BB798_3;
 
 /* Converts polar spawn data to components and initializes a new object with it. */
 s32 townCreateObjectFromPolarSpawnData(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {

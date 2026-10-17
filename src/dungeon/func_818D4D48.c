@@ -20,7 +20,6 @@ typedef struct RenderFade33 {
 } RenderFade33;   /* arg2 in func_80024548 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 

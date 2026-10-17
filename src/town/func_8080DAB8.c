@@ -14,24 +14,24 @@ typedef struct S_8080DAB8_1 {
     s32 unk_08;
     s32 unk_0C;
     s32 unk_10;
-} S_8080DAB8_1;   /* temp_s0 in func_8080DAB8 */
+} S_8080DAB8_1;
 
 typedef struct S_8080DAB8_2 {
     s32 unk_00;
     u8 pad_04[0x1C];
     s32 unk_20;
     s32 unk_24;
-} S_8080DAB8_2;   /* var_s3 in func_8080DAB8; pointer addresses record offset 0x8 */
+} S_8080DAB8_2;
 
 typedef struct S_8080DAB8_3 {
     u8 pad_00[0xB0];
     s32 unk_B0;
-} S_8080DAB8_3;   /* temp_a0_2 in func_8080DAB8 */
+} S_8080DAB8_3;
 
 typedef struct S_8080DAB8_4 {
     u8 pad_00[0xB0];
     s32 unk_B0;
-} S_8080DAB8_4;   /* (u8 *)temp_a1 in func_8080DAB8 */
+} S_8080DAB8_4;
 
 
 typedef struct {

@@ -4,7 +4,7 @@
 typedef struct S_800274A8_0 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800274A8_0;   /* temp_a1 in func_800274A8 */
+} S_800274A8_0;
 
 typedef struct S_800274A8_1 {
     s32 unk_00;

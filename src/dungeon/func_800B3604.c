@@ -14,7 +14,7 @@ typedef struct S_800B8D64_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xE];
     s16 unk_22;
-} S_800B8D64_0;   /* temp_v0 in dungeonSpawnBlinkingSpriteFlash */
+} S_800B8D64_0;
 
 typedef struct S_800B8D64_1 {
     u8 pad_00[0x2];
@@ -23,7 +23,7 @@ typedef struct S_800B8D64_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800B8D64_1;   /* temp_v0_2 in dungeonSpawnBlinkingSpriteFlash */
+} S_800B8D64_1;
 
 typedef struct S_800B8D64_2 {
     u8 pad_00[0x8];
@@ -33,7 +33,7 @@ typedef struct S_800B8D64_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B8D64_2;   /* temp_v1 in dungeonSpawnBlinkingSpriteFlash */
+} S_800B8D64_2;
 
 /* Create and initialize an effect at the given position. */
 void dungeonSpawnBlinkingSpriteFlash(s16 x, s16 y, s16 z) {

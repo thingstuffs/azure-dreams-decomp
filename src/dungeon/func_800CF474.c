@@ -21,7 +21,7 @@ typedef struct S_800D4BD4_2 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_800D4BD4_2;   /* temp_a0 in dungeonInitializeEffectObjectState */
+} S_800D4BD4_2;
 
 typedef struct S_800D4BD4_3 {
     u8 pad_00[0x2];
@@ -30,7 +30,7 @@ typedef struct S_800D4BD4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D4BD4_3;   /* temp_v1 in dungeonInitializeEffectObjectState */
+} S_800D4BD4_3;
 
 
 typedef struct S_800D4BD4_5 {
@@ -42,7 +42,7 @@ typedef struct S_800D4BD4_5 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800D4BD4_5;   /* temp_a0_2 in dungeonInitializeEffectObjectState */
+} S_800D4BD4_5;
 
 
 extern void func_8004491C(void *, void *);

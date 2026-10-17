@@ -28,7 +28,7 @@ typedef struct S_800CB4C0_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800CB4C0_0;   /* temp_v0 in func_800CB4C0 */
+} S_800CB4C0_0;
 
 typedef struct S_800CB4C0_1 {
     u8 pad_00[0x6];
@@ -41,7 +41,7 @@ typedef struct S_800CB4C0_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CB4C0_1;   /* temp_s0 in func_800CB4C0 */
+} S_800CB4C0_1;
 
 typedef struct S_800CB4C0_2 {
     u8 pad_00[0x8];
@@ -56,12 +56,12 @@ typedef struct S_800CB4C0_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800CB4C0_3;   /* temp_v1 in func_800CB4C0 */
+} S_800CB4C0_3;
 
 typedef struct S_800CB4C0_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800CB4C0_4;   /* temp_v0_3 in func_800CB4C0 */
+} S_800CB4C0_4;
 
 typedef struct S_800CB4C0_5 {
     u8 pad_00[0x96];
@@ -70,7 +70,7 @@ typedef struct S_800CB4C0_5 {
     void * unk_A8;
     u8 pad_AC[0x8];
     s16 unk_B4;
-} S_800CB4C0_5;   /* temp_v0_2 in func_800CB4C0 */
+} S_800CB4C0_5;
 
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
 void *func_800CB4C0(void *source, s16 copy_position) {

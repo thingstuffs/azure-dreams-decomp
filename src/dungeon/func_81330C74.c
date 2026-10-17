@@ -17,33 +17,33 @@ typedef struct S_80167C74_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80167C74_1;   /* temp_t1 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_1;
 
 
 typedef struct S_80167C74_4 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80167C74_4;   /* temp_a1_3 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_4;
 
 typedef struct S_80167C74_5 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_80167C74_5;   /* temp_a1_4 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_5;
 
 typedef struct S_80167C74_6 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80167C74_6;   /* temp_a1_5 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_6;
 
 typedef struct S_80167C74_7 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_80167C74_7;   /* temp_a1_6 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_7;
 
 typedef struct S_80167C74_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80167C74_8;   /* temp_a1_7 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_8;
 
 typedef struct S_80167C74_9 {
     s16 unk_00;
@@ -59,7 +59,7 @@ typedef struct S_80167C74_9 {
     s16 unk_1E;
     s16 unk_20;
     s16 unk_22;
-} S_80167C74_9;   /* temp_v0_3 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_9;
 
 typedef struct S_80167C74_10 {
     u8 pad_00[0x18];
@@ -69,7 +69,7 @@ typedef struct S_80167C74_10 {
     s16 unk_1E;
     s16 unk_20;
     s16 unk_22;
-} S_80167C74_10;   /* temp_v1_5 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_10;
 
 typedef struct S_80167C74_11 {
     u8 pad_00[0xC];
@@ -84,33 +84,33 @@ typedef struct S_80167C74_12 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
-} S_80167C74_12;   /* temp_v1_6 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_12;
 
 typedef struct S_80167C74_13 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_80167C74_13;   /* temp_s2 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_13;
 
 typedef struct S_80167C74_14 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     u8 * unk_10;
-} S_80167C74_14;   /* temp_v0_4 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_14;
 
 typedef struct S_80167C74_15 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80167C74_15;   /* temp_a0_4 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_15;
 
 typedef struct S_80167C74_16 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80167C74_16;   /* temp_v1_7 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_16;
 
 typedef struct S_80167C74_17 {
     u8 pad_00[0x6];
@@ -122,13 +122,13 @@ typedef struct S_80167C74_17 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80167C74_17;   /* temp_a0_5 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_17;
 
 typedef struct S_80167C74_18 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_80167C74_18;   /* var_a1_3 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_18;
 
 
 typedef struct {

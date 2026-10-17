@@ -14,9 +14,6 @@ typedef struct S_800166B0_2 {
 } S_800166B0_2;   /* ((((S_800166B0_1 *)(((func_800161EC(arg0, arg2) * 8) + arg0)))->unk_02 * 4) + arg1->unk_14) in townLookupFlagTestEntry */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
-
 s32 func_800161EC();
 void *func_80016D78();
 

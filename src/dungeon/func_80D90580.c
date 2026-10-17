@@ -25,38 +25,37 @@ s32 dungeonAttemptActorTransition(void *state, s32 action_id, void *sprite, Enti
     actor->unk_71 &= 0x7F;
     status = ((u16 *)(&dungeonStatus));
     transitioned = 0;
-    if (!(((u16 *)status)[1] & 0x2000)) {
-        target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                               ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
-        if ((func_800A2CB8(actor, target) << 16) == 0) {
-            goto return_zero;
-        }
-        {
-            u16 status_flags = status[1];
+    if (((u16 *)status)[1] & 0x2000) {
+        return -1;
+    }
+    target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+                           ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+    if ((func_800A2CB8(actor, target) << 16) == 0) {
+        return transitioned;
+    }
+    {
+        u16 status_flags = status[1];
 
-            if (status_flags & 0x2000) {
-                return -1;
-            }
-            if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
-                return -1;
-            }
-        }
-        if ((s16)(-dungeonGetActorHeightDifference(target, actor) + 0x40) >= 0x81U) {
-            return transitioned;
-        }
-
-        transitioned = 1;
-        if ((func_800A2B5C(actor) << 16) != 0) {
+        if (status_flags & 0x2000) {
             return -1;
         }
-        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
-        if ((func_800A2B5C(actor) << 16) == 0) {
-            goto transition_ok;
+        if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+            return -1;
         }
     }
-    return -1;
+    if ((s16)(-dungeonGetActorHeightDifference(target, actor) + 0x40) >= 0x81U) {
+        return transitioned;
+    }
 
-transition_ok:
+    transitioned = 1;
+    if ((func_800A2B5C(actor) << 16) != 0) {
+        return -1;
+    }
+    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
+    if ((func_800A2B5C(actor) << 16) != 0) {
+        return -1;
+    }
+
     {
         u16 state_flags;
 
@@ -74,7 +73,7 @@ transition_ok:
         }
     }
 
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8017386C;
+    (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_8017386C;
     func_80047784(sprite,
                   D_8017386C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
@@ -85,6 +84,4 @@ transition_ok:
     dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 
-return_zero:
-    return 0;
 }

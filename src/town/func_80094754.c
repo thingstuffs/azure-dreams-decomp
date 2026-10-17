@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void townInitializeSceneActionRecord();
 extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();

@@ -38,7 +38,7 @@ typedef struct S_800CA444_2 {
 
 typedef struct S_800CA444_3 {
     s16 unk_00;
-} S_800CA444_3;   /* ((s32) (var_s1 << 0x10) >> 0xF) + (u32) temp_s4 in func_800CA444 */
+} S_800CA444_3;
 
 typedef struct S_800CA444_4 {
     u8 pad_00[0x58];

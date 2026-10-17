@@ -18,7 +18,7 @@ typedef struct S_800CBB98_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800CBB98_0;   /* temp_v0 in dungeonCreateOwnedTileCenterEffect */
+} S_800CBB98_0;
 
 typedef struct S_800CBB98_1 {
     u8 pad_00[0x2];
@@ -27,7 +27,7 @@ typedef struct S_800CBB98_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CBB98_1;   /* temp_v1 in dungeonCreateOwnedTileCenterEffect */
+} S_800CBB98_1;
 
 typedef struct S_800CBB98_2 {
     u8 pad_00[0xC];
@@ -35,7 +35,7 @@ typedef struct S_800CBB98_2 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CBB98_2;   /* temp_a0 in dungeonCreateOwnedTileCenterEffect */
+} S_800CBB98_2;
 
 typedef struct S_800CBB98_3 {
     u8 pad_00[0x14];

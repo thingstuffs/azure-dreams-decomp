@@ -36,7 +36,7 @@ typedef struct S_80095A10_3 {
     u8 unk_00;
     u8 pad_01[0x2];
     u8 unk_03;
-} S_80095A10_3;   /* temp_s1 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_3;
 
 typedef struct S_80095A10_4 {
     u8 unk_00;
@@ -46,7 +46,7 @@ typedef struct S_80095A10_5_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_80095A10_5_pre;   /* the 0x18 bytes before temp_v0_3 in dungeonUpdateFamiliarSummoning, addressed as temp_v0_3[-1] */
+} S_80095A10_5_pre;   /* 0x18-byte header immediately before the payload. */
 
 typedef struct S_80095A10_5 {
     u8 pad_00[0x13];
@@ -55,13 +55,13 @@ typedef struct S_80095A10_5 {
     s32 unk_1C;
     u8 pad_20[0x5];
     u8 unk_25;
-} S_80095A10_5;   /* temp_v0_3 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_5;
 
 typedef struct S_80095A10_6 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_80095A10_6;   /* temp_v1 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_6;
 
 typedef struct S_80095A10_7 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_80095A10_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80095A10_7;   /* temp_v1_2 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_7;
 
 typedef struct S_80095A10_8 {
     u8 pad_00[0x2];
@@ -84,7 +84,7 @@ typedef struct S_80095A10_8 {
 typedef struct S_80095A10_9 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80095A10_9;   /* temp_v1_4 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_9;
 
 typedef struct S_80095A10_10 {
     u8 pad_00[0x14];

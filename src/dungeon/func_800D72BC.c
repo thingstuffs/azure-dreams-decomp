@@ -4,7 +4,7 @@
 typedef struct S_800DCA1C_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800DCA1C_0;   /* ((*var_a1 * 0x10) + arg0) in dungeonLinkIndexedEntryChain */
+} S_800DCA1C_0;
 
 extern u8 D_800E2954;
 extern u8 D_800E2960[];

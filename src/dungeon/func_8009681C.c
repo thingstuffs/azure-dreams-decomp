@@ -5,12 +5,12 @@
 typedef struct S_8009BF7C_2 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8009BF7C_2;   /* temp_v0 in dungeonCreateType212Object */
+} S_8009BF7C_2;
 
 typedef struct S_8009BF7C_3 {
     u8 pad_00[0x4];
     s8 unk_04;
-} S_8009BF7C_3;   /* ((S_8009BF7C_2 *)temp_v0)->unk_0C in dungeonCreateType212Object */
+} S_8009BF7C_3;
 
 
 void *func_8003FD64();                  /* extern */
@@ -20,13 +20,13 @@ typedef struct S_8009BF7C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_8009BF7C_0;   /* temp_v0 in dungeonCreateType212Object */
+} S_8009BF7C_0;
 
 typedef struct S_8009BF7C_1 {
     u8 pad_00[0x5];
     s8 unk_05;
     s16 unk_06;
-} S_8009BF7C_1;   /* temp_a0 in dungeonCreateType212Object */
+} S_8009BF7C_1;
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void dungeonCreateType212Object(s32 flag, s8 value) {

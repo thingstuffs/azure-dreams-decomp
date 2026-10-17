@@ -3,7 +3,6 @@
 #include "records/Rec_D_80082D58.h"
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80033D08();
 void townUnlinkSceneListNode();

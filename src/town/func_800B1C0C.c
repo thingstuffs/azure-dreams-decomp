@@ -7,13 +7,13 @@ typedef struct S_800AF36C_2 {
     u8 pad_00[0x10];
     void * unk_10;
     void * unk_14;
-} S_800AF36C_2;   /* temp_v1 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_2;
 
 typedef struct S_800AF36C_3 {
     u8 pad_00[0x10];
     void * unk_10;
     void * unk_14;
-} S_800AF36C_3;   /* temp_v1_2 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_3;
 
 typedef struct S_800AF36C_4 {
     u8 pad_00[0x18];
@@ -28,22 +28,22 @@ typedef struct S_800AF36C_5 {
 typedef struct S_800AF36C_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AF36C_6;   /* ((S_800AF36C_2 *)temp_v1)->unk_14 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_6;
 
 typedef struct S_800AF36C_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AF36C_7;   /* ((S_800AF36C_2 *)temp_v1)->unk_10 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_7;
 
 typedef struct S_800AF36C_8 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AF36C_8;   /* ((S_800AF36C_3 *)temp_v1_2)->unk_14 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_8;
 
 typedef struct S_800AF36C_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AF36C_9;   /* ((S_800AF36C_3 *)temp_v1_2)->unk_10 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_9;
 
 typedef struct S_800AF36C_10 {
     u8 pad_00[0x4];
@@ -53,22 +53,22 @@ typedef struct S_800AF36C_10 {
 typedef struct S_800AF36C_11 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_800AF36C_11;   /* ((S_800AF36C_6 *)(((S_800AF36C_2 *)temp_v1)->unk_14))->unk_04 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_11;
 
 typedef struct S_800AF36C_12 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_800AF36C_12;   /* ((S_800AF36C_7 *)(((S_800AF36C_2 *)temp_v1)->unk_10))->unk_04 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_12;
 
 typedef struct S_800AF36C_13 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AF36C_13;   /* ((S_800AF36C_8 *)(((S_800AF36C_3 *)temp_v1_2)->unk_14))->unk_04 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_13;
 
 typedef struct S_800AF36C_14 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AF36C_14;   /* ((S_800AF36C_9 *)(((S_800AF36C_3 *)temp_v1_2)->unk_10))->unk_04 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_14;
 
 typedef struct S_800AF36C_15 {
     u8 pad_00[0x8];

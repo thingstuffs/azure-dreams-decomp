@@ -8,7 +8,7 @@ typedef struct S_80027DF4_0 {
     s32 unk_0C;
     u8 pad_10[0x14];
     s32 unk_24;
-} S_80027DF4_0;   /* temp_v0 in cardBootSetMenuAndPanelSelection */
+} S_80027DF4_0;
 
 /* Sets an object's state value and passes its linked value to cardBootSetPairedChoiceSelection. */
 void cardBootSetMenuAndPanelSelection(s32 object_addr, s32 state_value) {

@@ -29,7 +29,7 @@ typedef struct S_800D6FEC_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D6FEC_2;   /* temp_v1 in dungeonUpdateEffectCountdown */
+} S_800D6FEC_2;
 
 
 M2C_UNK func_800478B8();                     /* extern */

@@ -9,47 +9,47 @@ extern s32 func_80033BC0();
 typedef struct S_800F6598_1 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_1;   /* temp_v0 in func_800F6598 */
+} S_800F6598_1;
 
 typedef struct S_800F6598_2 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_2;   /* temp_v0_2 in func_800F6598 */
+} S_800F6598_2;
 
 typedef struct S_800F6598_3 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_3;   /* temp_v0_3 in func_800F6598 */
+} S_800F6598_3;
 
 typedef struct S_800F6598_4 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_4;   /* temp_v0_4 in func_800F6598 */
+} S_800F6598_4;
 
 typedef struct S_800F6598_5 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_5;   /* temp_v0_5 in func_800F6598 */
+} S_800F6598_5;
 
 typedef struct S_800F6598_6 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_6;   /* temp_v0_6 in func_800F6598 */
+} S_800F6598_6;
 
 typedef struct S_800F6598_7 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_7;   /* temp_v0_7 in func_800F6598 */
+} S_800F6598_7;
 
 typedef struct S_800F6598_8 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_8;   /* temp_v0_8 in func_800F6598 */
+} S_800F6598_8;
 
 typedef struct S_800F6598_9 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800F6598_9;   /* temp_v1_ptr in func_800F6598 */
+} S_800F6598_9;
 
 /* Clear bit 15 in the 3x3 grid region when flag 0xA2 is set; otherwise reset the state bytes. */
 s32 func_800F6598(void) {

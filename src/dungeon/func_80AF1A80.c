@@ -62,7 +62,7 @@ kind_default:
 
 use_kind:
     if (*kind_data != 0) {
-        *(u16 *)((u8 *)actor + 0x98) =
+        ((R10_80173280_S_80173280_0 *)actor)->unk_98 =
             ((R10_80173280_S_80173280_0 *)actor)->unk_98 & 0xFF7F;
         if (effect_flags) {
             target_obj = D_800814A8;
