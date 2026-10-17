@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80F89D44; every changed retail word is a paired relocation. */
-#define func_80171138 func_801590EC
+#define dungeonUpdateBankActorState func_801590EC
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/entity.h"

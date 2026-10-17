@@ -60,7 +60,7 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
                 EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->unk_0C;
-                s16 target_angle = (s16)func_800A0818(
+                s16 target_angle = (s16)dungeonGetRoundedFacingAndRoundingFlag(
                     position_data->tileX, position_data->tileY,
                     blocker_owner->tileX, blocker_owner->tileY,
                     &move_data->unk_98);
@@ -73,7 +73,7 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                 actor_data->facing += (func_800A6D30() & 7) << 9;
             }
         } else {
-            if (func_800A04F0(actor_data, position_data->tileX, position_data->tileY, actor_data->facing) != 0) {
+            if (dungeonPlaceActorAtDirectionalNeighbor(actor_data, position_data->tileX, position_data->tileY, actor_data->facing) != 0) {
                 actor_data->unk_71 &= 0x7F;
                 return;
             }
@@ -103,16 +103,16 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                 }
 
                 turn_data = (u8 *)&move_data->unk_98;
-                target_angle = (s16)func_800A0818(
+                target_angle = (s16)dungeonGetRoundedFacingAndRoundingFlag(
                     position_data->tileX, position_data->tileY,
                     (s16)target_x, (s16)target_y, (u16 *)turn_data);
                 actor_data->facing = target_angle;
                 if (func_8009A8C0(target_angle, position_data, actor_data, 0x20) <= 0) {
-                    actor_data->facing = (s16)func_800A0818(
+                    actor_data->facing = (s16)dungeonGetRoundedFacingAndRoundingFlag(
                         position_data->tileX, position_data->tileY,
                         D_80082E80.tileX, D_80082E80.tileY, (u16 *)turn_data);
                 }
-                if ((s16)func_8009FD7C(
+                if ((s16)dungeonCompareMonsterNeighborValues(
                         position_data->tileX, position_data->tileY,
                         D_80082E80.tileX, D_80082E80.tileY) != 0) {
                     limit_detour = 1;
@@ -127,11 +127,11 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
         func_800A0E6C((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->unk_46 & 0x8000)) {
-        current_angle = (s32)func_800A04F0(actor_data, position_data->tileX, position_data->tileY, actor_data->facing);
+        current_angle = (s32)dungeonPlaceActorAtDirectionalNeighbor(actor_data, position_data->tileX, position_data->tileY, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & 0x2000) &&
-            (s16)func_800A0134(blocker, actor_data) < 0x81) {
+            (s16)dungeonGetActorHeightDifference(blocker, actor_data) < 0x81) {
             if (func_8009A540(
                     ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
                     position_data->tileX, position_data->tileY,
@@ -143,13 +143,13 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
 
         if (actor_data->flags1C & 0x20000) {
             TileObject *target_position = &D_80082E80;
-            actor_data->facing = (s16)func_800A0818(
+            actor_data->facing = (s16)dungeonGetRoundedFacingAndRoundingFlag(
                 position_data->tileX, position_data->tileY,
                 target_position->tileX, target_position->tileY, &move_data->unk_98);
-            if ((s16)func_8009FD7C(
+            if ((s16)dungeonCompareMonsterNeighborValues(
                     position_data->tileX, position_data->tileY,
                     target_position->tileX, target_position->tileY) != 0) {
-                if (func_800A0134(D_800814A8, actor_data) < 0x81) {
+                if (dungeonGetActorHeightDifference(D_800814A8, actor_data) < 0x81) {
                     if (func_8009A540(
                             ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
                             position_data->tileX,
@@ -215,7 +215,7 @@ void func_80165A98(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
 
         if (turn_index == 0 &&
             *(u16 *)(&D_80082E80.tileX) != *(u16 *)&position_data->tileX) {
-            if ((s16)func_8009A180(actor_data,
+            if ((s16)dungeonCheckEntityRelation(actor_data,
                     (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                 return;
             }
