@@ -29,27 +29,32 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload)
             }
             if (kind < 5) {
                 if (kind == 1) {
-                    goto return_zero;
+                    result.value = 0;
+                    return result.value;
                 }
                 if (kind < 2) {
                     if (kind == 0) {
                         goto case_0;
                     }
-                    goto return_zero;
+                    result.value = 0;
+                    return result.value;
                 }
                 if (kind == 2) {
                     goto case_2;
                 }
-                goto return_zero;
+                result.value = 0;
+                return result.value;
             }
             if (kind == 8) {
-                goto return_zero;
+                result.value = 0;
+                return result.value;
             }
             if (kind < 9) {
                 if (kind == 6) {
                     goto case_6;
                 }
-                goto return_zero;
+                result.value = 0;
+                return result.value;
             }
             if (kind == 9) {
                 goto case_9;
@@ -58,7 +63,8 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload)
                 goto case_2;
             }
         }
-        goto return_zero;
+        result.value = 0;
+        return result.value;
     }
 
     if (kind == 21) {
@@ -71,19 +77,22 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload)
         if (kind < 14) {
             goto case_13;
         }
-        goto return_zero;
+        result.value = 0;
+        return result.value;
     }
     if (kind == 0xFC) {
         goto case_9;
     }
     if (kind < 0xFD) {
         if (kind == 22) {
-            goto return_zero;
+            result.value = 0;
+            return result.value;
         }
         if (kind == 27) {
             goto case_27;
         }
-        goto return_zero;
+        result.value = 0;
+        return result.value;
     }
     if (kind == 0xFE) {
         goto case_6;
@@ -91,16 +100,20 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload)
     if (kind == 0xFF) {
         goto case_ff;
     }
-    goto return_zero;
+    result.value = 0;
+    return result.value;
 
 case_0:
     call_kind = 0;
     call_arg = 0;
-    goto call_three;
+    result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
+    return result.value;
 
 case_2:
     call_kind = (u8)event_code;
-    goto call_with_data;
+    call_arg = event_data;
+    result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
+    return result.value;
 
 case_ff:
     result.value = enqueue_cd_command_record(0xFF, event_data, payload);
@@ -118,7 +131,8 @@ case_9:
     result = (ResultBox_8003E4FC) {
         0
     };
-    goto call_three;
+    result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
+    return result.value;
 
 case_13:
     D_80080AD4 = 0;
@@ -141,13 +155,13 @@ case_14:
 case_21:
     enqueue_cd_command_record(2, event_data, 0);
     call_kind = 21;
-    goto call_with_data;
+    call_arg = event_data;
+    result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
+    return result.value;
 
 case_27:
     call_kind = 27;
-call_with_data:
     call_arg = event_data;
-call_three:
     result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
     goto done;
 

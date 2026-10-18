@@ -11,13 +11,11 @@ void spawn_initial_floor_monsters(void) {
 
     repeat_count = random_dungeon_range_16(4, 8) & 0xFFFF;
     call_index = 0;
-    scaled_value = 0x20000;
-sequence_loop:
-    func_800A08A0(scaled_value >> 0x10);
-    scaled_value += 0x10000;
-    call_index += 1;
-    if (call_index < 0x10)
-        goto sequence_loop;
+    do {
+        scaled_value = (call_index + 2) << 0x10;
+        func_800A08A0(scaled_value >> 0x10);
+        call_index += 1;
+    } while (call_index < 0x10);
     call_index = 0;
     if (call_index < repeat_count) {
         do {
@@ -25,5 +23,4 @@ sequence_loop:
             call_index += 1;
         } while (call_index < repeat_count);
     }
-    ;
 }

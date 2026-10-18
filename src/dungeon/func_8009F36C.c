@@ -10,10 +10,8 @@ typedef struct S_800A4ACC_1 {
     s32 unk_00;
 } S_800A4ACC_1;   /* arg0 in advance_status_timers; pointer addresses record offset 0x18 */
 
-
 extern void func_80042BDC();
 extern void apply_capped_damage_and_hit_effect();
-
 
 /* Advance four status timers toward zero and clear expired statuses. */
 s32 advance_status_timers(void *record) {
@@ -21,35 +19,29 @@ s32 advance_status_timers(void *record) {
     s8 status;
     s8 duration;
     u8 expired_status;
-    void *status_slot;
-
     slot_index = 3;
-    status_slot = record + 6;
-next_status:
-    status = ((S_800A4ACC_0 *)status_slot)->unk_2C;
-    if (status != 0) {
-        if (status == 5) {
-            apply_capped_damage_and_hit_effect(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
-        }
-        duration = ((S_800A4ACC_0 *)status_slot)->unk_2D;
-        if (duration != 0) {
-            if (duration > 0) {
-                ((S_800A4ACC_0 *)status_slot)->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)status_slot)->unk_2D - 1);
-            } else if (duration < 0) {
-                ((S_800A4ACC_0 *)status_slot)->unk_2D =
-                    (s8)((u8)((S_800A4ACC_0 *)status_slot)->unk_2D + 1);
+    do {
+        status = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C;
+        if (status != 0) {
+            if (status == 5) {
+                apply_capped_damage_and_hit_effect(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
             }
-            if (((S_800A4ACC_0 *)status_slot)->unk_2D == 0) {
-                expired_status = (u8)((S_800A4ACC_0 *)status_slot)->unk_2C;
-                ((S_800A4ACC_0 *)status_slot)->unk_2C = 0;
-                func_80042BDC(record, (s8)expired_status);
+            duration = ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D;
+            if (duration != 0) {
+                if (duration > 0) {
+                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D =
+                    (s8)((u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D - 1);
+                } else if (duration < 0) {
+                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D =
+                    (s8)((u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D + 1);
+                }
+                if (((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2D == 0) {
+                    expired_status = (u8)((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C;
+                    ((S_800A4ACC_0 *)(record + slot_index * 2))->unk_2C = 0;
+                    func_80042BDC(record, (s8)expired_status);
+                }
             }
         }
-    }
-    slot_index -= 1;
-    status_slot -= 2;
-    if (slot_index >= 0) {
-        goto next_status;
-    }
+        slot_index -= 1;
+    } while (slot_index >= 0);
 }

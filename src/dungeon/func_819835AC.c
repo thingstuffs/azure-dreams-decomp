@@ -647,15 +647,13 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         return;
     }
     owner_ptr = owner_ref | 0x80000000;
-    if (!(((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000)) {
-        goto block_140;
-    }
+    if (((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000) {
 block_139:
-    ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
-        | 0x8000);
-    (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
-    return;
-block_140:
+        ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
+            | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        return;
+    }
     actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_0C;
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {

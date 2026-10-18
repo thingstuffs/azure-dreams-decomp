@@ -28,7 +28,6 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
     global_flags = global_flags_ptr[0x1A31];
     loaded_height = (u32)(part_base + 0x20);
 
-
     direction = (s32)(part_base + 0x28);
     if (global_flags & 0x2000) {
         callback = (*(R06_80170BB8_Callback *)((u8 *)actor + 0x8C));
@@ -219,7 +218,30 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                         subject_flags = ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.u;
                     }
                 } else {
-                    goto ground_reset;
+                    {
+                        s32 reset_bob_offset;
+                        s16 reset_ground_height;
+                        s16 reset_floor_offset;
+
+                        reset_bob_offset = (*(s32 *)((u8 *)actor + 0xB4));
+                        (*(u16 *)((u8 *)actor + 0xB8)) = 0;
+                        (*(s32 *)((u8 *)actor + 0xB4)) = 0;
+                        (*(s32 *)((u8 *)actor + 0x90)) -= reset_bob_offset;
+                        if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
+                            reset_ground_height = sample_terrain_surface_height(
+                                ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_00.at02.v, ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_04.at02.v,
+                                (s16)(((R06_80170BB8_S_80170BB8_1 *)subject)->unk_88 - 0x20));
+                            reset_floor_offset = (s16)(reset_ground_height - ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_88);
+                            if (reset_floor_offset < (*(s16 *)((u8 *)actor + 0x92))) {
+                                (*(s16 *)((u8 *)actor + 0x92)) = reset_floor_offset;
+                                (*(u8 *)((u8 *)actor + 0x9D)) = 0;
+                                ((R06_80170BB8_S_80170BB8_0 *)motion)->unk_14 = 0;
+                                ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.u |= 0x08000000;
+                            }
+                        }
+                        subject_flags = ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.u;
+
+                    }
                 }
             } else {
                 if (entity_flags & 0x800) {
@@ -232,7 +254,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
                 subject_flags = ((R06_80170BB8_S_80170BB8_1 *)subject)->unk_1C.u;
 
                 if (!(subject_flags & 0x00040000)) {
-ground_reset:
+
                     bob_offset = (*(s32 *)((u8 *)actor + 0xB4));
                     (*(u16 *)((u8 *)actor + 0xB8)) = 0;
                     (*(s32 *)((u8 *)actor + 0xB4)) = 0;

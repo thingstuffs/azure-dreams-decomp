@@ -95,7 +95,6 @@ typedef struct S_80094988_10 {
     s32 unk_D0;
 } S_80094988_10;   /* cursor in restore_inventory_and_familiars */
 
-
 typedef struct S_80094988_12 {
     u8 pad_00[0xAC];
     void * unk_AC;
@@ -143,7 +142,6 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u1
     void **dispatch_table;
     s32 ff2;
     s32 scaled_i;
-    u8 *dispatch_ptr;
     s32 sign_shift;
     s32 slot_index;
     s32 slot_offset;
@@ -184,22 +182,17 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u1
     page_base = save_page;
     ff2 = 0xFF;
     dispatch_table = (void **)(save_page + 0x248);
-    dispatch_ptr = dungeon;
-loop_0:
-    {
+    do {
         entry_idx32 = (s32)((u8 *)(i + (u32)page_base));
         cursor_ptr = (u8 *)(((S_80094988_5 *)(u8 *)entry_idx32)->unk_2D52);
         if (((u8)cursor_ptr) != ff2) {
-            ((S_80094988_6 *)dispatch_ptr)->unk_D0 =
-                (s32)((((u8)cursor_ptr) * 4) + (u32)dispatch_table);
+            ((S_80094988_6 *)((u8 *)dungeon + i * 4))->unk_D0 =
+            (s32)((((u8)cursor_ptr) * 4) + (u32)dispatch_table);
         } else {
-            ((S_80094988_6 *)dispatch_ptr)->unk_D0 = 0;
+            ((S_80094988_6 *)((u8 *)dungeon + i * 4))->unk_D0 = 0;
         }
         i += 1;
-        dispatch_ptr += 4;
-    }
-    if (i < 2)
-        goto loop_0;
+    } while (i < 2);
 
     if (((S_80094988_7 *)0x80010000)->unk_21E0 != 0xFF) {
         slot_ptr = (u8 *)((void **)0x80010248 + ((S_80094988_7 *)0x80010000)->unk_21E0);

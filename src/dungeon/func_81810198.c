@@ -103,10 +103,9 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
                 ((S_80025198_1_pre *)state)[-1].unk_00 = (u16) (((S_80025198_1_pre *)state)[-1].unk_00 | 0x8000);
                 object = NULL;
                 ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
-                goto done;
+                break;
             }
         }
     }
-done:
     return object;
 }

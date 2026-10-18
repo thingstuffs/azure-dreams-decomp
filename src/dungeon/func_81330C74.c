@@ -12,13 +12,11 @@ typedef struct S_80167C74_0_pre {
     u16 unk_00;
 } S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in update_targeted_ribbon_trail, addressed as arg0[-1] */
 
-
 typedef struct S_80167C74_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
 } S_80167C74_1;
-
 
 typedef struct S_80167C74_4 {
     u8 pad_00[0x2];
@@ -130,7 +128,6 @@ typedef struct S_80167C74_18 {
     s8 unk_02;
 } S_80167C74_18;
 
-
 typedef struct {
     s16 x;
     s16 y;
@@ -231,7 +228,6 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     u8 *object_table_base;
     u8 *object_base;
     S_80167C74_16 *object_origin;
-    u8 *vertex_color;
     s32 object_offset;
     s32 object_copy_index;
 
@@ -443,7 +439,6 @@ copy_pairs:
                 object_origin->unk_00 = (s32) origin->unk_00;
                 color_weight = object_limit - object_index;
                 object_origin->unk_04 = (s32) origin->unk_04;
-                vertex_color = object_data;
                 object_origin->unk_08 = (s32) origin->unk_08;
                 object_render = ((S_80167C74_14 *)object)->unk_0C;
                 object_render->unk_1E = 0x1000;
@@ -451,19 +446,15 @@ copy_pairs:
                 object_render->unk_0E = 0x80;
                 object_render->unk_0D = 0x80;
                 object_render->unk_0C = 0x80;
-loop_4:
-                {
+                do {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
-                    ((S_80167C74_18 *)vertex_color)->unk_00 = (s8) (scaled_red / 8);
+                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_00 = (s8) (scaled_red / 8);
                     scaled_green = color->unk_0C.at01.v * color_weight;
-                    ((S_80167C74_18 *)vertex_color)->unk_01 = (s8) (scaled_green / 8);
+                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_01 = (s8) (scaled_green / 8);
                     scaled_blue = color->unk_0C.at02.v * color_weight;
-                    ((S_80167C74_18 *)vertex_color)->unk_02 = (s8) (scaled_blue / 8);
+                    ((S_80167C74_18 *)(object_data + history_index * 4))->unk_02 = (s8) (scaled_blue / 8);
                     history_index += 1;
-                    vertex_color += 4;
-                }
-                if (history_index < 4)
-                    goto loop_4;
+                } while (history_index < 4);
                 object_render->unk_06 = 0;
                 func_8003DB94(object_render, D_800DEAE0, 0);
                 object_pair = 0;

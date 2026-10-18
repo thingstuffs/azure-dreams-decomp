@@ -90,26 +90,26 @@ s32 audio_read_compact_sequence_event(Entity *entity)
         s32 next_byte = read_next_byte_and_finish(ent);
         operand = next_byte;
         sound_set_seven_bit_channel_value_and_notify(ent->field_4C, 0, next_byte & 0x7F);
-        goto ret_bool;
+        break;
     }
     case 3:
     {
         s32 next_byte = read_next_byte_and_finish(ent);
         operand = next_byte;
         func_8005845C(ent->field_4C, next_byte & 0x7F);
-        goto ret_bool;
+        break;
     }
     case 0:
     {
         s32 next_byte = read_next_byte_and_finish(ent);
         operand = next_byte;
         ent->field_4C = next_byte & 0xF;
-        goto ret_bool;
+        break;
     }
     case 57:
     operand = read_next_byte_and_finish(ent);
     ent->field_2C = 1;
-    goto ret_bool;
+    break;
     default:
     default_command:
     {
@@ -120,6 +120,5 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     }
     }
 
-ret_bool:
     return 0 < (operand & 0x80);
 }

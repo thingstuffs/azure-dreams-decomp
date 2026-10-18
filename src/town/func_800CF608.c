@@ -14,14 +14,16 @@ typedef struct S_800CCD68_0 {
 void advance_four_phase_flag_sequence(S_800CCD68_0 *sequence)
 {
     s32 value;
-    s32 value_2;
     s32 state;
 
     state = sequence->unk_6A.s;
     switch (state) {
     case 0:
         value = 0xC00;
-        goto set_value;
+        sequence->unk_72 = value;
+        sequence->unk_6C = 3;
+        sequence->unk_6A.u++;
+        return;
     case 1:
         value = --sequence->unk_6C;
         if ((value << 16) != 0) {
@@ -29,20 +31,18 @@ void advance_four_phase_flag_sequence(S_800CCD68_0 *sequence)
         }
         value = 0x800;
         sequence->unk_72 = value;
-        goto advance_state;
+        sequence->unk_6C = 3;
+        sequence->unk_6A.u++;
+        return;
     case 2:
         value = --sequence->unk_6C;
         if ((value << 16) != 0) {
             return;
         }
         value = 0x400;
-set_value:
         sequence->unk_72 = value;
-advance_state:
-        value_2 = sequence->unk_6A.u;
         sequence->unk_6C = 3;
-        value_2++;
-        sequence->unk_6A.u = value_2;
+        sequence->unk_6A.u++;
         return;
     case 3:
         value = --sequence->unk_6C;

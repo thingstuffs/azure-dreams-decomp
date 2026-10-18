@@ -96,15 +96,11 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         ((S_800BBA40_3 *)setup_cursor)->unk_5C = setup_word_5c;
         angle_index = 0;
         ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
-loop_0:
-        {
-            ((S_800BBA40_3 *)setup_cursor)->unk_3C = angle;
+        do {
+            ((S_800BBA40_3 *)(setup_base + angle_index * 2))->unk_3C = angle;
             angle += 0x999;
             angle_index += 1;
-            setup_cursor += 2;
-        }
-        if (angle_index < 5)
-            goto loop_0;
+        } while (angle_index < 5);
         select_nearby_target_and_initialize_slot(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;

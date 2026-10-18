@@ -40,7 +40,6 @@ typedef struct {
 } ActiveFieldView_810318E4;
 
 
-
 typedef struct Copy48 {
     u32 words[12];
 } Copy48;
@@ -60,7 +59,6 @@ extern u8 D_801708D4;
 extern u8 D_801714B8;
 extern u8 D_8017609C[];
 extern u8 D_801760FC[];
-
 
 typedef struct S_801730E4_0 {
     u8 pad_00[0x8C];
@@ -82,7 +80,6 @@ typedef struct S_801730E4_2 {
     u8 unk_24;
     u8 unk_25;
 } S_801730E4_2;   /* linked in advance_selected_item_action_2 */
-
 
 typedef struct S_801730E4_5 {
     u8 pad_00[0x94];
@@ -197,45 +194,42 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
                 if (use_special != 0) {
                     active = D_800814A8;
                     (((ActorFieldView_810318E4 *)actor)->field_60) = active;
+                    linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
+                    (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
+                    (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
                 } else {
                     linked = D_8006DE24[*selection].kind;
-                    if (linked != 2) {
-                        goto create_active;
-                    }
-                    active = (((ActorFieldView_810318E4 *)actor)->field_60);
-                    if (active == 0) {
-                        goto active_ready;
+                    if (linked == 2) {
+                        active = (((ActorFieldView_810318E4 *)actor)->field_60);
+                        if (active != 0) {
+                            linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
+                            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
+                            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
+                        }
+                    } else {
+                        {
+                            s32 target_x;
+                            s32 target_y;
+
+                            target_x = (s32)scan_monster_along_heading(
+                                actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                                (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
+                            (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
+                            target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
+                            target_y = (((ActorFieldView_810318E4 *)actor)->field_73.s8);
+                            if (target_x < 0) {
+                                target_x = -target_x;
+                            }
+                            if (target_y < 0) {
+                                target_y = -target_y;
+                            }
+                            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = target_x;
+                            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = target_y;
+                        }
                     }
                 }
             }
-copy_active:
-            linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
-            (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
-            (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
-            goto active_ready;
 
-create_active:
-            {
-                s32 target_x;
-                s32 target_y;
-
-                target_x = (s32)scan_monster_along_heading(
-                    actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                    (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
-                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
-                target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
-                target_y = (((ActorFieldView_810318E4 *)actor)->field_73.s8);
-                if (target_x < 0) {
-                    target_x = -target_x;
-                }
-                if (target_y < 0) {
-                    target_y = -target_y;
-                }
-                (((ActorFieldView_810318E4 *)actor)->field_72.u8) = target_x;
-                (((ActorFieldView_810318E4 *)actor)->field_73.u8) = target_y;
-            }
-
-active_ready:
             if (create_actor_spell_effect(actor, selection, is_special, (u8 *)action + 0x98) == 0) {
                 return;
             }

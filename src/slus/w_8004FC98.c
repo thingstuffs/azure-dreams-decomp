@@ -19,22 +19,21 @@ s32 create_animated_selection_menu_entries(void *state) {
     if (*(s32 *)((u8 *)state + 0x24) > 0) {
         table = D_80071784;
         slot = state;
-loop:
-        row = (u8 *)((u32)(*(s32 *)((u8 *)state + 0x30) * 3) + (u32)table);
-        position = row[item_index];
-        item_result = cache_value_at_offset_0x24(*(s32 *)(slot + 0x10), item_index, 0x18,
-                               position * 0xC - 0x40,
-                               position * 0x1E + 0x200);
-        *(s32 *)(slot + 4) = item_result;
-        if (item_result == 0) {
-            return 0;
-        }
-        item_result = *(s32 *)((u8 *)state + 0x24);
-        item_index++;
-        slot += 4;
-        if (item_index < item_result) {
-            goto loop;
-        }
+
+        do {
+            slot = (u8 *)state + item_index * 4;
+            row = (u8 *)((u32)(*(s32 *)((u8 *)state + 0x30) * 3) + (u32)table);
+            position = row[item_index];
+            item_result = cache_value_at_offset_0x24(*(s32 *)(slot + 0x10), item_index, 0x18,
+                                   position * 0xC - 0x40,
+                                   position * 0x1E + 0x200);
+            *(s32 *)(slot + 4) = item_result;
+            if (item_result == 0) {
+                return 0;
+            }
+            item_result = *(s32 *)((u8 *)state + 0x24);
+            item_index++;
+        } while (item_index < item_result);
     }
 
     *(s32 *)((u8 *)state + 0x2C) = 1;

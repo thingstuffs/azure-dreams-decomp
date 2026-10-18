@@ -192,24 +192,24 @@ void update_betting_effect(TownEffect *input)
         do {
             message.y = 9;
             message_ptr = &message;
-state0_inner:
-            {
-                s32 row_depth;
-                s32 grid_x;
-                grid_x = message.x;
-                row_depth = 0x03E00000;
-                scratch.b = row_depth;
-                scratch.f = 0;
-                scratch.e = 0;
-                scratch.d = 0;
-                scratch.a = grid_origin_x - (grid_x << 22);
-                scratch.c = -((s32)message.y << 19);
-                initialize_source_and_initial_data(message_ptr, &scratch);
-            }
-            if (--message.y >= 0) {
+            do {
+                {
+                    s32 row_depth;
+                    s32 grid_x;
+                    grid_x = message.x;
+                    row_depth = 0x03E00000;
+                    scratch.b = row_depth;
+                    scratch.f = 0;
+                    scratch.e = 0;
+                    scratch.d = 0;
+                    scratch.a = grid_origin_x - (grid_x << 22);
+                    scratch.c = -((s32)message.y << 19);
+                    initialize_source_and_initial_data(message_ptr, &scratch);
+                }
+                if (--message.y < 0)
+                    break;
                 message_ptr = &message;
-                goto state0_inner;
-            }
+            } while (1);
         } while (--message.x >= 0);
 
         for (column = 2; column >= 0; column--) {

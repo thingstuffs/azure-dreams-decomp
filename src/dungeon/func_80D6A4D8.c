@@ -215,7 +215,17 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
                 ((S_80175CD8_3 *)motion)->unk_14 = (target_z - ((S_80175CD8_0 *)action)->unk_90.at00.v) /
                     ((S_80175CD8_0 *)action)->unk_96.s;
             }
-            goto decrement_timer;
+            ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
+            ((S_80175CD8_0 *)action)->unk_96.s = ticks_left;
+            if ((ticks_left << 16) != 0) {
+                return;
+            }
+            ((S_80175CD8_0 *)action)->unk_96.s = 0;
+            ((S_80175CD8_0 *)action)->unk_9B++;
+            ((S_80175CD8_3 *)motion)->unk_14 = 0;
+            ((S_80175CD8_3 *)motion)->unk_10 = 0;
+            ((S_80175CD8_3 *)motion)->unk_0C = 0;
+            return;
 
         case 2:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
@@ -310,7 +320,8 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             ((S_80175CD8_3 *)motion)->unk_0C = 0;
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B = 0x14;
-            goto clear_object_flag;
+            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            break;
 
         case 7:
         {
@@ -383,7 +394,6 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
                     ((S_80175CD8_0 *)action)->unk_96.s;
             }
 
-decrement_timer:
             ticks_left = ((S_80175CD8_0 *)action)->unk_96.u - 1;
             ((S_80175CD8_0 *)action)->unk_96.s = ticks_left;
             if ((ticks_left << 16) != 0) {
@@ -418,7 +428,6 @@ decrement_timer:
             ((S_80175CD8_3 *)motion)->unk_0A = ((u16)((EntityRec *)actor)->unk_88) +
                 ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
 
-clear_object_flag:
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
 
         case 20:

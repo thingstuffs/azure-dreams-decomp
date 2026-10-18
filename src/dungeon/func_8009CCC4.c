@@ -247,30 +247,24 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         {
             u8 *spell_flags;
             u8 *spell_table;
-            u8 *spell_cursor;
             u8 *lowered_flag;
             s32 lowered_value;
             spell_flags = spell_lowered;
             spell_table = D_8006DE24;
             lowered_value = 1;
-            spell_cursor = entity + 6;
-loop_0:
-            {
+            do {
                 lowered_flag = spell_flags + spell_index;
                 *lowered_flag = 0;
-                temp = spell_cursor[8];
+                temp = entity[spell_index * 3 + 8];
                 if (temp != 0 && (((spell_table[temp * 0x14 + 0x10] >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
-                    u8 spell_level = spell_cursor[10];
+                    u8 spell_level = entity[spell_index * 3 + 10];
                     if (spell_level >= 2U) {
-                        spell_cursor[10] = spell_level - 1;
+                        entity[spell_index * 3 + 10] = spell_level - 1;
                         *lowered_flag = lowered_value;
                     }
                 }
                 spell_index -= 1;
-                spell_cursor -= 3;
-            }
-            if (spell_index >= 0)
-                goto loop_0;
+            } while (spell_index >= 0);
         }
     }
 

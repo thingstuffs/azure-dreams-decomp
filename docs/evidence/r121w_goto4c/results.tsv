@@ -1,0 +1,69 @@
+file	before	after	status	shapes_tried	best_candidate	candidate_gotos	subs	indels	reason	baseline_exact
+src/dungeon/func_800CA184.c	9	9	held	do_all,do_next_edge_step,face_and_edge_loops,face_traversal,depth_packet_arms	candidates/func_800CA184/face_traversal.c	1	93	3	structured source mismatch: addressing	true
+src/dungeon/func_80D3F464.c	7	7	held	duplicate_negative_turn	candidates/func_80D3F464/duplicate_negative_turn.c	6	24	23	structured source mismatch: polarity	true
+src/dungeon/func_8187C45C.c	5	5	held	do_loop_0,do_all,do_loop_0_native,duplicate_clear_busy_native,duplicate_finish_fade_native,duplicate_collision_hit_native,duplicate_reach_target_native,duplicate_reach_target_clean_native	candidates/func_8187C45C/duplicate_reach_target_clean.c	4	0	0	exact partial candidate held outside frozen production-gate scope	true
+src/dungeon/func_818B1664.c	4	4	held	do_loop_0,do_all,do_create_loop,indexed_effect_slots,duplicate_reset_and_increment,duplicate_increment,duplicate_reset,indexed_angle_update,indexed_effect_slots_correct,increment_early_return,reset_early_return	candidates/func_818B1664/do_create_loop.c	3	2	2	structured source mismatch: code-motion	true
+src/dungeon/func_802835B8.c	4	4	held	position_selection_arms	candidates/func_802835B8/position_selection_arms.c	2	28	14	structured source mismatch: polarity	true
+src/dungeon/func_8008B4B0.c	4	4	held	duplicate_state_tail	candidates/func_8008B4B0/duplicate_state_tail.c	0	None	None	switch-target or compiler validation failure	true
+src/dungeon/func_81912154.c	3	3	held	grid_scan_break,grid_and_state_tail	candidates/func_81912154/grid_and_state_tail.c	0	None	None	switch-target or compiler validation failure	true
+src/dungeon/func_81326D28.c	3	3	held	duplicate_removal_tail,settling_while	candidates/func_81326D28/duplicate_removal_tail.c	2	7	44	structured source mismatch: polarity	true
+src/dungeon/func_80F90E88.c	3	3	held	do_loop_0,do_loop_1,do_all,render_for_break,render_do,indexed_endpoints	candidates/func_80F90E88/do_loop_0.c	2	5	6	structured source mismatch: length-drift	true
+src/dungeon/func_80EF7000.c	3	3	held	do_move,do_all	candidates/func_80EF7000/do_move.c	2	66	2	structured source mismatch: hold-set	true
+src/dungeon/func_80EE5000.c	3	3	held	do_move,do_all	candidates/func_80EE5000/do_move.c	2	27	2	structured source mismatch: hold-set	true
+src/dungeon/func_8028B18C.c	3	3	held	do_main_loop,do_cleanup_loop,do_all	candidates/func_8028B18C/do_cleanup_loop.c	2	26	0	structured source mismatch: reg-rename	true
+src/dungeon/func_8199AAD4.c	2	2	held	do_finish,do_all,positioned_spawn_loop	candidates/func_8199AAD4/positioned_spawn_loop.c	0	65	49	structured source mismatch: addressing	true
+src/dungeon/func_8180E534.c	2	2	held	do_spawn,do_next_group,do_all,outer_while	candidates/func_8180E534/do_spawn.c	1	15	18	structured source mismatch: addressing	true
+src/dungeon/func_81336754.c	2	2	held	duplicate_case0	candidates/func_81336754/duplicate_case0.c	0	41	0	structured source mismatch: addressing	true
+src/dungeon/func_8102FCB8.c	2	2	held	duplicate_aaf_cleanup,duplicate_both_cleanup	candidates/func_8102FCB8/duplicate_both_cleanup.c	0	None	None	switch-target or compiler validation failure	true
+src/dungeon/func_80D6A4D8.c	2	0	exact	duplicate_clear_flag,duplicate_timer_tail,both_exact_tails,final_current	candidates/func_80D6A4D8/both_exact_tails.c	0	0	0	byte-exact goto-free home	true
+src/dungeon/func_80B467DC.c	2	2	held	do_grid_loop,do_grid_row,do_all,outer_while	candidates/func_80B467DC/do_all.c	0	4	4	structured source mismatch: code-motion	true
+src/dungeon/func_8028484C.c	2	2	held	candidate_search_breaks,occupancy_continue	candidates/func_8028484C/candidate_search_breaks.c	0	35	37	structured source mismatch: polarity	true
+src/dungeon/func_800C6540.c	2	2	held	roll_arms,default_roll,roll_value_arms,shared_roll_copy,local_modulo_roll	candidates/func_800C6540/roll_arms.c	0	5	0	structured source mismatch: broad	true
+src/dungeon/func_800C30E4.c	2	0	exact	duplicate_done,threshold_join,threshold_arms,threshold_call_arms,threshold_sign_switch,status_guard_return,success_result_arm,sign_switch_return,success_return_join,failure_return_join,failure_switch_join,outer_failure_join,plain_threshold_arms,final_current	candidates/func_800C30E4/failure_return_join.c	0	0	0	byte-exact goto-free home	true
+src/dungeon/func_800A1984.c	2	2	held	duplicate_success,scan_returns	candidates/func_800A1984/scan_returns.c	0	6	6	structured source mismatch: polarity	true
+src/dungeon/func_8009BEB8.c	2	2	held	type_two_return_arm	candidates/func_8009BEB8/type_two_return_arm.c	0	7	7	structured source mismatch: block-order	true
+src/dungeon/func_80084084.c	2	2	held	do_loop_third,do_all,callback_search	candidates/func_80084084/do_loop_third.c	1	5	2	structured source mismatch: broad	true
+src/dungeon/func_819B2800.c	1	1	held	target_for_break,target_do,target_for_break_native,target_do_native	candidates/func_819B2800/target_do.c	0	None	None	complete-module retail or extent mismatch	true
+src/dungeon/func_81988800.c	1	1	held	target_for_break,target_do,target_do_native,target_for_break_native	candidates/func_81988800/target_do.c	0	None	None	complete-module retail or extent mismatch	true
+src/dungeon/func_818E6F98.c	1	1	held	render_do,render_for_break	candidates/func_818E6F98/render_do.c	0	34	8	structured source mismatch: hold-set	true
+src/dungeon/func_818CF0E8.c	1	1	held	do_loop_0,do_all	candidates/func_818CF0E8/do_loop_0.c	0	31	2	structured source mismatch: slot-rotation	true
+src/dungeon/func_818761D8.c	1	1	held	interpolation_return_arm	candidates/func_818761D8/interpolation_return_arm.c	0	2	58	structured source mismatch: polarity	true
+src/dungeon/func_8185D488.c	1	1	held	do_loop_3,do_all,cleanup_indexed_array,cleanup_for_cursor,cleanup_indexed_owner,cleanup_while_cursor	candidates/func_8185D488/do_loop_3.c	0	3	0	structured source mismatch: broad	true
+src/dungeon/func_818390F8.c	1	1	held	render_for_break,render_do	candidates/func_818390F8/render_for_break.c	0	16	10	structured source mismatch: li-expansion	true
+src/dungeon/func_81814EDC.c	1	1	held	do_loop_effects,do_all	candidates/func_81814EDC/do_loop_effects.c	0	5	2	structured source mismatch: slot-rotation	true
+src/dungeon/func_81810198.c	1	0	exact	duplicate_done,resource_scan_break,final_current	candidates/func_81810198/resource_scan_break.c	0	0	0	byte-exact goto-free home	true
+src/dungeon/func_8180D4D4.c	1	1	held	creation_do_break	candidates/func_8180D4D4/creation_do_break.c	0	19	11	structured source mismatch: li-expansion	true
+src/dungeon/func_8180C3C0.c	1	1	held	do_loop_7,do_all	candidates/func_8180C3C0/do_loop_7.c	0	7	6	structured source mismatch: broad	true
+src/dungeon/func_81336BB4.c	1	1	held	duplicate_advance,advance_after_switch,local_advance_state	candidates/func_81336BB4/duplicate_advance.c	0	35	0	structured source mismatch: addressing	true
+src/dungeon/func_81326794.c	1	1	held	do_loop,do_all,local_cleanup_index	candidates/func_81326794/do_loop.c	0	8	3	structured source mismatch: li-expansion	true
+src/dungeon/func_812B27A4.c	1	1	held	animation_changed_arms	candidates/func_812B27A4/animation_changed_arms.c	0	65	0	structured source mismatch: addressing	true
+src/dungeon/func_8102F83C.c	1	1	held	shade_if_arms	candidates/func_8102F83C/shade_if_arms.c	0	34	0	structured source mismatch: addressing	true
+src/dungeon/func_81020664.c	1	1	held	search_break	candidates/func_81020664/search_break.c	0	None	None	switch-target or compiler validation failure	true
+src/dungeon/func_8100E664.c	1	1	held	search_break	candidates/func_8100E664/search_break.c	0	None	None	switch-target or compiler validation failure	true
+src/dungeon/func_80FB4C24.c	1	1	held	palette_rotated_load,indexed_palette_channels	candidates/func_80FB4C24/palette_rotated_load.c	0	14	4	structured source mismatch: slot-rotation	true
+src/dungeon/func_80EAF000.c	1	1	held	do_scan_loop,do_all	candidates/func_80EAF000/do_scan_loop.c	0	9	3	structured source mismatch: length-drift	true
+src/dungeon/func_80DE48EC.c	1	1	held	duplicate_return_tail	candidates/func_80DE48EC/duplicate_return_tail.c	0	4	4	structured source mismatch: polarity	true
+src/dungeon/func_80CEA348.c	1	1	held	path_search_loop	candidates/func_80CEA348/path_search_loop.c	0	28	0	structured source mismatch: reg-rename	true
+src/dungeon/func_80CBFBF0.c	1	1	held	duplicate_increment_state,increment_after_switch	candidates/func_80CBFBF0/duplicate_increment_state.c	0	25	0	structured source mismatch: addressing	true
+src/dungeon/func_80B8B054.c	1	1	held	ownership_check					non-home frozen relink copy (LL4 skip)	not_checked_non_home
+src/dungeon/func_80B7F054.c	1	1	held	random_optional_arm,random_init_return_arm	candidates/func_80B7F054/random_optional_arm.c	0	1	0	structured source mismatch: block-order	true
+src/dungeon/func_80B73054.c	1	1	held	random_optional_arm,random_init_return_arm	candidates/func_80B73054/random_optional_arm.c	0	1	0	structured source mismatch: block-order	true
+src/dungeon/func_80A734C0.c	1	1	held	duplicate_coordinate_tail,local_existing_coordinates	candidates/func_80A734C0/duplicate_coordinate_tail.c	0	33	8	structured source mismatch: const-remat	true
+src/dungeon/func_808CB5C8.c	1	1	held	do_loop_0,do_all	candidates/func_808CB5C8/do_loop_0.c	0	21	8	structured source mismatch: addressing	true
+src/dungeon/func_8028BAA4.c	1	1	held	do_loop_6,do_all	candidates/func_8028BAA4/do_loop_6.c	0	24	4	structured source mismatch: broad	true
+src/dungeon/func_80287C4C.c	1	1	held	duplicate_failed	candidates/func_80287C4C/duplicate_failed.c	0	5	2	structured source mismatch: polarity	true
+src/dungeon/func_80284584.c	1	1	held	duplicate_ret_err,rectangle_error_else	candidates/func_80284584/duplicate_ret_err.c	0	4	2	structured source mismatch: block-order	true
+src/dungeon/func_800D64C0.c	1	1	held	duplicate_glyph,local_padding_glyph,glyph_classification_chain	candidates/func_800D64C0/duplicate_glyph.c	0	6	2	structured source mismatch: length-drift	true
+src/dungeon/func_800C78A4.c	1	1	held	duplicate_return_object	candidates/func_800C78A4/duplicate_return_object.c	0	6	6	structured source mismatch: polarity	true
+src/dungeon/func_800BB728.c	1	1	held	empty_slot_search	candidates/func_800BB728/empty_slot_search.c	0	21	8	structured source mismatch: slot-rotation	true
+src/dungeon/func_800B62E0.c	1	0	exact	do_loop_0,do_all,indexed_angle_setup,final_readable,final_current	candidates/func_800B62E0/indexed_angle_setup.c	0	0	0	byte-exact goto-free home	true
+src/dungeon/func_800AD300.c	1	1	held	clear_return	candidates/func_800AD300/clear_return.c	0	9	6	structured source mismatch: polarity	true
+src/dungeon/func_800A5DD8.c	1	1	held	duplicate_increment_state,increment_after_switch,local_initial_state	candidates/func_800A5DD8/duplicate_increment_state.c	0	16	2	structured source mismatch: slot-rotation	true
+src/dungeon/func_800A2FBC.c	1	1	held	guard_returning_drop,page_in_bypass_arm	candidates/func_800A2FBC/guard_returning_drop.c	0	1	4	structured source mismatch: block-order	true
+src/dungeon/func_800A1284.c	1	0	exact	do_sequence_loop,do_all,indexed_spawn_values,final_readable,final_current	candidates/func_800A1284/indexed_spawn_values.c	0	0	0	byte-exact goto-free home	true
+src/dungeon/func_8009DB44.c	1	1	held	do_scan_slots,do_all,slot_search_break	candidates/func_8009DB44/slot_search_break.c	0	12	4	structured source mismatch: slot-rotation	true
+src/dungeon/func_8009C5EC.c	1	1	held	do_loop_0,do_all	candidates/func_8009C5EC/do_loop_0.c	0	66	1	structured source mismatch: addressing	true
+src/dungeon/func_800997A4.c	1	1	held	marker_do_break,marker_while	candidates/func_800997A4/marker_do_break.c	0	12	13	structured source mismatch: polarity	true
+src/dungeon/func_80093FD4.c	1	1	held	table_selection_arms	candidates/func_80093FD4/table_selection_arms.c	0	7	5	structured source mismatch: length-drift	true
+src/dungeon/func_8008F15C.c	1	1	held	do_loop_1,do_all,indexed_snapshot_records	candidates/func_8008F15C/do_loop_1.c	0	10	5	structured source mismatch: li-expansion	true
+src/dungeon/func_7FFED5BC.c	1	1	held	do_check_entry,do_all,indexed_resource_scan	candidates/func_7FFED5BC/do_check_entry.c	0	14	2	structured source mismatch: broad	true

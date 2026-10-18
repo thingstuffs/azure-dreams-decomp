@@ -1110,7 +1110,15 @@ check_forward_target:
     {
         u8 kind = creature[0x13];
         if (kind != 0x1E || (((EntityRec *)creature)->flags14 & 0x20000000)) {
-            goto check_room;
+            {
+
+                if ((s8)position[0x26] >= 0) {
+                    return 2;
+                }
+
+                delta_or_result = default_action << 16;
+                return (u32)delta_or_result >> 16;
+            }
         }
         {
             u16 facing = ((*(u16 *)&((EntityRec *)creature)->facing) >> 9) & 7;

@@ -33,21 +33,17 @@ s32 roll_threshold_effect_variant_a(State *state_ptr, s16 limit_input, s8 byte_i
         result = (s32)limit << 16;
         signed_limit = result >> 16;
         result = dispatch_v1 < signed_limit;
-        if (result == 0) {
-            result = 0xFF;
-            if (signed_limit != result) {
-                goto failure;
+        if (result != 0 || signed_limit == (result = 0xFF)) {
+            dispatch_v1 =
+                (s32)((u32)set_or_clear_actor_status_slot(state, 5, byte_value) << 16);
+            result = 1;
+            if (dispatch_v1 < 0) {
+                result = 0;
+                return result;
             }
-        }
-        dispatch_v1 =
-            (s32)((u32)set_or_clear_actor_status_slot(state, 5, byte_value) << 16);
-        result = 1;
-        if (dispatch_v1 >= 0) {
-            goto done;
+        } else {
+            result = 0;
         }
     }
-failure:
-    result = 0;
-done:
     return result;
 }

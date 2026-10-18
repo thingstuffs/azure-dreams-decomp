@@ -29,14 +29,16 @@ void func_8001B508(u8 *text, s32 limit, s32 *start_out,
             if (*text != ' ') {
                 space = ' ';
                 lead_byte = *text;
-scan_word:
-                if (lead_byte != 0) {
-                    text += 2;
-                    lead_byte = *text;
-                    word_length++;
-                    if (lead_byte != space) {
-                        goto scan_word;
+                for (;;) {
+                    if (lead_byte != 0) {
+                        text += 2;
+                        lead_byte = *text;
+                        word_length++;
+                        if (lead_byte != space) {
+                            continue;
+                        }
                     }
+                    break;
                 }
             }
             byte_offset += word_length * 2;

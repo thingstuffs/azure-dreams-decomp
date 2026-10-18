@@ -5,7 +5,6 @@
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct { u16 flags; } EffectFieldView_81331C88Prefix;
 
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -113,7 +112,6 @@ typedef struct S_80168C88_12 {
     u8 unk_09;
 } S_80168C88_12;
 
-
 extern void func_8004491C();
 extern u8 D_80166914[];
 extern u8 D_80167C30[];
@@ -147,7 +145,6 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     void *task;
     u8 *segment_data;
     void *position;
-    u8 *vertex_color;
     void *render_data;
     u8 *vertex_base;
     u8 *texture_data;
@@ -223,7 +220,6 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             ((S_80168C88_7 *)position)->unk_00 = ((S_80168C88_8 *)origin)->unk_00;
             step = 0;
             ((S_80168C88_7 *)position)->unk_04 = ((S_80168C88_8 *)origin)->unk_04;
-            vertex_color = segment_data;
             ((S_80168C88_7 *)position)->unk_08 = ((S_80168C88_8 *)origin)->unk_08;
 
             render_data = ((S_80168C88_5 *)task)->unk_0C;
@@ -233,16 +229,12 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             ((S_80168C88_9 *)render_data)->unk_0D = 0x80;
             ((S_80168C88_9 *)render_data)->unk_0C = 0x80;
 
-loop_2:
-            {
-                ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color_in)->unk_0C;
-                ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color_in)->unk_0D;
+            do {
+                ((S_80168C88_10 *)(segment_data + step * 4))->unk_00 = ((S_80168C88_1 *)color_in)->unk_0C;
+                ((S_80168C88_10 *)(segment_data + step * 4))->unk_01 = ((S_80168C88_1 *)color_in)->unk_0D;
+                ((S_80168C88_10 *)(segment_data + step * 4))->unk_02 = ((S_80168C88_1 *)color_in)->unk_0E;
                 step += 1;
-                ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color_in)->unk_0E;
-                vertex_color += 4;
-            }
-            if (step < 4)
-                goto loop_2;
+            } while (step < 4);
 
             if (segment == 0) {
                 ((S_80168C88_4 *)segment_data)->unk_06 = 0;

@@ -86,20 +86,26 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
         continue;
 
         case 1:
-        vram_offset = cmd->x;
-        tile_count = cmd->y;
-        tile_src = (void *)words[1];
-        flags = cmd->flags;
-        src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
-        goto call_tile;
+        {
+            s32 source_offset;
 
+            vram_offset = cmd->x;
+            tile_count = cmd->y;
+            source_offset = words[1];
+            flags = cmd->flags;
+            src_addr = (s32)((void *)((void *)(base + source_offset)));
+            upload_vram_row_and_cache(src_addr, vram_offset, tile_count, flags);
+            DrawSync(0);
+            break;
+        }
         case 5:
         item_count = (u16)cmd->flags;
         vram_offset = cmd->x;
         tile_count = cmd->y;
-        tile_src = (void *)words[1];
+        src_addr = words[1];
         item_count |= 2;
-        src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
+        tile_src = base + src_addr;
+        src_addr = (s32)tile_src;
         goto convert_flags;
 
         case 6:
@@ -142,10 +148,10 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     convert_flags:
         item_idx = (u32)item_count << 16;
         flags = item_idx >> 16;
-    call_tile:
+
         upload_vram_row_and_cache(src_addr, vram_offset, tile_count, flags);
         DrawSync(0);
-        goto advance;
+        break;
 
         case 2:
         func_8004068C(base + words[1], (u8 *)words[2]);
@@ -176,7 +182,6 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
             } while (item_idx > 0);
         }
         }
-    advance:
         if (cmd->next == 0) {
             return;
         }

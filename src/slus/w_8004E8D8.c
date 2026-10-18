@@ -13,18 +13,17 @@ s32 string_has_non_whitespace(u8 *text)
         space = 0x20;
         newline = 0x0A;
 
-        do {
+        while (text_byte != 0) {
             character = text_byte & 0xFF;
             if (character != space) {
                 if (character != newline) {
                     has_content = 1;
-                    goto done;
+                    break;
                 }
             }
             text++;
             text_byte = *text;
-        } while (text_byte != 0);
+        }
     }
-done:
     return has_content;
 }
