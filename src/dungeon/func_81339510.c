@@ -11,7 +11,7 @@ typedef struct S_80170510_0 {
 } S_80170510_0;
 
 /* Clear the state value at 0x18 and increment the counter at 0x12. */
-void dungeonAdvanceSecondaryObjectState(void) {
+void advance_secondary_object_state(void) {
     S_80170510_0 *state;
 
     state = D_80175D64 + 0x20;

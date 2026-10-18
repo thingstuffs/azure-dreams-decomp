@@ -26,7 +26,7 @@ typedef struct S_801732A4_2 {
     u16 unk_6A;
     u8 pad_6C[0x1];
     s8 unk_6D;
-} S_801732A4_2;   /* arg3 in func_801732A4 */
+} S_801732A4_2;   /* arg3 in advance_actor_effect_sequence_2 */
 
 typedef struct S_801732A4_3 {
     u8 pad_00[0x2];
@@ -72,20 +72,20 @@ s32 func_80042900();
 void func_80042B68();
 s32 func_8004491C();
 void func_80047784();
-s32 dungeonCheckEntityRelation();
-s16 dungeonGetTileChebyshevDistance();
-s32 func_800A2C34();
-s32 func_800A56E0();
-s32 func_800A6D30();
+s32 check_entity_relation();
+s16 get_tile_chebyshev_distance();
+s32 has_pending_actor_or_turn_action();
+s32 play_sound_if_enabled();
+s32 generate_random_value();
 M2C_UNK func_800A9A04();
-void func_800A9A0C();
-void dungeonBeginPushedActorMove();
-s32 dungeonBeginReadyActorDirectionalAction();
-s32 dungeonAdvanceActorPendingAction();
-void func_800AA888();
-void dungeonApplyClampedActorValueDelta();
+void update_actor_status_and_food();
+void begin_pushed_actor_move();
+s32 begin_ready_actor_directional_action();
+s32 advance_actor_pending_action();
+void begin_actor_move_to_target_facing();
+void apply_clamped_actor_value_delta();
 M2C_UNK func_80171F94();
-void dungeonAdvanceActorEffectSequence();
+void advance_actor_effect_sequence();
 extern u8 D_800D7960[];
 extern u8 D_80170E68[];
 extern u8 D_801741DC[];
@@ -95,7 +95,7 @@ extern u8 D_801741F4[];
 extern u8 D_801741FC[];
 
 /* Advances the actor effect sequence, updating directional animation and its attached effect. */
-void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state) {
+void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite, void *actor_state) {
     s32 actor_flags;
     s32 action_flags;
     s32 sprite_data;
@@ -118,9 +118,9 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
             return;
         (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741DC;
-        func_80047784(sprite, D_801741DC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        func_80047784(sprite, D_801741DC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
-        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
     case 1:
@@ -131,20 +131,20 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
                 count = ((Rec_func_801732A4_arg0 *)actor)->unk_96 + 1;
                 ((Rec_func_801732A4_arg0 *)actor)->unk_96 = count;
                 if (count & 1) {
-                    func_800A56E0(0x51B);
+                    play_sound_if_enabled(0x51B);
                 }
             }
         }
-        if (dungeonStatus.flags & 0x1000)
+        if (g_dungeon_status.flags & 0x1000)
             return;
         if ((func_80042900(actor_state, 1) << 0x10) == 0) {
             (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741E4;
-            func_80047784(sprite, D_801741E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+            func_80047784(sprite, D_801741E4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
                 if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
-                    count = ((u16)dungeonStatus.unk_0A) + 1;
-                    dungeonStatus.unk_0A = count;
+                    count = ((u16)g_dungeon_status.unk_0A) + 1;
+                    g_dungeon_status.unk_0A = count;
                     ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
                     return;
                 }
@@ -152,17 +152,17 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
                 ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
                 return;
             }
-            dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
+            g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
             ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
             return;
         }
         if (((S_801732A4_2 *)actor_state)->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(actor, transform, sprite, 0) != 0) {
+            if (begin_ready_actor_directional_action(actor, transform, sprite, 0) != 0) {
                 ((Rec_func_801732A4_arg0 *)actor)->unk_98 = (u16)(((Rec_func_801732A4_arg0 *)actor)->unk_98 | 0x8000);
                 if (((S_801732A4_2 *)actor_state)->unk_25 == 0) {
-                    if (dungeonStatus.flags & 0x2008)
+                    if (g_dungeon_status.flags & 0x2008)
                         return;
-                    dungeonAdvanceActorPendingAction(actor, transform, sprite, actor_state);
+                    advance_actor_pending_action(actor, transform, sprite, actor_state);
                     return;
                 }
                 ((Rec_func_801732A4_arg0 *)actor)->unk_AA = (u16)((((S_801732A4_2 *)actor_state)->unk_6A
@@ -174,37 +174,37 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if (!(actor_flags & 0x8000)) {
             ((S_801732A4_2 *)actor_state)->unk_14 = (s32)(actor_flags | 0x8000);
             ((S_801732A4_2 *)actor_state)->unk_64 = (s16)((u16)((S_801732A4_2 *)actor_state)->unk_64 + 1);
-            dungeonApplyClampedActorValueDelta(actor_state);
+            apply_clamped_actor_value_delta(actor_state);
         }
-        if ((func_800A2C34(actor_state) << 0x10) != 0)
+        if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0)
             return;
         action_flags = ((S_801732A4_2 *)actor_state)->unk_1C;
         if (action_flags & 0x100) {
-            dungeonBeginPushedActorMove(actor, transform, sprite, actor_state);
+            begin_pushed_actor_move(actor, transform, sprite, actor_state);
             return;
         }
         if (action_flags & 0x80000) {
-            func_800AA888(actor, transform, sprite, actor_state);
-            dungeonAdvanceActorEffectSequence(actor, transform, sprite, actor_state);
+            begin_actor_move_to_target_facing(actor, transform, sprite, actor_state);
+            advance_actor_effect_sequence(actor, transform, sprite, actor_state);
             return;
         }
         if (((S_801732A4_2 *)actor_state)->unk_6D == 0)
             return;
-        if ((func_800A2C34(actor_state) << 0x10) != 0) {
-            if ((dungeonCheckEntityRelation(actor_state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)
+        if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0) {
+            if ((check_entity_relation(actor_state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)
                 return;
         }
-        func_800A9A0C(actor_state);
+        update_actor_status_and_food(actor_state);
         func_800A9A04(actor_state);
         if ((func_80042900(actor_state, 1) << 0x10) != 0) {
             player_sprite = &D_80082E80;
             region_id = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
             if (region_id == player_sprite->unk_026 && region_id >= 0) {
-                if (!(func_800A6D30() & 7)) {
+                if (!(generate_random_value() & 7)) {
                     func_80042B68(actor_state, 1);
                 }
-            } else if (dungeonGetTileChebyshevDistance(player_sprite, sprite) < 2) {
-                if (!(func_800A6D30() & 7)) {
+            } else if (get_tile_chebyshev_distance(player_sprite, sprite) < 2) {
+                if (!(generate_random_value() & 7)) {
                     func_80042B68(actor_state, 1);
                 }
             }
@@ -215,7 +215,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if ((func_80042900(actor_state, 1) << 0x10) != 0)
             return;
         (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741E4;
-        func_80047784(sprite, D_801741E4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        func_80047784(sprite, D_801741E4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) {
@@ -224,15 +224,15 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
                 return;
             }
             {
-                actor_flags = ((u16)dungeonStatus.unk_0A) + 1;
-                dungeonStatus.unk_0A = actor_flags;
+                actor_flags = ((u16)g_dungeon_status.unk_0A) + 1;
+                g_dungeon_status.unk_0A = actor_flags;
             }
             ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
             return;
         }
         {
-            actor_flags = ((u16)dungeonStatus.unk_0A);
-            dungeonStatus.unk_0A = (u16)(actor_flags + 1);
+            actor_flags = ((u16)g_dungeon_status.unk_0A);
+            g_dungeon_status.unk_0A = (u16)(actor_flags + 1);
         }
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
@@ -240,7 +240,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
             return;
         (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_801741EC;
-        func_80047784(sprite, D_801741EC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        func_80047784(sprite, D_801741EC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
@@ -248,7 +248,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))
             return;
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_801741F4;
-        func_80047784(sprite, D_801741F4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
+        func_80047784(sprite, D_801741F4[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         new_effect = func_8003FD64(0x112, ((void *)&D_80083498.next));
@@ -271,7 +271,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
         ((S_801732A4_7 *)effect_sprite)->unk_12 = (u16)((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
         ((S_801732A4_7 *)effect_sprite)->unk_0C = (s32)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
         ((S_801732A4_7 *)effect_sprite)->unk_2C = D_801741FC;
-        func_80047784(effect_sprite, D_801741FC[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
+        func_80047784(effect_sprite, D_801741FC[((g_game_work.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
             + 0x100) >> 9) & 7], 0);
         return;
     case 4:
@@ -282,7 +282,7 @@ void func_801732A4(void *actor, void *transform, void *sprite, void *actor_state
             ((S_801732A4_8 *)active_effect)->unk_BB = 0xFF;
             ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = NULL;
         }
-        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
         ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
         effect_flags = ((Rec_func_801732A4_arg0 *)actor)->unk_98;
         if (effect_flags & 0x8000) {

@@ -50,7 +50,7 @@ typedef struct Grid80090320 {
 
 extern s32 D_800FE480;
 extern s32 D_800FE484;
-extern s32 townCheckScratchQuadHalfTurnGaps();
+extern s32 check_scratch_quad_half_turn_gaps();
 
 
 typedef struct S_8008DA80_1 {
@@ -62,50 +62,50 @@ typedef struct S_8008DA80_1 {
     u16 unk_10;
     u8 pad_12[0x4];
     union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_16;   /* overlapping accesses */
-} S_8008DA80_1;   /* entry in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_1;   /* entry in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_2 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
-} S_8008DA80_2;   /* plane in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_2;   /* plane in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_3 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
-} S_8008DA80_3;   /* vertex in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_3;   /* vertex in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_4 {
     s16 unk_00;
-} S_8008DA80_4;   /* ((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_4;   /* ((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_5 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_8008DA80_5;   /* ((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_5;   /* ((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_6 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_8008DA80_6;   /* ((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_6;   /* ((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_7 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_8008DA80_7;   /* ((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_7;   /* ((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices in find_smallest_surface_x_across_tiles */
 
 typedef struct S_8008DA80_8 {
     u8 pad_00[0x2];
     u16 unk_02;
     u16 unk_04;
-} S_8008DA80_8;   /* ((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices in townFindSmallestSurfaceXAcrossTiles */
+} S_8008DA80_8;   /* ((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices in find_smallest_surface_x_across_tiles */
 
 /* Finds the smallest eligible surface X coordinate across neighboring grid tiles. */
-s16 townFindSmallestSurfaceXAcrossTiles(s32 query_x, s32 query_y, s32 query_z)
+s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
 {
     Scratch80090320 *scratch;
     Grid80090320 *grid;
@@ -133,7 +133,7 @@ s16 townFindSmallestSurfaceXAcrossTiles(s32 query_x, s32 query_y, s32 query_z)
     scratch->lower_bound = (s16)query_x - block_base - 0x14;
     scratch->origin_y = query_y & 0x3F;
     scratch->origin_z = query_z;
-    grid_data = &gameWork;
+    grid_data = &g_game_work;
     grid = (Grid80090320 *)((u8 *)grid_data + 0x1DC);
     scratch->result = query_x & 0x3F;
     query_x &= 0x3F;
@@ -208,7 +208,7 @@ s16 townFindSmallestSurfaceXAcrossTiles(s32 query_x, s32 query_y, s32 query_z)
                         scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04
                             - scratch->origin_z;
 
-                        if (townCheckScratchQuadHalfTurnGaps(scratch) != 0) {
+                        if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                             plane = (u8 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
                                            (u32)scratch->height_data);
                             vertex = (u8 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +

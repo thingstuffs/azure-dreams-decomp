@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80DBD3EC; every changed retail word is a paired relocation. */
-#define dungeonSpawnDirectionalParticlesAndResetActor func_80156BEC
+#define spawn_directional_particles_and_reset_actor func_80156BEC
 #define D_80170854 D_80152854
 #define D_80171040 D_80153040
 #define D_8017142C D_8015342C
@@ -109,16 +109,16 @@ typedef struct {
 } __attribute__((packed)) PackedTable;
 
 extern void func_8003DB94(void *, void *, s32);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, Vec3u *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u *, s32);
 extern s32 func_8003DF74(void *, void *, Vec3u *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern s32 func_80069EF8(void);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void dungeonToggleAttackerTargetStatusPair(void *, void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void toggle_attacker_target_status_pair(void *, void *);
 
 extern s32 D_800DE870;
 extern u8 D_80152854[];
@@ -153,7 +153,7 @@ void func_80156BEC(void *state, EntityRec *source_pos, void *source_render, Enti
             s16 particle_index;
 
             if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
-                func_800A56E0(0x80D);
+                play_sound_if_enabled(0x80D);
             }
 
             particle_index = 0;
@@ -293,7 +293,7 @@ void func_80156BEC(void *state, EntityRec *source_pos, void *source_render, Enti
                         ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
 
                         map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                        if (resolveRecordOrientationOrFallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                        if (resolve_record_orientation_or_fallback(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
                             ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
                             ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
                             ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
@@ -344,7 +344,7 @@ void func_80156BEC(void *state, EntityRec *source_pos, void *source_render, Enti
             ((S_80174BEC_0 *)state)->unk_9B++;
             active_object = actor->target;
             if (active_object != 0) {
-                dungeonToggleAttackerTargetStatusPair(actor, active_object);
+                toggle_attacker_target_status_pair(actor, active_object);
             }
         }
         return;
@@ -356,11 +356,11 @@ void func_80156BEC(void *state, EntityRec *source_pos, void *source_render, Enti
             source_pos->flags14 = 0;
             source_pos->unk_10 = 0;
             source_pos->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
+            set_record_integer_tile_center(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
             if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801573BC) {
                 ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801573BC;
                 ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
-                direction_index = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+                direction_index = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
                 func_80047784(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
                 ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
                 ((S_80174BEC_0 *)state)->unk_9B++;
@@ -375,9 +375,9 @@ void func_80156BEC(void *state, EntityRec *source_pos, void *source_render, Enti
             timer = ((S_80174BEC_0 *)state)->unk_96.s;
             ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
             if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
-                dungeonReduceActorFoodMeter(actor, 0x1000);
+                reduce_actor_food_meter(actor, 0x1000);
                 ((S_80174BEC_0 *)state)->unk_8C = D_80153E20;
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 (actor->unk_46) &= 0x7FFF;
             }
         }

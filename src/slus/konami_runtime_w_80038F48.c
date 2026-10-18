@@ -10,7 +10,7 @@ typedef struct RuntimeContext {
     u8 *base;
 } RuntimeContext;
 
-extern void vmOp22Return(RuntimeContext *);
+extern void vm_op_22_return(RuntimeContext *);
 extern void func_8003AD08(s32, u8 *);
 extern u8 *D_8006A944[];
 
@@ -53,7 +53,7 @@ void func_80038F48(RuntimeContext *ctx) {
                        ((u32)operand_ptr[2] << 16) + ((u32)operand_ptr[3] << 24);
             ctx->read_ptr = *(u8 **)target_ptr_addr;
         } else {
-            vmOp22Return(ctx);
+            vm_op_22_return(ctx);
         }
         opcode = *ctx->read_ptr;
     }

@@ -1,5 +1,5 @@
 #include "common.h"
 
 /* Performs no operation. */
-void townPlayerNoOp(void) {
+void player_no_op(void) {
 }

@@ -1,12 +1,12 @@
 /* Relinked copy of town/func_80874D24 (func_80874D24.c); retail differs only at relocation sites. */
 #include "common.h"
 
-void func_80701808();                         /* extern */
+void set_indexed_flag_bit();                         /* extern */
 extern u8 D_80700BB4[];
 
-/* Pass the indexed table value to func_80701808. */
-void func_80700D54(s32 index) {
-    func_80701808(*(s16 *)(D_80700BB4 + (index * 2)));
+/* Pass the indexed table value to set_indexed_flag_bit. */
+void pass_indexed_table(s32 index) {
+    set_indexed_flag_bit(*(s16 *)(D_80700BB4 + (index * 2)));
 }
 
 /* MECHANISM: Preserve the seed's 0x18 RA-only frame and direct call shape.

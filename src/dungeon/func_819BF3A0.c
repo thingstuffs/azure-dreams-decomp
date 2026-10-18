@@ -5,7 +5,7 @@
 #include "shared/record_ptrs.h"
 
 /* Clears flag 0x2000 on every object in the circular list. */
-void dungeonClearCircularListFlags(void)
+void clear_circular_list_flags(void)
 {
     EntityRec *link;
     ObjectNodeHeader *object;

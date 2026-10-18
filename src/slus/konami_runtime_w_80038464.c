@@ -8,13 +8,13 @@ typedef struct S_80038464_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x70];
     s8 unk_84;
-} S_80038464_0;   /* arg0 in slusClearRuntimeStateAndSetHandler */
+} S_80038464_0;   /* arg0 in clear_runtime_state_and_set_handler */
 
 
 extern M2C_UNK func_80038478;
 
 /* Clear the object's state byte and set its handler to func_80038478. */
-void slusClearRuntimeStateAndSetHandler(S_80038464_0 *object) {
+void clear_runtime_state_and_set_handler(S_80038464_0 *object) {
     object->unk_84 = 0;
     object->unk_10 = &func_80038478;
 }

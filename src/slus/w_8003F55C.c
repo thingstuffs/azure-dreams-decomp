@@ -7,7 +7,7 @@ extern int CdPosToInt(unsigned char *loc);
 extern unsigned char D_800814B8[8];
 
 /* Refreshes the CD position when sync returns 2 and returns its sector count. */
-int cdPollAndGetSector(void) {
+int cd_poll_and_get_sector(void) {
     if (CdSync(1, 0) == 2) {
         CdControl(0x10, 0, D_800814B8);
     }

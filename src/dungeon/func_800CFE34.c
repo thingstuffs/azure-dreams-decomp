@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern void dungeonApplyMonsterKoyawData(void *, void *);
+extern void apply_monster_koyaw_data(void *, void *);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80042900(void *, s32);
@@ -25,7 +25,7 @@ extern u8 D_800E2460[];
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 
 /* Updates entity appearance, position, and facing from its owner and effect state. */
-void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u8 *entity)
+void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *entity)
 {
     u8 *record;
     u8 *effect;
@@ -47,7 +47,7 @@ void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u
     appearance = PTR(record, 0xC);
     coords = PTR(record, 8);
 
-    dungeonApplyMonsterKoyawData(effect_data, entity + 0xC);
+    apply_monster_koyaw_data(effect_data, entity + 0xC);
 
     saved_effect = effect;
     if ((*(u32 *)(effect + 0x1C) & 0x20) == 0) {
@@ -65,11 +65,11 @@ void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u
         U16(((u8 *)(owner_data)), 0x2A) = facing_check;
         func_80047784(
             entity,
-            PTR(entity, 0x2C)[(gameWork.view.viewAngle + effect_angle + 0x100) >> 9 & 7],
+            PTR(entity, 0x2C)[(g_game_work.view.viewAngle + effect_angle + 0x100) >> 9 & 7],
             0);
     }
 
-    angle_table = &gameWork;
+    angle_table = &g_game_work;
     angle_sector =
         (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
     {
@@ -108,7 +108,7 @@ void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u
             appearance_type == D_800E2440 ||
             appearance_type == D_800E2438) {
             U16(((u8 *)(owner_data)), -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             U8(saved_effect, 0xB0)--;
             return;
         }
@@ -118,5 +118,5 @@ void dungeonUpdateEntityFromOwnerEffect(void *owner_data, void *position_data, u
     }
 
     U16(((u8 *)(owner_data)), -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

@@ -6,7 +6,7 @@
 
 
 extern void func_80048A44(void *, u8, s32, s32);
-extern void func_800A56E0(u32);
+extern void play_sound_if_enabled(u32);
 extern u8 D_800DD030[];
 
 
@@ -15,10 +15,10 @@ typedef struct S_8008C514_1 {
     s32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_8008C514_1;   /* arg3 in dungeonBeginPlayerJump */
+} S_8008C514_1;   /* arg3 in begin_player_jump */
 
 /* Initialize the action state and select the actor's directional sprite. */
-void dungeonBeginPlayerJump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, S_8008C514_1 *actor) {
+void begin_player_jump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_80082E80 *sprite, S_8008C514_1 *actor) {
     state->unk_9A.as_s8 = 0x1A;
     state->unk_9B.as_s8 = 0;
     state->unk_8C.as_s32 = 0;
@@ -26,9 +26,9 @@ void dungeonBeginPlayerJump(Rec_func_8008ACDC_arg0 *state, s32 unused, Rec_D_800
         sprite->unk_14.at00_u16.v |= 0x4000;
     } else {
         sprite->unk_2C.as_pu8 = D_800DD030;
-        func_80048A44(sprite, D_800DD030[((s32)(gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, D_800DD030[((s32)(g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     }
-    func_800A56E0(0x50A);
+    play_sound_if_enabled(0x50A);
     state->unk_96.as_s16 = 0;
     state->unk_A2 = (u16)(state->unk_A2 & 0xFFEF);
 }

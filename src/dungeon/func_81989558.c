@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e67b800.h"
 
-s32 func_80024D58(void *node) {
+s32 render_rotated_grid_surface(void *node) {
     Row_81989558_Frame frame;
     void *object;
     u8 *source_points;
@@ -22,7 +22,7 @@ s32 func_80024D58(void *node) {
     source_points = frame.space;
     rotated_points = frame.space + 128;
     grid = frame.space + 256;
-    render_context = &gameWork.unk_000;
+    render_context = &g_game_work.unk_000;
     grid_origin = -720;
     for (;;) {
         object = node;
@@ -72,7 +72,7 @@ s32 func_80024D58(void *node) {
             }
             side = 0;
             do {
-                dungeonTransformRotatedVertices(&frame.p.f510);
+                transform_rotated_vertices(&frame.p.f510);
                 switch (side) {
                 case 0:
                     point_index = ring;

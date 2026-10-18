@@ -22,7 +22,7 @@ void func_80176CA8(void) {
     movie = D_80189390;
     movie->strip.x += movie->strip.w;
     if (movie->strip.x < movie->screen[movie->screen_index].x + movie->screen[movie->screen_index].w) {
-        func_801778C0((s32)movie->output, (movie->strip.w * movie->strip.h) / 2);
+        request_decoder_output_dma((s32)movie->output, (movie->strip.w * movie->strip.h) / 2);
     } else {
         movie->ready = 1;
         movie->screen_index = !movie->screen_index;

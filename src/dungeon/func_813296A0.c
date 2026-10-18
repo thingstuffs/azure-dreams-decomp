@@ -47,14 +47,14 @@ extern u8 D_80174B30[9];
 extern Node *D_80174CDC;
 
 extern void func_800419EC(s32, s32);
-extern void dungeonCreateOffsetAnimationSprite(void *, Vec3 *, Sub *);
-extern void func_800A56E0(s32);
+extern void create_offset_animation_sprite(void *, Vec3 *, Sub *);
+extern void play_sound_if_enabled(s32);
 extern void func_80047784(Sub *, u8, s32);
 extern void func_80170CE0(void);
 extern void func_800478B8(Sub *);
 
 /* Delays an effect, then moves and fades its sprite before finishing. */
-void dungeonUpdateEncounterRetreatFade(void) {
+void update_encounter_retreat_fade(void) {
     Extra *effect;
     Vec3 *position;
     Sub *sprite;
@@ -84,13 +84,13 @@ void dungeonUpdateEncounterRetreatFade(void) {
             effect->field_9E = 0x14;
             effect->field_9A++;
             func_800419EC(6, 12);
-            dungeonCreateOffsetAnimationSprite(effect, position, sprite);
-            func_800A56E0(0x601);
+            create_offset_animation_sprite(effect, position, sprite);
+            play_sound_if_enabled(0x601);
             position->field_0C = -0x200000;
             sprite->field_10 = 0x20;
             sprite->field_2C = D_80174B30;
             sprite->flags_14 |= 0xC;
-            func_80047784(sprite, D_80174B30[((gameWork.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
+            func_80047784(sprite, D_80174B30[((g_game_work.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
                 0);
         }
         break;

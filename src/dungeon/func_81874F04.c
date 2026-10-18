@@ -3,16 +3,16 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void dungeonProjectTexturedQuadOrCallback(void *record, void *context, void *data, s16 depth_bias);
+extern void project_textured_quad_or_callback(void *record, void *context, void *data, s16 depth_bias);
 
-/* Retail 81874F04 (dungeonProjectLinkedQuadRecord).
+/* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 dungeonProjectLinkedQuadRecord(void *record, void *context, void *data) {
+s32 project_linked_quad_record(void *record, void *context, void *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
-        dungeonProjectTexturedQuadOrCallback(record, context, data, 0);
+        project_textured_quad_or_callback(record, context, data, 0);
         node = ((ObjectNodeHeader *)record - 1)->chain_next;
         if (node == 0) {
             return 0;

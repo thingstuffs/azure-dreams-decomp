@@ -8,9 +8,9 @@
 #include "shared/entity.h"
 
 extern u8 D_800E3CD0[9];
-void dungeonSnapshotInventoryAndFamiliars();
-void dungeonSnapshotInventoryFamiliarRecords();
-void dungeonAdjustSourceValueAndFinalize();
+void snapshot_inventory_and_familiars();
+void snapshot_inventory_familiar_records();
+void adjust_source_value_and_finalize();
 extern M2C_UNK D_800E0672;
 
 
@@ -21,29 +21,29 @@ typedef struct S_8008E0C4_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8008E0C4_0;   /* context in advanceActorDeathTransition */
+} S_8008E0C4_0;   /* context in advance_actor_death_transition */
 
 typedef struct S_8008E0C4_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8008E0C4_1;   /* input in advanceActorDeathTransition */
+} S_8008E0C4_1;   /* input in advance_actor_death_transition */
 
 typedef struct S_8008E0C4_2 {
     u8 unk_00;
-} S_8008E0C4_2;   /* D_800E3CD0 in advanceActorDeathTransition */
+} S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
 
-void advanceActorDeathTransition(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
+void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
     GameWork *work;
     u16 remaining;
     s32 state;
 
-    work = &gameWork;
+    work = &g_game_work;
     state = context->unk_9B;
     switch (state) {
     case 0:
         if (input->unk_14 & 0xE000) {
-            dungeonAdjustSourceValueAndFinalize(entity, &D_800E0672);
+            adjust_source_value_and_finalize(entity, &D_800E0672);
             context->unk_96 = 0x80;
             context->unk_9B++;
         }
@@ -62,8 +62,8 @@ void advanceActorDeathTransition(S_8008E0C4_0 *context, void *unused, S_8008E0C4
                 break;
             }
         } else {
-            dungeonSnapshotInventoryAndFamiliars(context);
-            dungeonSnapshotInventoryFamiliarRecords();
+            snapshot_inventory_and_familiars(context);
+            snapshot_inventory_familiar_records();
             D_80082E60.flags16 = 0xC000;
             func_80041094(6, 0, 0, 0, 0xC000);
             context->unk_9B++;
@@ -78,8 +78,8 @@ void advanceActorDeathTransition(S_8008E0C4_0 *context, void *unused, S_8008E0C4
         if (input->unk_14 & 0xE000) {
             entity->unk_28 = entity->unk_29;
             entity->facing = 0x400 - ((((u16)work->view.viewAngle) + 0x100) & 0xE00);
-            context->unk_8C =dungeonHandlePlayerInput;
-            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+            context->unk_8C =handle_player_input;
+            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
         }
         break;
     }

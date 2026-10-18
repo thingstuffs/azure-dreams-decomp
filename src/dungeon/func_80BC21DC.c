@@ -8,23 +8,23 @@
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s8 func_8009FB34(s32, s32);
-extern s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern s32 func_800A1C58(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern s32 dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
-extern void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void dungeonAdvanceEntityPathState(void *, void *, void *, void *);
+extern s32 check_entity_relation(void *, void *);
+extern s8 find_active_rect_containing_point(s32, s32);
+extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 can_entity_gain_level(void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern s32 process_selected_actor_record(void *, void *, void *, void *);
+extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern void advance_entity_path_state(void *, void *, void *, void *);
 extern void func_801721D8(void *, void *, void *, void *);
-extern s32 dungeonAttemptTargetAction(void *, void *, void *, void *);
-extern void dungeonApplyConditionalActorEffect(void *, void *, void *, void *);
+extern s32 attempt_target_action(void *, void *, void *, void *);
+extern void apply_conditional_actor_effect(void *, void *, void *, void *);
 extern s32 func_80172B8C(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
@@ -56,7 +56,7 @@ typedef struct S_801719DC_0 {
     s32 unk_B0;
     u8 pad_B4[0x4];
     s16 unk_B8;
-} S_801719DC_0;   /* arg0 in dungeonDispatchActorAnimationAndAction */
+} S_801719DC_0;   /* arg0 in dispatch_actor_animation_and_action */
 
 typedef struct S_801719DC_1 {
     u8 pad_00[0x1C];
@@ -71,7 +71,7 @@ typedef struct S_801719DC_1 {
     s16 unk_64;
     u8 pad_66[0x7];
     s8 unk_6D;
-} S_801719DC_1;   /* arg3 in dungeonDispatchActorAnimationAndAction */
+} S_801719DC_1;   /* arg3 in dispatch_actor_animation_and_action */
 
 typedef struct S_801719DC_2 {
     u8 pad_00[0x5];
@@ -87,32 +87,32 @@ typedef struct S_801719DC_2 {
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
-} S_801719DC_2;   /* arg2 in dungeonDispatchActorAnimationAndAction */
+} S_801719DC_2;   /* arg2 in dispatch_actor_animation_and_action */
 
 
 /* Update actor animation, facing, and action dispatch from dungeon state. */
-void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, void *entity_in, void *actor_in)
+void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void *entity_in, void *actor_in)
 {
     s32 direction_aux;
     s8 room_id;
     u16 action_state;
 
-    if (dungeonStatus.flags & 0x1000) {
+    if (g_dungeon_status.flags & 0x1000) {
         ((S_801719DC_0 *)motion_in)->unk_9A = 0xE;
-        dungeonAdvanceEntityPathState(motion_in, context_in, entity_in, actor_in);
+        advance_entity_path_state(motion_in, context_in, entity_in, actor_in);
         return;
     }
     if (((S_801719DC_1 *)actor_in)->unk_25 == 0) {
         void *anim_table;
 
-        dungeonAdvanceActorPendingAction(motion_in, context_in, entity_in, actor_in);
+        advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);
         if (((S_801719DC_2 *)entity_in)->unk_2C == D_80174684) {
             return;
         }
         anim_table = D_8017467C;
         (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
         func_80047784(entity_in,
-            ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -125,14 +125,14 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             ((S_801719DC_1 *)actor_in)->unk_1C &= 0xFFFBFFFF;
             return;
         }
-        if (dungeonResetActorActionState(motion_in, context_in, entity_in, D_8017467C) != 0) {
+        if (reset_actor_action_state(motion_in, context_in, entity_in, D_8017467C) != 0) {
             return;
         }
     }
 
-    if (!(dungeonStatus.flags & 0x2000)) {
+    if (!(g_dungeon_status.flags & 0x2000)) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x100) {
-            dungeonBeginPushedActorMove(motion_in, context_in, entity_in, actor_in);
+            begin_pushed_actor_move(motion_in, context_in, entity_in, actor_in);
             return;
         }
 
@@ -152,7 +152,7 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
                     func_80047784(entity_in,
-                        ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
+                        ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
                             >> 9) & 7],
                         1);
                     ((S_801719DC_2 *)entity_in)->unk_05 = 1;
@@ -171,7 +171,7 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
         ((S_801719DC_1 *)actor_in)->unk_1C |= 0x40000;
 
         if (((S_801719DC_1 *)actor_in)->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(motion_in, context_in, entity_in, D_80174644) != 0) {
+            if (begin_ready_actor_directional_action(motion_in, context_in, entity_in, D_80174644) != 0) {
                 return;
             }
         }
@@ -181,7 +181,7 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             u16 offset_delta;
             s32 motion_value;
 
-            func_800AA888(motion_in, context_in, entity_in, actor_in);
+            begin_actor_move_to_target_facing(motion_in, context_in, entity_in, actor_in);
             base_offset = ((S_801719DC_0 *)motion_in)->unk_92;
             offset_delta = ((S_801719DC_0 *)motion_in)->unk_A4.at02u.v;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
@@ -195,17 +195,17 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             return;
         }
 
-        if ((func_800A1C58(actor_in) << 16) != 0) {
-            dungeonProcessSelectedActorRecord(motion_in, context_in, entity_in, actor_in);
+        if ((can_entity_gain_level(actor_in) << 16) != 0) {
+            process_selected_actor_record(motion_in, context_in, entity_in, actor_in);
         }
     }
 
-    room_id = func_8009FB34(((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v);
+    room_id = find_active_rect_containing_point(((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v);
     ((S_801719DC_2 *)entity_in)->unk_26 = room_id;
 
     if (((S_801719DC_1 *)actor_in)->unk_6D > 0) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
-            func_800A9A0C(actor_in);
+            update_actor_status_and_food(actor_in);
             return;
         }
         if (((S_801719DC_2 *)entity_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
@@ -213,8 +213,8 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             return;
         }
         if (!(((S_801719DC_1 *)actor_in)->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((dungeonCheckEntityRelation(actor_in,
+            if (g_dungeon_status.flags & 0x2000) {
+                if ((check_entity_relation(actor_in,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -235,10 +235,10 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
 
         case 7:
         case 8:
-            if ((dungeonAttemptTargetAction(motion_in, context_in, entity_in, actor_in) << 16) != 0) {
+            if ((attempt_target_action(motion_in, context_in, entity_in, actor_in) << 16) != 0) {
                 return;
             }
-            dungeonApplyConditionalActorEffect(motion_in, context_in, entity_in, actor_in);
+            apply_conditional_actor_effect(motion_in, context_in, entity_in, actor_in);
             return;
 
         case 4:
@@ -248,26 +248,26 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             EntityRec *player;
             s16 heading;
 
-            heading = dungeonGetRoundedFacingAndRoundingFlag(
+            heading = get_rounded_facing_and_rounding_flag(
                 ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY,
                 &direction_aux);
             player = D_800814A8;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
             if (player->unk_9A == 0x11) {
-                dungeonBeginActorSpellAction(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+                begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
                 return;
             }
         }
 
         case 11:
-            func_800A9A0C(actor_in);
+            update_actor_status_and_food(actor_in);
             return;
 
         case 0:
         case 1:
         case 2:
-            dungeonBeginActorSpellAction(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+            begin_actor_spell_action(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
             return;
 
         case 3:
@@ -286,10 +286,10 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
             !(D_800E2970[room_index].flags & 2)) {
             if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x430)) {
 
-                if ((dungeonCompareMonsterNeighborValues(
+                if ((compare_monster_neighbor_values(
                         ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((S_801719DC_1 *)actor_in)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+                    ((S_801719DC_1 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &direction_aux);
@@ -298,7 +298,7 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
         }
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return;
     }
     if (((S_801719DC_2 *)entity_in)->unk_14 & 0x40) {
@@ -311,7 +311,7 @@ void dungeonDispatchActorAnimationAndAction(void *motion_in, void *context_in, v
         if (((S_801719DC_2 *)entity_in)->unk_2C != anim_table) {
             (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
             func_80047784(entity_in,
-                ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)anim_table)[((g_game_work.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
             ((S_801719DC_2 *)entity_in)->unk_05 = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;

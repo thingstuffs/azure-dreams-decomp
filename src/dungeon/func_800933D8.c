@@ -16,19 +16,19 @@ extern u8 D_80081470[];
 extern u8 D_80081484[];
 extern DungeonRecord D_800E36C8[];
 
-extern s16 dungeonFindTableValueIndex(s32 *);
-extern void func_800A86DC(s16);
-extern s16 getBoundedStrideIndex(s32 *, u8 *, s32, s32);
-extern void func_8009A3D0(u8, u8, s32);
+extern s16 find_table_value_index(s32 *);
+extern void compact_item_entry_table(s16);
+extern s16 get_bounded_stride_index(s32 *, u8 *, s32, s32);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 
 /* Clears a slot and updates its associated entry or dungeon state. */
-void dungeonClearSlotAndUpdateLinkedState(s32 *slot) {
+void clear_slot_and_update_linked_state(s32 *slot) {
     s16 lookup_result;
     if (slot != 0) {
         *slot = 0;
-        lookup_result = dungeonFindTableValueIndex(slot);
+        lookup_result = find_table_value_index(slot);
         if (lookup_result >= 0) {
-            func_800A86DC(lookup_result);
+            compact_item_entry_table(lookup_result);
             return;
         }
         if ((u8 *)slot == D_80081484) {
@@ -40,9 +40,9 @@ void dungeonClearSlotAndUpdateLinkedState(s32 *slot) {
         if ((u8 *)slot == D_80081470 || slot == ((s32 *)D_800E3D7C->unk_F0)) {
             s16 record_index;
             *(s32 *)D_80081470 = 0;
-            record_index = getBoundedStrideIndex(((s32 *)D_800E3D7C->unk_F0), ((u8 *)D_800E3548), 4, 0x40);
+            record_index = get_bounded_stride_index(((s32 *)D_800E3D7C->unk_F0), ((u8 *)D_800E3548), 4, 0x40);
             if (record_index >= 0) {
-                func_8009A3D0(D_800E36C8[record_index].first, D_800E36C8[record_index].second, 0x800);
+                update_map_cell_flags_with_item_limit(D_800E36C8[record_index].first, D_800E36C8[record_index].second, 0x800);
             }
             *(s32 *)D_800E3D7C->unk_F0 = 0;
         }

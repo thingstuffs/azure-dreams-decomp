@@ -61,10 +61,10 @@ typedef struct S_800AE734_0 {
     s32 unk_28;
     u8 pad_2C[0xAC];
     s32 unk_D8;
-} S_800AE734_0;   /* arg0 in townStyleItemMenuEntryRecords */
+} S_800AE734_0;   /* arg0 in style_item_menu_entry_records */
 
 /* Sets fixed values and color bytes on each item's linked records. */
-void townStyleItemMenuEntryRecords(S_800AE734_0 *collection) {
+void style_item_menu_entry_records(S_800AE734_0 *collection) {
     s32 entry_offset;
     s32 entry_index;
 

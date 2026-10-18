@@ -9,7 +9,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Brightens and accelerates an effect, spawns particles, then fades it out. */
-void dungeonBrightenAccelerateAndFadeEffect(void *effect_arg, DelayMotion *motion, DelaySpriteColor *sprite) {
+void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, DelaySpriteColor *sprite) {
     s32 color;
     s32 phase;
     s32 z_velocity;
@@ -48,7 +48,7 @@ void dungeonBrightenAccelerateAndFadeEffect(void *effect_arg, DelayMotion *motio
         motion->unk_08 = (s32) (motion->unk_08 + z_velocity);
         count_or_step = 0x14;
         if ((s16) ((DelayParticle *)effect_arg)->unk_48 <= 0) {
-            particle_data = dungeonAdvanceDelayedFadingSprite;
+            particle_data = advance_delayed_fading_sprite;
             ((DelayParticle *)effect_arg)->unk_4C.s = (s16) ((u16) ((DelayParticle *)effect_arg)->unk_4C.s + 1);
             do {
                 particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
@@ -96,7 +96,7 @@ void dungeonBrightenAccelerateAndFadeEffect(void *effect_arg, DelayMotion *motio
         if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
             sprite->unk_0C.at00u.v = 0;
             ((DelayStatusPrefix *)effect_arg)[-1].unk_00 = (u16) (((DelayStatusPrefix *)effect_arg)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         fade_level = sprite->unk_0C.at02.v - 0x10;

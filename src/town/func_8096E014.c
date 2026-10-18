@@ -6,8 +6,8 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-void applyBlock16TemplateToNodes();
-void applyVector3TemplateToNodes();
+void apply_block_16_template_to_nodes();
+void apply_vector_3_template_to_nodes();
 extern M2C_UNK *D_80129728;
 extern M2C_UNK D_801298B8;
 extern M2C_UNK D_80129ED8;
@@ -28,15 +28,15 @@ typedef struct S_801264AC_2 {
     u8 pad_00[0x54];
     s32 unk_54;
     M2C_UNK ** unk_58;
-} S_801264AC_2;   /* arg0 in townInitializeCatalogDisplayNodes */
+} S_801264AC_2;   /* arg0 in initialize_catalog_display_nodes */
 
 typedef struct S_801264AC_3 {
     u8 pad_00[0x184];
     s32 unk_184;
-} S_801264AC_3;   /* &D_80129728 in townInitializeCatalogDisplayNodes */
+} S_801264AC_3;   /* &D_80129728 in initialize_catalog_display_nodes */
 
 /* Initializes 98 linked nodes and attaches their table to the context. */
-s32 townInitializeCatalogDisplayNodes(S_801264AC_2 *context) {
+s32 initialize_catalog_display_nodes(S_801264AC_2 *context) {
     s32 **node_slot;
     s32 *node;
     s32 *node_data;
@@ -63,8 +63,8 @@ s32 townInitializeCatalogDisplayNodes(S_801264AC_2 *context) {
         prev_node = *node_slot;
         node_slot += 1;
     } while (node_count < 0x62);
-    applyBlock16TemplateToNodes(&D_80129728, 0x62);
-    applyVector3TemplateToNodes(&D_80129728, 0x62);
+    apply_block_16_template_to_nodes(&D_80129728, 0x62);
+    apply_vector_3_template_to_nodes(&D_80129728, 0x62);
     context->unk_58 = &D_80129728;
     context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
     result = 1;

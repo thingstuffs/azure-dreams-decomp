@@ -37,6 +37,6 @@ void func_818C2F10(void *entry, S_818C2F10_2 *value_state, Rec_D_80082E80 *statu
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((S_818C2F10_0_pre *)entry)[-1].unk_00 = (u16) (((S_818C2F10_0_pre *)entry)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

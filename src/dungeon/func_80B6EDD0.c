@@ -20,27 +20,27 @@ typedef struct S_801725D0_1 {
     u8 unk_9B;
     u8 pad_9C[0xA];
     s16 unk_A6;
-} S_801725D0_1;   /* arg0 in func_801725D0 */
+} S_801725D0_1;   /* arg0 in advance_actor_movement_sequence_and_resets */
 
 
 typedef struct S_801725D0_3_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_801725D0_3_pre;   /* the 0x18 bytes before linked in func_801725D0, addressed as linked[-1] */
+} S_801725D0_3_pre;   /* the 0x18 bytes before linked in advance_actor_movement_sequence_and_resets, addressed as linked[-1] */
 
 typedef struct S_801725D0_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_801725D0_4;   /* entry in func_801725D0 */
+} S_801725D0_4;   /* entry in advance_actor_movement_sequence_and_resets */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s16 func_800BCB04(s32, s32, s16);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern void *D_800E3DE8;
 extern s32 D_80170E5C;
@@ -48,7 +48,7 @@ extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
 /* Advances the actor's movement sequence and resets motion and animation on landing. */
-void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 direction_offset;
     s32 x_step;
@@ -58,9 +58,9 @@ void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *act
     s32 height_delta;
 
     direction_offset = (((u16)actor->facing) >> 8) & 0xE;
-    x_step = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    x_step = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     ticks_left = ((S_801725D0_1 *)action)->unk_96.s - 1;
-    y_step = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    y_step = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     state = ((S_801725D0_1 *)action)->unk_9B;
     ((S_801725D0_1 *)action)->unk_96.s = ticks_left;
 
@@ -69,14 +69,14 @@ void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_801725D0_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173D34;
         func_80047784(
             sprite,
-            D_80173D34[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D34[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         if (actor->target != 0) {
@@ -85,7 +85,7 @@ void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *act
             ((S_801725D0_1 *)action)->unk_A6 = ((S_801725D0_4 *)height_entry)->unk_0A - 0x34;
         } else {
             ((S_801725D0_1 *)action)->unk_A6 =
-                func_800BCB04(
+                sample_terrain_surface_height(
                     ((((Rec_D_80082E80 *)sprite)->unk_24 + x_step) << 6) & 0xFFC0,
                     ((((Rec_D_80082E80 *)sprite)->unk_25 + y_step) << 6) & 0xFFC0,
                     (s16)(((u16)actor->unk_88) - 0xA0)) - 0x34;
@@ -127,10 +127,10 @@ void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         height_delta = ((s32)(ticks_left << 16) >> 4) + 0x2000;
         ((S_801725D0_1 *)action)->unk_90.at00.v -= height_delta;
         if (((S_801725D0_1 *)action)->unk_96.u == 6) {
-            func_800A56E0(0x808);
+            play_sound_if_enabled(0x808);
         }
         if (((S_801725D0_1 *)action)->unk_96.u == 2) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         }
         if (((S_801725D0_1 *)action)->unk_96.u > 0) {
             return;
@@ -155,13 +155,13 @@ void func_801725D0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173D04;
         func_80047784(
             sprite,
-            D_80173D04[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
         } else {

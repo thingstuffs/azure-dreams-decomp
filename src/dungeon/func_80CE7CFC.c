@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Create and position an effect using a linked object or stored tile coordinates. */
-void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
+void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
 {
     void *effect;
     void *effect_state;
@@ -20,7 +20,7 @@ void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void 
     effect_state = (u8 *)effect + 0x20;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
-    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&dungeonUpdateNormalizedGrayFade;
+    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&update_normalized_gray_fade;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
     effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_0C;
     template_data = sprite_template;
@@ -43,7 +43,7 @@ void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void 
     func_8004491C(effect, func_80045340);
     (*(void * *)((u8 *)effect_data + 0x2c)) = (void *)&D_80175EB4;
     func_80047784(effect_data,
-        ((u8 *)&D_80175EB4)[(((s32)gameWork.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
+        ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
     effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_08;
     if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
@@ -70,7 +70,7 @@ void dungeonCreateActorActionEffect(void *source_object, void *source_pos, void 
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((Rec_func_8017121C_arg1 *)source_pos)->unk_0A;
         {
             void *source_data = ((T_801714FC_S_801714FC_6_pre *)source_object)[-1].unk_00;
-            if (resolveRecordOrientationOrFallback(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
+            if (resolve_record_orientation_or_fallback(((T_801714FC_S_801714FC_7 *)source_data)->unk_08, source_data, pos_offset, 0) != 0) {
                 ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A + pos_offset[2];
                 return;
             }

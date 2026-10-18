@@ -17,50 +17,50 @@ extern u8 D_800E1375[];
 extern u8 D_800E13B7[];
 
 extern s32 func_80033BC0(s32);
-extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
-extern void dungeonClearSlotAndUpdateLinkedState(s32);
-extern void func_800997FC(void *);
-extern void func_800A5F38(void *, s32);
-extern void func_800A6480(void *, s32);
-extern s32 dungeonApplyActorFoodPreference(void *, u16, s32);
-extern s32 dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
+extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 process_record_and_update_linked_state(s32, s32);
+extern void clear_slot_and_update_linked_state(s32);
+extern void display_formatted_context_message(void *);
+extern void apply_item_effect_at_entity_position(void *, s32);
+extern void display_actor_item_status_message(void *, s32);
+extern s32 apply_actor_food_preference(void *, u16, s32);
+extern s32 create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 
 /* Apply an event to the target and update the event count on completion. */
-s32 dungeonApplyReturnMagicItem(u8 *entity, s32 event, s16 target_type, s32 target_record) {
+s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_record) {
     u8 *entity_info;
 
     if (target_type == 0xD) {
-        return dungeonProcessRecordAndUpdateLinkedState(event, target_record);
+        return process_record_and_update_linked_state(event, target_record);
     }
     if ((void *)entity == ((u8 *)D_800E3D7C)) {
         *(s32 *)(entity + 0x110) = event;
-        dungeonBeginModeSelectedItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+        begin_mode_selected_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {
-        func_800A6480(entity, event);
-        if (dungeonApplyActorFoodPreference(entity, D_800DDE84[entity[0x13]] & 3, event) == 0) {
-            func_800A5F38(entity, event);
+        display_actor_item_status_message(entity, event);
+        if (apply_actor_food_preference(entity, D_800DDE84[entity[0x13]] & 3, event) == 0) {
+            apply_item_effect_at_entity_position(entity, event);
             return 1;
         }
-        ((Struct_80083460 *)&dungeonStatus)->count--;
+        ((Struct_80083460 *)&g_dungeon_status)->count--;
     } else {
         if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
-            func_800997FC(D_800E1375);
-            ((Struct_80083460 *)&dungeonStatus)->count--;
-            dungeonClearSlotAndUpdateLinkedState(event);
+            display_formatted_context_message(D_800E1375);
+            ((Struct_80083460 *)&g_dungeon_status)->count--;
+            clear_slot_and_update_linked_state(event);
             return 1;
         }
         entity_info = *(u8 **)(entity - 0x14);
-        if (dungeonCreateFivePointEffect(entity_info[0x24], entity_info[0x25],
+        if (create_five_point_effect(entity_info[0x24], entity_info[0x25],
                           *(s16 *)(entity + 0x88), D_800DF45C,
                           0x2800, 0x208020, D_800C0180) == 0) {
             return 0;
         }
-        func_800997FC(D_800E13B7);
-        ((Struct_80083460 *)&dungeonStatus)->count++;
+        display_formatted_context_message(D_800E13B7);
+        ((Struct_80083460 *)&g_dungeon_status)->count++;
     }
-    dungeonClearSlotAndUpdateLinkedState(event);
+    clear_slot_and_update_linked_state(event);
     return 1;
 }

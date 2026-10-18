@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 // Populate three global slots with a signed byte, lookup value, and record pointer from the first entry.
-s32 townGetSelectedTableEntry(void) {
+s32 get_selected_table_entry(void) {
     D_80082A38[0x12] = (s8)D_800CFCC4->value;
     D_80082A38[0x13] = D_800D0910[D_800CFCC4->kind];
     D_80082A38[0x14] =

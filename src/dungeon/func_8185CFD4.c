@@ -23,9 +23,9 @@ typedef struct S_800247D4_0 {
     u8 pad_E0[0x14];
     s32 unk_F4;
     s32 unk_F8;
-} S_800247D4_0;   /* scratch in dungeonDrawAnimatedShadedLines */
+} S_800247D4_0;   /* scratch in draw_animated_shaded_lines */
 
-   /* ctx in dungeonDrawAnimatedShadedLines */
+   /* ctx in draw_animated_shaded_lines */
 
 typedef struct S_800247D4_2 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -41,7 +41,7 @@ typedef struct S_800247D4_2 {
     u8 pad_0F[0x1];
     u16 unk_10;
     u16 unk_12;
-} S_800247D4_2;   /* packet in dungeonDrawAnimatedShadedLines */
+} S_800247D4_2;   /* packet in draw_animated_shaded_lines */
 
 typedef struct S_800247D4_3 {
     u8 pad_00[0x10];
@@ -58,11 +58,11 @@ typedef struct S_800247D4_3 {
     u16 unk_56;
     u8 pad_58[0x2];
     u16 unk_5A;
-} S_800247D4_3;   /* arg in dungeonDrawAnimatedShadedLines */
+} S_800247D4_3;   /* arg in draw_animated_shaded_lines */
 
 typedef struct S_800247D4_4 {
     u32 unk_00;
-} S_800247D4_4;   /* (void *)scaled_index in dungeonDrawAnimatedShadedLines */
+} S_800247D4_4;   /* (void *)scaled_index in draw_animated_shaded_lines */
 
 
 
@@ -76,12 +76,12 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 }
 
 /* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
-s32 dungeonDrawAnimatedShadedLines(void *effect_data)
+s32 draw_animated_shaded_lines(void *effect_data)
 {
     u8 *effect = effect_data;
-    u8 *initial_render_ctx = *(u8 **)((u8 *)(&gameWork));
+    u8 *initial_render_ctx = *(u8 **)((u8 *)(&g_game_work));
     u8 *render_ctx;
-    u8 **ctx_ref = (u8 **)((u8 *)(&gameWork));
+    u8 **ctx_ref = (u8 **)((u8 *)(&g_game_work));
     s32 red_scale = 15;
     s32 blue_scale = 23;
     s32 red_cap = 0x7F;

@@ -1,21 +1,21 @@
 #include "common.h"
 
-extern s32 dungeonDrawConcentricEffectLayers(void *, s32, s32);
-extern s32 func_80024E44(void *, s32, s32);
+extern s32 draw_concentric_effect_layers(void *, s32, s32);
+extern s32 draw_cylindrical(void *, s32, s32);
 extern s32 func_80024EF8(void *, s32, s32);
 
 /* Dispatch effect rendering by effect type. */
-s32 dungeonDispatchEffectRendering(void *effect, s32 position, s32 render_param)
+s32 dispatch_effect_rendering(void *effect, s32 position, s32 render_param)
 {
     s32 dispatch_index;
 
     dispatch_index = *(s16 *)((u8 *)effect + 0xA);
     switch (dispatch_index) {
     case 3:
-        dungeonDrawConcentricEffectLayers(effect, position, render_param);
+        draw_concentric_effect_layers(effect, position, render_param);
         return 0;
     case 4:
-        func_80024E44(effect, position, render_param);
+        draw_cylindrical(effect, position, render_param);
         return 0;
     case 5:
         func_80024EF8(effect, position, render_param);

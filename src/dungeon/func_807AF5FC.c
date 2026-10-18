@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7ce800.h"
 /* Return the base of the next type 0x15 entity in the ring, or null if absent. */
-void *func_800F6DFC(void *entity)
+void *find_linked_entity_of_type_21(void *entity)
 {
     void *entity_base;
     void *first_entity;

@@ -5,7 +5,7 @@ typedef unsigned long uptr;
 extern u8 D_800D2EA4[];
 
 /* Copy the final two bytes of 34 records and clear the four destination flags. */
-void func_800B9830(void)
+void copy_record_tail_bytes(void)
 {
     s32 entry_index;
     u8 *source_record;

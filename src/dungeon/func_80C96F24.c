@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void createRadialEffectBands(CB_80174724_S_80C96F24_0 *owner, void *origin, void *entity) {
+void create_radial_effect_bands(CB_80174724_S_80C96F24_0 *owner, void *origin, void *entity) {
     u16 band;
     register s32 shade_offset;
 
@@ -57,8 +57,8 @@ void createRadialEffectBands(CB_80174724_S_80C96F24_0 *owner, void *origin, void
 
                 ((CB_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - ((CB_80174724_S_80C96F24_2 *)owner)->unk_A4;
-                ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = func_80174374;
-                func_8004491C(effect, dungeonAdvanceBossCommandStream);
+                ((CB_80174724_S_80C96F24_3 *)effect)->unk_10 = create_angular_offset_effect;
+                func_8004491C(effect, advance_boss_command_stream);
 
                 render_state = ((CB_80174724_S_80C96F24_3 *)effect)->unk_0C;
                 ((CB_80174724_S_80C96F24_4 *)render_state)->unk_10 = 0x20;

@@ -1,8 +1,8 @@
 #include "modules/dungeon_ovl_51e800.h"
 
-void initDungeonView(void)
+void init_dungeon_view(void)
 {
-    GameWork *render_data = &gameWork;
+    GameWork *render_data = &g_game_work;
     u8 *render_state = (u8 *)render_data + 0x18;
     void *light_matrix;
 
@@ -45,5 +45,5 @@ void initDungeonView(void)
     render_data->view.unk_002 = -0x88;
     render_data->view.unk_004 = 0x172;
     render_data->view.unk_006 = 0x19A;
-    dungeonStatus.unk_18 = D_800DDC7C;
+    g_dungeon_status.unk_18 = D_800DDC7C;
 }

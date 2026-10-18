@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = func_8017087C;
-void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, u8 *entity) = dungeonCreateAnchoredDirectionalObject;
+void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, u8 *entity) = create_anchored_directional_object;
 #include "../func_80A4707C.c"
 #include "../func_80A473B8.c"
 #include "../func_80A47C0C.c"

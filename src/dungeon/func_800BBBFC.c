@@ -19,7 +19,7 @@ typedef struct S_800C135C_1 {
 
 
 extern s32 func_80042640();
-extern void *func_800C9850();
+extern void *create_player_tile_actor_at_coordinates();
 
 typedef struct S_800C135C_0 {
     u8 pad_00[0x13];
@@ -28,11 +28,11 @@ typedef struct S_800C135C_0 {
 
 
 /* Looks up an entry, clears its linked state, and processes it if found. */
-s32 dungeonCreateAndInitializePlayerTileActor(void) {
+s32 create_and_initialize_player_tile_actor(void) {
     s32 found;
     S_800C135C_0 *entry;
 
-    entry = func_800C9850(
+    entry = create_player_tile_actor_at_coordinates(
         D_80082E80.tileX,
         D_80082E80.tileY,
         D_800E3D7C->unk_88);

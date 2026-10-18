@@ -22,13 +22,13 @@ typedef struct S_80024908_1 {
 } S_80024908_1;
 
 /* Allocate an object and initialize its handler and state fields. */
-void allocateAndInitializeEffectObject(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
+void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
     void *object;
     S_80024908_1 *state;
 
     object = func_8003FD64(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != NULL) {
-        ((S_80024908_0 *)object)->unk_10 = processEffectModesAndCompletion;
+        ((S_80024908_0 *)object)->unk_10 = process_effect_modes_and_completion;
         state = object + 0x20;
         state->unk_26 = value_26;
         state->unk_0C = value_0c;

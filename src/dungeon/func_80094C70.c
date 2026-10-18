@@ -6,22 +6,22 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-s32 countFloorItemsAtTile(s16 first_key, s16 second_key);
+s32 count_floor_items_at_tile(s16 first_key, s16 second_key);
 
 /* Clears selected cell flags or decrements their encoded value, clamping at zero. */
-void func_8009A3D0(s32 x, s32 y, u16 flags)
+void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
 {
     DungeonCell *cells;
     MapGrid *map;
 
-    cells = (DungeonCell *)gameWork.map.cells;
-    map = &gameWork.map;
+    cells = (DungeonCell *)g_game_work.map.cells;
+    map = &g_game_work.map;
     if (flags & 0x8832) {
         if (flags & 0x800) {
             s16 cell_x = x;
             s16 cell_y = y;
 
-            if ((s16)countFloorItemsAtTile(cell_x, cell_y) >= 2) {
+            if ((s16)count_floor_items_at_tile(cell_x, cell_y) >= 2) {
                 return;
             }
             cells[cell_x + (cell_y << map->shiftX)].flags &= ~flags;

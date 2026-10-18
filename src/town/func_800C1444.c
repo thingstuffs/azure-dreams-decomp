@@ -48,7 +48,7 @@ extern void func_80067014(s32);
 extern void func_800672D8(void *, void *);
 extern void func_8006733C(void *, void *);
 extern s32 rand(void);
-extern void func_800BF15C(void);
+extern void set_linked_object_and_global_flags(void);
 
 extern u8 D_800D231C[];
 extern u8 D_800D2324[];
@@ -56,7 +56,7 @@ extern u8 D_800F15AC[];
 extern u16 D_80113138[];
 
 /* Update motion, spawn particles, and flash then restore the palette. */
-void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
+void update_motion_spawn_particles(State *state, Motion *motion, u8 *sprite_data)
 {
     u16 colors[16];
     s32 index;
@@ -88,7 +88,7 @@ void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
         do {
             particle = (Object *)func_8003FC64(0x136);
             if (particle != 0) {
-                particle->callback = func_800BF15C;
+                particle->callback = set_linked_object_and_global_flags;
                 func_8004491C(particle, func_80045340);
                 sprite = particle->sprite;
                 particle->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
@@ -215,6 +215,6 @@ void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
         func_800672D8(D_800D231C, D_80113138);
         func_80067014(0);
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

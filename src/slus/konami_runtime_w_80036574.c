@@ -24,7 +24,7 @@ struct Object {
     Child *child;
 };
 
-extern void runtimeMarkStateWhenFlag51Set(Object *state);
+extern void runtime_mark_state_when_flag_51_set(Object *state);
 extern void func_8003661C(Object *object);
 
 /* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */
@@ -32,14 +32,14 @@ void func_80036574(Object *object) {
     u16 ticks_left;
     GameWork *state;
 
-    state = &gameWork;
+    state = &g_game_work;
     ticks_left = object->unk64 - 1;
     object->unk64 = ticks_left;
     if ((s16)ticks_left <= 0) {
         object->unk4d = 0xff;
         object->unk51 = 0;
         object->child->unk27 = object->child->unk26;
-        object->unk68 = runtimeMarkStateWhenFlag51Set;
+        object->unk68 = runtime_mark_state_when_flag_51_set;
     } else {
         if ((((u32)state->unk_010)) & 0x20) {
             object->unk4d = object->child->unk26 - 1;

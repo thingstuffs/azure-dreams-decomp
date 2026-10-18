@@ -12,7 +12,7 @@ typedef void (*Callback)(s32, s32);
 
 
 /* Runs the conditional action or invokes the fallback callback. */
-s32 func_800169B4(void) {
+s32 dispatch_state_entry_event_8(void) {
     Rec_D_80016000 *callback_owner;
 
     func_80018BD0(0xFB7);

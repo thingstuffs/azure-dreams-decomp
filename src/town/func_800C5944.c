@@ -6,11 +6,11 @@
 
 typedef struct S_800C30A4_0_pre {
     u16 unk_00;
-} S_800C30A4_0_pre;   /* the 0x2 bytes before arg0 in townClearObjectSlotAndMarkRemoved, addressed as arg0[-1] */
+} S_800C30A4_0_pre;   /* the 0x2 bytes before arg0 in clear_object_slot_and_mark_removed, addressed as arg0[-1] */
 
 
 /* Clears the object slot and sets the object and global removal flags. */
-void townClearObjectSlotAndMarkRemoved(void *object) {
+void clear_object_slot_and_mark_removed(void *object) {
     s32 slot_offset;
     u8 *slots;
 
@@ -18,5 +18,5 @@ void townClearObjectSlotAndMarkRemoved(void *object) {
     slot_offset = ((Rec_func_80094268_arg0 *)object)->unk_60 * 8;
     (*(s32 *)((u8 *)(slots + slot_offset) + 4)) = 0;
     (*(u16 *)((u8 *)object + -2)) = (u16) (((S_800C30A4_0_pre *)object)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

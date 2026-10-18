@@ -5,6 +5,6 @@
 
 
 /* Checks whether D_8001E950's unk_04 field equals 6. */
-s32 townIsEventStateSix(void) {
+s32 is_event_state_six(void) {
     return D_8001E950->unk_04 == 6;
 }

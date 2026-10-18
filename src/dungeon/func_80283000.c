@@ -14,13 +14,13 @@ static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 }
 
 /* Initialize projection, lighting, colors, and view bounds. */
-void initDungeonView(void) {
+void init_dungeon_view(void) {
     u8 *render_data;
     u8 *view_state;
     s32 default_scale;
     void *light_matrix;
 
-    render_data = ((u8 *)(&gameWork));
+    render_data = ((u8 *)(&g_game_work));
     view_state = render_data + 0x18;
     default_scale = 0x200;
     *(s32 *)(view_state + 0x88) = default_scale;
@@ -58,5 +58,5 @@ void initDungeonView(void) {
     *(s16 *)(render_data + 0x1A) = -0x88;
     *(s16 *)(render_data + 0x1C) = 0x172;
     *(s16 *)(render_data + 0x1E) = 0x19A;
-    dungeonStatus.unk_18 = &D_800DDC7C;
+    g_dungeon_status.unk_18 = &D_800DDC7C;
 }

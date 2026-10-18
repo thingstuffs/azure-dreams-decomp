@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_e15054.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     s32 left;
@@ -51,9 +51,9 @@ void *func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             } else {
                 if (((flags & ~3) << 16) == 0) {
                     if (!(((S_8015E854_0 *)work)->unk_14 & 0x200)) {
-                        if (func_800A6D30() & 1) {
-                            func_800A48F0(work, 1,
-                                          (func_800A6D30() & 0x3F) | 0x20);
+                        if (generate_random_value() & 1) {
+                            set_or_clear_actor_status_slot(work, 1,
+                                          (generate_random_value() & 0x3F) | 0x20);
                             part_b->unk_2C = D_80162538;
                         }
                     }
@@ -66,10 +66,10 @@ void *func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             }
         }
         ((S_8015E854_1 *)obj)->unk_10 = func_8015EA58;
-        func_800A9C18(obj, part_a, part_b, (s16)flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         ((S_8015E854_4 *)actor)->unk_9A = 0xFF;
         ((S_8015E854_4 *)actor)->unk_9C = -1;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

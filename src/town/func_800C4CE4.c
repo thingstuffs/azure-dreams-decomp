@@ -5,7 +5,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Pass the town resource to handler 6 and finalize the operation. */
-void townFinalizeTownResourceOperation(void) {
+void finalize_town_resource_operation(void) {
     Control_CD(6, &D_800D4750, 0);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
 }

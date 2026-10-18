@@ -1,8 +1,8 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 dungeonMarkPathThroughNeighboringTiles(s16 region_id) {
-    s16 *dx = dirStepX;
-    s16 *dy = dirStepY;
+s32 mark_path_through_neighboring_tiles(s16 region_id) {
+    s16 *dx = dir_step_x;
+    s16 *dy = dir_step_y;
     s16 x;
     s16 y;
     floor_generate_isolated_80284BEC_S_80017BEC_M *map;
@@ -17,18 +17,18 @@ s32 dungeonMarkPathThroughNeighboringTiles(s16 region_id) {
 
     tiles = (*(floor_generate_isolated_80284BEC_S_80017BEC_M *)D_8008333C).tiles;
     map = &(*(floor_generate_isolated_80284BEC_S_80017BEC_M *)D_8008333C);
-    tile_id = dungeonFindHighestEligibleSample(region_id, &x, &y, 0);
+    tile_id = find_highest_eligible_sample(region_id, &x, &y, 0);
     if (tile_id >= 0x200) {
         return 0;
     }
     idx = x + (y << map->unk_14);
     tiles[idx].unk_04 |= 0x100;
-    steps = func_80017EBC(region_id);
+    steps = count_unblocked_cells_in_generation_region(region_id);
     for (;;) {
         next_direction = -1;
         open_count = 0;
         for (direction = 7; direction >= 0; direction--) {
-            if ((s16)dungeonClassifyDirectionalMovement(x, y, tile_id, (s16)direction) != 0) {
+            if ((s16)classify_directional_movement(x, y, tile_id, (s16)direction) != 0) {
                 floor_generate_isolated_80284BEC_S_80017BEC_T *tile;
                 idx = (x + dx[direction]) + ((y + dy[direction]) << map->unk_14);
                 tile = (floor_generate_isolated_80284BEC_S_80017BEC_T *)((idx * 6) + (s32)tiles);
@@ -54,9 +54,9 @@ s32 dungeonMarkPathThroughNeighboringTiles(s16 region_id) {
             if (steps <= 0) {
                 break;
             }
-            tile_id = func_800BCB04(((x << 6) + 0x20) & 0xFFE0, ((y << 6) + 0x20) & 0xFFE0, -0x400);
+            tile_id = sample_terrain_surface_height(((x << 6) + 0x20) & 0xFFE0, ((y << 6) + 0x20) & 0xFFE0, -0x400);
         } else {
-            tile_id = dungeonFindFirstQualifyingCell(region_id, &x, &y, 1);
+            tile_id = find_first_qualifying_cell(region_id, &x, &y, 1);
             if (tile_id >= 0x200) {
                 return 0;
             }

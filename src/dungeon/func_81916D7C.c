@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void dungeonUpdateTheTargetRecordsCountsFlagsStatus(void *object_slot, void *unused, void *target)
+void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target)
 {
     void *post_object;
     void *pre_object;
@@ -16,9 +16,9 @@ void dungeonUpdateTheTargetRecordsCountsFlagsStatus(void *object_slot, void *unu
         slot_flags = *(u16 *)((u8 *)object_slot - 2);
         post_object = *(void **)object_slot;
         *(u16 *)((u8 *)object_slot - 2) = slot_flags | 0x8000;
-        global_flags = objectFlagBlock.flags;
+        global_flags = object_flag_block.flags;
         object_count = *(u16 *)((u8 *)post_object + 0x18);
-        objectFlagBlock.flags = global_flags | 0x8000;
+        object_flag_block.flags = global_flags | 0x8000;
         *(u16 *)((u8 *)post_object + 0x18) = object_count + 1;
     }
 }

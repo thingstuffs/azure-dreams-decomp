@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonResetGlobalEffectState; every changed retail word is a paired relocation. */
+/* Relink of matched dungeon/reset_global_effect_state; every changed retail word is a paired relocation. */
 #define D_80173F84 D_80173C88
 #include "common.h"
 

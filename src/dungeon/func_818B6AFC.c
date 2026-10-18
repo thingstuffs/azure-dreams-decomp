@@ -19,7 +19,7 @@
 
 
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
-void dungeonCycleSevenColorFade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out) {
+void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B28_818B6AFC_FxColorOut *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
     s32 hold_color;
@@ -155,7 +155,7 @@ void dungeonCycleSevenColorFade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_ar
         } else {
             effect->target->flags &= 0xEFFFFFFF;
             ((B28_818B6AFC_FxEffectPre *)effect)[-1].flags |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

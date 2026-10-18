@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Clears matching table entries and the associated byte in each indexed record. */
-void func_800F6490(void) {
+void clear_matching_special_item_markers(void) {
     s32 slot_index;
     u32 table_base;
     s32 match_byte1;

@@ -91,7 +91,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         component = F(D_800814A8, u16, 0x2A);
         F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
         F(effect, u16, 0x26) = (u16)component;
-        func_800243D8(init_object, position, effect_context);
+        advance_object_spawning_displays_high(init_object, position, effect_context);
         if (F(effect, void *, 0x68) != 0) {
             texture_rect[0] = 0x340;
             texture_rect[1] = 0x100;
@@ -99,7 +99,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
+            draw_transformed_sprite_with_clip_rect(F(effect, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
         }
         if (F(effect, void *, 0x64) == 0) {
             return;
@@ -111,7 +111,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
+            draw_transformed_sprite_with_clip_rect(F(effect, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
         }
         return;
 
@@ -124,9 +124,9 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         }
         if (F(effect, s16, 0x20) == 0x13) {
             if (func_80053EF0(4) != 2) {
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
             } else {
-                func_800A56E0(0x4300);
+                play_sound_if_enabled(0x4300);
             }
         }
         if (F(effect, s16, 0x20) < 11) {
@@ -472,14 +472,14 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                 F(model_color, u32, 0xC) = (u32)neutral_color;
             }
             {
-                DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+                DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
                 bits_2 = ((u16)dungeon_state->unk_0A);
                 F(dungeon_state, u32, 0xC) = 0;
                 F(((u8 *)(&D_80082E80)), u16, 6) = 0;
                 dungeon_state->unk_0A = (u16)(bits_2 - 1);
             }
             F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         F(&D_8002571C, s16, 0) = 0;

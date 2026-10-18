@@ -9,7 +9,7 @@ typedef struct CallbackNode {
 #endif
 
 /* Invoke the node callback with the node itself when present. */
-void townInvokeItemMenuNodeCallback(CallbackNode *node) {
+void invoke_item_menu_node_callback(CallbackNode *node) {
     if (node->callback != NULL) {
         node->callback(node);
     }

@@ -12,7 +12,7 @@ extern Entry D_80016470[];
 extern u8 D_80016520[];
 
 /* Selects and returns the next eligible entry in the wrapping order list. */
-s32 func_800176D4(void)
+s32 select_next_eligible_wrapped_entry(void)
 {
     s32 start_index;
     s32 order_index;

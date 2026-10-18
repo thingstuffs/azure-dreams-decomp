@@ -5,7 +5,7 @@ s32 func_800173CC(s32, s32);
 s32 func_80017FEC(void);
 
 /* Dispatches by status, converting the fallback handler result to a boolean. */
-s32 townDispatchStatusBoolean(s32 handler_arg, s32 handler_param) {
+s32 dispatch_status_boolean(s32 handler_arg, s32 handler_param) {
     s32 result;
 
     if (func_80017FEC() >= 2) {

@@ -19,7 +19,7 @@ s32 func_80064584(s16);                          /* extern */
 
 
 /* Updates a rotating dungeon effect through delay, contraction, fade, and completion. */
-void dungeonAdvanceRotatingFadingEffect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
+void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *input_effect) {
     s16 phase;
     s16 fade_angle;
     s16 shrink_angle;
@@ -113,13 +113,13 @@ void dungeonAdvanceRotatingFadingEffect(DungeonState *anim, S_8186EDA8_0 *positi
         if ((finish_timer << 0x10) <= 0) {
             ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00
                 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }
     if (effect->flags14 & 0x8000) {
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     return;
 

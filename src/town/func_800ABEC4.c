@@ -11,24 +11,24 @@ typedef struct S_func_800A9624_1 {
 
 extern void func_80033CD8();
 extern void func_80033D08();
-extern s32 townClassifyRecordByStateAndPosition(void *, s32);
-extern void townWriteSquarePositionOffsets();
+extern s32 classify_record_by_state_and_position(void *, s32);
+extern void write_square_position_offsets();
 extern s32 D_800A9528;
 
 /* Process object state results or invoke the fallback callback. */
-void townProcessObjectStateOrFallback(S_func_800A9624_1 *object, s32 state_arg, s32 callback_arg) {
+void process_object_state_or_fallback(S_func_800A9624_1 *object, s32 state_arg, s32 callback_arg) {
     s32 state;
     s32 (*callback)(void *, s32, s32);
 
-    state = townClassifyRecordByStateAndPosition(object, state_arg);
+    state = classify_record_by_state_and_position(object, state_arg);
     if (state == 1) {
-        townWriteSquarePositionOffsets(0x1B, 0x1C, 0x1D, 0x1E, state_arg);
+        write_square_position_offsets(0x1B, 0x1C, 0x1D, 0x1E, state_arg);
         if (object->unk_98 != 0) {
             *object->unk_98 = 0;
         }
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     if (state == 2) {

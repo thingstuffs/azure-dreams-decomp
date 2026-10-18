@@ -6,12 +6,12 @@
 extern void func_8003DB94();
 extern void * func_8003FD64();
 extern s32 func_8004491C();
-extern s32 func_800A56E0();
-void dungeonDrawContentOrRect(); /* extern */
-extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
+extern s32 play_sound_if_enabled();
+void draw_content_or_rect(); /* extern */
+extern s32 select_nearby_target_and_initialize_slot();
 struct S_800BB55C_2;
-extern void dungeonUpdateFivePointEffect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
-extern s32 dungeonProcessLinkedMenuEffect(u8 *buffer, s32 value, void *data);
+extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
+extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);
 extern M2C_UNK D_800DF3C0;
 
 typedef struct S_800BBA40_0 {
@@ -54,7 +54,7 @@ typedef struct S_800BBA40_3 {
 } S_800BBA40_3;
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
+void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
     s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
@@ -67,15 +67,15 @@ void *dungeonCreateFivePointEffect(s16 tile_x, s16 tile_y, s16 pos_z, void *tran
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
-    dungeonDrawContentOrRect(0, 0, call_data, 1, 0);
+    draw_content_or_rect(0, 0, call_data, 1, 0);
     effect = func_8003FD64(0x12, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
 
-        func_800A56E0(0x704);
-        ((S_800BBA40_0 *)effect)->unk_10 = dungeonUpdateFivePointEffect;
-        func_8004491C(effect, dungeonProcessLinkedMenuEffect);
+        play_sound_if_enabled(0x704);
+        ((S_800BBA40_0 *)effect)->unk_10 = update_five_point_effect;
+        func_8004491C(effect, process_linked_menu_effect);
         position = ((S_800BBA40_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
@@ -105,7 +105,7 @@ loop_0:
         }
         if (angle_index < 5)
             goto loop_0;
-        dungeonSelectNearbyTargetAndInitializeSlot(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
+        select_nearby_target_and_initialize_slot(((M2C_UNK *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
     }
     return effect;
 }

@@ -19,7 +19,7 @@ typedef struct S_80016BD4_1 {
 extern s32 D_80016E40;
 
 /* Dispatch the selected state callback with the current context value. */
-void townDispatchFlagTestState(void) {
+void dispatch_flag_test_state(void) {
     u8 state_index;
     S_80016BD4_1 *state;
 

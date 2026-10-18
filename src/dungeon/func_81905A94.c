@@ -3,7 +3,7 @@
 /* Effect record: the object header precedes it. */
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void dungeonTickEffectRecord(CountdownRecord *record)
+void tick_effect_record(CountdownRecord *record)
 {
     u16 counter;
 
@@ -13,6 +13,6 @@ void dungeonTickEffectRecord(CountdownRecord *record)
     record->counter = counter;
     if ((counter << 16) <= 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

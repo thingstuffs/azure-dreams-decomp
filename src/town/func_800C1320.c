@@ -2,6 +2,6 @@
 #include "common.h"
 
 /* Returns without performing any work. */
-void townNoOpSecondaryEffectCallback(void) {
+void no_op_secondary_effect_callback(void) {
 
 }

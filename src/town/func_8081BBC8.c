@@ -28,27 +28,27 @@ extern u16 D_800135BE;
 extern u8 D_80026F80[];
 extern s16 D_800834C8[1];
 
-extern void townCreateTintedAnimatedParticle(s32, s32, s32, s32);
+extern void create_tinted_animated_particle(s32, s32, s32, s32);
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
-extern void soundSetCdCueParameters(s32, s32, s32, s32);
-extern void clearAlternateTextureRegions(s32);
+extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
+extern void clear_alternate_texture_regions(s32);
 extern void func_80048568(s32);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern void townInitializeGlobalPlayerObject(void);
-extern void townInitializePlayerObjectData(void);
+extern void initialize_global_player_object(void);
+extern void initialize_player_object_data(void);
 extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Advances a three-object shuffle sequence and handles its effects and completion. */
-void townUpdateTakoMinigame(TownState *state)
+void update_tako_minigame(TownState *state)
 {
     GameWork *scene_data;
     s32 phase;
     s32 loop_index;
     s32 particle_x;
 
-    scene_data = &gameWork;
+    scene_data = &g_game_work;
     if (((u32)scene_data->unk_010) & 0x40) {
         state->counter = 0;
     }
@@ -61,7 +61,7 @@ void townUpdateTakoMinigame(TownState *state)
 
     case 0:
         func_80048568(5);
-        townInitializeGlobalPlayerObject();
+        initialize_global_player_object();
         state->state = 1;
         /* Fall through to the camera phase. */
     case 1:
@@ -149,8 +149,8 @@ case 3:
             *(s16 *)(object_body + 0x50) = object_state;
         } while (loop_index >= 0);
     }
-    townInitializePlayerObjectData();
-    townInitializeGlobalPlayerObject();
+    initialize_player_object_data();
+    initialize_global_player_object();
     state->timer = 25;
     state->state = 4;
     break;
@@ -169,7 +169,7 @@ case 4:
         do {
             particle_x = D_80083780.x.v +
                 (((rand() & 0x3F) - 0x20) << 16);
-            townCreateTintedAnimatedParticle(0xF0F0F0, particle_x,
+            create_tinted_animated_particle(0xF0F0F0, particle_x,
                           D_80083780.y.v +
                           (((rand() & 0x3F) - 0x20) << 16),
                           0);
@@ -193,24 +193,24 @@ case 5:
         s32 threshold;
 
         tw_sd_sq_ld_call(0x20, 0x200);
-        townInitializePlayerObjectData();
+        initialize_player_object_data();
         progress = D_800135BE;
         D_800135BE = progress;
         threshold = state->threshold;
         if ((s16)progress < threshold) {
-            soundSetCdCueParameters(0, 0x2C3D, 0x01000001, 0x01000271);
+            sound_set_cd_cue_parameters(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);
             D_800135BE = state->threshold;
             func_80033B9C(0xAE4);
         } else {
-            soundSetCdCueParameters(0, 0x2C3D, 0, 0x01000290);
+            sound_set_cd_cue_parameters(0, 0x2C3D, 0, 0x01000290);
             SD_Call(0x300);
             func_80033B78(0xAE4);
         }
-        clearAlternateTextureRegions(2);
+        clear_alternate_texture_regions(2);
         *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 

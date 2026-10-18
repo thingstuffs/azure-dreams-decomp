@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_193c848.h"
 
-void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data)
+void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data)
 {
     register Row_8191CD78_S_func_80024578_3 *actor;
     register Row_8191CD78_S_func_80024578_4 *render = render_data;
@@ -43,7 +43,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
     case 1:
         work_base = (Row_8191CD78_S_func_80024578_5 *)((u8 *)actor - 0x20);
         motion_data = work_base->unk_0C;
-        if (resolveRecordOrientationOrFallback(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
+        if (resolve_record_orientation_or_fallback(motion_data->unk_08, motion_data, (s16 *)(scratch + 0x18), 0) == 0) {
             if ((((Row_8191CD78_S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
                 break;
             }
@@ -158,21 +158,21 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
                 do {
                     signed_tile_x = (s16)tile_x;
                     signed_tile_y = (s16)tile_y;
-                    if ((dungeonCheckLayerOffsetHeight((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
+                    if ((check_layer_offset_height((signed_tile_x << 6) & 0xFFC0, (signed_tile_y << 6) & 0xFFC0,
                                        actor->unk_88.s16,
                                        (s16)(effect->unk_0E << 9)) << 16) == 0) {
-                        s16 floor = func_800BCB04(
-                            ((signed_tile_x + ((s16 *)((u8 *)dirStepX))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
-                            ((signed_tile_y + ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                        s16 floor = sample_terrain_surface_height(
+                            ((signed_tile_x + ((s16 *)((u8 *)dir_step_x))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
+                            ((signed_tile_y + ((s16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
                             (s16)(actor->unk_88.s16 - 0x20));
                         if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
                             u16 next_tile_x;
                             s32 next_tile_y;
 
                             index++;
-                            next_tile_x = tile_x + ((u16 *)((u8 *)dirStepX))[(s16)effect->unk_0E];
+                            next_tile_x = tile_x + ((u16 *)((u8 *)dir_step_x))[(s16)effect->unk_0E];
                             tile_x = next_tile_x;
-                            next_tile_y = tile_y + ((u16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
+                            next_tile_y = tile_y + ((u16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E];
                             last_tile_y = (u16)next_tile_y;
                             tile_y = next_tile_y;
                             last_tile_x = next_tile_x;
@@ -188,7 +188,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
                 x_base = (last_tile_x << 16) >> 10;
                 floor_x = (x_base + 0x20);
                 floor_x &= 0xFFE0;
-                x_adjust_table = (s16 *)((u8 *)dirStepX);
+                x_adjust_table = (s16 *)((u8 *)dir_step_x);
                 floor_limit = -0x400;
 
                 tile_y_bits = last_tile_y;
@@ -197,10 +197,10 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
                 floor_y = y_base + 0x20;
                 x_adjust = x_adjust_table[(s16)effect->unk_0E];
                 work_base->unk_00.parts_02.unk_02.u16 = (u16)(x_base + ((x_adjust + 1) << 5));
-                y_adjust = ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
+                y_adjust = ((s16 *)((u8 *)dir_step_y))[(s16)effect->unk_0E];
                 floor_y &= 0xFFE0;
                 work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
-                final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
+                final_floor = sample_terrain_surface_height(floor_x, floor_y, floor_limit);
                 index = 1;
                 {
                     s32 widened_y;
@@ -247,7 +247,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
         }
         effect->unk_10.u16 = 0;
 
-        func_800243CC(effect, position);
+        create_scaled_rotating_effect(effect, position);
         break;
 
     case 3:
@@ -257,7 +257,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
         if (effect->unk_10.s16 < effect->unk_12) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         func_800542BC();
         {
             Row_8191CD78_S_func_80024578_3 *owner = effect->unk_1C;
@@ -326,7 +326,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
                 func_800419EC(delta_x, effect_size);
                 index = 0;
                 do {
-                    func_80024138(effect);
+                    create_randomized_source_effect(effect);
                     index++;
                 } while (index < 8);
                 effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
@@ -342,7 +342,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
         index = 0;
         if (effect->unk_10.s16 == 2) {
             do {
-                func_80024138(effect);
+                create_randomized_source_effect(effect);
                 index++;
             } while (index < 8);
         }
@@ -363,7 +363,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
             ((Row_8191CD78_S_func_80024578_3 *)(effect->unk_1C))->unk_14 &= 0xFFEFFFFF;
         }
         ((Row_8191CD78_S_func_80024578_4 *)(effect->unk_24))->unk_1A -= 0x800;
-        func_8009CE1C(actor->unk_60, 24, effect->unk_09, 4,
+        apply_attack_power_and_element_effects(actor->unk_60, 24, effect->unk_09, 4,
                       (s16)(effect->unk_0E << 9), actor, 1);
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         effect->unk_10.u16 = 0;
@@ -373,14 +373,14 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
         if (effect->unk_14.s16 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     case 2:
     case 11:
-        func_800243CC(effect, position);
+        create_scaled_rotating_effect(effect, position);
         if (effect->unk_10.s16 < 15) {
             break;
         }
@@ -400,7 +400,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
         if (effect->unk_10.s16 < effect->unk_12) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         func_800542BC();
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         effect->unk_10.u16 = 0;
@@ -426,7 +426,7 @@ void func_80024578(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_8
 
     case 15:
         if (effect->unk_10.s16 >= 28) {
-            func_800A56E0(116);
+            play_sound_if_enabled(116);
             effect->unk_0A.u16 = 10;
             effect->unk_10.u16 = 0;
         }

@@ -4,18 +4,18 @@ typedef struct S_801745BC_0_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_801745BC_0_pre;   /* the 0x18 bytes before head in dungeonProcessNodesAtTargetTile, addressed as head[-1] */
+} S_801745BC_0_pre;   /* the 0x18 bytes before head in process_nodes_at_target_tile, addressed as head[-1] */
 
 typedef struct S_801745BC_0 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_801745BC_0;   /* head in dungeonProcessNodesAtTargetTile */
+} S_801745BC_0;   /* head in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_1_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_801745BC_1_pre;   /* the 0x18 bytes before node in dungeonProcessNodesAtTargetTile, addressed as node[-1] */
+} S_801745BC_1_pre;   /* the 0x18 bytes before node in process_nodes_at_target_tile, addressed as node[-1] */
 
 typedef struct S_801745BC_1 {
     u8 pad_00[0x13];
@@ -26,25 +26,25 @@ typedef struct S_801745BC_1 {
     void * unk_5C;
     u8 pad_60[0x4];
     s16 unk_64;
-} S_801745BC_1;   /* node in dungeonProcessNodesAtTargetTile */
+} S_801745BC_1;   /* node in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801745BC_2;   /* data in dungeonProcessNodesAtTargetTile */
+} S_801745BC_2;   /* data in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801745BC_3;   /* node_position in dungeonProcessNodesAtTargetTile */
+} S_801745BC_3;   /* node_position in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_4 {
     u8 pad_00[0x14];
     s16 unk_14;
     u8 pad_16[0x14];
     u16 unk_2A;
-} S_801745BC_4;   /* owner in dungeonProcessNodesAtTargetTile */
+} S_801745BC_4;   /* owner in process_nodes_at_target_tile */
 
 typedef struct S_801745BC_5 {
     u8 pad_00[0x2];
@@ -53,7 +53,7 @@ typedef struct S_801745BC_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745BC_5;   /* position in dungeonProcessNodesAtTargetTile */
+} S_801745BC_5;   /* position in process_nodes_at_target_tile */
 
 
 typedef struct OffsetPair {
@@ -68,12 +68,12 @@ typedef struct OffsetTable {
 extern OffsetTable D_80170884;
 
 extern void func_800419EC(u16, u32);
-extern void dungeonSpawnRadialParticleBurst(s16, s16, s16, s16, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void func_800A56E0(s32);
+extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void play_sound_if_enabled(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */
-void dungeonProcessNodesAtTargetTile(void *node, s32 target_x, s32 target_y, s32 target_height)
+void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
     OffsetTable offsets = D_80170884;
     void *head = node;
@@ -113,12 +113,12 @@ void dungeonProcessNodesAtTargetTile(void *node, s32 target_x, s32 target_y, s32
                         if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
                             target_y = 0x80B;
                         }
-                        func_800A56E0(target_y);
+                        play_sound_if_enabled(target_y);
 
                         angle = ((S_801745BC_4 *)owner)->unk_2A;
                         offset = (OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
-                        dungeonSpawnRadialParticleBurst(
+                        spawn_radial_particle_burst(
                             (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
                             (s16)(((S_801745BC_5 *)position)->unk_06 +
                                   ((s32)(offset->y << 16) >> 11)),
@@ -126,7 +126,7 @@ void dungeonProcessNodesAtTargetTile(void *node, s32 target_x, s32 target_y, s32
                             ((S_801745BC_4 *)owner)->unk_14,
                             (s32)(s16)angle);
                     } else {
-                        dungeonResolveAttackDamageAndEffects(owner, owner_data,
+                        resolve_attack_damage_and_effects(owner, owner_data,
                             (s16)((S_801745BC_4 *)owner)->unk_2A, 1);
                     }
                 }

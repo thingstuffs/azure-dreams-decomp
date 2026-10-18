@@ -58,23 +58,23 @@ typedef struct AcObject {
 } AcObject;
 
 extern void *D_80073618[];
-extern s32 dungeonTransformLinkedQuadBatches(u8 *, s32, u8 *);
-extern void dungeonUpdateFadingEffectScale(void *effect, s32 unused, void *render_arg);
+extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
+extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 D_800DF03C[];
 
 extern void * func_8003FD64();
 extern s32 func_8004491C();
-extern s32 buildPositionedTextGlyphs(void *, s32, s32);
+extern s32 build_positioned_text_glyphs(void *, s32, s32);
 extern s32 func_80069E98(s32);
-extern s32 dungeonAllocatePanelOffsetOrZero(void);
-extern void dungeonOffsetRecordCoordinates(u8 *, s32, s32);
-extern void dungeonSetRecordFlagsAndNegateX(u8 *record, s32 flags);
-extern void dungeonApplyRecordFlagsThroughEnd(void *, s32);
-extern void dungeonSetRecordByteFlagsThroughEnd(u8 *record, s32 flags);
-extern void *dungeonCopyRecordsThroughEnd(void *, void *);
+extern s32 allocate_panel_offset_or_zero(void);
+extern void offset_record_coordinates(u8 *, s32, s32);
+extern void set_record_flags_and_negate_x(u8 *record, s32 flags);
+extern void apply_record_flags_through_end(void *, s32);
+extern void set_record_byte_flags_through_end(u8 *record, s32 flags);
+extern void *copy_records_through_end(void *, void *);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
-void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags) {
+void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags) {
     s32 tmp;
     s32 tmp2;
     s32 offset_x;
@@ -120,15 +120,15 @@ void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 st
         sub->field08 = 1;
         meta->field1C = 0x1000;
         meta->field0C = 0;
-        obj->field10 = dungeonUpdateFadingEffectScale;
+        obj->field10 = update_fading_effect_scale;
         base = (u8 *)&sub->field38;
-        func_8004491C(obj, dungeonTransformLinkedQuadBatches);
+        func_8004491C(obj, transform_linked_quad_batches);
         style_byte = style_hold & 0xFF;
         cursor = base;
         sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
         sub->field00 = (u8 *)&sub->slots[0];
         sub->field04 = cursor;
-        buf = dungeonAllocatePanelOffsetOrZero();
+        buf = allocate_panel_offset_or_zero();
         sub->field28 = buf;
         if (buf != NULL) {
             if (icon_held != 0) {
@@ -138,7 +138,7 @@ void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 st
                 *(void **)((u8 *)obj + 0x70) = (void *)slot_x;
                 value_a = count;
                 buf = D_80073618[icon_held];
-                buf = dungeonCopyRecordsThroughEnd((void *)slot_x, buf);
+                buf = copy_records_through_end((void *)slot_x, buf);
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
             } else {
                 value_a = 0;
@@ -147,7 +147,7 @@ void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 st
             base_2 = (u8 *)D_800DF03C;
             table_entry = (s32 *)((style_byte * 4) + (s32)base_2);
             hard_zero = 0;
-            *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)buildPositionedTextGlyphs((void *)slot_x, *table_entry, hard_zero);
+            *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
             style_hold = func_80069E98(*table_entry) * 8;
             count++;
             tmp = value_a << 2;
@@ -159,14 +159,14 @@ void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 st
                 tmp -= style_hold;
                 offset_x = (s16)tmp;
             }
-            dungeonOffsetRecordCoordinates(buf, offset_x, (s16)((0 - (s8)((u8 *)buf)[3]) - 9));
+            offset_record_coordinates(buf, offset_x, (s16)((0 - (s8)((u8 *)buf)[3]) - 9));
             gap = 8;
             if (compact != 0) {
                 gap = 4;
             }
-            dungeonSetRecordFlagsAndNegateX(buf, gap);
-            dungeonApplyRecordFlagsThroughEnd(buf, 0x20);
-            dungeonSetRecordByteFlagsThroughEnd(buf, 2);
+            set_record_flags_and_negate_x(buf, gap);
+            apply_record_flags_through_end(buf, 0x20);
+            set_record_byte_flags_through_end(buf, 2);
             color1 = 0x808080;
             *(u32 *)cursor = color1;
             cursor += 4;
@@ -174,10 +174,10 @@ void dungeonBuildFloatingNumberWidget(s16 icon, s32 value_a, s32 value_b, s32 st
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
             slot_x = (s32)buf;
             prev_arg = (u8 *)buf - 0x60;
-            new_buf = dungeonCopyRecordsThroughEnd((void *)slot_x, prev_arg);
+            new_buf = copy_records_through_end((void *)slot_x, prev_arg);
             slot_x = (s32)buf;
             buf = new_buf;
-            dungeonOffsetRecordCoordinates((void *)slot_x, 1, 1);
+            offset_record_coordinates((void *)slot_x, 1, 1);
             color2 = 0x80808;
             tmp = count << 2;
             count++;

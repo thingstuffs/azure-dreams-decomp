@@ -3,5 +3,5 @@
 extern void func_8016BE20(void *, void *, void *, void *);
 
 void func_8016F37C(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
- if(dungeonPropagateActorActionFlag(state,motion,sprite,actor) != 0) state->handler=func_8016BE20;
+ if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=func_8016BE20;
 }

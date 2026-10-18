@@ -11,7 +11,7 @@ typedef struct Pair {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void dungeonDrawTexturedEllipse();
+extern void draw_textured_ellipse();
 extern u8 D_80163B1C[12];
 extern u8 D_80163FA8[12];
 extern u8 D_80163FB4[12];
@@ -70,7 +70,7 @@ void func_80163D7C(void *parent_state) {
         child_state->unk_0C = 0x30;
         pair.second = pair_second;
         pair.first = pair_first;
-        dungeonDrawTexturedEllipse(D_80163FB4, pair_ptr, 1, 0);
+        draw_textured_ellipse(D_80163FB4, pair_ptr, 1, 0);
     }
 }
 

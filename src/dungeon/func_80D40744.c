@@ -35,10 +35,10 @@ typedef struct S_func_80D40744_1 {
     void *unk_10;
 } S_func_80D40744_1;
 
-extern void dungeonAdvanceStatusTimers(void *);
+extern void advance_status_timers(void *);
 
 /* Initializes an entity action when the global state permits it. */
-void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
+void begin_actor_exclusive_action(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 unused_3, s32 requested_mode)
 {
     s32 state_or_flags;
     S_func_80D40744_0 *saved_entity = entity;
@@ -51,7 +51,7 @@ void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s
     initial_mode = (s16)initial_mode;
     entity->unk_71 = flags_71;
     if (initial_mode != 2) {
-        DungeonGlobalStatus *state = &dungeonStatus;
+        DungeonGlobalStatus *state = &g_dungeon_status;
 
         state_or_flags = state->flags;
         if (state_or_flags & 0x2000) {
@@ -65,7 +65,7 @@ void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s
             }
         }
     } else {
-        state_or_flags = (s32)&dungeonStatus.unk_00;
+        state_or_flags = (s32)&g_dungeon_status.unk_00;
         if ((((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) ||
             ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 != 0) {
             saved_entity->unk_9A.u8 = 14;
@@ -79,7 +79,7 @@ void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s
         s32 mode = (s16)raw_mode;
 
         if (mode == 0) {
-            DungeonGlobalStatus *state = &dungeonStatus;
+            DungeonGlobalStatus *state = &g_dungeon_status;
             (*(u16 *)&state->unk_0A)++;
         }
         entity->unk_8C = 0;
@@ -91,7 +91,7 @@ void dungeonBeginActorExclusiveAction(S_func_80D40744_0 *entity, s32 unused_1, s
         entity->unk_B2 = 0;
         entity->unk_B4 = raw_mode;
         if (mode == 0) {
-            dungeonAdvanceStatusTimers(saved_entity);
+            advance_status_timers(saved_entity);
             saved_entity->unk_6D--;
         }
     }

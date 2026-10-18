@@ -18,7 +18,7 @@ typedef struct S_80172504_0 {
     u8 unk_85;
     u8 pad_86[0x2];
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
-} S_80172504_0;   /* entity in dungeonScanForwardTilesForTarget */
+} S_80172504_0;   /* entity in scan_forward_tiles_for_target */
 
 typedef struct S_80172504_1 {
     u8 pad_00[0x8C];
@@ -33,27 +33,27 @@ typedef struct S_80172504_1 {
     s16 unk_AA;
     s16 unk_AC;
     u8 unk_AE;
-} S_80172504_1;   /* state in dungeonScanForwardTilesForTarget */
+} S_80172504_1;   /* state in scan_forward_tiles_for_target */
 
 typedef struct S_80172504_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172504_2;   /* (void *)scratch in dungeonScanForwardTilesForTarget */
+} S_80172504_2;   /* (void *)scratch in scan_forward_tiles_for_target */
 
 
-extern s32 dungeonFindEligibleEntryAtCoordinates();
-extern void dungeonPrepareDirectionalAttack();
-extern s32 func_800A2B5C();
-extern s32 dungeonCheckLayerOffsetHeight();
-extern void dungeonAdvanceStatusTimers();
-extern s16 func_800BCB04();
-extern void dungeonSelectNearbyTargetAndInitializeSlot();
-extern void dungeonApplyCameraOffsetAndSelectTarget();
+extern s32 find_eligible_entry_at_coordinates();
+extern void prepare_directional_attack();
+extern s32 try_claim_dungeon_action_slot();
+extern s32 check_layer_offset_height();
+extern void advance_status_timers();
+extern s16 sample_terrain_surface_height();
+extern void select_nearby_target_and_initialize_slot();
+extern void apply_camera_offset_and_select_target();
 
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
-s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, void *origin, void *actor) {
+s32 scan_forward_tiles_for_target(void *action_state, void *transfer_data, void *origin, void *actor) {
     u32 dir_index;
     u16 initial_direction;
     s16 *delta_x;
@@ -73,17 +73,17 @@ s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, vo
     u16 direction;
 
     ((S_80172504_0 *)actor)->unk_71 &= 0x7F;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
+    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, transfer_data, 8, 0x300);
-    check_result = func_800A2B5C(actor);
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, transfer_data, 8, 0x300);
+    check_result = try_claim_dungeon_action_slot(actor);
     step_count = 0;
     if ((check_result << 16) != 0) {
         return -1;
@@ -93,26 +93,26 @@ s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, vo
     direction_offset = dir_index * 2;
     tile_x = ((S_80172504_2 *)origin)->unk_24;
     tile_y = ((S_80172504_2 *)origin)->unk_25;
-    delta_x = (s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+    delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction = dir_index;
     ((S_80172504_1 *)action_state)->unk_A8 = tile_x;
     ((S_80172504_1 *)action_state)->unk_AA = tile_y;
 
     do {
-        delta_x = (s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+        delta_x = (s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
         signed_x = (s16)tile_x;
         world_x = (signed_x << 6) & 0xFFC0;
         signed_y = (s16)tile_y;
         world_y = (signed_y << 6) & 0xFFC0;
-        if ((dungeonCheckLayerOffsetHeight(world_x,
+        if ((check_layer_offset_height(world_x,
                            world_y,
                            ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
             break;
         }
 
         next_world_x = (((signed_x + *delta_x) << 6) + 0x20) & 0xFFE0;
-        delta_y = (s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
-        next_height = func_800BCB04(
+        delta_y = (s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
+        next_height = sample_terrain_surface_height(
             next_world_x,
             (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,
             (s16)(((S_80172504_0 *)actor)->unk_88.u - 0x20));
@@ -131,7 +131,7 @@ s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, vo
             step_y = (u16)*delta_y;
             step_x = (u16)(tile_x + step_x);
             step_y = (u16)(tile_y + step_y);
-            check_result = dungeonFindEligibleEntryAtCoordinates(actor, step_x, step_y);
+            check_result = find_eligible_entry_at_coordinates(actor, step_x, step_y);
         }
         if (check_result != 0) {
             ((S_80172504_1 *)action_state)->unk_AE = 2;
@@ -158,14 +158,14 @@ s32 dungeonScanForwardTilesForTarget(void *action_state, void *transfer_data, vo
     ((S_80172504_1 *)action_state)->unk_96 = 8;
     ((S_80172504_0 *)actor)->unk_84 = 0x7E;
     ((S_80172504_0 *)actor)->unk_85 = 8;
-    dungeonAdvanceStatusTimers(actor);
+    advance_status_timers(actor);
     ((S_80172504_0 *)actor)->unk_6D--;
     copy_dest = (u8 *)actor - 0x20;
     if (((S_80172504_1 *)action_state)->unk_AE == 2) {
-        dungeonPrepareDirectionalAttack(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
+        prepare_directional_attack(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
                       (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
     } else {
-        dungeonSelectNearbyTargetAndInitializeSlot(copy_dest, transfer_data, 8, 0x300);
+        select_nearby_target_and_initialize_slot(copy_dest, transfer_data, 8, 0x300);
     }
     return 0;
 }

@@ -7,7 +7,7 @@
 
 
 /* Updates effect motion and advances its timed sprite animation. */
-void dungeonUpdateTimedSpriteEffect(void *effect, void *motion, void *sprite) {
+void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
     s32 state;
     s32 rounded_x;
     s32 rounded_y;
@@ -93,7 +93,7 @@ void dungeonUpdateTimedSpriteEffect(void *effect, void *motion, void *sprite) {
         func_800478B8(sprite);
         if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((EffectStatusPrefix *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
         break;
     default:

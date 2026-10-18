@@ -8,16 +8,16 @@ extern s8 D_800DCF4F[];
 extern s8 D_800E045C[];
 
 extern s32 func_80035208(void *arg);
-extern void runtimeClearStateAndEntryRange(void);
+extern void runtime_clear_state_and_entry_range(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
-void func_800A67F4(void) {
+void clear_pending_item_action_state(void) {
     if (!(D_800E296C & 0x200000) && !(D_80013714 & 8)) {
         if (D_800DCF4F[0] != 0) {
             D_800DCF4F[0] = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         func_80035208(&D_800E045C[0]);
-        runtimeClearStateAndEntryRange();
+        runtime_clear_state_and_entry_range();
     }
 }

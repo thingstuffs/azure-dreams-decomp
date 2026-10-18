@@ -2,11 +2,11 @@
 
 extern u8 D_800E3DB0[];
 
-extern s32 dungeonHasMatchingSixSlotEntry(s32);
-extern void markSpriteResourceForPurge(s32);
+extern s32 has_matching_six_slot_entry(s32);
+extern void mark_sprite_resource_for_purge(s32);
 
 /* Decrements a matching type-3 entry's count and clears it when exhausted. */
-void dungeonDecrementMonsterEntryCount(s16 requested_id, s16 requested_type) {
+void decrement_monster_entry_count(s16 requested_id, s16 requested_type) {
     s16 slot;
     s16 match_id = requested_id;
     u8 *entry = D_800E3DB0;
@@ -27,8 +27,8 @@ void dungeonDecrementMonsterEntryCount(s16 requested_id, s16 requested_type) {
                         if ((s8)--count[0] <= 0) {
                             count[-1] = 0;
                             count[0] = 0;
-                            if ((dungeonHasMatchingSixSlotEntry(entry_id) << 16) == 0) {
-                                markSpriteResourceForPurge(entry_id);
+                            if ((has_matching_six_slot_entry(entry_id) << 16) == 0) {
+                                mark_sprite_resource_for_purge(entry_id);
                                 return;
                             }
                         }

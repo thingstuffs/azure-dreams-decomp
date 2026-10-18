@@ -69,5 +69,5 @@ typedef struct {
 extern void func_800478B8();
 extern s32 func_80065420();
 extern s8 D_800DCECC[8];
-void func_80170AD0(void *state, void *position, void *effect_arg);
+void update_effect_visuals_and_lifetime(void *state, void *position, void *effect_arg);
 #endif

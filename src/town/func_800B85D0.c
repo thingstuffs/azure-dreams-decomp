@@ -7,12 +7,12 @@
 /* D_800D1790: declared >8B so a plain value load also uses %hi/%lo. */
 extern s32 D_800D1790[2];
 
-extern s32 func_800A652C(void);
+extern s32 select_object_state_value(void);
 
 /* Returns the global in mode 1, otherwise calls the default handler. */
-s32 townGetModeSpecificValue(void) {
+s32 get_mode_specific_value(void) {
     if (D_80082E60.mode != 1) {
-        return func_800A652C();
+        return select_object_state_value();
     }
     return D_800D1790[0];
 }

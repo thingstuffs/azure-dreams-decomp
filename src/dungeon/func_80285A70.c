@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonSetupRunAndLoadTrack(void) {
+void setup_run_and_load_track(void) {
     floor_generate_isolated_80285A70_State13710 *state;
     floor_generate_isolated_80285A70_Page8001 *page1;
     floor_generate_isolated_80285A70_TrackRecord *track;
@@ -15,14 +15,14 @@ void dungeonSetupRunAndLoadTrack(void) {
 
         state = (floor_generate_isolated_80285A70_State13710 *)0x80013710;
         entry_flags = state->flags;
-        xor_base = &gameWork;
+        xor_base = &g_game_work;
 
         if (entry_flags & 2) {
             u32 r;
             u16 fl;
 
             func_800A6D98(state->seed);
-            r = func_800A6D30();
+            r = generate_random_value();
             state->field8 = 0;
             state->fieldA = 0;
             state->field6 = 0;
@@ -58,11 +58,11 @@ void dungeonSetupRunAndLoadTrack(void) {
 
     srand((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
     func_800A6D98((*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).seed);
-    dungeonStoreMonsterDirectionNibble();
+    store_monster_direction_nibble();
     D_80082E60.flags16 = 0;
     D_800E3D6C = 0;
-    clearDungeonObjectEntries();
-    clearDungeonCellEntries();
+    clear_dungeon_object_entries();
+    clear_dungeon_cell_entries();
 
     i = 3;
     clearp = ((s16 *)D_800E3CD8);
@@ -78,56 +78,56 @@ void dungeonSetupRunAndLoadTrack(void) {
         page1->level = 99;
     }
 
-    track_no = setupDungeonFloorEncounters();
+    track_no = setup_dungeon_floor_encounters();
     if (track_no != 0) {
         floor_generate_isolated_80285A70_TrackRecord *tracks;
 
         track_no--;
-        dungeonClearThirtySixTableFields();
+        clear_thirty_six_table_fields();
         tracks = D_8001F62C;
         track = &tracks[track_no];
-        dungeonCreateDefaultStateObject(track->track);
+        create_default_state_object(track->track);
         file_load_com(D_8001F588[track->table_index]);
-        runtimeLoadPackedResourceChunks(track->kind, D_800F0000);
-        dungeonClearGenerationCellGrid();
-        dungeonClearGenerationRegionEntries();
+        runtime_load_packed_resource_chunks(track->kind, D_800F0000);
+        clear_generation_cell_grid();
+        clear_generation_region_entries();
         if (track->arg != 0) {
-            func_80018464(track->arg);
+            load_dungeon_layout(track->arg);
         }
         if (track->special == 0) {
             ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         } else {
-            dungeonRunIndexedCallbackList(track->special - 1);
+            run_indexed_callback_list(track->special - 1);
             ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags &= ~0x20000000;
         }
     } else {
         if (page1->mode != 2) {
-            dungeonCreateDefaultStateObject(D_8001F584 % 24 + 3);
+            create_default_state_object(D_8001F584 % 24 + 3);
             action = D_8001F594[D_8001F584 % 24];
         } else {
             s32 random_remainder;
 
-            random_remainder = func_800A6D30() & 0xFFFF;
+            random_remainder = generate_random_value() & 0xFFFF;
             random_remainder %= 24;
-            dungeonCreateDefaultStateObject((s16)(random_remainder + 3));
+            create_default_state_object((s16)(random_remainder + 3));
             action = D_8001F594[random_remainder];
         }
 
         file_load_com(action);
         ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags |= 0x20000000;
-        runtimeLoadPackedResourceChunks(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
-        dungeonCreateWrappedTextureScroll(2);
+        runtime_load_packed_resource_chunks(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
+        create_wrapped_texture_scroll(2);
 
         do {
-            dungeonClearGenerationCellGrid();
-            dungeonClearGenerationRegionEntries();
-        } while ((dungeonGenerateFloorLayout() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).ready == 0);
+            clear_generation_cell_grid();
+            clear_generation_region_entries();
+        } while ((generate_floor_layout() << 16) != 0 || (*(floor_generate_isolated_80285A70_SaveHead *)D_80081468).ready == 0);
 
     }
-    dungeonApplyStateIndexTileMasks();
+    apply_state_index_tile_masks();
     if (D_8001F586 == 0) {
-        placeRandomFloorElevators();
+        place_random_floor_elevators();
     }
-    dungeonInitializeGridBorderCells();
+    initialize_grid_border_cells();
 }
 

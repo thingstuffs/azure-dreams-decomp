@@ -6,20 +6,20 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 resolve_record_orientation_or_fallback();
 extern void func_80048A44();
-extern void dungeonBeginDeferredPlayerItemEffect();
-extern s32 func_800990FC();
-extern s32 func_80099194();
+extern void begin_deferred_player_item_effect();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
 extern s32 func_80099290();
-extern s32 dungeonWriteTextByteAndAdvance();
-extern s32 dungeonAppendTypedFormattedValue();
-extern s32 dungeonProcessEligibleObjectValue();
-extern s32 func_80099734();
-extern void dungeonProcessUnflaggedLinkedEntries();
-extern void dungeonProcessUnflaggedLinkedEntriesAlt();
-extern void func_800A5720();
-extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern s32 write_text_byte_and_advance();
+extern s32 append_typed_formatted_value();
+extern s32 process_eligible_object_value();
+extern s32 append_entity_display_text();
+extern void process_unflagged_linked_entries();
+extern void process_unflagged_linked_entries_alt();
+extern void display_text_with_fullwidth_adjustment();
+extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_8008D470[12];
 extern u8 D_800DD0B8[8];
@@ -110,7 +110,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
             func_80048A44(
                 anim_sprite,
-                anim_table[((gameWork.view.viewAngle +
+                anim_table[((g_game_work.view.viewAngle +
                         actor->facing + 0x100) >> 9) & 7],
                 0,
                 1);
@@ -120,7 +120,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
 
                    /* Pin: removal changes a delay-slot fill. */
         {
-            s32 base_angle = gameWork.view.viewAngle;
+            s32 base_angle = g_game_work.view.viewAngle;
             s32 signed_angle = actor->facing;
             s32 angle_or_sprite;
             s32 next_angle;
@@ -135,7 +135,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
                     ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                     func_80048A44(
                         (void *)angle_or_sprite,
-                        anim_table[((gameWork.view.viewAngle +
+                        anim_table[((g_game_work.view.viewAngle +
                                 actor->facing + 0x100) >> 9) & 7],
                         0,
                         1);
@@ -149,7 +149,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
         }
         return;
     case 1:
-        if (resolveRecordOrientationOrFallback(sprite->unk_08, sprite, offset, 0) == 0 &&
+        if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, offset, 0) == 0 &&
             !(sprite->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
@@ -159,7 +159,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             s32 zero = 0;   /* Pin: removal changes the whole function shape. */
                            /* Pin: removal reorders the instructions (same instructions, different order). */
                            /* Pin: removal changes the register colouring. */
-            effect_obj = func_800A8608(
+            effect_obj = create_item_render_object(
                 owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
             if (effect_obj != 0) {
 
@@ -192,17 +192,17 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
                 }
             }
 
-            text_root = func_800990FC();
-            state_or_text = func_80099734(actor, dungeonWriteTextByteAndAdvance(8, text_root));
-            state_or_text = func_80099194(D_800E06EE, state_or_text);
-            state_or_text = dungeonAppendTypedFormattedValue(((S_800927E4_0 *)action)->unk_110, state_or_text);
-            text = func_80099194(D_800E06F7, state_or_text);
+            text_root = get_unused_text_buffer();
+            state_or_text = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
+            state_or_text = expand_text_control_codes(D_800E06EE, state_or_text);
+            state_or_text = append_typed_formatted_value(((S_800927E4_0 *)action)->unk_110, state_or_text);
+            text = expand_text_control_codes(D_800E06F7, state_or_text);
             entity = ((S_800927E4_0 *)action)->unk_110;
             if (entity->unk_01 != 4) {
-                text = dungeonProcessEligibleObjectValue(entity, text);
+                text = process_eligible_object_value(entity, text);
             }
             func_80099290(text);
-            func_800A5720(text_root);
+            display_text_with_fullwidth_adjustment(text_root);
         }
 
         ((S_800927E4_0 *)action)->unk_96 = 0x1E;
@@ -214,14 +214,14 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
              ((S_800927E4_0 *)action)->unk_96 = timer,
              (s32)(timer << 16) <= 0)) {
             if (((S_800927E4_0 *)action)->unk_110 != 0) {
-                dungeonBeginDeferredPlayerItemEffect(action, actor_id, sprite, actor);
+                begin_deferred_player_item_effect(action, actor_id, sprite, actor);
                 return;
             }
-            dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
-            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
+            process_unflagged_linked_entries_alt(actor->unk_5C);
+            process_unflagged_linked_entries(actor->unk_5C);
                            /* Pin: removal changes the whole function shape. */
-            dungeonStatus.flags |= 0x812;
-            ((S_800927E4_0 *)action)->unk_8C =dungeonHandlePlayerInput;
+            g_dungeon_status.flags |= 0x812;
+            ((S_800927E4_0 *)action)->unk_8C =handle_player_input;
         }
         return;
     }

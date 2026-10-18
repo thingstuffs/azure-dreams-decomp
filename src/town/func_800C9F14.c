@@ -10,7 +10,7 @@ typedef struct S_800C7674_0 {
     u8 pad_88[0x4];
     union { s16 s; u16 u; } unk_8C;   /* accessed as both */
     union { s16 s; u16 u; } unk_8E;   /* accessed as both */
-} S_800C7674_0;   /* arg0 in townAdvanceMotherEventBoundedMotion */
+} S_800C7674_0;   /* arg0 in advance_mother_event_bounded_motion */
 
 
 typedef struct Motion {
@@ -22,9 +22,9 @@ typedef struct Motion {
     s32 step_y;
 } Motion;
 
-extern s16 townQueryLoweredTransformPosition();
-extern s32 townSelectObjectSetupPath();
-extern void townInitializeMotherEventActor();
+extern s16 query_lowered_transform_position();
+extern s32 select_object_setup_path();
+extern void initialize_mother_event_actor();
 extern int abs(int);
 
 extern s32 D_800D4FE8[4];
@@ -33,7 +33,7 @@ extern s32 D_800D5008[4];
 extern s32 D_800D5018[4];
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
-void townAdvanceMotherEventBoundedMotion(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
+void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
 {
     s32 quadrant;
     s32 angle;
@@ -62,10 +62,10 @@ void townAdvanceMotherEventBoundedMotion(S_800C7674_0 *entity, EntityRec *motion
         motion->pos_x = pos_x;
         quadrant = (angle >> 10) & 3;
         motion->pos_y = pos_y;
-        motion->height = townQueryLoweredTransformPosition(motion, step_x, step_y, angle);
+        motion->height = query_lowered_transform_position(motion, step_x, step_y, angle);
     }
 
-    if (townSelectObjectSetupPath(entity, motion_state, context) != 0) {
+    if (select_object_setup_path(entity, motion_state, context) != 0) {
         return;
     }
 
@@ -73,28 +73,28 @@ void townAdvanceMotherEventBoundedMotion(S_800C7674_0 *entity, EntityRec *motion
     case 0:
         if (entity->unk_84.s + entity->unk_8C.s < motion_state->x.w.i) {
             motion_state->x.w.i = entity->unk_84.u + entity->unk_8C.u;
-            townInitializeMotherEventActor(entity, motion_state, context);
+            initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     case 1:
         if (entity->unk_86.s + entity->unk_8E.s < motion_state->y.w.i) {
             motion_state->y.w.i = entity->unk_86.u + entity->unk_8E.u;
-            townInitializeMotherEventActor(entity, motion_state, context);
+            initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     case 2:
         if (motion_state->x.w.i < entity->unk_84.s - entity->unk_8C.s) {
             motion_state->x.w.i = entity->unk_84.u - entity->unk_8C.u;
-            townInitializeMotherEventActor(entity, motion_state, context);
+            initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;
     default:
         if (motion_state->y.w.i < entity->unk_86.s - entity->unk_8E.s) {
             motion_state->y.w.i = entity->unk_86.u - entity->unk_8E.u;
-            townInitializeMotherEventActor(entity, motion_state, context);
+            initialize_mother_event_actor(entity, motion_state, context);
             return;
         }
         break;

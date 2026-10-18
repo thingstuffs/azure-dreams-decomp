@@ -7,8 +7,8 @@ s32 _card_info();                             /* extern */
 
 
 /* Retries the card information request until accepted and resets the request state. */
-s32 cardBootRequestInfo(s32 card_channel) {
-    cardBootDrainSoftwareEvents();
+s32 card_boot_request_info(s32 card_channel) {
+    card_boot_drain_software_events();
     do {
 
     } while (_card_info(card_channel) == 0);

@@ -1,8 +1,8 @@
 #include "common.h"
 
 /* Inferred layout for D_80084918, shared with sibling functions in this
- * global's family (audioUpdateVoiceTremolo, audioUpdateVoicePitch, soundSetIndexedVoiceVolumes,
- * soundApplyIndexedVoiceEnvelope, func_80056E10). Only the fields this function touches
+ * global's family (audio_update_voice_tremolo, audio_update_voice_pitch, sound_set_indexed_voice_volumes,
+ * sound_apply_indexed_voice_envelope, func_80056E10). Only the fields this function touches
  * are given exact offsets/types here. */
 typedef struct S_80084918 {
     /* 0x00 */ s32 field_0x00;
@@ -20,7 +20,7 @@ extern s32 D_80073740[];
 extern void func_8005F134(S_80084918 *descriptor);
 
 /* Builds and submits a request using the indexed table value. */
-void soundResetIndexedVoiceEnvelope(s32 request_index) {
+void sound_reset_indexed_voice_envelope(s32 request_index) {
     s32 request_value;
 
     D_80084918.field_0x04 = 0x60100;

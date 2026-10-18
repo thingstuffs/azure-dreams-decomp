@@ -8,7 +8,7 @@ typedef struct S_801747B8_0 {
     union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
     u8 pad_10[0x4];
     u16 unk_14;
-} S_801747B8_0;   /* arg2 in dungeonUpdateEffectFadeAndHistory */
+} S_801747B8_0;   /* arg2 in update_effect_fade_and_history */
 
 typedef struct S_801747B8_1 {
     u8 pad_00[0x2];
@@ -17,7 +17,7 @@ typedef struct S_801747B8_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801747B8_1;   /* arg1 in dungeonUpdateEffectFadeAndHistory */
+} S_801747B8_1;   /* arg1 in update_effect_fade_and_history */
 
 typedef struct S_801747B8_2 {
     u8 pad_00[0x20];
@@ -26,14 +26,14 @@ typedef struct S_801747B8_2 {
     u16 unk_26;
     u8 pad_28[0x4];
     u16 unk_2C;
-} S_801747B8_2;   /* dst in dungeonUpdateEffectFadeAndHistory */
+} S_801747B8_2;   /* dst in update_effect_fade_and_history */
 
 typedef struct S_801747B8_3 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_801747B8_3;   /* (*(void * *)((u8 *)arg0 + 0x18)) in dungeonUpdateEffectFadeAndHistory */
+} S_801747B8_3;   /* (*(void * *)((u8 *)arg0 + 0x18)) in update_effect_fade_and_history */
 
 typedef struct S_801747B8_4 {
     u8 pad_00[0x2];
@@ -42,10 +42,10 @@ typedef struct S_801747B8_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801747B8_4;   /* (*(void * *)((u8 *)arg0 + 0x1C)) in dungeonUpdateEffectFadeAndHistory */
+} S_801747B8_4;   /* (*(void * *)((u8 *)arg0 + 0x1C)) in update_effect_fade_and_history */
 
 /* Updates an effect's color fade and delayed position history. */
-void dungeonUpdateEffectFadeAndHistory(void *effect, S_801747B8_1 *position, S_801747B8_0 *primitive)
+void update_effect_fade_and_history(void *effect, S_801747B8_1 *position, S_801747B8_0 *primitive)
 {
     s16 trail_length;
     s32 sample_index;
@@ -66,7 +66,7 @@ void dungeonUpdateEffectFadeAndHistory(void *effect, S_801747B8_1 *position, S_8
         primitive->unk_0C.s32 += -0x80808;
     } else {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     position->unk_02 = (*(u16 *)((u8 *)effect + 0x20));

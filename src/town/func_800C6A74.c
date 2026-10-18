@@ -15,7 +15,7 @@ extern s32 D_800C3988;
 extern S_80082660 D_80082660[];
 
 /* Set the object's data pointer and clear its indexed table entry's flag. */
-void townInstallObjectHandlerAndClearSlotFlag(void *object) {
+void install_object_handler_and_clear_slot_flag(void *object) {
     s32 entry_index;
     *(void **)((u8 *)object + 0x54) = &D_800C3988;
     entry_index = *(s32 *)((u8 *)object + 0x60);

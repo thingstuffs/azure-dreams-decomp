@@ -53,7 +53,7 @@ typedef struct S_80051BFC_Obj {
 } S_80051BFC_Obj;
 
 /* Initializes the object's slot state, callbacks, and default rendering values. */
-void sceneInitializeOrbitMotionSprite(void *object_ptr, void *slot)
+void scene_initialize_orbit_motion_sprite(void *object_ptr, void *slot)
 {
     S_80051BFC_Obj *object = (S_80051BFC_Obj *)object_ptr;
     S_80051BFC_Sub *slot_state;

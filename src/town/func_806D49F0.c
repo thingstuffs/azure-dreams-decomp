@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *townGetSpecialDataForLowValueId(s32 id);
+extern void *get_special_data_for_low_value_id(s32 id);
 extern s32 func_800178A8(void *entry_table, s32 entry_id, s32 entry_type);
 extern void *func_80017960(void *entry_table, void *aux_table, s32 entry_id, s32 entry_type);
 
@@ -9,12 +9,12 @@ extern u8 D_80018B98[16];
 extern u8 D_8001ABA0[16];
 
 /* Returns a direct lookup result or a table entry, with a special case for type 0xB. */
-void *func_800169F0(s32 entry_id, s32 unused, s32 entry_type)
+void *process_request_checking_threshold_25(s32 entry_id, s32 unused, s32 entry_type)
 {
     void *result;
     u8 *entry_table;
 
-    result = townGetSpecialDataForLowValueId(entry_type);
+    result = get_special_data_for_low_value_id(entry_type);
     if (result != 0) {
         return result;
     }

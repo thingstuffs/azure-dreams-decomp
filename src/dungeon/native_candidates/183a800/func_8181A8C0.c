@@ -27,7 +27,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
         header = (D8181A8C0Header *)((u8 *)object + 0x20);
         header->f2 = 1;
         header->f4 = 1;
-        object->field10 = &func_8002404C;
+        object->field10 = &render_textured_effect_parts;
         func_8004491C(object, (s32)func_80045340);
         asset_param = 0x60;
         setup_mode = 2;

@@ -33,7 +33,7 @@ void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_d
     if (object != NULL) {
         state = object + 0x20;
         state->unk_2A = 0x3C;
-        (*(M2C_UNK **)((u8 *)object + 0x10)) = &func_800249A0;
+        (*(M2C_UNK **)((u8 *)object + 0x10)) = &decrement_object_counter;
         func_8004491C(object, (s32)func_80045340);
         render_state = (*(void **)((u8 *)object + 0xC));
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;

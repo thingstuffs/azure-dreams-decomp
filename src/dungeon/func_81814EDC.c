@@ -133,8 +133,8 @@ extern u8 D_800DE870[9];
 M2C_UNK func_800245BC();
 s32 func_8004491C();
 s32 func_80069EF8();
-void func_8009CE1C();
-s32 func_800A4778();
+void apply_attack_power_and_element_effects();
+s32 check_adjacent_tile_height_clearance();
 extern M2C_UNK D_80024280;
 
 /* Spawns particles, moves the effect, and restores its owner after the fade. */
@@ -311,7 +311,7 @@ loop_effects:
                 } while (effect_index < 2);
                 effect_type = (s16) ((S_81814EDC_0 *)effect)->unk_0A;
                 if (effect_type == 4) {
-                    func_8009CE1C(((S_81814EDC_0 *)effect)->unk_30, 0x10, ((S_81814EDC_0 *)effect)->unk_15, 1,
+                    apply_attack_power_and_element_effects(((S_81814EDC_0 *)effect)->unk_30, 0x10, ((S_81814EDC_0 *)effect)->unk_15, 1,
                         (s32) (s16) (((S_81814EDC_0 *)effect)->unk_16 << 9), ((S_81814EDC_0 *)effect)->unk_2C, 2);
                     if ((s16) ((S_81814EDC_0 *)effect)->unk_0A == effect_type) {
                         owner = ((S_81814EDC_0 *)effect)->unk_30;
@@ -325,12 +325,12 @@ loop_effects:
                     } else {
                         ((S_81814EDC_0_pre *)effect)[-1].unk_00 =
                             (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                        objectFlagBlock.flags |= 0x8000;
+                        object_flag_block.flags |= 0x8000;
                         return;
                     }
                 } else {
                     ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                     return;
                 }
             } else {
@@ -339,7 +339,7 @@ loop_effects:
         }
         {
 
-            if ((func_800A4778(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v,
+            if ((check_adjacent_tile_height_clearance(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v,
                 (s16) ((S_81814EDC_10 *)position)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
                 {
                     s32 velocity = ((S_81814EDC_0 *)effect)->unk_58;
@@ -352,7 +352,7 @@ loop_effects:
                     + ((S_81814EDC_0 *)effect)->unk_60);
             } else {
                 ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
         }
@@ -371,7 +371,7 @@ loop_effects:
                 owner_sprite->unk_0C.u = 0x80;
             }
             ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

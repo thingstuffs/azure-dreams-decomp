@@ -7,8 +7,8 @@ extern s32 func_8004491C();
 struct State;
 struct Output;
 struct Interp;
-extern void dungeonUpdateOrbitingColorParticle(struct State *state, struct Output *output, struct Interp *interp);
-extern s32 dungeonDrawShadedQuadChain(void *initial_state, void *context, void *data);
+extern void update_orbiting_color_particle(struct State *state, struct Output *output, struct Interp *interp);
+extern s32 draw_shaded_quad_chain(void *initial_state, void *context, void *data);
 
 typedef struct S_800BC0A8_0 {
     u8 pad_00[0x8];
@@ -51,7 +51,7 @@ typedef struct S_800BC0A8_3 {
 } S_800BC0A8_3;
 
 /* Creates an object and initializes its position, angle, and state. */
-void *dungeonCreateOrbitingColorParticle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
+void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
     s16 saved_value_50 = value_50;
     s16 saved_value_58 = value_58;
     s16 saved_value_48 = value_48;
@@ -62,8 +62,8 @@ void *dungeonCreateOrbitingColorParticle(s16 x, s16 y, s16 z, s16 angle, s16 val
 
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
-        ((S_800BC0A8_0 *)object)->unk_10 = dungeonUpdateOrbitingColorParticle;
-        func_8004491C(object, dungeonDrawShadedQuadChain);
+        ((S_800BC0A8_0 *)object)->unk_10 = update_orbiting_color_particle;
+        func_8004491C(object, draw_shaded_quad_chain);
         position = ((S_800BC0A8_0 *)object)->unk_08;
         state = object + 0x20;
         position->unk_02 = x;

@@ -3,16 +3,16 @@
 extern void *D_800282A4[3];
 extern void *D_800791A4;
 
-extern s32 cardBootGetRemainingBlockSummary(void);
+extern s32 card_boot_get_remaining_block_summary(void);
 extern void *func_8004DA74(void *, void *, s32);
 
 /* Initializes resources and screen positions for three display entries. */
-void cardBootLayoutEmptySlotWindow(void *object) {
+void card_boot_layout_empty_slot_window(void *object) {
     void **display_entry;
     s32 resource_index;
 
     display_entry = *(void ***)((u8 *) object + 0x260);
-    resource_index = (cardBootGetRemainingBlockSummary() >= 3);
+    resource_index = (card_boot_get_remaining_block_summary() >= 3);
     *(void **) display_entry = func_8004DA74((u8 *) object + 8, D_800282A4[resource_index], 1);
     *(s16 *)((u8 *) display_entry[1] + 8) = 0xF0;
     *(s16 *)((u8 *) display_entry[1] + 0xA) = 0x91;

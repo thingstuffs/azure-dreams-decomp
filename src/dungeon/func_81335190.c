@@ -15,12 +15,12 @@ typedef struct S_8016C190_0 {
     u8 unk_9B;
     u8 pad_9C[0x10];
     u8 unk_AC;
-} S_8016C190_0;   /* arg0 in dungeonAdvanceSelectedActorAction */
+} S_8016C190_0;   /* arg0 in advance_selected_actor_action */
 
 typedef struct S_8016C190_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016C190_2_pre;   /* the 0x14 bytes before v0 in dungeonAdvanceSelectedActorAction, addressed as v0[-1] */
+} S_8016C190_2_pre;   /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
 
 typedef struct S_8016C190_3 {
     u8 pad_00[0x14];
@@ -30,24 +30,24 @@ typedef struct S_8016C190_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8016C190_3;   /* arg2 in dungeonAdvanceSelectedActorAction */
+} S_8016C190_3;   /* arg2 in advance_selected_actor_action */
 
 
 typedef struct S_8016C190_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_8016C190_5;   /* control in dungeonAdvanceSelectedActorAction */
+} S_8016C190_5;   /* control in advance_selected_actor_action */
 
 
-extern s32 getCdCommandQueueDepth();
+extern s32 get_cd_command_queue_depth();
 extern s32 abs(s32);
 extern void func_80047784(void *, u8, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
@@ -56,7 +56,7 @@ extern u8 D_801739B0[];
 extern u8 D_801739B8[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
-void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
+void advance_selected_actor_action(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
 {
     u8 action_state;
     u8 *action_slot;
@@ -139,7 +139,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
                         actor->unk_73 = action_control[0x25];
                     }
                 } else {
-                    actor->target = dungeonScanMonsterAlongHeading(
+                    actor->target = scan_monster_along_heading(
                         actor,
                         ((S_8016C190_3 *)sprite)->unk_24,
                         ((S_8016C190_3 *)sprite)->unk_25,
@@ -152,7 +152,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
                 }
             }
 
-            if (dungeonCreateActorSpellEffect(actor, action_slot, target_mode,
+            if (create_actor_spell_effect(actor, action_slot, target_mode,
                               (u16 *)((u8 *)action + 0x98)) != 0) {
                 ((S_8016C190_0 *)action)->unk_96.s = 8;
                 ((S_8016C190_0 *)action)->unk_9B++;
@@ -163,10 +163,10 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
         actor->unk_73 = 0;
@@ -175,13 +175,13 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((S_8016C190_3 *)sprite)->unk_14 |= 0x800;
             return;
         }
         ((S_8016C190_3 *)sprite)->unk_14 &= 0xF7FF;
         ((S_8016C190_0 *)action)->unk_9B++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
                         /* fall through */
 
     case 2:
@@ -195,7 +195,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
         return;
 
     case 3:
-        if (((s32)dungeonStatus.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.unk_0C) == 0) {
             ((S_8016C190_0 *)action)->unk_96.s = 0;
         }
         if (!(((S_8016C190_3 *)sprite)->unk_14 & 0xE000)) {
@@ -205,7 +205,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
         transform->flags14 = 0;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
 
         switch (((S_8016C190_0 *)action)->unk_AC) {
         case 0:
@@ -213,7 +213,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
             direction_table = D_801739A0;
             if ((u8 *)current_table != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+                func_80047784(sprite, *(u8 *)((unsigned long)(((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 1:
@@ -221,7 +221,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
             direction_table = D_801739A8;
             if ((u8 *)current_table != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+                func_80047784(sprite, *(u8 *)((unsigned long)(((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 2:
@@ -229,7 +229,7 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
             direction_table = D_801739B0;
             if ((u8 *)current_table != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+                func_80047784(sprite, *(u8 *)((unsigned long)(((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 3:
@@ -237,25 +237,25 @@ void dungeonAdvanceSelectedActorAction(void *action, EntityRec *transform, void 
             direction_table = D_801739B8;
             if ((u8 *)current_table != direction_table) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+                func_80047784(sprite, *(u8 *)((unsigned long)(((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         default:
             break;
         }
 
-        action_control = (u8 *)&dungeonStatus.unk_00;
+        action_control = (u8 *)&g_dungeon_status.unk_00;
         if (((S_8016C190_5 *)action_control)->unk_0C != 0) {
             return;
         }
         ((S_8016C190_5 *)action_control)->unk_0A--;
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
 
     default:

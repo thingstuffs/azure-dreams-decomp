@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1829800.h"
 
-void dungeonDrawAndRestoreFadingObject(void *object_arg, void *position_arg, void *sprite_arg) {
+void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg) {
     s16 move_ticks;
     s32 start_y;
     s32 move_ticks_left;
@@ -36,7 +36,7 @@ void dungeonDrawAndRestoreFadingObject(void *object_arg, void *position_arg, voi
     sprite = sprite_arg;
     object = motion;
     (*(u16 *)D_8002715C) = update_count + 1;
-    render_context = &gameWork;
+    render_context = &g_game_work;
     state = object->unk_72.s;
     switch (state) {
     case 0:
@@ -53,8 +53,8 @@ void dungeonDrawAndRestoreFadingObject(void *object_arg, void *position_arg, voi
         start_y = D_800DCEBC[direction];
         position->unk_0A = 0;
         position->unk_04.at02.v = start_y;
-        sprite->unk_24 = (u8) (((s8 *)dirStepX)[direction * 2] + 1);
-        sprite->unk_25 = (u8) (((s8 *)dirStepY)[direction * 2] + 1);
+        sprite->unk_24 = (u8) (((s8 *)dir_step_x)[direction * 2] + 1);
+        sprite->unk_25 = (u8) (((s8 *)dir_step_y)[direction * 2] + 1);
         object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
     case 1:
         fade_in_ticks = (void *) object->unk_73.s;

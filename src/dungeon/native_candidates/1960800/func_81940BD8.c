@@ -18,7 +18,7 @@
    /* temp_v1_2 in func_800243D8 */
 
 /* Creates an object linked to the source with its position and default part data. */
-void func_800243D8(void *source, void *unused_position, void *unused_sprite) {
+void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite) {
     S_800243D8_2 *position;
     Part *part;
     void *object;

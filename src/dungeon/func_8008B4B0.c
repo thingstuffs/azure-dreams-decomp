@@ -13,7 +13,7 @@ typedef struct S_80090C10_1 {
     union { s32 s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
     s32 unk_04;
     s32 unk_08;
-} S_80090C10_1;   /* &D_800E4938 in processDungeonMenuSelection */
+} S_80090C10_1;   /* &D_800E4938 in process_dungeon_menu_selection */
 
 
 typedef struct S_80090C10_4 {
@@ -24,14 +24,14 @@ typedef struct S_80090C10_4 {
 
 typedef struct S_80090C10_5 {
     s32 unk_00;
-} S_80090C10_5;   /* &D_800E296C in processDungeonMenuSelection */
+} S_80090C10_5;   /* &D_800E296C in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_6 {
     u8 pad_00[0x1];
     u8 unk_01;
     u8 pad_02[0x1];
     u8 unk_03;
-} S_80090C10_6;   /* (*(void **)&D_80082EB0) in processDungeonMenuSelection */
+} S_80090C10_6;   /* (*(void **)&D_80082EB0) in process_dungeon_menu_selection */
 
 
 typedef struct S_80090C10_8 {
@@ -44,7 +44,7 @@ typedef struct S_80090C10_8 {
 typedef struct S_80090C10_9 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80090C10_9;   /* (((s32) (*(void **)&D_80082EB0) * 4) + arg0) in processDungeonMenuSelection */
+} S_80090C10_9;   /* (((s32) (*(void **)&D_80082EB0) * 4) + arg0) in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_10 {
     u8 pad_00[0x13];
@@ -57,24 +57,24 @@ typedef struct S_80090C10_11 {
     void * unk_00;
     u8 pad_04[0x4];
     u16 unk_08;
-} S_80090C10_11;   /* case_base in processDungeonMenuSelection */
+} S_80090C10_11;   /* case_base in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_12 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_80090C10_12;   /* ((Rec_func_8008D024_arg0 *)arg0)->unk_C8 in processDungeonMenuSelection */
+} S_80090C10_12;   /* ((Rec_func_8008D024_arg0 *)arg0)->unk_C8 in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_13 {
     u8 pad_00[0x1];
     u8 unk_01;
     u8 pad_02[0x1];
     u8 unk_03;
-} S_80090C10_13;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in processDungeonMenuSelection */
+} S_80090C10_13;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in process_dungeon_menu_selection */
 
 typedef struct S_80090C10_14 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80090C10_14;   /* (((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + arg0) in processDungeonMenuSelection */
+} S_80090C10_14;   /* (((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + arg0) in process_dungeon_menu_selection */
 
 
 typedef struct DdcbcEntry {
@@ -88,31 +88,31 @@ void func_8003DB94();        /* extern */
 s32 func_80042900();                 /* extern */
 void func_80048A44(); /* extern */
 void func_8004B568();                            /* extern */
-s32 dungeonBeginFamiliarCommandSelection(); /* extern */
-void dungeonBeginDeferredItemAction(); /* extern */
-s32 dungeonBeginTargetFlaggedAction(); /* extern */
-void dungeonBeginSpecialTileTransition(); /* extern */
-void dungeonInitializeActionState29(); /* extern */
-s32 dungeonRequestFamiliarDeploymentChange(); /* extern */
-void dungeonResolveFamiliarDeploymentRequest(); /* extern */
-s32 dungeonBeginFamiliarSummoning(); /* extern */
-void dungeonRestorePlayerControlCallback();              /* extern */
-void *dungeonRegisterItemObjectInFreeSlot(); /* extern */
-void dungeonEquipItemAndUpdateStatus();              /* extern */
-void dungeonChangeEquippedItemAndNotify();              /* extern */
-s32 dispatchDungeonCategoryAction(); /* extern */
-s16 dungeonGetSpecialTableDataIndex();                          /* extern */
-void *dungeonBeginHoldingItem(); /* extern */
-s32 func_800990FC();                                /* extern */
-s32 func_80099194();                  /* extern */
+s32 begin_familiar_command_selection(); /* extern */
+void begin_deferred_item_action(); /* extern */
+s32 begin_target_flagged_action(); /* extern */
+void begin_special_tile_transition(); /* extern */
+void initialize_action_state_29(); /* extern */
+s32 request_familiar_deployment_change(); /* extern */
+void resolve_familiar_deployment_request(); /* extern */
+s32 begin_familiar_summoning(); /* extern */
+void restore_player_control_callback();              /* extern */
+void *register_item_object_in_free_slot(); /* extern */
+void equip_item_and_update_status();              /* extern */
+void change_equipped_item_and_notify();              /* extern */
+s32 dispatch_dungeon_category_action(); /* extern */
+s16 get_special_table_data_index();                          /* extern */
+void *begin_holding_item(); /* extern */
+s32 get_unused_text_buffer();                                /* extern */
+s32 expand_text_control_codes();                  /* extern */
 void *func_80099290();                         /* extern */
-s32 func_80099734();                        /* extern */
-void func_800997FC();                   /* extern */
-s32 dungeonFindValidNearbyPosition(); /* extern */
-void dungeonAppendPackedActionRecord();   /* extern */
-s32 func_800A5720();                         /* extern */
-s32 dungeonIsSelectableMenuTarget();                             /* extern */
-void dungeonUpdateSelectionTileMarkers();            /* extern */
+s32 append_entity_display_text();                        /* extern */
+void display_formatted_context_message();                   /* extern */
+s32 find_valid_nearby_position(); /* extern */
+void append_packed_action_record();   /* extern */
+s32 display_text_with_fullwidth_adjustment();                         /* extern */
+s32 is_selectable_menu_target();                             /* extern */
+void update_selection_tile_markers();            /* extern */
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80082EB0;
@@ -134,7 +134,7 @@ extern s32 D_800E3DF0[];
 extern M2C_UNK D_800E4938;
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
-void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, EntityRec *actor) {
+void process_dungeon_menu_selection(void *state, M2C_UNK context, void *sprite, EntityRec *actor) {
     s16 tile_x;
     s16 tile_y;
     u8 *anim_table;
@@ -161,7 +161,7 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
         if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
             if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                 (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800DD274;
-                func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+                func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
                 if (actor->flags1C & 0x100000) {
@@ -170,7 +170,7 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
                     anim_table = D_800DCFB0;
                 }
                 (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
-                func_80048A44(sprite, *(anim_table + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
+                func_80048A44(sprite, *(anim_table + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                     0, 1);
             }
         }
@@ -194,7 +194,7 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
         return;
     }
     if (((S_80090C10_12 *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->unk_1E & 0x8000) {
-        dungeonUpdateSelectionTileMarkers(0, 0);
+        update_selection_tile_markers(0, 0);
         ui_flags = ((S_80090C10_5 *)(&D_800E296C))->unk_00;
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         (*(s32 *)&D_800E296C) = ui_flags & ~0x2000;
@@ -204,46 +204,46 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
     }
     switch (D_80082EB8) {
     case 1:
-        dungeonAppendPackedActionRecord(actor, 0x48, dungeonGetSpecialTableDataIndex(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv), 0);
+        append_packed_action_record(actor, 0x48, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv), 0);
         if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 == 0x11) {
-            dungeonChangeEquippedItemAndNotify(actor, (*(void **)&D_80082EB0));
+            change_equipped_item_and_notify(actor, (*(void **)&D_80082EB0));
             D_80082EB8 = 0;
             break;
         }
-        dungeonEquipItemAndUpdateStatus(actor, (*(void **)&D_80082EB0));
+        equip_item_and_update_status(actor, (*(void **)&D_80082EB0));
         D_80082EB8 = 0;
         break;
     case 2:
         if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 == 0x11) {
-            dungeonAppendPackedActionRecord(actor, 0x48, dungeonGetSpecialTableDataIndex((*(void * *)&actor->unk_50)), 0);
-            dungeonChangeEquippedItemAndNotify(actor, NULL);
+            append_packed_action_record(actor, 0x48, get_special_table_data_index((*(void * *)&actor->unk_50)), 0);
+            change_equipped_item_and_notify(actor, NULL);
             D_80082EB8 = 0;
             break;
         }
-        dungeonAppendPackedActionRecord(actor, 0x48, dungeonGetSpecialTableDataIndex(actor->unk_4C), 0);
-        dungeonEquipItemAndUpdateStatus(actor, NULL);
+        append_packed_action_record(actor, 0x48, get_special_table_data_index(actor->unk_4C), 0);
+        equip_item_and_update_status(actor, NULL);
         D_80082EB8 = 0;
         break;
     case 21:
         if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_03 & 0x20) {
-            func_800997FC(&D_800E0542);
+            display_formatted_context_message(&D_800E0542);
             D_80082EB8 = 0;
             break;
         }
-        if (dungeonIsSelectableMenuTarget(((Rec_func_8008D024_arg0 *)state)->unk_AC) != 0 || dungeonIsSelectableMenuTarget(((Rec_func_8008D024_arg0 *)state)->unk_B0) != 0) {
-            dungeonInitializeActionState29(state, context, sprite, actor);
+        if (is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_AC) != 0 || is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_B0) != 0) {
+            initialize_action_state_29(state, context, sprite, actor);
             return;
         }
-        func_800997FC(&D_800E0571);
+        display_formatted_context_message(&D_800E0571);
         D_80082EB8 = 0;
         break;
     case 3:
     case 4:
     case 20:
-        item_result = dispatchDungeonCategoryAction(actor, ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 3, 0);
+        item_result = dispatch_dungeon_category_action(actor, ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 3, 0);
         if (item_result >= 0) {
-            item_text_id = (s16) dungeonGetSpecialTableDataIndex((*(void **)&D_80082EB0));
-            dungeonAppendPackedActionRecord(actor, 0x48, item_text_id, dungeonGetSpecialTableDataIndex(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_04));
+            item_text_id = (s16) get_special_table_data_index((*(void **)&D_80082EB0));
+            append_packed_action_record(actor, 0x48, item_text_id, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_04));
             if (item_result > 0) {
                 goto block_64;
             }
@@ -257,44 +257,44 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;
         return;
     case 5:
-        dungeonAppendPackedActionRecord(actor, 0x58, 0, dungeonGetSpecialTableDataIndex(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
-        dungeonBeginHoldingItem(state, context, sprite, (*(void **)&D_80082EB0));
+        append_packed_action_record(actor, 0x58, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
+        begin_holding_item(state, context, sprite, (*(void **)&D_80082EB0));
         D_80082EB8 = 0;
         break;
     case 8:
     case 9:
-        dungeonAppendPackedActionRecord(actor, 0x98, 0, dungeonGetSpecialTableDataIndex(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
+        append_packed_action_record(actor, 0x98, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
         if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x20) {
-            dungeonResolveFamiliarDeploymentRequest(state, context, sprite, (*(void **)&D_80082EB0));
+            resolve_familiar_deployment_request(state, context, sprite, (*(void **)&D_80082EB0));
             D_80082EB8 = 0;
             break;
         }
         direction = ((u16) actor->facing >> 9) & 7;
-        if ((dungeonFindValidNearbyPosition(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dirStepX[direction]),
-            (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dirStepY[direction]), &tile_x, &tile_y) << 0x10) == 0) {
-            text_buffer = func_800990FC();
-            text_end = func_80099734(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
-                func_80099194(&D_800E069D, text_buffer));
-            func_80099290(func_80099194(&D_800E06BD, text_end));
-            func_800A5720(text_buffer);
+        if ((find_valid_nearby_position(0, (s16) (((Rec_D_80082E80 *)sprite)->unk_24 + dir_step_x[direction]),
+            (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
+            text_buffer = get_unused_text_buffer();
+            text_end = append_entity_display_text(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
+                expand_text_control_codes(&D_800E069D, text_buffer));
+            func_80099290(expand_text_control_codes(&D_800E06BD, text_end));
+            display_text_with_fullwidth_adjustment(text_buffer);
             D_80082EB8 = 0;
             break;
         }
-        if (dungeonBeginFamiliarSummoning(state, context, sprite, (*(void **)&D_80082EB0)) != 0) {
+        if (begin_familiar_summoning(state, context, sprite, (*(void **)&D_80082EB0)) != 0) {
             return;
         }
-        text_buffer = func_800990FC();
-        text_end = func_80099734(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
-            func_80099194(&D_800E06C0, text_buffer));
-        func_80099290(func_80099194(&D_800E06E0, text_end));
-        func_800A5720(text_buffer);
+        text_buffer = get_unused_text_buffer();
+        text_end = append_entity_display_text(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
+            expand_text_control_codes(&D_800E06C0, text_buffer));
+        func_80099290(expand_text_control_codes(&D_800E06E0, text_end));
+        display_text_with_fullwidth_adjustment(text_buffer);
         goto block_64;
     case 10:
         func_8002534C(state, context, sprite, actor);
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         return;
     case 14:
-        dungeonBeginDeferredItemAction(state, context, sprite, actor);
+        begin_deferred_item_action(state, context, sprite, actor);
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         goto block_64;
     case 12:
@@ -325,14 +325,14 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
                 break;
             }
         }
-        if (dungeonBeginFamiliarCommandSelection(state, context, sprite, (s16) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 1) != 0) {
+        if (begin_familiar_command_selection(state, context, sprite, (s16) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 1) != 0) {
             return;
         }
         D_80082EB8 = 0;
         break;
     case 16:
         ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv;
-        if (dungeonBeginTargetFlaggedAction(state, context, sprite, actor) != 0) {
+        if (begin_target_flagged_action(state, context, sprite, actor) != 0) {
             return;
         }
         D_80082EB8 = 0;
@@ -343,7 +343,7 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
         u8 *action_data = (u8 *)&D_80082EB0;
         action_index = ((S_80090C10_11 *)action_data)->unk_08 - 6;
         actor->unk_8A = action_index;
-        if (dungeonRequestFamiliarDeploymentChange(state, context, sprite, ((S_80090C10_11 *)action_data)->unk_00, (s32) action_index) == 0) {
+        if (request_familiar_deployment_change(state, context, sprite, ((S_80090C10_11 *)action_data)->unk_00, (s32) action_index) == 0) {
             return;
         }
         D_80082EB8 = 0;
@@ -351,10 +351,10 @@ void processDungeonMenuSelection(void *state, M2C_UNK context, void *sprite, Ent
     }
     case 17:
     case 18:
-        dungeonRegisterItemObjectInFreeSlot(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, &D_800E0462, &D_800E0472, 1);
+        register_item_object_in_free_slot(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, &D_800E0462, &D_800E0472, 1);
         goto block_64;
     case 19:
-        dungeonBeginSpecialTileTransition(state, context, sprite, actor);
+        begin_special_tile_transition(state, context, sprite, actor);
         return;
     case 15:
     default:
@@ -365,6 +365,6 @@ block_64:
         return;
     }
     ((Rec_func_8008D024_arg0 *)state)->unk_A2 = (u16) (((Rec_func_8008D024_arg0 *)state)->unk_A2 | 0x40);
-    dungeonRestorePlayerControlCallback(state, actor);
+    restore_player_control_callback(state, actor);
     return;
 }

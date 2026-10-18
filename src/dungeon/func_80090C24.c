@@ -10,23 +10,23 @@
 
 extern void func_8003DB94();
 extern void func_80040AA0(s32);
-extern void dungeonApplyPendingByteIncrease();
-extern void dungeonBeginPlayerMenuAction();
-extern s16 dungeonResolvePlayerInputFacing();
-extern s32 dungeonHasActionInputWithoutModifier(void);
-extern void dungeonBeginAction33AndDispatch();
-extern void dungeonResetRecordToState34();
-extern void dungeonUpdateActorMovementAndMapFlags();
-extern s32 dungeonBeginActorAttack();
-extern void dungeonRunSavedActorAction();
+extern void apply_pending_byte_increase();
+extern void begin_player_menu_action();
+extern s16 resolve_player_input_facing();
+extern s32 has_action_input_without_modifier(void);
+extern void begin_action_33_and_dispatch();
+extern void reset_record_to_state_34();
+extern void update_actor_movement_and_map_flags();
+extern s32 begin_actor_attack();
+extern void run_saved_actor_action();
 extern void func_80097C50();
-extern void *dungeonAdvanceMonsterTimedSequence();
-extern void dungeonReadMonsterScriptEntry();
-extern s32 func_800A2C34();
-extern void dungeonSelectPositionDataAndUpdateOwner();
-extern s32 dungeonLookupDefinitionPairValue();
-extern void func_800A56E0();
-extern s32 func_800A6D30(void);
+extern void *advance_monster_timed_sequence();
+extern void read_monster_script_entry();
+extern s32 has_pending_actor_or_turn_action();
+extern void select_position_data_and_update_owner();
+extern s32 lookup_definition_pair_value();
+extern void play_sound_if_enabled();
+extern s32 generate_random_value(void);
 
 extern u8 D_800245A8[];
 extern u8 D_8004F5F4[];
@@ -39,10 +39,10 @@ extern s32 D_800E4940[];
 typedef struct S_80096384_5 {
     u8 unk_00;
     u8 unk_01;
-} S_80096384_5;   /* temp_v0_2 in dungeonHandleActorCommandsAndFacing */
+} S_80096384_5;   /* temp_v0_2 in handle_actor_commands_and_facing */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor_data)
+void handle_actor_commands_and_facing(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor_data)
 {
     s16 status_value;
     s16 input_angle;
@@ -65,7 +65,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
     u16 tail_flags;
     u8 *flags_ptr;
     S_80096384_5 *command;
-    GameWork *input = &gameWork;
+    GameWork *input = &g_game_work;
     u16 *flags_page;
     s32 command_flags;
     s32 idle_state = 0x32; /* MATCH: preserve retail register allocation after sharing the internal tails. */
@@ -83,17 +83,17 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
         sprite->unk_14.at00_u16.v &= 0xF7FF;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
-        dungeonSelectPositionDataAndUpdateOwner(sprite, actor_data);
+        select_position_data_and_update_owner(sprite, actor_data);
     }
 
-    dungeonStatus.flags &= 0xFF7F;
+    g_dungeon_status.flags &= 0xFF7F;
     status_value = actor_data->unk_64;
     if (status_value < 0) {
-        dungeonRunSavedActorAction(actor, actor_id, sprite, actor_data);
+        run_saved_actor_action(actor, actor_id, sprite, actor_data);
         return;
     }
     if (status_value > 0) {
-        dungeonApplyPendingByteIncrease(actor, actor_id, sprite, actor_data);
+        apply_pending_byte_increase(actor, actor_id, sprite, actor_data);
     }
 
     data_flags = actor_data->flags14;
@@ -103,7 +103,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
 
     actor_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
     if (!(actor_flags & 0x10)) {
-        dungeonResetRecordToState34(actor, actor_id, sprite, actor_data);
+        reset_record_to_state_34(actor, actor_id, sprite, actor_data);
         return;
     }
 
@@ -113,9 +113,9 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
         return;
     }
 
-    if (!(dungeonStatus.flags & 4)) {
+    if (!(g_dungeon_status.flags & 4)) {
         if (status_flags & 0x20) {
-            dungeonBeginAction33AndDispatch(actor, actor_id, sprite, actor_data);
+            begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
             return;
         }
         flags_page = (u16 *)0x80010000;
@@ -126,7 +126,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFDFE;
             }
 
-            command = dungeonAdvanceMonsterTimedSequence(command_flags);
+            command = advance_monster_timed_sequence(command_flags);
             if (command != 0) {
                 struct { signed int value : 24; } target_angle = {0};
                 direction = command->unk_01 & 7;
@@ -177,19 +177,19 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
                         next_angle = angle_2 - 0x200;
                     }
                     actor_data->facing = next_angle;
-                    dungeonReadMonsterScriptEntry(turn_angle, signed_target);
+                    read_monster_script_entry(turn_angle, signed_target);
                 } else {
                     D_800E3544[0] = command->unk_01 & 0xF8;
                     command_state = D_800E3544[0];
                     switch (command_state) {
                     case 8:
-                        dungeonUpdateActorMovementAndMapFlags(actor, actor_id, sprite, actor_data);
+                        update_actor_movement_and_map_flags(actor, actor_id, sprite, actor_data);
                         return;
                     case 0x10:
-                        dungeonBeginAction33AndDispatch(actor, actor_id, sprite, actor_data);
+                        begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
                         return;
                     case 0x18:
-                        dungeonBeginActorAttack(actor, actor_id, sprite, actor_data);
+                        begin_actor_attack(actor, actor_id, sprite, actor_data);
                         break;
                     case 0xD8:
                         D_800DD830[command->unk_00 & 0x7F]();
@@ -206,24 +206,24 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
                 return;
             }
 
-            if ((dungeonHasActionInputWithoutModifier() << 16) != 0) {
+            if ((has_action_input_without_modifier() << 16) != 0) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_s16 = 0;
             }
 
             if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
-                ((func_800A2C34(actor_data) << 16) == 0) &&
-                !(dungeonStatus.flags & 4) &&
-                ((dungeonLookupDefinitionPairValue(sprite->unk_24,
+                ((has_pending_actor_or_turn_action(actor_data) << 16) == 0) &&
+                !(g_dungeon_status.flags & 4) &&
+                ((lookup_definition_pair_value(sprite->unk_24,
                     sprite->unk_25) << 16) != 0)) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
-                dungeonBeginPlayerMenuAction(actor, actor_id, sprite, D_800245A8);
+                begin_player_menu_action(actor, actor_id, sprite, D_800245A8);
                 return;
             }
 
             if (input->buttons & 0x80) {
                 actor_data->unk_8A = 2;
                 D_800E4940[0] = 2;
-                dungeonBeginPlayerMenuAction(actor, actor_id, sprite, D_8004F5F4);
+                begin_player_menu_action(actor, actor_id, sprite, D_8004F5F4);
                 D_80082E80.unk_030 = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
@@ -232,11 +232,11 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
 
             flags_ptr = (u8 *)actor + 0xA2;
             if (input->buttons & 3) {
-                func_800A56E0(0x506, flags_ptr);
+                play_sound_if_enabled(0x506, flags_ptr);
                 return;
             }
 
-            input_angle = dungeonResolvePlayerInputFacing(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
+            input_angle = resolve_player_input_facing(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
                 flags_ptr, (u8 *)actor_data + 0x2A);
             if (input_angle != 0xFFF) {
                 actor_data->facing = input_angle;
@@ -247,9 +247,9 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
                         if (actor_data->flags1C & 0x400) {
                             actor_data->facing =
                                 ((u16)actor_data->facing) +
-                                (func_800A6D30() & 0xE00);
+                                (generate_random_value() & 0xE00);
                         }
-                        dungeonUpdateActorMovementAndMapFlags(actor, actor_id, sprite, actor_data);
+                        update_actor_movement_and_map_flags(actor, actor_id, sprite, actor_data);
                         if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0x32) {
                             return;
                         }
@@ -264,7 +264,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
             input_flags = ((u32)input->buttons);
             if ((input_flags & 0x30) == 0x30) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
-                dungeonBeginAction33AndDispatch(actor, actor_id, sprite, actor_data);
+                begin_action_33_and_dispatch(actor, actor_id, sprite, actor_data);
                 return;
             }
 
@@ -279,7 +279,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
                 action_bit = input_flags & 0x40;
                 if (action_bit != 0) {
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-                    if ((dungeonBeginActorAttack(actor, actor_id, sprite, actor_data) << 16) != 0) {
+                    if ((begin_actor_attack(actor, actor_id, sprite, actor_data) << 16) != 0) {
                         return;
                     }
                 }
@@ -292,7 +292,7 @@ void dungeonHandleActorCommandsAndFacing(void *actor, s32 actor_id, Rec_D_80082E
         sprite->unk_2C.as_pv = D_800DD274;
         func_8003DB94(sprite,
             *(void **)((u8 *)D_800DD274 +
-                ((((s32)(gameWork.view.viewAngle + actor_data->facing +
+                ((((s32)(g_game_work.view.viewAngle + actor_data->facing +
                     0x100)) >> 7) & 0x1C)),
             0);
     }

@@ -3,14 +3,14 @@
 
 typedef struct S_80024A30_0_pre {
     u16 unk_00;
-} S_80024A30_0_pre;   /* the 0x2 bytes before arg0 in townFadeSceneTileAfterCompletionFlag, addressed as arg0[-1] */
+} S_80024A30_0_pre;   /* the 0x2 bytes before arg0 in fade_scene_tile_after_completion_flag, addressed as arg0[-1] */
 
 typedef struct S_80024A30_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80024A30_0;   /* arg0 in townFadeSceneTileAfterCompletionFlag */
+} S_80024A30_0;   /* arg0 in fade_scene_tile_after_completion_flag */
 
 typedef struct S_80024A30_1 {
     u8 pad_00[0xC];
@@ -19,7 +19,7 @@ typedef struct S_80024A30_1 {
 
 
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */
-void townFadeSceneTileAfterCompletionFlag(void *state) {
+void fade_scene_tile_after_completion_flag(void *state) {
     S_80024A30_1 *trigger;
     s16 phase;
     s32 level;
@@ -39,7 +39,7 @@ void townFadeSceneTileAfterCompletionFlag(void *state) {
         ((S_80024A30_0 *)state)->unk_08 = level;
         if (level <= 0x80808) {
             ((S_80024A30_0_pre *)state)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

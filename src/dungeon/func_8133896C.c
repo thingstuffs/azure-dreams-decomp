@@ -10,7 +10,7 @@ typedef struct {
 extern Obj *D_80175D58[];
 
 /* Sets the selected object value and clears its timer. */
-void dungeonSetEncounterOverlayPhase(s32 state_selector, s16 value) {
+void set_encounter_overlay_phase(s32 state_selector, s16 value) {
     Obj *obj;
 
     if (state_selector == 0) {

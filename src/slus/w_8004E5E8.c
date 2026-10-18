@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern void formatReversedUnsignedDecimal(int value, unsigned short width, char *buf, int pad);
-extern char *reverseBytes(char *buf, unsigned short width);
+extern void format_reversed_unsigned_decimal(int value, unsigned short width, char *buf, int pad);
+extern char *reverse_bytes(char *buf, unsigned short width);
 
 /* Format value right-justified with zero padding to width columns and return buf. */
-char *formatIntZeroPadded(int value, unsigned short width, char *buf, int unused)
+char *format_int_zero_padded(int value, unsigned short width, char *buf, int unused)
 {
-    formatReversedUnsignedDecimal(value, width, buf, '0');
-    reverseBytes(buf, width);
+    format_reversed_unsigned_decimal(value, width, buf, '0');
+    reverse_bytes(buf, width);
     return buf;
 }

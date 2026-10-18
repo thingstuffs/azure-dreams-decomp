@@ -38,7 +38,7 @@ extern B32_818CFB74_PackedTemplate D_80025900;
 
 
 /* Spawns and follows an entity effect, then completes its delayed cleanup. */
-void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)
+void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic)
 {
     B32_818CFB74_ShortVec delta;
     B32_818CFB74_PackedOffsets offsets;
@@ -128,9 +128,9 @@ void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74
             data->variant16 = state->variant7E;
 
             room = (B32_818CFB74_RoomData *)((B32_818CFB74_EntityHeader *)((u8 *)entity - 0x20))->componentC;
-            state->valueA0 = room->x24 + ((B32_818CFB74_ByteEntry *)dirStepX)[(s16)state->variant7E].value;
+            state->valueA0 = room->x24 + ((B32_818CFB74_ByteEntry *)dir_step_x)[(s16)state->variant7E].value;
             coord_or_variant = (s16)state->variant7E;
-            state->valueA1 = room->y25 + ((B32_818CFB74_ByteEntry *)dirStepY)[coord_or_variant].value;
+            state->valueA1 = room->y25 + ((B32_818CFB74_ByteEntry *)dir_step_y)[coord_or_variant].value;
 
             if (entity->path60 != 0) {
                 s32 target_coord;
@@ -170,7 +170,7 @@ void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74
             }
 
             state->advance86 = 0;
-            spawn->update10 = dungeonUpdateChasingStarEffect;
+            spawn->update10 = update_chasing_star_effect;
             func_8004491C(spawn, func_80045340);
             graphic = spawn->graphicC;
             graphic->field10 = 0;
@@ -229,9 +229,9 @@ void dungeonFollowEntityEffectAndCleanup(B32_818CFB74_State *state, B32_818CFB74
             pending = D_80025924[0];
             state->counter84 = ticks;
             if (pending == 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 ((u16 *)state)[-1] |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             } else {
                 D_80025924[0] = 0;
             }

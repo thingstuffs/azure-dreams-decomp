@@ -41,7 +41,7 @@ extern Template16 D_8002E5D8;
 extern Template12 D_8002E5E8;
 
 /* Initialize and attach two instances from templates, then apply their default values. */
-void townInitializeDisplayInstances(Owner *owner, Template16 *instance16, Instance12 *instance12) {
+void initialize_display_instances(Owner *owner, Template16 *instance16, Instance12 *instance12) {
     Template16 *template16 = &D_8002E5D8;
     Template12 *template12 = &D_8002E5E8;
     s32 *header_word;

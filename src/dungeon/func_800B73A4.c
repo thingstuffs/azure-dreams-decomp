@@ -50,10 +50,10 @@ typedef struct {
 } Work;
 
 
-extern s32 dungeonAreQuadCornerTurnsWithinHalfRevolution(Work *);
+extern s32 are_quad_corner_turns_within_half_revolution(Work *);
 
 /* Finds the lowest surface height at (x, y) that meets the minimum height. */
-s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
+s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height) {
     Work *work = (Work *)0x1F800000;
     MapGrid *tables;
     Cell *cells;
@@ -68,7 +68,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
     work->y = y & 0x3F;
     work->limit = min_height;
     work->index = cell_x;
-    tables = &gameWork.map;
+    tables = &g_game_work.map;
     vertices = ((Vertex *)tables->unk_08);
     cells = ((Cell *)tables->cells);
     normals = ((Vertex *)tables->unk_0C);
@@ -124,7 +124,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
                     p3_y = work->p3.half.y - local_y;
                     work->p3.half.x = p3_x;
                     work->p3.half.y = p3_y;
-                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution((Work *)work) != 0) {
+                    if (are_quad_corner_turns_within_half_revolution((Work *)work) != 0) {
                         Vertex *normal = (Vertex *)(
                             (unsigned long)(primitive->next * sizeof(Vertex)) +
                             (unsigned long)normals);

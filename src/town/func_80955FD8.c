@@ -14,10 +14,10 @@ typedef struct {
 } Entry;
 
 extern Copy7 D_80020198;
-extern void formatDecimalFieldSpacePadded(s32 value, s32 width, char *buf);
+extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 
 /* Format an inactive entry's value in units of 30 and propagate its status flag. */
-void townFormatInactiveEntryValue(Entry *entry)
+void format_inactive_entry_value(Entry *entry)
 {
     s16 raw_value;
     s16 whole_units;
@@ -39,16 +39,16 @@ void townFormatInactiveEntryValue(Entry *entry)
         *(Copy7 *)(overflow_text + 1) = D_80020198;
     } else {
         whole_units = raw_value / 30;
-        formatDecimalFieldSpacePadded(whole_units, 4, entry->text);
+        format_decimal_field_space_padded(whole_units, 4, entry->text);
         unit_remainder = raw_value % 30;
-        formatDecimalFieldSpacePadded((unit_remainder * 100) / 30, 2, entry->text + 5);
+        format_decimal_field_space_padded((unit_remainder * 100) / 30, 2, entry->text + 5);
     }
 
     text = entry->text;
     if (text[5] == 0x20) {
         text[5] = 0x30;
     }
-    global_flags = &objectFlagBlock.flags;
+    global_flags = &object_flag_block.flags;
     if (*(u16 *)(status + 0x3A) & 0x8000) {
         *(u16 *)((u8 *)entry - 2) |= 0x8000;
         *global_flags |= 0x8000;

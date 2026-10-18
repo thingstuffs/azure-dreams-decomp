@@ -9,7 +9,7 @@ typedef struct {
 
 extern s32 func_8003C5F0(s32 entry_group);
 extern s32 func_8003C758(void *entry_data);
-extern void runtimeMoveEntryToFront(s32 index);
+extern void runtime_move_entry_to_front(s32 index);
 extern void LoadImage(void *rect, void *data);
 
 extern s32 D_80082D58[];
@@ -30,7 +30,7 @@ s32 func_8003C7D8(s32 entry_group, s32 entry_index) {
             if (entry_data != 0) {
                 state[2] = entries[entry_index].value;
                 result = func_8003C758(entry_data);
-                runtimeMoveEntryToFront(result);
+                runtime_move_entry_to_front(result);
 
                 LoadImage(D_8006B220, (void *)D_8006B200[1]);
                 LoadImage(&D_8006B220[2],

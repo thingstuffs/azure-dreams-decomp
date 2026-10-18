@@ -4,30 +4,30 @@
 typedef struct S_80174800_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80174800_0_pre;   /* the 0x14 bytes before head in func_80174800, addressed as head[-1] */
+} S_80174800_0_pre;   /* the 0x14 bytes before head in create_randomly_rotated_offset_effect, addressed as head[-1] */
 
 typedef struct S_80174800_0 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_80174800_0;   /* head in func_80174800 */
+} S_80174800_0;   /* head in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_1_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_80174800_1_pre;   /* the 0x18 bytes before arg0 in func_80174800, addressed as arg0[-1] */
+} S_80174800_1_pre;   /* the 0x18 bytes before arg0 in create_randomly_rotated_offset_effect, addressed as arg0[-1] */
 
 
 typedef struct S_80174800_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80174800_2;   /* tile in func_80174800 */
+} S_80174800_2;   /* tile in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80174800_3;   /* data in func_80174800 */
+} S_80174800_3;   /* data in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_4 {
     u8 pad_00[0x26];
@@ -37,13 +37,13 @@ typedef struct S_80174800_4 {
     u8 pad_2C[0x58];
     s8 unk_84;
     s8 unk_85;
-} S_80174800_4;   /* actor in func_80174800 */
+} S_80174800_4;   /* actor in create_randomly_rotated_offset_effect */
 
 
-extern s32 dungeonPrepareDirectionalAttack();
+extern s32 prepare_directional_attack();
 
 /* Update the actor for each eligible list entry at the target tile and height. */
-void func_80174800(void *node, s32 tile_x, s32 tile_y, s16 target_height)
+void create_randomly_rotated_offset_effect(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
     s32 match_x = tile_x;
     s32 match_y = tile_y;
@@ -66,7 +66,7 @@ void func_80174800(void *node, s32 tile_x, s32 tile_y, s16 target_height)
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->unk_26 * 3) >> 1);
-            dungeonPrepareDirectionalAttack(actor, owner,
+            prepare_directional_attack(actor, owner,
                           actor->unk_2A, 1, 0);
         }
         node = (u8 *)((Rec_func_80174800_arg0 *)node)->unk_5C + 0x20;

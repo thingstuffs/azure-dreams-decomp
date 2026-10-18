@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-extern void townInitializeObjectEntries(void *state, void *output, void *entries);
-extern void townApplyObjectSetupAndUpdate(void *object, s32 update_context, void *setup_context);
+extern void initialize_object_entries(void *state, void *output, void *entries);
+extern void apply_object_setup_and_update(void *object, s32 update_context, void *setup_context);
 
 extern u8 D_800D6CA8[];
 
@@ -14,10 +14,10 @@ typedef struct {
 } Func800CEC24Arg2;
 
 /* Reset the object's table entry and brighten the packet to a clamped grayscale intensity. */
-void townResetObjectEntryAndBrighten(void *object, s32 draw_arg, Func800CEC24Arg2 *packet) {
+void reset_object_entry_and_brighten(void *object, s32 draw_arg, Func800CEC24Arg2 *packet) {
     u32 intensity;
 
-    townInitializeObjectEntries(object, packet, D_800D6CA8);
+    initialize_object_entries(object, packet, D_800D6CA8);
     D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
 
     intensity = packet->unkC;
@@ -29,5 +29,5 @@ void townResetObjectEntryAndBrighten(void *object, s32 draw_arg, Func800CEC24Arg
     packet->unkE = intensity;
     packet->unkD = intensity;
     packet->unkC = intensity;
-    townApplyObjectSetupAndUpdate(object, draw_arg, packet);
+    apply_object_setup_and_update(object, draw_arg, packet);
 }

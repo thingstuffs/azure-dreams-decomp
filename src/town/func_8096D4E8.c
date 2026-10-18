@@ -31,14 +31,14 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 townIsCatalogEntryAvailable(u32);
+extern u8 is_catalog_entry_available(u32);
 extern void *D_801269D0[10];
 extern u16 D_80126B20[2];
 extern u16 D_80126B24[8];
 extern u8 D_80127B64[16];
 
 /* Updates numbered slots and sprite display fields according to the object state. */
-void townAnimateCatalogGridCursor(TownObject *object)
+void animate_catalog_grid_cursor(TownObject *object)
 {
     s32 slot_base;
     s32 entry_id;
@@ -58,7 +58,7 @@ void townAnimateCatalogGridCursor(TownObject *object)
         slot_base = (row_offset + column) * 3;
         slot_index = slot_base + 33;
         entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
-        if (townIsCatalogEntryAvailable((u8)entry_id) != 0) {
+        if (is_catalog_entry_available((u8)entry_id) != 0) {
             *((TownObject *)(object))->town->slots[slot_index] = D_80127B64;
             slot_index = slot_base + 34;
             *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];

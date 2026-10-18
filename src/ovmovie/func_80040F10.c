@@ -26,7 +26,7 @@ typedef struct S_80040F10_5 {
 } S_80040F10_5;
 
 /* Copy three global data blocks into a contiguous 256-byte buffer. */
-s32 *func_80177710(s8 *buffer) {
+s32 *copy_decoder_tables_to_buffer(s8 *buffer) {
     s8 *first_src;
     s8 *second_src;
     s8 *third_src;

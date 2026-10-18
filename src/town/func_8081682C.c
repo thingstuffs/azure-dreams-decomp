@@ -5,7 +5,7 @@
 typedef struct S_8002082C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002082C_0;   /* (u8 *)arg0 + count * 4 in townCreateEightLinkedSceneSprites */
+} S_8002082C_0;   /* (u8 *)arg0 + count * 4 in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_1 {
     u8 pad_00[0x8];
@@ -14,19 +14,19 @@ typedef struct S_8002082C_1 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_8002082C_1;   /* object in townCreateEightLinkedSceneSprites */
+} S_8002082C_1;   /* object in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_8002082C_2;   /* image in townCreateEightLinkedSceneSprites */
+} S_8002082C_2;   /* image in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_3 {
     u8 pad_00[0x34];
     s16 unk_34;
-} S_8002082C_3;   /* arg0 in townCreateEightLinkedSceneSprites */
+} S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
 
 typedef struct S_8002082C_4 {
     u8 pad_00[0xC];
@@ -37,7 +37,7 @@ typedef struct S_8002082C_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8002082C_4;   /* object_data in townCreateEightLinkedSceneSprites */
+} S_8002082C_4;   /* object_data in create_eight_linked_scene_sprites */
 
 
 extern s32 func_8003DB94();
@@ -54,7 +54,7 @@ extern D_80026DE0Entry D_80026DE0[3][8];
 extern s32 D_800F29B4[3];
 
 /* Create and initialize eight child objects using the owner's image table selection. */
-void townCreateEightLinkedSceneSprites(void *owner) {
+void create_eight_linked_scene_sprites(void *owner) {
     s32 slot_offset;
     s32 slot_index;
     S_8002082C_4 *object_data;

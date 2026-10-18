@@ -43,15 +43,15 @@ typedef struct {
 extern u8 D_80171094[];
 extern u8 D_80176460[8];
 
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(D3 *, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(D3 *, s32);
 extern void func_80047784(D2 *, u8, s32);
-extern void dungeonCreateDirectionalTargetObject(D0 *, void *, D2 *);
-extern void func_801762A4(s32, D3 *);
+extern void create_directional_target_object(D0 *, void *, D2 *);
+extern void format_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
-void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
+void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D3 *actor) {
     u16 sprite_flags;
     u16 ticks_left;
 
@@ -66,13 +66,13 @@ void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
         if (!(sprite->kind == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
             break;
         }
-        dungeonCreateDirectionalTargetObject(action, context, sprite);
+        create_directional_target_object(action, context, sprite);
         if (actor->flags & 0x4000) {
-            func_801762A4(1, actor);
+            format_entity_message(1, actor);
         } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
-            func_801762A4(0, actor);
+            format_entity_message(0, actor);
         }
-        func_800A56E0(0x80D);
+        play_sound_if_enabled(0x80D);
         action->field_96 = 0x20;
         action->state = action->state + 1;
         break;
@@ -97,17 +97,17 @@ void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
                 return;
             }
         }
-        dungeonReduceActorFoodMeter(actor, 0x400);
-        dungeonSetRecordIntegerTileCenter(context, sprite->value_24, sprite->value_25);
+        reduce_actor_food_meter(actor, 0x400);
+        set_record_integer_tile_center(context, sprite->value_24, sprite->value_25);
         action->field_8C = D_80171094;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         actor->value_46 &= 0x7FFF;
         break;
     }
 
     if (sprite->flags & 0xE000) {
         sprite->field_2C = D_80176460;
-        func_80047784(sprite, D_80176460[(((gameWork.view.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        func_80047784(sprite, D_80176460[(((g_game_work.view.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
         action->field_98 &= 0xFFF7;
     }
 

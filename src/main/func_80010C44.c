@@ -1,9 +1,9 @@
 #include "common.h"
 
 extern s32 func_8004DA74(void *a0, void *a1, s32 a2);
-extern s32 buildPositionedTextGlyphs(void *a0, void *a1, s32 a2);
+extern s32 build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
-extern void remapFlaggedStringBytes(void *a0);
+extern void remap_flagged_string_bytes(void *a0);
 
 extern u8 D_80078FD0[16];
 extern u8 D_80083EA4[0x8000];
@@ -20,7 +20,7 @@ typedef struct {
 } Slot80010C44;
 
 /* Initialize four message slots with their data and command parameters. */
-void cardBootFormatOccupiedSlotWindow(void *slot_owner) {
+void card_boot_format_occupied_slot_window(void *slot_owner) {
     s32 data_buffer[2];
     Slot80010C44 *slot;
 
@@ -36,8 +36,8 @@ void cardBootFormatOccupiedSlotWindow(void *slot_owner) {
 
     slot = *(Slot80010C44 **) ((u8 *) slot_owner + 0x26C);
     func_8004E5A0((void *) *(s32 *) (D_80083EA4 + (*(s32 *) slot_owner << 7) + 0x20), 4, data_buffer);
-    remapFlaggedStringBytes(data_buffer);
-    slot->data = (void *) buildPositionedTextGlyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
+    remap_flagged_string_bytes(data_buffer);
+    slot->data = (void *) build_positioned_text_glyphs((u8 *) slot_owner + 0x104, data_buffer, 1);
     slot->msg->cmd = 0x147;
     slot->msg->arg = 0x91;
 

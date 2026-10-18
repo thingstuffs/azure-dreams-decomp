@@ -31,7 +31,7 @@ typedef struct S_80025B78_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80025B78_2;   /* arg1 in dungeonCreateCopiedEffectObject */
+} S_80025B78_2;   /* arg1 in create_copied_effect_object */
 
 typedef struct S_80025B78_3 {
     s32 unk_00;
@@ -65,14 +65,14 @@ typedef struct S_80025B78_4 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025B78_4;   /* arg2 in dungeonCreateCopiedEffectObject */
+} S_80025B78_4;   /* arg2 in create_copied_effect_object */
 
 typedef struct Block32 {
     u8 bytes[0x20];
 } Block32;
 
 /* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
-void *dungeonCreateCopiedEffectObject(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_4 *source_state)
+void *create_copied_effect_object(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_4 *source_state)
 {
     void *object;
     S_80025B78_1 *triplet;
@@ -80,8 +80,8 @@ void *dungeonCreateCopiedEffectObject(void *source_data, S_80025B78_2 *source_tr
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        ((S_80025B78_0 *)object)->unk_10 = dungeonFadeColorToBlack;
-        func_8004491C(object, dungeonProcessEffectBufferChain);
+        ((S_80025B78_0 *)object)->unk_10 = fade_color_to_black;
+        func_8004491C(object, process_effect_buffer_chain);
         triplet = ((S_80025B78_0 *)object)->unk_08;
         triplet->unk_02 = source_triplet->unk_02;
         triplet->unk_06 = source_triplet->unk_06;

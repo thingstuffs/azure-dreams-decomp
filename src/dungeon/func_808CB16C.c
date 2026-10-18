@@ -37,7 +37,7 @@ extern SlotTable D_80129728;
 extern RecordTable D_80126A18;
 
 /* Initialize 14 slots from records, applying part_8 defaults except for the last two slots. */
-void func_80123604(void) {
+void initialize_catalog_slot_records(void) {
     SlotTable *slot_base;
     Slot **slot;
     Record *record;

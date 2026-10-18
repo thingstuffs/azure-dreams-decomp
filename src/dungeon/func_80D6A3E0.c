@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-s32 func_800A2B5C();                          /* extern */
-s32 dungeonAdvanceStatusTimers();                      /* extern */
-s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
+s32 try_claim_dungeon_action_slot();                          /* extern */
+s32 advance_status_timers();                      /* extern */
+s32 apply_camera_offset_and_select_target(); /* extern */
 
 
 typedef struct S_80175BE0_1 {
@@ -20,15 +20,15 @@ typedef struct S_80175BE0_1 {
     s8 unk_9B;
     u8 pad_9C[0x18];
     u16 unk_B4;
-} S_80175BE0_1;   /* arg0 in dungeonUpdateActorCounterAndStatus */
+} S_80175BE0_1;   /* arg0 in update_actor_counter_and_status */
 
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
-void dungeonUpdateActorCounterAndStatus(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
+void update_actor_counter_and_status(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
-        dungeonApplyCameraOffsetAndSelectTarget((u8 *)entity - 0x20, motion, 8, 0x300);
-        if ((func_800A2B5C(entity) << 0x10) == 0) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
+        apply_camera_offset_and_select_target((u8 *)entity - 0x20, motion, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
             state->unk_8C = 0;
             state->unk_9A = 0x18;
             state->unk_9B = 0;
@@ -40,7 +40,7 @@ void dungeonUpdateActorCounterAndStatus(S_80175BE0_1 *state, EntityRec *motion, 
             state->unk_B4 = (u16) ((u16)entity->unk_88);
             entity->unk_88 = 0U;
             state->unk_98 = (u16) (state->unk_98 | 8);
-            dungeonAdvanceStatusTimers(entity);
+            advance_status_timers(entity);
             entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
         }
     }

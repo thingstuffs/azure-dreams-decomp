@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
-s32 lookupItemCategoryMappedValue();                          /* extern */
-void townConfigureTheSetModeN4();   /* extern */
-void townInitializeOptionalObjectState(); /* extern */
-void townInitializeTheActiveFlagInstallHandler(); /* extern */
+s32 lookup_item_category_mapped_value();                          /* extern */
+void configure_the_set_mode_n_4();   /* extern */
+void initialize_optional_object_state(); /* extern */
+void initialize_the_active_flag_install_handler(); /* extern */
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_8009DEBC;
 extern M2C_UNK D_800D073C;
@@ -37,7 +37,7 @@ typedef struct S_800A027C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A027C_2;   /* arg1 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_2;   /* arg1 in create_an_position_initializes_graphics_state */
 
 typedef struct S_800A027C_3 {
     u8 pad_00[0x8];
@@ -68,10 +68,10 @@ typedef struct S_800A027C_5 {
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800A027C_5;   /* arg0 in townCreateAnPositionInitializesGraphicsState */
+} S_800A027C_5;   /* arg0 in create_an_position_initializes_graphics_state */
 
 /* Creates an object at the supplied position and initializes its graphics and state. */
-void *townCreateAnPositionInitializesGraphicsState(S_800A027C_5 *config, S_800A027C_2 *position) {
+void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, S_800A027C_2 *position) {
     u8 type;
     S_800A027C_4 *state;
     S_800A027C_3 *render;
@@ -98,8 +98,8 @@ void *townCreateAnPositionInitializesGraphicsState(S_800A027C_5 *config, S_800A0
     state->unk_4D = (u8) config->unk_01;
     state->unk_4E = (u8) config->unk_02;
     state->unk_4F = (u8) config->unk_03;
-    townConfigureTheSetModeN4(state, coords, &D_800D073C);
-    townInitializeOptionalObjectState(state, coords, render, &D_800D076C);
+    configure_the_set_mode_n_4(state, coords, &D_800D073C);
+    initialize_optional_object_state(state, coords, render, &D_800D076C);
     type = state->unk_4D;
     if (type == 0x12) {
         state->unk_0C = &D_800D0754;
@@ -107,10 +107,10 @@ void *townCreateAnPositionInitializesGraphicsState(S_800A027C_5 *config, S_800A0
     if (type == 0x12 && type == state->unk_4D) {
         render->unk_08 = (s32) &D_8006E240;
     } else {
-        render->unk_08 = lookupItemCategoryMappedValue(state->unk_4D, state->unk_4C);
+        render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
     ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
-    townInitializeTheActiveFlagInstallHandler(state, state, coords, render);
+    initialize_the_active_flag_install_handler(state, state, coords, render);
 
     return object;
 }

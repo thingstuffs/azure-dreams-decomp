@@ -7,10 +7,10 @@ typedef void (*Callback)(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, Callback);
 extern void func_80045340(void);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void D_8016AAA4(void);
 extern void D_8016DFB8(void);
 extern void D_8016E000(void);
@@ -25,20 +25,20 @@ typedef struct S_8016A898_0 {
     u32 unk_1C;
     u8 pad_20[0x78];
     u16 unk_98;
-} S_8016A898_0;   /* result in func_8016A898 */
+} S_8016A898_0;   /* result in copy_part_state */
 
 typedef struct S_8016A898_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016A898_1;   /* motion in func_8016A898 */
+} S_8016A898_1;   /* motion in copy_part_state */
 
 typedef struct S_8016A898_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016A898_2;   /* tail_entity in func_8016A898 */
+} S_8016A898_2;   /* tail_entity in copy_part_state */
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8016A898(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
+void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
     register void *result;
     void *object;
@@ -84,16 +84,16 @@ void *func_8016A898(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
             } else {
                 if (((spawn_flags & -4) << 16) == 0 &&
                     !(((S_8016A898_0 *)result)->unk_14.u32 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         ((S_8016A898_0 *)result)->unk_1C |= 0x200;
-                        value = func_800A6D30();
-                        func_800A48F0(result, 1, (value & 0x3F) | 0x20);
+                        value = generate_random_value();
+                        set_or_clear_actor_status_slot(result, 1, (value & 0x3F) | 0x20);
                         (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016E000;
                     }
                 }
             }
         }
-        func_800A9C18(object, motion, (void *)part_data, spawn_flags);
+        initialize_actor_sprite_and_animation(object, motion, (void *)part_data, spawn_flags);
 
         tail_actor = state_data;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
@@ -104,7 +104,7 @@ void *func_8016A898(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
         tail_flags |= 0xC;
         tail_entity->unk_14 = tail_flags;
         (*(s16 *)((u8 *)tail_actor + 0xAA)) = ((S_8016A898_0 *)result)->unk_14.u16 & 7;
-        func_800AA36C(tail_actor, motion, tail_entity, result);
+        try_move_actor_to_valid_position(tail_actor, motion, tail_entity, result);
     }
     return result;
 }

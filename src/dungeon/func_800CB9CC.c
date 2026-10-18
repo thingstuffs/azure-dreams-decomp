@@ -2,11 +2,11 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-extern s32 getOffsetMapCellValueAndFlags(s16, s16, s16, u16 *);
-extern s16 dungeonProcessPerpendicularEligibleTiles(s16, s16, s16);
+extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
+extern s16 process_perpendicular_eligible_tiles(s16, s16, s16);
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
-s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 start_y) {
+s32 count_flagged_tiles_along_direction_2(s16 scan_direction, s32 start_x, s32 start_y) {
     s32 bound_bit;
     u16 flags;
     s32 saved_offset;
@@ -26,13 +26,13 @@ s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 
 
     remaining = 11;
     direction = scan_direction;
-    x_base = (u8 *)dirStepX;
+    x_base = (u8 *)dir_step_x;
     byte_offset = direction * 2;
     x_step = (u16 *)(x_base + byte_offset);
     count = 0;
     x_acc = start_x - *x_step;
     x = (u16)x_acc;
-    bounds = &gameWork.map;
+    bounds = &g_game_work.map;
 
     if (x < 0 || x >= ((bound_bit = 1) << bounds->shiftX)) {
         return 0;
@@ -41,7 +41,7 @@ s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 
     {
         u8 *y_base;
 
-        y_base = (u8 *)dirStepY;
+        y_base = (u8 *)dir_step_y;
         y_step = (u16 *)(y_base + byte_offset);
         y_acc = start_y - *y_step;
     }
@@ -59,10 +59,10 @@ s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 
         u16 *loop_x_step;
         x = (s16)x_acc;
         y = (s16)y_acc;
-        if ((getOffsetMapCellValueAndFlags(x, y, direction, &flags) << 16) != 0 &&
+        if ((get_offset_map_cell_value_and_flags(x, y, direction, &flags) << 16) != 0 &&
             (flags & 4)) {
             count++;
-            if (dungeonProcessPerpendicularEligibleTiles(direction, x, y) >= 2) {
+            if (process_perpendicular_eligible_tiles(direction, x, y) >= 2) {
                 break;
             }
         }
@@ -79,7 +79,7 @@ s32 dungeonCountFlaggedTilesAlongDirection(s16 scan_direction, s32 start_x, s32 
         {
             u8 *loop_y_base;
 
-            loop_y_base = (u8 *)dirStepY;
+            loop_y_base = (u8 *)dir_step_y;
             loop_x_step = (u16 *)(saved_offset);
             loop_y_base += (s32)loop_x_step;
             y_step = (u16 *)loop_y_base;

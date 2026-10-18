@@ -11,11 +11,11 @@ s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
     GameWork *dungeon;
     u8 *tile;
 
-    dungeon = &gameWork;
+    dungeon = &g_game_work;
     do {
     } while (0);
-    tile_index = origin_x + ((s16 *)((u8 *)dirStepX))[(s16)direction];
-    tile_y = origin_y + ((s16 *)((u8 *)dirStepY))[(s16)direction];
+    tile_index = origin_x + ((s16 *)((u8 *)dir_step_x))[(s16)direction];
+    tile_y = origin_y + ((s16 *)((u8 *)dir_step_y))[(s16)direction];
     tile_index += tile_y << dungeon->map.shiftX;
     tile = ((u8 *)dungeon->map.cells) + tile_index * 6;
     result = *(u16 *)(tile + 4) & 0xF320;

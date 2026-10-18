@@ -28,22 +28,22 @@ typedef struct S_80024968_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024968_2;   /* arg1 in dungeonCreateInitializedEffectObject */
+} S_80024968_2;   /* arg1 in create_initialized_effect_object */
 
 /* Creates an object, copies three values into its data, and initializes it. */
-void *dungeonCreateInitializedEffectObject(s32 resource_id, S_80024968_2 *source_values, s16 setup_value, s32 object_value) {
+void *create_initialized_effect_object(s32 resource_id, S_80024968_2 *source_values, s16 setup_value, s32 object_value) {
     S_80024968_1 *target_values;
     S_80024968_0 *object;
 
     object = func_8003FD64(2, (ObjectNodeHeader **)(resource_id - 0x20));
     if (object != NULL) {
         target_values = object->unk_08;
-        object->unk_10 = dungeonTintEffectAndAdvanceMotion;
+        object->unk_10 = tint_effect_and_advance_motion;
         target_values->unk_02 = (u16) source_values->unk_02;
         target_values->unk_06 = (u16) source_values->unk_06;
         target_values->unk_0A = (u16) source_values->unk_0A;
         object->unk_20 = object_value;
-        dungeonSpawnRingEffects(target_values, setup_value);
+        spawn_ring_effects(target_values, setup_value);
     }
     return object;
 }

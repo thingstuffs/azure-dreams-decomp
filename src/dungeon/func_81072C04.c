@@ -32,12 +32,12 @@ typedef struct S_80172258_4 {
 
 
 void func_80047784();
-s16 dungeonGetRoundedFacingAndRoundingFlag();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
+s16 get_rounded_facing_and_rounding_flag();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
 s32 func_800A9A04();
-void dungeonReduceActorFoodMeter();
-s32 dungeonCheckActorFloorTrap();
+void reduce_actor_food_meter();
+s32 check_actor_floor_trap();
 
 extern u8 D_80158F68;
 extern u8 D_8015BFD8[];
@@ -60,7 +60,7 @@ void func_8015A404(void *jump, void *motion, void *sprite, void *actor) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015BFD8;
         func_80047784(
             sprite,
-            D_8015BFD8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8015BFD8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFE80000;
@@ -102,11 +102,11 @@ void func_8015A404(void *jump, void *motion, void *sprite, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015BFE0;
             func_80047784(
                 sprite,
-                D_8015BFE0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8015BFE0[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172258_0 *)jump)->unk_9B++;
         }
@@ -120,13 +120,13 @@ void func_8015A404(void *jump, void *motion, void *sprite, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 4);
-        dungeonAdvanceStatusTimers(actor);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 4);
+        advance_status_timers(actor);
         {
 
-            if (dungeonStatus.unk_08 != 0) {
-                dungeonStatus.unk_08--;
+            if (g_dungeon_status.unk_08 != 0) {
+                g_dungeon_status.unk_08--;
             }
         }
 
@@ -138,14 +138,14 @@ void func_8015A404(void *jump, void *motion, void *sprite, void *actor) {
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
             }
         }
 
 finish:
-        if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
+        if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
             ((S_80172258_0 *)jump)->unk_8C = &D_80158F68;
             func_800A9A04(actor);
         }

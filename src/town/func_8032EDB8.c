@@ -33,7 +33,7 @@ extern s32 D_80016064[];
 extern s32 D_8001608C[];
 
 /* Find the index of an entry by ID, reporting an error if it is missing. */
-s32 townFindEntry28IndexOrAssert(void *entries, s32 entry_id) {
+s32 find_entry_28_index_or_assert(void *entries, s32 entry_id) {
     s32 entry_index;
 
     for (entry_index = 0; ((S_800195B8_1 *)(((entry_index * 0x1C) + entries)))->unk_08 != 0; entry_index++) {

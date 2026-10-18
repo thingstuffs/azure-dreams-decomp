@@ -7,13 +7,13 @@ typedef struct {
     s16 unk6;
 } TownRecord;
 
-extern void townSetScriptFlagBit(s32);
-extern void townClearScriptFlagBit(s32);
-extern s32 townGetScriptFlagMask(s32);
+extern void set_script_flag_bit(s32);
+extern void clear_script_flag_bit(s32);
+extern s32 get_script_flag_mask(s32);
 extern s16 D_8001B8A8[3];
 
 /* Processes town records according to global and per-record conditions. */
-void townProcessTownRecords(s32 records_addr, s32 record_count)
+void process_town_records(s32 records_addr, s32 record_count)
 {
     s32 record_index;
     TownRecord *record;
@@ -23,16 +23,16 @@ void townProcessTownRecords(s32 records_addr, s32 record_count)
         condition_ids = D_8001B8A8;
         do {
             record = (TownRecord *)((record_index * 8) + records_addr);
-            townClearScriptFlagBit(record->unk2);
-            if (townGetScriptFlagMask(condition_ids[1]) == 0) {
-                townClearScriptFlagBit(record->unk4);
+            clear_script_flag_bit(record->unk2);
+            if (get_script_flag_mask(condition_ids[1]) == 0) {
+                clear_script_flag_bit(record->unk4);
             } else {
                 record = (TownRecord *)((record_index * 8) + records_addr);
-                if (townGetScriptFlagMask(record->unk0) != 0) {
-                    townSetScriptFlagBit(record->unk4);
+                if (get_script_flag_mask(record->unk0) != 0) {
+                    set_script_flag_bit(record->unk4);
                 }
             }
-            townClearScriptFlagBit(((TownRecord *)((record_index * 8) + records_addr))->unk0);
+            clear_script_flag_bit(((TownRecord *)((record_index * 8) + records_addr))->unk0);
             record_index++;
             if (record_index >= record_count) {
                 break;

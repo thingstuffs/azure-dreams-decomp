@@ -8,7 +8,7 @@ typedef struct Entry {
 extern Entry D_8006B200[];
 
 /* Moves the selected entry to the front, shifting preceding entries back one slot. */
-void runtimeMoveEntryToFront(s32 index)
+void runtime_move_entry_to_front(s32 index)
 {
     Entry selected;
 

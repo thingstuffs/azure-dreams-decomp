@@ -19,7 +19,7 @@ typedef struct {
 } TownCf814Obj;
 
 /* Moves the object by fixed steps until its timer expires, then advances the state. */
-void townMoveFlagObjectUntilTimerExpiry(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32 duration, s32 step_x, s32 step_y) {
+void move_flag_object_until_timer_expiry(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32 duration, s32 step_x, s32 step_y) {
     TownCf814Obj *obj = target;
     s32 initial_dx = step_x;
     s16 phase = motion->unk6A;

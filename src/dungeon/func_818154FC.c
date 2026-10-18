@@ -170,7 +170,7 @@ extern LocalPoints D_80024004;
 extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern M2C_UNK D_800246DC;
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
@@ -246,7 +246,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                 if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
                     ((S_818154FC_0 *)effect)->unk_84.s = 0U;
                     ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
-                    func_800A56E0(0x300);
+                    play_sound_if_enabled(0x300);
                 }
             }
             return;
@@ -286,7 +286,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                 ((S_818154FC_7 *)work)->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
 
                 {
-                    u8 *table_base = (u8 *)dirStepX;
+                    u8 *table_base = (u8 *)dir_step_x;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
@@ -294,7 +294,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                         ((S_818154FC_8 *)map)->unk_24 + table_base[index];
                 }
                 {
-                    u8 *table_base = (u8 *)dirStepY;
+                    u8 *table_base = (u8 *)dir_step_y;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     ((S_818154FC_0 *)effect)->unk_A9 =
@@ -414,9 +414,9 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
 
                 ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
                 if (global_state == 0) {
-                    dungeonStatus.unk_0C = 0;
+                    g_dungeon_status.unk_0C = 0;
                     ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                 } else {
                     D_80025338[0] = 0;
                 }

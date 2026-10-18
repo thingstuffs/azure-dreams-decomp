@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_c9b084.h"
 
 /* Builds render packets for linked entries and inserts them into the ordering table. */
-s32 func_8015E884(u8 *entry_data, u16 *position)
+s32 queue_linked_render_packets(u8 *entry_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = ((void * *)(&gameWork));
+    void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

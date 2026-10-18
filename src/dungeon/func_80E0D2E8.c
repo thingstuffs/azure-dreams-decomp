@@ -81,16 +81,16 @@ extern u8 D_80176460[8];
 extern u8 D_80176490[8];
 extern ActorCallback D_801766B8[];
 
-extern void selectIndirectTableEntry(Entity *, u8, s8);
+extern void select_indirect_table_entry(Entity *, u8, s8);
 extern void func_800478B8(Entity *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(Actor *, Motion *, Entity *, Actor *);
-extern void func_800AA36C(Actor *, Motion *, Entity *, Actor *);
-extern s32 func_800BCB04(s32, s32, s16);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
+extern void try_move_actor_to_valid_position(Actor *, Motion *, Entity *, Actor *);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates actor direction, callbacks, motion, and ground height. */
-void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_motion, Entity *input_entity)
+void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion, Entity *input_entity)
 {
     Actor *subject = input_actor;
     s16 direction;
@@ -105,7 +105,7 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
     s16 ground;
     s32 correction;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         special_callback = input_actor->callback;
         if (special_callback == (ActorCallback)&D_80171094) {
             special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));
@@ -117,18 +117,18 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
 
 
     old_type = (s8)input_actor->type;
-    if (dungeonRefreshActorFacingAndLifecycle(input_actor, input_motion, input_entity, input_actor) != 0) {
+    if (refresh_actor_facing_and_lifecycle(input_actor, input_motion, input_entity, input_actor) != 0) {
         return;
     }
 
     entity_flags = input_entity->flags14;
     if (!(entity_flags & 0x8000)) {
-        direction = ((gameWork.view.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
         if (input_actor->direction94 != direction) {
             if (input_entity->data != 0) {
-                selectIndirectTableEntry(input_entity, input_entity->data[direction], input_entity->kind);
+                select_indirect_table_entry(input_entity, input_entity->data[direction], input_entity->kind);
             }
             input_actor->direction94 = direction;
         }
@@ -136,14 +136,14 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
         {
             u16 updated_flags;
 
-            if (input_entity->data == D_80176490 && dirSpriteFlag[direction_index] != 0) {
+            if (input_entity->data == D_80176490 && dir_sprite_flag[direction_index] != 0) {
                 updated_flags = input_entity->flags14 | 1;
             } else {
                 updated_flags = input_entity->flags14 & 0xFFFE;
             }
             input_entity->flags14 = updated_flags;
         }
-        dungeonApplyMonsterKoyawData(subject->flags, input_entity->position0C);
+        apply_monster_koyaw_data(subject->flags, input_entity->position0C);
         if (!(subject->flags & 0x20)) {
             if (!(input_entity->flags14 & 0x40)) {
                 func_800478B8(input_entity);
@@ -167,7 +167,7 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
     D_801766B8[input_actor->dispatch9A](input_actor, input_motion, input_entity, subject);
 
     if (old_type != (s8)subject->type) {
-        func_800AA36C(input_actor, input_motion, input_entity, subject);
+        try_move_actor_to_valid_position(input_actor, input_motion, input_entity, subject);
     }
 
     input_motion->x += input_motion->dx;
@@ -215,7 +215,7 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
             input_actor->correctionA4 = 0;
             input_actor->position90 -= reset_correction;
             if (!(input_actor->state98 & 8)) {
-                ground = (s16)(func_800BCB04(
+                ground = (s16)(sample_terrain_surface_height(
                     *(u16 *)((u8 *)input_motion + 2),
                     *(u16 *)((u8 *)input_motion + 6),
                     (s16)(subject->height88 - 0x20)) - subject->height88);
@@ -238,7 +238,7 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
             input_actor->correctionA4 = 0;
             input_actor->position90 -= correction;
             if (!(input_actor->state98 & 8)) {
-                ground = (s16)(func_800BCB04(
+                ground = (s16)(sample_terrain_surface_height(
                     ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_02,
                     ((InputMotionFieldView_80E0D2E8 *)input_motion)->field_06,
                     (s16)(subject->height88 - 0x20)) - subject->height88);
@@ -276,7 +276,7 @@ void dungeonUpdateActorDirectionAndGround(Actor *input_actor, Motion *input_moti
     actor_flags = subject->flags;
     if (actor_flags & 0x40000000) {
         subject->flags = actor_flags & 0xBFFFFFFF;
-        ground = func_800BCB04((input_entity->tileX << 6) | 0x20,
+        ground = sample_terrain_surface_height((input_entity->tileX << 6) | 0x20,
                                (input_entity->tileY << 6) | 0x20,
                                (s16)(subject->height88 - 0x20));
         if (ground < 0x200) {

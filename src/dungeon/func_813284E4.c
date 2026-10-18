@@ -23,7 +23,7 @@ typedef struct S_8016FCE4_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x16];
     u16 unk_88;
-} S_8016FCE4_0;   /* arg3 in dungeonAdvanceBossActorMovementState */
+} S_8016FCE4_0;   /* arg3 in advance_boss_actor_movement_state */
 
 typedef struct S_8016FCE4_1 {
     u8 pad_00[0x24];
@@ -33,7 +33,7 @@ typedef struct S_8016FCE4_1 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
     u8 unk_26;
-} S_8016FCE4_1;   /* arg2 in dungeonAdvanceBossActorMovementState */
+} S_8016FCE4_1;   /* arg2 in advance_boss_actor_movement_state */
 
 typedef struct S_8016FCE4_2_pre {
     void * unk_00;
@@ -49,7 +49,7 @@ typedef struct S_8016FCE4_3 {
 typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8016FCE4_4;   /* heading_base in dungeonAdvanceBossActorMovementState */
+} S_8016FCE4_4;   /* heading_base in advance_boss_actor_movement_state */
 
 
 
@@ -58,22 +58,22 @@ typedef struct S_8016FCE4_8 {
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016FCE4_8;   /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in dungeonAdvanceBossActorMovementState */
+} S_8016FCE4_8;   /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
 
 
-s32 dungeonCheckEntityRelation(void *, void *);
-void func_8009A21C(s16 x, s16 y, u16 flags);
-void func_8009A3D0(s32, s32, s32);
-s32 dungeonCheckMovementClearanceAndHeight(s32, void *, void *, s32);
-s32 dungeonCompareMonsterNeighborValues(s32, s32, s32, s32);
-void *dungeonFindValidMonsterNeighbor(void *entity, u16 x, u16 y);
-s32 dungeonPlaceActorAtDirectionalNeighbor(void *, s32, s32, s32);
-s16 dungeonGetRoundedFacingAndRoundingFlag(s32, s32, s32, s32, void *);
-void dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
-void dungeonUpdateActorProximityFlag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
-s32 func_800A6D30(void);
-void func_800A9A0C(void *);
-s16 func_800BCB04(s32 x, s32 y, s16 min_height);
+s32 check_entity_relation(void *, void *);
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+void update_map_cell_flags_with_item_limit(s32, s32, s32);
+s32 check_movement_clearance_and_height(s32, void *, void *, s32);
+s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+void *find_valid_monster_neighbor(void *entity, u16 x, u16 y);
+s32 place_actor_at_directional_neighbor(void *, s32, s32, s32);
+s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
+void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
+s32 generate_random_value(void);
+void update_actor_status_and_food(void *);
+s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern s16 D_8006CD00[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
@@ -83,7 +83,7 @@ static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
 }
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
-void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *position_in, void *actor_in) {
+void advance_boss_actor_movement_state(void *move_state, void *unused, void *position_in, void *actor_in) {
     M2C_UNK tile_mask;
     register s16 *turn_offsets;
     s32 y_address;
@@ -104,20 +104,20 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
     S_8016FCE4_3 *target_position;
 
     limit_turns = 0;
-    if ((dungeonStatus.flags & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
-        func_800A9A0C(actor_in);
+    if ((g_dungeon_status.flags & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
+        update_actor_status_and_food(actor_in);
         return;
     }
-    if (dungeonStatus.flags & 0x2000) {
-        dungeonUpdateActorProximityFlag(position_in, actor_in, 3, 6, move_state + 0x9C);
+    if (g_dungeon_status.flags & 0x2000) {
+        update_actor_proximity_flag(position_in, actor_in, 3, 6, move_state + 0x9C);
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
-                target = dungeonFindValidMonsterNeighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                target = find_valid_monster_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
                 if (target != NULL) {
                     target_position = ((S_8016FCE4_2_pre *)target)[-1].unk_00;
-                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = dungeonGetRoundedFacingAndRoundingFlag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                         ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25,
                         move_state + 0x98);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
@@ -127,10 +127,10 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                 if (!(move_result & 0x80000000)) {
                     move_result |= 0x80000000;
                     ((S_8016FCE4_0 *)actor_in)->unk_14 = (s32)move_result;
-                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             } else {
-                move_result = dungeonPlaceActorAtDirectionalNeighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                move_result = place_actor_at_directional_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
                 if (move_result != 0) {
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
@@ -146,26 +146,26 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                     u8 *x_table_base;
                     s32 dir_index;
 
-                    x_table_base = ((u8 *)dirStepX);
+                    x_table_base = ((u8 *)dir_step_x);
                     heading_base = *heading_ref;
                     dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tileX + *(u16 *)(x_table_base + dir_index);
-                    target_y = D_80082E80.tileY + *(u16 *)(((u8 *)dirStepY) + dir_index);
+                    target_y = D_80082E80.tileY + *(u16 *)(((u8 *)dir_step_y) + dir_index);
                     if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (u16)target_x)
                         || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (u16)target_y)) {
                         heading_state = move_state + 0x98;
-                        target_heading = dungeonGetRoundedFacingAndRoundingFlag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                        target_heading = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                             ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y,
                             heading_state);
                         ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) target_heading;
-                        if ((dungeonCheckMovementClearanceAndHeight(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
+                        if ((check_movement_clearance_and_height(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
                             ((S_8016FCE4_0 *)actor_in)->unk_2A.u =
-                                dungeonGetRoundedFacingAndRoundingFlag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                                get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                                 ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tileX, D_80082E80_b.tileY,
                                 heading_state);
                         }
-                        move_result = dungeonCompareMonsterNeighborValues(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                        move_result = compare_monster_neighbor_values(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                             ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b.tileX, D_80082E80_b.tileY);
                         if ((move_result << 0x10) != 0) {
                             limit_turns = 1;
@@ -175,13 +175,13 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                         return;
                     }
                 } else {
-                    dungeonRebuildMonsterReachableTiles(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
+                    rebuild_monster_reachable_tiles(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
                         move_state + 0x98);
                 }
             }
         }
         turn_index = 0;
-        x_offsets = ((u8 *)dirStepX);
+        x_offsets = ((u8 *)dir_step_x);
         turn_offsets = D_8006CD00;
         do {
             heading = ((S_8016FCE4_0 *)actor_in)->unk_2A.s;
@@ -192,7 +192,7 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                 move_result = *turn_offsets;
                 trial_heading = heading + move_result;
             }
-            if ((dungeonCheckMovementClearanceAndHeight((s16) trial_heading, position_in, actor_in, 0x20) << 0x10) > 0) {
+            if ((check_movement_clearance_and_height((s16) trial_heading, position_in, actor_in, 0x20) << 0x10) > 0) {
                 if (turn_index >= 3) {
                     move_result = limit_turns;
                     if (move_result != 0) {
@@ -207,13 +207,13 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                     ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C =
                         (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
-                    func_8009A3D0(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                    update_map_cell_flags_with_item_limit(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                         ((S_8016FCE4_1 *)position_in)->unk_24.at01.v,
                                   (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     step_coord = ((u16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u >> 8) & 0xE;
                     ((S_8016FCE4_1 *)position_in)->unk_24.at00.v =
                         advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, x_offsets, step_coord);
-                    y_address = step_coord + (s32)((u8 *)dirStepY);
+                    y_address = step_coord + (s32)((u8 *)dir_step_y);
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v =
                         advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (u8 *)y_address, 0);
                     step_coord = ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
@@ -223,12 +223,12 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
                     } else {
                         tile_mask = 0x3000;
                     }
-                    func_8009A21C(step_coord, tile_y, tile_mask);
+                    cycle_map_cell_flags(step_coord, tile_y, tile_mask);
                     break;
                 }
             }
             if ((turn_index != 0) || (*(u16 *)(&D_80082E80.tileX) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
-                || ((dungeonCheckEntityRelation(actor_in, ((s32)((EntityRec *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
+                || ((check_entity_relation(actor_in, ((s32)((EntityRec *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {
@@ -239,18 +239,18 @@ void dungeonAdvanceBossActorMovementState(void *move_state, void *unused, void *
         if (move_result == 0) {
             ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
             ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
-            func_800A9A0C(actor_in);
+            update_actor_status_and_food(actor_in);
             return;
         }
         ((S_8016FCE4_0 *)actor_in)->unk_46 = (u16) (((S_8016FCE4_0 *)actor_in)->unk_46 & 0x7FFF);
         ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8 = (s8) ((S_8016FCE4_1 *)position_in)->unk_26;
         ((S_8016FCE4_0 *)actor_in)->unk_6D.u = (u8) (((S_8016FCE4_0 *)actor_in)->unk_6D.u - 1);
-        dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
+        g_dungeon_status.unk_08 = (u16) (((u16)g_dungeon_status.unk_08) + 1);
         if (((S_8016FCE4_0 *)actor_in)->unk_6D.s == 0) {
             ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
             return;
         }
-        turn_index = (s16) func_800BCB04((((S_8016FCE4_1 *)position_in)->unk_24.at00.v << 6) | 0x20,
+        turn_index = (s16) sample_terrain_surface_height((((S_8016FCE4_1 *)position_in)->unk_24.at00.v << 6) | 0x20,
             (((S_8016FCE4_1 *)position_in)->unk_24.at01.v << 6) | 0x20,
             (s16) (((S_8016FCE4_0 *)actor_in)->unk_88 - 0x20));
         if (turn_index < 0x200) {

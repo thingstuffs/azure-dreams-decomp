@@ -6,7 +6,7 @@
 
 
 /* Initialize the state with the supplied value, zeroed fields, and unit scale. */
-void runtimeInitializeStateValue(Rec_D_80081FDC *state, s32 initialValue) {
+void runtime_initialize_state_value(Rec_D_80081FDC *state, s32 initialValue) {
     state->unk_00 = 1;
     state->unk_04 = initialValue;
     state->unk_08 = 0;

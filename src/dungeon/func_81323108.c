@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Clears the state byte and the high bits of the flags and status fields. */
-void dungeonClearActorActionMarkers(u8 *state) {
+void clear_actor_action_markers(u8 *state) {
     u8 flags;
     u16 status;
 

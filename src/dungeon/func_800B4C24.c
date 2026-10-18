@@ -1,10 +1,10 @@
 #include "common.h"
 
 struct S_800BA414_1;
-extern void dungeonDrawProjectedQuadWithDepthBias(void *unused, struct S_800BA414_1 *position, void *owner_data, s16 depth_bias);
+extern void draw_projected_quad_with_depth_bias(void *unused, struct S_800BA414_1 *position, void *owner_data, s16 depth_bias);
 
 /* Initialize scratchpad quad coordinates and process each linked node. */
-s32 dungeonDrawLinkedQuadChain(void *node_payload, s32 node_value, u8 *node_data) {
+s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data) {
     s16 *scratch = (s16 *)0x1F800000;
     register u8 *next_ptr;
     s32 next_value;
@@ -24,7 +24,7 @@ s32 dungeonDrawLinkedQuadChain(void *node_payload, s32 node_value, u8 *node_data
     scratch[0x41] = 31;
 
     for (;;) {
-        dungeonDrawProjectedQuadWithDepthBias(node_payload, node_value, node_data, *(s16 *)(node_data + 6));
+        draw_projected_quad_with_depth_bias(node_payload, node_value, node_data, *(s16 *)(node_data + 6));
         next_ptr = *(u8 **)((u8 *)node_payload - 8);
         node_payload = next_ptr + 32;
         if (next_ptr == 0) {

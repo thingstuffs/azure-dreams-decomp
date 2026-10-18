@@ -5,6 +5,6 @@
 M2C_UNK func_80018A64();                     /* extern */
 
 /* Calls func_80018A64 with ID 0x5A4. */
-void townRequestSceneAction5A4(void) {
+void request_scene_action_5_a_4(void) {
     func_80018A64(0x5A4);
 }

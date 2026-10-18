@@ -68,10 +68,10 @@ typedef struct {
 } ParticleQuad;
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
-s32 func_800F6E48(DungeonObject *object, u16 *origin) {
-    DungeonRoot *dungeon = *(DungeonRoot **)((u8 *)(&gameWork));
+s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
+    DungeonRoot *dungeon = *(DungeonRoot **)((u8 *)(&g_game_work));
     s32 packet_cursor = dungeon->cursor;
-    GameWork *root_slot = &gameWork;
+    GameWork *root_slot = &g_game_work;
     Scratch *scratch;
     s16 particle_index = 0;
     u8 *projection_param = (u8 *)0x1F800090;
@@ -79,7 +79,7 @@ s32 func_800F6E48(DungeonObject *object, u16 *origin) {
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    scratch->base = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
     scratch->values[0] = origin[1];
     projection_flags = (u8 *)scratch;
     scratch->values[1] = origin[3];

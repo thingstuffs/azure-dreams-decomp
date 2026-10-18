@@ -25,6 +25,6 @@ void func_80EB886C(EffectState *effect, VecState *motion, void *update_data) {
     func_800478B8(update_data);
     if ((s16)--effect->timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

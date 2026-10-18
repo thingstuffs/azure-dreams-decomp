@@ -10,14 +10,14 @@ struct Entry {
 
 extern s32 Krom2RawAdd(s32);
 extern void func_80067014(s32);
-extern s16 *townBuildFilteredCatalogGlyph(s32, s16 *);
+extern s16 *build_filtered_catalog_glyph(s32, s16 *);
 
 extern s16 D_80128A20[];
 extern Entry *D_80129720;
 extern s16 D_80129724;
 
 /* Returns cached glyph data, loading it on a miss and updating cache order. */
-s16 *townGetCachedCatalogGlyph(s16 char_code)
+s16 *get_cached_catalog_glyph(s16 char_code)
 {
     u16 glyph_id;
     Entry *entry;
@@ -62,7 +62,7 @@ s16 *townGetCachedCatalogGlyph(s16 char_code)
         } while (entry != 0);
     }
 
-    glyph_data = townBuildFilteredCatalogGlyph((u16)char_code,
+    glyph_data = build_filtered_catalog_glyph((u16)char_code,
                                &D_80128A20[(u16)last_entry->value]);
     if (glyph_data != &D_80128A20[(u16)last_entry->value]) {
         return 0;

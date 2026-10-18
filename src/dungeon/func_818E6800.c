@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_190681c.h"
 
-void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
+void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) {
     u8 *actor;
     u8 *actor_data;
     u8 *actor_header;
@@ -104,13 +104,13 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
             s32 delta_x;
             s32 abs_y;
             if ((U16(S32(effect, 4), 0) & 0x80) != 0) {
-                if (resolveRecordOrientationOrFallback(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
+                if (resolve_record_orientation_or_fallback(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
                     offset[1] = 0;
                     offset[0] = 0;
                     offset[2] = (U16(actor_data, 20) & 0x8000) ? -48 : 0;
                 }
-                target = dungeonScanMonsterAlongHeading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
-                                       (s16)dungeonGetDefinitionEntryByte13(36));
+                target = scan_monster_along_heading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
+                                       (s16)get_definition_entry_byte_13(36));
                 S32(actor, 96) = target;
                 if (target == 0) {
                     U8(actor, 114) = U8(actor_data, 36);
@@ -128,7 +128,7 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
                 }
                 {
                     u8 *effect_header = effect - 32;
-                    u8 *callback = dungeonHandleSpawnInitializeRandomizedOffsetParent;
+                    u8 *callback = handle_spawn_initialize_randomized_offset_parent;
                     S32(motion, 0) = S32(S32(actor_header, 8), 0) + ((s32)offset[0] << 16);
                     S32(motion, 4) = S32(S32(actor_header, 8), 4) + ((s32)offset[1] << 16);
                     S32(motion, 8) = S32(S32(actor_header, 8), 8) + ((s32)offset[2] << 16);
@@ -167,7 +167,7 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
                 S32(motion, 16) = velocity_y << 16;
                 tile_x = (S8(actor, 114) << 6) & 0xffc0;
                 tile_y = (S8(actor, 115) << 6) & 0xffc0;
-                distance = (s16)func_800BCB04(tile_x, tile_y, U16(S32(actor_header, 8), 10) - 48) - 192;
+                distance = (s16)sample_terrain_surface_height(tile_x, tile_y, U16(S32(actor_header, 8), 10) - 48) - 192;
                 {
                     s32 velocity_z;
                     s32 travel_frames;
@@ -177,7 +177,7 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
                     S32(motion, 20) = velocity_z << 16;
                 }
                 U16(effect, 82) = 0;
-                func_800A56E0(768);
+                play_sound_if_enabled(768);
                 U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }
@@ -248,10 +248,10 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
             return;
 
         case 241:
-            copySelectedTablePair(S32(actor, 96), S16(effect, 80));
-            if (S16(effect, 80) == 6 && dungeonTryTriggerTargetRecordEffect(S32(actor, 96), 4, actor) == 0 &&
+            copy_selected_table_pair(S32(actor, 96), S16(effect, 80));
+            if (S16(effect, 80) == 6 && try_trigger_target_record_effect(S32(actor, 96), 4, actor) == 0 &&
                 S32(actor, 96) != 0) {
-                func_800C8900(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
+                try_apply_effect_four_by_chance(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
             }
             if (S16(effect, 80) > 0)
                 break;
@@ -275,9 +275,9 @@ void func_8002401C(u8 *effect, u8 *motion, void *context_arg) {
 
         case 256:
             if (S16(effect, 80) < 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 U16(effect, -2) = (u16)(U16(effect, -2) | 0x8000);
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
             break;
         default:

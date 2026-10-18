@@ -50,7 +50,7 @@ extern void SetPolyF4(S_80053604_PolyF4 *p);
 extern void SetSemiTrans(S_80053604_PolyF4 *p, s32 abe);
 extern void SetDrawMode(S_80053604_TPage *p, s32 tge, s32 abe, u16 tpage, s32 unk4);
 /* Draws a full-screen additive or subtractive fade, advances its timer, and reports completion. */
-s32 renderScreenFadeIncreasingIntensity(S_80053604_Obj *fade)
+s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
 {
     u32 addr_mask;
     register u32 tag_mask;

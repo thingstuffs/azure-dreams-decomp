@@ -52,7 +52,7 @@ typedef struct S_81874988_0 {
     u16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_81874988_0;   /* scratch in dungeonProjectTexturedQuadOrCallback */
+} S_81874988_0;   /* scratch in project_textured_quad_or_callback */
 
 typedef struct S_81874988_1 {
     u8 pad_00[0x2];
@@ -61,9 +61,9 @@ typedef struct S_81874988_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_81874988_1;   /* arg1 in dungeonProjectTexturedQuadOrCallback */
+} S_81874988_1;   /* arg1 in project_textured_quad_or_callback */
 
-   /* global_value in dungeonProjectTexturedQuadOrCallback */
+   /* global_value in project_textured_quad_or_callback */
 
 typedef struct S_81874988_3 {
     u8 pad_00[0x8];
@@ -75,7 +75,7 @@ typedef struct S_81874988_3 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_81874988_3;   /* arg2 in dungeonProjectTexturedQuadOrCallback */
+} S_81874988_3;   /* arg2 in project_textured_quad_or_callback */
 
 typedef struct S_81874988_4 {
     u8 pad_00[0x50];
@@ -91,7 +91,7 @@ typedef struct S_81874988_4 {
     u16 unk_62;
     u16 unk_64;
     u16 unk_66;
-} S_81874988_4;   /* arg0 in dungeonProjectTexturedQuadOrCallback */
+} S_81874988_4;   /* arg0 in project_textured_quad_or_callback */
 
 typedef struct S_81874988_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -115,7 +115,7 @@ typedef struct S_81874988_5 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
-} S_81874988_5;   /* packet in dungeonProjectTexturedQuadOrCallback */
+} S_81874988_5;   /* packet in project_textured_quad_or_callback */
 
 
 extern void func_80064840(void *, void *, void *);
@@ -129,9 +129,9 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
-void dungeonProjectTexturedQuadOrCallback(void *quad, void *position, void *material, s16 depth_bias)
+void project_textured_quad_or_callback(void *quad, void *position, void *material, s16 depth_bias)
 {
-    u8 *render_state = gameWork.unk_000;
+    u8 *render_state = g_game_work.unk_000;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u32 tex_attr;

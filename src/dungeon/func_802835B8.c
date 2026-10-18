@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void dungeonInitializeDungeonActor(void) {
+void initialize_dungeon_actor(void) {
     u8 pos_x;
     u8 pos_y;
     u16 flags;
@@ -41,18 +41,18 @@ void dungeonInitializeDungeonActor(void) {
     s32 copy_tail;
     u16 final_flags;
 
-    table_base = &gameWork;
+    table_base = &g_game_work;
     D_800DCF5A = 1;
-    allocation = initializeSceneObjectInBuffer(0, ((u8 *)(&D_80083498)), 0x53);
+    allocation = initialize_scene_object_in_buffer(0, ((u8 *)(&D_80083498)), 0x53);
     ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
     func_8004491C(allocation, func_80045340);
     actor_storage = ((u8 *)(&D_80083780.x.v));
     ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_08 = actor_storage;
     actor = actor_storage;
-    zeroWords(actor, 6);
+    zero_words(actor, 6);
     state = ((u8 *)(&D_80082E80));
     ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_0C = state;
-    zeroWords(state, 0xC);
+    zero_words(state, 0xC);
     D_800814A8 = obj = (u8 *)allocation + 0x20;
     D_800E3D7C = obj;
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_13 = 0;
@@ -62,7 +62,7 @@ void dungeonInitializeDungeonActor(void) {
     if (!(((dungeon_setup_802835B8_S_800165B8_2 *)room)->unk_16 & 1)) {
 retry_position:
         do {
-        } while (selectDungeonSpawnTile(&pos_x, &pos_y) < 0);
+        } while (select_dungeon_spawn_tile(&pos_x, &pos_y) < 0);
         if (D_80012090 != 0 || func_80033BC0(0x1389) != 0) {
             goto position_selected;
         }
@@ -71,13 +71,13 @@ retry_position:
             goto initialize_position;
         }
         bind_state = (u8 *)(-0x400);
-        first_height = func_800BCB04((pos_x << 6) | 0x20,
+        first_height = sample_terrain_surface_height((pos_x << 6) | 0x20,
                                      (pos_y << 6) | 0x20, (s32)bind_state);
         entry_index = -1;
-        delta_x = dirStepX;
-        delta_y = dirStepY;
+        delta_x = dir_step_x;
+        delta_y = dir_step_y;
         do {
-        getOffsetMapCellValueAndFlags(pos_x, pos_y, (s16)entry_index, &flags);
+        get_offset_map_cell_value_and_flags(pos_x, pos_y, (s16)entry_index, &flags);
         bind_state = (u8 *)(-0x400);
         if (flags & 0x8000) {
             goto retry_position;
@@ -95,7 +95,7 @@ retry_position:
             sample_y_sum = sample_y + (delta_y[offset_index] << 6);
             sample_y = sample_y_sum & 0xFFE0;
         }
-        height = func_800BCB04(sample_x, sample_y, (s32)bind_state);
+        height = sample_terrain_surface_height(sample_x, sample_y, (s32)bind_state);
         height_diff = (height & 0xFF) - (first_height & 0xFF);
         if (height_diff < 0) {
             height_diff = -height_diff;
@@ -121,10 +121,10 @@ initialize_position:
         setup_y = pos_y;
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_24 = setup_x;
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25 = setup_y;
-        dungeonSetRecordIntegerTileCenter(call_target, setup_x, setup_y);
+        set_record_integer_tile_center(call_target, setup_x, setup_y);
     }
-    func_8009A21C(pos_x, pos_y, 0x300);
-    height = func_800BCB04(((dungeon_setup_802835B8_S_800165B8_4 *)actor)->unk_02, ((dungeon_setup_802835B8_S_800165B8_4 *)actor)->dungeon_setup_802835B8_unk_06, -0x400);
+    cycle_map_cell_flags(pos_x, pos_y, 0x300);
+    height = sample_terrain_surface_height(((dungeon_setup_802835B8_S_800165B8_4 *)actor)->unk_02, ((dungeon_setup_802835B8_S_800165B8_4 *)actor)->dungeon_setup_802835B8_unk_06, -0x400);
     actor_x = pos_x;
     actor_y = pos_y;
     ((dungeon_setup_802835B8_S_800165B8_4 *)actor)->unk_0A = height;
@@ -139,16 +139,16 @@ initialize_position:
     ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_1E = 0x1000;
     ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_1C = 0x1000;
     ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_28 = state_config;
-    dungeonRestoreInventoryAndFamiliars(obj, entity, actor_x, actor_y);
+    restore_inventory_and_familiars(obj, entity, actor_x, actor_y);
 
     entity_mask = 0xFFEFFFFF;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_14 &= entity_mask;
     do {
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(state, (&D_800DD078)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD078)[entry_index], 0, 0);
         D_800E3D80[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(state, (&D_800DD0A8)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD0A8)[entry_index], 0, 0);
         D_800E3CF8[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(state, (&D_800DD090)[entry_index], 0, 0);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&D_800DD090)[entry_index], 0, 0);
         D_800E3D48[entry_index] = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_08;
         entry_index--;
     } while (entry_index >= 0);
@@ -158,18 +158,18 @@ initialize_position:
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
         func_8003DB94(state,
             *(void **)((u8 *)D_800DD274 +
-                (((gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
+                (((g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
     } else {
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(state, 0xB0, 0, 1);
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, 0xB0, 0, 1);
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
     }
     bind_count = 1;
     bind_angle = obj + 0x2A;
     (*(s16 *)((u8 *)obj + 0x94)) = -1;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
-    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.view.viewAngle + 0x100) & 0xE00);
-    dungeonCreateTrackedEffect((u8 *)&D_80083498, bind_count, state + 0x2C, bind_angle);
+    ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)g_game_work.view.viewAngle + 0x100) & 0xE00);
+    create_tracked_effect((u8 *)&D_80083498, bind_count, state + 0x2C, bind_angle);
     {
         s32 clear_flag_mask;
 
@@ -177,7 +177,7 @@ initialize_position:
         ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_9A = 0xFF;
         ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_1C &= clear_flag_mask;
     }
-    dungeonRestorePlayerControlCallback(obj, entity);
+    restore_player_control_callback(obj, entity);
     ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_14 |= 0x8000;
     defaults_page = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 2; entry_index++) {
@@ -212,7 +212,7 @@ initialize_position:
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_25;
         display_setting = *(u16 *)((u8 *)display_table + (s16)display_index * 2);
-        bind_state = (u8 *)&dungeonStatus;
+        bind_state = (u8 *)&g_dungeon_status;
         table_base->view.unk_0AC = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)D_800DCE60 = display_setting;
@@ -229,10 +229,10 @@ initialize_position:
         ((DungeonGlobalStatus *)bind_state)->flags = final_flags;
         ((dungeon_setup_802835B8_S_800165B8_8 *)display_state)->dungeon_setup_802835B8_unk_06.s = lift_height;
         ((dungeon_setup_802835B8_S_800165B8_3 *)state)->unk_26 =
-            func_8009FB34((s32)call_target, tile_y, bind_state, lift_height);
+            find_active_rect_containing_point((s32)call_target, tile_y, bind_state, lift_height);
     }
     ((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_9C = -2;
-    dungeonProcessGlobalBufferAndSubmit();
+    process_global_buffer_and_submit();
     {
         s32 actor_lift;
 
@@ -241,11 +241,11 @@ initialize_position:
         D_800E3540 = 0;
         D_80081484 = 0;
         D_80081470 = 0;
-        dungeonInitializeRandomEffectPosition(call_target, actor_lift);
+        initialize_random_effect_position(call_target, actor_lift);
     }
     init_flags = ((dungeon_setup_802835B8_S_800165B8_10 *)(u8 *)entry_index)->unk_3714;
     D_80082A3B = -0x24;
     if (init_flags & 4) {
-        func_800A6C00();
+        create_pulsing_effect_object();
     }
 }

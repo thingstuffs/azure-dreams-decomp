@@ -3,19 +3,19 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before arg0 in dungeonUpdateBrighteningFadingEffect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_brightening_fading_effect, addressed as arg0[-1] */
 
-   /* arg0 in dungeonUpdateBrighteningFadingEffect */
-
-
-
-   /* arg1 in dungeonUpdateBrighteningFadingEffect */
+   /* arg0 in update_brightening_fading_effect */
 
 
 
-   /* arg2 in dungeonUpdateBrighteningFadingEffect */
+   /* arg1 in update_brightening_fading_effect */
 
-   /* ((S_8195EB88_0 *)arg0)->unk_0C in dungeonUpdateBrighteningFadingEffect */
+
+
+   /* arg2 in update_brightening_fading_effect */
+
+   /* ((S_8195EB88_0 *)arg0)->unk_0C in update_brightening_fading_effect */
 
 
 
@@ -25,7 +25,7 @@
 
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
-void dungeonUpdateBrighteningFadingEffect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
+void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
 {
     s16 phase;
     u16 phase_value;
@@ -39,7 +39,7 @@ void dungeonUpdateBrighteningFadingEffect(void *effect, S_8195EB88_2 *position, 
     if (phase == 0) {
         source_state = ((S_8195EB88_5 *)(((S_8195EB88_0 *)effect)->unk_0C))->unk_0C;
         if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
-            if (resolveRecordOrientationOrFallback(source_state->unk_08, source_state,
+            if (resolve_record_orientation_or_fallback(source_state->unk_08, source_state,
                               (u8 *)effect + 0x40, 0) != 0) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
             } else if (source_state->unk_14 & 0x8000) {
@@ -58,7 +58,7 @@ void dungeonUpdateBrighteningFadingEffect(void *effect, S_8195EB88_2 *position, 
             base_position->unk_06 + ((S_8195EB88_0 *)effect)->unk_42;
         position->unk_0A =
             base_position->unk_0A + ((S_8195EB88_0 *)effect)->unk_44.u;
-        if (dungeonAllocateNinePositionObjects(position) != 0) {
+        if (allocate_nine_position_objects(position) != 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
         }
@@ -72,7 +72,7 @@ void dungeonUpdateBrighteningFadingEffect(void *effect, S_8195EB88_2 *position, 
         primitive->unk_0C.u32 += 0xFFEFEFF0;
         if (primitive->unk_0C.u8 == 0) {
             ((S_8195EB88_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

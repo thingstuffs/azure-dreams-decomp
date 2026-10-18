@@ -4,7 +4,7 @@
 extern void func_8001E5F0(s32 event_flag_id);
 
 /* Clear two state bytes and process five fixed identifiers. */
-void townResetDispatchStateAndFlags(void) {
+void reset_dispatch_state_and_flags(void) {
     D_8001E950->dispatchState = 0;
     D_8001E950->unk_06 = 0;
     func_8001E5F0(0x400);

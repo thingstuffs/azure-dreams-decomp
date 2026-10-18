@@ -8,7 +8,7 @@ typedef struct S_8003DF0C {
 } S_8003DF0C; /* size 0xC */
 
 /* Return the last ID match with flag 0x20 (or NULL) and subtract half the entry count from its index (or zero). */
-S_8003DF0C *findLastFlaggedRecordById(S_8003DF0C *entry, s32 want, u16 *idx_out)
+S_8003DF0C *find_last_flagged_record_by_id(S_8003DF0C *entry, s32 want, u16 *idx_out)
 {
     u32 entry_count;
     u32 match_address;

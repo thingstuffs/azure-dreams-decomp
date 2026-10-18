@@ -23,7 +23,7 @@ typedef struct S_80173D78_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80173D78_1;   /* arg2 in dungeonUpdateActorTargetEffectAction */
+} S_80173D78_1;   /* arg2 in update_actor_target_effect_action */
 
 typedef struct S_80173D78_2 {
     u8 pad_00[0x14];
@@ -40,22 +40,22 @@ typedef struct S_80173D78_2 {
     u8 unk_6D;
     u8 pad_6E[0x1A];
     s16 unk_88;
-} S_80173D78_2;   /* arg3 in dungeonUpdateActorTargetEffectAction */
+} S_80173D78_2;   /* arg3 in update_actor_target_effect_action */
 
 typedef struct S_80173D78_3 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_80173D78_3;   /* found in dungeonUpdateActorTargetEffectAction */
+} S_80173D78_3;   /* found in update_actor_target_effect_action */
 
 typedef struct S_80173D78_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173D78_4;   /* counter_base in dungeonUpdateActorTargetEffectAction */
+} S_80173D78_4;   /* counter_base in update_actor_target_effect_action */
 
 typedef struct S_80173D78_5 {
     u8 pad_00[0x10];
     u32 unk_10;
-} S_80173D78_5;   /* base in dungeonUpdateActorTargetEffectAction */
+} S_80173D78_5;   /* base in update_actor_target_effect_action */
 
 
 extern s32 D_800C6AEC;
@@ -66,25 +66,25 @@ extern M2C_UNK D_8017398C;
 
 void func_8004491C();
 void func_80044A50();
-s32 func_800990FC();
-s32 func_80099194();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void func_80099290();
-s32 dungeonWriteTextByteAndAdvance();
-s32 func_80099734();
-void func_8009A028();
-void func_8009A21C();
-void func_8009A3D0();
-void *findEligibleActorAtTileAndHeight();
-void func_800A56E0();
-void func_800A5720();
-s16 func_800A70E4();
-void func_800A9A0C();
-void dungeonRetireTrackedEffectById();
-void dungeonSpawnOffsetMotionObject();
+s32 write_text_byte_and_advance();
+s32 append_entity_display_text();
+void unlink_entity_node();
+void cycle_map_cell_flags();
+void update_map_cell_flags_with_item_limit();
+void *find_eligible_actor_at_tile_and_height();
+void play_sound_if_enabled();
+void display_text_with_fullwidth_adjustment();
+s16 find_floor_item_at_world_position();
+void update_actor_status_and_food();
+void retire_tracked_effect_by_id();
+void spawn_offset_motion_object();
 void *func_8017618C();
 
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
-void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
+void update_actor_target_effect_action(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
     S_80173D78_3 *target;
     void *effect;
@@ -115,7 +115,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
             return;
         }
         if (!(sprite_flags & 0x8000)) {
-            func_800A56E0(0x80D);
+            play_sound_if_enabled(0x80D);
         }
         ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
         if (sprite->unk_14 & 0x8000) {
@@ -128,8 +128,8 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
     case 1:
         if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
             if (!(sprite->unk_14 & 0x8000)) {
-                dungeonSpawnOffsetMotionObject(action, context, sprite, 0);
-                dungeonSpawnOffsetMotionObject(action, context, sprite, 1);
+                spawn_offset_motion_object(action, context, sprite, 0);
+                spawn_offset_motion_object(action, context, sprite, 1);
             }
         }
         ticks_left = ((Rec_func_80173D78_arg0 *)action)->unk_96 - 1;
@@ -139,27 +139,27 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
         }
 
         direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-        target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dirStepX) + direction_offset);
-        target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dirStepY) + direction_offset);
+        target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dir_step_x) + direction_offset);
+        target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dir_step_y) + direction_offset);
         actor->unk_60.i = 0;
 
         if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {
-            target = findEligibleActorAtTileAndHeight(actor, target_x & 0xFFFF, target_y & 0xFFFF,
+            target = find_eligible_actor_at_tile_and_height(actor, target_x & 0xFFFF, target_y & 0xFFFF,
                                    actor->unk_88);
             actor->unk_60.p = target;
             if (target != 0) {
                 state = target->unk_13;
                 if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
-                    random_value = func_800990FC();
+                    random_value = get_unused_text_buffer();
                     random_arg = random_value;
-                    random_value = func_80099734(actor, saved_random = random_arg);
+                    random_value = append_entity_display_text(actor, saved_random = random_arg);
                     func_80099290(
-                        func_80099194(&D_80170898,
-                            func_80099734(target,
-                                dungeonWriteTextByteAndAdvance(0xA,
-                                    func_80099194(&D_8017086C, random_value)))));
-                    func_800A5720(saved_random);
-                    func_800A56E0(0x506);
+                        expand_text_control_codes(&D_80170898,
+                            append_entity_display_text(target,
+                                write_text_byte_and_advance(0xA,
+                                    expand_text_control_codes(&D_8017086C, random_value)))));
+                    display_text_with_fullwidth_adjustment(saved_random);
+                    play_sound_if_enabled(0x506);
                     actor->unk_60.i = 0;
                 }
             }
@@ -167,7 +167,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
 
         if (((Rec_func_80173D78_arg0 *)action)->unk_AC < 2U) {
             if (actor->unk_60.i == 0) {
-                tile_index = func_800A70E4((s16)target_x, (s16)target_y,
+                tile_index = find_floor_item_at_world_position((s16)target_x, (s16)target_y,
                                      actor->unk_88);
                 if (tile_index >= 0) {
                     actor->unk_60.i = tile_index + 1;
@@ -177,10 +177,10 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
 
         if (actor->unk_60.i == 0) {
 
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
-            dungeonStatus.unk_0A =
-                ((u16)dungeonStatus.unk_0A) - 1;
+            g_dungeon_status.unk_0A =
+                ((u16)g_dungeon_status.unk_0A) - 1;
             actor->unk_1C &= 0xEFFFFFFF;
             return;
         }
@@ -194,7 +194,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
         if (map_flags & 0x2000) {
             tile_mask = 0x300;
         }
-        func_8009A3D0(sound_x, sound_y, tile_mask);
+        update_map_cell_flags_with_item_limit(sound_x, sound_y, tile_mask);
 
         actor->unk_1C |= 0x10000;
         effect = func_8017618C(action, context, sprite, actor);
@@ -206,7 +206,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
             sprite->unk_0C.at03.v = 0;
             sprite->unk_12 = sprite->unk_12 - 0x80;
             sprite->unk_14 |= 0xC;
-            func_8009A028(actor);
+            unlink_entity_node(actor);
             object->unk_10 |= 0x80000000;
             ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
             return;
@@ -219,7 +219,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
         if (map_flags & 0x2000) {
             tile_mask = 0x300;
         }
-        func_8009A21C(sound_x, sound_y, tile_mask);
+        cycle_map_cell_flags(sound_x, sound_y, tile_mask);
         actor->unk_1C &= 0xFFFEFFFF;
         return;
 
@@ -244,7 +244,7 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
 
         object = (s8 *)action - 0x20;
         func_80044A50(object);
-        dungeonRetireTrackedEffectById(object);
+        retire_tracked_effect_by_id(object);
         sprite->unk_0C.at03.v = 0;
         sprite->unk_0C.at00u.v = 0x00808080;
         sprite->unk_14 |= 0x800;
@@ -259,8 +259,8 @@ void dungeonUpdateActorTargetEffectAction(void *action, void *context, S_80173D7
             ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
             ((Rec_func_80173D78_arg0 *)action)->unk_9B = 0;
             ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_8017398C;
-            dungeonStatus.unk_0A =
-                ((u16)dungeonStatus.unk_0A) - 1;
+            g_dungeon_status.unk_0A =
+                ((u16)g_dungeon_status.unk_0A) - 1;
             actor->unk_6D = 0;
             actor->unk_1C &= 0xEFFFFFFF;
             actor->unk_46 &= 0x7FFF;

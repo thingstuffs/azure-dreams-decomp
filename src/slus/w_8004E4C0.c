@@ -1,6 +1,6 @@
 #include "common.h"
 /* Writes decimal digits least significant first, pads to width, and null-terminates. */
-char *formatReversedUnsignedDecimal(u32 value, s32 width, char *buf, s32 pad) {
+char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad) {
     s32 char_count;
     u32 quotient_or_width;
     s32 digit_limit;

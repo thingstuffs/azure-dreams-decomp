@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity, void *actor) {
+void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor) {
     s16 effect_offset[3];
     s32 dir_x;
     s32 dir_y;
@@ -15,8 +15,8 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
 
     state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.s;
     dir_offset = (((R12_80172654_S_80172654_1 *)actor)->unk_2A.s >> 8) & 0xE;
-    dir_x = *(s16 *)((u8 *)((s8 *)dirStepX) + dir_offset);
-    dir_y = *(s16 *)((u8 *)((s8 *)dirStepY) + dir_offset);
+    dir_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + dir_offset);
+    dir_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + dir_offset);
     timer = ((R12_80172654_S_80172654_0 *)action)->unk_96.s - 1;
     ((R12_80172654_S_80172654_0 *)action)->unk_96.s = timer;
 
@@ -26,14 +26,14 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
         if (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) {
             ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
             ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
+            resolve_attack_damage_and_effects(action_actor, entity,(s16)(((R12_80172654_S_80172654_3 *)action_actor)->unk_2A),(s16)(1));
             return;
         }
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = (-dir_x) << 17;
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = (-dir_y) << 17;
         ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A4C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((gameWork.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         timer = 8;
@@ -48,7 +48,7 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
         ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
         ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A8C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A8C)[((gameWork.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        func_80047784(entity,(u8)(((u8 *)D_80175A8C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         next_state = ((R12_80172654_S_80172654_0 *)action)->unk_9B.u;
         next_state += 1;
@@ -60,15 +60,15 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v |= 0x800;
             ((R12_80172654_S_80172654_0 *)action)->unk_96.s = 0x10;
-            if (resolveRecordOrientationOrFallback(((Rec_D_80082E80 *)entity)->unk_08, entity, effect_offset,(s16)(0)) == 0) {
+            if (resolve_record_orientation_or_fallback(((Rec_D_80082E80 *)entity)->unk_08, entity, effect_offset,(s16)(0)) == 0) {
                 effect_offset[2] = 0;
                 effect_offset[1] = 0;
                 effect_offset[0] = 0;
             }
             effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
             if (effect != NULL) {
-                func_8004491C(effect, ((u8 *)dungeonBuildLinkedCurvedWireframeGrid));
-                ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dungeonDimEffectAfterDelay);
+                func_8004491C(effect, ((u8 *)build_linked_curved_wireframe_grid));
+                ((R12_80172654_S_80172654_5 *)effect)->unk_10 = ((u8 *)dim_effect_after_delay);
                 ((R12_80172654_S_80172654_5 *)effect)->unk_20 = ((R12_80172654_S_80172654_4 *)motion)->unk_00.at02.v + effect_offset[0];
                 effect_data = (u8 *)effect + 0x20;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_02 = ((R12_80172654_S_80172654_4 *)motion)->unk_04.at02.v + effect_offset[1];
@@ -76,7 +76,7 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_08 = 0xC0C0C0;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_0E = 8;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_12 =
-                    func_800BCB04(((((Rec_D_80082E80 *)entity)->unk_24 + dir_x) << 6) & 0xFFC0,
+                    sample_terrain_surface_height(((((Rec_D_80082E80 *)entity)->unk_24 + dir_x) << 6) & 0xFFC0,
                                   ((((Rec_D_80082E80 *)entity)->unk_25 + dir_y) << 6) & 0xFFC0,(s16)((s16)(((R12_80172654_S_80172654_4 *)motion)->unk_0A - 0x80))) -
                     ((R12_80172654_S_80172654_4 *)motion)->unk_0A;
                 ((R12_80172654_S_80172654_6 *)effect_data)->unk_10 = ((R12_80172654_S_80172654_1 *)actor)->unk_2A.s;
@@ -89,8 +89,8 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
         return;
     case 3:
         if ((s16)timer == 0xA) {
-            dungeonResolveAttackDamageAndEffects(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
-            func_800A56E0(0x813);
+            resolve_attack_damage_and_effects(actor, entity,(s16)(((R12_80172654_S_80172654_1 *)actor)->unk_2A.u),(s16)(1));
+            play_sound_if_enabled(0x813);
         }
         if (((R12_80172654_S_80172654_0 *)action)->unk_96.u > 0)
             return;
@@ -104,7 +104,7 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
         if ((timer << 16) > 0)
             return;
         (*(void **)((u8 *)entity + 0x2C)) = ((u8 *)D_80175A4C);
-        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((gameWork.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
+        func_80047784(entity,(u8)(((u8 *)D_80175A4C)[((g_game_work.view.viewAngle + ((R12_80172654_S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7]),
             0);
         ((R12_80172654_S_80172654_0 *)action)->unk_96.s = state;
         ((R12_80172654_S_80172654_0 *)action)->unk_9B.s = 0xFF;
@@ -121,11 +121,11 @@ void dungeonAdvanceActionAndSpawnEffect(void *action, void *motion, void *entity
             ((R12_80172654_S_80172654_4 *)motion)->unk_14 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_10 = 0;
             ((R12_80172654_S_80172654_4 *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion,(u8)(((Rec_D_80082E80 *)entity)->unk_24),(u8)(((Rec_D_80082E80 *)entity)->unk_25));
-            dungeonReduceActorFoodMeter(actor, 0x100);
-            ((R12_80172654_S_80172654_0 *)action)->unk_8C = ((void *)func_80170E70);
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(actor);
+            set_record_integer_tile_center(motion,(u8)(((Rec_D_80082E80 *)entity)->unk_24),(u8)(((Rec_D_80082E80 *)entity)->unk_25));
+            reduce_actor_food_meter(actor, 0x100);
+            ((R12_80172654_S_80172654_0 *)action)->unk_8C = ((void *)update_actor_state_and_select_target);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(actor);
             if (((R12_80172654_S_80172654_1 *)actor)->unk_6D == 0) {
                 ((R12_80172654_S_80172654_1 *)actor)->unk_46 &= 0x7FFF;
                 return;

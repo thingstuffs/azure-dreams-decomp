@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void restoreSpawnsAndPlaceFloorTraps(void) {
+void restore_spawns_and_place_floor_traps(void) {
     u8 x;
     u8 y;
     u8 *floor_config;
@@ -36,12 +36,12 @@ void restoreSpawnsAndPlaceFloorTraps(void) {
     do {
         if (meta[slot].state == 0x13) {
             existing_type = meta[slot].type;
-            availability = func_800A1618(existing_type, 1);
+            availability = find_or_retain_sprite_resource_slot(existing_type, 1);
             if (availability != 0) {
-                object = func_800A0B94(existing_type, availability, 1)
+                object = load_monster_resource_data(existing_type, availability, 1)
                 (0, position[slot].x, position[slot].y, -0x400);
                 if (object != 0) {
-                    retainSpawnResource(existing_type, 1);
+                    retain_spawn_resource(existing_type, 1);
                     func_80042640(object, existing_type);
                     object->unk_43.s = 0xFF;
                     object->unk_12 = 0;
@@ -51,11 +51,11 @@ void restoreSpawnsAndPlaceFloorTraps(void) {
                         s32 *loop_limits;
                         loop_limits = D_800835E8;
                         do {
-                            raiseEntityLevel(object, 0);
+                            raise_entity_level(object, 0);
                         } while ((u32)loop_limits[object->unk_11] <=
                                  object->unk_18);
                     }
-                    object->unk_43.u = func_800A6D30();
+                    object->unk_43.u = generate_random_value();
                 }
             }
             *(s32 *)&meta[slot] = 0;
@@ -65,15 +65,15 @@ void restoreSpawnsAndPlaceFloorTraps(void) {
 
     floor_config = (u8 *)D_80081468;
     if (((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
-        spawn_limit = (func_800A6D30() & 3) + 4;
+        spawn_limit = (generate_random_value() & 3) + 4;
     } else {
-        spawn_limit = ((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (func_800A6D30() & 3);
+        spawn_limit = ((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 / 2 + (generate_random_value() & 3);
     }
     if (spawn_limit >= 0x21) {
         spawn_limit = 0x20;
     }
 
-    value = func_800A6D30();
+    value = generate_random_value();
     slot = 0;
     trap_state = 0x15;
     position = D_800E39C8;
@@ -92,8 +92,8 @@ void restoreSpawnsAndPlaceFloorTraps(void) {
             if ((D_800E3D6C[0] & 8) || slot >= spawn_limit) continue;
             meta[slot].state = 0;
             meta[slot].type = 0;
-            trap_budget += func_800A6D30() & 0xF;
-            store_type = randomDungeonRange16(1, 0x13);
+            trap_budget += generate_random_value() & 0xF;
+            store_type = random_dungeon_range_16(1, 0x13);
             trap_type = store_type;
             flags = *(u16 *)(D_800735C4[0] + (trap_type * 0xC));
             flag_bits = flags & 0x3000;
@@ -106,22 +106,22 @@ void restoreSpawnsAndPlaceFloorTraps(void) {
             meta[slot].state = trap_state;
             meta[slot].type = store_type;
             do {
-            } while ((s16)selectDungeonSpawnTile(&x, &y) < 0);
+            } while ((s16)select_dungeon_spawn_tile(&x, &y) < 0);
             position[slot].x = x;
             position[slot].y = y;
-            spawn_variant = (func_800A6D30() & 7) | 4;
+            spawn_variant = (generate_random_value() & 7) | 4;
             spawn_marker = 0x80;
             spawn_height = -0x400;
         }
         meta[slot].unk2 = spawn_variant;
         meta[slot].unk3 = spawn_marker;
-        floor_height = func_800BCB04((x << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((x << 6) | 0x20,
                                (y << 6) | 0x20,
                                spawn_height);
         position[slot].unk12 = floor_height;
         position[slot].unk10 = floor_height;
         position[slot].flags = 0;
-        func_8009A21C(x, y, 0x20);
+        cycle_map_cell_flags(x, y, 0x20);
         {
             u8 *lookup_base = 0;
             s32 table_index;

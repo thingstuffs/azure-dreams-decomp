@@ -3,7 +3,7 @@
 
 
 /* Fade the primitive as the effect countdown expires, then set completion flags. */
-void func_80174B20(void *effect, s32 unused, void *primitive)
+void advance_actor_replacement_sequence(void *effect, s32 unused, void *primitive)
 {
     s16 ticks_left;
 
@@ -21,6 +21,6 @@ void func_80174B20(void *effect, s32 unused, void *primitive)
     *(s16 *)((u8 *)effect + 0x96) = ticks_left;
     if (ticks_left <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -26,7 +26,7 @@ typedef struct S_8004FFF4_Outer {
 } S_8004FFF4_Outer;
 
 /* Resets both leaf records for six slots to default field values and gray colors. */
-void slusResetSixObjectLeafRecords(void *slots)
+void reset_six_object_leaf_records(void *slots)
 {
     s32 slot_index;
     S_8004FFF4_Outer *slot_view;

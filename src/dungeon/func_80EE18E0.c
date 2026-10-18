@@ -22,12 +22,12 @@ typedef struct S_801730E0_0 {
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_80171CE8;
 extern u8 D_80174EB8[];
@@ -60,7 +60,7 @@ void func_801730E0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174ED0;
         func_80047784(
             sprite,
-            D_80174ED0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174ED0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_801730E0_0 *)action)->unk_98 |= 8;
         (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
@@ -103,12 +103,12 @@ void func_801730E0(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174ED8;
             func_80047784(
                 sprite,
-                D_80174ED8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174ED8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801730E0_0 *)action)->unk_9B++;
         }
@@ -120,7 +120,7 @@ void func_801730E0(void *action, EntityRec *motion, void *sprite, EntityRec *act
             (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
 
@@ -137,12 +137,12 @@ void func_801730E0(void *action, EntityRec *motion, void *sprite, EntityRec *act
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonReduceActorFoodMeter(actor, 4);
-    dungeonAdvanceStatusTimers(actor);
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    reduce_actor_food_meter(actor, 4);
+    advance_status_timers(actor);
 
-    if (dungeonStatus.unk_08 != 0) {
-        dungeonStatus.unk_08--;
+    if (g_dungeon_status.unk_08 != 0) {
+        g_dungeon_status.unk_08--;
     }
 
     actor_flags = actor->flags1C;
@@ -152,13 +152,13 @@ void func_801730E0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+            actor->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
         }
     }
 
-    if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
+    if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
         ((S_801730E0_0 *)action)->unk_8C = &D_80171CE8;
         func_800A9A04(actor);
     }

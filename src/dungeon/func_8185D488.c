@@ -76,17 +76,17 @@ typedef union WideProduct {
     } word;
 } WideProduct;
 
-extern s32 resolveRecordOrientationOrFallback();
-extern s32 dungeonCheckLayerOffsetHeight();
-extern s32 func_800BCB04();
-extern void dungeonDrawAnimatedShadedLines();
-extern Child *func_80024628();
-extern void func_800A56E0();
+extern s32 resolve_record_orientation_or_fallback();
+extern s32 check_layer_offset_height();
+extern s32 sample_terrain_surface_height();
+extern void draw_animated_shaded_lines();
+extern Child *create_effect_indexed();
+extern void play_sound_if_enabled();
 extern void func_80024060();
-extern void func_800244D4(void);
+extern void advance_expanding_spiral(void);
 
 /* Moves to a target cell, runs child effects, and retires the controller. */
-void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, void *render_data)
+void move_to_target_and_run_child_effects(Controller *ctrl, Motion *motion, void *render_data)
 {
     u8 *root;
     RootPrefix *prefix;
@@ -130,7 +130,7 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
 
     case 1:
         prefix = (RootPrefix *)(root - 0x20);
-        if (resolveRecordOrientationOrFallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -189,7 +189,7 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
             target_cell_y[0] = cell_y;
 
             do {
-                if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
+                if ((s16)check_layer_offset_height(((s16)cell_x << 6) & 0xFFC0,
                                        ((s16)cell_y << 6) & 0xFFC0,
                                        *(s16 *)(root + 0x88),
                                        (s16)(ctrl->angle << 9)) != 0) {
@@ -205,11 +205,11 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
 
                     direction = (s16)ctrl->angle;
                     root_z = *(u16 *)(root + 0x88);
-                    lookup = &dirStepX[direction];
+                    lookup = &dir_step_x[direction];
                     x_step = lookup;
                     height = (s16)(root_z - 32);
-                    y_step = &dirStepY[direction];
-                    floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
+                    y_step = &dir_step_y[direction];
+                    floor_height = sample_terrain_surface_height((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
                                                  (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
                                                  height);
                 }
@@ -225,8 +225,8 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
 
                     direction = (s16)ctrl->angle;
                     index++;
-                    cell_x += dirStepX[direction];
-                    cell_y += dirStepY[direction];
+                    cell_x += dir_step_x[direction];
+                    cell_y += dir_step_y[direction];
                     target_cell_x = cell_x;
                     target_cell_y[0] = cell_y;
                 }
@@ -242,7 +242,7 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
                 target[0].h.hi = ((target_cell_x << 16) >> 10) + 32;
                 target[1].h.hi = ((target_cell_y[0] << 16) >> 10) + 32;
                 target[2].h.hi = -1024;
-                target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
+                target[2].h.hi = sample_terrain_surface_height((u16)target[0].h.hi,
                                                (u16)target[1].h.hi, -1024);
                 if ((s16)target[2].h.hi >= 513) {
                     target[2].h.hi = motion->z.h.hi + 32;
@@ -263,7 +263,7 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
         motion->x.val += motion->dx.val;
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
-        dungeonDrawAnimatedShadedLines(ctrl, render_data);
+        draw_animated_shaded_lines(ctrl, render_data);
         if (ctrl->timer < 15) {
             break;
         }
@@ -275,12 +275,12 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
             index = 7;
             child_slot = &ctrl->children[1];
             do {
-                child_slot[6] = func_80024628(ctrl, motion, (s16)index);
+                child_slot[6] = create_effect_indexed(ctrl, motion, (s16)index);
                 index--;
                 child_slot--;
             } while (index >= 0);
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         break;
 
     case 3:
@@ -288,7 +288,7 @@ void dungeonMoveToTargetAndRunChildEffects(Controller *ctrl, Motion *motion, voi
         if (ctrl->timer < 33) {
             break;
         }
-        child_update = func_800244D4;
+        child_update = advance_expanding_spiral;
         ctrl->timer = 0;
         ctrl->state++;
         {
@@ -344,9 +344,9 @@ loop_3:
 
     case 5:
         if (ctrl->active == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
 
     default:

@@ -4,8 +4,8 @@
 
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
-void dungeonUpdatePlayerPickupPause(void *object) {
-    GameWork *shared_data = &gameWork;
+void update_player_pickup_pause(void *object) {
+    GameWork *shared_data = &g_game_work;
     u8 state = *(u8 *)((u8 *)object + 0x9B);
     u16 timer;
 
@@ -26,7 +26,7 @@ void dungeonUpdatePlayerPickupPause(void *object) {
             }
         }
         *(s32 *)((u8 *)object + 0x124) = 0;
-        *(void **)((u8 *)object + 0x8C) = dungeonHandlePlayerInput;
+        *(void **)((u8 *)object + 0x8C) = handle_player_input;
         break;
     }
 }

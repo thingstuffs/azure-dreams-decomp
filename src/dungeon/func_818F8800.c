@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
-void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = func_8002592C;
+void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
 const PackedVector D_80024004 = {832,340,96,84};
 const PackedVector D_8002400C = {832,256,96,84};
 const Copy24 D_80024014 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
@@ -104,7 +104,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     s32 wave_index;
     Scratchpad *scratch;
     screen_link = screen_pos;
-    globals = (u8 *) (&gameWork.unk_000);
+    globals = (u8 *) (&g_game_work.unk_000);
     sprite = *((void **) (((s8 *) context) + (-0x14)));
     part = *((void **) (((s8 *) sprite) + 8));
     callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
@@ -114,7 +114,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
     *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
-    packet = *((s32 **) (((s8 *) gameWork.unk_000) + 0x8D0));
+    packet = *((s32 **) (((s8 *) g_game_work.unk_000) + 0x8D0));
     *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) ordering_table;
     *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
     *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 0))) - 0xA0);

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_c5909c.h"
 
 /* Allocates and initializes an object and its child display items. */
-void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
+void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
 {
     void *root;
     void *copy;
@@ -73,10 +73,10 @@ void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_2
                 flags_14 = saved_kind & ~3;
                 if ((s16)flags_14 == 0) {
                     if ((((S_8014C89C_1 *)object)->unk_14 & 0x200) == 0) {
-                        if (func_800A6D30() & 1) {
+                        if (generate_random_value() & 1) {
                             ((S_8014C89C_1 *)object)->unk_1C |= 0x200;
-                            func_800A48F0(object, 1,
-                                (func_800A6D30() & 0x3F) | 0x20);
+                            set_or_clear_actor_status_slot(object, 1,
+                                (generate_random_value() & 0x3F) | 0x20);
                             ((S_8014C89C_3 *)part)->unk_2C = D_801504FC;
                         }
                     }
@@ -84,13 +84,13 @@ void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_2
             }
         }
 
-        func_800A9C18(root, copy, part, (s16)kind_copy);
+        initialize_actor_sprite_and_animation(root, copy, part, (s16)kind_copy);
 
         child_slot = stable_object;
         outer_index = 0;
         ((S_8014C89C_4 *)stable_object)->unk_9A = 0xFF;
         ((S_8014C89C_4 *)stable_object)->unk_9C = -1;
-        ((S_8014C89C_4 *)stable_object)->unk_8C = func_8014D3A8;
+        ((S_8014C89C_4 *)stable_object)->unk_8C = update_entity_movement_animation_and_ground;
         ((S_8014C89C_1 *)object)->unk_1C |= 0x40000;
         ((S_8014C89C_4 *)stable_object)->unk_92 = -48;
         ((S_8014C89C_4 *)stable_object)->unk_A8 = 0;
@@ -130,7 +130,7 @@ void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_2
                     ((S_8014C89C_7 *)item)->unk_28 = part_value;
                     child_root = ((S_8014C89C_8 *)slot_base)->unk_A4;
                     call_zero = 0;
-                    ((S_8014C89C_9 *)child_root)->unk_10 = dungeonProcessEffectBlockEntries;
+                    ((S_8014C89C_9 *)child_root)->unk_10 = process_effect_block_entries;
                     (*(void * *)((u8 *)item + 0x2C)) = direction_table;
                     direction_index = ((D_80083228 +
                         ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
@@ -139,7 +139,7 @@ void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_2
                     item_offset += 0x30;
                     item_index++;
                     ((S_8014C89C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, dungeonDrawSpriteEffectQuads, 1);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, draw_sprite_effect_quads, 1);
                     more_items = item_index < ((S_8014C89C_6 *)(void *)saved_kind)->unk_02;
                     ((S_8014C89C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);
@@ -156,7 +156,7 @@ void *dungeonCreateActorChildDisplay(s32 kind, s32 part_byte_24, s32 part_byte_2
             }
         } while (1);
 
-        func_800AA36C(stable_object, copy, part, object);
+        try_move_actor_to_valid_position(stable_object, copy, part, object);
 
     }
 

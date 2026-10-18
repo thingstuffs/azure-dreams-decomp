@@ -16,7 +16,7 @@ typedef struct S_80175594_0 {
     s16 unk_2C;
     u8 pad_2E[0x2];
     s16 unk_30;
-} S_80175594_0;   /* arg0 in func_80175594 */
+} S_80175594_0;   /* arg0 in relocate_entity_after_animation */
 
 typedef struct S_80175594_1 {
     u16 unk_00;
@@ -73,16 +73,16 @@ typedef struct S_80175594_1 {
     u8 pad_106[0x2];
     u16 unk_108;
     u16 unk_10A;
-} S_80175594_1;   /* scratch in func_80175594 */
+} S_80175594_1;   /* scratch in relocate_entity_after_animation */
 
 
-   /* state in func_80175594 */
+   /* state in relocate_entity_after_animation */
 
 
 typedef struct S_80175594_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80175594_5;   /* matrix in func_80175594 */
+} S_80175594_5;   /* matrix in relocate_entity_after_animation */
 
 typedef struct S_80175594_6 {
     u8 pad_00[0xB8];
@@ -91,7 +91,7 @@ typedef struct S_80175594_6 {
     s16 unk_C4;
     s16 unk_C6;
     s16 unk_C8;
-} S_80175594_6;   /* global in func_80175594 */
+} S_80175594_6;   /* global in relocate_entity_after_animation */
 
 typedef struct S_80175594_7 {
     u8 pad_00[0x4];
@@ -115,9 +115,9 @@ typedef struct S_80175594_7 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
-} S_80175594_7;   /* packet in func_80175594 */
+} S_80175594_7;   /* packet in relocate_entity_after_animation */
 
-   /* *global in func_80175594 */
+   /* *global in relocate_entity_after_animation */
 
 
 extern void func_80064840(void *, void *, void *);
@@ -168,10 +168,10 @@ typedef struct {
 } Texture;
 
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
-void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
+void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
-    u8 **render_globals = (u8 **)((u8 *)(&gameWork));
+    u8 **render_globals = (u8 **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     u8 *matrix;

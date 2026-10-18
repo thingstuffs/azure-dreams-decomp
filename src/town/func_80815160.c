@@ -3,7 +3,7 @@
 
 typedef struct S_80815160_0_pre {
     u16 unk_00;
-} S_80815160_0_pre;   /* the 0x2 bytes before arg0 in townProcessStateZeroRecord, addressed as arg0[-1] */
+} S_80815160_0_pre;   /* the 0x2 bytes before arg0 in process_state_zero_record, addressed as arg0[-1] */
 
 typedef struct S_80815160_0 {
     s16 unk_00;
@@ -11,7 +11,7 @@ typedef struct S_80815160_0 {
     s32 unk_04;
     s16 * unk_08;
     void * unk_0C;
-} S_80815160_0;   /* arg0 in townProcessStateZeroRecord */
+} S_80815160_0;   /* arg0 in process_state_zero_record */
 
 typedef struct S_80815160_1 {
     u8 pad_00[0x1A];
@@ -24,7 +24,7 @@ s32 func_80071424();                             /* extern */
 extern s32 D_80084D5C;
 
 /* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
-void townProcessStateZeroRecord(void *record) {
+void process_state_zero_record(void *record) {
     u16 *flags;
     void *linked_record;
 

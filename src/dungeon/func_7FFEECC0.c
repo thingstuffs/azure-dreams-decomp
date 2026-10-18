@@ -1,13 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 townForwardHighestSurfaceQuery(s32 *);
+extern s32 forward_highest_surface_query(s32 *);
 
 typedef struct S_8008C420_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C420_0;   /* arg0 in townQueryOffsetPositionMinusZ */
+} S_8008C420_0;   /* arg0 in query_offset_position_minus_z */
 
 typedef struct S_8008C420_1 {
     s32 unk_00;
@@ -16,7 +16,7 @@ typedef struct S_8008C420_1 {
 } S_8008C420_1;
 
 /* Queries the combined position and subtracts the offset's integer Z component. */
-s16 townQueryOffsetPositionMinusZ(S_8008C420_0 *origin, s32 offset_table, s32 offset_index) {
+s16 query_offset_position_minus_z(S_8008C420_0 *origin, s32 offset_table, s32 offset_index) {
     s32 position[5];
     s32 query_result;
     s32 offset_bytes;
@@ -29,7 +29,7 @@ s16 townQueryOffsetPositionMinusZ(S_8008C420_0 *origin, s32 offset_table, s32 of
     position[0] = origin->unk_00 + offset->unk_00;
     position[1] = origin->unk_04 + offset->unk_04;
     position[2] = origin->unk_08 + offset->unk_08;
-    query_result = townForwardHighestSurfaceQuery(position);
+    query_result = forward_highest_surface_query(position);
     if ((s16) query_result == -0x7FFF) {
         return -0x7FFF;
     }

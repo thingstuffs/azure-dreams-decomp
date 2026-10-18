@@ -9,6 +9,6 @@ typedef struct TownServiceSlot2D8 {
 } TownServiceSlot2D8;
 
 /* Run town service callback 0x2D8 with code 3. */
-void func_8001FB64(void) {
+void run_service_callback_0x2d8_with_code_3(void) {
     ((TownServiceSlot2D8 *)D_80016000->unk_20)->callback_2D8(3);
 }

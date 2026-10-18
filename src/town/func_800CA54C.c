@@ -5,6 +5,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Clears the record's unk_94 field. */
-void townClearMotherEventRecordField(Rec_func_80094268_arg0 *record) {
+void clear_mother_event_record_field(Rec_func_80094268_arg0 *record) {
     record->unk_94 = 0;
 }

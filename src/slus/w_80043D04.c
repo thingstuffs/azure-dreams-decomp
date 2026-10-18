@@ -8,17 +8,17 @@ void func_80043D04(void)
 
     source_value = D_8008148C;
     D_80081480 = source_value;
-    updateControllerButtonsAndTriggers();
+    update_controller_buttons_and_triggers();
 
     state = &D_80082E60;
-    uploadDispatchEntryImages(state->field_B);
-    uploadDispatchEntryVramRows(state->field_B);
-    loadDispatchEntryFiles(state->field_B);
-    if (runDispatchEntryCallbacks(state->field_B)) {
-        sceneSavePreviousModeAndResetCallbacks();
+    upload_dispatch_entry_images(state->field_B);
+    upload_dispatch_entry_vram_rows(state->field_B);
+    load_dispatch_entry_files(state->field_B);
+    if (run_dispatch_entry_callbacks(state->field_B)) {
+        scene_save_previous_mode_and_reset_callbacks();
     } else {
-        D_80081500 = reserveRuntimeSlot(5, 8);
+        D_80081500 = reserve_runtime_slot(5, 8);
         D_80082E60.field_0 &= ~1;
-        setScenePhaseCallback((s32)func_80043DB8);
+        set_scene_phase_callback((s32)func_80043DB8);
     }
 }

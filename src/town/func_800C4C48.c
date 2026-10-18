@@ -5,7 +5,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Pass the keima resource to handler 6 and finalize the operation. */
-void townFinalizeKeimaResourceOperation(void) {
+void finalize_keima_resource_operation(void) {
     Control_CD(6, &D_800D4748, 0);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
 }

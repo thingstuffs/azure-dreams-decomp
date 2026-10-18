@@ -4,17 +4,17 @@
 
 typedef struct S_80125FB8_1 {
     s32 unk_00;
-} S_80125FB8_1;   /* destination in townAnimateCatalogDetailToGrid */
+} S_80125FB8_1;   /* destination in animate_catalog_detail_to_grid */
 
 typedef struct S_80125FB8_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80125FB8_2;   /* *objects in townAnimateCatalogDetailToGrid */
+} S_80125FB8_2;   /* *objects in animate_catalog_detail_to_grid */
 
 typedef struct S_80125FB8_3 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80125FB8_3;   /* object_data in townAnimateCatalogDetailToGrid */
+} S_80125FB8_3;   /* object_data in animate_catalog_detail_to_grid */
 
 
 typedef struct TownInitialPosition {
@@ -23,13 +23,13 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void townLayoutCatalogEntryGrid(void);
-extern void townRefreshCatalogEntryGrid(void *);
+extern void layout_catalog_entry_grid(void);
+extern void refresh_catalog_entry_grid(void *);
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
 /* Updates town object data according to the current state. */
-void townAnimateCatalogDetailToGrid(Rec_func_801237A4_arg0 *state)
+void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
 {
     s32 state_index;
     s32 object_index;
@@ -67,8 +67,8 @@ void townAnimateCatalogDetailToGrid(Rec_func_801237A4_arg0 *state)
         } while (object_index < 0x62);
         break;
     case 4:
-        townLayoutCatalogEntryGrid();
-        townRefreshCatalogEntryGrid(state);
+        layout_catalog_entry_grid();
+        refresh_catalog_entry_grid(state);
     case 5:
     case 6:
     case 7:

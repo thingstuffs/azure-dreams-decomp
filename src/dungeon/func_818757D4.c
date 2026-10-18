@@ -5,10 +5,10 @@
 
 extern void func_80024758(void *record, void *context, void *data, u16 depth_bias);
 
-/* Retail 818757D4 (func_80024FD4).
+/* Retail 818757D4 (draw_chained_object_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
  * next record); each node supplies the context and data pointers for its record. */
-s32 func_80024FD4(void *record, void *context, void *data) {
+s32 draw_chained_object_records(void *record, void *context, void *data) {
     ObjectNodeHeader *node;
 
     for (;;) {

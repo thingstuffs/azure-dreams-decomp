@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set state bytes from flags, giving lower bits priority within each pair. */
-void townSetStateBytesFromFlags(s32 flags, u8 *state) {
+void set_state_bytes_from_flags(s32 flags, u8 *state) {
     if (flags & 1) {
         state[0x37] = 1;
     } else {

@@ -5,17 +5,17 @@
 #include "records/Rec_func_800381D0_arg0.h"
 
 
-void slusDecrementCountdownAndSwitch();
+void decrement_countdown_and_switch();
 void func_800387D0();
 
 /* Clears the record's counter, advances its index if possible, and selects the next handler. */
-void handleVmOpcode10(Rec_func_800381D0_arg0 *record) {
+void handle_vm_opcode_10(Rec_func_800381D0_arg0 *record) {
     record->unk_20 = 0;
     if (record->unk_22 < (record->unk_25 - 1)) {
         record->unk_22 = (s16) ((u16) record->unk_22 + 1);
         if (record->unk_2E == 1) {
             record->unk_18 = 0;
-            record->unk_10 = &slusDecrementCountdownAndSwitch;
+            record->unk_10 = &decrement_countdown_and_switch;
         }
     } else {
         record->unk_10 = &func_800387D0;

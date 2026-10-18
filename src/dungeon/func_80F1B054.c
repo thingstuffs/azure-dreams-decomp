@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f223800.h"
 
 
-void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A)
+void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A)
 {
     s32 modeBits;
     s32 optionValue;
@@ -36,15 +36,15 @@ void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A)
             result->unk_1C |= 0x2000;
         } else if (((mode & ~3) << 16) == 0) {
             if (!(result->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
-                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                     data0C->unk_2C = D_80161D78;
                 }
             }
-            optionValue = func_800A6D30() & 3;
+            optionValue = generate_random_value() & 3;
         }
-        func_800A9C18(objectBase, data08, data0C, mode);
+        initialize_actor_sprite_and_animation(objectBase, data08, data0C, mode);
         ((S_8015E854_4 *)objectState)->unk_9A = 0xFF;
         ((S_8015E854_4 *)objectState)->unk_9C = -1;
         ((S_8015E854_4 *)objectState)->unk_8C = func_8015EF74;
@@ -58,9 +58,9 @@ void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A)
             data0C->unk_14 |= 0xC;
             data0C->unk_12 -= 0x80;
             func_80044A50(objectBaseForCallbacks);
-            dungeonRetireTrackedEffectById(objectBaseForCallbacks);
+            retire_tracked_effect_by_id(objectBaseForCallbacks);
         }
-        func_800AA36C(objectState, data08, data0C, result);
+        try_move_actor_to_valid_position(objectState, data08, data0C, result);
     }
     return result;
 }

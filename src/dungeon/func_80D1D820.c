@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/func_80D11820; every changed retail word is a paired relocation. */
-#define dungeonSpawnRandomVelocityOffsetEffect func_80165020
-#define dungeonCreateTimedOffsetMotionEffect D_80164D2C
-#define dungeonMoveFadeAndAccelerateEffect D_80164F0C
+#define spawn_random_velocity_offset_effect func_80165020
+#define create_timed_offset_motion_effect D_80164D2C
+#define move_fade_and_accelerate_effect D_80164F0C
 #include "modules/dungeon_ovl_7f43f800_p02.h"
 extern s32 rand(void);
 
@@ -19,7 +19,7 @@ void func_80165020(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unuse
     if (effect == NULL) {
         return;
     }
-    ((T_80171020_S_80171020_0 *)effect)->unk_10 = &dungeonMoveFadeAndAccelerateEffect;
+    ((T_80171020_S_80171020_0 *)effect)->unk_10 = &move_fade_and_accelerate_effect;
     ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_02 =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + x_offset);
     ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_06 =
@@ -38,7 +38,7 @@ void func_80165020(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unuse
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;
     effect_state->unk_34 = 0x14;
-    func_8004491C(effect, &dungeonCreateTimedOffsetMotionEffect);
+    func_8004491C(effect, &create_timed_offset_motion_effect);
     ((T_80171020_S_80171020_0 *)effect)->unk_20 = saved_effect_param;
     effect_state->unk_08 = saved_effect_param;
 }

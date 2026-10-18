@@ -1,10 +1,10 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 func_80017EBC(s16 entry_index) {
+s16 count_unblocked_cells_in_generation_region(s16 entry_index) {
     s16 count = 0;
     u8 *entry_base = (u8 *)D_800E2970;
     floor_generate_isolated_80284EBC_DungeonEntry *region = (floor_generate_isolated_80284EBC_DungeonEntry *)(entry_base + (entry_index * 20));
-    MapGrid *state = &gameWork.map;
+    MapGrid *state = &g_game_work.map;
     s16 height = region->height;
     u16 y = region->y;
     s16 rows_left = height;

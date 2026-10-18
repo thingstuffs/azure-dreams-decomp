@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void func_80171574(void *motion_state, s32 unused, void *entity, void *path_state)
+void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused, void *entity, void *path_state)
 {
     s32 distance;
     s32 flags;
@@ -22,7 +22,7 @@ void func_80171574(void *motion_state, s32 unused, void *entity, void *path_stat
     if (((R16_80171574_S_80171FC8_1 *)entity)->unk_2C != ((u8 *)D_8017420C)) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_8017420C);
         func_80047784(entity,
-                      ((u8 *)D_8017420C)[((gameWork.view.viewAngle + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      ((u8 *)D_8017420C)[((g_game_work.view.viewAngle + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 
@@ -44,7 +44,7 @@ void func_80171574(void *motion_state, s32 unused, void *entity, void *path_stat
             distance = 0x300;
         }
 
-        func_8009A3D0(old_x, old_y, distance);
+        update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
         ((R16_80171574_S_80171FC8_1 *)entity)->unk_24 = ((R16_80171574_S_80171FC8_4 *)((u8 *)path_state
             + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
@@ -52,11 +52,11 @@ void func_80171574(void *motion_state, s32 unused, void *entity, void *path_stat
             + ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
-        func_8009A21C(((R16_80171574_S_80171FC8_1 *)entity)->unk_24, ((R16_80171574_S_80171FC8_1 *)entity)->unk_25,
+        cycle_map_cell_flags(((R16_80171574_S_80171FC8_1 *)entity)->unk_24, ((R16_80171574_S_80171FC8_1 *)entity)->unk_25,
                       (((R16_80171574_S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((R16_80171574_S_80171FC8_0 *)path_state)->unk_2A =
-            ((s16)dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((R16_80171574_S_80171FC8_1 *)entity)->unk_24,
+            ((s16)get_rounded_facing_and_rounding_flag(old_x, old_y, ((R16_80171574_S_80171FC8_1 *)entity)->unk_24,
                           ((R16_80171574_S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98));
     }
 
@@ -64,7 +64,7 @@ void func_80171574(void *motion_state, s32 unused, void *entity, void *path_stat
     ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_8C = 0;
     (*(s32 *)((u8 *)path_state + 0x1C)) |= 0x40000000;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((R16_80171574_S_80171FC8_3 *)motion_state)->unk_96 = 0;
         return;
     }

@@ -6,14 +6,14 @@
 extern int D_80086D4C[3];
 extern int D_80073824[4];
 
-extern void openTimer2UpdateEvent(void);
+extern void open_timer_2_update_event(void);
 
-/* Call openTimer2UpdateEvent when D_80086D4C[0] is 1 through 3, then always set D_80073824[0] to 1. */
+/* Call open_timer_2_update_event when D_80086D4C[0] is 1 through 3, then always set D_80073824[0] to 1. */
 void func_8005A33C(void)
 {
     if (D_80086D4C[0] > 0) {
         if (D_80086D4C[0] < 4) {
-            openTimer2UpdateEvent();
+            open_timer_2_update_event();
         }
     }
     D_80073824[0] = 1;

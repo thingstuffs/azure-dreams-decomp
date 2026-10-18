@@ -36,7 +36,7 @@ void func_80050E20(S_80050E20 *object)
     s32 global_flags;
     u16 object_flags;
 
-    destroyAnimatedSelectionMenu(object_state->unk28);
+    destroy_animated_selection_menu(object_state->unk28);
     object_state->unk28 = 0;
     D_80080B98 = object_state->unk1C;
     func_8004B248((s32 *)(((u8 *)object) + 0x8C));

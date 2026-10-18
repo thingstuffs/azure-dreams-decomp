@@ -7,6 +7,6 @@ extern s32 D_80090F84;
 extern s32 D_800D0160;
 
 void func_80094048(s32 **record, void *ptr, void *ptr2) {
-    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D0160, (Rec_func_80094268_arg0 *) record, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) &D_800D0160, (Rec_func_80094268_arg0 *) record, ptr2);
     *record = &D_80090F84;
 }

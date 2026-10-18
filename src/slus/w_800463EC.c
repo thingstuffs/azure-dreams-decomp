@@ -136,7 +136,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u16 colour;
     u32 depth;
 
-    render_globals = (u8 *)((void * *)(&gameWork));
+    render_globals = (u8 *)((void * *)(&g_game_work));
     vertex_table = *(Vertex **)(render_globals + 0x1E4);
     normal_table = *(u8 **)(render_globals + 0x1E8);
 
@@ -176,7 +176,7 @@ void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_b
     SetRotMatrix((void *)0x1F8000D0);
 
     depth_offset = depth_bias;
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     ((RenderScratch *)scratch)->ordering_table = render_state + 0xB0;
     prim = *(u8 **)(render_state + 0x8D0);
     object->flags |= 0x8000;

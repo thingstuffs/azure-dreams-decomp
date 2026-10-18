@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 
 
 void *func_8003FD64();
-s32 func_800A56E0();
+s32 play_sound_if_enabled();
 extern M2C_UNK D_800C4C00;
 
 typedef struct S_800C4D78_0 {
@@ -26,10 +26,10 @@ typedef struct S_800C4D78_0 {
 typedef struct S_800C4D78_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C4D78_1;   /* counter_base in dungeonCreateViewColorFlash */
+} S_800C4D78_1;   /* counter_base in create_view_color_flash */
 
 /* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
-void dungeonCreateViewColorFlash(s32 payload, s16 trigger_event) {
+void create_view_color_flash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 
@@ -39,10 +39,10 @@ void dungeonCreateViewColorFlash(s32 payload, s16 trigger_event) {
         object->unk_10 = &D_800C4C00;
         object->unk_20 = payload;
         if ((held_event << 0x10) != 0) {
-            func_800A56E0(0x501);
+            play_sound_if_enabled(0x501);
         }
-        dungeonStatus.unk_0A =
-            (u16)(((u16)dungeonStatus.unk_0A) + 1);
+        g_dungeon_status.unk_0A =
+            (u16)(((u16)g_dungeon_status.unk_0A) + 1);
     }
 }
 

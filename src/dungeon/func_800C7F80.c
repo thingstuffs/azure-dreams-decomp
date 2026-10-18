@@ -5,12 +5,12 @@
 #include "shared/dir_step.h"
 
 
-extern s32 hasEnoughAvailableRuntimeNodes();
+extern s32 has_enough_available_runtime_nodes();
 extern s32 func_8004491C();
-extern s32 func_800A56E0();
-extern void func_800A6508();
-extern s32 func_800A6D30(void);
-extern void dungeonApplyModeSelectedTrapMask();
+extern s32 play_sound_if_enabled();
+extern void display_fixed_item_action_message();
+extern s32 generate_random_value(void);
+extern void apply_mode_selected_trap_mask();
 
 
 extern u8 D_800CD474[];
@@ -21,7 +21,7 @@ extern u8 D_800E03E0[];
 typedef struct S_800CD6E0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD6E0_0_pre;   /* the 0x14 bytes before arg0 in dungeonCreateFourOwnerSpriteEffects, addressed as arg0[-1] */
+} S_800CD6E0_0_pre;   /* the 0x14 bytes before arg0 in create_four_owner_sprite_effects, addressed as arg0[-1] */
 
 typedef struct S_800CD6E0_0 {
     u8 pad_00[0x3];
@@ -30,7 +30,7 @@ typedef struct S_800CD6E0_0 {
     u8 unk_13;
     u8 pad_14[0x74];
     u16 unk_88;
-} S_800CD6E0_0;   /* arg0 in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_0;   /* arg0 in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_1 {
     u8 pad_00[0x14];
@@ -38,12 +38,12 @@ typedef struct S_800CD6E0_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CD6E0_1;   /* owner in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_1;   /* owner in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_2 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_800CD6E0_2;   /* (obj = func_8003FC64(2)) in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_2;   /* (obj = func_8003FC64(2)) in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_3 {
     u8 pad_00[0x8];
@@ -51,7 +51,7 @@ typedef struct S_800CD6E0_3 {
     void * unk_0C;
     u8 pad_10[0x10];
     void * unk_20;
-} S_800CD6E0_3;   /* obj in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_3;   /* obj in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_4 {
     u8 pad_00[0x2];
@@ -60,7 +60,7 @@ typedef struct S_800CD6E0_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD6E0_4;   /* prim in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_4;   /* prim in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_6 {
     u8 pad_00[0x8];
@@ -74,17 +74,17 @@ typedef struct S_800CD6E0_6 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CD6E0_6;   /* spr in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_6;   /* spr in create_four_owner_sprite_effects */
 
 typedef struct S_800CD6E0_7 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
     u16 unk_0A;
-} S_800CD6E0_7;   /* link in dungeonCreateFourOwnerSpriteEffects */
+} S_800CD6E0_7;   /* link in create_four_owner_sprite_effects */
 
 /* Conditionally creates four sprites around the source owner. */
-s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_bits) {
+s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits) {
     void *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
@@ -107,7 +107,7 @@ s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_b
     if (D_800E3D40 != 0) {
         roll = 0;
     } else {
-        random = func_800A6D30() & 0xFFFF;
+        random = generate_random_value() & 0xFFFF;
         if (((S_800CD6E0_0 *)source)->unk_03 != 0) {
             roll = random % ((S_800CD6E0_0 *)source)->unk_03;
         } else {
@@ -118,17 +118,17 @@ s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_b
     if (roll < 0x30) {
         owner = ((S_800CD6E0_0_pre *)source)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
-            dungeonApplyModeSelectedTrapMask(source, 0x10);
+            apply_mode_selected_trap_mask(source, 0x10);
             return 1;
         }
-        if (hasEnoughAvailableRuntimeNodes(4) == 0) {
+        if (has_enough_available_runtime_nodes(4) == 0) {
             return 0;
         }
 
         effect_index = 0;
         update_callback = (void *)D_800CD474;
-        effect_counts = &dungeonStatus;
-        x_offsets = dirStepX;
+        effect_counts = &g_dungeon_status;
+        x_offsets = dir_step_x;
         for (; effect_index < 4; x_offsets += 2) {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
             func_8004491C(effect, func_80045C34);
@@ -140,7 +140,7 @@ s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_b
             position = ((S_800CD6E0_3 *)effect)->unk_08;
             spawn_roll = (spawn_roll << 5) + 0x20;
             owner_coord_2 += spawn_roll;
-            y_table = (u32)dirStepY;
+            y_table = (u32)dir_step_y;
             y_entry = y_offset + y_table;
             y_table = owner_coord_2;
             position->unk_02 = y_table;
@@ -173,14 +173,14 @@ s32 dungeonCreateFourOwnerSpriteEffects(void *source, s16 slot_index, s32 slot_b
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
             effect_index++;
             effect_counts->unk_0A++;
-            func_800A56E0(0x50D);
+            play_sound_if_enabled(0x50D);
         }
 
         return 1;
     }
 
     if (((S_800CD6E0_0 *)source)->unk_13 == 0) {
-        func_800A6508();
+        display_fixed_item_action_message();
     }
     return 1;
 }

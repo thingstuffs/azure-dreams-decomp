@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern s32 func_800419EC();
-extern s16 func_800BCB04();
+extern s16 sample_terrain_surface_height();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
-void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
+void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
     u16 call_x = x;
@@ -22,13 +22,13 @@ void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bo
         query_y = call_y & 0xFFFF;
         shifted_lower = lower_bound << 16;
         lower = shifted_lower >> 16;
-        query_value = func_800BCB04(query_x, query_y, lower);
+        query_value = sample_terrain_surface_height(query_x, query_y, lower);
         if (query_value < upper && query_value >= lower) {
             raw_x = (s16)x;
             raw_y = (s16)y;
-            dungeonSpawnRandomizedTexturedParticles(object_data, raw_x, raw_y, upper);
+            spawn_randomized_textured_particles(object_data, raw_x, raw_y, upper);
             func_800419EC(6, 12);
-            func_800A56E0(0x50B);
+            play_sound_if_enabled(0x50B);
         }
     }
 }

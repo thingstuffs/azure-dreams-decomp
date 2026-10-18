@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void dungeonAdvanceEntityMotionFadeAndRemoval(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
+void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
 {
-    dungeonAdvanceActorRemoval(state, action, source, target);
+    advance_actor_removal(state, action, source, target);
 }
 

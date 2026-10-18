@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void *dungeonCreateAnDefaultRenderingSettingsCopiesInitialData(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
+void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     s32 owner_value;
     Row_81916E00_S_80024600_1 *render_state;
     Row_81916E00_S_80024600_0 *object;

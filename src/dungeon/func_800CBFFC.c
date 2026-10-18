@@ -2,11 +2,11 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
-extern s32 func_800BCB04(u16, u16, s16, void *);
+extern s32 sample_terrain_surface_height(u16, u16, s16, void *);
 extern u8 D_800EA000[];
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
-s16 dungeonRoundSampledHeightToCellBoundary(s32 grid_x, s32 grid_y)
+s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y)
 {
     MapGrid *grid_info;
     u8 *state;
@@ -15,14 +15,14 @@ s16 dungeonRoundSampledHeightToCellBoundary(s32 grid_x, s32 grid_y)
     s32 height;
     s32 biased_height;
 
-    grid_info = &gameWork.map;
+    grid_info = &g_game_work.map;
     state = (u8 *)grid_info - 0x1C4;
     cell_table = D_800EA000;
     grid_y = (s16)grid_y;
     grid_x = (s16)grid_x;
     cell_height = *(u16 *)(cell_table +
         ((grid_y << grid_info->shiftX) + grid_x) * 6 + 2);
-    height = func_800BCB04(*(u16 *)(state + 0xA4),
+    height = sample_terrain_surface_height(*(u16 *)(state + 0xA4),
                            *(u16 *)(state + 0xA6),
                            (s16)(*(u16 *)(state + 0xA8) - 0x20),
                            state);

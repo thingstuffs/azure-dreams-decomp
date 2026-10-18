@@ -6,26 +6,26 @@
 
 
 extern s32 func_80047784();
-extern s32 func_800A2B5C();
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 dungeonApplyCameraOffsetAndSelectTarget();
+extern s32 try_claim_dungeon_action_slot();
+extern s32 advance_status_timers();
+extern s32 apply_camera_offset_and_select_target();
 extern s32 D_80174E3C;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */
-void dungeonClearActorFlagAndApplyEffect(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor) {
+void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor) {
     actor->unk_71 = actor->unk_71 & 0x7F;
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, effect_arg, 8, 0x300);
-        if ((func_800A2B5C(actor) << 0x10) == 0) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
+        apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = &D_80174E3C;
             func_80047784(anim_state,
-                          *((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                          *((((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                             + (u8 *)&D_80174E3C),
                           0);
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }
     }

@@ -8,7 +8,7 @@ extern M2C_UNK D_800A7774[3];
 
 
 /* Decrement the countdown and reset the record data and handler when it expires. */
-void townDecrementRecordTimerAndReset(Rec_func_80094268_arg0 *record) {
+void decrement_record_timer_and_reset(Rec_func_80094268_arg0 *record) {
     u16 countdown;
 
     countdown = record->unk_90.as_u16 - 1;

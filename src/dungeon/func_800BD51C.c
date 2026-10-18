@@ -12,14 +12,14 @@ typedef struct {
 extern u8 D_800C2824[];
 
 /* Create an object with the supplied value and increment the global object count. */
-void *dungeonCreateReturnMagicEffect(s32 value) {
+void *create_return_magic_effect(s32 value) {
     S_800BD51C_node *object;
 
     object = func_8003FC64(2);
     if (object != 0) {
         object->field10 = D_800C2824;
         object->field20 = value;
-        dungeonStatus.unk_0A += 1;
+        g_dungeon_status.unk_0A += 1;
     }
     return object;
 }

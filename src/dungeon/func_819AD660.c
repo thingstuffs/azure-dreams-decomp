@@ -18,7 +18,7 @@ typedef struct RenderData {
 
 
 /* Copy the owner's position and colour; flag completion once the owner is finished. */
-void dungeonCopyFollowerOwnerPositionAndColor(FollowerRecord *record, EntityRec *position, RenderData *render)
+void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, RenderData *render)
 {
     ObjectNodeHeader *owner;
     EntityRec *owner_pos;
@@ -29,7 +29,7 @@ void dungeonCopyFollowerOwnerPositionAndColor(FollowerRecord *record, EntityRec 
     D_80027452[0]++;
     if (owner_done != 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     render->color = ((RenderData *)owner->unk_0C)->color;

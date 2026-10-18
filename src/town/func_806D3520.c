@@ -6,10 +6,10 @@
 typedef struct S_80016D20_0 {
     u8 pad_00[0x18];
     s32 unk_18;
-} S_80016D20_0;   /* base in func_80016D20 */
+} S_80016D20_0;   /* base in clear_indexed_flag_unless_identifier */
 
 /* Clear the indexed flag unless its identifier is 1. */
-void func_80016D20(s32 flag_id) {
+void clear_indexed_flag_unless_identifier(s32 flag_id) {
     s32 *flag_word;
     s32 word_index;
     s32 adjusted_id;

@@ -9,10 +9,10 @@ typedef struct S_80098CD8_0 {
     M2C_UNK * unk_04;
     u8 pad_08[0x8];
     s16 unk_10;
-} S_80098CD8_0;   /* arg0 in townSetHandlerAndCountdown400 */
+} S_80098CD8_0;   /* arg0 in set_handler_and_countdown_400 */
 
 /* Initialize the object's data pointer and set its initial value to 0x400. */
-void townSetHandlerAndCountdown400(S_80098CD8_0 *object) {
+void set_handler_and_countdown_400(S_80098CD8_0 *object) {
     object->unk_04 = &D_80098160;
     object->unk_10 = 0x400;
 }

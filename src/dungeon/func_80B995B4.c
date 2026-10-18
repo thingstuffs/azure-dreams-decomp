@@ -11,31 +11,31 @@ typedef struct S_80172DB4_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172DB4_0;   /* arg0 in dungeonUpdateDecayingMovementAndAlignment */
+} S_80172DB4_0;   /* arg0 in update_decaying_movement_and_alignment */
 
 
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
 
 extern s32 D_80170E9C;
 extern s32 D_80174F18;
 
 
 /* Updates decaying movement and tile alignment before advancing or finishing the action. */
-void dungeonUpdateDecayingMovementAndAlignment(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *actor_data)
+void update_decaying_movement_and_alignment(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *actor_data)
 {
     s16 timer;
     s32 tracked_actor;
 
     switch (action->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(actor_data);
+        apply_clamped_actor_value_delta(actor_data);
         motion->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
+            *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      ((actor_data->unk_6A >> 8) & 0xE)) << 19;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
+            *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      ((actor_data->unk_6A >> 8) & 0xE)) << 19;
         action->unk_9B++;
 
@@ -43,7 +43,7 @@ void dungeonUpdateDecayingMovementAndAlignment(S_80172DB4_0 *action, EntityRec *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174F18);
+            begin_actor_display_action(action, motion, tile_state, &D_80174F18);
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -84,7 +84,7 @@ void dungeonUpdateDecayingMovementAndAlignment(S_80172DB4_0 *action, EntityRec *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174F18);
+        begin_actor_display_action(action, motion, tile_state, &D_80174F18);
         return;
 
     case 2:
@@ -113,17 +113,17 @@ void dungeonUpdateDecayingMovementAndAlignment(S_80172DB4_0 *action, EntityRec *
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174F18);
+            begin_actor_display_action(action, motion, tile_state, &D_80174F18);
             return;
         } else {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24, tile_state->unk_25);
+            set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
 
-            tracked_actor = ((s32)dungeonStatus.unk_10);
+            tracked_actor = ((s32)g_dungeon_status.unk_10);
             if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
-                dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+                g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
             }
             action->unk_8C = &D_80170E9C;
             return;

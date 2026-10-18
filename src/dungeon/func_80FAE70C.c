@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80F8A70C; every changed retail word is a paired relocation. */
-#define dungeonUpdateBankEffectFade func_8014FF0C
+#define update_bank_effect_fade func_8014FF0C
 #include "common.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
@@ -51,7 +51,7 @@ typedef struct {
 
 extern void func_800478B8(void *);
 extern s32 rand(void);
-extern void dungeonTransformRotatedVertices(void *);
+extern void transform_rotated_vertices(void *);
 
 /* Updates the effect's motion and fade, then marks it for removal. */
 void func_8014FF0C(void *effect, void *position, void *visual)
@@ -102,7 +102,7 @@ void func_8014FF0C(void *effect, void *position, void *visual)
         transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
         transform.field18 = 1;
         transform.field1A = 1;
-        dungeonTransformRotatedVertices(&transform);
+        transform_rotated_vertices(&transform);
         ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
         ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
         ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
@@ -110,7 +110,7 @@ void func_8014FF0C(void *effect, void *position, void *visual)
         break;
     case 1:
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

@@ -44,13 +44,13 @@ typedef struct S_80170894_4 {
 
 extern void *func_8003FD64(s32, const void *);
 extern void func_8004491C(void *, const void *);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern void dungeonUpdateMonsterFacingAndContact(void);
-extern void dungeonUpdateEntityActionsFacingAndAnimation(void);
+extern void update_monster_facing_and_contact(void);
+extern void update_entity_actions_facing_and_animation(void);
 extern void func_80174ED8(void);
 extern void func_80174F00(void);
 
@@ -100,7 +100,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 left_one;
             s32 right_one;
 
-            ((S_80170894_0 *)work)->unk_8C = dungeonUpdateEntityActionsFacingAndAnimation;
+            ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
             left_one = ((S_80170894_0 *)work)->unk_14 | 0x6000;
             right_one = ((S_80170894_0 *)work)->unk_1C | 0x6000;
             ((S_80170894_0 *)work)->unk_14 = left_one;
@@ -110,7 +110,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 left_many;
             s32 right_many;
 
-            ((S_80170894_0 *)work)->unk_8C = dungeonUpdateEntityActionsFacingAndAnimation;
+            ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
             left_many = ((S_80170894_0 *)work)->unk_14 | 0x2000;
             right_many = ((S_80170894_0 *)work)->unk_1C | 0x2000;
             ((S_80170894_0 *)work)->unk_14 = left_many;
@@ -127,11 +127,11 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             } else {
                 if (((S_80170894_0 *)work)->unk_14 & 0x200) {
                     callback_page = (u8 *)0x80170000;
-                } else if (!(func_800A6D30() & 1)) {
+                } else if (!(generate_random_value() & 1)) {
                     callback_page = (u8 *)0x80170000;
                 } else {
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     ((S_80170894_3 *)part_b)->unk_2C = func_80174F00;
                     callback_page = (u8 *)0x80170000;
                 }
@@ -143,11 +143,11 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
         }
 callback_done:
-        ((S_80170894_1 *)obj)->unk_10 = dungeonUpdateMonsterFacingAndContact;
-        func_800A9C18(obj, part_a, part_b, flags_copy);
+        ((S_80170894_1 *)obj)->unk_10 = update_monster_facing_and_contact;
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
         ((S_80170894_4 *)actor)->unk_9A = 0xFF;
         ((S_80170894_4 *)actor)->unk_9C = -1;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

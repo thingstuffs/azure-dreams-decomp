@@ -7,17 +7,17 @@ typedef struct S_8008BA44_0 {
     s16 unk_66;
     void * unk_68;
     s32 unk_6C;
-} S_8008BA44_0;   /* obj in func_8008BA44 */
+} S_8008BA44_0;   /* obj in decrease_town_map_object_field_0a_and_transition */
 
 typedef struct S_8008BA44_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_8008BA44_1;   /* inner in func_8008BA44 */
+} S_8008BA44_1;   /* inner in decrease_town_map_object_field_0a_and_transition */
 
 typedef struct S_8008BA44_2 {
     u8 pad_00[0xA];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-} S_8008BA44_2;   /* test_inner in func_8008BA44 */
+} S_8008BA44_2;   /* test_inner in decrease_town_map_object_field_0a_and_transition */
 
 
 extern u8 D_8008BC58[];
@@ -25,7 +25,7 @@ extern u8 D_800CFC70[];
 extern s32 D_800CFC7C[];
 
 /* Decrement the inner value, clamping it to zero and resetting object state if it becomes negative. */
-void func_8008BA44(S_8008BA44_0 *obj)
+void decrease_town_map_object_field_0a_and_transition(S_8008BA44_0 *obj)
 {
     S_8008BA44_1 *state;
     S_8008BA44_2 *signed_state;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Counts entries in a zero-terminated integer array. */
-s32 func_800B29A4(s32 *entries) {
+s32 count_nonzero_entries(s32 *entries) {
     s32 *entry;
     s32 count;
 

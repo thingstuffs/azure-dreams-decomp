@@ -26,12 +26,12 @@ typedef struct S_818C29D4_0 {
     u32 * unk_18;
     u8 pad_1C[0x98];
     u32 unk_B4;
-} S_818C29D4_0;   /* (sc) in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_0;   /* (sc) in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_818C29D4_1;   /* angle_addr in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_1;   /* angle_addr in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_2 {
     u8 pad_00[0x18];
@@ -63,7 +63,7 @@ typedef struct S_818C29D4_2 {
     u16 unk_E2;
     u16 unk_E4;
     u16 unk_E6;
-} S_818C29D4_2;   /* scratch in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_2;   /* scratch in draw_shaded_textured_quad */
 
 
 typedef struct S_818C29D4_4 {
@@ -73,7 +73,7 @@ typedef struct S_818C29D4_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818C29D4_4;   /* arg1 in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_4;   /* arg1 in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_5 {
     u8 pad_00[0x3];
@@ -90,7 +90,7 @@ typedef struct S_818C29D4_5 {
     u8 pad_24[0x8];
     u16 unk_2C;
     u16 unk_2E;
-} S_818C29D4_5;   /* poly in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_5;   /* poly in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_6 {
     u8 pad_00[0x4];
@@ -98,15 +98,15 @@ typedef struct S_818C29D4_6 {
     u8 pad_06[0x2];
     u16 unk_08;
     u8 unk_0A;
-} S_818C29D4_6;   /* arg0 in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_6;   /* arg0 in draw_shaded_textured_quad */
 
 typedef struct S_818C29D4_7 {
     u8 pad_00[0x8D0];
     union { Poly818C29D4 * p; u8 * p2; } unk_8D0;   /* accessed as both */
-} S_818C29D4_7;   /* ((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8 in dungeonDrawShadedTexturedQuad */
+} S_818C29D4_7;   /* ((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8 in draw_shaded_textured_quad */
 
 /* Builds and queues a shaded textured quad with texture-window commands. */
-s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
+s32 draw_shaded_textured_quad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
 {
     u8 *scratch = (u8 *)0x1F800000;
     s32 angle;
@@ -120,8 +120,8 @@ s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     s32 blend_mode;
     s32 page_x;
 
-    angle = gameWork.view.viewAngle;
-    ((S_818C29D4_2 *)scratch)->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8 + 0xB0;
+    angle = g_game_work.view.viewAngle;
+    ((S_818C29D4_2 *)scratch)->unk_18.p = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8 + 0xB0;
     axis_offset = ((func_80064584(angle) >> 4) * 36) >> 8;
     vertex_coord = position->unk_02 - axis_offset;
     ((S_818C29D4_2 *)scratch)->unk_74 = vertex_coord;
@@ -142,8 +142,8 @@ s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     vertex_coord = position->unk_0A;
     ((S_818C29D4_2 *)scratch)->unk_78 = vertex_coord;
     ((S_818C29D4_2 *)scratch)->unk_80 = vertex_coord;
-    poly = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p;
-    ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = (u8 *)poly + sizeof(*poly);
+    poly = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p;
+    ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2 = (u8 *)poly + sizeof(*poly);
     ((S_818C29D4_5 *)poly)->unk_03 = 12;
     poly->code = 0x3E;
     poly->tpage = func_80066460(0, 1, 0x280, 0x100);
@@ -183,8 +183,8 @@ s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
         s32 reset_page_y;
         reset_depth = 0; reset_blend = 1; reset_page_x = 0x280; reset_page_y = 0x100;
         texture_window.y = 0; texture_window.x = 0; texture_window.h = 0xFF; texture_window.w = 0xFF;
-        draw_mode = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2;
-        ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode + 0xC;
+        draw_mode = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2;
+        ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode + 0xC;
         func_80067F20(draw_mode, 0, 0,
                      func_80066460(reset_depth, reset_blend, reset_page_x, reset_page_y) & 0xFFFF,
                      &texture_window);
@@ -202,8 +202,8 @@ s32 dungeonDrawShadedTexturedQuad(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
             ((Tag818C29D4 *)ot)->addr = (u32)poly; }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
-        draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2;
-        ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode_2 + 0xC;
+        draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2;
+        ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode_2 + 0xC;
         func_80067F20(draw_mode_2, 0, 0,
                      func_80066460(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
         { u32 *ot;

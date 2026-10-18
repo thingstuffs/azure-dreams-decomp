@@ -13,7 +13,7 @@ extern S_80084960 D_80084960[];
 extern void func_80055E7C();
 
 /* Stores value masked to seven bits at index and calls the notifier with the low byte of value. */
-void soundSetSevenBitChannelValueAndNotify(u8 index, s32 unused, s32 value) {
+void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value) {
     D_80084960[index].unk1C = value & 0x7F;
     func_80055E7C(1, index, value & 0xFF);
 }

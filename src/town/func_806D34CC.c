@@ -8,7 +8,7 @@ typedef struct S_80016CCC_0 {
 } S_80016CCC_0;
 
 /* Sets the indexed bit in the current object bitmap unless the index is zero. */
-s32 townSetFlagTestIndexedBit(s32 bit_index) {
+s32 set_flag_test_indexed_bit(s32 bit_index) {
     s32 *flag_word;
     s32 word_index;
     s32 adjusted_id;

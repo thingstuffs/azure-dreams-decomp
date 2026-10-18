@@ -79,7 +79,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Project and queue a textured triangle with per-vertex colors. */
-s32 dungeonHandleProjectQueueTexturedTrianglePerVertexColors(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
+s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976CB0 *state;
     Packet81976CB0 *packet;
@@ -90,7 +90,7 @@ s32 dungeonHandleProjectQueueTexturedTrianglePerVertexColors(s32 vertex_color0, 
     void *depth_cue;
     void *transform_flags;
 
-    state = *(State81976CB0 **)((u8 *)(&gameWork));
+    state = *(State81976CB0 **)((u8 *)(&g_game_work));
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
     packet = state->next;
     state->next = packet + 1;

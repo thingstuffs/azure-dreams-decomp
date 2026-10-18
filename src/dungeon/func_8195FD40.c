@@ -25,7 +25,7 @@ void func_80025540(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
 {
     s32 view_matrix[8];
     u8 *scratch = (u8 *)0x1F800000;
-    u8 **render_context = (u8 **)((u8 *)(&gameWork));
+    u8 **render_context = (u8 **)((u8 *)(&g_game_work));
     s32 *ot_entry;
     s32 packet_addr;
     s32 corner0_visible;

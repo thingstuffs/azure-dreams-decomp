@@ -8,7 +8,7 @@
 extern s32 D_8001B210;
 
 /* Adds the global increment to the current state's accumulator. */
-void func_800183B8(void) {
+void add_global_increment_current_state(void) {
     TownStateRecord *state;
 
     state = D_80016000->unk_38;

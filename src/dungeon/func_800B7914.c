@@ -20,7 +20,7 @@ extern void func_80040AA0(s32);
 extern void func_8003E4FC(s32, char *, s32);
 extern void func_8003F320(void);
 
-void func_800BD074(void) {
+void trigger_action_21_or_update_control(void) {
     if (D_80082E6B == 0x11) {
         SaveImage *save = (SaveImage *)0x80010000;
         if (save->active == 0 && D_8008146C == 0x28 &&

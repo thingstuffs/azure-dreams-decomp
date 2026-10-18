@@ -13,7 +13,7 @@ typedef struct S_8017427C_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8017427C_0;   /* arg0 in dungeonUpdateActorFadeInTransition */
+} S_8017427C_0;   /* arg0 in update_actor_fade_in_transition */
 
 typedef struct S_8017427C_1 {
     u8 pad_00[0xC];
@@ -30,31 +30,31 @@ typedef struct S_8017427C_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8017427C_1;   /* arg2 in dungeonUpdateActorFadeInTransition */
+} S_8017427C_1;   /* arg2 in update_actor_fade_in_transition */
 
 typedef struct S_8017427C_4 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_8017427C_4;   /* D_800E3D7C + index * 4 in dungeonUpdateActorFadeInTransition */
+} S_8017427C_4;   /* D_800E3D7C + index * 4 in update_actor_fade_in_transition */
 
 
 extern s8 func_80042518(void *, s32);
 extern s32 func_80042900(void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80044A50(void *);
-extern void dungeonResolveFamiliarDeploymentRequest(void *, void *, void *, s32);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern s32 func_800A1BD0(void *);
-extern void func_800A48F0(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonCreateTerrainScaledActorEffect(void *, void *, void *, void *);
+extern void resolve_familiar_deployment_request(void *, void *, void *, s32);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern s32 find_entity_slot_by_field_ac(void *);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void create_terrain_scaled_actor_effect(void *, void *, void *, void *);
 
 extern s32 D_800C6AEC;
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
-void dungeonUpdateActorFadeInTransition(void *actor_state, void *context, S_8017427C_1 *sprite, EntityRec *actor_data) {
+void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427C_1 *sprite, EntityRec *actor_data) {
     void *actor_base;
     s32 actor_flags;
     s32 entry_index;
@@ -107,7 +107,7 @@ void dungeonUpdateActorFadeInTransition(void *actor_state, void *context, S_8017
         sprite->unk_10 = 0;
         sprite->unk_12 += 0x80;
         sprite->unk_14 &= 0xFFF3;
-        dungeonCreateTerrainScaledActorEffect(actor_base, (u8 *)actor_data + 0x2A,
+        create_terrain_scaled_actor_effect(actor_base, (u8 *)actor_data + 0x2A,
                       (u8 *)actor_state + 0x9A, (u8 *)actor_state + 0x98);
         ((S_8017427C_0 *)actor_state)->unk_9B++;
         break;
@@ -123,27 +123,27 @@ void dungeonUpdateActorFadeInTransition(void *actor_state, void *context, S_8017
             if (actor_flags & 0x2000) {
                 tile_mask = 0x300;
             }
-            func_8009A21C(tile_x, tile_y, tile_mask);
+            cycle_map_cell_flags(tile_x, tile_y, tile_mask);
         }
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         if (actor_data->unk_28 == 0) {
-            dungeonStatus.unk_10 = (u8 *)actor_data - 0x20;
-            dungeonBeginActorDisplayAction(actor_state, context, sprite, D_80176640);
+            g_dungeon_status.unk_10 = (u8 *)actor_data - 0x20;
+            begin_actor_display_action(actor_state, context, sprite, D_80176640);
             break;
         }
         if ((actor_data->flags14 & 0x4000) &&
             (actor_data->flags1C & 0x10000)) {
-            entry_index = (s16)func_800A1BD0(actor_data);
+            entry_index = (s16)find_entity_slot_by_field_ac(actor_data);
             if (entry_index < 0) {
                 break;
             }
-            dungeonResolveFamiliarDeploymentRequest(((u8 *)D_800E3D7C), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)),
+            resolve_familiar_deployment_request(((u8 *)D_800E3D7C), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)),
                           ((S_8017427C_4 *)(((u8 *)D_800E3D7C) + entry_index * 4))->unk_D0);
             actor_data->flags1C &= 0xFFFEFFFF;
             break;
         }
         if ((func_80042900(actor_data, 0xA) << 0x10) != 0) {
-            func_800A48F0(actor_data, 0xA, func_80042518(actor_data, 0xA));
+            set_or_clear_actor_status_slot(actor_data, 0xA, func_80042518(actor_data, 0xA));
         }
         break;
     }

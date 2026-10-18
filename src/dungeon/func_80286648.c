@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonConvertValidEntryCode2To39(void)
+void convert_valid_entry_code_2_to_39(void)
 {
     s32 index;
     u8 *base;

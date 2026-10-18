@@ -8,7 +8,7 @@ extern M2C_UNK D_80174BEC[];
 extern void *D_80174CD8;
 
 /* Select a table entry, reset its counter, and set the object flag. */
-void dungeonSelectBossEffectTableEntry(s32 table_index) {
+void select_boss_effect_table_entry(s32 table_index) {
     D_80174AB8 = 0;
     D_80174AB4 = D_80174BEC[table_index];
     *(s16 *)((s8 *)D_80174CD8 + 0xD2) = 1;

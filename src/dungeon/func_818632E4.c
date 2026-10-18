@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
+void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {
     u8 *root;
     ovl_188298c_818632E4_RootPrefix *prefix;
@@ -43,7 +43,7 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
 
     case 1:
         prefix = (ovl_188298c_818632E4_RootPrefix *)(root - 0x20);
-        if (resolveRecordOrientationOrFallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -102,7 +102,7 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
             final_y = cell_y;
 
             do {
-                if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
+                if ((s16)check_layer_offset_height(((s16)cell_x << 6) & 0xFFC0,
                                        ((s16)cell_y << 6) & 0xFFC0,
                                        *(s16 *)(root + 0x88),
                                        (s16)(ctrl->angle << 9)) != 0) {
@@ -118,11 +118,11 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
 
                     direction = (s16)ctrl->angle;
                     root_z = *(u16 *)(root + 0x88);
-                    lookup = &dirStepX[direction];
+                    lookup = &dir_step_x[direction];
                     x_step = lookup;
                     probe_z = (s16)(root_z - 32);
-                    y_step = &dirStepY[direction];
-                    floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
+                    y_step = &dir_step_y[direction];
+                    floor_height = sample_terrain_surface_height((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
                                                  (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
                                                  probe_z);
                 }
@@ -138,8 +138,8 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
 
                     direction = (s16)ctrl->angle;
                     step++;
-                    cell_x += dirStepX[direction];
-                    cell_y += dirStepY[direction];
+                    cell_x += dir_step_x[direction];
+                    cell_y += dir_step_y[direction];
                     final_x = cell_x;
                     final_y = cell_y;
                 }
@@ -155,7 +155,7 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
                 ((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi = ((final_x << 16) >> 10) + 32;
                 ((ovl_188298c_818632E4_Fixed32 *)prefix)[1].h.hi = ((final_y << 16) >> 10) + 32;
                 ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = -1024;
-                ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = func_800BCB04((u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi,
+                ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = sample_terrain_surface_height((u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[0].h.hi,
                                                (u16)((ovl_188298c_818632E4_Fixed32 *)prefix)[1].h.hi, -1024);
                 if ((s16)((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi >= 513) {
                     ((ovl_188298c_818632E4_Fixed32 *)prefix)[2].h.hi = motion->z.h.hi + 32;
@@ -170,20 +170,20 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
         }
         ctrl->timer = 0;
         ctrl->state++;
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         break;
 
     case 2:
         motion->x.val += motion->dx.val;
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
-        dungeonProjectAndQueueShadedLine(ctrl, render_data);
+        project_and_queue_shaded_line(ctrl, render_data);
         if (ctrl->timer < 15) {
             break;
         }
         ctrl->timer = 0;
         ctrl->state++;
-        dungeonCreateRadiusDirectionalEffects(ctrl, motion, 0, &ctrl->slots[0]);
+        create_radius_directional_effects(ctrl, motion, 0, &ctrl->slots[0]);
         break;
 
     case 3:
@@ -192,7 +192,7 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
 
         effect_tick = (u16)ctrl->timer;
         if ((effect_tick & 7) == 0) {
-            dungeonCreateRadiusDirectionalEffects(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
+            create_radius_directional_effects(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
         }
     }
         if (ctrl->timer < 24) {
@@ -213,9 +213,9 @@ void dungeonMoveToLinkedObjectAndApplyArrivalEffects(ovl_188298c_818632E4_Contro
 
     case 5:
         if (ctrl->active == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
 
     default:

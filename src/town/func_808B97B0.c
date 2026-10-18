@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Devkit debug code (sn_main.c line 48 trace) in the KSEG1-linked (0xA0700000) devkit image at file 0x8395EC; the same routine as
- * func_80701194 (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
+ * copy_and_trace_overlay_work_record (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
 
 typedef struct OvWork {
     s32 unk_00;

@@ -10,11 +10,11 @@ typedef struct S_80024F7C_1 {
     s32 unk_00;
     u8 pad_04[0x40];
     s32 unk_44;
-} S_80024F7C_1;   /* arg0 in cardBootRestoreSavedSelectionCallback; pointer addresses record offset 0x10 */
+} S_80024F7C_1;   /* arg0 in card_boot_restore_saved_selection_callback; pointer addresses record offset 0x10 */
 
 
 /* Clears flag 0x2000 and restores the saved record value when set. */
-void cardBootRestoreSavedSelectionCallback(void *object_data) {
+void card_boot_restore_saved_selection_callback(void *object_data) {
     u16 flags;
     S_80024F7C_0 *object_header;
 

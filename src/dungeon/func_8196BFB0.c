@@ -3,13 +3,13 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
-   /* arg1 in func_8196BFB0 */
+   /* arg1 in update_renders */
 
-   /* arg0 in func_8196BFB0 */
+   /* arg0 in update_renders */
 
-   /* arg2 in func_8196BFB0 */
+   /* arg2 in update_renders */
 
-   /* camera in func_8196BFB0 */
+   /* camera in update_renders */
 
 
 
@@ -30,7 +30,7 @@ void func_800257B0(void *object, void *position, void *render_state)
     collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
     collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
     D_800269B4 = 1;
-    if ((s16)dungeonCheckLeftTileAndCenterHeight(collide_x, collide_y, collide_z) != 0) {
+    if ((s16)check_left_tile_and_center_height(collide_x, collide_y, collide_z) != 0) {
         ((S_8196BFB0_0 *)position)->unk_00.at00.v -= ((S_8196BFB0_1 *)object)->unk_8C;
         ((S_8196BFB0_1 *)object)->unk_8C = 0;
         ((S_8196BFB0_1 *)object)->unk_98 = 0;
@@ -38,7 +38,7 @@ void func_800257B0(void *object, void *position, void *render_state)
 
     ((S_8196BFB0_0 *)position)->unk_04.at00.v += ((S_8196BFB0_1 *)object)->unk_90;
     ((S_8196BFB0_1 *)object)->unk_90 += ((S_8196BFB0_1 *)object)->unk_9C;
-    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+    if ((s16)check_left_tile_and_center_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_08.at02.v) != 0) {
         ((S_8196BFB0_0 *)position)->unk_04.at00.v -= ((S_8196BFB0_1 *)object)->unk_90;
@@ -50,14 +50,14 @@ void func_800257B0(void *object, void *position, void *render_state)
     ((S_8196BFB0_1 *)object)->unk_94 += ((S_8196BFB0_1 *)object)->unk_A0;
 
     height = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
-    if ((s16)(s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+    if ((s16)(s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                            ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                            (s16)(((S_8196BFB0_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((S_8196BFB0_1 *)object)->unk_94 = 0;
         ((S_8196BFB0_1 *)object)->unk_90 = 0;
         ((S_8196BFB0_1 *)object)->unk_8C = 0;
         ((S_8196BFB0_0 *)position)->unk_08.at02.v =
-            (s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+            (s16)sample_terrain_surface_height(((S_8196BFB0_0 *)position)->unk_00.at02.v,
                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
                           (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
         ((S_8196BFB0_0 *)position)->unk_08.at00u.v = 0;
@@ -86,11 +86,11 @@ void func_800257B0(void *object, void *position, void *render_state)
 
     if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (((S_8196BFB0_2 *)render_state)->unk_14 & 0x8000) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

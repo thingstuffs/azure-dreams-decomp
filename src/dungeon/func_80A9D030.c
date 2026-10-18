@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void update_staged_movement_and_return_to_tile(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -19,13 +19,13 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
 
         direction_offset = (((((u16)actor->facing) >> 9) & 7) + 4) % 8;
         motion->unk_0C =
-            dirStepX[direction_offset] * 3 << 16;
+            dir_step_x[direction_offset] * 3 << 16;
         motion->unk_10 =
-            dirStepY[direction_offset] * 3 << 16;
+            dir_step_y[direction_offset] * 3 << 16;
         motion->flags14 = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C34);
         func_80047784(sprite,
-            ((u8 *)D_80174C34)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C34)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
             s32 next_state;
@@ -45,7 +45,7 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C64);
         func_80047784(sprite,
-            ((u8 *)D_80174C64)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C64)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
             s32 next_state;
@@ -61,10 +61,10 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174C6C);
         func_80047784(sprite,
-            ((u8 *)D_80174C6C)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174C6C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R08_80172830_S_80172830_0 *)action)->unk_96 = 0x14;
         motion->flags14 = 0;
@@ -99,12 +99,12 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
             s16 *y_step;
 
             direction_offset = ((u16)actor->facing) >> 8;
-            x_steps = dirStepX;
+            x_steps = dir_step_x;
             x_step = (s16 *)((u8 *)x_steps + (direction_offset & 0xE));
             direction_step = *x_step;
             motion->unk_0C =
                 (direction_step * 3 << 16) + ((direction_step * 3 << 16) >> 2);
-            y_step = (s16 *)((u8 *)&dirStepY + (direction_offset & 0xE));
+            y_step = (s16 *)((u8 *)&dir_step_y + (direction_offset & 0xE));
             direction_step = *y_step;
             motion->flags14 = 0xFFF70000;
             motion->unk_10 =
@@ -116,7 +116,7 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
         if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3) &&
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
         }
 
         if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5) &&
@@ -137,12 +137,12 @@ void dungeonUpdateStagedMovementAndReturnToTile(void *action, EntityRec *motion,
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
-        dungeonReduceActorFoodMeter(actor, 0x100);
-        (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)dungeonUpdateActorBehaviorAndEffect);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        reduce_actor_food_meter(actor, 0x100);
+        (*(u8 * *)((u8 *)action + 0x8C)) = ((void *)update_actor_behavior_and_effect);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
             return;

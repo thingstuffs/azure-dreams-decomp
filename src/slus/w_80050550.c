@@ -20,7 +20,7 @@ typedef struct S_80050550_Outer {
 } S_80050550_Outer;
 
 /* Sets equal RGB components and two scaled fields from the supplied ratio. */
-void slusSetColorComponentsAndScaledFields(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
+void set_color_components_and_scaled_fields(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
     s32 output_value = (numerator * 80) / denominator;
     s32 negative_ratio_128 = (-(numerator * 128)) / denominator;
     s32 ratio_1024 = (numerator * 1024) / denominator;

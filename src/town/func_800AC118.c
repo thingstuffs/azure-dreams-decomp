@@ -3,7 +3,7 @@
 extern s16 D_800D1054[];
 
 /* Returns the matching index in the sentinel-terminated table, or -1. */
-s32 func_800A9878(s32 target_value) {
+s32 find_sentinel_table_value_index(s32 target_value) {
     s32 i = 0;
 
     while (D_800D1054[i] != -1) {

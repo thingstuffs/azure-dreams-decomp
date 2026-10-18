@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void inventorySelectEntryAndResetObject(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index) {
+void inventory_select_entry_and_reset_object(ovl_19a332c_81984AB0_S_81984AB0_0 *object, s16 entry_index) {
     s32 entry_base;
 
     object->unk_04 = entry_index;

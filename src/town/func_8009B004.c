@@ -5,7 +5,7 @@
 
 extern s32 func_800644B8(s32 value_a);
 extern s32 func_80064584(s32 value_b);
-extern void townClearEntityRecordFields(void *record);
+extern void clear_entity_record_fields(void *record);
 extern s32 D_80098690;
 
 typedef struct S_80098764_0 {
@@ -18,11 +18,11 @@ typedef struct S_80098764_0 {
     u8 pad_12[0x1E];
     s16 unk_30;
     s16 unk_32;
-} S_80098764_0;   /* arg0 in townInterpolatePositionByAngleOffset */
+} S_80098764_0;   /* arg0 in interpolate_position_by_angle_offset */
 
 
 /* Interpolate the position toward an angle-based offset until the countdown expires. */
-void townInterpolatePositionByAngleOffset(void *motion, EntityRec *position) {
+void interpolate_position_by_angle_offset(void *motion, EntityRec *position) {
     u16 ticks_left;
     s32 old_y;
 
@@ -39,7 +39,7 @@ void townInterpolatePositionByAngleOffset(void *motion, EntityRec *position) {
              + (old_y = position->y.v)) / 2;
         return;
     }
-    townClearEntityRecordFields(position);
+    clear_entity_record_fields(position);
     ((S_80098764_0 *)motion)->unk_0A = 7;
     ((S_80098764_0 *)motion)->unk_04 = &D_80098690;
 }

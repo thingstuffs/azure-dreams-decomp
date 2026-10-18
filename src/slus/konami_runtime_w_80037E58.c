@@ -43,7 +43,7 @@ extern RuntimeState D_80082A38;
 extern u8 D_800809C0[9];
 extern u8 D_80012D6E[9];
 
-extern void *initializeSceneObjectInBuffer(s32 flags_or_addr, void *buffer, s16 word_count);
+extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
 extern void func_80037F70(RuntimeLinks *context);
 extern void func_80037D9C(RuntimeState *input, u8 mode);
 extern void *memset(void *ptr, s32 value, u32 size);
@@ -58,7 +58,7 @@ void func_80037E58(void)
     void *state_data;
     s32 index;
 
-    task = initializeSceneObjectInBuffer(0, D_80082BC0, 0x49);
+    task = initialize_scene_object_in_buffer(0, D_80082BC0, 0x49);
     links = &task->field20;
     task->field10 = func_80037F70;
     links->field04 = &D_80082A38;

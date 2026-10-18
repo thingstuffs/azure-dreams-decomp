@@ -13,16 +13,16 @@ typedef struct S_800A2690_0 {
     u8 pad_0E[0x2];
     s32 unk_10;
     u8 * unk_14;
-} S_800A2690_0;   /* arg0 in townDrawFadingFlickeringTriangle */
+} S_800A2690_0;   /* arg0 in draw_fading_flickering_triangle */
 
 typedef struct S_800A2690_1 {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
     u16 unk_06;
-} S_800A2690_1;   /* source in townDrawFadingFlickeringTriangle */
+} S_800A2690_1;   /* source in draw_fading_flickering_triangle */
 
-   /* state in townDrawFadingFlickeringTriangle */
+   /* state in draw_fading_flickering_triangle */
 
 typedef struct S_800A2690_3 {
     u8 pad_00[0x4];
@@ -43,12 +43,12 @@ typedef struct S_800A2690_3 {
     s8 unk_16;
     u8 pad_17[0x1];
     s16 unk_18;
-} S_800A2690_3;   /* prim in townDrawFadingFlickeringTriangle */
+} S_800A2690_3;   /* prim in draw_fading_flickering_triangle */
 
 typedef struct S_800A2690_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in townDrawFadingFlickeringTriangle */
+} S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
 
 
 extern s32 func_800644B8(s32);
@@ -60,7 +60,7 @@ extern void func_800666B8(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Advance the effect lifetime and draw a fading, flickering triangle. */
-void townDrawFadingFlickeringTriangle(void *effect)
+void draw_fading_flickering_triangle(void *effect)
 {
     u16 angle;
     s32 base_x;
@@ -99,9 +99,9 @@ void townDrawFadingFlickeringTriangle(void *effect)
 
     if ((ticks_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     } else {
-        render_state = *(u8 **)((u8 *)(&gameWork));
+        render_state = *(u8 **)((u8 *)(&g_game_work));
         triangle = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = triangle + 0x24;
 
@@ -148,20 +148,20 @@ void townDrawFadingFlickeringTriangle(void *effect)
         (*(s16 *)((u8 *)triangle + 0x1A)) =
             (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
 
-        render_state = *(u8 **)((u8 *)(&gameWork));
+        render_state = *(u8 **)((u8 *)(&g_game_work));
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 0, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, draw_packet);
 
-        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, triangle);
+        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, triangle);
 
-        render_state = *(u8 **)((u8 *)(&gameWork));
+        render_state = *(u8 **)((u8 *)(&g_game_work));
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 1, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, draw_packet);
     }
 }

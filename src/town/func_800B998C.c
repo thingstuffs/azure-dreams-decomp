@@ -10,13 +10,13 @@ typedef struct S_800B70EC_0 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800B70EC_0;   /* work in townInitializeBuildingSceneAssets */
+} S_800B70EC_0;   /* work in initialize_building_scene_assets */
 
 
-extern void runtimeLoadPackedResourceChunks();
+extern void runtime_load_packed_resource_chunks();
 extern void func_80067014();
 extern void func_8006733C();
-extern void townClearAndInitializeBuildingGrid();
+extern void clear_and_initialize_building_grid();
 
 
 extern u8 D_800D2FB4[];
@@ -35,7 +35,7 @@ static __inline__ s16 scene_below(s32 scene, s32 bound)
 }
 
 /* Initialize town asset state and load graphics for the current scene. */
-void townInitializeBuildingSceneAssets(void) {
+void initialize_building_scene_assets(void) {
     s32 special_scene;
     s32 scene_offset;
     s32 single_row;
@@ -54,7 +54,7 @@ void townInitializeBuildingSceneAssets(void) {
 
     upload_rect = D_80111FA8;
     image_data = D_80110EC8;
-    state_base = ((u8 *)(&gameWork));
+    state_base = ((u8 *)(&g_game_work));
     asset_state = state_base + 0x1DC;
     limit = 0x7F;
     size = 0x2000;
@@ -104,12 +104,12 @@ void townInitializeBuildingSceneAssets(void) {
 
     func_80067014(0);
     *(void **)asset_state = asset_data;
-    townClearAndInitializeBuildingGrid(asset_data);
+    clear_and_initialize_building_grid(asset_data);
     scene_table = D_800D2FB4;
     {
         u8 *entry = &scene_table[D_800D381A[0] << 5];
         if (*entry != 0x29) {
-            runtimeLoadPackedResourceChunks(*entry, D_8012F004);
+            runtime_load_packed_resource_chunks(*entry, D_8012F004);
         }
     }
 }

@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();        /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern u8 D_800DD294[];
 
 typedef struct S_func_80097A68_0 {
@@ -33,15 +33,15 @@ typedef struct S_func_80097A68_3 {
 } S_func_80097A68_3;
 
 /* Initializes actor state and selects an animation from the adjusted facing angle. */
-void dungeonInitializeFacingAnimation(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *anim,
+void initialize_facing_animation(S_func_80097A68_0 *actor, M2C_UNK unused, S_func_80097A68_1 *anim,
     S_func_80097A68_2 *facing_source) {
     actor->unk_9A = 0x38;
     actor->unk_9B = 0;
     actor->unk_8C = 0;
     *(u8 **)((u8 *)anim + 0x2C) = D_800DD294;
-    func_8003DB94(anim, ((S_func_80097A68_3 *) (D_800DD294 + (((s32) (gameWork.view.viewAngle + facing_source->unk_2A
+    func_8003DB94(anim, ((S_func_80097A68_3 *) (D_800DD294 + (((s32) (g_game_work.view.viewAngle + facing_source->unk_2A
         + 0x100) >> 7) & 0x1C)))->unk_00, 0);
-    func_800A56E0(0x50A);
+    play_sound_if_enabled(0x50A);
     actor->unk_96 = 2;
     actor->unk_A2 = (u16) (actor->unk_A2 & 0xFFEF);
 }

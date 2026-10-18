@@ -25,7 +25,7 @@ typedef struct SpriteDecayMotion {
     s32 dz;
 } SpriteDecayMotion;
 
-void func_800D707C(SpriteDecayState *state, SpriteDecayMotion *motion, void *unused_render)
+void advance_damped_effect_motion_and_color(SpriteDecayState *state, SpriteDecayMotion *motion, void *unused_render)
 {
     u16 remaining;
 
@@ -43,6 +43,6 @@ void func_800D707C(SpriteDecayState *state, SpriteDecayMotion *motion, void *unu
     state->displayed_color = state->color.word;
     if ((s16)remaining <= 0) {
         ((ObjectNodeHeader *)((u8 *)state - 0x20))->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

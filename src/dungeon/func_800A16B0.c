@@ -6,7 +6,7 @@
 extern s32 D_800E36C8;
 
 /* Counts active entries whose first two key bytes match the given values. */
-s16 countFloorItemsAtTile(s16 first_key, s16 second_key) {
+s16 count_floor_items_at_tile(s16 first_key, s16 second_key) {
     s32 *status_entry;
     s32 *key_entry;
     s16 match_count;

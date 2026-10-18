@@ -8,18 +8,18 @@ extern s32 SetGraphDebug(s32 level);
 extern s32 InitPAD(u8 *buf1, s32 siz1, u8 *buf2, s32 siz2);
 extern void bzero(void *ptr, s32 len);
 
-extern void initializeRuntimeTableDefaults(void);
-extern void initializeMemoryCardServices(s32 a0);
-extern void soundSetCdPlaybackVolumeScale(s16 volume_scale);
-extern void soundSetVoiceGainScale(s16 a0);
+extern void initialize_runtime_table_defaults(void);
+extern void initialize_memory_card_services(s32 a0);
+extern void sound_set_cd_playback_volume_scale(s16 volume_scale);
+extern void sound_set_voice_gain_scale(s16 a0);
 
 extern void func_8003E34C(void);
 extern void func_80053F98(void);
-extern void soundSetSequenceVolumeScale(s16 a0);
+extern void sound_set_sequence_volume_scale(s16 a0);
 extern void StartPAD(void);
 extern void InitGeom(void);
-extern void resetGameStatePreservingSessionFields(void);
-extern void buildCubicCumulativeTable(void);
+extern void reset_game_state_preserving_session_fields(void);
+extern void build_cubic_cumulative_table(void);
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
@@ -54,7 +54,7 @@ extern u8 D_801D8D7A[12];
 extern u8 D_801E964E[12];
 
 /* Initialize video, CD, pads, graphics, configuration defaults, and stream state. */
-void initializeHardwareAndGameState(void)
+void initialize_hardware_and_game_state(void)
 {
     void **stream_slot = D_80083160;
     s32 pad_byte;
@@ -66,9 +66,9 @@ void initializeHardwareAndGameState(void)
     ResetGraph(0);
     func_80053F98();
 
-    soundSetCdPlaybackVolumeScale(*(s16 *)0x80080A94);
-    soundSetSequenceVolumeScale(*(s16 *)0x80080A98);
-    soundSetVoiceGainScale(*(s16 *)0x80080A9C);
+    sound_set_cd_playback_volume_scale(*(s16 *)0x80080A94);
+    sound_set_sequence_volume_scale(*(s16 *)0x80080A98);
+    sound_set_voice_gain_scale(*(s16 *)0x80080A9C);
 
     for (pad_byte = 0; pad_byte < 0x22; pad_byte++) {
         D_800830C0[pad_byte] = 0xFF;
@@ -77,14 +77,14 @@ void initializeHardwareAndGameState(void)
     InitPAD(D_800830C0, 0x22, D_800830E8, 0x22);
 
     StartPAD();
-    initializeMemoryCardServices(1);
+    initialize_memory_card_services(1);
     SetGraphDebug(0);
     InitGeom();
 
     D_80082E6B[0] = 0;
     bzero(D_80081468, 8);
 
-    resetGameStatePreservingSessionFields();
+    reset_game_state_preserving_session_fields();
 
     {
         u8 *config_base = (u8 *)0x80010000;
@@ -103,7 +103,7 @@ void initializeHardwareAndGameState(void)
         *(u8 *)(config_base + 0x2D6E) = 0;    /* D_80012D6E */
         *(s16 *)(config_base + 0x2098) = 2;   /* D_80012098 */
     }
-    buildCubicCumulativeTable();
+    build_cubic_cumulative_table();
 
     stream_state = (u8 *)D_801C9E40;
     if (*stream_slot == (void *)D_801C9E40) {
@@ -112,7 +112,7 @@ void initializeHardwareAndGameState(void)
     *stream_slot = stream_state;
     *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
     D_80083208[0] = 0x2C808080;
-    initializeRuntimeTableDefaults();
+    initialize_runtime_table_defaults();
 
     {
         u32 *buffer_ptrs = D_80081478;

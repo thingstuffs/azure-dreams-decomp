@@ -2,6 +2,6 @@
 #include "m2c_compat.h"
 
 extern s32 D_80019438;
-s32 func_80016530(void) {
+s32 get_shared_threshold_value(void) {
     return D_80019438;
 }

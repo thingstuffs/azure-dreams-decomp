@@ -6,11 +6,11 @@ extern s32 D_80081480;
 /* External word holding the buffer base. */
 extern s32 D_8008148C;
 
-extern void setScenePhaseCallback(int a0);
+extern void set_scene_phase_callback(int a0);
 extern void func_80041AE4(void);
 
 /* Copy the value from D_8008148C to D_80081480 and register func_80041AE4. */
 void func_80041AB0(void) {
     D_80081480 = D_8008148C;
-    setScenePhaseCallback((int)func_80041AE4);
+    set_scene_phase_callback((int)func_80041AE4);
 }

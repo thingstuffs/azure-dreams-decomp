@@ -13,21 +13,21 @@ typedef struct {
     s16 y;
 } Entity;
 
-extern void townClearEntityRecordFields(s32 record);
-extern void townCallTheHandlerSelectsNonzeroEntry(void *entries, void *record, s32 handler_param);
+extern void clear_entity_record_fields(s32 record);
+extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
 
 extern Entity D_800834B8;
 extern s32 D_80097D2C[3];
 extern s32 D_8009A81C;
 extern u8 D_800D0090[];
 
-void func_8009A8EC(s32 entity_id, s32 x, s32 y) {
+void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     Entity *entity = &D_800834B8;
     s32 *context = (s32 *)((u8 *)entity - 0x20);
     s32 context_value = context[3];
 
-    townClearEntityRecordFields(context[2]);
-    townCallTheHandlerSelectsNonzeroEntry(D_800D0090, entity, context_value);
+    clear_entity_record_fields(context[2]);
+    call_the_handler_selects_nonzero_entry(D_800D0090, entity, context_value);
     D_800834B8.callback0 = D_80097D2C;
     entity->callback4 = &D_8009A81C;
     entity->id = entity_id & 0xFFF;

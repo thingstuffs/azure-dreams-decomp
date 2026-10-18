@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80C4286C; every changed retail word is a paired relocation. */
-#define advanceRecordStateAndSetCompletionFlags D_8015BFF4
+#define advance_record_state_and_set_completion_flags D_8015BFF4
 #include "modules/dungeon_ovl_7f511800_p04.h"
 extern s32 rand(void);
 
@@ -15,7 +15,7 @@ void func_8015C06C(void *unused, void *position_data, void *unused_primitive) {
     if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_1A = 0xF;
-        ((T_8017406C_S_8017406C_1 *)effect)->unk_10 = &advanceRecordStateAndSetCompletionFlags;
+        ((T_8017406C_S_8017406C_1 *)effect)->unk_10 = &advance_record_state_and_set_completion_flags;
         func_8004491C(effect, func_80045340);
         sprite = ((T_8017406C_S_8017406C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;

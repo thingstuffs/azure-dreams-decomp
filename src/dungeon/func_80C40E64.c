@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p01.h"
 
 /* Advance the actor movement animation and settle it onto its destination tile. */
-void func_80172664(void *animation, void *motion, void *sprite, void *actor)
+void settle_actor_after_movement(void *animation, void *motion, void *sprite, void *actor)
 {
     s32 direction_x;
     s32 direction_y;
@@ -10,8 +10,8 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
     s32 next_state;
 
     direction_offset = ((u16)((T_80172664_S_80172664_0 *)actor)->unk_2A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     ((T_80172664_S_80172664_1 *)animation)->unk_96.s--;
     state = ((T_80172664_S_80172664_1 *)animation)->unk_9B;
 
@@ -20,7 +20,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         if (((T_80172664_S_80172664_2 *)sprite)->unk_14 & 0x8000) {
             ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
             ((T_80172664_S_80172664_2 *)sprite)->unk_14 |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
             return;
         }
 
@@ -28,7 +28,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         func_80047784(
             sprite,
             *(&D_80174D7C +
-              (((gameWork.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+              (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
             0);
         {
             s32 shifted_x = direction_x << 19;
@@ -56,7 +56,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         func_80047784(
             sprite,
             *(&D_80174D84 +
-              (((gameWork.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+              (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
             0);
         next_state = ((T_80172664_S_80172664_1 *)animation)->unk_9B;
         ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 8;
@@ -84,7 +84,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         ((T_80172664_S_80172664_1 *)animation)->unk_96.s = 4;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = direction_x << 18;
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = direction_y << 18;
-        func_800A56E0(0x809);
+        play_sound_if_enabled(0x809);
         ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
         return;
 
@@ -95,7 +95,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         if (((T_80172664_S_80172664_1 *)animation)->unk_96.u > 0) {
             return;
         }
-        dungeonResolveAttackDamageAndEffects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
+        resolve_attack_damage_and_effects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
         ((T_80172664_S_80172664_1 *)animation)->unk_9B = ((T_80172664_S_80172664_1 *)animation)->unk_9B + 1;
         return;
 
@@ -108,7 +108,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         func_80047784(
             sprite,
             *(&D_80174D8C +
-              (((gameWork.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
+              (((g_game_work.view.viewAngle + ((T_80172664_S_80172664_0 *)actor)->unk_2A + 0x100) >> 9) & 7)),
             0);
         ((T_80172664_S_80172664_3 *)motion)->unk_14 = 0;
         ((T_80172664_S_80172664_1 *)animation)->unk_90 = 0;
@@ -133,11 +133,11 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         }
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((T_80172664_S_80172664_1 *)animation)->unk_8C = &D_80170E7C;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (((T_80172664_S_80172664_0 *)actor)->unk_6D == 0) {
             ((T_80172664_S_80172664_0 *)actor)->unk_46 &= 0x7FFF;
         } else {

@@ -11,19 +11,19 @@ typedef struct S_80025D28_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80025D28_1;   /* arg1 in func_80025D28 */
+} S_80025D28_1;   /* arg1 in initialize_inventory_packet */
 
 typedef struct S_80025D28_2 {
     u8 pad_00[0xD];
     u8 unk_0D;
-} S_80025D28_2;   /* arg2 in func_80025D28 */
+} S_80025D28_2;   /* arg2 in initialize_inventory_packet */
 
 
 extern s32 func_800644B8();
 extern s32 func_80064584();
 
 /* Update two animated points, fade their intensity, and flag expiration. */
-void func_80025D28(void *state, void *points, void *appearance) {
+void initialize_inventory_packet(void *state, void *points, void *appearance) {
     s32 phase_angle;
     s32 phase_step;
     s32 side_offset_x;
@@ -84,7 +84,7 @@ void func_80025D28(void *state, void *points, void *appearance) {
     ((Rec_func_80025D28_arg0 *)state)->unk_30 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     ((Rec_func_80025D28_arg0 *)state)->unk_34 = ((Rec_func_80025D28_arg0 *)state)->unk_34 + 1;
 }

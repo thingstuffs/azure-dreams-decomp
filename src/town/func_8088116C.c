@@ -4,7 +4,7 @@ extern void func_80700CD0(s32);
 extern u8 D_80700670[];
 
 /* Call func_80700CD0 with 0x278 when the selected entry has bit zero set. */
-void townTriggerSelectedEntryOperation(s32 row, s32 column) {
+void trigger_selected_entry_operation(s32 row, s32 column) {
     s32 offset = (column * 8) + (row * 16);
 
     if (*(s32 *)(D_80700670 + offset) & 1) {

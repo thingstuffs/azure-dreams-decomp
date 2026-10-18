@@ -5,10 +5,10 @@ typedef struct {
     s32 value;
 } DungeonNode;
 
-extern void func_800B8FC8(void *, u16 *, u16 *, s32, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, u16 *, u16 *, s32, s32);
 
 /* Processes both objects at adjacent coordinates with node values temporarily set to 0x808080. */
-void dungeonProcessAdjacentObjectsWithGrayNodes(void *left_object, void *right_object) {
+void process_adjacent_objects_with_gray_nodes(void *left_object, void *right_object) {
     u16 coords[6];
     s32 x_offset;
     DungeonNode *node;
@@ -39,7 +39,7 @@ void dungeonProcessAdjacentObjectsWithGrayNodes(void *left_object, void *right_o
         if (x_offset == 0) {
             object = left_object;
         }
-        func_800B8FC8(object, &coords[0], &coords[4], 1, 2);
+        draw_transformed_sprite_with_clip_rect(object, &coords[0], &coords[4], 1, 2);
         x_offset -= 0x40;
         node->value = saved_value;
     } while (x_offset >= 0);

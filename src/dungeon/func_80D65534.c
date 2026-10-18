@@ -11,11 +11,11 @@ typedef struct S_80D65534_0 {
         struct { u8 pad[0x2]; u16 v; } at02;
         struct { u8 pad[0x2]; s16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_80D65534_0;   /* arg1 in dungeonUpdateEffectCollisionAndLifetime */
+} S_80D65534_0;   /* arg1 in update_effect_collision_and_lifetime */
 
 typedef struct S_80D65534_1_pre {
     u16 unk_00;
-} S_80D65534_1_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateEffectCollisionAndLifetime, addressed as arg0[-1] */
+} S_80D65534_1_pre;   /* the 0x2 bytes before arg0 in update_effect_collision_and_lifetime, addressed as arg0[-1] */
 
 typedef struct S_80D65534_1 {
     u8 pad_00[0x2];
@@ -32,15 +32,15 @@ typedef struct S_80D65534_1 {
     s32 unk_38;
     s32 unk_3C;
     s32 unk_40;
-} S_80D65534_1;   /* arg0 in dungeonUpdateEffectCollisionAndLifetime */
+} S_80D65534_1;   /* arg0 in update_effect_collision_and_lifetime */
 
 
 extern void func_800478B8(void *entity);
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16 x, u16 y, s16 z);
-extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
+extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
+extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
-void dungeonUpdateEffectCollisionAndLifetime(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
+void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
 {
     s16 life_left;
     s32 current_z;
@@ -56,13 +56,13 @@ void dungeonUpdateEffectCollisionAndLifetime(void *effect, S_80D65534_0 *positio
     x = position->unk_00.at02.v;
     z = position->unk_08.at02.v;
     current_z = position->unk_08.at02u.v;
-    terrain_z = func_800BCB04(x,
+    terrain_z = sample_terrain_surface_height(x,
                               position->unk_04.at02.v,
                               (s16)(z - 4));
     if (terrain_z - 0x10 < current_z) {
         ((S_80D65534_1 *)effect)->unk_34 = 0;
         position->unk_08.at02u.v =
-            func_800BCB04(position->unk_00.at02.v,
+            sample_terrain_surface_height(position->unk_00.at02.v,
                           position->unk_04.at02.v,
                           (s16)(position->unk_08.at02.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;
@@ -74,10 +74,10 @@ void dungeonUpdateEffectCollisionAndLifetime(void *effect, S_80D65534_0 *positio
     if (((S_80D65534_1 *)effect)->unk_02 == 1) {
         position->unk_00.at00.v += ((S_80D65534_1 *)effect)->unk_2C;
         ((S_80D65534_1 *)effect)->unk_2C += ((S_80D65534_1 *)effect)->unk_38;
-        if (func_800BCB04(position->unk_00.at02.v,
+        if (sample_terrain_surface_height(position->unk_00.at02.v,
                           position->unk_04.at02.v,
                           position->unk_08.at02u.v) < 0x200 &&
-            (s16)dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v,
+            (s16)check_left_tile_and_center_height(position->unk_00.at02.v,
                                position->unk_04.at02.v,
                                position->unk_08.at02u.v) != 0) {
             position->unk_00.at00.v -= ((S_80D65534_1 *)effect)->unk_2C;
@@ -87,10 +87,10 @@ void dungeonUpdateEffectCollisionAndLifetime(void *effect, S_80D65534_0 *positio
 
         position->unk_04.at00.v += ((S_80D65534_1 *)effect)->unk_30;
         ((S_80D65534_1 *)effect)->unk_30 += ((S_80D65534_1 *)effect)->unk_3C;
-        if (func_800BCB04(position->unk_00.at02.v,
+        if (sample_terrain_surface_height(position->unk_00.at02.v,
                           position->unk_04.at02.v,
                           position->unk_08.at02u.v) < 0x200 &&
-            (s16)dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v,
+            (s16)check_left_tile_and_center_height(position->unk_00.at02.v,
                                position->unk_04.at02.v,
                                position->unk_08.at02u.v) != 0) {
             position->unk_04.at00.v -= ((S_80D65534_1 *)effect)->unk_30;
@@ -128,6 +128,6 @@ void dungeonUpdateEffectCollisionAndLifetime(void *effect, S_80D65534_0 *positio
     ((S_80D65534_1 *)effect)->unk_0C.u = life_left;
     if ((life_left << 16) <= 0) {
         ((S_80D65534_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

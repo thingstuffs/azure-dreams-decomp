@@ -19,7 +19,7 @@ typedef struct {
 } LineF2;
 
 /* Draw a shaded horizontal line with dimmer translucent lines above and below. */
-void drawShadedHorizontalLine(s16 x, s16 y, s16 width, s16 shade_step)
+void draw_shaded_horizontal_line(s16 x, s16 y, s16 width, s16 shade_step)
 {
     GameWork *render_state;
     LineF2 *center_line;
@@ -28,7 +28,7 @@ void drawShadedHorizontalLine(s16 x, s16 y, s16 width, s16 shade_step)
     s16 red_green;
     s16 blue;
 
-    render_state = &gameWork;
+    render_state = &g_game_work;
     if (shade_step < 0x11) {
         blue = shade_step * 8 + 0x80;
         if (blue == 0x100) {

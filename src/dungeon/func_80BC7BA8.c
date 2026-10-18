@@ -8,12 +8,12 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void selectIndirectTableEntry();
+extern void select_indirect_table_entry();
 extern void func_800478B8();
-extern void dungeonApplyMonsterKoyawData();
-extern s32 dungeonRefreshActorFacingAndLifecycle();
-extern void func_800AA36C();
-extern s16 func_800BCB04();
+extern void apply_monster_koyaw_data();
+extern s32 refresh_actor_facing_and_lifecycle();
+extern void try_move_actor_to_valid_position();
+extern s16 sample_terrain_surface_height();
 
 extern s32 D_8016B9DC;
 extern u8 D_8016E634[8];
@@ -32,10 +32,10 @@ typedef struct S_8016B3A8_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_8016B3A8_2;   /* base in runActorCallbacksAndUpdateGrounding */
+} S_8016B3A8_2;   /* base in run_actor_callbacks_and_update_grounding */
 
 /* Runs actor callbacks and updates animation, movement, and ground height. */
-void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sprite)
+void run_actor_callbacks_and_update_grounding(void *self, EntityRec *motion, void *sprite)
 {
     void *actor_base = self;
     s16 old_state;
@@ -52,7 +52,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
     s32 height_sum;
     u16 motion_flags;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         void *callback_self = self;
         Callback special_callback;
 
@@ -67,7 +67,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
 
     old_state_byte = (*(u8 *)((u8 *)self + 0x6D));
     old_state = (s8)old_state_byte;
-    if (dungeonRefreshActorFacingAndLifecycle(self, motion, sprite, self) != 0) {
+    if (refresh_actor_facing_and_lifecycle(self, motion, sprite, self) != 0) {
         return;
     }
 
@@ -85,7 +85,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
         state_compare = (u32)(u16)old_state << 16;
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)self + 0x6D))) {
-            func_800AA36C(self, motion, sprite, self);
+            try_move_actor_to_valid_position(self, motion, sprite, self);
             motion->x.v += motion->unk_0C;
             motion->y.v += motion->unk_10;
         } else {
@@ -105,9 +105,9 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
     initial_sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
 
     if (!(initial_sprite_flags & 0x8000)) {
-        direction = ((gameWork.view.viewAngle + ((S_8016B3A8_2 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((S_8016B3A8_2 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
         if ((*(s16 *)((u8 *)self + 0x94)) != direction) {
-            selectIndirectTableEntry(sprite,
+            select_indirect_table_entry(sprite,
                 *(u8 *)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 + direction),
                 ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
             (*(s16 *)((u8 *)self + 0x94)) = direction;
@@ -115,14 +115,14 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
         {
             u32 flip_flags;
 
-            if (dirSpriteFlag[direction] != 0) {
+            if (dir_sprite_flag[direction] != 0) {
                 flip_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 1;
             } else {
                 flip_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFFE;
             }
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = flip_flags;
         }
-        dungeonApplyMonsterKoyawData(((S_8016B3A8_2 *)actor_base)->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(((S_8016B3A8_2 *)actor_base)->unk_1C, (u8 *)sprite + 0xC);
         if (!(((S_8016B3A8_2 *)actor_base)->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);
@@ -186,7 +186,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
             (*(s32 *)((u8 *)self + 0x90)) = height_sum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-                floor_height = func_800BCB04(((u16)motion->x.w.i),
+                floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
                                       (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
                         ((S_8016B3A8_2 *)actor_base)->unk_88;
@@ -217,7 +217,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
             (*(s32 *)((u8 *)self + 0x90)) = height_sum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-                floor_height = func_800BCB04(((u16)motion->x.w.i),
+                floor_height = sample_terrain_surface_height(((u16)motion->x.w.i),
                                       ((u16)motion->y.w.i),
                                       (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
                         ((S_8016B3A8_2 *)actor_base)->unk_88;
@@ -266,7 +266,7 @@ void runActorCallbacksAndUpdateGrounding(void *self, EntityRec *motion, void *sp
     actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
     if (actor_flags & 0x40000000) {
         ((S_8016B3A8_2 *)actor_base)->unk_1C = actor_flags & 0xBFFFFFFF;
-        floor_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
                               (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20));
         if (floor_height < 0x200) {

@@ -1,12 +1,12 @@
 #include "common.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
-extern s32 dungeonUpdateActorFadeIn();
-extern void dungeonDispatchTargetAction();
+extern s32 update_actor_fade_in();
+extern void dispatch_target_action();
 
-void func_800B3254(void *actor, void *motion, void *render, void *context)
+void advance_actor_fade_in_and_dispatch(void *actor, void *motion, void *render, void *context)
 {
-    if (dungeonUpdateActorFadeIn(actor, motion, render, context)) {
-        *(void (**)(void *, void *, void *, void *))((u8 *)actor + 0x8C) = dungeonDispatchTargetAction;
+    if (update_actor_fade_in(actor, motion, render, context)) {
+        *(void (**)(void *, void *, void *, void *))((u8 *)actor + 0x8C) = dispatch_target_action;
     }
 }

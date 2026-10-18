@@ -6,7 +6,7 @@
 
 
 /* Compacts the zero-terminated entry list by removing entries equal to -1. */
-void townCompactLshopEntryList(void) {
+void compact_lshop_entry_list(void) {
     s8 *entries;
     s32 entry;
     s32 read_index;

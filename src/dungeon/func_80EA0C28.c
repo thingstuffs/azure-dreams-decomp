@@ -59,7 +59,7 @@ typedef struct ActorMotionView {
 } ActorMotionView;
 
 extern s16 D_80081468[];
-extern void updateDungeonActionBehaviorAndFacing(void *, void *, void *, void *);
+extern void update_dungeon_action_behavior_and_facing(void *, void *, void *, void *);
 extern u8 D_80162EF8[];
 extern u8 D_80162F00[];
 extern u8 D_80162F58[];
@@ -67,18 +67,18 @@ extern u16 D_80162FC4[];
 extern u16 D_80162FD4[];
 
 extern void func_80047784();
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A3D0(s32, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter();
-extern s32 dungeonAdvanceStatusTimers(void *);
-extern s16 selectDungeonSpawnTile(u8 *, u8 *);
-extern s32 func_800A56E0(s32);
-extern void func_800AA53C(u8 *context);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s16 func_800BCB04(s32, s32, s16);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern void set_record_integer_tile_center();
+extern s32 advance_status_timers(void *);
+extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
+extern s32 play_sound_if_enabled(s32);
+extern void refresh_actor_proximity_state(u8 *context);
+extern void reduce_actor_food_meter(void *, s32);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the entity. */
-void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMotionView *motion, ActorSpriteView *sprite, ActorFacingView *entity)
+void update_entity_movement_and_recovery_animation(ActorActionView *action, ActorMotionView *motion, ActorSpriteView *sprite, ActorFacingView *entity)
 {
     s32 y_step;
     s32 x_step;
@@ -90,13 +90,13 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
     TileObject *player_tile;
     s16 *floor_limits;
     u32 state_id;
-    x_step_ptr = (s16 *)((u8 *)dirStepX);
+    x_step_ptr = (s16 *)((u8 *)dir_step_x);
     direction_or_test = entity->facing.raw;
     direction_offset = direction_or_test >> 8;
     direction_offset &= 0xE;
     state_id = action->phase;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
-    direction_offset += (u32)((u8 *)dirStepY);
+    direction_offset += (u32)((u8 *)dir_step_y);
     direction_or_test = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;
@@ -105,15 +105,15 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
     }
     switch (state_id) {
     case 0:
-        func_8009A3D0(sprite->tile.bytes.x, sprite->tile.bytes.y,
+        update_map_cell_flags_with_item_limit(sprite->tile.bytes.x, sprite->tile.bytes.y,
             (entity->flags & 0x2000) ? 0x300 : 0x3000);
         (sprite->frameTable) = D_80162EF8;
         func_80047784(sprite,
-            D_80162EF8[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+            D_80162EF8[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         motion->velocityX = (x_step << 19) + (x_step << 18);
         motion->velocityY = (y_step << 19) + (y_step << 18);
         action->timer.raw = 4;
-        func_800A56E0(0x80E);
+        play_sound_if_enabled(0x80E);
         action->phase++;
         /* fallthrough */
     case 1:
@@ -127,7 +127,7 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F58;
         func_80047784(sprite,
-            D_80162F58[((gameWork.view.viewAngle +
+            D_80162F58[((g_game_work.view.viewAngle +
                 entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         action->timer.raw = 0;
         motion->velocityX = (-x_step) << 18;
@@ -143,7 +143,7 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
         motion->velocityX = 0;
         (sprite->frameTable) = D_80162F00;
         func_80047784(sprite,
-            D_80162F00[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
+            D_80162F00[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100) >> 9) & 7], 0);
         if (entity->flags & 0x2000) {
             action->timer.raw = 7;
             action->phase = 5;
@@ -189,7 +189,7 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
                 action->phase++;
                 return;
             }
-            direction_offset = selectDungeonSpawnTile(&sprite->tile.bytes.x, &sprite->tile.bytes.y);
+            direction_offset = select_dungeon_spawn_tile(&sprite->tile.bytes.x, &sprite->tile.bytes.y);
             if (direction_offset < 0) {
                 continue;
             }
@@ -197,7 +197,7 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
                 floor_limits[3] >= 2) {
                 continue;
             }
-            direction_offset = func_800BCB04((sprite->tile.bytes.x << 6) | 0x20,
+            direction_offset = sample_terrain_surface_height((sprite->tile.bytes.x << 6) | 0x20,
                 (sprite->tile.bytes.y << 6) | 0x20,
                 (s16)(motion->z.w.i - 0x80));
             direction_or_test = direction_offset < 0x201;
@@ -212,7 +212,7 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
             sprite->scaleX = D_80162FC4[action->timer.signedValue];
             sprite->scaleY = D_80162FD4[action->timer.signedValue];
             if (action->timer.signedValue == 4) {
-                func_800A56E0(0x705);
+                play_sound_if_enabled(0x705);
             }
             if (!(sprite->flags & 0x8000)) {
                 action->timer.raw++;
@@ -220,24 +220,24 @@ void updateEntityMovementAndRecoveryAnimation(ActorActionView *action, ActorMoti
                     return;
                 }
             }
-            dungeonStatus.unk_0A--;
-            func_800AA53C(entity);
-            height = func_800BCB04((sprite->tile.bytes.x << 6) | 0x20,
+            g_dungeon_status.unk_0A--;
+            refresh_actor_proximity_state(entity);
+            height = sample_terrain_surface_height((sprite->tile.bytes.x << 6) | 0x20,
                 (sprite->tile.bytes.y << 6) | 0x20,
                 (s16)(motion->z.w.i - 0x80));
             entity->groundHeight = height;
             sprite->frameTable = D_80162F00;
-            dungeonReduceActorFoodMeter(entity, 0x200);
+            reduce_actor_food_meter(entity, 0x200);
             func_80047784(sprite,
-                sprite->frameTable[((gameWork.view.viewAngle + entity->facing.signedValue + 0x100)
+                sprite->frameTable[((g_game_work.view.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);
-            func_8009A21C(sprite->tile.bytes.x, sprite->tile.bytes.y,
+            cycle_map_cell_flags(sprite->tile.bytes.x, sprite->tile.bytes.y,
                 (entity->flags & 0x2000) ? 0x300 : 0x3000);
-            dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             sprite->scaleY = 0x1000;
             sprite->scaleX = 0x1000;
-            action->nextBehavior = updateDungeonActionBehaviorAndFacing;
-            dungeonAdvanceStatusTimers(entity);
+            action->nextBehavior = update_dungeon_action_behavior_and_facing;
+            advance_status_timers(entity);
             entity->remainingActions = 0;
             entity->actionFlags &= 0x7FFF;
             return;

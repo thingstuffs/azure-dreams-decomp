@@ -36,7 +36,7 @@ typedef struct S_801690D8_0 {
 typedef struct S_801690D8_1 {
     u8 pad_00[0x96];
     u16 unk_96;
-} S_801690D8_1;   /* arg0_in in dungeonCreateEightPartTexturedRibbon */
+} S_801690D8_1;   /* arg0_in in create_eight_part_textured_ribbon */
 
 typedef struct S_801690D8_2 {
     u8 pad_00[0x8];
@@ -62,12 +62,12 @@ typedef struct S_801690D8_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801690D8_5;   /* arg1_reg in dungeonCreateEightPartTexturedRibbon */
+} S_801690D8_5;   /* arg1_reg in create_eight_part_textured_ribbon */
 
 typedef struct S_801690D8_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_801690D8_6;   /* arg0_work in dungeonCreateEightPartTexturedRibbon */
+} S_801690D8_6;   /* arg0_work in create_eight_part_textured_ribbon */
 
 typedef struct S_801690D8_7 {
     u8 pad_00[0xC];
@@ -108,7 +108,7 @@ typedef struct S_801690D8_8 {
 } S_801690D8_8;
 
 /* Creates eight effect segments with positions, colors, and vertex data. */
-void dungeonCreateEightPartTexturedRibbon(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_value) {
+void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_value) {
     s32 direction_pairs[8];
     s32 segment;
     s32 trunc_bias;

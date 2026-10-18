@@ -59,7 +59,7 @@ typedef struct S_800D07C8_0 {
     u8 pad_106[0x2];
     u16 unk_108;
     u16 unk_10A;
-} S_800D07C8_0;   /* scratch in dungeonTransformSpritePartsToQuads */
+} S_800D07C8_0;   /* scratch in transform_sprite_parts_to_quads */
 
 typedef struct S_800D07C8_1 {
     u8 pad_00[0x2];
@@ -68,9 +68,9 @@ typedef struct S_800D07C8_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D07C8_1;   /* arg1 in dungeonTransformSpritePartsToQuads */
+} S_800D07C8_1;   /* arg1 in transform_sprite_parts_to_quads */
 
-   /* global_page->table[0] in dungeonTransformSpritePartsToQuads */
+   /* global_page->table[0] in transform_sprite_parts_to_quads */
 
 typedef struct S_800D07C8_3 {
     u8 pad_00[0x8];
@@ -86,7 +86,7 @@ typedef struct S_800D07C8_3 {
     u16 unk_1E;
     u16 unk_20;
     u16 unk_22;
-} S_800D07C8_3;   /* arg2 in dungeonTransformSpritePartsToQuads */
+} S_800D07C8_3;   /* arg2 in transform_sprite_parts_to_quads */
 
 typedef struct S_800D07C8_4 {
     union { u8 u; s8 s; } unk_00;   /* accessed as both */
@@ -108,10 +108,10 @@ typedef struct S_800D07C8_5 {
     u8 unk_2A;
 } S_800D07C8_5;
 
-   /* table[0] in dungeonTransformSpritePartsToQuads */
+   /* table[0] in transform_sprite_parts_to_quads */
 
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
-void dungeonTransformSpritePartsToQuads(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
+void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 matrix[32];
     u8 *scratch = (u8 *)0x1F800000;
     u8 *part_uv;
@@ -132,7 +132,7 @@ void dungeonTransformSpritePartsToQuads(s32 context, u8 *position, u8 *sprite, s
     u16 sprite_flags;
     u8 part_command;
     u8 draw_command;
-    u8 **table = ((u8 * *)(&gameWork));
+    u8 **table = ((u8 * *)(&g_game_work));
     Callback callback;
 
     ((S_800D07C8_0 *)scratch)->unk_20.p = table[0] + 0xB0;

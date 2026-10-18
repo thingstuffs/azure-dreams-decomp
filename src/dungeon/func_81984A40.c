@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void inventoryCopyAndSignExtendRecordFields(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src)
+void inventory_copy_and_sign_extend_record_fields(ovl_19a332c_81984A40_Dest81984A40 *dst, ovl_19a332c_81984A40_Source81984A40 *src)
 {
     s32 sourceHalfword;
 

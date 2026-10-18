@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_map.h"
 
-void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
+void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     u8 *context = init_context;
     u8 *object = target_object;
     u8 *record;
@@ -21,7 +21,7 @@ void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     if (list != 0) {
         list_value = *list;
     }
-    runtimeInitializeStateValue(object, list_value);
+    runtime_initialize_state_value(object, list_value);
     mode_table = D_800CFB74;
     *(u8 **)(context + 0x20) = object;
     *(u32 *)(object + 0x60) = 2;
@@ -50,7 +50,7 @@ void func_8008B818(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
         *(u32 *)(record + 0x74) = 0;
         D_80082ABC = *(u8 *)(*(u8 **)(record + 0x7C));
     }
-    *(Callback *)(record + 0x68) = func_8008BA00;
+    *(Callback *)(record + 0x68) = advance_town_map_countdown_callback;
     *(s16 *)(record + 0x64) = (s16)(s8)D_800CFC38[mode];
     *(u32 *)(record + 0x6C) = D_800CFC44[mode];
     if (mode == 9) {

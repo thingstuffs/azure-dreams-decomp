@@ -44,19 +44,19 @@ void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
             state->unk_1C = update_flags;
         } else if (((init_flags & ~3) << 0x10) == 0) {
             if (!(state->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                if (generate_random_value() & 1) {
+                    set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                     placement_data->unk_2C = &D_8015C25C;
                 }
             }
         }
-        func_800A9C18(object, config_data, placement_data, init_flags);
+        initialize_actor_sprite_and_animation(object, config_data, placement_data, init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_80159014;
         state->unk_1C = (s32)(state->unk_1C | 0x40000);
         extended_state->unk_92 = -0x20;
-        func_800AA36C(extended_state, config_data, placement_data, state);
+        try_move_actor_to_valid_position(extended_state, config_data, placement_data, state);
     }
     return state;
 }

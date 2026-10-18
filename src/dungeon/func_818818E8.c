@@ -12,11 +12,11 @@ typedef struct S_800250E8_0 {
     } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800250E8_0;   /* arg1 in func_800250E8 */
+} S_800250E8_0;   /* arg1 in update_spark_effect */
 
 typedef struct S_800250E8_1_pre {
     u16 unk_00;
-} S_800250E8_1_pre;   /* the 0x2 bytes before arg0 in func_800250E8, addressed as arg0[-1] */
+} S_800250E8_1_pre;   /* the 0x2 bytes before arg0 in update_spark_effect, addressed as arg0[-1] */
 
 typedef struct S_800250E8_1 {
     u8 pad_00[0x1A];
@@ -24,12 +24,12 @@ typedef struct S_800250E8_1 {
     union { s16 s; u16 u; } unk_1C;   /* accessed as both */
     u8 pad_1E[0x8];
     s16 unk_26;
-} S_800250E8_1;   /* arg0 in func_800250E8 */
+} S_800250E8_1;   /* arg0 in update_spark_effect */
 
 typedef struct S_800250E8_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800250E8_2;   /* tail_arg in func_800250E8 */
+} S_800250E8_2;   /* tail_arg in update_spark_effect */
 
 
 extern s32 func_80069EF8(void);
@@ -37,7 +37,7 @@ extern s32 func_80069EF8(void);
 
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
-void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
+void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
 {
     void *owner_state;
     s32 life_left;
@@ -64,7 +64,7 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     probe_z -= 2;
     counter_ptr[0] = counter;
     if (motion->unk_08.at02u.v <
-        (s16)func_800BCB04(x, y, probe_z)) {
+        (s16)sample_terrain_surface_height(x, y, probe_z)) {
         if (((S_800250E8_1 *)effect)->unk_26 == 0) {
             x_direction = func_80064584(((S_800250E8_1 *)effect)->unk_1A);
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
@@ -98,6 +98,6 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     if ((life_left << 16) <= 0 ||
         (((S_800250E8_2 *)owner_state)->unk_14 & 0x8000)) {
         ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

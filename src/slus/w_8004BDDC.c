@@ -61,7 +61,7 @@ typedef struct S_8004BDDC_2 {
 } S_8004BDDC_2;   /* temp_s3 in func_8004BDDC */
 
 
-s32 multiplyRgbTintSaturated();                 /* extern */
+s32 multiply_rgb_tint_saturated();                 /* extern */
 
 /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {
@@ -87,21 +87,21 @@ void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *co
     color_1 = packet + 0x10;
     ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_00;
     ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;
-    multiplyRgbTintSaturated(color_1, tint_a);
-    multiplyRgbTintSaturated(color_1, tint_b);
+    multiply_rgb_tint_saturated(color_1, tint_a);
+    multiply_rgb_tint_saturated(color_1, tint_b);
     color_2 = packet + 0x1C;
     ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_04;
     ((S_8004BDDC_0 *)packet)->unk_05 = (u8) ((S_8004BDDC_0 *)packet)->unk_1C.at03.v;
-    multiplyRgbTintSaturated(color_2, tint_a);
-    multiplyRgbTintSaturated(color_2, tint_b);
+    multiply_rgb_tint_saturated(color_2, tint_a);
+    multiply_rgb_tint_saturated(color_2, tint_b);
     color_3 = packet + 0x28;
     ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_08;
     ((S_8004BDDC_0 *)packet)->unk_06 = (u8) ((S_8004BDDC_0 *)packet)->unk_28.at03.v;
-    multiplyRgbTintSaturated(color_3, tint_a);
-    multiplyRgbTintSaturated(color_3, tint_b);
+    multiply_rgb_tint_saturated(color_3, tint_a);
+    multiply_rgb_tint_saturated(color_3, tint_b);
     color_0 = packet + 4;
-    multiplyRgbTintSaturated(color_0, tint_a);
-    multiplyRgbTintSaturated(color_0, tint_b);
+    multiply_rgb_tint_saturated(color_0, tint_a);
+    multiply_rgb_tint_saturated(color_0, tint_b);
     ((S_8004BDDC_0 *)packet)->unk_03 = 0xC;
     ((S_8004BDDC_0 *)packet)->unk_07 = (u8) ((S_8004BDDC_1 *)command)->unk_01;
     ((S_8004BDDC_0 *)packet)->unk_0C = (u8) ((S_8004BDDC_1 *)command)->unk_08;

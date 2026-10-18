@@ -7,7 +7,7 @@ extern M2C_UNK D_8009F2A8;
 
 
 /* Call func_80033D08 and set the record handler. */
-void townCallCallee80033D08SetHandler(Rec_func_8009EE9C_arg0 *record, s32 value) {
+void call_callee_80033_d_08_set_handler(Rec_func_8009EE9C_arg0 *record, s32 value) {
     func_80033D08(record);
     record->unk_50.as_pm = &D_8009F2A8;
 }

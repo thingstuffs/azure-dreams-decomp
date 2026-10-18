@@ -43,7 +43,7 @@ typedef struct S_80171C7C_2 {
 } S_80171C7C_2;
 
 /* Creates an object with default coordinates and initializes its rendering state. */
-void dungeonCreateEncounterCameraController(void) {
+void create_encounter_camera_controller(void) {
     S_80171C7C_1 *coords;
     S_80171C7C_0 *render_state;
     void *object;

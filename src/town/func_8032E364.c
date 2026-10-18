@@ -10,7 +10,7 @@ typedef struct {
 extern UA32 D_8001C31C;
 
 /* Copies the header and coordinate entries, flags entries whose grid field is zero, and appends a terminator. */
-UA32 *townCopyAndTerminateCoordinateEntries(UA32 *buffer)
+UA32 *copy_and_terminate_coordinate_entries(UA32 *buffer)
 {
     UA32 *result;
     u8 *global_page;

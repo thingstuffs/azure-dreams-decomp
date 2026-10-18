@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void clearDungeonObjectEntries(void) {
+void clear_dungeon_object_entries(void) {
     s32 entry_index;
 
     for (entry_index = 0x1F; entry_index >= 0; entry_index--) {

@@ -18,20 +18,20 @@ typedef struct {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s32);
+extern s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no incoming argument registers, including a3. */
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void func_800673A0(Rect *, s32, s32);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern void func_80045340(void);
 extern void func_80170B40(void);
-extern void dungeonUpdateActorMovementAndHeight(void);
+extern void update_actor_movement_and_height(void);
 extern void func_80171198(void);
 extern void func_8017126C(void);
 extern void func_801713FC(void);
 extern void func_80171444(void);
-extern void dungeonAdvancePathMotion(void);
+extern void advance_path_motion(void);
 extern void func_80171740(void);
 extern void func_80171784(void);
 extern void func_80171794(void);
@@ -40,14 +40,14 @@ extern void func_80172EA8(void);
 extern void func_80172EB0(void);
 extern void func_80172EB8(void);
 extern void func_80172EF8(void);
-extern void dungeonRestoreBankActorTile(void);
+extern void restore_bank_actor_tile(void);
 extern void func_80172F08(void);
 extern void func_80172F10(void);
 extern void func_80175258(void);
 extern void func_80175298(void);
-extern void dungeonUpdateLongActorAction(void);
+extern void update_long_actor_action(void);
 
-void *func_801708A4(s16, s32, s16, s16);
+void *create_actor_grid_object(s16, s32, s16, s16);
 
 typedef struct S_80FB1000_0 {
     u8 pad_00[0x13];
@@ -55,19 +55,19 @@ typedef struct S_80FB1000_0 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB1000_0;   /* work in func_801708A4 */
+} S_80FB1000_0;   /* work in create_actor_grid_object */
 
 typedef struct S_80FB1000_1 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FB1000_1;   /* position in func_801708A4 */
+} S_80FB1000_1;   /* position in create_actor_grid_object */
 
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in func_801708A4 */
+} S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in create_actor_grid_object */
 
-void *func_801708A4(s16 mode, s32 value1, s16 value2, s16 value3)
+void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
 {
     s16 mode_copy;
     s32 value1_saved;
@@ -123,23 +123,23 @@ void *func_801708A4(s16 mode, s32 value1, s16 value2, s16 value3)
         } else {
             if ((s16)((s32)mode & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
-                value = func_800A6D30();
+                value = generate_random_value();
                 if (value & 1) {
                     ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
-                    value = func_800A6D30();
-                    func_800A48F0(work, 1, (value & 0x3F) | 0x20);
+                    value = generate_random_value();
+                    set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
                     (*(Callback *)((u8 *)monster + 0x2C)) = func_80175298;
                 }
             }
         }
 
         init_object = created;
-        func_800A9C18(init_object, position, monster, (s16)mode_copy);
+        initialize_actor_sprite_and_animation(init_object, position, monster, (s16)mode_copy);
         i = 0;
         value = (*(u16 *)((u8 *)monster + 0x12));
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)actor + 0x9C)) = -1;
-        (*(Callback *)((u8 *)actor + 0x8C)) = dungeonUpdateLongActorAction;
+        (*(Callback *)((u8 *)actor + 0x8C)) = update_long_actor_action;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = (*(u8 * *)((u8 *)monster + 8));
@@ -166,7 +166,7 @@ void *func_801708A4(s16 mode, s32 value1, s16 value2, s16 value3)
             rect.x += 0x40;
         } while (rect.x < 0x100);
 
-        func_800AA36C(actor, position, monster, work);
+        try_move_actor_to_valid_position(actor, position, monster, work);
     }
     return work;
 }

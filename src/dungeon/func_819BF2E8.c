@@ -49,7 +49,7 @@ void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
         effect_state->unk_28 = 0x1E;
         effect_state->unk_2A = 0x1E;
         effect_state->unk_20 = effect_value;
-        ((S_80024AE8_1 *)effect)->unk_10 = (void *)dungeonShrinkEffectAndSpawnParticles;
+        ((S_80024AE8_1 *)effect)->unk_10 = (void *)shrink_effect_and_spawn_particles;
         func_8004491C(effect, (s32)func_80045340);
         effect_position = ((S_80024AE8_1 *)effect)->unk_08;
         effect_position->unk_00 = (s32) position->unk_00;

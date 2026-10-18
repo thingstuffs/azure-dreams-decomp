@@ -5,6 +5,6 @@
 M2C_UNK func_800194D8();                     /* extern */
 
 /* Calls func_800194D8 with ID 0x63A. */
-void townDispatchEvent63AThrough194D8(void) {
+void dispatch_event_63_a_through_194_d_8(void) {
     func_800194D8(0x63A);
 }

@@ -1,12 +1,12 @@
 #include "modules/dungeon_ovl_191284c.h"
 
-s32 dungeonDrawLinkedShadedTiles(void *first_point, void *first_position)
+s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 {
     void *point = first_point;
     void *position = first_position;
-    GameWork *render_state = &gameWork;
+    GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
+    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Row_818F30EC_Scratch800248EC *scratch =

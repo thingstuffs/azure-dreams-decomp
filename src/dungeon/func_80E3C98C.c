@@ -62,15 +62,15 @@ typedef struct S_80E3C98C_7 {
 } S_80E3C98C_7;
 
 
-extern s32 drainCdCommandQueue();
+extern s32 drain_cd_command_queue();
 extern s32 func_80042640();
 extern s32 func_80042710();
 extern s32 func_8004397C();
-extern void *(*func_800A0B94())(s32, u8, u8, s16);
-extern void *func_800A1618();
-extern s32 func_800A1BD0();
-extern s32 func_800A7A38();
-extern void *dungeonCreateModeConfiguredObject();
+extern void *(*load_monster_resource_data())(s32, u8, u8, s16);
+extern void *find_or_retain_sprite_resource_slot();
+extern s32 find_entity_slot_by_field_ac();
+extern s32 get_item_category_value();
+extern void *create_mode_configured_object();
 extern s8 D_800E2968;
 
 /* Create an entity from spawn data and update its tracked reference. */
@@ -89,10 +89,10 @@ void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
 
     source_ref = spawn_data->unk_60.as_s32;
     if (source_ref > 0) {
-        entity = dungeonCreateModeConfiguredObject(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
+        entity = create_mode_configured_object(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
                                position->unk_24, position->unk_25,
                                spawn_data->unk_88.as_s16,
-                               func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
+                               get_item_category_value(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
                                    + ((u8 *)D_800E3548)));
         if (entity != NULL) {
             ((S_80E3C98C_2 *)entity)->unk_14 = 0;
@@ -106,17 +106,17 @@ void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
         D_800E2968 = 1;
         source_entity = (void *)source_ref;
 
-        type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
+        type_data = find_or_retain_sprite_resource_slot(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
         if (!((type_data != NULL) && (type_data->unk_01 != 0))) {
-            type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 3);
+            type_data = find_or_retain_sprite_resource_slot(((S_80E3C98C_3 *)source_entity)->unk_13, 3);
             result = NULL;
             if (type_data == NULL) {
                 return result;
             }
         }
         func_8004397C(source_entity);
-        create_entity = func_800A0B94(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
-        drainCdCommandQueue();
+        create_entity = load_monster_resource_data(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
+        drain_cd_command_queue();
         spawn_mode = 4;
         if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
             spawn_mode = 7;
@@ -136,7 +136,7 @@ void *func_8017618C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
         }
     }
     if (spawn_data->unk_14.at00_s32.v & 0x4000) {
-        table_offset = func_800A1BD0(spawn_data);
+        table_offset = find_entity_slot_by_field_ac(spawn_data);
         table_base = ((u8 *)D_800E3D7C);
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (s32)table_base);

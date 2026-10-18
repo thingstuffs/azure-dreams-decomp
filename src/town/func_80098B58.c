@@ -1,34 +1,34 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80096518(s32 *);                           /* extern */
-s32 func_800965F0();                           /* extern */
-void townSetGlobal800CFCEDInitializeCallCallee800954DC();                  /* extern */
-void townSetGlobal800CFCECInitializeCallCallee800954DC();                  /* extern */
+s32 query_lower_bound_with_x_offset(s32 *);                           /* extern */
+s32 query_larger_position_result();                           /* extern */
+void set_global_800_cfced_initialize_call_callee_800954_dc();                  /* extern */
+void set_global_800_cfcec_initialize_call_callee_800954_dc();                  /* extern */
 extern s32 D_800FE5D0;
 
 /* Applies fixed-point boundary corrections according to D_800FE5D0. */
-void func_800962B8(s32 *value) {
+void correct_fixed_point_value_at_boundaries(s32 *value) {
     s32 upper_bound;
     s32 neutral_upper_bound;
     s32 lower_bound;
 
     if (D_800FE5D0 > 0) {
-        upper_bound = func_80096518(value) << 0x10;
+        upper_bound = query_lower_bound_with_x_offset(value) << 0x10;
         if (value[1] >= upper_bound) {
-            townSetGlobal800CFCEDInitializeCallCallee800954DC(value, upper_bound);
+            set_global_800_cfced_initialize_call_callee_800954_dc(value, upper_bound);
             return;
         }
     } else {
         if (D_800FE5D0 >= 0) {
-            neutral_upper_bound = func_80096518(value) << 0x10;
+            neutral_upper_bound = query_lower_bound_with_x_offset(value) << 0x10;
             if (value[1] >= neutral_upper_bound) {
-                townSetGlobal800CFCEDInitializeCallCallee800954DC(value, neutral_upper_bound);
+                set_global_800_cfced_initialize_call_callee_800954_dc(value, neutral_upper_bound);
             }
         }
-        lower_bound = (func_800965F0(value) << 0x10) - 1;
+        lower_bound = (query_larger_position_result(value) << 0x10) - 1;
         if (lower_bound >= value[1]) {
-            townSetGlobal800CFCECInitializeCallCallee800954DC(value, lower_bound);
+            set_global_800_cfcec_initialize_call_callee_800954_dc(value, lower_bound);
         }
     }
 }

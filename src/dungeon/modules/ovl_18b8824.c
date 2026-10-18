@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_18b8824.h"
-void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))dungeonAdvanceLaunchedEffect;
+void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
 #include "../func_81898824.c"
 #include "../func_818988CC.c"
 #include "../func_818989D8.c"

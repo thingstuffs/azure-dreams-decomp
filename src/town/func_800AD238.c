@@ -22,10 +22,10 @@ extern s16 D_80100D80;
 extern s16 D_80100D82;
 
 /* Initializes object state and sets its starting position. */
-void func_800AA998(void **object, InitPosition *start_position, void *ptr2) {
+void initialize_object_state_and_position(void **object, InitPosition *start_position, void *ptr2) {
         s32 *position;
 
-    townCallTheHandlerSelectsNonzeroEntry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
     *object = D_800AA5F8;
     D_80100D1C = 0;
     D_80100D80 = 8;

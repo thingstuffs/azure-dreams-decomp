@@ -43,6 +43,6 @@ void func_8002405C(void *effect, void *unused_context, void *effect_params) {
     if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
         ((S_81994800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((s32)((EntityRec *)effect)->target))))->unk_46 = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

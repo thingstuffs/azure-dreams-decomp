@@ -1,10 +1,10 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 *townSelectResponseBySelectorAndFlags(s32 context, s32 check_value, s32 selector) {
+s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector) {
     s32 *response;
 
     if (selector == 9) {
-        if (townCheckTableResultBelowMinus47(context, check_value) != 0) {
+        if (check_table_result_below_minus_47(context, check_value) != 0) {
             if (func_8001A510(0x798) != 0) {
                 return &D_8001B6D0;
             }
@@ -19,7 +19,7 @@ s32 *townSelectResponseBySelectorAndFlags(s32 context, s32 check_value, s32 sele
     } else if (selector == 1) {
         response = &D_8001B824;
     } else {
-        townInvokeAlternateHandlerWithCode7A1();
+        invoke_alternate_handler_with_code_7_a_1();
         response = &D_8001C5FB;
     }
     return response;

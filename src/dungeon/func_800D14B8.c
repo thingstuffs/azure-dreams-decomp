@@ -4,7 +4,7 @@
 
 typedef struct S_800D6C18_0_pre {
     u16 unk_00;
-} S_800D6C18_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateExpiringSpriteEffect, addressed as arg0[-1] */
+} S_800D6C18_0_pre;   /* the 0x2 bytes before arg0 in update_expiring_sprite_effect, addressed as arg0[-1] */
 
 typedef struct S_800D6C18_0 {
     u8 pad_00[0xC];
@@ -16,7 +16,7 @@ typedef struct S_800D6C18_0 {
     u8 pad_18[0x3C];
     s16 unk_54;
     s16 unk_56;
-} S_800D6C18_0;   /* arg0 in dungeonUpdateExpiringSpriteEffect */
+} S_800D6C18_0;   /* arg0 in update_expiring_sprite_effect */
 
 typedef struct S_800D6C18_1 {
     u8 pad_00[0x14];
@@ -26,7 +26,7 @@ typedef struct S_800D6C18_1 {
 typedef struct S_800D6C18_2 {
     u8 pad_00[0x14];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_800D6C18_2;   /* arg1 in dungeonUpdateExpiringSpriteEffect */
+} S_800D6C18_2;   /* arg1 in update_expiring_sprite_effect */
 
 typedef struct S_800D6C18_3 {
     u8 pad_00[0x44];
@@ -36,10 +36,10 @@ typedef struct S_800D6C18_3 {
 } S_800D6C18_3;
 
 
-void dungeonCreateOffsetSpriteEffect(); /* extern */
+void create_offset_sprite_effect(); /* extern */
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
-void dungeonUpdateExpiringSpriteEffect(void *effect, S_800D6C18_2 *size_state) {
+void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state) {
     s16 display_size;
     s16 ticks_left;
     s32 index;
@@ -82,7 +82,7 @@ void dungeonUpdateExpiringSpriteEffect(void *effect, S_800D6C18_2 *size_state) {
 
             delta = 0xE0E0E0;
                         /*A*/
-            dungeonCreateOffsetSpriteEffect((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
+            create_offset_sprite_effect((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
             delta = -0x40000;
             emit_offset += delta;
             index += 1;

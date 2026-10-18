@@ -15,7 +15,7 @@ typedef struct TownStateEntryTable {
 extern s32 func_8001AA80();
 
 /* In event state 5, store func_8001AA80(D_8001E950->unk_04) in the indexed entry and return 0; otherwise return 1. */
-s32 func_8001B0DC(TownStateEntryTable *table, s32 index) {
+s32 in_event_state_5_store(TownStateEntryTable *table, s32 index) {
     if (D_8001E950->unk_05 == 5) {
         table->entries[index].unk_08 = func_8001AA80(D_8001E950->unk_04);
         return 0;

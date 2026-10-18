@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-void dungeonApplyScaledEntityVelocity();                      /* extern */
+void apply_scaled_entity_velocity();                      /* extern */
 
 
 typedef struct S_80099F70_1 {
@@ -14,14 +14,14 @@ typedef struct S_80099F70_1 {
 } S_80099F70_1;
 
 // Process linked entries with flag 0x4000 until reaching the global sentinel.
-void dungeonProcessUnflaggedLinkedEntriesAlt(s32 firstNodeBase) {
+void process_unflagged_linked_entries_alt(s32 firstNodeBase) {
     S_80099F70_1 *currentEntry;
 
     currentEntry = firstNodeBase + 0x20;
     if (currentEntry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v) {
         do {
             if (currentEntry->unk_14 & 0x4000) {
-                dungeonApplyScaledEntityVelocity(currentEntry);
+                apply_scaled_entity_velocity(currentEntry);
             }
             currentEntry = currentEntry->unk_5C + 0x20;
         } while (currentEntry != ((EntityRec *)(((M2C_UNK *)&D_800814A8)))->x.v);

@@ -24,7 +24,7 @@ extern void *func_8003FD64();
 struct D_800DB420_Obj;
 struct D_800DB420_RngOut;
 struct D_800DB420_Effect;
-extern void dungeonAdvanceJitteredEffectModes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, struct D_800DB420_Effect *effect);
+extern void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, struct D_800DB420_Effect *effect);
 
 typedef struct S_800DB2DC_0 {
     u8 pad_00[0xC];
@@ -39,7 +39,7 @@ typedef struct S_800DB2DC_0 {
 typedef struct S_800DB2DC_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_800DB2DC_1;   /* held_arg2 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_1;   /* held_arg2 in create_two_effect_groups */
 
 typedef struct S_800DB2DC_2 {
     u8 pad_00[0x12];
@@ -48,7 +48,7 @@ typedef struct S_800DB2DC_2 {
     u8 pad_16[0x12];
     s32 unk_28;
     s32 unk_2C;
-} S_800DB2DC_2;   /* held_arg1 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_2;   /* held_arg1 in create_two_effect_groups */
 
 typedef struct S_800DB2DC_3 {
     u8 pad_00[0xC];
@@ -71,7 +71,7 @@ typedef struct S_800DB2DC_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800DB2DC_4;   /* held_arg0 in dungeonCreateTwoEffectGroups */
+} S_800DB2DC_4;   /* held_arg0 in create_two_effect_groups */
 
 typedef struct S_800DB2DC_5 {
     u8 pad_00[0x4];
@@ -80,7 +80,7 @@ typedef struct S_800DB2DC_5 {
 } S_800DB2DC_5;
 
 /* Creates two groups of four effects using the source position and visual state. */
-void dungeonCreateTwoEffectGroups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
+void create_two_effect_groups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
     register M2C_UNK *callback;
     s32 scale;
     s16 saved_param;
@@ -95,7 +95,7 @@ void dungeonCreateTwoEffectGroups(S_800DB2DC_4 *position, S_800DB2DC_2 *source_v
 
     saved_param = effect_param;
     group_step = 3;
-    callback = dungeonAdvanceJitteredEffectModes;
+    callback = advance_jittered_effect_modes;
     scale = 0x1000;
     do {
         effects_left = 3;

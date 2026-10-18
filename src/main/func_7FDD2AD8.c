@@ -37,7 +37,7 @@ extern void func_800478B8(void *);
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
-void mainUpdateSettingsPhaseMotion(State *state, Motion *motion, void *update_data)
+void update_settings_phase_motion(State *state, Motion *motion, void *update_data)
 {
     Owner *owner;
     s16 step;
@@ -94,7 +94,7 @@ void mainUpdateSettingsPhaseMotion(State *state, Motion *motion, void *update_da
 
     case 255:
         *(u16 *)((unsigned char *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     default:

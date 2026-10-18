@@ -13,7 +13,7 @@ typedef struct S_8009C648_7 {
 
 
 extern s32 rand(void);
-extern void *townCreateTownEffectObject(void *, M2C_UNK, s32, s32);
+extern void *create_town_effect_object(void *, M2C_UNK, s32, s32);
 extern void func_8009C46C(void *, void *, void *);
 extern u8 D_80088D78[8];
 extern M2C_UNK D_800D06C8[3];
@@ -32,7 +32,7 @@ typedef struct S_8009C648_1 {
 typedef struct S_8009C648_2 {
     u8 pad_00[0x80];
     s32 unk_80;
-} S_8009C648_2;   /* held_arg0 in townSpawnRandomizedEffectParts */
+} S_8009C648_2;   /* held_arg0 in spawn_randomized_effect_parts */
 
 typedef struct S_8009C648_3 {
     u8 pad_00[0x60];
@@ -52,10 +52,10 @@ typedef struct S_8009C648_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8009C648_5;   /* tail_s0 in townSpawnRandomizedEffectParts */
+} S_8009C648_5;   /* tail_s0 in spawn_randomized_effect_parts */
 
 /* Spawns up to six parts with source-selected data and randomized motion. */
-void townSpawnRandomizedEffectParts(u8 *source_data, M2C_UNK spawn_arg) {
+void spawn_randomized_effect_parts(u8 *source_data, M2C_UNK spawn_arg) {
     s8 part_indices[6];
     s32 velocity_bias;
     M2C_UNK *part_params;
@@ -73,7 +73,7 @@ void townSpawnRandomizedEffectParts(u8 *source_data, M2C_UNK spawn_arg) {
     part_params = D_800D06C8;
     do {
         source_object = (u8 *)source_data - 0x20;
-        part_object = townCreateTownEffectObject(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
+        part_object = create_town_effect_object(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00,
             ((S_8009C648_0 *)part_params)->unk_04);
         if (part_object == NULL) {
             break;

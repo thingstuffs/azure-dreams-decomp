@@ -3,12 +3,12 @@
 
 typedef struct S_800B8CF0_0_pre {
     u16 unk_00;
-} S_800B8CF0_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateBlinkingSpriteFlash, addressed as arg0[-1] */
+} S_800B8CF0_0_pre;   /* the 0x2 bytes before arg0 in update_blinking_sprite_flash, addressed as arg0[-1] */
 
 typedef struct S_800B8CF0_0 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800B8CF0_0;   /* arg0 in dungeonUpdateBlinkingSpriteFlash */
+} S_800B8CF0_0;   /* arg0 in update_blinking_sprite_flash */
 
 typedef struct S_800B8CF0_1 {
     u8 pad_00[0xC];
@@ -18,18 +18,18 @@ typedef struct S_800B8CF0_1 {
         struct { u8 pad[0x1]; s8 v; } at01;
         struct { u8 pad[0x2]; s8 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_800B8CF0_1;   /* arg2 in dungeonUpdateBlinkingSpriteFlash */
+} S_800B8CF0_1;   /* arg2 in update_blinking_sprite_flash */
 
 
 /* Count down the effect, alternating its shade until marking it finished. */
-void dungeonUpdateBlinkingSpriteFlash(void *state, s32 unused, void *primitive) {
+void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
     s32 ticks_left;
 
     ticks_left = ((S_800B8CF0_0 *)state)->unk_02 - 1;
     ((S_800B8CF0_0 *)state)->unk_02 = (u16) ticks_left;
     if (((ticks_left << 16) >> 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     if (ticks_left & 1) {

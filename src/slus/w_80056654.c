@@ -17,7 +17,7 @@ typedef struct S_80056654_0 {
     s32 unk_4C;
     u8 pad_50[0x20];
     s32 unk_70;
-} S_80056654_0;   /* arg0 in audioUpdateVoicePitch */
+} S_80056654_0;   /* arg0 in audio_update_voice_pitch */
 
 typedef struct S_80056654_1 {
     u8 pad_00[0x8];
@@ -29,7 +29,7 @@ typedef struct S_80056654_1 {
     u8 pad_3C[0x14];
     s16 unk_50;
     u16 unk_52;
-} S_80056654_1;   /* temp_a2 in audioUpdateVoicePitch */
+} S_80056654_1;   /* temp_a2 in audio_update_voice_pitch */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -42,7 +42,7 @@ typedef struct {
     u8 pad1A[0x40 - 0x1A];
 } S_80084918;
 
-s32 audioComputePitchBendOffset(void *, s32);
+s32 audio_compute_pitch_bend_offset(void *, s32);
 s32 func_8005EB78(s32);
 void func_8005F134(S_80084918 *);
 extern s32 D_80073740[];
@@ -50,7 +50,7 @@ extern S_80084918 D_80084918;
 extern u8 D_80084960[];
 
 /* Updates voice pitch parameters and clears a completed pitch adjustment. */
-void audioUpdateVoicePitch(S_80056654_0 *state, s32 force_update) {
+void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
     s32 pitch_offset;
     s32 packed_pitch;
     s32 pitch_adjustment;
@@ -65,7 +65,7 @@ void audioUpdateVoicePitch(S_80056654_0 *state, s32 force_update) {
         (channel->unk_1C != state->unk_70) || (force_update != 0)) {
         state->unk_70 = (s32) channel->unk_1C;
         pitch_offset = state->unk_3C.u16 + (channel->unk_3A + channel->unk_52);
-        pitch_adjustment = audioComputePitchBendOffset(state, channel->unk_1C);
+        pitch_adjustment = audio_compute_pitch_bend_offset(state, channel->unk_1C);
         voice_table = D_80073740;
         base_pitch = (state->unk_0C << 7) + pitch_adjustment;
         D_80084918.field4 = 0x60;

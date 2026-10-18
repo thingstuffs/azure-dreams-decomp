@@ -11,11 +11,11 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
     s32 passes_chance;
     u8 *effect_input;
 
-    if (dungeonTryTriggerTargetRecordEffect(entity, 2) != 0) {
+    if (try_trigger_target_record_effect(entity, 2) != 0) {
         return;
     }
 
-    roll = func_800A6D30() & 0xffff;
+    roll = generate_random_value() & 0xffff;
     if (entity[3] != 0) {
         roll_remainder = roll % entity[3];   /* retail rejoins the common path at +0xBC here */
     } else {
@@ -27,8 +27,8 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
     if (!passes_chance) {
         effect_input = entity;
         if (chance_value != 0xff) {
-            dungeonAdjustSourceValueAndFinalize(effect_input, D_800E20FC);
-            createActorValuePopup(0x53, entity, -1, 1);
+            adjust_source_value_and_finalize(effect_input, D_800E20FC);
+            create_actor_value_popup(0x53, entity, -1, 1);
             return;
         }
     }
@@ -40,21 +40,21 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
             s32 format_code;
             s32 result_arg;
 
-            message_arg = func_800990FC((s32)effect_input, chance_value);
+            message_arg = get_unused_text_buffer((s32)effect_input, chance_value);
             format_code = 8;
             result_arg = message_arg;
             effect_result = result_arg;
-            message_arg = dungeonWriteTextByteAndAdvance(format_code, result_arg);
-            message_arg = func_80099734(entity, message_arg);
-            message_arg = func_80099194(D_800E20D6, message_arg);
+            message_arg = write_text_byte_and_advance(format_code, result_arg);
+            message_arg = append_entity_display_text(entity, message_arg);
+            message_arg = expand_text_control_codes(D_800E20D6, message_arg);
             func_80099290(message_arg);
         }
-        func_800A5720(effect_result);
-        createActorValuePopup(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
+        display_text_with_fullwidth_adjustment(effect_result);
+        create_actor_value_popup(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
         return;
     }
 
     effect_input = entity;
-    dungeonAdjustSourceValueAndFinalize(effect_input, D_800E20FC);
-    createActorValuePopup(0x53, entity, -1, 1);
+    adjust_source_value_and_finalize(effect_input, D_800E20FC);
+    create_actor_value_popup(0x53, entity, -1, 1);
 }

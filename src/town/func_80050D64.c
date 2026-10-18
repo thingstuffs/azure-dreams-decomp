@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void setResidentBitmapBit();                     /* extern */
-void townUnlinkSceneListNode();                      /* extern */
-void townClearObjectSlotAndMarkRemoved();                      /* extern */
+void set_resident_bitmap_bit();                     /* extern */
+void unlink_scene_list_node();                      /* extern */
+void clear_object_slot_and_mark_removed();                      /* extern */
 
 typedef struct ReactionAccumulators {
     s32 unk_00;
@@ -20,8 +20,8 @@ void advance_actor_reaction_downward(void *context, ReactionAccumulators *accumu
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 - 0x15555);
     if (flagState->unk_14 & 0x8000) {
-        setResidentBitmapBit(0x43);
-        townUnlinkSceneListNode(context);
-        townClearObjectSlotAndMarkRemoved(context);
+        set_resident_bitmap_bit(0x43);
+        unlink_scene_list_node(context);
+        clear_object_slot_and_mark_removed(context);
     }
 }

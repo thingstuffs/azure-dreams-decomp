@@ -14,7 +14,7 @@ typedef struct {
 extern u16 D_800281F8;
 
 /* Advance and damp motion, flagging completion when the timer expires or motion slows. */
-void dungeonAdvanceDampedMotion(void *actor, Motion *motion) {
+void advance_damped_motion(void *actor, Motion *motion) {
     s32 x_velocity;
     s32 y_velocity;
     s32 speed;
@@ -46,7 +46,7 @@ void dungeonAdvanceDampedMotion(void *actor, Motion *motion) {
     }
 
     *(u16 *)((u8 *)actor - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }
 
 /* MECHANISM: Frameless leaf keeps actor/motion in $a3/$a2; the volatile y reload preserves damping order.

@@ -7,7 +7,7 @@
 
 
 /* Return whether an enabled object has either linked object flagged with bit 0x10000. */
-s32 dungeonIsLinkedObjectFlagged10000(void *object) {
+s32 is_linked_object_flagged_10000(void *object) {
     s32 slot_index;
     void *linked_object;
     void *slot_base;

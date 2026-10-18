@@ -5,6 +5,6 @@
 
 
 /* Returns whether the current record's unk_01 field is 2. */
-s32 townIsDispatchStateTwo(void) {
+s32 is_dispatch_state_two(void) {
     return D_8001E950->dispatchState == 2;
 }

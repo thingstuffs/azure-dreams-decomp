@@ -3,30 +3,30 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-extern s32 townReadMapCellAtWorldPosition();
-extern void townSetActorMotionState(Rec_func_80094268_arg0 *, void *);
-extern s32 townCheckMaskedValueInCurrentRange();
+extern s32 read_map_cell_at_world_position();
+extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);
+extern s32 check_masked_value_in_current_range();
 extern s16 D_800D45AA[];
 
 typedef struct S_8009BFD8_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009BFD8_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in townSelectObjectValueByHeightBand */
+} S_8009BFD8_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in select_object_value_by_height_band */
 
 /* Selects one of three object values using a position-based table difference. */
-void townSelectObjectValueByHeightBand(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
+void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *context, EntityRec *position, Rec_D_80082E80 *output)
 {
     s32 table_index;
     s16 table_delta;
 
-    townSetActorMotionState(object, context);
+    set_actor_motion_state(object, context);
     if (object->unk_7C.as_pv == 0) {
         return;
     }
 
-    table_index = townCheckMaskedValueInCurrentRange(
-        townReadMapCellAtWorldPosition(position->x.w.i, position->y.w.i) & 0xFFFF);
+    table_index = check_masked_value_in_current_range(
+        read_map_cell_at_world_position(position->x.w.i, position->y.w.i) & 0xFFFF);
     if (table_index != 0) {
         table_delta = ((u16)position->z.w.i) - D_800D45AA[table_index];
         if (table_delta >= 0x19) {

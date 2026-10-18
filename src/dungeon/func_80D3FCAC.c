@@ -3,19 +3,19 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_800A2B5C(void *);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern void advance_status_timers(void *);
 
 /* Resets actor state and updates entity flags when global and entity checks allow it. */
-void dungeonCompleteActorAction(void *actor, void *unused_1, void *unused_2, void *entity) {
+void complete_actor_action(void *actor, void *unused_1, void *unused_2, void *entity) {
     s32 *global_page;
     s32 global_flags;
     u16 actor_flags;
 
     *(u8 *)((u8 *)entity + 0x71) &= 0x7F;
-    if (!(dungeonStatus.flags & 0x2000) &&
-        (func_800A2B5C(entity) << 16) == 0 &&
-        (func_800A2B5C(entity) << 16) == 0) {
+    if (!(g_dungeon_status.flags & 0x2000) &&
+        (try_claim_dungeon_action_slot(entity) << 16) == 0 &&
+        (try_claim_dungeon_action_slot(entity) << 16) == 0) {
         *(s32 *)((u8 *)actor + 0x8C) = 0;
         *(u8 *)((u8 *)actor + 0x9A) = 0x17;
         *(u8 *)((u8 *)actor + 0x9B) = 0;
@@ -31,7 +31,7 @@ void dungeonCompleteActorAction(void *actor, void *unused_1, void *unused_2, voi
         actor_flags |= 8;
         global_page[0x296C / 4] = global_flags;
         *(u16 *)((u8 *)actor + 0x98) = actor_flags;
-        dungeonAdvanceStatusTimers(entity);
+        advance_status_timers(entity);
         *(u8 *)((u8 *)entity + 0x6D) -= 1;
     }
 }

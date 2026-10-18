@@ -13,13 +13,13 @@ extern char D_800225DB[];
 extern char D_800225F5[];
 extern char D_8002264A[];
 
-extern char *func_80016E48(s32);
+extern char *award_next_unearned_milestone(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern void func_8001A5CC(s32);
 
 /* Select dialogue from event state and update flags for the selected interaction. */
-char *func_80017A14(s32 unused_0, s32 unused_1, s32 dialogue_id)
+char *select_dialogue_event_state_flags(s32 unused_0, s32 unused_1, s32 dialogue_id)
 {
     s32 dialogue_selector = dialogue_id;
 
@@ -64,7 +64,7 @@ char *func_80017A14(s32 unused_0, s32 unused_1, s32 dialogue_id)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(dialogue_selector);
+        return award_next_unearned_milestone(dialogue_selector);
     default:
         return D_8001B14C;
     }

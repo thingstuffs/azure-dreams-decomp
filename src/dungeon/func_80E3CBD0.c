@@ -3,7 +3,7 @@
 
 
 /* Updates an effect's lifetime, fades its color, and advances its motion. */
-void dungeonUpdateAnEffectSLifetimeFadesColorAdvancesMotion(void *effect, s32 *motion, u8 *color_data)
+void update_an_effect_s_lifetime_fades_color_advances_motion(void *effect, s32 *motion, u8 *color_data)
 {
     u16 ticks_left;
     u8 intensity;
@@ -12,7 +12,7 @@ void dungeonUpdateAnEffectSLifetimeFadesColorAdvancesMotion(void *effect, s32 *m
     *(u16 *)((u8 *)effect + 0x20) = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

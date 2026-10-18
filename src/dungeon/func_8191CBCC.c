@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_193c848.h"
 
-s32 func_800243CC(void *params_input, void *transform_input) {
+s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_2 *params = params_input;
     void *source_transform = transform_input;
     s16 depth_scale;

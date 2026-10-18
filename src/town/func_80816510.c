@@ -4,7 +4,7 @@
 
 typedef struct S_80020510_0_pre {
     u16 unk_00;
-} S_80020510_0_pre;   /* the 0x2 bytes before arg0 in townTickSummedSceneValueText, addressed as arg0[-1] */
+} S_80020510_0_pre;   /* the 0x2 bytes before arg0 in tick_summed_scene_value_text, addressed as arg0[-1] */
 
 typedef struct S_80020510_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -14,7 +14,7 @@ typedef struct S_80020510_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_80020510_0;   /* arg0 in townTickSummedSceneValueText */
+} S_80020510_0;   /* arg0 in tick_summed_scene_value_text */
 
 typedef struct S_80020510_1 {
     u8 pad_00[0x2A];
@@ -22,12 +22,12 @@ typedef struct S_80020510_1 {
 } S_80020510_1;
 
 
-void formatDecimalFieldSpacePadded();               /* extern */
+void format_decimal_field_space_padded();               /* extern */
 s32 strlen();                             /* extern */
 extern s16 D_800272A0[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */
-void townTickSummedSceneValueText(void *entry) {
+void tick_summed_scene_value_text(void *entry) {
     u16 *flags;
     s16 state;
     s32 value_index;
@@ -56,13 +56,13 @@ void townTickSummedSceneValueText(void *entry) {
             (u16) (((S_80020510_0 *)entry)->unk_00.u + 1);
         break;
     case 1:
-        formatDecimalFieldSpacePadded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
+        format_decimal_field_space_padded(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
                       ((S_80020510_0 *)entry)->unk_04);
         if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
             flags = &((S_80020510_0_pre *)entry)[-1].unk_00;
             *flags =
                 (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

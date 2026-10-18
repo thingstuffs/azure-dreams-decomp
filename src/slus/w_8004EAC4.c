@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 fillStringTailAndDetectZero(u8 *buffer, s32 pair_count);
+extern s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count);
 extern char *strncpy(char *dest, const char *src, u32 n);
 
 /* Writes a two-character code to a slot, terminates it if needed, and returns the slot. */
@@ -8,7 +8,7 @@ char *func_8004EAC4(u8 *buffer, char *code, s32 slot_index) {
     s32 needs_terminator;
     char *slot;
 
-    needs_terminator = fillStringTailAndDetectZero(buffer, slot_index);
+    needs_terminator = fill_string_tail_and_detect_zero(buffer, slot_index);
     slot = (char *)(buffer + slot_index * 2);
     strncpy(slot, code, 2);
     if (needs_terminator != 0) {

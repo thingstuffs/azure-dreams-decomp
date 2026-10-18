@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-s32 dungeonStartBankActorHitReaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused)
+s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
     R08_801740F4_Scratchpad *scratch = (R08_801740F4_Scratchpad *)0x1F800000;

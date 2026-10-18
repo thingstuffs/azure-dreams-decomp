@@ -15,9 +15,9 @@ typedef struct {
 
 
 
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 struct Node;
-s32 func_800A0548();                        /* extern */
+s32 is_map_coordinate_out_of_bounds();                        /* extern */
 extern s8 D_800DD7DC;
 
 
@@ -25,7 +25,7 @@ typedef struct S_8009AF18_0 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8009AF18_0;   /* arg2 in dungeonMeasureDirectionalStoppingDistance */
+} S_8009AF18_0;   /* arg2 in measure_directional_stopping_distance */
 
 typedef struct S_8009AF18_2 {
     u8 pad_00[0x13];
@@ -38,15 +38,15 @@ typedef struct S_8009AF18_2 {
 typedef struct S_8009AF18_3 {
     u8 pad_00[0x124];
     void * unk_124;
-} S_8009AF18_3;   /* *(void **)(page + 0x3D7C) in dungeonMeasureDirectionalStoppingDistance */
+} S_8009AF18_3;   /* *(void **)(page + 0x3D7C) in measure_directional_stopping_distance */
 
 typedef struct S_8009AF18_4 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_8009AF18_4;   /* ((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124 in dungeonMeasureDirectionalStoppingDistance */
+} S_8009AF18_4;   /* ((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124 in measure_directional_stopping_distance */
 
 /* Checks successive tiles in a direction and returns the stopping distance. */
-s32 dungeonMeasureDirectionalStoppingDistance(u32 direction_flags, PositionHeightView *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
+s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightView *origin, S_8009AF18_0 *start_tile, u16 max_steps) {
     u16 tile_flags;
     s32 direction_index;
     s32 direction;
@@ -70,12 +70,12 @@ s32 dungeonMeasureDirectionalStoppingDistance(u32 direction_flags, PositionHeigh
         direction = direction_index;
         do {
             check_x = (s16) tile_x;
-            if (func_800A0548(check_x, (s16) tile_y) != 0) {
+            if (is_map_coordinate_out_of_bounds(check_x, (s16) tile_y) != 0) {
                 return (s16) (step - 1);
             }
-            if ((getOffsetMapCellValueAndFlags(check_x, (s16) tile_y, direction, &tile_flags) << 0x10) != 0) {
-                tile_x += (u16)dirStepX[direction];
-                tile_y += (u16)dirStepY[direction];
+            if ((get_offset_map_cell_value_and_flags(check_x, (s16) tile_y, direction, &tile_flags) << 0x10) != 0) {
+                tile_x += (u16)dir_step_x[direction];
+                tile_y += (u16)dir_step_y[direction];
                 if (tile_flags & 0x3300) {
                     {
                         EntityRec *world;

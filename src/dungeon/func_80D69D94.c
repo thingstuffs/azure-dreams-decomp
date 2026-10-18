@@ -21,7 +21,7 @@ typedef struct S_80175594_0 {
     s32 unk_AC;
     u8 pad_B0[0x6];
     u16 unk_B6;
-} S_80175594_0;   /* arg0 in func_80175594 */
+} S_80175594_0;   /* arg0 in relocate_entity_after_animation */
 
 typedef struct S_80175594_1 {
     u8 pad_00[0x2];
@@ -33,7 +33,7 @@ typedef struct S_80175594_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175594_1;   /* arg1 in func_80175594 */
+} S_80175594_1;   /* arg1 in relocate_entity_after_animation */
 
 
 typedef struct S_80175594_3 {
@@ -45,7 +45,7 @@ typedef struct S_80175594_3 {
     u16 unk_46;
     u8 pad_48[0x40];
     s16 unk_88;
-} S_80175594_3;   /* object in func_80175594 */
+} S_80175594_3;   /* object in relocate_entity_after_animation */
 
 
 extern u8 D_800E2348[];
@@ -55,22 +55,22 @@ extern s32 D_80171F1C;
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_80069EF8(void);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A3D0(s32, s32, s32);
-extern s16 selectDungeonSpawnTile(u8 *, u8 *);
-extern void func_800A56E0(s32);
-extern void func_800AA53C(u8 *context);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-extern void dungeonCreateRadialEffectSegments(void *, void *, void *, void *);
-extern void createDirectionalTemplateEffect(void *, void *, void *, void *);
-extern void dungeonCreateAnchoredDirectionalObject(void *, void *, void *, void *, s32);
-extern void dungeonCreateOriginMotionEffect(void *, void *, void *, s32, s32, s32);
-extern s32 dungeonRandomBelowLimit(s32);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
+extern void play_sound_if_enabled(s32);
+extern void refresh_actor_proximity_state(u8 *context);
+extern void reduce_actor_food_meter(void *, s32);
+extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
+extern void create_radial_effect_segments(void *, void *, void *, void *);
+extern void create_directional_template_effect(void *, void *, void *, void *);
+extern void create_anchored_directional_object(void *, void *, void *, void *, s32);
+extern void create_origin_motion_effect(void *, void *, void *, s32, s32, s32);
+extern s32 random_below_limit(s32);
 extern int abs(int);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
-void func_80175594(void *motion, void *position, void *entity, void *object)
+void relocate_entity_after_animation(void *motion, void *position, void *entity, void *object)
 {
     s32 particle_index;
     s32 tries_left;
@@ -112,7 +112,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
     case 1:
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
         func_80047784(entity,
-            D_800E23B8[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23B8[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80175594_0 *)motion)->unk_96 = 0;
         ((S_80175594_0 *)motion)->unk_9B++;
@@ -124,7 +124,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         }
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
         func_80047784(entity,
-            D_800E23C0[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            D_800E23C0[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80175594_0 *)motion)->unk_96 = 0;
         ((S_80175594_0 *)motion)->unk_9B++;
@@ -148,12 +148,12 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_0 *)motion)->unk_AC = 0;
         do {
-            burst_x = (s16)(dungeonRandomBelowLimit(0x2C) - 0x16);
-            random_y = dungeonRandomBelowLimit(0x2C) - 0x16;
-            dungeonCreateOriginMotionEffect(motion, position, entity, burst_x, random_y, 0x1E);
+            burst_x = (s16)(random_below_limit(0x2C) - 0x16);
+            random_y = random_below_limit(0x2C) - 0x16;
+            create_origin_motion_effect(motion, position, entity, burst_x, random_y, 0x1E);
             particle_index++;
         } while (particle_index < 6);
-        dungeonCreateRadialEffectSegments(motion, position, entity, object);
+        create_radial_effect_segments(motion, position, entity, object);
         return;
 
     case 5:
@@ -177,20 +177,20 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
             do {
                 scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
                 random_y = (func_80069EF8() & 0x1F) - 0x10;
-                dungeonCreateOriginMotionEffect(motion, position, entity, scatter_x, random_y, 0x1E);
+                create_origin_motion_effect(motion, position, entity, scatter_x, random_y, 0x1E);
                 particle_index++;
             } while (particle_index < 4);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 1) {
-            dungeonCreateAnchoredDirectionalObject(motion, position, entity, object, 1);
-            func_800A56E0(0x80A);
+            create_anchored_directional_object(motion, position, entity, object, 1);
+            play_sound_if_enabled(0x80A);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 2) {
-            createDirectionalTemplateEffect(motion, position, entity, object);
+            create_directional_template_effect(motion, position, entity, object);
         }
         if (((S_80175594_0 *)motion)->unk_96 == 6) {
-            dungeonCreateAnchoredDirectionalObject(motion, position, entity, object, 0x1A);
-            func_800A56E0(0x705);
+            create_anchored_directional_object(motion, position, entity, object, 0x1A);
+            play_sound_if_enabled(0x705);
         }
         if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
             return;
@@ -207,14 +207,14 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         return;
 
     case 7:
-        func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+        update_map_cell_flags_with_item_limit(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         tries_left = 0x20;
         old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
         old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
         for (;;) {
             do {
-                tile_result = selectDungeonSpawnTile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
+                tile_result = select_dungeon_spawn_tile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
             dx = abs(D_80082E80.tileX - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
@@ -231,7 +231,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
 
         ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
         ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
-        ground_z = func_800BCB04(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
+        ground_z = sample_terrain_surface_height(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
             -0x200);
         ground_z -= 0x11;
         height_offset = -0x20;
@@ -239,18 +239,18 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         ((S_80175594_0 *)motion)->unk_92.u = height_offset;
         ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
         ((S_80175594_3 *)object)->unk_88 = -0x200;
-        ground_z = func_800BCB04(
+        ground_z = sample_terrain_surface_height(
             (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) | 0x20,
             (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) | 0x20,
             -0x200);
         ((S_80175594_3 *)object)->unk_88 = ground_z;
 
-        func_8009A21C(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+        cycle_map_cell_flags(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        func_800AA53C(object);
-        dungeonReduceActorFoodMeter(object, 0x1000);
+        refresh_actor_proximity_state(object);
+        reduce_actor_food_meter(object, 0x1000);
         ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_1 *)position)->unk_10 = 0;
         ((S_80175594_1 *)position)->unk_0C = 0;
@@ -262,7 +262,7 @@ void func_80175594(void *motion, void *position, void *entity, void *object)
         if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
             func_80047784(entity,
-                animations[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+                animations[((g_game_work.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
             ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;

@@ -5,18 +5,18 @@
 
 typedef struct S_800B3D10_6 {
     u8 unk_00;
-} S_800B3D10_6;   /* ((Rec_D_800E3D7C *)arg2)->unk_4C.as_pv in dungeonApplyEffectBonuses */
+} S_800B3D10_6;   /* ((Rec_D_800E3D7C *)arg2)->unk_4C.as_pv in apply_effect_bonuses */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 dungeonGetClampedAdjustedValue();                          /* extern */
-s32 dungeonResolveAlternateSpellId();                             /* extern */
+s32 get_clamped_adjusted_value();                          /* extern */
+s32 resolve_alternate_spell_id();                             /* extern */
 extern u8 D_800E3D68;
 
 
 typedef struct S_800B3D10_1 {
     u8 unk_00;
-} S_800B3D10_1;   /* &D_800E3D68 in dungeonApplyEffectBonuses */
+} S_800B3D10_1;   /* &D_800E3D68 in apply_effect_bonuses */
 
 typedef struct S_800B3D10_2 {
     u8 unk_00;
@@ -34,7 +34,7 @@ typedef struct S_800B3D10_4 {
 } S_800B3D10_4;
 
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
-void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
+void apply_effect_bonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
     s32 effect_offset;
     s32 effect_index;
     s16 unused_value;
@@ -44,7 +44,7 @@ void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record)
     S_800B3D10_3 *type7_data;
     S_800B3D10_4 *type8_data;
 
-    effect_offset = dungeonResolveAlternateSpellId(effect_id) - 1;
+    effect_offset = resolve_alternate_spell_id(effect_id) - 1;
     effect_index = (s16) effect_offset;
     switch (effect_index) {
     case 0:
@@ -91,7 +91,7 @@ void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record)
                 + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
             return;
         }
-        bonus_base = record->unk_20 - ((s32) (dungeonGetClampedAdjustedValue(record) << 0x10) >> 0xF);
+        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
         if (bonus_base < 0) {
             bonus_base = 0;
         }
@@ -119,7 +119,7 @@ void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record)
                 + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
             return;
         }
-        bonus_base = record->unk_20 - ((s32) (dungeonGetClampedAdjustedValue(record) << 0x10) >> 0xF);
+        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
         if (bonus_base < 0) {
             bonus_base = 0;
         }
@@ -147,7 +147,7 @@ void dungeonApplyEffectBonuses(s16 effect_id, s32 unused_arg, EntityRec *record)
                 + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
             return;
         }
-        bonus_base = record->unk_20 - ((s32) (dungeonGetClampedAdjustedValue(record) << 0x10) >> 0xF);
+        bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
         if (bonus_base < 0) {
             bonus_base = 0;
         }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
+void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
 {
     u8 *root;
     void *render_data;
@@ -40,7 +40,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
 
     case 1:
         root_prefix = (ovl_188898c_818694D4_RootPrefix *)(root - 0x20);
-        if (resolveRecordOrientationOrFallback(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
             if (!(root_prefix->lookup->flags & 0x8000)) {
                 break;
             }
@@ -103,7 +103,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         end_y = cell_y;
 
         do {
-            if ((s16)dungeonCheckLayerOffsetHeight(((s16)cell_x << 6) & 0xFFC0,
+            if ((s16)check_layer_offset_height(((s16)cell_x << 6) & 0xFFC0,
                 ((s16)cell_y << 6) & 0xFFC0,
                 *(s16 *)(root + 0x88),
                 (s16)(input_ctrl->angle << 9)) != 0) {
@@ -119,11 +119,11 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
 
                 direction = (s16)input_ctrl->angle;
                 root_z = *(u16 *)(root + 0x88);
-                lookup = &dirStepX[direction];
+                lookup = &dir_step_x[direction];
                 step_x = lookup;
                 height = (s16)(root_z - 32);
-                step_y = &dirStepY[direction];
-                floor_height = func_800BCB04((((s16)cell_x + *step_x) << 6) + 32 & 0xFFE0,
+                step_y = &dir_step_y[direction];
+                floor_height = sample_terrain_surface_height((((s16)cell_x + *step_x) << 6) + 32 & 0xFFE0,
                     (((s16)cell_y + *step_y) << 6) + 32 & 0xFFE0,
                     height);
             }
@@ -139,8 +139,8 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
 
                 direction = (s16)input_ctrl->angle;
                 steps++;
-                cell_x += dirStepX[direction];
-                cell_y += dirStepY[direction];
+                cell_x += dir_step_x[direction];
+                cell_y += dir_step_y[direction];
                 end_x = cell_x;
                 end_y = cell_y;
             }
@@ -155,7 +155,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
             ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi = ((end_x << 16) >> 10) + 32;
             ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi = ((end_y << 16) >> 10) + 32;
             ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = -1024;
-            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = func_800BCB04((u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi,
+            ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = sample_terrain_surface_height((u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[0].h.hi,
                 (u16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[1].h.hi, -1024);
             if ((s16)((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi >= 513) {
                 ((ovl_188898c_818694D4_Fixed32 *)linked_motion)[2].h.hi = input_motion->z.h.hi + 32;
@@ -173,14 +173,14 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         input_motion->x.val += input_motion->dx.val;
         input_motion->y.val += input_motion->dy.val;
         input_motion->z.val += input_motion->dz.val;
-        interpolateShadeAndQueueLine(input_ctrl, render_data);
+        interpolate_shade_and_queue_line(input_ctrl, render_data);
         if (input_ctrl->timer < 15) {
             break;
         }
         input_ctrl->timer = 0;
         input_ctrl->state++;
-        dungeonDelayAndFadeParticle(input_ctrl, input_motion);
-        func_800A56E0(0x300);
+        delay_and_fade_particle(input_ctrl, input_motion);
+        play_sound_if_enabled(0x300);
         break;
 
     case 3:
@@ -190,7 +190,7 @@ void func_80024CD4(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_8186
         input_ctrl->timer = 0;
         input_ctrl->ready = 0;
         input_ctrl->state++;
-        createCoordinateSpriteObject(input_ctrl, input_motion);
+        create_coordinate_sprite_object(input_ctrl, input_motion);
         break;
 
     case 4:
@@ -206,9 +206,9 @@ advance:
 
     case 5:
         if (input_ctrl->active == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             *(u16 *)((u8 *)input_ctrl - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
 
     default:

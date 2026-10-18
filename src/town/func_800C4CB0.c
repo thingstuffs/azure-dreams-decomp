@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void townFinalizeKeimaResourceOperation();                            /* extern */
+void finalize_keima_resource_operation();                            /* extern */
 
 /* start_keima2_func: Prepare and start the second keima event. */
 void start_keima2_func(void) {
-    townFinalizeKeimaResourceOperation();
-    townInitializeKeimaInterface(0, 0, 0, 0);
+    finalize_keima_resource_operation();
+    initialize_keima_interface(0, 0, 0, 0);
 }

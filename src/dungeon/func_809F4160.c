@@ -11,7 +11,7 @@ typedef struct S_80171960_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171960_0;   /* arg3 in dungeonAdvanceStoredActorPath */
+} S_80171960_0;   /* arg3 in advance_stored_actor_path */
 
 typedef struct S_80171960_1 {
     u8 pad_00[0x24];
@@ -19,7 +19,7 @@ typedef struct S_80171960_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171960_1;   /* arg2 in dungeonAdvanceStoredActorPath */
+} S_80171960_1;   /* arg2 in advance_stored_actor_path */
 
 typedef struct S_80171960_2 {
     u8 pad_00[0x96];
@@ -28,26 +28,26 @@ typedef struct S_80171960_2 {
     u8 unk_9A;
     u8 pad_9B[0xD];
     s16 unk_A8;
-} S_80171960_2;   /* arg0 in dungeonAdvanceStoredActorPath */
+} S_80171960_2;   /* arg0 in advance_stored_actor_path */
 
 typedef struct S_80171960_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171960_3;   /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in dungeonAdvanceStoredActorPath */
+} S_80171960_3;   /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
 
 extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 cycle_map_cell_flags();
+extern s32 update_map_cell_flags_with_item_limit();
+extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 D_80175140[];
 extern u8 D_80175148[];
 
 /* Advance the actor along its stored path and update movement direction and timing. */
-void dungeonAdvanceStoredActorPath(void *motion, s32 unused, void *actor, void *move_state)
+void advance_stored_actor_path(void *motion, s32 unused, void *actor, void *move_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -68,7 +68,7 @@ void dungeonAdvanceStoredActorPath(void *motion, s32 unused, void *actor, void *
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_80175140;
         func_80047784(
             actor,
-            D_80175140[((gameWork.view.viewAngle + ((S_80171960_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80175140[((g_game_work.view.viewAngle + ((S_80171960_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80171960_2 *)motion)->unk_A8 = 0;
     }
@@ -79,7 +79,7 @@ void dungeonAdvanceStoredActorPath(void *motion, s32 unused, void *actor, void *
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, tile_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     ((S_80171960_1 *)actor)->unk_24 =
         ((S_80171960_3 *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->unk_74;
@@ -93,16 +93,16 @@ void dungeonAdvanceStoredActorPath(void *motion, s32 unused, void *actor, void *
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, tile_mask);
+    cycle_map_cell_flags(new_x, new_y, tile_mask);
 
-    ((S_80171960_0 *)move_state)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+    ((S_80171960_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
         old_x, old_y, ((S_80171960_1 *)actor)->unk_24, ((S_80171960_1 *)actor)->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171960_0 *)move_state)->unk_1C.u |= 0x40000000;
     ((S_80171960_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_80171960_2 *)motion)->unk_96 = 0;
         return;
     }

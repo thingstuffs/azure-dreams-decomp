@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void markRecordIfIndirectValueZero(void *a0, void *a1);
-extern void tableHandleDecrementsCounterSetsPrecedingHalfwordGlobalFlagBitHex8000Remains(unsigned short *entry_data, int *counter);
+extern void mark_record_if_indirect_value_zero(void *a0, void *a1);
+extern void table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex_8000_remains(unsigned short *entry_data, int *counter);
 
-/* Passes both pointers through markRecordIfIndirectValueZero and tableHandleDecrementsCounterSetsPrecedingHalfwordGlobalFlagBitHex8000Remains in order. */
+/* Passes both pointers through mark_record_if_indirect_value_zero and table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex_8000_remains in order. */
 void func_8004B324(void *first_ptr, void *second_ptr)
 {
-    markRecordIfIndirectValueZero(first_ptr, second_ptr);
-    tableHandleDecrementsCounterSetsPrecedingHalfwordGlobalFlagBitHex8000Remains(first_ptr, second_ptr);
+    mark_record_if_indirect_value_zero(first_ptr, second_ptr);
+    table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex_8000_remains(first_ptr, second_ptr);
 }

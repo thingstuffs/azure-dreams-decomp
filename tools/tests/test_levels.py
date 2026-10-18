@@ -8,7 +8,7 @@ docs/PIN_CAMPAIGN_CHARTER.md "Rulings 2026-09-22 (evening)" section):
   - L4 = the module criterion AND pins == 0 (strict) AND zero tail-jump dependency of any kind,
     audited or not.
 
-Synthetic rows/text only; no filesystem writes, no compiler, no real ledger/config files read
+Synthetic rows/text and temporary fixtures only; no repository writes, no compiler, no real ledger/config files read
 except the real (committed) config/decomp_audit_baseline.json, which does not mention any
 synthetic row id used here and so contributes no fidelity sites.  container_tail_syms()'s cache is
 pre-seeded empty so no test result depends on the live content of config/sibcall_syms*.txt /
@@ -525,6 +525,63 @@ class L5TailCallAndFidelityPredicate(unittest.TestCase):
         text = "void func_80091234(void) { func_80010000(); }\n"
         self.assertEqual(self._blocking(text, [site]), [site[1]])
 
+
+class NamedVoidCallees(unittest.TestCase):
+    """A named exact (void) definition still clears its byte-derived no-args site."""
+
+    def _check(self, definition, *, exact=True, container="dungeon", expected=True):
+        import json, tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        import census as C
+        import call_arity as A
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for name in ("config", "ledger", "src/" + container):
+                (root / name).mkdir(parents=True)
+            (root / "config/names.tsv").write_text(
+                "0x80099000\tfunc_80099000\tfind_empty_slot\ttest\n")
+            (root / "src" / container / "func_80098000.c").write_text(definition)
+            baseline = {"id": container + "/func_80098000", "exact": exact}
+            if container == "slus":
+                baseline = {"id": "slus/func_80098000", "status": "ok" if exact else "fail"}
+            (root / "ledger/baseline.jsonl").write_text(json.dumps(baseline) + "\n")
+            site = "PASSTHRU_NO_ARGS|func_80099000|0"
+            r = row()
+            # The call's asm identity arrives only in the appended module header.
+            body = "void func_80091234(void) { free_entry_short(); }\n"
+            context = 's16 free_entry_short(void) __asm__("func_80099000");\n'
+            with patch.multiple(C, ROOT=root, LEDGER=root / "ledger",
+                                _VOID_EXACT_TARGETS=None, _DECLARED_VOID=None,
+                                _SITES={r["id"]: [site]}), \
+                 patch.multiple(A, ROOT=root, _NAMES=None), \
+                 patch.object(A, "rows", return_value=[]), \
+                 patch.object(L, "_CONTAINER_SYMS", {"dungeon": set()}), \
+                 patch.object(L, "_FID", (set(), {})):
+                self.assertEqual("func_80099000" in C.void_exact_targets(), expected)
+                self.assertEqual(C.live_sites(body + context, [site]), [] if expected else [site])
+                rec = L.evaluate_row(r, body + context, "pinned", {r["id"]}, {}, {})
+                self.assertEqual(rec["blocking"], not expected)
+                self.assertEqual(rec["level"], 3 if expected else 0)
+
+    def test_named_void_definition_with_module_abi_alias(self):
+        self._check("s32 find_empty_slot(void) { return -1; }\n")
+
+    def test_legacy_void_definition_still_clears_site(self):
+        self._check("s32 func_80099000(void) { return -1; }\n")
+
+    def test_named_slus_void_definition_uses_status_verdict(self):
+        self._check("s32 find_empty_slot(void) { return -1; }\n", container="slus")
+
+    def test_only_exact_void_definitions_clear_site(self):
+        for definition, exact in (
+                ("s32 find_empty_slot(void) { return -1; }\n", False),
+                ("s32 find_empty_slot(s32 n) { return n; }\n", True),
+                ("s32 find_empty_slot() { return -1; }\n", True),
+                ("s32 find_empty_slot(void);\n", True),
+                ("s32 unregistered_name(void) { return -1; }\n", True)):
+            with self.subTest(definition=definition, exact=exact):
+                self._check(definition, exact=exact, expected=False)
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,35 +5,35 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-void dungeonBeginDeferredItemAction();
-void dungeonClearSlotAndUpdateLinkedState();
-s32 func_800A56E0();
-void func_800A5F38();
-void func_800A63B8();
-s32 dungeonApplyActorFoodPreference();
-s32 func_800C8900();
+void begin_deferred_item_action();
+void clear_slot_and_update_linked_state();
+s32 play_sound_if_enabled();
+void apply_item_effect_at_entity_position();
+void display_item_status_message();
+s32 apply_actor_food_preference();
+s32 try_apply_effect_four_by_chance();
 extern u16 D_800DDE84[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
-s32 dungeonApplyParalysisItem(EntityRec *target, s32 item, s16 use_type) {
+s32 apply_paralysis_item(EntityRec *target, s32 item, s16 use_type) {
     if (target == D_800E3D7C) {
         target->unk_110 = item;
-        dungeonBeginDeferredItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((s32)target <= 0x9FFFFFFFU) {
-        func_800A63B8(target, item, use_type);
-        if (dungeonApplyActorFoodPreference(target,
+        display_item_status_message(target, item, use_type);
+        if (apply_actor_food_preference(target,
                           (D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
                           0) == 0) {
-            func_800A5F38(target, item);
+            apply_item_effect_at_entity_position(target, item);
             return 1;
         }
     }
-    if (func_800C8900(target, 0x400, 8) != 0) {
-        func_800A56E0(0x612);
+    if (try_apply_effect_four_by_chance(target, 0x400, 8) != 0) {
+        play_sound_if_enabled(0x612);
     }
-    dungeonClearSlotAndUpdateLinkedState(item);
-    dungeonStatus.unk_0A--;
+    clear_slot_and_update_linked_state(item);
+    g_dungeon_status.unk_0A--;
     return 1;
 }

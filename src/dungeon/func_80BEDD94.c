@@ -2,7 +2,7 @@
 
 void func_80173594(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonInterpolateActorToTerrainTile(state, motion, position, actor)) {
-        state->callback = func_80171014;
+    if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
+        state->callback = update_actor_state_and_dispatch_transition;
     }
 }

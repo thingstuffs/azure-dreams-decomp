@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(u8 *shape, void *position, s16 scale_num, s16 scale_den)
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
     u8 *gfx_slot = ovl_1930844_81910EC0_GFX_ROOT_SLOT;
     u8 *gfx = *(u8 **)gfx_slot;

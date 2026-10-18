@@ -1,28 +1,28 @@
 #include "common.h"
 
-extern void markSpriteResourcesForPurge(void);
-extern void clearMarkedSlotEntries(void);
-extern void *prepareUncachedSpriteResource(s16 a0);
-extern void drainCdCommandQueue(void);
-extern void registerAndUploadThreeSlotSpriteResource(s32 a0, void *a1);
-extern void registerAndUploadSpriteResource(s32 a0, void *a1);
+extern void mark_sprite_resources_for_purge(void);
+extern void clear_marked_slot_entries(void);
+extern void *prepare_uncached_sprite_resource(s16 a0);
+extern void drain_cd_command_queue(void);
+extern void register_and_upload_three_slot_sprite_resource(s32 a0, void *a1);
+extern void register_and_upload_sprite_resource(s32 a0, void *a1);
 
 /* Initializes an entity by type, running housekeeping first for type 0x38. */
-void loadAndUploadSpriteResource(s16 entity_type)
+void load_and_upload_sprite_resource(s16 entity_type)
 {
     void *entity;
 
     if (entity_type == 0x38) {
-        markSpriteResourcesForPurge();
-        clearMarkedSlotEntries();
+        mark_sprite_resources_for_purge();
+        clear_marked_slot_entries();
     }
-    entity = prepareUncachedSpriteResource(entity_type);
+    entity = prepare_uncached_sprite_resource(entity_type);
     if (entity) {
-        drainCdCommandQueue();
+        drain_cd_command_queue();
         if (entity_type == 0x38) {
-            registerAndUploadThreeSlotSpriteResource(0x38, entity);
+            register_and_upload_three_slot_sprite_resource(0x38, entity);
         } else {
-            registerAndUploadSpriteResource(entity_type, entity);
+            register_and_upload_sprite_resource(entity_type, entity);
         }
     }
 }

@@ -5,7 +5,7 @@
 
 extern M2C_UNK D_8009B454;
 /* Set the state flag and assign the object's data pointer to D_8009B454. */
-void townSetActorMotionState(Rec_func_80094268_arg0 *object, Rec_D_800CFCB4 *state) {
+void set_actor_motion_state(Rec_func_80094268_arg0 *object, Rec_D_800CFCB4 *state) {
     state->unk_15 = 1;
     object->unk_50.as_pm = &D_8009B454;
 }

@@ -30,11 +30,11 @@ typedef struct {
 } S_80085FA8;
 
 extern s32 D_800737DC[16];
-extern s32 slusReadNextByteAndFinish(S_80085FA8 *a0);
+extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
 extern void func_80058E64(u8 status);
 extern void func_80058E6C(S_80085FA8 *a0, s32 a1);
-extern void skipVlqPayloadUntilF7(S_80085FA8 *a0);
-extern s32 audioDispatchMidiEvent(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
+extern void skip_vlq_payload_until_f_7(S_80085FA8 *a0);
+extern s32 audio_dispatch_midi_event(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
 /* Read and dispatch the next event, reusing the previous status when needed. */
 s32 func_8005947C(S_80085FA8 *stream)
@@ -49,7 +49,7 @@ s32 func_8005947C(S_80085FA8 *stream)
     s32 subcommand;
 
     second_data = 0;
-    input_byte = slusReadNextByteAndFinish(stream);
+    input_byte = read_next_byte_and_finish(stream);
     event_byte = input_byte;
     if (!(input_byte & 0x80)) {
         status = stream->f4a;
@@ -68,22 +68,22 @@ s32 func_8005947C(S_80085FA8 *stream)
         if (stream->f49 != 0) {
             first_data = event_byte;
         } else {
-            first_data = slusReadNextByteAndFinish(stream);
+            first_data = read_next_byte_and_finish(stream);
         }
         if (data_count == 2) {
-            second_data = slusReadNextByteAndFinish(stream);
+            second_data = read_next_byte_and_finish(stream);
         }
-        audioDispatchMidiEvent(stream, status & 0xFF, first_data, second_data & 0xFF);
+        audio_dispatch_midi_event(stream, status & 0xFF, first_data, second_data & 0xFF);
         return 0;
     }
     if (event_byte != 0xF0) {
         if (event_byte == 0xFF) {
-            subcommand = slusReadNextByteAndFinish(stream);
+            subcommand = read_next_byte_and_finish(stream);
             func_80058E6C(stream, subcommand & 0xFF);
             return 0;
         }
     } else {
-        skipVlqPayloadUntilF7(stream);
+        skip_vlq_payload_until_f_7(stream);
         return 0;
     }
     func_80058E64(event_byte);

@@ -14,9 +14,9 @@ extern int abs(int);
 #define U32(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
 
-extern void townCreateTintedAnimatedParticle();
-extern void townCreateRandomizedTrailParticle();
-extern void townCreateBriefRandomizedParticle();
+extern void create_tinted_animated_particle();
+extern void create_randomized_trail_particle();
+extern void create_brief_randomized_particle();
 extern void func_8004491C();
 extern void SD_Call();
 extern s32 rand();
@@ -26,7 +26,7 @@ extern u8 D_800F7950[];
 extern u8 D_800F795C[];
 
 /* Updates object movement, proximity reactions, and particle effects through each phase. */
-void func_8002614C(void *state_data, void *position_data, void *sprite_data)
+void update_object_movement_proximity_reactions(void *state_data, void *position_data, void *sprite_data)
 {
     u8 *state = state_data;
     s32 *position = position_data;
@@ -59,7 +59,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
             remaining = 3;
 loop_0:
             {
-                townCreateRandomizedTrailParticle(position);
+                create_randomized_trail_particle(position);
                 remaining--;
             }
             if (remaining >= 0)
@@ -69,7 +69,7 @@ loop_0:
             U16(sprite, 0x14) |= 0xC;
             remaining = 2;
             do {
-                townCreateBriefRandomizedParticle(position);
+                create_brief_randomized_particle(position);
                 remaining--;
             } while (remaining >= 0);
             break;
@@ -174,7 +174,7 @@ loop_0:
         do {
             x_jitter = (rand() & 0xFF) - 0x80;
             particle_x = *position + (x_jitter << 14);
-            townCreateTintedAnimatedParticle(0, particle_x, position[1] + 0x80000,
+            create_tinted_animated_particle(0, particle_x, position[1] + 0x80000,
                 ((rand() % 80) << 16) + 0xFFB00000);
             remaining--;
         } while (remaining >= 0);
@@ -197,7 +197,7 @@ loop_0:
         do {
             burst_x = (((rand() & 0xFF) - 0x80) << 14) + 0x5600000;
             burst_velocity = ((rand() & 0x3F) << 16) | 0xFFC00000;
-            townCreateTintedAnimatedParticle(0, burst_x, position[1] + 0x80000, burst_velocity);
+            create_tinted_animated_particle(0, burst_x, position[1] + 0x80000, burst_velocity);
             remaining--;
         } while (remaining >= 0);
 common_countdown:
@@ -210,7 +210,7 @@ common_countdown:
     case 0xFF:
         U16(object, 0x58) &= 0xFFFE;
         U16(state, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

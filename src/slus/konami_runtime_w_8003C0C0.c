@@ -6,6 +6,6 @@
 
 
 /* Clears the record's unk_04 field. */
-void runtimeClearRecordField04(Rec_D_80082D58 *record) {
+void runtime_clear_record_field_04(Rec_D_80082D58 *record) {
     record->unk_04 = 0;
 }

@@ -10,10 +10,10 @@ typedef struct Entry {
 } Entry;
 
 extern u8 D_800274C0[];
-extern void dungeonTransformShadeAndQueueModelQuads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
+extern void transform_shade_and_queue_model_quads(void *parent_matrix, void *translation, void *model, s16 depth_bias);
 
 /* Processes twelve buffer slots for each entry in a linked state chain. */
-s32 dungeonProcessEffectBufferChain(void *initial_state, s32 initial_value, Entry *initial_entry)
+s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, Entry *initial_entry)
 {
     void *state = initial_state;
     s32 value = initial_value;
@@ -31,10 +31,10 @@ s32 dungeonProcessEffectBufferChain(void *initial_state, s32 initial_value, Entr
         do {
             entry->field_8 = slot;
             slot += 0x10;
-            dungeonSetAnimationEntryAddress((Entry *)entry_or_link, entry->field_4);
+            set_animation_entry_address((Entry *)entry_or_link, entry->field_4);
             slot_index++;
-            func_800257D0(state, entry->field_0);
-            dungeonTransformShadeAndQueueModelQuads(state, value, entry, entry->field_6);
+            update_traveling(state, entry->field_0);
+            transform_shade_and_queue_model_quads(state, value, entry, entry->field_6);
             entry_or_link = entry;
         } while (slot_index < 12);
 

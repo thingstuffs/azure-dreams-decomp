@@ -6,13 +6,13 @@
 extern void func_800478B8(void *record);
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
-} S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceOrBlockFadingRecord, addressed as arg0[-1] */
+} S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in advance_or_block_fading_record, addressed as arg0[-1] */
 
 typedef struct S_80099B18_1 {
     u8 pad_00[0xE];
     s16 unk_0E;
     u16 unk_10;
-} S_80099B18_1;   /* arg0 in dungeonAdvanceOrBlockFadingRecord */
+} S_80099B18_1;   /* arg0 in advance_or_block_fading_record */
 
 typedef struct S_80099B18_2 {
     s32 unk_00;
@@ -21,10 +21,10 @@ typedef struct S_80099B18_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80099B18_2;   /* arg1 in dungeonAdvanceOrBlockFadingRecord */
+} S_80099B18_2;   /* arg1 in advance_or_block_fading_record */
 
 /* Flag blocked records or advance their state, damping motion and fading color when enabled. */
-void dungeonAdvanceOrBlockFadingRecord(void *state, S_80099B18_2 *motion, Rec_D_80082E80 *record)
+void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, Rec_D_80082E80 *record)
 {
     u16 update_count;
     u8 red;
@@ -34,7 +34,7 @@ void dungeonAdvanceOrBlockFadingRecord(void *state, S_80099B18_2 *motion, Rec_D_
     if (record->unk_14.at00_u16.v & 0xE000) {
         ((S_80099B18_1_pre *)state)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     update_count = ((S_80099B18_1 *)state)->unk_10 + 1;

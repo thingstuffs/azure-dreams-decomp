@@ -23,7 +23,7 @@ extern s16 D_80175218[];
 extern void func_800453E0(void *, s32, Entry *, s16);
 
 /* Process linked entries whose 0x80 flag is clear, refreshing scratch state for each. */
-s32 func_80174574(void *initial_payload, s32 entry_data, Entry *entry, s32 unused)
+s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
     Scratchpad *scratch = (Scratchpad *)0x1F800000;

@@ -86,10 +86,10 @@ extern void func_8006751C(void *, s32);
 extern void func_80067688(void *);
 extern void func_800678E0(void *);
 /* LIBPRESS public entries; signatures agree with its shared header. */
-extern void func_801776D8(s32);
-extern void func_80177844(s32 *, s32);
-extern void func_801778C0(s32, u32);
-extern s32 func_8017797C(void (*)(void));
+extern void set_movie_decode_mode(s32);
+extern void configure_decoder_command_flags(s32 *, s32);
+extern void request_decoder_output_dma(s32, u32);
+extern s32 register_mode_one_callback(void (*)(void));
 /* The unregistered VLC routine is an external platform boundary. */
 extern s32 func_80177E6C(s32, void *);
 

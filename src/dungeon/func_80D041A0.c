@@ -34,11 +34,11 @@ extern u8 D_8015DE5C[];
 extern u8 D_8015DE64[];
 
 extern void func_80047784(Obj2 *, u8, s32);
-extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 dungeonCheckActorFloorTrap(Obj2 *, Obj3 *);
+extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
+extern s32 check_actor_floor_trap(Obj2 *, Obj3 *);
 
 /* Updates the kind-specific display table and selects its direction entry. */
-void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void select_kind_display_entry(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
 {
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
@@ -59,7 +59,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -73,7 +73,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -87,7 +87,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -96,8 +96,8 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
     }
 
 
-    if (func_800AC82C(owner, context, display, state) != 0) {
-        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
+    if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
+        if ((check_actor_floor_trap(display, state) << 16) > 0) {
             owner->field8c = D_8015A4BC;
         }
         return;
@@ -110,7 +110,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDC4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDC4), 0);
         return;
     case 14:
@@ -119,7 +119,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDCC;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDCC), 0);
         return;
     case 15:
@@ -128,7 +128,7 @@ void dungeonSelectKindDisplayEntry(Obj0 *owner, void *context, Obj2 *display_arg
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_8015DDD4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDD4), 0);
         return;
     default:

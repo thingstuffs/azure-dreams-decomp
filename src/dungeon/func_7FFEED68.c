@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-extern s32 townForwardSmallestSurfaceXQuery(s32 *);
+extern s32 forward_smallest_surface_x_query(s32 *);
 
 
 typedef struct S_8008C4C8_1 {
@@ -12,7 +12,7 @@ typedef struct S_8008C4C8_1 {
 } S_8008C4C8_1;
 
 /* Evaluates the summed vectors and subtracts the entry's first fixed-point component. */
-s16 dungeonEvaluateSummedVectorMinusBase(Rec_func_8008ACDC_arg0 *base_vector, s32 entries, s32 entry_index) {
+s16 evaluate_summed_vector_minus_base(Rec_func_8008ACDC_arg0 *base_vector, s32 entries, s32 entry_index) {
     s32 vector_sum[5];
     s32 result;
     s32 entry_offset;
@@ -25,7 +25,7 @@ s16 dungeonEvaluateSummedVectorMinusBase(Rec_func_8008ACDC_arg0 *base_vector, s3
     vector_sum[0] = base_vector->unk_00 + entry->unk_00;
     vector_sum[1] = base_vector->unk_04 + entry->unk_04;
     vector_sum[2] = base_vector->unk_08 + entry->unk_08;
-    result = townForwardSmallestSurfaceXQuery(vector_sum);
+    result = forward_smallest_surface_x_query(vector_sum);
     if ((s16) result == 0x7FFF) {
         return 0x7FFF;
     }

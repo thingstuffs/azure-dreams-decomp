@@ -3,7 +3,7 @@
 
 
 /* Return whether any of the 34 entries contains the requested byte value. */
-s32 townRecordValueTableContains(s32 target_value) {
+s32 record_value_table_contains(s32 target_value) {
     s32 entry_index;
     void *entry;
 

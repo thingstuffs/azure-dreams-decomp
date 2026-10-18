@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80024024(void *tracker) {
+void interpolate_view_parameters(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     Row_81916800_S_81916800_2 *target_values;
@@ -9,7 +9,7 @@ void func_80024024(void *tracker) {
     u8 *third_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
-    blend_state = &gameWork.view;
+    blend_state = &g_game_work.view;
     if (blend_ticks > 0) {
         blend_state->unk_098 = (u16) ((u16)blend_state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26))
             - blend_state->unk_098) / blend_ticks);

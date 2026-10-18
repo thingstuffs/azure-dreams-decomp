@@ -44,7 +44,7 @@ typedef struct S_80027070_3 {
 } S_80027070_3;
 
 /* Creates an object with the given position, graphic index, and state value. */
-void *dungeonCreatePositionedGraphicObject(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
+void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
     S_80027070_2 *graphics;
     void *object;
     S_80027070_1 *position;

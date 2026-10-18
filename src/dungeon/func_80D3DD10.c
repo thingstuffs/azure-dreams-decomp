@@ -8,12 +8,12 @@
 
 extern void func_80047784(void *, u8, s32);
 extern s32 rand(void);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void dungeonSpawnRandomizedDirectionalEffect(void *, s16, s32, s32);
-extern void createOwnerLinkedDirectionalObject(void *, void *, void *);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
+extern void create_owner_linked_directional_object(void *, void *, void *);
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2400[];
@@ -32,7 +32,7 @@ typedef struct S_80173510_0 {
     union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x14];
     u8 unk_B0;
-} S_80173510_0;   /* arg0 in dungeonAdvanceStagedActorMovement */
+} S_80173510_0;   /* arg0 in advance_staged_actor_movement */
 
 
 typedef struct S_80173510_3 {
@@ -44,10 +44,10 @@ typedef struct S_80173510_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173510_3;   /* arg1 in dungeonAdvanceStagedActorMovement */
+} S_80173510_3;   /* arg1 in advance_staged_actor_movement */
 
 /* Updates a staged movement animation and returns the entity to its tile center. */
-void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record, EntityRec *actor)
+void advance_staged_actor_movement(void *action, void *motion, void *record, EntityRec *actor)
 {
     u8 state;
 
@@ -61,17 +61,17 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
             ((S_80173510_0 *)action)->unk_9B.n = 5;
             ((S_80173510_0 *)action)->unk_96.u = 0;
             ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             if (((S_80173510_0 *)action)->unk_B0 != 0) {
                 return;
             }
-            createOwnerLinkedDirectionalObject(action, motion, record);
+            create_owner_linked_directional_object(action, motion, record);
             return;
         }
 
@@ -96,9 +96,9 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
         }
 
         ((S_80173510_0 *)action)->unk_96.u = 0x12;
-        direction_x = (s16 *)((s8 *)dirStepX);
+        direction_x = (s16 *)((s8 *)dir_step_x);
         ((S_80173510_0 *)action)->unk_9B.n++;
-        direction_y = (s16 *)((s8 *)dirStepY);
+        direction_y = (s16 *)((s8 *)dir_step_y);
         ((S_80173510_3 *)motion)->unk_0C =
             -*(s16 *)((u8 *)direction_x +
               ((((u16)actor->facing) >> 8) & 0xE)) << 18;
@@ -128,11 +128,11 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
             animation_ids = D_800E2400;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 1);
 
-            direction_x = (s16 *)((s8 *)dirStepX);
-            direction_y = (s16 *)((s8 *)dirStepY);
+            direction_x = (s16 *)((s8 *)dir_step_x);
+            direction_y = (s16 *)((s8 *)dir_step_y);
             ((S_80173510_3 *)motion)->unk_0C =
                 *(s16 *)((u8 *)direction_x +
                   ((((u16)actor->facing) >> 8) & 0xE)) << 19;
@@ -145,14 +145,14 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
         if (entity_kind == 4 || entity_kind == eight) {
             s32 particles_left;
 
-            func_800A56E0(0x706);
+            play_sound_if_enabled(0x706);
             particles_left = 0x14;
             do {
                 s32 particle_random;
 
                 particles_left--;
                 particle_random = rand();
-                dungeonSpawnRandomizedDirectionalEffect((u8 *)action - 0x20,
+                spawn_randomized_directional_effect((u8 *)action - 0x20,
                     actor->facing, 0x8080FF,
                     (particle_random & 0xFF) | 0x80);
             } while (particles_left >= 0);
@@ -184,16 +184,16 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
             ((S_80173510_3 *)motion)->unk_14 = 0;
             ((S_80173510_3 *)motion)->unk_10 = 0;
             ((S_80173510_3 *)motion)->unk_0C = 0;
-            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
             animation_ids = D_800E23E0;
             (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
             func_80047784(record,
-                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                animation_ids[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80173510_0 *)action)->unk_92 = -0x20;
             if (((S_80173510_0 *)action)->unk_B0 == 0) {
-                createOwnerLinkedDirectionalObject(action, motion, record);
+                create_owner_linked_directional_object(action, motion, record);
             }
         }
 
@@ -248,10 +248,10 @@ void dungeonAdvanceStagedActorMovement(void *action, void *motion, void *record,
             return;
         }
 
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80173510_0 *)action)->unk_8C = D_80171A80;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         ((S_80173510_3 *)motion)->unk_0C = 0;
         ((S_80173510_3 *)motion)->unk_10 = 0;
         ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 dungeonFindFirstQualifyingCell(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
+s16 find_first_qualifying_cell(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
 {
     s16 rows_left;
     s16 cols_left;
@@ -15,7 +15,7 @@ s16 dungeonFindFirstQualifyingCell(s16 record_id, s16 *out_x, s16 *out_y, s32 se
 
     rows_left = D_800E2970[record_id].h;
     y = D_800E2970[record_id].y;
-    state = &gameWork.map;
+    state = &g_game_work.map;
     if (rows_left > 0) {
         do {
             row = (s16)y;
@@ -28,7 +28,7 @@ s16 dungeonFindFirstQualifyingCell(s16 record_id, s16 *out_x, s16 *out_y, s32 se
                     flags = cell->flags;
                     if (!(flags & 0x8400)) {
                         if ((flags & 0x300) == 0x200) {
-                            cell_result = func_800BCB04((((s16)x << 6) + 0x20) & 0xFFE0, center_y & 0xFFFF, -0x400);
+                            cell_result = sample_terrain_surface_height((((s16)x << 6) + 0x20) & 0xFFE0, center_y & 0xFFFF, -0x400);
                             if (cell_result < 0x200) {
                                 *out_x = x;
                                 *out_y = y;

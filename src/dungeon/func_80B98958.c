@@ -17,23 +17,23 @@ typedef struct S_80172158_0 {
     u8 pad_9C[0x2];
     s16 unk_9E;
     s32 unk_A0;
-} S_80172158_0;   /* arg0 in dungeonMoveActorWithVerticalArc */
+} S_80172158_0;   /* arg0 in move_actor_with_vertical_arc */
 
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
-void dungeonMoveActorWithVerticalArc(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 facing_aux;
     s32 move_ticks;
@@ -95,11 +95,11 @@ void dungeonMoveActorWithVerticalArc(void *action, EntityRec *motion, void *spri
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174EE0;
             func_80047784(
                 sprite,
-                D_80174EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172158_0 *)action)->unk_9B++;
         }
@@ -114,11 +114,11 @@ void dungeonMoveActorWithVerticalArc(void *action, EntityRec *motion, void *spri
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 3);
-        dungeonAdvanceStatusTimers(actor);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 3);
+        advance_status_timers(actor);
 
-        counter_base = &dungeonStatus;
+        counter_base = &g_dungeon_status;
         if (counter_base->unk_08 != 0) {
             (*(u16 *)&counter_base->unk_08)--;
         }
@@ -130,12 +130,12 @@ void dungeonMoveActorWithVerticalArc(void *action, EntityRec *motion, void *spri
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                actor->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
             }
         }
-        if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
+        if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
             ((S_80172158_0 *)action)->unk_8C = D_80170E9C;
             func_800A9A04(actor);
         }

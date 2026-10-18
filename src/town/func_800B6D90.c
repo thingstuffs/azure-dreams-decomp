@@ -4,7 +4,7 @@
 
 s32 func_80048FBC();
 s32 func_80049004();
-s32 textureSetTheFieldOffsetHex8InEachEntryPointerArray();
+s32 texture_set_the_field_offset_hex_8_in_each_entry_pointer_array();
 extern s32 D_8002E5E8[];
 
 typedef struct S_800B44F0_0 {
@@ -16,7 +16,7 @@ typedef struct S_800B44F0_0 {
     s32 unk_48;
     u8 pad_4C[0x10];
     s32 unk_5C;
-} S_800B44F0_0;   /* arg0 in townInitializeStateData */
+} S_800B44F0_0;   /* arg0 in initialize_state_data */
 
 typedef struct S_800B44F0_1 {
     u8 pad_00[0x4];
@@ -25,7 +25,7 @@ typedef struct S_800B44F0_1 {
 } S_800B44F0_1;
 
 /* Initializes state data, applies defaults, and reports initialization success. */
-s32 townInitializeStateData(void *state, s32 input)
+s32 initialize_state_data(void *state, s32 input)
 {
     s32 *defaults;
     s32 state_data;
@@ -42,7 +42,7 @@ s32 townInitializeStateData(void *state, s32 input)
         ((S_800B44F0_0 *)state)->unk_40 = D_8002E5E8[0];
         ((S_800B44F0_0 *)state)->unk_44 = ((S_800B44F0_1 *)defaults)->unk_04;
         ((S_800B44F0_0 *)state)->unk_48 = ((S_800B44F0_1 *)defaults)->unk_08;
-        textureSetTheFieldOffsetHex8InEachEntryPointerArray(((S_800B44F0_0 *)state)->unk_5C, state + 0x40, 0x21);
+        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(((S_800B44F0_0 *)state)->unk_5C, state + 0x40, 0x21);
         init_result = func_80048FBC(state_data, 0xC);
         success = init_result != 0;
         ((S_800B44F0_0 *)state)->unk_20 = init_result;

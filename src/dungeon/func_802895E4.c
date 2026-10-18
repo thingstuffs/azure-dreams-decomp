@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
+s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   floor_generate_isolated_802895E4_Walker *walker, s32 *cost) {
     s16 count;
     s16 cx;
@@ -28,7 +28,7 @@ s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *
     dir = start->dir;
     delta = abs(delta);
     range_x = delta - 4;
-    gw = &gameWork;
+    gw = &g_game_work;
     dir_slot = dir;
     dst_y = dest->y;
     dst_x = dest->x;
@@ -66,15 +66,15 @@ s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *
     if (rnd != 0) {
         s16 r;
 
-        r = (u16)func_800A6D30() % range_x;
+        r = (u16)generate_random_value() % range_x;
         *out_x = r;
-        wx = cx + r * dirStepX[dir] + dirStepX[dir] * wx;
-        r = (u16)func_800A6D30() % range_y;
+        wx = cx + r * dir_step_x[dir] + dir_step_x[dir] * wx;
+        r = (u16)generate_random_value() % range_y;
         *out_y = r;
-        wy = cy + r * dirStepY[dir] + dirStepY[dir] * wy;
+        wy = cy + r * dir_step_y[dir] + dir_step_y[dir] * wy;
     } else {
-        wx = cx + *out_x * dirStepX[dir] + dirStepX[dir] * wx;
-        wy = cy + *out_y * dirStepY[dir] + dirStepY[dir] * wy;
+        wx = cx + *out_x * dir_step_x[dir] + dir_step_x[dir] * wx;
+        wy = cy + *out_y * dir_step_y[dir] + dir_step_y[dir] * wy;
     }
 
     for (;;) {
@@ -99,17 +99,17 @@ s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *
         }
         *(s32 *)walker += *cost;
         count++;
-        cx += dirStepX[dir];
-        cy += dirStepY[dir];
+        cx += dir_step_x[dir];
+        cy += dir_step_y[dir];
     }
 
     if (wx != dst_x || wy != dst_y) {
-        if (dirStepX[dir_slot] != 0) {
+        if (dir_step_x[dir_slot] != 0) {
             wy = dst_y;
         } else {
             wx = dst_x;
         }
-        r = dungeonForwardMonsterCoordinateDelta(cx, cy, wx, wy);
+        r = forward_monster_coordinate_delta(cx, cy, wx, wy);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
@@ -133,13 +133,13 @@ s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += dirStepX[dir];
-            cy += dirStepY[dir];
+            cx += dir_step_x[dir];
+            cy += dir_step_y[dir];
         }
     }
 
     if (wx != dst_x || wy != dst_y) {
-        r = dungeonForwardMonsterCoordinateDelta(cx, cy, dst_x, dst_y);
+        r = forward_monster_coordinate_delta(cx, cy, dst_x, dst_y);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
@@ -163,8 +163,8 @@ s16 dungeonCarveCorridorTowardDestination(floor_generate_isolated_802895E4_Pos *
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += dirStepX[dir];
-            cy += dirStepY[dir];
+            cx += dir_step_x[dir];
+            cy += dir_step_y[dir];
         }
     }
     return count;

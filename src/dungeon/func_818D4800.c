@@ -31,7 +31,7 @@ extern u32 func_80065420(void *scratch, void *prim_output, void *scratch_90, voi
 extern s32 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80067F20(void *prim, s32 value0, s32 value1, s32 draw_mode, s32 value2);
 
-void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = updateActorEffectParticlesAndCleanup;
+void (*const dungeon_18f4800_entry)(struct Actor33 *, struct Motion33 *, struct Render33 *) = update_actor_effect_particles_and_cleanup;
 const PackedOffsets dungeon_18f4800_offsets = { {
     {16, 0}, {16, 16}, {0, 16}, {-16, 16},
     {-16, 0}, {-16, 0xFFF0}, {0, 0xFFF0}, {16, 0xFFF0}
@@ -42,9 +42,9 @@ s32 func_80024044(void *object_data, void *position_data)
 {
     u8 *object = object_data;
     u8 *position = position_data;
-    GameWork *state_slot = &gameWork;
+    GameWork *state_slot = &g_game_work;
     DungeonState818D4800 *state =
-        *(DungeonState818D4800 **)((u8 *)(&gameWork));
+        *(DungeonState818D4800 **)((u8 *)(&g_game_work));
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
     u8 *tile_prim;

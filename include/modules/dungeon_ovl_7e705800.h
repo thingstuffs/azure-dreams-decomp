@@ -57,7 +57,7 @@ s32 func_80069EF8(void);
 void func_8004491C(void *, void *);
 extern u8 D_800241B0[];
 extern u8 D_80024400[];
-void func_800244CC(
+void spawn_jittered_child_effect(
     void *source,
     s16 field_34,
     s32 field_28,

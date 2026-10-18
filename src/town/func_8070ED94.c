@@ -7,7 +7,7 @@ extern s32 func_8001A64C(s32 flag_id);
 extern s32 func_8001A8EC(s32 value);
 
 /* Update event flags when prerequisites are met, otherwise invoke the fallback callback. */
-s32 func_80017D94(void) {
+s32 update_event_flags_prerequisites_are(void) {
     func_80016CC4();
     if (func_8001A8EC(6) != 0) {
         func_8001A554(0x93A);

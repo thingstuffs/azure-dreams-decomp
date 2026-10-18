@@ -1,12 +1,12 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void func_80027D7C(s32 *state) {
+void dispatch_menu_update_callback(s32 *state) {
     D_8002951C[state[5]](state);
     state[0]++;
     if (state[1] < state[0]) {
-        func_80026CF0(state[34], state[19]);
-        dungeonPositionMenuGridEntries(state[34], state[2]);
-        state[-4] = (u32)(void *)dungeonHandleMenuRecordCheck;
+        set_entry_destination_and_value(state[34], state[19]);
+        position_menu_grid_entries(state[34], state[2]);
+        state[-4] = (u32)(void *)handle_menu_record_check;
     }
-    dungeonInvokeEnabledMenuCallback(state);
+    invoke_enabled_menu_callback(state);
 }

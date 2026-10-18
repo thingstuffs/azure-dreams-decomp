@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80A4B678; every changed retail word is a paired relocation. */
-#define dungeonCreateSixteenSegmentRing func_80150E78
-#define dungeonUpdateFadingFourStripEffect D_80150934
+#define create_sixteen_segment_ring func_80150E78
+#define update_fading_four_strip_effect D_80150934
 #include "modules/dungeon_resource06_slot0.h"
 extern s32 func_800644B8(s32);
 
@@ -11,7 +11,7 @@ void func_80150E78(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void
     s32 base_level;
 
     segment_index = 0;
-    update_callback = dungeonUpdateFadingFourStripEffect;
+    update_callback = update_fading_four_strip_effect;
     base_level = 32;
     for (; segment_index < 16; segment_index++) {
         R06_80174E78_Entity *entity;

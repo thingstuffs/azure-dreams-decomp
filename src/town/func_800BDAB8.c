@@ -11,21 +11,21 @@ typedef struct S_800BB218_0 {
     s16 unk_14;
     s16 unk_16;
     s16 unk_18;
-} S_800BB218_0;   /* scratch in func_800BB218 */
+} S_800BB218_0;   /* scratch in draw_randomized_white_points */
 
-   /* arena in func_800BB218 */
+   /* arena in draw_randomized_white_points */
 
 typedef struct S_800BB218_2_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_800BB218_2_pre;   /* the 0x8 bytes before object in func_800BB218, addressed as object[-1] */
+} S_800BB218_2_pre;   /* the 0x8 bytes before object in draw_randomized_white_points, addressed as object[-1] */
 
 typedef struct S_800BB218_2 {
     u8 pad_00[0x66];
     s16 unk_66;
     u8 pad_68[0x2F];
     s8 unk_97;
-} S_800BB218_2;   /* object in func_800BB218 */
+} S_800BB218_2;   /* object in draw_randomized_white_points */
 
 typedef struct S_800BB218_3 {
     u8 pad_00[0x2];
@@ -34,19 +34,19 @@ typedef struct S_800BB218_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800BB218_3;   /* coords in func_800BB218 */
+} S_800BB218_3;   /* coords in draw_randomized_white_points */
 
 typedef struct S_800BB218_4 {
     u32 unk_00;
     u8 pad_04[0x4];
     u16 unk_08;
     u16 unk_0A;
-} S_800BB218_4;   /* packet in func_800BB218 */
+} S_800BB218_4;   /* packet in draw_randomized_white_points */
 
 typedef struct S_800BB218_5 {
     u8 pad_00[0x8];
     u8 * unk_08;
-} S_800BB218_5;   /* next in func_800BB218 */
+} S_800BB218_5;   /* next in draw_randomized_white_points */
 
 
 extern s32 func_800644B8(s32);
@@ -55,7 +55,7 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 rand(void);
 
 /* Draws randomized white points around each object in the linked chain. */
-s32 func_800BB218(void *first_object, void *first_coords)
+s32 draw_randomized_white_points(void *first_object, void *first_coords)
 {
     s16 angle;
     s32 radius_offset;
@@ -77,7 +77,7 @@ s32 func_800BB218(void *first_object, void *first_coords)
 
     object = first_object;
     coords = first_coords;
-    render_state = &gameWork;
+    render_state = &g_game_work;
     scratch = (u8 *)0x1F800000;
     ((S_800BB218_0 *)scratch)->unk_10 = render_state->unk_000 + 0xB0;
     addr_mask = 0x00FFFFFF;

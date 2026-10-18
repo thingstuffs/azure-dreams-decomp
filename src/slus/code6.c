@@ -6,7 +6,7 @@ typedef struct {
 } UnkStruct491CC;
 
 /* Sets the field at offset 0x8 in each entry of a pointer array. */
-void textureSetTheFieldOffsetHex8InEachEntryPointerArray(UnkStruct491CC **entries, s32 value, s32 count)
+void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(UnkStruct491CC **entries, s32 value, s32 count)
 {
     s32 index;
 

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* sub_obj is the "sub-object" pointer (entity_base + 0x20 in sibling functions
- * func_8004ECAC/sceneCreateResourceTransition/createLinkedZukanTask): a u16 flags word lives at sub_obj - 2
+ * func_8004ECAC/scene_create_resource_transition/create_linked_zukan_task): a u16 flags word lives at sub_obj - 2
  * (entity offset 0x1E), and a generic pointer field (function-ptr in siblings,
  * data-ptr here) lives at sub_obj - 0x10 (entity offset 0x10). */
 

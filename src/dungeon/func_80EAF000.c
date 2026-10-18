@@ -42,10 +42,10 @@ typedef struct {
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-extern void dungeonClearSlotAndUpdateLinkedState(void *);
-extern void *dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-extern s32 func_800A6D30(void);
-extern s16 func_800A70E4(s16, s16, s16);
+extern void clear_slot_and_update_linked_state(void *);
+extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 generate_random_value(void);
+extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
 
 extern s32 D_800E3D7C[];
@@ -53,9 +53,9 @@ extern s32 D_80150FE4[];
 
 
 
- s32 func_8014C908(void *, void *) ;
+ s32 transfer_eligible_ground(void *, void *) ;
 /* Transfer an eligible ground or carried item to the pending item slot. */
- s32 func_8014C908(void *origin, void *actor) {
+ s32 transfer_eligible_ground(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
@@ -66,9 +66,9 @@ extern s32 D_80150FE4[];
     u8 *item_ptr;
 
     direction_offset = (((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.u16 >> 8) & 0xE;
-    ground_slot = func_800A70E4(
-        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24 + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
-        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
+    ground_slot = find_floor_item_at_world_position(
+        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24 + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+        (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_88);
     if (ground_slot >= 0) {
         D_80150FE4[0] = ((s32 *)D_800E3548)[ground_slot];
@@ -76,7 +76,7 @@ extern s32 D_80150FE4[];
         return (s32)D_80150FE4;
     }
 
-    target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
+    target = place_actor_at_directional_neighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
                            ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.s16);
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
@@ -107,7 +107,7 @@ scan_loop:
                 if (item_count == 0) {
                     return 0;
                 }
-                slot_offset = (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
+                slot_offset = (s32)((((generate_random_value() & 0xFFFF) % item_count) << 16) >> 14);
                 slot_base = (u8 *)(slot_offset + 0x80010000);
                 item_ptr = (u8 *)(u32)((SlotBaseFieldView_80EAF000 *)slot_base)->field_249;
                 if ((u32)item_ptr == 0 || (u32)item_ptr == 0x13) {
@@ -123,7 +123,7 @@ scan_loop:
                     item_ptr += slot_offset;
                     item_word = *(s32 *)item_ptr;
                     D_80150FE4[0] = item_word;
-                    dungeonClearSlotAndUpdateLinkedState(item_ptr);
+                    clear_slot_and_update_linked_state(item_ptr);
                     return (s32)D_80150FE4;
                 }
             }

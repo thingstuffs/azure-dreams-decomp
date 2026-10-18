@@ -47,7 +47,7 @@ typedef struct TargetObj {
     TargetSub sub;
 } TargetObj;
 /* Creates an object at a random angle and height offset around the reference position. */
-void dungeonCreateAnRandomAngleHeightOffsetAroundReferencePosition(void)
+void create_an_random_angle_height_offset_around_reference_position(void)
 {
     s32 axis_offset;
     s32 angle_random;

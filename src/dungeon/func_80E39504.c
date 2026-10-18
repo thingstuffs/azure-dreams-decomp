@@ -13,21 +13,21 @@ typedef struct S_80172D04_0 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-} S_80172D04_0;   /* script in dungeonUpdateActorKnockback */
+} S_80172D04_0;   /* script in update_actor_knockback */
 
 
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern s32 func_800A6D30(void);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
-extern void dungeonCreateKnockbackTravelObject(void *, void *, void *, void *);
-extern void dungeonHandleSpawnsUpSixteenParticlesRandomizedOffsetsVelocities(void *, void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern s32 generate_random_value(void);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
+extern void create_knockback_travel_object(void *, void *, void *, void *);
+extern void handle_spawns_up_sixteen_particles_randomized_offsets_velocities(void *, void *);
 
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
+void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
 {
     s16 timer;
     s32 value;
@@ -41,13 +41,13 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
     one = 1;
     switch (state) {
     case 0:
-        dungeonHandleSpawnsUpSixteenParticlesRandomizedOffsetsVelocities(motion, tile);
-        dungeonApplyClampedActorValueDelta(actor);
+        handle_spawns_up_sixteen_particles_randomized_offsets_velocities(motion, tile);
+        apply_clamped_actor_value_delta(actor);
         motion->unk_0C =
-            -*(s16 *)((u8 *)((s8 *)dirStepX) +
+            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
                 ((actor->unk_6A >> 8) & 0xE)) << 15;
         motion->unk_10 =
-            -*(s16 *)((u8 *)((s8 *)dirStepY) +
+            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((actor->unk_6A >> 8) & 0xE)) << 15;
         script->unk_9B++;
 
@@ -55,13 +55,13 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(script, motion, tile, D_80176640);
+            begin_actor_display_action(script, motion, tile, D_80176640);
             return;
         }
-        random = func_800A6D30() & 3;
+        random = generate_random_value() & 3;
         if (tile->unk_14.at00_u16.v & 0x8000) {
             if (random == 0) {
-                dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
+                create_knockback_travel_object(script, motion, tile, actor);
             }
             script->unk_A8.s = -1;
             script->unk_96.s = 0;
@@ -94,7 +94,7 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;
         if ((timer << 16) == 0) {
-            dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
+            create_knockback_travel_object(script, motion, tile, actor);
         }
 
         if (script->unk_96.s > 0) {
@@ -110,7 +110,7 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(script, motion, tile, D_80176640);
+            begin_actor_display_action(script, motion, tile, D_80176640);
         } else {
             script->unk_96.s = 8;
             script->unk_9B++;
@@ -133,7 +133,7 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;
         if ((timer << 16) == 0) {
-            dungeonCreateKnockbackTravelObject(script, motion, tile, actor);
+            create_knockback_travel_object(script, motion, tile, actor);
         }
 
         timer = script->unk_96.u - 1;
@@ -145,13 +145,13 @@ void dungeonUpdateActorKnockback(S_80172D04_0 *script, EntityRec *motion, Rec_D_
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24,
+        set_record_integer_tile_center(motion, tile->unk_24,
             tile->unk_25);
         {
 
-            value = ((s32)dungeonStatus.unk_10);
+            value = ((s32)g_dungeon_status.unk_10);
             if (value == (s32)((u8 *)actor - 0x20)) {
-                dungeonStatus.unk_10 = value & 0x7FFFFFFF;
+                g_dungeon_status.unk_10 = value & 0x7FFFFFFF;
             }
         }
         script->unk_8C = D_80170EE4;

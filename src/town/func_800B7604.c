@@ -29,7 +29,7 @@ extern void func_800B4A60(void *);
 extern void func_800B4B7C(void *);
 
 /* Initialize slot data and offsets, then configure the object. */
-void townInitializeFourSlotObject(Obj *obj) {
+void initialize_four_slot_object(Obj *obj) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {

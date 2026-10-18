@@ -3,7 +3,7 @@
 
 
 /* Return whether the rounded, wrapped angle difference exceeds half the divisions. */
-s32 townCheckHeadingPastHalfSector(s32 angle, s16 divisions) {
+s32 check_heading_past_half_sector(s32 angle, s16 divisions) {
     GameWork *angle_data;
     s16 step;
     s32 shifted_divisions;
@@ -11,7 +11,7 @@ s32 townCheckHeadingPastHalfSector(s32 angle, s16 divisions) {
     s32 distance;
     s16 result;
 
-    angle_data = &gameWork;
+    angle_data = &g_game_work;
     shifted_divisions = divisions << 16;
     division_count = shifted_divisions >> 16;
     result = division_count < 2;

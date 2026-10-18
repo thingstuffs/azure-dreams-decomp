@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Steps toward the target angle along the shorter 12-bit arc. */
-s32 townStepAngle12Toward(s32 angle_delta, s32 target_angle, s32 step) {
+s32 step_angle_12_toward(s32 angle_delta, s32 target_angle, s32 step) {
     s32 wrapped_angle;
     s32 start_angle;
 

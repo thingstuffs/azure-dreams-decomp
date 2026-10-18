@@ -63,9 +63,9 @@ void func_8016CF00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             u16 action_flags;
 
             motion->unk_0C =
-                ((s16 *)((s8 *)dirStepX))[direction] << 18;
+                ((s16 *)((s8 *)dir_step_x))[direction] << 18;
             motion->unk_10 =
-                ((s16 *)((s8 *)dirStepY))[direction] << 18;
+                ((s16 *)((s8 *)dir_step_y))[direction] << 18;
             motion->flags14 = 0x20000;
 
             action_flags = ((S_80172F00_0 *)action)->unk_98;
@@ -96,8 +96,8 @@ void func_8016CF00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         return;
     case 1:
         motion->unk_0C -=
-            ((s16 *)((s8 *)dirStepX))[direction] << 15;
-        motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 15;
+            ((s16 *)((s8 *)dir_step_x))[direction] << 15;
+        motion->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 15;
 
         timer_signed = ((S_80172F00_0 *)action)->unk_96.s;
         timer_wide = ((S_80172F00_0 *)action)->unk_96.p;
@@ -154,12 +154,12 @@ void func_8016CF00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EAD4;
         func_80047784(
             sprite,
-            D_8016EAD4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_8016EAD4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
 
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         ((S_80172F00_0 *)action)->unk_8C = func_8016B138;
         break;

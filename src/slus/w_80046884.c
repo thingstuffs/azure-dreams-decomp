@@ -81,7 +81,7 @@ void func_80046884(
     corners[2].y = bottom;
     corners[3].y = bottom;
 
-    view_geometry = &gameWork;
+    view_geometry = &g_game_work;
     corners[0].z = corners[1].z = corners[2].z = corners[3].z =
         ReadGeomScreen();
 

@@ -20,23 +20,23 @@ typedef struct TownObject {
 } TownObject;
 
 extern void SD_Call();
-extern void townClearEntityRecordFields();
+extern void clear_entity_record_fields();
 extern u8 D_800983BC;
 extern u8 D_800D0158;
 extern u16 D_800D5070[];
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
-void townInitializeEntryObjectAndPlaySound(TownObject *object, s32 table_target, void *ptr2) {
+void initialize_entry_object_and_play_sound(TownObject *object, s32 table_target, void *ptr2) {
     TownEntry *entries;
     u16 entry_value;
 
-    townCallTheHandlerSelectsNonzeroEntry((s32 *) &D_800D0158, (Rec_func_80094268_arg0 *) object, ptr2);
+    call_the_handler_selects_nonzero_entry((s32 *) &D_800D0158, (Rec_func_80094268_arg0 *) object, ptr2);
     entries = D_80082660;
     entries[1].pad0[0] = 0;
     entry_value = D_800D5070[entries[object->entry_index].table_index];
     object->handler = &D_800983BC;
     object->state = 3;
     object->value = entry_value;
-    townClearEntityRecordFields(table_target);
+    clear_entity_record_fields(table_target);
     SD_Call(0x519);
 }

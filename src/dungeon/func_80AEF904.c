@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *object)
+void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object)
 {
     u8 *actor_copy;
     R10_80171104_ActorCallback callback;
@@ -16,7 +16,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
 
     actor_copy = actor;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         R10_80171104_ActorCallback early_callback;
         void *early_actor;
 
@@ -32,7 +32,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
 
 
     old_direction = (*(s8 *)((u8 *)actor + 0x6D));
-    if (dungeonRefreshActorFacingAndLifecycle(actor, motion, object, actor) != 0) {
+    if (refresh_actor_facing_and_lifecycle(actor, motion, object, actor) != 0) {
         return;
     }
 
@@ -53,7 +53,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
             ((R10_80171104_S_80171104_0 *)object)->unk_2C != ((u8 *)D_801759B8)) {
             (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_80175988);
             func_80047784(object,
-                ((u8 *)D_80175988)[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+                ((u8 *)D_80175988)[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
             (*(u16 *)((u8 *)actor + 0x9E)) = 0;
             (*(s16 *)((u8 *)actor + 0xA0)) = 10;
         }
@@ -64,7 +64,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
             if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_801759A0);
                 func_80047784(object,
-                    ((u8 *)D_801759A0)[((gameWork.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                    ((u8 *)D_801759A0)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
                 func_800478B8(object);
                 (*(s16 *)((u8 *)actor + 0xA0)) = 3;
             }
@@ -77,7 +77,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
                 (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_801759B0);
                 func_80047784(object,
-                    ((u8 *)D_801759B0)[((gameWork.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                    ((u8 *)D_801759B0)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
                 func_800478B8(object);
                 (*(s16 *)((u8 *)actor + 0xA0)) = 6;
                 (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
@@ -93,7 +93,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
                 (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000)) {
                 (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_801759B8);
                 func_80047784(object,
-                    ((u8 *)D_801759B8)[((gameWork.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                    ((u8 *)D_801759B8)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
                 func_800478B8(object);
                 (*(s16 *)((u8 *)actor + 0xA0)) = 3;
             }
@@ -110,7 +110,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
                 if (((R10_80171104_S_80171104_0 *)object)->unk_14 & 0xE000) {
                     (*(u8 * *)((u8 *)object + 0x2C)) = ((u8 *)D_80175988);
                     func_80047784(object,
-                        ((u8 *)D_80175988)[((gameWork.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100)
+                        ((u8 *)D_80175988)[((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100)
                             >> 9) & 7], 0);
                     (*(u16 *)((u8 *)actor + 0x9E)) = 0;
                     (*(s16 *)((u8 *)actor + 0xA0)) = 20;
@@ -121,7 +121,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
     }
 
     if ((shifted_direction >> 16) != ((R10_80171104_S_80171104_1 *)actor_copy)->unk_6D) {
-        func_800AA36C(actor, motion, object, actor_copy);
+        try_move_actor_to_valid_position(actor, motion, object, actor_copy);
     }
 
     flags = ((R10_80171104_S_80171104_0 *)object)->unk_14;
@@ -129,18 +129,18 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
         s16 view_index;
         s32 old_direction;
 
-        old_direction = ((gameWork.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((g_game_work.view.viewAngle + ((R10_80171104_S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
         view_index = old_direction;
         view_index_copy = old_direction;
         if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
             animation = ((R10_80171104_S_80171104_0 *)object)->unk_2C;
             if (animation != 0) {
-                selectIndirectTableEntry(object, animation[view_index], ((R10_80171104_S_80171104_0 *)object)->unk_04);
+                select_indirect_table_entry(object, animation[view_index], ((R10_80171104_S_80171104_0 *)object)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
         }
 
-        if (dirSpriteFlag[view_index_copy] != 0) {
+        if (dir_sprite_flag[view_index_copy] != 0) {
             ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 1;
         } else {
             ((R10_80171104_S_80171104_0 *)object)->unk_14 &= 0xFFFE;
@@ -152,7 +152,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
         } else {
             ((R10_80171104_S_80171104_0 *)object)->unk_14 |= 0x7000;
         }
-        dungeonApplyMonsterKoyawData(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
+        apply_monster_koyaw_data(((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
     } else if (flags & 0x800) {
         ((R10_80171104_S_80171104_0 *)object)->unk_14 = flags & 0x8FFF;
     } else {
@@ -171,7 +171,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
     (*(s32 *)((u8 *)actor + 0x90)) += ((R10_80171104_S_80171104_2 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
-        floor_height = ((s16)func_800BCB04(((R10_80171104_S_80171104_2 *)motion)->unk_00.at02.v, ((R10_80171104_S_80171104_2 *)motion)->unk_04.at02.v,(s16)((s16)(((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - 0x20))));
+        floor_height = ((s16)sample_terrain_surface_height(((R10_80171104_S_80171104_2 *)motion)->unk_00.at02.v, ((R10_80171104_S_80171104_2 *)motion)->unk_04.at02.v,(s16)((s16)(((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - 0x20))));
         if (floor_height < 0x200) {
             actor_height = ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.s;
             if ((*(s16 *)((u8 *)actor + 0x92)) + actor_height < floor_height) {
@@ -190,7 +190,7 @@ void dungeonUpdateActorCallbacksAnimationAndGround(u8 *actor, u8 *motion, u8 *ob
 
             if (((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.u & 0x40000000) {
                 ((R10_80171104_S_80171104_1 *)actor_copy)->unk_1C.u &= 0xBFFFFFFF;
-                floor_height = ((s16)func_800BCB04((((R10_80171104_S_80171104_0 *)object)->unk_24 << 6) | 0x20,
+                floor_height = ((s16)sample_terrain_surface_height((((R10_80171104_S_80171104_0 *)object)->unk_24 << 6) | 0x20,
                                        (((R10_80171104_S_80171104_0 *)object)->unk_25 << 6) | 0x20,(s16)((s16)(((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - 0x20))));
                 (*(s16 *)((u8 *)actor + 0x92)) += ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.u - floor_height;
                 ((R10_80171104_S_80171104_1 *)actor_copy)->unk_88.s = floor_height;

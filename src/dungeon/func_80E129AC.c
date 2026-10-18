@@ -6,14 +6,14 @@ typedef struct S_801761AC_0 {
     u8 unk_03;
     u8 pad_04[0xD];
     u8 unk_11;
-} S_801761AC_0;   /* actor in dungeonRequestRandomSlotEffect */
+} S_801761AC_0;   /* actor in request_random_slot_effect */
 
 
-extern s32 func_800A48F0();
-extern s32 func_800A6D30();
+extern s32 set_or_clear_actor_status_slot();
+extern s32 generate_random_value();
 
 /* Roll a random slot for the actor and, when it lands below 16, request effect 0x19 on it; returns 1 when that request succeeded. */
-s32 dungeonRequestRandomSlotEffect(S_801761AC_0 *actor) {
+s32 request_random_slot_effect(S_801761AC_0 *actor) {
     s32 seed;
     register s32 divisor;
     s32 remainder;
@@ -22,7 +22,7 @@ s32 dungeonRequestRandomSlotEffect(S_801761AC_0 *actor) {
     if (actor == D_800E3D7C) {
         return 0;
     }
-    seed = func_800A6D30() & 0xFFFF;
+    seed = generate_random_value() & 0xFFFF;
     if (((s32)(actor->unk_03)) != 0) {
         divisor = ((s32)(actor->unk_03));
         remainder = seed % divisor;
@@ -31,8 +31,8 @@ s32 dungeonRequestRandomSlotEffect(S_801761AC_0 *actor) {
         slot = 0;
     }
     if (slot < 16) {
-        if ((s16)func_800A48F0(actor, 0x19,
-                (s8)((actor->unk_11 >> 2) + 0x20 + (func_800A6D30() & 3))) >= 0) {
+        if ((s16)set_or_clear_actor_status_slot(actor, 0x19,
+                (s8)((actor->unk_11 >> 2) + 0x20 + (generate_random_value() & 3))) >= 0) {
             return 1;
         }
     }

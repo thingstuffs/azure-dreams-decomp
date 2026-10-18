@@ -6,11 +6,11 @@
 #include "m2c_compat.h"
 
 extern s32 func_8004491C();
-void func_800A56E0(s32);
+void play_sound_if_enabled(s32);
 extern int func_80046398();
 struct S_800B1F34_0;
 struct S_800B1F34_1;
-extern void dungeonAdvanceTimedPanelMotion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);
+extern void advance_timed_panel_motion(struct S_800B1F34_0 *animation, struct S_800B1F34_1 *motion);
 
 typedef struct S_800B2074_0 {
     u8 pad_00[0x1DC];
@@ -64,7 +64,7 @@ typedef struct S_800B2074_5 {
 
 typedef union { void *pointer; u32 word; } InitSlot;
 /* Creates an object at the given map position and updates its tile record. */
-s32 dungeonCreateMapPositionObject(s32 world_x, s32 world_z) {
+s32 create_map_position_object(s32 world_x, s32 world_z) {
     s32 tile_addr;
     void *object;
     s32 pos_x;
@@ -79,12 +79,12 @@ s32 dungeonCreateMapPositionObject(s32 world_x, s32 world_z) {
 
     pos_x = world_x;
     pos_z = world_z;
-    tile_addr = gameWork.map.cells;
+    tile_addr = g_game_work.map.cells;
     object = func_8003FC64(0x12);
     if (object != NULL) {
         init_object = object;
         {
-            InitSlot slot = { dungeonAdvanceTimedPanelMotion };
+            InitSlot slot = { advance_timed_panel_motion };
             init_data = func_80046398;
             ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
             func_8004491C(init_object, init_data);
@@ -99,14 +99,14 @@ s32 dungeonCreateMapPositionObject(s32 world_x, s32 world_z) {
         transform->unk_16 = 6;
         transform->unk_02 = pos_x;
         transform->unk_06 = pos_z;
-        tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << gameWork.map.shiftX)) * 6;
+        tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << g_game_work.map.shiftX)) * 6;
         ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
         ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
         transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
         state_fields = object + 0x20;
-        func_800A56E0(0x603);
+        play_sound_if_enabled(0x603);
         inherited_value = ((u16)D_800814A8->facing);
         state_fields->unk_0E = inherited_value;
     }

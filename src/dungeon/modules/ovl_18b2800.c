@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_18b2800.h"
-void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = dungeonUpdateEffectLaunchTravelImpactCleanup;
+void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "../func_81892800.c"
 #include "../func_818928F8.c"
 #include "../func_81892A0C.c"

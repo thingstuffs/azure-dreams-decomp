@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
+void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
 {
     void *owner;
     void *owner_data;
@@ -27,8 +27,8 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
         {
             void *node = ovl_18b8824_81898EBC_PTR_AT((u8 *)owner - 0x20, 0xC);
             s32 dir = (ovl_18b8824_81898EBC_U16_AT(D_800814A8, 0x2A) >> 9) & 7;
-            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
-                origin[0x24] + dirStepX[dir], origin[0x25] + dirStepY[dir], &ovl_18b8824_81898EBC_result);
+            ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
+                origin[0x24] + dir_step_x[dir], origin[0x25] + dir_step_y[dir], &ovl_18b8824_81898EBC_result);
         }
         state->timer = 0;
         state->state++;
@@ -39,7 +39,7 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
     case 1:
         owner_data = (u8 *)owner - 0x20;
         owner_node = ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC);
-        if (resolveRecordOrientationOrFallback(ovl_18b8824_81898EBC_PTR_AT(owner_node, 8), owner_node, ovl_18b8824_81898EBC_probe, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(ovl_18b8824_81898EBC_PTR_AT(owner_node, 8), owner_node, ovl_18b8824_81898EBC_probe, 0) == 0) {
             if (!(ovl_18b8824_81898EBC_U16_AT(ovl_18b8824_81898EBC_PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 break;
             }
@@ -65,11 +65,11 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
         if ((ovl_18b8824_81898EBC_U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             void *direction_node = D_800814A8;
 
-            state->x = D_80082E80.tileX + dirStepX[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
-            state->y = D_80082E80.tileY + dirStepY[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->x = D_80082E80.tileX + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->y = D_80082E80.tileY + dir_step_y[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
         } else {
-            state->x = D_80082E80.tileX + dirStepX[state->direction];
-            state->y = D_80082E80.tileY + dirStepY[state->direction];
+            state->x = D_80082E80.tileX + dir_step_x[state->direction];
+            state->y = D_80082E80.tileY + dir_step_y[state->direction];
         }
 
         {
@@ -85,9 +85,9 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
                 ovl_18b8824_81898EBC_S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
                 ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
             }
-            ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = dungeonGetSurfaceHeightAtRecord(target_pos);
+            ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA) = get_surface_height_at_record(target_pos);
             state->z = ovl_18b8824_81898EBC_S16_AT(target_pos, 0xA);
-            getOffsetMapCellValueAndFlags(state->x - 1, state->y, 0, &ovl_18b8824_81898EBC_map_flags);
+            get_offset_map_cell_value_and_flags(state->x - 1, state->y, 0, &ovl_18b8824_81898EBC_map_flags);
             if (ovl_18b8824_81898EBC_map_flags & 0x3300) {
                 s32 fallback_value;
 
@@ -105,14 +105,14 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
                         ((s16 *)ovl_18b8824_81898EBC_PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     ovl_18b8824_81898EBC_S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
-                } else if ((dungeonCheckLeftTileAndCenterHeight(ovl_18b8824_81898EBC_U16_AT(target_pos, 2), ovl_18b8824_81898EBC_U16_AT(target_pos, 6), target_z) << 16) != 0) {
+                } else if ((check_left_tile_and_center_height(ovl_18b8824_81898EBC_U16_AT(target_pos, 2), ovl_18b8824_81898EBC_U16_AT(target_pos, 6), target_z) << 16) != 0) {
                     s32 fallback_value;
 
                     fallback_value =
                         ((s16 *)ovl_18b8824_81898EBC_PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     ovl_18b8824_81898EBC_S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
-                } else if ((func_800A5690() << 16) == 0) {
+                } else if ((increment_bounded_event_counter() << 16) == 0) {
                     s32 fallback_value;
 
                     fallback_value =
@@ -186,9 +186,9 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
                 ovl_18b8824_81898EBC_S32_AT(motion, 0x14) =
                     (ovl_18b8824_81898EBC_S32_AT(target_pos, 8) - raised_z) / state->duration;
             }
-            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
-            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
-            dungeonCreateASpriteRandomRotationCopiesInitialData(state, motion, state->duration);
+            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
+            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
+            create_a_sprite_random_rotation_copies_initial_data(state, motion, state->duration);
             state->timer = 0;
             break;
         }
@@ -200,8 +200,8 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
         if (state->timer < state->duration) {
             break;
         }
-        func_8002441C(state, motion);
-        func_800A56E0(0x300);
+        create_counted_sprite_effect(state, motion);
+        play_sound_if_enabled(0x300);
         state->timer = 0;
         state->state++;
         break;
@@ -210,7 +210,7 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
         if (state->timer < 0x10) {
             break;
         }
-        func_800245CC(state, motion);
+        create_sprite_effect_with_data(state, motion);
         state->timer = 0;
         state->state++;
         break;
@@ -220,7 +220,7 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
             break;
         }
         if (state->status != 0) {
-            void *effect = dungeonCreateActorSpriteAtTile(state->status, state->x, state->y,
+            void *effect = create_actor_sprite_at_tile(state->status, state->x, state->y,
                                          state->z);
             s32 intensity;
             s16 clamped_intensity;
@@ -228,7 +228,7 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
             s32 random_bits;
 
             func_80042640(effect, 52);
-            random_bits = func_800A6D30();
+            random_bits = generate_random_value();
             effect_id = ovl_18b8824_81898EBC_U8_AT(state, 9);
             intensity = effect_id >> 1;
             intensity += effect_id << 1;
@@ -249,9 +249,9 @@ void dungeonAdvanceLaunchedEffect(ovl_18b8824_81898EBC_EffectState *state, ovl_1
         if (state->field_14 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ovl_18b8824_81898EBC_U16_AT(state, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     case 6:

@@ -18,6 +18,6 @@ void func_8185C98C(void *object_ref, void *unused, void *state) {
     if (*(u16 *)((u8 *)state + 0x14) & 0x6000) {
         *(u16 *)((u8 *)object_ref - 2) =
             (u16)(*(u16 *)((u8 *)object_ref - 2) | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

@@ -6,6 +6,6 @@
 
 
 /* Sets the record's byte at offset 0x03. */
-void runtimeSetRecordByteThree(Rec_D_80082A38 *record, s8 value) {
+void runtime_set_record_byte_three(Rec_D_80082A38 *record, s8 value) {
     record->unk_03 = value;
 }

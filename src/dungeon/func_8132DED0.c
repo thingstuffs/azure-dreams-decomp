@@ -35,7 +35,7 @@ typedef struct S_80164ED0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateRandomVelocityChildEffect */
+} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
 
 typedef struct S_80164ED0_6 {
     u8 pad_00[0x6];
@@ -65,7 +65,7 @@ typedef struct S_80164ED0_1 {
 } S_80164ED0_1;
 
 /* Creates an effect relative to its parent with randomized motion and initial state values. */
-void dungeonCreateRandomVelocityChildEffect(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
+void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
     S_80164ED0_1 *effect_data;
     void *effect;

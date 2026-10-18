@@ -26,6 +26,6 @@ void func_800248F8(void *state, M2C_UNK draw_context, M2C_UNK update_context) {
     }
     if ((s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04 > ((B22_818930F8_S_818930F8_0 *)state)->unk_06) {
         ((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

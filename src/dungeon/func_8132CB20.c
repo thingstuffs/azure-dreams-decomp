@@ -9,7 +9,7 @@ typedef struct S_80174320_0 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_80174320_0;   /* entity in dungeonAdvanceBossCommandStream */
+} S_80174320_0;   /* entity in advance_boss_command_stream */
 
 typedef struct S_80174320_1 {
     u8 pad_00[0x1C];
@@ -22,22 +22,22 @@ typedef struct S_80174320_1 {
     s8 unk_9B;
     u8 pad_9C[0x16];
     s16 unk_B2;
-} S_80174320_1;   /* obj in dungeonAdvanceBossCommandStream */
+} S_80174320_1;   /* obj in advance_boss_command_stream */
 
 typedef struct S_80174320_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80174320_2;   /* ctx in dungeonAdvanceBossCommandStream */
+} S_80174320_2;   /* ctx in advance_boss_command_stream */
 
 
 extern void func_80047784(void *, u8, s32);
-extern void func_8009A3D0(u8, u8, s32);
-extern void retainSpawnResource(s16 entry_type, s16 entry_key);
-extern void func_800A9A0C(void *);
-extern void dungeonAdvanceBossActorMovementState(void *, void *, void *, void *);
-extern void dungeonCreateLinkedFacingSprite(u8, u8, s16);
-extern void dungeonCreateBossOffsetEffect(void);
-extern void dungeonUpdateBossTimedAnimation(void *, void *, void *, void *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
+extern void update_actor_status_and_food(void *);
+extern void advance_boss_actor_movement_state(void *, void *, void *, void *);
+extern void create_linked_facing_sprite(u8, u8, s16);
+extern void create_boss_offset_effect(void);
+extern void update_boss_timed_animation(void *, void *, void *, void *);
 
 extern u8 D_80174A2C[];
 extern u8 D_80174A9C[];
@@ -47,7 +47,7 @@ extern u8 *D_80174AB4;
 extern s16 D_80174AB8;
 
 /* Advance the command stream and update the object's direction, animation, and effects. */
-s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *entity_arg) {
+s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entity_arg) {
     s32 audio_param;
     s16 elapsed_ticks;
     s32 command;
@@ -84,7 +84,7 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
     command = command_byte & 0xFF;
     if (command == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
-        func_800A9A0C(obj);
+        update_actor_status_and_food(obj);
         return 0;
     }
 
@@ -108,14 +108,14 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
     switch (opcode) {
     case 8:
         call_obj = obj;
-        dungeonAdvanceBossActorMovementState(call_obj, context_arg, entity, call_obj);
+        advance_boss_actor_movement_state(call_obj, context_arg, entity, call_obj);
         result = 0;
         return result;
     case 0xC0:
         ((S_80174320_1 *)obj)->unk_9B = 0;
                         /* fall through */
     case 0xC8:
-        dungeonUpdateBossTimedAnimation(call_obj, context_arg, entity, obj);
+        update_boss_timed_animation(call_obj, context_arg, entity, obj);
         break;
     case 0x10:
         old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
@@ -123,7 +123,7 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -133,7 +133,7 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -143,7 +143,7 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                *(u8 *)((((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
@@ -153,11 +153,11 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            dungeonCreateLinkedFacingSprite(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
+            create_linked_facing_sprite(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
                 ((S_80174320_2 *)context_arg)->unk_0A);
-            retainSpawnResource(0x15, 1);
+            retain_spawn_resource(0x15, 1);
         }
         break;
     case 0xD8:
@@ -166,7 +166,7 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (old_anim != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80174320_0 *)entity)->unk_14 |= 0x800;
         }
@@ -183,19 +183,19 @@ s32 dungeonAdvanceBossCommandStream(void *object_arg, void *context_arg, void *e
         if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
             func_80047784(entity,
-                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                anim[((g_game_work.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            dungeonCreateBossOffsetEffect();
+            create_boss_offset_effect();
             audio_x = ((S_80174320_0 *)entity)->unk_24;
             audio_y = ((S_80174320_0 *)entity)->unk_25;
             audio_param = 0x3000;
             if (((S_80174320_1 *)obj)->unk_1C & 0x2000) {
                 audio_param = 0x300;
             }
-            func_8009A3D0(audio_x, audio_y, audio_param);
+            update_map_cell_flags_with_item_limit(audio_x, audio_y, audio_param);
         }
         break;
     }
-    func_800A9A0C(obj);
+    update_actor_status_and_food(obj);
     return 0;
 }

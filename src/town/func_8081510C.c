@@ -3,7 +3,7 @@
 extern s32 D_80084D5C;
 
 /* Set record and global flags when the record is zero and linked flag 8 is set. */
-void townSetRecordFlagsWhenLinked(void *record) {
+void set_record_flags_when_linked(void *record) {
     void *linked_record;
 
     linked_record = *(void **)((u8 *)record + 0xC);

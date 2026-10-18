@@ -2,7 +2,7 @@
 #include "common.h"
 
 
-extern s32 scaleRandomToUnsignedHalfwordLimit(u32);
+extern s32 scale_random_to_unsigned_halfword_limit(u32);
 extern u8 D_800A2690[9];
 
 
@@ -24,7 +24,7 @@ typedef struct S_800A25CC_1 {
 } S_800A25CC_1;
 
 /* Allocates an object and initializes its randomized state. */
-void *townAllocateRandomizedEffectObject(s32 state_value)
+void *allocate_randomized_effect_object(s32 state_value)
 {
     s32 offset_sample;
     s16 initial_count;
@@ -37,15 +37,15 @@ void *townAllocateRandomizedEffectObject(s32 state_value)
     }
     ((S_800A25CC_0 *)object)->unk_10 = D_800A2690;
     state = object + 0x20;
-    initial_count = scaleRandomToUnsignedHalfwordLimit(0xB4) + 0x3C;
+    initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
     state->unk_04 = initial_count;
     state->unk_06 = initial_count;
-    state->unk_10 = (scaleRandomToUnsignedHalfwordLimit(0x28) & 0xFFFF) + 0x80;
+    state->unk_10 = (scale_random_to_unsigned_halfword_limit(0x28) & 0xFFFF) + 0x80;
     state->unk_14 = state_value;
-    offset_sample = scaleRandomToUnsignedHalfwordLimit(0x40);
-    state->unk_08 = offset_sample + scaleRandomToUnsignedHalfwordLimit(0x40) - 0x40;
-    state->unk_0A = scaleRandomToUnsignedHalfwordLimit(0x40);
-    state->unk_0C = scaleRandomToUnsignedHalfwordLimit(0x40);
+    offset_sample = scale_random_to_unsigned_halfword_limit(0x40);
+    state->unk_08 = offset_sample + scale_random_to_unsigned_halfword_limit(0x40) - 0x40;
+    state->unk_0A = scale_random_to_unsigned_halfword_limit(0x40);
+    state->unk_0C = scale_random_to_unsigned_halfword_limit(0x40);
     return object;
 }
 

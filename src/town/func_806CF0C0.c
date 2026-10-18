@@ -1,8 +1,8 @@
 #include "modules/town_ovl_64f0c0.h"
 
 /* Passes the value and line to the handler with its fixed strings. */
-void townProcessValueWithFixedTables(s32 value, s32 unused, s32 line)
+void process_value_with_fixed_tables(s32 value, s32 unused, s32 line)
 {
     (void)unused;
-    func_80016ABC(D_80017568, D_80017658, value, line);
+    call_set_script_flag_bit(D_80017568, D_80017658, value, line);
 }

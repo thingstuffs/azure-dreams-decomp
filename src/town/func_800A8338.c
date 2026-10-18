@@ -25,24 +25,24 @@ extern u8 D_800CFCEE;
 extern s32 D_80100E20;
 extern u8 D_800A5DF8;
 
-extern s32 scaleRandomToUnsignedHalfwordLimit();
-extern s32 runtimeEstimateVectorLength();
+extern s32 scale_random_to_unsigned_halfword_limit();
+extern s32 runtime_estimate_vector_length();
 extern void SD_Call();
-extern s32 townReadMapCellAtWorldPosition();
-extern void townAddADirectionalStepVectorScaleDownExceedsLengthLimit();
-extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
-extern void townAddHex20000SSignedOffsetHex14();
-extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
-extern void townSpawnDirectionalEffects();
-extern s32 townComputeHeightBasedOffset();
-extern s32 townCheckMaskedValueInCurrentRange();
+extern s32 read_map_cell_at_world_position();
+extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();
+extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+extern void add_hex_20000_s_signed_offset_hex_14();
+extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+extern void compute_and_clamps_vector_based_adjustment_updates_town();
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+extern void spawn_directional_effects();
+extern s32 compute_height_based_offset();
+extern s32 check_masked_value_in_current_range();
 
 
 /* Update actor movement, height, turning, and action state from input. */
-void townUpdateActorMovementAndActions(State *state, Actor *actor) {
+void update_actor_movement_and_actions(State *state, Actor *actor) {
     GameWork *input;
     s32 speed;
     s16 height_limit;
@@ -50,46 +50,46 @@ void townUpdateActorMovementAndActions(State *state, Actor *actor) {
     s32 world_value;
     s32 sound_period;
 
-    input = &gameWork;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
+    input = &g_game_work;
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
 
     state->timer--;
     if ((s16)state->timer <= 0) {
-        state->timer = scaleRandomToUnsignedHalfwordLimit(3) + 5;
-        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(2) + 2);
+        state->timer = scale_random_to_unsigned_halfword_limit(3) + 5;
+        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(2) + 2);
     }
 
     direction = (((u16)input->view.viewAngle) + 0x800) & 0xFFF;
     *(u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->buttons) & 0x20) {
-        townAddADirectionalStepVectorScaleDownExceedsLengthLimit(direction, D_80100E20, actor);
-        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
+        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, D_80100E20, actor);
+        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
     if (((u32)input->buttons) & 0x10) {
-        townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
         if ((((u32)input->buttons) & 0x30) == 0x20) {
-            townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+            move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
         }
     } else {
-        townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
     }
-    height_limit = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, ((u8 *)&D_800FE488));
+    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&D_800FE488));
     if (actor->height >= height_limit) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, height_limit, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(actor, height_limit, ((u8 *)&D_800FE488));
     } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
-        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(actor);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(actor);
     } else {
-        townAddHex20000SSignedOffsetHex14(actor);
+        add_hex_20000_s_signed_offset_hex_14(actor);
     }
-    world_value = townReadMapCellAtWorldPosition(D_80083780.x.w.i, D_80083780.y.w.i);
-    if (townCheckMaskedValueInCurrentRange((u16)world_value) != 0) {
-        actor->value -= townComputeHeightBasedOffset(actor);
+    world_value = read_map_cell_at_world_position(D_80083780.x.w.i, D_80083780.y.w.i);
+    if (check_masked_value_in_current_range((u16)world_value) != 0) {
+        actor->value -= compute_height_based_offset(actor);
     }
 
-    speed = runtimeEstimateVectorLength(actor->x, actor->y);
+    speed = runtime_estimate_vector_length(actor->x, actor->y);
     if (D_80100E20 != 0) {
         {
             s32 speed_delta;
@@ -131,7 +131,7 @@ void townUpdateActorMovementAndActions(State *state, Actor *actor) {
             angle = angle - speed;
             input->view.viewAngle = angle;
         }
-        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
+        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
     if ((*(u32 *)((u8 *)input + 8)) & 0x8000) {
@@ -142,7 +142,7 @@ void townUpdateActorMovementAndActions(State *state, Actor *actor) {
             angle = angle + speed;
             input->view.viewAngle = angle;
         }
-        townSpawnDirectionalEffects(actor, (u16)scaleRandomToUnsignedHalfwordLimit(1));
+        spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
     if ((((u32)input->unk_010) & 0x10) && (D_800CFCEE == 0)) {

@@ -8,7 +8,7 @@ typedef struct TownB4C60 {
 } TownB4C60;
 
 /* Convert the stored value to a zero-based group of ten, preserving zero. */
-void func_800B23C0(TownB4C60 *record) {
+void get_zero_based_group_index(TownB4C60 *record) {
     s32 stored_value = record->unkC;
 
     if (stored_value != 0) {

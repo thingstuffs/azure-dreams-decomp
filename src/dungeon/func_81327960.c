@@ -7,8 +7,8 @@ typedef s32 M2C_UNK;
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_8016F2E0[];
 extern M2C_UNK D_8016F78C;
@@ -21,7 +21,7 @@ typedef struct S_8016F160_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016F160_0;   /* obj in dungeonAllocateBossActor */
+} S_8016F160_0;   /* obj in allocate_boss_actor */
 
 typedef struct S_8016F160_1 {
     u8 pad_00[0x13];
@@ -29,12 +29,12 @@ typedef struct S_8016F160_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8016F160_1;   /* work in dungeonAllocateBossActor */
+} S_8016F160_1;   /* work in allocate_boss_actor */
 
 typedef struct S_8016F160_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016F160_2;   /* part_a in dungeonAllocateBossActor */
+} S_8016F160_2;   /* part_a in allocate_boss_actor */
 
 typedef struct S_8016F160_3 {
     u8 pad_00[0x14];
@@ -44,7 +44,7 @@ typedef struct S_8016F160_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8016F160_3;   /* part_b in dungeonAllocateBossActor */
+} S_8016F160_3;   /* part_b in allocate_boss_actor */
 
 typedef struct S_8016F160_4 {
     u8 pad_00[0x8C];
@@ -55,10 +55,10 @@ typedef struct S_8016F160_4 {
     s8 unk_9C;
     u8 pad_9D[0x13];
     s16 unk_B0;
-} S_8016F160_4;   /* tail_ptr in dungeonAllocateBossActor */
+} S_8016F160_4;   /* tail_ptr in allocate_boss_actor */
 
 /* Allocate an actor, initialize its parts and mode flags, and return its work area. */
-void *dungeonAllocateBossActor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
+void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;
     void *obj;
@@ -102,7 +102,7 @@ void *dungeonAllocateBossActor(s16 mode, s16 config_24, s16 config_25, s16 confi
             ((S_8016F160_1 *)work)->unk_1C |= 0x2000;
         }
 
-        func_800A9C18(obj, part_a, part_b, saved_mode);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
         actor_state = actor;
         ((S_8016F160_4 *)actor_state)->unk_9A = 0xFF;
         ((S_8016F160_4 *)actor_state)->unk_9C = -1;
@@ -110,7 +110,7 @@ void *dungeonAllocateBossActor(s16 mode, s16 config_24, s16 config_25, s16 confi
         ((S_8016F160_4 *)actor_state)->unk_9B = 0;
         ((S_8016F160_4 *)actor_state)->unk_B0 = 0;
         part_b->unk_14 |= 0x80;
-        func_800AA36C(actor_state, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor_state, part_a, part_b, work);
     }
     return work;
 }

@@ -8,7 +8,7 @@ typedef struct S_80027368_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80027368_0;   /* object in dungeonCreateOffsetSpriteObjectWithZ */
+} S_80027368_0;   /* object in create_offset_sprite_object_with_z */
 
 typedef struct S_80027368_1 {
     u8 pad_00[0x2];
@@ -17,12 +17,12 @@ typedef struct S_80027368_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80027368_1;   /* part in dungeonCreateOffsetSpriteObjectWithZ */
+} S_80027368_1;   /* part in create_offset_sprite_object_with_z */
 
 typedef struct S_80027368_2 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_80027368_2;   /* arg3 in dungeonCreateOffsetSpriteObjectWithZ */
+} S_80027368_2;   /* arg3 in create_offset_sprite_object_with_z */
 
 typedef struct S_80027368_3 {
     u8 pad_00[0x8];
@@ -30,14 +30,14 @@ typedef struct S_80027368_3 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_80027368_3;   /* sprite in dungeonCreateOffsetSpriteObjectWithZ */
+} S_80027368_3;   /* sprite in create_offset_sprite_object_with_z */
 
 typedef struct S_80027368_4 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x5E];
     s16 unk_66;
-} S_80027368_4;   /* work in dungeonCreateOffsetSpriteObjectWithZ */
+} S_80027368_4;   /* work in create_offset_sprite_object_with_z */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -47,7 +47,7 @@ extern s32 D_80027164;
 extern s32 D_80028874;
 
 /* Creates a sprite object at the given position with a source-dependent Z offset. */
-void *dungeonCreateOffsetSpriteObjectWithZ(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)
+void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)
 {
     void *object;
     S_80027368_1 *part;

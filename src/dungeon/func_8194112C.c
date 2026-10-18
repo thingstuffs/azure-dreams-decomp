@@ -17,6 +17,6 @@ void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext)
     func_800478B8(handlerContext);
     if (object->timer <= 0) {
         ((u16 *)object)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

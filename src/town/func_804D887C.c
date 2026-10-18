@@ -1,4 +1,4 @@
 #include "common.h"
 
-extern s32 checkTownEventFlagsClear(s32, s32);
-s32 func_8001687C(s32 arg0, s32 arg1) { return (checkTownEventFlagsClear(arg0, arg1) != -1); }
+extern s32 check_town_event_flags_clear(s32, s32);
+s32 check_town_event_flags_clear_result(s32 arg0, s32 arg1) { return (check_town_event_flags_clear(arg0, arg1) != -1); }

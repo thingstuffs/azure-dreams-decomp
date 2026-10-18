@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A3E8State;
 
 /* Store a VM table word at the address held in a byte selected by a table index value. */
-void handleVmOpcode80(Func8003A3E8State *state) {
+void handle_vm_opcode_80(Func8003A3E8State *state) {
     u8 *read_ptr;
     u8 *addr_bytes;
     u8 *table;

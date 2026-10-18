@@ -3,7 +3,7 @@
 extern s32 D_800FE508[4];
 
 /* Clamps coordinates to the configured bounds and returns flags for the crossed edges. */
-s32 townClampCoordinatesToBounds(s32 *x_ptr, s32 *y_ptr)
+s32 clamp_coordinates_to_bounds(s32 *x_ptr, s32 *y_ptr)
 {
     s32 x;
     s32 y;

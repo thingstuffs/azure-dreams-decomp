@@ -14,26 +14,26 @@ typedef struct S_800247C0_0 {
     void * unk_20;
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800247C0_0;   /* effect in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_0;   /* effect in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800247C0_1;   /* object in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_1;   /* object in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800247C0_2;   /* origin in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_2;   /* origin in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     s32 unk_04;
     s32 unk_08;
-} S_800247C0_3;   /* position in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_3;   /* position in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_4 {
     u8 pad_00[0xC];
@@ -47,7 +47,7 @@ typedef struct S_800247C0_4 {
     u8 pad_16[0x6];
     union { u16 s; s16 u; } unk_1C;   /* accessed as both */
     union { u16 s; s16 u; } unk_1E;   /* accessed as both */
-} S_800247C0_4;   /* sprite in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_4;   /* sprite in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_5 {
     u8 pad_00[0x28];
@@ -56,7 +56,7 @@ typedef struct S_800247C0_5 {
     s32 unk_88;
     s32 unk_8C;
     s32 unk_90;
-} S_800247C0_5;   /* particle_state in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_5;   /* particle_state in shrink_effect_and_spawn_particles */
 
 
 
@@ -66,14 +66,14 @@ typedef struct S_800247C0_7 {
     u8 pad_29[0x37];
     s32 unk_60;
     s16 unk_64;
-} S_800247C0_7;   /* effect_state in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_7;   /* effect_state in shrink_effect_and_spawn_particles */
 
 typedef struct S_800247C0_8 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800247C0_8;   /* ((S_800247C0_1 *)object)->unk_08 in dungeonShrinkEffectAndSpawnParticles */
+} S_800247C0_8;   /* ((S_800247C0_1 *)object)->unk_08 in shrink_effect_and_spawn_particles */
 
 
 
@@ -81,11 +81,11 @@ typedef struct S_800247C0_8 {
 
 
 s32 func_80069EF8();
-s32 func_800A48F0();
+s32 set_or_clear_actor_status_slot();
 extern s32 D_800DE870;
 
 /* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
-void dungeonShrinkEffectAndSpawnParticles(void *effect, void *origin)
+void shrink_effect_and_spawn_particles(void *effect, void *origin)
 {
     void *effect_state;
     u16 offset_x;
@@ -145,7 +145,7 @@ void dungeonShrinkEffectAndSpawnParticles(void *effect, void *origin)
             }
             particle_state = object + 0x20;
             ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
-            ((S_800247C0_1 *)object)->unk_10 = (void *)dungeonAdvanceEffectMotionAndAnimation;
+            ((S_800247C0_1 *)object)->unk_10 = (void *)advance_effect_motion_and_animation;
             func_8004491C(object, (s32)func_80045340);
             sprite = ((S_800247C0_1 *)object)->unk_0C;
             ((S_800247C0_4 *)sprite)->unk_10 = 0x20;
@@ -166,7 +166,7 @@ void dungeonShrinkEffectAndSpawnParticles(void *effect, void *origin)
             sprite = ((S_800247C0_1 *)object)->unk_0C;
             ((S_800247C0_4 *)sprite)->unk_1E.u = 0x1000;
             ((S_800247C0_4 *)sprite)->unk_1C.u = 0x1000;
-            color_channel = func_8002458C(3);
+            color_channel = update_palette_particle_transition(3);
             ((S_800247C0_4 *)sprite)->unk_0E = 0;
             ((S_800247C0_4 *)sprite)->unk_0D = 0;
             ((S_800247C0_4 *)sprite)->unk_0C = 0;
@@ -189,17 +189,17 @@ void dungeonShrinkEffectAndSpawnParticles(void *effect, void *origin)
     ((S_800247C0_0 *)effect)->unk_28 = next_timer;
     if ((next_timer << 0x10) <= 0) {
         ((S_800247C0_0 *)effect)->unk_28 = timer;
-        if (dungeonStatus.unk_10 == NULL) {
-            dungeonStatus.unk_10 = ((S_800247C0_0 *)effect)->unk_20;
+        if (g_dungeon_status.unk_10 == NULL) {
+            g_dungeon_status.unk_10 = ((S_800247C0_0 *)effect)->unk_20;
         }
         object = ((S_800247C0_0 *)effect)->unk_20;
-        func_800A48F0(object + 0x20, 0x18, 0x14);
+        set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
         ((S_800247C0_7 *)effect_state)->unk_28 = 0;
         completion_state = ((s32)D_800E3D7C);
         ((S_800247C0_7 *)effect_state)->unk_64 = -1;
         ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

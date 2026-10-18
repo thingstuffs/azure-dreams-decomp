@@ -58,7 +58,7 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
         state->unk_28 = 0x27;
         state->unk_2A = 0x27;
         state->unk_20 = state_value;
-        ((S_800244BC_1 *)object)->unk_10 = (void *)dungeonScaleEffectByPhase;
+        ((S_800244BC_1 *)object)->unk_10 = (void *)scale_effect_by_phase;
         func_8004491C(object, (s32)func_80045340);
         position = ((S_800244BC_1 *)object)->unk_08;
         position->unk_00 = source_pos->unk_00;

@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80D65E5C; every changed retail word is a paired relocation. */
-#define dungeonRandomBelowLimit func_8015365C
+#define random_below_limit func_8015365C
 #include "common.h"
 
 extern s32 rand(void);

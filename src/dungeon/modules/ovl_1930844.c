@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_1930844.h"
-void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases;
+void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_toward_target_along_direction_advances_action_phases;
 #include "../func_81910844.c"
 #include "../func_81910970.c"
 #include "../func_81910A9C.c"

@@ -7,23 +7,23 @@ typedef struct S_8003571C_0 {
     void * unk_00;
     u8 pad_04[0x64];
     M2C_UNK * unk_68;
-} S_8003571C_0;   /* arg0 in runtimeDecreaseStateByA0 */
+} S_8003571C_0;   /* arg0 in runtime_decrease_state_by_a_0 */
 
 typedef struct S_8003571C_1 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_8003571C_1;   /* temp_v0 in runtimeDecreaseStateByA0 */
+} S_8003571C_1;   /* temp_v0 in runtime_decrease_state_by_a_0 */
 
 typedef struct S_8003571C_2 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_8003571C_2;   /* temp_v1 in runtimeDecreaseStateByA0 */
+} S_8003571C_2;   /* temp_v1 in runtime_decrease_state_by_a_0 */
 
 
-void runtimeResetStateAndAdvanceCallback();
+void runtime_reset_state_and_advance_callback();
 
 /* Decreases the state field at offset 0x08 by 0xA0, clamping below zero and advancing the handler. */
-void runtimeDecreaseStateByA0(S_8003571C_0 *object) {
+void runtime_decrease_state_by_a_0(S_8003571C_0 *object) {
     S_8003571C_1 *state;
     S_8003571C_2 *updated_state;
 
@@ -32,6 +32,6 @@ void runtimeDecreaseStateByA0(S_8003571C_0 *object) {
     updated_state = object->unk_00;
     if ((s16) updated_state->unk_08 < 0) {
         updated_state->unk_08 = 0U;
-        object->unk_68 = &runtimeResetStateAndAdvanceCallback;
+        object->unk_68 = &runtime_reset_state_and_advance_callback;
     }
 }

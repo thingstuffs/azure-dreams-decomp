@@ -5,11 +5,11 @@ extern char D_8001BA48[];
 extern char D_8001C6D0[];
 extern char D_800213D4[];
 
-extern char *func_80016E48(s32);
+extern char *award_next_unearned_milestone(s32);
 extern void func_8001A554(s32);
 
 /* Selects a string and performs any associated action. */
-char *func_8001769C(s32 unused_0, s32 unused_1, s32 selector)
+char *select_string_performs_any_associated(s32 unused_0, s32 unused_1, s32 selector)
 {
 
     switch (selector - 12) {
@@ -21,7 +21,7 @@ char *func_8001769C(s32 unused_0, s32 unused_1, s32 selector)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(selector);
+        return award_next_unearned_milestone(selector);
     case 0:
         return D_8001C6D0;
     default:

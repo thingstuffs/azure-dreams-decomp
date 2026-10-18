@@ -13,13 +13,13 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void func_800353F4();
 extern void func_80042B68();
-extern void selectIndirectTableEntry();
+extern void select_indirect_table_entry();
 extern void func_800478B8();
-extern void dungeonApplyMonsterKoyawData();
-extern void func_800A48F0();
-extern s32 dungeonRefreshActorFacingAndLifecycle();
-extern void func_800AA36C();
-extern s32 func_800BCB04();
+extern void apply_monster_koyaw_data();
+extern void set_or_clear_actor_status_slot();
+extern s32 refresh_actor_facing_and_lifecycle();
+extern void try_move_actor_to_valid_position();
+extern s32 sample_terrain_surface_height();
 extern void D_8016A36C();
 
 extern Callback D_80173B94[];
@@ -29,17 +29,17 @@ extern u8 D_80173DDC[];
 typedef struct S_80169EC0_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80169EC0_0;   /* scan in updateActorCallbacksAndMotion */
+} S_80169EC0_0;   /* scan in update_actor_callbacks_and_motion */
 
 typedef struct S_80169EC0_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80169EC0_1_pre;   /* the 0x14 bytes before entry in updateActorCallbacksAndMotion, addressed as entry[-1] */
+} S_80169EC0_1_pre;   /* the 0x14 bytes before entry in update_actor_callbacks_and_motion, addressed as entry[-1] */
 
 typedef struct S_80169EC0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80169EC0_2;   /* record in updateActorCallbacksAndMotion */
+} S_80169EC0_2;   /* record in update_actor_callbacks_and_motion */
 
 typedef struct S_80169EC0_3 {
     u8 pad_00[0x1C];
@@ -52,7 +52,7 @@ typedef struct S_80169EC0_3 {
     u8 unk_71;
     u8 pad_72[0x16];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80169EC0_3;   /* actor in updateActorCallbacksAndMotion */
+} S_80169EC0_3;   /* actor in update_actor_callbacks_and_motion */
 
 typedef struct S_80169EC0_4 {
     u8 pad_00[0x4];
@@ -64,7 +64,7 @@ typedef struct S_80169EC0_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80169EC0_4;   /* data in updateActorCallbacksAndMotion */
+} S_80169EC0_4;   /* data in update_actor_callbacks_and_motion */
 
 typedef struct S_80169EC0_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -74,10 +74,10 @@ typedef struct S_80169EC0_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80169EC0_5;   /* motion in updateActorCallbacksAndMotion */
+} S_80169EC0_5;   /* motion in update_actor_callbacks_and_motion */
 
 /* Updates actor callbacks, facing, movement, and terrain height. */
-void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
+void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data)
 {
     void *actor = owner_arg;
     s16 initial_state;
@@ -97,7 +97,7 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
     s32 height_offset;
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
-        !(D_80013714 & 1) && dungeonStatus.unk_0A == 0) {
+        !(D_80013714 & 1) && g_dungeon_status.unk_0A == 0) {
         (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
@@ -120,11 +120,11 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
     }
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB0))) == 1) {
-        func_800A48F0(actor, 7, 1);
+        set_or_clear_actor_status_slot(actor, 7, 1);
     } else {
         func_80042B68(actor, 7);
     }
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         special_callback = (*(Callback *)((u8 *)owner_arg + (0x8C)));
         if (special_callback == (Callback)D_8016A36C) {
             special_callback(owner_arg, motion, data, actor);
@@ -141,7 +141,7 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
         void *call_data = data;
 
         initial_state = (s8)((S_80169EC0_3 *)actor)->unk_6D.u;
-        if (dungeonRefreshActorFacingAndLifecycle(call_owner, call_motion, call_data, actor) != 0) {
+        if (refresh_actor_facing_and_lifecycle(call_owner, call_motion, call_data, actor) != 0) {
             return;
         }
     }
@@ -152,20 +152,20 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
     }
     D_80173B94[(*(u8 *)((u8 *)owner_arg + (0x9A)))](owner_arg, motion, data, actor);
     if ((s16)initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
-        func_800AA36C(owner_arg, motion, data, actor);
+        try_move_actor_to_valid_position(owner_arg, motion, data, actor);
     }
 
     status = ((S_80169EC0_4 *)data)->unk_14;
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
-        state_bits = (u32)(gameWork.view.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
+        state_bits = (u32)(g_game_work.view.viewAngle + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
-                selectIndirectTableEntry(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
+                select_indirect_table_entry(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
             }
             (*(s16 *)((u8 *)owner_arg + (0x94))) = direction;
         }
@@ -180,7 +180,7 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
         } else {
             ((S_80169EC0_4 *)data)->unk_14 = cleared_status | 0x7000;
         }
-        dungeonApplyMonsterKoyawData(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
+        apply_monster_koyaw_data(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
     } else {
         ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
                                 (status & 0x8FFF) : (status | 0x7000);
@@ -197,7 +197,7 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
     (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) &&
-        ((terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v,
+        ((terrain_height = sample_terrain_surface_height(((S_80169EC0_5 *)motion)->unk_00.at02.v,
             ((S_80169EC0_5 *)motion)->unk_04.at02.v,
                            (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20))),
          (s16)terrain_height < 0x200)) {
@@ -219,7 +219,7 @@ void updateActorCallbacksAndMotion(void *owner_arg, void *motion, void *data)
         actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
         if (actor_flags & 0x40000000) {
             ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
-            terrain_height = func_800BCB04((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
+            terrain_height = sample_terrain_surface_height((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
                                    (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
                                    (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;

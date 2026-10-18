@@ -8,10 +8,10 @@ void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bia
     s32 ot_index;
     u16 render_flags;
     u8 texture_flags;
-    u8 **render_context_ptr = (u8 **)((u8 *)(&gameWork));
+    u8 **render_context_ptr = (u8 **)((u8 *)(&g_game_work));
     Row_819A088C_MATRIX base_matrix;
 
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_88 = ((Row_819A088C_S_819A088C_1 *)position)->unk_02;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_8C = ((Row_819A088C_S_819A088C_1 *)position)->unk_06;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = ((Row_819A088C_S_819A088C_1 *)position)->unk_0A;
@@ -35,19 +35,19 @@ void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bia
     texture = (*(u8 * *)((u8 *)render_state + 8));
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14;
 
-    packet = ((Row_819A088C_S_819A088C_3 *)(gameWork.unk_000))->unk_8D0;
-    ((Row_819A088C_S_819A088C_3 *)(gameWork.unk_000))->unk_8D0 = packet + 0xC;
+    packet = ((Row_819A088C_S_819A088C_3 *)(g_game_work.unk_000))->unk_8D0;
+    ((Row_819A088C_S_819A088C_3 *)(g_game_work.unk_000))->unk_8D0 = packet + 0xC;
     func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
     (*(u32 *)((u8 *)packet + 0)) = (((Row_819A088C_S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
-        (((Row_819A088C_S_819A088C_3 *)(gameWork.unk_000))->unk_B0 & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(gameWork.unk_000) + 0xB0)) =
-        (((Row_819A088C_S_819A088C_3 *)(gameWork.unk_000))->unk_B0 & 0xFF000000) |
+        (((Row_819A088C_S_819A088C_3 *)(g_game_work.unk_000))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(g_game_work.unk_000) + 0xB0)) =
+        (((Row_819A088C_S_819A088C_3 *)(g_game_work.unk_000))->unk_B0 & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
 
     {
         u8 *render_context;
 
-        render_context = gameWork.unk_000;
+        render_context = g_game_work.unk_000;
         packet = ((Row_819A088C_S_819A088C_5 *)render_context)->unk_8D0;
         ((Row_819A088C_S_819A088C_5 *)render_context)->unk_8D0 = packet + 0x24;
     }

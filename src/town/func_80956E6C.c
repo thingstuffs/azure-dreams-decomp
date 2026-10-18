@@ -6,17 +6,17 @@ typedef struct S_80956E6C_0 {
     union { void * p32; s16 s16; } unk_08;   /* accessed as both */
     void * unk_0C;
     void * unk_10;
-} S_80956E6C_0;   /* object in townCreatePalettedPositionObject */
+} S_80956E6C_0;   /* object in create_paletted_position_object */
 
 typedef struct S_80956E6C_1 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_80956E6C_1;   /* position in townCreatePalettedPositionObject */
+} S_80956E6C_1;   /* position in create_paletted_position_object */
 
 typedef struct S_80956E6C_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80956E6C_2;   /* position2 in townCreatePalettedPositionObject */
+} S_80956E6C_2;   /* position2 in create_paletted_position_object */
 
 typedef struct S_80956E6C_3 {
     u8 pad_00[0x4];
@@ -32,13 +32,13 @@ typedef struct S_80956E6C_3 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_80956E6C_3;   /* primitive in townCreatePalettedPositionObject */
+} S_80956E6C_3;   /* primitive in create_paletted_position_object */
 
 typedef struct S_80956E6C_4 {
     u8 pad_00[0x48];
     u16 unk_48;
     u16 unk_4A;
-} S_80956E6C_4;   /* arg2 in townCreatePalettedPositionObject */
+} S_80956E6C_4;   /* arg2 in create_paletted_position_object */
 
 
 typedef struct Palette {
@@ -52,7 +52,7 @@ extern u8 D_80023FA8[];
 extern u8 D_80044BB0[];
 
 /* Create an object with a signed position, selected palette, and supplied settings. */
-void townCreatePalettedPositionObject(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
+void create_paletted_position_object(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
 {
     Palette palette;
     s32 *palette_entries;

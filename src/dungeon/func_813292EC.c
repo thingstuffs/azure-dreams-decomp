@@ -17,7 +17,7 @@ extern u8 D_800DE870[9];
 extern u8 D_80170A54[9];
 
 /* Allocate and initialize an effect node with default parameters and data. */
-void dungeonCreateBossEffectNode(void)
+void create_boss_effect_node(void)
 {
     Node *node;
     s16 *node_params;

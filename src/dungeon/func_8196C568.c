@@ -39,7 +39,7 @@ extern void func_800542BC(void);
 extern u32 func_80069EF8(void);
 
 /* Update the staged particle effect and clear its actor state when it finishes. */
-void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
+void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 {
     OffsetTable offsets;
     Effect *effect;
@@ -95,7 +95,7 @@ void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
         work->counter = 0;
         work->table_index = direction_index;
         func_8002553C(work, position_arg, sprite_arg);
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         func_800542BC();
         return;
 
@@ -106,7 +106,7 @@ void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
                     effect = func_8003FC64(0x212);
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
-                        effect->callback.update = func_80025648;
+                        effect->callback.update = update_timed;
                         func_8004491C(effect, (s32)func_80045340);
                         sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
@@ -134,7 +134,7 @@ void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
                     effect = func_8003FC64(0x212);
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 1;
-                        effect->callback.update = func_80024A5C;
+                        effect->callback.update = draw_effect_and_restore_clip;
                         func_8004491C(effect, (s32)func_80045340);
                         sprite = effect->visual.sprite;
                         sprite->unk10 = 32;
@@ -324,11 +324,11 @@ void updateStagedParticleEffect(Work *work, s32 position_arg, s32 sprite_arg)
 
     case 4:
         if (D_800269B4 == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             D_80082E80.unk_006 = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             ((u16 *)work)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         D_800269B4 = 0;

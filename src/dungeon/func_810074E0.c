@@ -11,36 +11,36 @@ typedef struct S_80172CE0_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172CE0_0;   /* arg0 in dungeonReturnActorToTileCenter */
+} S_80172CE0_0;   /* arg0 in return_actor_to_tile_center */
 
 
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
 
 extern s32 D_80171058;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
-void dungeonReturnActorToTileCenter(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
+void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s16 frames_left;
     s32 tracked_actor;
 
     switch (action->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(actor);
+        apply_clamped_actor_value_delta(actor);
         motion->unk_0C =
-            -((s16 *)((s8 *)dirStepX))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         motion->unk_10 =
-            -((s16 *)((s8 *)dirStepY))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
+            -((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         action->unk_9B++;
 
         if (actor->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, entity, &D_801748C0);
+            begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         }
         if (entity->unk_14.at00_u16.v & 0x8000) {
@@ -59,9 +59,9 @@ void dungeonReturnActorToTileCenter(S_80172CE0_0 *action, EntityRec *motion, Rec
 
     case 1:
         motion->unk_0C +=
-            ((s16 *)((s8 *)dirStepX))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
+            ((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         motion->unk_10 +=
-            ((s16 *)((s8 *)dirStepY))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
+            ((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (entity->unk_14.at00_u16.v & 0x6000) {
@@ -74,7 +74,7 @@ void dungeonReturnActorToTileCenter(S_80172CE0_0 *action, EntityRec *motion, Rec
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, entity, &D_801748C0);
+            begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         } else {
             action->unk_96.s = 8;
@@ -109,11 +109,11 @@ void dungeonReturnActorToTileCenter(S_80172CE0_0 *action, EntityRec *motion, Rec
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, entity->unk_24, entity->unk_25);
+        set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
-        tracked_actor = ((s32)dungeonStatus.unk_10);
+        tracked_actor = ((s32)g_dungeon_status.unk_10);
         if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
-            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80171058;
         return;

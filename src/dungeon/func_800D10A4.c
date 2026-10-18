@@ -6,7 +6,7 @@ typedef struct S_800D6804_0 {
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800D6804_0;   /* state in dungeonAdvanceDecayingEffectState */
+} S_800D6804_0;   /* state in advance_decaying_effect_state */
 
 typedef struct S_800D6804_1 {
     u8 unk_00;
@@ -23,7 +23,7 @@ typedef struct S_800D6804_1 {
     u8 pad_0C[0x26];
     union { s16 s; u16 u; } unk_32;   /* accessed as both */
     s16 unk_34;
-} S_800D6804_1;   /* arg0 in dungeonAdvanceDecayingEffectState */
+} S_800D6804_1;   /* arg0 in advance_decaying_effect_state */
 
 
 static __inline__ void decay_step(S_800D6804_0 *s)
@@ -33,7 +33,7 @@ static __inline__ void decay_step(S_800D6804_0 *s)
 }
 
 /* Advance the state with a decaying delta and fade the effect color until its timer expires. */
-void dungeonAdvanceDecayingEffectState(void *effect, void *state_data)
+void advance_decaying_effect_state(void *effect, void *state_data)
 {
     s16 frames_left;
 
@@ -54,6 +54,6 @@ void dungeonAdvanceDecayingEffectState(void *effect, void *state_data)
     ((S_800D6804_1 *)effect)->unk_08 = ((S_800D6804_1 *)effect)->unk_04.at00u.v;
     if ((frames_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

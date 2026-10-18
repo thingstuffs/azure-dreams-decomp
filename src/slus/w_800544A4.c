@@ -9,7 +9,7 @@
 extern void func_80054538(SoundTask *ramp);
 extern void func_800546B0(void);
 extern void func_80054704(void);
-extern void audioHandleStreamControlEvent(s32 event);
+extern void audio_handle_stream_control_event(s32 event);
 
 /* Updates the CD cue task and commits the countdown when its ramp completes. */
 void func_800544A4(void) {
@@ -23,7 +23,7 @@ void func_800544A4(void) {
 
             func_80054538(task);
             if (task->unk_0C == 3) {
-                audioHandleStreamControlEvent(0x74);
+                audio_handle_stream_control_event(0x74);
             }
         } else {
             func_800546B0();

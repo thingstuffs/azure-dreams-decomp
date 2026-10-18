@@ -39,7 +39,7 @@ typedef struct S_800ADC4C_3 {
 } S_800ADC4C_3;
 
 /* Create an object with the supplied position and render settings, and clear its status flag. */
-void *dungeonCreateStatusLinkedRenderEffect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status) {
+void *create_status_linked_render_effect(EntityRec *source_pos, s32 render_param, s16 initial_state, s8 *status) {
     S_800ADC4C_0 *object;
     S_800ADC4C_3 *render_data;
     S_800ADC4C_1 *position;

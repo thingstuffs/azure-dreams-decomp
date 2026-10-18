@@ -46,7 +46,7 @@ typedef struct {
 } EntryRecord;
 
 extern void func_80033CD8();
-extern void *townCreateTownEffectObject();
+extern void *create_town_effect_object();
 extern u8 D_800A76F0;
 extern s32 D_800D0E24[];
 extern s32 D_800D0E3C[];
@@ -74,7 +74,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     }
     object_template = &D_800A76F0;
 
-    object = townCreateTownEffectObject(entry_or_body, entry_data, object_template, 0);
+    object = create_town_effect_object(entry_or_body, entry_data, object_template, 0);
     if (object != NULL) {
         body = (u8 *)object + 0x20;
         part = ((S_800A75E4_1 *)object)->unk_08;

@@ -26,7 +26,7 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + (0x2C))) = ((u8 *)D_80175980);
         func_80047784(
             entity,
-            ((u8 *)D_80175980)[((gameWork.view.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_80175980)[((g_game_work.view.viewAngle + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -36,15 +36,15 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
     if (((R10_80171D7C_S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
     }
-    func_8009A3D0(x, y, move_flags);
+    update_map_cell_flags_with_item_limit(x, y, move_flags);
 
-    heading = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
+    heading = ((s16)get_rounded_facing_and_rounding_flag(
         x,
         y,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74,
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)movement + 0x98));
-    move_result = ((s16)dungeonCheckMovementClearanceAndHeight(heading, entity, state, 0x20));
+    move_result = ((s16)check_movement_clearance_and_height(heading, entity, state, 0x20));
 
     ((Rec_D_80082E80 *)entity)->unk_24 =
         ((R10_80171D7C_S_80171CD4_4 *)((u8 *)state + ((R10_80171D7C_S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
@@ -60,12 +60,12 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
         if (((R10_80171D7C_S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
         }
-        func_8009A21C(next_x, next_y, move_flags);
+        cycle_map_cell_flags(next_x, next_y, move_flags);
     }
 
     ((R10_80171D7C_S_80171CD4_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
-        if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             func_80172730(movement, motion, entity, state);
             ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         } else {
@@ -77,7 +77,7 @@ void func_80171D7C(void *movement, void *motion, void *entity, void *path_state)
         ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
     }
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((Rec_func_80171CD4_arg0 *)movement)->unk_96 = 0;
         return;
     }

@@ -29,6 +29,6 @@ void func_8002420C(void *step_state, void *accumulator, void *target)
 
     if (*(s16 *)((u8 *)step_state + 4) > *(s16 *)((u8 *)step_state + 6)) {
         *(u16 *)((u8 *)step_state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

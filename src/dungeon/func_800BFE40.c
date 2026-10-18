@@ -15,12 +15,12 @@ typedef struct {
     s32 value;
     ChainPayload *payload;
 } ChainHeader;
-extern void dungeonTransformMeshAndAppendDrawPackets(void *, s32, ChainPayload *, s16);
+extern void transform_mesh_and_append_draw_packets(void *, s32, ChainPayload *, s16);
 
-s32 func_800C55A0(void *body, s32 value, ChainPayload *payload) {
+s32 draw_linked_mesh_chain(void *body, s32 value, ChainPayload *payload) {
     ChainHeader *next;
     do {
-        dungeonTransformMeshAndAppendDrawPackets(body, value, payload, payload->kind);
+        transform_mesh_and_append_draw_packets(body, value, payload, payload->kind);
         next = *(ChainHeader **)((u8 *)body - 8);
         body = (u8 *)next + 0x20;
         if (next != 0) {

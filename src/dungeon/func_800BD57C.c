@@ -7,21 +7,21 @@
 
 extern s32 func_80042900(void *actor, s32 value);
 extern void func_80042B68(void *actor, s32 value);
-extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern void dungeonClearSlotAndUpdateLinkedState(void *object_data);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern void clear_slot_and_update_linked_state(void *object_data);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 dungeonAppendTypedFormattedValue(void *object_data, s32 value);
-extern s32 func_80099734(void *record, u8 *out);
-extern s32 dungeonWriteStatusPrefixBytes(s32 value);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A3D0(u8 x, u8 y, s32 flags);
-extern void func_800A56E0(s32 value);
-extern void func_800A5720(s8 *text);
-extern s16 dungeonSelectAndInitializeEntryAtPosition(u8 x, u8 y, s16 value, s32 mode, s32 object);
-extern s32 dungeonCreateCentralAndChildEffects(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_typed_formatted_value(void *object_data, s32 value);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern s32 write_status_prefix_bytes(s32 value);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flags);
+extern void play_sound_if_enabled(s32 value);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern s16 select_and_initialize_entry_at_position(u8 x, u8 y, s16 value, s32 mode, s32 object);
+extern s32 create_central_and_child_effects(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];
@@ -32,7 +32,7 @@ extern u8 D_800E39C8[];
 typedef struct S_800C2CDC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2CDC_0_pre;   /* the 0x14 bytes before arg0 in dungeonApplyHolyBeamTileItem, addressed as arg0[-1] */
+} S_800C2CDC_0_pre;   /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
 
 typedef struct S_800C2CDC_0 {
     u8 pad_00[0x13];
@@ -43,31 +43,31 @@ typedef struct S_800C2CDC_0 {
     s16 unk_88;
     u8 pad_8A[0x86];
     u8 * unk_110;
-} S_800C2CDC_0;   /* arg0 in dungeonApplyHolyBeamTileItem */
+} S_800C2CDC_0;   /* arg0 in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2CDC_1;   /* entity in dungeonApplyHolyBeamTileItem */
+} S_800C2CDC_1;   /* entity in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_2 {
     u8 pad_00[0x20];
     s16 unk_20;
-} S_800C2CDC_2;   /* object_fields in dungeonApplyHolyBeamTileItem */
+} S_800C2CDC_2;   /* object_fields in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_3 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800C2CDC_3;   /* entries + (index * 24) in dungeonApplyHolyBeamTileItem */
+} S_800C2CDC_3;   /* entries + (index * 24) in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C2CDC_4;   /* counter_base in dungeonApplyHolyBeamTileItem */
+} S_800C2CDC_4;   /* counter_base in apply_holy_beam_tile_item */
 
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
-s32 dungeonApplyHolyBeamTileItem(void *actor, u8 *object_data, s16 action_type) {
+s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     S_800C2CDC_1 *entity;
     s32 object_fields;
     u8 *entries;
@@ -77,58 +77,58 @@ s32 dungeonApplyHolyBeamTileItem(void *actor, u8 *object_data, s16 action_type) 
 
     if (actor == *(u8 **)((u8 *)(&D_800E3D7C))) {
         ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
-        dungeonBeginModeSelectedItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_mode_selected_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         return 0;
     }
 
     entity = ((S_800C2CDC_0_pre *)actor)[-1].unk_00;
-    object = dungeonCreateCentralAndChildEffects(entity->unk_24,
+    object = create_central_and_child_effects(entity->unk_24,
                            entity->unk_25,
                            ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);
     if (object == 0) {
         return 0;
     }
 
-    func_800A56E0(0x816);
+    play_sound_if_enabled(0x816);
     object_fields = object + 0x20;
-    entry_index = dungeonSelectAndInitializeEntryAtPosition(entity->unk_24,
+    entry_index = select_and_initialize_entry_at_position(entity->unk_24,
                           entity->unk_25,
                           ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
     entries = D_800E39C8;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
     ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
 
-    handle = func_800990FC();
-    object = dungeonWriteTextByteAndAdvance(8, handle);
+    handle = get_unused_text_buffer();
+    object = write_text_byte_and_advance(8, handle);
 
     if (action_type == 13) {
-        object = dungeonWriteStatusPrefixBytes(func_80099194(D_800893D4,
-                    func_80099734(actor, func_80099194(D_800E1684,
-                        dungeonAppendTypedFormattedValue(object_data, object)))));
+        object = write_status_prefix_bytes(expand_text_control_codes(D_800893D4,
+                    append_entity_display_text(actor, expand_text_control_codes(D_800E1684,
+                        append_typed_formatted_value(object_data, object)))));
 
         if (!(((S_800C2CDC_0 *)actor)->unk_1C & 0x2000) &&
             ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
-            func_8009A3D0(entity->unk_24,
+            update_map_cell_flags_with_item_limit(entity->unk_24,
                           entity->unk_25, 0x3000);
             ((S_800C2CDC_0 *)actor)->unk_1C |= 0x2000;
-            func_8009A21C(entity->unk_24,
+            cycle_map_cell_flags(entity->unk_24,
                           entity->unk_25, 0x300);
         }
 
         func_80099290(object);
-        func_800A5720(handle);
+        display_text_with_fullwidth_adjustment(handle);
     }
 
-    handle = func_800990FC();
-    func_80099290(func_80099194(D_800E169A, handle));
-    func_800A5720(handle);
+    handle = get_unused_text_buffer();
+    func_80099290(expand_text_control_codes(D_800E169A, handle));
+    display_text_with_fullwidth_adjustment(handle);
 
     if ((s16)func_80042900(actor, 2) != 0) {
         func_80042B68(actor, 2);
     }
 
-    func_8009A21C(entity->unk_24, entity->unk_25, 2);
-    dungeonClearSlotAndUpdateLinkedState(object_data);
-    dungeonStatus.unk_0A--;
+    cycle_map_cell_flags(entity->unk_24, entity->unk_25, 2);
+    clear_slot_and_update_linked_state(object_data);
+    g_dungeon_status.unk_0A--;
     return 1;
 }

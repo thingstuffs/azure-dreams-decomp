@@ -57,19 +57,19 @@ typedef struct PlayerActionCounterView {
 } PlayerActionCounterView;
 extern int abs(int);
 
-extern s32 getCdCommandQueueDepth(void);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784();
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter();
-extern s32 dungeonAdvanceStatusTimers(void *);
-extern s32 func_800A56E0(s32);
-extern void *dungeonCreateActorSpellEffect();
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center();
+extern s32 advance_status_timers(void *);
+extern s32 play_sound_if_enabled(s32);
+extern void *create_actor_spell_effect();
 
 extern void func_8015EE68(void *, void *, void *, void *);
 extern u8 D_8016186C[];
 
 /* Advances actor ability, waits for completion, and resets the action state. */
-void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_actor_ability_and_reset_state(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     u16 saved_position[3];
     u8 *ability;
@@ -140,7 +140,7 @@ void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
                 }
             } else {
                 actor->target =
-                    dungeonScanMonsterAlongHeading(actor, sprite->tile.bytes.x, sprite->tile.bytes.y,
+                    scan_monster_along_heading(actor, sprite->tile.bytes.x, sprite->tile.bytes.y,
                                   actor->facing, 0x10);
                 actor->unk_72 = abs(actor->unk_72);
                 actor->unk_73 = abs(actor->unk_73);
@@ -148,12 +148,12 @@ void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
             saved_position[0] = ((u16)motion->x.w.i);
             saved_position[1] = ((u16)motion->y.w.i);
             saved_position[2] = ((u16)motion->z.w.i);
-            effect = (void *)dungeonCreateActorSpellEffect(actor, ability, use_player_target, &action->flags);
+            effect = (void *)create_actor_spell_effect(actor, ability, use_player_target, &action->flags);
             if (effect == 0) {
                 return;
             }
             sprite->flags &= 0xF7FF;
-            func_800A56E0(0x703);
+            play_sound_if_enabled(0x703);
             action->phase = action->phase + 1;
             return;
         }
@@ -161,10 +161,10 @@ void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        g_dungeon_status.unk_0C = 0;
         ((PlayerActionCounterView *)D_800814A8)->activeActions = ((PlayerActionCounterView *)D_800814A8)->activeActions - 1;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_6D = ((u8)actor->unk_6D) - 1;
         action->nextBehavior = func_8015EE68;
         actor->unk_73 = 0;
@@ -173,7 +173,7 @@ void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
@@ -199,32 +199,32 @@ void func_80160870(ActorActionView *action, EntityRec *motion, ActorSpriteView *
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         {
             u8 *direction_anims = D_8016186C;
 
             if (sprite->frameTable != direction_anims) {
                 (sprite->frameTable) = direction_anims;
                 func_80047784(sprite,
-                    direction_anims[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    direction_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
-        target_sprite = (u8 *)&dungeonStatus.unk_00;
+        target_sprite = (u8 *)&g_dungeon_status.unk_00;
         if (((DungeonGlobalStatus *)target_sprite)->unk_0C != 0) {
             return;
         }
         ((DungeonGlobalStatus *)target_sprite)->unk_0A = ((DungeonGlobalStatus *)target_sprite)->unk_0A - 1;
         sprite->flags &= 0xF7FF;
         action->nextBehavior = func_8015EE68;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         if (actor->unk_6D > 0) {
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         break;
     }
 }

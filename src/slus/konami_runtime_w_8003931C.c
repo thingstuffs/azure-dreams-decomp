@@ -47,7 +47,7 @@ extern void func_80038408(void);
 
 
 /* Initializes an event-script entry or defers the command while the entry is active or unavailable. */
-void handleVmOpcode15(State *state)
+void handle_vm_opcode_15(State *state)
 {
     u8 *cursor = state->read_ptr;
     u8 *value_ptr;

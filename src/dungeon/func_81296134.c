@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonIsGlobalEffectEnabled at file 0x1274134; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/is_global_effect_enabled at file 0x1274134; imports and data use paired retail relocations. */
 #include "common.h"
 #include "shared/sys_flags.h"
 

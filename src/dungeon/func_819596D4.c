@@ -5,12 +5,12 @@
 #include "records/Rec_func_800243C4_arg1.h"
 
 extern u8 D_800DF334[];
-void func_80024654();
+void spawn_spiraling();
 void *func_8003FD64();
 s32 func_800644B8();
 s32 func_80064584();
-s16 dungeonForwardMonsterCoordinateDelta();
-void dungeonDrawTexturedEllipse();
+s16 forward_monster_coordinate_delta();
+void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
 
@@ -59,7 +59,7 @@ typedef struct S_80024ED4_4 {
 } S_80024ED4_4;
 
 /* Creates up to sixteen linked effect segments at the given position. */
-void *dungeonCreateLinkedEffectSegments(Rec_func_800243C4_arg1 *position) {
+void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
     s32 setup_params[2];
     s32 segment_index;
     M2C_UNK alloc_flags;
@@ -76,7 +76,7 @@ void *dungeonCreateLinkedEffectSegments(Rec_func_800243C4_arg1 *position) {
 
     previous_segment = NULL;
     segment_index = 0;
-    angle = dungeonForwardMonsterCoordinateDelta(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
+    angle = forward_monster_coordinate_delta(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {
@@ -109,11 +109,11 @@ void *dungeonCreateLinkedEffectSegments(Rec_func_800243C4_arg1 *position) {
                 segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));
                 segment_state->unk_16 = (s16) (coords->unk_06 + (func_800644B8(angle) >> 5));
                 segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
-                func_80024654((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
+                spawn_spiraling((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
                     (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
                 setup_params[0] = 0x01200340;
                 setup_params[1] = 0x200020;
-                dungeonDrawTexturedEllipse(D_800DF334, setup_params, 1, 0);
+                draw_textured_ellipse(D_800DF334, setup_params, 1, 0);
             }
             segment_state->unk_08 = previous_segment;
             previous_segment = segment;

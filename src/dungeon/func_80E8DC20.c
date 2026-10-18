@@ -11,18 +11,18 @@ typedef struct S_80173420_0 {
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173420_0;   /* arg0 in dungeonUpdateDirectionalMotionSettleEntityGridPosition */
+} S_80173420_0;   /* arg0 in update_directional_motion_settle_entity_grid_position */
 
 
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
 
 extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
+void update_directional_motion_settle_entity_grid_position(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -48,20 +48,20 @@ void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action
     action->unk_96.s = ticks_left;
     switch (phase) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
-        directions_x = (s16 *)((s8 *)dirStepX);
+        apply_clamped_actor_value_delta(entity);
+        directions_x = (s16 *)((s8 *)dir_step_x);
         launch_offset = direction * 2;
         motion->unk_0C =
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) + launch_offset) << 0x12;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 0x12;
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, grid_pos, D_80174F10);
+            begin_actor_display_action(action, motion, grid_pos, D_80174F10);
             return;
         }
         if (grid_pos->unk_14.at00_u16.v & 0x8000) {
@@ -87,9 +87,9 @@ void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action
         motion->unk_10 = velocity_y - (biased_velocity_y / 4);
                         /* fall through */
     case 1:
-        directions_x = (s16 *)((s8 *)dirStepX);
+        directions_x = (s16 *)((s8 *)dir_step_x);
         decel_offset = direction * 2;
-        direction_y = (s16 *)((u8 *)((s8 *)dirStepY) + decel_offset);
+        direction_y = (s16 *)((u8 *)((s8 *)dir_step_y) + decel_offset);
         motion->unk_0C -=
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
         motion->unk_10 -= *direction_y << 0xE;
@@ -101,7 +101,7 @@ void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, grid_pos, D_80174F10);
+            begin_actor_display_action(action, motion, grid_pos, D_80174F10);
         } else {
             action->unk_96.s = 6;
             action->unk_9B++;
@@ -124,11 +124,11 @@ void dungeonUpdateDirectionalMotionSettleEntityGridPosition(S_80173420_0 *action
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, grid_pos->unk_24, grid_pos->unk_25);
+        set_record_integer_tile_center(motion, grid_pos->unk_24, grid_pos->unk_25);
 
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         action->unk_8C = D_801710F4;
         break;

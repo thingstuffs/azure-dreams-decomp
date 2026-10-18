@@ -20,11 +20,11 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern s32 randomDungeonRange16(s32, s32);
+extern s32 random_dungeon_range_16(s32, s32);
 extern DungeonGroup D_80073414[];
 
 /* Select a random eligible dungeon item and initialize its parameters. */
-s32 selectRandomReplacementItem(DungeonArg *selection, u8 *context)
+s32 select_random_replacement_item(DungeonArg *selection, u8 *context)
 {
     DungeonGroup *item_category_table;
     DungeonGroup *candidate_category;
@@ -42,7 +42,7 @@ s32 selectRandomReplacementItem(DungeonArg *selection, u8 *context)
     item_category_table = D_80073414;
 
     for (; retries_left >= 0; retries_left--) {
-        category_index = randomDungeonRange16(1, 19);
+        category_index = random_dungeon_range_16(1, 19);
         candidate_category = (DungeonGroup *)((u32)((u8)category_index * sizeof(DungeonGroup))
             + (u32)item_category_table);
 
@@ -50,7 +50,7 @@ s32 selectRandomReplacementItem(DungeonArg *selection, u8 *context)
             continue;
         }
 
-        item_index = randomDungeonRange16(1, (u16)(candidate_category->count - 1));
+        item_index = random_dungeon_range_16(1, (u16)(candidate_category->count - 1));
         if (candidate_category->entries[(u8)item_index].flags & 0x10) {
             continue;
         }

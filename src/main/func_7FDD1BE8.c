@@ -33,7 +33,7 @@ void func_80088B48(S_7FDD1BE8 *object)
         object->unkE = (sub_object->unk24 * 0x10) + 0xA0;
         if (sub_object->unk26 & 1) {
             *prior_flags |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

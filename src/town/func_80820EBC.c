@@ -20,20 +20,20 @@ typedef struct S_800236BC_1 {
     u8 unk_1D;
     u8 pad_1E[0x36];
     s16 unk_54;
-} S_800236BC_1;   /* arg0 in townUpdateBouncingPickupAfterHit */
+} S_800236BC_1;   /* arg0 in update_bouncing_pickup_after_hit */
 
 
 typedef struct S_800236BC_3 {
     u8 pad_00[0x62];
     u16 unk_62;
-} S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in townUpdateBouncingPickupAfterHit */
+} S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in update_bouncing_pickup_after_hit */
 
 
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern void townUnlinkSceneListNode(void *);
-extern s32 townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(void *, void *, void *, void *);
+extern void unlink_scene_list_node(void *);
+extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(void *, void *, void *, void *);
 
 extern s32 D_80012D5C[];
 extern Vec3 D_80020278;
@@ -43,7 +43,7 @@ extern s32 D_80024628[];
 extern M2C_UNK D_800D0420;
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
-void townUpdateBouncingPickupAfterHit(void *object, void *motion, void *sprite)
+void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
 {
     Vec3 reward_values = D_80020278;
     s16 state;
@@ -118,7 +118,7 @@ void townUpdateBouncingPickupAfterHit(void *object, void *motion, void *sprite)
             }
         }
         collision_addr = (u32)&D_80024488;
-        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -146,7 +146,7 @@ void townUpdateBouncingPickupAfterHit(void *object, void *motion, void *sprite)
             ((S_800236BC_1 *)object)->unk_06.s = 31;
             ((S_800236BC_1 *)object)->unk_04.u++;
         }
-        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -163,7 +163,7 @@ void townUpdateBouncingPickupAfterHit(void *object, void *motion, void *sprite)
         return;
 
     case 4:
-        if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
             SD_Call(0x516);
             reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
             D_80012D5C[0] += reward_amount;
@@ -187,8 +187,8 @@ void townUpdateBouncingPickupAfterHit(void *object, void *motion, void *sprite)
         return;
 
     case 255:
-        townUnlinkSceneListNode((u8 *)object + 8);
+        unlink_scene_list_node((u8 *)object + 8);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

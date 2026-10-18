@@ -18,10 +18,10 @@ typedef struct {
     u16 counter;      /* 0x0A */
 } DungeonCounters;
 
-extern void func_8009A028(void *);
-extern u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void unlink_entity_node(void *);
+extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void func_80164BA4(void *);
-extern void dungeonUploadEncounterTexture(void);
+extern void upload_encounter_texture(void);
 
 extern u16 D_800834E2;
 extern u8 D_80173C8C[];
@@ -31,7 +31,7 @@ extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
-void dungeonBeginMultiFormDirectionalScript(void)
+void begin_multi_form_directional_script(void)
 {
     s32 unused_result;
     s32 slot;
@@ -54,7 +54,7 @@ void dungeonBeginMultiFormDirectionalScript(void)
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    dungeonStatus.unk_0A -= 1;
+    g_dungeon_status.unk_0A -= 1;
     active_object = D_80175D50;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     handler_index = D_800834E2 >> 7;
@@ -63,7 +63,7 @@ void dungeonBeginMultiFormDirectionalScript(void)
     position_data = *(u8 **)(active_object + 0xC);
     D_800E296C |= 0x200000;
     object_state = active_object + 0x20;
-    direction = dungeonGetRoundedFacingAndRoundingFlag(position_data[0x24], position_data[0x25],
+    direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
                               D_80082E80.tileX, D_80082E80.tileY, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
@@ -81,13 +81,13 @@ void dungeonBeginMultiFormDirectionalScript(void)
         if (entry != 0) {
             u8 *entry_header;
             func_80164BA4(entry);
-            func_8009A028(*(void **)(*(u8 **)(work_page + 0x3D7C) + slot * 4 + 0xAC));
+            unlink_entity_node(*(void **)(*(u8 **)(work_page + 0x3D7C) + slot * 4 + 0xAC));
             entry_header = *(u8 **)(*(u8 **)(work_page + 0x3D7C) + slot * 4 + 0xAC) - 0x20;
             *(u32 *)(entry_header + 0x10) |= high_bit;
         }
         slot++;
     } while (slot < 2);
-    dungeonUploadEncounterTexture();
+    upload_encounter_texture();
 }
 
 /* MECHANISM (stock 2.7.2-cdk -O2 -G0, no bridge):

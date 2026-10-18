@@ -38,7 +38,7 @@ typedef struct S_80025654_2 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_80025654_2;   /* arg0 in dungeonCreateEffectFromEndpoints */
+} S_80025654_2;   /* arg0 in create_effect_from_endpoints */
 
 typedef struct S_80025654_3 {
     u8 pad_00[0x8];
@@ -60,18 +60,18 @@ typedef struct S_80025654_4 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80025654_4;   /* arg1 in dungeonCreateEffectFromEndpoints */
+} S_80025654_4;   /* arg1 in create_effect_from_endpoints */
 
 /* Creates an object with initial values, endpoint differences, and copied settings. */
-void *dungeonCreateEffectFromEndpoints(S_80025654_2 *endpoints, S_80025654_4 *settings) {
+void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settings) {
     S_80025654_1 *transition;
     S_80025654_0 *object;
     S_80025654_3 *object_settings;
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        object->unk_10 = dungeonFadeEffectColorBelowEight;
-        func_8004491C(object, (s32)dungeonProcessLinkedMeshStatesMode0);
+        object->unk_10 = fade_effect_color_below_eight;
+        func_8004491C(object, (s32)process_linked_mesh_states_mode_0);
         transition = object->unk_08;
         transition->unk_02 = (u16) endpoints->unk_02;
         transition->unk_06 = (u16) endpoints->unk_06;

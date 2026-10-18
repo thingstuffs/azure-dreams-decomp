@@ -7,7 +7,7 @@ typedef struct {
     /* 0x3 */ s8 pad2[9];
 } S_8004A10C; /* size 0xC */
 
-extern s32 countTaggedRecords(S_8004A10C *a0);
+extern s32 count_tagged_records(S_8004A10C *a0);
 
 /* Returns the first flagged entry's signed byte at offset 2 plus 0x80, or zero for NULL. */
 s16 func_8004A10C(S_8004A10C *entries) {
@@ -17,7 +17,7 @@ s16 func_8004A10C(S_8004A10C *entries) {
     if (entries == 0) {
         return 0;
     }
-    entry_index = countTaggedRecords(entries);
+    entry_index = count_tagged_records(entries);
     entry_value = ((s8 *)entries)[entry_index * 12 - 10];
     return entry_value + 0x80;
 }

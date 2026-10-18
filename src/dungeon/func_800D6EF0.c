@@ -9,11 +9,11 @@ typedef struct {
 extern Func D_800E2934[];
 extern GlobalState *D_800E5910;
 
-extern void dungeonSetObjectValueAndNegation(void *, s32);
-extern s32 dungeonLinkIndexedEntryChain(void *, s32);
+extern void set_object_value_and_negation(void *, s32);
+extern s32 link_indexed_entry_chain(void *, s32);
 
 /* Moves the current value toward its selected target and updates the object state. */
-void dungeonMoveValueTowardTarget(u8 *object_data) {
+void move_value_toward_target(u8 *object_data) {
     u8 *state;
     u32 flags;
     s32 current;
@@ -54,9 +54,9 @@ void dungeonMoveValueTowardTarget(u8 *object_data) {
         mode = mode ^ 1;
         mode = mode % 2;
     }
-    result = dungeonLinkIndexedEntryChain(handle, mode);
+    result = link_indexed_entry_chain(handle, mode);
     do {
         D_800E5910->value = result;
     } while (0);
-    dungeonSetObjectValueAndNegation(state, current);
+    set_object_value_and_negation(state, current);
 }

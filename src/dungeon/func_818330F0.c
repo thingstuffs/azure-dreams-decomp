@@ -54,6 +54,6 @@ void func_800248F0(void *effect, void *position, void *primitive) {
     func_800478B8(primitive);
     if ((u8) ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v >= 0x91U) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818330F0_1_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

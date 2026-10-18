@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void dungeonCreateRadiusDirectionalEffects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
+void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
     s16 target_y;
     s16 target_x;
     s32 source_y;
@@ -16,7 +16,7 @@ void dungeonCreateRadiusDirectionalEffects(s32 effect_param, void *origin_arg, s
         effect = func_8003FC64(0x212);
         if (effect != 0) {
             effect_data = effect->unk_0C;
-            effect->unk_10 = dungeonAdvanceCounterAndPropagateTargetFlags;
+            effect->unk_10 = advance_counter_and_propagate_target_flags;
             effect->unk_20 = effect_param;
             effect->unk_24 = 0;
             effect_data->unk_0E = 0x80;
@@ -39,20 +39,20 @@ void dungeonCreateRadiusDirectionalEffects(s32 effect_param, void *origin_arg, s
             effect_data = blocked_dirs + direction;
             if (effect_data->unk_00 == 0) {
                 source_x = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_02.u;
-                tile_x = (source_x / 64) + ((u16)dirStepX[direction] * (u16)radius_arg);
+                tile_x = (source_x / 64) + ((u16)dir_step_x[direction] * (u16)radius_arg);
                 source_y = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_06.u;
-                tile_dy = (source_y / 64) + (u16)dirStepY[direction] * (u16)radius_arg;
+                tile_dy = (source_y / 64) + (u16)dir_step_y[direction] * (u16)radius_arg;
                 origin_z = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_0A.u;
                 target_x = ((tile_x << 0x10) >> 0xA) + 0x20;
                 target_y = ((tile_dy << 0x10) >> 0xA) + 0x20;
-                if ((dungeonCheckLeftTileAndCenterHeight(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
+                if ((check_left_tile_and_center_height(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
                     effect_data->unk_00 = 1;
                     continue;
                 }
                 effect = func_8003FC64(0x212);
                 if (effect != 0) {
                     effect_data = effect->unk_0C;
-                    effect->unk_10 = dungeonAdvanceCounterAndPropagateTargetFlags;
+                    effect->unk_10 = advance_counter_and_propagate_target_flags;
                     effect->unk_20 = effect_param;
                     effect->unk_24 = 0;
                     effect_data->unk_0E = 0x40;
@@ -69,7 +69,7 @@ void dungeonCreateRadiusDirectionalEffects(s32 effect_param, void *origin_arg, s
                     effect_data->unk_02.u = target_x;
                     effect_data->unk_06.u = target_y;
                     effect_data->unk_0A = ((ovl_188298c_81862C28_S_81862C28_2 *)origin_arg)->unk_0A.s;
-                    effect_data->unk_0A = dungeonGetSurfaceHeightAtRecord(effect_data);
+                    effect_data->unk_0A = get_surface_height_at_record(effect_data);
                 }
             }
         }

@@ -13,10 +13,10 @@ typedef struct S_800B0BD0_1 {
     s32 unk_24;
 } S_800B0BD0_1;
 
-extern void townSetShopSlotColors(void *object, s32 index);
+extern void set_shop_slot_colors(void *object, s32 index);
 
 /* Updates up to five entries on the current page and clears unused slots. */
-void townUpdateCurrentShopPage(void *list) {
+void update_current_shop_page(void *list) {
     S_800B0BD0_0 *entry_list = list;
     s32 slot;
 
@@ -25,7 +25,7 @@ void townUpdateCurrentShopPage(void *list) {
         if (entry_index >= entry_list->unk_0C) {
             break;
         }
-        townSetShopSlotColors(entry_list, entry_index);
+        set_shop_slot_colors(entry_list, entry_index);
     }
 
     for (; slot < 5; slot++) {

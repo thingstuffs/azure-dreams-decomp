@@ -49,7 +49,7 @@ void func_8185CB30(S_8185CB30_0 *motion, S_8185CB30_2 *position, Rec_D_80082E80 
 
     owner = motion->unk_00;
     owner->unk_14 = (u16)(owner->unk_14 + 1);
-    angle_table = &gameWork;
+    angle_table = &g_game_work;
     cycle_tick = motion->unk_22;
     next_tick = cycle_tick + 1;
     motion->unk_22 = next_tick;

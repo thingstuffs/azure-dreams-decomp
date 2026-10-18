@@ -36,19 +36,19 @@ typedef struct AbilityActionState {
     u8 phase;
 } AbilityActionState;
 
-s32 getCdCommandQueueDepth(void);
+s32 get_cd_command_queue_depth(void);
 void func_80047784();
 s32 func_80069EF8();
-void *dungeonScanMonsterAlongHeading();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
-s32 func_800A56E0();
-s32 dungeonCreateActorSpellEffect();
+void *scan_monster_along_heading();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
+s32 play_sound_if_enabled();
+s32 create_actor_spell_effect();
 void func_8015F020();
 extern s32 D_8015F760;
 extern u8 D_80162E88[9];
 
-void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void advance_ability_action_and_reset_state(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     s16 next_effect;
     s16 effect_count;
     s32 ability_id;
@@ -137,7 +137,7 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
                         }
                     } else {
                         {
-                            s32 x = (s32)dungeonScanMonsterAlongHeading(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+                            s32 x = (s32)scan_monster_along_heading(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                                           ((Rec_D_80082E80 *)sprite)->unk_25,
                                           actor->facing, 0x10);
                             s32 y;
@@ -151,7 +151,7 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
                     }
                 }
             }
-            if (dungeonCreateActorSpellEffect(actor, ability, use_player, &((AbilityActionState *)action)->flags) == 0) {
+            if (create_actor_spell_effect(actor, ability, use_player, &((AbilityActionState *)action)->flags) == 0) {
                 return;
             }
             ((AbilityActionState *)action)->timer = 0x13U;
@@ -161,10 +161,10 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            dungeonStatus.unk_0C = 0;
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            g_dungeon_status.unk_0C = 0;
             ((PlayerActionCountView *)D_800814A8)->remainingActions = (u16) (((PlayerActionCountView *)D_800814A8)->remainingActions - 1);
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((AbilityActionState *)action)->nextBehavior = &D_8015F760;
             actor->unk_73 = 0;
@@ -173,14 +173,14 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
             return;
         }
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
                 | 0x800);
             return;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
         ((AbilityActionState *)action)->phase = (u8) (((AbilityActionState *)action)->phase + 1);
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
     case 2:
         effect_ticks = ((AbilityActionState *)action)->timer - 1;
         ((AbilityActionState *)action)->timer = effect_ticks;
@@ -202,7 +202,7 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
         } while (next_effect < 0xA);
         return;
     case 3:
-        if (((s32)dungeonStatus.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.unk_0C) == 0) {
             ((AbilityActionState *)action)->timer = 0U;
         }
         finish_ticks = ((AbilityActionState *)action)->timer - 1;
@@ -218,24 +218,24 @@ void advanceAbilityActionAndResetState(void *action, EntityRec *motion, void *sp
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_80162E88) {
             ((Rec_D_80082E80 *)sprite)->unk_2C.as_pm = D_80162E88;
-            func_80047784(sprite, D_80162E88[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_80162E88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
         }
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((AbilityActionState *)action)->nextBehavior = &D_8015F760;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
     }
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Link-at-0 devkit image copy of townShopInvokeRuntimeCallback (src/town/func_80878640.c). */
+/* Link-at-0 devkit image copy of shop_invoke_runtime_callback (src/town/func_80878640.c). */
 
 typedef struct RuntimeCallbacks {
     u8 pad_00[0x60];

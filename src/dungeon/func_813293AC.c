@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonIsGlobalEffectEnabled; every changed retail word is a paired relocation. */
+/* Relink of matched dungeon/is_global_effect_enabled; every changed retail word is a paired relocation. */
 #include "common.h"
 #include "shared/sys_flags.h"
 

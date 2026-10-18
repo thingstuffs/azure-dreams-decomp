@@ -10,7 +10,7 @@ typedef struct S_800B90BC_0 {
 } S_800B90BC_0;
 
 /* Allocate an object and set its data pointer. */
-void townAllocateObjectWithDataPointer(void) {
+void allocate_object_with_data_pointer(void) {
     S_800B90BC_0 *object;
 
     object = func_8003FC64(0);

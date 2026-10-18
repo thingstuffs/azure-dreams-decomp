@@ -52,7 +52,7 @@ typedef struct T_80175050_S_80175050_4 {
 
 
 
-#define func_80171BEC_returning dungeonCreateTrackedAttachmentSprite
+#define func_80171BEC_returning create_tracked_attachment_sprite
 
 
 
@@ -126,19 +126,19 @@ typedef struct {
 extern s32 func_80042900();
 extern void func_80042B68();
 extern void func_80047784();
-extern s32 dungeonCheckEntityRelation();
-extern s16 dungeonGetTileChebyshevDistance();
-extern s32 func_800A2C34();
-extern s32 func_800A6D30();
+extern s32 check_entity_relation();
+extern s16 get_tile_chebyshev_distance();
+extern s32 has_pending_actor_or_turn_action();
+extern s32 generate_random_value();
 extern s32 func_800A9A04();
-extern void func_800A9A0C();
-extern void dungeonBeginPushedActorMove();
-extern s32 dungeonBeginReadyActorDirectionalAction();
-extern s32 dungeonAdvanceActorPendingAction();
-extern void func_800AA888();
-extern void dungeonCreateTrackedAttachmentSprite();
-extern s32 func_800AC82C(T_801759A0_Obj0 *, void *, T_801759A0_Obj2 *, T_801759A0_Obj3 *);
-extern s32 dungeonCheckActorFloorTrap(T_801759A0_Obj2 *, T_801759A0_Obj3 *);
+extern void update_actor_status_and_food();
+extern void begin_pushed_actor_move();
+extern s32 begin_ready_actor_directional_action();
+extern s32 advance_actor_pending_action();
+extern void begin_actor_move_to_target_facing();
+extern void create_tracked_attachment_sprite();
+extern s32 update_actor_transform_from_parent(T_801759A0_Obj0 *, void *, T_801759A0_Obj2 *, T_801759A0_Obj3 *);
+extern s32 check_actor_floor_trap(T_801759A0_Obj2 *, T_801759A0_Obj3 *);
 extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
@@ -151,8 +151,8 @@ extern s32 D_80175DD4;
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
-void dungeonUpdateActorActivityState(void *task, s32 task_id, void *sprite_in, void *actor_in);
-void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor);
-void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
-extern void dungeonUpdateActorBehavior();
+void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void *actor_in);
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor);
+void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
+extern void update_actor_behavior();
 #endif

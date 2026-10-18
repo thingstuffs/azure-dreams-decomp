@@ -70,8 +70,8 @@ extern M2C_UNK D_8006E5D4;
 extern M2C_UNK D_800B7C14;
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
-void dungeonSpawnVariantEffectWithRandomMotion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
-    GameView *game_state = &gameWork.view;
+void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
+    GameView *game_state = &g_game_work.view;
     s32 velocity_y;
     S_800B7D74_3 *sprite;
     S_800B7D74_1 *motion;

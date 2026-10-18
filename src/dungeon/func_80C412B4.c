@@ -13,7 +13,7 @@ typedef struct S_80172AB4_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172AB4_0;   /* arg0 in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_0;   /* arg0 in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_1 {
     u8 pad_00[0x1C];
@@ -29,18 +29,18 @@ typedef struct S_80172AB4_1 {
     u8 pad_6E[0x4];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_80172AB4_1;   /* arg3 in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_1;   /* arg3 in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172AB4_2_pre;   /* the 0x14 bytes before object in updateActorMoveAnimationAndRecovery, addressed as object[-1] */
+} S_80172AB4_2_pre;   /* the 0x14 bytes before object in update_actor_move_animation_and_recovery, addressed as object[-1] */
 
 typedef struct S_80172AB4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172AB4_3;   /* record in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_3;   /* record in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_4 {
     u8 pad_00[0x4];
@@ -52,7 +52,7 @@ typedef struct S_80172AB4_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172AB4_4;   /* arg2 in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_4;   /* arg2 in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_5 {
     u8 pad_00[0x2];
@@ -64,23 +64,23 @@ typedef struct S_80172AB4_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172AB4_5;   /* arg1 in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_5;   /* arg1 in update_actor_move_animation_and_recovery */
 
 typedef struct S_80172AB4_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_80172AB4_6;   /* globals in updateActorMoveAnimationAndRecovery */
+} S_80172AB4_6;   /* globals in update_actor_move_animation_and_recovery */
 
 
-extern s32 getCdCommandQueueDepth();
+extern s32 get_cd_command_queue_depth();
 extern void func_80047784(void *, s32, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
-extern void dungeonCreateTwoRowObjectGroup(void *payload, s16 value_scale);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
+extern void create_two_row_object_group(void *payload, s16 value_scale);
 
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];
@@ -89,7 +89,7 @@ extern u8 D_80174D9C[];
 extern u8 D_80174DA4[];
 
 /* Updates the actor's move, animation, and recovery state. */
-void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprite, void *actor)
+void update_actor_move_animation_and_recovery(void *action, void *motion, void *sprite, void *actor)
 {
     u8 *move_id;
     s32 state;
@@ -161,7 +161,7 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
                 }
             } else {
                 ((S_80172AB4_1 *)actor)->unk_60 =
-                    dungeonScanMonsterAlongHeading(actor,
+                    scan_monster_along_heading(actor,
                                   ((S_80172AB4_4 *)sprite)->unk_24,
                                   ((S_80172AB4_4 *)sprite)->unk_25,
                                   ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
@@ -172,13 +172,13 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
             position[0] = ((S_80172AB4_5 *)motion)->unk_02;
             position[1] = ((S_80172AB4_5 *)motion)->unk_06;
             position[2] = ((S_80172AB4_5 *)motion)->unk_0A;
-            if (dungeonCreateActorSpellEffect(actor, move_id, use_player,
+            if (create_actor_spell_effect(actor, move_id, use_player,
                               (u16 *)((u8 *)action + 0x98)) == 0) {
                 return;
             }
             ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
-            func_800A56E0(0x703);
-            dungeonCreateTwoRowObjectGroup(position, (s16)(((s32)*move_id - 1) % 3));
+            play_sound_if_enabled(0x703);
+            create_two_row_object_group(position, (s16)(((s32)*move_id - 1) % 3));
             ((S_80172AB4_0 *)action)->unk_9B++;
             return;
         }
@@ -186,10 +186,10 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         ((S_80172AB4_1 *)actor)->unk_6D.s--;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
         ((S_80172AB4_1 *)actor)->unk_73.s = 0;
@@ -208,7 +208,7 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
         func_80047784(
             sprite,
-            D_80174D9C[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174D9C[((g_game_work.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 |= 8;
         ((S_80172AB4_1 *)actor)->unk_1C &= 0xF7FFFFFF;
@@ -227,14 +227,14 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174DA4;
         func_80047784(
             sprite,
-            D_80174DA4[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174DA4[((g_game_work.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_0 *)action)->unk_9B++;
         return;
 
     case 3:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((S_80172AB4_4 *)sprite)->unk_14 |= 0x800;
             return;
         }
@@ -255,7 +255,7 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D9C;
         func_80047784(
             sprite,
-            D_80174D9C[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174D9C[((g_game_work.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_98 &= 0xFFF7;
         ((S_80172AB4_1 *)actor)->unk_1C |= 0x08000000;
@@ -270,7 +270,7 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D94;
         func_80047784(
             sprite,
-            D_80174D94[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174D94[((g_game_work.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80172AB4_0 *)action)->unk_9B = 0xFF;
         return;
@@ -282,31 +282,31 @@ void updateActorMoveAnimationAndRecovery(void *action, void *motion, void *sprit
         ((S_80172AB4_5 *)motion)->unk_14 = 0;
         ((S_80172AB4_5 *)motion)->unk_10 = 0;
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((S_80172AB4_4 *)sprite)->unk_24, ((S_80172AB4_4 *)sprite)->unk_25);
         if (((S_80172AB4_4 *)sprite)->unk_2C != D_80174D4C) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174D4C;
             func_80047784(
                 sprite,
-                D_80174D4C[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_80174D4C[((g_game_work.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         if (((S_80172AB4_1 *)actor)->unk_6D.u > 0) {
             ((S_80172AB4_1 *)actor)->unk_6D.s--;
         }
         ((S_80172AB4_1 *)actor)->unk_73.s = 0;
         ((S_80172AB4_1 *)actor)->unk_72.s = 0;
         ((S_80172AB4_1 *)actor)->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
 
         return;
     }

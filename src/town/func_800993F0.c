@@ -9,13 +9,13 @@ typedef struct {
     s32 unk10;
 } State;
 
-void townExpandBoundsToInsetRectangle();                 /* extern */
+void expand_bounds_to_inset_rectangle();                 /* extern */
 extern s16 D_8006ADD6;
 extern s32 D_800FE508[4];
 extern State D_800FE520;
 
 /* Process the terminated entry list and initialize the state for the current mode. */
-void func_80096B50(s32 *entries) {
+void initialize_state_from_terminated_entries(s32 *entries) {
     s16 mode;
 
     D_800FE508[0] = 0x1FFFFFFF;
@@ -23,7 +23,7 @@ void func_80096B50(s32 *entries) {
     D_800FE508[1] = 0;
     D_800FE508[3] = 0;
     for (; *entries != 0; entries++) {
-        townExpandBoundsToInsetRectangle(D_800FE508, *entries);
+        expand_bounds_to_inset_rectangle(D_800FE508, *entries);
     }
     mode = D_8006ADD6;
     if (mode == 8) {

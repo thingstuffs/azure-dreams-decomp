@@ -17,14 +17,14 @@ typedef struct {
 extern DungeonState D_8008333C;
 extern Packed8 D_800F8B24;
 
-extern void clearScaledCellFlags8000(void);
-extern void dungeonClearPlayerLinkedActionFlags(void);
+extern void clear_scaled_cell_flags_8000(void);
+extern void clear_player_linked_action_flags(void);
 
 #define CLEAR_HIGH_BIT(ptr) \
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
 /* Reveal the fixed-map cheat: set the map mode from the item used, clear the hidden bit on every listed tile and finish the owner. */
-void func_800F678C(void *owner) {
+void update_dungeon_tile_boundary_state(void *owner) {
     DungeonState *state;
     s32 base;
     u8 *tile;
@@ -47,7 +47,7 @@ void func_800F678C(void *owner) {
     base = D_8008333C.base;
     mode = 0;
     state = &D_8008333C;
-    if (!(dungeonStatus.flags & 2)) {
+    if (!(g_dungeon_status.flags & 2)) {
         return;
     }
     if (*(s32 *)((u8 *)D_800E3D7C + 0x14) & 0x100000) {
@@ -65,7 +65,7 @@ void func_800F678C(void *owner) {
         return;
     }
 
-    dungeonClearPlayerLinkedActionFlags();
+    clear_player_linked_action_flags();
     copy_dest = 0x80013720;
     *(Packed8 *)copy_dest = D_800F8B24;
     mode_page = (u8 *)0x80010000;
@@ -112,10 +112,10 @@ void func_800F678C(void *owner) {
         i++;
     } while (i < 0x30);
 
-    clearScaledCellFlags8000();
+    clear_scaled_cell_flags_8000();
     i = 0;
     *(u16 *)((u8 *)owner - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
     objects = D_800814A8;
     do {
         object = *(u8 **)(objects + 0xAC);

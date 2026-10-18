@@ -17,7 +17,7 @@ typedef struct S_800D7D30_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D7D30_0;   /* arg1 in dungeonUpdateSpiralEffect */
+} S_800D7D30_0;   /* arg1 in update_spiral_effect */
 
 typedef struct S_800D7D30_1 {
     u8 pad_00[0xC];
@@ -34,11 +34,11 @@ typedef struct S_800D7D30_1 {
     s32 unk_34;
     u8 pad_38[0x14];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800D7D30_1;   /* arg0 in dungeonUpdateSpiralEffect */
+} S_800D7D30_1;   /* arg0 in update_spiral_effect */
 
 
 /* Update a spiraling effect's motion and color, then retire it below its height limit. */
-void dungeonUpdateSpiralEffect(void *effect, void *motion, void *sprite) {
+void update_spiral_effect(void *effect, void *motion, void *sprite) {
     s32 radius_step;
     s32 velocity_y;
     s32 velocity_z;
@@ -101,9 +101,9 @@ void dungeonUpdateSpiralEffect(void *effect, void *motion, void *sprite) {
         }
         break;
     case 1:
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

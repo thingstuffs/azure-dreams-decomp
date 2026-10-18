@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 dungeonUpdateActorHopAndShrink(void *, void *, void *);                            /* extern */
+s32 update_actor_hop_and_shrink(void *, void *, void *);                            /* extern */
 
-/* Forward the state, context, and data to dungeonUpdateActorHopAndShrink. */
-void dungeonForwardActorEffectState(void *state, void *context, void *data) {
-    dungeonUpdateActorHopAndShrink(state, context, data);
+/* Forward the state, context, and data to update_actor_hop_and_shrink. */
+void forward_actor_effect_state(void *state, void *context, void *data) {
+    update_actor_hop_and_shrink(state, context, data);
 }

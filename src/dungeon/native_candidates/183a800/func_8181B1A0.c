@@ -20,7 +20,7 @@ extern M2C_UNK D_80025908[];
    /* temp_v1 in func_8181B1A0 */
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
-void func_800249A0(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
+void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
     S_8181B1A0_2 *render;
     S_8181B1A0_0 *state;
     void *effect;

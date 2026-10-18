@@ -2,12 +2,12 @@
 #include "shared/entity.h"
 
 
-extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
+extern void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
 
 /* Updates and clamps record motion, delegating when the lower bound is reached. */
 void func_800C5100(void *context, EntityRec *record, s32 callback_arg) {
     if (record->z.v == -0x08000000) {
-        townApplyObjectSetupAndUpdate(context, record, callback_arg);
+        apply_object_setup_and_update(context, record, callback_arg);
         return;
     }
 

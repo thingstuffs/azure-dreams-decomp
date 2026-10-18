@@ -4,10 +4,10 @@
 #define D_80083498 D_800871C8
 #define func_80045340 func_80044EDC
 #define D_80170898 D_8016F898
-#define resolveRecordOrientationOrFallback func_8003DA40
+#define resolve_record_orientation_or_fallback func_8003DA40
 #define func_80047784 func_80047320
 /* Relink of matched dungeon/func_81251350 at file 0x1271350; imports and data use paired retail relocations. */
-#define gameWork D_80084818
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -38,7 +38,7 @@ typedef struct S_80170B50_2 {
     void * unk_00;
     u8 pad_04[0x3A];
     u16 unk_3E;
-} S_80170B50_2;   /* arg0 in func_8016FB50; pointer addresses record offset 0x14 */
+} S_80170B50_2;   /* arg0 in create_attached_sprite_object; pointer addresses record offset 0x14 */
 
 typedef struct S_80170B50_3 {
     u8 pad_00[0xC];
@@ -72,7 +72,7 @@ typedef struct S_80170B50_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170B50_5;   /* arg1 in func_8016FB50 */
+} S_80170B50_5;   /* arg1 in create_attached_sprite_object */
 
 typedef struct S_80170B50_6 {
     u8 pad_00[0x8];
@@ -83,7 +83,7 @@ typedef struct S_80170B50_7 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_80170B50_7;   /* arg2 in func_8016FB50 */
+} S_80170B50_7;   /* arg2 in create_attached_sprite_object */
 
 
 typedef struct {
@@ -101,7 +101,7 @@ extern s32 func_800444B8();
 extern M2C_UNK func_80047320();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
-void func_8016FB50(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
+void create_attached_sprite_object(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
     u32 sprite_flags;
     u16 sprite_height;
     s16 saved_offset_id;
@@ -132,7 +132,7 @@ void func_8016FB50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
         } while (copy_src != (sprite_template + 0x30));
         func_800444B8(object, func_80044EDC, copy_dst, copy_src);
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80172EB4;
-        func_80047320(sprite, *((u8 *)&D_80172EB4 + ((((s32) (gameWork.view.viewAngle
+        func_80047320(sprite, *((u8 *)&D_80172EB4 + ((((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;

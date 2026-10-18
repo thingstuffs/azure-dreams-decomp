@@ -2,7 +2,7 @@
 
 void func_80038A10(Func80038A10State *input_state) {
     Func80038A10State *state = input_state;
-    GameWork *global = &gameWork;
+    GameWork *global = &g_game_work;
     void *context = input_state->field80;
     void (*handler)(Func80038A10State *);
 

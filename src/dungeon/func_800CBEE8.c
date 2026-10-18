@@ -10,7 +10,7 @@ extern void *D_80081508;
 extern s32 D_800D1824;
 
 /* Creates an object, attaches its data, and clears the shared state. */
-void dungeonCreateMeshEffectObject(void)
+void create_mesh_effect_object(void)
 {
     void *object;
 

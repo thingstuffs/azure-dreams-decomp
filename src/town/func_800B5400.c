@@ -2,18 +2,18 @@
 #include "m2c_compat.h"
 
 s32 func_800B0718();                                /* extern */
-void func_800B23C0();                      /* extern */
+void get_zero_based_group_index();                      /* extern */
 
 typedef struct S_800B2B60_0 {
     u8 pad_00[0x28];
     s32 unk_28;
     u8 pad_2C[0x10];
     u32 unk_3C;
-} S_800B2B60_0;   /* arg0 in func_800B2B60 */
+} S_800B2B60_0;   /* arg0 in initialize_record_table_and_group */
 
 /* Initialize the record table pointer, stored value, and group index. */
-void func_800B2B60(void *record) {
+void initialize_record_table_and_group(void *record) {
     ((S_800B2B60_0 *)record)->unk_3C = (u32 *)0x8001029C;
     ((S_800B2B60_0 *)record)->unk_28 = func_800B0718();
-    func_800B23C0(record + 0x1C);
+    get_zero_based_group_index(record + 0x1C);
 }

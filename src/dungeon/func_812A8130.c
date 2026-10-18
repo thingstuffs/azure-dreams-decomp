@@ -8,12 +8,12 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void func_8017586C(void *, void *, void *);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void create_parent_attached_effect(void *, void *, void *);
 
 extern u8 D_80171FA4[9];
 extern u8 D_80175C68[8];
@@ -36,10 +36,10 @@ typedef struct S_80173930_0 {
     u8 pad_A4[0x4];
     s32 unk_A8;
     s32 unk_AC;
-} S_80173930_0;   /* arg0 in dungeonUpdateStagedMovementHeightAndAnimation */
+} S_80173930_0;   /* arg0 in update_staged_movement_height_and_animation */
 
 /* Updates the actor's staged movement, height, and directional animation. */
-void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
+void update_staged_movement_height_and_animation(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
 {
     u8 state;
 
@@ -48,7 +48,7 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
 
     case 0:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_800A56E0(0x80E);
+            play_sound_if_enabled(0x80E);
         }
         ((S_80173930_0 *)motion)->unk_9B++;
 
@@ -56,7 +56,7 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173930_0 *)motion)->unk_96.u = 0x100;
             ((S_80173930_0 *)motion)->unk_9B = 5;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
@@ -64,15 +64,15 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
         {
             u32 direction_offset = ((u16)actor->facing >> 8) & 0xE;
             velocity->unk_0C -=
-                (s32)*(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset) << 16;
+                (s32)*(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset) << 16;
             velocity->unk_10 -=
-                (s32)*(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset) << 16;
+                (s32)*(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset) << 16;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C68;
             func_80047784(
                 sprite,
-                D_80175C68[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80175C68[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80173930_0 *)motion)->unk_9B++;
         }
@@ -105,16 +105,16 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
                 return;
             }
         }
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         ((S_80173930_0 *)motion)->unk_9B++;
-        func_8017586C((u8 *)motion - 0x20, (u8 *)actor + 0x2A,
+        create_parent_attached_effect((u8 *)motion - 0x20, (u8 *)actor + 0x2A,
                       (u8 *)motion + 0x9B);
         return;
 
     case 3:
     {
-        u8 *direction_x = (u8 *)((s8 *)dirStepX);
-        u8 *direction_y = (u8 *)((s8 *)dirStepY);
+        u8 *direction_x = (u8 *)((s8 *)dir_step_x);
+        u8 *direction_y = (u8 *)((s8 *)dir_step_y);
         u16 frame;
 
         velocity->unk_0C +=
@@ -132,11 +132,11 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
             return;
         }
 
-        dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
+        resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C70;
         func_80047784(
             sprite,
-            D_80175C70[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80175C70[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         velocity->unk_0C =
@@ -171,11 +171,11 @@ void dungeonUpdateStagedMovementHeightAndAnimation(void *motion, EntityRec *velo
         velocity->flags14 = 0;
         velocity->unk_10 = 0;
         velocity->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(velocity, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(velocity, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         actor->unk_46 &= 0x7FFF;
         break;
     default:

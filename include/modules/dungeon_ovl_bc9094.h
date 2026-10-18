@@ -47,12 +47,12 @@ extern u8 D_8015EA98[9];
 
 extern Object *func_8003FD64(s32, void *);
 extern void func_8004491C(Object *, void *);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(Body *, s32, s32);
-extern void func_800A9C18(Object *, ChildA *, ChildB *, s16);
-extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(Body *, s32, s32);
+extern void initialize_actor_sprite_and_animation(Object *, ChildA *, ChildB *, s16);
+extern void try_move_actor_to_valid_position(Body *, ChildA *, ChildB *, Body *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 
-Body *func_8015E894(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
+Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c);
 #endif

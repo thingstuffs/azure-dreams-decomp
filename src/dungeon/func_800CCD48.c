@@ -58,17 +58,17 @@ typedef struct S_800D24A8_3 {
 
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
-void dungeonClearEntryFlagAndLinkOwner();                      /* extern */
-void func_8009A21C();             /* extern */
-s8 func_8009FB34();                           /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s16 func_800BCB04();                   /* extern */
+void clear_entry_flag_and_link_owner();                      /* extern */
+void cycle_map_cell_flags();             /* extern */
+s8 find_active_rect_containing_point();                           /* extern */
+void set_record_integer_tile_center();              /* extern */
+s16 sample_terrain_surface_height();                   /* extern */
 extern M2C_UNK D_800D2664;
 extern M2C_UNK D_800D28E4;
 extern M2C_UNK D_800E221C;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */
-void *dungeonCreateActorSpriteAtTile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
+void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     s32 tile_flags;
     s16 saved_kind;
     S_800D24A8_3 *sprite;
@@ -110,19 +110,19 @@ void *dungeonCreateActorSpriteAtTile(s16 object_kind, u16 tile_x, u16 tile_y, s1
         sprite->unk_25 = saved_tile_y;
         ((S_800D24A8_1 *)object)->unk_10 = &D_800D2664;
         state->unk_8C = &D_800D28E4;
-        sprite->unk_26 = func_8009FB34(sprite->unk_24, sprite->unk_25);
-        dungeonSetRecordIntegerTileCenter(position, sprite->unk_24, sprite->unk_25);
-        state->unk_88 = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);
+        sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+        state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
         sprite->unk_0C.at00u.v = 0x2C808080;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
-        dungeonClearEntryFlagAndLinkOwner(object);
+        clear_entry_flag_and_link_owner(object);
         flag_tile_x = sprite->unk_24;
         flag_tile_y = sprite->unk_25;
         tile_flags = 0x3000;
         if (state->unk_1C & 0x2000) {
             tile_flags = 0x300;
         }
-        func_8009A21C(flag_tile_x, flag_tile_y, tile_flags);
+        cycle_map_cell_flags(flag_tile_x, flag_tile_y, tile_flags);
         state->unk_9A = 0xE;
         state->unk_9C = -1;
         state->unk_1C = (s32) (state->unk_1C | 0x40000200);

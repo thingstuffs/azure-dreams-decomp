@@ -16,10 +16,10 @@ typedef struct {
 
 extern s32 D_800D636C[2];
 extern u8 D_800C8C3C[];
-extern void townAddHex20000SSignedOffsetHex14(ObjectState *);
+extern void add_hex_20000_s_signed_offset_hex_14(ObjectState *);
 
 /* Moves the object by its velocity and switches callbacks when vertical velocity is nonnegative. */
-void func_800C8BB4(Owner *owner, ObjectState *state)
+void move_object_velocity(Owner *owner, ObjectState *state)
 {
     s32 *velocity;
     s32 velocity_z;
@@ -29,7 +29,7 @@ void func_800C8BB4(Owner *owner, ObjectState *state)
     state->x += velocity[0];
     state->y += velocity[1];
     state->z += velocity_z;
-    townAddHex20000SSignedOffsetHex14(state);
+    add_hex_20000_s_signed_offset_hex_14(state);
     if (state->velocity_z >= 0) {
         owner->callback = D_800C8C3C;
     }

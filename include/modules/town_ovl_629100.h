@@ -6,5 +6,5 @@
 typedef void (*Callback)(u32);
 extern u8 D_80017420[];
 extern void *D_800174D4[];
-void townInvokeCallbackAndSetSharedPointer(void);
+void invoke_callback_and_set_shared_pointer(void);
 #endif

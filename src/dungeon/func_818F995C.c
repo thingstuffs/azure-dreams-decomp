@@ -8,13 +8,13 @@
 
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
-void dungeonRaiseEntityToGround(PointRecord *state, EntityRec *position)
+void raise_entity_to_ground(PointRecord *state, EntityRec *position)
 {
     u16 countdown;
 
     D_800266BC = 1;
     if (position->z.w.i <
-        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i,
+        (s16)sample_terrain_surface_height((u16)position->x.w.i, (u16)position->y.w.i,
                       (s16)(position->z.w.i + 2))) {
         position->z.v += 0x20000 + (rand() & 0xFFF);
     }
@@ -23,7 +23,7 @@ void dungeonRaiseEntityToGround(PointRecord *state, EntityRec *position)
     state->brightness = countdown;
     if ((s32)(countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

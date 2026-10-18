@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Slot-table element (see sibling audioGetCurrentBankToneRecord for the confirmed 0x1C-byte
+/* Slot-table element (see sibling audio_get_current_bank_tone_record for the confirmed 0x1C-byte
  * stride layout of D_80086A40). Only the fields this function touches are
  * named; the rest is padding. */
 typedef struct {
@@ -13,22 +13,22 @@ typedef struct {
 extern int D_80086D4C[3]; /* forced hi/lo via size > 8 */
 extern S_8005A428_D80086A40 D_80086A40[16];
 
-extern void audioResetAllVoices(void);
-extern void closeTimer2UpdateEvent(void);
+extern void audio_reset_all_voices(void);
+extern void close_timer_2_update_event(void);
 extern void func_8005A1D0(s32 addr);
 extern void func_8005A26C(void);
 
 /* Runs frame updates, processes active slots among the first eight, and resets the slot table. */
-void audioResetAndReleaseSequenceBanks(void)
+void audio_reset_and_release_sequence_banks(void)
 {
     s32 slot_index;
     S_8005A428_D80086A40 *slot;
 
-    audioResetAllVoices();
+    audio_reset_all_voices();
 
     if (D_80086D4C[0] > 0) {
         if (D_80086D4C[0] < 4) {
-            closeTimer2UpdateEvent();
+            close_timer_2_update_event();
         }
     }
     slot_index = 0;

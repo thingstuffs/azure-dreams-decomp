@@ -22,7 +22,7 @@ s32 func_80024A1C(void *first_item)
     u32 ot_tag;
 
     list_item = first_item;
-    render_context = &gameWork;
+    render_context = &g_game_work;
 
     do {
         item_data = list_item;

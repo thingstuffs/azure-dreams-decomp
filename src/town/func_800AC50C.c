@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 testResidentBitmapBit();                     /* extern */
+s32 test_resident_bitmap_bit();                     /* extern */
 
-/* Passes 0x11FA to testResidentBitmapBit. */
+/* Passes 0x11FA to test_resident_bitmap_bit. */
 void func_800A9C6C(void) {
-    testResidentBitmapBit(0x11FA);
+    test_resident_bitmap_bit(0x11FA);
 }

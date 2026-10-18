@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7f51d800.h"
 
-void *dungeonAllocateObjectStateAndCallbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
+void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {
     s32 mode;
     s32 state_flags;
@@ -44,19 +44,19 @@ void *dungeonAllocateObjectStateAndCallbacks(s16 init_flags, s16 grid_x, s16 gri
             state->unk_1C = update_flags;
         } else if (((init_flags & ~3) << 0x10) == 0) {
             if (!(state->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                if (generate_random_value() & 1) {
+                    set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                     placement->unk_2C = &D_8015025C;
                 }
             }
         }
-        func_800A9C18(object, config, placement, init_flags);
+        initialize_actor_sprite_and_animation(object, config, placement, init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_8014D014;
         state->unk_1C = (s32)(state->unk_1C | 0x40000);
         extended_state->unk_92 = -0x20;
-        func_800AA36C(extended_state, config, placement, state);
+        try_move_actor_to_valid_position(extended_state, config, placement, state);
     }
     return state;
 }

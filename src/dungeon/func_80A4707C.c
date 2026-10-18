@@ -30,7 +30,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     obj = func_8003FD64((s32)alloc_or_entry, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = dungeonCreateAnchoredDirectionalObject;
+        ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = create_anchored_directional_object;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = 6;
         func_8004491C(obj, func_80045340);
 
@@ -56,25 +56,25 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         } else {
             if (((kind_flags & ~3) << 16) == 0) {
                 if (!(((R06_8017087C_S_8017087C_1 *)work)->unk_14 & 0x200)) {
-                    setup_value = func_800A6D30();
+                    setup_value = generate_random_value();
                     if (setup_value & 1) {
                         ((R06_8017087C_S_8017087C_1 *)work)->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         ((R06_8017087C_S_8017087C_3 *)part_b)->unk_2C = ((u8 *)D_80175894);
                     }
                 }
             }
         }
 
-        func_800A9C18(obj, part_a, part_b,(s16)(kind_flags));
+        initialize_actor_sprite_and_animation(obj, part_a, part_b,(s16)(kind_flags));
 
         child_index = 0;
         entry_id_fixed = 0x00190000;
         slot = (u8 *)slot_base;
         ((R06_8017087C_S_8017087C_4 *)slot)->unk_9A = 0xFF;
         slot_base->unk_9C = -1;
-        slot_base->unk_8C = func_8017140C;
+        slot_base->unk_8C = initialize_destination_state;
         ((R06_8017087C_S_8017087C_1 *)work)->unk_1C |= 0x40000;
         slot_base->unk_92 = -24;
         slot_base->unk_9E = 3;
@@ -111,7 +111,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_28 = field_value;
                         entry_mode = 0;
                         callback_obj = child_slot->unk_A4;
-                        callback_obj->unk_10 = dungeonProcessEffectBlockEntries;
+                        callback_obj->unk_10 = process_effect_block_entries;
                         setup_value = ((R06_8017087C_S_8017087C_7 *)entry)->unk_14;
                         setup_value |= 0xC;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_14 = setup_value;
@@ -120,7 +120,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_10 = 96;
                         ((R06_8017087C_S_8017087C_7 *)entry)->unk_12 = ((R06_8017087C_S_8017087C_3 *)part_b)->unk_12 - 128;
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06 = child_index + 1;
-                        textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, ((u8 *)D_800D71A8), ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06);
+                        texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, ((u8 *)D_800D71A8), ((R06_8017087C_S_8017087C_6 *)child_work)->unk_06);
                         ((R06_8017087C_S_8017087C_6 *)child_work)->unk_98 = (u8 *)obj + 30;
                     } while (++entry_index < ((R06_8017087C_S_8017087C_6 *)child_work)->unk_02);
                 }
@@ -129,7 +129,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
             slot += 4;
         } while (++child_index < slot_base->unk_9E);
         slot_base->unk_98 = slot_base->unk_98 | 0x2000;
-        func_800AA36C(slot_base, part_a, part_b, work);
+        try_move_actor_to_valid_position(slot_base, part_a, part_b, work);
     }
     return work;
 }

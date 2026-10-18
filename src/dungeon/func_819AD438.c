@@ -4,7 +4,7 @@
 #include "shared/slus_callbacks.h"
 
 extern u8 D_80027484[12];
-extern s32 func_800C95C0(void *, void *, s16 *);
+extern s32 queue_linked_visible_rectangle_copies(void *, void *, s16 *);
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
 
@@ -16,7 +16,7 @@ extern s32 func_800C95C0(void *, void *, s16 *);
 
 
 /* Spawn two pairs of effects at random offsets around the source. */
-void dungeonUpdateEffectPositionAndColor(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
+void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param)
 {
     s32 remaining;
     ObjectNodeHeader *effect;
@@ -26,7 +26,7 @@ void dungeonUpdateEffectPositionAndColor(ObjectNodeHeader *source, s16 effect_pa
     do {
         effect = func_8003FD64(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = dungeonAdvanceEffectMotionAndSpeed;
+            effect->unk_10 = advance_effect_motion_and_speed;
             func_8004491C(effect, (s32)func_80045340);
             record = (MotionRecord *)(effect + 1);
             ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
@@ -48,8 +48,8 @@ void dungeonUpdateEffectPositionAndColor(ObjectNodeHeader *source, s16 effect_pa
     do {
         effect = func_8003FD64(0x212, &source->next);
         if (effect != 0) {
-            effect->unk_10 = dungeonAdvanceEffectMotionAndSpeed;
-            func_8004491C(effect, (s32)func_800C95C0);
+            effect->unk_10 = advance_effect_motion_and_speed;
+            func_8004491C(effect, (s32)queue_linked_visible_rectangle_copies);
             record = (MotionRecord *)(effect + 1);
             ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
             ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;

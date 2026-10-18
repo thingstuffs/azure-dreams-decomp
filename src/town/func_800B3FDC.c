@@ -6,7 +6,7 @@ typedef struct S_800B173C_0 {
     s32 unk_10;
     u8 pad_14[0xB8];
     s32 unk_CC;
-} S_800B173C_0;   /* arg0 in townSetShopChangeIndicatorColor */
+} S_800B173C_0;   /* arg0 in set_shop_change_indicator_color */
 
 typedef struct S_800B173C_1 {
     u8 pad_00[0x4];
@@ -14,7 +14,7 @@ typedef struct S_800B173C_1 {
 } S_800B173C_1;
 
 /* Set the decrease or increase indicator color when the current and target values differ. */
-void townSetShopChangeIndicatorColor(S_800B173C_0 *record, s32 target_value) {
+void set_shop_change_indicator_color(S_800B173C_0 *record, s32 target_value) {
     s32 indicators_address;
     s32 current_value;
     void **indicator_entry;

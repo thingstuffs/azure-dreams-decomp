@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void func_8002401C(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
 {
     struct Row_8194C81C_Delta delta;

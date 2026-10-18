@@ -12,7 +12,7 @@ typedef struct {
 
 
 /* Advance and damp motion, fade the primitive, and flag the effect when its timer expires. */
-void dungeonAdvanceDampedFadingEffect(void *effect, Motion *motion, void *primitive) {
+void advance_damped_fading_effect(void *effect, Motion *motion, void *primitive) {
     s32 intensity;
     s16 ticks_left;
 
@@ -33,6 +33,6 @@ void dungeonAdvanceDampedFadingEffect(void *effect, Motion *motion, void *primit
     *(s16 *)((u8 *)effect + 0xC) = ticks_left;
     if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

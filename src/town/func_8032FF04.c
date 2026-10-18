@@ -8,20 +8,20 @@ typedef struct S_8001A704_0 {
     u8 pad_00[0xC];
     s16 unk_0C;
     s16 unk_0E;
-} S_8001A704_0;   /* (void *)index in townSetSelectedEntryPosition */
+} S_8001A704_0;   /* (void *)index in set_selected_entry_position */
 
 typedef struct S_8001A704_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8001A704_1;   /* position in townSetSelectedEntryPosition */
+} S_8001A704_1;   /* position in set_selected_entry_position */
 
 typedef struct S_8001A704_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8001A704_2;   /* position2 in townSetSelectedEntryPosition */
+} S_8001A704_2;   /* position2 in set_selected_entry_position */
 
 /* Set position coordinates to the selected entry's offsets plus scaled x and y. */
-void townSetSelectedEntryPosition(s32 unused, s32 x, s32 y)
+void set_selected_entry_position(s32 unused, s32 x, s32 y)
 {
     u8 *root = D_80016000;
     void *entry_ptr;

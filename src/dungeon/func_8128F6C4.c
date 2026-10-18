@@ -35,7 +35,7 @@ extern s32 func_80098F70(void *, void *);
 extern s32 func_8009EB30(void *, void *);
 extern s32 func_800A1904(void *);
 extern s32 func_800A59E8();
-extern void townUpdateFadingEffectMotion(void *);
+extern void update_fading_effect_motion(void *);
 extern void func_800A86C4(void *);
 extern void func_800A8F10(void *, void *, void *, void *);
 extern s32 func_800A936C(void *, void *, void *, s32);
@@ -50,7 +50,7 @@ extern u8 D_80160EC4[];
 extern u8 D_80160ECC[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void advanceActorFacingEffectState(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
+void advance_actor_facing_effect_state(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s32 direction;
     u8 *directionFrame;
@@ -188,7 +188,7 @@ void advanceActorFacingEffectState(ActorActionWork *action, void *context, Rec_D
             }
 
             func_800A86C4(actor);
-            townUpdateFadingEffectMotion(actor);
+            update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80081490;
                 s8 room_id = entity->unk_26.as_s8;

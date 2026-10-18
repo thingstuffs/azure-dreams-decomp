@@ -5,7 +5,7 @@ extern void func_80016A78(void);
 extern void func_80016B20(s32, s32);
 
 /* If flag 0x3EC is set, call func_80016A78 first; then func_80016B20(target, value). */
-void func_800162F0(s32 target, s32 value) {
+void call_first_handler_if_flag_0x3ec_set(s32 target, s32 value) {
     if (func_800175BC(0x3EC) != 0) {
         func_80016A78();
     }

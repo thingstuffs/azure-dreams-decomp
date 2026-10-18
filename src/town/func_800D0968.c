@@ -25,7 +25,7 @@ extern TownState D_80083498;
 extern void func_800CE9EC(Object *, Position *, s32);
 
 /* Counts down to a transition and moves halfway toward the target with a Y offset. */
-void townMoveHalfwayTowardTransitionTarget(Object *object, Position *position, s32 transition_arg)
+void move_halfway_toward_transition_target(Object *object, Position *position, s32 transition_arg)
 {
     s32 adjusted_y;
     s16 timer;

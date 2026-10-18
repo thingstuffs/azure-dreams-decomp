@@ -7,14 +7,14 @@ typedef s32 M2C_UNK;
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
     u8 pad_04[0xC];
-} S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in func_800BF9E4, addressed as arg0[-1] */
+} S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in create_positioned_linked_visual_child, addressed as arg0[-1] */
 
 
 typedef struct S_800BF9E4_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BF9E4_1;   /* arg1 in func_800BF9E4 */
+} S_800BF9E4_1;   /* arg1 in create_positioned_linked_visual_child */
 
 typedef struct S_800BF9E4_2 {
     u8 pad_00[0x8];
@@ -48,7 +48,7 @@ typedef struct S_800BF9E4_5 {
 
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
-extern void townConfigureTheSetModeN1();
+extern void configure_the_set_mode_n_1();
 
 extern u8 D_80045340[];
 extern u8 D_80046398[];
@@ -59,7 +59,7 @@ extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
 
 /* Initialize the object and create a positioned visual child linked to it. */
-void func_800BF9E4(void *object, S_800BF9E4_1 *position, s32 resource_context) {
+void create_positioned_linked_visual_child(void *object, S_800BF9E4_1 *position, s32 resource_context) {
     void *child;
     S_800BF9E4_5 *child_data;
     S_800BF9E4_3 *child_visual;
@@ -71,7 +71,7 @@ void func_800BF9E4(void *object, S_800BF9E4_1 *position, s32 resource_context) {
     position->unk_00 = 0x0F200000;
     position->unk_04 = 0x02600000;
     position->unk_08 = 0;
-    townConfigureTheSetModeN1(object, position, &D_800D2364[0]);
+    configure_the_set_mode_n_1(object, position, &D_800D2364[0]);
     func_8003DB94(resource_context, &D_800F9F78[0], 0);
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
     child = func_8003FC64(0x136);

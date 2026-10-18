@@ -8,10 +8,10 @@ typedef struct {
 } Slot;
 
 extern Slot D_80082660[];
-extern void func_800C5C3C(void);
+extern void copy_global_position_output_offset(void);
 
 /* Move coordinates halfway toward the target and advance state when the timer expires. */
-void func_800C5BA8(void *state, s32 *coords) {
+void move_coordinates_halfway_toward_target(void *state, s32 *coords) {
     s32 target;
     s32 value;
     s32 value2;
@@ -27,7 +27,7 @@ void func_800C5BA8(void *state, s32 *coords) {
     timer = *(u16 *)((u8 *)state + 0x6C) - 1;
     *(u16 *)((u8 *)state + 0x6C) = timer;
     if ((s16)timer <= 0) {
-        *(void (**)(void))((u8 *)state + 0x54) = func_800C5C3C;
+        *(void (**)(void))((u8 *)state + 0x54) = copy_global_position_output_offset;
         D_80082660[*(s32 *)((u8 *)state + 0x60)].field1 = 0;
     }
 }

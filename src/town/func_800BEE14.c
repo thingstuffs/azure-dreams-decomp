@@ -34,18 +34,18 @@ typedef struct S_800BC574_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BC574_1;   /* copy_dst in townCreateDirectionalSpriteEffect */
+} S_800BC574_1;   /* copy_dst in create_directional_sprite_effect */
 
 typedef struct S_800BC574_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800BC574_2;   /* held_arg0 in townCreateDirectionalSpriteEffect */
+} S_800BC574_2;   /* held_arg0 in create_directional_sprite_effect */
 
 typedef struct S_800BC574_3 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_800BC574_3;   /* held_base in townCreateDirectionalSpriteEffect */
+} S_800BC574_3;   /* held_base in create_directional_sprite_effect */
 
 typedef struct S_800BC574_4 {
     M2C_UNK * unk_00;
@@ -64,15 +64,15 @@ typedef struct S_800BC574_4 {
 typedef struct S_800BC574_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BC574_5;   /* (void *) tail_v0 in townCreateDirectionalSpriteEffect */
+} S_800BC574_5;   /* (void *) tail_v0 in create_directional_sprite_effect */
 
 /* Creates an effect at the supplied position with directional motion and initializes its sprite. */
-s32 townCreateDirectionalSpriteEffect(void *position, s16 angle) {
+s32 create_directional_sprite_effect(void *position, s16 angle) {
     s32 position_z;
     S_800BC574_4 *sprite;
     S_800BC574_0 *effect;
     S_800BC574_2 *source_pos = position;
-    GameWork *world_state = &gameWork;
+    GameWork *world_state = &g_game_work;
     S_800BC574_1 *data_ptr;
     s16 saved_angle;
 

@@ -9,9 +9,9 @@ typedef struct S_8008D050_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8008D050_0;   /* arg0 in townEvaluateSurfaceComponentsC */
+} S_8008D050_0;   /* arg0 in evaluate_surface_components_c */
 
 /* Evaluate the three signed components stored in the input record. */
-s16 townEvaluateSurfaceComponentsC(S_8008D050_0 *components) {
-    return func_8008EA20(components->unk_02, components->unk_06, components->unk_0A);
+s16 evaluate_surface_components_c(S_8008D050_0 *components) {
+    return find_highest_valid_cell_height(components->unk_02, components->unk_06, components->unk_0A);
 }

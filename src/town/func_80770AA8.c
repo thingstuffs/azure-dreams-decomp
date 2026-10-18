@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townResolveEntryFlag (src/town/func_8032F544.c);
+/* Copy, in this TOWN script module, of the module-0 helper resolve_entry_flag (src/town/func_8032F544.c);
  * this build reads the flag number from offset 0x4 of the flag record. */
 
 typedef struct ScriptEntry8 {

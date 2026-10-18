@@ -11,11 +11,11 @@ M2C_UNK func_8002589C();        /* extern */
 M2C_UNK func_80026548();                 /* extern */
 M2C_UNK func_8002660C();    /* extern */
 M2C_UNK func_800266D0();                  /* extern */
-s32 resolveRecordOrientationOrFallback(); /* extern */
+s32 resolve_record_orientation_or_fallback(); /* extern */
 s32 func_8004491C();           /* extern */
-s32 dungeonFindEligibleEntryAtCoordinates();                /* extern */
-void func_8009CE1C(); /* extern */
-s32 dungeonCheckLayerOffsetHeight();              /* extern */
+s32 find_eligible_entry_at_coordinates();                /* extern */
+void apply_attack_power_and_element_effects(); /* extern */
+s32 check_layer_offset_height();              /* extern */
 extern u16 D_800281F8;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
@@ -25,7 +25,7 @@ extern M2C_UNK D_800C9034;
 
 typedef struct S_80025C80_0_pre {
     u16 unk_00;
-} S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateLinkedMonsterEffect, addressed as arg0[-1] */
+} S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in update_linked_monster_effect, addressed as arg0[-1] */
 
 typedef struct S_80025C80_0 {
     u8 pad_00[0x20];
@@ -46,7 +46,7 @@ typedef struct S_80025C80_0 {
     union { s16 n; s16 v; } unk_3E;   /* accessed as both */
     union { u16 u; s16 s; } unk_40;   /* accessed as both */
     u16 unk_42;
-} S_80025C80_0;   /* arg0 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_0;   /* arg0 in update_linked_monster_effect */
 
 typedef struct S_80025C80_1 {
     s32 unk_00;
@@ -67,7 +67,7 @@ typedef struct S_80025C80_1 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_80025C80_1;   /* arg2 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_1;   /* arg2 in update_linked_monster_effect */
 
 typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -76,7 +76,7 @@ typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_80025C80_2;   /* arg1 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_2;   /* arg1 in update_linked_monster_effect */
 
 typedef struct S_80025C80_3 {
     u8 pad_00[0x2];
@@ -115,10 +115,10 @@ typedef struct S_80025C80_7 {
 typedef struct S_80025C80_8 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in dungeonUpdateLinkedMonsterEffect */
+} S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in update_linked_monster_effect */
 
 /* Updates effect movement and fading, or copies a linked monster's position and appearance. */
-void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sprite_in) {
+void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in) {
     void *sprite;
     s32 x_step;
     s32 end_frame;
@@ -194,7 +194,7 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
             break;
         case 1:
             sprite = (u8 *)&D_80082E80.unk_000;
-            transform_result = resolveRecordOrientationOrFallback(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
+            transform_result = resolve_record_orientation_or_fallback(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
@@ -217,7 +217,7 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
             break;
         case 2:
             if (((S_80025C80_0 *)effect_in)->unk_30.n == 0) {
-                if ((dungeonCheckLayerOffsetHeight(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0,
+                if ((check_layer_offset_height(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0,
                     ((((S_80025C80_0 *)effect_in)->unk_3E.n << 6) + 0x20) & 0xFFE0,
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x20),
                     (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9)) << 0x10) != 0
@@ -225,18 +225,18 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
                         ((S_80025C80_0 *)effect_in)->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
                     ((S_80025C80_0 *)effect_in)->unk_2C = 0x10;
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v =
-                        dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+                        dir_step_x[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at02.v =
-                        dirStepY[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+                        dir_step_y[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
                     x_step = 8;
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at02.v = x_step;
                     ((S_80025C80_0 *)effect_in)->unk_30.n = x_step;
                 } else {
-                    update_ptr = &dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s];
+                    update_ptr = &dir_step_x[((S_80025C80_0 *)effect_in)->unk_40.s];
                     update_x = (u16) ((S_80025C80_0 *)effect_in)->unk_3C;
                     update_x += ((u16) *update_ptr);
                     ((S_80025C80_0 *)effect_in)->unk_3C = update_x;
-                    update_y_base = (s16 *)dirStepY;
+                    update_y_base = (s16 *)dir_step_y;
                     update_y_offset = ((S_80025C80_0 *)effect_in)->unk_40.s << 1;
                     update_y_ptr = (s16 *) ((unsigned long) update_y_offset + (unsigned long) update_y_base);
                     update_y = (u16) ((S_80025C80_0 *)effect_in)->unk_3E.v + *update_y_ptr;
@@ -265,11 +265,11 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = move_ticks;
             if (move_ticks == 2) {
-                found_tile = dungeonFindEligibleEntryAtCoordinates(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
+                found_tile = find_eligible_entry_at_coordinates(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
                     (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
                 if (found_tile != 0) {
                     tile_object = found_tile;
-                    func_8009CE1C(tile_object, 0xC, D_8002966E, 9,
+                    apply_attack_power_and_element_effects(tile_object, 0xC, D_8002966E, 9,
                         (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), D_80029670, 5);
                 }
             }
@@ -299,7 +299,7 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
             if ((fade_ticks << 0x10) <= 0) {
                 D_8002966C[0] = 0;
                 linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
-                linked_global = &objectFlagBlock;
+                linked_global = &object_flag_block;
                 linked_flags |= 0x8000;
                 ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
                 linked_global->flags |= 0x8000;
@@ -317,7 +317,7 @@ void dungeonUpdateLinkedMonsterEffect(void *effect_in, void *motion_in, void *sp
     } else {
         if ((*(u16 *)((u8 *)linked_monster + 0x1E)) & 0x8000) {
             linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
-            linked_global = &objectFlagBlock;
+            linked_global = &object_flag_block;
             linked_flags |= 0x8000;
             ((S_80025C80_0_pre *)effect_in)[-1].unk_00 = linked_flags;
             linked_global->flags |= 0x8000;

@@ -50,16 +50,16 @@ void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             ((CL_CB9000_80170A5C_S_80170A5C_1 *)result)->unk_1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
                    (((CL_CB9000_80170A5C_S_80170A5C_1 *)result)->unk_14 & 0x200) == 0 &&
-                   (func_800A6D30() & 1) != 0) {
-            func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                   (generate_random_value() & 1) != 0) {
+            set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
             part1->unk_2C = D_8016F2FC;
         }
 
-        func_800A9C18(object, part0, part1, spawn_flags);
+        initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C = func_8016B02C;
-        func_800AA36C(result_copy, part0, part1, result);
+        try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;
 }

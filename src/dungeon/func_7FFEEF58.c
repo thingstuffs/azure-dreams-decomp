@@ -2,13 +2,13 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 townEvaluateSurfaceComponentsC(s32 *vector);                      /* extern */
+s32 evaluate_surface_components_c(s32 *vector);                      /* extern */
 
 typedef struct S_8008C6B8_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C6B8_0;   /* arg0 in dungeonAdjustSummedVectorByEntryComponent */
+} S_8008C6B8_0;   /* arg0 in adjust_summed_vector_by_entry_component */
 
 typedef struct S_8008C6B8_1 {
     s32 unk_00;
@@ -17,7 +17,7 @@ typedef struct S_8008C6B8_1 {
 } S_8008C6B8_1;
 
 /* Evaluates the summed vector and adjusts nonzero results by the entry's integer second component. */
-s16 dungeonAdjustSummedVectorByEntryComponent(S_8008C6B8_0 *base_vector, s32 entries_addr, s32 entry_index) {
+s16 adjust_summed_vector_by_entry_component(S_8008C6B8_0 *base_vector, s32 entries_addr, s32 entry_index) {
     s32 combined_vector[5];
     s32 entry_offset;
     s32 second_whole;
@@ -39,7 +39,7 @@ s16 dungeonAdjustSummedVectorByEntryComponent(S_8008C6B8_0 *base_vector, s32 ent
     addend = entry->unk_08;
     component += addend;
     combined_vector[2] = component;
-    base_vector = (S_8008C6B8_0 *)townEvaluateSurfaceComponentsC(combined_vector);
+    base_vector = (S_8008C6B8_0 *)evaluate_surface_components_c(combined_vector);
     if (((u32)base_vector << 0x10) == 0) {
         return 0;
     }

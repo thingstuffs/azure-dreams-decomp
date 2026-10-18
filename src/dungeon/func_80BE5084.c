@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_c05084.h"
 
-s32 func_8014C884(u8 *entry, u16 *position)
+s32 queue_linked_point_packets(u8 *entry, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **render_globals = ((void * *)(&gameWork));
+    void **render_globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)render_globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

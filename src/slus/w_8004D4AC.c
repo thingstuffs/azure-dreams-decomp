@@ -37,12 +37,12 @@ extern void SetTransMatrix(MATRIX *m);
 extern void TransMatrix(MATRIX *m, VECTOR *v);
 extern void RotTrans(SVECTOR *v0, VECTOR *v1, s32 *flg);
 extern void CompMatrix(MATRIX *m0, MATRIX *m1, MATRIX *m2);
-extern void advanceTimedEntityMotion(MATRIX *m);
+extern void advance_timed_entity_motion(MATRIX *m);
 
 /* Build and install the combined rotation and translation from global transform state. */
 void func_8004D4AC(void)
 {
-    GameView *transform = (GameView *)(&gameWork.view);
+    GameView *transform = (GameView *)(&g_game_work.view);
     VECTOR rotated_pos;
     MATRIX base_mat;
     MATRIX combined_mat;
@@ -70,7 +70,7 @@ void func_8004D4AC(void)
     SetTransMatrix(&base_mat);
     RotTrans((SVECTOR *)&transform->unk_094, &rotated_pos, &gte_flags);
     TransMatrix(&base_mat, &rotated_pos);
-    advanceTimedEntityMotion(&base_mat);
+    advance_timed_entity_motion(&base_mat);
     CompMatrix(&base_mat, &offset_mat, &combined_mat);
     SetTransMatrix(&combined_mat);
     SetRotMatrix(&combined_mat);

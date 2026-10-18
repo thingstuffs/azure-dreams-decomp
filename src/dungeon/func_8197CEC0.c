@@ -77,12 +77,12 @@ typedef struct {
 
 extern s32 D_800DEA68[];
 
-extern s32 resolveRecordOrientationOrFallback(void *entry, void *table, void *scratch, s32 a3);
+extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80069EF8(void);
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(Actor *actor, Vec3 *target, Sprite *sprite) {
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, Sprite *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
@@ -101,7 +101,7 @@ void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(Actor *
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 14);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 14);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 14);
@@ -113,7 +113,7 @@ void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(Actor *
         }
         break;
     case 1:
-        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
             target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 15);
             target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 15);
             target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 15);
@@ -131,11 +131,11 @@ void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(Actor *
             actor_bits_2 |= 0x8000;
             ((u16 *)actor)[-1] = actor_bits_2;
             actor_bits = actor->state;
-            global_flags = objectFlagBlock.flags;
+            global_flags = object_flag_block.flags;
             actor_bits++;
             global_flags |= 0x8000;
             actor->state = actor_bits;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
         }
         break;
     }

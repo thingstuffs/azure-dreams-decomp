@@ -16,7 +16,7 @@ typedef struct S_801728E4_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_801728E4_0;   /* arg0 in dungeonUpdateActorItemUseAnimation */
+} S_801728E4_0;   /* arg0 in update_actor_item_use_animation */
 
 typedef struct S_801728E4_1 {
     u8 pad_00[0x1C];
@@ -32,14 +32,14 @@ typedef struct S_801728E4_1 {
     u8 pad_6E[0x4];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_801728E4_1;   /* arg3 in dungeonUpdateActorItemUseAnimation */
+} S_801728E4_1;   /* arg3 in update_actor_item_use_animation */
 
 
 typedef struct S_801728E4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801728E4_3;   /* entry in dungeonUpdateActorItemUseAnimation */
+} S_801728E4_3;   /* entry in update_actor_item_use_animation */
 
 typedef struct S_801728E4_4 {
     u8 pad_00[0x4];
@@ -49,13 +49,13 @@ typedef struct S_801728E4_4 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_801728E4_4;   /* arg2 in dungeonUpdateActorItemUseAnimation */
+} S_801728E4_4;   /* arg2 in update_actor_item_use_animation */
 
 typedef struct S_801728E4_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_801728E4_5;   /* global in dungeonUpdateActorItemUseAnimation */
+} S_801728E4_5;   /* global in update_actor_item_use_animation */
 
 
 typedef struct {
@@ -69,17 +69,17 @@ extern u8 D_801765D8[8];
 extern u8 D_80176648[8];
 extern u8 D_80176668[8];
 
-extern s32 getCdCommandQueueDepth(void);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *, void *, s32, u16 *);
-extern void dungeonCreateActorLinkedEffect(void *);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *, void *, s32, u16 *);
+extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
-void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, void *actor)
+void update_actor_item_use_animation(void *action, void *item, void *sprite, void *actor)
 {
     void *act = actor;
     u8 state;
@@ -159,7 +159,7 @@ void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, 
                     }
                 } else {
                     ((S_801728E4_1 *)act)->unk_60 =
-                        dungeonScanMonsterAlongHeading(act,
+                        scan_monster_along_heading(act,
                                       ((S_801728E4_4 *)sprite)->unk_24,
                                       ((S_801728E4_4 *)sprite)->unk_25,
                                       ((S_801728E4_1 *)act)->unk_2A,
@@ -170,15 +170,15 @@ void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, 
             }
         }
 
-        if (!dungeonCreateActorSpellEffect(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
+        if (!create_actor_spell_effect(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
             return;
         }
-        dungeonCreateActorLinkedEffect(act);
+        create_actor_linked_effect(act);
         ((S_801728E4_0 *)action)->unk_9B++;
         return;
 
     case 1:
-        if (getCdCommandQueueDepth()) {
+        if (get_cd_command_queue_depth()) {
             ((S_801728E4_4 *)sprite)->unk_14 |= 0x0800;
             return;
         }
@@ -191,7 +191,7 @@ void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, 
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
         func_80047784(sprite,
-            *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -212,7 +212,7 @@ void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, 
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
         func_80047784(sprite,
-            *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+            *(u8 *)((uptr)(((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176668),
             0);
         ((S_801728E4_0 *)action)->unk_9B++;
@@ -222,25 +222,25 @@ void dungeonUpdateActorItemUseAnimation(void *action, void *item, void *sprite, 
         if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
             func_80047784(sprite,
-                D_801765D8[((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+                D_801765D8[((g_game_work.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((EntityRec *)item)->flags14 = 0;
         ((EntityRec *)item)->unk_10 = 0;
         ((EntityRec *)item)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
-        source_sprite = ((u8 *)(&dungeonStatus));
+        set_record_integer_tile_center(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
+        source_sprite = ((u8 *)(&g_dungeon_status));
         if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;
         ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
-        dungeonAdvanceStatusTimers(act);
+        advance_status_timers(act);
         ((S_801728E4_1 *)act)->unk_73.s = 0;
         ((S_801728E4_1 *)act)->unk_72.s = 0;
         ((S_801728E4_1 *)act)->unk_6D--;
         ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
     default:
         return;

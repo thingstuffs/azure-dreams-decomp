@@ -7,7 +7,7 @@
 
 
 /* Initialize both linked record values to 0x4E0. */
-void townSetSceneRecordBaseOffsets(void) {
+void set_scene_record_base_offsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 0x4E0;
     ((TownPositionState *)D_80016000->unk_1C)->y = 0x4E0;
 }

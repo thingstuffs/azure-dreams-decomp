@@ -11,7 +11,7 @@ struct Delta {
 };
 
 /* Compute direction angles between two points, with the third angle set to zero. */
-void func_80024654(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y,
+void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y,
                    s16 to_z, s16 *angles)
 {
     struct Delta delta;

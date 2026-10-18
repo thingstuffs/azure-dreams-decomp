@@ -7,16 +7,16 @@
 #include "shared/dungeon_status.h"
 
 
-extern void dungeonStoreRecalledFamiliar(void *, void *, void *, void *);
-extern void func_8009A028(void *);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A3D0(u8, u8, s32);
-extern void dungeonDecrementMonsterEntryCount(s16 requested_id, s16 requested_type);
-extern u8 func_800A1BD0(void *);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void dungeonDisplayRecordNameMessage(void *);
+extern void store_recalled_familiar(void *, void *, void *, void *);
+extern void unlink_entity_node(void *);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
+extern u8 find_entity_slot_by_field_ac(void *);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void display_record_name_message(void *);
 
 extern u8 D_80173B98;
 
@@ -26,28 +26,28 @@ typedef struct S_80176028_0 {
     s8 unk_04;
     u8 pad_05[0xF];
     u16 unk_14;
-} S_80176028_0;   /* arg2 in dungeonAdvanceActorTransitionState */
+} S_80176028_0;   /* arg2 in advance_actor_transition_state */
 
 
 typedef struct S_80176028_4 {
     u8 pad_00[0x1C];
     u32 unk_1C;
-} S_80176028_4;   /* actor in dungeonAdvanceActorTransitionState */
+} S_80176028_4;   /* actor in advance_actor_transition_state */
 
 typedef struct S_80176028_5 {
     u8 pad_00[0x1C];
     u32 unk_1C;
     u8 pad_20[0x26];
     u16 unk_46;
-} S_80176028_5;   /* work in dungeonAdvanceActorTransitionState */
+} S_80176028_5;   /* work in advance_actor_transition_state */
 
 typedef struct S_80176028_6 {
     u8 pad_00[0x8C];
     void * unk_8C;
-} S_80176028_6;   /* owner in dungeonAdvanceActorTransitionState */
+} S_80176028_6;   /* owner in advance_actor_transition_state */
 
 /* Advances the actor transition state and updates shared actor data and tile flags. */
-void dungeonAdvanceActorTransitionState(void *owner_data, s32 unused, void *entry_data, void *work_data)
+void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_data, void *work_data)
 {
     register u8 *owner = owner_data;
     u8 *work = work_data;
@@ -61,7 +61,7 @@ void dungeonAdvanceActorTransitionState(void *owner_data, s32 unused, void *entr
             type_check = 3;
             if ((((S_80176028_0 *)entry_data)->unk_04 == type_check) &&
                 (((S_80176028_0 *)entry_data)->unk_14 & 0x1000)) {
-                func_800A56E0(0x808);
+                play_sound_if_enabled(0x808);
             }
             if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
                 ((u8 *)owner_data)[0x9B]++;
@@ -81,17 +81,17 @@ void dungeonAdvanceActorTransitionState(void *owner_data, s32 unused, void *entr
 
             saved_index = ((u16)((EntityRec *)((u8 *)D_800E3D7C))->unk_8A);
             saved_actor = ((EntityRec *)((u8 *)D_800E3D7C))->target;
-            actor_index = func_800A1BD0(actor);
+            actor_index = find_entity_slot_by_field_ac(actor);
             primary_table = &D_80083780;
             secondary_table = &D_80082E80;
             actor_map = D_800E3D7C;
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
             ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
-            dungeonStoreRecalledFamiliar(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
+            store_recalled_familiar(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
             (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
             ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
 
         ((u8 *)owner_data)[0x9B]++;
@@ -112,15 +112,15 @@ void dungeonAdvanceActorTransitionState(void *owner_data, s32 unused, void *entr
             map = ((u8 *)D_800E3D7C);
             *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
             *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
-            dungeonDecrementMonsterEntryCount(actor[0x13], 3);
+            decrement_monster_entry_count(actor[0x13], 3);
             tile = *(u8 **)(actor - 0x14);
             x = tile[0x24];
             y = tile[0x25];
             tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
-            func_8009A3D0(x, y, tile_mask);
-            func_8009A028(actor);
+            update_map_cell_flags_with_item_limit(x, y, tile_mask);
+            unlink_entity_node(actor);
             (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             {
                 u8 *actor_slot;
 
@@ -136,15 +136,15 @@ void dungeonAdvanceActorTransitionState(void *owner_data, s32 unused, void *entr
         {
             register u8 *entry = entry_data;
 
-            dungeonReduceActorFoodMeter(work, 0x800);
+            reduce_actor_food_meter(work, 0x800);
             ((S_80176028_5 *)work)->unk_1C |= 0x2000;
-            func_8009A3D0(entry[0x24], entry[0x25], 0x3000);
-            func_8009A21C(entry[0x24], entry[0x25], 0x300);
+            update_map_cell_flags_with_item_limit(entry[0x24], entry[0x25], 0x3000);
+            cycle_map_cell_flags(entry[0x24], entry[0x25], 0x300);
             work[0x12] = state;
-            dungeonDisplayRecordNameMessage(*(void **)(work + 0x60));
+            display_record_name_message(*(void **)(work + 0x60));
             ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;
             ((S_80176028_6 *)owner)->unk_8C = &D_80173B98;
-            dungeonAdvanceStatusTimers(work);
+            advance_status_timers(work);
             work[0x6D]--;
         }
 

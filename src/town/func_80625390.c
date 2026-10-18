@@ -8,6 +8,6 @@
 
 
 /* Return whether the referenced record's unk_38 field is nonzero. */
-s32 func_80016390(void) {
+s32 dispatch_2_handler(void) {
     return ((TownPositionState *)D_80016000->unk_1C)->unk_38 != 0;
 }

@@ -1,32 +1,32 @@
-#define dungeonCompareMonsterNeighborValues func_8009EB6C
+#define compare_monster_neighbor_values func_8009EB6C
 #define D_800E2970 D_800E1D50
 #define D_8016B514 D_8016A514
 #define D_8016DE8C D_8016CE8C
-#define dungeonProcessSelectedActorRecord func_800A97C8
+#define process_selected_actor_record func_800A97C8
 #define func_8016DD6C func_8016CD6C
 #define D_8016DEE4 D_8016CEE4
-#define dungeonGetRoundedFacingAndRoundingFlag func_8009F608
-#define func_800AA888 func_800A9540
+#define get_rounded_facing_and_rounding_flag func_8009F608
+#define begin_actor_move_to_target_facing func_800A9540
 #define func_8016B9C0 func_8016A9C0
-#define func_800A1C58 func_800A0928
-#define dungeonBeginActorSpellAction func_800A9BB8
+#define can_entity_gain_level func_800A0928
+#define begin_actor_spell_action func_800A9BB8
 #define D_8016DE94 D_8016CE94
-#define dungeonCheckEntityRelation func_80098F70
+#define check_entity_relation func_80098F70
 #define D_8016DEC4 D_8016CEC4
 #define func_8016C330 func_8016B330
 #define func_8016D6B8 func_8016C6B8
-#define dungeonBeginReadyActorDirectionalAction func_800A936C
-#define func_800A9A0C func_800A86C4
+#define begin_ready_actor_directional_action func_800A936C
+#define update_actor_status_and_food func_800A86C4
 #define func_80047784 func_80047320
-#define dungeonResetActorActionState func_800A95DC
+#define reset_actor_action_state func_800A95DC
 #define D_800814A8 D_800803DC
 #define func_8016BBE0 func_8016ABE0
-#define dungeonBeginPushedActorMove func_800A8F10
-#define func_8009FB34 func_8009E924
+#define begin_pushed_actor_move func_800A8F10
+#define find_active_rect_containing_point func_8009E924
 #define D_80082E80 D_80081490
 /* Relink of matched dungeon/func_81257D14 at file 0x1277D14; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -97,7 +97,7 @@ typedef struct ActorSpriteView {
 /* Updates object animation, dispatches its action, and adjusts its facing. */
 void func_8016A514(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
 {
-    u32 entry_status = dungeonStatus.flags;
+    u32 entry_status = g_dungeon_status.flags;
     s32 state_flags;
     s32 roomOrDirection;
     s32 action_kind;
@@ -127,7 +127,7 @@ void func_8016A514(ActorActionWork *action, void *context, ActorSpriteView *spri
         }
     }
 
-    if ((dungeonStatus.flags & 0x2000) == 0) {
+    if ((g_dungeon_status.flags & 0x2000) == 0) {
         if (actor->flags1C & 0x100) {
             func_800A8F10(action, context, sprite, actor);
             return;
@@ -140,7 +140,7 @@ void func_8016A514(ActorActionWork *action, void *context, ActorSpriteView *spri
             sprite->directionFrames = D_8016CE8C;
             func_80047320(
                 sprite,
-                D_8016CE8C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016CE8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             sprite->animationEnabled = 1;
             action->pendingAmount.signedValue = 0;
@@ -190,7 +190,7 @@ void func_8016A514(ActorActionWork *action, void *context, ActorSpriteView *spri
         }
 
         if ((actor->unk_46 & 0x8000) == 0) {
-            if (dungeonStatus.flags & 0x2000) {
+            if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)func_80098F70(
                         actor, (u8 *)D_800803DC->unk_58 + 0x20) != 0) {
                     return;

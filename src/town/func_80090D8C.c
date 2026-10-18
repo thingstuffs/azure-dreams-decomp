@@ -66,10 +66,10 @@ extern GlobalState D_80083160;
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
-extern s32 townCheckScratchQuadHalfTurnGaps(Scratch *);
+extern s32 check_scratch_quad_half_turn_gaps(Scratch *);
 
 /* Find the lowest qualifying surface height among neighboring map cells. */
-s32 townFindLowestSurfaceHeight(s32 world_x, s32 world_y, u16 world_z)
+s32 find_lowest_surface_height(s32 world_x, s32 world_y, u16 world_z)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
     u16 *grid;
@@ -197,7 +197,7 @@ s32 townFindLowestSurfaceHeight(s32 world_x, s32 world_y, u16 world_z)
                             vertex_index = record->vertex0;
                             scratch->quad[7] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
 
-                            if (townCheckScratchQuadHalfTurnGaps(scratch) != 0) {
+                            if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                                 {
                                     s16 vertex_coord;
                                     s32 normal_x;

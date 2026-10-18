@@ -8,17 +8,17 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 dungeonProcessRecordAndUpdateLinkedState();
-extern s32 dungeonBeginModeSelectedItemAction();
-extern s32 func_800A6480();
-extern s32 dungeonApplyActorFoodPreference();
-extern s32 func_800A5F38();
-extern s32 dungeonCreateType212Object();
-extern s32 func_800A56E0();
-extern s32 dungeonRefreshPackedGridNibbles();
-extern s32 markActiveNodesByCallback();
-extern s32 func_800997FC();
-extern s32 dungeonClearSlotAndUpdateLinkedState();
+extern s32 process_record_and_update_linked_state();
+extern s32 begin_mode_selected_item_action();
+extern s32 display_actor_item_status_message();
+extern s32 apply_actor_food_preference();
+extern s32 apply_item_effect_at_entity_position();
+extern s32 create_type_212_object();
+extern s32 play_sound_if_enabled();
+extern s32 refresh_packed_grid_nibbles();
+extern s32 mark_active_nodes_by_callback();
+extern s32 display_formatted_context_message();
+extern s32 clear_slot_and_update_linked_state();
 
 extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
@@ -32,8 +32,8 @@ extern u8 D_800CE028[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
-s32 dungeonFlattenFloorTerrain(void *target, s32 effect_arg, s16 effect_id, s32 context) {
-    s32 *dungeon_state = ((s32 *)(&gameWork));
+s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 context) {
+    s32 *dungeon_state = ((s32 *)(&g_game_work));
     u8 *grid_info;
     s32 grid_base;
     void *entity;
@@ -53,22 +53,22 @@ s32 dungeonFlattenFloorTerrain(void *target, s32 effect_arg, s16 effect_id, s32 
     grid_base = dungeon_state[119];
     effect_code = effect_id;
     if (effect_code == 13) {
-        return dungeonProcessRecordAndUpdateLinkedState(effect_arg, context);
+        return process_record_and_update_linked_state(effect_arg, context);
     }
     if (target == D_800E3D7C) {
         S32(target, 0x110) = effect_arg;
-        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {
-        func_800A6480(target, effect_arg, effect_code);
-        if (dungeonApplyActorFoodPreference(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
-            func_800A5F38(target, effect_arg);
+        display_actor_item_status_message(target, effect_arg, effect_code);
+        if (apply_actor_food_preference(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+            apply_item_effect_at_entity_position(target, effect_arg);
             return 1;
         }
     } else if (D_800E296C & 0x20000000) {
-        dungeonCreateType212Object(1, 8);
-        func_800A56E0(0x80F);
+        create_type_212_object(1, 8);
+        play_sound_if_enabled(0x80F);
         entity = D_800E3D7C;
         first_entity = entity;
         do {
@@ -107,14 +107,14 @@ s32 dungeonFlattenFloorTerrain(void *target, s32 effect_arg, s16 effect_id, s32 
             } while (x < 0x3F);
             y += 1;
         } while (y < 0x3F);
-        dungeonRefreshPackedGridNibbles();
+        refresh_packed_grid_nibbles();
         clear_mask = 0x3FF7FFFF;
         D_800E296C = D_800E296C & clear_mask;
-        markActiveNodesByCallback(D_800CE028);
+        mark_active_nodes_by_callback(D_800CE028);
     } else {
-        func_800997FC(&D_800E1863, context, effect_code);
+        display_formatted_context_message(&D_800E1863, context, effect_code);
     }
-    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-    dungeonClearSlotAndUpdateLinkedState(effect_arg);
+    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+    clear_slot_and_update_linked_state(effect_arg);
     return 1;
 }

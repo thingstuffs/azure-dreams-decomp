@@ -18,7 +18,7 @@ typedef struct S_80175DD0_1 {
     s16 * unk_20;
     u8 pad_24[0x1C];
     s16 unk_40;
-} S_80175DD0_1;   /* object in dungeonSpawnOffsetMotionObject */
+} S_80175DD0_1;   /* object in spawn_offset_motion_object */
 
 typedef struct S_80175DD0_2 {
     u8 pad_00[0xC];
@@ -30,7 +30,7 @@ typedef struct S_80175DD0_2 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80175DD0_2;   /* object_data in dungeonSpawnOffsetMotionObject */
+} S_80175DD0_2;   /* object_data in spawn_offset_motion_object */
 
 typedef struct S_80175DD0_3 {
     u8 pad_00[0x2];
@@ -43,7 +43,7 @@ typedef struct S_80175DD0_3 {
     u16 unk_0E;
     u8 pad_10[0x2];
     u16 unk_12;
-} S_80175DD0_3;   /* coords in dungeonSpawnOffsetMotionObject */
+} S_80175DD0_3;   /* coords in spawn_offset_motion_object */
 
 typedef struct S_80175DD0_4 {
     u8 pad_00[0x2];
@@ -52,10 +52,10 @@ typedef struct S_80175DD0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80175DD0_4;   /* arg1 in dungeonSpawnOffsetMotionObject */
+} S_80175DD0_4;   /* arg1 in spawn_offset_motion_object */
 
 
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 resolve_record_orientation_or_fallback();
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
@@ -64,7 +64,7 @@ extern s32 D_80175C60;
 extern s32 D_80175D74;
 
 /* Creates an object at a source position offset and sets its orientation from the parent. */
-void dungeonSpawnOffsetMotionObject(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *source_data, s16 position_index) {
+void spawn_offset_motion_object(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *source_data, s16 position_index) {
     u16 position_offset[3];
     u16 angle;
     s32 direction_offset;
@@ -72,7 +72,7 @@ void dungeonSpawnOffsetMotionObject(void *parent_data, S_80175DD0_4 *origin, Rec
     S_80175DD0_2 *object_data;
     S_80175DD0_1 *object;
 
-    if (resolveRecordOrientationOrFallback(source_data->unk_08, source_data, position_offset, position_index) != 0) {
+    if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, position_offset, position_index) != 0) {
         object = func_8003FD64(0x300, (u8 *)parent_data - 0x20);
         if ((object != NULL) &&
             ((object_data = object->unk_0C,
@@ -86,13 +86,13 @@ void dungeonSpawnOffsetMotionObject(void *parent_data, S_80175DD0_4 *origin, Rec
               coords->unk_06 = origin->unk_06 + position_offset[1],
               coords->unk_0A = origin->unk_0A + position_offset[2],
               direction_offset = (((Rec_func_80173D78_arg0 *)parent_data)->unk_2A >> 8) & 0xE,
-              coords->unk_0E = *(u16 *)(((s8 *)dirStepX) + direction_offset),
-              coords->unk_12 = *(u16 *)(((s8 *)dirStepY) + direction_offset),
+              coords->unk_0E = *(u16 *)(((s8 *)dir_step_x) + direction_offset),
+              coords->unk_12 = *(u16 *)(((s8 *)dir_step_y) + direction_offset),
               object->unk_40 = 0x10,
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               func_80047784(object_data, 0x45, 0),
               func_8004491C(object, &D_80175D74),
-              angle = ((((gameWork.view.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
+              angle = ((((g_game_work.view.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
               object_data->unk_18 = angle,
               angle == 0x400) ||
              (angle == 0xC00))) {

@@ -58,14 +58,14 @@ typedef struct {
 
 extern s32 func_800644B8(s32 value);
 extern void func_80047784(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
-extern void dungeonSetRecordIntegerTileCenter(T_80172B6C_Motion *motion, u8 x, u8 y);
-extern void dungeonReduceActorFoodMeter(T_80172B6C_Actor *actor, s32 value);
-extern void dungeonAdvanceStatusTimers(T_80172B6C_Actor *actor);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(u8 x0, u8 y0, u8 x1, u8 y1, s16 *scratch);
-extern s32 dungeonCheckActorFloorTrap(T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor);
+extern void set_record_integer_tile_center(T_80172B6C_Motion *motion, u8 x, u8 y);
+extern void reduce_actor_food_meter(T_80172B6C_Actor *actor, s32 value);
+extern void advance_status_timers(T_80172B6C_Actor *actor);
+extern s16 get_rounded_facing_and_rounding_flag(u8 x0, u8 y0, u8 x1, u8 y1, s16 *scratch);
+extern s32 check_actor_floor_trap(T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor);
 extern void func_800A9A04(T_80172B6C_Actor *actor);
 extern u8 D_80174EA8[];
 extern u8 D_80174EB0[];
-void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor);
-extern void dungeonUpdateActorBehaviorAndDirection();
+void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor);
+extern void update_actor_behavior_and_direction();
 #endif

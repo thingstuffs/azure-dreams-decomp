@@ -9,12 +9,12 @@ typedef struct S_80AC55DC_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80AC55DC_0;   /* node in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_0;   /* node in create_returning_sprite_effect */
 
 typedef struct S_80AC55DC_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80AC55DC_1;   /* arg0 in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_1;   /* arg0 in create_returning_sprite_effect */
 
 typedef struct S_80AC55DC_2 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_80AC55DC_2 {
     s32 unk_4C;
     s32 unk_50;
     s32 unk_54;
-} S_80AC55DC_2;   /* work in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_2;   /* work in create_returning_sprite_effect */
 
 typedef struct S_80AC55DC_4 {
     u8 pad_00[0xC];
@@ -48,7 +48,7 @@ typedef struct S_80AC55DC_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80AC55DC_4;   /* sprite in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_4;   /* sprite in create_returning_sprite_effect */
 
 typedef struct S_80AC55DC_5 {
     u8 pad_00[0x2];
@@ -57,7 +57,7 @@ typedef struct S_80AC55DC_5 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_5;   /* ((S_80AC55DC_0 *)node)->unk_08 in create_returning_sprite_effect */
 
 typedef struct S_80AC55DC_6 {
     u8 pad_00[0x2];
@@ -66,7 +66,7 @@ typedef struct S_80AC55DC_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80AC55DC_6;   /* ((S_80AC55DC_1 *)arg0)->unk_08 in dungeonCreateReturningSpriteEffect */
+} S_80AC55DC_6;   /* ((S_80AC55DC_1 *)arg0)->unk_08 in create_returning_sprite_effect */
 
 
 extern void func_8004491C(void *, void *);
@@ -76,7 +76,7 @@ extern u8 D_800DEC70[];
 extern u8 D_80170A84[];
 
 /* Creates a sprite effect offset from its origin and initializes its return motion. */
-void dungeonCreateReturningSpriteEffect(
+void create_returning_sprite_effect(
     S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z)
 {

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f43f800_p08.h"
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
-void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
+void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
 {
     T_801748D0_LocalFrame frame;
     void *effect_body;
@@ -42,7 +42,7 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
         return;
     case 1:
         if (!(((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 & 0x8000)) {
-            func_800A56E0(0x80D);
+            play_sound_if_enabled(0x80D);
         }
         count = 0;
         do {
@@ -54,7 +54,7 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
             }
             ((T_801748D0_S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
             ((T_801748D0_S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
-            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_10 = func_80170AD0;
+            ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_10 = update_effect_visuals_and_lifetime;
             linked_body = actor->target;
             if (linked_body == 0) {
                 ((T_801748D0_S_801748D0_3 *)effect_body)->unk_A8 = position;
@@ -89,7 +89,7 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
             ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
             if (actor->target == 0) {
                 owner_link = ((T_801748D0_S_801748D0_10 *)owner)->unk_0C;
-                if (resolveRecordOrientationOrFallback(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
+                if (resolve_record_orientation_or_fallback(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
                     ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_02 += frame.delta[0];
                     ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_06 += frame.delta[1];
                     ((T_801748D0_S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v += frame.delta[2];
@@ -105,7 +105,7 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
                 mesh_flags = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_0A;
                 frame.pos[2] = mesh_flags;
                 anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
-                lookup_value = D_800DCECC[((gameWork.view.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
+                lookup_value = D_800DCECC[((g_game_work.view.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
                     >> 9) & 7];
                 effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
                 continue;
@@ -122,7 +122,7 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
             if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
                 ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-                func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle
+                func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
                     + actor->facing + 0x100) >> 9) & 7], 0);
             }
         }
@@ -136,11 +136,11 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(position, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_24, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_25);
+        set_record_integer_tile_center(position, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_24, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_25);
         if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-            func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle
+            func_80047784(source_mesh, ((u8 *)((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C)[((g_game_work.view.viewAngle
                 + actor->facing + 0x100) >> 9) & 7], 0);
         }
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B++;
@@ -148,11 +148,11 @@ void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *positio
     case 3:
         owner_link = actor->target;
         if (owner_link != 0) {
-            func_800C8788(actor, owner_link);
+            check_action_six_eligibility(actor, owner_link);
         }
-        dungeonReduceActorFoodMeter(actor, 0x400);
-        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = dungeonUpdateActorBehaviorAndDirection;
-        dungeonStatus.unk_0C = 0;
+        reduce_actor_food_meter(actor, 0x400);
+        ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = update_actor_behavior_and_direction;
+        g_dungeon_status.unk_0C = 0;
         actor->unk_46 &= 0x7FFF;
 
         return;

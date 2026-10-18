@@ -19,7 +19,7 @@ typedef struct S_800A51CC_0 {
     s32 unk_18;
     u8 pad_1C[0x4];
     void * unk_20;
-} S_800A51CC_0;   /* arg0 in townUpdateCurrentAndSavedCoordinates */
+} S_800A51CC_0;   /* arg0 in update_current_and_saved_coordinates */
 
 typedef struct S_800A51CC_1 {
     u8 pad_00[0xAC];
@@ -29,19 +29,19 @@ typedef struct S_800A51CC_1 {
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_AC;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
-} S_800A51CC_1;   /* base in townUpdateCurrentAndSavedCoordinates */
+} S_800A51CC_1;   /* base in update_current_and_saved_coordinates */
 
 
 extern u8 D_800A526C[16];
 
 /* Update current and saved coordinates from the reference, or set state 9 if they differ. */
-void townUpdateCurrentAndSavedCoordinates(S_800A51CC_0 *object)
+void update_current_and_saved_coordinates(S_800A51CC_0 *object)
 {
     u8 *reference;
     s32 position_pair;
     u16 coord;
 
-    reference = ((u8 *)(&gameWork));
+    reference = ((u8 *)(&g_game_work));
     position_pair = object->unk_00.at00.v;
     if ((position_pair != ((S_800A51CC_1 *)reference)->unk_AC.at00.v) ||
         (object->unk_04.s != ((S_800A51CC_1 *)reference)->unk_B0.s)) {

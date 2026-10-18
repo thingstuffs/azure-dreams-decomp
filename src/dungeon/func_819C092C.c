@@ -15,7 +15,7 @@ typedef struct Bank19de800_19e092c_EntryCursor {
 } Bank19de800_19e092c_EntryCursor;
 
 /* Sets the object entry address using a 22-byte stride. */
-void dungeonSetMeshEntryAddress(Bank19de800_19e092c_EntryCursor *object, s16 entry_index) {
+void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_index) {
     object->entry = object->owner->entries + entry_index * 0x16;
 }
 

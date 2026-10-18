@@ -15,5 +15,5 @@ ObjectNodeHeader *func_8003FD64(s32 flags, ObjectNodeHeader **head);
 /* Some retail callers supply an additional ignored context word in a2. */
 s32 func_8004491C(void *entry, s32 registration_key, ...);
 void func_800478B8(void *render_entry);
-s32 func_800A56E0(s32 query_value);
+s32 play_sound_if_enabled(s32 query_value);
 #endif

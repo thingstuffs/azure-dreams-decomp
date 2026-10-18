@@ -4,7 +4,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-/* Calls func_800A56E0 with the fixed argument 0xB4. */
+/* Calls play_sound_if_enabled with the fixed argument 0xB4. */
 void func_800F7BA0(void) {
-    func_800A56E0(0xB4);
+    play_sound_if_enabled(0xB4);
 }

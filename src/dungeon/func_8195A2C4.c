@@ -21,7 +21,7 @@ typedef struct Outer {
 
 extern u16 D_800281F8[];
 
-void dungeonProcessEffectRecord(void *ptr, Inner *fields_target, Inner *field_c_target)
+void process_effect_record(void *ptr, Inner *fields_target, Inner *field_c_target)
 {
     Outer *outer;
     Inner *inner;
@@ -32,7 +32,7 @@ void dungeonProcessEffectRecord(void *ptr, Inner *fields_target, Inner *field_c_
     D_800281F8[0]++;
     if (flags1E != 0) {
         ((u16 *)ptr)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     field_c_target->fieldC = outer->innerC->fieldC;

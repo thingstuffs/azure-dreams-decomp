@@ -14,7 +14,7 @@ extern void *D_80082A70[];
 extern u8 D_8006B230[];
 
 extern s32 func_800352FC(void);
-extern void runtimeStoreValueInShiftedSlotPool(void *value);
+extern void runtime_store_value_in_shifted_slot_pool(void *value);
 extern void func_80035208(void *reset_value);
 
 /* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
@@ -25,10 +25,10 @@ s32 func_800353F4(void *input_data) {
         for (entry_index = 10; entry_index < 15; entry_index++) {
             D_80082A38.entries[entry_index] = 0;
         }
-        runtimeStoreValueInShiftedSlotPool(input_data);
+        runtime_store_value_in_shifted_slot_pool(input_data);
         func_80035208(D_8006B230);
     } else {
-        runtimeStoreValueInShiftedSlotPool(input_data);
+        runtime_store_value_in_shifted_slot_pool(input_data);
     }
     return 1;
 }

@@ -3,7 +3,7 @@
 extern u8 D_80013614[16];
 
 /* ORs 3 into the indexed two-bit field if the flag's low 16 bits are nonzero, otherwise 1. */
-void setPacked2bitFlag(s32 field_index, s32 flag) {
+void set_packed_2bit_flag(s32 field_index, s32 flag) {
     u8 *packed_byte;
     s32 byte_index;
     u16 bit_shift;

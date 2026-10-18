@@ -18,7 +18,7 @@ extern s32 D_800C3174;
 extern s32 D_800C3438;
 
 /* Initializes object fields and registers the object in its slot. */
-void townInitializeObjectAndRegisterSlot(void *object, s32 slot_index, s32 field_58_value, s32 field_5c_value, s32 field_7c_value,
+void initialize_object_and_register_slot(void *object, s32 slot_index, s32 field_58_value, s32 field_5c_value, s32 field_7c_value,
     s32 field_80_value)
 {
     s32 registered_slot;

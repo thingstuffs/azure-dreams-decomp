@@ -9,10 +9,10 @@ typedef struct S_800CA744_0 {
     M2C_UNK * unk_54;
     u8 pad_58[0x14];
     s16 unk_6C;
-} S_800CA744_0;   /* arg0 in townInitializeReactionDataAndTimer10 */
+} S_800CA744_0;   /* arg0 in initialize_reaction_data_and_timer_10 */
 
 /* Initializes the object's data pointer and associated value to 10. */
-void townInitializeReactionDataAndTimer10(S_800CA744_0 *object) {
+void initialize_reaction_data_and_timer_10(S_800CA744_0 *object) {
     object->unk_54 = &D_800CA134;
     object->unk_6C = 0xA;
 }

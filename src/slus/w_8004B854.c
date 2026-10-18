@@ -6,8 +6,8 @@ typedef struct S_8004B854 {
 } S_8004B854;
 
 extern void load_bin_nametwin(void);
-extern void drainCdCommandQueue(void);
-extern void func_8002537C(int a0, int a1, int a2, S_8004B854 *a3, int a4);
+extern void drain_cd_command_queue(void);
+extern void create_item_view(int a0, int a1, int a2, S_8004B854 *a3, int a4);
 
 /* Sends a packet containing the entry byte and command code 0x13 to the target. */
 void func_8004B854(int target, int record_addr, int entry_value)
@@ -18,6 +18,6 @@ void func_8004B854(int target, int record_addr, int entry_value)
     load_bin_nametwin();
     local_packet.a2 = (u8)entry_value;
     local_packet.code = 0x13;
-    drainCdCommandQueue();
-    func_8002537C(target, zero, zero, &local_packet, record_addr);
+    drain_cd_command_queue();
+    create_item_view(target, zero, zero, &local_packet, record_addr);
 }

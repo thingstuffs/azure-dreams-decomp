@@ -38,7 +38,7 @@ typedef struct S_800243D8_0 {
 typedef struct S_800243D8_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800243D8_1_pre;   /* the 0x18 bytes before arg0 in func_800243D8, addressed as arg0[-1] */
+} S_800243D8_1_pre;   /* the 0x18 bytes before arg0 in advance_object_spawning_displays_high, addressed as arg0[-1] */
 
 typedef struct S_800243D8_2 {
     s32 unk_00;
@@ -53,7 +53,7 @@ typedef struct S_800243D8_3 {
 } S_800243D8_3;
 
 /* Creates an object linked to the source with its position and default part data. */
-void func_800243D8(void *source) {
+void advance_object_spawning_displays_high(void *source) {
     S_800243D8_2 *position;
     Part *part;
     void *object;

@@ -115,6 +115,6 @@ void func_80162374(u8 *effect, s32 *position, s32 effect_param)
     F16(effect, 0x24) = life_left;
     if ((life_left << 16) <= 0) {
         FU16(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

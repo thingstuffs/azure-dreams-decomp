@@ -5,7 +5,7 @@ extern char D_8001B9E8[];
 extern char D_8001C6D0[];
 extern char D_80021386[];
 
-extern char *func_80016E48(s32, s32, s32, s32);
+extern char *award_next_unearned_milestone(s32, s32, s32, s32);
 
 /* Selects a text string, delegating selector 52 to the shared lookup. */
 char *func_80017580(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
@@ -23,7 +23,7 @@ char *func_80017580(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(selector_id, passthru_1, arg2_val, passthru_3);
+        return award_next_unearned_milestone(selector_id, passthru_1, arg2_val, passthru_3);
     case 0:
         return D_8001C6D0;
     default:

@@ -3,16 +3,16 @@
 typedef struct S_80024B20_0 {
     u8 pad_00[0x10];
     u16 unk_10;
-} S_80024B20_0;   /* dst in func_80024B20 */
+} S_80024B20_0;   /* dst in update_segment */
 
 typedef struct S_80024B20_1 {
     u8 pad_00[0x10];
     u16 unk_10;
-} S_80024B20_1;   /* src in func_80024B20 */
+} S_80024B20_1;   /* src in update_segment */
 
 typedef struct S_80024B20_2_pre {
     u16 unk_00;
-} S_80024B20_2_pre;   /* the 0x2 bytes before arg0 in func_80024B20, addressed as arg0[-1] */
+} S_80024B20_2_pre;   /* the 0x2 bytes before arg0 in update_segment, addressed as arg0[-1] */
 
 typedef struct S_80024B20_2 {
     u8 pad_00[0xC];
@@ -22,29 +22,29 @@ typedef struct S_80024B20_2 {
     u8 pad_3C[0x4];
     union { s16 s; u16 u; } unk_40;   /* accessed as both */
     union { u16 u; s16 s; } unk_42;   /* accessed as both */
-} S_80024B20_2;   /* arg0 in func_80024B20 */
+} S_80024B20_2;   /* arg0 in update_segment */
 
 typedef struct S_80024B20_3 {
     u8 pad_00[0x12];
     union { u16 v; s16 n; } unk_12;   /* accessed as both */
     s16 unk_14;
-} S_80024B20_3;   /* p in func_80024B20 */
+} S_80024B20_3;   /* p in update_segment */
 
 typedef struct S_80024B20_4 {
     u8 pad_00[0x12];
     s16 unk_12;
-} S_80024B20_4;   /* (u8 *)arg0 + offset in func_80024B20 */
+} S_80024B20_4;   /* (u8 *)arg0 + offset in update_segment */
 
 typedef struct S_80024B20_5 {
     u8 pad_00[0x14A0];
     u32 unk_14A0;
-} S_80024B20_5;   /* page in func_80024B20 */
+} S_80024B20_5;   /* page in update_segment */
 
 
 extern s32 func_800644B8();
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
-void func_80024B20(void *effect) {
+void update_segment(void *effect) {
     s32 segment_index;
     u16 state;
     s32 base_speed;

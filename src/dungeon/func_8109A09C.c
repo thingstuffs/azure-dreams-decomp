@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_8108809C; every changed retail word is a paired relocation. */
-#define dungeonCreateRandomizedOffsetObject func_8016389C
+#define create_randomized_offset_object func_8016389C
 #define D_80175018 D_80163018
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -18,7 +18,7 @@ extern void *func_8003FD64(s32, s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 extern void func_80047784(void *, s32, s32);
-extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 D_80163018;
 
 
@@ -120,7 +120,7 @@ void *func_8016389C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *
         delta[1] = 0;
         delta[0] = 0;
         source = work->unk_48;
-        if (resolveRecordOrientationOrFallback(source->unk_08, source, delta, 3) != 0) {
+        if (resolve_record_orientation_or_fallback(source->unk_08, source, delta, 3) != 0) {
             ((S_8017589C_5 *)copy)->unk_02 += delta[0];
             ((S_8017589C_5 *)copy)->unk_06 += delta[1];
             ((S_8017589C_5 *)copy)->unk_0A += delta[2];

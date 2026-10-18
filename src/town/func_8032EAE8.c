@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townProcessLshopEntries(s32, s32);             /* extern */
+void process_lshop_entries(s32, s32);             /* extern */
 
-/* Calls townProcessLshopEntries with the supplied value and a zero second argument. */
-void townProcessLshopValue(s32 value) {
-    townProcessLshopEntries(value, 0);
+/* Calls process_lshop_entries with the supplied value and a zero second argument. */
+void process_lshop_value(s32 value) {
+    process_lshop_entries(value, 0);
 }

@@ -12,7 +12,7 @@ extern Entry D_8001791C[];
 extern u8 D_80017BB0[];
 
 /* Select the next entry whose value passes func_8001E670, wrapping at the terminator. */
-u8 townAdvanceToNextEnabledEntry(void) {
+u8 advance_to_next_enabled_entry(void) {
     s32 start_index;
     s32 next_index;
     u8 *entry_id;

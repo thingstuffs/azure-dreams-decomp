@@ -44,14 +44,14 @@ extern u8 D_801739A0[];
 
 extern void func_800419EC(s32, s32, void *);
 extern void func_80047784(void *, u8, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
-extern void dungeonCreateLayeredSpritePulse(void *);
-extern void dungeonCreateEightPartTexturedRibbon(void *, void *, void *, void *);
-extern void dungeonCreatePlayerCenteredSequenceEffect(void *, void *, void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void create_layered_sprite_pulse(void *);
+extern void create_eight_part_textured_ribbon(void *, void *, void *, void *);
+extern void create_player_centered_sequence_effect(void *, void *, void *);
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
-void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
+void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     u8 state;
     s32 anim_mode;
     u8 *anim_table;
@@ -66,10 +66,10 @@ void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *spr
     state = sequence[0x9B];
     switch (state) {
     case 0:
-        dungeonCreateLayeredSpritePulse(transform);
+        create_layered_sprite_pulse(transform);
         ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 = 5;
         sequence[0x9B] = sequence[0x9B] + 1;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         D_801760D8[0] = 0;
         return;
 
@@ -88,15 +88,15 @@ void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *spr
         timer = ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 + 1;
         ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 = timer;
         if ((s16)timer == 1) {
-            dungeonCreateEightPartTexturedRibbon(sequence, transform, sprite, ((u8 *)(&D_80083780)));
+            create_eight_part_textured_ribbon(sequence, transform, sprite, ((u8 *)(&D_80083780)));
         }
         if (((SequenceFieldView_81336BB4 *)sequence)->field_96.s16 == 2) {
             effect_actor = D_800814A8;
             effect_actor->unk_10C |= 1;
             effect_actor->unk_6A = ((u16)effect_actor->facing) + 0x800;
             func_800419EC(6, 0xC, effect_actor);
-            func_800A56E0(0x601);
-            dungeonCreatePlayerCenteredSequenceEffect(sequence, transform, sprite);
+            play_sound_if_enabled(0x601);
+            create_player_centered_sequence_effect(sequence, transform, sprite);
         }
         if (((SequenceFieldView_81336BB4 *)sequence)->field_96.s16 == 0xB) {
             state = sequence[0x9B];
@@ -113,7 +113,7 @@ void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *spr
         ((TransformFieldView_81336BB4 *)transform)->field_14 = 0;
         ((TransformFieldView_81336BB4 *)transform)->field_10 = 0;
         ((TransformFieldView_81336BB4 *)transform)->field_0C = 0;
-        dungeonSetRecordIntegerTileCenter(transform, sprite[0x24], sprite[0x25]);
+        set_record_integer_tile_center(transform, sprite[0x24], sprite[0x25]);
         anim_mode = sequence[0xAC];
         switch (anim_mode) {
         case 0:
@@ -140,7 +140,7 @@ void dungeonAdvanceTimedActorEffectSequence(u8 *sequence, u8 *transform, u8 *spr
         }
         if (current_anim_table != anim_table) {
             ((SpriteFieldView_81336BB4 *)sprite)->field_2C = anim_table;
-            direction = ((s32)(gameWork.view.viewAngle + ((ActorFieldView_81336BB4 *)actor)->field_2A + 0x100) >> 9) & 7;
+            direction = ((s32)(g_game_work.view.viewAngle + ((ActorFieldView_81336BB4 *)actor)->field_2A + 0x100) >> 9) & 7;
             func_80047784(sprite, *(u8 *)((u32)direction + (u32)anim_table), 0);
         }
         goto advance;
@@ -162,7 +162,7 @@ advance:
         actor[0x73] = 0;
         actor[0x72] = 0;
         ((SequenceFieldView_81336BB4 *)sequence)->field_8C = D_8016A36C;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((ActorFieldView_81336BB4 *)actor)->field_46 &= 0x7FFF;
 
         return;

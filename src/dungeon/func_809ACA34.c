@@ -17,26 +17,26 @@ typedef struct S_809A0A34_1 {
 
 void func_80047784();         /* extern */
 typedef struct Ent Ent;
-Ent *dungeonPrepareDirectionalAttack(); /* extern */
-s32 func_800A2B5C();                          /* extern */
-s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
+Ent *prepare_directional_attack(); /* extern */
+s32 try_claim_dungeon_action_slot();                          /* extern */
+s32 apply_camera_offset_and_select_target(); /* extern */
 extern u8 D_80169E70;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */
 void func_80166234(void *controller, void *action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
-        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
-        if ((func_800A2B5C(actor) << 0x10) == 0) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
+        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             ((S_809A0A34_1 *)controller)->unk_9A = 0x17;
             (*(s32 *)((u8 *)controller + 0x8C)) = 0;
             ((S_809A0A34_1 *)controller)->unk_9B = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80169E70;
-            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+            func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + &D_80169E70), 0);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_809A0A34_1 *)controller)->unk_98 = (u16) (((S_809A0A34_1 *)controller)->unk_98 | 8);
-            dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
+            prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }

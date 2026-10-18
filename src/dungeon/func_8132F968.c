@@ -36,7 +36,7 @@ typedef struct S_80166968_0 {
     s16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_80166968_0;   /* scratch in dungeonDrawRibbonCenterLines */
+} S_80166968_0;   /* scratch in draw_ribbon_center_lines */
 
 typedef struct S_80166968_1 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_80166968_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80166968_1;   /* arg1 in dungeonDrawRibbonCenterLines */
+} S_80166968_1;   /* arg1 in draw_ribbon_center_lines */
 
 typedef struct S_80166968_2 {
     u8 pad_00[0x8];
@@ -57,9 +57,9 @@ typedef struct S_80166968_2 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_80166968_2;   /* arg2 in dungeonDrawRibbonCenterLines */
+} S_80166968_2;   /* arg2 in draw_ribbon_center_lines */
 
-   /* *global in dungeonDrawRibbonCenterLines */
+   /* *global in draw_ribbon_center_lines */
 
 typedef struct S_80166968_4 {
     u32 unk_00;
@@ -76,12 +76,12 @@ typedef struct S_80166968_4 {
     s16 unk_86;
     s16 unk_88;
     s16 unk_8A;
-} S_80166968_4;   /* arg0 in dungeonDrawRibbonCenterLines */
+} S_80166968_4;   /* arg0 in draw_ribbon_center_lines */
 
 typedef struct S_80166968_5 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80166968_5;   /* packet in dungeonDrawRibbonCenterLines */
+} S_80166968_5;   /* packet in draw_ribbon_center_lines */
 
 
 typedef struct {
@@ -103,10 +103,10 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Project edge midpoints and queue line and draw-mode packets in the ordering table. */
-void dungeonDrawRibbonCenterLines(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
+void draw_ribbon_center_lines(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_data, s32 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *render_state = gameWork.unk_000;
+    u8 *render_state = g_game_work.unk_000;
     u32 draw_flags;
     u8 **render_state_ref;
     u8 *packet;
@@ -137,7 +137,7 @@ void dungeonDrawRibbonCenterLines(S_80166968_4 *geometry, S_80166968_1 *position
     saved_depth_bias = depth_bias;
     ((S_80166968_0 *)scratch)->unk_90 = position->unk_0A;
     ((S_80166968_2 *)render_data)->unk_14 |= 0x8000;
-    render_state_ref = &gameWork.unk_000;
+    render_state_ref = &g_game_work.unk_000;
     func_800649A0();
 
     ((S_80166968_0 *)scratch)->unk_3C = 0x2000;

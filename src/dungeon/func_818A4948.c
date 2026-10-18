@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18c4828.h"
 
-void *func_80024148(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
+void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
     Row_818A4948_S_func_818A4948_0 *obj;
     Row_818A4948_S_func_818A4948_1 *render_data;
     Row_818A4948_S_func_818A4948_2 *coords;

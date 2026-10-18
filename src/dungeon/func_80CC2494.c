@@ -1,19 +1,19 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern void func_800A9A0C(void *);
-extern s16 dungeonRelinkEntityAndClearHighFlag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
-extern void dungeonChooseHeadingAndAdvanceActor(void *, s32, s32, void *);
+extern void update_actor_status_and_food(void *);
+extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
+extern void choose_heading_and_advance_actor(void *, s32, s32, void *);
 
 /* Checks an object action, dispatches its update, and clears flags as needed. */
-s32 dungeonCheckObjectActionAndClearFlags(void *object, s32 query_x, s32 query_y, s32 action_override) {
+s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, s32 action_override) {
     void *saved_object = object;
     s32 next_state;
     s32 clear_result;
     s16 action_result;
     s32 override_bits;
 
-    action_result = dungeonRelinkEntityAndClearHighFlag(query_x, query_y, saved_object, 3, 6,
+    action_result = relink_entity_and_clear_high_flag(query_x, query_y, saved_object, 3, 6,
                            (u8 *)saved_object + 0x9C);
     if (action_result < 0) {
         return 0;
@@ -28,19 +28,19 @@ s32 dungeonCheckObjectActionAndClearFlags(void *object, s32 query_x, s32 query_y
             goto tail_block;
         }
         *((s8 *)saved_object + 0x9A) = next_state;
-        func_800A9A0C(saved_object);
+        update_actor_status_and_food(saved_object);
         return 0;
     } else {
-        dungeonChooseHeadingAndAdvanceActor(saved_object, query_x, query_y, saved_object);
+        choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
         return 0;
     }
 call_block:
-    dungeonChooseHeadingAndAdvanceActor(saved_object, query_x, query_y, saved_object);
+    choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
     return 0;
 
 tail_block:
     *((u8 *)saved_object + 0x71) &= 0x7F;
-    if (dungeonStatus.flags & 8) {
+    if (g_dungeon_status.flags & 8) {
         clear_result = 0;
     } else {
         return 1;

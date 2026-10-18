@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 townCheckInputsAfterThresholdTwo(u32);
+extern s32 check_inputs_after_threshold_two(u32);
 extern void func_800193E0(s32);
 
 extern s32 D_8001967C[];
@@ -14,7 +14,7 @@ s32 func_805D3208(s32 unused_a, s32 unused_b, s32 selector) {
 
     if (selector == 8) {
         func_800193E0(0x147A);
-        result = townCheckInputsAfterThresholdTwo(D_80019770[D_8001967C[0]]);
+        result = check_inputs_after_threshold_two(D_80019770[D_8001967C[0]]);
     } else if (selector == 1) {
         if (D_8001967C[0] != 3) {
             result = (s32)D_8001DE58;

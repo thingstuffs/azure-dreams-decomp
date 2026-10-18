@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void func_80024024(void *state, void *motion, void *transform)
+void interpolate_view_parameters(void *state, void *motion, void *transform)
 {
     u16 tick_count;
     void *linked_state;
@@ -21,6 +21,6 @@ void func_80024024(void *state, void *motion, void *transform)
     if (*(s16 *)((s8 *)state + 0x12) < (s16)tick_count) {
         *(u16 *)((s8 *)state - 2) =
             (u16)(*(u16 *)((s8 *)state - 2) | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

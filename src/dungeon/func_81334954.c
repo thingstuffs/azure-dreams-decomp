@@ -5,54 +5,54 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-extern void dungeonPrepareDirectionalAttack(void *, void *, s16, s32, s32);
-extern s32 dungeonGetActorHeightDifference(s32, void *);
-extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-extern s32 func_800A2B5C(void *);
-extern s32 func_800A2CB8(void *, s32);
-extern void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
+extern void prepare_directional_attack(void *, void *, s16, s32, s32);
+extern s32 get_actor_height_difference(s32, void *);
+extern s32 place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern s32 check_entity_interaction_compatibility(void *, s32);
+extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
 
 /* Attempts an action toward the target and initializes the action state on success. */
-s32 dungeonTryActorAttack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, EntityRec *actor) {
+s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, EntityRec *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
     actor->unk_71 &= 0x7F;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
-    target_direction = dungeonPlaceActorAtDirectionalNeighbor(
+    target_direction = place_actor_at_directional_neighbor(
         actor,
         target->unk_24,
         target->unk_25,
         actor->facing);
 
-    if ((func_800A2CB8(actor, target_direction) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {
         return 0;
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
     if (!(actor->unk_46 & 0x8000) &&
-        (dungeonStatus.flags & 8)) {
+        (g_dungeon_status.flags & 8)) {
         return -1;
     }
 
-    if ((u32)(((0 - dungeonGetActorHeightDifference(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)(((0 - get_actor_height_difference(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
         return 0;
     }
 
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
 
-    if ((func_800A2B5C(actor) << 16) == 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->unk_9A.as_s8 = 0x11;
         action_state->unk_9B.as_s8 = 0;
         action_state->unk_8C = 0;
@@ -60,7 +60,7 @@ s32 dungeonTryActorAttack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, R
         actor->unk_85 = 32;
         actor->unk_6D--;
 
-        dungeonPrepareDirectionalAttack(actor, target, actor->facing, 1, 0);
+        prepare_directional_attack(actor, target, actor->facing, 1, 0);
         return 1;
     }
 

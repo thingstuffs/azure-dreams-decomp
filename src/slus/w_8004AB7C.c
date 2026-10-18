@@ -17,22 +17,22 @@ extern s32 D_80012090;
 
 extern s32 D_80013628;
 
-extern void queueModeSelectedResourceTable(void);
-extern void drainCdCommandQueue(void);
-extern void func_800A6D60(s32 a0);
+extern void queue_mode_selected_resource_table(void);
+extern void drain_cd_command_queue(void);
+extern void save_or_restore_random_seed(s32 a0);
 extern void func_800A6D98(s32 a0);
 extern void func_8004AA78(s32 a0);
-extern void tableHandleAssignConsecutiveN19ByteDataBlocksItemsSelectedCategoryIndex(void);
+extern void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void);
 
 /* Shuffles item pointers in enabled categories and restores item-effect links. */
-void shuffleEnabledItemCategoryPointers(void)
+void shuffle_enabled_item_category_pointers(void)
 {
     s32 category_id;
     S_8004AB7C_CategoryEntry *category;
 
-    queueModeSelectedResourceTable();
-    drainCdCommandQueue();
-    func_800A6D60(1);
+    queue_mode_selected_resource_table();
+    drain_cd_command_queue();
+    save_or_restore_random_seed(1);
     func_800A6D98(D_80013628);
 
     category = itemCategoryTable;
@@ -42,6 +42,6 @@ void shuffleEnabledItemCategoryPointers(void)
         }
     }
 
-    tableHandleAssignConsecutiveN19ByteDataBlocksItemsSelectedCategoryIndex();
-    func_800A6D60(0);
+    table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index();
+    save_or_restore_random_seed(0);
 }

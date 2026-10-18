@@ -12,12 +12,12 @@ typedef struct S_800B0544_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B0544_4;   /* obj in dungeonCreateDefaultStateObject */
+} S_800B0544_4;   /* obj in create_default_state_object */
 
 typedef struct S_800B0544_5 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
-} S_800B0544_5;   /* ((S_800B0544_4 *)obj)->unk_0C in dungeonCreateDefaultStateObject */
+} S_800B0544_5;   /* ((S_800B0544_4 *)obj)->unk_0C in create_default_state_object */
 
 typedef struct S_800B0544_6 {
     u8 pad_00[0x2];
@@ -26,10 +26,10 @@ typedef struct S_800B0544_6 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in dungeonCreateDefaultStateObject */
+} S_800B0544_6;   /* ((S_800B0544_4 *)obj)->unk_08 in create_default_state_object */
 
 
-extern M2C_UNK loadIndexedResourcePackage();
+extern M2C_UNK load_indexed_resource_package();
 extern s32 func_8004491C();
 
 extern s16 D_8008146C;
@@ -42,7 +42,7 @@ typedef struct S_800B0544_0 {
     u8 pad_00[0xC];
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_800B0544_0;   /* obj in dungeonCreateDefaultStateObject */
+} S_800B0544_0;   /* obj in create_default_state_object */
 
 typedef struct S_800B0544_1 {
     u8 pad_00[0xC];
@@ -63,7 +63,7 @@ typedef struct S_800B0544_3 {
 } S_800B0544_3;
 
 /* Update the current state and create an object with default color, scale, and mode flags. */
-void dungeonCreateDefaultStateObject(s16 new_state) {
+void create_default_state_object(s16 new_state) {
     s8 *state;
     s32 mode;
     S_800B0544_3 *obj_state;
@@ -73,7 +73,7 @@ void dungeonCreateDefaultStateObject(s16 new_state) {
 
     state = &D_800DCF4C;
     if (*state != new_state) {
-        loadIndexedResourcePackage(new_state);
+        load_indexed_resource_package(new_state);
         *state = (s8)new_state;
     }
     obj = func_8003FC64(0x12);

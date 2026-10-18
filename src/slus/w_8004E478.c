@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Reverses len bytes in place and returns the original buffer pointer. */
-void *reverseBytes(u8 *buf, u16 len)
+void *reverse_bytes(u8 *buf, u16 len)
 {
     u8 *start = buf;
     u8 *end = start + (len - 1);

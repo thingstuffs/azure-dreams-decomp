@@ -16,7 +16,7 @@ typedef struct S_80171138_0 {
     u8 unk_9B;
     u8 pad_9C[0x4];
     s16 unk_A0;
-} S_80171138_0;   /* arg0 in dungeonUpdateBankActorState */
+} S_80171138_0;   /* arg0 in update_bank_actor_state */
 
 typedef struct S_80171138_1 {
     u8 pad_00[0x1C];
@@ -31,7 +31,7 @@ typedef struct S_80171138_1 {
     s16 unk_64;
     u8 pad_66[0x7];
     s8 unk_6D;
-} S_80171138_1;   /* arg3 in dungeonUpdateBankActorState */
+} S_80171138_1;   /* arg3 in update_bank_actor_state */
 
 typedef struct S_80171138_2 {
     u8 pad_00[0x24];
@@ -43,25 +43,25 @@ typedef struct S_80171138_2 {
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
-} S_80171138_2;   /* arg2 in dungeonUpdateBankActorState */
+} S_80171138_2;   /* arg2 in update_bank_actor_state */
 
 
-extern s8 func_8009FB34(u8, u8);
-extern s32 func_800A1C58(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern void dungeonProcessSelectedActorRecord(void *, void *, void *, void *);
-extern void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
+extern s8 find_active_rect_containing_point(u8, u8);
+extern s32 can_entity_gain_level(void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
+extern void process_selected_actor_record(void *, void *, void *, void *);
+extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 extern u8 D_80174ADC[];
 extern u8 D_80174AEC[];
 extern u8 D_80174AF4[];
 extern u8 D_80174AFC[];
 
 /* Updates actor behavior, animation, and facing from its status and dungeon state. */
-void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_in, void *stats_in)
+void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, void *stats_in)
 {
     void *actor;
     void *context;
@@ -71,7 +71,7 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
     s32 status_flags;
     s8 tile_index;
     u16 action_state;
-    u32 dungeon_flags = dungeonStatus.flags;
+    u32 dungeon_flags = g_dungeon_status.flags;
 
     actor = actor_in;
     context = context_in;
@@ -80,18 +80,18 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
 
     if (dungeon_flags & 0x1000) {
         ((S_80171138_0 *)actor)->unk_9A = 0xE;
-        dungeonAdvanceBankActorPath(actor_in, context_in);
+        advance_bank_actor_path(actor_in, context_in);
         return;
     }
 
     if (((S_80171138_1 *)stats)->unk_25 == 0) {
-        dungeonAdvanceActorPendingAction(actor, context, sprite, stats);
+        advance_actor_pending_action(actor, context, sprite, stats);
         if (((S_80171138_2 *)sprite)->unk_2C == D_80174AFC) {
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
         func_80047784(sprite,
-            D_80174AF4[((gameWork.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+            D_80174AF4[((g_game_work.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -104,14 +104,14 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
             ((S_80171138_1 *)stats)->unk_1C &= ~0x40000;
             return;
         }
-        if (dungeonResetActorActionState(actor, context, sprite, D_80174AF4) != 0) {
+        if (reset_actor_action_state(actor, context, sprite, D_80174AF4) != 0) {
             return;
         }
     }
 
-    if (!(dungeonStatus.flags & 0x2000)) {
+    if (!(g_dungeon_status.flags & 0x2000)) {
         if (((S_80171138_1 *)stats)->unk_1C & 0x100) {
-            dungeonBeginPushedActorMove(actor, context, sprite, stats);
+            begin_pushed_actor_move(actor, context, sprite, stats);
             return;
         }
 
@@ -123,7 +123,7 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
             ((S_80171138_0 *)actor)->unk_A0 = 0;
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AD4;
             func_80047784(sprite,
-                D_80174AD4[((gameWork.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
+                D_80174AD4[((g_game_work.view.viewAngle + ((S_80171138_1 *)stats)->unk_2A + 0x100) >> 9) & 7],
                 ((S_80171138_0 *)actor)->unk_A0);
         }
 
@@ -131,41 +131,41 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
         ((S_80171138_0 *)actor)->unk_98 &= 0xFFF7;
 
         if (((S_80171138_1 *)stats)->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, D_80174ADC) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, D_80174ADC) != 0) {
                 return;
             }
         }
 
         if (((S_80171138_1 *)stats)->unk_1C & 0x80000) {
-            func_800AA888(actor, context, sprite, stats);
+            begin_actor_move_to_target_facing(actor, context, sprite, stats);
             ((S_80171138_0 *)actor)->unk_A0 = 0;
-            dungeonUpdateBankActorSpriteState(actor, context, sprite, stats);
+            update_bank_actor_sprite_state(actor, context, sprite, stats);
             return;
         }
 
-        if ((func_800A1C58(stats) << 16) != 0) {
-            dungeonProcessSelectedActorRecord(actor, context, sprite, stats);
+        if ((can_entity_gain_level(stats) << 16) != 0) {
+            process_selected_actor_record(actor, context, sprite, stats);
         }
     }
 
-    tile_index = func_8009FB34(((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v);
+    tile_index = find_active_rect_containing_point(((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v);
     ((S_80171138_2 *)sprite)->unk_26 = tile_index;
 
     if (((S_80171138_1 *)stats)->unk_6D > 0) {
         if (((S_80171138_1 *)stats)->unk_1C & 0x20) {
-            func_800A9A0C(stats);
+            update_actor_status_and_food(stats);
             return;
         }
         if (!(((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
             action_state = ((S_80171138_1 *)stats)->unk_46;
             if (!(action_state & 0x8000)) {
-                if (dungeonStatus.flags & 0x2000) {
-                    if ((dungeonCheckEntityRelation(stats,
+                if (g_dungeon_status.flags & 0x2000) {
+                    if ((check_entity_relation(stats,
                             (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                         return;
                     }
                 }
-                if ((func_80172258(actor, context, sprite, 0) << 16) == 0) {
+                if ((complete_actor_jump_to_destination(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
                 action_state = ((S_80171138_1 *)stats)->unk_46 | 0x4000;
@@ -175,18 +175,18 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
             if (action_state & 0x8000) {
                 switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
                 case 9:
-                    dungeonStartBankActorHitReaction(actor, context, sprite, stats);
+                    start_bank_actor_hit_reaction(actor, context, sprite, stats);
                     return;
 
                 case 8:
-                    if ((dungeonBeginBankDirectionalEffect(actor, context, sprite, stats) << 16) != 0) {
+                    if ((begin_bank_directional_effect(actor, context, sprite, stats) << 16) != 0) {
                         return;
                     }
-                    dungeonInitializeBankActorAction(actor, context, sprite, stats);
+                    initialize_bank_actor_action(actor, context, sprite, stats);
                     return;
 
                 case 12:
-                    func_800A9A0C(stats);
+                    update_actor_status_and_food(stats);
                     return;
 
                 case 5:
@@ -196,14 +196,14 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
                     EntityRec *player;
                     s16 facing_angle;
 
-                    facing_angle = (s16)dungeonGetRoundedFacingAndRoundingFlag(
+                    facing_angle = (s16)get_rounded_facing_and_rounding_flag(
                         ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &angle_aux);
                     player = D_800814A8;
                     ((S_80171138_1 *)stats)->unk_2A = facing_angle;
                     if (player->unk_9A != 0x11) {
-                        func_800A9A0C(stats);
+                        update_actor_status_and_food(stats);
                         return;
                     }
                 }
@@ -211,7 +211,7 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
                 case 1:
                 case 2:
                 case 3:
-                    dungeonBeginActorSpellAction(actor, context, sprite, D_80174AEC, dungeonUpdateBankActorState);
+                    begin_actor_spell_action(actor, context, sprite, D_80174AEC, update_bank_actor_state);
                     return;
 
                 case 4:
@@ -222,7 +222,7 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
                 }
             }
         }
-        dungeonSelectBankActorMovement(actor, context, sprite, stats);
+        select_bank_actor_movement(actor, context, sprite, stats);
         return;
     }
 
@@ -241,10 +241,10 @@ void dungeonUpdateBankActorState(void *actor_in, void *context_in, void *sprite_
 
     {
 
-        if ((dungeonCompareMonsterNeighborValues(
+        if ((compare_monster_neighbor_values(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-            ((S_80171138_1 *)stats)->unk_2A = (s16)dungeonGetRoundedFacingAndRoundingFlag(
+            ((S_80171138_1 *)stats)->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
                 ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &angle_aux);
         }

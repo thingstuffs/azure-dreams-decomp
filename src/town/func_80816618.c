@@ -9,26 +9,26 @@ typedef struct S_80020618_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_80020618_0;   /* arg0 in townTickSceneValueText */
+} S_80020618_0;   /* arg0 in tick_scene_value_text */
 
 typedef struct S_80020618_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80020618_1;   /* owner in townTickSceneValueText */
+} S_80020618_1;   /* owner in tick_scene_value_text */
 
 
-extern void formatDecimalFieldSpacePadded();
+extern void format_decimal_field_space_padded();
 extern s32 strlen();
 
 /* Displays a timed message and signals completion when its owner is ready. */
-void townTickSceneValueText(void *message)
+void tick_scene_value_text(void *message)
 {
     s16 state;
     u16 timer;
     void *owner;
 
     owner = ((S_80020618_0 *)message)->unk_0C;
-    formatDecimalFieldSpacePadded(
+    format_decimal_field_space_padded(
         *((S_80020618_0 *)message)->unk_08,
         strlen(((S_80020618_0 *)message)->unk_04),
         ((S_80020618_0 *)message)->unk_04);
@@ -47,7 +47,7 @@ void townTickSceneValueText(void *message)
     case 1:
         if (((S_80020618_1 *)owner)->unk_2A & 1) {
             (*(u16 *)((u8 *)message + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

@@ -17,7 +17,7 @@ typedef struct Func80035AF8State {
 } Func80035AF8State;
 
 extern void func_80035BE0(void *state);
-extern void growWindowExtentToSixtyFour(void *state, void *progress);
+extern void grow_window_extent_to_sixty_four(void *state, void *progress);
 extern s32 func_80035DBC(s32 entry_index);
 extern void func_8003AC1C(s16 x, s16 y, s32 spacing_index, s32 glyph_codes);
 extern void func_8003AE60(s16 x, s16 y, s16 w, s16 h, u8 r, u8 g, u8 b);
@@ -50,5 +50,5 @@ void func_80035AF8(Func80035AF8State *state) {
             return;
         }
     }
-    state->callback = growWindowExtentToSixtyFour;
+    state->callback = grow_window_extent_to_sixty_four;
 }

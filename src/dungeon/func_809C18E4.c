@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_809A38E4; every changed retail word is a paired relocation. */
-#define dungeonEmitConcentricEllipseQuads func_801570E4
+#define emit_concentric_ellipse_quads func_801570E4
 #include "modules/dungeon_ovl_9c32d4.h"
 extern void  func_8006658C(void *,void *);
 extern s32 func_800644B8(s32);
@@ -48,7 +48,7 @@ void func_801570E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     vertex_data = (u8 *)((s16)start_segment);
     angle = (s32)vertex_data << 7;
     radii.inner_x = radius_a_x;
-    graphics_ptr = &gameWork.unk_000;
+    graphics_ptr = &g_game_work.unk_000;
     graphics = *graphics_ptr;
     graphics = (ovl_9c32d4_809A38E4_GraphicsState *)((u8 *)graphics + 0x8D0);
     prim = *(u8 **)graphics;

@@ -9,7 +9,7 @@ typedef struct S_800C1F8C_0 {
     s16 unk_0C;
     s16 unk_0E;
     u16 unk_10;
-} S_800C1F8C_0;   /* arg0 in townTriggerActionWhenPositionLimitExceeded */
+} S_800C1F8C_0;   /* arg0 in trigger_action_when_position_limit_exceeded */
 
 
 typedef struct Position {
@@ -25,7 +25,7 @@ extern u8 D_800C1EA4[];
 
 
 /* Trigger an action and update the object state when either position limit is exceeded. */
-void townTriggerActionWhenPositionLimitExceeded(S_800C1F8C_0 *object)
+void trigger_action_when_position_limit_exceeded(S_800C1F8C_0 *object)
 {
     s32 x_offset;
     s32 y_offset;

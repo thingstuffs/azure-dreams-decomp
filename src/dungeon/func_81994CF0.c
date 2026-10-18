@@ -5,7 +5,7 @@
 extern s16 D_80025384;
 
 /* Fade the primitive and flag the effect when its countdown expires. */
-void dungeonFadeThePrimitiveFlagEffectCountdownExpires(void *effect, void *unused, u8 *primitive) {
+void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2A);
 
     D_80025384 = 1;
@@ -28,6 +28,6 @@ void dungeonFadeThePrimitiveFlagEffectCountdownExpires(void *effect, void *unuse
 
     if (*(s16 *)((u8 *)effect + 0x2A) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -25,6 +25,6 @@ typedef struct DungeonGlobalStatus {
     /* 0x1E */ unsigned short unk_1E;   /* lhu 15, sh 2 */
 } DungeonGlobalStatus;
 
-extern DungeonGlobalStatus dungeonStatus;
+extern DungeonGlobalStatus g_dungeon_status;
 
 #endif

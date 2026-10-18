@@ -20,20 +20,20 @@ typedef struct S_80084904 {
 
 extern S_80084904 D_80084904;
 
-extern void submitTaggedDriverByte(u8 a0, u8 a1, u8 a2);
+extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 extern s32 Control_CD(s32 a0, void *a1, void *a2);
-extern s32 soundGetCdSectorPosition(void);
+extern s32 sound_get_cd_sector_position(void);
 extern int func_80054AF0(int mode);
 extern void func_80054C58(void);
-extern void soundBeginCdPlaybackSetup(void);
+extern void sound_begin_cd_playback_setup(void);
 
 /* Handles byte opcodes to arm, commit, or cancel a countdown. */
-void audioHandleStreamControlEvent(s32 event) {
+void audio_handle_stream_control_event(s32 event) {
     s32 opcode = event & 0xFF;
 
     switch (opcode) {
     case 0x74:
-        submitTaggedDriverByte(0, 0, 0);
+        submit_tagged_driver_byte(0, 0, 0);
         Control_CD(9, 0, 0);
         D_800847D0.flags00 &= ~0x400;
         if (D_800847D0.unk_18 == 0) {
@@ -54,7 +54,7 @@ void audioHandleStreamControlEvent(s32 event) {
             return;
         }
         if (D_800847D0.flags00 & 0x400) {
-            u32 cd_position = (u32)soundGetCdSectorPosition();
+            u32 cd_position = (u32)sound_get_cd_sector_position();
             D_800847D0.unk_18 = cd_position;
             if (D_800847D0.unk_08 >= cd_position) {
                 D_800847D0.unk_18 = D_800847D0.unk_08;
@@ -79,5 +79,5 @@ void audioHandleStreamControlEvent(s32 event) {
         return;
     }
     func_80054C58();
-    soundBeginCdPlaybackSetup();
+    sound_begin_cd_playback_setup();
 }

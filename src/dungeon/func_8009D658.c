@@ -7,8 +7,8 @@
 #endif
 
 
-extern void accumulateExperienceAward(u8 *record, u16 amount);
-extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void accumulate_experience_award(u8 *record, u16 amount);
+extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 
 typedef struct S_800A2DB8_0 {
@@ -20,46 +20,46 @@ typedef struct S_800A2DB8_0 {
     s32 unk_54;
     u8 pad_58[0x8];
     void * unk_60;
-} S_800A2DB8_0;   /* arg0 in distributeExperienceAwards */
+} S_800A2DB8_0;   /* arg0 in distribute_experience_awards */
 
 typedef struct S_800A2DB8_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     u8 pad_14[0x40];
     s32 unk_54;
-} S_800A2DB8_1;   /* initial_target in distributeExperienceAwards */
+} S_800A2DB8_1;   /* initial_target in distribute_experience_awards */
 
 typedef struct S_800A2DB8_2 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800A2DB8_2;   /* slot in distributeExperienceAwards */
+} S_800A2DB8_2;   /* slot in distribute_experience_awards */
 
 typedef struct S_800A2DB8_3 {
     u8 pad_00[0x11];
     u8 unk_11;
     u8 pad_12[0x16];
     u8 unk_28;
-} S_800A2DB8_3;   /* member in distributeExperienceAwards */
+} S_800A2DB8_3;   /* member in distribute_experience_awards */
 
 typedef struct S_800A2DB8_5 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800A2DB8_5;   /* (u8 *)D_800E3D7C[0] + index * 4 in distributeExperienceAwards */
+} S_800A2DB8_5;   /* (u8 *)D_800E3D7C[0] + index * 4 in distribute_experience_awards */
 
 typedef struct S_800A2DB8_6 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800A2DB8_6;   /* global_page in distributeExperienceAwards */
+} S_800A2DB8_6;   /* global_page in distribute_experience_awards */
 
 typedef struct S_800A2DB8_7 {
     u8 pad_00[0x11];
     u8 unk_11;
     u8 pad_12[0x16];
     u8 unk_28;
-} S_800A2DB8_7;   /* global_member in distributeExperienceAwards */
+} S_800A2DB8_7;   /* global_member in distribute_experience_awards */
 
 /* Award experience to the target or its party and display experience popups. */
-s32 distributeExperienceAwards(S_800A2DB8_0 *source)
+s32 distribute_experience_awards(S_800A2DB8_0 *source)
 {
     void *initial_target;
     EntityRec *target;
@@ -121,8 +121,8 @@ s32 distributeExperienceAwards(S_800A2DB8_0 *source)
                         bonus_shift = (level_delta < 2) ^ 1;
                         award = experience + (experience >> bonus_shift);
                     }
-                    createActorValuePopup(0x82, member, (s16)award, 1);
-                    accumulateExperienceAward(member, award & 0xFFFF);
+                    create_actor_value_popup(0x82, member, (s16)award, 1);
+                    accumulate_experience_award(member, award & 0xFFFF);
                 }
                 member_index--;
             } while (member_index >= 0);
@@ -138,19 +138,19 @@ s32 distributeExperienceAwards(S_800A2DB8_0 *source)
                 bonus_shift = (level_delta < 2) ^ 1;
                 award = experience + (experience >> bonus_shift);
             }
-            accumulateExperienceAward(global_member, award & 0xFFFF);
-            createActorValuePopup(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
+            accumulate_experience_award(global_member, award & 0xFFFF);
+            create_actor_value_popup(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
             return award;
         }
 
         experience = source->unk_06.u;
-        accumulateExperienceAward(target, experience);
+        accumulate_experience_award(target, experience);
         final_target = source->unk_60;
         popup_code = 0x83;
         if (final_target->flags14 & 0x2000) {
             popup_code = 0x82;
         }
-        createActorValuePopup(popup_code, final_target, source->unk_06.s, 1);
+        create_actor_value_popup(popup_code, final_target, source->unk_06.s, 1);
     }
     return experience;
 }

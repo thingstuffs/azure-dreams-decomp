@@ -3,8 +3,8 @@
 /* Runs the state update and registers the next callback when the current slot becomes inactive. */
 void func_80041B98(void)
 {
-    renderSceneFrameWithTiming();
+    render_scene_frame_with_timing();
     if (D_80083120[D_800814E8].type == 0) {
-        setScenePhaseCallback((int)func_80041BE4);
+        set_scene_phase_callback((int)func_80041BE4);
     }
 }

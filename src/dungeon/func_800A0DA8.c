@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_800997FC();                   /* extern */
+void display_formatted_context_message();                   /* extern */
 extern M2C_UNK D_800E092B;
 
-/* Passes D_800E092B to func_800997FC by address. */
-void func_800A6508(void) {
-    func_800997FC(&D_800E092B);
+/* Passes D_800E092B to display_formatted_context_message by address. */
+void display_fixed_item_action_message(void) {
+    display_formatted_context_message(&D_800E092B);
 }

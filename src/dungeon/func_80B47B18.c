@@ -1,10 +1,10 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonFadeEffectToNeutral(void *entity_data, void *unused, void *source_data)
+void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
     u8 *source = source_data;
-    GameWork *colors = &gameWork;
+    GameWork *colors = &g_game_work;
     u16 elapsed_ticks;
     u16 fade_ticks;
 
@@ -33,7 +33,7 @@ void dungeonFadeEffectToNeutral(void *entity_data, void *unused, void *source_da
         *(u16 *)(entity + 0x96) = fade_ticks;
         if ((fade_ticks << 16) <= 0) {
             *(u16 *)(entity - 2) |= 0x8000;
-            *(s32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
+            *(s32 *)((u8 *)(&object_flag_block)) |= 0x8000;
         }
     }
 }

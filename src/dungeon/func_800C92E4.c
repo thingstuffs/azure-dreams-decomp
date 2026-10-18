@@ -29,23 +29,23 @@ extern u8 D_800E1C3A;
 extern s8 D_800E2968;
 
 
-extern s32 hasEnoughAvailableRuntimeNodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32);
 extern void func_800419EC();
 extern void func_80042640(void *, s32);
 extern void func_8004437C(s32, s32);
 extern void SD_Call(s32);
-extern void func_800997FC();
-extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void retainSpawnResource(s16 entry_type, s16 entry_key);
-extern s32 func_800A1618(s32, s32);
-extern void raiseEntityLevel(void *, s32);
-extern s32 func_800A56E0();
-extern s32 func_800A6D30(void);
-extern s32 randomDungeonRange16(s32, s32);
+extern void display_formatted_context_message();
+extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
+extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
+extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern void raise_entity_level(void *, s32);
+extern s32 play_sound_if_enabled();
+extern s32 generate_random_value(void);
+extern s32 random_dungeon_range_16(s32, s32);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
-void advanceMonsterDenSequence(void *den_event) {
+void advance_monster_den_sequence(void *den_event) {
     u16 flags;
     s16 area_index;
     s16 state;
@@ -77,24 +77,24 @@ void advanceMonsterDenSequence(void *den_event) {
             count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
             if (count >= 0) {
                 do {
-                    if (hasEnoughAvailableRuntimeNodes(3) == 0) {
+                    if (has_enough_available_runtime_nodes(3) == 0) {
                         ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
                         return;
                     }
 
-                    entry_y = func_800A6D30();
-                    monster_entry = dungeonStatus.unk_18 + (entry_y & 0x1E);
+                    entry_y = generate_random_value();
+                    monster_entry = g_dungeon_status.unk_18 + (entry_y & 0x1E);
                     monster_type = monster_entry[0];
                     monster_level = monster_entry[1];
-                    spawn_availability = func_800A1618(monster_type, 1);
+                    spawn_availability = find_or_retain_sprite_resource_slot(monster_type, 1);
                     if (spawn_availability != 0) {
                         s32 area_calc;
                         retries_left = 0xF;
                         areas = (AreaRecord *)D_800E2970;
                         area = (u8 *)&areas[area_index];
                         do {
-                            spawn_x = randomDungeonRange16(0, (u16)(((AreaRecord *)area)->width - 1));
-                            y = randomDungeonRange16(0, (u16)(((AreaRecord *)area)->height - 1));
+                            spawn_x = random_dungeon_range_16(0, (u16)(((AreaRecord *)area)->width - 1));
+                            y = random_dungeon_range_16(0, (u16)(((AreaRecord *)area)->height - 1));
                             area_x = area[0];
                             entry_y = area[2];
                             spawn_x += area_x;
@@ -103,7 +103,7 @@ void advanceMonsterDenSequence(void *den_event) {
                             entry_y = spawn_x;
                             entry_y &= 0xFF;
                             entry_y--;
-                            if (!(((s16)getOffsetMapCellValueAndFlags(entry_y, (u8)y, 0,
+                            if (!(((s16)get_offset_map_cell_value_and_flags(entry_y, (u8)y, 0,
                                                       &flags) == 0) ||
                                   ((flags & 0xB700) != 0))) {
                                 break;
@@ -116,12 +116,12 @@ void advanceMonsterDenSequence(void *den_event) {
 
                             D_800E2968 = 1;
                             spawn_type = monster_type;
-                            monster = func_800A0B94(spawn_type, spawn_availability, 1)
+                            monster = load_monster_resource_data(spawn_type, spawn_availability, 1)
                             (0, (u8)spawn_x, (u8)y, -0x400);
                             if (monster != 0) {
-                                retainSpawnResource(spawn_type, 1);
+                                retain_spawn_resource(spawn_type, 1);
                                 func_80042640(monster, spawn_type);
-                                ((u8 *)monster)[0x43] = func_800A6D30();
+                                ((u8 *)monster)[0x43] = generate_random_value();
                                 ((u8 *)monster)[0x12] = 0;
 
                                 {
@@ -135,7 +135,7 @@ void advanceMonsterDenSequence(void *den_event) {
                                     if (entry_y == 0) {
                                         level_thresholds = (u32 *)area_calc;
                                         do {
-                                            raiseEntityLevel(monster, 0);
+                                            raise_entity_level(monster, 0);
                                         } while (level_thresholds[((u8 *)monster)[0x11]] <=
                                                  *(u32 *)((u8 *)monster + 0x18));
                                     }
@@ -163,9 +163,9 @@ void advanceMonsterDenSequence(void *den_event) {
         if ((s16)delay_timer >= 0) {
             return;
         }
-        func_800997FC(&D_800E1C3A);
+        display_formatted_context_message(&D_800E1C3A);
         func_800419EC(0xC, 0x18);
-        func_800A56E0(0x602);
+        play_sound_if_enabled(0x602);
         next_state = *(u16 *)(den_event + 6);
         tail_value = 0x10;
         *(u16 *)(den_event + 4) = tail_value;
@@ -180,10 +180,10 @@ void advanceMonsterDenSequence(void *den_event) {
             *(s32 *)((u8 *)D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
             {
 
-                dungeonStatus.unk_0A -= 1;
+                g_dungeon_status.unk_0A -= 1;
             }
             *(u16 *)(den_event - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

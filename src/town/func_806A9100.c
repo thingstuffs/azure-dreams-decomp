@@ -1,6 +1,6 @@
 #include "modules/town_ovl_629100.h"
 
-void townInvokeCallbackAndSetSharedPointer(void) {
+void invoke_callback_and_set_shared_pointer(void) {
     Callback firstCallback;
 
     firstCallback = ((Callback)D_80016000->unk_20->callback_28C);

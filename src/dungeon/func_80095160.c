@@ -13,10 +13,10 @@ typedef struct {
 
 extern s16 D_800DCEAC[];
 extern s16 D_800DCEBC[];
-s16 func_8009FB34(u16, u16);
+s16 find_active_rect_containing_point(u16, u16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
-s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
+s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
     StackU16 collision;
     s16 monster_index;
     /* The actor is finished before the floor-height samples begin. */
@@ -51,18 +51,18 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
     direction_bits = (move_flags >> 9) & 7;
     direction_arg = direction_bits;
     direction = (s16)direction_bits;
-    x_steps = (u8 *)dirStepX;
+    x_steps = (u8 *)dir_step_x;
     step_offset = direction * 2;
     x_step = (u16 *)((s32)step_offset + (s32)x_steps);
     coord_or_height = actor_or_height->x;
     offset_work = *x_step;
     direction_or_x = direction_arg;
     target_x = coord_or_height + offset_work;
-    map_limits = &gameWork.map;
+    map_limits = &g_game_work.map;
     next_x = target_x & 0xFFFF;
     if (next_x != 0) {
         if (((1 << map_limits->shiftX) - 1) >= next_x) {
-            y_step = (u16 *)((u8 *)dirStepY + step_offset);
+            y_step = (u16 *)((u8 *)dir_step_y + step_offset);
             coord_or_height = actor_or_height->y;
             offset_work = *y_step;
             coord_work = coord_or_height + offset_work;
@@ -92,7 +92,7 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
                             target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
-                        getOffsetMapCellValueAndFlags(actor_or_height->x, actor_or_height->y,
+                        get_offset_map_cell_value_and_flags(actor_or_height->x, actor_or_height->y,
                                      y_or_direction, (u16 *)collision_out);
                         if ((collision.value & 0x8002) != 0) {
                             result = 0;
@@ -103,7 +103,7 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
                         return 0;
                     }
                     if (!((actor_or_height->flag >= 0) ||
-                        (monster_index = func_8009FB34((actor_or_height->x + *x_step) & 0xFFFF,
+                        (monster_index = find_active_rect_containing_point((actor_or_height->x + *x_step) & 0xFFFF,
                                                        (actor_or_height->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
                         !(D_800E2970[monster_index].flags & 2) ||
@@ -117,7 +117,7 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
                                 u16 sample_x;
                                 sample_x = target_x;
                                 target_y_u16 = coord_work & 0xFFFF;
-                                actor_or_height = (FuncArg1 *)(func_800BCB04(
+                                actor_or_height = (FuncArg1 *)(sample_terrain_surface_height(
                                     sample_x, target_y_u16, (s16)(height - height_offset)));
                             }
                             tile_coord = target_x >> 6;
@@ -127,7 +127,7 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
                                 target_height = (s16)body->height;
                             }
                             /* Target X is dead after the tile argument is formed. */
-                            target_x = findEligibleActorAtTileAndHeight(body, tile_coord, y_or_direction, target_height);
+                            target_x = find_eligible_actor_at_tile_and_height(body, tile_coord, y_or_direction, target_height);
                             if (target_x != 0) {
                                 return -1;
                             }
@@ -135,7 +135,7 @@ s32 dungeonCheckDirectionalMoveAndTerrain(u32 move_flags, FuncArg1 *actor, FuncA
                             return -1;
                         }
                     } else {
-                        actor_or_height = (FuncArg1 *)(func_800BCB04(
+                        actor_or_height = (FuncArg1 *)(sample_terrain_surface_height(
                             target_x & 0xFFFF, coord_work & 0xFFFF, (s16)(height - height_offset)));
                     }
                 } else {

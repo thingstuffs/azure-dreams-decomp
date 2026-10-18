@@ -15,9 +15,9 @@ typedef struct TownState {
     u8 *entries;
 } TownState;
 
-extern void func_800169F8(void *);
+extern void decrement_current_entry_counter_condition(void *);
 extern void func_80017B3C(void *, s32);
-extern s32 townInvokeSystemCallback21C(void *, s32, s32);
+extern s32 invoke_system_callback_21_c(void *, s32, s32);
 extern void func_80018044(void *, s32 *, s32, s32);
 extern s32 func_8001894C(s32);
 
@@ -26,7 +26,7 @@ extern s32 D_80018B40;
 extern s32 D_80018E38;
 
 /* Refresh the active entry value and apply its corresponding table record. */
-void townRefreshSceneActiveEntry(s32 update_arg, s32 unused, s32 entry_arg)
+void refresh_scene_active_entry(s32 update_arg, s32 unused, s32 entry_arg)
 {
     TownState *dispatch_state;
     TownState *update_state;
@@ -38,7 +38,7 @@ void townRefreshSceneActiveEntry(s32 update_arg, s32 unused, s32 entry_arg)
 
     func_80017B3C(value_table, update_arg);
     if (func_8001894C(D_80018AEA) == 0) {
-        if (townInvokeSystemCallback21C(value_table, update_arg, entry_arg) == 0) {
+        if (invoke_system_callback_21_c(value_table, update_arg, entry_arg) == 0) {
             dispatch_state = *(TownState **)((s8 *)(&D_80016000));
             value_index = dispatch_state->dispatch->get_value(3);
             update_state = *(TownState **)((s8 *)(&D_80016000));
@@ -47,7 +47,7 @@ void townRefreshSceneActiveEntry(s32 update_arg, s32 unused, s32 entry_arg)
             do {
                 entries[(entry_index * 8) + 1] = value_index;
             } while (0);
-            func_800169F8(entries);
+            decrement_current_entry_counter_condition(entries);
         }
     }
     final_state = *(TownState **)((s8 *)(&D_80016000));

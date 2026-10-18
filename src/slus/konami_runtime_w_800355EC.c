@@ -6,10 +6,10 @@
 typedef struct S_800355EC_0 {
     u8 pad_00[0x68];
     M2C_UNK (*unk_68)();
-} S_800355EC_0;   /* arg0 in invokeWindowObjectCallback */
+} S_800355EC_0;   /* arg0 in invoke_window_object_callback */
 
 
 /* Invokes the object's callback. */
-void invokeWindowObjectCallback(S_800355EC_0 *object) {
+void invoke_window_object_callback(S_800355EC_0 *object) {
     object->unk_68();
 }

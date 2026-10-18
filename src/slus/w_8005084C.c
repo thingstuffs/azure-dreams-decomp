@@ -39,7 +39,7 @@ typedef struct {
 
 extern S_8002E5D8 D_8002E5D8;
 extern S_8002E5E8 D_8002E5E8;
-extern void slusSetColorComponentsAndScaledFields(S_8005084C_Outer *, s32, s32);
+extern void set_color_components_and_scaled_fields(S_8005084C_Outer *, s32, s32);
 
 /* Initialize the object and its two data blocks from defaults, then apply starting settings. */
 void func_8005084C(void *unused, S_8005084C_Outer *object,
@@ -65,5 +65,5 @@ void func_8005084C(void *unused, S_8005084C_Outer *object,
     object->unk4->unk8 = -0x6C;
     object->unk4->unkA = -0x10;
     object->unk4->unkF = 4;
-    slusSetColorComponentsAndScaledFields(object, 0, 1);
+    set_color_components_and_scaled_fields(object, 0, 1);
 }

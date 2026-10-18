@@ -365,7 +365,7 @@ src/dungeon/func_80C24C5C.c	define,relink
 src/dungeon/func_80C2AC5C.c	define,relink
 src/dungeon/func_80C30C5C.c	define,relink
 src/dungeon/func_80C36C5C.c	define,relink
-src/dungeon/func_80C3CC5C.c	define,relink
+src/dungeon/func_80C3CC5C.c	relink
 src/dungeon/func_80C45E38.c	relink
 src/dungeon/func_80C4886C.c	define,relink
 src/dungeon/func_80C489A0.c	define,relink
@@ -580,7 +580,7 @@ src/dungeon/func_80E08CE8.c	define,relink
 src/dungeon/func_80E09258.c	define,relink
 src/dungeon/func_80E0A1E8.c	relink
 src/dungeon/func_80E0A884.c	define,relink
-src/dungeon/func_80E10F2C.c	define,relink
+src/dungeon/func_80E10F2C.c	relink
 src/dungeon/func_80E14F2C.c	relink
 src/dungeon/func_80E15498.c	define,relink
 src/dungeon/func_80E16F2C.c	define,relink
@@ -859,7 +859,7 @@ src/dungeon/func_80FE8C0C.c	define,relink
 src/dungeon/func_80FEA7F8.c	define,relink
 src/dungeon/func_80FEDE7C.c	relink
 src/dungeon/func_80FEEC0C.c	define,relink
-src/dungeon/func_80FF07F8.c	define,relink
+src/dungeon/func_80FF07F8.c	relink
 src/dungeon/func_80FF3E7C.c	relink
 src/dungeon/func_80FF4C0C.c	define,relink
 src/dungeon/func_80FF67F8.c	define,relink
@@ -908,7 +908,7 @@ src/dungeon/func_810552D8.c	define,relink
 src/dungeon/func_81056CDC.c	define,relink
 src/dungeon/func_81056EEC.c	define,relink
 src/dungeon/func_81057FE0.c	define,relink
-src/dungeon/func_8105C778.c	define,relink
+src/dungeon/func_8105C778.c	relink
 src/dungeon/func_81062778.c	define,relink
 src/dungeon/func_81068778.c	define,relink
 src/dungeon/func_8106CC04.c	define,relink
@@ -1274,7 +1274,7 @@ src/dungeon/func_812CB8A8.c	define,relink
 src/dungeon/func_812CBC08.c	define,relink
 src/dungeon/func_812CC130.c	define,relink
 src/dungeon/func_812CE164.c	define,relink
-src/dungeon/func_812CE3F8.c	define,relink
+src/dungeon/func_812CE3F8.c	relink
 src/dungeon/func_813250A4.c	relink
 src/dungeon/func_8132648C.c	define,relink
 src/dungeon/func_81326A64.c	define,relink

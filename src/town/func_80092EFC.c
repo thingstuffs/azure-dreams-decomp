@@ -1,14 +1,14 @@
 #include "modules/town_player_init.h"
 
-void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
-    GameWork *work = &gameWork;
+void process_scene_record_update(void *context, void *input, void *record) {
+    GameWork *work = &g_game_work;
     void *callback;
     s32 initial_flags;
     s32 flags;
     s32 movement;
     s32 index;
 
-    townClearMotionAlongBlockedDirectionsUpdateAffectedAxes(input);
+    clear_motion_along_blocked_directions_update_affected_axes(input);
 
     if (D_80100DB0[0] == 0) {
         if (((u16)work->view.viewAngle) >= 0x800) {
@@ -16,13 +16,13 @@ void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
         }
 
         callback = *(void **)context;
-                /* garbage-passthru: a1/a2/a3 are caller-saved residue after townClearMotionAlongBlockedDirectionsUpdateAffectedAxes. */
+                /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
         if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
             func_800352FC() != 0) {
             if (D_8006ADD4[0] == 12) {
                 func_800909A0();
             } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
-                townClearRecordStateOrUpdate(input);
+                clear_record_state_or_update(input);
             }
         } else if (D_8006ADD4[0] == 12) {
             initial_flags = work->buttons;
@@ -40,9 +40,9 @@ void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
                 func_800909A0();
             }
         } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
-            townClearRecordStateOrUpdate(input);
+            clear_record_state_or_update(input);
         } else {
-            movement = runtimeEstimateVectorLength(*(s32 *)((u8 *)input + 0xC),
+            movement = runtime_estimate_vector_length(*(s32 *)((u8 *)input + 0xC),
                                      *(s32 *)((u8 *)input + 0x10));
             if (movement == 0) {
                 work->view.viewAngle =
@@ -63,14 +63,14 @@ void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
     if ((callback == (void *)&D_80091260) ||
         (callback == (void *)&D_80091528)) {
         *(s16 *)((u8 *)context + 0x18) =
-            townStepAngle12Toward(*(s16 *)((u8 *)context + 0x18),
+            step_angle_12_toward(*(s16 *)((u8 *)context + 0x18),
                           *(s16 *)((u8 *)context + 0x10), 0x200);
     } else {
         *(s16 *)((u8 *)context + 0x18) = *(u16 *)((u8 *)context + 0x10);
     }
-    index = townViewRelativeAngleSector(*(s16 *)((u8 *)context + 0x18));
+    index = view_relative_angle_sector(*(s16 *)((u8 *)context + 0x18));
     if (*(s16 *)((u8 *)context + 0x12) != index) {
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(record,
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(record,
                       *(u8 *)(*(u8 **)((u8 *)context + 0x1C) + index),
                       *(s8 *)((u8 *)record + 4), 0);
         *(s16 *)((u8 *)context + 0x12) = index;
@@ -84,13 +84,13 @@ void townProcessSceneRecordUpdate(void *context, void *input, void *record) {
             *(u16 *)((u8 *)record + 0x14) &= 0xFFFE;
         }
     }
-    townDispatchToMatchingFallbackHandlerUsingSentinelTerminatedKeyLists(context, input, record);
+    dispatch_to_matching_fallback_handler_using_sentinel_terminated_key_lists(context, input, record);
     func_80048AC8(record, 0);
 
     {
         u8 *state = D_80100D98;
 
-        townCopyEntityRecordFields(state, input);
+        copy_entity_record_fields(state, input);
         if (D_80100E18[0] == 0) {
             *(s32 *)(state + 8) = 0;
             return;

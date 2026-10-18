@@ -26,17 +26,17 @@ extern u8 D_80082E6B;
 extern s8 D_80080A84;
 extern s8 D_80129728;
 
-extern u8 townIsCatalogEntryAvailable(u8);
+extern u8 is_catalog_entry_available(u8);
 extern void SD_Call(s32);
-extern void func_801237A4(Object *);
-extern void createDeferredResourceTransitionTask(s32, s32, s32, s32);
+extern void select_paired_value_tables(Object *);
+extern void create_deferred_resource_transition_task(s32, s32, s32, s32);
 extern void func_8004B248(void *);
 extern void func_801231DC(void);
 
 /* Handles input to update object selections, action states, and exit behavior. */
-void townHandleCatalogGridInput(Object *object)
+void handle_catalog_grid_input(Object *object)
 {
-    GameWork *input_state = &gameWork;
+    GameWork *input_state = &g_game_work;
     u32 input_flags;
     u32 side_value;
     u8 active_value;
@@ -49,7 +49,7 @@ void townHandleCatalogGridInput(Object *object)
     if (input_flags & 0x40) {
         s32 slot_index;
 
-        if (!townIsCatalogEntryAvailable(object->field_13)) {
+        if (!is_catalog_entry_available(object->field_13)) {
             return;
         }
         SD_Call(0x702);
@@ -66,7 +66,7 @@ void townHandleCatalogGridInput(Object *object)
         alternate_value = *((u8 *)object + slot_index + 0x17);
         if (alternate_value == target_value) {
             object->field_16 = slot_index;
-            func_801237A4(object);
+            select_paired_value_tables(object);
             object->field_A = 6;
             object->field_4 = 1;
             object->field_6 = 0x19;
@@ -74,7 +74,7 @@ void townHandleCatalogGridInput(Object *object)
         }
         if (active_value != 0xFF && alternate_value == 0xFF) {
             object->field_16 = slot_index;
-            func_801237A4(object);
+            select_paired_value_tables(object);
             object->field_A = 5;
             object->field_B = 0;
             return;
@@ -87,7 +87,7 @@ void townHandleCatalogGridInput(Object *object)
     if (input_flags & 0x20) {
         SD_Call(0x700);
         if (D_80082E6B == 0x17) {
-            createDeferredResourceTransitionTask(0, 0, 0, 0);
+            create_deferred_resource_transition_task(0, 0, 0, 0);
             reset_entries = (s32 **)&D_80129728;
             for (entry_index = 0; entry_index < 98; entry_index++) {
                 *reset_entries[entry_index] = 0;
@@ -95,7 +95,7 @@ void townHandleCatalogGridInput(Object *object)
             *(u16 *)((u8 *)object->field_0 + 0x1E) |= 0x2000;
             func_8004B248((u8 *)object + 0x5C);
             *(u16 *)((u8 *)object - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             func_801231DC();
             D_80080A84 = 2;
             return;

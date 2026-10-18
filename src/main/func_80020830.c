@@ -2,7 +2,7 @@
 
 extern void func_8007BEF0(s32 value) __attribute__((noreturn));
 extern void func_8007C040(void *ptr, void *ptr2, s32 value);
-extern void func_80407160(s32 slot_state_addr);
+extern void update_two_slots_using_selection_mapping(s32 slot_state_addr);
 
 extern s32 D_804007A4[];
 extern s32 D_804007CC[];
@@ -17,5 +17,5 @@ void func_80020830(s32 slot_addr, s32 slot_value) {
         func_8007BEF0(1);
     }
     *(s32 *)(slot_addr + 0x44) = slot_value;
-    func_80407160(slot_state_addr);
+    update_two_slots_using_selection_mapping(slot_state_addr);
 }

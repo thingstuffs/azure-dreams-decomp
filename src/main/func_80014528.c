@@ -1,27 +1,27 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void *cardBootCreateSlotSelectionMenu();                /* extern */
-void *cardBootCreateSaveSlotMenu();                    /* extern */
-void cardBootDestroyCardChooser();
+void *card_boot_create_slot_selection_menu();                /* extern */
+void *card_boot_create_save_slot_menu();                    /* extern */
+void card_boot_destroy_card_chooser();
 typedef struct S_80027528_0 {
     s32 unk_00;
     u8 pad_04[0x10];
     s32 unk_14;
-} S_80027528_0;   /* arg0 in cardBootOpenSelectedRequestMenu */
+} S_80027528_0;   /* arg0 in card_boot_open_selected_request_menu */
 
 /* extern */
 
 /* Updates the record using its current mode and stored value. */
-void cardBootOpenSelectedRequestMenu(void *record) {
+void card_boot_open_selected_request_menu(void *record) {
     s32 mode;
 
-    cardBootDestroyCardChooser(record - 0x20);
+    card_boot_destroy_card_chooser(record - 0x20);
     mode = ((S_80027528_0 *)record)->unk_00;
     if (mode == 0) {
-        cardBootCreateSlotSelectionMenu(((S_80027528_0 *)record)->unk_14, 0);
+        card_boot_create_slot_selection_menu(((S_80027528_0 *)record)->unk_14, 0);
         return;
     } else {
-        cardBootCreateSaveSlotMenu(((S_80027528_0 *)record)->unk_14, mode);
+        card_boot_create_save_slot_menu(((S_80027528_0 *)record)->unk_14, mode);
     }
 }

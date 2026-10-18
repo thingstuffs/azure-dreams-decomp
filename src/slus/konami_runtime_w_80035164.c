@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void runtimeSetRecordValueAndBuffer(void *controller, s32 reset_value);
+extern void runtime_set_record_value_and_buffer(void *controller, s32 reset_value);
 extern s32 func_80034FD0(void *controller);
 extern void func_800350D4(void *controller);
 extern void func_80037D9C(void *controller, s32 selector);
@@ -24,5 +24,5 @@ void func_80035164(void *controller, s32 reset_value, s32 requested_selector)
     } else {
         func_80037D9C(controller, (u8)requested_selector);
     }
-    runtimeSetRecordValueAndBuffer(controller, reset_value);
+    runtime_set_record_value_and_buffer(controller, reset_value);
 }

@@ -33,7 +33,7 @@ typedef struct S_8009C390_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8009C390_3;   /* arg1 in townCreateTownEffectObject */
+} S_8009C390_3;   /* arg1 in create_town_effect_object */
 
 typedef struct S_8009C390_4 {
     u8 pad_00[0xC];
@@ -44,7 +44,7 @@ typedef struct S_8009C390_4 {
 } S_8009C390_4;
 
 /* Creates a type 0x116 object with an optional parent and position, and initializes its rendering. */
-void *townCreateTownEffectObject(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {
+void *create_town_effect_object(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value) {
     S_8009C390_1 *state;
     S_8009C390_2 *object_position;
     S_8009C390_4 *render;

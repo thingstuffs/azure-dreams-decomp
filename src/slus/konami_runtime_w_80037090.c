@@ -19,7 +19,7 @@ typedef struct {
 } Func37090Output;
 
 extern s32 func_80037534(Func37090Input *);
-extern void copyTextureDescriptorWithPageOffsets(u8 *, u8 *, u8 *);
+extern void copy_texture_descriptor_with_page_offsets(u8 *, u8 *, u8 *);
 
 extern u32 D_8006A958[3];
 extern u32 D_8006A964[3];
@@ -37,9 +37,9 @@ void func_80037090(Func37090Input *state, void *context, Func37090Output *output
         return;
     }
 
-    copyTextureDescriptorWithPageOffsets(state->base + 0xC, (u8 *)D_8006A958, D_80082B50);
-    copyTextureDescriptorWithPageOffsets(state->base + 0xC, (u8 *)D_8006A964, D_80082B60);
-    copyTextureDescriptorWithPageOffsets(state->base + 0xC, (u8 *)D_8006A970, D_80082B70);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A958, D_80082B50);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A964, D_80082B60);
+    copy_texture_descriptor_with_page_offsets(state->base + 0xC, (u8 *)D_8006A970, D_80082B70);
 
     {
         u8 *entries = state->base + 0x4C;

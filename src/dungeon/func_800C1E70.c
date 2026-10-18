@@ -1,14 +1,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s16 func_800BCB04(u16, u16, s16);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern u8 D_800DF63C[];
 extern u8 D_800E3D20[];
 extern u16 D_800E58F8[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
-void dungeonUpdateTargetTrackingAndTransition(void *tracker) {
-    GameView *state = &gameWork.view;
+void update_target_tracking_and_transition(void *tracker) {
+    GameView *state = &g_game_work.view;
     s16 frames_left;
     s16 next_frames;
     s16 target_height;
@@ -39,7 +39,7 @@ void dungeonUpdateTargetTrackingAndTransition(void *tracker) {
     *(u16 *)((char *)tracker + 4) = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 2);
     *(u16 *)((char *)tracker + 6) = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 6);
     target_pos = *(u16 **)((char *)tracker + 0xC);
-    target_height = func_800BCB04(target_pos[1], target_pos[3], (s16)(target_pos[5] - 0x20));
+    target_height = sample_terrain_surface_height(target_pos[1], target_pos[3], (s16)(target_pos[5] - 0x20));
     *(s16 *)((char *)tracker + 8) = target_height;
     if (target_height >= 0x201) {
         *(s16 *)((char *)tracker + 8) = *(u16 *)((char *)*(void **)((char *)tracker + 0xC) + 0xA);

@@ -7,10 +7,10 @@
 #include "records/Rec_D_80083460.h"
 
 s32 func_80042900(void *, s32);
-s32 func_800A1C58(void *);
-void raiseEntityLevel(void *, s32);
-void func_800A56E0(s32);
-void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+s32 can_entity_gain_level(void *);
+void raise_entity_level(void *, s32);
+void play_sound_if_enabled(s32);
+void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern s32 D_8007359C;
 extern s8 D_80080A88;
 extern s8 D_80080AA0;
@@ -22,7 +22,7 @@ typedef struct S_800AAB10_0 {
     u8 pad_04[0x6];
     s16 unk_0A;
     s32 unk_0C;
-} S_800AAB10_0;   /* state in dungeonProcessSelectedActorRecord */
+} S_800AAB10_0;   /* state in process_selected_actor_record */
 
 
 typedef struct S_800AAB10_2_pre {
@@ -32,19 +32,19 @@ typedef struct S_800AAB10_2_pre {
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 dungeonProcessSelectedActorRecord(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
+s32 process_selected_actor_record(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *record) {
     s32 eligible;
     u8 type_id;
 
     eligible = 0;
     if (D_800E296C & 0x100000) {
-        if (((s32)dungeonStatus.unk_0C) != 0) {
-            if (((s32)dungeonStatus.unk_0C) == record) {
-                if (dungeonStatus.unk_0A == 0) {
-                    if (!(dungeonStatus.flags & 8)) {
-                        dungeonSelectNearbyTargetAndInitializeSlot((void *)(buffer_addr - 0x20), source, 8, 0x300);
-                        raiseEntityLevel(record, 1);
-                        func_800A56E0(0x201);
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) == record) {
+                if (g_dungeon_status.unk_0A == 0) {
+                    if (!(g_dungeon_status.flags & 8)) {
+                        select_nearby_target_and_initialize_slot((void *)(buffer_addr - 0x20), source, 8, 0x300);
+                        raise_entity_level(record, 1);
+                        play_sound_if_enabled(0x201);
                         if (!(D_80013714 & 2)) {
                             D_80080AA0 = 1;
                             D_80080A88 = 0;
@@ -57,10 +57,10 @@ s32 dungeonProcessSelectedActorRecord(s32 buffer_addr, M2C_UNK source, M2C_UNK u
                                 eligible = 1;
                             }
                         }
-                        if ((func_800A1C58(record) << 0x10) != 0) {
+                        if ((can_entity_gain_level(record) << 0x10) != 0) {
                             return 0;
                         }
-                        ((Rec_D_80083460 *)(&dungeonStatus.unk_00))->unk_0C = 0;
+                        ((Rec_D_80083460 *)(&g_dungeon_status.unk_00))->unk_0C = 0;
                     } else {
                         return 0;
                     }

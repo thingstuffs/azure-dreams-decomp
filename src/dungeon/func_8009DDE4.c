@@ -9,7 +9,7 @@ typedef struct {
 
 
 /* Return the first of three slots with a matching entry kind, or -1. */
-s16 dungeonFindSlotByDefinitionKind(u8 *slots, u8 kind) {
+s16 find_slot_by_definition_kind(u8 *slots, u8 kind) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 3; slot_index++) {

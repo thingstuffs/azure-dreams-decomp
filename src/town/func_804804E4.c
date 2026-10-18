@@ -5,4 +5,4 @@ typedef struct { u8 pad[0x2D5C]; u32 counter; } Counter;
 typedef struct { u8 pad[0x38]; Counter *work; } State;
 extern State *D_80016000;
 extern u32 D_80019438;
-void func_800164E4(void) { D_80016000->work->counter += D_80019438; }
+void add_global_step_to_state_counter(void) { D_80016000->work->counter += D_80019438; }

@@ -5,7 +5,7 @@
 
 
 /* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
-void markCategoryItemsFlag400(s32 group_bit) {
+void mark_category_items_flag_400(s32 group_bit) {
     DungeonGroup *group;
     s32 item_index;
     s32 item_offset;

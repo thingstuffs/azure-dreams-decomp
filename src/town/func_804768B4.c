@@ -13,14 +13,14 @@ typedef struct TownContext {
 } TownContext;
 
 s32 func_800175B0(void);
-s32 townCopyIndexedEntryValue(s32);
+s32 copy_indexed_entry_value(s32);
 s32 func_8001764C(void);
-s32 func_800176D4(void);
+s32 select_next_eligible_wrapped_entry(void);
 extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 
 /* Selects a value with a fallback and stores its converted result in the town entry. */
-s32 func_800178B4(TownContext *context, s32 entry_index) {
+s32 start_interaction_on_code_0x479(TownContext *context, s32 entry_index) {
     s32 selected_value;
     s32 entry_value;
 
@@ -31,10 +31,10 @@ s32 func_800178B4(TownContext *context, s32 entry_index) {
 
     selected_value = func_8001764C();
     if (selected_value == 0) {
-        selected_value = func_800176D4();
+        selected_value = select_next_eligible_wrapped_entry();
     }
 
-    entry_value = townCopyIndexedEntryValue(selected_value);
+    entry_value = copy_indexed_entry_value(selected_value);
     D_80019BB4 = selected_value;
     context->entries[entry_index].unk8 = entry_value;
     return 0;

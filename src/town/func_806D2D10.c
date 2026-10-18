@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern void townSetFlagTestIndexedBit();
-extern void func_80016D20();
-extern s32 func_80016D78();
+extern void set_flag_test_indexed_bit();
+extern void clear_indexed_flag_unless_identifier();
+extern s32 select_data_array_based_flag();
 
 /* Updates the target based on the source's state, then updates the source. */
-void townUpdateFlagTestTarget(s16 sourceId, s16 targetId) {
-    if (func_80016D78(sourceId) != 0) {
-        townSetFlagTestIndexedBit(targetId);
+void update_flag_test_target(s16 sourceId, s16 targetId) {
+    if (select_data_array_based_flag(sourceId) != 0) {
+        set_flag_test_indexed_bit(targetId);
     } else {
-        func_80016D20(targetId);
+        clear_indexed_flag_unless_identifier(targetId);
     }
-    townSetFlagTestIndexedBit(sourceId);
+    set_flag_test_indexed_bit(sourceId);
 }

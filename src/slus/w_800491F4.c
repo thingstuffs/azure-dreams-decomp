@@ -8,7 +8,7 @@ typedef struct S_800491F4 {
 } S_800491F4;
 
 /* Builds a reversed list of indexed nodes until an index reaches the limit and returns its head. */
-S_800491F4 *buildReverseIndexedChain(S_800491F4 **node_table, u8 *indices, s32 index_limit) {
+S_800491F4 *build_reverse_indexed_chain(S_800491F4 **node_table, u8 *indices, s32 index_limit) {
     S_800491F4 *head = 0;
 
     if (*indices < index_limit) {

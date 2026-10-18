@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void generateRandomDungeonItemDrops(void)
+void generate_random_dungeon_item_drops(void)
 {
     u8 x;
     u8 y;
@@ -39,40 +39,40 @@ void generateRandomDungeonItemDrops(void)
         }
     }
 
-    if (func_800A6D30() & 1) {
-        budget += (u16)randomDungeonRange16(0, (budget / 2) & 0xFFFF);
+    if (generate_random_value() & 1) {
+        budget += (u16)random_dungeon_range_16(0, (budget / 2) & 0xFFFF);
     } else {
-        budget -= (u16)randomDungeonRange16(0, (budget / 2) & 0xFFFF);
+        budget -= (u16)random_dungeon_range_16(0, (budget / 2) & 0xFFFF);
     }
 
     if (budget >= 0) {
         entry_base = (DungeonItemEntry *)((u8 *)D_800E3548);
         cell_page = (u8 *)0x800E0000;
         do {
-        cell_index = (s16)func_800A71F4();
+        cell_index = (s16)find_first_empty_floor_item_slot();
         if (cell_index < 0) {
             return;
         }
 
         if (budget >= 301) {
-            decrement = (u16)randomDungeonRange16(160, 240);
+            decrement = (u16)random_dungeon_range_16(160, 240);
             flag = 1;
             type = 3;
             amount = (decrement / 10 + (decrement >> 31)) & 0x3FFFFFFF;
         } else if (budget >= 151) {
-            decrement = (u16)randomDungeonRange16(80, 120);
+            decrement = (u16)random_dungeon_range_16(80, 120);
             amount = decrement;
             flag = 0;
             type = 2;
         } else {
-            decrement = (u16)randomDungeonRange16(16, 24);
+            decrement = (u16)random_dungeon_range_16(16, 24);
             amount = decrement;
             flag = 0;
             type = 1;
         }
 
         do {
-        } while ((selectDungeonSpawnTile(&x, &y) << 16) < 0);
+        } while ((select_dungeon_spawn_tile(&x, &y) << 16) < 0);
 
         scan_x = x;
         scan_y = y;
@@ -95,10 +95,10 @@ void generateRandomDungeonItemDrops(void)
                                             (unsigned long)cell_base);
             cell->x = x;
             cell->y = y;
-            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = dungeonGetSurfaceHeightAtCoordinates((x << 6) | 32, (y << 6) | 32);
+            ((floor_spawns_isolated_8028BC54_DungeonCell *)cell)->height = get_surface_height_at_coordinates((x << 6) | 32, (y << 6) | 32);
             cell->flag7 = 0;
-            func_8009A21C(x, y, 0x800);
-            cell->object = func_800A7A38((void *)entry);
+            cycle_map_cell_flags(x, y, 0x800);
+            cell->object = get_item_category_value((void *)entry);
         }
 
         budget -= decrement;

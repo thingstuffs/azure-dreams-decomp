@@ -20,12 +20,12 @@ typedef struct S_800259DC_0 {
     u16 unk_8C;
     u8 pad_8E[0x32];
     u32 unk_C0;
-} S_800259DC_0;   /* scratch in dungeonBuildSortedEffectQuads */
+} S_800259DC_0;   /* scratch in build_sorted_effect_quads */
 
 typedef struct S_800259DC_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_800259DC_1_pre;   /* the 0x8 bytes before arg0 in dungeonBuildSortedEffectQuads, addressed as arg0[-1] */
+} S_800259DC_1_pre;   /* the 0x8 bytes before arg0 in build_sorted_effect_quads, addressed as arg0[-1] */
 
 typedef struct S_800259DC_1 {
     u8 pad_00[0x34];
@@ -43,7 +43,7 @@ typedef struct S_800259DC_1 {
     u8 pad_52[0x2];
     s32 unk_54;
     s32 unk_58;
-} S_800259DC_1;   /* arg0 in dungeonBuildSortedEffectQuads */
+} S_800259DC_1;   /* arg0 in build_sorted_effect_quads */
 
 typedef struct S_800259DC_2 {
     u8 pad_00[0x4];
@@ -54,7 +54,7 @@ typedef struct S_800259DC_2 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_800259DC_2;   /* obj in dungeonBuildSortedEffectQuads */
+} S_800259DC_2;   /* obj in build_sorted_effect_quads */
 
 
 extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -70,8 +70,8 @@ typedef struct GlobalState {
 
 
 /* Build and depth-sort quad primitives from the linked entries. */
-s32 dungeonBuildSortedEffectQuads(void *quad_entry) {
-    GlobalState **state_table = ((GlobalState * *)(&gameWork));
+s32 build_sorted_effect_quads(void *quad_entry) {
+    GlobalState **state_table = ((GlobalState * *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     void *packet;
     u32 depth_index;

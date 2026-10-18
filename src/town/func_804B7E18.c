@@ -1,21 +1,21 @@
 #include "common.h"
 
-extern void func_8001611C(void *, s32);
+extern void store_supplied_values(void *, s32);
 extern void func_800176B4(void);
-extern void func_80018854(s32);
+extern void call_helper_with_fixed_id_0x118a(s32);
 extern void func_800188CC(s32);
 extern s32 func_8001894C(s16);
 
-s32 townProcessSceneStatusActions(void *object, s32 value)
+s32 process_scene_status_actions(void *object, s32 value)
 {
-    func_8001611C(object, value);
+    store_supplied_values(object, value);
     if (func_8001894C(*(s16 *)((u8 *)object + 0x18)) != 0) {
         func_800188CC(0x513);
-        func_80018854(0x512);
-        func_80018854(0x50E);
+        call_helper_with_fixed_id_0x118a(0x512);
+        call_helper_with_fixed_id_0x118a(0x50E);
     } else {
         func_800176B4();
-        func_80018854(0x513);
+        call_helper_with_fixed_id_0x118a(0x513);
         func_800188CC(0x512);
         func_800188CC(0x50E);
     }
@@ -23,5 +23,5 @@ s32 townProcessSceneStatusActions(void *object, s32 value)
 }
 
 /* MECHANISM: A 24-byte frame holds arg0 in the sole saved register s0 across
-   func_8001611C; explicit jump blocks preserve retail's nonzero-first layout.
+   store_supplied_values; explicit jump blocks preserve retail's nonzero-first layout.
    The two arms merge at one literal-zero epilogue, with no phantom tail call. */

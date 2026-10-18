@@ -15,7 +15,7 @@ typedef struct S_800F65CC_0 {
 typedef struct S_800F65CC_1 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_800F65CC_1;   /* s1 in func_800F65CC */
+} S_800F65CC_1;   /* s1 in initialize_overlay_effect_state */
 
 typedef struct S_800F65CC_2 {
     u8 pad_00[0x4];
@@ -46,7 +46,7 @@ struct S_10 {
 };
 
 /* Initializes effect state and sets the high flag bit on three adjacent entries. */
-void func_800F65CC(void) {
+void initialize_overlay_effect_state(void) {
     s16 **state_slot;
     s16 *state_value;
     s32 entries_base;
@@ -60,7 +60,7 @@ void func_800F65CC(void) {
     S_800F65CC_0 *effect;
     S_800F65CC_2 *entry;
 
-    world_state = &gameWork;
+    world_state = &g_game_work;
     entry_info = (s16 *)((u8 *)world_state + 0x1DC);
     entries_base = ((s32 *)world_state->map.cells);
     index = 1;
@@ -83,7 +83,7 @@ void func_800F65CC(void) {
     if (effect != NULL) {
         s16 *status_base;
 
-        effect->unk_10 = (void *)func_800F6544;
+        effect->unk_10 = (void *)update_overlay_state_and_retire;
         effect->unk_24 = 0x38;
         status_base = (s16 *)0x80010000;
         if (!((u16)status_base[0x3714 / 2] & 1)) {

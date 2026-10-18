@@ -103,7 +103,7 @@ void func_80024104(void *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        func_800B8FC8((s32)D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect((s32)D_800814A8, rect, center, 1, 1);
 
         child = func_8003FC64(0x212);
         if (child != 0) {
@@ -143,6 +143,6 @@ void func_80024104(void *owner) {
     (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Returns a constant true value. */
-s32 townSceneAlwaysTrue(void) {
+s32 scene_always_true(void) {
     return 1;
 }

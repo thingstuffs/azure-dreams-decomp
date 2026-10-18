@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonClearGenerationRegionEntries(void) {
+void clear_generation_region_entries(void) {
     s32 i;
 
     for (i = 0x23; i >= 0; i--) {

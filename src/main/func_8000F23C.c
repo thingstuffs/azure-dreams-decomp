@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 
-/* Call cardBootEraseSlotFile with argument 5. */
-void cardBootEraseTemporaryFile(void) {
-    cardBootEraseSlotFile(5);
+/* Call card_boot_erase_slot_file with argument 5. */
+void card_boot_erase_temporary_file(void) {
+    card_boot_erase_slot_file(5);
 }

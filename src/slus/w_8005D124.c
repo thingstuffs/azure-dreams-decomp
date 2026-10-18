@@ -4,9 +4,9 @@
 void func_8005D124(s32 ram_address, s16 spu_address, s32 block_count)
 {
     D_80079958->transfer_address.ordered = spu_address;
-    delayMultiplyLoop();
+    delay_multiply_loop();
     D_80079958->control |= 0x30;
-    delayMultiplyLoop();
+    delay_multiply_loop();
     func_8005D704();
 
     *D_8007995C = ram_address;

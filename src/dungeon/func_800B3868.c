@@ -23,11 +23,11 @@ typedef struct DrawContext {
 
 extern void func_8006658C(void *, void *, ...);
 extern void func_80067E2C(void *, void *);
-extern void dungeonDrawTransformedSpriteParts(void *position, void *context, s32 depth, s16 draw_mode);
+extern void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode);
 extern u8 D_801C9E40[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
-void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
+void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
 {
     Position draw_pos;
     DrawContext *context;
@@ -38,13 +38,13 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     s16 shift_y;
     s32 y;
 
-    context = (DrawContext *)gameWork.unk_000;
+    context = (DrawContext *)g_game_work.unk_000;
     saved_clear_bg = clear_bg;
     shift_y = context != (DrawContext *)D_801C9E40;
     area_packet = context->next_packet;
     ordering_table = context->ordering_table;
     context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
-    draw_context = gameWork.unk_000;
+    draw_context = g_game_work.unk_000;
     func_80067E2C(area_packet, draw_context);
     func_8006658C(ordering_table, area_packet);
 
@@ -56,9 +56,9 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
         if (shift_y) {
             y -= 0xE0;
         }
-        context_slot = (DrawContext **)&gameWork.unk_000;
+        context_slot = (DrawContext **)&g_game_work.unk_000;
         draw_pos.y = y;
-        dungeonDrawTransformedSpriteParts(&draw_pos, sprite, ordering_table, draw_flags);
+        draw_transformed_sprite_parts(&draw_pos, sprite, ordering_table, draw_flags);
 
         if ((u16)saved_clear_bg != 0) {
             Packet *clear_packet;

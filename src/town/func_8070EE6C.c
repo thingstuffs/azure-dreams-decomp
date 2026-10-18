@@ -4,10 +4,10 @@ extern u8 D_8001B14C[];
 extern u8 D_8001C018[];
 extern u8 D_8001C6D0[];
 extern u8 D_800227FB[];
-extern void *func_80016E48(s32);
+extern void *award_next_unearned_milestone(s32);
 
 /* Selects a data pointer by ID, using default data for unhandled IDs. */
-void *func_80017E6C(s32 unused_0, s32 unused_1, s32 data_id)
+void *select_pointer_id_default_unhandled(s32 unused_0, s32 unused_1, s32 data_id)
 {
     switch (data_id - 12) {
     case 7:
@@ -19,7 +19,7 @@ void *func_80017E6C(s32 unused_0, s32 unused_1, s32 data_id)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(data_id);
+        return award_next_unearned_milestone(data_id);
     default:
         return D_8001B14C;
     }

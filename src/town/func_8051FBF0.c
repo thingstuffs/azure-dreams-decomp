@@ -6,7 +6,7 @@ extern void func_80018ADC(s32);
 extern s32 func_80018B5C(s32);
 
 /* Decrements the current entry's counter for 0x5C8, otherwise checks 0x11FC. */
-s32 townTickSceneCounter(void) {
+s32 tick_scene_counter(void) {
     s32 result;
 
     if (func_80018B5C(0x5C8) != 0) {

@@ -6,21 +6,21 @@
 typedef struct S_800AFD5C_2 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_800AFD5C_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_9C in townAdvanceItemMenuStep */
+} S_800AFD5C_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_9C in advance_item_menu_step */
 
 
 typedef struct S_800AFD5C_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0x14];
     s32 unk_18;
-} S_800AFD5C_0;   /* arg0 in townAdvanceItemMenuStep; pointer addresses record offset 0x10 */
+} S_800AFD5C_0;   /* arg0 in advance_item_menu_step; pointer addresses record offset 0x10 */
 
 
-void townUpdateItemMenuSelection(void *obj);
+void update_item_menu_selection(void *obj);
 extern s32 D_800AFD00[];
 
 /* Update the linked value from the current step and advance the state after six steps. */
-void townAdvanceItemMenuStep(void *object) {
+void advance_item_menu_step(void *object) {
     s32 step;
     s32 nextStep;
 
@@ -32,5 +32,5 @@ void townAdvanceItemMenuStep(void *object) {
     } else {
         ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AFD00;
     }
-    townUpdateItemMenuSelection(object);
+    update_item_menu_selection(object);
 }

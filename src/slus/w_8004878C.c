@@ -23,7 +23,7 @@ extern void DrawSync(s32 a0);
 /* RLE-style byte decoder; only the argument setup (src/dst pointers) needs
  * to match, so declare it minimally. */
 extern void *func_8004068C(u8 *src, u8 *dst);
-extern void textureHandleExpandsSixBitValuesRunsOneFourBytesUntilN1(u8 *source, u8 *output);
+extern void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output);
 extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer when needed. */
@@ -39,7 +39,7 @@ void func_8004878C(void *src, S_8004878C_hdr *rect)
         DrawSync(0);
     }
     func_8004068C(src, (void *)(D_80081480 + image_bytes));
-    textureHandleExpandsSixBitValuesRunsOneFourBytesUntilN1((u8 *)(D_80081480 + image_bytes), (u8 *)D_80081480);
+    texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1((u8 *)(D_80081480 + image_bytes), (u8 *)D_80081480);
     LoadImage(rect, (void *)D_80081480);
     D_80081480 = D_80081480 + image_bytes;
 }

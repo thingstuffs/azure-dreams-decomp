@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void dungeonCreateAngledSourceEffect(
+void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
     void *object;
@@ -16,7 +16,7 @@ void dungeonCreateAngledSourceEffect(
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
         state->unk_1E = angle;
-        ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)dungeonUpdateExpandingSpiralEffect);
+        ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)update_expanding_spiral_effect);
         func_8004491C(object, func_80045340);
 
         display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;

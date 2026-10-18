@@ -10,45 +10,45 @@
 
 extern u8 D_800E11FD[];
 
-extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 dungeonProcessRecordAndUpdateLinkedState(s32, s32);
-extern void dungeonClearSlotAndUpdateLinkedState(s32);
-extern void func_800997FC(void *, s32, s16);
-extern void dungeonPackAndSubmitCellHeightLevels(void);
-extern void func_800A56E0(s32);
-extern void func_800A5F38(void *, s32);
-extern void func_800A6480(void *, s32, s16);
-extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
+extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 process_record_and_update_linked_state(s32, s32);
+extern void clear_slot_and_update_linked_state(s32);
+extern void display_formatted_context_message(void *, s32, s16);
+extern void pack_and_submit_cell_height_levels(void);
+extern void play_sound_if_enabled(s32);
+extern void apply_item_effect_at_entity_position(void *, s32);
+extern void display_actor_item_status_message(void *, s32, s16);
+extern s32 apply_actor_food_preference(void *, s32, s32);
 
 /* Applies an item to the target and removes it when consumed. */
-s32 dungeonUseItemToRevealFloorMap(EntityRec *target, s32 item, s16 target_kind, s32 target_data)
+s32 use_item_to_reveal_floor_map(EntityRec *target, s32 item, s16 target_kind, s32 target_data)
 {
     if (target_kind == 13) {
-        return dungeonProcessRecordAndUpdateLinkedState(item, target_data);
+        return process_record_and_update_linked_state(item, target_data);
     }
 
     if (target == ((u8 *)D_800E3D7C)) {
         target->unk_110 = item;
-        dungeonBeginModeSelectedItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
 
     if ((u32)target <= 0x9FFFFFFF) {
-        func_800A6480(target, item, target_kind);
-        if (dungeonApplyActorFoodPreference(target,
+        display_actor_item_status_message(target, item, target_kind);
+        if (apply_actor_food_preference(target,
                           D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           item) == 0) {
-            func_800A5F38(target, item);
+            apply_item_effect_at_entity_position(target, item);
             return 1;
         }
     } else {
-        func_800997FC(D_800E11FD, target_data, target_kind);
-        dungeonPackAndSubmitCellHeightLevels();
+        display_formatted_context_message(D_800E11FD, target_data, target_kind);
+        pack_and_submit_cell_height_levels();
         D_800E296C |= 0x800000;
-        func_800A56E0(0x80F);
+        play_sound_if_enabled(0x80F);
     }
 
-    dungeonStatus.unk_0A--;
-    dungeonClearSlotAndUpdateLinkedState(item);
+    g_dungeon_status.unk_0A--;
+    clear_slot_and_update_linked_state(item);
     return 1;
 }

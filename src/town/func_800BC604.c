@@ -6,21 +6,21 @@
 extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void townUnlinkSceneListNode(void *);
+extern void unlink_scene_list_node(void *);
 
 
 typedef struct S_800B9D64_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800B9D64_1;   /* arg1 in func_800B9D64 */
+} S_800B9D64_1;   /* arg1 in update_angle_driven_offset */
 
 typedef struct S_800B9D64_2 {
     u8 pad_00[0x66];
     s16 unk_66;
-} S_800B9D64_2;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in func_800B9D64 */
+} S_800B9D64_2;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_angle_driven_offset */
 
 /* Updates an angle-driven offset and handles inactive objects. */
-void func_800B9D64(void *object, void *offset_state)
+void update_angle_driven_offset(void *object, void *offset_state)
 {
     s16 angle;
     s16 decay_angle;
@@ -28,10 +28,10 @@ void func_800B9D64(void *object, void *offset_state)
     s32 phase_value;
 
     if (*((Rec_D_80082D58 *)object)->unk_98.as_pu8 == 0) {
-        townUnlinkSceneListNode(object);
+        unlink_scene_list_node(object);
         func_80033D08(object);
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

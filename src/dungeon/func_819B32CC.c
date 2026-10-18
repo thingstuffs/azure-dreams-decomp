@@ -22,15 +22,15 @@ typedef struct SpriteEntry {
 
 
 
-/* Retail 819B32CC (dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints): marks the owner, and once the sprite reaches status 0x6000 marks the
+/* Retail 819B32CC (build_and_queue_interpolated_vertical_quads_around_five_perimeter_points): marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */
-void dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(EffectRecord *effect, void *unused, SpriteEntry *sprite) {
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(EffectRecord *effect, void *unused, SpriteEntry *sprite) {
     EffectOwner *owner = effect->owner;
 
     owner->flags |= 0x8000;
     func_800478B8(sprite);
     if (sprite->status & 0x6000) {
         ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

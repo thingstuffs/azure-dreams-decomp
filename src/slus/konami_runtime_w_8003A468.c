@@ -13,7 +13,7 @@ typedef struct RuntimeState {
 } RuntimeState;
 
 /* Adds one event-script variable to another. */
-void vmOp59AddValues(RuntimeState *state)
+void vm_op_59_add_values(RuntimeState *state)
 {
     u32 script_cursor;
     u32 dest_index;

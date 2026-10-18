@@ -32,6 +32,6 @@ struct S_80048660 {
 extern u16 D_80080B10;
 extern u16 D_80080B12;
 extern u16 D_80080B14;
-void soundAdvanceSharedScrollCoordinates(struct S_80048660 *state);
+void sound_advance_shared_scroll_coordinates(struct S_80048660 *state);
 
 #endif

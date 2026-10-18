@@ -8,7 +8,7 @@ extern struct {
 } D_800814A0;
 
 /* Propagate the high flag bit and process each entry in the block. */
-void dungeonProcessEffectBlockEntries(void *block) {
+void process_effect_block_entries(void *block) {
     s32 entry_index;
 
     if (*(*(u16 **)((u8 *)block + 0x98)) & 0x8000) {

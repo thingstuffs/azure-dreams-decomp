@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
+void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, EntityRec *entity)
 {
     s16 timer;
     s32 direction;
@@ -9,18 +9,18 @@ void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, En
     direction = (entity->unk_6A >> 9) & 7;
     switch (action->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         motion->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, ((u8 *)D_8017586C));
+            begin_actor_display_action(action, motion, tile_state, ((u8 *)D_8017586C));
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -40,9 +40,9 @@ void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, En
 
     case 1:
         motion->unk_0C -=
-            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
         motion->unk_10 -=
-            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
@@ -56,7 +56,7 @@ void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, En
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, ((u8 *)D_8017588C));
+            begin_actor_display_action(action, motion, tile_state, ((u8 *)D_8017588C));
             return;
         }
         action->unk_96.s = 8;
@@ -88,13 +88,13 @@ void dungeonUpdateDirectionalMotionAndTile(R06_80172DD0_S_80172DD0_1 *action, En
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24, tile_state->unk_25);
+        set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
 
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
-        action->unk_8C = ((u8 *)func_8017140C);
+        action->unk_8C = ((u8 *)initialize_destination_state);
         return;
 
     default:

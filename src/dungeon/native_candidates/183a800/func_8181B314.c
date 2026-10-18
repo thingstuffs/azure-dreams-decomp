@@ -18,10 +18,10 @@ void func_80024B14(void *state_data, s32 unused, void *target) {
     }
     if ((s16)*(u16 *)(state + 2) >= 120) {
         *(u16 *)(state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (*(u16 *)((u8 *)target + 0x14) & 0x8000) {
         *(u16 *)(state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -7,7 +7,7 @@
 
 
 /* Return whether either object has the high state bit set and state code 5 through 7. */
-s32 dungeonCheckActiveObjectState567(void) {
+s32 check_active_object_state_567(void) {
     s32 index;
     s32 result;
     u16 state;

@@ -14,7 +14,7 @@ typedef struct S_800BDDD0_0 {
 } S_800BDDD0_0;
 
 /* Writes values 1 through 16 in row order into a wrapped 4x4 grid region. */
-void townFillWrappedFourByFourGrid(s32 start_x, s16 start_y, s32 unused_value) {
+void fill_wrapped_four_by_four_grid(s32 start_x, s16 start_y, s32 unused_value) {
     s16 cell_value;
     s32 y;
     s32 x;
@@ -27,7 +27,7 @@ void townFillWrappedFourByFourGrid(s32 start_x, s16 start_y, s32 unused_value) {
     s32 cells_addr;
 
     x = (s16)start_x;
-    state = &gameWork;
+    state = &g_game_work;
     grid = (u8 *)state + 0x1DC;
     cells_addr = ((s32)state->map.cells);
     origin_x = start_x;

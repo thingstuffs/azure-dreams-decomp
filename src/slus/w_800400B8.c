@@ -11,38 +11,38 @@ extern s32 D_800814A0;
 
 extern void func_80046884(void *a0, void *a1, s32 a2);
 extern void func_8003BFE4(void);
-extern void runActiveNodeCallbacks(void);
-extern void removeMarkedActiveNodes(void);
-extern void integrateActiveNodeVectors(void);
+extern void run_active_node_callbacks(void);
+extern void remove_marked_active_nodes(void);
+extern void integrate_active_node_vectors(void);
 extern void func_8004D70C(void);
-extern void func_800AC3EC(void);
-extern void func_800AC4C4(void);
-extern void dispatchRegisteredDrawCallbacks(void);
-extern void appendDrawModePrimitive(void);
+extern void refresh_state_and_dispatch_angles(void);
+extern void render_shaded_map_tiles(void);
+extern void dispatch_registered_draw_callbacks(void);
+extern void append_draw_mode_primitive(void);
 
 /* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
 void func_800400B8(void)
 {
-    GameWork *state = ((GameWork *)&gameWork);
+    GameWork *state = ((GameWork *)&g_game_work);
     s32 mode;
     if ((D_80080A86 == 0) && (state->map.cells != 0)) {
         func_80046884(&state->view, &state->view.unk_008, 0);
         func_8003BFE4();
     }
-    runActiveNodeCallbacks();
+    run_active_node_callbacks();
     if (D_800814A0 & 0x8000) {
-        removeMarkedActiveNodes();
+        remove_marked_active_nodes();
     }
     mode = D_80080A86;
     D_800814A0 = 0;
     if (mode == 0) {
-        integrateActiveNodeVectors();
+        integrate_active_node_vectors();
         func_8004D70C();
         if (state->map.cells != 0) {
-            func_800AC3EC();
-            func_800AC4C4();
+            refresh_state_and_dispatch_angles();
+            render_shaded_map_tiles();
         }
     }
-    dispatchRegisteredDrawCallbacks();
-    appendDrawModePrimitive();
+    dispatch_registered_draw_callbacks();
+    append_draw_mode_primitive();
 }

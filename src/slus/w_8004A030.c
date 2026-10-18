@@ -27,7 +27,7 @@ typedef struct {
 } S_8004A030;
 
 /* Initializes four object sub-blocks with position offsets and fixed or header-derived values. */
-void menuInitializeFourSubBlocksPositionOffsetsFixedHeaderDerivedValues(S_8004A030 *object, s32 x, s32 y, s16 extent)
+void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(S_8004A030 *object, s32 x, s32 y, s16 extent)
 {
     S_8004A030_Sub *block;
     s16 x_offset, y_offset;

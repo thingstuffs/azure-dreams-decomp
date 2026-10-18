@@ -6,11 +6,11 @@
 
 s32 func_8004491C(void *entry, s32 registration_id);
 s32 func_8004DA74();
-void func_800A6BBC();
-void dungeonOffsetRecordCoordinates();
-void dungeonSetRecordFlagsAndNegateX();
-void dungeonApplyRecordFlagsThroughEnd();
-void dungeonSetRecordByteFlagsThroughEnd();
+void advance_record_values_by_step();
+void offset_record_coordinates();
+void set_record_flags_and_negate_x();
+void apply_record_flags_through_end();
+void set_record_byte_flags_through_end();
 extern M2C_UNK D_80089074;
 extern M2C_UNK D_800A6B70;
 extern M2C_UNK D_800B06F0;
@@ -54,7 +54,7 @@ typedef struct S_800A6C00_4 {
 } S_800A6C00_4;
 
 /* Allocate an object and initialize its sprite, position, scale, and render state. */
-void *func_800A6C00(void) {
+void *create_pulsing_effect_object(void) {
     S_800A6C00_3 *transform;
     S_800A6C00_4 *sprite;
     S_800A6C00_2 *render_state;
@@ -77,11 +77,11 @@ void *func_800A6C00(void) {
         ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
         render_state->unk_04 = (void *)(object + 0xC0);
         ((S_800A6C00_0 *)object)->unk_F0 = func_8004DA74(sprite, &D_80089074, 0) & 0x7FFFFFFF;
-        dungeonOffsetRecordCoordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
-        func_800A6BBC(sprite, 4);
-        dungeonSetRecordFlagsAndNegateX(sprite, 8);
-        dungeonApplyRecordFlagsThroughEnd(sprite, 0x20);
-        dungeonSetRecordByteFlagsThroughEnd(sprite, 2);
+        offset_record_coordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
+        advance_record_values_by_step(sprite, 4);
+        set_record_flags_and_negate_x(sprite, 8);
+        apply_record_flags_through_end(sprite, 0x20);
+        set_record_byte_flags_through_end(sprite, 2);
         ((S_800A6C00_0 *)object)->unk_C0 = 0x808080;
         ((S_800A6C00_0 *)object)->unk_F4 = 0;
     }

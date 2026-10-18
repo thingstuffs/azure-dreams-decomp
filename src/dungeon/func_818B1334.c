@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-s32 dungeonBuildACircularLookupTableSubmitEightPhaseShiftedEntries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context) {
+s32 build_a_circular_lookup_table_submit_eight_phase_shifted_entries(ovl_18d0850_818B1334_S_818B1334_1 *source, ovl_18d0850_818B1334_S_818B1334_3 *target, void *context) {
     M2C_UNK circle_values[34];
     M2C_UNK *circle_entry;
     register M2C_UNK *circle_table;
@@ -36,7 +36,7 @@ s32 dungeonBuildACircularLookupTableSubmitEightPhaseShiftedEntries(ovl_18d0850_8
         source_arg = source;
         angle_offset = ((ovl_18d0850_818B1334_S_818B1334_2 *)offset_cursor)->unk_1A;
         entry_angle = entry_index << 0x11;
-        dungeonDrawN16ShadedLineSegmentsLinkThemOrderingTableDepth(source_arg, target, context, radius, (s32) (s16) (target->unk_0A - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
+        draw_n_16_shaded_line_segments_link_them_ordering_table_depth(source_arg, target, context, radius, (s32) (s16) (target->unk_0A - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
         offset_cursor += 2;
         entry_index += 1;
     } while (entry_index < 8);

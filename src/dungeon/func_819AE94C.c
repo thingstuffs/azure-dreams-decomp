@@ -45,7 +45,7 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
 /* Spawns an effect actor or builds a curved trail toward the saved position. */
-void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
+void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     Actor *actor;
     Coord *coord;
     Prim *prim;
@@ -61,7 +61,7 @@ void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     if (spawn_actor != 0) {
         actor = func_8003FC64(530);
         if (actor != NULL) {
-            actor->update = dungeonFadeEffectColorToBlack;
+            actor->update = fade_effect_color_to_black;
             func_8004491C(actor, func_80045340);
             coord = actor->pos;
             coord->x = x;
@@ -85,7 +85,7 @@ void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
             trail_y = y + step_y;
             trail_z = z + step_z;
             for (trail_index = 0; trail_index < 16; trail_index++) {
-                func_8002614C(trail_x + ((func_80064584(angle) * func_800644B8(trail_index << 7)) >> 21),
+                update_object_movement_proximity_reactions(trail_x + ((func_80064584(angle) * func_800644B8(trail_index << 7)) >> 21),
                               trail_y + ((func_800644B8(angle) * func_800644B8(trail_index << 7)) >> 21),
                               trail_z, angle, 1);
                 trail_x += step_x;

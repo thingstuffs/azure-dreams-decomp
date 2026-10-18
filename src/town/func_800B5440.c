@@ -4,10 +4,10 @@
 
 M2C_UNK obj_disp23_cancel_sw_set();                     /* extern */
 M2C_UNK came_bright_set();                     /* extern */
-void func_800B2394();             /* extern */
-s32 func_800B29D0();                          /* extern */
-void func_800B2B60();                      /* extern */
-void func_800B2C6C();                      /* extern */
+void store_table_index_and_entry_bytes();             /* extern */
+s32 acquire_resource_and_initialize_state();                          /* extern */
+void initialize_record_table_and_group();                      /* extern */
+void apply_record_values_and_process_record();                      /* extern */
 s32 func_800B3924();                          /* extern */
 s32 func_800B4588();                          /* extern */
 s32 func_800B4F60();                          /* extern */
@@ -43,9 +43,9 @@ s32 open_twin_souko(s32 option) {
     task = func_8003FC64(0);
     state = task + 0x20;
     if (task == NULL ||
-        (func_800B2B60(state),
-         func_800B29D0(state) != 0 &&
-         (func_800B2394(state, 0),
+        (initialize_record_table_and_group(state),
+         acquire_resource_and_initialize_state(state) != 0 &&
+         (store_table_index_and_entry_bytes(state, 0),
           resource_08 = func_800B4588(task),
           ((S_800B2BA0_0 *)state)->unk_08 = resource_08,
           resource_08 != 0) &&
@@ -63,6 +63,6 @@ s32 open_twin_souko(s32 option) {
         }
         return (s32)task;
     }
-    func_800B2C6C(state);
+    apply_record_values_and_process_record(state);
     return 0;
 }

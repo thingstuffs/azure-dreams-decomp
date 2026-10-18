@@ -22,11 +22,11 @@ typedef struct Vec3 {
 
 extern Vec3 D_800D0624;
 
-extern void townCallTheHandlerSelectsNonzeroEntry();
-extern void townClearEntityRecordFields();
+extern void call_the_handler_selects_nonzero_entry();
+extern void clear_entity_record_fields();
 
 /* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
-void townMovePlayerHalfwayToTarget(Rec_func_80094268_arg0 *state, Position *position, s32 context)
+void move_player_halfway_to_target(Rec_func_80094268_arg0 *state, Position *position, s32 context)
 {
     u16 timer;
     Vec3 *target;
@@ -42,11 +42,11 @@ void townMovePlayerHalfwayToTarget(Rec_func_80094268_arg0 *state, Position *posi
         position->x = target->x;
         position->y = target->y;
         position->z = target->z;
-        townClearEntityRecordFields(position);
+        clear_entity_record_fields(position);
 
         state->unk_30 = ((u16)((EntityRec *)position)->x.w.i);
         state->unk_32 = ((u16)((EntityRec *)position)->y.w.i);
-        townCallTheHandlerSelectsNonzeroEntry(D_800D0078, state, context);
+        call_the_handler_selects_nonzero_entry(D_800D0078, state, context);
 
         state->unk_04.as_pv = D_8009AE88;
         state->unk_10.as_s16 = 0x400;

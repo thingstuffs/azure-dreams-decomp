@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_map.h"
 
-void func_8008B55C(void)
+void process_pending_resource_load(void)
 {
     s32 entry_result;
     s32 *entry_table;

@@ -5,19 +5,19 @@
 typedef struct S_8002415C_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_8002415C_0_pre;   /* the 0x8 bytes before node in townDrawDepthSortedLineNodes, addressed as node[-1] */
+} S_8002415C_0_pre;   /* the 0x8 bytes before node in draw_depth_sorted_line_nodes, addressed as node[-1] */
 
 typedef struct S_8002415C_0 {
     u8 pad_00[0x14];
     s32 unk_14;
     u8 pad_18[0xC];
     u16 unk_24;
-} S_8002415C_0;   /* node in townDrawDepthSortedLineNodes */
+} S_8002415C_0;   /* node in draw_depth_sorted_line_nodes */
 
 typedef struct S_8002415C_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8002415C_1;   /* record in townDrawDepthSortedLineNodes */
+} S_8002415C_1;   /* record in draw_depth_sorted_line_nodes */
 
 
 typedef struct PacketTag {
@@ -40,7 +40,7 @@ extern void func_800667BC(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
-s32 townDrawDepthSortedLineNodes(u8 *node)
+s32 draw_depth_sorted_line_nodes(u8 *node)
 {
     s32 coords[2];
     s32 *second_coord;
@@ -53,7 +53,7 @@ s32 townDrawDepthSortedLineNodes(u8 *node)
     s32 avg_depth;
     s32 ot_offset;
 
-    town_state = &gameWork;
+    town_state = &g_game_work;
     second_coord = &coords[1];
     for (;;) {
         if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {

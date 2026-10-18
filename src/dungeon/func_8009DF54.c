@@ -7,11 +7,11 @@ typedef struct S_800A36B4_0 {
     u16 unk_3E;
     u8 pad_40[0x5C];
     u16 unk_9C;
-} S_800A36B4_0;   /* arg0 in dungeonCheckTilePathClear; pointer addresses record offset 0x14 */
+} S_800A36B4_0;   /* arg0 in check_tile_path_clear; pointer addresses record offset 0x14 */
 
 typedef struct S_800A36B4_1 {
     void * unk_00;
-} S_800A36B4_1;   /* arg1 in dungeonCheckTilePathClear; pointer addresses record offset 0x14 */
+} S_800A36B4_1;   /* arg1 in check_tile_path_clear; pointer addresses record offset 0x14 */
 
 typedef struct S_800A36B4_2 {
     u8 pad_00[0x24];
@@ -27,11 +27,11 @@ typedef struct S_800A36B4_3 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 dungeonCheckLayerOffsetHeight(u16, u16, s16, s16);
-extern s32 func_800BCB04(s32, s32, s16);
+extern s32 check_layer_offset_height(u16, u16, s16, s16);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 /* Checks whether the tile path from source to target is clear. */
-s32 dungeonCheckTilePathClear(void *source, void *target) {
+s32 check_tile_path_clear(void *source, void *target) {
     s32 step_y;
     s32 step_x;
     S_800A36B4_2 *source_pos;
@@ -68,7 +68,7 @@ s32 dungeonCheckTilePathClear(void *source, void *target) {
     while (tile_x != target_pos->unk_24 ||
            tile_y != target_pos->unk_25) {
         check_height = height;
-        if ((dungeonCheckLayerOffsetHeight((tile_x << 6) & 0xFFC0,
+        if ((check_layer_offset_height((tile_x << 6) & 0xFFC0,
                            (tile_y << 6) & 0xFFC0,
                            check_height, check_param) << 16) != 0) {
             return 0;
@@ -77,7 +77,7 @@ s32 dungeonCheckTilePathClear(void *source, void *target) {
         tile_y -= step_y;
         {
             s32 next_height;
-            next_height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
+            next_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0,
                                         ((tile_y << 6) + 0x20) & 0xFFE0,
                                         height - 0x20);
             if ((s16)next_height < check_height) {

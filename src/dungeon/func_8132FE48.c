@@ -14,10 +14,10 @@ typedef struct {
 } Point;
 
 extern Rect D_80164824;
-extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates effect rotation and rectangle, then flags timer expiration. */
-void dungeonUpdateReverseRotatingClippedSprite(void *effect, s32 unused, void *rotation)
+void update_reverse_rotating_clipped_sprite(void *effect, s32 unused, void *rotation)
 {
     Rect rect;
     Point center;
@@ -39,12 +39,12 @@ void dungeonUpdateReverseRotatingClippedSprite(void *effect, s32 unused, void *r
     }
     *(u16 *)((u8 *)rotation + 0x1A) = angle;
 
-    func_800B8FC8(effect, &rect, &center, 1, 1);
+    draw_transformed_sprite_with_clip_rect(effect, &rect, &center, 1, 1);
 
     ticks_left = *(u16 *)((u8 *)effect + 0x18) - 1;
     *(u16 *)((u8 *)effect + 0x18) = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

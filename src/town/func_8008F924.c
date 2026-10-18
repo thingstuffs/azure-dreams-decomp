@@ -11,11 +11,11 @@ extern s32 D_800FE480[];
 extern s32 D_800FE484[];
 
 /* Set the two view scales from the stored shift counts. */
-void townUpdateMapWorldExtents(void)
+void update_map_world_extents(void)
 {
     TownViewState *state;
 
-    state = (TownViewState *)((u8 *)(&gameWork));
+    state = (TownViewState *)((u8 *)(&g_game_work));
 
     state = (TownViewState *)((u8 *)state + 0x1DC);
 

@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern void townApplySelectedEntryValues(s32 record, s32 entry_index);
-extern void townSetCurrentEntryScriptFlag(void);
-extern s32 townGetLinkedRecordField2D60(void);
+extern void apply_selected_entry_values(s32 record, s32 entry_index);
+extern void set_current_entry_script_flag(void);
+extern s32 get_linked_record_field_2_d_60(void);
 
 /* Process the request after checking the threshold of 25. */
-void func_800169F0(s32 request, s32 context) {
-    if (townGetLinkedRecordField2D60() >= 0x19) {
-        townSetCurrentEntryScriptFlag();
+void process_request_checking_threshold_25(s32 request, s32 context) {
+    if (get_linked_record_field_2_d_60() >= 0x19) {
+        set_current_entry_script_flag();
     }
-    townApplySelectedEntryValues(request, context);
+    apply_selected_entry_values(request, context);
 }

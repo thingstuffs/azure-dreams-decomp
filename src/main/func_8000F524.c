@@ -9,13 +9,13 @@ typedef struct S_80022524_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 * unk_20;
-} S_80022524_0;   /* arg0 in cardBootHandleMessageDialogInput */
+} S_80022524_0;   /* arg0 in card_boot_handle_message_dialog_input */
 
 
 extern void SD_Call(s32 code);
-extern s32 cardBootCloseMessageDialog(s32 mode);
-extern s32 advanceIndexWithDirectionalClamp(s32 current, s32 direction, u8 entry);
-extern void cardBootUpdateMessageChoiceHighlight(void *object);
+extern s32 card_boot_close_message_dialog(s32 mode);
+extern s32 advance_index_with_directional_clamp(s32 current, s32 direction, u8 entry);
+extern void card_boot_update_message_choice_highlight(void *object);
 typedef struct S_800280B4 {
     u8 pad_00[0x14];
     u8 unk_14;
@@ -25,7 +25,7 @@ typedef struct S_800280B4 {
 extern S_800280B4 D_800280B4[];
 
 /* Handles menu exit buttons and repeated left/right selection changes. */
-void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
+void card_boot_handle_message_dialog_input(S_80022524_0 *menu)
 {
     s32 direction;
     s32 held_buttons;
@@ -35,7 +35,7 @@ void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
     s32 next_delay;
     s32 *input;
 
-    input = ((s32 *)(&gameWork));
+    input = ((s32 *)(&g_game_work));
     direction = 0;
     held_buttons = input[2];
     if (held_buttons == 0) {
@@ -46,7 +46,7 @@ void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
         s32 *exit_status;
 
         SD_Call(0x515);
-        cardBootCloseMessageDialog(1);
+        card_boot_close_message_dialog(1);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
             *exit_status = 1;
@@ -59,11 +59,11 @@ void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
         SD_Call(0x514);
         exit_status = menu->unk_20;
         if (exit_status != 0) {
-            exit_result = cardBootCloseMessageDialog(1);
+            exit_result = card_boot_close_message_dialog(1);
             updated_status = menu->unk_20;
             *updated_status = exit_result;
         } else {
-            cardBootCloseMessageDialog(1);
+            card_boot_close_message_dialog(1);
         }
     } else if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
         menu->unk_10 = 0;
@@ -92,7 +92,7 @@ void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
     if (direction != 0) {
         s32 new_selection;
 
-        new_selection = advanceIndexWithDirectionalClamp(
+        new_selection = advance_index_with_directional_clamp(
             menu->unk_00,
             direction,
             D_800280B4[menu->unk_08].unk_14);
@@ -100,6 +100,6 @@ void cardBootHandleMessageDialogInput(S_80022524_0 *menu)
             menu->unk_00 = new_selection;
             SD_Call(0x502);
         }
-        cardBootUpdateMessageChoiceHighlight(menu);
+        card_boot_update_message_choice_highlight(menu);
     }
 }

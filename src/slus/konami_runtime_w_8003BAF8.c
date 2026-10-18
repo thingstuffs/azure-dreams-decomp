@@ -46,10 +46,10 @@ typedef struct PairRecord {
 
 typedef void (*RuntimeCallback)(RuntimeState *, void *);
 
-extern void func_800A0560(void);
-extern PairRecord *func_800C1034(s16, s16);
+extern void process_unlinked_type_four_entries(void);
+extern PairRecord *build_four_value_entry_result(s16, s16);
 extern void func_80041094(u16, s16, s16, s32, s32);
-extern s32 runtimeIsRecordHandlerChanged(void *);
+extern s32 runtime_is_record_handler_changed(void *);
 
 extern RuntimeState D_8006ADBC;
 extern RuntimeState D_8006ADEC;
@@ -79,7 +79,7 @@ void change_map(InputRecord *input)
     void *state_data;
     u16 entry_index;
 
-    func_800A0560();
+    process_unlinked_type_four_entries();
     D_8006ADBC.field_28 = D_8006ADBC.field_18;
     D_8006ADEC.field_28 = D_8006ADBC.field_18;
     D_8006ADBC.field_2A = D_8006ADBC.field_1A;
@@ -99,7 +99,7 @@ void change_map(InputRecord *input)
                                (input->field_02 << 5));
     }
 
-    pair = func_800C1034(D_8006ADEC.field_18,
+    pair = build_four_value_entry_result(D_8006ADEC.field_18,
                          D_8006ADEC.field_1A);
     if (pair->field_04 == D_800D426C &&
         pair->field_06 == D_800D426E) {
@@ -136,7 +136,7 @@ void change_map(InputRecord *input)
 
     D_80013714[0] &= 0xFFFD;
     {
-        s32 check_result = runtimeIsRecordHandlerChanged(D_80082A38);
+        s32 check_result = runtime_is_record_handler_changed(D_80082A38);
         if (check_result != 0) {
             D_8006ADE8[0] = 1;
         } else {

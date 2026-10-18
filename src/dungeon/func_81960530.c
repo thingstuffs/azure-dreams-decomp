@@ -2,29 +2,29 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in dungeonSelectContainingCellSurface */
+   /* scratch in select_containing_cell_surface */
 
-   /* map_entry in dungeonSelectContainingCellSurface */
+   /* map_entry in select_containing_cell_surface */
 
-   /* best in dungeonSelectContainingCellSurface */
+   /* best in select_containing_cell_surface */
 
-   /* current in dungeonSelectContainingCellSurface */
+   /* current in select_containing_cell_surface */
 
-   /* copy_vertex in dungeonSelectContainingCellSurface */
+   /* copy_vertex in select_containing_cell_surface */
 
-   /* plane_ptr in dungeonSelectContainingCellSurface */
+   /* plane_ptr in select_containing_cell_surface */
 
-   /* dot_vertex in dungeonSelectContainingCellSurface */
+   /* dot_vertex in select_containing_cell_surface */
 
-   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in dungeonSelectContainingCellSurface */
+   /* planes + ((S_81960530_3 *)best)->unk_10 * 8 in select_containing_cell_surface */
 
-   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in dungeonSelectContainingCellSurface */
+   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in select_containing_cell_surface */
 
 
 
 
 /* Select a cell surface at the given position using plane height and containment tests. */
-void *dungeonSelectContainingCellSurface(s32 world_x, s32 world_y, s16 min_height) {
+void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
     u8 *polygon;
     u8 *vertices;
@@ -48,10 +48,10 @@ void *dungeonSelectContainingCellSurface(s32 world_x, s32 world_y, s16 min_heigh
 
     cell_index = (u16)world_x >> 6;
     ((S_81960530_0 *)scratch)->unk_150 = cell_index;
-    map_data = &gameWork.map;
+    map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
-    map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&gameWork.map)));
+    map_entry = (u8 *)((long)cell_index * 6 + (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
     vertices = ((u8 *)map_data->unk_08);
     planes = ((u8 *)map_data->unk_0C);
     best_polygon = 0;
@@ -85,7 +85,7 @@ void *dungeonSelectContainingCellSurface(s32 world_x, s32 world_y, s16 min_heigh
                     ((S_81960530_0 *)scratch)->unk_160.at00u.v = ((S_81960530_0 *)scratch)->unk_160.at00p.v - cell_x;
                     ((S_81960530_0 *)scratch)->unk_160.at02.v = ((S_81960530_0 *)scratch)->unk_160.at02u.v - cell_y;
 
-                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution(scratch) != 0) {
+                    if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
                         plane = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
                         plane_vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
                             + (unsigned long)vertices);

@@ -14,7 +14,7 @@ typedef struct S_80173C20_0 {
     u8 unk_9B;
     u8 pad_9C[0x10];
     u8 unk_AC;
-} S_80173C20_0;   /* action_record in dungeonAdvanceDirectionalLiftEffect */
+} S_80173C20_0;   /* action_record in advance_directional_lift_effect */
 
 typedef struct S_80173C20_1 {
     u8 pad_00[0x3];
@@ -27,7 +27,7 @@ typedef struct S_80173C20_1 {
     u16 unk_46;
     u8 pad_48[0x25];
     s8 unk_6D;
-} S_80173C20_1;   /* entity_data in dungeonAdvanceDirectionalLiftEffect */
+} S_80173C20_1;   /* entity_data in advance_directional_lift_effect */
 
 
 typedef struct S_80173C20_3 {
@@ -35,18 +35,18 @@ typedef struct S_80173C20_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173C20_3;   /* motion_data in dungeonAdvanceDirectionalLiftEffect */
+} S_80173C20_3;   /* motion_data in advance_directional_lift_effect */
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_80099734(void *record, u8 *out);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A5720(s8 *text);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern void *D_800E3DE8;
 extern u8 D_80170854[];
@@ -56,7 +56,7 @@ extern u8 D_80174090[];
 extern u8 D_80174098[];
 extern u8 D_801740A0[];
 
-void dungeonAdvanceDirectionalLiftEffect(void *action_record, void *motion_data, void *status_record, void *entity_data)
+void advance_directional_lift_effect(void *action_record, void *motion_data, void *status_record, void *entity_data)
 {
     s32 state;
     s32 saved;
@@ -67,25 +67,25 @@ void dungeonAdvanceDirectionalLiftEffect(void *action_record, void *motion_data,
     state = ((S_80173C20_0 *)action_record)->unk_9B;
     switch (state) {
     case 0:
-        saved = func_800990FC();
+        saved = get_unused_text_buffer();
         if ((((S_80173C20_1 *)entity_data)->unk_2A.s >> 9) & 1) {
-            func_80099290(func_80099194(
-                D_80170854, func_80099734(entity_data, saved)));
+            func_80099290(expand_text_control_codes(
+                D_80170854, append_entity_display_text(entity_data, saved)));
         } else {
-            func_80099290(func_80099194(
-                D_80170874, func_80099734(entity_data, saved)));
+            func_80099290(expand_text_control_codes(
+                D_80170874, append_entity_display_text(entity_data, saved)));
         }
-        func_800A5720(saved);
+        display_text_with_fullwidth_adjustment(saved);
 
         if (((Rec_D_80082E80 *)status_record)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173C20_0 *)action_record)->unk_9B = 3;
             ((S_80173C20_0 *)action_record)->unk_96 = 0;
             ((Rec_D_80082E80 *)status_record)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
             break;
         }
         (*(void * *)((u8 *)status_record + 0x2C)) = D_80174090;
-        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         func_80047784(status_record, D_80174090[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_90 = 0;
         ((S_80173C20_0 *)action_record)->unk_98 |= 8;
@@ -100,7 +100,7 @@ void dungeonAdvanceDirectionalLiftEffect(void *action_record, void *motion_data,
             break;
         }
         (*(void * *)((u8 *)status_record + 0x2C)) = D_80174098;
-        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         func_80047784(status_record, D_80174098[index & 7], 0);
         ((S_80173C20_0 *)action_record)->unk_96 = 8;
         ((S_80173C20_0 *)action_record)->unk_98 &= 0xFFF7;
@@ -110,13 +110,13 @@ void dungeonAdvanceDirectionalLiftEffect(void *action_record, void *motion_data,
         timer = ((S_80173C20_0 *)action_record)->unk_96 - 1;
         ((S_80173C20_0 *)action_record)->unk_96 = timer;
         if (((timer << 16) == 0) || (((Rec_D_80082E80 *)status_record)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(entity_data, status_record, ((S_80173C20_1 *)entity_data)->unk_2A.u, 1);
         }
         if (!(((Rec_D_80082E80 *)status_record)->unk_14.at00_u16.v & 0xE000)) {
             break;
         }
         (*(void * *)((u8 *)status_record + 0x2C)) = D_801740A0;
-        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
+        index = (g_game_work.view.viewAngle + ((S_80173C20_1 *)entity_data)->unk_2A.u + 0x100) >> 9;
         func_80047784(status_record, D_801740A0[index & 7], 0);
 
         ((S_80173C20_0 *)action_record)->unk_9B++;
@@ -125,10 +125,10 @@ void dungeonAdvanceDirectionalLiftEffect(void *action_record, void *motion_data,
         if (((Rec_D_80082E80 *)status_record)->unk_14.at00_u16.v & 0xE000) {
             ((S_80173C20_3 *)motion_data)->unk_10 = 0;
             ((S_80173C20_3 *)motion_data)->unk_0C = 0;
-            dungeonReduceActorFoodMeter(entity_data, 0x1000);
+            reduce_actor_food_meter(entity_data, 0x1000);
             ((S_80173C20_0 *)action_record)->unk_8C = &D_80170EA8;
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(entity_data);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(entity_data);
 
             if (((S_80173C20_0 *)action_record)->unk_98 & 0x4000) {
                 ((S_80173C20_1 *)entity_data)->unk_1C |= 0x1000;

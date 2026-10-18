@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18c4828.h"
 
-s32 func_800246D0(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
+s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
     s32 rotation_rng;
     Row_818A4ED0_S_818A4ED0_1 *render_state;
     Row_818A4ED0_S_818A4ED0_2 *position;

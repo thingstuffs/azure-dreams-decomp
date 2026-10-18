@@ -55,11 +55,11 @@ typedef struct S_func_8016C64C_5 {
     s16 unk_00;
 } S_func_8016C64C_5;
 
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(u8, u8, u8, u8, s16 *);
+extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern void func_80047784(void *, u8, s32);
-extern void func_800A56E0(s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 D_8016A36C[];
 extern u8 D_801739A0[];
@@ -74,7 +74,7 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
-void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
+void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
     S_func_8016C64C_3 *actor)
 {
     s16 target_distance;
@@ -94,7 +94,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
         if (action->unk_B0 < 2) {
             return;
         }
-        actor->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+        actor->unk_2A = get_rounded_facing_and_rounding_flag(
             sprite->unk_24, sprite->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &target_distance);
         action->unk_94 = 1;
@@ -104,18 +104,18 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
         frame_count = --action->unk_96.u16_value;
         if (frame_count > 0) {
             motion->unk_0C =
-                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepX) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
             motion->unk_10 =
-                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepY) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+                ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
             return;
         }
         if (frame_count != 0) {
             return;
         }
         motion->unk_0C =
-            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepX) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_x) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
         motion->unk_10 =
-            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dirStepY) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
+            ((S_func_8016C64C_5 *)((u8 *)((s8 *)dir_step_y) + ((actor->unk_6A >> 8) & 0xE)))->unk_00 << 18;
         action->unk_96.s16_value = 8;
         action->unk_9B++;
         return;
@@ -151,7 +151,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 1:
@@ -163,7 +163,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 2:
@@ -175,7 +175,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         case 3:
@@ -186,7 +186,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
             func_80047784(
                 sprite,
-                anim_table[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+                anim_table[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                 0);
             return;
         default:
@@ -205,7 +205,7 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             }
             action->unk_96.s16_value = 0;
             action->unk_9B++;
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             return;
         }
         action->unk_9B += 2;
@@ -226,16 +226,16 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
             motion->unk_0C = 0;
             switch (action->unk_AC) {
             case 0:
-                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A20);
+                begin_actor_display_action(action, motion, sprite, D_80173A20);
                 return;
             case 1:
-                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A28);
+                begin_actor_display_action(action, motion, sprite, D_80173A28);
                 return;
             case 2:
-                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A30);
+                begin_actor_display_action(action, motion, sprite, D_80173A30);
                 return;
             case 3:
-                dungeonBeginActorDisplayAction(action, motion, sprite, D_80173A38);
+                begin_actor_display_action(action, motion, sprite, D_80173A38);
                 return;
             default:
                 return;
@@ -245,8 +245,8 @@ void advanceActorRecoverySequence(S_func_8016C64C_0 *action, S_func_8016C64C_1 *
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
-        world_state = &dungeonStatus;
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        world_state = &g_dungeon_status;
         if (((u8 *)world_state->unk_10) == (u8 *)actor - 0x20) {
             (*(u32 *)&world_state->unk_10) &= 0x7FFFFFFF;
         }

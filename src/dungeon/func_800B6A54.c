@@ -4,7 +4,7 @@
 extern void func_800673A0();
 
 // Updates the wrapped scroll offset and copies its source rectangle to two destinations.
-void dungeonUpdateWrappedTextureScroll(void *scrollState) {
+void update_wrapped_texture_scroll(void *scrollState) {
     s16 sourceRect[4];
 
     {

@@ -2,16 +2,16 @@
 #include "records/Rec_func_801237A4_arg0.h"
 
 
-extern s32 townIsCatalogEntryAvailable(s32);
-extern void townLayoutCatalogEntryGrid(void);
-extern void townLayoutCatalogFrame(void);
-extern void func_80123604(void);
-extern void func_801237A4(void *);
-extern void townRefreshCatalogEntryGrid(void *);
-extern void townInitializeCatalogViewRecords(void *, void *, void *);
+extern s32 is_catalog_entry_available(s32);
+extern void layout_catalog_entry_grid(void);
+extern void layout_catalog_frame(void);
+extern void initialize_catalog_slot_records(void);
+extern void select_paired_value_tables(void *);
+extern void refresh_catalog_entry_grid(void *);
+extern void initialize_catalog_view_records(void *, void *, void *);
 
 /* Initialize state defaults and run the associated setup routines. */
-void townInitializeCatalogState(void *state) {
+void initialize_catalog_state(void *state) {
     s32 one = 1;
 
     ((Rec_func_801237A4_arg0 *)state)->unk_04.as_s16 = 0;
@@ -32,18 +32,18 @@ void townInitializeCatalogState(void *state) {
     ((Rec_func_801237A4_arg0 *)state)->unk_17 = 0xFF;
     ((Rec_func_801237A4_arg0 *)state)->unk_18 = 0xFF;
 
-    if ((townIsCatalogEntryAvailable(0x31) & 0xFF) ||
-        (townIsCatalogEntryAvailable(0x30) & 0xFF)) {
+    if ((is_catalog_entry_available(0x31) & 0xFF) ||
+        (is_catalog_entry_available(0x30) & 0xFF)) {
         ((Rec_func_801237A4_arg0 *)state)->unk_15 = 0;
     } else {
         ((Rec_func_801237A4_arg0 *)state)->unk_15 = one;
     }
 
-    townInitializeCatalogViewRecords((u8 *)state + 0x48, (u8 *)state + 0x20,
+    initialize_catalog_view_records((u8 *)state + 0x48, (u8 *)state + 0x20,
                   (u8 *)state + 0x30);
-    func_801237A4(state);
-    func_80123604();
-    townLayoutCatalogFrame();
-    townLayoutCatalogEntryGrid();
-    townRefreshCatalogEntryGrid(state);
+    select_paired_value_tables(state);
+    initialize_catalog_slot_records();
+    layout_catalog_frame();
+    layout_catalog_entry_grid();
+    refresh_catalog_entry_grid(state);
 }

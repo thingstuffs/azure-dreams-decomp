@@ -67,7 +67,7 @@ extern M2C_UNK D_8016E4E8;
 extern void *D_80175D78;
 
 /* Creates sixteen radial effect segments around the supplied position. */
-void dungeonCreateMultiFormSegmentRing(EntityRec *origin) {
+void create_multi_form_segment_ring(EntityRec *origin) {
     s32 origin_z;
     s32 start_angle;
     s32 end_x;

@@ -11,10 +11,10 @@ typedef struct S_800C54D0_0 {
     s32 unk_60;
     u8 pad_64[0x8];
     s16 unk_6C;
-} S_800C54D0_0;   /* arg0 in func_800C54D0 */
+} S_800C54D0_0;   /* arg0 in install_actor_handler_with_counter_10 */
 
 /* Clear the actor table flag, install its handler, and set its counter to 10. */
-void func_800C54D0(S_800C54D0_0 *actor) {
+void install_actor_handler_with_counter_10(S_800C54D0_0 *actor) {
     D_80082660[actor->unk_60].unk_00 = 0;
     actor->unk_54 = &D_800C53F8;
     actor->unk_6C = 0xA;

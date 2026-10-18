@@ -13,7 +13,7 @@ typedef struct S_800BC00C_0 {
     u16 unk_4A;
     u8 pad_4C[0x2];
     s16 unk_4E;
-} S_800BC00C_0;   /* arg0 in townUpdateEffectMotionSizeAndBrightness; pointer addresses record offset 0x2 */
+} S_800BC00C_0;   /* arg0 in update_effect_motion_size_and_brightness; pointer addresses record offset 0x2 */
 
 
 typedef struct S_800BC00C_2 {
@@ -23,7 +23,7 @@ typedef struct S_800BC00C_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BC00C_2;   /* arg1 in townUpdateEffectMotionSizeAndBrightness */
+} S_800BC00C_2;   /* arg1 in update_effect_motion_size_and_brightness */
 
 
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
-s32 townUpdateEffectMotionSizeAndBrightness(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
+s32 update_effect_motion_size_and_brightness(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {
     s16 state;
     s32 fade_end_state;
     s32 global_flags;
@@ -87,8 +87,8 @@ s32 townUpdateEffectMotionSizeAndBrightness(void *effect_fields, S_800BC00C_2 *p
     case 0xFF:
         ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields
             - 0x2))->unk_00 | 0x8000);
-        global_flags = objectFlagBlock.flags | 0x8000;
-        objectFlagBlock.flags = global_flags;
+        global_flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = global_flags;
         return global_flags;
     default:
         return;

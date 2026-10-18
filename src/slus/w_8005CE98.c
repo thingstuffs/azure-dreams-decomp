@@ -16,7 +16,7 @@ void func_8005CE98(u16 *src, u32 bytes_left)
     initial_status = D_80079958->status.value;
     D_80079958->transfer_address.value = D_80079970;
     saved_status = initial_status & 0x7FF;
-    delayMultiplyLoop();
+    delay_multiply_loop();
 
     while (bytes_left != 0) {
         chunk_bytes = 0x40;
@@ -29,7 +29,7 @@ void func_8005CE98(u16 *src, u32 bytes_left)
         control = D_80079958->control;
         control = (control & 0xFFCF) | 0x10;
         D_80079958->control = control;
-        delayMultiplyLoop();
+        delay_multiply_loop();
         poll_count = 0;
         while (D_80079958->status.value & 0x400) {
             if (++poll_count >= 0xF01) {
@@ -37,8 +37,8 @@ void func_8005CE98(u16 *src, u32 bytes_left)
                 break;
             }
         }
-        delayMultiplyLoop();
-        delayMultiplyLoop();
+        delay_multiply_loop();
+        delay_multiply_loop();
         bytes_left -= chunk_bytes;
     }
 

@@ -3,7 +3,7 @@
 /* Address-taken via %hi/%lo — declare >8B so codegen uses lui+addiu, not gp. */
 extern s32 D_80083840[];
 
-void cardDevkitSetWindowSelectionMarker(void *basePtr, s32 flag) {
+void card_devkit_set_window_selection_marker(void *basePtr, s32 flag) {
     void *targetPtr;
 
     if (basePtr != 0) {

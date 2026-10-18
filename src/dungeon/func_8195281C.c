@@ -90,13 +90,13 @@ typedef struct S_8195281C_10 {
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The switch table follows it at 0x80024008
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
 
-void (*const dungeon_1972800_entry)(void *, void *) = func_8002401C;
+void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, fading model colors and marking completion. */
-void func_8002401C(void *effect, void *color_data) {
+void update_directional_actor_effect(void *effect, void *color_data) {
     s32 upload_rect[2];
     s16 delay_left;
     s16 fade_left;
@@ -118,11 +118,11 @@ void func_8002401C(void *effect, void *color_data) {
     case 0:
         upload_rect[0] = 0x01000340;
         upload_rect[1] = 0x200020;
-        dungeonDrawTexturedEllipse(D_800DF334, upload_rect, 1, 0);
+        draw_textured_ellipse(D_800DF334, upload_rect, 1, 0);
         upload_rect[0] = 0x01000360;
-        dungeonDrawTexturedEllipse(D_80024980, upload_rect, 1, 0);
+        draw_textured_ellipse(D_80024980, upload_rect, 1, 0);
         ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = D_80024998;
-        dungeonCreateTimedModelEffect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
+        create_timed_model_effect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
     case 1:
         actor_slot = (void **) ((int *)(&D_800814A8));
@@ -144,7 +144,7 @@ void func_8002401C(void *effect, void *color_data) {
         break;
     case 2:
         if (((S_8195281C_0 *)effect)->unk_18 == 8) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
         }
         delay_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
         ((S_8195281C_0 *)effect)->unk_18 = delay_left;
@@ -153,7 +153,7 @@ void func_8002401C(void *effect, void *color_data) {
         }
         model_owner = ((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.p;
         ((S_8195281C_0 *)effect)->unk_18 = 0x20;
-        allocateAndInitializeEffectObject(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
+        allocate_and_initialize_effect_object(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
             model_owner->unk_60);
         ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
         break;
@@ -195,11 +195,11 @@ void func_8002401C(void *effect, void *color_data) {
         if ((s16)D_800249A6[0] != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 =
-            (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+        ((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 =
+            (s32) (((S_8195281C_9 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
     }
     D_800249A6[0] = 0;
     return;

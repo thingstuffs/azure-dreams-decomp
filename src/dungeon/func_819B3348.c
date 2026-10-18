@@ -8,7 +8,7 @@
 
 typedef struct S_80024B48_0_pre {
     u16 unk_00;
-} S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in func_80024B48, addressed as arg0[-1] */
+} S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in update_actor_movement_animation_collision, addressed as arg0[-1] */
 
 typedef struct S_80024B48_0 {
     void * unk_00;
@@ -21,16 +21,16 @@ typedef struct S_80024B48_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_80024B48_0;   /* arg0 in func_80024B48 */
+} S_80024B48_0;   /* arg0 in update_actor_movement_animation_collision */
 
 
 typedef struct S_80024B48_2 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in func_80024B48 */
+} S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in update_actor_movement_animation_collision */
 
 /* Initialize object coordinates and set completion flags after 32 ticks. */
-void func_80024B48(void *object) {
+void update_actor_movement_animation_collision(void *object) {
     s32 tile_x;
     s32 tile_y;
     s32 offset_tile_x;
@@ -57,6 +57,6 @@ void func_80024B48(void *object) {
     }
     if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
         (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | 0x8000);
-        (objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        (object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
     }
 }

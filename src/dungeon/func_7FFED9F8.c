@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-void func_8008B158(ovl_d54c_7FFED9F8_Object *object) {
+void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
     ovl_d54c_7FFED9F8_Item *item;
     u32 tag_mask;
     u32 extra_flags;
@@ -25,7 +25,7 @@ void func_8008B158(ovl_d54c_7FFED9F8_Object *object) {
             D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        townEnsureResourceAtFront(option_bit, high_field, middle_field);
+        ensure_resource_at_front(option_bit, high_field, middle_field);
         data_base = 0x80016000;
         data_offset = *(u16 *)&item->flags0;
         data = (u8 *)(data_base + data_offset);

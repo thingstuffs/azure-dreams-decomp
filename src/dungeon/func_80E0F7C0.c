@@ -26,18 +26,18 @@ typedef struct S_80172FC0_0 {
     s32 unk_B4;
     u16 unk_B8;
     u16 unk_BA;
-} S_80172FC0_0;   /* arg0 in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_0;   /* arg0 in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172FC0_2_pre;   /* the 0x14 bytes before effect in dungeonUpdateShrinkingFadingEffect, addressed as effect[-1] */
+} S_80172FC0_2_pre;   /* the 0x14 bytes before effect in update_shrinking_fading_effect, addressed as effect[-1] */
 
 typedef struct S_80172FC0_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172FC0_3;   /* owner in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_3;   /* owner in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_4 {
     void * unk_00;
@@ -61,7 +61,7 @@ typedef struct S_80172FC0_4 {
     u8 pad_26[0x2];
     void * unk_28;
     void * unk_2C;
-} S_80172FC0_4;   /* arg2 in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_4;   /* arg2 in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_5 {
     u8 pad_00[0x2];
@@ -73,28 +73,28 @@ typedef struct S_80172FC0_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172FC0_5;   /* arg1_s4 in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_5;   /* arg1_s4 in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_6 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_80172FC0_6;   /* selected_model in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_6;   /* selected_model in update_shrinking_fading_effect */
 
 typedef struct S_80172FC0_7 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_80172FC0_7;   /* active_child in dungeonUpdateShrinkingFadingEffect */
+} S_80172FC0_7;   /* active_child in update_shrinking_fading_effect */
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
-extern s32 getCdCommandQueueDepth(void);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784(void *, u8, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void dungeonCreateActorLinkedEffect(void *);
-extern void *dungeonCreateDirectionalRenderObject(void *, void *, void *);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void create_actor_linked_effect(void *);
+extern void *create_directional_render_object(void *, void *, void *);
 
 extern s32 D_800814A0;
 extern u8 D_80171094[];
@@ -103,7 +103,7 @@ extern u8 D_80176490[];
 extern u8 D_80176498[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
-void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *sprite, EntityRec *actor)
+void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprite, EntityRec *actor)
 {
     u16 offset[3];
     s32 is_special;
@@ -178,7 +178,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
                     actor->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
                 }
             } else {
-                actor->target = dungeonScanMonsterAlongHeading(
+                actor->target = scan_monster_along_heading(
                     actor,
                     ((S_80172FC0_4 *)sprite)->unk_24,
                     ((S_80172FC0_4 *)sprite)->unk_25,
@@ -189,10 +189,10 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
                 actor->unk_73 =
                     abs(actor->unk_73);
             }
-            if (dungeonCreateActorSpellEffect(actor, effect_id, is_special, (u8 *)anim + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, effect_id, is_special, (u8 *)anim + 0x98) == 0) {
                 return;
             }
-            dungeonCreateActorLinkedEffect(actor);
+            create_actor_linked_effect(actor);
             {
                 u8 next_state;
 
@@ -206,11 +206,11 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
         ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
         main_actor = D_800814A8;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_6D--;
         ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
         actor->unk_73 = 0;
@@ -219,7 +219,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((S_80172FC0_4 *)sprite)->unk_14 |= 0x800;
             return;
         }
@@ -239,7 +239,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
             return;
         }
 
-        ((S_80172FC0_0 *)anim)->unk_A0 = dungeonCreateDirectionalRenderObject(anim, transform_arg, sprite);
+        ((S_80172FC0_0 *)anim)->unk_A0 = create_directional_render_object(anim, transform_arg, sprite);
         {
             s32 direction;
             u8 frame;
@@ -253,7 +253,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
                 s32 view_angle;
                 s32 actor_angle;
 
-                view_angle = gameWork.view.viewAngle;
+                view_angle = g_game_work.view.viewAngle;
                 actor_angle = actor->facing;
                 model_root = ((S_80172FC0_4 *)sprite)->unk_28;
                 model_direction =
@@ -274,7 +274,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
                     offset[2] = 0;
                     offset[1] = 0;
                     offset[0] = 0;
-                    if (resolveRecordOrientationOrFallback(
+                    if (resolve_record_orientation_or_fallback(
                             ((S_80172FC0_4 *)sprite)->unk_08, sprite, offset, 0) != 0) {
                         u16 height_offset;
 
@@ -291,7 +291,7 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
             ((S_80172FC0_0 *)anim)->unk_98 |= 8;
             actor->flags1C &= 0xBFFFFFFF;
             ((S_80172FC0_4 *)sprite)->unk_2C = D_80176490;
-            direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             frame = D_80176490[direction];
             func_80047784(sprite, frame, 0);
             ((S_80172FC0_4 *)sprite)->unk_1E = 0x800;
@@ -405,32 +405,32 @@ void dungeonUpdateShrinkingFadingEffect(void *anim, void *transform_arg, void *s
         ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
         ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
         actor->flags1C |= 0x40000000;
         if (((S_80172FC0_4 *)sprite)->unk_2C != D_80176460) {
             s32 direction;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80176460;
-            direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             func_80047784(sprite, D_80176460[direction], 0);
         }
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x1000;
         ((S_80172FC0_4 *)sprite)->unk_1C = 0x1000;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D--;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
     default:
         return;
     }

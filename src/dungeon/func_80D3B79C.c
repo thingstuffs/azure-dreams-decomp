@@ -7,7 +7,7 @@ typedef struct S_80170F9C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80170F9C_0;   /* object in dungeonCreateConfiguredActorSprite */
+} S_80170F9C_0;   /* object in create_configured_actor_sprite */
 
 typedef struct S_80170F9C_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80170F9C_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_80170F9C_1;   /* work in dungeonCreateConfiguredActorSprite */
+} S_80170F9C_1;   /* work in create_configured_actor_sprite */
 
 typedef struct S_80170F9C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170F9C_2;   /* part_a in dungeonCreateConfiguredActorSprite */
+} S_80170F9C_2;   /* part_a in create_configured_actor_sprite */
 
 typedef struct S_80170F9C_3 {
     u8 pad_00[0x1C];
@@ -31,7 +31,7 @@ typedef struct S_80170F9C_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170F9C_3;   /* part_b in dungeonCreateConfiguredActorSprite */
+} S_80170F9C_3;   /* part_b in create_configured_actor_sprite */
 
 typedef struct S_80170F9C_4 {
     u8 pad_00[0x8C];
@@ -44,23 +44,23 @@ typedef struct S_80170F9C_4 {
     s8 unk_9C;
     u8 pad_9D[0x18];
     s8 unk_B5;
-} S_80170F9C_4;   /* work_copy in dungeonCreateConfiguredActorSprite */
+} S_80170F9C_4;   /* work_copy in create_configured_actor_sprite */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void func_800A48F0();
-extern s32 func_800A6D30(void);
-extern void func_800A9C18();
-extern void func_800AA36C();
-extern void createOwnerLinkedDirectionalObject();
+extern void set_or_clear_actor_status_slot();
+extern s32 generate_random_value(void);
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
+extern void create_owner_linked_directional_object();
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2428[];
 extern u8 D_801711B0[];
 extern u8 D_80171A80[];
 
-void *dungeonCreateConfiguredActorSprite(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
+void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s8 held_value_24 = value_24;
     s16 held_value_0A = value_0A;
@@ -101,28 +101,28 @@ void *dungeonCreateConfiguredActorSprite(s16 mode, s16 value_24, s16 value_25, s
             work->unk_1C |= 0x2000;
         } else if (((mode & -4) << 16) == 0) {
             if ((work->unk_14 & 0x200) == 0) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                if (generate_random_value() & 1) {
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_800E2428;
                 }
             }
         }
 
-        func_800A9C18(object, part_a, part_b, mode_copy);
+        initialize_actor_sprite_and_animation(object, part_a, part_b, mode_copy);
         work_copy->unk_9A = 0xFF;
         work_copy->unk_9C = -1;
         work_copy->unk_8C = D_80171A80;
         work->unk_1C |= 0x40000;
         work_copy->unk_92 = -0x20;
-        func_800AA36C(work_copy, part_a, part_b, work);
+        try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
 
         work_copy->unk_B5 = 0;
         saved_x = part_b->unk_1C;
         saved_y = part_b->unk_1E;
         part_b->unk_1C = 0;
         part_b->unk_1E = 0;
-        createOwnerLinkedDirectionalObject(work_copy, part_a, part_b);
+        create_owner_linked_directional_object(work_copy, part_a, part_b);
         part_b->unk_1C = saved_x;
         part_b->unk_1E = saved_y;
     }
@@ -132,4 +132,4 @@ void *dungeonCreateConfiguredActorSprite(s16 mode, s16 value_24, s16 value_25, s
 
 /* MECHANISM: Ordered value_24/value_0A/value_25 homes plus an s5 part_a base reproduce the 0x38 frame
    and retail save/hold set; ASM_USE keeps s6/s7 occupied so the mode copy takes fp.
-   Both func_800A6D30 sites are zero-argument RNG calls, leaving their delay slots as nops. */
+   Both generate_random_value sites are zero-argument RNG calls, leaving their delay slots as nops. */

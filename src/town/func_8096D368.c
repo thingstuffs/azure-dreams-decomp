@@ -5,22 +5,22 @@
 typedef struct S_80125800_1 {
     u8 pad_00[0x58];
     void * unk_58;
-} S_80125800_1;   /* obj in townInterpolateCatalogGridCursor */
+} S_80125800_1;   /* obj in interpolate_catalog_grid_cursor */
 
 typedef struct S_80125800_2 {
     u8 pad_00[0x184];
     void * unk_184;
-} S_80125800_2;   /* ((S_80125800_1 *)obj)->unk_58 in townInterpolateCatalogGridCursor */
+} S_80125800_2;   /* ((S_80125800_1 *)obj)->unk_58 in interpolate_catalog_grid_cursor */
 
 typedef struct S_80125800_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80125800_3;   /* ((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184 in townInterpolateCatalogGridCursor */
+} S_80125800_3;   /* ((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184 in interpolate_catalog_grid_cursor */
 
 typedef struct S_80125800_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80125800_4;   /* ((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04 in townInterpolateCatalogGridCursor */
+} S_80125800_4;   /* ((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04 in interpolate_catalog_grid_cursor */
 
 
 typedef struct SpriteFields {
@@ -55,7 +55,7 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 townIsCatalogEntryAvailable(u8 value);
+extern u8 is_catalog_entry_available(u8 value);
 extern void *D_801269D0[10];
 extern s16 D_80126B24[8];
 extern u8 D_80127B64[16];
@@ -67,10 +67,10 @@ typedef struct S_80125800_0 {
     u8 pad_08[0x9];
     u8 unk_11;
     u8 unk_12;
-} S_80125800_0;   /* obj in townInterpolateCatalogGridCursor */
+} S_80125800_0;   /* obj in interpolate_catalog_grid_cursor */
 
 /* Updates an available entry's number sprites and interpolates a display field. */
-void townInterpolateCatalogGridCursor(TownObject *obj) {
+void interpolate_catalog_grid_cursor(TownObject *obj) {
     s32 row_offset;
     s32 slot_offset;
     s32 sprite_slot;
@@ -80,7 +80,7 @@ void townInterpolateCatalogGridCursor(TownObject *obj) {
     slot_offset = (row_offset + obj->column) * 3;
     sprite_slot = slot_offset + 33;
     entry_id = (obj->digit << 4) + row_offset + obj->column;
-    if (townIsCatalogEntryAvailable((u8)entry_id) != 0) {
+    if (is_catalog_entry_available((u8)entry_id) != 0) {
         s32 entry_number = entry_id + 1;
 
         *obj->town->slots[sprite_slot] = (void *)D_80127B64;

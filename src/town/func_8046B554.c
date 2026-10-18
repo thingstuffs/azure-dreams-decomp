@@ -6,6 +6,6 @@ M2C_UNK func_8001E670();                         /* extern */
 extern s16 D_8001795C;
 
 /* Pass the current value of D_8001795C to func_8001E670. */
-void townApplyStoredValue1795C(void) {
+void apply_stored_value_1795_c(void) {
     func_8001E670(D_8001795C);
 }

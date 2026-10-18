@@ -3,7 +3,7 @@
 
 extern void *D_800834A0;
 
-extern void townApplyObjectSetupAndUpdate(void *, void *, s32);
+extern void apply_object_setup_and_update(void *, void *, s32);
 
 
 typedef struct S_800C7CF0_0 {
@@ -11,22 +11,22 @@ typedef struct S_800C7CF0_0 {
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800C7CF0_0;   /* D_800834A0 in townMoveMotherEventOutputToTarget */
+} S_800C7CF0_0;   /* D_800834A0 in move_mother_event_output_to_target */
 
 typedef struct S_800C7CF0_1 {
     u8 pad_00[0x6C];
     u16 unk_6C;
-} S_800C7CF0_1;   /* object in townMoveMotherEventOutputToTarget */
+} S_800C7CF0_1;   /* object in move_mother_event_output_to_target */
 
 typedef struct S_800C7CF0_2 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800C7CF0_2;   /* out in townMoveMotherEventOutputToTarget */
+} S_800C7CF0_2;   /* out in move_mother_event_output_to_target */
 
 /* Move the output toward the target position until the object countdown expires. */
-void townMoveMotherEventOutputToTarget(void *object, void *out, s32 setup_context) {
+void move_mother_event_output_to_target(void *object, void *out, s32 setup_context) {
     s16 signed_frames;
     u16 target_x;
     u16 target_y;
@@ -39,7 +39,7 @@ void townMoveMotherEventOutputToTarget(void *object, void *out, s32 setup_contex
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
-        townApplyObjectSetupAndUpdate(object, out, setup_context);
+        apply_object_setup_and_update(object, out, setup_context);
         ((S_800C7CF0_2 *)out)->unk_02 = target_x;
         ((S_800C7CF0_2 *)out)->unk_06 = target_y;
         return;

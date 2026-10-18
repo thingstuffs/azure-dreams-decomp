@@ -16,10 +16,10 @@ typedef struct S_80056558_85458 {
 extern s32 D_80073734[4];
 extern S_80056558_85458 D_80085458[64];
 
-extern s32 soundSetIndexedVoiceVolumes();
+extern s32 sound_set_indexed_voice_volumes();
 
 /* Updates entries with offset-adjusted values when their offsets differ. */
-void soundApplyChangedVoiceVolumeOffsets(void) {
+void sound_apply_changed_voice_volume_offsets(void) {
     s32 entry_index;
     S_80056558_85458 *entry;
     s32 offset;
@@ -30,7 +30,7 @@ void soundApplyChangedVoiceVolumeOffsets(void) {
         reference_offset = entry->f6c;
         offset = entry->f58;
         if (reference_offset != offset) {
-            soundSetIndexedVoiceVolumes(entry_index, entry->f10 + offset, entry->f12 + offset);
+            sound_set_indexed_voice_volumes(entry_index, entry->f10 + offset, entry->f12 + offset);
         }
     }
 }

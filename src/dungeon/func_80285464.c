@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void func_80018464(s16 layout_number)
+void load_dungeon_layout(s16 layout_number)
 {
     MapGrid *cfg;
     floor_generate_isolated_80285464_MapCell *map;
@@ -20,10 +20,10 @@ void func_80018464(s16 layout_number)
     data_2 = (*(u8 * *)D_8008148C);
     (*(u8 * *)D_80081480) = data_2;
     layout_id = D_8001F604[layout_index];
-    cfg = &gameWork.map;
+    cfg = &g_game_work.map;
     map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
     Control_CD(6, layout_id, 0);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
     entry_index = 0;
 
     room_header = (u16 *)(data_2 + 4);
@@ -70,11 +70,11 @@ void func_80018464(s16 layout_number)
         if (((floor_generate_isolated_80285464_Ent8 *)D_800E3CD8)[entry_index].kind == 2) {
             map[data[0] + (data[1] << cfg->shiftX)].kind = 1;
         }
-        func_8009A21C(data[0], data[1], 32);
+        cycle_map_cell_flags(data[0], data[1], 32);
         entry_index++;
         data += 4;
     }
-    if (tryAddSecondTowerEntry(entry_index) != 0) {
+    if (try_add_second_tower_entry(entry_index) != 0) {
         entry_index++;
     }
     D_8001F586 = 1;
@@ -99,7 +99,7 @@ void func_80018464(s16 layout_number)
         D_800E3548[entry_index].kind = *data++;
         D_800E3548[entry_index].unk_03 = *data++;
         D_800E3548[entry_index].unk_02 = *data++;
-        ((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
+        ((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index].f8 = get_item_category_value(&D_800E3548[entry_index]);
         entry_index++;
     }
     while (entry_index < 64) {
@@ -124,7 +124,7 @@ void func_80018464(s16 layout_number)
         ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f3 = *data++;
         ((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f2 = *data++;
         ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f8 = D_800DF258[((floor_generate_isolated_80285464_RecD *)D_800E3648)[entry_index].f0];
-        func_8009A21C(((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f7, 32);
+        cycle_map_cell_flags(((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)D_800E39C8)[entry_index].f7, 32);
         entry_index++;
     }
 
@@ -149,7 +149,7 @@ void func_80018464(s16 layout_number)
     func_8004068C(data, ((u8 *)D_800EA000));
     for (entry_index = 0; D_800E3548[entry_index].kind != 0; entry_index++) {
         placed_record = &((floor_generate_isolated_80285464_RecB *)D_800E36C8)[entry_index];
-        map_value = dungeonGetSurfaceHeightAtCoordinates(placed_record->f0 << 6, placed_record->f1 << 6);
+        map_value = get_surface_height_at_coordinates(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;
         *(s16 *)&placed_record->f2 = map_value;
     }

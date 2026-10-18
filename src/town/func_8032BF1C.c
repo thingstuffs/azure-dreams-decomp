@@ -5,6 +5,6 @@
 extern M2C_UNK D_8001E869;
 
 /* Returns the address of D_8001E869 as an integer. */
-s32 func_8001671C(void) {
+s32 initialize_request(void) {
     return (s32) &D_8001E869;
 }

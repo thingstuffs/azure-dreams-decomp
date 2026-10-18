@@ -27,7 +27,7 @@ extern M2C_UNK D_800240F0;
 
 
 /* Advance the entry index when the point is inside its bounds, counting completed cycles. */
-void townAdvanceBoundedEntryIndex(void *bounds_data, void *state_data) {
+void advance_bounded_entry_index(void *bounds_data, void *state_data) {
     s16 next_index;
     s16 entry_y;
     s16 entry_x;

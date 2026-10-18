@@ -60,10 +60,10 @@ typedef struct S_800D4AB0_4 {
 typedef struct S_800D4AB0_5_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800D4AB0_5_pre;   /* the 0x18 bytes before ((Rec_func_800247B8_arg0 *)arg0)->unk_88 in func_800D4AB0, addressed as ((Rec_func_800247B8_arg0 *)arg0)->unk_88[-1] */
+} S_800D4AB0_5_pre;   /* the 0x18 bytes before ((Rec_func_800247B8_arg0 *)arg0)->unk_88 in create_attached_effect, addressed as ((Rec_func_800247B8_arg0 *)arg0)->unk_88[-1] */
 
 /* Creates an effect linked to the owner with an offset position and initialized render data. */
-void func_800D4AB0(Rec_func_800247B8_arg0 *owner) {
+void create_attached_effect(Rec_func_800247B8_arg0 *owner) {
     S_800D4AB0_3 *position;
     S_800D4AB0_2 *render_data;
     void *effect;

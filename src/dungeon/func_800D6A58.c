@@ -11,7 +11,7 @@ typedef struct S_800DC1B8_0 {
 } S_800DC1B8_0;
 
 /* Wraps the position by signed remainder modulo 32 plus 32 and stores the supplied value. */
-void dungeonWrapPositionAndSetStateValue(s32 state_value) {
+void wrap_position_and_set_state_value(s32 state_value) {
     s32 position;
     s32 adjusted_position;
     S_800DC1B8_0 *state;

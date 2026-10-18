@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 
 /* Finds the first matching value in the four slots at offset 0xAC, or returns -1. */
-s32 func_800A1BD0(s32 target_value) {
+s32 find_entity_slot_by_field_ac(s32 target_value) {
     s32 slot;
     s32 *slot_ptr;
     s32 slot_value;

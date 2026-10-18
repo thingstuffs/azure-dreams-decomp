@@ -1,7 +1,7 @@
 #ifndef MORE_FRAGMENT_C0BEC_H
 #define MORE_FRAGMENT_C0BEC_H
 #include "common.h"
-void *func_800990FC();
+void *get_unused_text_buffer();
 void *func_80099290(s8 *byte_ptr);
-s32 func_800A5720(s8 *text);
+s32 display_text_with_fullwidth_adjustment(s8 *text);
 #endif

@@ -27,9 +27,9 @@ typedef struct S_80175A90_0 {
     u16 unk_DE;
     u16 unk_E0;
     u16 unk_E2;
-} S_80175A90_0;   /* scratch in dungeonDrawRandomizedShadedPolylines */
+} S_80175A90_0;   /* scratch in draw_randomized_shaded_polylines */
 
-   /* context in dungeonDrawRandomizedShadedPolylines */
+   /* context in draw_randomized_shaded_polylines */
 
 typedef struct S_80175A90_2 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -52,7 +52,7 @@ typedef struct S_80175A90_2 {
     u16 unk_18;
     u16 unk_1A;
     u32 unk_1C;
-} S_80175A90_2;   /* prim in dungeonDrawRandomizedShadedPolylines */
+} S_80175A90_2;   /* prim in draw_randomized_shaded_polylines */
 
 typedef struct S_80175A90_3 {
     u8 pad_00[0x2];
@@ -61,16 +61,16 @@ typedef struct S_80175A90_3 {
     union { u16 u; s16 s; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     union { u16 u; s16 s; } unk_0A;   /* accessed as both */
-} S_80175A90_3;   /* arg0 in dungeonDrawRandomizedShadedPolylines */
+} S_80175A90_3;   /* arg0 in draw_randomized_shaded_polylines */
 
 
 extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Draw seven shaded polylines with randomized offsets between two positions. */
-void dungeonDrawRandomizedShadedPolylines(S_80175A90_3 *start_pos, EntityRec *end_pos)
+void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_pos)
 {
-    void **context_ptr = (void **)((u8 *)(&gameWork));
+    void **context_ptr = (void **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *prim;
     s32 line_index = 0;

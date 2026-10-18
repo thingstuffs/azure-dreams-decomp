@@ -8,19 +8,19 @@ typedef struct {
 } DungeonState;
 
 extern void func_800A08A0(s32);
-extern s32 func_800A6D30(void);
+extern s32 generate_random_value(void);
 extern s16 D_8008146E;
 
 
 /* Counts down turns until a monster spawn, then resets the spawn timer. */
-void tickMonsterSpawnTimer(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
+void tick_monster_spawn_timer(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s16 spawn_turns;
 
     if (D_8008146E != 0) {
-        spawn_turns = dungeonStatus.unk_06 - 1;
-        dungeonStatus.unk_06 = spawn_turns;
+        spawn_turns = g_dungeon_status.unk_06 - 1;
+        g_dungeon_status.unk_06 = spawn_turns;
         if (spawn_turns < 0) {
-            dungeonStatus.unk_06 = (func_800A6D30() & 0x1F) | 0x20;
+            g_dungeon_status.unk_06 = (generate_random_value() & 0x1F) | 0x20;
             func_800A08A0(0);
         }
     }

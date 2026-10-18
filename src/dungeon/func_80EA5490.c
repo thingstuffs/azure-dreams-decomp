@@ -59,21 +59,21 @@ typedef struct ActorAbilityView {
 } ActorAbilityView;
 extern int abs(int);
 
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void *dungeonCreateActorSpellEffect();
-extern s32 func_800A56E0(s32);
-extern void dungeonCreateTwoEffectGroups(void *, void *, void *, s32);
-extern void dungeonSetRecordIntegerTileCenter();
-extern s32 dungeonAdvanceStatusTimers(void *);
-extern s32 getCdCommandQueueDepth(void);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *create_actor_spell_effect();
+extern s32 play_sound_if_enabled(s32);
+extern void create_two_effect_groups(void *, void *, void *, s32);
+extern void set_record_integer_tile_center();
+extern s32 advance_status_timers(void *);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784();
 
-extern void dungeonUpdateDungeonActionBehaviorFacingAnimationState(void *, void *, void *, void *);
+extern void update_dungeon_action_behavior_facing_animation_state(void *, void *, void *, void *);
 extern u8 D_8015CEF8[];
 extern u8 D_8015CF00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
-void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC90(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     u32 direction_byte_offset;
     u16 angle;
@@ -88,12 +88,12 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
     s32 next_phase;
     u16 position[3];
 
-    dir_x_table = dirStepX;
+    dir_x_table = dir_step_x;
     angle = ((u16)actor->facing);
     direction_byte_offset = angle >> 8;
     direction_byte_offset &= 0xE;
     dir_x = *(s16 *)((u8 *)dir_x_table + direction_byte_offset);
-    direction_byte_offset += (u32)dirStepY;
+    direction_byte_offset += (u32)dir_step_y;
     dir_y = *(s16 *)direction_byte_offset;
     timer = action->timer.raw;
     state = action->phase;
@@ -173,7 +173,7 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
                         actor->unk_73 = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
                     }
                 } else {
-                    actor->target = dungeonScanMonsterAlongHeading(actor,
+                    actor->target = scan_monster_along_heading(actor,
                         sprite->tile.bytes.x,
                         sprite->tile.bytes.y,
                         actor->facing, 16);
@@ -189,15 +189,15 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
                 position[0] = ((u16)motion->x.w.i);
                 position[1] = ((u16)motion->y.w.i);
                 position[2] = ((u16)motion->z.w.i);
-                target_sprite_or_effect = (s32)dungeonCreateActorSpellEffect(move_actor, selector, special,
+                target_sprite_or_effect = (s32)create_actor_spell_effect(move_actor, selector, special,
                                             &action->flags);
             }
             if (!target_sprite_or_effect) {
                 return;
             }
             sprite->flags &= 0xF7FF;
-            func_800A56E0(0x703);
-            dungeonCreateTwoEffectGroups(motion, sprite, actor, 10);
+            play_sound_if_enabled(0x703);
+            create_two_effect_groups(motion, sprite, actor, 10);
             action->scratch = 0;
             action->timer.raw = 2;
             action->flags |= 8;
@@ -224,17 +224,17 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         {
             void *owner;
 
             owner = D_800814A8;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             ((PlayerActionCounterView *)owner)->activeActions--;
         }
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
-        action->nextBehavior = dungeonUpdateDungeonActionBehaviorFacingAnimationState;
+        action->nextBehavior = update_dungeon_action_behavior_facing_animation_state;
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
@@ -263,7 +263,7 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
         return;
 
     case 2:
-        if (getCdCommandQueueDepth()) {
+        if (get_cd_command_queue_depth()) {
             sprite->flags |= 0x0800;
             return;
         }
@@ -303,7 +303,7 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
             effect = D_8015CF00;
             sprite->frameTable = effect;
             func_80047784(sprite,
-                effect[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                effect[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->flags &= 0xFFF7;
             action->phase++;
@@ -326,7 +326,7 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
         }
         sprite->frameTable = D_8015CEF8;
         func_80047784(sprite,
-            D_8015CEF8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8015CEF8[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.raw = 10;
         action->phase = action->phase + 1;
@@ -377,27 +377,27 @@ void dungeonUpdateTheActorActionSequenceIncludingMovementLandingRecoveryAt8015AC
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8015CF00) {
             sprite->frameTable = D_8015CF00;
             func_80047784(sprite,
-                D_8015CF00[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8015CF00[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         sprite->flags &= 0xF7FF;
-        action->nextBehavior = dungeonUpdateDungeonActionBehaviorFacingAnimationState;
-        dungeonAdvanceStatusTimers(actor);
+        action->nextBehavior = update_dungeon_action_behavior_facing_animation_state;
+        advance_status_timers(actor);
         if (actor->unk_6D > 0) {
             (*(u8 *)&actor->unk_6D)--;
         }
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
     }
     default:
         return;

@@ -1,4 +1,4 @@
 #include "common.h"
 
-extern s32 func_80018854(s32);
-s32 func_800161B0(void) { return func_80018854(0x512); }
+extern s32 call_helper_with_fixed_id_0x118a(s32);
+s32 advance_counter_and_dispatch_event(void) { return call_helper_with_fixed_id_0x118a(0x512); }

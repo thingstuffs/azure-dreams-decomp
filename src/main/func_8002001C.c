@@ -29,11 +29,11 @@ typedef struct {
 
 extern StructA_8002001C *func_8003C480(s32 value);
 extern void func_80402214(void);
-extern void func_804023C4(void);
-extern s32 initCardBackgroundObject(StructA_8002001C *init_value, s32 config_value);
-extern s32 initCardInfoObject(StructA_8002001C *init_option, s32 info_value);
+extern void run_slot_operation_code_five(void);
+extern s32 init_card_background_object(StructA_8002001C *init_value, s32 config_value);
+extern s32 init_card_info_object(StructA_8002001C *init_option, s32 info_value);
 extern void func_80406F14(void *object, s32 value);
-extern s32 initCardSmeObject(StructA_8002001C *init_option);
+extern s32 init_card_sme_object(StructA_8002001C *init_option);
 extern void func_80406F70(void);
 
 /* Allocates and initializes an object and installs its callback. */
@@ -44,11 +44,11 @@ StructA_8002001C *func_8002001C(s32 init_value, s32 config_value) {
     if (object != NULL) {
         object->unk44 = config_value;
         func_80406F14((void *) ((s32) object + 0x20), init_value);
-        func_804023C4();
+        run_slot_operation_code_five();
         func_80402214();
-        object->unk20 = initCardBackgroundObject(object, 0);
-        object->unk24 = initCardInfoObject(object, object->unk4C);
-        object->unk28 = initCardSmeObject(object);
+        object->unk20 = init_card_background_object(object, 0);
+        object->unk24 = init_card_info_object(object, object->unk4C);
+        object->unk28 = init_card_sme_object(object);
         object->unk48 = 0;
         object->unk10 = func_80406F70;
     }

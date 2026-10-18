@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern s16 pollDriverCompletionEvent(s32 a0);
+extern s16 poll_driver_completion_event(s32 a0);
 
 /* Checks SPU transfer completion, waiting when requested. */
-s16 soundCheckOrWaitForSpuTransfer(s16 wait_for_completion)
+s16 sound_check_or_wait_for_spu_transfer(s16 wait_for_completion)
 {
     if (!wait_for_completion)
-        return pollDriverCompletionEvent(0);
-    return pollDriverCompletionEvent(1);
+        return poll_driver_completion_event(0);
+    return poll_driver_completion_event(1);
 }

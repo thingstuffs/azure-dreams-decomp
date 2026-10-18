@@ -3,10 +3,10 @@
 #include "shared/dungeon_status.h"
 
 
-s32 dungeonCompareThreeBitMasksCyclically(u8 left_mask, u16 right_mask);
+s32 compare_three_bit_masks_cyclically(u8 left_mask, u16 right_mask);
 
 /* Selects the highest-value nonempty item among three slots, breaking ties by kind score. */
-s16 dungeonSelectHighestValueItem(s32 records_addr, s32 item_kind)
+s16 select_highest_value_item(s32 records_addr, s32 item_kind)
 {
     s16 result;
     s32 best_score;
@@ -27,7 +27,7 @@ s16 dungeonSelectHighestValueItem(s32 records_addr, s32 item_kind)
     best_score = -4;
     best_value = 0;
     count = 0;
-    tripled_index = dungeonStatus.unk_1E;
+    tripled_index = g_dungeon_status.unk_1E;
     table_or_result = (s32)D_8006DE24;
     index = tripled_index & 3;
     do {
@@ -47,7 +47,7 @@ s16 dungeonSelectHighestValueItem(s32 records_addr, s32 item_kind)
             tripled_index += item;
             tripled_index *= 4;
             tripled_index += table_or_result;
-            score = dungeonCompareThreeBitMasksCyclically(*(u8 *)(tripled_index + 16), (u16)records_addr);
+            score = compare_three_bit_masks_cyclically(*(u8 *)(tripled_index + 16), (u16)records_addr);
             prior_value = best_value;
             candidate_value = value;
             if (prior_value < candidate_value) {

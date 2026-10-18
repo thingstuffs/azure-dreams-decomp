@@ -46,17 +46,17 @@ typedef struct S_80D95000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern u8 D_8016AA3C[];
 extern s32 D_8016AE68;
 extern s32 D_8016D86C;
 
-void *func_8016A874(s16 init_flags, s16 x, s16 y, s16 initial_value) ;
+void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_value) ;
 /* Allocates an object and initializes its state, placement, and mode. */
-void *func_8016A874(s16 init_flags, s16 x, s16 y, s16 initial_value) {
+void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_value) {
     s32 global_byte;
     s32 unused_slot;
     s32 mode;
@@ -102,18 +102,18 @@ void *func_8016A874(s16 init_flags, s16 x, s16 y, s16 initial_value) {
         } else {
             if (((init_flags & ~3) << 0x10) == 0) {
                 if (!(state->unk_14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         state->unk_1C = (s32) (state->unk_1C | 0x200);
-                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }
             }
         }
-        func_800A9C18(object, object_data, placement, init_flags);
+        initialize_actor_sprite_and_animation(object, object_data, placement, init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_8016AE68;
-        func_800AA36C(extended_state, object_data, placement, state);
+        try_move_actor_to_valid_position(extended_state, object_data, placement, state);
     }
     return state;
 }

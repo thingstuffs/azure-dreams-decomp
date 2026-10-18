@@ -30,7 +30,7 @@ typedef struct S_80026C94_0 {
     u8 pad_00[0x60];
     void * unk_60;
     void * unk_64;
-} S_80026C94_0;   /* arg0 in cardBootLayoutLeftRightLabels */
+} S_80026C94_0;   /* arg0 in card_boot_layout_left_right_labels */
 
 typedef struct S_80026C94_1 {
     M2C_UNK * unk_00;
@@ -41,7 +41,7 @@ typedef struct S_80026C94_2 {
 } S_80026C94_2;
 
 /* Set the positions and data pointers for the left and right entries. */
-void cardBootLayoutLeftRightLabels(S_80026C94_0 *owner) {
+void card_boot_layout_left_right_labels(S_80026C94_0 *owner) {
     S_80026C94_1 *left_entry;
 
     left_entry = owner->unk_60;

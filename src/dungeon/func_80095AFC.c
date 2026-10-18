@@ -14,11 +14,11 @@ struct Node {
     s16 value;
 };
 
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 dungeonCheckEntityEligibility(void *entity);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 check_entity_eligibility(void *entity);
 
 /* Finds an eligible node at the target coordinates with a value difference below 64. */
-void *findEligibleActorAtTileAndHeight(Node *node, s16 x, s16 y_in, s16 value) {
+void *find_eligible_actor_at_tile_and_height(Node *node, s16 x, s16 y_in, s16 value) {
     s16 y;
     u16 flags;
     Node *sentinel;
@@ -30,7 +30,7 @@ void *findEligibleActorAtTileAndHeight(Node *node, s16 x, s16 y_in, s16 value) {
     target_x = x;
     target_value = value;
     y = y_in;
-    if ((s16)getOffsetMapCellValueAndFlags((s16)(x - 1), y, 0, &flags) == 0) {
+    if ((s16)get_offset_map_cell_value_and_flags((s16)(x - 1), y, 0, &flags) == 0) {
         return 0;
     }
     if (!(flags & 0x3300)) {
@@ -45,7 +45,7 @@ void *findEligibleActorAtTileAndHeight(Node *node, s16 x, s16 y_in, s16 value) {
             if (value_gap < 0) {
                 value_gap = -value_gap;
             }
-            if (value_gap < 0x40 && (dungeonCheckEntityEligibility(node) << 16) != 0) {
+            if (value_gap < 0x40 && (check_entity_eligibility(node) << 16) != 0) {
                 return node;
             }
         }

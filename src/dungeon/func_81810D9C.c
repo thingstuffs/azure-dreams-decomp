@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void inventoryInitializeOwnerPatchAndState(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
+void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
     ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &D_8002E5D8;
     ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &D_8002E5E8;

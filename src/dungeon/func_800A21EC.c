@@ -29,7 +29,7 @@ typedef struct S_800A794C_2 {
     s16 unk_AE;
 } S_800A794C_2;   /* fields in func_800A794C */
 
-extern void * func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_800A77AC[];
 
@@ -41,7 +41,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     u8 *fields;
     s32 payload;
 
-    object = func_800A8608(((s32 *)&D_80083498.next), payload_ptr, 0, 0, 0);
+    object = create_item_render_object(((s32 *)&D_80083498.next), payload_ptr, 0, 0, 0);
     if (object == 0) {
         return 0;
     }
@@ -58,6 +58,6 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
     ((S_800A794C_2 *)fields)->unk_98 = payload;
     ((S_800A794C_2 *)fields)->unk_AE = (s16)field_ae;
-    dungeonStatus.unk_0A++;
+    g_dungeon_status.unk_0A++;
     return (s32)object;
 }

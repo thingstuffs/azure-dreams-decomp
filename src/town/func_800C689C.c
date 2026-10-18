@@ -15,11 +15,11 @@ typedef struct {
     u16 angle;
 } Position;
 
-extern u16 townGetClampedTransformCoordinate(void *object);
-extern void townApplyObjectSetupAndUpdate(void *object, void *update_context, s32 setup_context);
+extern u16 get_clamped_transform_coordinate(void *object);
+extern void apply_object_setup_and_update(void *object, void *update_context, s32 setup_context);
 
 /* Moves the position toward its target over the remaining steps and updates its angle. */
-void townMovePositionTowardTarget(void *work_data, void *position_data, s32 completion_arg) {
+void move_position_toward_target(void *work_data, void *position_data, s32 completion_arg) {
     Position *pos;
     Work *work;
     u16 remaining_count;
@@ -33,7 +33,7 @@ void townMovePositionTowardTarget(void *work_data, void *position_data, s32 comp
     if (remaining <= 0) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
-        townApplyObjectSetupAndUpdate(work, pos, completion_arg);
+        apply_object_setup_and_update(work, pos, completion_arg);
     } else {
         {
             s32 current_x;
@@ -57,5 +57,5 @@ void townMovePositionTowardTarget(void *work_data, void *position_data, s32 comp
         angle = *(u16 *)&pos->angle;
         pos->angle = angle - 0x40;
     }
-    pos->angle = townGetClampedTransformCoordinate(pos);
+    pos->angle = get_clamped_transform_coordinate(pos);
 }

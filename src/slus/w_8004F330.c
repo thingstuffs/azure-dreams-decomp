@@ -32,7 +32,7 @@ typedef struct S_8004F330_Entity {
     S_8002E5D8 bodyArray[7];
 } S_8004F330_Entity;
 
-void initializeMenuBackdropDisplayNodes(S_8004F330_Entity *entity, s32 node_count)
+void initialize_menu_backdrop_display_nodes(S_8004F330_Entity *entity, s32 node_count)
 {
     s32 i;
     s32 w0;

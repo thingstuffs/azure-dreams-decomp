@@ -38,14 +38,14 @@ typedef struct S_8002596C_2 {
 } S_8002596C_2;
 
 /* Create a sprite effect at the given position with a randomized rotation. */
-void dungeonCreateASpriteEffectPositionRandomizedRotation(s16 x, s16 y, s16 z) {
+void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     S_8002596C_1 *transform;
     S_8002596C_2 *sprite;
     ObjectNodeHeader *effect;
 
     effect = func_8003FC64(0x202);
     if (effect != NULL) {
-        effect->unk_10 = (s32 *)dungeonAdvanceAndFadeEffectFlaggingExpirationTimerRunsOut;
+        effect->unk_10 = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
         func_8004491C(effect, func_80045340);
         transform = effect->unk_08;
         transform->unk_02 = x;

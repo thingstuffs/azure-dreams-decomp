@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *cardBootCreateOrResetMessageDialog();   /* extern */
+u8 *card_boot_create_or_reset_message_dialog();   /* extern */
 
 /* Dispatches command 0x13 with the supplied argument and two zero arguments. */
-void cardBootShowDeleteFailureNotice(s32 command_arg) {
+void card_boot_show_delete_failure_notice(s32 command_arg) {
     s32 zero = 0;
-    cardBootCreateOrResetMessageDialog(command_arg, 0x13, zero, zero);
+    card_boot_create_or_reset_message_dialog(command_arg, 0x13, zero, zero);
 }

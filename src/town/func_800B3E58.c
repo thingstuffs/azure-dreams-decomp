@@ -20,7 +20,7 @@ typedef struct S_800B15B8_1 {
 } S_800B15B8_1;
 
 /* Resets five slots and clears their associated resource handles. */
-void townResetFiveShopSlots(Rec_func_800B15B8_arg0 *owner) {
+void reset_five_shop_slots(Rec_func_800B15B8_arg0 *owner) {
     void *slot_cursor;
     s32 slot_index;
 

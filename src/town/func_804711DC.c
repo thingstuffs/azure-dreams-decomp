@@ -7,7 +7,7 @@ void func_8001844C(s32 entry_code);
 void func_8001A418(s32 code);
 
 /* Process flagged type 0x18 entries, displaying messages and invoking their handlers. */
-void func_800181DC(void) {
+void process_flagged_type_0x18_entries(void) {
     u8 *entry;
     u8 *type_ptr;
     u8 entry_code;

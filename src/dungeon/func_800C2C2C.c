@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 
 /* Tests the flag on this entity, or on either linked entity for aggregate records. */
-s32 func_800C838C(EntityRec *entity)
+s32 initialize_object_configuration_x(EntityRec *entity)
 {
     if (entity->flags14 & 0x4000) {
         s32 index;

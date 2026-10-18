@@ -2,10 +2,10 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-s32 runtimeEstimateVectorLength();                        /* extern */
+s32 runtime_estimate_vector_length();                        /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-s16 townInputAngleWithOffset();                        /* extern */
+s16 input_angle_with_offset();                        /* extern */
 
 typedef struct {
     u8 pad[0xC];
@@ -14,24 +14,24 @@ typedef struct {
 } Func97514Object;
 
 /* Adjust the object vector toward the selected angle and limit its magnitude. */
-void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(Func97514Object *object) {
+void handle_adjust_vector_toward_selected_angle_limit_magnitude(Func97514Object *object) {
     s16 angle;
     s32 delta_x;
     s32 delta_y;
     s32 old_magnitude;
     s32 new_magnitude;
 
-    angle = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
+    angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
     if (angle != -1) {
         delta_x = func_800644B8(angle) << 6;
         delta_y = func_80064584(angle) << 6;
-        old_magnitude = runtimeEstimateVectorLength(object->x, object->y);
+        old_magnitude = runtime_estimate_vector_length(object->x, object->y);
         if (old_magnitude <= 0x7FFFF) {
             old_magnitude = 0x80000;
         }
         object->x += delta_x;
         object->y += delta_y;
-        new_magnitude = runtimeEstimateVectorLength(object->x, object->y);
+        new_magnitude = runtime_estimate_vector_length(object->x, object->y);
         if (old_magnitude < new_magnitude) {
             object->x = object->x / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
             object->y = object->y / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);

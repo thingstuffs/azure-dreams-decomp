@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Calls townSetScriptFlagBit with argument 0x12C2. */
-void townInvokeEventCode12C2(void) {
-    townSetScriptFlagBit(0x12C2);
+/* Calls set_script_flag_bit with argument 0x12C2. */
+void invoke_event_code_12_c_2(void) {
+    set_script_flag_bit(0x12C2);
 }

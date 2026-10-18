@@ -4,11 +4,11 @@
 #include "m2c_compat.h"
 
 extern void func_80046884(void *, void *, s32);
-extern s32 runtimeInitializePolygonEdges(s32, s32 *, u16 *);
+extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);
 extern void func_80064624(s32, s32);
 extern void func_80064D20(void *);
 extern void func_80064D50(void *);
-void func_800AD138();                         /* extern */
+void draw_empty_map_cell_quads();                         /* extern */
 extern u8 D_8006ADBC[];
 extern s32 D_800D1548[3];
 extern u8 D_800D1554[9];
@@ -236,7 +236,7 @@ typedef struct S_func_800AED64_17 {
 typedef union { S_func_800AED64_4 *ptr; u32 address; } ScratchAddress;
 
 /* Render visible town map tiles as shaded polygons in the ordering table. */
-void func_800AC4C4(void) {
+void render_shaded_map_tiles(void) {
     s32 width_shift;
     s32 tile_index;
     s32 height_shift;
@@ -289,7 +289,7 @@ void func_800AC4C4(void) {
     register void *vertex_input;
     S_func_800AED64_1 *render_state;
 
-    render_state = (S_func_800AED64_1 *)&gameWork;
+    render_state = (S_func_800AED64_1 *)&g_game_work;
     map_data = (u8 *)render_state + 0x1DC;
     tile_map = render_state->unk_1DC;
     vertices = map_data->unk_08;
@@ -345,7 +345,7 @@ void func_800AC4C4(void) {
     scratch.ptr->unk_14C = 0xFFFF;
     scratch.ptr->unk_174 = 4;
     scratch.ptr->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch.ptr->unk_0C = (s16) runtimeInitializePolygonEdges((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
+    scratch.ptr->unk_0C = (s16) runtime_initialize_polygon_edges((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = (u8 *)scratch.ptr + 0xE0;
@@ -775,7 +775,7 @@ void func_800AC4C4(void) {
                                 scene_state = D_8006ADBC;
                                 if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
                                     && ((s16) scene_state->unk_1A != 0x34)) {
-                                    func_800AD138(scratch.ptr->unk_164);
+                                    draw_empty_map_cell_quads(scratch.ptr->unk_164);
                                 }
                             }
                             return;
@@ -810,7 +810,7 @@ void func_800AC4C4(void) {
         scene_state = D_8006ADBC;
         if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
             && ((s16) scene_state->unk_1A != 0x34)) {
-            func_800AD138(scratch.ptr->unk_164);
+            draw_empty_map_cell_quads(scratch.ptr->unk_164);
         }
     }
 }

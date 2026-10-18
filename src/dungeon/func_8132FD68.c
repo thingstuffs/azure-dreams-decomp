@@ -14,10 +14,10 @@ typedef struct {
 } Point;
 
 extern Rect D_8016481C;
-extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates a timed effect around the rectangle's center and flags its expiration. */
-void dungeonTickRotatingRectEffect(void *effect, s32 unused, void *phase_state)
+void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state)
 {
     Rect rect;
     Point center;
@@ -27,12 +27,12 @@ void dungeonTickRotatingRectEffect(void *effect, s32 unused, void *phase_state)
     center.x = rect.x + ((s16)rect.w >> 1);
     center.y = rect.y + ((s16)rect.h >> 1);
     *(u16 *)((u8 *)phase_state + 0x1A) += 0x28;
-    func_800B8FC8(effect, &rect, &center, 1, 1);
+    draw_transformed_sprite_with_clip_rect(effect, &rect, &center, 1, 1);
 
     timer = *(u16 *)((u8 *)effect + 0x18) - 1;
     *(u16 *)((u8 *)effect + 0x18) = timer;
     if ((s16)timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

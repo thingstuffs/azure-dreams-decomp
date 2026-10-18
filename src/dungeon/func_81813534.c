@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void dungeonFormatMenuReferencedValues(void *state) {
+void format_menu_referenced_values(void *state) {
     s32 **value_slot;
     s32 slot_index;
 

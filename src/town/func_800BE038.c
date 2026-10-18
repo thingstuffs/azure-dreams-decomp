@@ -16,7 +16,7 @@ typedef struct S_800BB798_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
-} S_800BB798_0;   /* arg0 in townCreateObjectFromPolarSpawnData */
+} S_800BB798_0;   /* arg0 in create_object_from_polar_spawn_data */
 
 typedef struct S_800BB798_1 {
     u8 pad_00[0xC8];
@@ -37,7 +37,7 @@ typedef struct S_800BB798_3 {
 } S_800BB798_3;
 
 /* Converts polar spawn data to components and initializes a new object with it. */
-s32 townCreateObjectFromPolarSpawnData(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
+s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
     s32 angle;
     s32 radius_fixed;
     s32 radius;
@@ -47,13 +47,13 @@ s32 townCreateObjectFromPolarSpawnData(S_800BB798_0 *spawn_data, s16 state_48, s
     S_800BB798_3 *object_state;
     void *object_data;
 
-    angle = spawn_data->unk_10 + gameWork.view.viewAngle;
+    angle = spawn_data->unk_10 + g_game_work.view.viewAngle;
     radius_fixed = spawn_data->unk_0C;
     trig_factor = func_80064584(angle);
     radius = radius_fixed >> 0xC;
     component = radius * trig_factor;
     spawn_data->unk_0C = component;
-    angle = spawn_data->unk_10 + gameWork.view.viewAngle;
+    angle = spawn_data->unk_10 + g_game_work.view.viewAngle;
     trig_factor = func_800644B8(angle);
 
     component = radius * trig_factor;

@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void cardBootLayoutEmptySlotWindow(s32 *object);
+extern void card_boot_layout_empty_slot_window(s32 *object);
 extern void func_80023BE4(void *, s32, s32);
-extern void cardBootFormatOccupiedSlotWindow(s32 *slot_owner);
-extern void cardBootLayoutAlternateSlotWindow(s32 *context);
+extern void card_boot_format_occupied_slot_window(s32 *slot_owner);
+extern void card_boot_layout_alternate_slot_window(s32 *context);
 
 typedef struct {
     /* 0x00 */ s32 unk0;
@@ -15,16 +15,16 @@ typedef struct {
 extern EntryS80083E98 D_80083E98[];
 
 /* Processes two buffers and selects handlers using the state's indexed entry. */
-void cardBootPopulateSlotWindowDisplay(s32 *state) {
+void card_boot_populate_slot_window_display(s32 *state) {
     func_80023BE4((u8 *)state + 0x134, 0x80, 0x18);
     func_80023BE4((u8 *)state + 0x1AC, 0x2A, 0x14);
     if (D_80083E98[*state].unk0 != 0) {
-        cardBootFormatOccupiedSlotWindow(state);
+        card_boot_format_occupied_slot_window(state);
         if (D_80083E98[*state].unk8 != 0) {
-            cardBootLayoutAlternateSlotWindow(state);
+            card_boot_layout_alternate_slot_window(state);
             return;
         }
     } else {
-        cardBootLayoutEmptySlotWindow(state);
+        card_boot_layout_empty_slot_window(state);
     }
 }

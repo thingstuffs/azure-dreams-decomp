@@ -12,7 +12,7 @@ typedef struct Position {
 } Position;
 
 extern void town_sd_sq_callagain(s32 y_distance);
-extern s32 townApplyNearbyObjectEffects(void);
+extern s32 apply_nearby_object_effects(void);
 
 
 typedef struct S_800C21F8_0 {
@@ -22,10 +22,10 @@ typedef struct S_800C21F8_0 {
     u8 pad_08[0x4];
     s16 unk_0C;
     s16 unk_0E;
-} S_800C21F8_0;   /* arg0 in townSwitchCallbackBeyondDistanceLimit */
+} S_800C21F8_0;   /* arg0 in switch_callback_beyond_distance_limit */
 
 /* Switches the object callback when its distance from the global position exceeds either limit. */
-s32 townSwitchCallbackBeyondDistanceLimit(S_800C21F8_0 *object) {
+s32 switch_callback_beyond_distance_limit(S_800C21F8_0 *object) {
     s32 y_distance;
     s32 x_distance;
     s32 axis_delta;
@@ -36,7 +36,7 @@ s32 townSwitchCallbackBeyondDistanceLimit(S_800C21F8_0 *object) {
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {
         town_sd_sq_callagain(y_distance);
-        object->unk_00 = (void (*)(void))townApplyNearbyObjectEffects;
+        object->unk_00 = (void (*)(void))apply_nearby_object_effects;
 
         return 1;
     }

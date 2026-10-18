@@ -10,10 +10,10 @@ void func_80244588();                  /* extern */
 void func_802445FC();                     /* extern */
 void func_80244660();                     /* extern */
 s32 func_8025E01C();                     /* extern */
-void func_80526BFC();              /* extern */
-void func_80526D34();                      /* extern */
-void func_80526E4C(); /* extern */
-void townDrawRotatingCollectionFrame();                      /* extern */
+void allocate_record_and_store_three_blocks();              /* extern */
+void create_initialize_eight_objects_table();                      /* extern */
+void create_object_pair_word(); /* extern */
+void draw_rotating_collection_frame();                      /* extern */
 extern s32 D_80084D5C;
 extern u8 D_80095AA0[8];
 extern u8 D_801328E8[0x14];
@@ -21,15 +21,15 @@ extern u8 D_80132AE8[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
 M2C_UNK func_802483B8();                      /* extern */
-void func_80529134();                      /* extern */
+void advance_accumulator_reset_lowering_stored();                      /* extern */
 M2C_UNK func_80290318();                      /* extern */
-void func_80528950();                      /* extern */
-void func_80528910();                      /* extern */
-void func_80526B18();                      /* extern */
+void set_record_global_flags_object();                      /* extern */
+void set_bit_preceding_flags_global();                      /* extern */
+void tick_timed_object_and_mark_complete();                      /* extern */
 M2C_UNK func_80243A38();
 typedef struct S_80527D5C_0_pre {
     u16 unk_00;
-} S_80527D5C_0_pre;   /* the 0x2 bytes before arg0 in townRunCollectionRoundSequence, addressed as arg0[-1] */
+} S_80527D5C_0_pre;   /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 
 typedef struct S_80527D5C_0 {
     u8 pad_00[0x4];
@@ -43,7 +43,7 @@ typedef struct S_80527D5C_0 {
     u16 unk_32;
     s16 unk_34;
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
-} S_80527D5C_0;   /* arg0 in townRunCollectionRoundSequence */
+} S_80527D5C_0;   /* arg0 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_1 {
     u8 pad_00[0x8];
@@ -60,14 +60,14 @@ typedef struct S_80527D5C_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80527D5C_2;   /* &D_80132AE8 in townRunCollectionRoundSequence */
+} S_80527D5C_2;   /* &D_80132AE8 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_3 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x8];
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
-} S_80527D5C_3;   /* &D_801328E8 in townRunCollectionRoundSequence */
+} S_80527D5C_3;   /* &D_801328E8 in run_collection_round_sequence */
 
 typedef struct S_80527D5C_4 {
     u8 pad_00[0x68];
@@ -85,7 +85,7 @@ typedef struct S_80527D5C_5 {
     u8 pad_0E[0x2];
     s32 unk_10;
     s32 unk_14;
-} S_80527D5C_5;   /* second in townRunCollectionRoundSequence */
+} S_80527D5C_5;   /* second in run_collection_round_sequence */
 
 typedef struct S_80527D5C_6 {
     s16 unk_00;
@@ -99,12 +99,12 @@ typedef struct S_80527D5C_6 {
     s16 unk_18;
     s16 unk_1A;
     u16 unk_1C;
-} S_80527D5C_6;   /* first in townRunCollectionRoundSequence */
+} S_80527D5C_6;   /* first in run_collection_round_sequence */
 
 typedef struct S_80527D5C_7 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80527D5C_7;   /* state8_item_addr in townRunCollectionRoundSequence */
+} S_80527D5C_7;   /* state8_item_addr in run_collection_round_sequence */
 
 typedef struct S_80527D5C_8 {
     u8 pad_00[0x8];
@@ -134,7 +134,7 @@ typedef struct S_80527D5C_11 {
 /* extern */
 
 /* Advances the animation and item collection sequence and clamps its position. */
-void townRunCollectionRoundSequence(void *sequence) {
+void run_collection_round_sequence(void *sequence) {
     u8 record_params[0x30];
     u8 line_params[0x28];
     s32 coord_or_sound;
@@ -191,7 +191,7 @@ void townRunCollectionRoundSequence(void *sequence) {
         ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = -0x200000;
         ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = -0x200000;
         (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
-        ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &func_80529134;
+        ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
 
     case 1:
         (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10)))
@@ -245,7 +245,7 @@ void townRunCollectionRoundSequence(void *sequence) {
         if (!(((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index)) {
             if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
                 ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
-                func_80526D34(sequence);
+                create_initialize_eight_objects_table(sequence);
                 func_80244660(render_or_counts, position, D_80095AA0);
             }
         }
@@ -315,14 +315,14 @@ void townRunCollectionRoundSequence(void *sequence) {
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            func_80526E4C((s32) &func_80528950, line_params, line_params + 0x10, sequence);
+            create_object_pair_word((s32) &set_record_global_flags_object, line_params, line_params + 0x10, sequence);
             ((S_80527D5C_0 *)sequence)->unk_28 = 0x200U;
             ((S_80527D5C_0 *)sequence)->unk_2E.u = 0U;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 7;
             ((S_80527D5C_0 *)sequence)->unk_2A.u &= 0x7FFF;
             break;
         }
-        func_80526E4C((s32) &func_80528910, line_params, line_params + 0x10, sequence);
+        create_object_pair_word((s32) &set_bit_preceding_flags_global, line_params, line_params + 0x10, sequence);
         break;
 
     case 7:
@@ -348,7 +348,7 @@ void townRunCollectionRoundSequence(void *sequence) {
         }
         ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28
             + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
-        townDrawRotatingCollectionFrame(sequence);
+        draw_rotating_collection_frame(sequence);
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
             func_802441A4();
             record_color = 0x808080;
@@ -368,7 +368,7 @@ void townRunCollectionRoundSequence(void *sequence) {
             ((S_80527D5C_6 *)record_params)->unk_0C = sequence;
             round_count_addr += (s32) D_80530658;
             ((S_80527D5C_6 *)record_params)->unk_08 = round_count_addr;
-            func_80526BFC((s32) &func_80526B18, record_params);
+            allocate_record_and_store_three_blocks((s32) &tick_timed_object_and_mark_complete, record_params);
             ((S_80527D5C_0 *)sequence)->unk_36.s = 8;
         }
         break;
@@ -435,7 +435,7 @@ void townRunCollectionRoundSequence(void *sequence) {
                 ((S_80527D5C_0 *)sequence)->unk_36.s = 0xFF;
                 break;
             }
-            func_80526D34(sequence);
+            create_initialize_eight_objects_table(sequence);
             ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
         }
         break;

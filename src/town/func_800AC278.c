@@ -1,19 +1,19 @@
 #include "common.h"
 
-extern s32 func_800A98C4(s32 table_index);
-extern s32 func_800A98F8(s32 check_type);
-extern s32 func_800A9970(s32 slot);
+extern s32 test_selected_resident_flag(s32 table_index);
+extern s32 get_query_result_for_check_type(s32 check_type);
+extern s32 check_slot_threshold_or_fallback(s32 slot);
 
-s32 func_800A99D8(s32 input, s32 check_value) {
+s32 classify_item_check_result(s32 input, s32 check_value) {
     s32 result;
 
-    if (func_800A98C4(input) != 0) {
+    if (test_selected_resident_flag(input) != 0) {
         return 3;
     }
-    if (func_800A98F8(input) != 0) {
+    if (get_query_result_for_check_type(input) != 0) {
         return 0;
     }
-    result = func_800A9970(input);
+    result = check_slot_threshold_or_fallback(input);
     if (result != 0) {
         return 2;
     }

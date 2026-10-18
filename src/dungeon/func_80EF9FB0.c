@@ -66,17 +66,17 @@ extern int abs(int);
 extern u8 D_80159CE8[];
 extern u8 D_8015CEB8[];
 
-extern s32 getCdCommandQueueDepth();
+extern s32 get_cd_command_queue_depth();
 extern s32 func_80047784();
 extern s32 func_80069EF8();
-extern void *dungeonScanMonsterAlongHeading();
-extern s32 dungeonSetRecordIntegerTileCenter();
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 func_800A56E0();
-extern s32 dungeonCreateActorSpellEffect();
+extern void *scan_monster_along_heading();
+extern s32 set_record_integer_tile_center();
+extern s32 advance_status_timers();
+extern s32 play_sound_if_enabled();
+extern s32 create_actor_spell_effect();
 extern s32 func_80159498();
 
-void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     s32 use_player_target;
     s32 particle_count;
@@ -175,7 +175,7 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
                 }
             } else {
 
-                actor->target = dungeonScanMonsterAlongHeading(
+                actor->target = scan_monster_along_heading(
                     actor,
                     sprite->position.tile.x,
                     sprite->position.tile.y,
@@ -186,7 +186,7 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
                 actor->unk_73 = abs(actor->unk_73);
             }
 
-            if (dungeonCreateActorSpellEffect(actor, action_data, use_player_target, &action->flags) == 0) {
+            if (create_actor_spell_effect(actor, action_data, use_player_target, &action->flags) == 0) {
                 return;
             }
             action->phase++;
@@ -196,10 +196,10 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
+        g_dungeon_status.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remaining--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_6D--;
         action->nextAction.record = D_80159CE8;
         actor->unk_73 = 0;
@@ -208,13 +208,13 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             sprite->flags |= 0x800;
             return;
         }
         sprite->flags &= 0xF7FF;
         action->phase++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         /* fall through */
     case 2:
         sprite_flags = sprite->flags;
@@ -273,7 +273,7 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
 
         /* fall through */
     case 4:
-        if (((s32)dungeonStatus.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.unk_0C) == 0) {
             action->timer.unsignedTicks = 0;
         }
         timer = action->timer.unsignedTicks - 1;
@@ -289,24 +289,24 @@ void updateActorAbilityAction(ActorActionView *action, EntityRec *motion, ActorS
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
+        set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
 
         if (sprite->directionFrames != D_8015CEB8) {
             sprite->directionFrames = D_8015CEB8;
-            selection = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            selection = ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
             func_80047784(sprite, D_8015CEB8[selection], 0);
         }
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         action->nextAction.record = D_80159CE8;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D--;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
     }
 }

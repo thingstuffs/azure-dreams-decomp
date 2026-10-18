@@ -46,7 +46,7 @@ extern s32 func_8004491C();
 extern s32 D_800CC4F0;
 
 /* Create a dungeon object at the tile center and initialize its rendering settings. */
-void *dungeonCreateTileCenterQuadEffect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config)
+void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config)
 {
     DungeonObject *obj;
     DungeonVertex *vertex;

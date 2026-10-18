@@ -5,7 +5,7 @@
  * by a huge OT/primitive packet buffer (not modelled -- accessed only via raw
  * pointer offsets from the base in this function). Two full copies exist for
  * double buffering: D_801C9E40 (buffer 0) and D_801DA714 (buffer 1), exactly
- * 0x108D4 bytes apart (see initializeHardwareAndGameState's `p + 0x108D4` toggle). */
+ * 0x108D4 bytes apart (see initialize_hardware_and_game_state's `p + 0x108D4` toggle). */
 typedef struct {
             /* DRAWENV portion */
     s16 clip_x, clip_y, clip_w, clip_h; /* 0x00 RECT clip */
@@ -30,7 +30,7 @@ extern void *SetDefDrawEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 extern void *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 
 /* Initialise double-buffered draw/display environments for a 320x224 screen with background clearing. */
-void initDoubleBufferedGpuEnvironments(void)
+void init_double_buffered_gpu_environments(void)
 {
     u8 *env_base = (u8 *)&D_801C9E40;
     s32 origin = 0;

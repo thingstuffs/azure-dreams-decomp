@@ -4,16 +4,16 @@ static u16 D_80081530;
 u16 D_80080B10 = 0;
 u16 D_80080B12 = 0;
 u16 D_80080B14 = 0;
-void soundAdvanceSharedScrollCoordinates(struct S_80048660 *state)
+void sound_advance_shared_scroll_coordinates(struct S_80048660 *state)
 {
     s32 row_step;
     s32 col_step;
 
-    if (gameWork.unk_004 != D_80081530) {
+    if (g_game_work.unk_004 != D_80081530) {
         D_80080B14 = 0;
         D_80080B12 = 0;
         D_80080B10 = 0;
-        D_80081530 = gameWork.unk_004;
+        D_80081530 = g_game_work.unk_004;
     }
 
     row_step = (s32)(state->field_A + 1) >> 1;

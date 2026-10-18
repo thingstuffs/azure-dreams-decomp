@@ -53,9 +53,9 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
             } else {
                 if (((value & ~3) << 16) == 0) {
                     if (!(((S_80158854_0 *)work)->unk_14 & 0x200)) {
-                        if (func_800A6D30() & 1) {
-                            func_800A48F0(work, 1,
-                                          (func_800A6D30() & 0x3F) | 0x20);
+                        if (generate_random_value() & 1) {
+                            set_or_clear_actor_status_slot(work, 1,
+                                          (generate_random_value() & 0x3F) | 0x20);
                             part_b->unk_2C = D_8015C538;
                         }
                     }
@@ -69,10 +69,10 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
             }
         }
         ((S_80158854_1 *)obj)->unk_10 = func_80158A58;
-        func_800A9C18(obj, part_a, part_b, (s16)final_arg0);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)final_arg0);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

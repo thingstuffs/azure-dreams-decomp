@@ -16,49 +16,49 @@ typedef struct DungeonObject {
 extern u8 D_800E15BB[];
 extern u8 D_800E15E5[];
 
-extern void dungeonBeginDeferredItemAction(void *, void *, void *, void *);
-extern void dungeonClearSlotAndUpdateLinkedState(s32);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern void begin_deferred_item_action(void *, void *, void *, void *);
+extern void clear_slot_and_update_linked_state(s32);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
-extern s32 func_80099734(void *record, u8 *out);
-extern s32 func_800A48F0(void *, s32, s32);
-extern s32 func_800A5720(s8 *text);
-extern s32 func_800A5F38(void *, s32);
-extern s32 func_800A63B8(void *, s32, s16);
-extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+extern s32 apply_item_effect_at_entity_position(void *, s32);
+extern s32 display_item_status_message(void *, s32, s16);
+extern s32 apply_actor_food_preference(void *, s32, s32);
 
 /* Processes an object action, dispatching the player case and reporting failure. */
-s32 dungeonUseItemToEnrageActor(DungeonObject *object, s32 action, s16 action_type) {
+s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type) {
     s32 message;
     s32 message_end;
 
     if (object == ((DungeonObject *)D_800E3D7C)) {
         object->unk_110 = action;
-        dungeonBeginDeferredItemAction(object, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), object);
+        begin_deferred_item_action(object, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), object);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {
-        func_800A63B8(object, action, action_type);
-        if (dungeonApplyActorFoodPreference(object, (D_800DDE84[object->unk_13] >> 6) & 3, 0) == 0) {
-            func_800A5F38(object, action);
+        display_item_status_message(object, action, action_type);
+        if (apply_actor_food_preference(object, (D_800DDE84[object->unk_13] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(object, action);
             return 1;
         }
     }
-    if ((func_800A48F0(object, 9, 0x60) << 16) != 0) {
+    if ((set_or_clear_actor_status_slot(object, 9, 0x60) << 16) != 0) {
         if (object->flags_14 & 0x4000) {
-            message = func_800990FC();
-            message_end = func_80099734(object, message);
-            message_end = func_80099194(D_800E15BB, message_end);
+            message = get_unused_text_buffer();
+            message_end = append_entity_display_text(object, message);
+            message_end = expand_text_control_codes(D_800E15BB, message_end);
         } else {
-            message = func_800990FC();
+            message = get_unused_text_buffer();
             message_end = message;
-            message_end = func_80099194(D_800E15E5, message_end);
+            message_end = expand_text_control_codes(D_800E15E5, message_end);
         }
         func_80099290(message_end);
-        func_800A5720(message);
+        display_text_with_fullwidth_adjustment(message);
     }
-    dungeonClearSlotAndUpdateLinkedState(action);
-    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+    clear_slot_and_update_linked_state(action);
+    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
     return 1;
 }

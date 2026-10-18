@@ -61,7 +61,7 @@ void func_81977E0C(void *effect, void *position, void *sprite) {
     func_800478B8(sprite);
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     ((S_81977E0C_2 *)position)->unk_00 = (s32) (*D_80026208 + (((func_800644B8((s16) ((S_81977E0C_0 *)effect)->unk_08)

@@ -10,10 +10,10 @@ extern s32 D_80018790;
 extern s32 D_800188BC;
 extern s32 D_8001A714;
 extern s32 D_8001A854;
-s32 townCheckInputsAfterThresholdFive(s32 check_value, s32 check_data);
-s32 *townLookupEntryWithSpecialOverride(s32 lookup_key, s32 unused, s32 entry_id);
-s32 townCheckInputsAfterThresholdTen(s32 check_value, s32 check_data);
+s32 check_inputs_after_threshold_five(s32 check_value, s32 check_data);
+s32 *lookup_entry_with_special_override(s32 lookup_key, s32 unused, s32 entry_id);
+s32 check_inputs_after_threshold_ten(s32 check_value, s32 check_data);
 s32 *func_80016320(s32 lookup_key, s32 unused, s32 entry_id);
-s32 townCheckInputsAfterThresholdTwenty(s32 check_value, s32 check_data);
+s32 check_inputs_after_threshold_twenty(s32 check_value, s32 check_data);
 
 #endif

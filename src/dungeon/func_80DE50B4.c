@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
+void resolve_actor_attack_damage(void *obj, EntityRec *record, void *entity, void *actor) {
     s32 state;
 
     state = ((E_801728B4_S_801728B4_0 *)obj)->unk_9B;
@@ -10,7 +10,7 @@ void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
             ((E_801728B4_S_801728B4_0 *)obj)->unk_9B = 2U;
             ((E_801728B4_S_801728B4_1 *)entity)->unk_14 =
                 (u16)(((E_801728B4_S_801728B4_1 *)entity)->unk_14 | 0x6000);
-            dungeonResolveAttackDamageAndEffects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
             return;
         }
         record->flags14 = 0;
@@ -23,12 +23,12 @@ void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
     case 1:
         if ((((E_801728B4_S_801728B4_1 *)entity)->unk_04 == 7) &&
             (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0x1000)) {
-            func_800A56E0(0x808);
+            play_sound_if_enabled(0x808);
         }
         if (((((E_801728B4_S_801728B4_1 *)entity)->unk_04 == 9) &&
              (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0x1000)) ||
             (((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0xE000)) {
-            dungeonResolveAttackDamageAndEffects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, entity, ((E_801728B4_S_801728B4_2 *)actor)->unk_2A, 1);
             ((E_801728B4_S_801728B4_0 *)obj)->unk_9B =
                 (u8)(((E_801728B4_S_801728B4_0 *)obj)->unk_9B + 1);
         } else {
@@ -40,12 +40,12 @@ void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
         if (!(((E_801728B4_S_801728B4_1 *)entity)->unk_14 & 0xE000)) {
             return;
         }
-        dungeonReduceActorFoodMeter(actor, 0x100);
-        ((E_801728B4_S_801728B4_0 *)obj)->unk_8C = func_80170E5C;
-        dungeonStatus.unk_0C = 0;
+        reduce_actor_food_meter(actor, 0x100);
+        ((E_801728B4_S_801728B4_0 *)obj)->unk_8C = update_actor_behavior_facing_and_animation_2;
+        g_dungeon_status.unk_0C = 0;
         ((E_801728B4_S_801728B4_2 *)actor)->unk_46 =
             (u16)((*(u16 *)((u8 *)actor + 0x46)) & 0x7FFF);
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         break;
 
     default:

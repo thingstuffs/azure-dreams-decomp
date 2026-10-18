@@ -2,7 +2,7 @@
 
 
 /* Clears the value at 0x80013718 and increments the counter at 0x8001371A. */
-void func_8009FAAC(void) {
+void initialize_monster_script_counter(void) {
     u8 *page_base;
     u16 counter;
 

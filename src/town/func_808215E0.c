@@ -17,7 +17,7 @@ typedef struct Town215E0Actor {
 } Town215E0Actor;
 
 /* Updates a triggered rise-and-decay cycle for the actor's field16. */
-void townUpdateMinigameRiseDecay(Town215E0State *cycle, s32 unused, Town215E0Actor *actor) {
+void update_minigame_rise_decay(Town215E0State *cycle, s32 unused, Town215E0Actor *actor) {
     u16 reduced_value;
 
     cycle->timer--;

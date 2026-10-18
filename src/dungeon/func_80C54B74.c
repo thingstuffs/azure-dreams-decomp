@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80C42B74; every changed retail word is a paired relocation. */
-#define updateOrbitHeightAndFadeEffect D_801621A0
+#define update_orbit_height_and_fade_effect D_801621A0
 #include "modules/dungeon_ovl_7f511800_p04.h"
 extern s32 rand(void);
 extern s32 func_800644B8(s32);
@@ -19,7 +19,7 @@ void func_80162374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unu
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
-        ((T_80174374_S_80174374_1 *)effect)->unk_10 = &updateOrbitHeightAndFadeEffect;
+        ((T_80174374_S_80174374_1 *)effect)->unk_10 = &update_orbit_height_and_fade_effect;
         func_8004491C(effect, func_80045340);
 
         sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;

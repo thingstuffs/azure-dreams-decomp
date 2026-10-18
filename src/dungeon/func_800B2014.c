@@ -19,22 +19,22 @@ extern s32 D_800835E8[];
 M2C_UNK func_8003E188();
 M2C_UNK func_80042640();
 void func_800424E0(); /* extern */
-s32 func_800990FC();
-s32 func_80099194();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void *func_80099290();
-s32 dungeonWriteTextByteAndAdvance();
-s32 func_80099734();
-void func_800997FC(); /* extern */
-s32 dungeonFindValidNearbyPosition();
-s32 *(*func_800A0B94())(s32, s16, s16, s16); /* extern */
-s32 func_800A1618();
-s32 raiseEntityLevel(); /* extern */
-s32 dungeonChooseUsableAbilityOrAttack();
-s32 dungeonChooseBestEligibleEntry();
-s16 func_800A48F0(); /* extern */
-s32 func_800A5720(); /* extern */
-void clearSelectedItemFlag400();
-void dungeonCheckEntityRelation(s32 *, u8 *);
+s32 write_text_byte_and_advance();
+s32 append_entity_display_text();
+void display_formatted_context_message(); /* extern */
+s32 find_valid_nearby_position();
+s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
+s32 find_or_retain_sprite_resource_slot();
+s32 raise_entity_level(); /* extern */
+s32 choose_usable_ability_or_attack();
+s32 choose_best_eligible_entry();
+s16 set_or_clear_actor_status_slot(); /* extern */
+s32 display_text_with_fullwidth_adjustment(); /* extern */
+void clear_selected_item_flag_400();
+void check_entity_relation(s32 *, u8 *);
 extern M2C_UNK D_800E0A42;
 extern M2C_UNK D_800E0A56;
 extern M2C_UNK D_800E0A6A;
@@ -42,7 +42,7 @@ extern M2C_UNK D_800E0A6A;
 
 typedef struct S_800B7774_0_pre {
     u16 unk_00;
-} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in advanceEggBombSequence, addressed as arg0[-1] */
+} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in advance_egg_bomb_sequence, addressed as arg0[-1] */
 
 typedef struct S_800B7774_0 {
     u8 unk_00;
@@ -52,14 +52,14 @@ typedef struct S_800B7774_0 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u16 unk_0C;
     s16 unk_0E;
-} S_800B7774_0;   /* arg0 in advanceEggBombSequence */
+} S_800B7774_0;   /* arg0 in advance_egg_bomb_sequence */
 
 typedef struct S_800B7774_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_800B7774_1;   /* controls_base in advanceEggBombSequence */
+} S_800B7774_1;   /* controls_base in advance_egg_bomb_sequence */
 
 typedef struct S_800B7774_2_pre {
     s32 unk_00;
@@ -88,19 +88,19 @@ typedef struct S_800B7774_2 {
 typedef struct S_800B7774_4 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800B7774_4;   /* arg2 in advanceEggBombSequence */
+} S_800B7774_4;   /* arg2 in advance_egg_bomb_sequence */
 
 typedef struct S_800B7774_5 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800B7774_5;   /* state_base in advanceEggBombSequence */
+} S_800B7774_5;   /* state_base in advance_egg_bomb_sequence */
 
 typedef struct S_800B7774_6_pre {
     u16 unk_00;
 } S_800B7774_6_pre;   /* 0x2-byte header immediately before the payload. */
 
 /* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
-void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
+void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
     s16 spawn_x;
     s16 spawn_y;
     s32 held_x;
@@ -118,31 +118,31 @@ void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
     GameWork *state_base;
     Coord *coord_arg = position;
 
-    state_base = &gameWork;
+    state_base = &g_game_work;
     phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
     switch (phase) {
     case 0:
-        if ((dungeonFindValidNearbyPosition(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
+        if ((find_valid_nearby_position(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
             {
-                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
             }
-            func_800997FC(&D_800E0A42);
+            display_formatted_context_message(&D_800E0A42);
             (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
             return;
         }
         held_x = spawn_x;
         held_y = spawn_y;
-        monster = func_800A0B94(((S_800B7774_0 *)egg_bomb)->unk_00,
-            func_800A1618(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
+        monster = load_monster_resource_data(((S_800B7774_0 *)egg_bomb)->unk_00,
+            find_or_retain_sprite_resource_slot(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
         ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
         if (monster != NULL) {
             func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
-            clearSelectedItemFlag400(egg_bomb);
+            clear_selected_item_flag_400(egg_bomb);
             func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
             func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
             ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
-            func_800A48F0(monster, 0x1B, 0);
+            set_or_clear_actor_status_slot(monster, 0x1B, 0);
             {
                 s32 clamp_value;
                 u32 first_call_arg;
@@ -160,28 +160,28 @@ void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
                     if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
                         s32 *loop_base = D_800835E8;
                         do {
-                            raiseEntityLevel(monster, 0);
+                            raise_entity_level(monster, 0);
                         } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11]
                             <= (u32) ((S_800B7774_2 *)monster)->unk_18);
                         scan_arg = monster;
                     }
-                    raw_first_result = func_800990FC(scan_arg);
+                    raw_first_result = get_unused_text_buffer(scan_arg);
                 }
                 first_call_mode = 8;
                 first_call_arg = raw_first_result;
                 message_id = first_call_arg;
-                raw_first_result = dungeonWriteTextByteAndAdvance(first_call_mode, first_call_arg);
-                func_80099290(func_80099194(&D_800E0A6A, dungeonWriteTextByteAndAdvance(0xA, func_80099734(monster,
-                    func_80099194(&D_800E0A56, raw_first_result)))));
+                raw_first_result = write_text_byte_and_advance(first_call_mode, first_call_arg);
+                func_80099290(expand_text_control_codes(&D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
+                    expand_text_control_codes(&D_800E0A56, raw_first_result)))));
             }
-            func_800A5720(message_id);
+            display_text_with_fullwidth_adjustment(message_id);
             {
                 s32 *call_obj;
                 u8 *call_state;
                 call_obj = monster;
                 call_state = ((u8 *)D_800E3D7C);
                 ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
-                dungeonCheckEntityRelation(call_obj, call_state);
+                check_entity_relation(call_obj, call_state);
             }
             ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
         }
@@ -199,14 +199,14 @@ void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
     case 2:
         monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
         if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
-            ((S_800B7774_2 *)monster)->unk_60 = dungeonChooseBestEligibleEntry(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
+            ((S_800B7774_2 *)monster)->unk_60 = choose_best_eligible_entry(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
             {
-                dungeonStatus.flags = (u16) (dungeonStatus.flags | 2);
+                g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 2);
             }
             action_data = ((S_800B7774_2 *)monster)->unk_60;
             ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
             if (action_data != 0) {
-                action_id = dungeonChooseUsableAbilityOrAttack(monster, action_data, &action_parameter, 1);
+                action_id = choose_usable_ability_or_attack(monster, action_data, &action_parameter, 1);
                 ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
                 if ((s16) action_id >= 0) {
                     ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);
@@ -216,10 +216,10 @@ void advanceEggBombSequence(void *egg_bomb, Coord *position, void *effect) {
         ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
         (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
         {
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         }
         (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         break;
     }
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;

@@ -1,15 +1,15 @@
 #include "modules/dungeon_ovl_197e800.h"
 #include "common.h"
 
-   /* arg0 in func_80024648 */
+   /* arg0 in update_effect_and_spawn_fragments */
 
-   /* arg1 in func_80024648 */
+   /* arg1 in update_effect_and_spawn_fragments */
 
 
 extern s32 rand();
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
-void func_80024648(S_8195EE48_0 *state, S_8195EE48_1 *motion)
+void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion)
 {
     s32 phase_or_height;
     s16 ticks_left;

@@ -1,16 +1,16 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 townApplySelectedEntryValues(void *, s32);                                /* extern */
-void townWriteScriptFlagRange();   /* extern */
+s32 apply_selected_entry_values(void *, s32);                                /* extern */
+void write_script_flag_range();   /* extern */
 
-/* Process the request and invoke townWriteScriptFlagRange when the result is nonzero. */
-s32 townProcessRequestAndNotify(void *context, s32 request) {
+/* Process the request and invoke write_script_flag_range when the result is nonzero. */
+s32 process_request_and_notify(void *context, s32 request) {
     s32 result;
 
-    result = townApplySelectedEntryValues(context, request);
+    result = apply_selected_entry_values(context, request);
     if (result != 0) {
-        townWriteScriptFlagRange(0xD6E, 3, 2);
+        write_script_flag_range(0xD6E, 3, 2);
     }
     return result;
 }

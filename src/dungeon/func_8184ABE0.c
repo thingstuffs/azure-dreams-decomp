@@ -37,7 +37,7 @@ typedef struct S_800243E0_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800243E0_3;   /* arg0 in dungeonCreateType212EffectObject */
+} S_800243E0_3;   /* arg0 in create_type_212_effect_object */
 
 
 extern M2C_UNK func_8003DB94();
@@ -46,7 +46,7 @@ extern s32 D_80024374;
 extern M2C_UNK D_800DE870;
 
 /* Creates a type 0x212 object, initializes its appearance, and copies the supplied components. */
-void *dungeonCreateType212EffectObject(S_800243E0_3 *source) {
+void *create_type_212_effect_object(S_800243E0_3 *source) {
     S_800243E0_1 *appearance;
     S_800243E0_0 *object;
     S_800243E0_2 *components;

@@ -5,7 +5,7 @@ extern void func_80017398(s32);
 extern s16 D_800175B4;
 
 /* Advance the counter D_800175B4 (wrapping from 21 back to 9); at 8 or 20 call func_80017320(0x5DB), else func_80017398(0x5DB). */
-void func_80016188(void) {
+void check_record_value_threshold(void) {
     D_800175B4++;
     if (D_800175B4 >= 21) {
         D_800175B4 = 9;

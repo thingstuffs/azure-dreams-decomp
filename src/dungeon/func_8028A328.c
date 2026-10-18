@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonMarkRandomEligibleRegionTiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
+void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
     s32 random_bits;
     u16 tile_flags;
     s16 count;
@@ -17,7 +17,7 @@ void dungeonMarkRandomEligibleRegionTiles(floor_generate_isolated_8028A328_S_800
     s32 state_offset;
     s32 coords_offset;
 
-    random_bits = func_800A6D30();
+    random_bits = generate_random_value();
     sum = ((region->unk_06 * region->unk_04) >> 6) + (random_bits & 7) + 4;
     count = sum;
     if ((s16)sum >= 0x3D) {
@@ -34,13 +34,13 @@ void dungeonMarkRandomEligibleRegionTiles(floor_generate_isolated_8028A328_S_800
         coords_offset = entry_index * 0xC;
         coords = (floor_generate_isolated_8028A328_S_8001D328_1 *)(coords_offset + coords_base);
 loop:
-            x_offset = randomDungeonRange16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
-            y_offset = randomDungeonRange16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
+            x_offset = random_dungeon_range_16(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = random_dungeon_range_16(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
             coords->unk_00 = region->unk_00 + x_offset;
             coords->unk_01 = region->unk_02 + y_offset;
-            if (((getOffsetMapCellValueAndFlags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
-                func_8009A21C(coords->unk_00, coords->unk_01, 0x800);
-                selectFloorItemWithSpecialOverrides(state, state_prefix, 0, 1);
+            if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
+                cycle_map_cell_flags(coords->unk_00, coords->unk_01, 0x800);
+                select_floor_item_with_special_overrides(state, state_prefix, 0, 1);
             }
             state_prefix -= 4;
             state -= 4;

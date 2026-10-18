@@ -35,7 +35,7 @@ typedef struct S_801656F8_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801656F8_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateShortLivedChildParticle */
+} S_801656F8_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
 
 typedef struct S_801656F8_6 {
     u8 pad_00[0x6];
@@ -67,7 +67,7 @@ typedef struct S_801656F8_1 {
 } S_801656F8_1;
 
 /* Creates an effect offset from its source with randomized motion. */
-void dungeonCreateShortLivedChildParticle(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
+void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
                    s16 offset_z, s32 motion_z)
 {
     S_801656F8_1 *effect_state;

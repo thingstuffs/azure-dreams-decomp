@@ -4,7 +4,7 @@
 
 
 /* Count entries in the zero-terminated table. */
-s32 townCountShopEntries(void) {
+s32 count_shop_entries(void) {
     s32 *entry;
     s32 count;
     TownStateRecord *table;

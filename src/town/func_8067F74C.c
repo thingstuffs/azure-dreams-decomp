@@ -9,7 +9,7 @@ typedef struct TownValuePair {
 extern void *D_800189D0;
 extern s32 D_800189D4;
 
-s32 func_8001674C(void) {
+s32 process_ids_zero(void) {
     TownValuePair *values;
 
     values = D_800189D0;

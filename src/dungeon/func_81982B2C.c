@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void dungeonInitializeEntityPositionAndMotion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
+void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion)
 {
     s16 state;
     void *actor;
@@ -12,7 +12,7 @@ void dungeonInitializeEntityPositionAndMotion(ovl_19a332c_81982B2C_Entity *entit
     if (state == 0) {
         actor = entity->inner->actor;
         if (entity->active == 0) {
-            if (resolveRecordOrientationOrFallback(*(s32 *)((u8 *)actor + 8), actor,
+            if (resolve_record_orientation_or_fallback(*(s32 *)((u8 *)actor + 8), actor,
                               &entity->x, 0) != 0) {
                 entity->active = 1;
             } else if (*(u16 *)((u8 *)actor + 0x14) & 0x8000) {
@@ -38,7 +38,7 @@ void dungeonInitializeEntityPositionAndMotion(ovl_19a332c_81982B2C_Entity *entit
             motion->value += 0x00202020;
             return;
         }
-        if (func_80025F54(position->x, position->y, position->z,
+        if (create_nine_linked_effects(position->x, position->y, position->z,
                           *(s16 *)(((u8 **)&D_80027C98)[0] + 0x2A)) != 0) {
             entity->state++;
         }
@@ -49,7 +49,7 @@ void dungeonInitializeEntityPositionAndMotion(ovl_19a332c_81982B2C_Entity *entit
         motion->value += 0xFFFBFBFC;
         if ((u8)motion->value == 0) {
             *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

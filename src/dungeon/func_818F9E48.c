@@ -77,7 +77,7 @@ typedef struct EffectState {
 
 
 /* Update a timed visual effect using its owner's appearance and position. */
-void func_80025648(void *state, void *position_out, void *effect_arg) {
+void update_timed(void *state, void *position_out, void *effect_arg) {
     PackedVector origin;
     Pair16 anchor;
     s32 level_index;
@@ -159,7 +159,7 @@ void func_80025648(void *state, void *position_out, void *effect_arg) {
     ((S_818F9E48_1 *)effect_arg)->unk_1E = ((S_818F9E48_5 *)motion)->unk_1E;
     ((S_818F9E48_5 *)motion)->unk_1E = 0x1000;
     ((S_818F9E48_5 *)motion)->unk_1C = 0x1000;
-    func_80024CD4(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);
+    move_linked_effect_along_path(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);
     ((S_818F9E48_5 *)motion)->unk_1C = saved_scale_x;
     ((S_818F9E48_5 *)motion)->unk_1E = saved_scale_y;
 
@@ -171,7 +171,7 @@ void func_80025648(void *state, void *position_out, void *effect_arg) {
         ((S_818F9E48_5 *)motion)->unk_14 &= 0xFF7F;
         ((S_818F9E48_6 *)(((S_818F9E48_0 *)state)->unk_30))->unk_9C = one;
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

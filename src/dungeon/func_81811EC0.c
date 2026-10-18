@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-s32 dungeonFindMenuEntryOccurrence(s32 target_value, s32 target_occurrence) {
+s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence) {
     s32 occurrence;
     s32 index;
     u8 *page = (u8 *)0x80010000;

@@ -10,7 +10,7 @@ typedef struct S_8017088C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017088C_0;   /* obj in dungeonCreateConfiguredActorEffect */
+} S_8017088C_0;   /* obj in create_configured_actor_effect */
 
 typedef struct S_8017088C_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8017088C_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8017088C_1;   /* work in dungeonCreateConfiguredActorEffect */
+} S_8017088C_1;   /* work in create_configured_actor_effect */
 
 typedef struct S_8017088C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8017088C_2;   /* part_a in dungeonCreateConfiguredActorEffect */
+} S_8017088C_2;   /* part_a in create_configured_actor_effect */
 
 typedef struct S_8017088C_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_8017088C_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8017088C_3;   /* part_b in dungeonCreateConfiguredActorEffect */
+} S_8017088C_3;   /* part_b in create_configured_actor_effect */
 
 typedef struct S_8017088C_4 {
     u8 pad_00[0x8C];
@@ -42,21 +42,21 @@ typedef struct S_8017088C_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8017088C_4;   /* actor in dungeonCreateConfiguredActorEffect */
+} S_8017088C_4;   /* actor in create_configured_actor_effect */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30(void);
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_80170A78[];
 extern M2C_UNK D_80171058;
 extern u8 D_80174880[];
 extern u8 D_801748E0[];
 
-void *dungeonCreateConfiguredActorEffect(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
+void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *obj;
@@ -104,22 +104,22 @@ void *dungeonCreateConfiguredActorEffect(s16 mask, s16 value_24, s16 value_25, s
         } else if (((mask & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 call_a1 = part_a;
-                left = func_800A6D30();
+                left = generate_random_value();
                 if (left & 1) {
                     work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_801748E0;
                 }
             }
         }
-        func_800A9C18(((void *)(obj)), part_a, part_b, mask);
+        initialize_actor_sprite_and_animation(((void *)(obj)), part_a, part_b, mask);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80171058;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x18;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

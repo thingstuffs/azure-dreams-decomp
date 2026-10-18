@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -19,7 +19,7 @@ struct ScriptContext {
     s16 unk_1A;
 };
 
-extern void func_80016DBC(s32 records, s32 count);
+extern void initialize_resources_assigns_pointer_lookup(s32 records, s32 count);
 extern s32 func_80017844(s32 flag);
 extern s32 D_80017AAC;
 
@@ -27,7 +27,7 @@ extern s32 D_80017AAC;
 s32 func_80016EA8(ScriptContext *context) {
     s32 entry_index;
 
-    func_80016DBC(context->unk_14, context->unk_1A);
+    initialize_resources_assigns_pointer_lookup(context->unk_14, context->unk_1A);
     do {
         D_80017AAC = 0;
         entry_index = 0;

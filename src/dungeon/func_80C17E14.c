@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_80C17E14_1 *motion, R17_80173614_S_func_80C17E14_2 *sprite,
+void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_80C17E14_1 *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity) {
     s32 direction_offset;
     s32 offset_x;
@@ -8,8 +8,8 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
     s32 state;
 
     direction_offset = (entity->unk_6A >> 8) & 0xE;
-    offset_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
-    offset_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    offset_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+    offset_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     state = action->unk_9B;
 
     switch (state) {
@@ -17,7 +17,7 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
         *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
         *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
         *(s32 *)((u8 *)motion + 0x14) = 0x8000;
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
         action->unk_9B = action->unk_9B + 1;
@@ -32,10 +32,10 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
         entity_status = entity->unk_14;
         if (entity_status & 0x4000) {
             if (!(entity_status & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat(entity);
+                announce_familiar_defeat(entity);
             }
         }
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
 
         clear_bit_27 = 0xF7FFFFFF;
         action_flags = action->unk_98;
@@ -79,11 +79,11 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
             return;
         }
 
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
 
         entity_flags = entity->unk_1C;
         sound_x = sprite->unk_24;
@@ -92,10 +92,10 @@ void func_80173614(R17_80173614_S_func_80C17E14_0 *action, R17_80173614_S_func_8
         if (entity_flags & 0x2000) {
             sound_kind = 0x300;
         }
-        func_8009A3D0(sound_x, sound_y, sound_kind);
-        func_8009A028(entity);
+        update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_kind);
+        unlink_entity_node(entity);
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
         break;
     }

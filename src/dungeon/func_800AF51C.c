@@ -3,13 +3,13 @@
 #include "m2c_compat.h"
 
 void *func_8003FD64();
-void *buildPositionedTextGlyphs();
+void *build_positioned_text_glyphs();
 char *func_8004E5A0();
 char *func_8004E634();
 s32 func_80069E98();
-void dungeonOffsetRecordCoordinates();
-void *dungeonFindFirstEndedRecord();
-void dungeonApplyRecordFlagsThroughEnd();
+void offset_record_coordinates();
+void *find_first_ended_record();
+void apply_record_flags_through_end();
 extern M2C_UNK D_800B45E0;
 extern M2C_UNK D_800B490C;
 extern M2C_UNK D_800DF24C[];
@@ -65,7 +65,7 @@ typedef struct S_800B4C7C_6 {
 } S_800B4C7C_6;
 
 /* Creates and positions a text object showing a formatted value or preset message. */
-void *createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
+void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     u8 text_buffer[16];
     void *callback;
     s16 glyph_or_index;
@@ -163,7 +163,7 @@ void *createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_
                 *text_cursor++ = 0x58;
                 *text_cursor++ = flags;
                 *text_cursor++ = 0;
-                buildPositionedTextGlyphs(text, text_buffer, text_style);
+                build_positioned_text_glyphs(text, text_buffer, text_style);
                 break;
             case 0xA0:
                 text_buffer[0] = space;
@@ -173,45 +173,45 @@ void *createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_
                 text_cursor = (s8 *) text_buffer + 6;
                 text_buffer[4] = 0x25;
                 text_buffer[5] = 0;
-                buildPositionedTextGlyphs(text, text_buffer, text_style);
+                build_positioned_text_glyphs(text, text_buffer, text_style);
                 break;
             case 0x90:
                 func_8004E5A0(number, 4, text_cursor);
                 text_cursor = (s8 *) text_buffer + 6;
                 text_buffer[4] = 0x47;
                 text_buffer[5] = 0;
-                buildPositionedTextGlyphs(text, text_buffer, text_style);
+                build_positioned_text_glyphs(text, text_buffer, text_style);
                 break;
             default:
                 break;
             }
             if ((saved_flags & 0xF0) < 0x80U) {
                 func_8004E5A0(saved_value, 3, text_cursor);
-                buildPositionedTextGlyphs(text, text_buffer, number_style);
+                build_positioned_text_glyphs(text, text_buffer, number_style);
             }
         } else {
             glyph_or_index = ~value;
             if (glyph_or_index > 0) {
                 ((S_800B4C7C_1 *)state)->unk_10 = 0x18;
             }
-            buildPositionedTextGlyphs(text, D_800DF24C[glyph_or_index], text_style);
+            build_positioned_text_glyphs(text, D_800DF24C[glyph_or_index], text_style);
         }
         callback_bits = callback_mode;
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
             callback = &D_800B490C;
             (*(void **)((u8 *)object + 0x10)) = callback;
-            text_metrics = dungeonFindFirstEndedRecord(text);
+            text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         } else {
             callback = &D_800B45E0;
             (*(void **)((u8 *)object + 0x10)) = callback;
-            text_metrics = dungeonFindFirstEndedRecord(text);
+            text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         }
-        dungeonOffsetRecordCoordinates(text_position, 0x80 - ((s32) (text_metrics->unk_02 + 0x88) / 2),
+        offset_record_coordinates(text_position, 0x80 - ((s32) (text_metrics->unk_02 + 0x88) / 2),
             (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
-        dungeonApplyRecordFlagsThroughEnd(text_position, 0x20);
+        apply_record_flags_through_end(text_position, 0x20);
     }
     return object;
 }

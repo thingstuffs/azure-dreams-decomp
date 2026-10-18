@@ -7,12 +7,12 @@ typedef struct {
     s16 fourth;
 } DrawRecord;
 
-extern void formatReversedDecimalSpacePadded(s32 value, u16 width, char *buf);
+extern void format_reversed_decimal_space_padded(s32 value, u16 width, char *buf);
 extern void func_800673A0(void *record, s32 y, s32 x);
 extern u8 D_800808ED[];
 
 /* Draw the first formatted number with mode-dependent filler glyphs. */
-void dungeonDrawFillerFirstNumber(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
+void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode)
 {
     DrawRecord record;
     char first_buf[16];
@@ -21,8 +21,8 @@ void dungeonDrawFillerFirstNumber(s32 first_number, s32 second_number, u16 width
     s16 fill_mode;
 
     char_ptr = (u8 *)first_buf;
-    formatReversedDecimalSpacePadded(first_number, width, first_buf);
-    formatReversedDecimalSpacePadded(second_number, width, second_buf);
+    format_reversed_decimal_space_padded(first_number, width, first_buf);
+    format_reversed_decimal_space_padded(second_number, width, second_buf);
     if (first_buf[0] != 0) {
         fill_mode = mode;
         do {

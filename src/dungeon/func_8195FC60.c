@@ -31,6 +31,6 @@ void func_80025460(u16 *state, Motion *motion, Effect *effect)
     state[0x26] = ticks_left;
     if ((ticks_left << 16) <= 0) {
         state[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

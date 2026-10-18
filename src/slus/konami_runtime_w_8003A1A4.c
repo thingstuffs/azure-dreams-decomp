@@ -8,7 +8,7 @@ typedef struct RuntimeState {
 } RuntimeState;
 
 /* Load a VM table word through a pointer selected by a table index value. */
-void vmOp79LoadValueIndexedPointer(RuntimeState *state) {
+void vm_op_79_load_value_indexed_pointer(RuntimeState *state) {
     u8 *cursor;
     u8 *addr_bytes;
     u8 *table;

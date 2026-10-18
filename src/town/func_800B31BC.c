@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void buildReverseIndexedChain(s32, void *, s32);
+extern void build_reverse_indexed_chain(s32, void *, s32);
 extern u8 D_800D15CC[];
 
 /* Links nodes in the order specified by D_800D15CC. */
-void townLinkShopNodesInConfiguredOrder(s32 node_table) {
-    buildReverseIndexedChain(node_table, D_800D15CC, 31);
+void link_shop_nodes_in_configured_order(s32 node_table) {
+    build_reverse_indexed_chain(node_table, D_800D15CC, 31);
 }

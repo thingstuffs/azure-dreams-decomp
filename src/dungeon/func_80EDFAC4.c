@@ -24,19 +24,19 @@ typedef struct S_801712C4_0 {
     s32 unk_40;
     s32 unk_44;
     s32 unk_48;
-} S_801712C4_0;   /* arg0 in func_801712C4 */
+} S_801712C4_0;   /* arg0 in initialize_shared_state_active_entries */
 
 typedef struct S_801712C4_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_801712C4_1;   /* arg1 in func_801712C4 */
+} S_801712C4_1;   /* arg1 in initialize_shared_state_active_entries */
 
 
-extern void dungeonSteerEffectTowardTarget(void *, void *, s32);
+extern void steer_effect_toward_target(void *, void *, s32);
 
 /* Advance the effect, then move and fade it until its timer expires. */
-void func_801712C4(void *effect, void *position, s32 update_param)
+void initialize_shared_state_active_entries(void *effect, void *position, s32 update_param)
 {
     s32 state;
 
@@ -44,8 +44,8 @@ void func_801712C4(void *effect, void *position, s32 update_param)
     ((S_801712C4_0 *)effect)->unk_32.u = ((S_801712C4_0 *)effect)->unk_32.u - 1;
     switch (state) {
     case 0:
-        dungeonSteerEffectTowardTarget(effect, position, update_param);
-        dungeonSteerEffectTowardTarget(effect, position, update_param);
+        steer_effect_toward_target(effect, position, update_param);
+        steer_effect_toward_target(effect, position, update_param);
         if (((S_801712C4_0 *)effect)->unk_32.s == 0) {
             ((S_801712C4_0 *)effect)->unk_32.u = 0x10;
             ((S_801712C4_0 *)effect)->unk_34 = 0x10;
@@ -74,7 +74,7 @@ void func_801712C4(void *effect, void *position, s32 update_param)
 
         if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

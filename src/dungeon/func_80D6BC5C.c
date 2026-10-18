@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80D65C5C; every changed retail word is a paired relocation. */
-#define dungeonSpawnDirectionalRandomVelocityEffect func_8016B45C
+#define spawn_directional_random_velocity_effect func_8016B45C
 #define D_80171384 D_8016B384
 #include "shared/object_node.h"
 #include "common.h"

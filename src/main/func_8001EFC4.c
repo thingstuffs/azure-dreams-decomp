@@ -16,13 +16,13 @@ typedef struct S_8001EFC4_0 {
 
 
 extern void func_80063FF8(s32 code);
-extern void mainAdvanceIndexedObjectOperation(void *obj);
+extern void advance_indexed_object_operation(void *obj);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
-extern void cardDevkitRefreshSaveSlotPairHighlights(void *obj);
-extern s32 cardDevkitPollStableSlotState(void);
-extern void func_804018FC(void);
-extern void func_80406720(void *obj);
-extern void func_804083FC(s32 current, s32 mode);
+extern void card_devkit_refresh_save_slot_pair_highlights(void *obj);
+extern s32 card_devkit_poll_stable_slot_state(void);
+extern void submit_stored_and_queried_boot_values(void);
+extern void propagate_object_high_bit_flags(void *obj);
+extern void allocate_or_reuse_effect_and_install_callback(s32 current, s32 mode);
 extern volatile s32 D_801379A8;
 extern volatile s32 D_801379B0;
 extern u8 D_80405AB4[];
@@ -51,7 +51,7 @@ void func_8001EFC4(u8 *root)
         flags10 = D_801379B0;
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
-            mainAdvanceIndexedObjectOperation(root);
+            advance_indexed_object_operation(root);
         } else {
             flags5000 = D_801379A8;
             if (flags5000 & 0x5000) {
@@ -87,20 +87,20 @@ void func_8001EFC4(u8 *root)
             func_80063FF8(0x502);
             value = func_80058FF0(((S_8001EFC4_0 *)root)->unk_28, action, 5);
             ((S_8001EFC4_0 *)root)->unk_28 = value;
-            cardDevkitRefreshSaveSlotPairHighlights(root);
+            card_devkit_refresh_save_slot_pair_highlights(root);
         }
     }
 
-    result = cardDevkitPollStableSlotState();
-    func_804018FC();
+    result = card_devkit_poll_stable_slot_state();
+    submit_stored_and_queried_boot_values();
     if (result == 0) {
         return;
     }
     if (result == 1) {
         return;
     }
-    func_80406720(root - 0x20);
-    func_804083FC(((S_8001EFC4_0 *)root)->unk_20, 0);
+    propagate_object_high_bit_flags(root - 0x20);
+    allocate_or_reuse_effect_and_install_callback(((S_8001EFC4_0 *)root)->unk_20, 0);
 
     return;
 }

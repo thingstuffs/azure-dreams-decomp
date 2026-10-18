@@ -1,16 +1,16 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 advanceIndexWithDirectionalClamp(s32 selection, s32 step, s32 count);
+extern s32 advance_index_with_directional_clamp(s32 selection, s32 step, s32 count);
 extern void SD_Call(s32 sound_id);
-extern void townPassIndexedEntryAddress(void *menu);
+extern void pass_indexed_entry_address(void *menu);
 extern void close_twin_shop(void *shop);
-extern void townSetShopSubrecordValues(s32 menu_context, s32 row, s32 selection);
-extern void townStoreShopEmbeddedValue(s32 menu_context, s32 selection);
+extern void set_shop_subrecord_values(s32 menu_context, s32 row, s32 selection);
+extern void store_shop_embedded_value(s32 menu_context, s32 selection);
 extern s32 D_80082AB8;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
-void townHandleGridMenuInput(s32 *menu) {
+void handle_grid_menu_input(s32 *menu) {
     GameWork *pad_state;
     s32 held_buttons;
     s32 pressed_buttons;
@@ -19,7 +19,7 @@ void townHandleGridMenuInput(s32 *menu) {
     s32 selection;
     s32 row;
     u8 *selected_entry;
-    pad_state = &gameWork;
+    pad_state = &g_game_work;
     held_buttons = pad_state->buttons;
     selection_step = 0;
     if (held_buttons == 0)
@@ -77,7 +77,7 @@ void townHandleGridMenuInput(s32 *menu) {
             return;
         }
     }
-    selection = advanceIndexWithDirectionalClamp(menu[1], selection_step, menu[2]);
+    selection = advance_index_with_directional_clamp(menu[1], selection_step, menu[2]);
     row = selection / 5;
     if (selection == menu[1])
         return;
@@ -85,8 +85,8 @@ void townHandleGridMenuInput(s32 *menu) {
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;
-        townSetShopSubrecordValues(menu[10], row, selection);
+        set_shop_subrecord_values(menu[10], row, selection);
     }
-    townStoreShopEmbeddedValue(menu[10], selection);
-    townPassIndexedEntryAddress(menu);
+    store_shop_embedded_value(menu[10], selection);
+    pass_indexed_entry_address(menu);
 }

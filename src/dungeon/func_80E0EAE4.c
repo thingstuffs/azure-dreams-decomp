@@ -10,16 +10,16 @@ typedef s32 M2C_UNK;
 typedef struct S_801722E4_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801722E4_5_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in dungeonFaceTargetAndStartAction, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
+} S_801722E4_5_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in face_target_and_start_action, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
 
 
 
 extern void func_80047784();
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
-extern s32 func_800A2B5C();
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
-extern s32 dungeonApplyCameraOffsetAndSelectTarget();
+extern s16 get_rounded_facing_and_rounding_flag();
+extern s32 try_claim_dungeon_action_slot();
+extern s32 advance_status_timers();
+extern s32 select_nearby_target_and_initialize_slot();
+extern s32 apply_camera_offset_and_select_target();
 extern u8 D_801764A0[];
 
 
@@ -29,7 +29,7 @@ typedef struct S_801722E4_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_801722E4_1;   /* arg2 in dungeonFaceTargetAndStartAction */
+} S_801722E4_1;   /* arg2 in face_target_and_start_action */
 
 typedef struct S_801722E4_2 {
     u8 pad_00[0x24];
@@ -44,10 +44,10 @@ typedef struct S_801722E4_3 {
     u16 unk_98;
     s8 unk_9A;
     s8 unk_9B;
-} S_801722E4_3;   /* arg0 in dungeonFaceTargetAndStartAction */
+} S_801722E4_3;   /* arg0 in face_target_and_start_action */
 
 /* Face the target and initialize the actor action when status checks allow it. */
-void dungeonFaceTargetAndStartAction(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, EntityRec *actor) {
+void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, EntityRec *actor) {
     s32 distance;
     void *actor_base;
     S_801722E4_2 *target;
@@ -55,13 +55,13 @@ void dungeonFaceTargetAndStartAction(S_801722E4_3 *action_state, s32 event_conte
 
     actor->unk_71 =
         (u8)(actor->unk_71 & 0x7F);
-    if (!(dungeonStatus.flags & 0x2008)) {
-        if ((func_800A2B5C(actor) << 0x10) == 0) {
+    if (!(g_dungeon_status.flags & 0x2008)) {
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             actor_base = (s8 *)actor - 0x20;
-            dungeonApplyCameraOffsetAndSelectTarget(actor_base, event_context, 8, 0x300);
-            if ((func_800A2B5C(actor) << 0x10) == 0) {
+            apply_camera_offset_and_select_target(actor_base, event_context, 8, 0x300);
+            if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
                 target = ((S_801722E4_5_pre *)(actor->target))[-1].unk_00;
-                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                actor->facing = get_rounded_facing_and_rounding_flag(
                     sprite->unk_24,
                     sprite->unk_25,
                     target->unk_24,
@@ -74,16 +74,16 @@ void dungeonFaceTargetAndStartAction(S_801722E4_3 *action_state, s32 event_conte
                 sprite->unk_2C = direction_frames;
                 func_80047784(
                     sprite,
-                    direction_frames[((s32)(gameWork.view.viewAngle +
+                    direction_frames[((s32)(g_game_work.view.viewAngle +
                                     actor->facing + 0x100) >> 9) &
                              7],
                     0);
-                dungeonAdvanceStatusTimers(actor);
+                advance_status_timers(actor);
                 actor->unk_6D =
                     (u8)(((u8)actor->unk_6D) - 1);
                 action_state->unk_98 =
                     (u16)(action_state->unk_98 | 8);
-                dungeonSelectNearbyTargetAndInitializeSlot(actor_base, event_context, 8, 0x300);
+                select_nearby_target_and_initialize_slot(actor_base, event_context, 8, 0x300);
             }
         }
     }

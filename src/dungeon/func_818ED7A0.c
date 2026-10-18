@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_190d6a4.h"
 
-void func_80024FA0(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
+void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
     Row_818ED7A0_ParticleNode *node = func_8003FD64(0x211, owner);
     NewParticleWork *work;
     if (node != 0) {
-        node->update = dungeonCreateLinkedEffectSegments;
+        node->update = create_linked_effect_segments;
         node->position->x = owner->position->x + (rand() & 31) + (dx - 16);
         node->position->y = owner->position->y + (rand() & 31) + (dy - 16);
         node->position->z = owner->position->z + (rand() & 31) + (dz - 16);

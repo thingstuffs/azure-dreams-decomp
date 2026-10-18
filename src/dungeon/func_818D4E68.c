@@ -99,16 +99,16 @@ extern u8 D_800E3D68[16];
 extern s32 func_8003DF74(void *, void *, s16 *, s32);
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
-extern s32 func_800A4778(u16, u16, s16, void *);
+extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
-extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32, void *);
-extern s32 func_800A6D30(void);
-extern void func_800C8B84(void *entity, s16 chance, s16 effect_value);
+extern s32 try_trigger_target_record_effect(void *, s32, void *);
+extern s32 generate_random_value(void);
+extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
 #include "shared/slus_callbacks.h"
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
-void updateActorEffectParticlesAndCleanup(Actor33 *actor, Motion33 *motion, Render33 *render)
+void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion, Render33 *render)
 {
     s16 position_delta[4];
     PackedOffsets offsets;
@@ -188,8 +188,8 @@ void updateActorEffectParticlesAndCleanup(Actor33 *actor, Motion33 *motion, Rend
             s32 distance;
 
             aux = *(Aux **)((u8 *)entity - 0x14);
-            actor->target_x = aux->tile_x + dirStepX[actor->direction];
-            actor->target_z = aux->tile_y + dirStepY[actor->direction];
+            actor->target_x = aux->tile_x + dir_step_x[actor->direction];
+            actor->target_z = aux->tile_y + dir_step_y[actor->direction];
             {
                 s32 aux_coord;
                 distance = entity->unk_72;
@@ -216,7 +216,7 @@ void updateActorEffectParticlesAndCleanup(Actor33 *actor, Motion33 *motion, Rend
         return;
 
     case 2:
-        if ((func_800A4778(motion->x.half.hi, motion->y.half.hi,
+        if ((check_adjacent_tile_height_clearance(motion->x.half.hi, motion->y.half.hi,
                            (s16)motion->z.half.hi, entity->target) << 16) != 0) {
             goto state1_cleanup;
         }
@@ -274,7 +274,7 @@ void updateActorEffectParticlesAndCleanup(Actor33 *actor, Motion33 *motion, Rend
                     actor->timer84 = 0;
                     actor->state++;
                     render->field06 = 100;
-                    func_800A56E0(sound_id);
+                    play_sound_if_enabled(sound_id);
                     return;
                 }
 state1_cleanup:
@@ -379,12 +379,12 @@ state1_cleanup:
             s32 room_id;
             actor->timer84 = 40;
             actor->state++;
-            if (dungeonTryTriggerTargetRecordEffect(entity->target, 4, entity) == 0) {
+            if (try_trigger_target_record_effect(entity->target, 4, entity) == 0) {
                 s32 effect_kind;
-                effect_kind = (func_800A6D30() & 3) + 4;
+                effect_kind = (generate_random_value() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;
                 room_id = (D_800E3D68[0] == 0xFF) ? 0xFF : 0x10;
-                func_800C8B84(entity->target, room_id, effect_type);
+                try_apply_threshold_effect_variant_b(entity->target, room_id, effect_type);
                 return;
             }
         }
@@ -420,9 +420,9 @@ state1_cleanup:
                 active_flag = D_80025118[0];
                 actor->timer82 = old_timer;
                 if (active_flag == 0) {
-                    dungeonStatus.unk_0C = 0;
+                    g_dungeon_status.unk_0C = 0;
                     *(u16 *)((u8 *)actor - 2) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                     return;
                 }
                 D_80025118[0] = 0;

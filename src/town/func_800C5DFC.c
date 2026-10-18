@@ -1,9 +1,9 @@
 #include "common.h"
 
 
-extern s32 townSelectObjectSetupPath(void *object, s32 request_data, s32 request_param, s32 check_param);
-extern s16 townGetClampedTransformCoordinate(void *object, s32 step_x, s32 step_y);
-extern void func_800C37C4(void *object, void *unusedArg, void *initializationArg);
+extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
+extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y);
+extern void initialize_object_assigns_state_data(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
 
 extern s32 D_800D4FE8[4];
@@ -27,7 +27,7 @@ typedef struct S_800C355C_0 {
     s16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800C355C_0;   /* arg1 in townAdvanceBoundedMotion */
+} S_800C355C_0;   /* arg1 in advance_bounded_motion */
 
 typedef struct S_800C355C_1 {
     u8 pad_00[0x72];
@@ -38,10 +38,10 @@ typedef struct S_800C355C_1 {
     u8 pad_88[0x4];
     union { s16 s; u16 u; } unk_8C;   /* accessed as both */
     union { s16 s; u16 u; } unk_8E;   /* accessed as both */
-} S_800C355C_1;   /* arg0 in townAdvanceBoundedMotion */
+} S_800C355C_1;   /* arg0 in advance_bounded_motion */
 
 /* Advance motion, clamp at the facing boundary, and update directional speed. */
-void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context, s32 check_param)
+void advance_bounded_motion(S_800C355C_1 *entity, void *motion, void *context, s32 check_param)
 {
     s32 pos_x;
     s32 step_y;
@@ -51,7 +51,7 @@ void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context,
     s32 max_speed;
     s32 *motion_words;
 
-    if (townSelectObjectSetupPath(entity, (s32)motion, (s32)context, check_param) != 0) {
+    if (select_object_setup_path(entity, (s32)motion, (s32)context, check_param) != 0) {
         return;
     }
 
@@ -64,7 +64,7 @@ void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context,
     speed += step_y;
     ((S_800C355C_0 *)motion)->unk_00.at00.v = pos_x;
     ((S_800C355C_0 *)motion)->unk_04.at00.v = speed;
-    ((S_800C355C_0 *)motion)->unk_0A = townGetClampedTransformCoordinate(motion, max_speed, step_y);
+    ((S_800C355C_0 *)motion)->unk_0A = get_clamped_transform_coordinate(motion, max_speed, step_y);
 
     angle = 0x400 - entity->unk_72;
     quadrant = (angle / 0x400) & 3;
@@ -73,14 +73,14 @@ void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context,
     case 0:
         if (entity->unk_84.s + entity->unk_8C.s < ((S_800C355C_0 *)motion)->unk_00.at02.v) {
             ((S_800C355C_0 *)motion)->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
-            func_800C37C4(entity, motion, context);
+            initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
         if (entity->unk_86.s + entity->unk_8E.s < ((S_800C355C_0 *)motion)->unk_04.at02.v) {
             ((S_800C355C_0 *)motion)->unk_04.at02u.v = entity->unk_86.u + entity->unk_8E.u;
-            func_800C37C4(entity, motion, context);
+            initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
@@ -91,7 +91,7 @@ void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context,
             center = entity->unk_84.u;
             extent = entity->unk_8C.u;
             ((S_800C355C_0 *)motion)->unk_00.at02u.v = center - extent;
-            func_800C37C4(entity, motion, context);
+            initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
@@ -102,7 +102,7 @@ void townAdvanceBoundedMotion(S_800C355C_1 *entity, void *motion, void *context,
             center = entity->unk_86.u;
             extent = entity->unk_8E.u;
             ((S_800C355C_0 *)motion)->unk_04.at02u.v = center - extent;
-            func_800C37C4(entity, motion, context);
+            initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;

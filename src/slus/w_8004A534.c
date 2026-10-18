@@ -19,6 +19,6 @@ typedef struct {
 } S_8004A534_arg1;
 
 /* Adds a quarter of the base value scaled by the selected table multiplier. */
-s32 menuAddAQuarterBaseScaledSelectedTableMultiplier(u32 base_value, S_8004A534_arg1 *entry_selector) {
+s32 menu_add_a_quarter_base_scaled_selected_table_multiplier(u32 base_value, S_8004A534_arg1 *entry_selector) {
     return base_value + ((base_value >> 2) * TBL_800102F0[entry_selector->field_3 & 0x1F].field_11);
 }

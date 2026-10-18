@@ -21,21 +21,21 @@ typedef struct Row_818FE800_Target {
 #endif
 
 /* Roll the target's 0x3 resistance against the attack level: on a hit, halve its 0x26 counter and run effect 0x53 with that amount, otherwise apply the miss record and run 0x53 with -1. */
-s32 func_800990FC(void);
-s32 func_80099194(void *src, void *dst);
+s32 get_unused_text_buffer(void);
+s32 expand_text_control_codes(void *src, void *dst);
 s32 func_80099290(void *byte_ptr);
-s32 dungeonWriteTextByteAndAdvance(s8 value, void *dest);
-s32 func_80099734(void *record, void *out);
-s32 dungeonAdjustSourceValueAndFinalize(void *, void *);
-s32 dungeonTryTriggerTargetRecordEffect(void *, s32);
-s32 func_800A5720(void *text);
-s32 func_800A6D30(void);
-s32 createActorValuePopup(s32 flags, void *source_data, s16 value, u16 callback_mode);
-void dungeonUpdateEffectParticlesAndCleanup(void);
+s32 write_text_byte_and_advance(s8 value, void *dest);
+s32 append_entity_display_text(void *record, void *out);
+s32 adjust_source_value_and_finalize(void *, void *);
+s32 try_trigger_target_record_effect(void *, s32);
+s32 display_text_with_fullwidth_adjustment(void *text);
+s32 generate_random_value(void);
+s32 create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
+void update_effect_particles_and_cleanup(void);
 void func_80024658(void);
 void func_80024674(void);
 void func_8002469C(void);
-void cardBootRefreshFiveSlotSelection(void);
+void card_boot_refresh_five_slot_selection(void);
 void func_800250A4(void);
 void func_8002536C(void);
 void func_8002561C(void);
@@ -46,5 +46,5 @@ void func_80025DF4(void);
 void func_80025D90(void);
 extern M2C_UNK D_800E2096;
 extern M2C_UNK D_800E20BC;
-s32 func_8002407C(Row_818FE800_Target *target, s32 level);
+s32 apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level);
 #endif

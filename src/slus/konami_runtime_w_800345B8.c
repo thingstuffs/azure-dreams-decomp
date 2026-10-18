@@ -25,7 +25,7 @@ extern u8 D_8006CD30[32];
 extern s32 D_8006CD4C[];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
-s32 runtimeRenderLinkedTexturedSprites(u8 *node_data, u8 *position, u8 *render_state)
+s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state)
 {
     u8 *scratch;
     void *fixed_matrix;
@@ -73,12 +73,12 @@ s32 runtimeRenderLinkedTexturedSprites(u8 *node_data, u8 *position, u8 *render_s
     GpuContext *render_pool;
     u8 *next_prim;
     scratch = (u8 *) 0x1F800000;
-    render_pool = gameWork.unk_000;
+    render_pool = g_game_work.unk_000;
     next_prim = render_pool->packetCursor;
     (((SpS32 *) (scratch + 0x24))->v) = (s32) (((u8 *) render_pool) + 0xB0);
     (((SpS32 *) (scratch + 0xE4))->v) = 0;
     (((SpS32 *) (scratch + 0x1C))->v) = (s32) next_prim;
-    render_pools = ((GpuContext * *)(&gameWork));
+    render_pools = ((GpuContext * *)(&g_game_work));
     fixed_matrix = (void *) 0x1F8000C8;
     do {
         copy_matrix_a = D_8006A84C;

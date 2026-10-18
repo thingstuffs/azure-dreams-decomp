@@ -35,7 +35,7 @@ s32 func_80024790(s32 texture_index, u8 *color_source)
     u8 *transform_flags;
 
     scratch = (u8 *)0x1F800000;
-    render_buffer = *(u8 **)((u8 *)(&gameWork));
+    render_buffer = *(u8 **)((u8 *)(&g_game_work));
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
     packet = ((GpuContext *)render_buffer)->packetCursor;
     ((GpuContext *)render_buffer)->packetCursor = packet + 0x34;

@@ -17,7 +17,7 @@ typedef struct S_806D2BB8_1 {
 } S_806D2BB8_1;
 
 
-void *townSelectDB8Handler();                           /* extern */
+void *select_db_8_handler();                           /* extern */
 extern M2C_UNK D_80017008;
 
 /* Gets an entry by its masked key and initializes its offset slot if empty. */
@@ -28,7 +28,7 @@ void *func_806D2BB8(void *context, S_806D2BB8_0 *descriptor) {
     S_806D2BB8_1 *entry;
 
     entry_key = descriptor->unk_00 & 0x3FFF0000;
-    entry = townSelectDB8Handler(context, entry_key);
+    entry = select_db_8_handler(context, entry_key);
     result = entry;
     if (entry->unk_04.s == NULL) {
         *descriptor->unk_08.s = ((s8 *) descriptor->unk_0C - (s8 *) &D_80017008) + 4;

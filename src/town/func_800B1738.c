@@ -4,6 +4,6 @@ extern s32 D_800D15B0;
 extern void func_80049D80(void *data, void *value_ptr);
 
 /* Pass the data pointer and D_800D15B0 to func_80049D80. */
-void townDispatchItemMenuDataUpdate(void *data) {
+void dispatch_item_menu_data_update(void *data) {
     func_80049D80(data, &D_800D15B0);
 }

@@ -4,7 +4,7 @@
 extern s32 *D_807013A0[];
 
 /* Clear the indexed flag bit unless the index is one. */
-void func_807010E0(s32 bit_index) {
+void clear_indexed_flag_bit_unless(s32 bit_index) {
     if (bit_index != 1) {
         D_807013A0[0][bit_index / 32] &= ~(1 << (bit_index % 32));
     }

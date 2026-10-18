@@ -17,7 +17,7 @@ typedef struct S_81952B4C_0 {
     s16 unk_2C;
     u8 pad_2E[0x6];
     s16 unk_34;
-} S_81952B4C_0;   /* arg0 in updateSpiralingEffectGrowthAndFade */
+} S_81952B4C_0;   /* arg0 in update_spiraling_effect_growth_and_fade */
 
 typedef struct S_81952B4C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -29,7 +29,7 @@ typedef struct S_81952B4C_1 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_81952B4C_1;   /* arg1 in updateSpiralingEffectGrowthAndFade */
+} S_81952B4C_1;   /* arg1 in update_spiraling_effect_growth_and_fade */
 
 typedef struct S_81952B4C_2 {
     u8 pad_00[0xC];
@@ -42,13 +42,13 @@ typedef struct S_81952B4C_2 {
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
-} S_81952B4C_2;   /* arg2 in updateSpiralingEffectGrowthAndFade */
+} S_81952B4C_2;   /* arg2 in update_spiraling_effect_growth_and_fade */
 
 
 
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
-void updateSpiralingEffectGrowthAndFade(void *effect, void *position, void *sprite)
+void update_spiraling_effect_growth_and_fade(void *effect, void *position, void *sprite)
 {
     s16 state;
     s16 radius;
@@ -134,9 +134,9 @@ void updateSpiralingEffectGrowthAndFade(void *effect, void *position, void *spri
         ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
         if ((s8)brightness <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            global_flags = objectFlagBlock.flags | 0x8000;
+            global_flags = object_flag_block.flags | 0x8000;
             ((S_81952B4C_0 *)effect)->unk_24.u++;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
             return;
         }
 

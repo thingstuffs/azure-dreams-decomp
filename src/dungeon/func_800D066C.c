@@ -69,7 +69,7 @@ typedef struct S_800D5DCC_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D5DCC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonSpawnRandomizedDirectionalEffect */
+} S_800D5DCC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
 typedef struct S_800D5DCC_10 {
     u8 pad_00[0x6];
@@ -86,7 +86,7 @@ extern u8 D_800D5CA0[];
 extern s16 D_800E2468[];
 
 /* Spawn an effect offset from the source with randomized directional velocity. */
-void dungeonSpawnRandomizedDirectionalEffect(EntityRec *source, s16 angle, s32 effect_value)
+void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effect_value)
 {
     S_800D5DCC_2 *pos_x;
     S_800D5DCC_4 *pos_y;

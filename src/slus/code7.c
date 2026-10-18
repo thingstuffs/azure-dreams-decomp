@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern void createCallbackPairPayload(int a0, int a1, int a2, int a3);
+extern void create_callback_pair_payload(int a0, int a1, int a2, int a3);
 
-/* Forwards two values to createCallbackPairPayload with two leading zero arguments. */
+/* Forwards two values to create_callback_pair_payload with two leading zero arguments. */
 void func_8004B404(int value, int unused_1, int unused_2, int extra_value)
 {
     int saved_value = value;
     value = 0;
-    createCallbackPairPayload(value, value, saved_value, extra_value);
+    create_callback_pair_payload(value, value, saved_value, extra_value);
 }
 
 
@@ -16,11 +16,11 @@ extern u8 D_80016000[0x10];
 extern u8 D_80023000[0x10];
 extern void *D_8008152C;
 
-extern void queueEntityResourceDescriptorPair(void *a0, void *a1, u16 a2);
+extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2);
 
 /* Registers callbacks for the fixed buffers and returns the result-pointer slot. */
 void *func_80047DB8(s32 id)
 {
-    queueEntityResourceDescriptorPair(&D_80016000, &D_80023000, (u16)id);
+    queue_entity_resource_descriptor_pair(&D_80016000, &D_80023000, (u16)id);
     return &D_8008152C;
 }

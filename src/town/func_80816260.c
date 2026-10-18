@@ -8,18 +8,18 @@ typedef struct S_80020260_0 {
     s32 unk_08;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_80020260_0;   /* arg0 in townFadeSceneTileAcrossTerminalPhase */
+} S_80020260_0;   /* arg0 in fade_scene_tile_across_terminal_phase */
 
 typedef struct S_80020260_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0xA];
     s16 unk_36;
-} S_80020260_1;   /* object in townFadeSceneTileAcrossTerminalPhase */
+} S_80020260_1;   /* object in fade_scene_tile_across_terminal_phase */
 
 
 /* Fades an effect in and out around an object event, then marks completion. */
-void townFadeSceneTileAcrossTerminalPhase(void *effect) {
+void fade_scene_tile_across_terminal_phase(void *effect) {
     s16 state;
     s32 color;
     s32 faded_color;
@@ -51,7 +51,7 @@ void townFadeSceneTileAcrossTerminalPhase(void *effect) {
         ((S_80020260_0 *)effect)->unk_08 = faded_color;
         if (faded_color <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

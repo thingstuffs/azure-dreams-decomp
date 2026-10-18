@@ -106,7 +106,7 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s16 ex;
     s16 ey;
 
-    global_slots = ((void * *)(&gameWork));
+    global_slots = ((void * *)(&g_game_work));
     global_base = global_slots[0];
     scratchpad = (u8 *)0x1F800000;
     SP_S32(0x20) = (s32)((u8 *)global_base + 0xB0);

@@ -3,7 +3,7 @@
 extern void func_8007BEF0(s32 value);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
 extern void func_80404DBC(s32 value);
-extern void func_804077D4(s32 value);
+extern void assert_card_slot_and_set_high_bit(s32 value);
 
 extern u8 D_8040086C[];
 extern u8 D_80400894[];
@@ -21,7 +21,7 @@ void func_802F14DC(void *object) {
     }
 
     func_80404DBC(*(s32 *)((u8 *)object + 0x40));
-    func_804077D4(*(s32 *)((u8 *)object + 0x44));
+    assert_card_slot_and_set_high_bit(*(s32 *)((u8 *)object + 0x44));
 
     object_flags = *(u16 *)((u8 *)object + 0x1E);
     global_flags = D_8008DAB4[0];

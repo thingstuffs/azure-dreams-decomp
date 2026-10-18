@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_80018594();                     /* extern */
+s32 initialize_state_two_entries_pointer();                     /* extern */
 
-/* Calls func_80018594 with ID 0x72D. */
-void townInitializeEventPositionState(void) {
-    func_80018594(0x72D);
+/* Calls initialize_state_two_entries_pointer with ID 0x72D. */
+void initialize_event_position_state(void) {
+    initialize_state_two_entries_pointer(0x72D);
 }

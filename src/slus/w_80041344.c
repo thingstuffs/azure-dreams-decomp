@@ -77,7 +77,7 @@ sign_flags:
         item_index >>= 16;
         flags = item_index;
 call_tile:
-        uploadVramRowAndCache(src, vram_offset, palette_count, flags);
+        upload_vram_row_and_cache(src, vram_offset, palette_count, flags);
         DrawSync(0);
         break;
         case 2:

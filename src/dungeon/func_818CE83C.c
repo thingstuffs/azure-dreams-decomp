@@ -54,8 +54,8 @@ s32 func_8002403C(void *start_node, void *start_coords)
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (u8 **)((u8 *)(&gameWork));
-    render_state = *(u8 **)((u8 *)(&gameWork));
+    state_ptr = (u8 **)((u8 *)(&g_game_work));
+    render_state = *(u8 **)((u8 *)(&g_game_work));
     scratch = (u8 *)0x1F800000;
 
     *(u8 * *)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;

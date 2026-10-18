@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18ca83c.h"
 
-void dungeonUpdateRotatingFadingEffect(void *effect, void *position, void *sprite)
+void update_rotating_fading_effect(void *effect, void *position, void *sprite)
 {
     s32 quarter_turn;
     s32 rot;
@@ -89,7 +89,7 @@ void dungeonUpdateRotatingFadingEffect(void *effect, void *position, void *sprit
     case 4:
     default:
         *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

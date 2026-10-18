@@ -41,7 +41,7 @@ M2C_UNK func_80067EF4();
 M2C_UNK func_80067F20();
 
 /* Queue draw settings and horizontal strips for both ordering tables. */
-void dungeonQueueFramebufferStripQuads(void) {
+void queue_framebuffer_strip_quads(void) {
     s32 draw_area[2];
     u8 alternate_buffer;
     s16 saved_alternate;
@@ -50,16 +50,16 @@ void dungeonQueueFramebufferStripQuads(void) {
     void *packet;
     u32 context_slot;
 
-    alternate_buffer = (s32) gameWork.unk_000 != (s32) D_801C9E40;
-    packet = ((Rec_D_80083160 *)gameWork.unk_000)->unk_8D0;
-    func_80067E2C(packet, gameWork.unk_000);
-    func_8006658C((u8 *)gameWork.unk_000 + 0x7B0, packet);
+    alternate_buffer = (s32) g_game_work.unk_000 != (s32) D_801C9E40;
+    packet = ((Rec_D_80083160 *)g_game_work.unk_000)->unk_8D0;
+    func_80067E2C(packet, g_game_work.unk_000);
+    func_8006658C((u8 *)g_game_work.unk_000 + 0x7B0, packet);
     packet += 0xC;
-    func_80067E2C(packet, gameWork.unk_000);
-    func_8006658C((u8 *)gameWork.unk_000 + 0x830, packet);
+    func_80067E2C(packet, g_game_work.unk_000);
+    func_8006658C((u8 *)g_game_work.unk_000 + 0x830, packet);
     packet += 0xC;
     func_80067EF4(packet, 0, 0);
-    func_8006658C((u8 *)gameWork.unk_000 + 0x830, packet);
+    func_8006658C((u8 *)g_game_work.unk_000 + 0x830, packet);
     packet += 0xC;
     {
         s32 cmd_value;
@@ -72,7 +72,7 @@ void dungeonQueueFramebufferStripQuads(void) {
         (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
-    context_slot = (u32) &gameWork.unk_000;
+    context_slot = (u32) &g_game_work.unk_000;
     saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;

@@ -28,7 +28,7 @@ typedef struct S_800CABA8_0 {
     u8 pad_B2[0x4];
     u16 unk_B6;
     s16 unk_B8;
-} S_800CABA8_0;   /* arg0 in func_800CABA8 */
+} S_800CABA8_0;   /* arg0 in advance_damage_effect_and_particles */
 
 
 typedef struct S_800CABA8_2 {
@@ -39,16 +39,16 @@ typedef struct S_800CABA8_2 {
 } S_800CABA8_2;
 
 
-void *dungeonResolveAttackDamageAndEffects();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
-extern void func_800CAA94(void *, s32, void *);
-void spawnSalamParticles();
-void *func_800CB4C0();
+void *resolve_attack_damage_and_effects();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
+extern void set_actor_action_state_eight(void *, s32, void *);
+void spawn_salam_particles();
+void *create_source_linked_fading_effect();
 extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
-void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
+void advance_damage_effect_and_particles(void *effect, s32 context, void *record, void *actor) {
     s16 fade_ticks_left;
     s16 restore_ticks;
     s16 restore_ticks_left;
@@ -83,7 +83,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
     case 0:
         ((S_800CABA8_0 *)effect)->unk_B8 = 1;
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
-            dungeonResolveAttackDamageAndEffects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+            resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
             ((S_800CABA8_0 *)effect)->unk_9B = 4U;
             return;
         }
@@ -107,8 +107,8 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         effect_base = effect - 0x20;
         ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v
             - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
-        spawnSalamParticles(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
-        func_800CB4C0(effect_base, 1);
+        spawn_salam_particles(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
+        create_source_linked_fading_effect(effect_base, 1);
         red_2 = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
         red_step = (s32) (0xE0 - red_2) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
         fade_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
@@ -126,7 +126,7 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         if ((fade_ticks_left << 0x10) > 0) {
             return;
         }
-        dungeonResolveAttackDamageAndEffects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+        resolve_attack_damage_and_effects(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
         phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
         next_duration = 4;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
@@ -169,14 +169,14 @@ void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
         ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 4:
         ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
-        dungeonSetRecordIntegerTileCenter(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         ((S_800CABA8_2 *)actor_state)->unk_46 = (u16) ((((S_800CABA8_2 *)actor_state)->unk_46) & 0x7FFF);
-        dungeonAdvanceStatusTimers(actor_state);
+        advance_status_timers(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
         if ((cycles_left << 0x10) <= 0 || ((*(u16 *)0x80013714) & 8)) {
-            func_800CAA94(effect, context, record);
+            set_actor_action_state_eight(effect, context, record);
         } else {
             ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
         }

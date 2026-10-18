@@ -9,11 +9,11 @@ typedef struct S_800D34CC_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800D34CC_0;   /* state in dungeonUpdateActorFadeState */
+} S_800D34CC_0;   /* state in update_actor_fade_state */
 
 typedef struct S_800D34CC_1_pre {
     u16 unk_00;
-} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in dungeonUpdateActorFadeState, addressed as entity[-1] */
+} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in update_actor_fade_state, addressed as entity[-1] */
 
 
 typedef struct S_800D34CC_2 {
@@ -33,7 +33,7 @@ typedef struct S_800D34CC_2 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_800D34CC_2;   /* data in dungeonUpdateActorFadeState */
+} S_800D34CC_2;   /* data in update_actor_fade_state */
 
 typedef struct S_800D34CC_3 {
     u8 pad_00[0x10];
@@ -42,13 +42,13 @@ typedef struct S_800D34CC_3 {
 
 
 s32 func_80042900();                 /* extern */
-void func_8009A028();                      /* extern */
-void func_8009A3D0();             /* extern */
-void func_800A32A4(void *);                 /* extern */
-void func_800A56C0();                            /* extern */
-s32 func_800A56E0();                     /* extern */
+void unlink_entity_node();                      /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+void detach_record_and_update_slot_state(void *);                 /* extern */
+void decrement_event_counter();                            /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 
-void dungeonUpdateActorFadeState(void *state, void *unused, void *data, void *entity) {
+void update_actor_fade_state(void *state, void *unused, void *data, void *entity) {
     s32 selectedValue;
     s16 countdown;
     s16 countdownNext;
@@ -66,11 +66,11 @@ void dungeonUpdateActorFadeState(void *state, void *unused, void *data, void *en
     stateId = ((S_800D34CC_0 *)state)->unk_9B;
     switch (stateId) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             break;
         }
         ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         ((S_800D34CC_2 *)data)->unk_0C.at00.v = 0x808080;
         ((S_800D34CC_0 *)state)->unk_96 = 0x10;
         ((S_800D34CC_0 *)state)->unk_9B = (u8) (((S_800D34CC_0 *)state)->unk_9B + 1);
@@ -92,11 +92,11 @@ void dungeonUpdateActorFadeState(void *state, void *unused, void *data, void *en
         countdownNext = (u16) ((S_800D34CC_0 *)state)->unk_96 - 1;
         ((S_800D34CC_0 *)state)->unk_96 = countdownNext;
         if (((countdownNext << 0x10) <= 0) || ((((S_800D34CC_2 *)data)->unk_14 & 0x8000) != 0)) {
-            statusValue = ((s32)dungeonStatus.unk_10);
+            statusValue = ((s32)g_dungeon_status.unk_10);
             if (statusValue == (entity - 0x20)) {
-                dungeonStatus.unk_10 = (s32) (statusValue & 0x7FFFFFFF);
+                g_dungeon_status.unk_10 = (s32) (statusValue & 0x7FFFFFFF);
             }
-            func_800A32A4(entity);
+            detach_record_and_update_slot_state(entity);
             if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
                 value24 = ((S_800D34CC_2 *)data)->unk_24;
                 value25 = ((S_800D34CC_2 *)data)->unk_25;
@@ -104,12 +104,12 @@ void dungeonUpdateActorFadeState(void *state, void *unused, void *data, void *en
                 if (((EntityRec *)entity)->flags1C & 0x2000) {
                     selectedValue = 0x300;
                 }
-                func_8009A3D0(value24, value25, selectedValue);
+                update_map_cell_flags_with_item_limit(value24, value25, selectedValue);
             }
-            func_8009A028(entity);
+            unlink_entity_node(entity);
             (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
-            func_800A56C0();
+            object_flag_block.flags |= 0x8000;
+            decrement_event_counter();
         }
     }
 }

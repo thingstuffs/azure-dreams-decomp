@@ -2,15 +2,15 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-void townAddHex20000SSignedOffsetHex14();                      /* extern */
-void townInitializePlayerLinkedRecord();        /* extern */
+void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
+void initialize_player_linked_record();        /* extern */
 
 
 /* Advances and refreshes the state, then processes it when its increment is nonnegative. */
-void townAdvancePlayerState(s32 context, EntityRec *state, s32 updateData) {
+void advance_player_state(s32 context, EntityRec *state, s32 updateData) {
     state->z.v = (s32) (state->z.v + state->flags14);
-    townAddHex20000SSignedOffsetHex14(state);
+    add_hex_20000_s_signed_offset_hex_14(state);
     if (state->flags14 >= 0) {
-        townInitializePlayerLinkedRecord(context, state, updateData);
+        initialize_player_linked_record(context, state, updateData);
     }
 }

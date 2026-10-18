@@ -7,17 +7,17 @@
  * the target's lui v1,%hi(D_800847DC); lw v1,%lo(D_800847DC)(v1) sequence. */
 extern u32 D_800847DC[3];
 
-extern int soundGetCdSectorPosition(void);
+extern int sound_get_cd_sector_position(void);
 extern int func_800545F4(SoundTask *a0);
-extern void audioHandleStreamControlEvent(s32 a0);
+extern void audio_handle_stream_control_event(s32 a0);
 
 /* Fires event 0x74 when the CD read position reaches its target or the pending read check fails. */
 void func_800546B0(void) {
-    if ((u32)soundGetCdSectorPosition() < D_800847DC[0]) {
+    if ((u32)sound_get_cd_sector_position() < D_800847DC[0]) {
         if (func_800545F4(&D_80084858) == -1) {
-            audioHandleStreamControlEvent(0x74);
+            audio_handle_stream_control_event(0x74);
         }
     } else {
-        audioHandleStreamControlEvent(0x74);
+        audio_handle_stream_control_event(0x74);
     }
 }

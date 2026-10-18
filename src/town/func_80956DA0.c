@@ -48,7 +48,7 @@ typedef struct S_80956DA0_2 {
 } S_80956DA0_2;
 
 /* Creates an object with user data and initializes its position and rendering state. */
-void townCreateUserDataObject(s32 user_data) {
+void create_user_data_object(s32 user_data) {
     void *object;
     S_80956DA0_2 *render_state;
     S_80956DA0_1 *instance_data;

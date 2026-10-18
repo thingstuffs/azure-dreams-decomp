@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Performs no operation. */
-void townNoOpMapCallback(void) {
+void no_op_map_callback(void) {
 
 }

@@ -31,10 +31,10 @@ typedef struct S_80026CF0_0 {
     u8 pad_00[0x68];
     void * unk_68;
     void * unk_6C;
-} S_80026CF0_0;   /* arg0 in func_80026CF0 */
+} S_80026CF0_0;   /* arg0 in set_entry_destination_and_value */
 
 /* Position and initialize the left and right items. */
-void func_80026CF0(void *state) {
+void set_entry_destination_and_value(void *state) {
     S_80026CF0_1 *left_item;
     S_80026CF0_2 *right_item;
 

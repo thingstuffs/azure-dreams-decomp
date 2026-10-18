@@ -32,7 +32,7 @@ void func_800478B8();
 s32 rand(void);
 
 /* Updates the effect's motion and fade state, then refreshes its display. */
-void townUpdateEffectMotionAndFade(void *effect, void *motion_data, void *display_data) {
+void update_effect_motion_and_fade(void *effect, void *motion_data, void *display_data) {
     s16 ticks_left;
     s16 phase_value;
     s32 random_drop;
@@ -72,7 +72,7 @@ void townUpdateEffectMotionAndFade(void *effect, void *motion_data, void *displa
         ((Arg2State *)display)->fc += (s32)fade_step;
         if ((u8) ((Arg2State *)display)->fc < 0x11U) {
             ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

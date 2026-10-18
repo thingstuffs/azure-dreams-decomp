@@ -39,8 +39,8 @@ typedef struct S_8017169C_3 {
 
 
 extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
+extern s32 cycle_map_cell_flags();
+extern s32 update_map_cell_flags_with_item_limit();
 extern s16 func_800A0818();
 
 extern u8 D_8015786C[];
@@ -67,7 +67,7 @@ void func_80153964(void *motion, s32 unused, void *actor, void *path_state)
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_8015786C;
         func_80047784(
             actor,
-            D_8015786C[((gameWork.view.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_8015786C[((g_game_work.view.viewAngle + ((S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -77,7 +77,7 @@ void func_80153964(void *motion, s32 unused, void *actor, void *path_state)
     if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, tile_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     ((S_8017169C_1 *)actor)->unk_24 =
         ((S_8017169C_3 *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
@@ -91,7 +91,7 @@ void func_80153964(void *motion, s32 unused, void *actor, void *path_state)
     if (((S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, tile_mask);
+    cycle_map_cell_flags(new_x, new_y, tile_mask);
 
     ((S_8017169C_0 *)path_state)->unk_2A = func_800A0818(
         old_x, old_y, ((S_8017169C_1 *)actor)->unk_24, ((S_8017169C_1 *)actor)->unk_25,
@@ -100,7 +100,7 @@ void func_80153964(void *motion, s32 unused, void *actor, void *path_state)
     ((S_8017169C_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_8017169C_2 *)motion)->unk_96 = 0;
         return;
     }

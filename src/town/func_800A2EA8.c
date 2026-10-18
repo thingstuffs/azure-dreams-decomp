@@ -14,7 +14,7 @@ struct TownLink {
 extern s32 D_800CFCB4;
 
 /* Count type 4 links whose state is not -1. */
-s32 townCountTypeN4LinksWhoseStateNotN1(void)
+s32 count_type_n_4_links_whose_state_not_n_1(void)
 {
     TownLink *link = ((TownLink *)&D_800CFCB4)->next;
     s32 count = 0;

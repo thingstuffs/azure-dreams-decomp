@@ -8,7 +8,7 @@ typedef struct S_7FFE7BE8_0 {
     s32 unk_2C;
     u8 pad_30[0x14];
     void * unk_44;
-} S_7FFE7BE8_0;   /* arg0 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_0;   /* arg0 in initialize_source_position_object */
 
 typedef struct S_7FFE7BE8_1 {
     u8 pad_00[0x10];
@@ -33,7 +33,7 @@ typedef struct S_7FFE7BE8_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE7BE8_3;   /* arg2 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_3;   /* arg2 in initialize_source_position_object */
 
 typedef struct S_7FFE7BE8_4 {
     u8 pad_00[0xC];
@@ -49,7 +49,7 @@ typedef struct S_7FFE7BE8_4 {
 typedef struct S_7FFE7BE8_5 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_7FFE7BE8_5;   /* arg1 in dungeonInitializeSourcePositionObject */
+} S_7FFE7BE8_5;   /* arg1 in initialize_source_position_object */
 
 
 extern void func_70040A18(void *, void *);
@@ -58,7 +58,7 @@ extern s32 D_8004136C;
 extern s32 D_800E2BB8;
 
 /* Initialize the object from its source and position, then configure its display state. */
-void dungeonInitializeSourcePositionObject(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, S_7FFE7BE8_3 *position)
+void initialize_source_position_object(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, S_7FFE7BE8_3 *position)
 {
     S_7FFE7BE8_1 *display_flags;
     S_7FFE7BE8_4 *display_state;

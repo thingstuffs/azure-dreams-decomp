@@ -5,7 +5,7 @@ typedef s32 Callback(s32);
 
 
 /* Calls the callback with zero, then maps states 0-2 to results 1-3, defaulting to zero. */
-void townMapEventStateResult(void)
+void map_event_state_result(void)
 {
     void *state_one;
     void *state_two;

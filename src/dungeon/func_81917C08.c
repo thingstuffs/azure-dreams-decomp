@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
+void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
 {
     EntityRec *actor;
     EntityRec *target;
@@ -27,12 +27,12 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
         action->phase++;
         action->direction = ((u16)actor->facing >> 9) & 7;
         visual->color = 0x808080;
-        func_8002416C((ObjectNodeHeader *)actor - 1, motion, 8, 0x300);
+        begin_view_parameter_transition((ObjectNodeHeader *)actor - 1, motion, 8, 0x300);
         /* The initial movement work is shared with phase 1. */
     case 1:
         node = (ObjectNodeHeader *)actor - 1;
         actor_visual = node->unk_0C;
-        if (!resolveRecordOrientationOrFallback(actor_visual->resource, actor_visual, offset, 0)) {
+        if (!resolve_record_orientation_or_fallback(actor_visual->resource, actor_visual, offset, 0)) {
             if (!( ((Row_81917C08_ActorVisual *)node->unk_0C)->flags & 0x8000))
                 break;
         }
@@ -63,29 +63,29 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
             dest_tile_x = tile_x;
             dest_tile_y = tile_y;
             do {
-                if (dungeonCheckLayerOffsetHeight((s16)tile_x * 0x40, (s16)tile_y * 0x40,
+                if (check_layer_offset_height((s16)tile_x * 0x40, (s16)tile_y * 0x40,
                                  actor->unk_88, action->direction << 9))
                     break;
-                height = func_800BCB04(((s16)tile_x + dirStepX[action->direction]) * 0x40 + 0x20,
-                                     ((s16)tile_y + dirStepY[action->direction]) * 0x40 + 0x20,
+                height = sample_terrain_surface_height(((s16)tile_x + dir_step_x[action->direction]) * 0x40 + 0x20,
+                                     ((s16)tile_y + dir_step_y[action->direction]) * 0x40 + 0x20,
                                      actor->unk_88 - 0x20);
                 if ((s16)height > 0x200 || (s16)(height - actor->unk_88) < -0x3F)
                     break;
                 steps++;
-                tile_x += (u16)dirStepX[action->direction];
-                tile_y += (u16)dirStepY[action->direction];
+                tile_x += (u16)dir_step_x[action->direction];
+                tile_y += (u16)dir_step_y[action->direction];
                 dest_tile_y = tile_y;
                 dest_tile_x = tile_x;
             } while (steps < 8);
             target_motion = &destination;
-            target_motion->x.w.i = (dest_tile_x * 64) + ((dirStepX[action->direction] + 1) * 32);
-            target_motion->y.w.i = (dest_tile_y * 64) + ((dirStepY[action->direction] + 1) * 32);
+            target_motion->x.w.i = (dest_tile_x * 64) + ((dir_step_x[action->direction] + 1) * 32);
+            target_motion->y.w.i = (dest_tile_y * 64) + ((dir_step_y[action->direction] + 1) * 32);
             target_motion->z.w.i = motion->z.w.i;
             motion->next_x = target_motion->x.v;
             motion->next_y = target_motion->y.v;
             motion->next_z = motion->z.v - 0x200000;
         }
-        dungeonCreateAnInitializesVisualStateCopiesInitialData(action, motion, actor);
+        create_an_initializes_visual_state_copies_initial_data(action, motion, actor);
         action->ticks = 0;
         action->phase++;
         break;
@@ -94,9 +94,9 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
         motion->y.v += ((func_800644B8(actor->facing) >> 4) * (8 - action->ticks)) << 8;
         motion->z.v -= 0x20000;
         if (action->ticks == 5) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             for (steps = 0; steps < 8; steps++)
-                dungeonCreateAnAttachedEffectCopiedTransformDataRandomizedAngle(action, motion, (s16)steps);
+                create_an_attached_effect_copied_transform_data_randomized_angle(action, motion, (s16)steps);
         }
         if (action->ticks >= 9) {
             action->ticks = 0;
@@ -110,7 +110,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
             motion->z.v -= 0x20000;
         if (action->ticks < 0x3C)
             break;
-        dungeonCreateATypeHex212InitializesHandlerMode(action);
+        create_a_type_hex_212_initializes_handler_mode(action);
         target = actor->target;
         if (target) {
             target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
@@ -141,7 +141,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
         if (action->completed_a < 8 || action->completed_b < 8)
             break;
         if (actor->target)
-            func_8009CE1C(actor->target, 0x18, action->event_id, 2,
+            apply_attack_power_and_element_effects(actor->target, 0x18, action->event_id, 2,
                          action->direction << 9, actor, 1);
         action->ticks = 0;
         action->phase++;
@@ -150,7 +150,7 @@ void func_80025408(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *
         if (!action->pending) {
             D_8008346C.value = 0;
             ((ObjectNodeHeader *)action)[-1].flags |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

@@ -31,7 +31,7 @@ typedef struct DisplayTransferState {
 } DisplayTransferState;
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
-void townCompleteDisplayTransfer(void *texture_state) {
+void complete_display_transfer(void *texture_state) {
     s32 table_index;
     struct { s16 x; s16 y; s16 w; s16 h; } rect;
     void *state = texture_state;

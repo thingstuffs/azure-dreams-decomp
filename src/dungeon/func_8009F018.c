@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s16 getOffsetMapCellValueAndFlags();
-extern s32 func_800BCB04();
+extern s16 get_offset_map_cell_value_and_flags();
+extern s32 sample_terrain_surface_height();
 
 /* Checks whether the current and offset tile centers both yield values above 0x200. */
-s16 func_800A4778(u16 x, u16 y, s32 z, void *skip_check) {
+s16 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check) {
     s16 probe_result;
     s16 center_result;
     s32 center_delta;
@@ -30,13 +30,13 @@ s16 func_800A4778(u16 x, u16 y, s32 z, void *skip_check) {
         cell_y = y >> 6;
         start_x = cell;
         start_y = cell_y;
-        if (getOffsetMapCellValueAndFlags(probe_x, cell_y, 0, &probe_result) != 0) {
+        if (get_offset_map_cell_value_and_flags(probe_x, cell_y, 0, &probe_result) != 0) {
             center_x = (start_x << 6) + 0x20;
             probe_x = center_x & 0xFFE0;
             coord_work = (start_y << 6) + 0x20;
             probe_y = coord_work & 0xFFE0;
             center_y = coord_work;
-            center_result = func_800BCB04(probe_x, probe_y, (s16) (z - 0x20));
+            center_result = sample_terrain_surface_height(probe_x, probe_y, (s16) (z - 0x20));
             probe_result = center_result;
             z = center_x;
             if (center_result >= 0x201) {
@@ -66,7 +66,7 @@ s16 func_800A4778(u16 x, u16 y, s32 z, void *skip_check) {
                 } else {
                     y_offset = 0;
                 }
-                probe_result = func_800BCB04((z + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF,
+                probe_result = sample_terrain_surface_height((z + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF,
                     (s16) (source_z - 0x20));
                 center_x = probe_result > 0x200;
                 return center_x;

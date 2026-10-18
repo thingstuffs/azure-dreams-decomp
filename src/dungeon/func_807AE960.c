@@ -14,40 +14,40 @@ typedef struct S_807AE960_1 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
     s16 unk_10;
-} S_807AE960_1;   /* state in func_800F6160 */
+} S_807AE960_1;   /* state in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_2 {
     u8 pad_00[0x1A];
     s16 unk_1A;
-} S_807AE960_2;   /* target in func_800F6160 */
+} S_807AE960_2;   /* target in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_3 {
     u8 pad_00[0x2090];
     s32 unk_2090;
     u8 pad_2094[0x1686];
     u16 unk_371A;
-} S_807AE960_3;   /* global in func_800F6160 */
+} S_807AE960_3;   /* global in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_4 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_807AE960_4;   /* actor in func_800F6160 */
+} S_807AE960_4;   /* actor in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_5 {
     u8 pad_00[0x14];
     s16 unk_14;
-} S_807AE960_5;   /* global_end in func_800F6160 */
+} S_807AE960_5;   /* global_end in advance_dungeon_tile_action_state */
 
 typedef struct S_807AE960_6 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_807AE960_6;   /* entry in func_800F6160 */
+} S_807AE960_6;   /* entry in advance_dungeon_tile_action_state */
 
 
 extern void *D_800F6000[];
 M2C_UNK Control_CD();
-s32 getCdCommandQueueDepth();
-void soundSetCdCueParameters();
+s32 get_cd_command_queue_depth();
+void sound_set_cd_cue_parameters();
 int func_800445E0();
 s32 func_80053EF0();
 extern M2C_UNK D_80010000;
@@ -55,7 +55,7 @@ extern u16 D_8001371A;
 extern s32 D_8006CD58;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
-void func_800F6160(u8 *state, u8 *actor, u8 *target) {
+void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -69,18 +69,18 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
     GameWork *dungeon_data;
     S_807AE960_6 *entry;
 
-    dungeon_data = &gameWork;
+    dungeon_data = &g_game_work;
     global_end = (u8 *)dungeon_data + 0x1DC;
     table_base = ((s32)dungeon_data->map.cells);
     dispatch_index = (s16)(((S_807AE960_1 *)state)->unk_00.s - 1);
     switch (dispatch_index + 1) {
     case 1:
     case 2:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             return;
         }
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
         }
         ((S_807AE960_1 *)state)->unk_00.u = 3;
         break;
@@ -105,7 +105,7 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
             break;
         }
         if (((S_807AE960_3 *)global)->unk_2090 == 1) {
-            dungeonStatus.unk_0A = 1;
+            g_dungeon_status.unk_0A = 1;
         }
         if (((S_807AE960_1 *)state)->unk_04.s > 0) {
             break;
@@ -117,7 +117,7 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
                 break;
             }
             if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
-                dungeonStatus.unk_0A = 0;
+                g_dungeon_status.unk_0A = 0;
             }
         }
         ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
@@ -125,7 +125,7 @@ void func_800F6160(u8 *state, u8 *actor, u8 *target) {
         break;
     case 4:
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
-            soundSetCdCueParameters(0, D_8006CD58, 0x0600065E, 0x030008B6);
+            sound_set_cd_cue_parameters(0, D_8006CD58, 0x0600065E, 0x030008B6);
             Control_CD(0x15, func_800445E0(), 0);
         }
         ((S_807AE960_1 *)state)->unk_04.s = 0x60;

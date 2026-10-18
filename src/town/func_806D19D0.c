@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townResolveEntryFlag (src/town/func_8032F544.c);
+/* Copy, in this TOWN script module, of the module-0 helper resolve_entry_flag (src/town/func_8032F544.c);
  * this build reads the flag number from offset 0x4 of the flag record. */
 
 typedef struct ScriptEntry8 {
@@ -20,13 +20,13 @@ typedef struct ScriptContext {
     ScriptFlagRecord *flag_records;
 } ScriptContext;
 
-extern s32 func_80016114(ScriptEntry8 *entries, s32 entry_key);
+extern s32 get_base_address(ScriptEntry8 *entries, s32 entry_key);
 extern s32 func_80017334(s32 flag);
 
 /* Resolve a table entry to its referenced flag and query that flag. */
 void func_800169D0(ScriptEntry8 *entry_table, ScriptContext *context, s32 entry_key) {
     s32 entry_index;
 
-    entry_index = func_80016114(entry_table, entry_key);
+    entry_index = get_base_address(entry_table, entry_key);
     func_80017334(*(s16 *)((u8 *)context->flag_records + entry_table[entry_index].flag_index * 8 + 0x4));
 }

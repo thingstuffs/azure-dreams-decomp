@@ -13,7 +13,7 @@ typedef union {
 extern TownRecord D_80100AA0[20];
 
 /* Inserts a record into the first free slot, discarding the first record if full. */
-void townHandleInsertsFirstFreeSlotDiscardingFirstFull(TownRecord *record) {
+void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
     TownRecord *dst;
     s32 slot;
 

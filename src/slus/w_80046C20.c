@@ -3,7 +3,7 @@
 #include "common.h"
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
-s32 runtimeInitializePolygonEdges(s32 bottom_vertex, s32 *edges, u16 *edge_count) {
+s32 runtime_initialize_polygon_edges(s32 bottom_vertex, s32 *edges, u16 *edge_count) {
     s32 min_y;
     s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */

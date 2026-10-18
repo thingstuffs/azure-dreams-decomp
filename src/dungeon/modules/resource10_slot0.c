@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = func_80170F3C;
-void (*const resource10_slot0_entry1)(u8 *actor, u8 *motion, u8 *object) = dungeonUpdateActorCallbacksAnimationAndGround;
+void (*const resource10_slot0_entry1)(u8 *actor, u8 *motion, u8 *object) = update_actor_callbacks_animation_and_ground;
 #include "../func_80AEF12C.c"
 #include "../func_80AEF30C.c"
 #include "../func_80AEF4F8.c"

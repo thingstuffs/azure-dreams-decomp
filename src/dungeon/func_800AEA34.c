@@ -34,20 +34,20 @@ extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
 extern volatile u8 *D_800E3D7C[];
 extern s16 func_80042900(Entity800B4194 *, s32);
-extern u8 *func_800990FC(void);
-extern u8 *func_80099194(u8 *, u8 *);
+extern u8 *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes(u8 *, u8 *);
 extern u8 *func_80099290(u8 *);
-extern u8 *func_80099734(Entity800B4194 *, u8 *);
-extern s16 func_800A48F0(Entity800B4194 *, s32, s32);
-extern void func_800A56E0(s32);
-extern void func_800A5720(u8 *);
-extern s32 func_800A6D30(void);
-extern s32 randomDungeonRange16(s32, s32);
-extern s16 dungeonResolveAlternateSpellId(s16);
-extern void createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern s32 dungeonRollChanceAndApplyEffectFour(Entity800B4194 *, s32, s32);
-extern s32 dungeonRollThresholdEffectVariantB(Entity800B4194 *, s32, s32);
-s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
+extern u8 *append_entity_display_text(Entity800B4194 *, u8 *);
+extern s16 set_or_clear_actor_status_slot(Entity800B4194 *, s32, s32);
+extern void play_sound_if_enabled(s32);
+extern void display_text_with_fullwidth_adjustment(u8 *);
+extern s32 generate_random_value(void);
+extern s32 random_dungeon_range_16(s32, s32);
+extern s16 resolve_alternate_spell_id(s16);
+extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern s32 roll_chance_and_apply_effect_four(Entity800B4194 *, s32, s32);
+extern s32 roll_threshold_effect_variant_b(Entity800B4194 *, s32, s32);
+s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
 {
     s16 blocked;
     s32 total;
@@ -60,7 +60,7 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
     s16 range;
     u8 *event;
     s16 value;
-    code = dungeonResolveAlternateSpellId(tile_index);
+    code = resolve_alternate_spell_id(tile_index);
     total = entityp->value28 + entityp->value64;
     flag = total < 1;
     blocked = flag;
@@ -70,15 +70,15 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
         case 0x13:
         {
             if (!blocked) {
-                value = func_800A6D30();
+                value = generate_random_value();
                 range = (D_800E3D7C[0][0xA9] >> 2) + 0x10;
-                if (dungeonRollThresholdEffectVariantB(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
-                    saved = func_800990FC();
-                    text = func_80099194(D_800E0BC7, saved);
-                    text = func_80099734(entityp, text);
-                    text = func_80099194(D_800892C4, text);
+                if (roll_threshold_effect_variant_b(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                    saved = get_unused_text_buffer();
+                    text = expand_text_control_codes(D_800E0BC7, saved);
+                    text = append_entity_display_text(entityp, text);
+                    text = expand_text_control_codes(D_800892C4, text);
                     text = func_80099290(text);
-                    func_800A5720(saved);
+                    display_text_with_fullwidth_adjustment(saved);
                 }
             }
             break;
@@ -87,15 +87,15 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
         case 0x15:
         {
             if (!(blocked || (entityp->flags1C & 0x20))) {
-                value = func_800A6D30();
+                value = generate_random_value();
                 range = (D_800E3D7C[0][0xA9] >> 2) + 2;
-                if (dungeonRollChanceAndApplyEffectFour(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
-                    saved = func_800990FC();
-                    text = func_80099194(D_800E0BDC, saved);
-                    text = func_80099734(entityp, text);
-                    text = func_80099194(D_800892C8, text);
+                if (roll_chance_and_apply_effect_four(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                    saved = get_unused_text_buffer();
+                    text = expand_text_control_codes(D_800E0BDC, saved);
+                    text = append_entity_display_text(entityp, text);
+                    text = expand_text_control_codes(D_800892C8, text);
                     text = func_80099290(text);
-                    func_800A5720(saved);
+                    display_text_with_fullwidth_adjustment(saved);
                 }
             }
             break;
@@ -122,7 +122,7 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
             return 0;
         }
         contextp->value64 += delta;
-        createActorValuePopup(0x10, contextp, amount, 1);
+        create_actor_value_popup(0x10, contextp, amount, 1);
         return 0;
     }
     case 4:
@@ -130,16 +130,16 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
         if (blocked || (entityp->flags1C & 0x20)) {
             return 0;
         }
-        if (dungeonRollChanceAndApplyEffectFour(entityp, 8, 8) == 0) {
+        if (roll_chance_and_apply_effect_four(entityp, 8, 8) == 0) {
             return 0;
         }
-        func_800A56E0(0x700);
-        saved = func_800990FC();
-        text = func_80099194(D_800E0BF3, saved);
-        text = func_80099734(entityp, text);
-        text = func_80099194(D_800892C4, text);
+        play_sound_if_enabled(0x700);
+        saved = get_unused_text_buffer();
+        text = expand_text_control_codes(D_800E0BF3, saved);
+        text = append_entity_display_text(entityp, text);
+        text = expand_text_control_codes(D_800892C4, text);
         text = func_80099290(text);
-        func_800A5720(saved);
+        display_text_with_fullwidth_adjustment(saved);
         return 0;
     }
     case 5:
@@ -153,7 +153,7 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
         if (saved[1] != 0) {
             return 0;
         }
-        if ((func_800A6D30() & 3) != 0) {
+        if ((generate_random_value() & 3) != 0) {
             return 0;
         }
         saved[1] = 0xE;
@@ -161,19 +161,19 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
             low = 0x10;
             high = 0x18;
             saved[0] = 1;
-            saved[2] = randomDungeonRange16(low, high);
+            saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
         else if ((D_80012090[0] != 2) && (D_8008146C[0] < 0x16)) {
             low = 0x50;
             high = 0x78;
             saved[0] = 2;
-            saved[2] = randomDungeonRange16(low, high);
+            saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
         else {
             entityp->state48 = 3;
-            saved[2] = randomDungeonRange16(0x10, 0x18);
+            saved[2] = random_dungeon_range_16(0x10, 0x18);
             saved[3] = 1;
         }
         return 0;
@@ -186,19 +186,19 @@ s32 dungeonUpdateAttachedEffectState(s16 tile_index, Entity800B4194 *entityp, Co
         if (func_80042900(entityp, 6) != 0) {
             return 0;
         }
-        if ((func_800A6D30() & 7) != 0) {
+        if ((generate_random_value() & 7) != 0) {
             return 0;
         }
-        if (func_800A48F0(entityp, 6, 0x10) < 0) {
+        if (set_or_clear_actor_status_slot(entityp, 6, 0x10) < 0) {
             return 0;
         }
-        func_800A56E0(0x700);
-        saved = func_800990FC();
-        text = func_80099194(D_800E0C09, saved);
-        text = func_80099734(entityp, text);
-        text = func_80099194(D_800E0C1D, text);
+        play_sound_if_enabled(0x700);
+        saved = get_unused_text_buffer();
+        text = expand_text_control_codes(D_800E0C09, saved);
+        text = append_entity_display_text(entityp, text);
+        text = expand_text_control_codes(D_800E0C1D, text);
         text = func_80099290(text);
-        func_800A5720(saved);
+        display_text_with_fullwidth_adjustment(saved);
         return 0;
     }
     }

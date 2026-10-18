@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 
 
-extern void townCopyCurrentRecordComponents3(s16 *result);
+extern void copy_current_record_components_3(s16 *result);
 extern u8 D_8001F244[];
 extern u8 D_8001F288[];
 
@@ -11,7 +11,7 @@ typedef s32 (*TownCallback)(s32, u8, s32, s32);
 
 
 /* Invokes the town callback for an enabled entry using its mode and adjusted position. */
-void townInvokeEnabledEntryCallback(s32 slot_id)
+void invoke_enabled_entry_callback(s32 slot_id)
 {
     s16 position[2];
     u8 entry_index;
@@ -26,7 +26,7 @@ void townInvokeEnabledEntryCallback(s32 slot_id)
         u8 *entries = D_8001F288;
         entry = &entries[entry_index * 3];
         if (entry[2] != 0) {
-            townCopyCurrentRecordComponents3(position);
+            copy_current_record_components_3(position);
             mode = entry[1];
             x = (entry[0] << 6) + position[0] + 0x20;
             y = position[1] - 0x40;

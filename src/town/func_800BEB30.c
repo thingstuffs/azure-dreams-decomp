@@ -4,21 +4,21 @@
 typedef struct S_800BC290_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     union { u16 u; s16 s; } unk_02;   /* accessed as both */
-} S_800BC290_0;   /* arg0 in townAdvanceColorFadeAndSetCompletion */
+} S_800BC290_0;   /* arg0 in advance_color_fade_and_set_completion */
 
 typedef struct S_800BC290_1 {
     u8 pad_00[0xC];
     union { s32 s32; u8 u8; } unk_0C;   /* accessed as both */
     u8 pad_10[0x4];
     s16 unk_14;
-} S_800BC290_1;   /* arg2 in townAdvanceColorFadeAndSetCompletion */
+} S_800BC290_1;   /* arg2 in advance_color_fade_and_set_completion */
 
 
 extern void func_8004E994(void *);
 extern u8 D_80111FB0[8];
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
-void townAdvanceColorFadeAndSetCompletion(void *fade_state, s32 unused, void *visual)
+void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *visual)
 {
     s32 ticks_left;
 
@@ -55,7 +55,7 @@ void townAdvanceColorFadeAndSetCompletion(void *fade_state, s32 unused, void *vi
 
     case 2:
         (*(u16 *)((u8 *)fade_state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

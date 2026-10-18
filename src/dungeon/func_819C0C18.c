@@ -72,19 +72,19 @@ typedef struct S_func_80026418_3 {
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
 
-extern void dungeonClearCircularListFlags(void);
-extern void uploadVramRowAndCache(void *, s32, s32, s32);
-extern s32 decodeAndUploadImage(void *, void *);
+extern void clear_circular_list_flags(void);
+extern void upload_vram_row_and_cache(void *, s32, s32, s32);
+extern s32 decode_and_upload_image(void *, void *);
 extern void func_800542BC(void);
 extern s32 func_80069EF8(void);
-extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Advances a particle effect through its timed color fade and cleanup states. */
-void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
+void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 {
     s32 rect[2];
     OffsetTable offsets = D_80024028;
-    GameWork *colors = &gameWork;
+    GameWork *colors = &g_game_work;
     s32 state;
     s32 rect_xy;
     s32 rect_size;
@@ -96,15 +96,15 @@ void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
     state = effect->unk_0A.s;
     switch (state) {
     case 0:
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
+        select_nearby_target_and_initialize_slot((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
         D_800814A8->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
-        decodeAndUploadImage(D_8006E8A0, rect);
-        uploadVramRowAndCache(D_8006EE50, 0x7AC0, 1, 2);
-        dungeonClearCircularListFlags();
+        decode_and_upload_image(D_8006E8A0, rect);
+        upload_vram_row_and_cache(D_8006EE50, 0x7AC0, 1, 2);
+        clear_circular_list_flags();
 
         owner = ((GlobalObj *)D_800814A8);
         owner->unk_F4 = 0;
@@ -118,7 +118,7 @@ void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
         if ((child->flags & 0x80) == 0) {
             return;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         func_800542BC();
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
@@ -169,7 +169,7 @@ void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
             spread_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
             spread_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
 
-            dungeonCreateOffsetColoredEffect((u8 *)effect - 0x20, effect->unk_24,
+            create_offset_colored_effect((u8 *)effect - 0x20, effect->unk_24,
                           0x00C0C0C0, 0x28, spread_y, spread_x, spread_z,
                           (s16)(((u16)position->x.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)
@@ -255,13 +255,13 @@ void dungeonAdvanceParticleFadeAndCleanup(S_func_80026418_0 *effect)
         colors->view.unk_090 = 0x80;
         {
 
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A =
-                ((u16)dungeonStatus.unk_0A) - 1;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.unk_0A =
+                ((u16)g_dungeon_status.unk_0A) - 1;
         }
         D_80082E80.unk_006 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

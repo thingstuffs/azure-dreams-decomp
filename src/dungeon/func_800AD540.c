@@ -49,12 +49,12 @@ typedef struct {
 
 extern u8 D_800B2A60[];
 
-extern void func_8009A028(Entity *);
-extern void dungeonSetRecordIntegerTileCenter(Motion *, u8, u8);
-extern void dungeonApplyClampedActorValueDelta(Entity *);
+extern void unlink_entity_node(Entity *);
+extern void set_record_integer_tile_center(Motion *, u8, u8);
+extern void apply_clamped_actor_value_delta(Entity *);
 
 /* Initializes and slows entity motion, then stops it or moves it to the target tile. */
-void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {
+void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {
     s32 state;
     s16 initial_delay;
     s32 velocity_x;
@@ -65,9 +65,9 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
     state = motion_state->state;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
-        motion->dx = (-*(s16 *)(((u8 *)dirStepX) + ((entity->key6a >> 8) & 0xe))) << 0xf;
-        motion->dy = (-*(s16 *)(((u8 *)dirStepY) + ((entity->key6a >> 8) & 0xe))) << 0xf;
+        apply_clamped_actor_value_delta(entity);
+        motion->dx = (-*(s16 *)(((u8 *)dir_step_x) + ((entity->key6a >> 8) & 0xe))) << 0xf;
+        motion->dy = (-*(s16 *)(((u8 *)dir_step_y) + ((entity->key6a >> 8) & 0xe))) << 0xf;
         motion_state->state++;
         if (params->flags & 0x8000) {
             if (entity->byte28 != 0) {
@@ -75,7 +75,7 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
                 return;
             }
         {
-            DungeonGlobalStatus *shared_state = &dungeonStatus;
+            DungeonGlobalStatus *shared_state = &g_dungeon_status;
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
@@ -83,9 +83,9 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
                 *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
             }
             shared_state->unk_0A++;
-            func_8009A028(entity);
+            unlink_entity_node(entity);
             ((u16 *)motion_state)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         return;
         }
@@ -116,7 +116,7 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
         }
         if (entity->byte28 == 0) {
         {
-            DungeonGlobalStatus *shared_state = &dungeonStatus;
+            DungeonGlobalStatus *shared_state = &g_dungeon_status;
             motion->unk14 = 0;
             motion->dy = 0;
             motion->dx = 0;
@@ -124,9 +124,9 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
                 *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
             }
             shared_state->unk_0A++;
-            func_8009A028(entity);
+            unlink_entity_node(entity);
             ((u16 *)motion_state)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         return;
         }
@@ -159,10 +159,10 @@ void dungeonInitializeSlowTargetMotion(StateObj *motion_state, Motion *motion, P
         motion->unk14 = 0;
         motion->dy = 0;
         motion->dx = 0;
-        dungeonSetRecordIntegerTileCenter(motion, params->x, params->y);
+        set_record_integer_tile_center(motion, params->x, params->y);
         {
-            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&dungeonStatus.unk_10 &= 0x7fffffff;
+            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&g_dungeon_status.unk_10 &= 0x7fffffff;
             }
             motion_state->next = D_800B2A60;
         }

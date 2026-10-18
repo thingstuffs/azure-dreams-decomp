@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Removes an entry by shifting subsequent entries down and clearing the final slot. */
-void func_800A86DC(s32 entry_index) {
+void compact_item_entry_table(s32 entry_index) {
     u8 *ptr = (u8 *)0x80010000;
 
     if (entry_index < 19) {

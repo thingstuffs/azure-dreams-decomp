@@ -8,20 +8,20 @@
 #define M2C_SYNC() ((void)0)
 
 extern void func_80047784(void *, u8, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern void advance_status_timers(void *);
 extern u8 D_801739E0[];
 
 
 static __inline__ void dispatch_table(void *sprite, EntityRec *actor, u8 *direction_table) {
     u32 direction_entry;
     *(void **)((u8 *)sprite + 0x2C) = direction_table;
-    direction_entry = (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7);
+    direction_entry = (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7);
     direction_entry = direction_entry + (u32)direction_table;
     func_80047784(sprite, *(u8 *)direction_entry, 0);
 }
 
 /* Reset state and select a direction-dependent sprite entry from one of four tables. */
-void dungeonStartActorDirectionalAction(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, EntityRec *actor) {
+void start_actor_directional_action(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, EntityRec *actor) {
     s32 table_kind;
     u32 direction_entry;
     u8 *direction_table;
@@ -45,6 +45,6 @@ void dungeonStartActorDirectionalAction(Rec_func_800A9E70_arg0 *state, void *unu
         dispatch_table(sprite, actor, D_801739E0 + 24);
         break;
     }
-    dungeonAdvanceStatusTimers(actor);
+    advance_status_timers(actor);
     actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
 }

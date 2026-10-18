@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80EB751C; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorMovementAndEmitParticles func_8016CD1C
+#define update_actor_movement_and_emit_particles func_8016CD1C
 #define D_801711A4 D_8016B1A4
 #define D_8017406C D_8016E06C
 #define D_8017418C D_8016E18C
@@ -83,9 +83,9 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784();
 extern s32 rand(void);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_8016B1A4[];
 extern u8 D_8016E06C[];
@@ -158,12 +158,12 @@ void func_8016CD1C(void *actor, void *motion, void *sprite, void *entity) {
     state = ((S_80172D1C_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonBeginActorDisplayAction(actor, motion, sprite, D_8016E194);
+            begin_actor_display_action(actor, motion, sprite, D_8016E194);
             break;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -172,8 +172,8 @@ void func_8016CD1C(void *actor, void *motion, void *sprite, void *entity) {
             break;
         }
 
-        ((S_80172D1C_2 *)motion)->unk_0C.s = dirStepX[particle_or_dir_index] << 18;
-        ((S_80172D1C_2 *)motion)->unk_10.s = dirStepY[particle_or_dir_index] << 18;
+        ((S_80172D1C_2 *)motion)->unk_0C.s = dir_step_x[particle_or_dir_index] << 18;
+        ((S_80172D1C_2 *)motion)->unk_10.s = dir_step_y[particle_or_dir_index] << 18;
         ((S_80172D1C_0 *)actor)->unk_9B++;
         state_timer = -1;
         if (((EntityRec *)entity)->flags1C & 0x228) {
@@ -187,8 +187,8 @@ void func_8016CD1C(void *actor, void *motion, void *sprite, void *entity) {
         break;
 
     case 1:
-        ((S_80172D1C_2 *)motion)->unk_0C.s -= dirStepX[particle_or_dir_index] << 14;
-        ((S_80172D1C_2 *)motion)->unk_10.s -= dirStepY[particle_or_dir_index] << 14;
+        ((S_80172D1C_2 *)motion)->unk_0C.s -= dir_step_x[particle_or_dir_index] << 14;
+        ((S_80172D1C_2 *)motion)->unk_10.s -= dir_step_y[particle_or_dir_index] << 14;
         timer = ((S_80172D1C_0 *)actor)->unk_96.s;
         if (timer > 0) {
             ((S_80172D1C_0 *)actor)->unk_96.s = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
@@ -205,7 +205,7 @@ void func_8016CD1C(void *actor, void *motion, void *sprite, void *entity) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonBeginActorDisplayAction(actor, motion, sprite, D_8016E194);
+            begin_actor_display_action(actor, motion, sprite, D_8016E194);
             break;
         }
         ((S_80172D1C_0 *)actor)->unk_96.s = 8;
@@ -245,13 +245,13 @@ void func_8016CD1C(void *actor, void *motion, void *sprite, void *entity) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8016E18C;
             func_80047784(sprite,
-                          D_8016E18C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                          D_8016E18C[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);
-            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
             }
             ((S_80172D1C_0 *)actor)->unk_8C = D_8016B1A4;
         }

@@ -6,7 +6,7 @@ extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 
 /* Updates radial position or sets completion flags based on the object state. */
-void dungeonUpdateRadialMotionOrComplete(u16 *motion, s32 *position, u8 *object)
+void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object)
 {
     s32 y_offset;
 
@@ -14,7 +14,7 @@ void dungeonUpdateRadialMotionOrComplete(u16 *motion, s32 *position, u8 *object)
     func_800478B8(object);
     if (*(u16 *)(object + 0x14) & 0x6000) {
         motion[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

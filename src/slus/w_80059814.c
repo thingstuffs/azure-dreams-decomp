@@ -10,7 +10,7 @@ typedef struct {
 extern u32 D_800869A8[4];
 
 /* Scales the value according to D_800869A8[0], carrying remainders for power-of-two divisors. */
-void slusScaleValueWithRemainder(S_80059814 *state) {
+void scale_value_with_remainder(S_80059814 *state) {
     switch (D_800869A8[0]) {
     case 0x30:
     {

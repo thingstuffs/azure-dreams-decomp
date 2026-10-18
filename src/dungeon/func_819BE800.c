@@ -90,7 +90,7 @@ typedef struct S_func_80024064_9 {
 } S_func_80024064_9;   /* planes + ((S_func_80024064_4 *)current)->unk_10 * 8 in func_80024064 */
 
 
-extern s32 dungeonAreQuadCornerTurnsWithinHalfRevolution(void *);
+extern s32 are_quad_corner_turns_within_half_revolution(void *);
 
 
 
@@ -120,11 +120,11 @@ void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
 
     cell_index = (u16)world_x >> 6;
     ((S_func_80024064_0 *)scratch)->unk_150 = cell_index;
-    map_data = &gameWork.map;
+    map_data = &g_game_work.map;
     cell_index += ((u16)world_y >> 6) << map_data->shiftX;
     (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
     map_entry = (u8 *)((long)cell_index * 6 +
-                       (unsigned long)*(u8 **)((u8 *)(&gameWork.map)));
+                       (unsigned long)*(u8 **)((u8 *)(&g_game_work.map)));
     vertices = ((u8 *)map_data->unk_08);
     planes = ((u8 *)map_data->unk_0C);
     best_polygon = 0;
@@ -180,7 +180,7 @@ void *func_80024064(s32 world_x, s32 world_y, s16 min_height) {
                     ((S_func_80024064_0 *)scratch)->unk_160.at02.v =
                         ((S_func_80024064_0 *)scratch)->unk_160.at02u.v - cell_y;
 
-                    if (dungeonAreQuadCornerTurnsWithinHalfRevolution(scratch) != 0) {
+                    if (are_quad_corner_turns_within_half_revolution(scratch) != 0) {
                         plane =
                             (u8 *)((unsigned long)((S_func_80024064_4 *)polygon)->unk_10 *
                                    8 +

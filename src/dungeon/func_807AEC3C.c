@@ -45,7 +45,7 @@ extern s32 D_80083208;
 extern s16 *D_800F8A44[];
 
 /* Creates a dungeon object at the given position and records it in its slot. */
-void func_800F643C(s16 x, s16 y, s32 slot) {
+void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     s16 height;
     s32 render_config;
     void *object_data;
@@ -55,7 +55,7 @@ void func_800F643C(s16 x, s16 y, s32 slot) {
 
     object = func_8003FC64(0x16);
     if (object != NULL) {
-        ((S_800F643C_0 *)object)->unk_10 = (void *)func_800F6160;
+        ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
         func_8004491C(object, (s32)func_80046398);
         render_config = D_80083208;
         model = ((S_800F643C_0 *)object)->unk_0C;
@@ -68,7 +68,7 @@ void func_800F643C(s16 x, s16 y, s32 slot) {
         position = ((S_800F643C_0 *)object)->unk_08;
         ((S_800F643C_2 *)position)->unk_02 = x;
         ((S_800F643C_2 *)position)->unk_06 = y;
-        height = func_800BCB04(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
+        height = sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
         object_data = object + 0x20;
         ((S_800F643C_2 *)position)->unk_0A = height;
         ((S_800F643C_3 *)object_data)->unk_0E = height;

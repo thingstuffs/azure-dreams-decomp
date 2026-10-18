@@ -40,7 +40,7 @@ void func_818BD0C0(void *state, s32 unused, Rec_D_80082E80 *primitive)
         ((S_818BD0C0_0 *)state)->unk_04 = cycle_count;
         if ((s16)cycle_count >= 3) {
             ((S_818BD0C0_0_pre *)state)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags = (u32)(objectFlagBlock.flags | 0x8000);
+            object_flag_block.flags = (u32)(object_flag_block.flags | 0x8000);
             return;
         }
 

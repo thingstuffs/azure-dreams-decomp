@@ -9,14 +9,14 @@ typedef struct S_800C382C_0 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_800C382C_0;   /* arg1 in townChooseRandomMovementDirection */
+} S_800C382C_0;   /* arg1 in choose_random_movement_direction */
 
-extern s32 scaleRandomToUnsignedHalfwordLimit(s32 limit);
-extern void townInitializeObjectEntries(void *state, void *output, void *entries);
+extern s32 scale_random_to_unsigned_halfword_limit(s32 limit);
+extern void initialize_object_entries(void *state, void *output, void *entries);
 extern s32 D_800C355C;
 
 /* Chooses a random movement direction and advances the entity state. */
-void townChooseRandomMovementDirection(Rec_func_80094268_arg0 *entity, S_800C382C_0 *movement, void *context) {
+void choose_random_movement_direction(Rec_func_80094268_arg0 *entity, S_800C382C_0 *movement, void *context) {
     s32 attempt;
     s32 direction;
     void *next_node;
@@ -25,7 +25,7 @@ void townChooseRandomMovementDirection(Rec_func_80094268_arg0 *entity, S_800C382
     movement->unk_10 = 0;
 
     for (attempt = 0; attempt < 16; attempt++) {
-        direction = scaleRandomToUnsignedHalfwordLimit(4) & 0xFFFF;
+        direction = scale_random_to_unsigned_halfword_limit(4) & 0xFFFF;
 
         if (direction == 0) {
             if (movement->unk_02 <
@@ -55,6 +55,6 @@ void townChooseRandomMovementDirection(Rec_func_80094268_arg0 *entity, S_800C382
     }
 
     next_node = *(void **)((u8 *)entity->unk_7C.as_pv + 4);
-    townInitializeObjectEntries(entity, context, next_node);
+    initialize_object_entries(entity, context, next_node);
     entity->unk_50.as_pv = &D_800C355C;
 }

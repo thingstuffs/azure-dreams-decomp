@@ -37,7 +37,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = func_80045340;
-            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)dungeonCreateAnchoredDirectionalObject);
+            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)create_anchored_directional_object);
             ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = 17;
             func_8004491C(init_root, setup);
         }
@@ -73,10 +73,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                 object_flags = saved_kind & ~3;
                 if ((s16)object_flags == 0) {
                     if ((((R17_8017089C_S_8017089C_1 *)object)->unk_14 & 0x200) == 0) {
-                        if (func_800A6D30() & 1) {
+                        if (generate_random_value() & 1) {
                             ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x200;
-                            func_800A48F0(object, 1,
-                                (func_800A6D30() & 0x3F) | 0x20);
+                            set_or_clear_actor_status_slot(object, 1,
+                                (generate_random_value() & 0x3F) | 0x20);
                             ((R17_8017089C_S_8017089C_3 *)part)->unk_2C = ((u8 *)D_801744FC);
                         }
                     }
@@ -84,13 +84,13 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             }
         }
 
-        func_800A9C18(root, copy, part,(s16)((s16)kind_copy));
+        initialize_actor_sprite_and_animation(root, copy, part,(s16)((s16)kind_copy));
 
         outer = stable_object;
         outer_index = 0;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9A = 0xFF;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_9C = -1;
-        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_8C = ((u8 *)func_801713A8);
+        ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
         ((R17_8017089C_S_8017089C_1 *)object)->unk_1C |= 0x40000;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_92 = -48;
         ((R17_8017089C_S_8017089C_4 *)stable_object)->unk_A8 = 0;
@@ -139,7 +139,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                     item_offset += 0x30;
                     item_index++;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
-                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part, ((u8 *)D_800D71A8), 1);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part, ((u8 *)D_800D71A8), 1);
                     more_items = item_index < ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_02;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
                 } while (more_items);
@@ -156,7 +156,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             }
         } while (1);
 
-        func_800AA36C(stable_object, copy, part, object);
+        try_move_actor_to_valid_position(stable_object, copy, part, object);
     }
     return object;
 }

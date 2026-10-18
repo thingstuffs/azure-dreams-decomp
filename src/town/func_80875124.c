@@ -5,7 +5,7 @@ M2C_UNK func_80700C08();                     /* extern */
 M2C_UNK func_80701060();                            /* extern */
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
-void townRunDevkitPage3FlagScan(void) {
+void run_devkit_page_3_flag_scan(void) {
     func_80700C08(3);
     func_80701060();
 }

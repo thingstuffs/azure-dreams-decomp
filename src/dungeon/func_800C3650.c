@@ -11,19 +11,19 @@ typedef struct S_800C8DB0_0 {
     u8 pad_0F[0x4];
     u8 unk_13;
     s32 unk_14;
-} S_800C8DB0_0;   /* arg0 in dungeonAttemptActionSixIfEligible */
+} S_800C8DB0_0;   /* arg0 in attempt_action_six_if_eligible */
 
 
-void dungeonAdjustSourceValueAndFinalize();
-s32 func_800A48F0();
-s32 func_800A6D30();
-void dungeonWrapPositionAndSetStateValue();
+void adjust_source_value_and_finalize();
+s32 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void wrap_position_and_set_state_value();
 extern s32 D_800DCF20;
 extern M2C_UNK D_800E1937;
 extern M2C_UNK D_800E1A6D;
 
 /* Attempts action 6 when the entity passes its state and threshold checks. */
-s32 dungeonAttemptActionSixIfEligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
+s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
     s16 remainder;
     s32 sample;
     u8 state_byte;
@@ -31,23 +31,23 @@ s32 dungeonAttemptActionSixIfEligible(S_800C8DB0_0 *entity, s16 threshold, s8 ac
     if ((entity->unk_13 != 0) && ((entity->unk_08.at00.v & 0xFF0000FF) || (entity->unk_0E != 0))) {
         state_byte = entity->unk_0E;
         if (((u8) entity->unk_08.at00.v + entity->unk_08.at03.v + state_byte) != 0) {
-            sample = func_800A6D30() & 0xFFFF;
+            sample = generate_random_value() & 0xFFFF;
             if (entity->unk_03 != 0) {
                 remainder = sample % entity->unk_03;
             } else {
                 remainder = 0;
             }
-            if ((remainder < threshold || threshold == 0xFF) && (s16)func_800A48F0(entity, 6, action_arg) >= 0) {
-                dungeonAdjustSourceValueAndFinalize(entity, &D_800E1937);
+            if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(entity, 6, action_arg) >= 0) {
+                adjust_source_value_and_finalize(entity, &D_800E1937);
                 if (entity->unk_13 == 0) {
-                    dungeonWrapPositionAndSetStateValue(D_800DCF20);
+                    wrap_position_and_set_state_value(D_800DCF20);
                 }
                 return 1;
             }
         }
     }
     if (entity->unk_14 & 0x4000) {
-        dungeonAdjustSourceValueAndFinalize(entity, &D_800E1A6D);
+        adjust_source_value_and_finalize(entity, &D_800E1A6D);
     }
     return 0;
 }

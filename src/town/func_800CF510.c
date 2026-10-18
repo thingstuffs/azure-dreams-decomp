@@ -7,9 +7,9 @@ extern M2C_UNK D_800D70A0;
 typedef struct S_800CCC70_0 {
     u8 pad_00[0x68];
     s16 unk_68;
-} S_800CCC70_0;   /* arg0 in townInvokeFlagStateCallbackB */
+} S_800CCC70_0;   /* arg0 in invoke_flag_state_callback_b */
 
 /* Invoke the callback selected by the object state. */
-void townInvokeFlagStateCallbackB(S_800CCC70_0 *object) {
+void invoke_flag_state_callback_b(S_800CCC70_0 *object) {
     ((void (*)()) (*(M2C_UNK *)((u8 *)&D_800D70A0 + ((object->unk_68) * 4))))();
 }

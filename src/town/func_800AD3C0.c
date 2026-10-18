@@ -8,38 +8,38 @@
 M2C_UNK func_80033D08();
 void func_8003DB94();
 void func_800478B8();
-void townUnlinkSceneListNode();
-s32 func_8009706C();
-s32 townClassifyObjectAgainstBounds();
-s32 townQuantizeHeadingToSector();
-s32 townCheckHeadingPastHalfSector();
+void unlink_scene_list_node();
+s32 update_state_when_active();
+s32 classify_object_against_bounds();
+s32 quantize_heading_to_sector();
+s32 check_heading_past_half_sector();
 
 
 typedef struct S_800AAB20_0_pre {
     u16 unk_00;
-} S_800AAB20_0_pre;   /* the 0x2 bytes before arg0 in townUpdatePersonObject, addressed as arg0[-1] */
+} S_800AAB20_0_pre;   /* the 0x2 bytes before arg0 in update_person_object, addressed as arg0[-1] */
 
 
 /* Updates an object and its display state, or removes it when requested. */
-void townUpdatePersonObject(void *object, s32 update_ctx, Rec_D_80082E80 *display) {
+void update_person_object(void *object, s32 update_ctx, Rec_D_80082E80 *display) {
     s32 frame_index;
     s8 *active_flag;
 
-    if (townClassifyObjectAgainstBounds(object, update_ctx) != 0) {
-        townUnlinkSceneListNode(object);
+    if (classify_object_against_bounds(object, update_ctx) != 0) {
+        unlink_scene_list_node(object);
         active_flag = ((Rec_D_80082D58 *)object)->unk_98.as_ps8;
         if (active_flag != NULL) {
             *active_flag = 0;
         }
         func_80033D08(object);
         ((S_800AAB20_0_pre *)object)[-1].unk_00 = (u16) (((S_800AAB20_0_pre *)object)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
-    func_8009706C(update_ctx);
+    update_state_when_active(update_ctx);
     ((Rec_D_80082D58 *)object)->unk_50.as_xcdccad(object, object, update_ctx, display);
     if (!(((S_800AAB20_0_pre *)object)[-1].unk_00 & 0x8000)) {
-        frame_index = townQuantizeHeadingToSector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
+        frame_index = quantize_heading_to_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
         if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
             func_8003DB94(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04.as_s8);
             ((Rec_D_80082D58 *)object)->unk_74 = frame_index;
@@ -47,7 +47,7 @@ void townUpdatePersonObject(void *object, s32 update_ctx, Rec_D_80082E80 *displa
         {
             s32 display_flags;
 
-            if ((townCheckHeadingPastHalfSector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64) << 0x10) != 0) {
+            if ((check_heading_past_half_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64) << 0x10) != 0) {
                 display_flags = display->unk_14.at00_u16.v | 1;
             } else {
                 display_flags = display->unk_14.at00_u16.v & 0xFFFE;

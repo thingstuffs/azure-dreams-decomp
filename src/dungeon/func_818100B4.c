@@ -32,7 +32,7 @@ extern void *func_8004A83C(s32 category, s32 index);
 extern char *strncpy(char *dst, const char *src, u32 count);
 
 /* Sets item data from the supplied pointer or a lookup, copying fallback text when needed. */
-void dungeonSetItemDataFromLookup(ItemResult *result, ItemId *item, void *data)
+void set_item_data_from_lookup(ItemResult *result, ItemId *item, void *data)
 {
     void *item_data;
 

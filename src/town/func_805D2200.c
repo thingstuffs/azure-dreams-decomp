@@ -9,7 +9,7 @@ typedef struct TownEntryStatus {
     u8 pad_05[3];
 } TownEntryStatus;
 
-void func_80016200(void) {
+void set_selected_entry_state_2(void) {
     Rec_D_80016000 *context;
 
     context = D_80016000;

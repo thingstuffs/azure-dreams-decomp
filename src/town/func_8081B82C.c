@@ -8,10 +8,10 @@ extern u8 D_800F79E8[16];
 extern s32 rand(void);
 extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
-extern void townCreateTintedAnimatedParticle(s32, s32, s32, s32);
-extern void townCreateTakoProjectile(void *, s32, s32);
-extern void townCreateTimedSound(s16 value);
-extern void townUnlinkSceneListNode(void *);
+extern void create_tinted_animated_particle(s32, s32, s32, s32);
+extern void create_tako_projectile(void *, s32, s32);
+extern void create_timed_sound(s16 value);
+extern void unlink_scene_list_node(void *);
 
 typedef struct B {
     u8 pad0[0x10];
@@ -57,7 +57,7 @@ typedef struct Local {
 } Local;
 
 /* Updates entity animation, vertical motion, particles, and timed removal. */
-void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
+void update_tako_target(A *entity, C *motion, D *sprite) {
     B *cell = entity->unk0;
     s32 cell_flags;
     s32 state;
@@ -98,7 +98,7 @@ void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
                 particle_x = motion->w0;
                 particle_x += ((random_value & 0xff) - 128) << 14;
                 random_value = rand();
-                townCreateTintedAnimatedParticle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                create_tinted_animated_particle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
             }
             break;
         }
@@ -117,7 +117,7 @@ void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
             effect.c = 0;
             effect.e = 0;
             effect.p = entity;
-            townCreateTakoProjectile(&effect, motion->w4, 0);
+            create_tako_projectile(&effect, motion->w4, 0);
         }
         break;
 
@@ -127,7 +127,7 @@ void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
         entity->timer = timer_left;
         if ((s16)timer_left <= 0) {
             if (entity->field56 == 0) {
-                townCreateTimedSound(90);
+                create_timed_sound(90);
             }
             motion->w20 = 0x40000;
             entity->state = 3;
@@ -148,7 +148,7 @@ void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
                         particle_x <<= 14;
                         particle_x += 0x5600000;
                         random_value = rand();
-                        townCreateTintedAnimatedParticle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                        create_tinted_animated_particle(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
                     }
                 }
             }
@@ -163,9 +163,9 @@ void townUpdateTakoTarget(A *entity, C *motion, D *sprite) {
         s32 timer_left = entity->timer - 1;
         entity->timer = timer_left;
         if ((s16)timer_left <= 0) {
-            townUnlinkSceneListNode((u8 *)entity + 4);
+            unlink_scene_list_node((u8 *)entity + 4);
             *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 

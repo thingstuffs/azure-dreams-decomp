@@ -9,7 +9,7 @@
 
 typedef struct S_8197D468_0_pre {
     u16 unk_00;
-} S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateRisingLandingEffect, addressed as arg0[-1] */
+} S_8197D468_0_pre;   /* the 0x2 bytes before arg0 in update_rising_landing_effect, addressed as arg0[-1] */
 
 typedef struct S_8197D468_0 {
     void * unk_00;
@@ -17,7 +17,7 @@ typedef struct S_8197D468_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_8197D468_0;   /* arg0 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_0;   /* arg0 in update_rising_landing_effect */
 
 typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
@@ -37,7 +37,7 @@ typedef struct S_8197D468_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8197D468_2;   /* arg2 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_2;   /* arg2 in update_rising_landing_effect */
 
 typedef struct S_8197D468_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -45,12 +45,12 @@ typedef struct S_8197D468_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8197D468_3;   /* arg1 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_3;   /* arg1 in update_rising_landing_effect */
 
 typedef struct S_8197D468_4 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_8197D468_4;   /* &D_800DE990 in dungeonUpdateRisingLandingEffect */
+} S_8197D468_4;   /* &D_800DE990 in update_rising_landing_effect */
 
 typedef struct S_8197D468_5 {
     u8 pad_00[0x8];
@@ -98,7 +98,7 @@ s32 func_80069EF8();                          /* extern */
 extern M2C_UNK D_800DE990;
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
-void dungeonUpdateRisingLandingEffect(void *effect, void *motion, void *sprite) {
+void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
     void *particle_work;
     s16 state;
     s16 ground_height;
@@ -181,7 +181,7 @@ void dungeonUpdateRisingLandingEffect(void *effect, void *motion, void *sprite) 
         if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
             ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
         }
-        ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
+        ground_height = sample_terrain_surface_height(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
             (s16) (((u16)D_80083780.z.w.i) - 0x80));
         if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
             particle_index = 4;
@@ -223,7 +223,7 @@ void dungeonUpdateRisingLandingEffect(void *effect, void *motion, void *sprite) 
                 particle_index -= 1;
             } while (particle_index >= 0);
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

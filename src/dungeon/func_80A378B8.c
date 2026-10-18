@@ -41,9 +41,9 @@ void func_8015B0B8(S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *enti
     case 0:
         func_800AD4D0(source);
         motion->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 18;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         action->unk_9B++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
@@ -70,9 +70,9 @@ void func_8015B0B8(S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *enti
 
     case 1:
         motion->unk_0C -=
-            *(s16 *)((u8 *)((s8 *)dirStepX) + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
         motion->unk_10 -=
-            *(s16 *)((u8 *)((s8 *)dirStepY) + (direction * 2)) << 14;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (entity->unk_14.at00_u16.v & 0x6000) {
@@ -118,9 +118,9 @@ void func_8015B0B8(S_801730B8_1 *action, EntityRec *motion, Rec_D_80082E80 *enti
         motion->unk_0C = 0;
         func_800A2B04(motion, entity->unk_24, entity->unk_25);
 
-        tracked_addr = ((s32)dungeonStatus.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.unk_10);
         if (tracked_addr == (s32)((u8 *)source - 0x20)) {
-            dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
         action->unk_8C = &D_80158E84;
         return;

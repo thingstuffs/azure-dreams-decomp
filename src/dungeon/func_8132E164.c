@@ -6,11 +6,11 @@ typedef struct S_80165164_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-} S_80165164_0;   /* arg1 in dungeonUpdateConvergingFadingParticle */
+} S_80165164_0;   /* arg1 in update_converging_fading_particle */
 
 typedef struct S_80165164_1_pre {
     u16 unk_00;
-} S_80165164_1_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateConvergingFadingParticle, addressed as arg0[-1] */
+} S_80165164_1_pre;   /* the 0x2 bytes before arg0 in update_converging_fading_particle, addressed as arg0[-1] */
 
 typedef struct S_80165164_1 {
     u8 unk_00;
@@ -36,7 +36,7 @@ typedef struct S_80165164_1 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_80165164_1;   /* arg0 in dungeonUpdateConvergingFadingParticle */
+} S_80165164_1;   /* arg0 in update_converging_fading_particle */
 
 
 #define M2C_BREAK() ((void)0)
@@ -44,7 +44,7 @@ typedef struct S_80165164_1 {
 
 
 /* Update effect motion and color, flagging it near its target or when fully faded. */
-void dungeonUpdateConvergingFadingParticle(void *effect, void *position) {
+void update_converging_fading_particle(void *effect, void *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -65,7 +65,7 @@ void dungeonUpdateConvergingFadingParticle(void *effect, void *position) {
         target_dy = abs(((S_80165164_1 *)effect)->unk_44 - ((S_80165164_0 *)position)->unk_04.at02.v);
         if (target_dy < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }
     }
     scaled_red = ((S_80165164_1 *)effect)->unk_00 * ((S_80165164_1 *)effect)->unk_32;
@@ -79,6 +79,6 @@ void dungeonUpdateConvergingFadingParticle(void *effect, void *position) {
     ((S_80165164_1 *)effect)->unk_08 = (s32) ((S_80165164_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

@@ -15,10 +15,10 @@ s32 func_80047FD8(u8 *);
 s32 func_8007BEF0(s32);
 s32 func_8007BFE0(u8 *, s32);
 s32 func_8007C040(u8 *, u8 *, s32);
-void *func_80402DC8(u8 *);
+void *forward_target(u8 *);
 s32 func_80402DF0(u8 *, s32);
 void func_80402EBC(u8 *, s32, s32, s32, s32);
-s32 func_8040343C(s32, u8 *);
+s32 process_global(s32, u8 *);
 
 typedef struct S_8001BF84_0 {
     u8 pad_00[0xC];
@@ -32,7 +32,7 @@ typedef struct S_8001BF84_1 {
 } S_8001BF84_1;   /* store_base in func_8001BF84 */
 
 /* Initializes or retrieves the memory card message object. */
-u8 *initCardMessageObject(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
+u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
 {
     s32 result;
     u8 *store_base;
@@ -47,14 +47,14 @@ u8 *initCardMessageObject(s32 message_param_1, s32 message_param_2, s32 message_
         }
         func_80040560((s32)root, D_8040861C);
     } else {
-        func_8040343C(*(s32 *)0x80409534 != 2, root);
+        process_global(*(s32 *)0x80409534 != 2, root);
         D_80409526 &= 0x7FFF;
         func_8007BFE0(child, 0x764);
     }
 
     func_80402DF0(child, 6);
     ((S_8001BF84_0 *)root)->unk_0C = (s32)(child + 0x67C);
-    result = (s32)func_80402DC8(child + 0x68C);
+    result = (s32)forward_target(child + 0x68C);
     store_base = child;
     ((S_8001BF84_1 *)store_base)->unk_688 = result;
     func_80402EBC(store_base, message_param_1, message_param_2, message_param_3, message_param_4);

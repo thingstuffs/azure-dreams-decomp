@@ -11,7 +11,7 @@ typedef struct {
 } S_80048E00_Input;
 
 /* Builds a 0x48-byte record with two color-swapped pattern blocks and returns its base. */
-void *textureBuildAHex48ByteTwoColorSwappedPatternBlocksReturnsBase(void *cursor, void *pattern_data)
+void *texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base(void *cursor, void *pattern_data)
 {
     S_80048E00_Input *pattern = (S_80048E00_Input *)pattern_data;
     s16 span;

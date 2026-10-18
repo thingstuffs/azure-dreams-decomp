@@ -11,7 +11,7 @@ typedef struct S_80166204_3 {
 typedef struct S_80166204_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80166204_4;   /* arg0 in dungeonCreateShortLivedRedSpark */
+} S_80166204_4;   /* arg0 in create_short_lived_red_spark */
 
 typedef struct S_80166204_5 {
     u8 pad_00[0x2];
@@ -32,7 +32,7 @@ typedef struct S_80166204_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80166204_6;   /* ((S_80166204_4 *)arg0)->unk_08 in dungeonCreateShortLivedRedSpark */
+} S_80166204_6;   /* ((S_80166204_4 *)arg0)->unk_08 in create_short_lived_red_spark */
 
 
 typedef struct S_80166204_0 {
@@ -74,7 +74,7 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */
-void dungeonCreateShortLivedRedSpark(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,
+void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     s32 color_component;
     s32 sprite_flags;

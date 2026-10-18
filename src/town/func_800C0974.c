@@ -16,7 +16,7 @@ typedef struct TownPropAnimationDestination {
 } S1;
 
 
-void townCopyRecordStateToDestination(S0 *self, s32 unused_value, S1 *destination) {
+void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;
     S1 *dst = destination;
     s32 state;
@@ -26,7 +26,7 @@ void townCopyRecordStateToDestination(S0 *self, s32 unused_value, S1 *destinatio
     state = obj->state;
     switch (state) {
     case 0:
-        if (func_800352FC() && townCheckTransformIdentifierAndHook(obj)) {
+        if (func_800352FC() && check_transform_identifier_and_hook(obj)) {
             callValue = obj->fieldA4;
             func_8003DB94(dst, callValue, 0);
             obj->state = (u16)obj->state + 1;
@@ -42,13 +42,13 @@ void townCopyRecordStateToDestination(S0 *self, s32 unused_value, S1 *destinatio
         }
         return;
     case 2:
-        if (func_800352FC() && townCheckTransformIdentifierAndHook(obj)) {
+        if (func_800352FC() && check_transform_identifier_and_hook(obj)) {
             return;
         }
         obj->state = (u16)obj->state + 1;
         return;
     case 3:
-        if (!(func_800352FC() && townCheckTransformIdentifierAndHook(obj))) {
+        if (!(func_800352FC() && check_transform_identifier_and_hook(obj))) {
             return;
         }
         callValue = obj->fieldA0;
@@ -57,7 +57,7 @@ void townCopyRecordStateToDestination(S0 *self, s32 unused_value, S1 *destinatio
         return;
     case 4:
         if (func_800352FC()) {
-            if (townCheckTransformIdentifierAndHook(obj)) {
+            if (check_transform_identifier_and_hook(obj)) {
                 return;
             }
         }

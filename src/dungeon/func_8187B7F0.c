@@ -14,7 +14,7 @@ void func_80024FF0(void *object, s16 *position)
     u16 query_y = (u16)position[3];
 
     *(s16 *)D_8002694C = 1;
-    if (position[5] < (s16)func_800BCB04(query_x, query_y, minimum_height)) {
+    if (position[5] < (s16)sample_terrain_surface_height(query_x, query_y, minimum_height)) {
         ((s32 *)position)[2] += *(s32 *)((u8 *)object + 0xB4);
     }
 
@@ -22,6 +22,6 @@ void func_80024FF0(void *object, s16 *position)
     object_fields[8] = counter;
     if ((counter << 16) <= 0) {
         ((u16 *)object_fields)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

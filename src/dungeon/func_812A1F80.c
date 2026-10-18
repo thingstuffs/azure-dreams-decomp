@@ -1,5 +1,5 @@
-#define dungeonUpdateBankActorState func_8014C514
-#define dungeonInterpolateActorToTerrainTile func_800AB138
+#define update_bank_actor_state func_8014C514
+#define interpolate_actor_to_terrain_tile func_800AB138
 /* Relink of matched dungeon/func_80F8A664 at file 0xFAA664; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

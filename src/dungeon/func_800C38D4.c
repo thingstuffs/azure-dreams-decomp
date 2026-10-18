@@ -15,12 +15,12 @@ typedef struct {
     s32 value;
     ChainPayload *payload;
 } ChainHeader;
-extern void dungeonTransformShadeAndQueueModelQuads(void *, s32, ChainPayload *, s16);
+extern void transform_shade_and_queue_model_quads(void *, s32, ChainPayload *, s16);
 
-s32 func_800C9034(void *body, s32 value, ChainPayload *payload) {
+s32 draw_linked_model_chain(void *body, s32 value, ChainPayload *payload) {
     ChainHeader *next;
     do {
-        dungeonTransformShadeAndQueueModelQuads(body, value, payload, payload->kind);
+        transform_shade_and_queue_model_quads(body, value, payload, payload->kind);
         next = *(ChainHeader **)((u8 *)body - 8);
         body = (u8 *)next + 0x20;
         if (next != 0) {

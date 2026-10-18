@@ -1,22 +1,22 @@
 #include "modules/town_town_windows.h"
 
 /* Updates an object's pulse brightness and handles its completion state. */
-void townUpdateObjectPulseBrightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive) {
+void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive) {
     s32 status_match;
     s16 phase;
     s32 wave;
     s32 wave_step;
     s32 brightness;
 
-    status_match = townClassifyRecordByStateAndPosition(object, context) == 1;
-    if (townClassifyRecordByStateAndPosition(object, context) == 1) {
+    status_match = classify_record_by_state_and_position(object, context) == 1;
+    if (classify_record_by_state_and_position(object, context) == 1) {
         s8 *active_flag = object->unk_98;
         if (active_flag != 0) {
             *active_flag = 0;
         }
         func_80033D08(object);
         ((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     if (status_match == 2) {

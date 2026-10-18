@@ -18,7 +18,7 @@ typedef struct S_80174CCC_0 {
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
     union { u16 s; u16 u; } unk_38;   /* accessed as both */
     u16 unk_3A;
-} S_80174CCC_0;   /* arg0 in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_0;   /* arg0 in update_knockback_travel_object */
 
 typedef struct S_80174CCC_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -28,7 +28,7 @@ typedef struct S_80174CCC_1 {
         struct { u8 pad[0x2]; s16 v; } at02;
         struct { u8 pad[0x2]; u16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_80174CCC_1;   /* arg1 in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_1;   /* arg1 in update_knockback_travel_object */
 
 
 
@@ -36,12 +36,12 @@ typedef struct S_80174CCC_1 {
 typedef struct S_80174CCC_5 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80174CCC_5;   /* (void *)used_page in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_5;   /* (void *)used_page in update_knockback_travel_object */
 
 typedef struct S_80174CCC_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80174CCC_6_pre;   /* the 0x14 bytes before created in dungeonUpdateKnockbackTravelObject, addressed as created[-1] */
+} S_80174CCC_6_pre;   /* the 0x14 bytes before created in update_knockback_travel_object, addressed as created[-1] */
 
 typedef struct S_80174CCC_6 {
     u8 pad_00[0x5];
@@ -58,24 +58,24 @@ typedef struct S_80174CCC_6 {
     u8 unk_43;
     u8 pad_44[0x60];
     void * unk_A4;
-} S_80174CCC_6;   /* created in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_6;   /* created in update_knockback_travel_object */
 
 typedef struct S_80174CCC_7 {
     u8 pad_00[0x14];
     u32 unk_14;
     u8 pad_18[0x8C];
     void * unk_A4;
-} S_80174CCC_7;   /* source in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_7;   /* source in update_knockback_travel_object */
 
 typedef struct S_80174CCC_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_80174CCC_8;   /* tail_arg in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_8;   /* tail_arg in update_knockback_travel_object */
 
 typedef struct S_80174CCC_9 {
     u8 pad_00[0xCA];
     u16 unk_CA;
-} S_80174CCC_9;   /* parent in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_9;   /* parent in update_knockback_travel_object */
 
 typedef struct S_80174CCC_10 {
     u8 pad_00[0x12];
@@ -83,7 +83,7 @@ typedef struct S_80174CCC_10 {
     u16 unk_14;
     u8 pad_16[0x16];
     union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_80174CCC_10;   /* owner in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_10;   /* owner in update_knockback_travel_object */
 
 typedef struct S_80174CCC_11 {
     u8 pad_00[0x5];
@@ -91,23 +91,23 @@ typedef struct S_80174CCC_11 {
     u8 pad_06[0x22];
     u8 unk_28;
     u8 unk_29;
-} S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in dungeonUpdateKnockbackTravelObject */
+} S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in update_knockback_travel_object */
 
 
 extern s8 D_800E2968;
 extern u8 D_80176668[];
 
-extern s32 hasEnoughAvailableRuntimeNodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32);
 extern void func_80042640(void *, s32);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void retainSpawnResource(s16 entry_type, s16 entry_key);
-extern s32 func_800A1618(s32, s32);
-extern void *dungeonCreateGridPositionEntity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
+extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
+extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height);
 
 /* Advances the motion arc and creates a linked object when the arrival effect completes. */
-void dungeonUpdateKnockbackTravelObject(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
+void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
 {
     s32 state;
     s32 height_offset;
@@ -178,17 +178,17 @@ void dungeonUpdateKnockbackTravelObject(void *motion, S_80174CCC_1 *position, Re
 
     case 1:
         if ((record->unk_14.at00_u16.v & 0xE000) != 0) {
-            if (func_800A1618(0x1E, 1) == 0) {
-                if (func_800A1618(0x1E, 3) == 0) {
+            if (find_or_retain_sprite_resource_slot(0x1E, 1) == 0) {
+                if (find_or_retain_sprite_resource_slot(0x1E, 3) == 0) {
                     return;
                 }
             }
-            if (hasEnoughAvailableRuntimeNodes(3) == 0) {
+            if (has_enough_available_runtime_nodes(3) == 0) {
                 return;
             }
 
             spawn_kind = 4;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             used_page = 0x80080000;
             removal_flags = *(u16 *)((u8 *)motion - 2);
             flags = ((S_80174CCC_0 *)motion)->unk_38.s;
@@ -201,7 +201,7 @@ void dungeonUpdateKnockbackTravelObject(void *motion, S_80174CCC_1 *position, Re
                 spawn_kind = 7;
             }
 
-            created = dungeonCreateGridPositionEntity(spawn_kind,
+            created = create_grid_position_entity(spawn_kind,
                 ((S_80174CCC_0 *)motion)->unk_32,
                 ((S_80174CCC_0 *)motion)->unk_34,
                 ((S_80174CCC_0 *)motion)->unk_36.s);
@@ -246,9 +246,9 @@ void dungeonUpdateKnockbackTravelObject(void *motion, S_80174CCC_1 *position, Re
                 owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
                 func_80047784(owner,
                     owner->unk_2C.u
-                        [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+                        [((g_game_work.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
                     0);
-                retainSpawnResource(0x1E, 1);
+                retain_spawn_resource(0x1E, 1);
             }
         }
         break;

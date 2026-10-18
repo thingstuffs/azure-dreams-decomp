@@ -4,7 +4,7 @@
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 /* Advance position, clamp velocity, and steer acceleration toward the target. */
-void dungeonSteerEffectTowardTarget(void *motion, void *position)
+void steer_effect_toward_target(void *motion, void *position)
 {
     s32 target_delta;
     S32_AT(position, 0x0) += S32_AT(motion, 0x40);

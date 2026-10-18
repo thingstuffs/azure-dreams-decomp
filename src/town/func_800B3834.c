@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Check whether the entry passes the type and flag filter. */
-s32 townCheckShopEntryTypeAndFlags(void *entry) {
+s32 check_shop_entry_type_and_flags(void *entry) {
     u8 flags;
     u8 value;
 

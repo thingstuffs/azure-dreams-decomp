@@ -5,17 +5,17 @@
 typedef struct S_8008F548_0 {
     u8 pad_00[0x38];
     s8 unk_38;
-} S_8008F548_0;   /* arg0 in townSetTheFlagInitializeAssociatedState */
+} S_8008F548_0;   /* arg0 in set_the_flag_initialize_associated_state */
 
 typedef struct S_8008F548_1 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_8008F548_1;   /* arg1 in townSetTheFlagInitializeAssociatedState */
+} S_8008F548_1;   /* arg1 in set_the_flag_initialize_associated_state */
 
 /* Set the object flag and initialize the associated state. */
-void townSetTheFlagInitializeAssociatedState(S_8008F548_0 *object, S_8008F548_1 *state, s32 initial_value) {
+void set_the_flag_initialize_associated_state(S_8008F548_0 *object, S_8008F548_1 *state, s32 initial_value) {
     object->unk_38 = 1;
     state->unk_04 = initial_value;
     state->unk_10 = 0;

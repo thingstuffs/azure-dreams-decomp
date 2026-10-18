@@ -34,7 +34,7 @@ typedef struct S_80D659DC_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D659DC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonSpawnAngledRandomVelocityEffect */
+} S_80D659DC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_angled_random_velocity_effect */
 
 
 typedef struct EffectBase {
@@ -94,7 +94,7 @@ typedef struct S_80D659DC_5 {
 } S_80D659DC_5;
 
 /* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
-void dungeonSpawnAngledRandomVelocityEffect(EntityRec *source, u32 angle, s32 effect_param) {
+void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effect_param) {
     S_80D659DC_1 *position_x;
     S_80D659DC_3 *position_y;
     S_80D659DC_4 *velocity_x;

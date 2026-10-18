@@ -27,7 +27,7 @@ typedef struct S_801747F0_0 {
     s32 unk_60;
     s32 unk_64;
     s32 unk_68;
-} S_801747F0_0;   /* arg0 in dungeonUpdateMotionAndTerrainCollision */
+} S_801747F0_0;   /* arg0 in update_motion_and_terrain_collision */
 
 typedef struct S_801747F0_1 {
     union {
@@ -53,7 +53,7 @@ typedef struct S_801747F0_1 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_801747F0_1;   /* arg1 in dungeonUpdateMotionAndTerrainCollision */
+} S_801747F0_1;   /* arg1 in update_motion_and_terrain_collision */
 
 typedef struct S_801747F0_2 {
     u8 pad_00[0x6];
@@ -64,23 +64,23 @@ typedef struct S_801747F0_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_801747F0_2;   /* arg2 in dungeonUpdateMotionAndTerrainCollision */
+} S_801747F0_2;   /* arg2 in update_motion_and_terrain_collision */
 
 typedef struct S_801747F0_3 {
     s16 unk_00;
     s16 unk_02;
-} S_801747F0_3;   /* tile in dungeonUpdateMotionAndTerrainCollision */
+} S_801747F0_3;   /* tile in update_motion_and_terrain_collision */
 
 
 extern u8 D_801755E0[16];
 
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
-extern void func_800A7A7C(s16, s16, s16, s32, u8 *);
-extern s16 func_800BCB04(s32, s32, s16);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
+extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
+extern void place_item_at_valid_floor_position(s16, s16, s16, s32, u8 *);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
-void dungeonUpdateMotionAndTerrainCollision(void *motion, void *position, void *object)
+void update_motion_and_terrain_collision(void *motion, void *position, void *object)
 {
     u8 colors[4];
     s32 move_frames;
@@ -162,10 +162,10 @@ settle:
             colors[1] = ((S_801747F0_0 *)motion)->unk_2D;
             colors[2] = ((S_801747F0_0 *)motion)->unk_2E;
             colors[3] = ((S_801747F0_0 *)motion)->unk_2F;
-            func_800A7A7C(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
+            place_item_at_valid_floor_position(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
                           ((S_801747F0_1 *)position)->unk_16, ((S_801747F0_2 *)object)->unk_08, colors);
             (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
@@ -186,16 +186,16 @@ fall:
             fall_cell_y = ((S_801747F0_0 *)motion)->unk_51.s;
             height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
             fall_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
-            if ((func_800BCB04((fall_cell_x << 6) & 0xFFC0,
+            if ((sample_terrain_surface_height((fall_cell_x << 6) & 0xFFC0,
                                (fall_cell_y << 6) & 0xFFC0,
                                (s16)(height - 0x20)) - 7) < fall_height) {
-                ((S_801747F0_1 *)position)->unk_08.at02.v = func_800BCB04(
+                ((S_801747F0_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(
                     (((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
                     (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
                     (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
                 ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
                 (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
         }
@@ -227,9 +227,9 @@ flight:
         next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + direction->unk_02;
         y = ((S_801747F0_1 *)position)->unk_04.at02.v;
         if (next_cell_y == (y / 64)) {
-            if (((dungeonCheckLeftTileAndCenterHeight(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
+            if (((check_left_tile_and_center_height(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                                ((S_801747F0_1 *)position)->unk_08.at02.v) << 16) != 0) ||
-                func_800BCB04(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
+                sample_terrain_surface_height(((S_801747F0_1 *)position)->unk_00.at02u.v, ((S_801747F0_1 *)position)->unk_04.at02u.v,
                               ((S_801747F0_1 *)position)->unk_08.at02.v) >= 0x200) {
                 ((S_801747F0_1 *)position)->unk_00.at00.v -= ((S_801747F0_0 *)motion)->unk_54;
                 ((S_801747F0_0 *)motion)->unk_54 = 0;
@@ -248,10 +248,10 @@ flight:
     ((S_801747F0_0 *)motion)->unk_5C += ((S_801747F0_0 *)motion)->unk_68;
     height_2 = ((S_801747F0_1 *)position)->unk_08.at02u.v;
     flight_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
-    if ((func_800BCB04((((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
+    if ((sample_terrain_surface_height((((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
                        (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
                        (s16)(height_2 - 0x20)) - 0x10) < flight_height) {
-        ((S_801747F0_1 *)position)->unk_08.at02.v = func_800BCB04(
+        ((S_801747F0_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(
             (((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
             (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
             (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
@@ -261,7 +261,7 @@ flight:
         ((S_801747F0_0 *)motion)->unk_60 = 0;
         ((S_801747F0_0 *)motion)->unk_54 = 0;
         ((S_801747F0_0 *)motion)->unk_1C.u = ((S_801747F0_0 *)motion)->unk_1C.u + 1;
-        if ((func_800A7234(((S_801747F0_0 *)motion)->unk_50.s, ((S_801747F0_0 *)motion)->unk_51.s,
+        if ((find_valid_floor_item_position(((S_801747F0_0 *)motion)->unk_50.s, ((S_801747F0_0 *)motion)->unk_51.s,
                            (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20),
                            (s16 *)((u8 *)position + 0xE),
                            (s16 *)((u8 *)position + 0x12),

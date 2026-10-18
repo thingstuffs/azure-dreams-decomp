@@ -4,11 +4,11 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_800990FC(s32, u8 *, void *);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(s32, u8 *, void *);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern void func_800A5720(s8 *text);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_8016A808[];
 
@@ -18,15 +18,15 @@ typedef struct S_8016A9FC_0 {
     union { s16 s; u16 u; } unk_12;   /* accessed as both */
     u8 pad_14[0x6];
     u16 unk_1A;
-} S_8016A9FC_0;   /* arg0 in dungeonAnimateTimedFadeEffect */
+} S_8016A9FC_0;   /* arg0 in animate_timed_fade_effect */
 
 typedef struct S_8016A9FC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_8016A9FC_1;   /* counter_base in dungeonAnimateTimedFadeEffect */
+} S_8016A9FC_1;   /* counter_base in animate_timed_fade_effect */
 
 /* Handles a timed fade-out and fade-in, then marks the effect complete. */
-void dungeonAnimateTimedFadeEffect(void *effect) {
+void animate_timed_fade_effect(void *effect) {
     s32 state;
     s32 state_arg;
     u16 frames;
@@ -39,7 +39,7 @@ void dungeonAnimateTimedFadeEffect(void *effect) {
 
     state = ((S_8016A9FC_0 *)effect)->unk_12.s;
     state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
-    fade_colors = &gameWork;
+    fade_colors = &g_game_work;
 
     switch (state) {
     case 0:
@@ -53,17 +53,17 @@ void dungeonAnimateTimedFadeEffect(void *effect) {
         }
         ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
         ((S_8016A9FC_0 *)effect)->unk_1A = 0;
-        result = func_800990FC(state_arg, fade_colors, effect);
+        result = get_unused_text_buffer(state_arg, fade_colors, effect);
         first_result = result;
-        result = dungeonWriteTextByteAndAdvance(0xA, result);
-        result = dungeonWriteTextByteAndAdvance(0xA, result);
-        result = func_80099194(D_8016A808, result);
-        result = dungeonWriteTextByteAndAdvance(0xA, result);
-        result = dungeonWriteTextByteAndAdvance(0xA, result);
-        result = dungeonWriteTextByteAndAdvance(0xA, result);
-        result = dungeonWriteTextByteAndAdvance(1, result);
+        result = write_text_byte_and_advance(0xA, result);
+        result = write_text_byte_and_advance(0xA, result);
+        result = expand_text_control_codes(D_8016A808, result);
+        result = write_text_byte_and_advance(0xA, result);
+        result = write_text_byte_and_advance(0xA, result);
+        result = write_text_byte_and_advance(0xA, result);
+        result = write_text_byte_and_advance(1, result);
         func_80099290(result);
-        func_800A5720(first_result);
+        display_text_with_fullwidth_adjustment(first_result);
         return;
 
     case 1:
@@ -89,9 +89,9 @@ void dungeonAnimateTimedFadeEffect(void *effect) {
         fade_colors->view.unk_092 = 0x80;
         fade_colors->view.unk_091 = 0x80;
         fade_colors->view.unk_090 = 0x80;
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     default:

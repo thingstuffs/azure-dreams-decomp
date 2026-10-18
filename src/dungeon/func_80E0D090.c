@@ -6,7 +6,7 @@ typedef struct S_80170890_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80170890_0;   /* obj in createFlaggedDungeonActorObject */
+} S_80170890_0;   /* obj in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_1 {
     u8 pad_00[0x13];
@@ -14,12 +14,12 @@ typedef struct S_80170890_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80170890_1;   /* work in createFlaggedDungeonActorObject */
+} S_80170890_1;   /* work in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170890_2;   /* part_a in createFlaggedDungeonActorObject */
+} S_80170890_2;   /* part_a in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_3 {
     u8 pad_00[0x8];
@@ -29,7 +29,7 @@ typedef struct S_80170890_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170890_3;   /* part_b in createFlaggedDungeonActorObject */
+} S_80170890_3;   /* part_b in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_4 {
     u8 pad_00[0x8C];
@@ -42,20 +42,20 @@ typedef struct S_80170890_4 {
     s8 unk_9C;
     u8 pad_9D[0x13];
     s16 unk_B0;
-} S_80170890_4;   /* actor in createFlaggedDungeonActorObject */
+} S_80170890_4;   /* actor in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_5 {
     u16 unk_00;
-} S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in createFlaggedDungeonActorObject */
+} S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in create_flagged_dungeon_actor_object */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s32);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s32);
 extern void func_800672D8(void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern s32 D_80045340;
 extern u8 D_80170AE8[];
@@ -65,7 +65,7 @@ extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *createFlaggedDungeonActorObject(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *obj;
     void *work = 0;
@@ -108,16 +108,16 @@ void *createFlaggedDungeonActorObject(s16 flags, s16 kind_id, s16 variant, s16 s
         } else {
             if (((flags & ~3) << 16) == 0) {
                 if (!(((S_80170890_1 *)work)->unk_14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                    if (generate_random_value() & 1) {
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80176470;
                     }
                 }
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, (s16)flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = D_80171094;
@@ -148,7 +148,7 @@ void *createFlaggedDungeonActorObject(s16 flags, s16 kind_id, s16 variant, s16 s
             packet[0] = 0;
             packet[3] = 1;
             func_800672D8(packet, D_801764B8);
-            func_800AA36C(actor, part_a, part_b, work);
+            try_move_actor_to_valid_position(actor, part_a, part_b, work);
         }
     }
     return work;

@@ -4,7 +4,7 @@
 extern u8 D_800D05E0[];
 
 /* Initializes the object state and registers its enclosing record globally. */
-void townInitializePlayerObject(void *object) {
+void initialize_player_object(void *object) {
     u8 *global_state;
 
     *(void **)((u8 *)object + 0x44) = D_800D05E0;

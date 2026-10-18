@@ -9,7 +9,7 @@ typedef struct TownInput {
 
 
 /* Check whether the low six input bits match the town state value. */
-s32 townMatchInputLowBitsToState(TownInput *input)
+s32 match_input_low_bits_to_state(TownInput *input)
 {
     TownStateRecord *state = D_80016000->unk_38;
     s32 value = input->value;

@@ -2,10 +2,10 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-s32 func_800A2BDC();                          /* extern */
-void func_800A9A0C();                      /* extern */
-s32 dungeonRelinkEntityAndClearHighFlag(); /* extern */
-void dungeonSelectMovementDirectionAndAdvance(); /* extern */
+s32 has_pending_dungeon_activity();                          /* extern */
+void update_actor_status_and_food();                      /* extern */
+s32 relink_entity_and_clear_high_flag(); /* extern */
+void select_movement_direction_and_advance(); /* extern */
 
 typedef struct S_80172628_0 {
     u8 pad_00[0x46];
@@ -14,40 +14,40 @@ typedef struct S_80172628_0 {
     u8 unk_71;
     u8 pad_72[0x28];
     s8 unk_9A;
-} S_80172628_0;   /* hold_arg0 in dungeonUpdateEntityStateFromQuery */
+} S_80172628_0;   /* hold_arg0 in update_entity_state_from_query */
 
 /* Update entity state and flags according to the state query result. */
-s32 dungeonUpdateEntityStateFromQuery(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
 
-    state_type = (s16)dungeonRelinkEntityAndClearHighFlag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        dungeonSelectMovementDirectionAndAdvance(entity, primary_context_arg, secondary_context_arg, entity);
+        select_movement_direction_and_advance(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
     switch (state_type) {
     case 0:
         ((S_80172628_0 *)entity)->unk_9A = 0xE;
-        func_800A9A0C(entity);
+        update_actor_status_and_food(entity);
         result = 0;
         return result;
     case 2:
-        dungeonSelectMovementDirectionAndAdvance(entity, primary_context_arg, secondary_context_arg, entity);
+        select_movement_direction_and_advance(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:
         ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((func_800A2BDC(entity) << 0x10) != 0) {
+        if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
         ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((dungeonStatus.flags & 8) == 0) {
+        if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
         }

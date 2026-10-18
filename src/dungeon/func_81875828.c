@@ -14,7 +14,7 @@ extern s32 func_80066460();
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 dungeonProjectColoredPoint(u8 *render_data, u8 *source_vertex)
+s32 project_colored_point(u8 *render_data, u8 *source_vertex)
 {
     u8 **context_slot;
     u8 *scratch;
@@ -30,8 +30,8 @@ s32 dungeonProjectColoredPoint(u8 *render_data, u8 *source_vertex)
     u32 address_mask;
     u32 *mode_ot_entry;
 
-    context = *(u8 **)&gameWork;
-    context_slot = (u8 **)&gameWork;
+    context = *(u8 **)&g_game_work;
+    context_slot = (u8 **)&g_game_work;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;

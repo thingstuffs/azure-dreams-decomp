@@ -19,7 +19,7 @@ s32 func_80018504();                    /* extern */
 s32 func_800194D8();                         /* extern */
 extern M2C_UNK D_80019AFC;
 
-s32 townProcessCurrentTownCell(s32 input_value, M2C_UNK input) {
+s32 process_current_town_cell(s32 input_value, M2C_UNK input) {
     s32 result;
     u8 field_value;
 

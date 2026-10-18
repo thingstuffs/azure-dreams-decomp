@@ -5,20 +5,20 @@ extern int abs(int);
 typedef struct S_8001A8DC_0 {
     s16 unk_00;
     s16 unk_02;
-} S_8001A8DC_0;   /* other in townBlendPoint2sBySignedWeight */
+} S_8001A8DC_0;   /* other in blend_point_2s_by_signed_weight */
 
 typedef struct S_8001A8DC_1 {
     u16 unk_00;
     u16 unk_02;
-} S_8001A8DC_1;   /* base in townBlendPoint2sBySignedWeight */
+} S_8001A8DC_1;   /* base in blend_point_2s_by_signed_weight */
 
 typedef struct S_8001A8DC_2 {
     s16 unk_00;
     s16 unk_02;
-} S_8001A8DC_2;   /* out in townBlendPoint2sBySignedWeight */
+} S_8001A8DC_2;   /* out in blend_point_2s_by_signed_weight */
 
 /* Blend two points using the signed weight over the absolute weight sum; return the scaled y delta. */
-s32 townBlendPoint2sBySignedWeight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
+s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
 {
     s32 scaled_y_delta;
     s32 other_x;

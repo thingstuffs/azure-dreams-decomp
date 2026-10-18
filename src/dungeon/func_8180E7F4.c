@@ -5,19 +5,19 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s16 dungeonFindMatchingInitialStatSlot();
-void *dungeonSelectObjectByFlagsAndKeys(void *, void *, u16 *);
-void zeroWords();
+s16 find_matching_initial_stat_slot();
+void *select_object_by_flags_and_keys(void *, void *, u16 *);
+void zero_words();
 void func_80041E70(void *);
 void func_80042710();
 void func_80042984();
-void dungeonClearSlotAndUpdateLinkedState();
-void func_8009A028();
-void func_8009A3D0();
-void dungeonDecrementMonsterEntryCount();
-s32 func_800A1BD0();
+void clear_slot_and_update_linked_state();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void decrement_monster_entry_count();
+s32 find_entity_slot_by_field_ac();
 void func_800A31D0();
-s16 func_800A57B4();
+s16 find_slot_by_item_group();
 typedef struct {
     u8 pad_00[0x10];
     u8 flags;
@@ -92,7 +92,7 @@ typedef struct S_800277F4_5 {
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_5;   /* copy_src in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_5;   /* copy_src in merge_creature_abilities_and_state */
 
 typedef struct S_800277F4_6 {
     u8 pad_00[0x8];
@@ -162,7 +162,7 @@ typedef struct S_800277F4_14 {
     u8 unk_08;
     u8 pad_09[0x1];
     u8 unk_0A;
-} S_800277F4_14;   /* fallback_source in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_14;   /* fallback_source in merge_creature_abilities_and_state */
 
 typedef struct S_800277F4_15 {
     u8 unk_00;
@@ -180,7 +180,7 @@ typedef struct S_800277F4_16 {
 typedef struct S_800277F4_17 {
     u8 pad_00[0xD0];
     void * unk_D0;
-} S_800277F4_17;   /* slot_addr in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_17;   /* slot_addr in merge_creature_abilities_and_state */
 
 typedef struct S_800277F4_18 {
     u8 pad_00[0x24];
@@ -191,7 +191,7 @@ typedef struct S_800277F4_18 {
 typedef struct S_800277F4_19 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_800277F4_19;   /* runtime_addr in dungeonMergeCreatureAbilitiesAndState */
+} S_800277F4_19;   /* runtime_addr in merge_creature_abilities_and_state */
 
 typedef struct S_800277F4_20 {
     u8 pad_00[0x3];
@@ -199,7 +199,7 @@ typedef struct S_800277F4_20 {
 } S_800277F4_20;
 
 /* Merges two creatures' abilities and state, optionally copying the result and removing the donor. */
-void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *destination) {
+void *merge_creature_abilities_and_state(void *first, void *second, void *destination) {
     u8 merge_buffer[17];
 #define donor_seen (merge_buffer + 3)
 #define merged_abilities (merge_buffer + 8)
@@ -270,7 +270,7 @@ void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *des
         void *second_creature;
         second_creature = second;
         ability_limit = 2;
-        result = dungeonSelectObjectByFlagsAndKeys(first_creature, second_creature, &merged_element);
+        result = select_object_by_flags_and_keys(first_creature, second_creature, &merged_element);
         if (result == NULL) {
             return NULL;
         }
@@ -314,7 +314,7 @@ void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *des
             }
         } while ((s16) next_clear >= 0);
         ability_count = 0;
-        result_primary = dungeonFindMatchingInitialStatSlot(result, clear_donor_seen, clear_result_seen, clear_abilities);
+        result_primary = find_matching_initial_stat_slot(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {
             {
                 u8 *primary_seen_base =
@@ -324,7 +324,7 @@ void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *des
                 primary_seen_base[0x10] = (u8) seen_mark;
             }
             result_primary_data = result + (result_primary * 3);
-            element_mask = (s16) func_800A57B4(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
+            element_mask = (s16) find_slot_by_item_group(donor, ((S_800277F4_2 *)result_primary_data)->unk_08);
             if (element_mask >= 0) {
                 donor_seen[element_mask] = (u8) seen_mark;
                 donor_ability = donor + (element_mask * 3);
@@ -355,7 +355,7 @@ void *dungeonMergeCreatureAbilitiesAndState(void *first, void *second, void *des
             ability_count += 1;
         }
 merge_donor_primary:
-        donor_primary = dungeonFindMatchingInitialStatSlot(donor);
+        donor_primary = find_matching_initial_stat_slot(donor);
         if (donor_primary >= 0) {
             {
                 u8 *frame_base =
@@ -366,7 +366,7 @@ merge_donor_primary:
             }
             if (*visited_slot == 0) {
                 donor_primary_data = donor + (donor_primary * 3);
-                merge_out = (u8 *)func_800A57B4(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
+                merge_out = (u8 *)find_slot_by_item_group(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
                 if (((s16)merge_out) >= 0) {
                     merge_buffer[((s16)merge_out)] = 1;
                 }
@@ -439,7 +439,7 @@ merge_donor_primary:
                     key_source = result;
                 }
                 merge_key = ((S_800277F4_10 *)((key_source + ability_offset)))->unk_08;
-                other_match = func_800A57B4(other, merge_key);
+                other_match = find_slot_by_item_group(other, merge_key);
                 if (other_match >= 0) {
                     other_data = (u8 *)result_seen;
                     if (source_side == 0) {
@@ -590,8 +590,8 @@ merge_donor_primary:
         }
         if (destination == NULL) {
             func_800A31D0(donor);
-            dungeonDecrementMonsterEntryCount(((S_800277F4_8 *)donor)->unk_13, 3);
-            slot_index = func_800A1BD0(donor);
+            decrement_monster_entry_count(((S_800277F4_8 *)donor)->unk_13, 3);
+            slot_index = find_entity_slot_by_field_ac(donor);
             {
                 u8 *slot_page = D_80080000;
                 slot_base = *(u8 **) (slot_page + 0x14A8);
@@ -607,8 +607,8 @@ merge_donor_primary:
             if (slot_flags != 0) {
                 map_mask = 0x300;
             }
-            func_8009A3D0(room_x, room_y, map_mask);
-            func_8009A028(donor);
+            update_map_cell_flags_with_item_limit(room_x, room_y, map_mask);
+            unlink_entity_node(donor);
             if (owner_action == 1) {
                 u8 *room_page = (u8 *) 0x80010000;
 
@@ -623,7 +623,7 @@ merge_donor_primary:
 
                 *(s32 *) (room_base + (room_index * 4)) = 0;
             }
-            slot_index = func_800A1BD0(donor);
+            slot_index = find_entity_slot_by_field_ac(donor);
             {
                 u8 *slot_page = D_80080000;
                 u8 *runtime_base;
@@ -633,9 +633,9 @@ merge_donor_primary:
 
                 ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
             }
-            zeroWords(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
+            zero_words(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
             D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
-            dungeonClearSlotAndUpdateLinkedState(donor_runtime);
+            clear_slot_and_update_linked_state(donor_runtime);
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&
                 ((result_kind = ((S_800277F4_0 *)result)->unk_13) != 2) &&
@@ -643,9 +643,9 @@ merge_donor_primary:
                 ((S_800277F4_0 *)result)->unk_54 = (s32) (result_traits & 0xFF7FFFFF);
             }
             (*(u16 *)((u8 *)donor + -2)) = (u16) (((S_800277F4_8_pre *)donor)[-1].unk_12 | 0x8000);
-            global_flags = objectFlagBlock.flags;
+            global_flags = object_flag_block.flags;
             global_flags |= 0x8000;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
 return_tail:
             return result;
         }

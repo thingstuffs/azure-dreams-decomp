@@ -27,7 +27,7 @@ typedef struct S_80037394_2 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_80037534(void *state);
-extern void copyTextureDescriptorWithPageOffsets(s32 *texture_pos, void *src, void *dst);
+extern void copy_texture_descriptor_with_page_offsets(s32 *texture_pos, void *src, void *dst);
 
 extern u8 D_8006A988[];
 extern u8 D_8006A994[];
@@ -53,12 +53,12 @@ void func_80037394(void *state, s32 mode, void *output) {
         return;
     }
 
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A988, D_80082B80);
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A994, D_80082B90);
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9A0, D_80082BA0);
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9AC, D_80082BB0);
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9B8, D_80081E90);
-    copyTextureDescriptorWithPageOffsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9C4, D_80081EA0);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A988, D_80082B80);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A994, D_80082B90);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9A0, D_80082BA0);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9AC, D_80082BB0);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9B8, D_80081E90);
+    copy_texture_descriptor_with_page_offsets(((S_80037394_0 *)state)->unk_44 + 3, D_8006A9C4, D_80081EA0);
 
     entry_data = (s8 *)((S_80037394_0 *)state)->unk_44;
     entry_offset = ((S_80037394_0 *)state)->unk_4A;

@@ -10,18 +10,18 @@
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern void *D_800E3DE8;
 extern u8 D_80170E68;
 extern u8 D_80173894[];
 
 /* Advances an actor action through animation setup, a delay, and completion. */
-void dungeonAdvanceActionSetupDelay(void *action, void *motion, void *sprite, void *actor)
+void advance_action_setup_delay(void *action, void *motion, void *sprite, void *actor)
 {
     s32 phase;
     s32 loaded_phase;
@@ -33,7 +33,7 @@ void dungeonAdvanceActionSetupDelay(void *action, void *motion, void *sprite, vo
         if (U16(sprite, 0x14) & 0x8000) {
             U8(action, 0x9B) = 2;
             U16(sprite, 0x14) |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             return;
         }
 
@@ -42,7 +42,7 @@ void dungeonAdvanceActionSetupDelay(void *action, void *motion, void *sprite, vo
         S32(motion, 0x0C) = 0;
         PTR(sprite, 0x2C) = D_80173894;
         func_80047784(sprite,
-            D_80173894[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            D_80173894[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
         loaded_phase = U8(action, 0x9B);
         U16(action, 0x96) = 0;
@@ -55,8 +55,8 @@ void dungeonAdvanceActionSetupDelay(void *action, void *motion, void *sprite, vo
         if ((s16)delay_ticks != 10) {
             return;
         }
-        func_800A56E0(0x808);
-        dungeonResolveAttackDamageAndEffects(actor, sprite, S16(actor, 0x2A), 1);
+        play_sound_if_enabled(0x808);
+        resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
         loaded_phase = U8(action, 0x9B);
 
         U8(action, 0x9B) = loaded_phase + 1;
@@ -66,11 +66,11 @@ void dungeonAdvanceActionSetupDelay(void *action, void *motion, void *sprite, vo
         if (!(U16(sprite, 0x14) & 0xE000)) {
             return;
         }
-        dungeonSetRecordIntegerTileCenter(motion, U8(sprite, 0x24), U8(sprite, 0x25));
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+        reduce_actor_food_meter(actor, 0x100);
         PTR(action, 0x8C) = &D_80170E68;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;
         } else {

@@ -20,12 +20,12 @@ extern void func_8004D7A8(s32);
 extern void func_8004D294();
 
 /* Initializes the destination state from the source and submits it for processing. */
-void func_8017140C(void)
+void initialize_destination_state(void)
 {
     S_80174CF0 *destinationState = &D_80174CF0;
 
     destinationState->unk4 = 0;
-    gameWork.view.slot[2].callback = 0;
+    g_game_work.view.slot[2].callback = 0;
     D_80174CF0.unk0 = D_800DCE60.unk0;
     destinationState->unk2 = D_800DCE60.unk2;
     func_8004D7A8(1);

@@ -49,10 +49,10 @@ typedef struct S_func_80158898_4 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern M2C_UNK D_80158AA4;
 extern M2C_UNK D_80158F68;
 extern M2C_UNK D_8015BFB8;
@@ -61,7 +61,7 @@ extern M2C_UNK D_8015C000;
 
 
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
- void *dungeonUpdateVariantPartBrightness(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
+ void *update_variant_part_brightness(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
     S_func_80158898_1 *object_state;
     s32 mode_or_roll;
     u16 state_flags;
@@ -105,21 +105,21 @@ extern M2C_UNK D_8015C000;
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(object_state->unk_14 & 0x200)) {
                 init_config = config;
-                mode_or_roll = func_800A6D30();
+                mode_or_roll = generate_random_value();
                 if (mode_or_roll & 1) {
                     object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
-                    func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(object_state, 1, (generate_random_value() & 0x3F) | 0x20);
                     placement->unk_2C = &D_8015C000;
                 }
             }
         }
-        func_800A9C18(object, config, placement, spawn_flags);
+        initialize_actor_sprite_and_animation(object, config, placement, spawn_flags);
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
         behavior->unk_8C = &D_80158F68;
         placement->unk_14 = (u16) (placement->unk_14 | 0xC);
         behavior->unk_AA = (s16) ((u16) object_state->unk_14 & 7);
-        func_800AA36C(behavior, config, placement, object_state);
+        try_move_actor_to_valid_position(behavior, config, placement, object_state);
     }
     return object_state;
 }

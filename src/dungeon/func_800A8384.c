@@ -25,11 +25,11 @@ typedef struct Ctx {
 
 extern Ent D_800E3648[];
 
-extern s32 dungeonFindEntryAtTileCoordinates(s16 x, s16 y, s16 z);
-extern s32 dungeonCallSlotHandlerAndUpdateStatus(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
+extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
+extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
 
 /* Process the actor's matching entry if enabled, clearing its enable bit unless retained. */
-s32 dungeonTriggerActorFloorTrap(Actor *actor, Ctx *ctx)
+s32 trigger_actor_floor_trap(Actor *actor, Ctx *ctx)
 {
     s16 entry_index;
     Ent *entries;
@@ -37,7 +37,7 @@ s32 dungeonTriggerActorFloorTrap(Actor *actor, Ctx *ctx)
     u8 entry_flags;
     s32 result;
 
-    entry_index = (s16)dungeonFindEntryAtTileCoordinates(actor->unk24, actor->unk25, ctx->unk88);
+    entry_index = (s16)find_entry_at_tile_coordinates(actor->unk24, actor->unk25, ctx->unk88);
     if (entry_index < 0) {
         return 1;
     }
@@ -50,7 +50,7 @@ s32 dungeonTriggerActorFloorTrap(Actor *actor, Ctx *ctx)
     if ((entry_flags & 0x40) == 0) {
         entry->unk3 = entry_flags & 0x7F;
     }
-    result = dungeonCallSlotHandlerAndUpdateStatus(entry->unk0, ctx, entry_index, 0);
+    result = call_slot_handler_and_update_status(entry->unk0, ctx, entry_index, 0);
     if (result == 0) {
         return 0;
     }

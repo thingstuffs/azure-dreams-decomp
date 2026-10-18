@@ -94,7 +94,7 @@ typedef struct {
 #define ovl_1930844_81910EC0_S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define ovl_1930844_81910EC0_PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-#define ovl_1930844_81910EC0_GFX_ROOT_SLOT ((u8 *)&gameWork)
+#define ovl_1930844_81910EC0_GFX_ROOT_SLOT ((u8 *)&g_game_work)
 typedef struct ovl_1930844_819112CC_S_819112CC_0 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -183,7 +183,7 @@ typedef struct {} ovl_1930844_819112CC_EmptyArg;
 #define ovl_1930844_819112CC_setaddr(p, _addr) (((ovl_1930844_819112CC_P_TAG *)(p))->addr = (u32)(_addr))
 #define ovl_1930844_819112CC_getaddr(p) (u32)(((ovl_1930844_819112CC_P_TAG *)(p))->addr)
 #define ovl_1930844_819112CC_SP32(off) (scratch->w[(off) / 4])
-#define ovl_1930844_819112CC_GFX_ROOT_SLOT ((u8 *)&gameWork)
+#define ovl_1930844_819112CC_GFX_ROOT_SLOT ((u8 *)&g_game_work)
 typedef struct ovl_1930844_81911A8C_S_81911A8C_0_pre {
     u16 unk_00;
 } ovl_1930844_81911A8C_S_81911A8C_0_pre;
@@ -379,20 +379,20 @@ extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 M2C_UNK func_8006658C();
 M2C_UNK func_800667A8();
 extern int abs(int);
-s32 resolveRecordOrientationOrFallback();
-void func_8009CE1C();
-s32 dungeonCheckLayerOffsetHeight();
-s32 func_800A56E0();
-s16 func_800BCB04();
+s32 resolve_record_orientation_or_fallback();
+void apply_attack_power_and_element_effects();
+s32 check_layer_offset_height();
+s32 play_sound_if_enabled();
+s16 sample_terrain_surface_height();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual);
-s32 dungeonCreateAnEffectPositionRandomizedSpriteAngle(Rec_func_80024170_arg0 *owner, void *source_position);
-void dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(void *effect_data, void *origin, s16 step_index, s16 scale_factor);
-void dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(u8 *shape, void *position, s16 scale_num, s16 scale_den);
-void dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
-void dungeonDrawAFullScreenColorOverlayMarkEffectCompleteCountdownEnds(void *effect, void *unused, void *fade_state);
-void dungeonCreateObjectHex212InitializeDataPointerMode(s32 *initial_value);
-void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);
-void *dungeonCreateAndInitializesCopyingN24BytesSourceData(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting);
-void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *state, void *motion, void *appearance);
+s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *owner, void *source_position);
+void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, void *origin, s16 step_index, s16 scale_factor);
+void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den);
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in);
+void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *effect, void *unused, void *fade_state);
+void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value);
+void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position);
+void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting);
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, void *motion, void *appearance);
 #endif

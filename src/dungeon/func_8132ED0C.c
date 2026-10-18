@@ -24,7 +24,7 @@ extern M2C_UNK D_80173B34[3];
 typedef struct S_80165D0C_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80165D0C_0;   /* arg0 in dungeonCreateBallisticLandingParticle */
+} S_80165D0C_0;   /* arg0 in create_ballistic_landing_particle */
 
 typedef struct S_80165D0C_1 {
     u8 pad_00[0x4];
@@ -74,10 +74,10 @@ typedef struct S_80165D0C_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80165D0C_4;   /* ((S_80165D0C_0 *)arg0)->unk_08 in dungeonCreateBallisticLandingParticle */
+} S_80165D0C_4;   /* ((S_80165D0C_0 *)arg0)->unk_08 in create_ballistic_landing_particle */
 
 /* Spawn an effect relative to the source with randomized motion and sprite size. */
-void dungeonCreateBallisticLandingParticle(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
+void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
     s32 sprite_scale;
     S_80165D0C_2 *sprite;

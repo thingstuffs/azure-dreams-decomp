@@ -6,13 +6,13 @@ void func_80035484(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 
     S_func_80035484_3 *appearance;
     S_func_80035484_0 *object;
 
-    object = initializeRuntimeNodeStorage(0x11, object_addr, 0x49, &D_80082BC0[0]);
+    object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &D_80082BC0[0]);
     D_80081440 = object;
-    object->unk_10 = invokeWindowObjectCallback;
-    func_8004491C(object, &runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
+    object->unk_10 = invoke_window_object_callback;
+    func_8004491C(object, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     transform = object->unk_08;
     appearance = object->unk_0C;
-    runtimeInitializeStateValue(model, 0);
+    runtime_initialize_state_value(model, 0);
     object->unk_20 = model;
     model->unk_60 = 6;
     state = (S_func_80035484_1 *)((u8 *)object + 0x20);

@@ -175,16 +175,16 @@ extern M2C_UNK D_800DEE38;
 
 extern void (*const D_80024000)(void *, void *);
 
-s32 dungeonIsLinkedObjectFlagged10000(void);
+s32 is_linked_object_flagged_10000(void);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
-void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
-void *dungeonFindEligibleNearbyEntry(s32, s32, void *, void *);
-void func_800A56E0(s32);
+void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
+void *find_eligible_nearby_entry(s32, s32, void *, void *);
+void play_sound_if_enabled(s32);
 s32 func_80069EF8();
-s16 func_800BCB04();
-s32 decrementFlaggedItemParameters(DungeonObject *object);
-void func_80024128(void *self, void *output);
-void func_8002445C(void *effect);
+s16 sample_terrain_surface_height();
+s32 decrement_flagged_item_parameters(DungeonObject *object);
+void update_random_particle_field(void *self, void *output);
+void draw_red(void *effect);
 #endif

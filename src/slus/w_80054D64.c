@@ -10,9 +10,9 @@
    s16 fields this function reads. */
 
 
-extern void submitScaledDriverHalfwordPair(s32 mode, s32 level_a, s32 level_b);
+extern void submit_scaled_driver_halfword_pair(s32 mode, s32 level_a, s32 level_b);
 
-/* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to submitScaledDriverHalfwordPair (mode 0). */
+/* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to submit_scaled_driver_halfword_pair (mode 0). */
 void func_80054D64(void) {
     s16 level;
     s32 scaled;
@@ -20,9 +20,9 @@ void func_80054D64(void) {
     if (D_800847D0.flags00 & 0x400) {
         SoundTask *task = &D_80084858;
 
-        level = (task->unk_08 * volumeScale[2]) / 32767;
+        level = (task->unk_08 * g_volume_scale[2]) / 32767;
         scaled = level * task->unk_10;
         level = scaled / 128;
-        submitScaledDriverHalfwordPair(0, level, level);
+        submit_scaled_driver_halfword_pair(0, level, level);
     }
 }

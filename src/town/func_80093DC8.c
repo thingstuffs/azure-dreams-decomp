@@ -7,36 +7,36 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern s32 testResidentBitmapBit(s32 value);
-extern s32 scaleRandomToUnsignedHalfwordLimit(s32 value);
-extern s32 runtimeEstimateVectorLength(s32 value, s32 other_value);
-extern void func_8008B158(s32 value);
-extern void townInitializeSceneActionRecord(void *action_state, void *actor, s32 context);
+extern s32 test_resident_bitmap_bit(s32 value);
+extern s32 scale_random_to_unsigned_halfword_limit(s32 value);
+extern s32 runtime_estimate_vector_length(s32 value, s32 other_value);
+extern void submit_object_resource_data(s32 value);
+extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);
 extern void func_80093E18(void *action_state, void *actor, s32 context);
-extern void townInitializeMotionAction(void *action_state, void *actor, s32 context);
+extern void initialize_motion_action(void *action_state, void *actor, s32 context);
 extern void func_80094088(void *action_state, void *actor, s32 context);
-extern void func_800942B0(void *action_state, void *actor, s32 context);
-extern void dungeonInitializeActionObject(void *action_state, void *actor, s32 context);
+extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
+extern void initialize_action_object(void *action_state, void *actor, s32 context);
 extern void func_800943B8(void *action_state, void *actor, s32 context);
-extern void dungeonInitializeActionObjectWithCounter(void *action_state, void *actor, s32 context);
-extern void func_8009451C(void *action_state, void *actor, s32 context);
-extern void townTriggerEventHex519IntervalMultiplesEnabled(s16 timer, s32 limit);
-extern void townStoreTheValidSharedAngleInOffsetHex10(void *action_state);
-extern void townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(void *actor);
-extern void townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(void *actor);
-extern s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus(void *menu_state);
-extern s32 townSelectAnEligibleSourceEntryStoresPointerInDestination(void *action_state, void *menu_state);
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(void *actor, void *map_work);
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(void *actor, s16 height, void *map_work);
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(void *actor);
-extern void townSpawnDirectionalEffects(void *actor, s32 value);
-extern void townInitializeRecordAndSelectActiveData(void *action_state, void *actor, s32 context);
+extern void initialize_action_object_with_counter(void *action_state, void *actor, s32 context);
+extern void initialize_actor_movement_interaction_action(void *action_state, void *actor, s32 context);
+extern void trigger_event_hex_519_interval_multiples_enabled(s16 timer, s32 limit);
+extern void store_the_valid_shared_angle_in_offset_hex_10(void *action_state);
+extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(void *actor);
+extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *actor);
+extern s32 select_an_available_entry_matching_direction_returns_status(void *menu_state);
+extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *action_state, void *menu_state);
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *actor, void *map_work);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(void *actor, s16 height, void *map_work);
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *actor);
+extern void spawn_directional_effects(void *actor, s32 value);
+extern void initialize_record_and_select_active_data(void *action_state, void *actor, s32 context);
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 /* Updates the actor and dispatches town actions from input and interaction state. */
-void townUpdateActorInputAndInteraction(void *action_state, void *actor, s32 context)
+void update_actor_input_and_interaction(void *action_state, void *actor, s32 context)
 {
-    u8 *input_state = ((u8 *)(&gameWork));
+    u8 *input_state = ((u8 *)(&g_game_work));
     register s32 saved_context;
     u8 *map_work;
     u8 *menu_state;
@@ -44,56 +44,56 @@ void townUpdateActorInputAndInteraction(void *action_state, void *actor, s32 con
     u16 timer;
     s32 buttons;
     s32 action_result;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
-    townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(actor);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
+    move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(actor);
     map_work = ((u8 *)&D_800FE488);
-    sampled_height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, map_work);
+    sampled_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, map_work);
     if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4) {
         if (D_800CFCEF == 0) {
-            dungeonInitializeActionObject(action_state, actor, context);
+            initialize_action_object(action_state, actor, context);
             return;
         }
     }
     else
         if (D_800CFCEF == 0) {
-            townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, sampled_height, map_work);
+            compute_and_clamps_vector_based_adjustment_updates_town(actor, sampled_height, map_work);
         }
     timer = (*((u16 *) (((u8 *) action_state) + 0xA))) - 1;
     *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
     if (((s16) timer) <= 0) {
-        timer = scaleRandomToUnsignedHalfwordLimit(4) + 6;
+        timer = scale_random_to_unsigned_halfword_limit(4) + 6;
         *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
-        townSpawnDirectionalEffects(actor, ((u16) scaleRandomToUnsignedHalfwordLimit(2)) + 2);
+        spawn_directional_effects(actor, ((u16) scale_random_to_unsigned_halfword_limit(2)) + 2);
     }
     buttons = *((s32 *) (input_state + 0x10));
     if (buttons & 0x10) {
-        func_800942B0(action_state, actor, context);
+        initialize_actor_action_state(action_state, actor, context);
         return;
     }
     if (buttons & 0x40) {
-        action_result = townSelectAnEligibleSourceEntryStoresPointerInDestination(action_state, &D_800CFCB4);
+        action_result = select_an_eligible_source_entry_stores_pointer_in_destination(action_state, &D_800CFCB4);
         if (action_result != 0) {
             if (action_result == 2) {
-                func_8009451C(action_state, actor, context);
+                initialize_actor_movement_interaction_action(action_state, actor, context);
                 return;
             }
-            dungeonInitializeActionObjectWithCounter(action_state, actor, context);
+            initialize_action_object_with_counter(action_state, actor, context);
             return;
         }
-        if (testResidentBitmapBit(0xA4) != 0) {
+        if (test_resident_bitmap_bit(0xA4) != 0) {
             func_80094088(action_state, actor, context);
             return;
         }
         return;
     }
     menu_state = (u8 *) (&D_800CFCB4);
-    action_result = townSelectAnAvailableEntryMatchingDirectionReturnsStatus(menu_state);
+    action_result = select_an_available_entry_matching_direction_returns_status(menu_state);
     if (action_result != 0) {
         if (action_result == (-1)) {
-            townStoreTheValidSharedAngleInOffsetHex10(action_state);
-            townInitializeRecordAndSelectActiveData(action_state, actor, context);
+            store_the_valid_shared_angle_in_offset_hex_10(action_state);
+            initialize_record_and_select_active_data(action_state, actor, context);
             *((s32 *) (((u8 *) action_state) + 0x2C)) = 0;
-            func_8008B158(*((s32 *) (menu_state + 0x10)));
+            submit_object_resource_data(*((s32 *) (menu_state + 0x10)));
             return;
         }
         func_800943B8(action_state, actor, context);
@@ -101,23 +101,23 @@ void townUpdateActorInputAndInteraction(void *action_state, void *actor, s32 con
     }
     buttons = *((s32 *) (input_state + 8));
     if (!(buttons & 0x20)) {
-        townInitializeMotionAction(action_state, actor, context);
-        townStoreTheValidSharedAngleInOffsetHex10(action_state);
-        townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(actor);
+        initialize_motion_action(action_state, actor, context);
+        store_the_valid_shared_angle_in_offset_hex_10(action_state);
+        call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
         return;
     }
     if (buttons & 0xF000) {
         timer = (*((u16 *) (((u8 *) action_state) + 0x3E))) - 1;
         *((u16 *) (((u8 *) action_state) + 0x3E)) = timer;
-        townTriggerEventHex519IntervalMultiplesEnabled((s16) timer, 8);
-        townStoreTheValidSharedAngleInOffsetHex10(action_state);
-        townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(actor);
+        trigger_event_hex_519_interval_multiples_enabled((s16) timer, 8);
+        store_the_valid_shared_angle_in_offset_hex_10(action_state);
+        call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
         return;
     }
-    action_result = runtimeEstimateVectorLength(*((s32 *) (((u8 *) actor) + 0xC)), *((s32 *) (((u8 *) actor) + 0x10)));
+    action_result = runtime_estimate_vector_length(*((s32 *) (((u8 *) actor) + 0xC)), *((s32 *) (((u8 *) actor) + 0x10)));
     if (action_result > 0xFFFFF) {
         func_80093E18(action_state, actor, context);
         return;
     }
-    townInitializeSceneActionRecord(action_state, actor, context);
+    initialize_scene_action_record(action_state, actor, context);
 }

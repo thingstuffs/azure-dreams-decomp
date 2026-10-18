@@ -3,7 +3,7 @@
 
 
 extern s32 func_800352FC(void);
-extern void townDispatchObjectState();
+extern void dispatch_object_state();
 extern u8 D_80082660[9];
 extern M2C_UNK D_800CFCB4[5];
 extern volatile M2C_UNK D_800D5084[20];
@@ -15,7 +15,7 @@ typedef struct S_800C3988_1_pre {
 } S_800C3988_1_pre;
 
 /* Dispatches the record handler or clears its pending state. */
-void townDispatchRecordHandler(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK dispatch_data, M2C_UNK check_arg) {
+void dispatch_record_handler(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK dispatch_data, M2C_UNK check_arg) {
     s32 slot_offset;
     s32 handler_addr;
     s32 handler_id;
@@ -27,7 +27,7 @@ void townDispatchRecordHandler(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_
     if (func_800352FC() == 0) {
         s32 *state;
 
-        townDispatchObjectState(record, dispatch_arg, dispatch_data);
+        dispatch_object_state(record, dispatch_arg, dispatch_data);
         state = D_800CFCB4;
         if (record == state[4]) {
             state[4] = 0;
@@ -58,7 +58,7 @@ dispatch:
         }
         if ((s8) handler_id < 0) {
             *handler_slot = 0U;
-            townDispatchObjectState(record, dispatch_arg, dispatch_data);
+            dispatch_object_state(record, dispatch_arg, dispatch_data);
         }
     }
 }

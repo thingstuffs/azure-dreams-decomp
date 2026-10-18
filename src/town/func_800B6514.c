@@ -5,7 +5,7 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-void townMoveColorChannelsTowardNeutral(u8 *channels);                    /* extern */
+void move_color_channels_toward_neutral(u8 *channels);                    /* extern */
 
 typedef struct S_800B3C74_0 {
     u8 pad_00[0xC];
@@ -23,7 +23,7 @@ typedef struct S_800B3C74_2 {
 } S_800B3C74_2;
 
 /* Decrement countdowns for slots 2 through 4, processing resources whose countdown is zero. */
-void func_800B3C74(void *state) {
+void process_resources_for_expired_slot_countdowns(void *state) {
     s32 countdown;
     s32 resource_addr;
     u32 slot_offset;
@@ -44,7 +44,7 @@ void func_800B3C74(void *state) {
             entry = (s32 *)(slot_offset + (s32)table);
             resource_addr = *entry;
             count_cursor += 4;
-            townMoveColorChannelsTowardNeutral(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
+            move_color_channels_toward_neutral(((S_800B3C74_2 *)((s32 *)resource_addr))->unk_04);
         } else {
             countdown--;
             ((S_800B3C74_0 *)count_cursor)->unk_0C = countdown;

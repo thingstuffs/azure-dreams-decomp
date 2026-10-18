@@ -3,20 +3,20 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-   /* scratch in func_800264D4 */
+   /* scratch in create_linked_objects */
 
-   /* the 0x2 bytes before arg0 in func_800264D4, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in create_linked_objects, addressed as arg0[-1] */
 
-   /* arg0 in func_800264D4 */
+   /* arg0 in create_linked_objects */
 
-   /* arg1 in func_800264D4 */
+   /* arg1 in create_linked_objects */
 
-   /* arg2 in func_800264D4 */
+   /* arg2 in create_linked_objects */
 
 s32 rand();
 
 /* Rotate and move a quad, fade its color in and out, then mark it for removal. */
-void func_800264D4(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
+void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
     u8 *scratch = (u8 *)0x1F800000;
     u16 rotation[3];
     s16 remaining_count;
@@ -123,7 +123,7 @@ void func_800264D4(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effect) {
                 }
             }
             ((S_81960CD4_1_pre *)quad)[-1].unk_00 = (u16)(((S_81960CD4_1_pre *)quad)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
     }
 }

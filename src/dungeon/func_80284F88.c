@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 dungeonFindHighestEligibleSample(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
+s16 find_highest_eligible_sample(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
 {
     s16 best_value;
     s16 rows_left;
@@ -17,7 +17,7 @@ s16 dungeonFindHighestEligibleSample(s16 rect_index, s16 *out_x, s16 *out_y, s16
     best_value = -0x200;
     rows_left = D_800E2970[rect_index].h;
     tile_y = D_800E2970[rect_index].y;
-    state = &gameWork.map;
+    state = &g_game_work.map;
     cells = ((floor_generate_isolated_80284F88_DungeonCell *)state->cells);
     if (rows_left > 0) {
         do {
@@ -32,7 +32,7 @@ s16 dungeonFindHighestEligibleSample(s16 rect_index, s16 *out_x, s16 *out_y, s16
                     if (!(flags & 0x8400)
                         && ((check_flags == 0)
                             || ((flags & 0x300) == 0x200))) {
-                        tile_value = func_800BCB04(
+                        tile_value = sample_terrain_surface_height(
                             (((s16)tile_x << 6) + 0x20) & 0xFFE0,
                             tile_center_y & 0xFFFF,
                             -0x400);

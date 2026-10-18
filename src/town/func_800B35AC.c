@@ -7,32 +7,32 @@ typedef struct S_800B0D0C_1 {
     u8 pad_00[0x74];
     void * unk_74;
     void * unk_78;
-} S_800B0D0C_1;   /* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in townPositionShopChildElements */
+} S_800B0D0C_1;   /* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in position_shop_child_elements */
 
 typedef struct S_800B0D0C_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B0D0C_2;   /* ((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_74 in townPositionShopChildElements */
+} S_800B0D0C_2;   /* ((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_74 in position_shop_child_elements */
 
 typedef struct S_800B0D0C_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B0D0C_3;   /* ((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78 in townPositionShopChildElements */
+} S_800B0D0C_3;   /* ((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78 in position_shop_child_elements */
 
 typedef struct S_800B0D0C_4 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B0D0C_4;   /* ((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_74))->unk_04 in townPositionShopChildElements */
+} S_800B0D0C_4;   /* ((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_74))->unk_04 in position_shop_child_elements */
 
 typedef struct S_800B0D0C_5 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800B0D0C_5;   /* ((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78))->unk_04 in townPositionShopChildElements */
+} S_800B0D0C_5;   /* ((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78))->unk_04 in position_shop_child_elements */
 
 /* Positions the two child elements at (-95, 48) and (97, 48). */
-void townPositionShopChildElements(Rec_func_800B0C68_arg0 *parentObject) {
+void position_shop_child_elements(Rec_func_800B0C68_arg0 *parentObject) {
     ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_74))->unk_04))->unk_08 =
         -0x5F;
     ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_74))->unk_04))->unk_0A =

@@ -49,15 +49,15 @@ typedef struct S_8014C854_4 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30(void);
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_8014CA30[];
 extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];
 extern u8 D_8014FD4C[];
 
 
-void *func_8014C854(s16 flags, s16 value_24, s16 value_25, s16 value_0A);
+void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A);
 #endif

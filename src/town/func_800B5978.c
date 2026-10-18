@@ -1,13 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townFillTenPagedOutputSlots();            /* extern */
+void fill_ten_paged_output_slots();            /* extern */
 
 typedef struct S_800B30D8_0 {
     void * unk_00;
     u8 pad_04[0xA4];
     s32 unk_A8;
-} S_800B30D8_0;   /* arg0 in townUpdateLinkedRecordData */
+} S_800B30D8_0;   /* arg0 in update_linked_record_data */
 
 typedef struct S_800B30D8_1 {
     u8 pad_00[0x3C];
@@ -15,9 +15,9 @@ typedef struct S_800B30D8_1 {
 } S_800B30D8_1;
 
 /* Update the linked data at offset 0x18 using the source record. */
-void townUpdateLinkedRecordData(S_800B30D8_0 *record) {
+void update_linked_record_data(S_800B30D8_0 *record) {
     void *source_record;
 
     source_record = record->unk_00;
-    townFillTenPagedOutputSlots(record->unk_A8 + 0x18, source_record + 0x1C, ((S_800B30D8_1 *)source_record)->unk_3C);
+    fill_ten_paged_output_slots(record->unk_A8 + 0x18, source_record + 0x1C, ((S_800B30D8_1 *)source_record)->unk_3C);
 }

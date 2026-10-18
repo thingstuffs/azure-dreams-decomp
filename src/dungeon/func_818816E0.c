@@ -24,7 +24,7 @@ typedef struct {
 
 
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
-void dungeonMoveAndFadeEffect(void *effect_data, void *position_data, void *visual_data) {
+void move_and_fade_effect(void *effect_data, void *position_data, void *visual_data) {
     Func818816E0Arg0 *effect;
     Func818816E0Arg1 *position;
     register Func818816E0Arg2 *visual;
@@ -46,7 +46,7 @@ void dungeonMoveAndFadeEffect(void *effect_data, void *position_data, void *visu
     if ((u32)(brightness & 0xFF) < 0x20U) {
         D_800257CC[0] = (s16)((u16)D_800257CC[0] - 1);
         ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
     decay_value = visual->field1E;
     visual->field1E = (u16)(decay_value - (decay_value >> 7));

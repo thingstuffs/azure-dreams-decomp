@@ -3,7 +3,7 @@
 s32 func_8017092C(u8 *node_data, u16 *position)
 {
     R10_8017092C_Scratch *scratch = (R10_8017092C_Scratch *)0x1F800000;
-    void **global_state = ((void * *)(&gameWork));
+    void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)global_state[0];
     R10_8017092C_Packet *first_packet = (R10_8017092C_Packet *)render_state->packetCursor;
     R10_8017092C_Packet *packet;

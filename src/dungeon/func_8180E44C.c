@@ -8,7 +8,7 @@ typedef struct S_8002744C_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8002744C_0;   /* arg1 in dungeonAdvanceEffectPositionsAndFade */
+} S_8002744C_0;   /* arg1 in advance_effect_positions_and_fade */
 
 typedef struct S_8002744C_1 {
     u8 pad_00[0xC];
@@ -17,18 +17,18 @@ typedef struct S_8002744C_1 {
     s32 unk_14;
     u8 pad_18[0x4E];
     s16 unk_66;
-} S_8002744C_1;   /* arg0 in dungeonAdvanceEffectPositionsAndFade */
+} S_8002744C_1;   /* arg0 in advance_effect_positions_and_fade */
 
 typedef struct S_8002744C_2 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_8002744C_2;   /* arg2 in dungeonAdvanceEffectPositionsAndFade */
+} S_8002744C_2;   /* arg2 in advance_effect_positions_and_fade */
 
 
 /* Advance effect positions, fade the color, and flag expiration when the timer ends. */
-void dungeonAdvanceEffectPositionsAndFade(void *effect, void *positions, void *color) {
+void advance_effect_positions_and_fade(void *effect, void *positions, void *color) {
     s16 ticks_left;
     u8 intensity;
 
@@ -50,6 +50,6 @@ void dungeonAdvanceEffectPositionsAndFade(void *effect, void *positions, void *c
     ((S_8002744C_1 *)effect)->unk_66 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

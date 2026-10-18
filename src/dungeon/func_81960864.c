@@ -18,13 +18,13 @@ void func_80026064(void *draw_data, s32 draw_mode)
     void *draw_context;
     void *end_context;
 
-    draw_context = gameWork.unk_000;
-    draw_contexts = ((void * *)(&gameWork));
+    draw_context = g_game_work.unk_000;
+    draw_contexts = ((void * *)(&g_game_work));
     buffer_shift = draw_context != (void *)D_801C9E40;
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
-    func_80067E2C(start_packet, gameWork.unk_000, draw_context);
+    func_80067E2C(start_packet, g_game_work.unk_000, draw_context);
     {
         void *packet_table;
         s32 packet_addr;
@@ -42,7 +42,7 @@ void func_80026064(void *draw_data, s32 draw_mode)
         if (needs_shift != 0) {
             mode_offset = -0xE0;
         }
-        dungeonBuildShadedTexturedQuad(mode_offset, draw_data, draw_mode, ordering_table);
+        build_shaded_textured_quad(mode_offset, draw_data, draw_mode, ordering_table);
     }
 
     {
@@ -54,7 +54,7 @@ void func_80026064(void *draw_data, s32 draw_mode)
             base_offset = -0xE0;
         }
     }
-    dungeonBuildShadedTexturedQuad(base_offset, draw_data, 0, ordering_table);
+    build_shaded_textured_quad(base_offset, draw_data, 0, ordering_table);
 
     end_context = *draw_contexts;
     end_packet = *(s32 *)((u8 *)end_context + 0x8D0);

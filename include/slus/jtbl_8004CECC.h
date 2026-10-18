@@ -6,6 +6,6 @@
 
 /* Convert HSV with 0x600 hue units per revolution to RGB bytes. */
 
-u8 *convertHsvToRgb(u32 hue, s32 saturation, s32 value, u8 *out);
+u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out);
 
 #endif

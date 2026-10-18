@@ -4,7 +4,7 @@
 
 typedef struct S_800249A0_0_pre {
     u16 unk_00;
-} S_800249A0_0_pre;   /* the 0x2 bytes before arg0 in func_800249A0, addressed as arg0[-1] */
+} S_800249A0_0_pre;   /* the 0x2 bytes before arg0 in decrement_object_counter, addressed as arg0[-1] */
 
 typedef struct S_800249A0_0 {
     s16 unk_00;
@@ -12,7 +12,7 @@ typedef struct S_800249A0_0 {
     s32 unk_04;
     s16 * unk_08;
     void * unk_0C;
-} S_800249A0_0;   /* arg0 in func_800249A0 */
+} S_800249A0_0;   /* arg0 in decrement_object_counter */
 
 typedef struct S_800249A0_1 {
     u8 pad_00[0xC];
@@ -20,20 +20,20 @@ typedef struct S_800249A0_1 {
 } S_800249A0_1;
 
 
-void formatDecimalFieldSpacePadded();               /* extern */
+void format_decimal_field_space_padded();               /* extern */
 s32 strlen();                             /* extern */
 
 /* Process the entry text when its state is zero and propagate the linked flags. */
-void func_800249A0(void *entry) {
+void decrement_object_counter(void *entry) {
     S_800249A0_1 *text_info;
 
     text_info = ((S_800249A0_0 *)entry)->unk_0C;
     if (((S_800249A0_0 *)entry)->unk_00 == 0) {
-        formatDecimalFieldSpacePadded(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
+        format_decimal_field_space_padded(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
             ((S_800249A0_0 *)entry)->unk_04);
         if (text_info->unk_0C & 2) {
             ((S_800249A0_0_pre *)entry)[-1].unk_00 = (u16) (((S_800249A0_0_pre *)entry)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }
     }
 }

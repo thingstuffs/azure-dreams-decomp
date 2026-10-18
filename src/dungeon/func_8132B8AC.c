@@ -12,18 +12,18 @@ typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
 void func_800419EC();            /* extern */
-void selectIndirectTableEntry();              /* extern */
+void select_indirect_table_entry();              /* extern */
 void func_80047784();         /* extern */
 void func_800478B8();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80069EF8();                                /* extern */
-s32 func_800A56E0();                     /* extern */
-void dungeonReleaseSecondaryOverlayObject();                            /* extern */
-void dungeonCreateBossDirectionalEffect(); /* extern */
-void dungeonCreateBossLinkedEffect();      /* extern */
-void dungeonCreateBossChildEffect();      /* extern */
-void dungeonCreateBossDisplayVariant(); /* extern */
-void dungeonCreateBossRandomizedEffect(); /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+void release_secondary_overlay_object();                            /* extern */
+void create_boss_directional_effect(); /* extern */
+void create_boss_linked_effect();      /* extern */
+void create_boss_child_effect();      /* extern */
+void create_boss_display_variant(); /* extern */
+void create_boss_randomized_effect(); /* extern */
 extern InitBlock D_8016A894;
 extern u8 D_80174C64[];
 extern u8 D_80174C6C[];
@@ -83,7 +83,7 @@ typedef struct S_func_8132B8AC_3 {
 } S_func_8132B8AC_3;
 
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
-void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
+void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
 
     InitBlock direction_vectors;
     s32 path_angle;
@@ -169,8 +169,8 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         break;
     case 5:
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C8C;
-        func_80047784(sprite, D_80174C8C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
-        func_800A56E0(0x801);
+        func_80047784(sprite, D_80174C8C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        play_sound_if_enabled(0x801);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
         break;
@@ -184,10 +184,10 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
             break;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C64;
-        func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C64[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         actor->unk_96 = 0U;
         actor->unk_9A = (u8) (actor->unk_9A + 1);
-        dungeonCreateBossChildEffect(actor, motion, sprite);
+        create_boss_child_effect(actor, motion, sprite);
         break;
     case 7:
         motion->unk_0A = (u16) (motion->unk_0A - 8);
@@ -211,7 +211,7 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         }
         actor->unk_9A = (u8) (actor->unk_9A + 1);
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-        func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         motion->unk_0C.unk_0C = 0xFFF80000;
         actor->unk_B4.s = 5;
         actor->unk_96 = 0x10U;
@@ -252,12 +252,12 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            func_80047784(particle_a0, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100)
+            func_80047784(particle_a0, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100)
                 >> 9) & 7], 0);
             path_particle_count = 0;
-            func_800A56E0(0x706);
+            play_sound_if_enabled(0x706);
             do {
-                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
             actor->unk_96 = (u16) (actor->unk_96 - 1);
@@ -270,11 +270,11 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
         if (sprite->unk_04 == 5) {
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
             end_particle_count = 0;
-            func_800A56E0(0x706);
+            play_sound_if_enabled(0x706);
             do {
-                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
             } while (end_particle_count < 0x14);
         }
@@ -289,7 +289,7 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
             break;
         }
         sprite->unk_2C = D_80174C64;
-        func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C64[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 12:
         turn_timer = actor->unk_96 - 1;
@@ -339,22 +339,22 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         actor->unk_96 = 0U;
         actor->unk_9A++;
         sprite->unk_2C = D_80174C6C;
-        func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C6C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 15:
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
             particle_color = 0;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            sprite_angle_base = gameWork.view.viewAngle;
+            sprite_angle_base = g_game_work.view.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
             func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
             wait_particle_count = particle_color;
-            func_800A56E0(0x706);
+            play_sound_if_enabled(0x706);
             wait_particle_mode = 1;
             do {
-                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
                 wait_particle_count += 1;
             } while (wait_particle_count < 0x14);
         }
@@ -376,18 +376,18 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
             actor->unk_9A = (u8) (actor->unk_9A + 1);
             motion->unk_0C.unk_0E.unk_0E = 4;
             motion->unk_10.unk_12.unk_12 = 0;
-            dungeonCreateBossDisplayVariant(motion, -0x50, 0, -0x10, 0);
-            dungeonCreateBossDisplayVariant(motion, -0x28, 0, -8, 0);
-            dungeonCreateBossDisplayVariant(motion, -0x1C, 0, -0x1E, 0);
+            create_boss_display_variant(motion, -0x50, 0, -0x10, 0);
+            create_boss_display_variant(motion, -0x28, 0, -8, 0);
+            create_boss_display_variant(motion, -0x1C, 0, -0x1E, 0);
             func_800419EC(6, 0xC);
-            func_800A56E0(0x601);
+            play_sound_if_enabled(0x601);
         }
         if ((s16) actor->unk_96 == 8) {
-            dungeonCreateBossDisplayVariant(motion, -0x30, 0, -0xA, 1);
-            dungeonCreateBossDisplayVariant(motion, -0x18, 0, -0x18, 1);
-            dungeonCreateBossDisplayVariant(motion, 0, 0, -0x10, 1);
+            create_boss_display_variant(motion, -0x30, 0, -0xA, 1);
+            create_boss_display_variant(motion, -0x18, 0, -0x18, 1);
+            create_boss_display_variant(motion, 0, 0, -0x10, 1);
             func_800419EC(6, 0xC);
-            func_800A56E0(0x601);
+            play_sound_if_enabled(0x601);
         }
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
         motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
@@ -395,15 +395,15 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
             particle_a0 = sprite;
             particle_color = 0;
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
-            sprite_angle_base = gameWork.view.viewAngle;
+            sprite_angle_base = g_game_work.view.viewAngle;
             sprite_angle_delta = beldo->unk_2A.s;
             func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7],
                 particle_color);
             move_particle_count = particle_color;
-            func_800A56E0(0x706);
+            play_sound_if_enabled(0x706);
             move_particle_mode = 1;
             do {
-                dungeonCreateBossDirectionalEffect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
+                create_boss_directional_effect((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
                 move_particle_count += 1;
             } while (move_particle_count < 0x14);
         }
@@ -437,8 +437,8 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
             motion->unk_0C.unk_0E.unk_0E = 0;
         }
         if ((actor->unk_96 & 3) == 1) {
-            dungeonCreateBossRandomizedEffect(motion, -0x10, 0, -4);
-            dungeonCreateBossRandomizedEffect(motion, 0xC, 0, -0xC);
+            create_boss_randomized_effect(motion, -0x10, 0, -4);
+            create_boss_randomized_effect(motion, 0xC, 0, -0xC);
         }
         break;
     case 18:
@@ -447,14 +447,14 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         if ((s16) idle_timer >= 0x3C) {
             actor->unk_96 = 4U;
             actor->unk_9A = (u8) (actor->unk_9A + 1);
-            dungeonCreateBossLinkedEffect(actor, motion, sprite);
+            create_boss_linked_effect(actor, motion, sprite);
             *(u8 **)((u8 *)sprite + 0x2C) = D_80174C7C;
-            func_80047784(sprite, D_80174C7C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
-            func_800A56E0(0x800);
+            func_80047784(sprite, D_80174C7C[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+            play_sound_if_enabled(0x800);
         }
         if ((actor->unk_96 & 3) == 1) {
-            dungeonCreateBossRandomizedEffect(motion, -0x10, 0, -4);
-            dungeonCreateBossRandomizedEffect(motion, 0xC, 0, -0xC);
+            create_boss_randomized_effect(motion, -0x10, 0, -4);
+            create_boss_randomized_effect(motion, 0xC, 0, -0xC);
         }
         break;
     case 19:
@@ -465,10 +465,10 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
         }
         actor->unk_9A++;
         sprite->unk_2C = D_80174C84;
-        func_80047784(sprite, D_80174C84[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C84[((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 20:
-        dungeonReleaseSecondaryOverlayObject();
+        release_secondary_overlay_object();
         break;
     default:
         break;
@@ -476,13 +476,13 @@ void advanceScriptedActorMotion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *mot
     if (D_80174CE0 == 0) {
         return;
     }
-    final_direction = ((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    final_direction = ((s32) (g_game_work.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7;
     sprite_direction = final_direction;
     if (actor->unk_94 != sprite_direction) {
-        selectIndirectTableEntry(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
+        select_indirect_table_entry(sprite, sprite->unk_2C[sprite_direction], sprite->unk_04);
         actor->unk_94 = sprite_direction;
     }
-    if (dirSpriteFlag[sprite_direction] != 0) {
+    if (dir_sprite_flag[sprite_direction] != 0) {
         tail_test = sprite->unk_14 | 1;
     } else {
         tail_test = sprite->unk_14 & 0xFFFE;

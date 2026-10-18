@@ -18,14 +18,14 @@ typedef struct S_81988800_0 {
     u8 pad_0C[0x44];
     union { u16 u; s16 s; } unk_50;   /* accessed as both */
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
-} S_81988800_0;   /* state in func_8002401C */
+} S_81988800_0;   /* state in update_directional_actor_effect */
 
 
 typedef struct S_81988800_2 {
     s32 unk_00;
     s32 unk_04;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_81988800_2;   /* out in func_8002401C */
+} S_81988800_2;   /* out in update_directional_actor_effect */
 
 typedef struct S_81988800_3 {
     void * unk_00;
@@ -39,13 +39,13 @@ typedef struct S_81988800_3 {
         s16 unk_04;
     } entries[8];
     s16 unk_40;
-} S_81988800_3;   /* work in func_8002401C */
+} S_81988800_3;   /* work in update_directional_actor_effect */
 
 typedef struct S_81988800_4 {
     u8 pad_00[0xA6];
     u16 unk_A6;
     u8 unk_A8;
-} S_81988800_4;   /* global in func_8002401C */
+} S_81988800_4;   /* global in update_directional_actor_effect */
 
 typedef struct S_81988800_5 {
     u8 pad_00[0x10];
@@ -53,58 +53,58 @@ typedef struct S_81988800_5 {
     u8 pad_14[0x8];
     s32 unk_1C;
     void * unk_20;
-} S_81988800_5;   /* object in func_8002401C */
+} S_81988800_5;   /* object in update_directional_actor_effect */
 
 typedef struct S_81988800_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     s32 unk_20;
     s32 unk_24;
-} S_81988800_6;   /* spawn_fields in func_8002401C */
+} S_81988800_6;   /* spawn_fields in update_directional_actor_effect */
 
 typedef struct S_81988800_8 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_81988800_8;   /* base in func_8002401C */
+} S_81988800_8;   /* base in update_directional_actor_effect */
 
 typedef struct S_81988800_9 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_81988800_9;   /* tail in func_8002401C */
+} S_81988800_9;   /* tail in update_directional_actor_effect */
 
 typedef struct S_81988800_10 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81988800_10;   /* ((S_81988800_3 *)work)->unk_08.p32 in func_8002401C */
+} S_81988800_10;   /* ((S_81988800_3 *)work)->unk_08.p32 in update_directional_actor_effect */
 
 typedef struct S_81988800_11 {
     u16 unk_00;
-} S_81988800_11;   /* ((S_81988800_0 *)state)->unk_04 in func_8002401C */
+} S_81988800_11;   /* ((S_81988800_0 *)state)->unk_04 in update_directional_actor_effect */
 
 typedef struct S_81988800_12 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_81988800_12;   /* ((S_81988800_3 *)work)->unk_0C in func_8002401C */
+} S_81988800_12;   /* ((S_81988800_3 *)work)->unk_0C in update_directional_actor_effect */
 
 
 extern M2C_UNK D_80024D58;
 
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 resolve_record_orientation_or_fallback();
 extern s32 func_80053EF0();
-extern void func_8009CE1C();
-extern void *dungeonFindEligibleNearbyEntry();
+extern void apply_attack_power_and_element_effects();
+extern void *find_eligible_nearby_entry();
 
-void func_8002401C(void *state_data, void *position_data);
+void update_directional_actor_effect(void *state_data, void *position_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19a8800_entry)(void *, void *) = func_8002401C;
+void (*const dungeon_19a8800_entry)(void *, void *) = update_directional_actor_effect;
 
 /* Advance a timed effect sequence, spawning objects and applying the effect to targets. */
-void func_8002401C(void *state_data, void *position_data)
+void update_directional_actor_effect(void *state_data, void *position_data)
 {
     s16 offset[3];
     void *object;
@@ -141,14 +141,14 @@ void func_8002401C(void *state_data, void *position_data)
 
             object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
-                if (resolveRecordOrientationOrFallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
+                if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
                                   ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
                     offset[2] = 0;
                     offset[1] = 0;
                     offset[0] = 0;
                 }
-                ((S_81988800_5 *)object)->unk_10 = func_80024648;
-                func_8004491C(object, (s32)func_8002441C);
+                ((S_81988800_5 *)object)->unk_10 = update_effect_and_spawn_fragments;
+                func_8004491C(object, (s32)create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
@@ -180,7 +180,7 @@ void func_8002401C(void *state_data, void *position_data)
             if (variant != 2) {
                 effect_id = 0x300;
             }
-            func_800A56E0(effect_id);
+            play_sound_if_enabled(effect_id);
             ((S_81988800_0 *)state_data)->unk_50.u = 13;
             ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
@@ -193,7 +193,7 @@ void func_8002401C(void *state_data, void *position_data)
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
-                ((S_81988800_5 *)object)->unk_10 = func_80024B20;
+                ((S_81988800_5 *)object)->unk_10 = update_segment;
                 func_8004491C(object, (s32)&D_80024D58);
                 actor = (void *)((u8 *)(&D_80082E80));
                 offset[0] = (((u16)D_800814A8->facing) >> 9) & 7;
@@ -223,10 +223,10 @@ void func_8002401C(void *state_data, void *position_data)
                 list_head = object;
                 work = (u8 *)((u8 *)(&D_80082E80));
 loop:
-                object = dungeonFindEligibleNearbyEntry(work[0x24], work[0x25], list_head, object);
+                object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
                     if (!(((S_81988800_5 *)object)->unk_1C & 0x2000)) {
-                        func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
+                        apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
                                       ((S_81988800_8 *)source)->unk_2A, source, 2);
                     }
                     goto loop;
@@ -238,10 +238,10 @@ loop:
             if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
                 ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {
-                dungeonStatus.unk_0C = 0;
-                dungeonStatus.unk_0A--;
+                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.unk_0A--;
                 (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
         }
         break;

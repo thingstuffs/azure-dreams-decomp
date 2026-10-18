@@ -3,11 +3,11 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-s32 findFlaggedRecordById();                    /* extern */
-void dungeonProcessUnflaggedLinkedEntries();                         /* extern */
-void dungeonProcessUnflaggedLinkedEntriesAlt(s32);                         /* extern */
-s16 getOffsetMapCellValueAndFlags(s16, s16, s16, u16 *);          /* extern */
-s32 func_800A56E0(s32);                     /* extern */
+s32 find_flagged_record_by_id();                    /* extern */
+void process_unflagged_linked_entries();                         /* extern */
+void process_unflagged_linked_entries_alt(s32);                         /* extern */
+s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
+s32 play_sound_if_enabled(s32);                     /* extern */
 extern M2C_UNK D_80081484;
 extern M2C_UNK D_800DD25C;
 extern s32 D_800E3540;
@@ -20,7 +20,7 @@ typedef struct S_8008F878_0 {
     u8 unk_9B;
     u8 pad_9C[0x88];
     void * unk_124;
-} S_8008F878_0;   /* arg0 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_0;   /* arg0 in update_put_down_carried_object */
 
 typedef struct S_8008F878_1 {
     u8 pad_00[0x8];
@@ -30,11 +30,11 @@ typedef struct S_8008F878_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8008F878_1;   /* arg2 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_1;   /* arg2 in update_put_down_carried_object */
 
 typedef struct S_8008F878_2 {
     union { void * p; s32 i; } unk_00;   /* accessed as both */
-} S_8008F878_2;   /* &D_800DD25C in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_2;   /* &D_800DD25C in update_put_down_carried_object */
 
 typedef struct S_8008F878_3 {
     u8 pad_00[0x13];
@@ -53,7 +53,7 @@ typedef struct S_8008F878_5 {
     u16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-} S_8008F878_5;   /* arg3 in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_5;   /* arg3 in update_put_down_carried_object */
 
 
 typedef struct S_8008F878_7 {
@@ -66,10 +66,10 @@ typedef struct S_8008F878_7 {
 typedef struct S_8008F878_8 {
     u8 pad_00[0x6D];
     s8 unk_6D;
-} S_8008F878_8;   /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in dungeonUpdatePutDownCarriedObject */
+} S_8008F878_8;   /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in update_put_down_carried_object */
 
 /* Initializes an actor action and completes it when the action flags are set. */
-void dungeonUpdatePutDownCarriedObject(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data, S_8008F878_5 *actor) {
+void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data, S_8008F878_5 *actor) {
     u16 query_flags;
     s32 event_id;
     s32 state;
@@ -83,7 +83,7 @@ void dungeonUpdatePutDownCarriedObject(S_8008F878_0 *action, void *unused, S_800
             return;
         }
         if (state == 0) {
-            if (findFlaggedRecordById(action_data->unk_08, 0) == 0) {
+            if (find_flagged_record_by_id(action_data->unk_08, 0) == 0) {
                 target = action->unk_124;
                 ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = target;
                 if (target->unk_13 <= 0) {
@@ -92,12 +92,12 @@ void dungeonUpdatePutDownCarriedObject(S_8008F878_0 *action, void *unused, S_800
                 target_flags = action->unk_124;
                 target_flags->unk_1C = (s32) (target_flags->unk_1C & 0xFFF7FFFF);
                 actor->unk_1C = (s32) (actor->unk_1C & 0xFFEFFFFF);
-                getOffsetMapCellValueAndFlags(action_data->unk_24, action_data->unk_25, ((u16) actor->unk_2A >> 9) & 7, &query_flags);
+                get_offset_map_cell_value_and_flags(action_data->unk_24, action_data->unk_25, ((u16) actor->unk_2A >> 9) & 7, &query_flags);
                 event_id = 0x50C;
                 if (query_flags & 0x400) {
                     event_id = 0x517;
                 }
-                func_800A56E0(event_id);
+                play_sound_if_enabled(event_id);
                 saved_value = (*(s32 *)&D_80081484);
                 (*(s32 *)&D_80081484) = 0;
                 D_800E3540 = saved_value;
@@ -107,14 +107,14 @@ void dungeonUpdatePutDownCarriedObject(S_8008F878_0 *action, void *unused, S_800
     } else {
         if (action_data->unk_14 & 0x6000) {
             action->unk_9B = 2U;
-            dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
-            dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
-            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
+            g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
+            process_unflagged_linked_entries_alt(actor->unk_5C);
+            process_unflagged_linked_entries(actor->unk_5C);
             if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.p != NULL) {
                 ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
             }
-            action->unk_8C = dungeonHandlePlayerInput;
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            action->unk_8C = handle_player_input;
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         }
     }
 }

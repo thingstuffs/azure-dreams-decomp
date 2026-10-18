@@ -47,7 +47,7 @@ typedef struct S_80093D8C_3 {
 
 
 /* Create a sprite effect at the supplied position and attach it to its owner. */
-void dungeonCreateFamiliarDeploymentOverlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
+void create_familiar_deployment_overlay(s32 sort_order, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093D8C_3 *sprite;
     S_80093D8C_0 *effect;
     S_80093D8C_1 *position;

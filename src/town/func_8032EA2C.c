@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern void townReleaseLshopEntry(s32);
-extern void townCompactLshopEntryList(void);
-extern void townAppendShopEntry(void *);
-extern void townSetLshopSpecialFlag(void *);
+extern void release_lshop_entry(s32);
+extern void compact_lshop_entry_list(void);
+extern void append_shop_entry(void *);
+extern void set_lshop_special_flag(void *);
 
 /* Processes flagged four-byte entries according to the mode, skipping type 0x18. */
-void townProcessLshopEntries(void *entries, s32 entry_mode)
+void process_lshop_entries(void *entries, s32 entry_mode)
 {
     void *entry_list;
     s32 initial_mode;
@@ -24,11 +24,11 @@ void townProcessLshopEntries(void *entries, s32 entry_mode)
         do {
             if ((entry[3] & 0x20) && entry[1] != entry_list) {
                 if (mode == 0) {
-                    townAppendShopEntry(entry);
+                    append_shop_entry(entry);
                     entry += 4;
                 } else {
-                    townSetLshopSpecialFlag(entry);
-                    townReleaseLshopEntry(entry_index);
+                    set_lshop_special_flag(entry);
+                    release_lshop_entry(entry_index);
                     entry += 4;
                 }
             } else {
@@ -37,5 +37,5 @@ void townProcessLshopEntries(void *entries, s32 entry_mode)
             entry_index++;
         } while (entry[1] != 0);
     }
-    townCompactLshopEntryList();
+    compact_lshop_entry_list();
 }

@@ -3,10 +3,10 @@
 /* TOWN bank at file 0x64603C..0x647A04 (link delta 0x7F9D1000) is a copy of
  * the matched module at TOWN file 0x2AE354..0x2AFD1C (delta 0x7FD6A800): the 6600 bytes
  * are identical except relocated fields, and 21 of 21 bank-local calls land on the
- * mirrored function starts at this delta.  This row mirrors townRefreshLshopEntryList
+ * mirrored function starts at this delta.  This row mirrors refresh_lshop_entry_list
  * (src/town/func_8032E9C4.c).  Evidence: docs/evidence/r121_rem_opus.md. */
 
-/* = townReleaseLshopEntry / townCompactLshopEntryList of the reference module (src/town/func_8032E634.c,
+/* = release_lshop_entry / compact_lshop_entry_list of the reference module (src/town/func_8032E634.c,
  * src/town/func_8032E6A8.c): clear one object slot, then compact the slot list. */
 extern void func_8001731C(s32 slotIndex);
 extern void func_80017390(void);

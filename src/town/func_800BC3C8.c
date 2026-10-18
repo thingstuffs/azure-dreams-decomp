@@ -27,7 +27,7 @@ extern u8 D_80046398[];
 extern u8 D_800B9998[];
 
 /* Initializes object data, transform, color, and rendering defaults. */
-void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
+void initialize_object_data_transform_color(u8 *object, u8 *render_data, FuncData *state) {
     u8 blue;
 
     *(void **)(object - 0x10) = D_800B9998;
@@ -46,9 +46,9 @@ void func_800B9B28(u8 *object, u8 *render_data, FuncData *state) {
     state->unk0 = 0;
     state->unk4 = 0;
     state->unk5 = 0;
-    state->unkC = gameWork.view.unk_090;
-    state->unkD = gameWork.view.unk_091;
-    blue = gameWork.view.unk_092;
+    state->unkC = g_game_work.view.unk_090;
+    state->unkD = g_game_work.view.unk_091;
+    blue = g_game_work.view.unk_092;
     state->unk8 = 0x1F;
     state->unkE = blue;
     *(s32 *)(render_data + 8) = 0xFF600000;

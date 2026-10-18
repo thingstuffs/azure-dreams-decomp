@@ -8,10 +8,10 @@ typedef struct S_8016F140_0 {
     s8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_8016F140_0;   /* arg0 in dungeonClearActorPendingUpdateMarkers */
+} S_8016F140_0;   /* arg0 in clear_actor_pending_update_markers */
 
 /* Clear the state byte and the high bits of the two flag fields. */
-void dungeonClearActorPendingUpdateMarkers(S_8016F140_0 *state) {
+void clear_actor_pending_update_markers(S_8016F140_0 *state) {
     state->unk_6D = 0;
     state->unk_71 = (u8) (state->unk_71 & 0x7F);
     state->unk_46 = (u16) (state->unk_46 & 0x7FFF);

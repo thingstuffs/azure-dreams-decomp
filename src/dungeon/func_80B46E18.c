@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonTransformAndQueueLinePackets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
+void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
     u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;
@@ -20,7 +20,7 @@ void dungeonTransformAndQueueLinePackets(R12_80174618_S_80174618_4 *endpoints, R
     R12_80174618_MATRIX matrix;
     R12_80174618_EMPTY_ARG no_arg;
 
-    context = (u8 *)&gameWork;
+    context = (u8 *)&g_game_work;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_88 = position->unk_02;
     ((R12_80174618_S_80174618_0 *)scratch)->unk_8C = position->unk_06;
@@ -70,7 +70,7 @@ void dungeonTransformAndQueueLinePackets(R12_80174618_S_80174618_4 *endpoints, R
     end_z = endpoints->unk_6E;
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
-    work_base = &gameWork;
+    work_base = &g_game_work;
     depth_index = func_80065590(start_vertex, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           screen_start, screen_end,

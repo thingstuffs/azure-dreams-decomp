@@ -9,7 +9,7 @@ typedef struct S_800C5D80_0 {
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800C5D80_0;   /* arg1 in dungeonAdvanceEffectMotionAndFade */
+} S_800C5D80_0;   /* arg1 in advance_effect_motion_and_fade */
 
 
 typedef struct S_800C5D80_2 {
@@ -18,13 +18,13 @@ typedef struct S_800C5D80_2 {
     s16 unk_0E;
     u8 pad_10[0x2];
     s16 unk_12;
-} S_800C5D80_2;   /* arg0 in dungeonAdvanceEffectMotionAndFade; pointer addresses record offset 0x2 */
+} S_800C5D80_2;   /* arg0 in advance_effect_motion_and_fade; pointer addresses record offset 0x2 */
 
 
 extern void func_800478B8();
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
-void dungeonAdvanceEffectMotionAndFade(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
+void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *primitive) {
     s16 ticks_left;
     u8 brightness;
 
@@ -41,11 +41,11 @@ void dungeonAdvanceEffectMotionAndFade(void *effect_data, S_800C5D80_0 *motion, 
     if ((ticks_left << 0x10) <= 0) {
         if (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_0E == 0) {
 
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         }
         ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }
 

@@ -7,7 +7,7 @@ typedef void (*Func4)(void *, void *, void *, void *);
 extern Func4 D_800E22E0[];
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern s32 func_800BCB04();
+extern s32 sample_terrain_surface_height();
 
 
 typedef struct S_800D4158_1 {
@@ -18,7 +18,7 @@ typedef struct S_800D4158_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D4158_1;   /* arg1 in dungeonUpdateActorMotionAndBrightness */
+} S_800D4158_1;   /* arg1 in update_actor_motion_and_brightness */
 
 typedef struct S_800D4158_2 {
     u8 pad_00[0x90];
@@ -28,10 +28,10 @@ typedef struct S_800D4158_2 {
     u8 pad_9A[0x3];
     union { u8 u; s8 s; } unk_9D;   /* accessed as both */
     u16 unk_9E;
-} S_800D4158_2;   /* arg0 in dungeonUpdateActorMotionAndBrightness */
+} S_800D4158_2;   /* arg0 in update_actor_motion_and_brightness */
 
 /* Updates entity callbacks, motion, ground contact, and sprite brightness. */
-void dungeonUpdateActorMotionAndBrightness(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
+void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
     void *entity_ref = entity;
     u16 motion_flags;
     u32 entity_flags;
@@ -40,7 +40,7 @@ void dungeonUpdateActorMotionAndBrightness(void *entity, S_800D4158_1 *motion, R
     s16 pulse_phase;
     s32 brightness;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         (*(u8 *)((u8 *)entity_ref + 0x71)) = (*(u8 *)((u8 *)entity_ref + 0x71)) & 0x7f;
         return;
     }
@@ -64,7 +64,7 @@ void dungeonUpdateActorMotionAndBrightness(void *entity, S_800D4158_1 *motion, R
     }
     ((S_800D4158_2 *)entity)->unk_90.at00.v += motion->unk_14;
     if (!(((S_800D4158_2 *)entity)->unk_98 & 4) &&
-        (ground_height = (s16)(ground_height_raw = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
+        (ground_height = (s16)(ground_height_raw = sample_terrain_surface_height(motion->unk_00.at02.v, motion->unk_04.at02.v,
                         (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
         if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
             ((S_800D4158_2 *)entity)->unk_98 &= 0xF7FFFFFF;
@@ -81,7 +81,7 @@ void dungeonUpdateActorMotionAndBrightness(void *entity, S_800D4158_1 *motion, R
         entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
         if (entity_flags & 0x40000000) {
             (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
-            ground_height_raw = func_800BCB04(
+            ground_height_raw = sample_terrain_surface_height(
                 (sprite->unk_24 << 6) | 0x20,
                 (sprite->unk_25 << 6) | 0x20,
                 (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));

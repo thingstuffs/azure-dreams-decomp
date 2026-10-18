@@ -9,10 +9,10 @@
  */
 #include "common.h"
 
-extern void cardBootBeginSelectedValueTransition(s32, s32);
-extern void cardBootSetSlotSelectionMarker(s32, s32);
-extern void cardBootClearSlotSelectionMarker(s32);
-extern void cardBootSetSlotDetailsSelection(s32, s32, s32);
+extern void card_boot_begin_selected_value_transition(s32, s32);
+extern void card_boot_set_slot_selection_marker(s32, s32);
+extern void card_boot_clear_slot_selection_marker(s32);
+extern void card_boot_set_slot_details_selection(s32, s32, s32);
 
 typedef struct S_80025030_0 {
     u8 pad_00[0x18];
@@ -23,25 +23,25 @@ typedef struct S_80025030_0 {
     u8 pad_2C[0x18];
     s32 unk_44;
     s32 unk_48;
-} S_80025030_0;   /* state in cardBootRefreshFiveSlotSelection */
+} S_80025030_0;   /* state in card_boot_refresh_five_slot_selection */
 
 /* Draw the party panel: five slots, the one at index unk_28 drawn with the highlight flag. */
-void cardBootRefreshFiveSlotSelection(S_80025030_0 *state) {
+void card_boot_refresh_five_slot_selection(S_80025030_0 *state) {
     s32 highlight;
     s32 i;
 
     if (state->unk_48 == 1) {
         highlight = 1;
     } else {
-        cardBootBeginSelectedValueTransition(state->unk_18, state->unk_44);
+        card_boot_begin_selected_value_transition(state->unk_18, state->unk_44);
         highlight = 0;
     }
     for (i = 0; i < 5; i++) {
         if (i == state->unk_28) {
-            cardBootSetSlotSelectionMarker(((s32 *)state)[i + 1], highlight);
+            card_boot_set_slot_selection_marker(((s32 *)state)[i + 1], highlight);
         } else {
-            cardBootClearSlotSelectionMarker(((s32 *)state)[i + 1]);
+            card_boot_clear_slot_selection_marker(((s32 *)state)[i + 1]);
         }
     }
-    cardBootSetSlotDetailsSelection(state->unk_1C, state->unk_28, state->unk_44);
+    card_boot_set_slot_details_selection(state->unk_1C, state->unk_28, state->unk_44);
 }

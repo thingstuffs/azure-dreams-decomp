@@ -64,8 +64,8 @@ extern void *func_800374FC(s32, void *);
 extern void func_8003BC18(void *, void *);
 extern void func_80058F88(s32);
 extern void func_8023FAE8(void *, void *, void *);
-extern void func_80526BFC(void *, void *);
-extern void func_80526C90(void *, void *);
+extern void allocate_record_and_store_three_blocks(void *, void *);
+extern void create_object_payload_registers_callback(void *, void *);
 
 extern u8 D_8003C558[];
 extern u8 D_801328C8[];
@@ -161,7 +161,7 @@ s32 func_8080C324(void) {
     rect_record.f4 = root;
     color_or_flags |= 3;
     rect_record.f16 = color_or_flags;
-    func_80526C90(D_805267E0, &rect_record);
+    create_object_payload_registers_callback(D_805267E0, &rect_record);
 
     rect_record.fE = 0xA2;
     rect_record.f10 = 1;
@@ -175,7 +175,7 @@ s32 func_8080C324(void) {
     line_x = 0xE0;
     do {
         rect_record.fC = line_x;
-        func_80526C90(D_805268D4, &rect_record);
+        create_object_payload_registers_callback(D_805268D4, &rect_record);
         remaining--;
         line_x -= 0x10;
     } while (remaining >= 0);
@@ -184,7 +184,7 @@ s32 func_8080C324(void) {
     rect_record.fE = 0xB0;
     rect_record.f10 = 0xDC;
     rect_record.f12 = 1;
-    func_80526C90(D_805268D4, &rect_record);
+    create_object_payload_registers_callback(D_805268D4, &rect_record);
 
     {
         s32 *content_ptr;
@@ -205,7 +205,7 @@ s32 func_8080C324(void) {
         content_record.f2 = 0x10;
         content_record.fC = root;
         content_record.f4 = color_or_content;
-        func_80526BFC(D_80526970, &content_record);
+        allocate_record_and_store_three_blocks(D_80526970, &content_record);
 
         content_record.f16 = 0xA4;
         clear_addr = 8;
@@ -220,7 +220,7 @@ s32 func_8080C324(void) {
                 content = *content_ptr;
                 content_record.f14 = content_x;
                 content_record.f4 = content;
-                func_80526BFC(entry_template, (&content_record));
+                allocate_record_and_store_three_blocks(entry_template, (&content_record));
                 content_x -= 0x10;
                 content_ptr--;
                 clear_addr--;
@@ -230,7 +230,7 @@ s32 func_8080C324(void) {
         content_record.f14 = 0xF4;
         content_record.f16 = 0xB6;
         content_record.f4 = (s32)D_805306D8;
-        func_80526BFC(D_80526A0C, &content_record);
+        allocate_record_and_store_three_blocks(D_80526A0C, &content_record);
     }
     return 0;
 }

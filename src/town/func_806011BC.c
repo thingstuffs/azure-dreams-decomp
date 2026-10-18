@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townInvokeHandlerWithCode799();                     /* extern */
+void invoke_handler_with_code_799();                     /* extern */
 
-/* Calls townInvokeHandlerWithCode799 with 0xFA3 and returns zero. */
+/* Calls invoke_handler_with_code_799 with 0xFA3 and returns zero. */
 s32 func_806011BC(void) {
-    townInvokeHandlerWithCode799(0xFA3);
+    invoke_handler_with_code_799(0xFA3);
     return 0;
 }

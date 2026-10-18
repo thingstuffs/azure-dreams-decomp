@@ -2,7 +2,7 @@
 
 extern s32 D_80084D5C;
 
-void townResetEffectCallbackState(void *ptr) {
+void reset_effect_callback_state(void *ptr) {
     u8 *inner;
     s32 state;
     s32 call_arg;

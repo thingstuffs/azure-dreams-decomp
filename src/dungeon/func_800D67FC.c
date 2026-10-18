@@ -11,7 +11,7 @@ typedef struct S_800DBF5C_0 {
 } S_800DBF5C_0;
 
 /* Sets the low flag bit when the state check field is zero. */
-void dungeonSetStateFlagWhenClear(void) {
+void set_state_flag_when_clear(void) {
     S_800DBF5C_0 *state;
 
     state = D_800E5910 + 0x20;

@@ -2,7 +2,7 @@
 #define S16(b, o) (*(s16 *)((u8 *)(b) + (o)))
 #define U16(b, o) (*(u16 *)((u8 *)(b) + (o)))
 #define S32(b, o) (*(s32 *)((u8 *)(b) + (o)))
-s32 dungeonRenderThreeByThreeTerrainGrid(Objects *objects, ViewPosition *view_position, RenderParams *render_params)
+s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params)
 {
     s16 saved_rotation[4];
     s16 saved_position[4];
@@ -61,7 +61,7 @@ s32 dungeonRenderThreeByThreeTerrainGrid(Objects *objects, ViewPosition *view_po
         scratch->view_w = render_params->width;
         scratch->view_h = render_params->height;
         scratch->view_mid = (s32) (render_params->width + render_params->height) >> 1;
-        render_state = (RenderState *)&gameWork;
+        render_state = (RenderState *)&g_game_work;
         cells = &D_80027120[0];
         scratch->eye[0] = view_position->x;
         scratch->eye[1] = view_position->y;
@@ -222,7 +222,7 @@ s32 dungeonRenderThreeByThreeTerrainGrid(Objects *objects, ViewPosition *view_po
             func_800453E0(main_object->transform, main_object->lo, main_object->hi, (s16) scratch->depth_base);
             main_entry = objects->main;
             D_8002713A[0] = -2;
-            dungeonSetNegatedCoordinateScratch(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
+            set_negated_coordinate_scratch(main_entry->lo, main_entry->hi, -2, scratch->depth_base);
         }
         object_index = 0;
         do {
@@ -231,7 +231,7 @@ s32 dungeonRenderThreeByThreeTerrainGrid(Objects *objects, ViewPosition *view_po
                 extra_object = objects->extra[object_index];
                 func_800453E0(extra_object->transform, extra_object->lo, extra_object->hi, (s16) scratch->depth_base);
                 extra_entry = objects->extra[object_index];
-                dungeonSetNegatedCoordinateScratch(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
+                set_negated_coordinate_scratch(extra_entry->lo, extra_entry->hi, 0, scratch->depth_base);
             }
             object_index += 1;
         } while (object_index < 2);

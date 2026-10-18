@@ -17,7 +17,7 @@ typedef struct {
 extern void func_800453E0(void *context, s32 position, Entry *entry, s16 depth_bias);
 
 /* Walk linked entries, update the scratch flag, and process entries without bit 0x80 set. */
-s32 dungeonRenderActorSpriteChain(void *initial_state, s32 context, Entry *entry)
+s32 render_actor_sprite_chain(void *initial_state, s32 context, Entry *entry)
 {
     void *state = initial_state;
     Scratchpad *scratch = (Scratchpad *)0x1F800000;

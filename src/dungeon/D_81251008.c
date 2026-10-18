@@ -1,19 +1,19 @@
 #include "common.h"
 
-extern void func_80171514(void);
+extern void update_object_animation(void);
 
 /* jump_table; owner: dungeon/func_81251D14. */
 const u32 D_80170808[12] __attribute__((aligned(4))) = {
-    (u32)((u8 *)func_80171514 + 0x3AC),
-    (u32)((u8 *)func_80171514 + 0x3AC),
-    (u32)((u8 *)func_80171514 + 0x3AC),
-    (u32)((u8 *)func_80171514 + 0x3D4),
-    (u32)((u8 *)func_80171514 + 0x380),
-    (u32)((u8 *)func_80171514 + 0x380),
-    (u32)((u8 *)func_80171514 + 0x380),
-    (u32)((u8 *)func_80171514 + 0x380),
-    (u32)((u8 *)func_80171514 + 0x380),
-    (u32)((u8 *)func_80171514 + 0x3D4),
-    (u32)((u8 *)func_80171514 + 0x3D4),
-    (u32)((u8 *)func_80171514 + 0x370)
+    (u32)((u8 *)update_object_animation + 0x3AC),
+    (u32)((u8 *)update_object_animation + 0x3AC),
+    (u32)((u8 *)update_object_animation + 0x3AC),
+    (u32)((u8 *)update_object_animation + 0x3D4),
+    (u32)((u8 *)update_object_animation + 0x380),
+    (u32)((u8 *)update_object_animation + 0x380),
+    (u32)((u8 *)update_object_animation + 0x380),
+    (u32)((u8 *)update_object_animation + 0x380),
+    (u32)((u8 *)update_object_animation + 0x380),
+    (u32)((u8 *)update_object_animation + 0x3D4),
+    (u32)((u8 *)update_object_animation + 0x3D4),
+    (u32)((u8 *)update_object_animation + 0x370)
 };

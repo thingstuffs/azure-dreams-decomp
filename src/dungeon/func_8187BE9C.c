@@ -3,7 +3,7 @@
 
 typedef struct S_8187BE9C_0_pre {
     u16 unk_00;
-} S_8187BE9C_0_pre;   /* the 0x2 bytes before arg0 in func_8002569C, addressed as arg0[-1] */
+} S_8187BE9C_0_pre;   /* the 0x2 bytes before arg0 in create_object_offset, addressed as arg0[-1] */
 
 typedef struct S_8187BE9C_0 {
     u8 pad_00[0x2];
@@ -17,7 +17,7 @@ typedef struct S_8187BE9C_0 {
     s16 unk_42;
     u8 pad_44[0x8];
     u8 unk_4C;
-} S_8187BE9C_0;   /* arg0 in func_8002569C */
+} S_8187BE9C_0;   /* arg0 in create_object_offset */
 
 typedef struct S_8187BE9C_1 {
     u8 pad_00[0xC];
@@ -26,13 +26,13 @@ typedef struct S_8187BE9C_1 {
     u8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_8187BE9C_1;   /* arg2 in func_8002569C */
+} S_8187BE9C_1;   /* arg2 in create_object_offset */
 
 
 extern s16 D_8002694C[5];
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */
-void func_8002569C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
+void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
     s16 phase;
 
@@ -63,11 +63,11 @@ void func_8002569C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
 
     if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
         ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (primitive->unk_14 & 0x8000) {
         ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

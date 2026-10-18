@@ -60,12 +60,12 @@ extern u8 D_800A871C[];
 
 extern void * func_8003FD64(s32 flags, void **list_head);
 extern s32 func_8004491C(void *entry, s32 registration_id);
-extern s32 dungeonClearEntryFlagAndLinkOwner(void *);
-extern s32 func_800A7A38(u8 *item);
-extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
+extern s32 clear_entry_flag_and_link_owner(void *);
+extern s32 get_item_category_value(u8 *item);
+extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
-void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
+void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
                     DungeonData *source_data, s32 *init_data, s16 tile_id) {
     DungeonObject *object;
     DungeonData *data;
@@ -102,15 +102,15 @@ void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
         state->field1E = 0x1000;
         state->field1C = 0x1000;
         state->field6 = 2;
-        state->field8 = func_800A7A38(init_data);
+        state->field8 = get_item_category_value(init_data);
         data->field8C = *(s32 *)((u8 *)source_data - 0x18);
         data->field90 = *(s32 *)((u8 *)source_data - 0x14);
         init_value = *init_data;
         data->field9C = &data->field98;
         *(u8 *)((u8 *)data + 0x13) = 0xFF;
         data->field98 = init_value;
-        dungeonClearEntryFlagAndLinkOwner(object);
-        dungeonCreateTrackedEffect(object, 0, 0, 0);
+        clear_entry_flag_and_link_owner(object);
+        create_tracked_effect(object, 0, 0, 0);
     }
     return object;
 }

@@ -21,7 +21,7 @@ extern int EnableEvent();
 
 
 /* Opens and enables memory card events, exiting if any setup step fails. */
-void cardBootOpenEvents(void) {
+void card_boot_open_events(void) {
     int card_done_event;
     int card_error_event;
     int card_timeout_event;
@@ -56,25 +56,25 @@ void cardBootOpenEvents(void) {
         printf(&(*(int (*)[])(&D_80020000)), &(*(int (*)[])(&D_80020028)), 0xBF);
         exit(1);
     }
-    hw_done_event = OpenEvent(0xF0000011, 4, 0x1000, cardBootLatchHardwareStatusOne);
+    hw_done_event = OpenEvent(0xF0000011, 4, 0x1000, card_boot_latch_hardware_status_one);
     (*(int (*)[])(&D_80028560))[0] = hw_done_event;
     if (hw_done_event == -1) {
         printf(&(*(int (*)[])(&D_80020000)), &(*(int (*)[])(&D_80020028)), 0xC2);
         exit(1);
     }
-    hw_error_event = OpenEvent(0xF0000011, 0x8000, 0x1000, cardBootLatchHardwareStatusTwo);
+    hw_error_event = OpenEvent(0xF0000011, 0x8000, 0x1000, card_boot_latch_hardware_status_two);
     (*(int (*)[])(&D_80028564))[0] = hw_error_event;
     if (hw_error_event == -1) {
         printf(&(*(int (*)[])(&D_80020000)), &(*(int (*)[])(&D_80020028)), 0xC4);
         exit(1);
     }
-    hw_timeout_event = OpenEvent(0xF0000011, 0x100, 0x1000, cardBootLatchHardwareStatusThree);
+    hw_timeout_event = OpenEvent(0xF0000011, 0x100, 0x1000, card_boot_latch_hardware_status_three);
     (*(int (*)[])(&D_80028568))[0] = hw_timeout_event;
     if (hw_timeout_event == -1) {
         printf(&(*(int (*)[])(&D_80020000)), &(*(int (*)[])(&D_80020028)), 0xC6);
         exit(1);
     }
-    hw_new_event = OpenEvent(0xF0000011, 0x2000, 0x1000, cardBootLatchHardwareStatusFour);
+    hw_new_event = OpenEvent(0xF0000011, 0x2000, 0x1000, card_boot_latch_hardware_status_four);
     (*(int (*)[])(&D_8002856C))[0] = hw_new_event;
     if (hw_new_event == -1) {
         printf(&(*(int (*)[])(&D_80020000)), &(*(int (*)[])(&D_80020028)), 0xC8);

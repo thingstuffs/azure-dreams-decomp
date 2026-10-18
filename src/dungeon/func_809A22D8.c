@@ -8,14 +8,14 @@
 #define FIELD_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define FIELD_PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 extern s32 D_801710EC[];
 extern u8 D_80175E90[];
 
 /* Decays motion, then aligns the actor with its grid position. */
-void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, void *source) {
+void decay_motion_and_align_actor(void *action, void *motion, void *actor, void *source) {
     s32 state;
     s32 x_velocity;
     s32 z_velocity;
@@ -29,13 +29,13 @@ void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, vo
 
     switch (FIELD_U8(action, 0x9B)) {
     case 0:
-        dungeonApplyClampedActorValueDelta(source);
+        apply_clamped_actor_value_delta(source);
         FIELD_U8(action, 0x9B) = FIELD_U8(action, 0x9B) + 1;
         if (FIELD_U8(source, 0x28) == 0) {
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            dungeonBeginActorDisplayAction(action, motion, actor, D_80175E90);
+            begin_actor_display_action(action, motion, actor, D_80175E90);
             return;
         }
         if (FIELD_U16(actor, 0x14) & 0x8000) {
@@ -44,9 +44,9 @@ void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, vo
             return;
         }
         FIELD_S32(motion, 0xC) =
-            (-*(s16 *)((u8 *)dirStepX + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+            (-*(s16 *)((u8 *)dir_step_x + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
         FIELD_S32(motion, 0x10) =
-            (-*(s16 *)((u8 *)dirStepY + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
+            (-*(s16 *)((u8 *)dir_step_y + ((FIELD_U16(source, 0x6A) >> 8) & 0xE))) << 15;
         motion_frames = -1;
         if (FIELD_S32(source, 0x1C) & 0x228) {
             motion_frames = 8;
@@ -77,7 +77,7 @@ void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, vo
             FIELD_S32(motion, 0x14) = 0;
             FIELD_S32(motion, 0x10) = 0;
             FIELD_S32(motion, 0xC) = 0;
-            dungeonBeginActorDisplayAction(action, motion, actor, D_80175E90);
+            begin_actor_display_action(action, motion, actor, D_80175E90);
             return;
         }
         state = FIELD_U8(action, 0x9B);
@@ -107,9 +107,9 @@ void dungeonDecayMotionAndAlignActor(void *action, void *motion, void *actor, vo
         FIELD_S32(motion, 0x14) = 0;
         FIELD_S32(motion, 0x10) = 0;
         FIELD_S32(motion, 0xC) = 0;
-        dungeonSetRecordIntegerTileCenter(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)source - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        set_record_integer_tile_center(motion, FIELD_U8(actor, 0x24), FIELD_U8(actor, 0x25));
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)source - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
         FIELD_PTR(action, 0x8C) = D_801710EC;
         return;

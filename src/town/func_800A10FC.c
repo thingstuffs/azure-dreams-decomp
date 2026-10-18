@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Initialize the entity from its table entry and invoke its callback. */
-void townInitializeEntityFromTableAndCallback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state) {
+void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state) {
     u8 *table_page = (u8 *)0x80010000;
     s32 active;
     s32 init_flags;
@@ -13,7 +13,7 @@ void townInitializeEntityFromTableAndCallback(void *entity, func_800A10FC_S_8009
     u16 flags;
     u8 entry_type;
 
-    ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = townUpdateObjectPulseBrightness;
+    ((func_800A10FC_S_8009E85C_0_pre *)entity)[-1].unk_00 = update_object_pulse_brightness;
     ((Rec_func_80094268_arg0 *)entity)->unk_A0 = 0xFFE00000;
     placement->unk_08 = 0xFFE00000;
     ((Rec_func_80094268_arg0 *)entity)->unk_4C = table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4) + 0x980];
@@ -22,7 +22,7 @@ void townInitializeEntityFromTableAndCallback(void *entity, func_800A10FC_S_8009
     if (entry_type == 0x12) {
         state->unk_08 = &D_8006E240;
     } else {
-        townSetObjectStateForMode(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C,
+        set_object_state_for_mode(entity, state, ((Rec_func_80094268_arg0 *)entity)->unk_4C,
             ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(((Rec_func_80094268_arg0 *)entity)->unk_95 * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
@@ -34,7 +34,7 @@ void townInitializeEntityFromTableAndCallback(void *entity, func_800A10FC_S_8009
     state->unk_14.u = (u16)(flags | 0x1C);
     tail_entity = entity;
     if (active == 0) {
-        ((Rec_func_80094268_arg0 *)entity)->unk_6C.as_s16 = scaleRandomToUnsignedHalfwordLimit(0x1000);
+        ((Rec_func_80094268_arg0 *)entity)->unk_6C.as_s16 = scale_random_to_unsigned_halfword_limit(0x1000);
     } else {
         tail_entity->unk_6C = 0;
     }

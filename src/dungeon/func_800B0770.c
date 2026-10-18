@@ -4,10 +4,10 @@ extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 extern u8 D_800E3648[];
 
-extern s16 dungeonFindEntryAtTileCoordinates(s32, s32, s16);
+extern s16 find_entry_at_tile_coordinates(s32, s32, s16);
 
 /* Find a record in the given direction and clear bit 0x80 if bit 0x40 is unset. */
-s32 dungeonFindDirectionalEntryAndClearFlag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param) {
+s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param) {
     s32 offset_index;
     s32 direction_shift;
     u8 *offsets;
@@ -25,7 +25,7 @@ s32 dungeonFindDirectionalEntryAndClearFlag(s32 origin_x, s32 origin_y, u32 dire
     shifted_x = (*(u16 *)(offsets + offset_index) + origin_x) << 16;
     offsets_y = (u8 *)&D_8006CCE8;
     shifted_y = (*(u16 *)(offsets_y + offset_index) + origin_y) << 16;
-    record_index = dungeonFindEntryAtTileCoordinates(shifted_x >> 16, shifted_y >> 16, search_param);
+    record_index = find_entry_at_tile_coordinates(shifted_x >> 16, shifted_y >> 16, search_param);
     if (record_index >= 0) {
         table = D_800E3648;
         record = table + record_index * 4;

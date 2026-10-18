@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-void runtimeClearValue();                         /* extern */
-void runtimeUnlinkDoublyLinkedNode();                      /* extern */
-void unlinkActiveNode();                      /* extern */
+void runtime_clear_value();                         /* extern */
+void runtime_unlink_doubly_linked_node();                      /* extern */
+void unlink_active_node();                      /* extern */
 void func_80044A50();                      /* extern */
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
@@ -30,11 +30,11 @@ void func_800350D4(void *controller)
         u8 *object;
 
         if (U32AT(owner, 0x00) != 0)
-            runtimeClearValue(PPTR(U32AT(owner, 0x00)));
-        runtimeUnlinkDoublyLinkedNode(node);
+            runtime_clear_value(PPTR(U32AT(owner, 0x00)));
+        runtime_unlink_doubly_linked_node(node);
         object = owner - 32;
         func_80044A50(object);
-        unlinkActiveNode(object);
+        unlink_active_node(object);
         node = (u8 *)PPTR(U32AT(list_head, 0x08));
     }
 }

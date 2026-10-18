@@ -26,7 +26,7 @@ void func_80162F24(s32 unused, R10_80174F24_S_func_80AF3724_0 *origin, void *unu
         state->unk_1A = 0;
         angle = 0;
         do {
-            if (((gameWork.view.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
+            if (((g_game_work.view.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
                 state->unk_18 = angle;
             }
             angle += 0x200;

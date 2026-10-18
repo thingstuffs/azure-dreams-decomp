@@ -6,12 +6,12 @@ extern s32 D_804094EC;
 extern s32 D_80409500;
 extern s32 D_8009E390[];
 
-extern void func_804014E4(void);
+extern void invoke_callback_for_four_global_values(void);
 extern s32 func_80408644(s32 slot_index);
 extern s32 func_80408674(s32 selected_slot);
 
 /* Advances processing for the selected slot and sets its completion flag. */
-s32 mainAdvanceProcessingSelectedSlotSetsCompletionFlag(void) {
+s32 advance_processing_selected_slot_sets_completion_flag(void) {
     s32 status;
     u32 *slot_flag;
     s32 *completion_flag;
@@ -41,7 +41,7 @@ s32 mainAdvanceProcessingSelectedSlotSetsCompletionFlag(void) {
             status = 1;
         } else if (((func_80408644(0) & 1) != 0) ||
                    ((func_80408644(1) & 1) != 0)) {
-            func_804014E4();
+            invoke_callback_for_four_global_values();
             while (func_80408674(D_804094EC) == 0) {
             }
             D_80409500 = 0;

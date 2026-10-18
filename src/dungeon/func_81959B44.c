@@ -54,7 +54,7 @@ typedef struct S_81959B44_3 {
 } S_81959B44_3;
 
 /* Create sixteen objects in a ring around the given center with a scaled radius. */
-void *dungeonCreateRingObjectGroup(s16 center_x, s16 center_y, s16 center_z, s16 radius_scale) {
+void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 radius_scale) {
     s32 call_pad_4;
     s32 call_pad_6;
     s32 call_pad_8;

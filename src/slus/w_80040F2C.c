@@ -5,10 +5,10 @@ typedef void (*S_8006CE80_FuncPtr)(void);
 
 /* Struct pointed to by D_8006CE80[i].handler.
  * offset 0x0: funcs      - null-terminated array of no-arg callback function pointers (this func)
- * offset 0x4: unk4       - opaque pointer, forwarded verbatim to uploadVramEntryArray() (see uploadDispatchEntryVramRows)
- * offset 0x8: unk8       - opaque pointer, forwarded verbatim to decodeAndUploadImageArray() (see uploadDispatchEntryImages)
+ * offset 0x4: unk4       - opaque pointer, forwarded verbatim to upload_vram_entry_array() (see upload_dispatch_entry_vram_rows)
+ * offset 0x8: unk8       - opaque pointer, forwarded verbatim to decode_and_upload_image_array() (see upload_dispatch_entry_images)
  * offset 0xC: argList    - null-terminated array of pointers, each passed as the sole arg
- *                          to file_load_com() (see loadDispatchEntryFiles)
+ *                          to file_load_com() (see load_dispatch_entry_files)
  */
 typedef struct S_8006CE80_Handler {
     S_8006CE80_FuncPtr *funcs;
@@ -29,7 +29,7 @@ extern S_8006CE80 D_8006CE80[];
 
 
 /* Runs an entry's callbacks, returning 1 if the flag at D_80082E60.unk_0E is set after a call, otherwise 0. */
-s32 runDispatchEntryCallbacks(u16 entry_id)
+s32 run_dispatch_entry_callbacks(u16 entry_id)
 {
     S_8006CE80 *entry;
     S_8006CE80_Handler *handler;

@@ -7,7 +7,7 @@
 
 
 /* Returns the first slot (1-4) whose value passes func_8006A024, or zero. */
-s32 cardBootPollSoftwareEvents(void)
+s32 card_boot_poll_software_events(void)
 {
     s32 matching_slot = 0;
 

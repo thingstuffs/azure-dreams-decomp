@@ -51,11 +51,11 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
-void townQueueAdjacentShadedQuads(Func800AB788Arg *strip)
+void queue_adjacent_shaded_quads(Func800AB788Arg *strip)
 {
     Func800AB788Poly *poly;
     u8 *tpage;
-    GameWork *render_state_ptr = &gameWork;
+    GameWork *render_state_ptr = &g_game_work;
 
     if ((((u16)(strip->x0 + 0x20) < 0x181) &&
          ((u16)(strip->y0 + 0x20) < 0x121)) |

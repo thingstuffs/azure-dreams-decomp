@@ -14,7 +14,7 @@ typedef struct S_800945C4_1 {
 
 
 /* Store the value with bit 15 set in the indexed entry's linked record. */
-void dungeonSetLinkedActorPendingHalfword(s32 entry_index, s32 value) {
+void set_linked_actor_pending_halfword(s32 entry_index, s32 value) {
     s32 entry_offset;
     s32 table_base;
 

@@ -14,7 +14,7 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern void clearItemFlag400ForEggOne(void);
+extern void clear_item_flag_400_for_egg_one(void);
 extern DungeonGroup D_80073414[];
 
 typedef struct {
@@ -30,8 +30,8 @@ typedef struct S_800A6A9C_0 {
     DungeonItem * unk_0C;
 } S_800A6A9C_0;
 
-/* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clearItemFlag400ForEggOne. */
-void restoreItemFlag400Bitmap(void)
+/* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls clear_item_flag_400_for_egg_one. */
+void restore_item_flag_400_bitmap(void)
 {
     u8 *group;
     s32 bitmap_byte;
@@ -69,7 +69,7 @@ void restoreItemFlag400Bitmap(void)
         }
         group_index += 1;
     } while (group_index < 0x13);
-    clearItemFlag400ForEggOne();
+    clear_item_flag_400_for_egg_one();
 }
 
 /* MECHANISM: The 0x18 frame has only the $ra save; explicit clear_flag_mask/page locals

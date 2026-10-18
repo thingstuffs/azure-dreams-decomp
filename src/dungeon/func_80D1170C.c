@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f43f800_p02.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
-void dungeonMoveFadeAndAccelerateEffect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position)
+void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position)
 {
     s16 life_left;
     s32 red;

@@ -15,7 +15,7 @@ extern unsigned char D_80126A01[];
 extern struct Tbl D_801278B0[];
 
 /* Update entry flags from the global value and the entry's table threshold. */
-void townUpdateCatalogScrollAvailability(struct Ent *entry)
+void update_catalog_scroll_availability(struct Ent *entry)
 {
     unsigned char flags;
 

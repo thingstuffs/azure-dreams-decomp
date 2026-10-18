@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
-void *dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
+void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 record_addr;
     EntityRec *result;
@@ -84,10 +84,10 @@ void *dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 
 
                 if (((init_flags & ~3) << 16) == 0) {
                     if (!(result->flags14 & 0x200)) {
-                        state_flags = func_800A6D30();
+                        state_flags = generate_random_value();
                         if (state_flags & 1) {
-                            func_800A48F0(result, 1,
-                                (func_800A6D30() & 0x3F) | 0x20);
+                            set_or_clear_actor_status_slot(result, 1,
+                                (generate_random_value() & 0x3F) | 0x20);
                             kind = result->unk_48;
                             switch (kind) {
                             case 0xD:
@@ -120,12 +120,12 @@ void *dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 
 
         call_object = (s32)object;
         call_position = (s32)position;
-        func_800A9C18((void *)call_object, (void *)call_position, sprite,
+        initialize_actor_sprite_and_animation((void *)call_object, (void *)call_position, sprite,
             (s16)init_flags);
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9A = 0xFF;
         ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_9C = -1;
-        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = dungeonUpdateActorBehavior;
-        func_800AA36C((void *)record_addr, position, sprite, result);
+        ((T_80171D64_S_80171D64_4 *)((void *)record_addr))->unk_8C = update_actor_behavior;
+        try_move_actor_to_valid_position((void *)record_addr, position, sprite, result);
 
         kind = result->unk_48;
         switch (kind) {
@@ -146,7 +146,7 @@ void *dungeonCreateActorEntity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 
         }
         if (current_frames != frame_table) {
             (sprite->frameTable) = frame_table;
-            direction_index = ((gameWork.view.viewAngle + result->facing + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.viewAngle + result->facing + 0x100) >> 9) & 7;
             func_80047784(sprite,
                 *(u8 *)((u32)direction_index + (u32)frame_table),
                 0);

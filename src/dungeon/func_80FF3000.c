@@ -44,10 +44,10 @@ typedef struct S_80FF3000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern M2C_UNK D_80158A7C;
 extern M2C_UNK D_80158EA8;
 extern M2C_UNK D_8015C038;
@@ -55,13 +55,13 @@ extern M2C_UNK D_8015C088;
 
 
 
-void *dungeonCreateAndInitializesDungeonFlagsPlacementParameters(s16, s32, s32, s16)
+void *create_and_initializes_dungeon_flags_placement_parameters(s16, s32, s32, s16)
 #ifdef __mips__
 #endif
 ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
-void *dungeonCreateAndInitializesDungeonFlagsPlacementParameters(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
+void *create_and_initializes_dungeon_flags_placement_parameters(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
     u16 saved_value;
@@ -104,19 +104,19 @@ void *dungeonCreateAndInitializesDungeonFlagsPlacementParameters(s16 init_flags,
             config_value = init_flags & ~3;
             if ((config_value << 0x10) == 0) {
                 if (!(object_state->unk_14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
-                        func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(object_state, 1, (generate_random_value() & 0x3F) | 0x20);
                         placement->unk_2C = &D_8015C088;
                     }
                 }
             }
         }
-        func_800A9C18(object, base_data, placement, (s16)(s32) init_flags);
+        initialize_actor_sprite_and_animation(object, base_data, placement, (s16)(s32) init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_80158EA8;
-        func_800AA36C(extended_state, base_data, placement, object_state);
+        try_move_actor_to_valid_position(extended_state, base_data, placement, object_state);
     }
     return object_state;
 }

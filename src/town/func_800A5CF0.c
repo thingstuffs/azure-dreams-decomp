@@ -32,7 +32,7 @@ extern u8 D_800A34E0[];
 extern u8 D_800A3508[];
 
 /* Creates an object with copied input data, preset references, and an initial value. */
-void *townAllocateObjectWithInitialState(S_800A3450_2 *source_data, s16 initial_value)
+void *allocate_object_with_initial_state(S_800A3450_2 *source_data, s16 initial_value)
 {
     S_800A3450_0 *object;
     S_800A3450_1 *object_data;

@@ -32,14 +32,14 @@ extern S_80084960 D_80084960[];
 extern s32 D_800869B4[3];
 extern s32 D_800869B8[3];
 extern void func_80056E10(s32 a0, s32 a1, s32 a2);
-extern void audioSequenceNoteOff(s32 a0, s32 a1, s32 a2);
+extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
 extern void func_80057A48(s32 a0, s32 a1, s32 a2);
-extern void audioApplyChannelControl(s32 a0, s32 a1, s32 a2);
+extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);
 extern void func_8005845C(s32 a0, s32 a1);
 extern void func_8005848C(s32 a0, s32 a1);
-extern void soundSetSevenBitChannelValueAndNotify(s32 a0, s32 a1, s32 a2);
+extern void sound_set_seven_bit_channel_value_and_notify(s32 a0, s32 a1, s32 a2);
 /* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */
-void audioDispatchMidiEvent(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)
+void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)
 {
     s32 channel;
     u32 track_index;
@@ -49,7 +49,7 @@ void audioDispatchMidiEvent(S_80085FA8 *track_arg, s32 status, s32 first_data, s
     event_data = first_data;
     switch (status & 0xF0) {
     case 0x80:
-        audioSequenceNoteOff(channel, event_data & 0xFF, second_data & 0xFF);
+        audio_sequence_note_off(channel, event_data & 0xFF, second_data & 0xFF);
         return;
 
     case 0x90:
@@ -57,7 +57,7 @@ void audioDispatchMidiEvent(S_80085FA8 *track_arg, s32 status, s32 first_data, s
             func_80056E10(channel, event_data & 0xFF, second_data & 0xFF);
         }
         else {
-            audioSequenceNoteOff(channel, event_data & 0xFF, 0);
+            audio_sequence_note_off(channel, event_data & 0xFF, 0);
         }
         return;
 
@@ -124,11 +124,11 @@ void audioDispatchMidiEvent(S_80085FA8 *track_arg, s32 status, s32 first_data, s
                 }
             }
         }
-        audioApplyChannelControl(channel, event_data & 0xFF, second_data & 0xFF);
+        audio_apply_channel_control(channel, event_data & 0xFF, second_data & 0xFF);
         return;
 
     case 0xE0:
-        soundSetSevenBitChannelValueAndNotify(channel, event_data & 0xFF, second_data & 0xFF);
+        sound_set_seven_bit_channel_value_and_notify(channel, event_data & 0xFF, second_data & 0xFF);
         return;
 
     case 0xC0:

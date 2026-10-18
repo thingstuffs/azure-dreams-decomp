@@ -4,7 +4,7 @@ typedef unsigned int u32;
 extern u32 func_8001A250(s32, s32, s32, s32);
 
 /* Tests whether the computed value is below the squared threshold. */
-u32 func_8001A39C(s32 input_a, s32 input_b, s32 threshold, s32 input_d)
+u32 test_computed_value_below_squared(s32 input_a, s32 input_b, s32 threshold, s32 input_d)
 {
     s32 threshold_copy;
 

@@ -7,27 +7,27 @@ typedef struct S_800AEFD8_0 {
     void * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
-} S_800AEFD8_0;   /* object in townCreateItemMenuChildAtPosition */
+} S_800AEFD8_0;   /* object in create_item_menu_child_at_position */
 
 typedef struct S_800AEFD8_1 {
     u8 pad_00[0xD4];
     void * unk_D4;
     void * unk_D8;
-} S_800AEFD8_1;   /* payload in townCreateItemMenuChildAtPosition */
+} S_800AEFD8_1;   /* payload in create_item_menu_child_at_position */
 
 extern void *func_8003FD64(s32 value, void *parent);
-extern s32 townLoadItemMenuDisplayResource(void *payload, s32 value);
-extern void *townLinkItemMenuDisplayEntries(void *value);
-extern void townInitializeItemMenuListDisplay(void *payload, void *parent, s32 resource_id, s32 resource_data,
+extern s32 load_item_menu_display_resource(void *payload, s32 value);
+extern void *link_item_menu_display_entries(void *value);
+extern void initialize_item_menu_list_display(void *payload, void *parent, s32 resource_id, s32 resource_data,
                           s32 x, s32 y, s32 context);
 extern void func_8004491C(void *object, void *callback);
 extern void func_8004B248(void *address);
 extern void func_8004CAA0(void);
-extern void townAdvanceItemMenuObjectAnimation(void);
+extern void advance_item_menu_object_animation(void);
 
 
 /* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */
-void *townCreateItemMenuChildAtPosition(void *parent, s32 x, s32 y, s32 resource_id,
+void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resource_id,
                     s32 resource_data, s32 context)
 {
     void *object;
@@ -36,16 +36,16 @@ void *townCreateItemMenuChildAtPosition(void *parent, s32 x, s32 y, s32 resource
     object = func_8003FD64(0, parent);
     if (object != 0) {
         payload = (u8 *)object + 0x20;
-        if (townLoadItemMenuDisplayResource(payload, 0x1A) != 0) {
+        if (load_item_menu_display_resource(payload, 0x1A) != 0) {
             ((S_800AEFD8_0 *)object)->unk_0C = (u8 *)object + 0xE8;
-            payload->unk_D4 = townLinkItemMenuDisplayEntries(payload->unk_D8);
-            townInitializeItemMenuListDisplay(payload, parent, resource_id, resource_data, x, y, context);
+            payload->unk_D4 = link_item_menu_display_entries(payload->unk_D8);
+            initialize_item_menu_list_display(payload, parent, resource_id, resource_data, x, y, context);
             func_8004491C(object, func_8004CAA0);
-            ((S_800AEFD8_0 *)object)->unk_10 = townAdvanceItemMenuObjectAnimation;
+            ((S_800AEFD8_0 *)object)->unk_10 = advance_item_menu_object_animation;
         } else {
             func_8004B248((u8 *)object + 0xFC);
             ((S_800AEFD8_0 *)object)->unk_1E |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             object = 0;
         }
     }

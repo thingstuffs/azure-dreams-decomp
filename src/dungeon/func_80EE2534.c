@@ -10,16 +10,16 @@ typedef struct S_80173D34_0 {
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173D34_0;   /* arg0 in dungeonAdvanceActorTimedTransition */
+} S_80173D34_0;   /* arg0 in advance_actor_timed_transition */
 
 
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
-void dungeonAdvanceActorTimedTransition(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *actor, EntityRec *entity_data)
+void advance_actor_timed_transition(S_80173D34_0 *controller, EntityRec *motion, Rec_D_80082E80 *actor, EntityRec *entity_data)
 {
     s32 state;
     s32 timer_signed;
@@ -30,7 +30,7 @@ void dungeonAdvanceActorTimedTransition(S_80173D34_0 *controller, EntityRec *mot
     state = controller->unk_9B;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity_data);
+        apply_clamped_actor_value_delta(entity_data);
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         controller->unk_9B++;
@@ -39,7 +39,7 @@ void dungeonAdvanceActorTimedTransition(S_80173D34_0 *controller, EntityRec *mot
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(controller, motion, actor, 0);
+            begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
         if (actor->unk_14.at00_u16.v & 0x8000) {
@@ -69,7 +69,7 @@ void dungeonAdvanceActorTimedTransition(S_80173D34_0 *controller, EntityRec *mot
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(controller, motion, actor, 0);
+            begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
         controller->unk_96.s = 1;
@@ -85,10 +85,10 @@ void dungeonAdvanceActorTimedTransition(S_80173D34_0 *controller, EntityRec *mot
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, actor->unk_24, actor->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
 
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity_data - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity_data - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
         controller->unk_8C = &D_80171CE8;
 

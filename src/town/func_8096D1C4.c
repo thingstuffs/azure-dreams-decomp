@@ -3,7 +3,7 @@
 extern u8 D_801269F8[];
 
 /* Decrease the shared byte by four and enter state eight when its low nibble clears. */
-void townScrollCatalogTextUp(void *controller) {
+void scroll_catalog_text_up(void *controller) {
     u8 *state = D_801269F8;
 
     state[9] -= 4;

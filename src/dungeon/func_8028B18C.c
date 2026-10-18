@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void populateFloorItemRecords(void)
+void populate_floor_item_records(void)
 {
     u8 tile_x;
     u8 tile_y;
@@ -26,7 +26,7 @@ void populateFloorItemRecords(void)
         item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
         do {
             if (item_state->unk_00 != 0) {
-                func_8009A21C(saved_record->x, saved_record->y, 0x800);
+                cycle_map_cell_flags(saved_record->x, saved_record->y, 0x800);
             }
             saved_record++;
             count++;
@@ -39,43 +39,43 @@ void populateFloorItemRecords(void)
     *(u16 *)(setup_globals + 0x3626) = *(u16 *)(setup_globals + 0x3624);
     *(u16 *)(setup_globals + 0x209E) = *(u16 *)(setup_globals + 0x209C);
     ((s8 *)D_8001F6F0)[0] = 0;
-    *(u16 *)(setup_globals + 0x3626) += (func_800A6D30() & 3) + 0x33;
-    *(u16 *)(setup_globals + 0x209E) += (func_800A6D30() & 3) + 0x33;
+    *(u16 *)(setup_globals + 0x3626) += (generate_random_value() & 3) + 0x33;
+    *(u16 *)(setup_globals + 0x209E) += (generate_random_value() & 3) + 0x33;
 
     if (D_80081468[3] == 1) {
         s32 limit_roll;
 
         crystal_pending = 0;
-        limit_roll = func_800A6D30() & 7;
+        limit_roll = generate_random_value() & 7;
         slot_limit = limit_roll + 8;
     } else {
         s32 limit_roll;
         s32 base_limit;
 
         crystal_pending = 0;
-        limit_roll = func_800A6D30() & 3;
+        limit_roll = generate_random_value() & 3;
         base_limit = (s16)D_80081468[3] / 2;
         slot_limit = base_limit + limit_roll;
     }
 
-    if ((func_800A6D30() & 3) == 0) {
+    if ((generate_random_value() & 3) == 0) {
         crystal_pending = *(s16 *)0x8001209E >= 0x101;
     }
     category18_pending = 0;
-    if ((func_800A6D30() & 3) == 0) {
+    if ((generate_random_value() & 3) == 0) {
         category18_pending = *(s16 *)0x80013626 >= 0x101;
     }
 
     if (*(s32 *)0x80012090 == 0) {
-        spawn_check = func_800A6928(6, 3);
+        spawn_check = count_matching_packed_entity_keys(6, 3);
         if ((s16)spawn_check < 2) {
-            if ((func_800A6D30() & 3) == 0) {
-                spawn_index = (s16)func_800A71F4();
+            if ((generate_random_value() & 3) == 0) {
+                spawn_index = (s16)find_first_empty_floor_item_slot();
                 if (spawn_index >= 0) {
                     do {
                         do {
-                        } while ((s16)selectDungeonSpawnTile(&tile_x, &tile_y) < 0);
-                    } while (isFloorItemTileOccupied(spawn_index, tile_x, tile_y) != 0);
+                        } while ((s16)select_dungeon_spawn_tile(&tile_x, &tile_y) < 0);
+                    } while (is_floor_item_tile_occupied(spawn_index, tile_x, tile_y) != 0);
 
                     {
                         s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
@@ -84,7 +84,7 @@ void populateFloorItemRecords(void)
                     spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
                     spawn_records[spawn_index].x = tile_x;
                     spawn_records[spawn_index].y = tile_y;
-                    func_8009A21C(spawn_records[spawn_index].x,
+                    cycle_map_cell_flags(spawn_records[spawn_index].x,
                                   spawn_records[spawn_index].y, 0x800);
                 }
             }
@@ -102,14 +102,14 @@ main_loop:
             goto cleanup;
         }
 
-        found_status = (s16)selectFloorItemWithSpecialOverrides(&item_category, &item_subtype, 0, 0);
+        found_status = (s16)select_floor_item_with_special_overrides(&item_category, &item_subtype, 0, 0);
         if (found_status != 0 || item_category != 0) {
             if (found_status == 0) {
                 special_flag = crystal_pending;
                 if (special_flag != 0) {
                     s32 page_value;
 
-                    page_value = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
+                    page_value = ((generate_random_value() & 0xF) == 0) ? 2 : 1;
                     item_subtype = page_value;
                     crystal_pending = 0;
                     page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
@@ -122,7 +122,7 @@ main_loop:
                         u32 item_flags;
 
                         item_category = 0x12;
-                        item_subtype = D_800DDC9C[func_800A6D30() & 0x1F];
+                        item_subtype = D_800DDC9C[generate_random_value() & 0x1F];
                         item_flags = item_category_table[18].entries[item_subtype].flags;
                         if ((item_flags & 0x10) != 0 &&
                             (item_category_table[19].entries[item_subtype].flags & 0x80) != 0 &&
@@ -137,32 +137,32 @@ main_loop:
 
             item_state->kind = item_category;
             item_state->unk_00 = item_subtype;
-            initRandomFloorItemParameters(item_state);
+            init_random_floor_item_parameters(item_state);
 
             do {
-            } while ((s16)selectDungeonSpawnTile(&tile_x, &tile_y) < 0);
+            } while ((s16)select_dungeon_spawn_tile(&tile_x, &tile_y) < 0);
 
-            if (isFloorItemTileOccupied(count, tile_x, tile_y) != 0) {
+            if (is_floor_item_tile_occupied(count, tile_x, tile_y) != 0) {
                 item_state->kind = 0;
             } else {
                 item_record->x = tile_x;
                 item_record->y = tile_y;
-                item_record->field4 = dungeonGetSurfaceHeightAtCoordinates((tile_x << 6) | 0x20,
+                item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
                                                     (tile_y << 6) | 0x20);
                 item_record->field7 = 0;
-                func_8009A21C(tile_x, tile_y, 0x800);
-                item_record->field8 = func_800A7A38(item_state);
+                cycle_map_cell_flags(tile_x, tile_y, 0x800);
+                item_record->field8 = get_item_category_value(item_state);
             }
         }
     } else {
         tile_x = item_record->x;
         tile_y = item_record->y;
-        initRandomFloorItemParameters(item_state);
-        item_record->field4 = dungeonGetSurfaceHeightAtCoordinates((tile_x << 6) | 0x20,
+        init_random_floor_item_parameters(item_state);
+        item_record->field4 = get_surface_height_at_coordinates((tile_x << 6) | 0x20,
                                             (tile_y << 6) | 0x20);
         item_record->field7 = 0;
-        func_8009A21C(tile_x, tile_y, 0x800);
-        item_record->field8 = func_800A7A38(item_state);
+        cycle_map_cell_flags(tile_x, tile_y, 0x800);
+        item_record->field8 = get_item_category_value(item_state);
     }
 
     item_state++;
@@ -187,7 +187,7 @@ cleanup_loop:
             goto cleanup_loop;
         }
     }
-    generateRandomDungeonItemDrops();
+    generate_random_dungeon_item_drops();
 
     return;
 }

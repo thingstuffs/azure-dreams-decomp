@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e71d800.h"
 
-s32 func_80024C7C(void *node_data) {
+s32 render_linked_jittered_effect_strips(void *node_data) {
     for (;;) {
         Row_818E747C_Point3 world_points[5];
         s16 depths[8];
@@ -27,7 +27,7 @@ s32 func_80024C7C(void *node_data) {
         void *next_node;
 
         node = node_data;
-        global_base = &gameWork;
+        global_base = &g_game_work;
         world_base = world_points;
         screen_base = screen_points;
         strip_base = strip_points;

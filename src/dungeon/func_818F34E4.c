@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19134e4.h"
 
-void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused) {
+void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused) {
     s16 initialized;
     s16 fade_ticks;
     s16 height_limit;
@@ -20,7 +20,7 @@ void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_
     Row_818F34E4_S_80024CE4_0 *view_state;
 
     D_800259AC = 1;
-    global_state = ((void *)&gameWork.view);
+    global_state = ((void *)&g_game_work.view);
     view_state = (u8 *) global_state + 0xB8;
     initialized = (*(s16 *)((u8 *)effect + 0));
     init_or_snapshot = (void *) (u32) (*(u16 *)((u8 *)effect + 0));
@@ -74,7 +74,7 @@ void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_
     height_offset = wave_height * 2;
     (*(s32 *)((u8 *)transform + 8)) = height_offset;
     (*(s32 *)((u8 *)transform + 8)) = (s32) (height_offset + (*(s32 *)((u8 *)effect + 0x40)));
-    height_limit = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);
+    height_limit = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
     if (height_limit < (*(s16 *)((u8 *)transform + 0xA))) {
         (*(s16 *)((u8 *)transform + 0xA)) = height_limit;
     }
@@ -84,7 +84,7 @@ void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_
             view_state->unk_20 = ((u8 *)(&D_80083780));
         }
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

@@ -61,17 +61,17 @@ typedef struct ColorPart {
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
-extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s32, s32);
-extern u16 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+extern s32 check_layer_offset_height(s32, s32, s32, s32);
+extern u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void func_80025344(EffectState *, Motion *);
-extern void dungeonAdvanceGrayscaleFade(EffectState *, Motion *);
-extern void func_800A56E0(s32);
-extern void func_80024024(void *, u8, void *);
+extern void advance_grayscale_fade(EffectState *, Motion *);
+extern void play_sound_if_enabled(s32);
+extern void interpolate_view_parameters(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(EffectState *state, Motion *motion, register ColorPart *part) {
+s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(EffectState *state, Motion *motion, register ColorPart *part) {
     void *owner;
     u8 *color_part = (u8 *)part;
     void *owner_meta;
@@ -117,7 +117,7 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
     case 1:
     owner_meta = (u8 *)owner - 0x20;
     owner_node = PTR_AT(owner_meta, 0xC);
-    if (!resolveRecordOrientationOrFallback(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
+    if (!resolve_record_orientation_or_fallback(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
         if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
             break;
         }
@@ -197,19 +197,19 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
         while (index < 8) {
             grid_x = (s16)tile_x;
             grid_y = (s16)tile_y;
-            if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0,
+            if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0,
                                    (grid_y << 6) & 0xFFC0,
                                    S16_AT(owner, 0x88),
                                    (s16)(state->direction << 9)) != 0) {
                 break;
             }
-            table_x_entry = (Position16 *)&dirStepX[state->direction];
+            table_x_entry = (Position16 *)&dir_step_x[state->direction];
             probe_z = U16_AT(owner, 0x88);
             probe_z -= 0x20;
             probe_z = (u32)probe_z << 16;
             probe_z >>= 16;
-            table_y_entry = &dirStepY[state->direction];
-            ground_z = func_800BCB04(
+            table_y_entry = &dir_step_y[state->direction];
+            ground_z = sample_terrain_surface_height(
                 ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
                 ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
                 probe_z);
@@ -217,8 +217,8 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
                 break;
             }
             index++;
-            tile_x += dirStepX[state->direction];
-            tile_y += dirStepY[state->direction];
+            tile_x += dir_step_x[state->direction];
+            tile_y += dir_step_y[state->direction];
             end_tile_y = tile_y;
             end_tile_x = tile_x;
         }
@@ -226,9 +226,9 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
         target_pos = (void *)((Position16 *)&work.destination);
         index = 1;
         color_part = (u8 *)&work.destination + 2;
-        dest_x = ((end_tile_x << 16) >> 10) + ((dirStepX[state->direction] + 1) << 5);
+        dest_x = ((end_tile_x << 16) >> 10) + ((dir_step_x[state->direction] + 1) << 5);
         ((Position16 *)target_pos)->x = dest_x;
-        dest_y = ((end_tile_y << 16) >> 10) + ((dirStepY[state->direction] + 1) << 5);
+        dest_y = ((end_tile_y << 16) >> 10) + ((dir_step_y[state->direction] + 1) << 5);
         ((Position16 *)target_pos)->y = dest_y;
         ((Position16 *)target_pos)->z = S16_AT(motion, 0xA) + 0x20;
         work.probe_delta[0] = abs(((Position16 *)target_pos)->x - S16_AT(motion, 2));
@@ -249,7 +249,7 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
         motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
         motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
         motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
-        dungeonAdvanceGrayscaleFade(state, motion);
+        advance_grayscale_fade(state, motion);
         next_state = 6;
     }
     state->state = next_state;
@@ -263,7 +263,7 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
     if (state->timer < state->duration) {
         break;
     }
-    func_800A56E0(0x300);
+    play_sound_if_enabled(0x300);
     state->state++;
     state->timer = 0;
     break;
@@ -280,7 +280,7 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
     if (state->timer < 0x30) {
         break;
     }
-    func_80024024(PTR_AT(owner, 0x60), state->id, owner);
+    interpolate_view_parameters(PTR_AT(owner, 0x60), state->id, owner);
     state->state++;
     state->timer = 0;
     break;
@@ -289,9 +289,9 @@ s32 dungeonAdvanceAnEffectTowardTargetAlongFacingDirectionHandleTimedStates(Effe
     if (state->done != 0) {
         break;
     }
-    dungeonStatus.unk_0C = 0;
+    g_dungeon_status.unk_0C = 0;
     U16_AT(state, -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
     break;
 
     case 6:

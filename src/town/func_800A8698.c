@@ -14,7 +14,7 @@ typedef struct S_800A5DF8_0 {
 
 typedef struct S_800A5DF8_1 {
     u8 unk_00;
-} S_800A5DF8_1;   /* &D_800CFCEF in townUpdateActorEffectTransition */
+} S_800A5DF8_1;   /* &D_800CFCEF in update_actor_effect_transition */
 
 typedef struct S_800A5DF8_4 {
     void * unk_00;
@@ -24,22 +24,22 @@ typedef struct S_800A5DF8_4 {
 } S_800A5DF8_4;
 
 
-s32 townReadMapCellAtWorldPosition();                        /* extern */
-s16 townStepAngle12Toward();           /* extern */
-void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
-void townAddHex20000SSignedOffsetHex14();                 /* extern */
-void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();                 /* extern */
-s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
-void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
-s32 townComputeHeightBasedOffset();                          /* extern */
-void townInitializeEffectAndAdjustValue();                         /* extern */
-s32 townCheckMaskedValueInCurrentRange();                             /* extern */
+s32 read_map_cell_at_world_position();                        /* extern */
+s16 step_angle_12_toward();           /* extern */
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
+void add_hex_20000_s_signed_offset_hex_14();                 /* extern */
+void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();                 /* extern */
+s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
+void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
+s32 compute_height_based_offset();                          /* extern */
+void initialize_effect_and_adjust_value();                         /* extern */
+s32 check_masked_value_in_current_range();                             /* extern */
 extern u8 D_800CFCEF;
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void townUpdateActorEffectTransition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
+void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
     s16 threshold;
     s32 offset_step;
     s16 angle;
@@ -48,26 +48,26 @@ void townUpdateActorEffectTransition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s
     register GameWork *scene_state;
     register u8 *effect_data;
 
-    scene_state = &gameWork;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(actor);
+    scene_state = &g_game_work;
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
     effect_data = ((u8 *)&D_800FE488);
-    threshold = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(actor, effect_data);
+    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
     if (actor->unk_0A >= threshold) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(actor, threshold, effect_data);
+        compute_and_clamps_vector_based_adjustment_updates_town(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
         actor->unk_14 = 0;
-        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(actor);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(actor);
     } else {
-        townAddHex20000SSignedOffsetHex14(actor);
+        add_hex_20000_s_signed_offset_hex_14(actor);
     }
 
-    if (townCheckMaskedValueInCurrentRange(townReadMapCellAtWorldPosition(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
-        offset_step = actor->unk_14 - townComputeHeightBasedOffset(actor);
+    if (check_masked_value_in_current_range(read_map_cell_at_world_position(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
+        offset_step = actor->unk_14 - compute_height_based_offset(actor);
         actor->unk_14 = offset_step;
     }
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(actor);
-    angle = townStepAngle12Toward(scene_state->view.viewAngle, 0, 0x80);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
+    angle = step_angle_12_toward(scene_state->view.viewAngle, 0, 0x80);
     scene_state->view.viewAngle = angle;
     if ((angle & 0xFFF) < 0x80) {
         scene_state->view.viewAngle = 0;
@@ -92,7 +92,7 @@ void townUpdateActorEffectTransition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s
     if ((state->unk_0A.u == 0) &&
         (scene_state->view.viewAngle == 0)) {
         if (state->unk_08 != 0) {
-            townInitializeEffectAndAdjustValue(state, actor, context);
+            initialize_effect_and_adjust_value(state, actor, context);
         } else {
             state->unk_0A.u = 0;
             state->unk_00 = D_800A5FDC;

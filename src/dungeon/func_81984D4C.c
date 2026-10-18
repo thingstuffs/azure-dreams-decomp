@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void dungeonClearObjectBufferAndState(void *tracker) {
+void clear_object_buffer_and_state(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     ovl_19a332c_81984D4C_S_81984D4C_2 *target;
@@ -9,7 +9,7 @@ void dungeonClearObjectBufferAndState(void *tracker) {
     u8 *z_pending;
 
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
-    state = &gameWork.view;
+    state = &g_game_work.view;
     if (blend_ticks > 0) {
         state->unk_098 = (u16) ((u16)state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26))
             - state->unk_098) / blend_ticks);

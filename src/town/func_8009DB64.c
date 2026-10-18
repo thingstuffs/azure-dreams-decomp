@@ -24,8 +24,8 @@ typedef struct {
     TownVtable *vtable;
 } TownObject;
 
-extern void townInitializeTargetMotionState(TownObject *object, void *owner, void *context, void *extra_ptr);
-extern void townInitializeTargetMotion(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void initialize_target_motion_state(TownObject *object, void *owner, void *context, void *extra_ptr);
+extern void initialize_target_motion(TownObject *object, void *owner, void *context, void *extra_ptr);
 
 extern s32 D_800834B8;
 extern u8 D_80091F64[];
@@ -42,16 +42,16 @@ extern s32 D_800CFDD8[];
 typedef struct S_8009B2C4_0 {
     u8 pad_00[0x3A];
     u8 unk_3A;
-} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in townDispatchActiveTownObjectScript */
+} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in dispatch_active_town_object_script */
 
 typedef struct S_8009B2C4_1 {
     u8 pad_00[0x3A];
     u8 unk_3A;
-} S_8009B2C4_1;   /* entry in townDispatchActiveTownObjectScript */
+} S_8009B2C4_1;   /* entry in dispatch_active_town_object_script */
 
 
 /* Dispatches town object actions for the active script and owner state. */
-s32 townDispatchActiveTownObjectScript(TownObject *object, void *owner, void *context, void *extra_ptr) {
+s32 dispatch_active_town_object_script(TownObject *object, void *owner, void *context, void *extra_ptr) {
     TownControl *control;
     TownControl *control_page;
     TownControl *owner_control;
@@ -71,12 +71,12 @@ s32 townDispatchActiveTownObjectScript(TownObject *object, void *owner, void *co
                 }
             }
             if (D_800834B8 == (s32)&D_80092698) {
-                townInitializeTargetMotionState(object, owner, context, extra_ptr);
+                initialize_target_motion_state(object, owner, context, extra_ptr);
                 return 1;
             }
             if (D_800834B8 == (s32)&D_800927EC) {
                 if (D_800CFCCC == 0) {
-                    townInitializeTargetMotion(object, owner, context, extra_ptr);
+                    initialize_target_motion(object, owner, context, extra_ptr);
                     return 1;
                 }
             }

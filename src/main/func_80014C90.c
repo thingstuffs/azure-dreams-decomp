@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void slusSetObjectCleanupFlag(s32);
-extern void cardBootMarkObjectComplete(s32);
-extern void func_800A6104(void);
+extern void set_object_cleanup_flag(s32);
+extern void card_boot_mark_object_complete(s32);
+extern void configure_shared_fade_primitive(void);
 extern s32 D_800814A0;
 
 typedef struct {
@@ -16,13 +16,13 @@ typedef struct {
 } Struct80014C90;
 
 /* Process the entry's values and set its local and global status flags. */
-void cardBootDestroyCardChooser(Struct80014C90 *entry) {
+void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
     Struct80014C90 *entry_data = (Struct80014C90 *)((s8 *)entry + 0x20);
 
-    slusSetObjectCleanupFlag(entry_data->unk20);
-    cardBootMarkObjectComplete(entry_data->unk24);
+    set_object_cleanup_flag(entry_data->unk20);
+    card_boot_mark_object_complete(entry_data->unk24);
     if (entry->unk20 == 2) {
-        func_800A6104();
+        configure_shared_fade_primitive();
     }
     entry->unk1E |= 0x8000;
     D_800814A0 |= 0x8000;

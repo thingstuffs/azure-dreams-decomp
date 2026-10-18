@@ -80,18 +80,18 @@ typedef struct {
 extern u8 D_800DEA68[];
 extern u8 D_800D7D30[];
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern DungeonObject *func_8003FD64(s32, void *);
 extern void func_8004491C(DungeonObject *, void *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 /* Updates the effect position, spawns eight objects per tick, and expires after a delay. */
-void dungeonUpdateRadialEffect(DungeonState *effect) {
+void update_radial_effect(DungeonState *effect) {
     u16 position_offset[3];
 
     {
         TileObject *position_table = &D_80082E80;
-        if (resolveRecordOrientationOrFallback(position_table->unk_008, position_table, position_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(position_table->unk_008, position_table, position_offset, 0) != 0) {
             effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
             effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
             effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;
@@ -100,7 +100,7 @@ void dungeonUpdateRadialEffect(DungeonState *effect) {
 
     switch (effect->state) {
     case 0:
-        func_800A56E0(0x600);
+        play_sound_if_enabled(0x600);
         effect->timer = 0x3C;
         effect->state += 1;
 
@@ -108,7 +108,7 @@ void dungeonUpdateRadialEffect(DungeonState *effect) {
     {
         s32 spawn_index = 7;
         u8 *object_data = D_800D7D30;
-        DungeonGlobalStatus *object_counter = &dungeonStatus;
+        DungeonGlobalStatus *object_counter = &g_dungeon_status;
         DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
         do {
@@ -159,9 +159,9 @@ void dungeonUpdateRadialEffect(DungeonState *effect) {
         u16 ticks_left = effect->timer - 1;
         effect->timer = ticks_left;
         if ((s16)ticks_left <= 0) {
-            ((DungeonCounter *)((u8 *)(&dungeonStatus)))->count -= 1;
+            ((DungeonCounter *)((u8 *)(&g_dungeon_status)))->count -= 1;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
+            *(u32 *)((u8 *)(&object_flag_block)) |= 0x8000;
         }
     }
         return;

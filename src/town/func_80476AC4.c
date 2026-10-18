@@ -10,7 +10,7 @@ typedef struct {
 extern D_80019BB0_t D_80019BB0;
 
 /* Set state 4 and return whether check 0x3FE fails or check 0x3FF succeeds. */
-s32 townSetStateFourAndCheckConditions(void) {
+s32 set_state_four_and_check_conditions(void) {
     s32 result;
     s32 ret;
 

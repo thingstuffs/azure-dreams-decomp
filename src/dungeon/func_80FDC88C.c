@@ -7,16 +7,16 @@
 
 void func_80047784();         /* extern */
 typedef struct Ent Ent;
-Ent *dungeonPrepareDirectionalAttack(); /* extern */
-s32 func_800A2B5C();                          /* extern */
-s32 dungeonApplyCameraOffsetAndSelectTarget(); /* extern */
+Ent *prepare_directional_attack(); /* extern */
+s32 try_claim_dungeon_action_slot();                          /* extern */
+s32 apply_camera_offset_and_select_target(); /* extern */
 extern u8 D_80174038[];
 
 /* Updates the actor's action state and directional animation when it can act. */
-void dungeonUpdateEligibleActorActionAlt(void *action_state, s32 context, void *sprite, void *actor) {
+void update_eligible_actor_action_alt(void *action_state, s32 context, void *sprite, void *actor) {
     ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)
-        && (dungeonApplyCameraOffsetAndSelectTarget(actor - 0x20, context, 8, 0x300), ((func_800A2B5C(actor) << 0x10) == 0))) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)
+        && (apply_camera_offset_and_select_target(actor - 0x20, context, 8, 0x300), ((try_claim_dungeon_action_slot(actor) << 0x10) == 0))) {
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         if (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000) {
@@ -38,10 +38,10 @@ void dungeonUpdateEligibleActorActionAlt(void *action_state, s32 context, void *
             ((EntityRec *)actor)->unk_85 = 8;
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_80174038;
-        func_80047784(sprite, D_80174038[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+        func_80047784(sprite, D_80174038[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((EntityRec *)actor)->unk_6D = (u8) (((u8)((EntityRec *)actor)->unk_6D) - 1);
-        dungeonPrepareDirectionalAttack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
+        prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
         if (!(((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)) {
             ((EntityRec *)actor)->flags1C = (s32) (((EntityRec *)actor)->flags1C & 0xFEFFFFFF);
         }

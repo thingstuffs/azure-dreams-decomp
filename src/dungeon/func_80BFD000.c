@@ -40,7 +40,7 @@ typedef struct S_80BFD000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80BFD000_4;   /* actor in dungeonCreateDungeonActor */
+} S_80BFD000_4;   /* actor in create_dungeon_actor */
 
 
 
@@ -50,16 +50,16 @@ typedef struct S_80BFD000_4 {
 extern u8 D_8015EA58[];
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern M2C_UNK D_8015F014;
 extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;
 
 /* Create a dungeon actor and initialize its placement, flags, and behavior. */
-void *dungeonCreateDungeonActor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
+void *create_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     s32 unused_byte_neg_ba0;
     s32 unused_byte_21d8;
     s32 kind_or_bits;
@@ -110,21 +110,21 @@ void *dungeonCreateDungeonActor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spa
                 query_object = object;
                 if (!(actor_state->unk_14 & 0x200)) {
                     query_attributes = attributes;
-                    kind_or_bits = func_800A6D30();
+                    kind_or_bits = generate_random_value();
                     if (kind_or_bits & 1) {
-                        func_800A48F0(actor_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
                         placement->unk_2C = &D_8016225C;
                     }
                 }
             }
         }
-        func_800A9C18(object, attributes, placement, spawn_flags);
+        initialize_actor_sprite_and_animation(object, attributes, placement, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015F014;
         actor_state->unk_1C = (s32) (actor_state->unk_1C | 0x40000);
         actor->unk_92 = -0x20;
-        func_800AA36C(actor, attributes, placement, actor_state);
+        try_move_actor_to_valid_position(actor, attributes, placement, actor_state);
     }
     return actor_state;
 }

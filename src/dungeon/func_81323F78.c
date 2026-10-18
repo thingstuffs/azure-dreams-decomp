@@ -19,49 +19,49 @@ typedef struct S_8016B778_2 {
     s8 unk_26;
     u8 pad_27[0x5];
     union { u8 * p; void * p2; } unk_2C;   /* accessed as both */
-} S_8016B778_2;   /* arg2 in dungeonUpdateMainActorActionAndFacing */
+} S_8016B778_2;   /* arg2 in update_main_actor_action_and_facing */
 
 typedef struct S_8016B778_3 {
     u8 pad_00[0x58];
     s32 unk_58;
-} S_8016B778_3;   /* *D_800814A8 in dungeonUpdateMainActorActionAndFacing */
+} S_8016B778_3;   /* *D_800814A8 in update_main_actor_action_and_facing */
 
 typedef struct S_8016B778_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
-} S_8016B778_4;   /* global_814A8 in dungeonUpdateMainActorActionAndFacing */
+} S_8016B778_4;   /* global_814A8 in update_main_actor_action_and_facing */
 
 typedef struct S_8016B778_5 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_8016B778_5;   /* entry in dungeonUpdateMainActorActionAndFacing */
+} S_8016B778_5;   /* entry in update_main_actor_action_and_facing */
 
 extern u8 D_801746A4[];
 extern u8 D_80174684[];
 extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u8 D_8016B778[];
-s8 func_8009FB34();
-s32 dungeonCompareMonsterNeighborValues();
-s32 func_800A1C58();
-void func_800A9A0C();
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-s32 dungeonBeginReadyActorDirectionalAction();
-void func_800AA888();
-s32 dungeonResetActorActionState();
-void dungeonBeginActorSpellAction();
-void dungeonAdvanceEntityAlongPath();
-void advanceActorPath();
+s8 find_active_rect_containing_point();
+s32 compare_monster_neighbor_values();
+s32 can_entity_gain_level();
+void update_actor_status_and_food();
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+s32 begin_ready_actor_directional_action();
+void begin_actor_move_to_target_facing();
+s32 reset_actor_action_state();
+void begin_actor_spell_action();
+void advance_entity_along_path();
+void advance_actor_path();
 s32 func_8016C720();
-void dungeonClearActorFlagAndAdvanceAction();
-s32 dungeonDispatchActorActionPhase();
+void clear_actor_flag_and_advance_action();
+s32 dispatch_actor_action_phase();
 M2C_UNK func_8016DAA4();
-s32 dungeonExecuteActorScriptCommand();
+s32 execute_actor_script_command();
 extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
 /* Update the actor's dungeon action, animation, and facing direction. */
-void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 context, S_8016B778_2 *map_actor, EntityRec *entity) {
+void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 context, S_8016B778_2 *map_actor, EntityRec *entity) {
     u16 target_distance;
     s32 entity_flags;
     s32 state_flags;
@@ -78,9 +78,9 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
     u8 *tile_table;
     u8 *tile_entry;
     u8 *active_actor;
-    if (dungeonStatus.flags & 0x1000) {
+    if (g_dungeon_status.flags & 0x1000) {
         actor->unk_9A.as_u8 = 0xEU;
-        dungeonAdvanceEntityAlongPath(actor, context, map_actor, entity);
+        advance_entity_along_path(actor, context, map_actor, entity);
         return;
     }
     if (entity->flags1C & 0x200) {
@@ -92,16 +92,16 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
             entity->flags1C &= flag_mask_hi | 0xFFFF;
             return;
         }
-        if (dungeonResetActorActionState(actor, context, map_actor, &D_8017469C) != 0) {
+        if (reset_actor_action_state(actor, context, map_actor, &D_8017469C) != 0) {
             return;
         }
     }
-    if (!(dungeonStatus.flags & 0x2000)) {
+    if (!(g_dungeon_status.flags & 0x2000)) {
         state_flags = entity->flags1C;
         override_flag = state_flags & 0x100;
         action_actor = actor;
         if (override_flag) {
-            dungeonBeginPushedActorMove(action_actor, context, map_actor, entity);
+            begin_pushed_actor_move(action_actor, context, map_actor, entity);
             return;
         }
         if (actor->unk_9A.as_u8 != 0xE) {
@@ -114,7 +114,7 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
             }
             if (current_anim != idle_anim) {
                 map_actor->unk_2C.p = idle_anim;
-                action_data = (u8 *)(((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7);
+                action_data = (u8 *)(((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7);
                 action_data += (u32)idle_anim;
                 func_80047784(map_actor, *action_data, 0);
             }
@@ -124,68 +124,68 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
         if (actor->unk_B4 == 0) {
             if (!((u16)*((s16 *)&D_80013714) & 8)) {
                 if (entity->unk_64 != 0) {
-                    if (dungeonBeginReadyActorDirectionalAction(actor, context, map_actor, D_801746C4) != 0) {
+                    if (begin_ready_actor_directional_action(actor, context, map_actor, D_801746C4) != 0) {
                         return;
                     }
                 }
             } else {
                 if (entity->unk_64 != 0) {
-                    if (((s32)dungeonStatus.unk_10) == ((u8 *)entity - 0x20)) {
-                        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+                    if (((s32)g_dungeon_status.unk_10) == ((u8 *)entity - 0x20)) {
+                        *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
                     }
                 }
             }
         } else {
             if (entity->unk_64 != 0) {
-                if (((s32)dungeonStatus.unk_10) == ((u8 *)entity - 0x20)) {
-                    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+                if (((s32)g_dungeon_status.unk_10) == ((u8 *)entity - 0x20)) {
+                    *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
                 }
             }
         }
         if (entity->flags1C & 0x80000) {
-            func_800AA888(actor, context, map_actor, entity);
+            begin_actor_move_to_target_facing(actor, context, map_actor, entity);
             func_8016DAA4(actor, context, map_actor, entity);
             map_actor->unk_2C.p = D_8017467C;
-            func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(map_actor, D_8017467C[((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             actor->unk_90.at00_s32.v = 0;
             return;
         }
-        if ((func_800A1C58(entity) << 0x10) != 0) {
+        if ((can_entity_gain_level(entity) << 0x10) != 0) {
             entity->unk_18 = 0;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
         }
     }
-    tile_index = func_8009FB34(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
+    tile_index = find_active_rect_containing_point(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
     map_actor->unk_26 = tile_index;
     if (entity->unk_6D > 0) {
         if (entity->flags1C & 0x20) {
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
             return;
         }
         if (map_actor->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            advanceActorPath(actor, context, map_actor, entity);
+            advance_actor_path(actor, context, map_actor, entity);
             return;
         }
         if (!(entity->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((dungeonCheckEntityRelation(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+            if (g_dungeon_status.flags & 0x2000) {
+                if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                     return;
                 }
             }
             if ((u16) *((s16 *)&D_80013714) & 8) {
-                dungeonExecuteActorScriptCommand(actor, context, map_actor);
+                execute_actor_script_command(actor, context, map_actor);
                 entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
-                func_800A9A0C(entity);
+                update_actor_status_and_food(entity);
                 entity->unk_46 &= 0x7FFF;
                 return;
             }
-            if ((dungeonDispatchActorActionPhase(actor, context, map_actor, 0) << 0x10) == 0) {
+            if ((dispatch_actor_action_phase(actor, context, map_actor, 0) << 0x10) == 0) {
                 return;
             }
             action_flags = entity->unk_46 | 0x4000;
             entity->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                advanceActorPath(actor, context, map_actor, entity);
+                advance_actor_path(actor, context, map_actor, entity);
                 return;
             }
         }
@@ -196,20 +196,20 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
             if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
                 return;
             }
-            dungeonClearActorFlagAndAdvanceAction(actor, context, map_actor, entity);
+            clear_actor_flag_and_advance_action(actor, context, map_actor, entity);
             return;
         case 12:
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
             return;
         case 5:
         case 6:
         case 7:
-            target_angle = dungeonGetRoundedFacingAndRoundingFlag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
+            target_angle = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
                 D_80082E80.tileY, &target_distance);
             active_actor = (u8 *)*((int *)(&D_800814A8));
             entity->facing = target_angle;
             if (((S_8016B778_4 *)active_actor)->unk_9A != 0x11) {
-                func_800A9A0C(entity);
+                update_actor_status_and_food(entity);
                 return;
             }
             /* Fall through to install the action handler. */
@@ -217,11 +217,11 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
         case 2:
         case 3:
             action_data = D_8016B778;
-            dungeonBeginActorSpellAction(actor, context, map_actor, &D_801746BC, action_data);
+            begin_actor_spell_action(actor, context, map_actor, &D_801746BC, action_data);
             return;
         case 11:
         default:
-            advanceActorPath(actor, context, map_actor, entity);
+            advance_actor_path(actor, context, map_actor, entity);
             return;
         }
     }
@@ -242,11 +242,11 @@ void dungeonUpdateMainActorActionAndFacing(Rec_func_800A9E70_arg0 *actor, s32 co
     if (entity_flags & 0x430) {
         return;
     }
-    if ((dungeonCompareMonsterNeighborValues(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10)
+    if ((compare_monster_neighbor_values(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10)
         == 0) {
         return;
     }
-    entity->facing = dungeonGetRoundedFacingAndRoundingFlag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
+    entity->facing = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
         D_80082E80.tileY, &target_distance);
     return;
 }

@@ -15,12 +15,12 @@ typedef struct S_80172C10_0 {
     u8 pad_9C[0xB];
     u8 unk_A7;
     u8 unk_A8;
-} S_80172C10_0;   /* arg0 in dungeonSlowMotionAndSwitchBehavior */
+} S_80172C10_0;   /* arg0 in slow_motion_and_switch_behavior */
 
 
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
 
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
@@ -28,7 +28,7 @@ extern u8 D_80176318[];
 extern u8 D_80176378[];
 
 /* Slows directional motion, returns the entity to its tile, and switches behavior. */
-void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
+void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile, void *entity)
 {
     s32 mark_value;
     s32 tracked_entity;
@@ -36,12 +36,12 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
     mark_value = 1;
     switch (state->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         motion->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
+            *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
+            *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         state->unk_9B++;
 
@@ -50,7 +50,7 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             if (state->unk_A7 != 0) {
-                dungeonBeginActorDisplayAction(state, motion, tile, D_80176378);
+                begin_actor_display_action(state, motion, tile, D_80176378);
                 if (state->unk_A8 != 0) {
                     u8 *mark_base;
 
@@ -60,7 +60,7 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
                 }
                 return;
             }
-            dungeonBeginActorDisplayAction(state, motion, tile, D_80176318);
+            begin_actor_display_action(state, motion, tile, D_80176318);
             return;
         }
 
@@ -91,7 +91,7 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             if (state->unk_A7 != 0) {
-                dungeonBeginActorDisplayAction(state, motion, tile, D_80176378);
+                begin_actor_display_action(state, motion, tile, D_80176378);
                 if (state->unk_A8 != 0) {
                     u8 *mark_base;
 
@@ -101,7 +101,7 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
                 }
                 return;
             }
-            dungeonBeginActorDisplayAction(state, motion, tile, D_80176318);
+            begin_actor_display_action(state, motion, tile, D_80176318);
             return;
         }
         state->unk_96.s = 8;
@@ -138,11 +138,11 @@ void dungeonSlowMotionAndSwitchBehavior(S_80172C10_0 *state, EntityRec *motion, 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
 
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         if (state->unk_A7 != 0) {
             state->unk_8C = D_80173B98;

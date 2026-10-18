@@ -92,7 +92,7 @@ extern s32 func_8003DF74(void *, AnimationState *, s16 *, s32);
 
 extern s32 func_80053EF0(s32);
 
-extern void dungeonDrawTexturedEllipse(PaletteControl *, RectWords *, s32, s32);
+extern void draw_textured_ellipse(PaletteControl *, RectWords *, s32, s32);
 
 /* Five-stage palette/particle transition, reconstructed from the complete
  * retail instruction span. The object views cover only fields used here.
@@ -103,8 +103,8 @@ extern void dungeonDrawTexturedEllipse(PaletteControl *, RectWords *, s32, s32);
  * unchanged value, which gcc's post-reload CSE (reload_cse_regs) deletes as a
  * redundant store after flow has already kept the load alive.
  */
-void func_8002458C(TransitionState *state, void *context, void *parameters) {
-    TransitionFlags *transition_flags = (TransitionFlags *)&gameWork;
+void update_palette_particle_transition(TransitionState *state, void *context, void *parameters) {
+    TransitionFlags *transition_flags = (TransitionFlags *)&g_game_work;
     PaletteControl *first_palette;
     RectWords upload_rect;
     s16 source_rect[4];
@@ -143,7 +143,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
         D_8002536C.high_b = 0xFF;
         upload_rect.xy = 0x01000340;
         upload_rect.wh = 0x400040;
-        dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
+        draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
         D_80025384 = 1;
         state->phase++;
         /* fallthrough */
@@ -157,7 +157,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
             state->phase++;
             state->ticks = 0;
             state->facing = actor_facing;
-            dungeonCreateAnLinkedParentInitializePositionPartData(state, context, parameters);
+            create_an_linked_parent_initialize_position_part_data(state, context, parameters);
             if (state->part_b != 0) {
                 source_rect[0] = 0x340;
                 source_rect[1] = 0x100;
@@ -165,7 +165,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 source_rect[3] = 0x40;
                 destination_xy[0] = 0x360;
                 destination_xy[1] = 0x120;
-                func_800B8FC8(state->part_b, source_rect, destination_xy, 0, 1);
+                draw_transformed_sprite_with_clip_rect(state->part_b, source_rect, destination_xy, 0, 1);
             }
             if (state->part_a != 0) {
                 source_rect[0] = 0x340;
@@ -174,7 +174,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 source_rect[3] = 0x40;
                 destination_xy[0] = 0x360;
                 destination_xy[1] = 0x120;
-                func_800B8FC8(state->part_a, source_rect, destination_xy, 1, 1);
+                draw_transformed_sprite_with_clip_rect(state->part_a, source_rect, destination_xy, 1, 1);
             }
         }
         break;
@@ -209,7 +209,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
             if (((s32)particle_scratch) != 2) {
                 sound_request = 0x300;
             }
-            func_800A56E0(sound_request);
+            play_sound_if_enabled(sound_request);
         }
         if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(func_8003DF74(D_80082E80.resource, &D_80082E80, &state->current_x, 0))) != 0)) {
             if (state->countdown >= 7) {
@@ -217,7 +217,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 1;
-                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                    particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -247,7 +247,7 @@ void func_8002458C(TransitionState *state, void *context, void *parameters) {
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
-                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                    particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -273,7 +273,7 @@ spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
-                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                    particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -305,7 +305,7 @@ spawn_depth_particle:
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
-                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                    particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -360,7 +360,7 @@ spawn_depth_particle:
                 if (state->countdown != 0xD) {
                     particle_scratch->lifetime = 1;
                 }
-                particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                 func_8004491C(particle, (s32)func_80045340);
                 render_part = (TransitionRenderPart *)particle->header.unk_0C;
                 render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -388,7 +388,7 @@ spawn_depth_particle:
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
-                    particle->header.unk_10 = (void *)dungeonFadeThePrimitiveFlagEffectCountdownExpires;
+                    particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
                     func_8004491C(particle, (s32)func_80045340);
                     render_part = (TransitionRenderPart *)particle->header.unk_0C;
                     render_part->mode = PARTICLE_MODE_ADDITIVE;
@@ -433,14 +433,14 @@ spawn_depth_particle:
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
                 tint_part->color.rgb = TINT_NEUTRAL;
             }
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             D_80082E80.phase = 0;
-            dungeonStatus.unk_0A = (u16) (dungeonStatus.unk_0A - 1);
+            g_dungeon_status.unk_0A = (u16) (g_dungeon_status.unk_0A - 1);
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
             D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.rgb = TINT_NEUTRAL;
             ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         } else {
             D_80025384 = 0;
         }
@@ -467,7 +467,7 @@ spawn_depth_particle:
         first_palette->high_g = upload_value;
         first_palette->high_b = upload_value;
         upload_rect = (RectWords){0x01400380, 0x00400040};
-        dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
+        draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
         if (state->ticks >= 0xF) {
             if (!(state->countdown & 1)) {
                 D_8002536C.low_r = 0;
@@ -486,7 +486,7 @@ spawn_depth_particle:
             }
             upload_rect.xy = 0x01800380;
             upload_rect.wh = 0x400040;
-            dungeonDrawTexturedEllipse(&D_8002536C, &upload_rect, 1, 0);
+            draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
         }
     }
 }

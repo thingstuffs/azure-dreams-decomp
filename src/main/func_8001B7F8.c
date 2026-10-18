@@ -9,18 +9,18 @@ typedef struct S_804027F8_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 * unk_20;
-} S_804027F8_0;   /* arg0 in cardBootHandleMenuActionsAndRepeat */
+} S_804027F8_0;   /* arg0 in card_boot_handle_menu_actions_and_repeat */
 
 
 extern u8 D_80408ADE[];
 
 extern s32 func_80056450(s32 selection, s32 step, u8 table_value);
 extern void func_80063FF8(s32 code);
-extern void func_8040274C(void *menu);
-extern s32 func_8040343C(s32 value);
+extern void resolve_apply(void *menu);
+extern s32 process_global(s32 value);
 
 /* Handles menu actions and directional selection with key repeat. */
-void cardBootHandleMenuActionsAndRepeat(void *menu)
+void card_boot_handle_menu_actions_and_repeat(void *menu)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -38,11 +38,11 @@ void cardBootHandleMenuActionsAndRepeat(void *menu)
 
                 func_80063FF8(0x514);
                 if (((S_804027F8_0 *)menu)->unk_20 != 0) {
-                    action_result = func_8040343C(1);
+                    action_result = process_global(1);
                     result_out = ((S_804027F8_0 *)menu)->unk_20;
                     *result_out = action_result;
                 } else {
-                    func_8040343C(1);
+                    process_global(1);
                 }
             } else if (held_buttons & 0xA000) {
                 if (pressed_buttons & 0xA000) {
@@ -77,7 +77,7 @@ void cardBootHandleMenuActionsAndRepeat(void *menu)
             selection = func_80056450(
                 ((S_804027F8_0 *)menu)->unk_00, step, D_80408ADE[menu_type * 4]);
             ((S_804027F8_0 *)menu)->unk_00 = selection;
-            func_8040274C(menu);
+            resolve_apply(menu);
         }
     }
 }

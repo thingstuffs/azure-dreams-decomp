@@ -16,7 +16,7 @@ extern s32 func_807002D4();
 extern s32 func_80700B7C();
 
 /* When gate 2 and the counter both pass, refresh the status byte and return the stage handler's result. */
-s32 func_80700A20(s32 entry)
+s32 refresh_status_when_gate_2_and_counter_pass(s32 entry)
 {
     S_80700A20_1 *status;
 

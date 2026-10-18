@@ -28,7 +28,7 @@ extern u8 D_000006BC[];
 extern u8 D_00000FE4[];
 
 /* Sets up town data and resolves record indices through the lookup table. */
-void townSetupDataAndResolveRecordIndices(void) {
+void setup_data_and_resolve_record_indices(void) {
     u8 *record_tag;
     u8 *data;
 

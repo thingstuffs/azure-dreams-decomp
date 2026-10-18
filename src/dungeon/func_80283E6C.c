@@ -1,12 +1,12 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void dungeonApplyStateIndexTileMasks(void)
+void apply_state_index_tile_masks(void)
 {
-    void *state = ((u8 *)(&gameWork));
+    void *state = ((u8 *)(&g_game_work));
 
     state = (u8 *)state + 0x1DC;
 
-    dungeonApplyTileFlagsToRectangle(0, 0, (s16)(1 << *(s16 *)((u8 *)state + 0x14)),
+    apply_tile_flags_to_rectangle(0, 0, (s16)(1 << *(s16 *)((u8 *)state + 0x14)),
                   (s16)(1 << *(s16 *)((u8 *)state + 0x16)));
 }
 

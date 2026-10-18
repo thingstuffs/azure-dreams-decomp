@@ -9,11 +9,11 @@ typedef struct S_800AA258_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     union { u8 s; u8 u; } unk_25;   /* accessed as both */
-} S_800AA258_2;   /* arg2 in dungeonBeginPushedActorMove */
+} S_800AA258_2;   /* arg2 in begin_pushed_actor_move */
 
 
-void func_8009A21C();                 /* extern */
-void func_8009A3D0();                 /* extern */
+void cycle_map_cell_flags();                 /* extern */
+void update_map_cell_flags_with_item_limit();                 /* extern */
 extern struct {
     s8 pad0[10];
     u16 field_0x0A;
@@ -21,7 +21,7 @@ extern struct {
 } D_80083460;
 
 /* Move the position one step in the actor's direction and update movement state. */
-void dungeonBeginPushedActorMove(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
+void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
     s32 next_x;
     s32 direction_index;
     s32 tile_mask;
@@ -35,13 +35,13 @@ void dungeonBeginPushedActorMove(Rec_func_800A9E70_arg0 *state, void *unused, S_
         move_mask = 0x300;
     }
     tile_mask = move_mask & 0xFFFF;
-    func_8009A3D0(position->unk_24, position->unk_25.s, tile_mask);
+    update_map_cell_flags_with_item_limit(position->unk_24, position->unk_25.s, tile_mask);
     direction_index = ((u16) actor->unk_6A >> 8) & 0xE;
-    next_x = position->unk_24 + (u8) *(direction_index + ((s8 *)dirStepX));
+    next_x = position->unk_24 + (u8) *(direction_index + ((s8 *)dir_step_x));
     next_x = (u8) next_x;
     position->unk_24 = next_x;
-    position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + ((s8 *)dirStepY)));
-    func_8009A21C(position->unk_24, position->unk_25.u, tile_mask);
+    position->unk_25.s = (u8) (position->unk_25.s + *(direction_index + ((s8 *)dir_step_y)));
+    cycle_map_cell_flags(position->unk_24, position->unk_25.u, tile_mask);
     actor->flags1C = (s32) (actor->flags1C & ~0x100);
     state->unk_96.as_s16 = 0x21;
     state->unk_98 = (u16) (state->unk_98 | 8);

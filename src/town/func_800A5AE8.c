@@ -17,11 +17,11 @@ typedef struct {
 } AllocatedObject;
 
 extern void *func_8003FD64(s32 kind, void *owner);
-extern void townInvokeMenuMotionHandler(void);
-extern void townInitializeAnimatedMenuRing(void);
+extern void invoke_menu_motion_handler(void);
+extern void initialize_animated_menu_ring(void);
 
 /* Allocate an object, copy its initial data, and set its callbacks. */
-AllocatedObject *townAllocateObjectWithCallbacks(CopyData *source)
+AllocatedObject *allocate_object_with_callbacks(CopyData *source)
 {
     AllocatedObject *obj;
     CopyData *data;
@@ -35,7 +35,7 @@ AllocatedObject *townAllocateObjectWithCallbacks(CopyData *source)
     data->field_0 = source->field_0;
     data->field_4 = source->field_4;
     data->field_8 = source->field_8;
-    obj->callback_10 = townInvokeMenuMotionHandler;
-    obj->callback_20 = townInitializeAnimatedMenuRing;
+    obj->callback_10 = invoke_menu_motion_handler;
+    obj->callback_20 = initialize_animated_menu_ring;
     return obj;
 }

@@ -3,5 +3,5 @@
 #include "common.h"
 
 /* Returns without performing any work. */
-void func_800173E8(void) {
+void process_flagged_entries_after_header(void) {
 }

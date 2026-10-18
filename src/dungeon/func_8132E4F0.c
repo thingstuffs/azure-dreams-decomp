@@ -8,11 +8,11 @@ typedef struct S_801654F0_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801654F0_0;   /* arg1 in dungeonTickColoredLinearEffect */
+} S_801654F0_0;   /* arg1 in tick_colored_linear_effect */
 
 typedef struct S_801654F0_1_pre {
     u16 unk_00;
-} S_801654F0_1_pre;   /* the 0x2 bytes before arg0 in dungeonTickColoredLinearEffect, addressed as arg0[-1] */
+} S_801654F0_1_pre;   /* the 0x2 bytes before arg0 in tick_colored_linear_effect, addressed as arg0[-1] */
 
 typedef struct S_801654F0_1 {
     u8 unk_00;
@@ -28,11 +28,11 @@ typedef struct S_801654F0_1 {
     s32 unk_08;
     u8 pad_0C[0x26];
     u16 unk_32;
-} S_801654F0_1;   /* arg0 in dungeonTickColoredLinearEffect */
+} S_801654F0_1;   /* arg0 in tick_colored_linear_effect */
 
 
 /* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */
-void dungeonTickColoredLinearEffect(void *effect, S_801654F0_0 *motion)
+void tick_colored_linear_effect(void *effect, S_801654F0_0 *motion)
 {
     u16 life_left;
 
@@ -47,6 +47,6 @@ void dungeonTickColoredLinearEffect(void *effect, S_801654F0_0 *motion)
     ((S_801654F0_1 *)effect)->unk_08 = ((S_801654F0_1 *)effect)->unk_04.at00u.v;
     if ((life_left << 0x10) <= 0) {
         ((S_801654F0_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

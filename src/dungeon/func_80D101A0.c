@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d2ebc4_p02.h"
 
 /* Selects direction-dependent table entries for kinds 13 through 15 around the object update. */
-void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg)
+void select_directional_object_effect_tables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg)
 {
     Obj2 *render_obj = render_arg;
     Obj3 *state = state_arg;
@@ -22,7 +22,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -37,7 +37,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -52,7 +52,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -62,8 +62,8 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
     }
 
 
-    if (func_800AC82C(owner, context, render_obj, state) != 0) {
-        if ((dungeonCheckActorFloorTrap(render_obj, state) << 16) > 0) {
+    if (update_actor_transform_from_parent(owner, context, render_obj, state) != 0) {
+        if ((check_actor_floor_trap(render_obj, state) << 16) > 0) {
             owner->field8c = func_8014E4BC;
         }
         return;
@@ -76,7 +76,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
             return;
         }
         *(u32 *)((u8 *)render_obj + 0x2c) = (u32)&D_80151DC4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DC4), 0);
         return;
     case 14:
@@ -85,7 +85,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
             return;
         }
         *(u32 *)((u8 *)render_obj + 0x2c) = (u32)&D_80151DCC;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DCC), 0);
         return;
     case 15:
@@ -94,7 +94,7 @@ void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *rende
             return;
         }
         *(u32 *)((u8 *)render_obj + 0x2c) = (u32)&D_80151DD4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DD4), 0);
         return;
     default:

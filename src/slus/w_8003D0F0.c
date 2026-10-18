@@ -37,10 +37,10 @@ void func_8003D0F0(void)
     s32 height;
 
     transform_flag = (u8 *)0x1F800094;
-    context = (u8 *)gameWork.unk_000;
+    context = (u8 *)g_game_work.unk_000;
     scratch = (u8 *)0x1F800000;
     prim = *(u8 **)(context + 0x8D0);
-    contexts = (u8 **)((void * *)(&gameWork));
+    contexts = (u8 **)((void * *)(&g_game_work));
     U32_AT(scratch, 0x48) = 0;
     U16_AT(scratch, 0x8C) = 0;
     U16_AT(scratch, 0x84) = 0;

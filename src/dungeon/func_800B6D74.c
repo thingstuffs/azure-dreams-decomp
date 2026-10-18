@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* root in func_800BC4D4 */
+   /* root in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_1 {
     u16 unk_00;
@@ -53,7 +53,7 @@ typedef struct S_800BC4D4_1 {
     u16 unk_FA;
     u16 unk_FC;
     u16 unk_FE;
-} S_800BC4D4_1;   /* scratch in func_800BC4D4 */
+} S_800BC4D4_1;   /* scratch in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_2 {
     u8 pad_00[0x8];
@@ -64,7 +64,7 @@ typedef struct S_800BC4D4_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_800BC4D4_2;   /* arg1 in func_800BC4D4 */
+} S_800BC4D4_2;   /* arg1 in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_3 {
     u8 pad_00[0x2];
@@ -73,17 +73,17 @@ typedef struct S_800BC4D4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BC4D4_3;   /* arg0 in func_800BC4D4 */
+} S_800BC4D4_3;   /* arg0 in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800BC4D4_4;   /* matrix in func_800BC4D4 */
+} S_800BC4D4_4;   /* matrix in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_5_pre {
     s8 unk_00;
     u8 pad_01[0x3];
-} S_800BC4D4_5_pre;   /* the 0x4 bytes before packet + 7 in func_800BC4D4, addressed as (packet + 7)[-1] */
+} S_800BC4D4_5_pre;   /* the 0x4 bytes before packet + 7 in render_projected_sprite_with_depth_bias, addressed as (packet + 7)[-1] */
 
 typedef struct S_800BC4D4_5 {
     u8 unk_00;
@@ -94,13 +94,13 @@ typedef struct S_800BC4D4_5 {
     u8 pad_17[0x6];
     u8 unk_1D;
     u8 unk_1E;
-} S_800BC4D4_5;   /* packet + 7 in func_800BC4D4 */
+} S_800BC4D4_5;   /* packet + 7 in render_projected_sprite_with_depth_bias */
 
 typedef struct S_800BC4D4_6 {
     u16 unk_00;
-} S_800BC4D4_6;   /* texture + 4 in func_800BC4D4 */
+} S_800BC4D4_6;   /* texture + 4 in render_projected_sprite_with_depth_bias */
 
-   /* *global in func_800BC4D4 */
+   /* *global in render_projected_sprite_with_depth_bias */
 
 
 extern void func_80064840(void *, void *, void *);
@@ -119,7 +119,7 @@ extern u8 D_8006CD30[];
 
 
 /* Project sprite tiles and append textured quads to the ordering table. */
-void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
+void render_projected_sprite_with_depth_bias(void *position, void *sprite, u16 world_z, s32 depth_bias)
 {
     u8 *scratch_base = (u8 *)0x1F800000;
     u8 *screen_pos = scratch_base;
@@ -150,7 +150,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     perspective = scratch_base;
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
-    root = *(u8 **)((u8 *)(&gameWork));
+    root = *(u8 **)((u8 *)(&g_game_work));
     packet = ((GpuContext *)root)->packetCursor;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;
@@ -169,7 +169,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     clip_flags = (u8 *)((u32)clip_flags | 0x94);
     ((S_800BC4D4_1 *)scratch)->unk_00 = world_x;
     world_y = ((S_800BC4D4_3 *)position)->unk_06;
-    root_ptr = (u8 **)&gameWork;
+    root_ptr = (u8 **)&g_game_work;
     ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;
 

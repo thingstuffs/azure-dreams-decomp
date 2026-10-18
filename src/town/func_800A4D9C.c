@@ -20,19 +20,19 @@ typedef struct {
 
 extern s32 func_80064584(s32);
 extern s16 func_80065F90(s32, s32);
-extern void townAllocateRandomizedEffectObject(State *);
+extern void allocate_randomized_effect_object(State *);
 
 /* Updates state from global values and triggers a refresh every 15 calls. */
-void townUpdateViewDrivenState(State *state) {
+void update_view_driven_state(State *state) {
 
-    state->field_8 = (func_80064584(gameWork.view.viewAngle) + 0x1000) / 2;
-    state->field_0 = -func_80064584(gameWork.view.viewAngle) / 24;
+    state->field_8 = (func_80064584(g_game_work.view.viewAngle) + 0x1000) / 2;
+    state->field_0 = -func_80064584(g_game_work.view.viewAngle) / 24;
     state->field_2 = func_80065F90(state->field_0, 160);
-    state->field_4 = ((u16)gameWork.view.unk_0A4);
-    state->field_6 = ((u16)gameWork.view.unk_0A6);
+    state->field_4 = ((u16)g_game_work.view.unk_0A4);
+    state->field_6 = ((u16)g_game_work.view.unk_0A6);
 
     if (--state->field_C <= 0) {
         state->field_C = 15;
-        townAllocateRandomizedEffectObject(state);
+        allocate_randomized_effect_object(state);
     }
 }

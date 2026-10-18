@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonAppendGenerationRegionEntry(s16 row_index, s16 first_byte, s16 second_byte, s16 value) {
+void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_byte, s16 value) {
     s32 row_offset;
     u16 entry_count;
     void *rows_base;

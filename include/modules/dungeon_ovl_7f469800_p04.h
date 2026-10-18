@@ -24,12 +24,12 @@ typedef struct T_8017406C_S_8017406C_0 {
 
 
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
-void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor);
-extern void dungeonUpdateActorBehavior();
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
+void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor);
+extern void update_actor_behavior();
 #endif

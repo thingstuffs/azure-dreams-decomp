@@ -39,7 +39,7 @@ extern u8 D_800DEC00[];
 
 
 /* Updates an effect through attachment, motion, and timed cleanup. */
-void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
+void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
 {
     s16 delta[3];
     s32 mode;
@@ -145,7 +145,7 @@ void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_fun
                 effect->unk_16 = state->unk_7E.u16;
 
                 {
-                    u8 *table_base = (u8 *)((s8 *)dirStepX);
+                    u8 *table_base = (u8 *)((s8 *)dir_step_x);
 
                     direction_index = state->unk_7E.s16 * 2;
                     tile = ((B31_818C8FD0_S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
@@ -153,7 +153,7 @@ void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_fun
                         tile->unk_24 + table_base[direction_index];
                 }
                 {
-                    u8 *table_base = (u8 *)((s8 *)dirStepY);
+                    u8 *table_base = (u8 *)((s8 *)dir_step_y);
 
                     direction_index = state->unk_7E.s16 * 2;
                     state->unk_A1 =
@@ -200,7 +200,7 @@ void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_fun
                     state->unk_86 = effect->unk_02.s16 + 0x1E;
                 }
 
-                effect_node->unk_10 = dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases;
+                effect_node->unk_10 = update_a_moving_effect_spawns_particles_advances_timed_phases;
                 {
                     effect_pos = effect_node->unk_08;
 
@@ -252,9 +252,9 @@ void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_fun
 
             state->unk_84.u16 = old_timer;
             if (active_flag == 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 ((B31_818C8FD0_S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             } else {
                 D_80024D04 = 0;

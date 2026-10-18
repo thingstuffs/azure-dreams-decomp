@@ -4,7 +4,7 @@
 extern void func_800478B8(void *state);
 
 /* Increment the object's counter, update state, and propagate status flags. */
-void dungeonHandleIncrementSCounterUpdateStatePropagateStatusFlags(void *object_slot, s32 unused, void *state) {
+void handle_increment_s_counter_update_state_propagate_status_flags(void *object_slot, s32 unused, void *state) {
     u8 *object;
 
     object = *(u8 **)((u8 *)object_slot + 0x0);
@@ -12,6 +12,6 @@ void dungeonHandleIncrementSCounterUpdateStatePropagateStatusFlags(void *object_
     func_800478B8(state);
     if (*(u16 *)((u8 *)state + 0x14) & 0x6000) {
         *(u16 *)((u8 *)object_slot - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -135,14 +135,14 @@ typedef struct DrawSettings {
 } DrawSettings;
 
 s32 func_80046884();
-s32 runtimeInitializePolygonEdges();
+s32 runtime_initialize_polygon_edges();
 s32 func_80064624();
 s32 func_80064D20();
 s32 func_80064D50();
-s16 func_800BCB04();
+s16 sample_terrain_surface_height();
 
 /* Render visible dungeon cells as lit, textured polygons in the ordering table. */
-void dungeonRenderMapCellMesh(void) {
+void render_map_cell_mesh(void) {
     RenderScratch *scratch;
     RenderScratch *view_scratch;
     u16 view_corners[23];
@@ -205,7 +205,7 @@ void dungeonRenderMapCellMesh(void) {
     s32 minus_one;
     s32 vertex_x;
 
-    scene = &gameWork;
+    scene = &g_game_work;
     render_flags = D_80013714;
     view_scratch = (RenderScratch *)0x1F800000;
     view = &scene->view;
@@ -218,7 +218,7 @@ void dungeonRenderMapCellMesh(void) {
         s32 row_mask;
         s32 max_height;
 
-        coord = func_800BCB04((u16)view->unk_0A4, (u16)view->unk_0A6,
+        coord = sample_terrain_surface_height((u16)view->unk_0A4, (u16)view->unk_0A6,
             (s16) (view->unk_0A8 - 0x20));
         if (coord < 0x201) {
             view_scratch->view_height = coord;
@@ -412,7 +412,7 @@ void dungeonRenderMapCellMesh(void) {
             scratch->last_normal = 0xFFFF;
             scratch->packet_end = (s32)render_buffer;
             scratch->active_edges = 4U;
-            scratch->cur_y = (s16)runtimeInitializePolygonEdges(render_input, coord_offset, edge_count, render_buffer);
+            scratch->cur_y = (s16)runtime_initialize_polygon_edges(render_input, coord_offset, edge_count, render_buffer);
         }
         if (scratch->active_edges != 0) {
             s32 tag_mask;

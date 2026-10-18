@@ -21,7 +21,7 @@ typedef struct {
 extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 
 /* Copies texture data and adjusts its texture page and UV coordinates. */
-void copyTextureDescriptorWithPageOffsets(FuncInput *texture_pos, u32 *src, FuncOutput *dst) {
+void copy_texture_descriptor_with_page_offsets(FuncInput *texture_pos, u32 *src, FuncOutput *dst) {
     dst->value0 = src[0];
     dst->value4 = src[1];
     dst->value8 = src[2];

@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_load.h"
 
-s32 func_8008B3AC(void) {
+s32 find_slot_for_resource_entry(void) {
     s32 slot_index = 0;
     u8 *entry_indices = D_800CF828;
     s32 *entry_table = D_800CF838;

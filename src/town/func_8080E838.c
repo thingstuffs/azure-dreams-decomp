@@ -30,7 +30,7 @@ extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
 extern void func_8023FA58(void *, void *, void *);
 extern u8 D_8003C558[], D_8052643C[], D_805300F4[];
-extern void townAnimateBouncingScoreObject(State *, Motion *, Actor *);
+extern void animate_bouncing_score_object(State *, Motion *, Actor *);
 extern s32 D_80530130[3];
 
 /* Create an object, copy its two records, and initialize rendering state. */
@@ -48,7 +48,7 @@ void func_8080E838(void *source_data, void *initial_data)
     if (object != 0) {
         payload = (Payload88 *)((u8 *)object + 0x20);
         *payload = *(Payload88 *)source_data;
-        object->callback = townAnimateBouncingScoreObject;
+        object->callback = animate_bouncing_score_object;
         *object->initial = *(Initial24 *)initial_data;
         func_8003BC18(object, D_8003C558);
         part = object->render;

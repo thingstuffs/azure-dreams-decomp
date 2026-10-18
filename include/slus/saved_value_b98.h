@@ -5,5 +5,5 @@ extern s32 D_80080B94;
 extern s32 D_80080B98;
 extern void func_80050BA4(s32 value);
 struct S_8004FE78_a0;
-extern void destroyAnimatedSelectionMenu(struct S_8004FE78_a0 *entity);
+extern void destroy_animated_selection_menu(struct S_8004FE78_a0 *entity);
 #endif

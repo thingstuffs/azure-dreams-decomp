@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/func_80DE61E8; every changed retail word is a paired relocation. */
 #include "modules/dungeon_ovl_e0365c.h"
-extern void func_80171E20(void *, void *, void *, void *);
+extern void update_actor_dungeon_behavior_and_animation(void *, void *, void *, void *);
 
 void func_8017537C(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
- if(dungeonPropagateActorActionFlag(state,motion,sprite,actor) != 0) state->handler=func_80171E20;
+ if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=update_actor_dungeon_behavior_and_animation;
 }

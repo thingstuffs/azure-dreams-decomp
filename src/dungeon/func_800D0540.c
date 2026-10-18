@@ -3,7 +3,7 @@
 
 
 /* Advance and damp effect motion, fade its colors, and flag expiration. */
-void dungeonAdvanceDampedEffectAndExpire(u8 *effect, s32 *motion)
+void advance_damped_effect_and_expire(u8 *effect, s32 *motion)
 {
     s16 ticks_left;
 
@@ -26,6 +26,6 @@ void dungeonAdvanceDampedEffectAndExpire(u8 *effect, s32 *motion)
     *(s32 *)(effect + 8) = *(s32 *)(effect + 4);
     if (ticks_left <= 0) {
         *(u16 *)(effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80E11860; every changed retail word is a paired relocation. */
-#define dungeonCreateRandomizedMotionObject func_80157060
+#define create_randomized_motion_object func_80157060
 #define D_80174F64 D_80156F64
 #include "shared/object_node.h"
 #include "common.h"

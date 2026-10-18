@@ -12,7 +12,7 @@
 typedef struct S_800CD004_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CD004_0_pre;   /* the 0x14 bytes before arg0 in dungeonSpawnSourceSpriteEffect, addressed as arg0[-1] */
+} S_800CD004_0_pre;   /* the 0x14 bytes before arg0 in spawn_source_sprite_effect, addressed as arg0[-1] */
 
 typedef struct S_800CD004_0 {
     u8 pad_00[0x3];
@@ -21,7 +21,7 @@ typedef struct S_800CD004_0 {
     u8 unk_13;
     u8 pad_14[0x74];
     u16 unk_88;
-} S_800CD004_0;   /* arg0 in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_0;   /* arg0 in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_1 {
     u8 pad_00[0x8];
@@ -30,13 +30,13 @@ typedef struct S_800CD004_1 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_800CD004_1;   /* object in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_1;   /* object in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CD004_2;   /* map in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_2;   /* map in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_3 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_800CD004_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD004_3;   /* quad in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_3;   /* quad in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_4 {
     u8 pad_00[0x8];
@@ -55,26 +55,26 @@ typedef struct S_800CD004_4 {
     u8 pad_12[0xA];
     s16 unk_1C;
     s16 unk_1E;
-} S_800CD004_4;   /* sprite in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_4;   /* sprite in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_5 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800CD004_5;   /* tail in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_5;   /* tail in spawn_source_sprite_effect */
 
 typedef struct S_800CD004_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CD004_6;   /* counter in dungeonSpawnSourceSpriteEffect */
+} S_800CD004_6;   /* counter in spawn_source_sprite_effect */
 
 
 extern s32 func_8004491C();
 extern s32 func_80069EF8(void);
-extern s32 func_800A56E0();
-extern void func_800A6508();
-extern s32 func_800A6D30(void);
+extern s32 play_sound_if_enabled();
+extern void display_fixed_item_action_message();
+extern s32 generate_random_value(void);
 
 extern u8 D_800CCDA0;
 extern u8 D_800DFD0C[];
@@ -82,7 +82,7 @@ extern u8 D_800DFD30[];
 
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
-s32 dungeonSpawnSourceSpriteEffect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
+s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 {
     s32 random;
     s16 roll;
@@ -100,7 +100,7 @@ s32 dungeonSpawnSourceSpriteEffect(void *source, s32 rng_arg_1, s32 rng_arg_2, s
     void *init_effect;
 
     if (D_800E3D40 == 0) {
-        random = func_800A6D30() & 0xFFFF;
+        random = generate_random_value() & 0xFFFF;
         if (((S_800CD004_0 *)source)->unk_03 != 0) {
             roll = random % ((S_800CD004_0 *)source)->unk_03;
         } else {
@@ -148,11 +148,11 @@ s32 dungeonSpawnSourceSpriteEffect(void *source, s32 rng_arg_1, s32 rng_arg_2, s
         ((S_800CD004_1 *)effect)->unk_20 = source;
         effect_state->unk_06 = 0xC;
 
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
-        func_800A56E0(0x50D);
+        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
+        play_sound_if_enabled(0x50D);
     } else {
         if (((S_800CD004_0 *)source)->unk_13 == 0) {
-            func_800A6508();
+            display_fixed_item_action_message();
         }
         return 1;
     }

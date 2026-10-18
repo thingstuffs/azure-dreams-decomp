@@ -9,13 +9,13 @@ typedef struct {
     u8 unk66;
 } DungeonState;
 
-extern s32 func_800990FC(void);
+extern s32 get_unused_text_buffer(void);
 extern s32 func_80042900(DungeonState *entry, s32 effect_id);
-extern s32 func_80099194(u8 *src, u8 *dst);
-extern s32 func_80099734(void *record, u8 *out);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern s32 append_entity_display_text(void *record, u8 *out);
 extern void func_80099290(s8 *byte_ptr);
-extern void func_800A56E0(s32 query_value);
-extern void func_800A5720(s8 *text);
+extern void play_sound_if_enabled(s32 query_value);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80089084[];
 extern u8 D_800E0CAE[];
@@ -25,19 +25,19 @@ extern u8 D_800E0D1B[];
 extern u8 D_800E0D36[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
-s32 dungeonApplyActorFoodPreference(DungeonState *state, s32 mode, u8 *item) {
+s32 apply_actor_food_preference(DungeonState *state, s32 mode, u8 *item) {
     s32 message;
     s32 meter;
     s32 base_message;
     s32 old_meter;
 
-    base_message = func_800990FC();
+    base_message = get_unused_text_buffer();
     message = base_message;
     if ((func_80042900(state, 0x19) << 16) != 0) {
-        func_80099290(func_80099194(D_80089084,
-                                    func_80099734(state,
-                                                  func_80099194(D_800E0CAE, base_message))));
-        func_800A5720(base_message);
+        func_80099290(expand_text_control_codes(D_80089084,
+                                    append_entity_display_text(state,
+                                                  expand_text_control_codes(D_800E0CAE, base_message))));
+        display_text_with_fullwidth_adjustment(base_message);
         return 0;
     }
 
@@ -53,17 +53,17 @@ s32 dungeonApplyActorFoodPreference(DungeonState *state, s32 mode, u8 *item) {
     old_meter = meter;
     switch (mode) {
     case 0:
-        message = func_80099194(D_80089084,
-                                func_80099734(state,
-                                              func_80099194(D_800E0CDC, message)));
+        message = expand_text_control_codes(D_80089084,
+                                append_entity_display_text(state,
+                                              expand_text_control_codes(D_800E0CDC, message)));
         break;
     case 1:
-        message = func_80099734(state, message);
-        message = func_80099194(D_800E0CF3, message);
+        message = append_entity_display_text(state, message);
+        message = expand_text_control_codes(D_800E0CF3, message);
         meter += 0x300;
         break;
     case 2:
-        message = func_80099194(D_800E0D1B, func_80099734(state, message));
+        message = expand_text_control_codes(D_800E0D1B, append_entity_display_text(state, message));
         if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
             meter += 0xA00;
         } else {
@@ -71,20 +71,20 @@ s32 dungeonApplyActorFoodPreference(DungeonState *state, s32 mode, u8 *item) {
         }
         break;
     case 3:
-        message = func_80099194(D_800E0D36, func_80099734(state, message));
+        message = expand_text_control_codes(D_800E0D36, append_entity_display_text(state, message));
         meter += 0x6400;
         break;
     }
 
     if (item != 0) {
         func_80099290(message);
-        func_800A5720(base_message);
+        display_text_with_fullwidth_adjustment(base_message);
     } else if (mode == 0) {
         func_80099290(message);
-        func_800A5720(base_message);
+        display_text_with_fullwidth_adjustment(base_message);
     }
     if (old_meter != meter) {
-        func_800A56E0(0x51E);
+        play_sound_if_enabled(0x51E);
     }
     if (meter > 0x10000) {
         meter = 0xFFFF;

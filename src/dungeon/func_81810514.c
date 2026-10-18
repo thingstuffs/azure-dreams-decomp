@@ -7,9 +7,9 @@ extern M2C_UNK D_80025480;
 typedef struct S_80025514_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_80025514_0;   /* arg0 in dungeonSetObjectDataPointer */
+} S_80025514_0;   /* arg0 in set_object_data_pointer */
 
 /* Set the object's data pointer to D_80025480. */
-void dungeonSetObjectDataPointer(S_80025514_0 *object) {
+void set_object_data_pointer(S_80025514_0 *object) {
     object->unk_10 = &D_80025480;
 }

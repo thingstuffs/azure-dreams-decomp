@@ -39,11 +39,11 @@ extern u32 func_800654B0(
 extern void func_80066708(void *);
 
 /* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
-s32 dungeonBuildShadedQuadsAdjacentVertexRowsAddsThemOrderingTable(void)
+s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void)
 {
     s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
-    u8 *state = gameWork.unk_000;
+    u8 *state = g_game_work.unk_000;
     u8 *primitive_start = *(u8 **)(state + 0x8D0);
     u32 *vertices;
     u8 *vertex_record;
@@ -53,7 +53,7 @@ s32 dungeonBuildShadedQuadsAdjacentVertexRowsAddsThemOrderingTable(void)
 
             /* This address is needed only by the loop's terminal writeback. */
     {
-        u8 **state_slot = &gameWork.unk_000;
+        u8 **state_slot = &g_game_work.unk_000;
 
         if (D_8002632A > 0) {
             vertices = D_80026478;

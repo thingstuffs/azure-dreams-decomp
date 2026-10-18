@@ -8,7 +8,7 @@ extern s32 D_800197D0;
 extern s32 D_80019397;
 
 /* Looks up an entry and substitutes special results for codes 0x2D and 0x2F. */
-void *townLookupCodeWithSpecialResults(void *input, s32 unused_1, s32 input_code, s32 unused_3) {
+void *lookup_code_with_special_results(void *input, s32 unused_1, s32 input_code, s32 unused_3) {
     s32 code;
     void *result;
 

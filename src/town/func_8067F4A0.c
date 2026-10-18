@@ -5,6 +5,6 @@
 M2C_UNK func_8001849C();                     /* extern */
 
 /* Calls func_8001849C with code 0x72D. */
-void townQueryStateWithSelector10(void) {
+void query_state_with_selector_10(void) {
     func_8001849C(0x72D);
 }

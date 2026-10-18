@@ -30,7 +30,7 @@ typedef struct {
 
 
 /* Checks the adjacent tile and classifies its height relative to the source height. */
-s32 dungeonClassifyAdjacentTileHeight(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
+s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
     s32 height_offset) {
     u16 tile_flags;
     s32 target_height;
@@ -50,14 +50,14 @@ s32 dungeonClassifyAdjacentTileHeight(u32 direction_bits, Func95440Input *positi
     y = position->y;
     initial_height = (s16)(source_height - height_offset);
     saved_height = source_height;
-    if ((dungeonCheckDiagonalSideHeight(direction, x >> 6, y >> 6, initial_height) << 16) == 0) {
+    if ((check_diagonal_side_height(direction, x >> 6, y >> 6, initial_height) << 16) == 0) {
         return -2;
     }
     target_height = initial_height;
 
-    x += dirStepX[direction] << 6;
-    y += dirStepY[direction] << 6;
-    if ((getOffsetMapCellValueAndFlags(actor->x, actor->y, direction, &tile_flags) << 16) == 0) {
+    x += dir_step_x[direction] << 6;
+    y += dir_step_y[direction] << 6;
+    if ((get_offset_map_cell_value_and_flags(actor->x, actor->y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
     if (tile_flags & 0x8000) {
@@ -73,12 +73,12 @@ s32 dungeonClassifyAdjacentTileHeight(u32 direction_bits, Func95440Input *positi
         target_height = terrain_height_words(wrapped_x, wrapped_y, target_height);
         x = wrapped_x;
         y = wrapped_y;
-        object = findEligibleActorAtTileAndHeight(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
+        object = find_eligible_actor_at_tile_and_height(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
             if (object->flags1c & 0x2000) {
                 if (!(object->flags1c & 0x628)) {
                     if (!(object->mask14 & 0x40000000)) {
-                        if (object->value6c + ((object->value6e * dungeonStatus.unk_00) >> 8) < 0x100) {
+                        if (object->value6c + ((object->value6e * g_dungeon_status.unk_00) >> 8) < 0x100) {
                             return -1;
                         }
                     } else {

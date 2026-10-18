@@ -10,7 +10,7 @@ typedef struct S_8016A870_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016A870_0;   /* obj in dungeonAllocateKindActorObject */
+} S_8016A870_0;   /* obj in allocate_kind_actor_object */
 
 typedef struct S_8016A870_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8016A870_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8016A870_1;   /* work in dungeonAllocateKindActorObject */
+} S_8016A870_1;   /* work in allocate_kind_actor_object */
 
 typedef struct S_8016A870_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8016A870_2;   /* part_a in dungeonAllocateKindActorObject */
+} S_8016A870_2;   /* part_a in allocate_kind_actor_object */
 
 typedef struct S_8016A870_3 {
     u8 pad_00[0x14];
@@ -33,7 +33,7 @@ typedef struct S_8016A870_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8016A870_3;   /* part_b in dungeonAllocateKindActorObject */
+} S_8016A870_3;   /* part_b in allocate_kind_actor_object */
 
 typedef struct S_8016A870_4 {
     u8 pad_00[0x8C];
@@ -42,22 +42,22 @@ typedef struct S_8016A870_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8016A870_4;   /* actor in dungeonAllocateKindActorObject */
+} S_8016A870_4;   /* actor in allocate_kind_actor_object */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA3C[];
 extern s32 D_8016AE68;
 extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 
 /* Allocate an actor object and initialize its parts and flags for the requested kind. */
-void *dungeonAllocateKindActorObject(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
+void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     void *obj;
@@ -104,17 +104,17 @@ void *dungeonAllocateKindActorObject(s16 spawn_flags, s16 part_b_value_24, s16 p
         } else {
             if (((spawn_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
+                set_or_clear_actor_status_slot(work, 1,
+                              (generate_random_value() & 0x3F) | 0x20);
                 part_b->unk_2C = D_8016E1DC;
             }
         }
-        func_800A9C18(obj, part_a, part_b, spawn_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE68;
         part_b->unk_14 |= 0xC;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

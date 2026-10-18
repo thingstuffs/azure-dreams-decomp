@@ -21,7 +21,7 @@ extern M2C_UNK D_80016064;
 extern M2C_UNK D_8001608C;
 
 /* Finds an entry by ID and invokes error callbacks if it is missing. */
-s32 townFindEntry8IndexOrAssert(void *entries, s32 entry_id) {
+s32 find_entry_8_index_or_assert(void *entries, s32 entry_id) {
     s32 entry_index;
     Callback3 report_error;
     Rec_D_80016000 *root;

@@ -301,15 +301,15 @@ typedef struct {
 extern u8 D_800DEC28[];
 extern u8 D_800DEC00[];
 extern s32 D_800DEB70;
-s32 resolveRecordOrientationOrFallback();
+s32 resolve_record_orientation_or_fallback();
 s32 func_80069EF8(void);
-void func_8009CE1C();
-s32 dungeonScanMonsterAlongHeading();
-s32 dungeonGetDefinitionEntryByte13();
-s32 dungeonCheckEnabledNeighborHeight();
+void apply_attack_power_and_element_effects();
+s32 scan_monster_along_heading();
+s32 get_definition_entry_byte_13();
+s32 check_enabled_neighbor_height();
 extern u8 D_800DEBD8;
 extern s32 rand(void);
-void func_8002401C(void *effect, void *motion, void *sprite);
-void dungeonMoveTheEffectCountDownTimerFadeSpriteBlack(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite);
-void dungeonAdvanceMotionDampingDownwardAccelerationCountDownFadeEffect(Object *object, Motion *motion, Effect *effect);
+void update_directional_actor_effect(void *effect, void *motion, void *sprite);
+void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite);
+void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, Effect *effect);
 #endif

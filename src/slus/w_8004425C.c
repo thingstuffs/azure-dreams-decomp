@@ -27,7 +27,7 @@ extern void DrawSync(s32 a0);
 extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* runs one step of the main loop while a condition holds (matched, code.c) */
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 
 /* setter for D_800814C8 (matched, gcc 2.7.2, code.c) */
 extern void func_8003F5E0(s32 a0);
@@ -36,10 +36,10 @@ extern void func_8003F5E0(s32 a0);
 extern short SD_Call(s32 a0);
 
 /* tests availability bit n of D_800847D0 (matched, gcc 2.8.1, w_8005405C.c) */
-extern s32 testSoundChannelAvailability(s16 n);
+extern s32 test_sound_channel_availability(s16 n);
 
 /* Activates an unprocessed record, registers its callbacks, and waits for availability. */
-void audioLoadSoundEffectBank(s16 record_id)
+void audio_load_sound_effect_bank(s16 record_id)
 {
     S_8006E61C *record;
     s16 slot;
@@ -63,13 +63,13 @@ void audioLoadSoundEffectBank(s16 record_id)
             Control_CD(6, callback, 0);
         }
         Control_CD(6, record->field4, 0);
-        drainCdCommandQueue();
+        drain_cd_command_queue();
         ready_value = 1;
         func_8003F5E0(D_8008148C);
         SD_Call(((2 << slot) | 0x10) & 0xFFFF);
         func_800542BC();
         do {
-            available = (s16)testSoundChannelAvailability(record->field0);
+            available = (s16)test_sound_channel_availability(record->field0);
         } while (available != ready_value);
     }
 }

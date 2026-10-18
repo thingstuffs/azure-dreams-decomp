@@ -1,6 +1,6 @@
 #include "slus/sound_pitch_conversions.h"
 
-u32 soundConvertPitchToPackedNote(u16 center_note, u16 center_fine, u16 pitch)
+u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch)
 {
     u16 inverted_pitch;
     s32 top_bit;

@@ -5,11 +5,11 @@
 
 typedef struct S_800BE214_3 {
     M2C_UNK * unk_00;
-} S_800BE214_3;   /* (s8 *)sp10 + (arg0->unk_68 * 4) in townAdvanceActorAnimationPose */
+} S_800BE214_3;   /* (s8 *)sp10 + (arg0->unk_68 * 4) in advance_actor_animation_pose */
 
 typedef struct S_800BE214_4 {
     M2C_UNK * unk_00;
-} S_800BE214_4;   /* (s8 *)sp10 + (arg0->unk_A4 * 4) in townAdvanceActorAnimationPose */
+} S_800BE214_4;   /* (s8 *)sp10 + (arg0->unk_A4 * 4) in advance_actor_animation_pose */
 
 
 typedef union {
@@ -38,16 +38,16 @@ typedef struct S_800BE214_0 {
     u16 unk_A0;
     u8 pad_A2[0x2];
     s32 unk_A4;
-} S_800BE214_0;   /* arg0 in townAdvanceActorAnimationPose */
+} S_800BE214_0;   /* arg0 in advance_actor_animation_pose */
 
 
 typedef struct S_800BE214_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800BE214_2;   /* arg1 in townAdvanceActorAnimationPose */
+} S_800BE214_2;   /* arg1 in advance_actor_animation_pose */
 
 /* Advances the actor animation state and applies a timed pose offset. */
-void townAdvanceActorAnimationPose(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *animation) {
+void advance_actor_animation_pose(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *animation) {
     void *animations[9];
     s16 animation_index;
     s32 state;
@@ -58,7 +58,7 @@ void townAdvanceActorAnimationPose(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_
     state = actor->unk_68;
     switch (state) {
     case 0:
-        if ((func_800352FC() != 0) && (townCheckTransformIdentifierAndHook(actor) != 0)) {
+        if ((func_800352FC() != 0) && (check_transform_identifier_and_hook(actor) != 0)) {
             animation_index = rand() & 7;
             actor->unk_68 = animation_index;
             actor->unk_A4 = (u32)animation_index;
@@ -116,7 +116,7 @@ void townAdvanceActorAnimationPose(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_
         }
         break;
     case 0x60:
-        if ((func_800352FC() == 0) || (townCheckTransformIdentifierAndHook(actor) == 0)) {
+        if ((func_800352FC() == 0) || (check_transform_identifier_and_hook(actor) == 0)) {
             actor->unk_68 = 0;
         }
         break;

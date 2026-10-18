@@ -6,7 +6,7 @@
  * for the two axis offsets below). */
 /* D_80083CA8: sibling struct of code2.c's func_800419EC (which documents
  * offset 0 = rate/quotient, offset 4 = accumulator, offset 6 = short
- * (aka D_80083CAE), offset 8 = countdown timer). advanceTimedEntityMotion reads the
+ * (aka D_80083CAE), offset 8 = countdown timer). advance_timed_entity_motion reads the
  * offset-4 accumulator both as a full 32-bit int AND, via the same bytes,
  * as the offset-6 short -- modeled with a union so both views are legal. */
 typedef struct {
@@ -35,9 +35,9 @@ typedef struct {
 } S_80041900_Obj;
 
 /* Moves the entity while the timer runs, then ticks the timer and decays the motion accumulator. */
-void advanceTimedEntityMotion(S_80041900_Obj *entity)
+void advance_timed_entity_motion(S_80041900_Obj *entity)
 {
-    GameWork *direction_state = &gameWork;
+    GameWork *direction_state = &g_game_work;
     S_80041900_D80083CA8 *motion_state = &D_80083CA8;
 
     if (motion_state->field8 != 0) {

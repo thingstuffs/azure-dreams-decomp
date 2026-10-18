@@ -17,14 +17,14 @@ typedef struct S_80022F60_0 {
     u8 pad_04[0x2];
     u16 unk_06;
     u16 unk_08;
-} S_80022F60_0;   /* state_obj in townUpdateGymMinigame */
+} S_80022F60_0;   /* state_obj in update_gym_minigame */
 
 typedef struct S_80022F60_1 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x8];
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
-} S_80022F60_1;   /* main_state in townUpdateGymMinigame */
+} S_80022F60_1;   /* main_state in update_gym_minigame */
 
 typedef struct S_80022F60_2 {
     s32 unk_00;
@@ -34,7 +34,7 @@ typedef struct S_80022F60_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80022F60_2;   /* motion in townUpdateGymMinigame */
+} S_80022F60_2;   /* motion in update_gym_minigame */
 
 typedef struct S_80022F60_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_80022F60_3 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80022F60_3;   /* obj in townUpdateGymMinigame */
+} S_80022F60_3;   /* obj in update_gym_minigame */
 
 typedef struct S_80022F60_4 {
     u8 pad_00[0x4];
@@ -55,7 +55,7 @@ typedef struct S_80022F60_4 {
     s16 unk_12;
     s16 unk_14;
     s16 unk_16;
-} S_80022F60_4;   /* secondary in townUpdateGymMinigame */
+} S_80022F60_4;   /* secondary in update_gym_minigame */
 
 typedef struct S_80022F60_5 {
     u8 pad_00[0x4];
@@ -71,7 +71,7 @@ typedef struct S_80022F60_5 {
     s16 unk_50;
     s16 unk_52;
     s16 unk_54;
-} S_80022F60_5;   /* sprite in townUpdateGymMinigame */
+} S_80022F60_5;   /* sprite in update_gym_minigame */
 
 typedef struct S_80022F60_6 {
     u8 pad_00[0x4];
@@ -83,7 +83,7 @@ typedef struct S_80022F60_6 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80022F60_6;   /* image in townUpdateGymMinigame */
+} S_80022F60_6;   /* image in update_gym_minigame */
 
 
 extern void func_80033B78(s32);
@@ -93,9 +93,9 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
-extern void townApplyGlobalSceneValue(void *);
-extern void townInitializeSceneActionRecord(void *, void *, void *);
-extern s16 townQueryLoweredTransformPosition(void *);
+extern void apply_global_scene_value(void *);
+extern void initialize_scene_action_record(void *, void *, void *);
+extern s16 query_lowered_transform_position(void *);
 
 extern u8 D_80023934[];
 extern u8 D_80023994[];
@@ -126,7 +126,7 @@ extern M2C_UNK D_800D0138;
 extern s32 D_800F9B40;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
-void townUpdateGymMinigame(u8 *state_obj) {
+void update_gym_minigame(u8 *state_obj) {
     u8 *secondary = NULL;
     u8 *main_state = D_800834B8;
     s32 state;
@@ -215,7 +215,7 @@ void townUpdateGymMinigame(u8 *state_obj) {
 
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
-        if (((S_80022F60_2 *)motion)->unk_0A >= townQueryLoweredTransformPosition(motion)) {
+        if (((S_80022F60_2 *)motion)->unk_0A >= query_lowered_transform_position(motion)) {
             s32 cur_angle = ((S_80022F60_1 *)main_state)->unk_10.s;
 
             ((S_80022F60_2 *)motion)->unk_10 = 0;
@@ -302,7 +302,7 @@ loop_0:
                     ((S_80022F60_5 *)sprite)->unk_50 = 0x20;
                     ((S_80022F60_5 *)sprite)->unk_52 = 4;
                 }
-                townApplyGlobalSceneValue(&D_800D0120);
+                apply_global_scene_value(&D_800D0120);
                 ((S_80022F60_0 *)state_obj)->unk_00.u++;
             }
         }
@@ -311,7 +311,7 @@ loop_0:
 
     case 4:
         if (D_80082E80.unk_014 & 0x6000) {
-            townApplyGlobalSceneValue(&D_800D0128);
+            apply_global_scene_value(&D_800D0128);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
         break;
@@ -323,7 +323,7 @@ loop_0:
         angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = angle;
         if (angle == 0xC00) {
-            townApplyGlobalSceneValue(&D_800D0138);
+            apply_global_scene_value(&D_800D0138);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
     }
@@ -332,7 +332,7 @@ loop_0:
     case 6:
         if (D_80082E80.unk_014 & 0x6000) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
-            townApplyGlobalSceneValue(&D_800D0120);
+            apply_global_scene_value(&D_800D0120);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
             ((S_80022F60_0 *)state_obj)->unk_00.u = 0x20;
         }
@@ -379,7 +379,7 @@ loop_0:
         }
         if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
-            townApplyGlobalSceneValue(&D_800D0138);
+            apply_global_scene_value(&D_800D0138);
             D_800272CA = 0;
             D_800272C8 = 1;
             D_80083780.unk_0C = 0;
@@ -494,7 +494,7 @@ loop_0:
     case 0xFF:
         if ((s16)timer <= 0) {
             SD_Call(0x200);
-            townInitializeSceneActionRecord(main_state, ((MotionState *)&D_80083780), ((u8 *)(&D_80082E80)));
+            initialize_scene_action_record(main_state, ((MotionState *)&D_80083780), ((u8 *)(&D_80082E80)));
             ((S_80022F60_0 *)state_obj)->unk_00.s = 0;
         }
         break;

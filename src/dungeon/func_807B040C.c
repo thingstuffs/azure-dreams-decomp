@@ -8,7 +8,7 @@ typedef struct S_807B040C_0 {
     u8 pad_00[0x8];
     s32 * unk_08;
     u8 * unk_0C;
-} S_807B040C_0;   /* root in func_800F7C0C */
+} S_807B040C_0;   /* root in update_special_actor_transition */
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
@@ -25,30 +25,30 @@ typedef struct S_807B040C_1 {
     union { s16 s16; u8 u8; } unk_AE;   /* accessed as both */
     u8 pad_B0[0x8];
     u8 unk_B8;
-} S_807B040C_1;   /* entity in func_800F7C0C */
+} S_807B040C_1;   /* entity in update_special_actor_transition */
 
 typedef struct S_807B040C_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_2;   /* state_room in func_800F7C0C */
+} S_807B040C_2;   /* state_room in update_special_actor_transition */
 
 typedef struct S_807B040C_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_3;   /* target in func_800F7C0C */
+} S_807B040C_3;   /* target in update_special_actor_transition */
 
 typedef struct S_807B040C_4 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_807B040C_4;   /* room in func_800F7C0C */
+} S_807B040C_4;   /* room in update_special_actor_transition */
 
 typedef struct S_807B040C_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_807B040C_5;   /* collision in func_800F7C0C */
+} S_807B040C_5;   /* collision in update_special_actor_transition */
 
 typedef struct S_807B040C_6 {
     u8 pad_00[0x1C];
@@ -57,7 +57,7 @@ typedef struct S_807B040C_6 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_807B040C_6;   /* entity_aux in func_800F7C0C */
+} S_807B040C_6;   /* entity_aux in update_special_actor_transition */
 
 typedef struct S_807B040C_7 {
     u8 pad_00[0x2];
@@ -66,21 +66,21 @@ typedef struct S_807B040C_7 {
     u16 unk_06;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_807B040C_7;   /* motion in func_800F7C0C */
+} S_807B040C_7;   /* motion in update_special_actor_transition */
 
 
 
 
 
 
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void getOffsetMapCellValueAndFlags(u8, u8, s16, u16 *);
-extern void func_8009A3D0(u8, u8, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s16);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void get_offset_map_cell_value_and_flags(u8, u8, s16, u16 *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
-s32 func_800F7C0C(void) {
+s32 update_special_actor_transition(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
     u8 *root = (u8 *)D_800FBE1C;
@@ -140,7 +140,7 @@ s32 func_800F7C0C(void) {
         }
 
         ((S_807B040C_1 *)entity)->unk_9B++;
-        direction = func_800F6D28(motion);
+        direction = get_direction_toward_target_position(motion);
         direction += 4;
         if (direction >= 8) {
             direction -= 8;
@@ -149,13 +149,13 @@ s32 func_800F7C0C(void) {
         collision = &D_80083780;
 
         while (1) {
-            getOffsetMapCellValueAndFlags(room->tileX, room->tileY,
+            get_offset_map_cell_value_and_flags(room->tileX, room->tileY,
                           (s16)direction, &collision_flags);
             if (!(collision_flags & 0xB400)) {
                 direction_offset = (s16 *)&offsets + direction * 2;
                 ((S_807B040C_1 *)entity)->unk_AA.s16 = room->tileX + (u16)direction_offset[0];
                 ((S_807B040C_1 *)entity)->unk_AE.s16 = room->tileY + (u16)direction_offset[1];
-                if ((s16)dungeonCheckLeftTileAndCenterHeight(
+                if ((s16)check_left_tile_and_center_height(
                         ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
                         ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
                         collision->z.w.i) == 0) {
@@ -197,7 +197,7 @@ s32 func_800F7C0C(void) {
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
             }
-            func_8009A3D0(tile_x, tile_y, tile_flags);
+            update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         }
         /* fall through */
     case 1:
@@ -211,7 +211,7 @@ s32 func_800F7C0C(void) {
             move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
             distance_y = move_ticks + 0x20;
             aligned_x = world_x & 0xFFE0;
-            ground_height = (s16)func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
+            ground_height = (s16)sample_terrain_surface_height(aligned_x, distance_y & 0xFFE0, -0x400);
         }
         world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
         world_x <<= 6;
@@ -267,9 +267,9 @@ s32 func_800F7C0C(void) {
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
-        ((S_807B040C_1 *)entity)->unk_88 = (s16)func_800BCB04(((S_807B040C_7 *)motion)->unk_02,
+        ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(((S_807B040C_7 *)motion)->unk_02,
                                                  ((S_807B040C_7 *)motion)->unk_06, -0x400);
-        dungeonSetRecordIntegerTileCenter(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
+        set_record_integer_tile_center(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
         {
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
@@ -280,7 +280,7 @@ s32 func_800F7C0C(void) {
                 tile_flags = 0x300;
             }
         }
-        func_8009A21C(tile_x, tile_y, tile_flags);
+        cycle_map_cell_flags(tile_x, tile_y, tile_flags);
         ((S_807B040C_1 *)entity)->unk_B8 = state;
         return 1;
     default:

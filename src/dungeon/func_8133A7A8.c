@@ -32,10 +32,10 @@ extern s16 D_801760E8[4];
 
 extern void func_8004D294(void *, void *, s32);
 extern void func_8004D7A8(s32);
-extern s16 dungeonGetPlayerRelativePointOctant(void *);
+extern s16 get_player_relative_point_octant(void *);
 
 /* Update camera focus and height through timed entity states and phases. */
-void dungeonUpdateEncounterCameraFocus(Entity *entity) {
+void update_encounter_camera_focus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
     Actor *actor = *(Actor **)(D_80175D50 + 8);
     s16 phase_slot;
@@ -60,7 +60,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
         D_801760E8[0] = actor->x;
         D_801760E8[1] = actor->y - 0x100;
         D_801760E8[2] = actor->z;
-        globals = ((u8 *)(&gameWork));
+        globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         func_8004D7A8(1);
@@ -106,7 +106,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
 
         entity->timer = 0;
         entity->state++;
-        phase_slot = dungeonGetPlayerRelativePointOctant(actor);
+        phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 3;
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
@@ -118,7 +118,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
         y_sum = actor->y + D_80083780.y.w.i;
         D_801760E8[1] = y_sum / 2;
         D_801760E8[2] = actor->z;
-        globals = ((u8 *)(&gameWork));
+        globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         func_8004D7A8(1);
@@ -134,7 +134,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
 
         entity->timer = 0;
         entity->state++;
-        phase_slot = dungeonGetPlayerRelativePointOctant(actor);
+        phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 2;
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
@@ -146,7 +146,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
         y_sum = actor->y + D_80083780.y.w.i;
         D_801760E8[1] = y_sum / 2;
         D_801760E8[2] = actor->z;
-        globals = ((u8 *)(&gameWork));
+        globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         func_8004D7A8(1);
@@ -161,7 +161,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
         u8 *globals;
 
         if ((entity->timer & 0xF) == 0) {
-            height_slot = dungeonGetPlayerRelativePointOctant(actor);
+            height_slot = get_player_relative_point_octant(actor);
             D_801760E0[0] = D_800DCE60[0];
             D_801760E0[1] = D_800DCE60[1];
             entity->phase++;
@@ -174,7 +174,7 @@ void dungeonUpdateEncounterCameraFocus(Entity *entity) {
             y_sum = actor->y + D_80083780.y.w.i;
             D_801760E8[1] = y_sum / 2;
             D_801760E8[2] = actor->z;
-            globals = ((u8 *)(&gameWork));
+            globals = ((u8 *)(&g_game_work));
             *(s32 *)(globals + 0x154) = 0;
             *(s32 *)(globals + 0xCC) = 0;
             func_8004D7A8(1);

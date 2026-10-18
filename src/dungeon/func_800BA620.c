@@ -8,18 +8,18 @@
 
 
 extern void func_80041E70(void *);
-extern void dungeonBeginDeferredItemAction(void *, void *, void *, void *);
-extern void dungeonClearSlotAndUpdateLinkedState(u32);
-extern void dungeonAdjustSourceValueAndFinalize(void *, void *);
-extern void func_800A5F38(void *, s32);
-extern void func_800A63B8(void *, s32, s16);
-extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
-extern void dungeonCreateColoredEffectWithSound(void *source, s32 color, unsigned short sound_id);
+extern void begin_deferred_item_action(void *, void *, void *, void *);
+extern void clear_slot_and_update_linked_state(u32);
+extern void adjust_source_value_and_finalize(void *, void *);
+extern void apply_item_effect_at_entity_position(void *, s32);
+extern void display_item_status_message(void *, s32, s16);
+extern s32 apply_actor_food_preference(void *, s32, s32);
+extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 
 extern u8 D_800E2056[];
 
 /* Updates entity state and progress counters, then triggers the associated effects. */
-s32 dungeonUseItemToIncreaseDefense(void *entity, s32 update_value, s16 update_mode)
+s32 use_item_to_increase_defense(void *entity, s32 update_value, s16 update_mode)
 {
     u32 progress_value;
     u8 progress;
@@ -27,15 +27,15 @@ s32 dungeonUseItemToIncreaseDefense(void *entity, s32 update_value, s16 update_m
 
     if (entity == D_800E3D7C) {
         ((EntityRec *)entity)->unk_110 = update_value;
-        dungeonBeginDeferredItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
 
     if ((u32)entity <= 0x9FFFFFFF) {
-        func_800A63B8(entity, update_value, update_mode);
-        if (dungeonApplyActorFoodPreference(
+        display_item_status_message(entity, update_value, update_mode);
+        if (apply_actor_food_preference(
                 entity, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            func_800A5F38(entity, update_value);
+            apply_item_effect_at_entity_position(entity, update_value);
             return 1;
         }
     }
@@ -55,10 +55,10 @@ s32 dungeonUseItemToIncreaseDefense(void *entity, s32 update_value, s16 update_m
     }
 
     if (((EntityRec *)entity)->flags14 & 0x4000) {
-        dungeonAdjustSourceValueAndFinalize(entity, D_800E2056);
+        adjust_source_value_and_finalize(entity, D_800E2056);
     }
-    dungeonCreateColoredEffectWithSound((u8 *)entity - 0x20, 0x20F020, 0x616);
-    dungeonClearSlotAndUpdateLinkedState(update_value);
-    dungeonStatus.unk_0A--;
+    create_colored_effect_with_sound((u8 *)entity - 0x20, 0x20F020, 0x616);
+    clear_slot_and_update_linked_state(update_value);
+    g_dungeon_status.unk_0A--;
     return 1;
 }

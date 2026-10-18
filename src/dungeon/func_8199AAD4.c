@@ -11,7 +11,7 @@
 
 typedef struct S_8199AAD4_0_pre {
     u16 unk_00;
-} S_8199AAD4_0_pre;   /* the 0x2 bytes before self in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget, addressed as self[-1] */
+} S_8199AAD4_0_pre;   /* the 0x2 bytes before self in update_source_relative_position_delays_movement_advances_arc_toward_target, addressed as self[-1] */
 
 typedef struct S_8199AAD4_0 {
     void * unk_00;
@@ -27,14 +27,14 @@ typedef struct S_8199AAD4_0 {
     union { s16 s; u16 u; } unk_30;   /* accessed as both */
     u8 pad_32[0x6];
     s16 unk_38;
-} S_8199AAD4_0;   /* self in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_0;   /* self in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_8199AAD4_1;   /* source in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_1;   /* source in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_2 {
     union {
@@ -52,7 +52,7 @@ typedef struct S_8199AAD4_2 {
         struct { u8 pad[0x2]; u16 v; } at02;
         struct { u8 pad[0x2]; s16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_8199AAD4_2;   /* coords in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_2;   /* coords in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_3 {
     u8 pad_00[0x2];
@@ -61,44 +61,44 @@ typedef struct S_8199AAD4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8199AAD4_3;   /* position in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_3;   /* position in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_8199AAD4_4;   /* global_flags in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_4;   /* global_flags in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_5 {
     void * unk_00;
     u8 pad_04[0x4];
     void * unk_08;
-} S_8199AAD4_5;   /* entry in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_5;   /* entry in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_6 {
     s32 unk_00;
     s32 unk_04;
-} S_8199AAD4_6;   /* target_node in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_6;   /* target_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 
 typedef struct S_8199AAD4_8 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8199AAD4_8;   /* call_node in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_8;   /* call_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_9 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8199AAD4_9;   /* created in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_9;   /* created in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 typedef struct S_8199AAD4_11 {
     u16 unk_00;
-} S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget */
+} S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
 
 #define source source_or_step
@@ -115,14 +115,14 @@ extern void *D_800E3D18;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
-extern void *func_80024924(void *, s32, s32, s32, void *, s32, s32, s32, void *);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, void *);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
-extern void dungeonSpawnBlinkingSpriteFlash(s16, s16, s16);
+extern void spawn_blinking_sprite_flash(s16, s16, s16);
 
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
-void dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget(void *self, void *coords)
+void update_source_relative_position_delays_movement_advances_arc_toward_target(void *self, void *coords)
 {
     u16 delta[3];
     s32 target[3];
@@ -157,7 +157,7 @@ void dungeonUpdateSourceRelativePositionDelaysMovementAdvancesArcTowardTarget(vo
     case 0:
         source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
-            resolveRecordOrientationOrFallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
+            resolve_record_orientation_or_fallback(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
             position = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_08;
             ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->unk_02;
             ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->unk_06;
@@ -198,7 +198,7 @@ finish:
         ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
         ((S_8199AAD4_2 *)coords)->unk_04.at00.v = target[1];
         ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
-        dungeonSpawnBlinkingSpriteFlash(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
+        spawn_blinking_sprite_flash(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
                       ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
         tail_z = ((S_8199AAD4_0_pre *)self)[-1].unk_00;
         global_flags = (s32 *)0x80080000;
@@ -225,12 +225,12 @@ loop_top:
         target[1] = target_node->unk_04;
         target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-        entry_offset = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
+        entry_offset = (g_game_work.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
         delta_out = delta;
         entry_base = D_800E3D18;
         entry_offset &= 0x1C;
         call_node = ((S_8199AAD4_0 *)self)->unk_04;
-        if (resolveRecordOrientationOrFallback(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out,
+        if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out,
             0)) {
             target[0] += (s32)(s16)delta[0] << 16;
             target[1] += (s32)(s16)delta[1] << 16;
@@ -246,7 +246,7 @@ loop_top:
             (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
             (arc_height << 7);
 
-        created = func_80024924(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
+        created = create_positioned(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
                                 coords, ((S_8199AAD4_0 *)self)->unk_10.s, 4,
                                 ((S_8199AAD4_0 *)self)->unk_14, iteration);
         if (created != NULL) {

@@ -13,27 +13,27 @@ typedef struct S_81880F28_0 {
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x10];
     u16 unk_1C;
-} S_81880F28_0;   /* arg0 in dungeonTintEffectAndAdvanceMotion */
+} S_81880F28_0;   /* arg0 in tint_effect_and_advance_motion */
 
 typedef struct S_81880F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_81880F28_1;   /* object in dungeonTintEffectAndAdvanceMotion */
+} S_81880F28_1;   /* object in tint_effect_and_advance_motion */
 
 typedef struct S_81880F28_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_81880F28_2;   /* motion in dungeonTintEffectAndAdvanceMotion */
+} S_81880F28_2;   /* motion in tint_effect_and_advance_motion */
 
 typedef struct S_81880F28_3_pre {
     EffectColor * unk_00;
     u8 pad_04[0x10];
-} S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in dungeonTintEffectAndAdvanceMotion, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
+} S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in tint_effect_and_advance_motion, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
 
 /* Tint the object red, restore its color, and advance its motion. */
-void dungeonTintEffectAndAdvanceMotion(void *effect, void *motion_data) {
+void tint_effect_and_advance_motion(void *effect, void *motion_data) {
     void *motion = motion_data;
     void *object;
     EffectColor *color;
@@ -98,13 +98,13 @@ void dungeonTintEffectAndAdvanceMotion(void *effect, void *motion_data) {
         if (D_800257CC[0] == 0) {
             ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }
 
     ((S_81880F28_2 *)motion)->unk_08 += ((S_81880F28_2 *)motion)->unk_14;
     ((S_81880F28_2 *)motion)->unk_14 += -0x80000;
-    dungeonCreateRadialEffectNode(motion);
+    create_radial_effect_node(motion);
     ((S_81880F28_0 *)effect)->unk_1C++;
 }

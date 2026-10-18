@@ -9,7 +9,7 @@ typedef struct S_800DBF38_0 {
 } S_800DBF38_0;
 
 /* Clears bit 0 of the flags in the current state record. */
-void dungeonClearStateFlagBit(void) {
+void clear_state_flag_bit(void) {
     S_800DBF38_0 *state;
 
     state = D_800E5910 + 0x20;

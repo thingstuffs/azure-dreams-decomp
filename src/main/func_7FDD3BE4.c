@@ -3,7 +3,7 @@
 
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
-void func_8008AB44(void *dest) {
+void pack_three_capped_components_and_flag(void *dest) {
     void *source;
     void *component_cursor;
     s32 component;
@@ -30,6 +30,6 @@ void func_8008AB44(void *dest) {
     *(u16 *) ((s8 *) dest + 0x14) = *(u16 *) ((s8 *) source + 0x14);
     if (*(s16 *) ((s8 *) source + 0x16) & 0x8000) {
         *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

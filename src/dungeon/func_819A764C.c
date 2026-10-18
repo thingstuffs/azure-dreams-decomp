@@ -43,12 +43,12 @@ typedef struct S_819A764C_3 {
     u32 unk_14A0;
 } S_819A764C_3;   /* (void *)page_base in func_819A764C */
 
-s32 func_80024B20(void *);
+s32 update_segment(void *);
 extern u16 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
 /* Update randomized intermediate points and advance the effect state. */
-void dungeonUpdateRandomizedIntermediatePoints(void *self)
+void update_randomized_intermediate_points(void *self)
 {
     s16 point_step[3];
     s32 state;
@@ -82,7 +82,7 @@ void dungeonUpdateRandomizedIntermediatePoints(void *self)
     switch (state) {
     case 0:
         object_base = self - 0x20;
-        message = func_80024B20;
+        message = update_segment;
 
         func_8004491C(object_base, message);
     case 1:
@@ -93,7 +93,7 @@ void dungeonUpdateRandomizedIntermediatePoints(void *self)
         return;
     case 2:
         ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

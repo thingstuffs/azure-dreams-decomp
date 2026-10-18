@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1829800.h"
 
-void dungeonInitializeChildrenOrShutdown(void *owner)
+void initialize_children_or_shutdown(void *owner)
 {
     u32 state;
     s32 stop_state;
@@ -38,13 +38,13 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
     void *spawn_resource;
     void *entity;
 
-    status_page = (u8 *)((s8 *)(&gameWork));
+    status_page = (u8 *)((s8 *)(&g_game_work));
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
         if ((*(s16 *)D_8002715C) == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         (*(s16 *)D_8002715C) = 0;
         return;
@@ -75,7 +75,7 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
     if (object_or_kind == 0) {
         return;
     }
-    ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)dungeonUpdateSelectionMenuAnimation;
+    ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_selection_menu_animation;
     child = (u8 *)object_or_kind + 0x20;
     ((S_80026190_0 *)owner)->unk_00 = child;
     ((S_80026190_5 *)child)->unk_26 = ((S_80026190_0 *)owner)->unk_26;
@@ -86,17 +86,17 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
         alloc_bits = ((S_80026190_6_pre *)alloc_container)[-1].unk_00;
         (*(u16 *)((u8 *)alloc_container + -2)) = alloc_bits | 0x8000;
-        alloc_flags = objectFlagBlock.flags;
+        alloc_flags = object_flag_block.flags;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
         alloc_flags |= 0x8000;
-        objectFlagBlock.flags = alloc_flags;
+        object_flag_block.flags = alloc_flags;
         return;
     }
 
     object_or_kind = (s32)child_object;
-    ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)dungeonUpdateDirectionalObjectFade;
+    ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)update_directional_object_fade;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = ((S_80026190_0 *)owner)->unk_00;
-    if ((((S_80026190_5 *)child)->unk_14 = dungeonAllocateSpriteDataObject((s32)child)) == NULL) {
+    if ((((S_80026190_5 *)child)->unk_14 = allocate_sprite_data_object((s32)child)) == NULL) {
         setup_container = ((S_80026190_0 *)owner)->unk_00;
         owner_bits = ((S_80026190_7_pre *)setup_container)[-1].unk_00;
         cleanup_page = (u8 *)0x80080000;
@@ -137,8 +137,8 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
         shifted_kind = object_or_kind << 16;
         signed_kind = shifted_kind >> 16;
 
-        entity = func_800A0B94(signed_kind, func_800A1618(signed_kind, 3), 1);
-        drainCdCommandQueue();
+        entity = load_monster_resource_data(signed_kind, find_or_retain_sprite_resource_slot(signed_kind, 3), 1);
+        drain_cd_command_queue();
         entity = ((SpawnFunc)entity)(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
 
         status_page = (u8 *)0x80010000;
@@ -192,7 +192,7 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
         ((S_80026190_17 *)entity)->unk_1C &= ~0x1EF8;
         ((S_80026190_17 *)entity)->unk_1C &= mask_work;
         ((S_80026190_17 *)entity)->unk_1C |= 0x40000;
-        func_8009A028(entity_arg);
+        unlink_entity_node(entity_arg);
 
         flags_mask = ((S_80026190_10 *)source)->unk_14;
         parent = ((S_80026190_17_pre *)entity)[-1].unk_00;
@@ -211,16 +211,16 @@ void dungeonInitializeChildrenOrShutdown(void *owner)
         ((S_80026190_17 *)entity)->unk_58 = ((S_80026190_0 *)owner)->unk_00;
         ((S_80026190_17 *)entity)->unk_6A = source_slot;
         func_80044A50((void *)object_or_kind);
-        dungeonRetireTrackedEffectById((void *)object_or_kind);
-        func_8009A3D0(((S_80026190_18 *)parent)->unk_24, ((S_80026190_18 *)parent)->unk_25, 0x300);
+        retire_tracked_effect_by_id((void *)object_or_kind);
+        update_map_cell_flags_with_item_limit(((S_80026190_18 *)parent)->unk_24, ((S_80026190_18 *)parent)->unk_25, 0x300);
         ((S_80026190_17 *)entity)->unk_87 = 0xFF;
-        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)dungeonDrawAndRestoreFadingObject;
+        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)draw_and_restore_fading_object;
     }
     }
 
     object_or_kind = (s32)func_8003FC64(0x212);
     if (object_or_kind != 0) {
-        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)dungeonInitializeFadingEffect;
+        ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)initialize_fading_effect;
         ((S_80026190_0 *)owner)->unk_04 = (u8 *)object_or_kind + 0x20;
     }
     ((S_80026190_0 *)owner)->unk_1C.u++;

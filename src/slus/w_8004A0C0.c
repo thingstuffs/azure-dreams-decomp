@@ -8,7 +8,7 @@ typedef struct S_8004A0C0 {
 extern S_8004A0C0 D_800712FC[13];
 
 /* Returns the first table value whose mask overlaps the flags, or zero if none match. */
-s32 lookupFirstMaskValue(s32 flags) {
+s32 lookup_first_mask_value(s32 flags) {
     s32 result = 0;
     s32 entry_index = 0;
     S_8004A0C0 *entry = D_800712FC;

@@ -66,10 +66,10 @@ extern void func_80064A40(void);
 extern void func_80064B90(TownMatrix *matrix, TownVec32 *translation);
 extern void func_80065820(TownVec16 *rotation, TownMatrix *matrix);
 extern void func_80064BC0(TownMatrix *matrix, TownVec32 *scale);
-extern void townDrawRandomTintedQuadPair(u8 *effect);
+extern void draw_random_tinted_quad_pair(u8 *effect);
 
 /* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
-s32 townAnimateSpinningShrinkingObject(TownObject *object, const TownPoint *point)
+s32 animate_spinning_shrinking_object(TownObject *object, const TownPoint *point)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
     TownVec32 *translation;
@@ -144,7 +144,7 @@ s32 townAnimateSpinningShrinkingObject(TownObject *object, const TownPoint *poin
     func_80065820(rotation, second_matrix);
     func_80064BC0(second_matrix, scale);
     func_80064A40();
-    townDrawRandomTintedQuadPair(object);
+    draw_random_tinted_quad_pair(object);
 
     if (object->extent.signed_value == 0) {
         object->finished = 1;

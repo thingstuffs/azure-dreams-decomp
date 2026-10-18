@@ -4,21 +4,21 @@
 typedef struct S_800C95C0_0 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_800C95C0_0;   /* arg1 in func_800C95C0 */
+} S_800C95C0_0;   /* arg1 in queue_linked_visible_rectangle_copies */
 
 typedef struct S_800C95C0_1_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_800C95C0_1_pre;   /* the 0x8 bytes before state in func_800C95C0, addressed as state[-1] */
+} S_800C95C0_1_pre;   /* the 0x8 bytes before state in queue_linked_visible_rectangle_copies, addressed as state[-1] */
 
 
 extern s32 func_80065420(void *, void *, ...);
 struct S_Rect;
 struct S_Arg1;
-extern void dungeonQueueVisibleRectangleCopy(struct S_Rect *copy_rect, struct S_Arg1 *source);
+extern void queue_visible_rectangle_copy(struct S_Rect *copy_rect, struct S_Arg1 *source);
 
 /* Updates each linked state from its input values and delta using scratchpad memory. */
-s32 func_800C95C0(void *initial_state, void *input_values, s16 *initial_delta) {
+s32 queue_linked_visible_rectangle_copies(void *initial_state, void *input_values, s16 *initial_delta) {
     void *state = initial_state;
     s16 *delta = initial_delta;
     u8 *scratch = (u8 *)0x1F800000;
@@ -32,7 +32,7 @@ s32 func_800C95C0(void *initial_state, void *input_values, s16 *initial_delta) {
             func_80065420((void *)scratch, (void *)(scratch + 0xB8),
                           (void *)(scratch + 0x90), (void *)(scratch + 0x94)) -
             *(s16 *)((u8 *)delta + 6);
-        dungeonQueueVisibleRectangleCopy(state, scratch);
+        queue_visible_rectangle_copy(state, scratch);
         next_node = ((S_800C95C0_1_pre *)state)[-1].unk_00;
         if (next_node == NULL)
             break;

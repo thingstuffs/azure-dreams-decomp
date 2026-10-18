@@ -22,15 +22,15 @@ extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
 extern u8 D_80170E94[];
 extern void *D_800E3DE8[];
-s32 resolveRecordOrientationOrFallback();
+s32 resolve_record_orientation_or_fallback();
 void *func_8003FD64(s32, void *);
 s32 func_8004491C();
 s16 func_80066460();
 s16 func_8006649C();
-void *dungeonResolveAttackDamageAndEffects();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
-s32 func_800A56E0();
+void *resolve_attack_damage_and_effects();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
+s32 play_sound_if_enabled();
 extern M2C_UNK D_800DB618;
 extern M2C_UNK D_800DB660;
 extern u8 D_80174A8C;
@@ -52,7 +52,7 @@ typedef struct S_801727B4_0 {
     u16 unk_AC;
     u16 unk_AE;
     u16 unk_B0;
-} S_801727B4_0;   /* arg0 in dungeonUpdateStagedMovementAndRestoreActor */
+} S_801727B4_0;   /* arg0 in update_staged_movement_and_restore_actor */
 
 
 typedef struct S_801727B4_4 {
@@ -78,7 +78,7 @@ typedef struct S_801727B4_4 {
 } S_801727B4_4;
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
-void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
+void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
@@ -110,7 +110,7 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         if (animation->unk_14.at00_u16.v & 0x8000) {
             ((S_801727B4_0 *)action)->unk_9B = 5U;
             animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
         facing = ((u16) actor->facing >> 9) & 7;
@@ -120,10 +120,10 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
             wrapped_facing = facing + 0xB;
         }
         direction_index = reverse_facing - (wrapped_facing & 0x18);
-        motion->unk_0C = (s32) ((s16) dirStepX[direction_index] * 0x30000);
-        motion->unk_10 = (s32) ((s16) dirStepY[direction_index] * 0x30000);
+        motion->unk_0C = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
+        motion->unk_10 = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
         animation->unk_2C.as_pu8 = &D_80174A8C;
-        func_80047784(animation, (&D_80174A8C)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, (&D_80174A8C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
         return;
@@ -132,7 +132,7 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
             return;
         }
         animation->unk_2C.as_pu8 = &D_80174A94;
-        func_80047784(animation, (&D_80174A94)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, (&D_80174A94)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_90 = 0;
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
         motion->flags14 = 0xFFF40000;
@@ -149,13 +149,13 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
         motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
         animation->unk_2C.as_pu8 = D_80174AA4;
-        func_80047784(animation, D_80174AA4[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80174AA4[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_96 = 7;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
     case 3:
         if (animation->unk_04.as_s8 < 3) {
-            if (resolveRecordOrientationOrFallback(animation->unk_08, animation, action + 0xAC, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(animation->unk_08, animation, action + 0xAC, 0) == 0) {
                 ((S_801727B4_0 *)action)->unk_B0 = 0U;
                 ((S_801727B4_0 *)action)->unk_AE = 0U;
                 ((S_801727B4_0 *)action)->unk_AC = 0U;
@@ -172,7 +172,7 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
                 effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
                 effect_data->unk_12 = (u16) ((S_801727B4_0 *)action)->unk_AE;
                 effect_data->unk_14 = (u16) ((S_801727B4_0 *)action)->unk_B0;
-                has_offset = resolveRecordOrientationOrFallback(animation->unk_08, animation, action + 0xAC, 0);
+                has_offset = resolve_record_orientation_or_fallback(animation->unk_08, animation, action + 0xAC, 0);
                 if (has_offset == 0) {
                     ((S_801727B4_0 *)action)->unk_B0 = 0U;
                     ((S_801727B4_0 *)action)->unk_AE = 0U;
@@ -213,14 +213,14 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         ticks_left = ((S_801727B4_0 *)action)->unk_96 - 1;
         ((S_801727B4_0 *)action)->unk_96 = ticks_left;
         if ((ticks_left << 0x10) == 0 || (animation->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
-            func_800A56E0(0x808);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
+            play_sound_if_enabled(0x808);
         }
         if (!(animation->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
         animation->unk_2C.as_pu8 = D_80174AAC;
-        func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80174AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
         ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
         return;
@@ -229,9 +229,9 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
             return;
         }
         animation->unk_2C.as_pu8 = D_80174AAC;
-        func_80047784(animation, D_80174AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80174AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->unk_14.at00_u16.v & 0x8000) {
-            dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         }
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
@@ -251,10 +251,10 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
                 axis_distance = 0 - axis_distance;
             }
             if (axis_distance >= 0x41) {
-                dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
+                set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
             }
         } else {
-            dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
+            set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         }
         if ((s16) ((u16)motion->x.w.i) != (s16) ((S_801727B4_0 *)action)->unk_A8) {
             return;
@@ -264,11 +264,11 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         }
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         } else {
@@ -281,7 +281,7 @@ void dungeonUpdateStagedMovementAndRestoreActor(void *action, EntityRec *motion,
         if (actor->flags14 & 0x20000) {
             return;
         }
-        dungeonRollActorStackSplit(actor_handle, 0x10);
+        roll_actor_stack_split(actor_handle, 0x10);
         return;
     }
 }

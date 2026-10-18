@@ -8,7 +8,7 @@ typedef struct {
 extern u8 *func_8003C8E4(s32 entry_key);
 
 /* Read a script entry key and value, copying the value to entry bytes 2 and 3 if found. */
-void vmOp83SetEntryBytePair(ParserState *parser)
+void vm_op_83_set_entry_byte_pair(ParserState *parser)
 {
     u8 entry_key;
     u8 entry_value;

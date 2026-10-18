@@ -7,12 +7,12 @@ typedef struct S_8004F95C {
     s32 counter;
 } S_8004F95C;
 
-extern void reorderAndInterpolateSelectionMenuEntries(S_8004F95C *a0);
+extern void reorder_and_interpolate_selection_menu_entries(S_8004F95C *a0);
 extern void func_8004F67C(void);
 
 /* Updates state, advances its counter, and disables its callback when the prior count reaches the limit. */
-void animateSelectionMenuIndexTransition(S_8004F95C *state) {
-    reorderAndInterpolateSelectionMenuEntries(state);
+void animate_selection_menu_index_transition(S_8004F95C *state) {
+    reorder_and_interpolate_selection_menu_entries(state);
     if (state->counter++ >= state->limit) {
         state->func = func_8004F67C;
     }

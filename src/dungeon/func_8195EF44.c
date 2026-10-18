@@ -10,14 +10,14 @@
 
 
 
-   /* work in dungeonAllocateMapCellObject */
+   /* work in allocate_map_cell_object */
 
-   /* render in dungeonAllocateMapCellObject */
+   /* render in allocate_map_cell_object */
 
-   /* coord in dungeonAllocateMapCellObject */
+   /* coord in allocate_map_cell_object */
 
 /* Allocate and initialize an object using the map cell at the supplied position. */
-void *dungeonAllocateMapCellObject(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
+void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
     void *obj;
     S_8195EF44_2 *work;
@@ -28,7 +28,7 @@ void *dungeonAllocateMapCellObject(s16 world_x, s16 world_y, s16 world_z, s16 co
     s32 cell_y;
     u16 cell;
 
-    map = &gameWork.map;
+    map = &g_game_work.map;
     obj = func_8003FC64(2);
     if (obj != NULL) {
         work = *(void **)((u8 *)obj + 0xC);
@@ -38,13 +38,13 @@ void *dungeonAllocateMapCellObject(s16 world_x, s16 world_y, s16 world_z, s16 co
         work->unk_08 = cell;
         if (cell == 0) {
             u16 obj_flags = *(u16 *)((u8 *)obj + 0x1E) | 0x8000;
-            s32 global_flags = objectFlagBlock.flags | 0x8000;
+            s32 global_flags = object_flag_block.flags | 0x8000;
             *(u16 *)((u8 *)obj + 0x1E) = obj_flags;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
             return NULL;
         }
         coord = (u8 *)obj + 0x20;
-        *(void **)((u8 *)obj + 0x10) = func_80024648;
+        *(void **)((u8 *)obj + 0x10) = update_effect_and_spawn_fragments;
         func_8004491C(obj, func_80046398);
         render = *(void **)((u8 *)obj + 8);
         ((S_8195EF44_4 *)render)->unk_02 = world_x;

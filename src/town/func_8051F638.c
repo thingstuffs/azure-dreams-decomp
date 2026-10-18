@@ -7,7 +7,7 @@
 
 
 /* Adds 0x20 to the linked record's unk_04 value. */
-void townAdvanceSceneValueBy32(void) {
+void advance_scene_value_by_32(void) {
     TownPositionState *linked_record;
 
     linked_record = D_80016000->unk_1C;

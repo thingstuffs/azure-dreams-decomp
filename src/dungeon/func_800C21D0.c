@@ -9,12 +9,12 @@ typedef struct S_800C7930_1 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C7930_1;   /* source in dungeonApplyCameraOffsetAndSelectTarget */
+} S_800C7930_1;   /* source in apply_camera_offset_and_select_target */
 
 typedef struct S_800C7930_2 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_800C7930_2;   /* work in dungeonApplyCameraOffsetAndSelectTarget */
+} S_800C7930_2;   /* work in apply_camera_offset_and_select_target */
 
 typedef struct S_800C7930_3 {
     u8 pad_00[0x2];
@@ -23,16 +23,16 @@ typedef struct S_800C7930_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C7930_3;   /* destination in dungeonApplyCameraOffsetAndSelectTarget */
+} S_800C7930_3;   /* destination in apply_camera_offset_and_select_target */
 
 
 extern u16 D_800DCEAC;
 extern u16 D_800DCEBC;
 extern u16 D_800E58F8[];
-extern s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
-/* Apply table offsets to a position near the camera and pass it to dungeonSelectNearbyTargetAndInitializeSlot. */
-s32 dungeonApplyCameraOffsetAndSelectTarget(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
+/* Apply table offsets to a position near the camera and pass it to select_nearby_target_and_initialize_slot. */
+s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
 {
     s32 delta;
     s32 source_coord;
@@ -77,7 +77,7 @@ s32 dungeonApplyCameraOffsetAndSelectTarget(s32 object_addr, void *source_pos, s
             y_offset = *(u16 *)(y_offsets + y_offset_index);
             ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;
             ((S_800C7930_3 *)destination)->unk_0A = source->unk_0A;
-            dungeonSelectNearbyTargetAndInitializeSlot(object, destination, (s16)helper_arg, slot_value);
+            select_nearby_target_and_initialize_slot(object, destination, (s16)helper_arg, slot_value);
         }
     }
     return 0;

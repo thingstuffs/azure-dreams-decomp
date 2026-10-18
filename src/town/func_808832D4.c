@@ -7,7 +7,7 @@ extern u8 D_80700714[];
 extern u8 D_80700716[];
 
 /* Process the pair of 16-bit table entries at byte offset four. */
-void func_80700AD4(void) {
+void process_pair_16_bit_table(void) {
     s32 byte_offset;
     u16 second_entry;
 

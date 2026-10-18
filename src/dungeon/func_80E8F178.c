@@ -9,7 +9,7 @@ typedef struct S_80174978_0 {
     u8 pad_9C[0xC];
     s16 unk_A8;
     s16 unk_AA;
-} S_80174978_0;   /* arg0 in dungeonUpdateATimedMovementAnimationMarksCompletion */
+} S_80174978_0;   /* arg0 in update_a_timed_movement_animation_marks_completion */
 
 typedef struct S_80174978_1 {
     u8 pad_00[0x8];
@@ -19,7 +19,7 @@ typedef struct S_80174978_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80174978_1;   /* arg2 in dungeonUpdateATimedMovementAnimationMarksCompletion */
+} S_80174978_1;   /* arg2 in update_a_timed_movement_animation_marks_completion */
 
 typedef struct S_80174978_2 {
     u8 pad_00[0x2];
@@ -29,13 +29,13 @@ typedef struct S_80174978_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_80174978_2;   /* arg1 in dungeonUpdateATimedMovementAnimationMarksCompletion */
+} S_80174978_2;   /* arg1 in update_a_timed_movement_animation_marks_completion */
 
 
-extern void func_800A7A7C(s16, s16, s16, s32, void *);
+extern void place_item_at_valid_floor_position(s16, s16, s16, s32, void *);
 
 /* Updates a timed movement animation and marks its completion. */
-void dungeonUpdateATimedMovementAnimationMarksCompletion(void *actor, void *motion, void *visual) {
+void update_a_timed_movement_animation_marks_completion(void *actor, void *motion, void *visual) {
     s32 state;
     s32 z_step;
     s32 speed_or_z;
@@ -89,12 +89,12 @@ void dungeonUpdateATimedMovementAnimationMarksCompletion(void *actor, void *moti
         return;
 
     case 2:
-        func_800A7A7C(((S_80174978_0 *)actor)->unk_A8,
+        place_item_at_valid_floor_position(((S_80174978_0 *)actor)->unk_A8,
                       ((S_80174978_0 *)actor)->unk_AA,
                       (s16)(((S_80174978_2 *)motion)->unk_08.at02.v - 0x20),
                       ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     }

@@ -21,7 +21,7 @@ typedef struct S_8187BFE0_0 {
     u16 unk_2E;
     u16 unk_30;
     u16 unk_32;
-} S_8187BFE0_0;   /* state in initializeStarEffectSequence */
+} S_8187BFE0_0;   /* state in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_1 {
     u8 pad_00[0x8];
@@ -32,7 +32,7 @@ typedef struct S_8187BFE0_1 {
     s16 unk_1E;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_8187BFE0_1;   /* node in initializeStarEffectSequence */
+} S_8187BFE0_1;   /* node in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_2 {
     u8 pad_00[0x2];
@@ -60,7 +60,7 @@ typedef struct S_8187BFE0_2 {
     u16 unk_6A;
     u16 unk_6C;
     u16 unk_6E;
-} S_8187BFE0_2;   /* work in initializeStarEffectSequence */
+} S_8187BFE0_2;   /* work in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_3 {
     u8 pad_00[0x8];
@@ -73,7 +73,7 @@ typedef struct S_8187BFE0_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8187BFE0_3;   /* sprite in initializeStarEffectSequence */
+} S_8187BFE0_3;   /* sprite in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_4 {
     u8 pad_00[0x2];
@@ -82,7 +82,7 @@ typedef struct S_8187BFE0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8187BFE0_4;   /* dst in initializeStarEffectSequence */
+} S_8187BFE0_4;   /* dst in initialize_star_effect_sequence */
 
 typedef struct S_8187BFE0_5 {
     u8 pad_00[0x2];
@@ -91,7 +91,7 @@ typedef struct S_8187BFE0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8187BFE0_5;   /* source in initializeStarEffectSequence */
+} S_8187BFE0_5;   /* source in initialize_star_effect_sequence */
 
 typedef struct {
     u8 bytes[12];
@@ -104,7 +104,7 @@ extern u8 D_80026940[12];
 extern s16 D_8002694C[5];
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
-void initializeStarEffectSequence(void *state_data, void *source_data) {
+void initialize_star_effect_sequence(void *state_data, void *source_data) {
     u8 *source_position;
     u8 *node;
     u8 *edge_data;
@@ -150,8 +150,8 @@ void initializeStarEffectSequence(void *state_data, void *source_data) {
 
             edge_data = node + 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
-            ((S_8187BFE0_1 *)node)->unk_10 = advanceFadingEffectAnimation;
-            func_8004491C(node, func_800249A0);
+            ((S_8187BFE0_1 *)node)->unk_10 = advance_fading_effect_animation;
+            func_8004491C(node, decrement_object_counter);
 
             sprite = ((S_8187BFE0_1 *)node)->unk_0C;
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
@@ -276,7 +276,7 @@ void initializeStarEffectSequence(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
                 if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
                     (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                 }
             }
             break;

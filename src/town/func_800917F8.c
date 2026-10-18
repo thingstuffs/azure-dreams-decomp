@@ -4,7 +4,7 @@ extern s32 memset();
 extern s32 D_800CFCB4;
 
 /* Clear the list head record and link it to itself. */
-void func_8008EF58(void) {
+void initialize_circular_list_head(void) {
     s32 *head_link = &D_800CFCB4;
     void *head = head_link;
 

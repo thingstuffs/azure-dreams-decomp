@@ -12,7 +12,7 @@ typedef struct Func8003C4C8State {
     s16 unk_1E;
 } Func8003C4C8State;
 
-extern void runtimeClearRecordField04(void *active_flag, Func8003C4C8State *fade_state);
+extern void runtime_clear_record_field_04(void *active_flag, Func8003C4C8State *fade_state);
 
 /* Fades the state to black and clears its active flag when the timer expires. */
 void func_8003C4C8(
@@ -38,6 +38,6 @@ void func_8003C4C8(
     if ((s16)fade_state->unk_1C <= 0) {
         fade_state->unk_1E = 0;
         *active_flag = 0;
-        runtimeClearRecordField04(active_flag, fade_state);
+        runtime_clear_record_field_04(active_flag, fade_state);
     }
 }

@@ -1,9 +1,9 @@
-#define resolveRecordOrientationOrFallback func_8003DA40
+#define resolve_record_orientation_or_fallback func_8003DA40
 #define func_800478B8 func_80047454
-#define func_800A56E0 func_800A4398
-#define objectFlagBlock D_800803D4
+#define play_sound_if_enabled func_800A4398
+#define object_flag_block D_800803D4
 /* Relink of matched dungeon/func_81251000 at file 0x1271098; imports and data use paired retail relocations. */
-#define objectFlagBlock D_800803D4
+#define object_flag_block D_800803D4
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -174,7 +174,7 @@ void func_80163898(void *root_data, void *position_out, void *part_out)
     func_80047454(output_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81251000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

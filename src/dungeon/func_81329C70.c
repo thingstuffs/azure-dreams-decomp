@@ -6,6 +6,6 @@
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Returns whether the current record's unk_D2 field is zero. */
-s32 dungeonIsBossRecordEmpty(void) {
+s32 is_boss_record_empty(void) {
     return D_80174CD8->unk_D2 == 0;
 }

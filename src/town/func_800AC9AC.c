@@ -56,12 +56,12 @@ extern void func_80066640(void *, s32);
 extern void func_80066844(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 extern s32 rand(void);
-extern void townCopyMenuVectorHalfwords(void *, void *);
-extern void townAddEntityPositionToMenuVector(void *, void *);
-extern void func_800AA068(void *, void *, void *);
+extern void copy_menu_vector_halfwords(void *, void *);
+extern void add_entity_position_to_menu_vector(void *, void *);
+extern void transform_vector(void *, void *, void *);
 
 /* Transform and queue mesh quads with randomized vertex colors. */
-void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
+void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
 {
     S_func_800AC9AC_1 *scratch;
     u8 *initial_state;
@@ -83,7 +83,7 @@ void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
 
     quad_indices = mesh->unk_04;
     vertices = mesh->unk_00;
-    render_state_ptr = ((u8 * *)(&gameWork));
+    render_state_ptr = ((u8 * *)(&g_game_work));
     initial_state = *render_state_ptr;
     color_masks = mesh->unk_20;
     scratch = (S_func_800AC9AC_1 *)0x1F800000;
@@ -114,22 +114,22 @@ void func_800AA10C(S_func_800AC9AC_0 *mesh, void *transform)
             func_80066844(quad);
             func_80066640(quad, 1);
 
-            townCopyMenuVectorHalfwords(vertex_0, vertices + (quad_indices[0] * 8));
-            townCopyMenuVectorHalfwords(vertex_1, vertices + (quad_indices[1] * 8));
-            townCopyMenuVectorHalfwords(vertex_2, vertices + (quad_indices[2] * 8));
-            townCopyMenuVectorHalfwords(vertex_3, vertices + (quad_indices[3] * 8));
+            copy_menu_vector_halfwords(vertex_0, vertices + (quad_indices[0] * 8));
+            copy_menu_vector_halfwords(vertex_1, vertices + (quad_indices[1] * 8));
+            copy_menu_vector_halfwords(vertex_2, vertices + (quad_indices[2] * 8));
+            copy_menu_vector_halfwords(vertex_3, vertices + (quad_indices[3] * 8));
 
             func_800649A0();
-            func_800AA068(mesh, vertex_0, vertex_work);
-            func_800AA068(mesh, vertex_1, vertex_work);
-            func_800AA068(mesh, vertex_2, vertex_work);
-            func_800AA068(mesh, vertex_3, vertex_work);
+            transform_vector(mesh, vertex_0, vertex_work);
+            transform_vector(mesh, vertex_1, vertex_work);
+            transform_vector(mesh, vertex_2, vertex_work);
+            transform_vector(mesh, vertex_3, vertex_work);
             func_80064A40();
 
-            townAddEntityPositionToMenuVector(vertex_0, transform);
-            townAddEntityPositionToMenuVector(vertex_1, transform);
-            townAddEntityPositionToMenuVector(vertex_2, transform);
-            townAddEntityPositionToMenuVector(vertex_3, transform);
+            add_entity_position_to_menu_vector(vertex_0, transform);
+            add_entity_position_to_menu_vector(vertex_1, transform);
+            add_entity_position_to_menu_vector(vertex_2, transform);
+            add_entity_position_to_menu_vector(vertex_3, transform);
 
             scratch->unk_C4 = func_800654B0(
                 vertex_0, vertex_1, vertex_2, vertex_3,

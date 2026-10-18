@@ -2,7 +2,7 @@
 
 
 /* Updates an effect_base's position, colors, countdown, and completion flags. */
-void dungeonUpdateEffectBaseState(s32 effect_or_count) {
+void update_effect_base_state(s32 effect_or_count) {
     union { S_81844F2C_0 *v; } effect = {0};
     u32 *cursor;
     s32 i;

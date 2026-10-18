@@ -48,6 +48,6 @@ void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void townProcessEntriesInStateN19TriggersAssociatedSounds();                            /* extern */
-void townProcessTableEntriesReferencedObjectsTypeHex13();                            /* extern */
+void process_entries_in_state_n_19_triggers_associated_sounds();                            /* extern */
+void process_table_entries_referenced_objects_type_hex_13();                            /* extern */
 
-/* Calls townProcessEntriesInStateN19TriggersAssociatedSounds followed by townProcessTableEntriesReferencedObjectsTypeHex13. */
-void func_8009FF28(void) {
-    townProcessEntriesInStateN19TriggersAssociatedSounds();
-    townProcessTableEntriesReferencedObjectsTypeHex13();
+/* Calls process_entries_in_state_n_19_triggers_associated_sounds followed by process_table_entries_referenced_objects_type_hex_13. */
+void process_state_entries_and_referenced_objects(void) {
+    process_entries_in_state_n_19_triggers_associated_sounds();
+    process_table_entries_referenced_objects_type_hex_13();
 }

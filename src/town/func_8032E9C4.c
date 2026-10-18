@@ -2,9 +2,9 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern void townReleaseLshopEntry(s32);
-/* Pass the value to townReleaseLshopEntry, then call townCompactLshopEntryList. */
-void townRefreshLshopEntryList(s32 value) {
-    townReleaseLshopEntry(value);
-    townCompactLshopEntryList();
+extern void release_lshop_entry(s32);
+/* Pass the value to release_lshop_entry, then call compact_lshop_entry_list. */
+void refresh_lshop_entry_list(s32 value) {
+    release_lshop_entry(value);
+    compact_lshop_entry_list();
 }

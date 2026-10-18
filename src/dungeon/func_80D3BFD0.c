@@ -21,44 +21,44 @@ typedef struct S_801717D0_0 {
     u8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_801717D0_0;   /* self in dungeonPrepareActorDirectionalAction */
+} S_801717D0_0;   /* self in prepare_actor_directional_action */
 
 
 typedef struct S_801717D0_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_801717D0_2;   /* counter_base in dungeonPrepareActorDirectionalAction */
+} S_801717D0_2;   /* counter_base in prepare_actor_directional_action */
 
 typedef struct S_801717D0_3 {
     u8 pad_00[0x98];
     union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
     u8 pad_9C[0xA];
     u16 unk_A6;
-} S_801717D0_3;   /* player in dungeonPrepareActorDirectionalAction */
+} S_801717D0_3;   /* player in prepare_actor_directional_action */
 
 
 typedef struct S_801717D0_5 {
     u8 pad_00[0x12];
     u8 unk_12;
     u8 unk_13;
-} S_801717D0_5;   /* entry in dungeonPrepareActorDirectionalAction */
+} S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
 typedef struct S_801717D0_6 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_801717D0_6;   /* call_arg2 in dungeonPrepareActorDirectionalAction */
+} S_801717D0_6;   /* call_arg2 in prepare_actor_directional_action */
 
 
 extern void func_80047784(void *, u8, s32);
-extern s32 dungeonScanMonsterAlongHeading(void *, u8, u8, s16, u8);
-extern s32 func_800A2B5C(void *);
-extern void dungeonAdvanceStatusTimers(void *);
-extern s32 func_800A6D30(void);
-extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern s32 scan_monster_along_heading(void *, u8, u8, s16, u8);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern void advance_status_timers(void *);
+extern s32 generate_random_value(void);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
+void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
     u8 *player;
@@ -80,9 +80,9 @@ void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *acti
     if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
         if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
-            counter = ((u16)dungeonStatus.unk_0A);
+            counter = ((u16)g_dungeon_status.unk_0A);
             counter--;
-            dungeonStatus.unk_0A = counter;
+            g_dungeon_status.unk_0A = counter;
         }
 
         player = ((u8 *)D_800E3D7C);
@@ -90,23 +90,23 @@ void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *acti
             ((S_801717D0_3 *)player)->unk_A6 != special_action) {
             ((S_801717D0_3 *)player)->unk_A6 = special_action;
             ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
         } else {
-            dungeonAdvanceStatusTimers(self);
+            advance_status_timers(self);
             ((S_801717D0_0 *)self)->unk_6D--;
             ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
             return;
         }
     } else {
-        if (dungeonStatus.flags & 8) {
+        if (g_dungeon_status.flags & 8) {
             return;
         }
-        if ((func_800A2B5C(self) << 16) != 0) {
+        if ((try_claim_dungeon_action_slot(self) << 16) != 0) {
             return;
         }
 
-        dungeonSelectNearbyTargetAndInitializeSlot(self - 0x20, action_param, 8, 0x300);
-        if ((func_800A2B5C(self) << 16) != 0) {
+        select_nearby_target_and_initialize_slot(self - 0x20, action_param, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(self) << 16) != 0) {
             return;
         }
     }
@@ -116,7 +116,7 @@ void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *acti
             if (!(state_flags & 0x80000000)) {
                 state_flags |= 0x80000000;
                 ((S_801717D0_0 *)self)->unk_14 = state_flags;
-                ((S_801717D0_0 *)self)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                ((S_801717D0_0 *)self)->unk_2A.u += (generate_random_value() & 7) << 9;
             }
         }
 
@@ -132,7 +132,7 @@ void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *acti
             action_entry = action_table + entry_index * 20;
             if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
                 ((S_801717D0_0 *)self)->unk_60 =
-                    dungeonScanMonsterAlongHeading(self,
+                    scan_monster_along_heading(self,
                                   ((S_801717D0_6 *)action_sprite)->unk_24,
                                   ((S_801717D0_6 *)action_sprite)->unk_25,
                                   ((S_801717D0_0 *)self)->unk_2A.s,
@@ -149,11 +149,11 @@ void dungeonPrepareActorDirectionalAction(u8 *entity, s32 action_param, u8 *acti
 
     if (frame_table != 0) {
         (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
-        selection_index = (gameWork.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
+        selection_index = (g_game_work.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         func_80047784(action_sprite, frame_table[selection_index & 7], 0);
     }
 
-    ((S_801717D0_2 *)((u8 *)&dungeonStatus.unk_00))->unk_0A++;
+    ((S_801717D0_2 *)((u8 *)&g_dungeon_status.unk_00))->unk_0A++;
 
     return;
 }

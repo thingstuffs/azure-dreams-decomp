@@ -5,7 +5,7 @@ s32 func_8017489C(void *initial_state, void *context, void *data) {
     void *next_node;
 
     for (;;) {
-        dungeonProjectAndQueueTexturedQuad(state, context, data,(s16)(0));
+        project_and_queue_textured_quad(state, context, data,(s16)(0));
         next_node = *((void **)state - 2);
         if (next_node == 0) {
             return 0;

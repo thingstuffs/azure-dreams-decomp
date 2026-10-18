@@ -8,43 +8,43 @@
 #include "m2c_compat.h"
 
 void func_80041E70();                      /* extern */
-void dungeonBeginDeferredItemAction(); /* extern */
-void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
-void dungeonAdjustSourceValueAndFinalize();           /* extern */
-void func_800A5F38();                 /* extern */
-void func_800A63B8();            /* extern */
-s32 dungeonApplyActorFoodPreference();            /* extern */
-void dungeonCreateTimedPairedParticleEmitter();            /* extern */
+void begin_deferred_item_action(); /* extern */
+void clear_slot_and_update_linked_state();                         /* extern */
+void adjust_source_value_and_finalize();           /* extern */
+void apply_item_effect_at_entity_position();                 /* extern */
+void display_item_status_message();            /* extern */
+s32 apply_actor_food_preference();            /* extern */
+void create_timed_paired_particle_emitter();            /* extern */
 extern M2C_UNK D_800E0EE1;
 
 
 typedef struct S_800BDA44_0_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_800BDA44_0_pre;   /* the 0x18 bytes before arg0 in dungeonUseItemToRestoreAttack, addressed as arg0[-1] */
+} S_800BDA44_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_restore_attack, addressed as arg0[-1] */
 
 
 /* Apply the item effect to the target and consume the item on completion. */
-s32 dungeonUseItemToRestoreAttack(void *target, s32 item, s16 use_type) {
+s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
     if (target == ((s32)D_800E3D7C)) {
         ((EntityRec *)target)->unk_110 = item;
-        dungeonBeginDeferredItemAction(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
+        begin_deferred_item_action(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {
-        func_800A63B8(target, item, use_type);
-        if (dungeonApplyActorFoodPreference(target, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            func_800A5F38(target, item);
+        display_item_status_message(target, item, use_type);
+        if (apply_actor_food_preference(target, (D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(target, item);
             return 1;
         }
     }
-    dungeonCreateTimedPairedParticleEmitter(((S_800BDA44_0_pre *)target)[-1].unk_00, 0x2020C0, target);
+    create_timed_paired_particle_emitter(((S_800BDA44_0_pre *)target)[-1].unk_00, 0x2020C0, target);
     ((EntityRec *)target)->unk_26 = (u8) ((EntityRec *)target)->unk_68;
     func_80041E70(target);
     if (((EntityRec *)target)->flags14 & 0x4000) {
-        dungeonAdjustSourceValueAndFinalize(target, &D_800E0EE1);
+        adjust_source_value_and_finalize(target, &D_800E0EE1);
     }
-    dungeonClearSlotAndUpdateLinkedState(item);
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+    clear_slot_and_update_linked_state(item);
+    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     return 1;
 }

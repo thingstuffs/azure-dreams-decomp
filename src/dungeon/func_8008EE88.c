@@ -9,19 +9,19 @@ typedef struct {
 extern s32 D_800E3DF0[];
 extern u8 D_800E3E48[];
 
-extern void buildEntitySlotSnapshot(void *, void *);
-extern s8 getBoundedStrideIndex(s32, void *, s32, s32);
+extern void build_entity_slot_snapshot(void *, void *);
+extern s8 get_bounded_stride_index(s32, void *, s32, s32);
 extern s32 func_80042900(void *, s32);
-extern void packItemFlag400Bitmap(u16);
+extern void pack_item_flag_400_bitmap(u16);
 
 /* Snapshot records and state fields, converting stored pointers to table indices. */
-void dungeonSnapshotInventoryAndFamiliars(void *input_state) {
+void snapshot_inventory_and_familiars(void *input_state) {
     void *state;
     s32 slot_index;
     u8 *src_cursor;
 
     state = input_state;
-    buildEntitySlotSnapshot((void *)0x80012194, state);
+    build_entity_slot_snapshot((void *)0x80012194, state);
 
     {
         s32 record_index;
@@ -67,9 +67,9 @@ void dungeonSnapshotInventoryAndFamiliars(void *input_state) {
         slot_index = 0x13;
         do {
             ((WordCopy *)(globals + 0x21E8))[slot_index] = ((WordCopy *)(globals + 0x248))[slot_index];
-            (globals + 0x2238)[slot_index] = getBoundedStrideIndex(((s32 *)(globals + 0x29C))[slot_index], (void *)0x80010248, 4, 0x14);
+            (globals + 0x2238)[slot_index] = get_bounded_stride_index(((s32 *)(globals + 0x29C))[slot_index], (void *)0x80010248, 4, 0x14);
             ((Blob140 *)(globals + 0x2260))[slot_index] = ((Blob140 *)D_800E3E48)[slot_index];
-            (globals + 0x224C)[slot_index] = getBoundedStrideIndex(D_800E3DF0[slot_index], D_800E3E48, 0x8C, 0x14);
+            (globals + 0x224C)[slot_index] = get_bounded_stride_index(D_800E3DF0[slot_index], D_800E3E48, 0x8C, 0x14);
             slot_index -= 1;
         } while (slot_index >= 0);
     }
@@ -83,7 +83,7 @@ void dungeonSnapshotInventoryAndFamiliars(void *input_state) {
         src_cursor = (u8 *)state;
         src_cursor += 4;
         do {
-            index_cursor[slot_index + 0x2D52] = getBoundedStrideIndex(*(s32 *)(src_cursor + 0xD0), (void *)0x80010248, 4, 0x14);
+            index_cursor[slot_index + 0x2D52] = get_bounded_stride_index(*(s32 *)(src_cursor + 0xD0), (void *)0x80010248, 4, 0x14);
             src_cursor -= 4;
             slot_index -= 1;
         } while (slot_index >= 0);
@@ -107,6 +107,6 @@ void dungeonSnapshotInventoryAndFamiliars(void *input_state) {
         state_base[0x2D6C] = field_value;
         field_value = ((u8 *)state)[0xFB];
         state_base[0x2D6D] = field_value;
-        packItemFlag400Bitmap(saved_setting);
+        pack_item_flag_400_bitmap(saved_setting);
     }
 }

@@ -6,12 +6,12 @@ extern void * D_80174CDC[3];
 extern void * func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
-extern void func_8009A028();
-extern void func_8009A3D0();
-extern void func_800A9C18();
+extern void unlink_entity_node();
+extern void update_map_cell_flags_with_item_limit();
+extern void initialize_actor_sprite_and_animation();
 
 /* Create and initialize an object at the supplied coordinates and store it globally. */
-void dungeonCreateLinkedFacingSprite(u16 x, u16 y, s32 z) {
+void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 saved_x = x;
     u8 saved_y = y;
     void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");
@@ -37,7 +37,7 @@ void dungeonCreateLinkedFacingSprite(u16 x, u16 y, s32 z) {
         F(sprite, u8*, 0x24) = saved_x;
         F(sprite, u8*, 0x25) = saved_y;
         F(sprite, s16*, 6) = -4;
-        func_800A9C18(call_object, position, sprite, 0);
+        initialize_actor_sprite_and_animation(call_object, position, sprite, 0);
         F(state, s16*, 0x2A) = 0x200;
         func_80047784(sprite, ((u8 *)F(sprite, s32**, 0x2C))[((D_80083228 + 0x300) >> 9) & 7], 0);
         F(sprite, s16*, 0x1E) = 0x1800;
@@ -49,8 +49,8 @@ void dungeonCreateLinkedFacingSprite(u16 x, u16 y, s32 z) {
         tile_mask = 0x3000;
         if (F(state, s32*, 0x1C) & 0x2000)
             tile_mask = 0x300;
-        func_8009A3D0(tile_x, tile_y, tile_mask);
-        func_8009A028(state);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
+        unlink_entity_node(state);
         D_80174CDC[0] = object;
         F(object, s32**, 0x10) = (s32 *)((s32)F(object, s32**, 0x10) | 0x80000000);
     }

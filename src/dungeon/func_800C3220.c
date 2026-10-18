@@ -5,26 +5,26 @@ typedef struct State {
     u8 divisor;
 } State;
 
-extern s32 func_800A48F0(State *, s32, s8);
-extern s32 func_800A6D30(void);
+extern s32 set_or_clear_actor_status_slot(State *, s32, s8);
+extern s32 generate_random_value(void);
 extern s32 func_800C8484(State *);
 
 /* Roll the state's chance and, on a hit, apply effect 4 to it. */
-s32 dungeonRollChanceAndApplyEffectFour(State *state, s16 value, s8 flag) {
+s32 roll_chance_and_apply_effect_four(State *state, s16 value, s8 flag) {
     s32 roll;
     u16 chance;
 
     if (func_800C8484(state) != 0) {
         return 0;
     }
-    roll = func_800A6D30() & 0xFFFF;
+    roll = generate_random_value() & 0xFFFF;
     if (state->divisor != 0) {
         chance = roll % state->divisor;
     } else {
         chance = 0;
     }
     if (chance < value || value == 255) {
-        if ((s32)((u32)func_800A48F0(state, 4, flag) << 16) >= 0) {
+        if ((s32)((u32)set_or_clear_actor_status_slot(state, 4, flag) << 16) >= 0) {
             return 1;
         }
     }

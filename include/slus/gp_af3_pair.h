@@ -33,7 +33,7 @@ extern void func_800542BC(void);
 extern void func_80044698(void);
 extern s32 func_8004450C(s16 mode);
 extern s32 Control_CD(s32 a0, void *a1, s32 a2);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern short SD_Call(int a0);
 
 /* Selects a buffered entry, registering it with the slot marker and applying the requested mode. */
@@ -57,11 +57,11 @@ extern s32 D_8008148C;
 
 extern int Control_CD(int a0, void *a1, int a2);
 extern void DrawSync(s32 a0);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern void func_8003F5E0(int a0);
 extern short SD_Call(int a0);
 extern void func_800542BC(void);
-extern s16 testSoundChannelAvailability(s16 n);
+extern s16 test_sound_channel_availability(s16 n);
 
 /* Register callbacks and complete a state transition, returning 1 if already current. */
 

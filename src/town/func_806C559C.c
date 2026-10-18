@@ -7,7 +7,7 @@
 typedef struct S_8001659C_6 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_8001659C_6;   /* (*(void **)((u8 *)(&D_80016000) + 0)) in townCopyEventPositionState */
+} S_8001659C_6;   /* (*(void **)((u8 *)(&D_80016000) + 0)) in copy_event_position_state */
 
 
 typedef struct S_8001659C_0 {
@@ -25,7 +25,7 @@ typedef struct S_8001659C_2 {
 } S_8001659C_2;
 
 /* Invoke state callbacks and copy the base position into two pairs, offsetting the first Y by 32. */
-void townCopyEventPositionState(void) {
+void copy_event_position_state(void) {
     S_8001659C_0 *first_x_state;
     TownPositionState *first_y_state;
     S_8001659C_2 *second_x_state;

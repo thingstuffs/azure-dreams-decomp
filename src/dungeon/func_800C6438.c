@@ -7,7 +7,7 @@
 
 M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
-extern s32 func_800A56E0();
+extern s32 play_sound_if_enabled();
 extern M2C_UNK D_800CB9DC;
 extern u8 D_800DF650[];
 
@@ -40,15 +40,15 @@ typedef struct S_800CBB98_2 {
 typedef struct S_800CBB98_3 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800CBB98_3;   /* held_arg3 in dungeonCreateOwnedTileCenterEffect */
+} S_800CBB98_3;   /* held_arg3 in create_owned_tile_center_effect */
 
 typedef struct S_800CBB98_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CBB98_4;   /* global_base in dungeonCreateOwnedTileCenterEffect */
+} S_800CBB98_4;   /* global_base in create_owned_tile_center_effect */
 
 /* Creates an effect at the tile center, links it to its owner, and increments the effect count. */
-void *dungeonCreateOwnedTileCenterEffect(s16 tile_x, u16 tile_y, s16 height, void *owner) {
+void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner) {
     s16 saved_height = height;
     S_800CBB98_3 *saved_owner = owner;
     u16 saved_tile_x = tile_x;
@@ -76,8 +76,8 @@ void *dungeonCreateOwnedTileCenterEffect(s16 tile_x, u16 tile_y, s16 height, voi
         func_8003DB94(sprite, D_800DF650, 0);
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
-        func_800A56E0(0x614);
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+        play_sound_if_enabled(0x614);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
     }
     return effect;
 }

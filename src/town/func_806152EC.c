@@ -9,7 +9,7 @@ extern s32 func_80018C50();
 extern s8 D_8001BD48[];
 
 /* Selects a town event from flag checks or invokes the default town callback. */
-s32 func_80016AEC(void) {
+s32 select_town_event_flag_default(void) {
     void *town;
 
     func_80018BD0(0xFB7);

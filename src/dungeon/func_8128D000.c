@@ -2,7 +2,7 @@
 
 typedef struct S_8128D000_0_pre {
     u16 unk_00;
-} S_8128D000_0_pre;   /* the 0x2 bytes before root in updateSmoothedMotionAndTransitionBrightness, addressed as root[-1] */
+} S_8128D000_0_pre;   /* the 0x2 bytes before root in update_smoothed_motion_and_transition_brightness, addressed as root[-1] */
 
 typedef struct S_8128D000_0 {
     u8 pad_00[0xAC];
@@ -11,7 +11,7 @@ typedef struct S_8128D000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_8128D000_0;   /* root in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_0;   /* root in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_1 {
     u8 pad_00[0x8];
@@ -19,7 +19,7 @@ typedef struct S_8128D000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_8128D000_1;   /* owner in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_1;   /* owner in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_2 {
     u8 pad_00[0x4];
@@ -29,7 +29,7 @@ typedef struct S_8128D000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8128D000_2;   /* part in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_2;   /* part in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_3 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_8128D000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8128D000_3;   /* dst in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_3;   /* dst in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_4 {
     u8 pad_00[0x2];
@@ -51,7 +51,7 @@ typedef struct S_8128D000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8128D000_4;   /* out in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_4;   /* out in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_5 {
     u8 pad_00[0x1];
@@ -61,12 +61,12 @@ typedef struct S_8128D000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8128D000_5;   /* copy in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_5;   /* copy in update_smoothed_motion_and_transition_brightness */
 
 typedef struct S_8128D000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8128D000_6;   /* callee_part in updateSmoothedMotionAndTransitionBrightness */
+} S_8128D000_6;   /* callee_part in update_smoothed_motion_and_transition_brightness */
 
 extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
@@ -76,10 +76,10 @@ extern s32 D_800803D4[3];
 
 
 
-void updateSmoothedMotionAndTransitionBrightness(void *root_data, void *out_coords, void *dst_data)
+void update_smoothed_motion_and_transition_brightness(void *root_data, void *out_coords, void *dst_data)
 ;
 /* Copy part state, apply smoothed motion offsets, and update transition brightness. */
-void updateSmoothedMotionAndTransitionBrightness(void *root_data, void *out_coords, void *dst_data)
+void update_smoothed_motion_and_transition_brightness(void *root_data, void *out_coords, void *dst_data)
 {
     s16 motion_offset[3];
     void *root = root_data;

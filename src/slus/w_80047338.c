@@ -6,11 +6,11 @@ void func_80047338(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_off
     u32 unsigned_width;
     s32 width_words;
 
-    if (gameWork.unk_004 != D_8008151E) {
+    if (g_game_work.unk_004 != D_8008151E) {
         D_8008151C = 0;
         D_8008151A = 0;
         D_80081518 = 0;
-        D_8008151E = gameWork.unk_004;
+        D_8008151E = g_game_work.unk_004;
     }
 
     width_words = (texture->unkA + 3) / 4;

@@ -17,21 +17,21 @@ extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
 extern void func_80400EF8(void);
-extern StatePair *cardDevkitDebounceChannelStatus(void);
-extern void func_804018FC(void);
-extern void func_80407830(s32 slot_addr, s32 slot_value);
-extern void func_8040787C(s32 slot_addr, StatePair *display_state, s32 *state_changed);
-extern void cardBootUpdateObjectStateAndCallback(void);
-extern void memoryProcessHandlesAndMarkObject(void *object);
+extern StatePair *card_devkit_debounce_channel_status(void);
+extern void submit_stored_and_queried_boot_values(void);
+extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
+extern void update_embedded_selected_slot_outputs(s32 slot_addr, StatePair *display_state, s32 *state_changed);
+extern void card_boot_update_object_state_and_callback(void);
+extern void memory_process_handles_and_mark_object(void *object);
 
 
 typedef struct S_804081AC_0 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_804081AC_0;   /* object in cardBootHandleMenuSelectionInput */
+} S_804081AC_0;   /* object in card_boot_handle_menu_selection_input */
 
 /* Handles menu selection input and refreshes the displayed state pair. */
-void cardBootHandleMenuSelectionInput(void *menu)
+void card_boot_handle_menu_selection_input(void *menu)
 {
     s32 state_changed[2];
     StatePair *state;
@@ -49,7 +49,7 @@ void cardBootHandleMenuSelectionInput(void *menu)
             s32 *linked_object;
 
             func_80063FF8(0x515);
-            memoryProcessHandlesAndMarkObject((u8 *)menu - 0x20);
+            memory_process_handles_and_mark_object((u8 *)menu - 0x20);
             D_8008CA34 = 2;
             func_80400EF8();
             func_8003FD58(0, 0xF, 0, 0);
@@ -59,7 +59,7 @@ void cardBootHandleMenuSelectionInput(void *menu)
             func_80063FF8(0x514);
             func_804008A0((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
-            (*(void * *)((u8 *)menu + -0x10)) = cardBootUpdateObjectStateAndCallback;
+            (*(void * *)((u8 *)menu + -0x10)) = card_boot_update_object_state_and_callback;
             return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {
@@ -79,19 +79,19 @@ void cardBootHandleMenuSelectionInput(void *menu)
 
         if (selection_changed != 0) {
             func_80063FF8(0x502);
-            func_80407830((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
+            assert_slot_store_value_and_process_state((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
         }
     }
 
-    state = cardDevkitDebounceChannelStatus();
+    state = card_devkit_debounce_channel_status();
     state_changed[0] = state->first != (*(s32 *)((u8 *)menu + 0x18));
     state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
     display_state = state;
     (*(StatePair *)((u8 *)menu + 0x18)) = *state;
-    func_8040787C((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
+    update_embedded_selected_slot_outputs((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
     func_8003FA78(&D_80400854, D_804090F8[state->first]);
     func_8003FA78(&D_80400860, D_804090F8[state->second]);
-    func_804018FC();
+    submit_stored_and_queried_boot_values();
 
     return;
 }

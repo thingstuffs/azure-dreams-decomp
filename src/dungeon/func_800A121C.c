@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 utility_count_word(s32, s32) __asm__("func_800A6928");
+extern s32 utility_count_word(s32, s32) __asm__("count_matching_packed_entity_keys");
 
-/* Returns 1 if the packed byte pair is in the table, otherwise checks func_800A6928. */
-s16 func_800A697C(s32 highByte, s32 lowByte) {
+/* Returns 1 if the packed byte pair is in the table, otherwise checks count_matching_packed_entity_keys. */
+s16 has_recorded_value_pair(s32 highByte, s32 lowByte) {
     s32 packedBytes = highByte << 8;
     s32 remainingEntries;
     s32 searchKey;

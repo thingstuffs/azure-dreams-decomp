@@ -8,15 +8,15 @@
 #endif
 
 
-extern s32 townAddMotionDeltasToPosition(void *);
-extern s32 townProcessTheItemIndexAvailableReportSuccess();
-extern s32 townInitializeEntityFlagsTransformTypeDependentVariant();
-extern s32 townDispatchPairedTableValues();
+extern s32 add_motion_deltas_to_position(void *);
+extern s32 process_the_item_index_available_report_success();
+extern s32 initialize_entity_flags_transform_type_dependent_variant();
+extern s32 dispatch_paired_table_values();
 extern s32 D_800D09C8[];
 
 
 /* Updates motion toward the target and resolves the entity when its countdown expires. */
-void townUpdateMotionTowardTargetResolvesEntityCountdownExpires(void *entity, s32 context, EntityRec *motion, s32 mode) {
+void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, EntityRec *motion, s32 mode) {
     s32 result[5];
     s8 *linked_flag;
     s8 *clear_flag;
@@ -30,12 +30,12 @@ void townUpdateMotionTowardTargetResolvesEntityCountdownExpires(void *entity, s3
     motion->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
     offset_z = motion->z.v + 0x200000;
     motion->flags14 = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
-    townAddMotionDeltasToPosition(motion);
+    add_motion_deltas_to_position(motion);
     ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
     ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 16) <= 0) {
         slot = ((Rec_D_800CFCB4 *)entity)->unk_95;
-        if (townProcessTheItemIndexAvailableReportSuccess(entity, context, motion, mode, result) != 0) {
+        if (process_the_item_index_available_report_success(entity, context, motion, mode, result) != 0) {
             if (((Rec_D_800CFCB4 *)entity)->unk_4D.as_u8 == 0x13) {
                 u8 *state_table = (u8 *)0x80010000;
                 s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
@@ -53,13 +53,13 @@ void townUpdateMotionTowardTargetResolvesEntityCountdownExpires(void *entity, s3
                     *clear_flag = 0;
                 }
             }
-            townDispatchPairedTableValues(clear_flag);
+            dispatch_paired_table_values(clear_flag);
             return;
         }
         motion->x.v = 0;
         motion->y.v = 0;
         motion->x.w.i = ((Rec_D_800CFCB4 *)entity)->unk_84;
         motion->y.w.i = ((Rec_D_800CFCB4 *)entity)->unk_86;
-        townInitializeEntityFlagsTransformTypeDependentVariant(entity, context, motion, mode);
+        initialize_entity_flags_transform_type_dependent_variant(entity, context, motion, mode);
     }
 }

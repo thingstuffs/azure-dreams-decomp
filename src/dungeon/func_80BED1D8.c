@@ -11,12 +11,12 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
 
     switch (motion_state->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         motion->unk_0C =
-            -*(s16 *)((u8 *)((s8 *)dirStepX) +
+            -*(s16 *)((u8 *)((s8 *)dir_step_x) +
                 ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
         motion->unk_10 =
-            -*(s16 *)((u8 *)((s8 *)dirStepY) +
+            -*(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 15;
         motion_state->unk_9B++;
 
@@ -24,7 +24,7 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(motion_state, motion, tile_state, ((u8 *)D_80174244));
+            begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -64,7 +64,7 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(motion_state, motion, tile_state, ((u8 *)D_80174244));
+            begin_actor_display_action(motion_state, motion, tile_state, ((u8 *)D_80174244));
             return;
         }
         motion_state->unk_96.s = 8;
@@ -98,15 +98,15 @@ void func_801729D8(R16_801729D8_S_80173294_0 *motion_state, EntityRec *motion, R
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion,(u8)(tile_state->unk_24),(u8)(tile_state->unk_25));
+        set_record_integer_tile_center(motion,(u8)(tile_state->unk_24),(u8)(tile_state->unk_25));
         {
 
-            x_speed_or_entity = ((s32)dungeonStatus.unk_10);
+            x_speed_or_entity = ((s32)g_dungeon_status.unk_10);
             if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
-                dungeonStatus.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
+                g_dungeon_status.unk_10 = x_speed_or_entity & 0x7FFFFFFF;
             }
         }
-        motion_state->unk_8C = ((void *)func_80171014);
+        motion_state->unk_8C = ((void *)update_actor_state_and_dispatch_transition);
         return;
 
     default:

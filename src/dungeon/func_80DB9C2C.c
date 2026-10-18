@@ -20,7 +20,7 @@ typedef struct S_8017142C_0 {
     s32 unk_6C;
     s32 unk_70;
     s32 unk_74;
-} S_8017142C_0;   /* arg0 in dungeonUpdateGrowingCollidingEffect */
+} S_8017142C_0;   /* arg0 in update_growing_colliding_effect */
 
 typedef struct S_8017142C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -30,16 +30,16 @@ typedef struct S_8017142C_1 {
         struct { s16 v; } at00u;
         struct { u8 pad[0x2]; s16 v; } at02;
     } unk_08;   /* overlapping accesses */
-} S_8017142C_1;   /* arg1 in dungeonUpdateGrowingCollidingEffect */
+} S_8017142C_1;   /* arg1 in update_growing_colliding_effect */
 
 
 
 extern s32 func_800478B8();
-extern s32 dungeonCheckLeftTileAndCenterHeight();
-extern s16 func_800BCB04();
+extern s32 check_left_tile_and_center_height();
+extern s16 sample_terrain_surface_height();
 
 /* Update effect motion, collisions, sprite growth, and timed fading. */
-void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *sprite) {
+void update_growing_colliding_effect(void *effect, void *position, void *sprite) {
     s32 move_height;
     s32 fade_height;
     s32 phase;
@@ -58,7 +58,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         ((S_8017142C_1 *)position)->unk_00.at00.v += ((S_8017142C_0 *)effect)->unk_60;
         velocity_x = ((S_8017142C_0 *)effect)->unk_60;
         ((S_8017142C_0 *)effect)->unk_60 = (velocity_x * 2) / 3;
-        if ((dungeonCheckLeftTileAndCenterHeight(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((check_left_tile_and_center_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_00.at00.v -= ((S_8017142C_0 *)effect)->unk_60;
             ((S_8017142C_0 *)effect)->unk_60 = 0;
@@ -67,7 +67,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         ((S_8017142C_1 *)position)->unk_04.at00.v += ((S_8017142C_0 *)effect)->unk_64;
         velocity_y = ((S_8017142C_0 *)effect)->unk_64;
         ((S_8017142C_0 *)effect)->unk_64 = (velocity_y * 2) / 3;
-        if ((dungeonCheckLeftTileAndCenterHeight(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((check_left_tile_and_center_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_04.at00.v -= ((S_8017142C_0 *)effect)->unk_64;
             ((S_8017142C_0 *)effect)->unk_64 = 0;
@@ -76,10 +76,10 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
         move_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < move_height) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
-            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
+            ((S_8017142C_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
             - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
@@ -111,7 +111,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
     phase = ((S_8017142C_0 *)effect)->unk_00;
@@ -136,10 +136,10 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
         fade_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+        if ((sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
             (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < fade_height) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
-            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
+            ((S_8017142C_1 *)position)->unk_08.at02.v = sample_terrain_surface_height(((S_8017142C_1 *)position)->unk_00.at02.v,
                 ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
             - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
@@ -156,7 +156,7 @@ void dungeonUpdateGrowingCollidingEffect(void *effect, void *position, void *spr
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

@@ -3,7 +3,7 @@
 extern u8 D_800D162C[];
 
 /* Store the table index and its two byte values in the object. */
-void func_800B2394(void *object, s32 index) {
+void store_table_index_and_entry_bytes(void *object, s32 index) {
     u8 *table;
     u8 *entry;
 

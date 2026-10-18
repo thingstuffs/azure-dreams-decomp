@@ -15,7 +15,7 @@ void func_80170CF8(
 
     node = func_8003FC64(0x212);
     if (node != 0) {
-        ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_10 = ((u8 *)func_80170B0C);
+        ((R10_80170CF8_S_80AC55DC_0 *)node)->unk_10 = ((u8 *)move_and_shrink_fading_effect);
 
         ((R10_80170CF8_S_80AC55DC_5 *)(((R10_80170CF8_S_80AC55DC_0 *)node)->unk_08))->unk_02 =
             ((R10_80170CF8_S_80AC55DC_6 *)(origin->unk_08))->unk_02 + offset_x;

@@ -33,9 +33,9 @@ typedef struct TownBucket {
     u8 pad_1c[4];
 } TownBucket;
 
-extern s32 townRunFlagTestCallbacks(void *);
-extern s32 func_8001643C(s32, s32, s32, s32);
-extern void func_800163B8(void *, void *);
+extern s32 run_flag_test_callbacks(void *);
+extern s32 check_query_0x5bc_nonzero(s32, s32, s32, s32);
+extern void get_entry_masked_key_initializes(void *, void *);
 
 extern u8 D_80016178[0x10];
 extern u8 D_80016184[0x10];
@@ -46,7 +46,7 @@ extern s32 D_80016FC8;
 extern s32 D_80016FCC;
 
 /* Build object-set records and object-select lists, then report their counts and the CD-header count. */
-void townBuildObjectSetAndSelectListsRevB(s32 *entries, s32 ost_w, s32 *osel_w)
+void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_w)
 {
     s32 p;
     s32 entry_index;
@@ -70,24 +70,24 @@ void townBuildObjectSetAndSelectListsRevB(s32 *entries, s32 ost_w, s32 *osel_w)
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {
-                    s32 choice_index = townRunFlagTestCallbacks(entry);
+                    s32 choice_index = run_flag_test_callbacks(entry);
                     s32 choice_flags =
                         (entry->flags & ~0xFF) | (choice_index & 0xFF);
                     s32 next_record;
 
                     entry->flags = choice_flags;
-                    next_record = func_8001643C(
+                    next_record = check_query_0x5bc_nonzero(
                         p,
                         ((s32 *)entry->choices)[(choice_index << 2) + 2],
                         choice_flags, entry_index);
                     if ((next_record - 0x14) != p) {
-                        func_800163B8(&D_80016FC8, entry);
+                        get_entry_masked_key_initializes(&D_80016FC8, entry);
                         entry->link = p;
                         p = next_record;
                     }
                 } else {
                     entry->link = p;
-                    p = func_8001643C(
+                    p = check_query_0x5bc_nonzero(
                         p, (s32)entry->choices, 0, entry_index);
                 }
             }

@@ -12,7 +12,7 @@ extern s16 D_800D4266[];
 extern s16 D_800D4268[];
 
 /* Apply pending selections, update playback, and save the active state. */
-void townApplySoundSelectionsAndUpdate(void)
+void apply_sound_selections_and_update(void)
 {
     s16 *pending;
     s16 *active;

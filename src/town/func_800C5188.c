@@ -7,22 +7,22 @@ typedef struct {
 } PointerGlobal;
 
 extern s32 func_800352FC(void);
-extern void townUnlinkSceneListNode(void *node);
+extern void unlink_scene_list_node(void *node);
 
 extern PointerGlobal D_800FE4A0;
 extern PointerGlobal D_800834B8;
 extern u8 D_80097D2C[12];
 
 /* Update the current object and set its and the global flags when the request succeeds. */
-void townUpdateTransformObjectOnRequest(void *object, s32 request_data, s32 request_param, s32 check_param) {
+void update_transform_object_on_request(void *object, s32 request_data, s32 request_param, s32 check_param) {
     void *current_object;
 
     if (func_800352FC() != 0) {
         current_object = D_800FE4A0.value;
         if (current_object == object && D_800834B8.value == D_80097D2C) {
-            townUnlinkSceneListNode(current_object);
+            unlink_scene_list_node(current_object);
             ((u16 *) current_object)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

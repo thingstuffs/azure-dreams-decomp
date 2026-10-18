@@ -4,7 +4,7 @@
 
 typedef struct S_800D81D4_0_pre {
     u16 unk_00;
-} S_800D81D4_0_pre;   /* the 0x2 bytes before arg0 in func_800D81D4, addressed as arg0[-1] */
+} S_800D81D4_0_pre;   /* the 0x2 bytes before arg0 in update_orbiting_effect_particle, addressed as arg0[-1] */
 
 typedef struct S_800D81D4_0 {
     u8 pad_00[0xC];
@@ -20,7 +20,7 @@ typedef struct S_800D81D4_0 {
     union { u16 s; s16 u; } unk_48;   /* accessed as both */
     s16 unk_4A;
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800D81D4_0;   /* arg0 in func_800D81D4 */
+} S_800D81D4_0;   /* arg0 in update_orbiting_effect_particle */
 
 typedef struct S_800D81D4_1 {
     u8 pad_00[0x2];
@@ -30,13 +30,13 @@ typedef struct S_800D81D4_1 {
     s32 unk_08;
     u8 pad_0C[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
-} S_800D81D4_1;   /* p1 in func_800D81D4 */
+} S_800D81D4_1;   /* p1 in update_orbiting_effect_particle */
 
 typedef struct S_800D81D4_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s16 unk_10;
-} S_800D81D4_2;   /* p2 in func_800D81D4 */
+} S_800D81D4_2;   /* p2 in update_orbiting_effect_particle */
 
 
 void func_800478B8(void *);
@@ -46,7 +46,7 @@ s32 func_80064710(s32);
 s32 func_80069EF8(void);
 
 /* Updates a rotating effect's motion, color, and lifetime. */
-void func_800D81D4(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
+void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
     s32 phase_index;
     M2C_UNK height_offset;
     S_800D81D4_2 *primitive = primitive_data;
@@ -138,7 +138,7 @@ void func_800D81D4(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_d
         break;
     case 6:
         ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);
-        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
     }
     motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v)
         >> 0xC));

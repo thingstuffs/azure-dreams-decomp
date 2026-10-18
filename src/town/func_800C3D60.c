@@ -17,9 +17,9 @@ typedef struct {
 extern TownState D_8006ADBC;
 extern TownEntry D_800D4094[];
 
-extern s32 townFindSoundEntryOrTerminatorIndex(s16 target_value);
+extern s32 find_sound_entry_or_terminator_index(s16 target_value);
 extern void func_800540A8(void);
-extern void audioLoadSoundEffectBank(s32 effect);
+extern void audio_load_sound_effect_bank(s32 effect);
 extern s16 SD_Call(s32 sound);
 
 /* town_sd_se_callagain: replay the selected town entry's effect and sound when the town state is 12. */
@@ -30,13 +30,13 @@ s32 town_sd_se_callagain(void) {
     TownEntry *entry;
 
     town_state = &D_8006ADBC;
-    entry_index = townFindSoundEntryOrTerminatorIndex(town_state->index);
+    entry_index = find_sound_entry_or_terminator_index(town_state->index);
     func_800540A8();
     if (town_state->state == 12) {
         entries = D_800D4094;
         entry = &entries[entry_index];
         if (entry->effect != -1) {
-            audioLoadSoundEffectBank(entry->effect);
+            audio_load_sound_effect_bank(entry->effect);
         }
         if ((s16)entry->sound != -1) {
             SD_Call(entry->sound);

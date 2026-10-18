@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void inventoryInitializeOwnerPointersAndOffsets(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
+void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
 {
     s32 owner_idx;
 
@@ -12,11 +12,11 @@ void inventoryInitializeOwnerPointersAndOffsets(ovl_1830850_81810E3C_Source *sou
 
     owners[2]->unk0 = source->unk74 + 12;
     owners[2]->unk4->unk8 = -20;
-    inventorySetPairedIndexOffset(owners, 0);
+    inventory_set_paired_index_offset(owners, 0);
 
     owners[3]->unk0 = source->unk74;
     owners[3]->unk4->unkA = -64;
-    inventoryInitializeFiveSharedEntries(source->unk74 + 24);
+    inventory_initialize_five_shared_entries(source->unk74 + 24);
 
     owners[4]->unk0 = source->unk74 + 24;
     owners[4]->unk4->unk8 = -20;
@@ -32,7 +32,7 @@ void inventoryInitializeOwnerPointersAndOffsets(ovl_1830850_81810E3C_Source *sou
         owners[owner_idx]->unk4->unkA = (owner_idx * 16) - 137;
     }
 
-    inventorySelectNullOrDefaultData(source);
+    inventory_select_null_or_default_data(source);
     owners[12]->unk4->unk8 = -12;
     owners[12]->unk4->unkA = 23;
 }

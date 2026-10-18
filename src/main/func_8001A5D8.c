@@ -12,14 +12,14 @@ typedef struct CallbackTables {
     CallbackTable second;
 } CallbackTables;
 
-extern s32 cardDevkitPollFirstSoftwareEvent(void);
+extern s32 card_devkit_poll_first_software_event(void);
 extern s32 func_8040153C(void);
 extern CallbackTable D_80400054;
 extern CallbackTable D_80400068;
 extern s32 D_80409500[];
 
 /* Dispatches a nonzero selection through the callback table for the current state. */
-s32 cardDevkitDispatchPolledEvent(void)
+s32 card_devkit_dispatch_polled_event(void)
 {
     CallbackTables callbacks;
     Callback *table_base;
@@ -33,7 +33,7 @@ s32 cardDevkitDispatchPolledEvent(void)
     state = D_80409500[0];
     table_base = callbacks.first.slot;
     if (state == 0) {
-        result = cardDevkitPollFirstSoftwareEvent();
+        result = card_devkit_poll_first_software_event();
         if (result != 0) {
             callback = table_base[result];
             result = callback();

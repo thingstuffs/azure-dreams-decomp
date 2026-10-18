@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_190c800.h"
 
-void func_80024A5C(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -20,15 +20,15 @@ void func_80024A5C(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *sc
     void *call_order_table;
     s32 call_param;
 
-    draw_page = gameWork.unk_000;
+    draw_page = g_game_work.unk_000;
     pos_or_ot = screen_pos;
     clip_packet = ((Row_818ED25C_S_80024A5C_0 *)draw_page)->unk_8D0;
     offset_y = draw_page != (void *)D_801C9E40;
     ((Row_818ED25C_S_80024A5C_0 *)draw_page)->unk_8D0 = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
-    page_ptr = &gameWork;
-    func_80067E2C(clip_packet, gameWork.unk_000);
+    page_ptr = &g_game_work;
+    func_80067E2C(clip_packet, g_game_work.unk_000);
     tag_mask = 0xFF000000U;
 
     ((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 = (((Row_818ED25C_S_80024A5C_1 *)clip_packet)->unk_00 & tag_mask) |
@@ -48,12 +48,12 @@ void func_80024A5C(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *sc
     call_order_table = order_table;
     call_data = draw_data;
     draw_pos[1] = draw_y;
-    func_80024094(call_pos, call_data, call_order_table, call_param);
+    render_rotated_effect_quads(call_pos, call_data, call_order_table, call_param);
 
     if (clear_enabled != 0) {
         u8 *fill_packet;
 
-        packet_page = gameWork.unk_000;
+        packet_page = g_game_work.unk_000;
         fill_packet = packet_page->unk_8D0;
         packet_page->unk_8D0 = fill_packet + 0x10;
         ((Row_818ED25C_S_80024A5C_4 *)fill_packet)->unk_04 = 0x60000000;

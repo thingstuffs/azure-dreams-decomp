@@ -38,11 +38,11 @@ typedef struct {
     u16 code;
 } CcaAnim_800D4634;
 
-extern void dungeonDispatchActorAction(s32, s32, s32, u8 *);
+extern void dispatch_actor_action_2(s32, s32, s32, u8 *);
 
-extern void dungeonSetRecordIntegerTileCenter(CcaMotion_800D4634 *, u8, u8);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(CcaAnim_800D4634 *);
+extern void set_record_integer_tile_center(CcaMotion_800D4634 *, u8, u8);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(CcaAnim_800D4634 *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */
 void func_800D4634(CcaState_800D4634 *state, CcaMotion_800D4634 *motion, CcaInfo_800D4634 *info, CcaAnim_800D4634 *anim) {
@@ -51,9 +51,9 @@ void func_800D4634(CcaState_800D4634 *state, CcaMotion_800D4634 *motion, CcaInfo
     phase = state->status;
     switch (phase) {
     case 0:
-        dungeonApplyClampedActorValueDelta(anim);
-        motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
-        motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
+        apply_clamped_actor_value_delta(anim);
+        motion->dx = (s32)(*(s16 *)((u8 *)dir_step_x + ((anim->code >> 8) & 0xE)) << 15);
+        motion->dy = (s32)(*(s16 *)((u8 *)dir_step_y + ((anim->code >> 8) & 0xE)) << 15);
         state->status = state->status + 1;
         if (anim->active != 0) {
             if (info->flags & 0x8000) {
@@ -66,7 +66,7 @@ void func_800D4634(CcaState_800D4634 *state, CcaMotion_800D4634 *motion, CcaInfo
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            dungeonBeginActorDisplayAction(state, motion, info, 0);
+            begin_actor_display_action(state, motion, info, 0);
             return;
         }
                 /* fall through */
@@ -93,7 +93,7 @@ void func_800D4634(CcaState_800D4634 *state, CcaMotion_800D4634 *motion, CcaInfo
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            dungeonBeginActorDisplayAction(state, motion, info, 0);
+            begin_actor_display_action(state, motion, info, 0);
             return;
         }
         state->count = 8;
@@ -123,11 +123,11 @@ void func_800D4634(CcaState_800D4634 *state, CcaMotion_800D4634 *motion, CcaInfo
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        dungeonSetRecordIntegerTileCenter(motion, info->x, info->y);
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)anim - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        set_record_integer_tile_center(motion, info->x, info->y);
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)anim - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
-        state->next = dungeonDispatchActorAction;
+        state->next = dispatch_actor_action_2;
         state->kind = 0xE;
     }
     }

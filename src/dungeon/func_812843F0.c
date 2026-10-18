@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonLoadGlobalEffectTableEntry at file 0x12743F0; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/load_global_effect_table_entry at file 0x12743F0; imports and data use paired retail relocations. */
 #include "common.h"
 
 extern s32 D_8016CFBC[];

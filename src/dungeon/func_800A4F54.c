@@ -6,23 +6,23 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 M2C_UNK func_80047784();         /* extern */
-void dungeonApplyActorDeltaAndCapValue();         /* extern */
+void apply_actor_delta_and_cap_value();         /* extern */
 
 
 /* Set the entity to state 7 and select its directional sprite frame when ready. */
-s32 dungeonBeginReadyActorDirectionalAction(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
+s32 begin_ready_actor_directional_action(void *entity, M2C_UNK context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames) {
     if (((Rec_func_800A9E70_arg0 *)entity)->unk_64 > 0) {
-        dungeonApplyActorDeltaAndCapValue(entity, context, sprite, entity);
+        apply_actor_delta_and_cap_value(entity, context, sprite, entity);
         return 0;
     }
-    dungeonStatus.unk_10 = (void *) ((s8 *) entity - 0x20);
+    g_dungeon_status.unk_10 = (void *) ((s8 *) entity - 0x20);
     ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_s8 = 7;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_9B.as_s8 = 0;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
     if (direction_frames != 0) {
         if (!(((Rec_func_800A9E70_arg0 *)entity)->unk_1C & 0x20)) {
             sprite->unk_2C.as_s32 = direction_frames;
-            func_80047784(sprite, *((u8 *) direction_frames + (((s32) (gameWork.view.viewAngle
+            func_80047784(sprite, *((u8 *) direction_frames + (((s32) (g_game_work.view.viewAngle
                 + ((Rec_func_800A9E70_arg0 *)entity)->unk_2A + 0x100) >> 9) & 7)), 0);
         }
     }

@@ -62,7 +62,7 @@ typedef struct S_819AD1DC_4 {
 } S_819AD1DC_4;   /* render in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
-void *func_800249DC(void *src)
+void *move_effect_toward_target(void *src)
 {
     s32 i;
     s32 *handler;
@@ -79,14 +79,14 @@ void *func_800249DC(void *src)
     S_819AD1DC_2 *coords;
 
     i = 0;
-    handler = dungeonRunWarpCutscene;
+    handler = run_warp_cutscene;
     sub_handler = &D_80027460;
     last_index = 8;
     do {
         obj = func_8003FC64(18);
         if (obj != NULL) {
             ((S_819AD1DC_0 *)obj)->unk_10 = handler;
-            func_8004491C(obj, dungeonProcessLinkedMeshStatesMode0);
+            func_8004491C(obj, process_linked_mesh_states_mode_0);
             coords = ((S_819AD1DC_0 *)obj)->unk_08;
             x = ((S_819AD1DC_1 *)src)->unk_02;
             part = obj + 0x20;

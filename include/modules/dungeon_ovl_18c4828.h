@@ -238,11 +238,11 @@ typedef struct Row_818A4ED0_S_818A4ED0_3 {
 } Row_818A4ED0_S_818A4ED0_3;   /* arg1 in func_800246D0 */
 
 /* Creates an object at the supplied position with a randomized rotation. */
-s32 dungeonTryTriggerTargetRecordEffect(void *, s32);
-s32 func_800A6870(s16 input_value);
-void dungeonApplyClampedActorValueDelta(void *);
-void dungeonCapPendingActorValueDelta(void *);
-void createActorValuePopup(s32 flags, void *source_data, s16 value, u16 callback_mode);
+s32 try_trigger_target_record_effect(void *, s32);
+s32 get_random_scaled_value(s16 input_value);
+void apply_clamped_actor_value_delta(void *);
+void cap_pending_actor_value_delta(void *);
+void create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void func_8003DB94(void *, void *, s32);
 void func_800478B8(void *);
 s32 rand(void);
@@ -256,11 +256,11 @@ extern u8 D_80025214[];
 void func_80024028(void *target, s32 effect_param);
 void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    Row_818A48C4_Func818A48C4Object *target);
-void *func_80024148(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
+void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
 void func_80024230(void **object_ref, long long value);
-void *createRandomizedGrayscaleEffect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
+void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
 void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, Rec_D_80082E80 *object);
-s32 func_800244A0(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index);
+s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index);
 void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target);
-s32 func_800246D0(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position);
+s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position);
 #endif

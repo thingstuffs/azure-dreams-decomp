@@ -8,7 +8,7 @@ extern s32 CdSync(s32 mode, u8 *result);
 extern s32 CdControl(u8 com, u8 *param, u8 *result);
 extern s32 CdPosToInt(u8 *loc);
 extern void func_8003E70C(void);
-extern void cdSetModeWithRetry(void);
+extern void cd_set_mode_with_retry(void);
 extern s32 func_8003F688(u8 val);
 
 /* Reads and validates the CD location, returning its sector position or zero. */
@@ -39,7 +39,7 @@ L8003F3A4:
         if (--retries_left == 0) {
             func_8003E70C();
             retries_left = 0x10;
-            cdSetModeWithRetry();
+            cd_set_mode_with_retry();
         }
     }
 
@@ -50,7 +50,7 @@ L8003F3A4:
             continue;
         }
         func_8003E70C();
-        if ((getPreviousCdCommandByte() & 0xFF) == 0x1B) {
+        if ((get_previous_cd_command_byte() & 0xFF) == 0x1B) {
             index_is_zero = ((*(u8 *)((u32)recovery_state - 3)) == 0);
             D_800814D3[0] = 0xFF;
             if (!index_is_zero) {
@@ -60,7 +60,7 @@ L8003F3A4:
             }
             D_800814D0 &= 0x1F;
             retries_left = 0x10;
-            cdSetModeWithRetry();
+            cd_set_mode_with_retry();
             goto L8003F3A4;
         }
         D_80081450.first_word = saved_loc;

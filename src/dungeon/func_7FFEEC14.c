@@ -12,14 +12,14 @@ typedef struct Node {
     s32 field_0x20;
 } Node;
 
-extern void func_8008C304(void);
+extern void advance_index_and_mark_completion(void);
 extern void *D_800CFCA8;
 
 /* Allocates a node, initializes its callback and field, and saves the field pointer. */
-void func_8008C374(void) {
+void create_town_map_entry_processor(void) {
     Node *node = func_8003FC64(0);
     if (node != NULL) {
-        node->cb = func_8008C304;
+        node->cb = advance_index_and_mark_completion;
         node->field_0x20 = 0;
         node = (Node *)((u8 *)node + 0x20);
         D_800CFCA8 = node;

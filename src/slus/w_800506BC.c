@@ -3,7 +3,7 @@
 #include "common.h"
 
 extern s32 func_80049E6C(s32 a0);
-extern void slusResetSixObjectLeafRecords(void *slots);
+extern void reset_six_object_leaf_records(void *slots);
 
 extern u8 D_80077E3C[12];
 extern u8 D_80077E48[12];
@@ -72,7 +72,7 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
 
     ctx->flag10 = 1;
     ctx->flag14 = 1;
-    slusResetSixObjectLeafRecords(obj);
+    reset_six_object_leaf_records(obj);
 
     do {
         shared_index = 0xA;

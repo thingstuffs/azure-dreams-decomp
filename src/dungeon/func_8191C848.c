@@ -8,7 +8,7 @@ void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, Rec_D_8008
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
     position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((Row_8191C848_S_8191C848_0 *)motion)->unk_08)
         >> 4) * ((Row_8191C848_S_8191C848_0 *)motion)->unk_0A) >> 8));

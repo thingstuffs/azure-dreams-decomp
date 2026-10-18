@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
-extern void dungeonUpdateTargetTrackingAndTransition(void *tracker);
+extern void update_target_tracking_and_transition(void *tracker);
 extern u8 D_800E3D20[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */
-s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s32 slot_value) {
+s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value) {
     s32 distance;
     s32 target_coord;
     s32 change_flags;
@@ -34,7 +34,7 @@ s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 ta
         return 0;
     }
 
-    state = &gameWork.view;
+    state = &g_game_work.view;
     slot = (u8 *)state + 0xB8;
     previous_target = *(void **)(slot + 0xC);
     *(s32 *)(slot + 0x34) = slot_id;
@@ -47,7 +47,7 @@ s32 dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 ta
     *(s32 *)(slot + 0x14) = 9;
     *(s32 *)(slot + 0x18) = 0;
     *(s16 *)(slot + 0x26) = slot_value;
-    state->slot[0].callback = dungeonUpdateTargetTrackingAndTransition;
+    state->slot[0].callback = update_target_tracking_and_transition;
     if (change_flags & 1)
         D_800E3D20[0] = new_target_id;
     *(s16 *)(slot + 0x24) = target_id;

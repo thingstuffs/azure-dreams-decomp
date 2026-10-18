@@ -135,7 +135,7 @@ void func_8005FA34(SpuVoiceAttr_ *voice_attr)
     pitch = pitch_regs[voice_word + 2];
     voice_attr->pitch = pitch;
     volume_or_note = D_80079520[voice_index];
-    note = soundConvertPitchToPackedNote(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
+    note = sound_convert_pitch_to_packed_note(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
     if (note >= 0) {
         voice_attr->note = (u16) note;
     }

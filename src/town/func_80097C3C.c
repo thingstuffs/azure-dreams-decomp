@@ -4,7 +4,7 @@
 
 
 /* Adds each of the three motion increments to its corresponding position component. */
-void townAddMotionDeltasToPosition(EntityRec *motion) {
+void add_motion_deltas_to_position(EntityRec *motion) {
     motion->x.v = (s32) (motion->x.v + motion->unk_0C);
     motion->y.v = (s32) (motion->y.v + motion->unk_10);
     motion->z.v = (s32) (motion->z.v + motion->flags14);

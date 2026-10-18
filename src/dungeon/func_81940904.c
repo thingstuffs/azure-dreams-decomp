@@ -73,7 +73,7 @@ extern u8 D_8002405C[];
 extern PackedVec3 D_800256E0;
 
 extern void func_8004491C(void *, void *);
-extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 
 /* Creates a display effect in a free slot and expires the owner when its timer ends. */
 void func_80024104(void *owner) {
@@ -122,7 +122,7 @@ void func_80024104(void *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        func_800B8FC8(D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(D_800814A8, rect, center, 1, 1);
 
         effect = func_8003FC64(0x212);
         if (effect != 0) {
@@ -162,6 +162,6 @@ void func_80024104(void *owner) {
     (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

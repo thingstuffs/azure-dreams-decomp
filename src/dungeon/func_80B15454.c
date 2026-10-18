@@ -18,17 +18,17 @@ typedef struct S_8014EC54_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_8014EC54_0;   /* arg0 in dungeonUpdateActorCenteringHop */
+} S_8014EC54_0;   /* arg0 in update_actor_centering_hop */
 
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_8014D7F4;
 extern u8 D_80151988[];
@@ -36,7 +36,7 @@ extern u8 D_801519A8[];
 extern u8 D_801519B8[];
 
 /* Updates a tile-centering hop animation and completes the entity's timed action. */
-void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, void *entity)
+void update_actor_centering_hop(void *action, void *motion, void *sprite, void *entity)
 {
     s32 state;
     s32 hop_frames;
@@ -60,7 +60,7 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801519A8;
         func_80047784(
             sprite,
-            D_801519A8[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_801519A8[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014EC54_0 *)action)->unk_98 |= 8;
         ((EntityRec *)entity)->flags1C &= 0xF7FFFFFF;
@@ -109,11 +109,11 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801519B8;
             func_80047784(
                 sprite,
-                D_801519B8[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_801519B8[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8014EC54_0 *)action)->unk_9B++;
         }
@@ -123,7 +123,7 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151988;
             func_80047784(
                 sprite,
-                D_80151988[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_80151988[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -138,11 +138,11 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonReduceActorFoodMeter(entity, 4);
-    dungeonAdvanceStatusTimers(entity);
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    reduce_actor_food_meter(entity, 4);
+    advance_status_timers(entity);
 
-    global_base = &dungeonStatus;
+    global_base = &g_dungeon_status;
     if (global_base->unk_08 != 0) {
         (*(u16 *)&global_base->unk_08)--;
     }
@@ -155,7 +155,7 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
     } else {
         if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {
-                ((EntityRec *)entity)->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24,
                     ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX,
@@ -165,7 +165,7 @@ void dungeonUpdateActorCenteringHop(void *action, void *motion, void *sprite, vo
         }
     }
 
-    if ((dungeonCheckActorFloorTrap(sprite, entity) << 16) > 0) {
+    if ((check_actor_floor_trap(sprite, entity) << 16) > 0) {
         ((S_8014EC54_0 *)action)->unk_8C = &D_8014D7F4;
         func_800A9A04(entity);
     }

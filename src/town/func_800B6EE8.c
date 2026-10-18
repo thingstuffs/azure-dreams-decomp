@@ -14,10 +14,10 @@ M2C_UNK func_8004E99C();                         /* extern */
 typedef struct S_800B4648_0 {
     u8 pad_00[0x5C];
     s32 unk_5C;
-} S_800B4648_0;   /* arg0 in townSubmitFivePairedEntryValues */
+} S_800B4648_0;   /* arg0 in submit_five_paired_entry_values */
 
 /* Passes each of five paired entry values to func_8004E99C. */
-void townSubmitFivePairedEntryValues(S_800B4648_0 *owner) {
+void submit_five_paired_entry_values(S_800B4648_0 *owner) {
     s32 entry_value;
     s32 entry_offset;
     s32 entry_index;

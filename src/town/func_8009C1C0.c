@@ -4,17 +4,17 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void townInitializeRecordWithHandlerTable();     
-s16 townQueryLoweredTransformPosition();
+void initialize_record_with_handler_table();     
+s16 query_lowered_transform_position();
 
 void func_80099920(Rec_func_80094268_arg0 *state, EntityRec *object, s32 context) {
     u16 ticks_left;
 
-    object->z.w.i = townQueryLoweredTransformPosition(object);
+    object->z.w.i = query_lowered_transform_position(object);
     ticks_left = state->unk_0A.as_u16 - 1;
     state->unk_0A.as_u16 = ticks_left;
     if ((s16) ticks_left < 0) {
-        townInitializeRecordWithHandlerTable(state, object, context);
+        initialize_record_with_handler_table(state, object, context);
         return;
     }
     object->y.v = (s32) (object->y.v + 0x20000);

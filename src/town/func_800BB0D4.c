@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern s32 testResidentBitmapBit();
+extern s32 test_resident_bitmap_bit();
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 
 /* Checks whether a record can use an entity based on its kind and existing links. */
-s32 townCheckBuildingEntityCompatibility(s32 record_id, s32 entity_id)
+s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
 {
     s32 slot_index;
     s32 entity_index;
@@ -23,7 +23,7 @@ s32 townCheckBuildingEntityCompatibility(s32 record_id, s32 entity_id)
     entity_base = D_800D2644;
     entity_index = entity_id & 0xFF;
     entity = entity_base + (entity_index << 5);
-    if (testResidentBitmapBit(*(s16 *)(entity + 8)) == 0) {
+    if (test_resident_bitmap_bit(*(s16 *)(entity + 8)) == 0) {
         return 0;
     }
 

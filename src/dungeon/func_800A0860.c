@@ -16,7 +16,7 @@ typedef struct S_800A5FC0_2 {
     u16 unk_08;
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     s16 unk_0C;
-} S_800A5FC0_2;   /* arg0 in func_800A5FC0 */
+} S_800A5FC0_2;   /* arg0 in draw_expanding_screen_rectangle */
 
 typedef struct S_800A5FC0_3 {
     u8 pad_00[0x4];
@@ -36,7 +36,7 @@ typedef struct S_800A5FC0_4 {
 typedef struct S_800A5FC0_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in func_800A5FC0 */
+} S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_expanding_screen_rectangle */
 
 
 extern void func_8006658C(void *, void *);
@@ -45,7 +45,7 @@ extern void func_800666E0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Advance a rectangle's right edge toward 320 and queue it for rendering. */
-s32 func_800A5FC0(S_800A5FC0_2 *state) {
+s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     u16 frames_left;
     u16 right_x;
     void *quad;
@@ -53,12 +53,12 @@ s32 func_800A5FC0(S_800A5FC0_2 *state) {
     S_800A5FC0_0 *render_ctx;
     void **render_ctx_ref;
 
-    render_ctx = gameWork.unk_000;
+    render_ctx = g_game_work.unk_000;
     draw_mode = render_ctx->unk_8D0;
     render_ctx->unk_8D0 = (void *) (draw_mode + 0xC);
-    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&gameWork))))->unk_00.as_pv))->unk_8D0;
-    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&gameWork))))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
-    render_ctx_ref = (void **)((void * *)(&gameWork));
+    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0;
+    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(((void * *)(&g_game_work))))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
+    render_ctx_ref = (void **)((void * *)(&g_game_work));
     func_80067F20(draw_mode, 0, 0, state->unk_04, 0);
     ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
     func_800666E0(quad);

@@ -12,10 +12,10 @@ extern s32 D_8016E25C;
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void func_800A48F0();
-extern s32 func_800A6D30();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern void set_or_clear_actor_status_slot();
+extern s32 generate_random_value();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 
 typedef struct S_8016A878_0 {
@@ -59,5 +59,5 @@ typedef struct S_8016A878_4 {
 
 /* Allocate and initialize an object with its placement, flags, and runtime state. */
 
-void *dungeonCreateFlaggedActorObject(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id);
+void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id);
 #endif

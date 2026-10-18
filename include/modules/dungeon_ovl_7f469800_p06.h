@@ -24,12 +24,12 @@ typedef struct T_80174C44_S_80174C44_4 {
 
 
 
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 extern u8 D_80175E3C[];
 extern u8 D_80175E44[];
 extern u8 D_80175E4C[];
-void dungeonAdvanceActorTimedTileMotion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor);
-extern void dungeonUpdateActorBehavior();
+void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, Rec_D_80082E80 *entity, void *actor);
+extern void update_actor_behavior();
 #endif

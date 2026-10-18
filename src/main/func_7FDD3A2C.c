@@ -27,7 +27,7 @@ typedef struct S_7FDD3A2C_0 {
 typedef struct S_7FDD3A2C_1 {
     s32 unk_00;
     s32 unk_04;
-} S_7FDD3A2C_1;   /* arg0 in func_8008A98C */
+} S_7FDD3A2C_1;   /* arg0 in create_type */
 
 typedef struct S_7FDD3A2C_2 {
     u8 pad_00[0x8];
@@ -39,7 +39,7 @@ typedef struct S_7FDD3A2C_2 {
 } S_7FDD3A2C_2;
 
 /* Creates a type 0x136 object and initializes its position and rendering state. */
-void *func_8008A98C(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s32 extra_value) {
+void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s32 extra_value) {
     S_7FDD3A2C_0 *object;
     S_7FDD3A2C_2 *render_state;
 

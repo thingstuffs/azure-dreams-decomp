@@ -3,7 +3,7 @@
 
 
 /* Clears the indexed flag bit unless the index is 1. */
-void townClearScriptFlagBit(s32 bit_index) {
+void clear_script_flag_bit(s32 bit_index) {
     s32 value;
     s32 *dst_word;
     s32 *src_word;

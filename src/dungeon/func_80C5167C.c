@@ -29,7 +29,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
     u16 action_flags;
     EntityRec *owner;
 
-    if (dungeonStatus.flags & 0x1000) {
+    if (g_dungeon_status.flags & 0x1000) {
         ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = 14;
         func_8015F3E0(entity, context, sprite, actor);
         return;
@@ -37,7 +37,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
 
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_25 == 0) {
-        dungeonAdvanceActorPendingAction(entity, context, sprite, actor);
+        advance_actor_pending_action(entity, context, sprite, actor);
         if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C == ((u8 *)D_80162DB4)) {
             return;
         }
@@ -45,7 +45,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
             u8 *effects = ((u8 *)D_80162DAC);
             (*(void * *)((u8 *)sprite + (0x2C))) = effects;
             func_80047784(
-                sprite,(u8)(effects[((gameWork.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                 0);
         }
         return;
@@ -59,14 +59,14 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_1C &= ~0x40000;
             return;
         }
-        if (dungeonResetActorActionState(entity, context, sprite, ((u8 *)D_80162DAC)) != 0) {
+        if (reset_actor_action_state(entity, context, sprite, ((u8 *)D_80162DAC)) != 0) {
             return;
         }
     }
 
-    if ((dungeonStatus.flags & 0x2000) == 0) {
+    if ((g_dungeon_status.flags & 0x2000) == 0) {
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x100) {
-            dungeonBeginPushedActorMove(entity, context, sprite, actor);
+            begin_pushed_actor_move(entity, context, sprite, actor);
             return;
         }
 
@@ -78,7 +78,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
             if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_2C != effect) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = effect;
                 func_80047784(
-                    sprite,(u8)(effect[((gameWork.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+                    sprite,(u8)(effect[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
                     0);
             }
             ((R12_80170E70_S_80170E70_0 *)entity)->unk_9A = next_state;
@@ -86,30 +86,30 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
 
         ((R12_80170E70_S_80170E70_0 *)entity)->unk_98 &= 0xFFF3;
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(entity, context, sprite, ((u8 *)D_80162D54)) != 0) {
+            if (begin_ready_actor_directional_action(entity, context, sprite, ((u8 *)D_80162D54)) != 0) {
                 return;
             }
         }
 
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x80000) {
-            func_800AA888(entity, context, sprite, actor);
+            begin_actor_move_to_target_facing(entity, context, sprite, actor);
             func_80161D94(entity, context, sprite, actor);
             return;
         }
 
-        if ((s16)func_800A1C58(actor) != 0) {
-            if ((s16)dungeonProcessSelectedActorRecord(entity, context, sprite, actor) != 0) {
+        if ((s16)can_entity_gain_level(actor) != 0) {
+            if ((s16)process_selected_actor_record(entity, context, sprite, actor) != 0) {
                 func_8016252C(entity, context, sprite, actor);
             }
         }
     }
 
-    tile_id = ((s8)func_8009FB34((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v)));
+    tile_id = ((s8)find_active_rect_containing_point((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v)));
     ((R12_80170E70_S_80170E70_2 *)sprite)->unk_26 = tile_id;
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_6D > 0) {
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x20) {
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             return;
         }
         if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
@@ -119,8 +119,8 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
 
         action_flags = ((R12_80170E70_S_80170E70_1 *)actor)->unk_46;
         if ((action_flags & 0x8000) == 0) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((s16)dungeonCheckEntityRelation(
+            if (g_dungeon_status.flags & 0x2000) {
+                if ((s16)check_entity_relation(
                         actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
@@ -149,24 +149,24 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
         case 4:
         case 5:
         case 6:
-            target_angle = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
+            target_angle = ((s16)get_rounded_facing_and_rounding_flag(
                 ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &path_distance));
             owner = D_800814A8;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = target_angle;
             if (owner->unk_9A == 0x11) {
-                dungeonBeginActorSpellAction(entity, context, sprite, ((u8 *)D_80162D94), ((u8 *)func_8015EE7C));
+                begin_actor_spell_action(entity, context, sprite, ((u8 *)D_80162D94), ((u8 *)func_8015EE7C));
                 return;
             }
 
         case 11:
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             return;
 
         case 0:
         case 1:
         case 2:
-            dungeonBeginActorSpellAction(entity, context, sprite, ((u8 *)D_80162D94), ((u8 *)func_8015EE7C));
+            begin_actor_spell_action(entity, context, sprite, ((u8 *)D_80162D94), ((u8 *)func_8015EE7C));
             return;
 
         default:
@@ -180,8 +180,8 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
         if ((tile_id < 0) ||
             ((D_800E2970[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                if ((s16)dungeonCompareMonsterNeighborValues((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(D_80082E80.tileX),(u8)(D_80082E80.tileY)) != 0) {
-                    ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
+                if ((s16)compare_monster_neighbor_values((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(D_80082E80.tileX),(u8)(D_80082E80.tileY)) != 0) {
+                    ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
                         ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY, &path_distance));
                 }
@@ -189,7 +189,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
         }
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return;
     }
     if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_14 & 0x40) {
@@ -203,7 +203,7 @@ void func_8015EE7C(void *entity, void *context, void *sprite, void *actor)
         u8 *effects = effect_table;
         (*(void * *)((u8 *)sprite + (0x2C))) = effects;
         func_80047784(
-            sprite,(u8)(effects[((gameWork.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
+            sprite,(u8)(effects[((g_game_work.view.viewAngle + ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A + 0x100) >> 9) & 7]),
             0);
     }
 }

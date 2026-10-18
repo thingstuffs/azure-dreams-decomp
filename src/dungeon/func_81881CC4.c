@@ -6,7 +6,7 @@ typedef struct S_800254C4_0 {
     void * unk_08;
     void * unk_0C;
     s32 * unk_10;
-} S_800254C4_0;   /* node in dungeonAllocateJitteredEffectNode */
+} S_800254C4_0;   /* node in allocate_jittered_effect_node */
 
 typedef struct S_800254C4_1 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_800254C4_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800254C4_1;   /* payload in dungeonAllocateJitteredEffectNode */
+} S_800254C4_1;   /* payload in allocate_jittered_effect_node */
 
 typedef struct S_800254C4_2 {
     u8 pad_00[0x2];
@@ -24,7 +24,7 @@ typedef struct S_800254C4_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800254C4_2;   /* source in dungeonAllocateJitteredEffectNode */
+} S_800254C4_2;   /* source in allocate_jittered_effect_node */
 
 typedef struct S_800254C4_3 {
     u8 pad_00[0x1A];
@@ -32,16 +32,16 @@ typedef struct S_800254C4_3 {
     s16 unk_1C;
     u8 pad_1E[0x8];
     s16 unk_26;
-} S_800254C4_3;   /* fields in dungeonAllocateJitteredEffectNode */
+} S_800254C4_3;   /* fields in allocate_jittered_effect_node */
 
 typedef struct S_800254C4_4 {
     u8 pad_00[0xC];
     u8 unk_0C;
-} S_800254C4_4;   /* ((S_800254C4_0 *)node)->unk_0C in dungeonAllocateJitteredEffectNode */
+} S_800254C4_4;   /* ((S_800254C4_0 *)node)->unk_0C in allocate_jittered_effect_node */
 
 
 /* Allocates a node, copies or jitters its source values, and initializes its fields. */
-s32 dungeonAllocateJitteredEffectNode(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
+s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial_1c, s16 spawn_mode) {
     register void *source = source_data;
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;
@@ -52,8 +52,8 @@ s32 dungeonAllocateJitteredEffectNode(void *source_data, s16 initial_1a, s16 ini
     if (node != 0) {
         s32 mode_test;
 
-        ((S_800254C4_0 *)node)->unk_10 = func_800250E8;
-        func_8004491C(node, (s32)dungeonQueueProjectedPointPrimitives);
+        ((S_800254C4_0 *)node)->unk_10 = update_spark_effect;
+        func_8004491C(node, (s32)queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
             S_800254C4_1 *payload = ((S_800254C4_0 *)node)->unk_08;

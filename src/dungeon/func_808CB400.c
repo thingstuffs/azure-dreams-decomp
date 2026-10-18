@@ -8,7 +8,7 @@ extern u8 D_80129728[];
 extern s32 D_801331A0;
 
 /* Save 12 referenced values to the backup array and clear the originals. */
-void func_80123898(void) {
+void backup_and_clear_linked_values(void) {
     u8 *table_base;
     u8 *value_slot;
     s32 *value_ptr;

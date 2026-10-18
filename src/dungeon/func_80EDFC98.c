@@ -9,18 +9,18 @@ typedef struct S_80171498_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80171498_0;   /* effect in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_0;   /* effect in create_random_color_offset_effect */
 
 typedef struct S_80171498_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80171498_1;   /* arg0 in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_1;   /* arg0 in create_random_color_offset_effect */
 
 typedef struct S_80171498_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80171498_2;   /* source in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_2;   /* source in create_random_color_offset_effect */
 
 typedef struct S_80171498_3 {
     s32 unk_00;
@@ -40,7 +40,7 @@ typedef struct S_80171498_3 {
     s16 unk_5E;
     u8 pad_60[0x2];
     s16 unk_62;
-} S_80171498_3;   /* base in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_3;   /* base in create_random_color_offset_effect */
 
 typedef struct S_80171498_4 {
     u8 pad_00[0x2];
@@ -49,7 +49,7 @@ typedef struct S_80171498_4 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80171498_4;   /* ((S_80171498_0 *)effect)->unk_08 in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_4;   /* ((S_80171498_0 *)effect)->unk_08 in create_random_color_offset_effect */
 
 typedef struct S_80171498_5 {
     u8 pad_00[0x2];
@@ -58,20 +58,20 @@ typedef struct S_80171498_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80171498_5;   /* ((S_80171498_1 *)arg0)->unk_08 in dungeonCreateRandomColorOffsetEffect */
+} S_80171498_5;   /* ((S_80171498_1 *)arg0)->unk_08 in create_random_color_offset_effect */
 
 
 void *func_8003FD64();
-s32 resolveRecordOrientationOrFallback();
+s32 resolve_record_orientation_or_fallback();
 s32 func_8004491C();
 s32 rand();
-s32 dungeonSteerEffectTowardTarget();
+s32 steer_effect_toward_target();
 
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];
 
 /* Creates an offset effect, advances it ten steps, and assigns a random color. */
-void dungeonCreateRandomColorOffsetEffect(
+void create_random_color_offset_effect(
     void *parent, s16 initial_14, s32 unused, s16 initial_32,
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
@@ -98,7 +98,7 @@ void dungeonCreateRandomColorOffsetEffect(
             ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolveRecordOrientationOrFallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
             ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += source_offset.x;
             ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += source_offset.y;
             ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += source_offset.z;
@@ -110,7 +110,7 @@ void dungeonCreateRandomColorOffsetEffect(
         ((S_80171498_3 *)effect_data)->unk_62 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (resolveRecordOrientationOrFallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
             (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset.x;
             (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset.y;
             ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
@@ -122,7 +122,7 @@ void dungeonCreateRandomColorOffsetEffect(
 
         step = 0;
         do {
-            dungeonSteerEffectTowardTarget(effect_data, ((S_80171498_0 *)effect)->unk_08, ((S_80171498_0 *)effect)->unk_0C);
+            steer_effect_toward_target(effect_data, ((S_80171498_0 *)effect)->unk_08, ((S_80171498_0 *)effect)->unk_0C);
             step++;
         } while (step < 10);
 

@@ -23,17 +23,17 @@ typedef struct {
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 extern s32 rand(void);
-extern void func_800B8FC8(void *, void *, void *, s32, s32);
-extern void func_800F692C();
-extern void func_800F6B2C();
-extern void dungeonCreateTimedOffsetMotionEffect();
+extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
+extern void create_offset_particle_effect();
+extern void spawn_directional_projectile_effect();
+extern void create_timed_offset_motion_effect();
 
 extern Particle D_80082E80;
 extern Copy8 D_80164A4C;
 extern u8 *D_80175D50;
 
 /* Update a staged particle effect, ramping emission and brightness before fading out. */
-void func_80170F68(void *effect) {
+void update_dungeon_actor_behavior(void *effect) {
     u16 blit_data[8];
     u8 *burst_context;
     u8 *render_state;
@@ -84,14 +84,14 @@ void func_80170F68(void *effect) {
         if (S16_AT(effect, 0x18) == 6) {
             blit_data[0] = blit_data[4] + ((s16)blit_data[6] >> 1);
             blit_data[1] = blit_data[5] + 0x30;
-            func_800B8FC8(D_800814A8, &blit_data[4], blit_data, 1, state);
+            draw_transformed_sprite_with_clip_rect(D_800814A8, &blit_data[4], blit_data, 1, state);
         }
         if (S16_AT(effect, 0x18) >= 7) {
             if ((U16_AT(effect, 0x18) & 3) == 3) {
                 burst_kind = (rand() & 0xFF) | 0x80;
                 burst_x = (s16)((rand() & 0x7F) - 0x40);
                 burst_y = (s16)((rand() & 0x7F) - 0x40);
-                dungeonCreateTimedOffsetMotionEffect(burst_context, burst_kind, burst_x, burst_y,
+                create_timed_offset_motion_effect(burst_context, burst_kind, burst_x, burst_y,
                     (s16)((rand() & 0x7F) - 0x40));
             }
         }
@@ -133,7 +133,7 @@ void func_80170F68(void *effect) {
                 ramp_count--;
                 ramp_x = (s16)((rand() & 0x3F) - 0x20);
                 ramp_y = (s16)((rand() & 0x3F) - 0x20);
-                func_800F692C(((u8 *)(&D_80083780)), ramp_x, ramp_y,
+                create_offset_particle_effect(((u8 *)(&D_80083780)), ramp_x, ramp_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (ramp_count > 0);
         }
@@ -152,7 +152,7 @@ void func_80170F68(void *effect) {
                 late_count--;
                 late_x = (s16)((rand() & 0x3F) - 0x20);
                 late_y = (s16)((rand() & 0x3F) - 0x20);
-                func_800F6B2C(((u8 *)(&D_80083780)), late_x, late_y,
+                spawn_directional_projectile_effect(((u8 *)(&D_80083780)), late_x, late_y,
                     (s16)(-(rand() & 0x1F) - 0x18));
             } while (late_count > 0);
         }
@@ -162,7 +162,7 @@ void func_80170F68(void *effect) {
                 early_count--;
                 early_x = (s16)((rand() & 0x3F) - 0x20);
                 early_y = (s16)((rand() & 0x3F) - 0x20);
-                func_800F692C(((u8 *)(&D_80083780)), early_x, early_y,
+                create_offset_particle_effect(((u8 *)(&D_80083780)), early_x, early_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (early_count > 0);
         } else {
@@ -184,9 +184,9 @@ void func_80170F68(void *effect) {
         U16_AT(effect, 0x12) = next_state + 1;
         return;
     case 3:
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         U16_AT(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     default:

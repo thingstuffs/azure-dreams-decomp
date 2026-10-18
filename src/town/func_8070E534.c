@@ -6,13 +6,13 @@
 
 
 M2C_UNK func_80016CC4();                            /* extern */
-void func_80016DBC();                            /* extern */
+void initialize_resources_assigns_pointer_lookup();                            /* extern */
 
 
 /* Run both setup routines and invoke the state callback with 0xE and 0x200. */
-s32 func_80017534(void) {
+s32 run_setup_routines_state_callback(void) {
     func_80016CC4();
-    func_80016DBC();
+    initialize_resources_assigns_pointer_lookup();
     D_80016000->unk_20->callback_2F8(0xE, 0x200);
     return 0;
 }

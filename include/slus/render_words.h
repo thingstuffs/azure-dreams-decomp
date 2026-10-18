@@ -58,13 +58,13 @@ typedef struct S_80035888_6 {
 } S_80035888_6;   /* ((S_80035888_1 *)object)->unk_74 in func_80035888 */
 
 
-extern void *initializeRuntimeNodeStorage(s32, void *, s32, void *);
+extern void *initialize_runtime_node_storage(s32, void *, s32, void *);
 extern void func_8004491C(void *, void *);
-extern void runtimeInitializeStateValue(void *, s32);
+extern void runtime_initialize_state_value(void *, s32);
 extern void func_800375C0(void *, void *);
 extern void func_800350B0(void *, void *);
 
-extern void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(void);
+extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void func_800359FC(void);
 extern void func_80035AAC(void);
 extern void func_80037714(void);

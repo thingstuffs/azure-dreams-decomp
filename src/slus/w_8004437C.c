@@ -22,7 +22,7 @@ s32 func_8004437C(s16 entry_index, s16 mode)
 
         Control_CD(6, D_8006E704[entry_index], 0);
         D_80080AF4[D_80080AFC] = D_8006E704[entry_index];
-        drainCdCommandQueue();
+        drain_cd_command_queue();
     }
 
     func_8004450C(mode);

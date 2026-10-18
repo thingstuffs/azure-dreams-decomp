@@ -56,10 +56,10 @@ typedef struct WorkBlock {
 extern s32 func_800644B8();
 extern s32 func_80066460();
 struct Struct_800D6330;
-extern void dungeonTransformRotatedVertices(struct Struct_800D6330 *transform);
+extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 
 /* Update the effect vertices, animate their color, and advance the rotation. */
-void dungeonUpdateRotatingEffectVertices(void *effect_data) {
+void update_rotating_effect_vertices(void *effect_data) {
     WorkBlock work;
     s32 index;
     s32 color_step;
@@ -91,7 +91,7 @@ void dungeonUpdateRotatingEffectVertices(void *effect_data) {
     work.unkC = phase_value;
     for (index = 0; index < 2; index++) {
         work.unk4 = (s16 *)&((S_800DAB50_0 *)effect_data)->points[index * 2];
-        dungeonTransformRotatedVertices(&work);
+        transform_rotated_vertices(&work);
         work.unkC += 0x200;
     }
 
@@ -153,7 +153,7 @@ void dungeonUpdateRotatingEffectVertices(void *effect_data) {
         if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
             ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
             ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

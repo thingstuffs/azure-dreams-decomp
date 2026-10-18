@@ -142,8 +142,8 @@ s32 func_80066640();
 s16 func_80066460();
 s16 func_8006649C();
 extern u8 D_80024004[24];
-void func_800249DC(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual);
-void advanceEffectStateAndFrame(void *effect);
-s32 func_80024C7C(void *node_data);
-void copySelectedTablePair(void *record_field, s32 pair_index);
+void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual);
+void advance_effect_state_and_frame(void *effect);
+s32 render_linked_jittered_effect_strips(void *node_data);
+void copy_selected_table_pair(void *record_field, s32 pair_index);
 #endif

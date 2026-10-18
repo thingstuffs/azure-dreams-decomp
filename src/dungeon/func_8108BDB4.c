@@ -1,6 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void dungeonAdvanceObjectScriptWhenReady(void) {
+void advance_object_script_when_ready(void) {
 
 }

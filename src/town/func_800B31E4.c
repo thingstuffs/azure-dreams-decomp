@@ -28,7 +28,7 @@ extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 
 /* Initialize and attach both town parts, then set the owner and part defaults. */
-void townInitializeShopParts(TownOwner *owner, TownPartA *part_a, TownPartB *part_b) {
+void initialize_shop_parts(TownOwner *owner, TownPartA *part_a, TownPartB *part_b) {
     s32 *defaults_a = D_8002E5D8;
     s32 *defaults_b = D_8002E5E8;
     s32 first_b_word;

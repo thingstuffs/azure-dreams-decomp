@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-s32 func_8002443C(s32 owner, void *origin, s16 motion, s16 frame) {
+s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame) {
     M2C_UNK *node_type;
     u16 position_z;
     s32 angle;
@@ -13,7 +13,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s16 frame) {
 
     node = func_8003FC64(0x212);
     if (node != NULL) {
-        node_type = (void *)dungeonAdvanceHeightOffsetAndPlacement;
+        node_type = (void *)advance_height_offset_and_placement;
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_20 = owner;
         owner = (s32)(node + 0x20);
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_10 = node_type;

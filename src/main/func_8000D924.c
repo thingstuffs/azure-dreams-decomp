@@ -4,11 +4,11 @@
 
 
 /* Wait for both card operations, set the mode flag, and apply the current card state. */
-void cardBootSelectChannelMode(s32 mode_enabled, s32 *unused_repeat_counts)
+void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts)
 {
     s32 *state_base;
 
-    cardBootDrainSoftwareEvents();
+    card_boot_drain_software_events();
     _card_wait(0);
     _card_wait(1);
 
@@ -19,5 +19,5 @@ void cardBootSelectChannelMode(s32 mode_enabled, s32 *unused_repeat_counts)
         state_base[-0x1E0D] = 0;
     }
 
-    cardBootRequestInfo((*(s32 (*)[3])(&D_800287CC))[0]);
+    card_boot_request_info((*(s32 (*)[3])(&D_800287CC))[0]);
 }

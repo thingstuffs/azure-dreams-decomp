@@ -8,15 +8,15 @@ typedef struct S_80039640_0 {
     s32 unk_1C;
     u8 pad_20[0x5C];
     void * unk_7C;
-} S_80039640_0;   /* arg0 in vmOp22Return */
+} S_80039640_0;   /* arg0 in vm_op_22_return */
 
 typedef struct S_80039640_1 {
     s32 unk_00;
-} S_80039640_1;   /* temp_v1 in vmOp22Return; pointer addresses record offset 0x4 */
+} S_80039640_1;   /* temp_v1 in vm_op_22_return; pointer addresses record offset 0x4 */
 
 
 /* Move the cursor back one word and load that word into the state. */
-void vmOp22Return(S_80039640_0 *state) {
+void vm_op_22_return(S_80039640_0 *state) {
     void *cursor;
 
     cursor = state->unk_7C;

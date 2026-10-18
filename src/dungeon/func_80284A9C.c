@@ -1,10 +1,10 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonInitializeGridBorderCells(void)
+void initialize_grid_border_cells(void)
 {
     s32 edge_index;
     floor_generate_isolated_80284A9C_Cell *cell;
-    MapGrid *grid_config = &gameWork.map;
+    MapGrid *grid_config = &g_game_work.map;
 
     edge_index = 0;
     if ((1 << grid_config->shiftY) > 0) {

@@ -41,6 +41,6 @@ void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1
     if (elapsed > duration) {
         ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 =
             ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

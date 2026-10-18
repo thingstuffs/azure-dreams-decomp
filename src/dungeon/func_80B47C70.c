@@ -1,7 +1,7 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
-    GameWork *scene_color = &gameWork;
+void advance_effect_sequence_and_restore_actor(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
+    GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;
     R12_80175470_S_80175470_3 *model;
     void *child;
@@ -33,7 +33,7 @@ void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position,
         return;
 
     case 2:
-        direction = ((gameWork.view.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((R12_80175470_S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         if ((*(u8 *)D_80175B24) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
@@ -43,14 +43,14 @@ void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position,
         }
 
         func_80041588(((u8 *)D_80175B0C), ((u8 *)D_80175B24), 1);
-        soundSetCdCueParameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         (*(u8 *)D_80175B25) = 0;
         Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_80175B25));
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
         ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
-        dungeonCreateOffsetEffect(sequence, position, record);
+        create_offset_effect(sequence, position, record);
 
     case 3:
         timer = ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u;
@@ -63,10 +63,10 @@ void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position,
                 return;
             }
             ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             return;
         }
-        color_index = lookupMaskedByteTable(actor);
+        color_index = lookup_masked_byte_table(actor);
         target_color = ((u8 * *)D_800DCEEC)[color_index];
         scene_color->view.unk_090 += ((s32)target_color[0]
             - scene_color->view.unk_090) / ((R12_80175470_S_80175470_0 *)sequence)->unk_96.s;
@@ -81,7 +81,7 @@ void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position,
         if (node == 0) {
             return;
         }
-        node->unk_10.p = ((u8 *)dungeonFadeEffectToNeutral);
+        node->unk_10.p = ((u8 *)fade_effect_to_neutral);
         func_8004491C(node, ((u8 *)func_8017458C));
         ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
@@ -93,7 +93,7 @@ void dungeonAdvanceEffectSequenceAndRestoreActor(void *sequence, void *position,
         model->unk_1E = 0x1000;
         model->unk_1C = 0x1000;
         model->unk_0C = model_color;
-        effect_choice = lookupMaskedByteTable(actor) - 1;
+        effect_choice = lookup_masked_byte_table(actor) - 1;
         effect_index = effect_choice;
         if ((s16)effect_choice < 0) {
             effect_index = func_80069EF8() % 3;
@@ -112,9 +112,9 @@ store_next_state:
         if (model->unk_14 & 0xE000) {
             ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
             ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
-            dungeonDecrementMonsterEntryCount(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
-            func_8009A3D0(record->unk_24, record->unk_25, 0x300);
-            func_8009A028(actor);
+            decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
+            update_map_cell_flags_with_item_limit(record->unk_24, record->unk_25, 0x300);
+            unlink_entity_node(actor);
             node = (u8 *)actor - 0x20;
             node->unk_10.i |= 0x80000000;
         }
@@ -123,20 +123,20 @@ store_next_state:
         if (((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n != 6) {
             return;
         }
-        if (!dungeonCreateStatusLinkedRenderEffect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)D_800DCF5C))) {
+        if (!create_status_linked_render_effect(position, (*(void * *)D_80175B28), (*(s16 *)D_80175B20), ((s32 *)D_800DCF5C))) {
             return;
         }
         ((R12_80175470_S_80175470_0 *)sequence)->unk_96.u = 0x10;
         ((R12_80175470_S_80175470_0 *)sequence)->unk_9B.n++;
-        dungeonDecrementMonsterEntryCount(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
-        func_8009A3D0(record->unk_24, record->unk_25, 0x300);
-        func_8009A028(actor);
+        decrement_monster_entry_count(((R12_80175470_S_80175470_1 *)actor)->unk_13, 3);
+        update_map_cell_flags_with_item_limit(record->unk_24, record->unk_25, 0x300);
+        unlink_entity_node(actor);
         node = (u8 *)actor - 0x20;
         node->unk_10.i |= 0x80000000;
         return;
 
     case 7:
-        ((R12_80175470_S_80175470_1 *)actor)->unk_60 = dungeonAdvanceStagedEntityLoad(record, actor);
+        ((R12_80175470_S_80175470_1 *)actor)->unk_60 = advance_staged_entity_load(record, actor);
         if (((R12_80175470_S_80175470_1 *)actor)->unk_60 == 0) {
             return;
         }
@@ -145,8 +145,8 @@ store_next_state:
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_2A.u;
         model = ((R12_80175470_S_80175470_5_pre *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))[-1].unk_00;
         node = ((R12_80175470_S_80175470_1 *)actor)->unk_60;
-        selectIndirectTableEntry(model, ((u8 *)model->unk_2C)[
-                      ((gameWork.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
+        select_indirect_table_entry(model, ((u8 *)model->unk_2C)[
+                      ((g_game_work.view.viewAngle + node->unk_2A + 0x100) >> 9) & 7],
                       model->unk_04);
         model->unk_14 &= 0xFFFE;
 
@@ -158,8 +158,8 @@ store_next_state:
         }
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_8A;
         ((R12_80175470_S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        dungeonStatus.unk_0A--;
+        object_flag_block.flags |= 0x8000;
+        g_dungeon_status.unk_0A--;
         ((R12_80175470_S_80175470_1 *)actor)->unk_6D = 0;
     default:
         return;

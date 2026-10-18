@@ -6,7 +6,7 @@ void func_801755A0(u8 *actor_data, u8 *output_data, u8 *effect_data);
 void func_801755A0(u8 *actor_data, u8 *output_data, u8 *effect_data);
 extern u8 D_80175D7C[12];
 
-void func_8017586C(EntityRec *parent, s32 effect_param, u8 *effect_data)
+void create_parent_attached_effect(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
     void *effect;
     ovl_9c32d4_809A35A0_S_80174DA0_2 *position;

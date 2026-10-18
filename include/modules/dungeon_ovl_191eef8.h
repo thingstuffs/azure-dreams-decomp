@@ -161,7 +161,7 @@ typedef struct Row_818FF5B8_S_818FF5B8_5 {
 s32 func_80067014(s32);
 void func_800672D8(void *, void *);
 void func_8006733C(void *, void *);
-void func_800B8FC8(void *, void *, void *, s32, s32);
+void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 s32 func_8004491C();
 
 extern Row_818FF19C_Rect8 D_80024028;
@@ -170,8 +170,8 @@ extern M2C_UNK D_80024750;
 extern Row_818FF5B8_Copy12 D_80025E64;
 void func_800246F8(void *state_data, s32 unused, void *scale_data);
 void func_80024750(void *object);
-void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual);
-void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render_state);
+void advance_timed_visual_effect(void *state, void *position, void *visual);
+void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state);
 void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance);
 extern u8 D_80025E80[];
 #endif

@@ -26,10 +26,10 @@ typedef struct {
 
 extern TownState D_801131B8;
 extern void func_80035208(s32);
-extern void townEnsureResourceAtFront(s32, u32, u32);
+extern void ensure_resource_at_front(s32, u32, u32);
 
 /* Loads town state from item flags and dispatches the selected object value. */
-void func_8008B158(Object *object) {
+void submit_object_resource_data(Object *object) {
     Item *item;
     u32 type_mask;
     u32 extra_flags;
@@ -53,7 +53,7 @@ void func_8008B158(Object *object) {
             D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        townEnsureResourceAtFront(call_value, high_code, low_code);
+        ensure_resource_at_front(call_value, high_code, low_code);
         data_base = 0x80016000;
         data_offset = *(u16 *)&item->flags0;
         call_value = data_base + data_offset;

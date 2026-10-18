@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void createTintedDungeonObject(s16 x, s16 y, s16 tinted, s32 render_param)
+void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 {
     u16 flags;
     floor_spawns_isolated_8028C354_S_8001F354_1 *render_state;

@@ -4,16 +4,16 @@
 
 
 /* Decrease three state bytes, or set entry and global flags below the threshold. */
-void dungeonDarkenEncounterViewColor(u16 *entry)
+void darken_encounter_view_color(u16 *entry)
 {
 
-    if (gameWork.view.unk_090 >= 0x3D) {
-        gameWork.view.unk_090 -= 2;
-        gameWork.view.unk_091 -= 2;
-        gameWork.view.unk_092 -= 2;
+    if (g_game_work.view.unk_090 >= 0x3D) {
+        g_game_work.view.unk_090 -= 2;
+        g_game_work.view.unk_091 -= 2;
+        g_game_work.view.unk_092 -= 2;
         return;
     }
 
     entry[-1] |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

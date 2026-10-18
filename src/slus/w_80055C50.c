@@ -9,7 +9,7 @@ extern void func_800553D4(s32 a0);
 extern void func_8005AC68(s16 a0);
 
 /* Releases an available channel, stopping channel zero's note when its status requires it. */
-void releaseEnabledSoundChannel(s16 channel) {
+void release_enabled_sound_channel(s16 channel) {
     s16 channel_index = channel;
     SoundPlaybackState *status = &D_800847D0;
     if (status->flags00 & (0x10000 << channel_index)) {

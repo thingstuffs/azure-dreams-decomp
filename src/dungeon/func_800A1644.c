@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_800A6D30(void);
+extern s32 generate_random_value(void);
 
 
 /* Return a 16-bit random value within the inclusive bounds. */
-s32 randomDungeonRange16(u32 bound_a, u32 bound_b) {
+s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
     u32 result;
     u32 range;
     u32 random_value;
@@ -18,7 +18,7 @@ s32 randomDungeonRange16(u32 bound_a, u32 bound_b) {
         upper = lower;
         lower = random_value;
     }
-    random_value = func_800A6D30() & 0xFFFF;
+    random_value = generate_random_value() & 0xFFFF;
     range = (upper - lower) + 1;
     result = ((random_value % range) + lower) & 0xFFFF;
     return result;

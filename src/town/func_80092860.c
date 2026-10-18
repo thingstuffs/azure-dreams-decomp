@@ -1,5 +1,5 @@
 #include "common.h"
 
 /* Return without performing any work. */
-void townNoopAt8008FFC0(void) {
+void noop_at_8008_ffc_0(void) {
 }

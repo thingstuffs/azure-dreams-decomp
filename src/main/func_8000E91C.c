@@ -10,7 +10,7 @@ extern s32 firstfile2(void *, void *);
 extern void *nextfile(void *);
 
 /* Collect directory entries matching the selected search path and return their count. */
-s32 func_8002191C(void)
+s32 count_entries_matching_search_path(void)
 {
     u8 search_path[32];
     u8 *dir_entry;

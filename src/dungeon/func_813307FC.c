@@ -31,7 +31,7 @@ extern s32 D_80175D50;
 typedef struct S_801677FC_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801677FC_0;   /* (void *)D_80175D50 in dungeonCreateForwardLayeredSpritePulse */
+} S_801677FC_0;   /* (void *)D_80175D50 in create_forward_layered_sprite_pulse */
 
 typedef struct S_801677FC_1 {
     u8 pad_00[0x18];
@@ -86,7 +86,7 @@ typedef struct S_801677FC_7 {
 } S_801677FC_7;
 
 /* Spawn sixteen effects offset in the current object's facing direction with increasing sizes. */
-void dungeonCreateForwardLayeredSpritePulse(void)
+void create_forward_layered_sprite_pulse(void)
 {
     LocalTable direction_offsets;
     s32 size_step;

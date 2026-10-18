@@ -82,13 +82,13 @@ typedef struct {
 
 extern void func_800243C0(void *, void *);
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
-extern void *dungeonScanMonsterAlongHeading();
-extern u16 dungeonGetSurfaceHeightAtRecord(void *);
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
+extern void play_sound_if_enabled(s32);
+extern void *scan_monster_along_heading();
+extern u16 get_surface_height_at_record(void *);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern void func_80025A9C(void *, void *, void *);
 extern void func_80025508(void *, void *);
-extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s16, void *, s32);
 
 /* Advances the object effect through placement, animation, and cleanup states. */
 void func_81978428(State81978428 *state, s32 *position_out)
@@ -145,10 +145,10 @@ void func_81978428(State81978428 *state, s32 *position_out)
             self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
             self->state++;
             if (func_80053EF0(4) != 2) {
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 break;
             }
-            func_800A56E0(0x4300);
+            play_sound_if_enabled(0x4300);
             break;
         }
 
@@ -171,7 +171,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
             position[2] = (s32)player->unk_88 << 16;
             spawn_angle = player->facing;
             tile_map = &D_80082E80;
-            spawned_object = dungeonScanMonsterAlongHeading(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
+            spawned_object = scan_monster_along_heading(player, tile_map->tileX, tile_map->tileY, spawn_angle, 8);
         }
         self->object = spawned_object;
         if (spawned_object != 0) {
@@ -193,30 +193,30 @@ void func_81978428(State81978428 *state, s32 *position_out)
                     EntityRec *player;
 
                     player = D_800814A8;
-                    tile_step = dirStepX[(((u16)player->facing) >> 9) & 7];
+                    tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
-                    tile_step_2 = dirStepY[(((u16)player->facing) >> 9) & 7];
+                    tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
-                ((S_81978428_6 *)target_pos)->unk_0A.s = dungeonGetSurfaceHeightAtRecord(target_pos);
+                ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                 if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                     EntityRec *player;
                     player = D_800814A8;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
                 }
 
-                if ((dungeonCheckLeftTileAndCenterHeight(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
+                if ((check_left_tile_and_center_height(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
                                     ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
                     EntityRec *player;
 
                     player = D_800814A8;
-                    tile_step_3 = dirStepX[(((u16)player->facing) >> 9) & 7];
+                    tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
-                    tile_step_4 = dirStepY[(((u16)player->facing) >> 9) & 7];
+                    tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = dungeonGetSurfaceHeightAtRecord(target_pos);
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                         EntityRec *height_player;
                         height_player = D_800814A8;
@@ -306,7 +306,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
                 s32 effect_size = 10;
                 s32 effect_scale;
                 effect_scale = effect_size;
-                func_8009CE1C(self->object, effect_size, self->effect, effect_scale,
+                apply_attack_power_and_element_effects(self->object, effect_size, self->effect, effect_scale,
                               (s16)((self->angle << 9) + 0x800), self->part0, 1);
                 {
                     u32 clear_tint_mask = 0xEFFFFFFF;
@@ -323,10 +323,10 @@ void func_81978428(State81978428 *state, s32 *position_out)
             self->state++;
             break;
         }
-        dungeonStatus.unk_0C = 0;
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.unk_0A--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     case 5:
@@ -334,10 +334,10 @@ void func_81978428(State81978428 *state, s32 *position_out)
             break;
         }
 
-        dungeonStatus.unk_0C = 0;
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.unk_0A--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     self->flag = 0;

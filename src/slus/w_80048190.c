@@ -8,11 +8,11 @@ typedef struct {
 
 extern S_80083D08 D_80083D08[6];
 
-extern s32 findSpriteResourceSlotById(s32 slot_id);
+extern s32 find_sprite_resource_slot_by_id(s32 slot_id);
 
 /* Set status bit 0 for the entry matching the lookup key, if found. */
-void markSpriteResourceForPurge(s16 lookup_key) {
-    s32 entry_index = findSpriteResourceSlotById(lookup_key);
+void mark_sprite_resource_for_purge(s16 lookup_key) {
+    s32 entry_index = find_sprite_resource_slot_by_id(lookup_key);
 
     if (entry_index != -1) {
         D_80083D08[entry_index].status = D_80083D08[entry_index].status | 1;

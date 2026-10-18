@@ -8,10 +8,10 @@ extern void func_800478B8();
 extern s32 D_80175220;
 
 /* Processes input, then blends three state channels toward 0x80 and marks completion. */
-void dungeonBlendEffectChannelsToGray(u8 *task, void *context, u8 *input)
+void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
-    GameWork *fade_state = &gameWork;
+    GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
         D_80175220 = *(s32 *)(input + 8);
@@ -34,7 +34,7 @@ void dungeonBlendEffectChannelsToGray(u8 *task, void *context, u8 *input)
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
             *(u16 *)(task - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

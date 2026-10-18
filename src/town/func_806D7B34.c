@@ -10,7 +10,7 @@ extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
 /* Looks up an entry, substituting fixed data for matching IDs 45 through 47. */
-s32 func_80016334(s32 lookup_key, s32 unused, s32 entry_id)
+s32 check_inputs_only_prerequisite_least(s32 lookup_key, s32 unused, s32 entry_id)
 {
     s32 result;
 

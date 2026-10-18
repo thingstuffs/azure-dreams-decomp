@@ -6,7 +6,7 @@
 #define func_80045340 func_80044EDC
 #define func_80047784 func_80047320
 /* Relink of matched dungeon/func_81251618 at file 0x1271618; imports and data use paired retail relocations. */
-#define gameWork D_80084818
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -122,7 +122,7 @@ void func_8016FE18(void *unused, S_80170E18_5 *source_transform, void *sprite_te
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_800444B8(effect, func_80044EDC);
         sprite->unk_2C = &D_80172EB4;
-        func_80047320(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        func_80047320(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80172EB4), 0);
         transform = ((S_80170E18_1 *)effect)->unk_08;
         transform->unk_02 = (u16) source_transform->unk_02;

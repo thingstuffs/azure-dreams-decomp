@@ -4,7 +4,7 @@
 extern void func_800478B8();
 
 /* Advances and darkens a moving effect, updates its visual, and propagates status flags. */
-void townAdvanceFadingParticleUntilAnimationBoundary(u8 *effect, u8 *motion, u8 *visual)
+void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8 *visual)
 {
     s32 velocity;
     u8 shade;
@@ -23,6 +23,6 @@ void townAdvanceFadingParticleUntilAnimationBoundary(u8 *effect, u8 *motion, u8 
     func_800478B8(visual);
     if (*(u16 *)(visual + 0x14) & 0x6000) {
         *(u16 *)(effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

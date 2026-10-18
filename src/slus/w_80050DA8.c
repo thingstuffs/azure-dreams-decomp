@@ -21,7 +21,7 @@ void func_80050DA8(u8 *object)
         attachment = *((void **) (object_data + 0x28));
         *((void (**)(void)) (object_data - 0x10)) = func_80050CDC;
         D_80080B98 = saved_value;
-        destroyAnimatedSelectionMenu(attachment);
+        destroy_animated_selection_menu(attachment);
         child = *((S_80050DA8_sub **) (object_data + 0xA0));
         D_800814A0_abs |= 0x8000;
         child->flags1E |= 0x8000;

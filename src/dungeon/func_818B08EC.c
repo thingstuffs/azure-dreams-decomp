@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void func_800240EC(void *unused0, void *unused1, void *unused2) {
+void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
     s16 rect[4];
     u16 pixel;
 

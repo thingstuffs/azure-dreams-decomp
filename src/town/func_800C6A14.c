@@ -5,15 +5,15 @@
 typedef struct S_800C4174_1 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800C4174_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in townApplyObjectSetupAndUpdate */
+} S_800C4174_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in apply_object_setup_and_update */
 
 
-extern void townInitializeObjectEntries(void *state, M2C_UNK output, M2C_UNK entries);
-extern void townInstallObjectHandlerAndClearSlotFlag(void *object, M2C_UNK update_context, M2C_UNK setup_context);
+extern void initialize_object_entries(void *state, M2C_UNK output, M2C_UNK entries);
+extern void install_object_handler_and_clear_slot_flag(void *object, M2C_UNK update_context, M2C_UNK setup_context);
 
 
 /* Apply setup from the object descriptor and then run the object update. */
-void townApplyObjectSetupAndUpdate(void *object, M2C_UNK update_context, M2C_UNK setup_context) {
-    townInitializeObjectEntries(object, setup_context, ((S_800C4174_1 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_04);
-    townInstallObjectHandlerAndClearSlotFlag(object, update_context, setup_context);
+void apply_object_setup_and_update(void *object, M2C_UNK update_context, M2C_UNK setup_context) {
+    initialize_object_entries(object, setup_context, ((S_800C4174_1 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_04);
+    install_object_handler_and_clear_slot_flag(object, update_context, setup_context);
 }

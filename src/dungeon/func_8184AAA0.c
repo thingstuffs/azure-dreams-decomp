@@ -43,10 +43,10 @@ typedef struct S_800242A0_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800242A0_3;   /* arg1 in dungeonAllocateEffectAtCoordinates */
+} S_800242A0_3;   /* arg1 in allocate_effect_at_coordinates */
 
 /* Allocate and initialize an object with the supplied value and coordinates. */
-void *dungeonAllocateEffectAtCoordinates(s32 object_value, S_800242A0_3 *source_coords) {
+void *allocate_effect_at_coordinates(s32 object_value, S_800242A0_3 *source_coords) {
     S_800242A0_1 *sprite;
     S_800242A0_0 *object;
     S_800242A0_2 *coords;

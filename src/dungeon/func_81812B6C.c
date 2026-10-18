@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void dungeonSetMenuObjectScaleFields(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
+void set_menu_object_scale_fields(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
     s32 scaled_value;
     s32 entry_index;
     s32 scaled_numerator;

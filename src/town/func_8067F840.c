@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u32 D_800188C8;   /* saved entry count (set by func_80016770 / func_8001679C) */
+extern u32 D_800188C8;   /* saved entry count (set by store_calling_zero / func_8001679C) */
 
 /* Return the saved entry count. */
-u32 func_80016840(void) {
+u32 get_saved_entry_count(void) {
     return D_800188C8;
 }

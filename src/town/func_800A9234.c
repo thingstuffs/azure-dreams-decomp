@@ -20,16 +20,16 @@ typedef struct S_800A6994_2 {
 
 
 
-void townSelectObjectValueByHeightBand();
-void townSetFlaggedEntryValues();
-void townInitializeObjectEntries();
+void select_object_value_by_height_band();
+void set_flagged_entry_values();
+void initialize_object_entries();
 extern M2C_UNK D_800A5638;
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
 extern s32 D_80100E24;
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void townUpdateActorPositionAndHeading(void *actor, s32 update_context, void *position, s32 setup_context) {
+void update_actor_position_and_heading(void *actor, s32 update_context, void *position, s32 setup_context) {
     u32 heading;
     u8 *state;
     s32 *saved_position;
@@ -37,13 +37,13 @@ void townUpdateActorPositionAndHeading(void *actor, s32 update_context, void *po
 
     state = ((u8 *)(&D_80083498));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
-        townSetFlaggedEntryValues(&D_800D0D54, 0);
+        set_flagged_entry_values(&D_800D0D54, 0);
         D_800D0C78 = ((EntityRec *)position)->x.v;
         saved_position = &D_800D0C78;
         ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
         ((S_800A6994_2 *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
-        townInitializeObjectEntries(actor, setup_context, D_80100E24);
-        townSelectObjectValueByHeightBand(actor, update_context, position, setup_context);
+        initialize_object_entries(actor, setup_context, D_80100E24);
+        select_object_value_by_height_band(actor, update_context, position, setup_context);
         heading = ((Rec_func_80094268_arg0 *)actor)->unk_72.as_u16;
         heading += 0x200;
         heading &= 0xFC00;

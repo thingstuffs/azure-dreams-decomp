@@ -56,7 +56,7 @@ typedef struct S_80023470_8 {
 } S_80023470_8;
 
 /* Initialize three entries in each of the four object groups. */
-void cardBootResetThreeRowHighlight(void *object) {
+void card_boot_reset_three_row_highlight(void *object) {
     s32 i;
     S_80023470_0 *entry_base;
 

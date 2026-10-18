@@ -14,7 +14,7 @@ typedef struct S_80174B90_5 {
 typedef struct S_80174B90_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80174B90_6;   /* arg0 in dungeonCreateTerrainScaledActorEffect */
+} S_80174B90_6;   /* arg0 in create_terrain_scaled_actor_effect */
 
 typedef struct S_80174B90_7 {
     u8 pad_00[0x12];
@@ -39,7 +39,7 @@ typedef struct S_80174B90_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80174B90_9;   /* ((S_80174B90_6 *)arg0)->unk_08 in dungeonCreateTerrainScaledActorEffect */
+} S_80174B90_9;   /* ((S_80174B90_6 *)arg0)->unk_08 in create_terrain_scaled_actor_effect */
 
 
 void *func_8003FD64();               /* extern */
@@ -71,7 +71,7 @@ typedef struct S_80174B90_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80174B90_2;   /* arg0 in dungeonCreateTerrainScaledActorEffect */
+} S_80174B90_2;   /* arg0 in create_terrain_scaled_actor_effect */
 
 typedef struct S_80174B90_3 {
     u8 pad_00[0xC];
@@ -86,7 +86,7 @@ typedef struct S_80174B90_3 {
 } S_80174B90_3;
 
 /* Create an effect using the source object's rendering and transform data. */
-void dungeonCreateTerrainScaledActorEffect(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_08) {
+void create_terrain_scaled_actor_effect(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_08) {
     S_80174B90_3 *render_data;
     S_80174B90_1 *effect_state;
     void *effect;

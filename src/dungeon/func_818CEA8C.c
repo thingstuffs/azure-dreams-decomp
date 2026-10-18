@@ -22,7 +22,7 @@ void func_8002428C(void *object_data, void *source_data)
     y = *(u16 *)(source + 6);
     probe_z = z + 2;
     D_80025924[0] = 1;
-    height_limit = func_800BCB04(x, y, (s16)probe_z);
+    height_limit = sample_terrain_surface_height(x, y, (s16)probe_z);
     if (*(s16 *)(source + 0xA) < height_limit) {
         random_value = rand();
         *(u32 *)(source + 8) += 0x20000 + (random_value & 0xFFF);
@@ -31,6 +31,6 @@ void func_8002428C(void *object_data, void *source_data)
     *(s16 *)(object + 0x32) -= 8;
     if (*(s16 *)(object + 0x32) <= 0) {
         *(u16 *)(object - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

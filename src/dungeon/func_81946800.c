@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1966800.h"
 
-void decrementFlaggedItemParameters(void *action, void *saved_position)
+void decrement_flagged_item_parameters(void *action, void *saved_position)
 {
     void *owner_work;
     u8 *owner;
@@ -44,7 +44,7 @@ void decrementFlaggedItemParameters(void *action, void *saved_position)
         effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (effect != 0) {
             offset_part = *((void **) (((u8 *) owner) + 0xC));
-            if (resolveRecordOrientationOrFallback(*((s32 *) (((u8 *) offset_part) + 8)), offset_part, offsets, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(*((s32 *) (((u8 *) offset_part) + 8)), offset_part, offsets, 0) == 0) {
                 offsets[2] = 0;
                 offsets[1] = 0;
                 offsets[0] = 0;
@@ -58,7 +58,7 @@ void decrementFlaggedItemParameters(void *action, void *saved_position)
             *((u16 *) (((u8 *) effect_part) + 0x14)) = (*((u16 *) (((u8 *) source_part) + 0x14))) & 0x97FF;
             colors = *((u8 **) (((u8 *) source_part) + 0x2C));
             *((u8 **) (((u8 *) effect_part) + 0x2C)) = colors;
-            color_index = ((gameWork.view.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
+            color_index = ((g_game_work.view.viewAngle + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
             colors += color_index & 7;
             func_80047784(effect_part, *colors, 0);
             *((s16 *) (((u8 *) effect_part) + 0x1E)) = 0x1000;
@@ -100,7 +100,7 @@ void decrementFlaggedItemParameters(void *action, void *saved_position)
             else {
                 event_code = 0x4300;
             }
-            func_800A56E0(event_code);
+            play_sound_if_enabled(event_code);
         }
         (*((u16 *) (((u8 *) action) + 0xA)))++;
         return;
@@ -122,10 +122,10 @@ void decrementFlaggedItemParameters(void *action, void *saved_position)
             *((u16 *) (((u8 *) action) + 0x52)) = action_flags & 0x7FFF;
             return;
         }
-        shared_state = &dungeonStatus;
+        shared_state = &g_dungeon_status;
         *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
         (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
         *((u16 *) (((u8 *) action) + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

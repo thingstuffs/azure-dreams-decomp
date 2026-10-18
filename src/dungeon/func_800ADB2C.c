@@ -4,7 +4,7 @@
 
 typedef struct S_800B328C_0_pre {
     u16 unk_00;
-} S_800B328C_0_pre;   /* the 0x2 bytes before arg0 in func_800B328C, addressed as arg0[-1] */
+} S_800B328C_0_pre;   /* the 0x2 bytes before arg0 in update_oriented_offset_effect_position, addressed as arg0[-1] */
 
 typedef struct S_800B328C_0 {
     void * unk_00;
@@ -12,7 +12,7 @@ typedef struct S_800B328C_0 {
     u8 pad_08[0x84];
     s16 unk_8C;
     u16 unk_8E;
-} S_800B328C_0;   /* arg0 in func_800B328C */
+} S_800B328C_0;   /* arg0 in update_oriented_offset_effect_position */
 
 typedef struct S_800B328C_1 {
     u8 pad_00[0x8];
@@ -26,7 +26,7 @@ typedef struct S_800B328C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B328C_2;   /* arg1 in func_800B328C */
+} S_800B328C_2;   /* arg1 in update_oriented_offset_effect_position */
 
 typedef struct S_800B328C_3 {
     u8 pad_00[0x2];
@@ -41,14 +41,14 @@ typedef struct S_800B328C_4 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B328C_4;   /* ((S_800B328C_0 *)arg0)->unk_00 in func_800B328C */
+} S_800B328C_4;   /* ((S_800B328C_0 *)arg0)->unk_00 in update_oriented_offset_effect_position */
 
 
-s32 resolveRecordOrientationOrFallback();     /* extern */
-void dungeonCreateAttenuatingMovingEffect(); /* extern */
+s32 resolve_record_orientation_or_fallback();     /* extern */
+void create_attenuating_moving_effect(); /* extern */
 
 /* Update the position from a base and offset, and mark completion or timeout. */
-void func_800B328C(void *state, void *position) {
+void update_oriented_offset_effect_position(void *state, void *position) {
     u16 offset[3];
     u16 new_position[3];
     s16 old_x;
@@ -62,7 +62,7 @@ void func_800B328C(void *state, void *position) {
     void *offset_source;
 
     offset_source = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_0C;
-    if (resolveRecordOrientationOrFallback(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
+    if (resolve_record_orientation_or_fallback(((S_800B328C_1 *)offset_source)->unk_08, offset_source, offset, 0) != 0) {
         base_position = ((S_800B328C_4 *)(((S_800B328C_0 *)state)->unk_00))->unk_08;
         if (((S_800B328C_0 *)state)->unk_8C != 0) {
             old_x = (s16) ((S_800B328C_2 *)position)->unk_02;
@@ -77,7 +77,7 @@ void func_800B328C(void *state, void *position) {
             new_z = ((S_800B328C_3 *)base_position)->unk_0A + offset[2];
             ((S_800B328C_2 *)position)->unk_0A = new_z;
             new_position[2] = new_z;
-            dungeonCreateAttenuatingMovingEffect(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
+            create_attenuating_moving_effect(((S_800B328C_0 *)state)->unk_00, old_x, old_y, old_z_shifted >> 0x10, new_position,
                 ((S_800B328C_0 *)state)->unk_04, 2, 0x800, 1);
         } else {
             ((S_800B328C_2 *)position)->unk_02 = (u16) (((S_800B328C_3 *)base_position)->unk_02 + offset[0]);
@@ -87,12 +87,12 @@ void func_800B328C(void *state, void *position) {
         }
     } else if (((S_800B328C_0 *)state)->unk_8C != 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left,
         ((s16) ticks_left < 0)) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

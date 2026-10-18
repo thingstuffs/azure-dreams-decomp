@@ -13,10 +13,10 @@ extern Entry D_80129620[32];
 extern Entry *D_80129720;
 extern s16 D_80129724;
 
-extern void appendTerminatedRuntimeWord(void *);
+extern void append_terminated_runtime_word(void *);
 
 /* Initializes the entry list with cleared states and values spaced by 48. */
-void townInitializeCatalogGlyphCache(void) {
+void initialize_catalog_glyph_cache(void) {
     s16 entry_index;
 
     D_80129724 = 0;
@@ -30,5 +30,5 @@ void townInitializeCatalogGlyphCache(void) {
         D_80129620[entry_index].value = entry_index * 48;
         D_80129620[entry_index].state = 0;
     }
-    appendTerminatedRuntimeWord(D_80123124);
+    append_terminated_runtime_word(D_80123124);
 }

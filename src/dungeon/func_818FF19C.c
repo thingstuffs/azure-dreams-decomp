@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191eef8.h"
 
-void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render_state) {
+void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state) {
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;
     s16 draw_pos[2];
@@ -82,13 +82,13 @@ void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render
         tile_rect.h = 0x54;
         draw_pos[0] = 0x370;
         draw_pos[1] = 0x148;
-        func_800B8FC8(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_38, &tile_rect, draw_pos, 0, 1);
+        draw_transformed_sprite_with_clip_rect(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_38, &tile_rect, draw_pos, 0, 1);
 
         draw_pos[0] = moving_rect.x + (moving_rect.w >> 1) - 6;
         rounded_frame = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02;
         y_offset = (rounded_frame / 4) - 0x4E;
         draw_pos[1] = moving_rect.y - y_offset;
-        func_800B8FC8(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_3C, &moving_rect, draw_pos, 1, 1);
+        draw_transformed_sprite_with_clip_rect(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_3C, &moving_rect, draw_pos, 1, 1);
 
         frame = ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02;
         if (frame < 0x15) {
@@ -109,7 +109,7 @@ void dungeonUpdateTiledFadeEffect(void *effect, void *offset_state, void *render
             ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.u++;
             ((Row_818FF19C_S_818FF19C_3 *)(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_34))->unk_90 = 1;
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

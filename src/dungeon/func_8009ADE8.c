@@ -3,9 +3,9 @@
 
 
 /* Return whether the coordinates are outside the dungeon bounds. */
-s32 func_800A0548(s16 x, s16 y)
+s32 is_map_coordinate_out_of_bounds(s16 x, s16 y)
 {
-    MapGrid *bounds = &gameWork.map;
+    MapGrid *bounds = &g_game_work.map;
 
     if (x < 0 || x >= (1 << bounds->shiftX)) {
         return 1;

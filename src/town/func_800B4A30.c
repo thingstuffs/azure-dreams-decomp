@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800B2164();                 /* extern */
+void clear_indexed_table_flag();                 /* extern */
 
 typedef struct S_800B2190_0 {
     u8 pad_00[0x1];
@@ -18,7 +18,7 @@ typedef struct S_800B2190_2 {
 } S_800B2190_2;
 
 /* Clear the selected entry and remove its pointer from the null-terminated list. */
-void func_800B2190(s32 list_addr, s32 index) {
+void remove_selected_entry_from_list(s32 list_addr, s32 index) {
     s32 slot_offset;
     void **slot;
     S_800B2190_0 *entry;
@@ -27,7 +27,7 @@ void func_800B2190(s32 list_addr, s32 index) {
     slot = list_addr + slot_offset;
     entry = *slot;
     if (entry->unk_01 == 0x13) {
-        func_800B2164(entry);
+        clear_indexed_table_flag(entry);
     }
     ((S_800B2190_1 *)(*slot))->unk_00 = 0;
     if (*slot != NULL) {

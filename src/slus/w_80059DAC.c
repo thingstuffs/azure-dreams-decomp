@@ -5,7 +5,7 @@
 extern s32 D_800869C0[];
 
 /* Sort up to 16 entries before the first zero key in ascending key order. */
-void slusSortEntriesByKey(void)
+void sort_entries_by_key(void)
 {
     s32 saved_entry[2];
     s32 entry_count;

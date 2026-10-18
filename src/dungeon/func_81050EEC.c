@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81032EEC; every changed retail word is a paired relocation. */
-#define dungeonSpawnDirectionalEffect func_801566EC
+#define spawn_directional_effect func_801566EC
 #define D_80174300 D_80156300
 #define D_8017610C D_8015810C
 #include "shared/object_node.h"

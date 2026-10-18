@@ -4,7 +4,7 @@ extern u16 D_8007142C[];
 extern u8 D_8007147C[];
 
 /* Returns the byte mapped to the low 16 bits of key, or the zero-terminator entry if absent. */
-u8 runtimeLookupByteByKey(s32 key)
+u8 runtime_lookup_byte_by_key(s32 key)
 {
     s32 key_index;
 

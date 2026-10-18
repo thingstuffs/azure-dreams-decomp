@@ -2,7 +2,7 @@
 
 void func_8017445C(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonPropagateActorActionFlag(state, motion, position, actor) > 0) {
-        state->callback = func_801713A8;
+    if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
+        state->callback = update_entity_movement_and_ground_height;
     }
 }

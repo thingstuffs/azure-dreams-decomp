@@ -37,11 +37,11 @@ typedef struct {
 } Extra;
 
 extern s16 D_80013714[8];
-extern void dungeonSetRecordIntegerTileCenter(Motion *, u8, u8);
+extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern s32 func_800644B8(s32);
 
 /* Advance movement to the target tile, updating height and scale until complete. */
-s32 dungeonUpdateActorHopAndGrow(State *state, Motion *motion, Params *params, Extra *extra) {
+s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extra *extra) {
     s32 phase;
     s32 current_y;
     s32 height_offset;
@@ -56,7 +56,7 @@ s32 dungeonUpdateActorHopAndGrow(State *state, Motion *motion, Params *params, E
         state->field96 = 0x10;
         extra->field1C &= 0xFFFBFFFF;
         if ((*D_80013714 & 2) != 0) {
-            dungeonSetRecordIntegerTileCenter(motion, params->field24, params->field25);
+            set_record_integer_tile_center(motion, params->field24, params->field25);
             params->field1C = 0x1000;
             params->field1E = 0x1000;
             state->field9B = 2;
@@ -80,7 +80,7 @@ s32 dungeonUpdateActorHopAndGrow(State *state, Motion *motion, Params *params, E
             } else {
                 motion->field10 = 0;
                 motion->fieldC = 0;
-                dungeonSetRecordIntegerTileCenter(motion, params->field24, params->field25);
+                set_record_integer_tile_center(motion, params->field24, params->field25);
             }
         }
         if (state->field96 != 0) {
@@ -96,7 +96,7 @@ s32 dungeonUpdateActorHopAndGrow(State *state, Motion *motion, Params *params, E
             motion->field14 = 0;
             motion->field10 = 0;
             motion->fieldC = 0;
-            dungeonSetRecordIntegerTileCenter(motion, params->field24, params->field25);
+            set_record_integer_tile_center(motion, params->field24, params->field25);
             state->field92 = -0x20;
             state->field9B = (u8) (state->field9B + 1);
         }

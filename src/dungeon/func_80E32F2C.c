@@ -5,7 +5,7 @@
 extern u8 D_801524A0[];
 
 extern void func_80047784();
-extern s32 func_800A2B5C();
+extern s32 try_claim_dungeon_action_slot();
 extern void func_800A4ACC();
 extern void func_800C7930();
 extern u8 D_8014A000[200000];
@@ -17,18 +17,18 @@ void func_8014E72C(void *action_state, s32 action_param, void *sprite, void *act
     s32 direction;
 
     *((u8 *)actor + 0x71) = (u8)(*((u8 *)actor + 0x71) & 0x7F);
-    if (!(*(u16 *)((u8 *)((u16 *)(&dungeonStatus)) + 2) & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
+    if (!(*(u16 *)((u8 *)((u16 *)(&g_dungeon_status)) + 2) & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         {
             void *actor_base = (u8 *)actor - 0x20;
             func_800C7930(actor_base, action_param, 8, 0x300);
         }
-        if ((func_800A2B5C(actor) << 0x10) == 0) {
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             *((s8 *)action_state + 0x9A) = 0x17;
             *(s32 *)((u8 *)action_state + 0x8C) = 0;
             *((s8 *)action_state + 0x9B) = 0;
             frame_table = D_801524A0;
             *(void **)((u8 *)sprite + 0x2C) = frame_table;
-            direction = ((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7;
             func_80047784(sprite, frame_table[direction], 0);
             func_800A4ACC(actor);
             *((u8 *)actor + 0x6D) = (u8)(*((u8 *)actor + 0x6D) - 1);

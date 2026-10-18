@@ -2,8 +2,8 @@
 
 #include "common.h"
 
-extern s32 testSoundChannelAvailability(s16 bit_index);
-extern void soundStartScaledPrimaryAndSecondaryVoices(s32 a0, s32 a1);
+extern s32 test_sound_channel_availability(s16 bit_index);
+extern void sound_start_scaled_primary_and_secondary_voices(s32 a0, s32 a1);
 extern void func_80055730(void);
 
 /* Decode a packed selector and dispatch its index and offset if its code is available. */
@@ -40,7 +40,7 @@ case_800:
 merge:
     dispatch_code = selected_code;
 
-    if ((testSoundChannelAvailability(dispatch_code) << 0x10) != 0) {
+    if ((test_sound_channel_availability(dispatch_code) << 0x10) != 0) {
         entry_index = (dispatch_code << 8) | ((u32)(saved_selector & 0xFF) >> 4);
         entry_offset = ((saved_selector & 0xF) << 0xA) + 0x1C00;
         if (dispatch_code == 0) {
@@ -50,6 +50,6 @@ merge:
             func_80055730();
             return;
         }
-        soundStartScaledPrimaryAndSecondaryVoices(entry_index, entry_offset);
+        sound_start_scaled_primary_and_secondary_voices(entry_index, entry_offset);
     }
 }

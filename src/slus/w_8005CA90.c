@@ -30,7 +30,7 @@ void func_8005CA90(s32 channel)
     D_80079514 = 0;
     D_80079500 = (u32)channel_value;
 
-    storeU16TableEntry(0xD1, channel_value, 0);
+    store_u16_table_entry(0xD1, channel_value, 0);
 
     D_800799B4 = 0;
     D_800799B8 = 0;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 townCheckInputsAfterThresholdTwo(s32);
+extern s32 check_inputs_after_threshold_two(s32);
 extern void func_800193E0(s32);
 
 extern s32 D_8001967C;
@@ -9,11 +9,11 @@ extern u8 D_8001AAEC[];
 extern u8 D_8001DE58[];
 extern u8 D_80020C9C[];
 
-s32 townSelectDataByModeAndIndex(s32 unused0, s32 unused1, s32 selector) {
+s32 select_data_by_mode_and_index(s32 unused0, s32 unused1, s32 selector) {
     s32 result = 0;
 
     if (selector == 8) {
-        result = townCheckInputsAfterThresholdTwo(D_80019760[D_8001967C]);
+        result = check_inputs_after_threshold_two(D_80019760[D_8001967C]);
         func_800193E0(0x147A);
     } else if (selector == 1) {
         if (D_8001967C != 3) {

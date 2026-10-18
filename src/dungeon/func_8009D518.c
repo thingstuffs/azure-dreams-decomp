@@ -9,11 +9,11 @@ typedef struct {
 
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
-s32 func_800A2C78(void) {
+s32 has_pending_action_or_turn_count(void) {
     s32 has_value;
 
     has_value = 0;
-    if ((((s32)dungeonStatus.unk_0C) != 0) || (dungeonStatus.unk_0A != 0)) {
+    if ((((s32)g_dungeon_status.unk_0C) != 0) || (g_dungeon_status.unk_0A != 0)) {
         has_value = 1;
     }
     return has_value;

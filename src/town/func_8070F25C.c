@@ -6,11 +6,11 @@ extern char D_8001D6B5[];
 extern char D_8001D7A5[];
 extern char D_800227FB[];
 
-extern char *func_80016E48(s32);
+extern char *award_next_unearned_milestone(s32);
 extern s32 func_8001A64C(u32);
 
 /* Selects a string, with a state-dependent choice for selector 12. */
-char *func_8001825C(s32 unused_0, s32 unused_1, s32 text_id)
+char *select_string_state_dependent_choice(s32 unused_0, s32 unused_1, s32 text_id)
 {
     s32 selector = text_id;
 
@@ -27,7 +27,7 @@ char *func_8001825C(s32 unused_0, s32 unused_1, s32 text_id)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(selector);
+        return award_next_unearned_milestone(selector);
     default:
         return D_8001B14C;
     }

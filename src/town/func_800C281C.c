@@ -4,11 +4,11 @@
 extern int func_800478B8(void *arg);
 
 /* Updates state and sets local and global flags when either status bit is set. */
-void townUpdateStateAndSetFlags(void *flags_end, void *unused, void *state) {
+void update_state_and_set_flags(void *flags_end, void *unused, void *state) {
     func_800478B8(state);
     *(s32 *)((s8 *)state + 0xC) += 0xFFEFEFF0;
     if (*(u16 *)((s8 *)state + 0x14) & 0x6000) {
         *(u16 *)((s8 *)flags_end - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

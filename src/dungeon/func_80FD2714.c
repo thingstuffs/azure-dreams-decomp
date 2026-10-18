@@ -13,12 +13,12 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
-extern s32 func_800A2C34(void *);
+extern s32 has_pending_actor_or_turn_action(void *);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
+extern void update_actor_status_and_food(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80156250(void *, s32, void *, void *);
 
 extern u8 D_80152F6C;
@@ -40,11 +40,11 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         direction_anims = D_80157298;
         (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
         func_80047784(sprite,
-            direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
         return;
@@ -57,15 +57,15 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80157298;
             func_80047784(sprite,
-                D_80157298[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80157298[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             (((u32)entity->flags1C)) |= 0x40000;
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
             ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
             return;
         }
 
-        if (dungeonStatus.flags & 0x1000) {
+        if (g_dungeon_status.flags & 0x1000) {
             return;
         }
 
@@ -75,7 +75,7 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
             }
         }
 
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             return;
         }
 
@@ -86,7 +86,7 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
         }
 
         if (entity_flags & 0x80000) {
-            func_800AA888(controller, context, sprite, entity);
+            begin_actor_move_to_target_facing(controller, context, sprite, entity);
             func_80156250(controller, context, sprite, entity);
             return;
         }
@@ -94,14 +94,14 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
         if (entity->unk_6D == 0) {
             return;
         }
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((func_8009A180(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(entity);
+        update_actor_status_and_food(entity);
         func_800A9A04(entity);
         if (entity->tileY == 0) {
             return;
@@ -109,17 +109,17 @@ void func_80155F14(void *controller, void *context, void *sprite, EntityRec *ent
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80157298;
         func_80047784(sprite,
-            D_80157298[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80157298[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
-        dungeonStatus.unk_0A++;
+        g_dungeon_status.unk_0A++;
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
     }
         break;
     case 2:
         if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             entity->flags1C &= ~0x208;
             ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80152F6C;
         }

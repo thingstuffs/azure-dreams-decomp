@@ -19,7 +19,7 @@ extern u8 D_800CFC70[];
 extern void* D_800CFC7C[];
 
 /* Advance the inner value by 0x200, clamping and loading indexed state when positive. */
-void func_8008BB50(Func8008E3F0Arg* state) {
+void advance_inner_value_and_load_indexed_state(Func8008E3F0Arg* state) {
     state->inner->unk8 += 0x200;
     if (state->inner->unk8 > 0) {
         state->inner->unk8 = 0;

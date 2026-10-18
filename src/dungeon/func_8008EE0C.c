@@ -14,7 +14,7 @@ typedef struct S_8009456C_1 {
 
 
 /* Set the byte at offset 0x45 in the object referenced by the selected entry. */
-void dungeonSetFamiliarFormationOffset(s32 entry_index, s8 value) {
+void set_familiar_formation_offset(s32 entry_index, s8 value) {
     s32 entry_offset;
     s32 table_base;
 

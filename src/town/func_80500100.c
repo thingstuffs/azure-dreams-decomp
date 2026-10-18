@@ -1,6 +1,6 @@
 #include "modules/town_ovl_480100.h"
 
-void townInvokeCallbackAndSetSharedPointer(void) {
+void invoke_callback_and_set_shared_pointer(void) {
     Rec_D_80016000 *town_state;
     void *field_base;
     s32 field_value;

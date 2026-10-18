@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns 1 when pad key states 1 and 4 are both zero. */
-s32 padBothKeyStatesClear(void) {
+s32 pad_both_key_states_clear(void) {
     s32 keys_clear = 0;
 
     if (func_80053EF0(1) == 0) {

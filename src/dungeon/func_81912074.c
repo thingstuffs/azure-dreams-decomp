@@ -1,13 +1,13 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void *dungeonCreateAndInitializesCopyingN24BytesSourceData(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
+void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
     void *obj;
     ovl_1930844_81912074_S_80025874_1 *fields;
     void *object_data;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
-        ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_10 = (void *)dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation;
+        ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_10 = (void *)update_the_five_orbiting_points_advance_effect_animation;
         fields = obj + 0x20;
         ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-s32 dungeonAppendLinkedShadedPointPackets(u8 *node, void *vertex_arg)
+s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
     u8 *scratch;
@@ -15,8 +15,8 @@ s32 dungeonAppendLinkedShadedPointPackets(u8 *node, void *vertex_arg)
     u16 vertex_x;
 
     vertex = vertex_arg;
-    state_ptr = (u8 **)((u8 *)(&gameWork));
-    state = *(u8 **)((u8 *)(&gameWork));
+    state_ptr = (u8 **)((u8 *)(&g_game_work));
+    state = *(u8 **)((u8 *)(&g_game_work));
     scratch = (u8 *)0x1F800000;
 
     *(u8 * *)(scratch + 0x18) = ((GpuContext *)state)->packetCursor;

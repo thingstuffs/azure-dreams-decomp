@@ -16,7 +16,7 @@ typedef struct {
 
 
 /* Decrement the countdown, adjust both state values, and flag completion or cancellation. */
-void dungeonAdvanceTimedActionCounter(Obj0 *countdown, s32 unused, Obj2 *state)
+void advance_timed_action_counter(Obj0 *countdown, s32 unused, Obj2 *state)
 {
     u16 next_value;
 
@@ -33,11 +33,11 @@ void dungeonAdvanceTimedActionCounter(Obj0 *countdown, s32 unused, Obj2 *state)
 
     if ((s16)countdown->count <= 0) {
         ((u16 *)countdown)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (state->flags14 & 0x8000) {
         ((u16 *)countdown)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

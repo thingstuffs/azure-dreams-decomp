@@ -16,16 +16,16 @@ extern u8 D_80080A8A;
 extern u8 D_80080A88;
 extern u8 D_80080AA0;
 
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern int func_80053EF0(int);
 extern void func_8003E758(void);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
 extern void func_80040AA0(int);
-extern void soundSetCdPlaybackVolumeScale(short saved_setting);
-extern void soundSetSequenceVolumeScale(short);
-extern void soundSetVoiceGainScale(short a0);
-extern void resetGameStatePreservingSessionFields(void);
+extern void sound_set_cd_playback_volume_scale(short saved_setting);
+extern void sound_set_sequence_volume_scale(short);
+extern void sound_set_voice_gain_scale(short a0);
+extern void reset_game_state_preserving_session_fields(void);
 
 /* Handles a held button combination and restores saved settings when it triggers. */
 

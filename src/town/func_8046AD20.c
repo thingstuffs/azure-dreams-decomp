@@ -17,16 +17,16 @@ extern LocalValues D_80019164;
 extern s8 D_8001F2D4[];
 
 extern s32 func_8001E670(s32);
-extern void townInitializeEventSelectionState();
+extern void initialize_event_selection_state();
 
 
 typedef struct S_8001BD20_0 {
     u8 pad_00[0x6000];
     void * unk_6000;
-} S_8001BD20_0;   /* page in townHandleEventOrFallback */
+} S_8001BD20_0;   /* page in handle_event_or_fallback */
 
 /* Applies flag-dependent setup or forwards the arguments to the fallback handler. */
-s32 townHandleEventOrFallback(s32 fallback_first, s32 fallback_second) {
+s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
     LocalValues indexed_values;
     void *page;
     s32 second_or_base;
@@ -64,7 +64,7 @@ s32 townHandleEventOrFallback(s32 fallback_first, s32 fallback_second) {
         return 1;
     }
 
-    townInitializeEventSelectionState(fallback_first, second_or_base);
+    initialize_event_selection_state(fallback_first, second_or_base);
     return 0;
 }
 

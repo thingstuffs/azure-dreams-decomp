@@ -12,11 +12,11 @@ typedef struct S_800BC764_0 {
     s16 unk_68;
     u8 pad_6A[0x2];
     u16 unk_6C;
-} S_800BC764_0;   /* arg0 in townWaitThenProcessRecord */
+} S_800BC764_0;   /* arg0 in wait_then_process_record */
 
 
 /* Waits 60 updates, then processes the record until a reset flag is set. */
-void townWaitThenProcessRecord(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record) {
+void wait_then_process_record(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record) {
     s16 state;
     u16 ticks_left;
 

@@ -22,6 +22,6 @@ typedef struct ObjectFlagBlock {
     /* 0x0D */ unsigned char pad_0D[3]; /* never accessed */
 } ObjectFlagBlock;
 
-extern ObjectFlagBlock objectFlagBlock;
+extern ObjectFlagBlock object_flag_block;
 
 #endif

@@ -10,7 +10,7 @@ typedef struct {
 extern Entry D_800E3CD8[4];
 
 // Returns the value for a matching pair, stopping at the first value below two.
-s16 dungeonLookupDefinitionPairValue(s16 firstKey, s16 secondKey) {
+s16 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
     s32 entryIndex;
     s16 entryValue;
 

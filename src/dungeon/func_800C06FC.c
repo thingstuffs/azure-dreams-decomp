@@ -11,10 +11,10 @@ typedef struct CounterBlock {
 
 M2C_UNK func_8003DB94();        /* extern */
 extern s32 func_8004491C();
-extern s32 func_800A56E0();
+extern s32 play_sound_if_enabled();
 extern s32 func_80045C34();
 struct S_800C5D80_0;
-extern void dungeonAdvanceEffectMotionAndFade(void *effect_data, struct S_800C5D80_0 *motion, Rec_D_80082E80 *primitive);
+extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, Rec_D_80082E80 *primitive);
 
 typedef struct S_800C5E5C_0 {
     u8 pad_00[0x8];
@@ -53,7 +53,7 @@ typedef struct S_800C5E5C_3 {
 } S_800C5E5C_3;
 
 /* Spawn twelve effects at the given position, optionally playing a sound. */
-void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
+void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
     M2C_UNK object_type;
     s32 effect_index;
     s32 effect_offset;
@@ -66,11 +66,11 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
     u16 sprite_flags;
 
     if (play_sound != 0) {
-        func_800A56E0(0x816);
+        play_sound_if_enabled(0x816);
     }
     effect_index = 0xB;
     size = 0x20;
-    counter = &dungeonStatus;
+    counter = &g_dungeon_status;
     effect_offset = 0xFFFA0000;
     do {
         object_type = 0x12;
@@ -81,7 +81,7 @@ void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
             effect = func_8003FC64(object_type);
         }
         if (effect != NULL) {
-            ((S_800C5E5C_0 *)effect)->unk_10 = dungeonAdvanceEffectMotionAndFade;
+            ((S_800C5E5C_0 *)effect)->unk_10 = advance_effect_motion_and_fade;
             func_8004491C(effect, func_80045C34);
             transform = ((S_800C5E5C_0 *)effect)->unk_08;
             transform->unk_02 = x;

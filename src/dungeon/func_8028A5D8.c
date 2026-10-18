@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
+void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
     register u32 value = rect->value;
     s16 left;
     u16 top;
@@ -68,7 +68,7 @@ void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_Dungeon
             }
         }
     }
-    swap_styles = func_800A6D30() & 1;
+    swap_styles = generate_random_value() & 1;
     signed_width = (s16)width;
     signed_height = (s16)height;
     size_sum = signed_width + signed_height;
@@ -87,15 +87,15 @@ void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_Dungeon
     patches_left = patch_count;
     if (patch_count > 0) {
         do {
-            patch_x = (s16)left + ((func_800A6D30() & 0xFFFF) % signed_width);
-            patch_y = (s16)top + ((func_800A6D30() & 0xFFFF) % signed_height);
+            patch_x = (s16)left + ((generate_random_value() & 0xFFFF) % signed_width);
+            patch_y = (s16)top + ((generate_random_value() & 0xFFFF) % signed_height);
             scan_x = patch_x;
             scan_y = patch_y;
             patch_width = ((signed_width - (patch_x - (s16)left)) / 2 +
-                (func_800A6D30() & 7)) - 4;
+                (generate_random_value() & 7)) - 4;
             patch_height = ((signed_height - (patch_y - (s16)top)) / 2 +
-                (func_800A6D30() & 7)) - 4;
-            patch_style = (func_800A6D30() & 7) != 0;
+                (generate_random_value() & 7)) - 4;
+            patch_style = (generate_random_value() & 7) != 0;
 
             rows_left = patch_height;
             if (patch_height > 0) {
@@ -123,18 +123,18 @@ void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_Dungeon
                                     if (coord != 0) {
                                         patch_cell = cell;
                                         if (row_style != 0) {
-                                            dungeonAdvanceGenerationStepPair(patch_cell, style_value_hi >> 16);
+                                            advance_generation_step_pair(patch_cell, style_value_hi >> 16);
                                         } else {
                                             alt_value = value - 0xC0;
-                                            dungeonRetreatGenerationStepPair(patch_cell, (s16)alt_value);
+                                            retreat_generation_step_pair(patch_cell, (s16)alt_value);
                                         }
                                     } else {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             alt_value = value - 0xC0;
-                                            dungeonRetreatGenerationStepPair(patch_cell, (s16)alt_value);
+                                            retreat_generation_step_pair(patch_cell, (s16)alt_value);
                                         } else {
-                                            dungeonAdvanceGenerationStepPair(patch_cell, style_value_hi >> 16);
+                                            advance_generation_step_pair(patch_cell, style_value_hi >> 16);
                                         }
                                     }
                                 }
@@ -150,5 +150,5 @@ void dungeonFillRegionWithRandomPatches(floor_generate_isolated_8028A5D8_Dungeon
             patches_left--;
         } while (patches_left > 0);
     }
-    dungeonWriteRectangularBorder((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
+    write_rectangular_border((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
 }

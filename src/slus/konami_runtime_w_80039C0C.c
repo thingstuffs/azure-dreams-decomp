@@ -13,7 +13,7 @@ typedef struct {
 extern void func_8003875C(void);
 
 /* Read two script bytes into the state and select func_8003875C as the next handler. */
-void handleVmOpcode39(FuncState *state) {
+void handle_vm_opcode_39(FuncState *state) {
     u8 *cursor = state->cursor;
     u8 value = *cursor++;
 

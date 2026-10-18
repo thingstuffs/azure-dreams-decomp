@@ -5,13 +5,13 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 dungeonProcessRecordAndUpdateLinkedState(void *request, s32 record_data);
-extern s32 dungeonClearSlotAndUpdateLinkedState(void *slot);
-extern s32 func_800997FC(void *context, s32 first_input, s32 second_input);
-extern s32 func_800A5F38(void *object_context, void *target);
-extern s32 func_800A6480(void *actor, void *item, s32 buffer_arg2);
-extern s32 dungeonApplyActorFoodPreference(void *state, s32 mode, void *item);
+extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 process_record_and_update_linked_state(void *request, s32 record_data);
+extern s32 clear_slot_and_update_linked_state(void *slot);
+extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
+extern s32 apply_item_effect_at_entity_position(void *object_context, void *target);
+extern s32 display_actor_item_status_message(void *actor, void *item, s32 buffer_arg2);
+extern s32 apply_actor_food_preference(void *state, s32 mode, void *item);
 
 typedef struct {
     s16 flags;
@@ -28,7 +28,7 @@ extern DungeonGroup D_80073414[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
-s32 dispatchItemTargetAction(void *target, void *item, s16 action_type, s32 action_value) {
+s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 action_value) {
     s32 item_index;
     s32 category_index;
     DungeonItem *item_entries;
@@ -38,15 +38,15 @@ s32 dispatchItemTargetAction(void *target, void *item, s16 action_type, s32 acti
     u16 selector_bits;
 
     if (action_type == 0xD) {
-        return dungeonProcessRecordAndUpdateLinkedState(item, action_value);
+        return process_record_and_update_linked_state(item, action_value);
     }
     if ((s32) target == ((s32)D_800E3D7C)) {
         *(void **)((u8 *)target + 0x110) = item;
-        dungeonBeginModeSelectedItemAction(target, ((s32 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((s32 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {
-        func_800A6480(target, item, action_type);
+        display_actor_item_status_message(target, item, action_type);
         category_index = *((u8 *)item + 1);
         item_index = *((u8 *)item + 0);
         item_entries = D_80073414[category_index].entries;
@@ -58,14 +58,14 @@ s32 dispatchItemTargetAction(void *target, void *item, s16 action_type, s32 acti
             selector_bits = selector_table[*((u8 *)target + 0x13)];
             selector = (selector_bits >> 4) & 3;
         }
-        if (dungeonApplyActorFoodPreference(target, selector, item) == 0) {
-            func_800A5F38(target, item);
+        if (apply_actor_food_preference(target, selector, item) == 0) {
+            apply_item_effect_at_entity_position(target, item);
             return 1;
         }
-        dungeonClearSlotAndUpdateLinkedState(item);
+        clear_slot_and_update_linked_state(item);
     } else {
-        func_800997FC((u8 *)&D_800E101C, action_value, action_type);
+        display_formatted_context_message((u8 *)&D_800E101C, action_value, action_type);
     }
-    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
     return 1;
 }

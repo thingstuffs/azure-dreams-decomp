@@ -41,7 +41,7 @@ typedef struct {
 } S_80051708;
 
 /* Initializes the object callbacks, sub-object state, linked record, and fixed vector. */
-void sceneInitializeArcMotionSprite(S_80051708 *object, void *sub_object)
+void scene_initialize_arc_motion_sprite(S_80051708 *object, void *sub_object)
 {
     struct Dst *record;
     int *vector;

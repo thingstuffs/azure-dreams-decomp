@@ -27,14 +27,14 @@ typedef struct {
 
 extern TownState D_80083498;
 
-extern void townInitializeReactionDataAndTimer10B(Object *, Position *, void *, GameState *);
+extern void initialize_reaction_data_and_timer_10_b(Object *, Position *, void *, GameState *);
 extern void SD_Call(s32);
 
 /* Move halfway toward the target each tick and finish the transition when the timer expires. */
-void townMoveReactionTowardTarget(Object *object, Position *position, void *context)
+void move_reaction_toward_target(Object *object, Position *position, void *context)
 {
     s16 ticks_left;
-    GameWork *game = &gameWork;
+    GameWork *game = &g_game_work;
 
     if (object->timer == 8) {
         game->view.unk_08C = 0x10;
@@ -43,7 +43,7 @@ void townMoveReactionTowardTarget(Object *object, Position *position, void *cont
     ticks_left = (u16)object->timer - 1;
     object->timer = ticks_left;
     if (ticks_left <= 0) {
-        townInitializeReactionDataAndTimer10B(object, position, context, game);
+        initialize_reaction_data_and_timer_10_b(object, position, context, game);
         SD_Call(0x605);
         return;
     }

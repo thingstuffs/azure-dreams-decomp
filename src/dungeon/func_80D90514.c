@@ -23,11 +23,11 @@ extern u8 D_8017387C[9];
 extern void func_80047784(Context *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
-void dungeonInitializeEightWayActionState(State *state, s32 unused, Context *context, IndexSource *directionSource)
+void initialize_eight_way_action_state(State *state, s32 unused, Context *context, IndexSource *directionSource)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;
     state->unk9E = 8;
     context->unk2C = D_8017387C;
-    func_80047784(context, D_8017387C[((gameWork.view.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
+    func_80047784(context, D_8017387C[((g_game_work.view.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
 }

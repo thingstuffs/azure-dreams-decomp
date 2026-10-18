@@ -8,7 +8,7 @@ typedef struct S_80018094_1 {
     u16 unk_0C;
     u16 unk_0E;
 } S_80018094_1;   /* (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
-            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in townApplyTargetGridRectangle */
+            *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32 in apply_target_grid_rectangle */
 
 
 typedef struct {
@@ -18,18 +18,18 @@ typedef struct {
     s16 h;
 } Rect;
 
-extern void townCopyCurrentRecordComponents3();
-extern void townPointsWithinSquaredThreshold();
+extern void copy_current_record_components_3();
+extern void points_within_squared_threshold();
 
 
 /* Applies a target rectangle positioned at the given grid cell center. */
-void townApplyTargetGridRectangle(s32 target_x, s32 target_y)
+void apply_target_grid_rectangle(s32 target_x, s32 target_y)
 {
     Rect current_rect;
     Rect target_rect;
     s32 coord_offset;
 
-    townCopyCurrentRecordComponents3(&current_rect);
+    copy_current_record_components_3(&current_rect);
     target_x <<= 6;
     target_y <<= 6;
     current_rect.w = 0;
@@ -42,5 +42,5 @@ void townApplyTargetGridRectangle(s32 target_x, s32 target_y)
     target_rect.w = 0;
     target_y += coord_offset;
     target_rect.y = target_y;
-    townPointsWithinSquaredThreshold(&current_rect, &target_rect, 0x20);
+    points_within_squared_threshold(&current_rect, &target_rect, 0x20);
 }

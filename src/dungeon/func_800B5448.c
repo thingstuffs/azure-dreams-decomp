@@ -23,7 +23,7 @@ typedef struct Scratch_800B5448 Scratch_800B5448;
 typedef struct S_800BABA8_0_pre {
     s8 unk_00;
     u8 pad_01[0x3];
-} S_800BABA8_0_pre;   /* the 0x4 bytes before dst in dungeonDrawParticleEffectPrimitives, addressed as dst[-1] */
+} S_800BABA8_0_pre;   /* the 0x4 bytes before dst in draw_particle_effect_primitives, addressed as dst[-1] */
 
 typedef struct S_800BABA8_0 {
     s8 unk_00;
@@ -35,12 +35,12 @@ typedef struct S_800BABA8_0 {
     s8 unk_15;
     s8 unk_16;
     s8 unk_17;
-} S_800BABA8_0;   /* dst in dungeonDrawParticleEffectPrimitives */
+} S_800BABA8_0;   /* dst in draw_particle_effect_primitives */
 
 typedef struct S_800BABA8_1 {
     u8 pad_00[0x8D0];
     s32 unk_8D0;
-} S_800BABA8_1;   /* *(DungeonRoot **)global_field in dungeonDrawParticleEffectPrimitives */
+} S_800BABA8_1;   /* *(DungeonRoot **)global_field in draw_particle_effect_primitives */
 
 struct Scratch_800B5448 {
     u16 values[3];
@@ -67,10 +67,10 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
 
 /* Advances particle levels and emits colored effect primitives into the dungeon display list. */
-s32 dungeonDrawParticleEffectPrimitives(DungeonObject *object, u16 *position) {
+s32 draw_particle_effect_primitives(DungeonObject *object, u16 *position) {
     DungeonRoot *root =
-        *(DungeonRoot **)((u8 *)(&gameWork));
-    GameWork *root_slot = &gameWork;
+        *(DungeonRoot **)((u8 *)(&g_game_work));
+    GameWork *root_slot = &g_game_work;
     s32 packet_cursor = root->cursor;
     Scratch_800B5448 *scratch;
     s16 particle = 0;

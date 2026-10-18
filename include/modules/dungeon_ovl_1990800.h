@@ -4,5 +4,5 @@
 #include "common.h"
 /* Bank flag: scalar declaration matches retail scheduling; following tail views remain external. */
 extern s16 D_80025FF4;
-void func_8002512C(void *, void *, void *);
+void advance_effect_sequence(void *, void *, void *);
 #endif

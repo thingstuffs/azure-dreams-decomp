@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns whether the string contains a character other than a space or newline. */
-s32 stringHasNonWhitespace(u8 *text)
+s32 string_has_non_whitespace(u8 *text)
 {
     s32 has_content = 0;
     s32 character;

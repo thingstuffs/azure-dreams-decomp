@@ -5,14 +5,14 @@
 typedef struct S_8016EB14_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8016EB14_0;   /* root in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_0;   /* root in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016EB14_1;   /* object in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_1;   /* object in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_2 {
     u8 pad_00[0x6];
@@ -26,7 +26,7 @@ typedef struct S_8016EB14_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016EB14_2;   /* part in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_2;   /* part in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_3 {
     u8 pad_00[0x18];
@@ -46,7 +46,7 @@ typedef struct S_8016EB14_3 {
     s32 unk_54;
     u8 pad_58[0x8];
     s32 unk_60;
-} S_8016EB14_3;   /* body in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_3;   /* body in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_4 {
     u8 pad_00[0x2];
@@ -55,7 +55,7 @@ typedef struct S_8016EB14_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8016EB14_4;   /* target in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_4;   /* target in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_5 {
     u8 pad_00[0x2];
@@ -64,14 +64,14 @@ typedef struct S_8016EB14_5 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8016EB14_5;   /* source in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_5;   /* source in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_6 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0x7E];
     s16 unk_AA;
-} S_8016EB14_6;   /* owner in dungeonSpawnOwnedMotionObject */
+} S_8016EB14_6;   /* owner in spawn_owned_motion_object */
 
 
 extern void func_8004491C(void *, void *);
@@ -82,7 +82,7 @@ extern s16 D_80174708[16];
 
 
 /* Spawn an object at the owner's position and initialize its motion and appearance. */
-void dungeonSpawnOwnedMotionObject(void)
+void spawn_owned_motion_object(void)
 {
     s32 x;
     s32 source_y;

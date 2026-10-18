@@ -47,11 +47,11 @@ void func_80024878(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
 
     if (((S_8181B078_0 *)object)->unk_02.u <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (source->unk_14 & 0x8000) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

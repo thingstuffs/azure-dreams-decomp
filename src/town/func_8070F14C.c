@@ -8,7 +8,7 @@ extern s32 func_8001A64C(s32);
 extern s8 D_8001C921[];
 
 /* Sets the town owner's data pointer and invokes a town callback if the 0x939 check returns zero. */
-s32 func_8001814C(void) {
+s32 set_town_pointer_town_callback(void) {
     void *town;
     void *townOwner;
     void *callbackTable;

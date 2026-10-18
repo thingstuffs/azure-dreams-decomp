@@ -13,7 +13,7 @@ typedef struct S_800AB1C0_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_90;   /* overlapping accesses */
     u8 pad_94[0x2];
     s16 unk_96;
-} S_800AB1C0_0;   /* arg0 in dungeonUpdateActorMovementToTile */
+} S_800AB1C0_0;   /* arg0 in update_actor_movement_to_tile */
 
 
 typedef struct S_800AB1C0_2 {
@@ -25,15 +25,15 @@ typedef struct S_800AB1C0_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800AB1C0_2;   /* arg1 in dungeonUpdateActorMovementToTile */
+} S_800AB1C0_2;   /* arg1 in update_actor_movement_to_tile */
 
 
 
-void dungeonSetRecordIntegerTileCenter(Motion *, s32, s32);
-u16 func_800BCB04(s32 x, s32 y, s16 min_height);
+void set_record_integer_tile_center(Motion *, s32, s32);
+u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
-s32 dungeonUpdateActorMovementToTile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor) {
+s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor) {
     s16 frames_left;
     s16 next_frames;
     u16 new_height;
@@ -42,7 +42,7 @@ s32 dungeonUpdateActorMovementToTile(ObjA0 *move_state, Motion *motion, TilePos 
     s32 adjusted_x;
     s32 adjusted_y;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_800AB1C0_0 *)move_state)->unk_96 = 0;
     }
     frames_left = ((S_800AB1C0_0 *)move_state)->unk_96;
@@ -67,19 +67,19 @@ s32 dungeonUpdateActorMovementToTile(ObjA0 *move_state, Motion *motion, TilePos 
         ((S_800AB1C0_2 *)motion)->unk_14 = 0;
         ((S_800AB1C0_2 *)motion)->unk_10 = 0;
         ((S_800AB1C0_2 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)target_tile)->unk_24,
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)target_tile)->unk_24,
                       ((Rec_D_80082E80 *)target_tile)->unk_25);
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08 = (s16)((u16)dungeonStatus.unk_08 - 1);
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 = (s16)((u16)g_dungeon_status.unk_08 - 1);
         }
         if (actor->flags1C & 0x2000) {
             actor->unk_46 =
                 (u16)(actor->unk_46 & 0x7FFF);
         }
-        if (dungeonStatus.flags & 0x80) {
+        if (g_dungeon_status.flags & 0x80) {
             actor->flags1C =
                 (s32)(actor->flags1C & 0xBFFFFFFF);
-            new_height = func_800BCB04(
+            new_height = sample_terrain_surface_height(
                 (((Rec_D_80082E80 *)target_tile)->unk_24 << 6) | 0x20,
                 (((Rec_D_80082E80 *)target_tile)->unk_25 << 6) | 0x20,
                 (s16)(((u16)actor->unk_88) - 0x20));

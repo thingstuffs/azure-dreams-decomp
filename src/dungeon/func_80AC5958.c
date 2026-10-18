@@ -42,10 +42,10 @@ typedef struct S_80171158_4 {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80171320[];
 extern s32 D_80171728;
@@ -104,19 +104,19 @@ void *func_80171158(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         } else {
             if (((spawn_flags & -4) << 16) == 0) {
                 if ((result->unk_14 & 0x200) == 0) {
-                    if ((func_800A6D30() & 1) != 0) {
-                        func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    if ((generate_random_value() & 1) != 0) {
+                        set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                         part1->unk_2C = D_80174E4C;
                     }
                 }
             }
         }
 
-        func_800A9C18(object, part0, part1, spawn_flags);
+        initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C = &D_80171728;
-        func_800AA36C(result_copy, part0, part1, result);
+        try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;
 }

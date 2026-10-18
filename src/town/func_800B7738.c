@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void townSetRecordValueAndDataPointer();
+extern void set_record_value_and_data_pointer();
 extern void func_800B4CBC();
-extern void townInitializeFourSlotObject();
-void func_800B4E98(u8 *owner) {
-    townSetRecordValueAndDataPointer(owner);
+extern void initialize_four_slot_object();
+void initialize_four_slot_object_owner(u8 *owner) {
+    set_record_value_and_data_pointer(owner);
     func_800B4CBC(owner + 0x4C, owner + 0x24, owner + 0x34);
-    townInitializeFourSlotObject(owner);
+    initialize_four_slot_object(owner);
 }

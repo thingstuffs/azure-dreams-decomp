@@ -4,35 +4,35 @@ typedef s32 M2C_UNK;
 typedef struct S_800BF72C_3 {
     u8 pad_00[0xA0];
     void * unk_A0;
-} S_800BF72C_3;   /* arg0 in func_800BF72C */
+} S_800BF72C_3;   /* arg0 in advance_object_bounded_movement_phases */
 
 typedef struct S_800BF72C_4 {
     u8 pad_00[0x68];
     u16 unk_68;
-} S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in func_800BF72C */
+} S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in advance_object_bounded_movement_phases */
 
 
-void townCreateDirectionalSpriteEffect(void *, s16);
+void create_directional_sprite_effect(void *, s16);
 
 /* The final state reset is coupled to the non-overflow path.  This is a
  * defined source-level guard whose natural branch leader is the epilogue. */
 typedef struct S_800BF72C_0 {
     u8 pad_00[0x68];
     s16 unk_68;
-} S_800BF72C_0;   /* arg0 in func_800BF72C */
+} S_800BF72C_0;   /* arg0 in advance_object_bounded_movement_phases */
 
 typedef struct S_800BF72C_1 {
     s32 unk_00;
     s32 unk_04;
-} S_800BF72C_1;   /* arg1 in func_800BF72C */
+} S_800BF72C_1;   /* arg1 in advance_object_bounded_movement_phases */
 
 typedef struct S_800BF72C_2 {
     u8 pad_00[0x2D5C];
     u32 unk_2D5C;
-} S_800BF72C_2;   /* clock in func_800BF72C */
+} S_800BF72C_2;   /* clock in advance_object_bounded_movement_phases */
 
 /* Advance the object through bounded movement phases and trigger a timed event. */
-void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
+void advance_object_bounded_movement_phases(S_800BF72C_0 *object, S_800BF72C_1 *position) {
     s32 event_pos[6];
     s16 move_state;
     s32 increased_x;
@@ -72,7 +72,7 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
                 event_z = 0xFFF80000;
                 event_pos[1] = position->unk_04;
                 event_pos[2] = event_z;
-                townCreateDirectionalSpriteEffect(event_pos, 0x200);
+                create_directional_sprite_effect(event_pos, 0x200);
             }
         }
         if (position->unk_00 > 0x105FFFFF) {

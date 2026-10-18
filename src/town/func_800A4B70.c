@@ -18,7 +18,7 @@ typedef struct Func800A4B70Output {
 } Func800A4B70Output;
 
 /* Copy the inner value into the output, negated unless the object's flag is set. */
-void townCopySignedInnerValueByFlag(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out) {
+void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out) {
     Func800A4B70Inner *inner = object->inner;
 
     if (object->flag != 0) {

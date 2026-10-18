@@ -6,9 +6,9 @@
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 
-/* Retail 81857050 (dungeonAdvanceMotionAndFadeSprite): updates the effect's motion, waits for its timer, then fades its sprite to
+/* Retail 81857050 (advance_motion_and_fade_sprite): updates the effect's motion, waits for its timer, then fades its sprite to
  * black and marks the effect (header and global flags) finished. */
-void dungeonAdvanceMotionAndFadeSprite(EffectRecord *effect, EffectMotion *motion, SpriteEntry *sprite) {
+void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, SpriteEntry *sprite) {
     EffectOwner *owner = effect->owner;
     s32 z_velocity;
     s16 state;
@@ -46,7 +46,7 @@ void dungeonAdvanceMotionAndFadeSprite(EffectRecord *effect, EffectMotion *motio
         if (sprite->red <= effect->fade_step) {
             *(u32 *)&sprite->red = 0;
             ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         brightness = sprite->blue - effect->fade_step;

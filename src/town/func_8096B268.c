@@ -4,7 +4,7 @@ extern s32 D_80126A88[];
 extern u8 D_80129728[];
 
 /* Initialize 14 entries from alternating source values and set their linked halfwords to 0x800. */
-void func_80123700(void) {
+void initialize_linked_value_records(void) {
     s32 entry_index;
     s32 *source_values;
     void **entry_slot;

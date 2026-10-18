@@ -8,14 +8,14 @@ typedef struct S_80172F44_0 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_80172F44_0;   /* state in dungeonCreateBossRandomizedEffect */
+} S_80172F44_0;   /* state in create_boss_randomized_effect */
 
 typedef struct S_80172F44_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80172F44_1;   /* object in dungeonCreateBossRandomizedEffect */
+} S_80172F44_1;   /* object in create_boss_randomized_effect */
 
 typedef struct S_80172F44_2 {
     u8 pad_00[0x6];
@@ -31,30 +31,30 @@ typedef struct S_80172F44_2 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80172F44_2;   /* display in dungeonCreateBossRandomizedEffect */
+} S_80172F44_2;   /* display in create_boss_randomized_effect */
 
 typedef struct S_80172F44_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80172F44_3;   /* transform in dungeonCreateBossRandomizedEffect */
+} S_80172F44_3;   /* transform in create_boss_randomized_effect */
 
 typedef struct S_80172F44_4 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172F44_4;   /* arg0 in dungeonCreateBossRandomizedEffect */
+} S_80172F44_4;   /* arg0 in create_boss_randomized_effect */
 
 
 extern void func_8004491C(void *entry, void *registration_id);
 extern s32 rand(void);
 extern void func_8003DB94(void *ptr, void *ptr1, s32 value);
 extern void func_80045340(void);
-extern void dungeonUpdateAcceleratingGrowingParticle(void);
+extern void update_accelerating_growing_particle(void);
 extern u8 D_800DE870[];
 
 /* Creates a visual effect at an offset position with randomized state. */
-void dungeonCreateBossRandomizedEffect(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)
+void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)
 {
     void *object;
     S_80172F44_3 *transform;
@@ -68,7 +68,7 @@ void dungeonCreateBossRandomizedEffect(S_80172F44_4 *position, s32 x_offset, s32
     if (object != 0) {
         state = (u8 *)object + 0x20;
         ((S_80172F44_0 *)state)->unk_16 = 0x1A;
-        ((S_80172F44_1 *)object)->unk_10 = dungeonUpdateAcceleratingGrowingParticle;
+        ((S_80172F44_1 *)object)->unk_10 = update_accelerating_growing_particle;
         func_8004491C(object, func_80045340);
 
         display = ((S_80172F44_1 *)object)->unk_0C;

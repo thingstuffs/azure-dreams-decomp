@@ -55,7 +55,7 @@ extern void *D_80175D50;
 extern void *D_80175D64;
 
 /* Creates an object from the current object's data and initializes its position and appearance. */
-void dungeonCreateSecondaryEncounterObject(void) {
+void create_secondary_encounter_object(void) {
     s32 data_index;
     S_80170700_3 *position;
     void *source_data;

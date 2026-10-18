@@ -8,33 +8,33 @@ extern u8  D_800DD0F8[];
 extern s8  D_80080AA0;
 extern s8  D_80080A88;
 
-extern void dungeonSelectNearbyTargetAndInitializeSlot();
+extern void select_nearby_target_and_initialize_slot();
 extern void func_80048A44();
-extern void func_800A56E0();
-extern void raiseEntityLevel();
+extern void play_sound_if_enabled();
+extern void raise_entity_level();
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
-s32 dungeonBeginSelectedTargetLevelUp(void *actor_state, s32 action_arg, void *sprite, void *target) {
-    if (!(D_800E296C & 0x100000) || dungeonStatus.unk_0C == 0) {
+s32 begin_selected_target_level_up(void *actor_state, s32 action_arg, void *sprite, void *target) {
+    if (!(D_800E296C & 0x100000) || g_dungeon_status.unk_0C == 0) {
         return 0;
     }
-    if (dungeonStatus.unk_0C == target && dungeonStatus.unk_0A == 0 && !(dungeonStatus.flags & 8)) {
+    if (g_dungeon_status.unk_0C == target && g_dungeon_status.unk_0A == 0 && !(g_dungeon_status.flags & 8)) {
         *(s8 *)((char *)actor_state + 0x9A) = 9;
         *(s8 *)((char *)actor_state + 0x9B) = 0;
         *(s32 *)((char *)actor_state + 0x8C) = 0;
-        dungeonSelectNearbyTargetAndInitializeSlot((char *)actor_state - 0x20, action_arg, 8, 0x300);
+        select_nearby_target_and_initialize_slot((char *)actor_state - 0x20, action_arg, 8, 0x300);
         if (!(*(s32 *)((char *)target + 0x1C) & 0x100000)) {
             *(u8 **)((char *)sprite + 0x2C) = D_800DD0F8;
-            func_80048A44(sprite, D_800DD0F8[((gameWork.view.viewAngle + *(s16 *)((char *)target + 0x2A) + 0x100)
+            func_80048A44(sprite, D_800DD0F8[((g_game_work.view.viewAngle + *(s16 *)((char *)target + 0x2A) + 0x100)
                 >> 9) & 7], 1, 1);
         }
-        func_800A56E0(0x201);
+        play_sound_if_enabled(0x201);
         if (!(D_80013714 & 2)) {
             D_80080AA0 = 1;
             D_80080A88 = 0;
         }
         *(s16 *)((char *)actor_state + 0x96) = 0x78;
-        raiseEntityLevel(target, 1);
+        raise_entity_level(target, 1);
     }
     return 1;
 }

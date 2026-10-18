@@ -8,7 +8,7 @@ typedef struct { u32 word; } PackedLoc;
 
 extern void DrawSync(int a0);
 extern s32 Control_CD(s32 a0, void *a1, s32 a2);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern void func_80041344(s32 a0, s32 a1);
 
 /* Decode a packed ID or relative offset, synchronize, and dispatch the resolved values. */
@@ -33,6 +33,6 @@ void file_load_com(void *packed_data)
         target_time = id_base;
     }
     Control_CD(6, packed_data, 0);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
     func_80041344(id_or_base, target_time);
 }

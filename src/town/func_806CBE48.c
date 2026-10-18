@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -19,15 +19,15 @@ struct ScriptContext {
     s16 unk_1A;
 };
 
-extern void func_80016D5C(s32 records, s32 count);
+extern void update_town_entry_state_nonzero(s32 records, s32 count);
 extern s32 func_800175B8(s32 flag);
 extern s32 D_800178A8;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_800178A8 is set. */
-s32 func_80016E48(ScriptContext *context) {
+s32 award_next_unearned_milestone(ScriptContext *context) {
     s32 entry_index;
 
-    func_80016D5C(context->unk_14, context->unk_1A);
+    update_town_entry_state_nonzero(context->unk_14, context->unk_1A);
     do {
         D_800178A8 = 0;
         entry_index = 0;

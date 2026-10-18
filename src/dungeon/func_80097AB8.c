@@ -4,43 +4,43 @@
 #include "records/Rec_D_800287A4.h"
 
 s32 func_80042900();                 /* extern */
-s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
-void *func_800CB82C();
+s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
+void *create_owner_linked_pulsing_effect();
 
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_8009D218_1_pre;   /* the 0x18 bytes before entity in dungeonTryTriggerTargetRecordEffect, addressed as entity[-1] */
+} S_8009D218_1_pre;   /* the 0x18 bytes before entity in try_trigger_target_record_effect, addressed as entity[-1] */
 
 /* extern */
 
-s32 dungeonTryTriggerTargetRecordEffect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
+s32 try_trigger_target_record_effect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
     u8 *value_ptr;
 
     if (!(flags & 8) && (record != NULL)) {
         if (flags & 1) {
             if (((func_80042900(entity, 0x16) << 0x10) != 0) && (record->unk_13 >= 0)) {
-                func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                 return 1;
             }
         } else if (flags & 2) {
             if ((((func_80042900(entity, 0x16) << 0x10) != 0) || ((func_80042900(entity, 0x17) << 0x10) != 0))
                 && (record->unk_13 >= 0)) {
-                func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                 return 1;
             }
         } else if ((flags & 4) && (((func_80042900(entity, 0x16) << 0x10) != 0) || ((func_80042900(entity, 0x15) << 0x10)
             != 0)) && (record->unk_13 >= 0)) {
-            func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+            create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
             return 1;
         }
         {
             if (record != NULL) {
                 value_ptr = (*(u8 * *)&entity->unk_50);
                 if (value_ptr != NULL) {
-                    if ((*value_ptr == 3) && (record->unk_13 >= 0) && (func_800A6D30() & 3)) {
+                    if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */
-                        func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
+                        create_owner_linked_pulsing_effect(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                         return 1;
                     }
                                         /* Duplicate return node #25. Try simplifying control flow for better match */
@@ -70,5 +70,5 @@ s32 dungeonTryTriggerTargetRecordEffect(EntityRec *entity, s32 flags, Rec_D_8002
  * 3. ONE-SIDED ASM_MEM_BARRIER after the FIRST `return func_8009D34C();` arm
  *    defeats -O2 cross-jump merging of the two identical `j 8009d34c; nop` tail
  *    sites (words 21 and 39) so both survive; the flags&4 arm's `bgez -> 7bec`
- *    keeps the two func_800CB82C/func_8009D368 tails legitimately merged.
+ *    keeps the two create_owner_linked_pulsing_effect/func_8009D368 tails legitimately merged.
  */

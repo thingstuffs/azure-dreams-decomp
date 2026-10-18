@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void func_800262F4(void *object, s16 *index_step, s32 min_index, s32 max_index) {
+void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     s32 shifted_index;
     u32 clamp_flags;

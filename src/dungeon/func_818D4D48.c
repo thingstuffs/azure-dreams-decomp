@@ -50,11 +50,11 @@ void func_80024548(void *record_data, s32 unused, RenderFade33 *effect)
 
     if ((s16)((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_04 <= 0) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 
     if (effect->unk_14 & 0x8000) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

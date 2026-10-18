@@ -1,7 +1,7 @@
 #include "modules/town_player_init.h"
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void townRebuildMenuNodeList(void *owner, EntityRec *node_in, s32 mode) {
+void rebuild_menu_node_list(void *owner, EntityRec *node_in, s32 mode) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
     u8 *base;
@@ -11,30 +11,30 @@ void townRebuildMenuNodeList(void *owner, EntityRec *node_in, s32 mode) {
 
     handler = (*(void * *)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
-        townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive(node_in);
+        apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
     }
-    townAddMotionDeltasToPosition(node_in);
+    add_motion_deltas_to_position(node_in);
 
     handler = (*(void * *)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
-        townUpdateObjectAndClearStatusFields(node_in);
+        update_object_and_clear_status_fields(node_in);
     }
 
     if (node_in->z.v > 0 && D_8006ADD4[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
-        if (townCheckMaskedValueInCurrentRange((u16)townReadMapCellAtWorldPosition(node_in->x.w.i,
+        if (check_masked_value_in_current_range((u16)read_map_cell_at_world_position(node_in->x.w.i,
                                                   node_in->y.w.i)) == 0) {
             node_in->z.v = 0;
         }
     }
 
-    func_80095460(node_in);
+    store_position_and_compute_delta(node_in);
 
     work = (u8 *)&D_800FE490;
     ((func_80092C9C_S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
-    townUpdateTheSField10UsingCallee8008FE90(work);
-    if (townGetWhetherHasAttachedStateTypeN1N3(work) != 0) {
+    update_the_s_field_10_using_callee_8008_fe_90(work);
+    if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
         (*(s32 *)((u8 *)owner + (0x2C))) = 0;
-        func_8008B158(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
+        submit_object_resource_data(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
 
         object = D_80082BC0;
         (*(func_80092C9C_ObjectCallback *)((u8 *)object + (0x10)))(object + 0x20, 0, 0);
@@ -48,25 +48,25 @@ void townRebuildMenuNodeList(void *owner, EntityRec *node_in, s32 mode) {
                     u8 *update_work;
 
                     update_work = ((u8 *)&D_800FE488);
-                    value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(node_in, update_work);
-                    townComputeAndClampsVectorBasedAdjustmentUpdatesTown(node_in, value, update_work);
+                    value = select_the_smaller_position_query_result_capped_n_64_writes_associated(node_in, update_work);
+                    compute_and_clamps_vector_based_adjustment_updates_town(node_in, value, update_work);
                 }
             }
-            townRunTheThreeUpdateRoutinesContext(node_in);
+            run_the_three_update_routines_context(node_in);
             if ((*(void * *)((u8 *)owner + (0))) != D_80097D2C) {
-                townInitializeRecordAndSelectActiveData(owner, node_in, mode);
+                initialize_record_and_select_active_data(owner, node_in, mode);
             }
         }
     }
 
-    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(&D_800CFCB4, node_in);
+    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&D_800CFCB4, node_in);
     (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, mode);
 
     if ((*(void * *)((u8 *)owner + (-0x10))) == D_800A5638) {
-        townTurnEntityTowardTarget(owner, node_in, mode);
+        turn_entity_toward_target(owner, node_in, mode);
         return;
     }
-    townProcessSceneRecordUpdate(owner, node_in, mode);
+    process_scene_record_update(owner, node_in, mode);
 }
 
 /* MECHANISM: The 0x28 frame and s2/s1/s3 argument holds preserve the retail prologue.

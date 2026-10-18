@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Creates an object with the supplied data, position, and callback mode. */
-void *townCreateConfiguredObject(void *object_data, void *source_position, s32 alternate_callback)
+void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback)
 {
     void *created;
     void *render_state;
@@ -43,11 +43,11 @@ void *townCreateConfiguredObject(void *object_data, void *source_position, s32 a
         D_80100AF8 = *copy_src;
     }
 
-    townConfigureTheSetModeN4(object, position, D_800D073C);
+    configure_the_set_mode_n_4(object, position, D_800D073C);
     if (alternate_callback != 0) {
-        townInitializeOptionalObjectState(object, position, render_state, D_800D0788);
+        initialize_optional_object_state(object, position, render_state, D_800D0788);
     } else {
-        townInitializeOptionalObjectState(object, position, render_state, D_800D076C);
+        initialize_optional_object_state(object, position, render_state, D_800D076C);
     }
 
     if ((u32)(BYTE_AT(object, 0x4D) - 0x12) < 2) {
@@ -58,14 +58,14 @@ void *townCreateConfiguredObject(void *object_data, void *source_position, s32 a
     if (type == 0x12) {
         POINTER_AT(render_state, 8) = &D_8006E240;
     } else if (type == 0x13) {
-        townSetObjectStateForMode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
+        set_object_state_for_mode(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
     } else {
-        POINTER_AT(render_state, 8) = (void *)lookupItemCategoryMappedValue(
+        POINTER_AT(render_state, 8) = (void *)lookup_item_category_mapped_value(
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-    POINTER_AT(created, 0x10) = townDispatchObjectOrSwitchAlternateState;
-    townInitializeObjectAndMaybePlaySound(object, object, position, render_state);
+    POINTER_AT(created, 0x10) = dispatch_object_or_switch_alternate_state;
+    initialize_object_and_maybe_play_sound(object, object, position, render_state);
     del_t_item_w_ptr(object_data);
     return created;
 }

@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_1954800.h"
-void func_8002445C(void *effect) {
+void draw_red(void *effect) {
     s32 ticks_left;
     s32 surface_height;
     s16 state;
@@ -36,7 +36,7 @@ void func_8002445C(void *effect) {
         ((S_81934C5C_0 *)effect)->unk_0C += (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2;
         ((S_81934C5C_0 *)effect)->unk_10 += (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2;
         ((S_81934C5C_0 *)effect)->unk_24.at00.v += ((S_81934C5C_0 *)effect)->unk_30.at00.v;
-        surface_height = func_800BCB04(((S_81934C5C_0 *)effect)->unk_1C.at02.v,
+        surface_height = sample_terrain_surface_height(((S_81934C5C_0 *)effect)->unk_1C.at02.v,
             ((S_81934C5C_0 *)effect)->unk_20.at02.v, -0x400);
         if (surface_height >= 0x201) {
             if (((S_81934C5C_0 *)effect)->unk_24.at02.v > 0) {
@@ -88,7 +88,7 @@ void func_8002445C(void *effect) {
         return;
     case 0xFF:
         ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     default:
         return;

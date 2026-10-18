@@ -14,11 +14,11 @@ void func_800240AC(void *,s32,void *);
 struct PointRecord; struct EntityRec;
 s32 func_80024154(struct PointRecord *,struct EntityRec *);
 struct EffectRecord; struct EntityRec;
-void dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires(struct EffectRecord *,struct EntityRec *);
-void dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
-s32 dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(s32);
-void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *,s32 *,void *);
+void handle_raise_position_toward_queried_height_set_flags_countdown_expires(struct EffectRecord *,struct EntityRec *);
+void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *,s16,s32,s16,s16,s16,s16);
+s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
+void advance_the_animation_draws_rectangles_in_randomized_order(void *,s32 *,void *);
 struct S_func_8190B2D0_0;
-void dungeonUpdateAMovingEffectTargetAnimationCleanupState(struct S_func_8190B2D0_0 *,void *,void *);
-void func_800B8FC8(void *,void *,void *,s32,s32);
+void update_a_moving_effect_target_animation_cleanup_state(struct S_func_8190B2D0_0 *,void *,void *);
+void draw_transformed_sprite_with_clip_rect(void *,void *,void *,s32,s32);
 #endif

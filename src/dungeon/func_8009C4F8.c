@@ -5,7 +5,7 @@ extern s32 func_80042900(void *entry, s32 effect_id);
 extern s32 D_800835E8[];
 extern u8 D_800E0000[];
 /* Checks whether an entity can level up with its current experience. */
-s32 func_800A1C58(void *entity) {
+s32 can_entity_gain_level(void *entity) {
     s16 can_level_up = 0;
     s32 *exp_table;
     u8 *exp_entry;

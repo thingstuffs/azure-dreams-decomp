@@ -71,7 +71,7 @@ typedef struct {
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-void advanceAndFadeTransformedEffect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state);
+void advance_and_fade_transformed_effect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state);
 extern u8 D_80174128[8];
 
 typedef struct S_80975244_0 {

@@ -10,7 +10,7 @@ typedef struct {
 } Struct800AE2BC;
 
 /* Sets randomized entry values according to its type. */
-void townRandomizePersonEntryValues(Struct800AE2BC *record) {
+void randomize_person_entry_values(Struct800AE2BC *record) {
     s16 amount;
     s32 flags;
     register Struct800AE2BC *entry = record;

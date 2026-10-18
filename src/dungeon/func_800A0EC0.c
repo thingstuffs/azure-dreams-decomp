@@ -7,7 +7,7 @@
 typedef struct S_800A6620_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800A6620_1_pre;   /* the 0x14 bytes before object in func_800A6620, addressed as object[-1] */
+} S_800A6620_1_pre;   /* the 0x14 bytes before object in release_entity_slot_and_update_flags, addressed as object[-1] */
 
 typedef struct S_800A6620_1 {
     u8 pad_00[0x1C];
@@ -15,34 +15,34 @@ typedef struct S_800A6620_1 {
     u8 pad_20[0x23];
     u8 unk_43;
     u8 unk_44;
-} S_800A6620_1;   /* object in func_800A6620 */
+} S_800A6620_1;   /* object in release_entity_slot_and_update_flags */
 
 typedef struct S_800A6620_2 {
     u8 pad_00[0xAC];
     s32 unk_AC;
     u8 pad_B0[0x20];
     s32 unk_D0;
-} S_800A6620_2;   /* entry in func_800A6620 */
+} S_800A6620_2;   /* entry in release_entity_slot_and_update_flags */
 
 typedef struct S_800A6620_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A6620_3;   /* owner in func_800A6620 */
+} S_800A6620_3;   /* owner in release_entity_slot_and_update_flags */
 
 
-extern void buildEntitySlotSnapshot(void *ptr, void *object);
+extern void build_entity_slot_snapshot(void *ptr, void *object);
 extern s32 func_80042900(void *object, s32 value);
-extern void dungeonClearSlotAndUpdateLinkedState(void *handle);
-extern void func_8009A028(void *object);
-extern void func_8009A3D0(u8 sound_x, u8 sound_y, s32 sound_mode);
-extern s16 func_800A1BD0(void *object);
-extern void func_800A32A4(void *object);
+extern void clear_slot_and_update_linked_state(void *handle);
+extern void unlink_entity_node(void *object);
+extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 sound_mode);
+extern s16 find_entity_slot_by_field_ac(void *object);
+extern void detach_record_and_update_slot_state(void *object);
 
 extern void *D_800E3DF0[];
 
 /* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
-s16 func_800A6620(void *handle, s32 extra_cleanup)
+s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
 {
     s32 sound_mode;
     s32 index;
@@ -63,11 +63,11 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
 
     if (index < 0x40) {
         ((S_800A6620_1 *)object)->unk_44 = 0;
-        buildEntitySlotSnapshot((void *)(0x80010A80 + index * 0x54), object);
+        build_entity_slot_snapshot((void *)(0x80010A80 + index * 0x54), object);
     }
 
     if (((u8 *)handle)[3] & 0x20) {
-        index = func_800A1BD0(object);
+        index = find_entity_slot_by_field_ac(object);
         if (index >= 0) {
             state_entry = (void *)(index * 4 + ((s32)D_800E3D7C));
             ((S_800A6620_2 *)state_entry)->unk_AC = 0;
@@ -82,17 +82,17 @@ s16 func_800A6620(void *handle, s32 extra_cleanup)
             if (((S_800A6620_1 *)object)->unk_1C & 0x2000) {
                 sound_mode = 0x300;
             }
-            func_8009A3D0(sound_x, sound_y, sound_mode);
+            update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_mode);
         }
 
         if (extra_cleanup != 0) {
-            func_800A32A4(object);
+            detach_record_and_update_slot_state(object);
         }
-        func_8009A028(object);
+        unlink_entity_node(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
-    dungeonClearSlotAndUpdateLinkedState(handle);
+    clear_slot_and_update_linked_state(handle);
     return index;
 }

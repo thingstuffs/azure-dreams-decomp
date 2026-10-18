@@ -6,10 +6,10 @@
 typedef struct S_800C838C_1 {
     u8 pad_00[0x4];
     M2C_UNK * unk_04;
-} S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800C838C */
+} S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in initialize_object_configuration_x */
 
 
-void townInitializeObjectAndRegisterSlot(); /* extern */
+void initialize_object_and_register_slot(); /* extern */
 extern M2C_UNK D_800D6244;
 extern u8 D_800D62D8;
 extern u8 D_800D62E0;
@@ -18,7 +18,7 @@ extern u8 D_800D630C;
 
 
 /* Initialize the object with configuration 0xA and set its associated data pointer. */
-void func_800C838C(Rec_func_80094268_arg0 *object) {
-    townInitializeObjectAndRegisterSlot(object, 0xA, &D_800D6308, &D_800D630C, &D_800D62D8, &D_800D62E0);
+void initialize_object_configuration_x(Rec_func_80094268_arg0 *object) {
+    initialize_object_and_register_slot(object, 0xA, &D_800D6308, &D_800D630C, &D_800D62D8, &D_800D62E0);
     ((S_800C838C_1 *)(object->unk_80))->unk_04 = &D_800D6244;
 }

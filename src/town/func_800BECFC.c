@@ -9,7 +9,7 @@ typedef struct {
 extern void func_8004491C(void *entry, void *registration_id);
 extern void *func_8004DA74(void *entries, void *text, s32 initial_octave);
 extern void func_8004E9E4(void);
-extern void townCreatePositionedCallbackObject(void *position, void *object_value, void *data_value);
+extern void create_positioned_callback_object(void *position, void *object_value, void *data_value);
 
 extern s32 D_80053A88;
 extern u8 D_800782EC[8];
@@ -19,7 +19,7 @@ extern u8 D_800BC390[8];
 extern u8 D_80111FB0[8];
 
 /* Builds two display entries and initializes a display object. */
-void townBuildTwoDisplayEntries(s32 data_id, s32 position_offset)
+void build_two_display_entries(s32 data_id, s32 position_offset)
 {
     Copy8 layout;
     void *display_obj;
@@ -28,9 +28,9 @@ void townBuildTwoDisplayEntries(s32 data_id, s32 position_offset)
     layout = D_8008961C;
     func_8004E9E4();
     *(u16 *)&layout.word0 += (s32)(position_offset << 16) >> 14;
-    townCreatePositionedCallbackObject(&layout, D_800BC290,
+    create_positioned_callback_object(&layout, D_800BC290,
                   func_8004DA74(D_80111FB0, (void *)data_id, 0));
-    townCreatePositionedCallbackObject((u8 *)&layout + 4, D_800BC290, D_800782EC);
+    create_positioned_callback_object((u8 *)&layout + 4, D_800BC290, D_800782EC);
 
     display_obj = func_8003FC64(1);
     if (display_obj != 0) {

@@ -1,7 +1,7 @@
 #include "common.h"
 
 
-extern s32 townEnsureResourceAtFront();
+extern s32 ensure_resource_at_front();
 
 
 typedef struct S_8008B23C_0 {
@@ -10,7 +10,7 @@ typedef struct S_8008B23C_0 {
 } S_8008B23C_0;
 
 /* Unpack and dispatch each entry until its second word is zero. */
-void townEnsurePackedResourceList(u8 *entries_in) {
+void ensure_packed_resource_list(u8 *entries_in) {
     u8 *entries;
     u32 packed_fields;
     entries = entries_in;
@@ -19,7 +19,7 @@ void townEnsurePackedResourceList(u8 *entries_in) {
     if (((S_8008B23C_0 *)entries_in)->unk_04 != 0) {
         do {
             packed_fields = ((S_8008B23C_0 *)entries_in)->unk_00;
-            townEnsureResourceAtFront(
+            ensure_resource_at_front(
                 (packed_fields >> 0x17) & 1,
                 (u32)(packed_fields & 0x3F000000) >> 0x18,
                 (u32)(packed_fields & 0x7F0000) >> 0x10

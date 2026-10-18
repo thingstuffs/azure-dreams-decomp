@@ -5,7 +5,7 @@ extern void func_800478B8(void *object);
 extern void func_80047784(void *object, s32 kind, s32 value);
 
 /* Advances the animation, moves its sprite, and marks completion after eight ticks. */
-void dungeonAdvanceEightTickAnimation(u16 *anim, u32 *motion, u16 *sprite) {
+void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite) {
     s32 frame_bits;
     s32 frame_index;
     s32 div_index;
@@ -16,7 +16,7 @@ void dungeonAdvanceEightTickAnimation(u16 *anim, u32 *motion, u16 *sprite) {
     frame_index = frame_bits >> 16;
     if (frame_index >= 8) {
         anim[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     if (frame_index >= 6) {

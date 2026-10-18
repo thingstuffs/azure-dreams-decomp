@@ -7,11 +7,11 @@
 
 extern void *D_800DF364[];
 
-extern s32 func_800A56E0();
+extern s32 play_sound_if_enabled();
 extern void func_800478B8(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
-void dungeonUpdateFamiliarSelectionMarker(void *state, void *position_arg, void *marker_arg) {
+void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg) {
     void *target;
     void *target_pos;
 
@@ -19,7 +19,7 @@ void dungeonUpdateFamiliarSelectionMarker(void *state, void *position_arg, void 
         void *tracked_target = F(F(state, void *, 0), void *, 0);
         if (tracked_target != 0) {
             if (D_800DF364[0] != tracked_target) {
-                func_800A56E0(0x507);
+                play_sound_if_enabled(0x507);
                 F(state, s16, 0xE) = 4;
                 D_800DF364[0] = F(F(state, void *, 0), void *, 0);
             }
@@ -83,8 +83,8 @@ void dungeonUpdateFamiliarSelectionMarker(void *state, void *position_arg, void 
                     F(((void *)(position_arg)), u16, 0xA) = F(target, u16, 0x88);
                 } else {
                     F(state, u16, -2) = F(state, u16, -2) | 0x8000;
-                    dungeonStatus.unk_0C = 0;
-                    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+                    g_dungeon_status.unk_0C = 0;
+                    object_flag_block.flags = object_flag_block.flags | 0x8000;
                 }
             }
         }

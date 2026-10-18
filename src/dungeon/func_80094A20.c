@@ -8,7 +8,7 @@ typedef struct S_8009A180_2 {
 } S_8009A180_2;
 
 
-s32 dungeonCheckEntityRelation(EntityRec *entry, EntityRec *anchor) {
+s32 check_entity_relation(EntityRec *entry, EntityRec *anchor) {
     u32 link_bits;
     u32 link_bits_2;
     s32 state_flags;
@@ -31,7 +31,7 @@ s32 dungeonCheckEntityRelation(EntityRec *entry, EntityRec *anchor) {
     state_flags |= prev_link;
     entry->flags1C = state_flags;
     link_bits_2 = (u32)entry;
-    func_8009A028((void *)link_bits_2);
+    unlink_entity_node((void *)link_bits_2);
 
     prev_link = anchor->unk_5C;
     entry->unk_5C = prev_link;

@@ -28,8 +28,8 @@ typedef struct Obj {
     s32 arg;
 } Obj;
 
-extern s16 dungeonGetSurfaceHeightAtRecord(void *);
-extern void dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(Obj *);
+extern s16 get_surface_height_at_record(void *);
+extern void build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(Obj *);
 extern u8 D_80025940[];
 extern void *D_80026208;
 
@@ -56,7 +56,7 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         motion->x2 = motion->x1;
         motion->y1 = start_pos[1];
         motion->y2 = motion->y1;
-        height = dungeonGetSurfaceHeightAtRecord(start_pos);
+        height = get_surface_height_at_record(start_pos);
         if (height >= 0x201) {
             z_value = start_pos[2];
         } else {
@@ -66,7 +66,7 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         motion->z2 = z_value;
         motion->x0 = end_pos[0];
         motion->y0 = end_pos[1];
-        height = dungeonGetSurfaceHeightAtRecord(end_pos);
+        height = get_surface_height_at_record(end_pos);
         if (height >= 0x201) {
             motion->z0 = start_pos[2];
         } else {
@@ -80,6 +80,6 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         step_y = (end_pos[1] - start_pos[1]) / 12;
         motion->unk48 = step_z;
         motion->unk44 = step_y;
-        dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList(obj);
+        build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(obj);
     }
 }

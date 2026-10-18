@@ -36,14 +36,14 @@ typedef struct {
 
 
 extern void func_80047784(T_801727CC_Obj2 *, u8, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(T_801727CC_Obj3 *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(T_801727CC_Obj3 *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(T_801727CC_Obj3 *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(T_801727CC_Obj3 *, s32);
 extern void * D_800E3DE8[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
-void dungeonAdvanceATimedActorAnimationAppliesCompletionEffects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);
-extern void func_80170F68();
+void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);
+extern void update_dungeon_actor_behavior();
 #endif

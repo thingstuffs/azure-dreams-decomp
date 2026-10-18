@@ -23,7 +23,7 @@ extern M2C_UNK D_800CEEFC;
 
 
 /* Allocates and initializes objects at the supplied position across nine slots. */
-void *dungeonAllocateNinePositionObjects(void *position)
+void *allocate_nine_position_objects(void *position)
 {
     S_81961A04_1 *source_pos;
     s32 slot;
@@ -43,7 +43,7 @@ void *dungeonAllocateNinePositionObjects(void *position)
 
     source_pos = position;
     slot = 0;
-    object_handler = dungeonInterpolateTargetAndFinishTransition;
+    object_handler = interpolate_target_and_finish_transition;
     control_handler = &D_800273B0;
     last_slot = 8;
     do {

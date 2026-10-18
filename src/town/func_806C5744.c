@@ -5,7 +5,7 @@ M2C_UNK func_80018C74();                     /* extern */
 M2C_UNK func_80018CEC();                     /* extern */
 
 /* Invoke the setup handlers with four fixed identifiers. */
-s32 townInvokeEventSetupHandlers(void) {
+s32 invoke_event_setup_handlers(void) {
     func_80018C74(0x1463);
     func_80018CEC(0xFCB);
     func_80018CEC(0xFCD);

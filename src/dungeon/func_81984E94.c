@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-s32 inventoryResetSharedStateMode13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
-    GameView *state = &gameWork.view;
+s32 inventory_reset_shared_state_mode_13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
+    GameView *state = &g_game_work.view;
     ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;
     void *next_field = (void *)((u8 *)&state->slot[0].unk_04 + 4);
     s16 saved_value;
@@ -20,7 +20,7 @@ s32 inventoryResetSharedStateMode13(s32 unused, s32 state_key, s32 value, s16 se
     substate->unkCC = 0xD;
     substate->unkD0 = 0;
     substate->unkDE = secondary_value;
-    state->slot[0].callback = (void *)dungeonClearObjectBufferAndState;
+    state->slot[0].callback = (void *)clear_object_buffer_and_state;
     if (change_flags & 1) {
         D_800E3D20[0] = saved_value;
     }

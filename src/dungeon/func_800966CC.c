@@ -26,7 +26,7 @@ typedef struct S_8009BE2C_2 {
     s8 unk_04;
     s8 unk_05;
     s16 unk_06;
-} S_8009BE2C_2;   /* arg2 in dungeonDrawFullscreenFade */
+} S_8009BE2C_2;   /* arg2 in draw_fullscreen_fade */
 
 typedef struct S_8009BE2C_3 {
     void * unk_00;
@@ -34,12 +34,12 @@ typedef struct S_8009BE2C_3 {
 
 typedef struct S_8009BE2C_4_pre {
     u16 unk_00;
-} S_8009BE2C_4_pre;   /* the 0x2 bytes before arg0 in dungeonDrawFullscreenFade, addressed as arg0[-1] */
+} S_8009BE2C_4_pre;   /* the 0x2 bytes before arg0 in draw_fullscreen_fade, addressed as arg0[-1] */
 
 typedef struct S_8009BE2C_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in dungeonDrawFullscreenFade */
+} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in draw_fullscreen_fade */
 
 typedef struct S_8009BE2C_6 {
     u8 pad_00[0x8D0];
@@ -54,15 +54,15 @@ M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
 /* Draw a full-screen fade and mark the effect complete when its countdown ends. */
-void dungeonDrawFullscreenFade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
+void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     s32 intensity;
     s16 color_value;
     s8 frames_left;
     void *packet;
     void **render_context;
 
-    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0;
-    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&gameWork)))->unk_00.as_pv))->unk_8D0 =
+    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&g_game_work)))->unk_00.as_pv))->unk_8D0;
+    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&g_game_work)))->unk_00.as_pv))->unk_8D0 =
         (void *) (packet + 0x10);
     ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)packet)->unk_08 = 0;
@@ -70,7 +70,7 @@ void dungeonDrawFullscreenFade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     ((S_8009BE2C_1 *)packet)->unk_0E = 0xE0;
     intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
     color_value = intensity;
-    render_context = (void **)((struct S_8003E2D8 *)&gameWork);
+    render_context = (void **)((struct S_8003E2D8 *)&g_game_work);
     if (fade->unk_04 != 0) {
         ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
         ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
@@ -90,6 +90,6 @@ void dungeonDrawFullscreenFade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
         ((S_8009BE2C_4_pre *)effect)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

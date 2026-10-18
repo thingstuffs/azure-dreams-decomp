@@ -11,12 +11,12 @@ extern u8 D_80170F74[];
 extern EntityCallback D_80173D90[];
 
 extern void func_8004491C(void *, void *);
-extern void selectIndirectTableEntry(void *, u8, s8);
+extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern s32 func_800BCB04(s32, s32, s16);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 /* Local views retain the signed and packed accesses used by this actor update. */
 typedef union {
@@ -82,14 +82,14 @@ typedef struct {
 
 #ifndef __mips__
 static const u32 D_80F0928C[]
-__attribute__((section(".text.dungeonUpdateEntityCallbacksAndFloor"))) = {
+__attribute__((section(".text.update_entity_callbacks_and_floor"))) = {
     0x3C028008,
     0x94423462,
 };
 #endif
 
 /* Update entity callbacks, appearance, movement, and floor contact. */
-void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motion, void *entity_part)
+void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, void *entity_part)
 {
     void *state_alias = entity_state;
     u16 part_flags;
@@ -100,7 +100,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
     s32 view_direction;
     s32 state_flags;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         EntityCallback early_callback;
 
         early_callback = ((CallbackActorState *)entity_state)->callback;
@@ -129,7 +129,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
             call_part = entity_part;
             old_mode = (s8)((CallbackActorState *)entity_state)->action_count.value;
             call_context = entity_state;
-            if (dungeonRefreshActorFacingAndLifecycle(call_state, call_motion, call_part, call_context) != 0) {
+            if (refresh_actor_facing_and_lifecycle(call_state, call_motion, call_part, call_context) != 0) {
                 return;
             }
         }
@@ -141,7 +141,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
         D_80173D90[((CallbackActorState *)entity_state)->handler_index](entity_state, entity_motion, entity_part, entity_state);
 
         if ((s16)old_mode != ((CallbackActorState *)entity_state)->action_count.signed_value) {
-            func_800AA36C(entity_state, entity_motion, entity_part, entity_state);
+            try_move_actor_to_valid_position(entity_state, entity_motion, entity_part, entity_state);
         }
 
         if ((D_800E296C & 4) && (((CallbackActorState *)entity_state)->fade_frame.signed_value < 0)) {
@@ -167,17 +167,17 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
 
         part_flags = ((CallbackActorSprite *)entity_part)->flags;
         if (!(part_flags & 0x8000)) {
-            view_direction = (gameWork.view.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
+            view_direction = (g_game_work.view.viewAngle + ((CallbackActorState *)state_alias)->facing + 0x100) >> 9;
             direction = view_direction & 7;
             if (((CallbackActorState *)entity_state)->sprite_direction != direction) {
                 direction_frames = ((CallbackActorSprite *)entity_part)->direction_frames;
                 if (direction_frames != 0) {
-                    selectIndirectTableEntry(entity_part, direction_frames[direction], ((CallbackActorSprite *)entity_part)->frame);
+                    select_indirect_table_entry(entity_part, direction_frames[direction], ((CallbackActorSprite *)entity_part)->frame);
                 }
                 ((CallbackActorState *)entity_state)->sprite_direction = direction;
             }
 
-            direction_enabled = dirSpriteFlag[direction];
+            direction_enabled = dir_sprite_flag[direction];
             if (direction_enabled != 0) {
                 ((CallbackActorSprite *)entity_part)->flags |= 1;
             } else {
@@ -191,7 +191,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
             } else {
                 ((CallbackActorSprite *)entity_part)->flags |= 0x7000;
             }
-            dungeonApplyMonsterKoyawData(((CallbackActorState *)state_alias)->flags, &((CallbackActorSprite *)entity_part)->color);
+            apply_monster_koyaw_data(((CallbackActorState *)state_alias)->flags, &((CallbackActorSprite *)entity_part)->color);
         } else {
             if (part_flags & 0x800) {
                 ((CallbackActorSprite *)entity_part)->flags = part_flags & 0x8FFF;
@@ -212,7 +212,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
 
         ((CallbackActorState *)entity_state)->height_offset.value += ((CallbackActorMotion *)entity_motion)->velocity_z;
         if (!(((CallbackActorState *)entity_state)->action_flags & 4)) {
-            sample_height = func_800BCB04(((CallbackActorMotion *)entity_motion)->x.halves.integer, ((CallbackActorMotion *)entity_motion)->y.halves.integer,
+            sample_height = sample_terrain_surface_height(((CallbackActorMotion *)entity_motion)->x.halves.integer, ((CallbackActorMotion *)entity_motion)->y.halves.integer,
                                           (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
             if ((s16)sample_height < 0x200) {
                 base_height = ((CallbackActorState *)state_alias)->floor_height;
@@ -234,7 +234,7 @@ void dungeonUpdateEntityCallbacksAndFloor(void *entity_state, void *entity_motio
                 state_flags = ((CallbackActorState *)state_alias)->flags;
                 if (state_flags & 0x40000000) {
                     ((CallbackActorState *)state_alias)->flags = state_flags & 0xBFFFFFFF;
-                    sample_height = func_800BCB04((((CallbackActorSprite *)entity_part)->tile_x << 6) | 0x20,
+                    sample_height = sample_terrain_surface_height((((CallbackActorSprite *)entity_part)->tile_x << 6) | 0x20,
                                                  (((CallbackActorSprite *)entity_part)->tile_y << 6) | 0x20,
                                                  (s16)(((CallbackActorState *)state_alias)->floor_height - 0x20));
                     ((CallbackActorState *)entity_state)->height_offset.signed_halves.integer += ((CallbackActorState *)state_alias)->floor_height - sample_height;

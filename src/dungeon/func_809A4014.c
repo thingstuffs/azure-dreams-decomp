@@ -16,16 +16,16 @@ typedef struct S_80175814_1 {
     s32 unk_00;
     u8 pad_04[0x3E];
     u16 unk_42;
-} S_80175814_1;   /* arg0 in dungeonCreateLinkedSourceObject; pointer addresses record offset 0x18 */
+} S_80175814_1;   /* arg0 in create_linked_source_object; pointer addresses record offset 0x18 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64();                  /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern M2C_UNK D_801756D4;
 
 /* Creates an object linked to the source record and copies its initialization fields. */
-void dungeonCreateLinkedSourceObject(void *sourceRecordData) {
+void create_linked_source_object(void *sourceRecordData) {
     S_80175814_0 *createdObject;
 
     createdObject = func_8003FD64(0x202, sourceRecordData - 0x20);
@@ -34,6 +34,6 @@ void dungeonCreateLinkedSourceObject(void *sourceRecordData) {
         createdObject->unk_20 = sourceRecordData;
         createdObject->unk_08 = (s32) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_00;
         createdObject->unk_2A = (u16) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_42;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
     }
 }

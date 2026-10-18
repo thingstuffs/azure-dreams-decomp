@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/dir_step.h"
 
-extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800BCB04();
+extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 sample_terrain_surface_height();
 
 /* Checks whether the selected neighbor has a sampled height above 512 when enabled. */
-s32 dungeonCheckEnabledNeighborHeight(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
+s32 check_enabled_neighbor_height(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
     u16 tile_value;
     u16 x_offset;
     u16 y_offset;
@@ -33,16 +33,16 @@ s32 dungeonCheckEnabledNeighborHeight(s32 world_x, s32 world_y, s16 world_z, u32
     call_x = tile_x;
     call_y = tile_y;
     sector = sector_arg;
-    if ((getOffsetMapCellValueAndFlags(call_x, call_y, sector_arg, &tile_value) << 16) == 0) {
+    if ((get_offset_map_cell_value_and_flags(call_x, call_y, sector_arg, &tile_value) << 16) == 0) {
         return 0;
     }
 
     sample_z = (s16)(world_z - 0x20);
-    x_offset = dirStepX[sector];
-    y_offset = dirStepY[sector];
+    x_offset = dir_step_x[sector];
+    y_offset = dir_step_y[sector];
     neighbor_x = x_offset + tile_x;
     neighbor_y = y_offset + tile_y;
-    height = func_800BCB04(
+    height = sample_terrain_surface_height(
         ((((neighbor_x) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
         ((((neighbor_y) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
         sample_z);

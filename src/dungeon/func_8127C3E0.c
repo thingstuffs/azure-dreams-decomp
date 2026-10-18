@@ -96,9 +96,9 @@ extern void *func_8009F2E0(void *, u8, u8, s16);
 extern s16 func_8009EF24(void *, void *);
 extern s16 func_80099330(s32, s32, s32, s16);
 extern s16 func_8009EB6C(s32, s32, s32, s32);
-extern void func_8009FB34(void *, s8, void *, void *);
+extern void find_active_rect_containing_point(void *, s8, void *, void *);
 extern s16 func_800996B0(s16, void *, void *, s32);
-extern void townInitializeIndexedObjectAndLookupValue(s32, s32, s32);
+extern void initialize_indexed_object_and_lookup_value(s32, s32, s32);
 extern void func_8009900C(s32, s32, s32);
 extern s16 func_80098F70(void *, void *);
 extern s16 func_800BB784(s32, s32, s16);
@@ -211,13 +211,13 @@ void func_8127C3E0(void *move_state_arg, void *action_context, void *position_ar
                     limit_detour = 1;
                 }
             } else {
-                func_8009FB34(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
+                find_active_rect_containing_point(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
                               (u8 *)move_state_arg + 0x98);
             }
         }
     } else if (((S_8127C3E0_2 *)position_arg)->unk_26.s >= 0 &&
                ((DungeonRecord *)D_800E1D50)[((S_8127C3E0_2 *)position_arg)->unk_26.s].flags & 2) {
-        func_8009FB34(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
+        find_active_rect_containing_point(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
                       (u8 *)move_state_arg + 0x98);
     } else if (!(((S_8127C3E0_1 *)actor_arg)->unk_46 & 0x8000)) {
         current_angle = (s32)func_8009F2E0(actor_arg, ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v,
@@ -255,7 +255,7 @@ void func_8127C3E0(void *move_state_arg, void *action_context, void *position_ar
                 }
             }
         } else {
-            func_8009FB34(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
+            find_active_rect_containing_point(position_arg, ((S_8127C3E0_5 *)move_state_arg)->unk_9C.s, actor_arg,
                           (u8 *)move_state_arg + 0x98);
         }
     }
@@ -287,7 +287,7 @@ void func_8127C3E0(void *move_state_arg, void *action_context, void *position_ar
                 ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v;
             ((S_8127C3E0_1 *)actor_arg)->unk_71.u++;
 
-            townInitializeIndexedObjectAndLookupValue(
+            initialize_indexed_object_and_lookup_value(
                 ((S_8127C3E0_2 *)position_arg)->unk_24.at00.v, ((S_8127C3E0_2 *)position_arg)->unk_24.at01.v,
                 (((S_8127C3E0_1 *)actor_arg)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 

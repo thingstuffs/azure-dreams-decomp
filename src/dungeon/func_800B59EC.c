@@ -24,7 +24,7 @@ typedef struct
 }
 S_800BB14C_TARGET;
 /* Animates the target amount and selected channels, then marks the effect finished after fading. */
-void dungeonUpdatePulsingColorFade(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
+void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
 {
     s16 state;
     effect = (S_800BB14C *) effect_data;
@@ -60,7 +60,7 @@ void dungeonUpdatePulsingColorFade(void *effect_data, register S_800BB14C *effec
             if (fade_ticks < 0) {
                 u16 header_flags = ((u16 *) effect)[-1];
                 ((u16 *) effect)[-1] = header_flags | 0x8000;
-                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+                object_flag_block.flags = object_flag_block.flags | 0x8000;
                 return;
             }
         }

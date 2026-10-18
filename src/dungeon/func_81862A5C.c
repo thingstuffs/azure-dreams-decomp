@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188298c.h"
 
-void dungeonSpawnJitteredType212Effect(s32 owner, void *source)
+void spawn_jittered_type_212_effect(s32 owner, void *source)
 {
     s32 roll;
     void *render;
@@ -9,7 +9,7 @@ void dungeonSpawnJitteredType212Effect(s32 owner, void *source)
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
-        *((M2C_UNK **) (((s8 *) obj) + 0x10)) = (void *)advanceFadingEffect;
+        *((M2C_UNK **) (((s8 *) obj) + 0x10)) = (void *)advance_fading_effect;
         render = *((void **) (((s8 *) obj) + 0xC));
         *((s8 *) (((s8 *) obj) + 0x24)) = 0;
         white = 0x80;

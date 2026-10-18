@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1829800.h"
 
-void *dungeonAllocateSpriteDataObject(s32 user_data) {
+void *allocate_sprite_data_object(s32 user_data) {
     S_80025170_1 *sprite;
     S_80025170_0 *object;
 

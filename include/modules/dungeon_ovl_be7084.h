@@ -43,5 +43,5 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Builds and links render packets for a list of positioned entries. */
 
-s32 func_8016A884(u8 *entry_data, u16 *coords);
+s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords);
 #endif

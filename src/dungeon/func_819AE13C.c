@@ -16,7 +16,7 @@ typedef struct S_8002593C_0 {
     s16 unk_5C;
     s16 unk_5E;
     s16 unk_60;
-} S_8002593C_0;   /* scratch in func_8002593C */
+} S_8002593C_0;   /* scratch in build_install */
 
 typedef struct S_8002593C_1 {
     u8 pad_00[0x2];
@@ -25,14 +25,14 @@ typedef struct S_8002593C_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8002593C_1;   /* arg1 in func_8002593C */
+} S_8002593C_1;   /* arg1 in build_install */
 
 typedef struct S_8002593C_2 {
     u8 pad_00[0x16];
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_8002593C_2;   /* arg2 in func_8002593C */
+} S_8002593C_2;   /* arg2 in build_install */
 
 
 typedef struct MATRIX {
@@ -51,7 +51,7 @@ extern void func_80065C50(u16, void *);
 extern void func_80065DF0(u16, void *);
 
 /* Build and install a transform from position, rotation, and a base matrix. */
-void func_8002593C(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
+void build_install(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
 {
     u8 *scratch = (u8 *)0x1F800000;
     MATRIX matrix;

@@ -2,34 +2,34 @@
 #include "shared/dungeon_status.h"
 
 extern s32 func_80042900(void *, s32);
-extern s8 func_8009FB34(u8, u8);
-extern s32 dungeonFindMonsterNeighborCandidate(void *, u8, u8);
-extern s32 func_800A1C58(void *);
-extern s32 func_800A2C34(s32);
-extern void dungeonBeginPushedActorMove(void *, s32, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, s32, void *, s32);
-extern void func_800AA888(void *, s32, void *, void *);
-extern void dungeonBeginActorFlaggedAction(void *, s32, void *, void *);
-extern void func_800B318C(void *, s32, void *, void *);
+extern s8 find_active_rect_containing_point(u8, u8);
+extern s32 find_monster_neighbor_candidate(void *, u8, u8);
+extern s32 can_entity_gain_level(void *);
+extern s32 has_pending_actor_or_turn_action(s32);
+extern void begin_pushed_actor_move(void *, s32, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
+extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
+extern void begin_actor_flagged_action(void *, s32, void *, void *);
+extern void update_actor_transform_from_parent_callback(void *, s32, void *, void *);
 
 /* Dispatch an target action and update the actor and destination state. */
-void dungeonDispatchTargetAction(u8 *actor, s32 action_context, u8 *destination, u8 *target)
+void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *target)
 {
-    DungeonGlobalStatus *flags = &dungeonStatus;
+    DungeonGlobalStatus *flags = &g_dungeon_status;
     u8 *idle_actor = actor;
 
 
     if (!(flags->flags & 0x1000)) {
         if (*(u8 *)(target + 0x25) == 0) {
             *(s8 *)(actor + 0xAD) = 0;
-            dungeonBeginActorFlaggedAction(idle_actor, action_context, destination, target);
+            begin_actor_flagged_action(idle_actor, action_context, destination, target);
             return;
         }
 
         if ((func_80042900(target, 1) << 16) == 0) {
             if (!(flags->flags & 0x2000)) {
                 if (*(s32 *)(target + 0x1C) & 0x100) {
-                    dungeonBeginPushedActorMove(actor, action_context, destination, target);
+                    begin_pushed_actor_move(actor, action_context, destination, target);
                     return;
                 }
 
@@ -39,47 +39,47 @@ void dungeonDispatchTargetAction(u8 *actor, s32 action_context, u8 *destination,
                 *(u16 *)(actor + 0x98) &= 0xFFF3;
 
                 if ((*(s16 *)(target + 0x64) != 0) &&
-                    (dungeonBeginReadyActorDirectionalAction(actor, action_context, destination, 0) != 0)) {
+                    (begin_ready_actor_directional_action(actor, action_context, destination, 0) != 0)) {
                     return;
                 }
 
                 if (*(s32 *)(target + 0x1C) & 0x80000) {
-                    func_800AA888(actor, action_context, destination, target);
-                    func_800B318C(actor, action_context, destination, target);
+                    begin_actor_move_to_target_facing(actor, action_context, destination, target);
+                    update_actor_transform_from_parent_callback(actor, action_context, destination, target);
                     return;
                 }
 
-                if ((func_800A1C58(target) << 16) != 0) {
+                if ((can_entity_gain_level(target) << 16) != 0) {
                     *(s8 *)(actor + 0xAD) = 0;
-                    dungeonBeginActorFlaggedAction(actor, action_context, destination, target);
+                    begin_actor_flagged_action(actor, action_context, destination, target);
                     return;
                 }
             }
 
-            *(s8 *)(destination + 0x26) = func_8009FB34(*(u8 *)(destination + 0x24),
+            *(s8 *)(destination + 0x26) = find_active_rect_containing_point(*(u8 *)(destination + 0x24),
                                                      *(u8 *)(destination + 0x25));
             if (*(s8 *)(target + 0x6D) <= 0) {
                 return;
             }
-            if (dungeonStatus.flags & 0x1000) {
+            if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if ((func_800A2C34(0) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(0) << 16) != 0) {
                 return;
             }
-            if (dungeonFindMonsterNeighborCandidate(target, *(u8 *)(destination + 0x24),
+            if (find_monster_neighbor_candidate(target, *(u8 *)(destination + 0x24),
                               *(u8 *)(destination + 0x25)) == 0) {
                 goto clear;
             }
         } else {
             *(s8 *)(actor + 0xAD) = 0;
-            dungeonBeginActorFlaggedAction(actor, action_context, destination, target);
+            begin_actor_flagged_action(actor, action_context, destination, target);
             return;
         }
 
 fail:
         *(s8 *)(actor + 0xAD) = 0;
-        dungeonBeginActorFlaggedAction(actor, action_context, destination, target);
+        begin_actor_flagged_action(actor, action_context, destination, target);
         return;
 
 clear:

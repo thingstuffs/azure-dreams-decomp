@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81088650; every changed retail word is a paired relocation. */
-#define dungeonRandomizeSignedOffset func_80157E50
+#define randomize_signed_offset func_80157E50
 #include "common.h"
 
 extern s32 rand(void);

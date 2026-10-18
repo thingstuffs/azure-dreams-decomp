@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern u32 townLoadASharedBufferProcessWriteBack();
+extern u32 load_a_shared_buffer_process_write_back();
 extern void *D_8001029C;
 
 /* Process table entries referenced by objects of type 0x13. */
-void townProcessTableEntriesReferencedObjectsTypeHex13(void) {
+void process_table_entries_referenced_objects_type_hex_13(void) {
     void **object_entry;
     u8 *object;
     s32 object_type;
@@ -19,7 +19,7 @@ void townProcessTableEntriesReferencedObjectsTypeHex13(void) {
         do {
             object = *object_entry;
             if (object[1] == object_type) {
-                townLoadASharedBufferProcessWriteBack((void *)((object[3] & 0x1F) * 84 + table_base));
+                load_a_shared_buffer_process_write_back((void *)((object[3] & 0x1F) * 84 + table_base));
             }
             object_entry++;
         } while (*object_entry != 0);

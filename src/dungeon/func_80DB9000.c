@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_dd9000_p03.h"
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void dungeonProjectSpriteEntriesToQuads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias) {
+void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias) {
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;
@@ -45,7 +45,7 @@ void dungeonProjectSpriteEntriesToQuads(T_80170874_S_80DB9000_1 *sprite_size, T_
     register T_80170874_S_80DB9000_4 *scratch_page;
     scratch_page = (T_80170874_S_80DB9000_4 *)0x1F800000;
 
-    state = (T_80170874_S_80DB9000_6 *)gameWork.unk_000;
+    state = (T_80170874_S_80DB9000_6 *)g_game_work.unk_000;
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
@@ -56,7 +56,7 @@ void dungeonProjectSpriteEntriesToQuads(T_80170874_S_80DB9000_1 *sprite_size, T_
     scratch_page->unk_06 = position->unk_06;
     scratch_page->unk_08 = position->unk_0A;
     packet = state->unk_8D0;
-    render_state = &gameWork;
+    render_state = &g_game_work;
     scratch_page->unk_100 = func_80065420((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;

@@ -14,14 +14,14 @@ typedef struct TownRecord {
 
 typedef s32 (*TownIndexFunc)(s32);
 
-void copyTownRecordPairFields(TownRecord *, s32 *);
-s32 townApplyStoredValue17974(void);
+void copy_town_record_pair_fields(TownRecord *, s32 *);
+s32 apply_stored_value_17974(void);
 extern s32 *D_80018868[];
 extern u8 *D_80018874[];
 extern TownRecord *D_80018A18;
 
 /* Populate town records and conditionally change the first kind-11 record to kind 10. */
-TownRecord *townPopulateRecordsAndNormalizeKind(void)
+TownRecord *populate_records_and_normalize_kind(void)
 {
     s32 index;
     s32 **source_table = D_80018868;
@@ -43,7 +43,7 @@ TownRecord *townPopulateRecordsAndNormalizeKind(void)
             TownRecord *write_record;
 
             record = (TownRecord *)((u8 *)D_80018A18 + (index * sizeof(TownRecord)));
-            copyTownRecordPairFields(record, copy_source);
+            copy_town_record_pair_fields(record, copy_source);
             write_record = (TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)D_80018A18);
             value_or_flags = values[index];
             write_record->value = value_or_flags;
@@ -63,7 +63,7 @@ TownRecord *townPopulateRecordsAndNormalizeKind(void)
             TownRecord *record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18);
             if (record->kind == 11) {
                 end_flags = 128;
-                if (townApplyStoredValue17974() != 0)
+                if (apply_stored_value_17974() != 0)
                     break;
                 ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
                 break;

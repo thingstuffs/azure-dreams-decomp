@@ -4,7 +4,7 @@
 #define D_80174688 D_8015C688
 #define D_80174ACC D_8015CACC
 #define D_80174B14 D_8015CB14
-#define func_801745E0 func_8015C5E0
+#define create_cylindrical_effect func_8015C5E0
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -96,7 +96,7 @@ void func_8015C260(void *state_input, void *motion_input, void *animation_input,
             S32_AT(spawned_data, 0x58) = 0x80;
             S16_AT(spawned_data, 0x48) = active_state;
         }
-        func_800A56E0(0x815);
+        play_sound_if_enabled(0x815);
         {
 
             next_state = U8_AT(state_input, 0x9B);
@@ -134,7 +134,7 @@ void func_8015C260(void *state_input, void *motion_input, void *animation_input,
 
         PTR_AT(animation_input, 0x2C) = D_8015CB14;
         func_80047784(animation_input,
-            D_8015CB14[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+            D_8015CB14[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
         next_state = U8_AT(state_input, 0x9B);
         U8_AT(state_input, 0x9B) = next_state + 1;
@@ -147,9 +147,9 @@ void func_8015C260(void *state_input, void *motion_input, void *animation_input,
             func_800AD594(actor_input, 0x800);
             PTR_AT(animation_input, 0x2C) = D_8015CACC;
             func_80047784(animation_input,
-                D_8015CACC[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+                D_8015CACC[((g_game_work.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
                 0);
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             func_800A4ACC(actor_input);
             U8_AT(actor_input, 0x6D) = 0;
             U16_AT(actor_input, 0x46) &= 0x7FFF;

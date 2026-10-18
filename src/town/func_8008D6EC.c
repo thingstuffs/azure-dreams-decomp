@@ -15,13 +15,13 @@ typedef struct TownState {
 extern TownEntry D_800CF720[];
 extern TownState D_801131B8;
 
-extern void *allocGpuScratchRing(s32);
+extern void *alloc_gpu_scratch_ring(s32);
 extern void memcpy(void *, void *, s32);
-extern s32 townSumResourceBytes(s32);
-extern void townShiftResourceEntriesAndData(s32, s32);
+extern s32 sum_resource_bytes(s32);
+extern void shift_resource_entries_and_data(s32, s32);
 
 /* Move the selected entry and its data to the first slot. */
-void townMoveResourceToFront(s32 entry_index)
+void move_resource_to_front(s32 entry_index)
 {
     TownEntry *entries;
     TownEntry *entry;
@@ -40,11 +40,11 @@ void townMoveResourceToFront(s32 entry_index)
     saved_field2 = entry->field2;
     data_size = entry->field4;
 
-    scratch = allocGpuScratchRing(0x8000);
-    data_offset = townSumResourceBytes(entry_index);
+    scratch = alloc_gpu_scratch_ring(0x8000);
+    data_offset = sum_resource_bytes(entry_index);
     state = &D_801131B8;
     memcpy(scratch, state->field2C + data_offset, data_size);
-    townShiftResourceEntriesAndData(entry_index, data_size);
+    shift_resource_entries_and_data(entry_index, data_size);
     memcpy(state->field2C, scratch, data_size);
 
     D_800CF720[0].field0 = saved_field0;

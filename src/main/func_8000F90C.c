@@ -19,7 +19,7 @@ typedef struct S_8002290C_1 {
 } S_8002290C_1;
 
 /* Set the linked coordinates to (160, 120) and bind the object's data. */
-void cardBootCenterMessageDialogDisplay(void *object) {
+void card_boot_center_message_dialog_display(void *object) {
     S_8002290C_1 *linked_state;
 
     linked_state = ((Rec_func_8002290C_arg0 *)object)->unk_8E0;

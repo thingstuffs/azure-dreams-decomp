@@ -7,12 +7,12 @@ extern s8 D_80082688;
 typedef struct S_800CEAC8_0 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_800CEAC8_0;   /* arg0 in townCallStateHandlerAndSetFour */
+} S_800CEAC8_0;   /* arg0 in call_state_handler_and_set_four */
 
 
 M2C_UNK func_800CEB00(S_800CEAC8_0 *, s32, s32);
 /* Call func_800CEB00, clear D_80082688, and set the object state to 4. */
-void townCallStateHandlerAndSetFour(S_800CEAC8_0 *object, s32 context, s32 update_data) {
+void call_state_handler_and_set_four(S_800CEAC8_0 *object, s32 context, s32 update_data) {
     func_800CEB00(object, context, update_data);
     D_80082688 = 0;
     object->unk_90 = 4;

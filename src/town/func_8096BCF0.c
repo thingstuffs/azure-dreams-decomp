@@ -27,8 +27,8 @@ typedef struct TownObject {
     TownSlots *town;
 } TownObject;
 
-extern u8 townIsCatalogEntryAvailable(u32);
-extern void func_80123A60(TownObject *);
+extern u8 is_catalog_entry_available(u32);
+extern void draw_catalog_entry_page(TownObject *);
 
 extern void *D_80126988[4];
 extern void *D_80126998[4];
@@ -49,7 +49,7 @@ static __inline__ s32 menu_row_index(s16 row, s16 index)
 }
 
 /* Updates the numbered menu entries and selection sprite. */
-void townRefreshCatalogEntryGrid(TownObject *menu)
+void refresh_catalog_entry_grid(TownObject *menu)
 {
     s32 sprite_slot;
     TownObject *obj = menu;
@@ -62,7 +62,7 @@ void townRefreshCatalogEntryGrid(TownObject *menu)
     s32 blank_count;
     SpriteFields *display_sprite;
 
-    func_80123A60(menu);
+    draw_catalog_entry_page(menu);
     *obj->town->slots[28] = D_80127E4C;
     *obj->town->slots[29] = D_80127F48;
     *obj->town->slots[30] = D_80126988[obj->digit];
@@ -78,7 +78,7 @@ void townRefreshCatalogEntryGrid(TownObject *menu)
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
-            if (townIsCatalogEntryAvailable((u8)entry_id) != 0) {
+            if (is_catalog_entry_available((u8)entry_id) != 0) {
                 *obj->town->slots[sprite_slot++] = D_80127B64;
                 if (entry_index == obj->row) {
                     *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
@@ -119,7 +119,7 @@ void townRefreshCatalogEntryGrid(TownObject *menu)
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
-            if (townIsCatalogEntryAvailable((u8)entry_id) != 0) {
+            if (is_catalog_entry_available((u8)entry_id) != 0) {
                 *obj->town->slots[sprite_slot++] = D_80127B64;
                 if (entry_index == menu_row_index(obj->row, obj->index)) {
                     *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];

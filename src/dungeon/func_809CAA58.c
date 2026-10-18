@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource03_slot0.h"
 
-void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
+void complete_actor_jump_to_destination(void *jump, void *motion, void *map_entity, void *actor) {
     s32 facing_distance;
     s32 frames_left;
     s16 next_timer;
@@ -16,7 +16,7 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C94);
         func_80047784(
             map_entity,
-            ((u8 *)D_80173C94)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173C94)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172258_S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFF20000;
@@ -58,11 +58,11 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = ((u8 *)D_80173C9C);
             func_80047784(
                 map_entity,
-                ((u8 *)D_80173C9C)[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80173C9C)[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((R03_80172258_S_80172258_0 *)jump)->unk_9B++;
         }
@@ -76,18 +76,18 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 4);
-        dungeonAdvanceStatusTimers(actor);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        reduce_actor_food_meter(actor, 4);
+        advance_status_timers(actor);
         {
             u32 count_unsigned;
             s32 count_signed;
 
-            count_signed = dungeonStatus.unk_08;
-            count_unsigned = ((u16)dungeonStatus.unk_08);
+            count_signed = g_dungeon_status.unk_08;
+            count_unsigned = ((u16)g_dungeon_status.unk_08);
 
             if (count_signed != 0) {
-                dungeonStatus.unk_08 = count_unsigned - 1;
+                g_dungeon_status.unk_08 = count_unsigned - 1;
             }
         }
 
@@ -99,14 +99,14 @@ void func_80172258(void *jump, void *motion, void *map_entity, void *actor) {
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
+                ((EntityRec *)actor)->facing = ((s16)get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &facing_distance));
             }
         }
 
 finish:
-        if ((dungeonCheckActorFloorTrap(map_entity, actor) << 16) > 0) {
+        if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
             ((R03_80172258_S_80172258_0 *)jump)->unk_8C = ((void *)func_80170E54);
             func_800A9A04(actor);
         }

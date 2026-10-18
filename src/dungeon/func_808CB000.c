@@ -4,8 +4,8 @@
 extern s32 D_80126A60;
 extern s32 *D_8012974C;
 
-void func_801235EC(void);
+void store_cached_value_at_pointer(void);
 /* Store D_80126A60 at the destination pointed to by D_8012974C. */
-void func_801235EC(void) {
+void store_cached_value_at_pointer(void) {
     *D_8012974C = D_80126A60;
 }

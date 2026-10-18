@@ -15,7 +15,7 @@ extern s32 D_80073740[];
 extern void func_8005F134(void *a0);
 
 /* Sends a type-3 request with indexed flags and two s16 parameters, then returns zero. */
-s32 submitDriverHalfwordPair(s16 flags_index, s16 first_value, s16 second_value)
+s32 submit_driver_halfword_pair(s16 flags_index, s16 first_value, s16 second_value)
 {
     S_8005C668 request;
 

@@ -20,16 +20,16 @@ typedef struct S_800B3D50_node {
     S_800B3D50_sub sub;      /* 0x20 */
 } S_800B3D50_node;
 
-extern s32 dungeonCopyRecordsThroughEnd(void *a0, s32 a1);
-extern void *townLinkShopNodesInConfiguredOrder(void *a0);
-extern void townConfigureShopObjectAndFinalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+extern s32 copy_records_through_end(void *a0, s32 a1);
+extern void *link_shop_nodes_in_configured_order(void *a0);
+extern void configure_shop_object_and_finalize(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_8004CAA0(void);
 extern void func_8004B248(u16 **a0);
 
 
 /* Allocate and initialize a paged item-list node, returning null on failure. */
-void *townAllocatePagedShopItemList(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
+void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
     s32 display_mode)
 {
     S_800B3D50_node *node = func_8003FC64(0);
@@ -37,17 +37,17 @@ void *townAllocatePagedShopItemList(s32 parent, s32 selected_index, s32 item_cou
 
     if (node != 0) {
         sub = &node->sub;
-        if (dungeonCopyRecordsThroughEnd(sub, 0x1F) != 0) {
+        if (copy_records_through_end(sub, 0x1F) != 0) {
             node->field_0xC = (u8 *)node + 0xDC;
-            sub->result = townLinkShopNodesInConfiguredOrder(sub->input);
-            townConfigureShopObjectAndFinalize(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);
+            sub->result = link_shop_nodes_in_configured_order(sub->input);
+            configure_shop_object_and_finalize(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);
             func_8004491C(node, (void *)func_8004CAA0);
             return node;
         }
         func_8004B248((u16 **)((u8 *)node + 0xF0));
         node->flags |= 0x8000;
         node = 0;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     return node;
 }

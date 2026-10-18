@@ -58,6 +58,6 @@ void func_801576D4(S807AF9A4 *data)
 
     if (data->flag_f == 0) {
         *(u16 *)((u8 *)data - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

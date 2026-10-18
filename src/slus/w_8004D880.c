@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 runtimeLookupByteByKey(s32);
+extern s32 runtime_lookup_byte_by_key(s32);
 
 /* Converts fullwidth alphanumerics to ASCII, delegating other character codes. */
 s32 func_8004D880(s32 char_code)
@@ -47,7 +47,7 @@ s32 func_8004D880(s32 char_code)
     if ((u32)(letter_code & 0xFFFF) < 26) {
         output_char = letter_code + 0x61;
     } else {
-        output_char = runtimeLookupByteByKey(char_code & 0xFFFF);
+        output_char = runtime_lookup_byte_by_key(char_code & 0xFFFF);
     }
 
     return output_char & 0xFF;

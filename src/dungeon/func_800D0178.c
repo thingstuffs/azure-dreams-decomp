@@ -10,7 +10,7 @@ typedef struct S_800D58D8_0_pre {
     void * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800D58D8_0_pre;   /* the 0x14 bytes before arg0 in dungeonUpdateFacingAndSpawnExpiredEffect, addressed as arg0[-1] */
+} S_800D58D8_0_pre;   /* the 0x14 bytes before arg0 in update_facing_and_spawn_expired_effect, addressed as arg0[-1] */
 
 typedef struct S_800D58D8_0 {
     u8 pad_00[0x2A];
@@ -18,7 +18,7 @@ typedef struct S_800D58D8_0 {
     u8 pad_2C[0x68];
     s16 unk_94;
     u16 unk_96;
-} S_800D58D8_0;   /* arg0 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_0;   /* arg0 in update_facing_and_spawn_expired_effect */
 
 
 typedef struct S_800D58D8_2 {
@@ -60,7 +60,7 @@ typedef struct S_800D58D8_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D58D8_5;   /* arg1 in dungeonUpdateFacingAndSpawnExpiredEffect */
+} S_800D58D8_5;   /* arg1 in update_facing_and_spawn_expired_effect */
 
 typedef struct S_800D58D8_6 {
     u8 pad_00[0x8];
@@ -75,15 +75,15 @@ typedef struct {
 } Vec3u16;
 
 M2C_UNK func_8003DB94();  /* extern */
-s32 resolveRecordOrientationOrFallback(void *, void *, Vec3u16 *, s32);     /* extern */
+s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     /* extern */
 s32 func_8004491C();           /* extern */
-void selectIndirectTableEntry();              /* extern */
+void select_indirect_table_entry();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800D586C[];
 extern s32 D_800DE870[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void dungeonUpdateFacingAndSpawnExpiredEffect(void *state, void *position, void *sprite) {
+void update_facing_and_spawn_expired_effect(void *state, void *position, void *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;
@@ -93,11 +93,11 @@ void dungeonUpdateFacingAndSpawnExpiredEffect(void *state, void *position, void 
     void *effect_pos;
     void *effect;
 
-    facing = ((s32) (gameWork.view.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
+    facing = ((s32) (g_game_work.view.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
         direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_s32;
         if (direction_frames != 0) {
-            selectIndirectTableEntry(sprite, *((u8 *)direction_frames + facing), ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+            select_indirect_table_entry(sprite, *((u8 *)direction_frames + facing), ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
         }
         ((S_800D58D8_0 *)state)->unk_94 = facing;
     }
@@ -124,7 +124,7 @@ void dungeonUpdateFacingAndSpawnExpiredEffect(void *state, void *position, void 
             ((S_800D58D8_3 *)effect_render)->unk_06 = (u16) ((Rec_D_80082E80 *)sprite)->unk_06.as_u16;
             ((S_800D58D8_2 *)effect)->unk_10 = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
-            if (resolveRecordOrientationOrFallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
+            if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
                 ((S_800D58D8_4 *)effect_pos)->unk_02 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_02 + delta.x);
                 ((S_800D58D8_4 *)effect_pos)->unk_06 = (u16) (((S_800D58D8_4 *)effect_pos)->unk_06 + delta.y);
                 ((S_800D58D8_4 *)effect_pos)->unk_0A = (u16) (((S_800D58D8_4 *)effect_pos)->unk_0A + delta.z);
@@ -132,7 +132,7 @@ void dungeonUpdateFacingAndSpawnExpiredEffect(void *state, void *position, void 
             func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, &D_800DE870, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

@@ -13,15 +13,15 @@ extern int abs(int);
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 
-extern void dungeonDrawTexturedEllipse(void *, s32 *, s32, s32);
+extern void draw_textured_ellipse(void *, s32 *, s32, s32);
 extern s16 set_item_w0(u8, u8, u8, u8);
-extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s16);
+extern s32 check_left_tile_and_center_height(s32, s32, s16);
 
 
 
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
-void func_80024050(u8 *self, u8 *motion, u8 *part)
+void follow_brighten(u8 *self, u8 *motion, u8 *part)
 {
     u8 *owner;
     u8 *owner_base;
@@ -67,7 +67,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(self, u16, 0x1A) = (F(owner, u16, 0x2A) >> 9) & 7;
         texture_init[0] = texture_flags;
         texture_init[1] = texture_size;
-        dungeonDrawTexturedEllipse(D_800257D0, texture_init, 1, 0);
+        draw_textured_ellipse(D_800257D0, texture_init, 1, 0);
         F(self, u16, 0xA)++;
 
     case 1:
@@ -118,14 +118,14 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
                 s16 direction;
                 direction = F(self, s16, 0x1A);
                 source_data = F(owner, void *, -0x14);
-                tile_coord = F(source_data, u8, 0x24) + dirStepX[direction];
+                tile_coord = F(source_data, u8, 0x24) + dir_step_x[direction];
                 F(self, u8, 0x20) = tile_coord;
                 F(self, u8, 0x22) = tile_coord;
             }
             {
                 s16 direction;
                 direction = F(self, s16, 0x1A);
-                tile_coord = F(source_data, u8, 0x25) + dirStepY[direction];
+                tile_coord = F(source_data, u8, 0x25) + dir_step_y[direction];
                 F(self, u8, 0x21) = tile_coord;
                 F(self, u8, 0x23) = tile_coord;
             }
@@ -152,9 +152,9 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
             F(self, u16, 0x12) = F(motion, u16, 6);
             F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
         }
-        direction_step = dirStepX[F(self, s16, 0x1A)];
+        direction_step = dir_step_x[F(self, s16, 0x1A)];
         F(motion, s16, 0x0E) = direction_step << 3;
-        direction_step = dirStepY[F(self, s16, 0x1A)];
+        direction_step = dir_step_y[F(self, s16, 0x1A)];
         F(motion, s16, 0x12) = direction_step << 3;
         state_step = F(self, u16, 0xA);
         F(self, u16, 0x1C) = 0;
@@ -212,7 +212,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         z_delta >>= 3;
         z_pos += z_delta;
         F(motion, s32, 8) = z_pos;
-        dungeonCreateEffectFromEndpoints(motion, part);
+        create_effect_from_endpoints(motion, part);
 
         coord = F(motion, s16, 2);
         if (coord < 0) {
@@ -233,7 +233,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
                 if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
                                      F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
                     F(self, s16, 0x28) = 1;
-                    func_800A56E0(0x300);
+                    play_sound_if_enabled(0x300);
                 }
             }
         }
@@ -256,7 +256,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(self, u8, 0x23) = target;
         if (z_pos != 0) {
             cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
-            height_result = dungeonCheckLeftTileAndCenterHeight(
+            height_result = check_left_tile_and_center_height(
                 cell_center_x,
                 (((s32)F(self, s8, 0x21) << 6) + 0x20) & 0xFFE0,
                 F(motion, s16, 0x0A));
@@ -270,7 +270,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
     case 3:
         spawn_target = F(owner, void *, 0x60);
         spawn_height = F(spawn_target, s16, 0x88);
-        F(self, void *, 0x0C) = dungeonCreateInitializedEffectObject((s32)self, motion, spawn_height, (s32)spawn_target);
+        F(self, void *, 0x0C) = create_initialized_effect_object((s32)self, motion, spawn_height, (s32)spawn_target);
         if (F(self, void *, 0x0C) == 0) {
             break;
         }
@@ -286,7 +286,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         }
         target = F(owner, void *, 0x60);
         if (target != 0) {
-            dungeonApplyIndexedEffectCondition(target, F(self, u8, 9), owner);
+            apply_indexed_effect_condition(target, F(self, u8, 9), owner);
         }
         F(self, u16, 0x0A) = 0x11;
         break;
@@ -306,7 +306,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         F(part, u8, 0x0C) = red - (red >> 1);
         F(part, u8, 0x0D) = green - (green >> 1);
         F(part, u8, 0x0E) = blue - (blue >> 1);
-        dungeonCreateEffectFromEndpoints(motion, part);
+        create_effect_from_endpoints(motion, part);
         if (F(part, u8, 0x0C) >= 2) {
             break;
         }
@@ -315,9 +315,9 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
 
     case 17:
         if (*(s16 *)D_800257CE == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             F(self, u16, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
     D_800257CE[0] = 0;

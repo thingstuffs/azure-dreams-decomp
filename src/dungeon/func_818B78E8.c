@@ -13,7 +13,7 @@
 
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
-void func_800250E8(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx) {
+void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx) {
     s32 variant_index;
     s16 fade;
     s16 next_tick;
@@ -88,7 +88,7 @@ void func_800250E8(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *
         gfx->field1E = fade;
         gfx->field1C = fade;
         if ((s16) obj->field10 >= 0x10) {
-            func_80024FD4((void *)obj, (void *)motion);
+            draw_chained_object_records((void *)obj, (void *)motion);
             phase_value = (u16) obj->state;
             obj->field10 = 0U;
             obj->state = (s16) (phase_value + 1);
@@ -116,7 +116,7 @@ void func_800250E8(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *
     case 3:
         if (gfx->flags & 0x6000) {
             *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
     }
 }

@@ -3,7 +3,7 @@
 extern u8 D_8001B218[];
 
 /* Check for record bytes 13 and 4 with flag 0x20 set. */
-s32 func_80018404(void) {
+s32 check_record_bytes_13(void) {
     if (D_8001B218[5] != 13) {
         return 0;
     }

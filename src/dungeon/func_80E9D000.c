@@ -3,10 +3,10 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
-extern void dungeonClearSlotAndUpdateLinkedState(void *, void *);
-extern void *dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-extern s32 func_800A6D30(void);
-extern s16 func_800A70E4(s16, s16, s16);
+extern void clear_slot_and_update_linked_state(void *, void *);
+extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 generate_random_value(void);
+extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
 
 extern s32 D_800E3D7C[];
@@ -15,9 +15,9 @@ extern s32 D_80162FE4[];
 typedef struct { s32 value; } ItemWord;
 
 
- s32 func_8015E908(void *, void *) ;
+ s32 move_eligible_item(void *, void *) ;
 /* Moves an eligible item from a nearby slot or target into the shared item slot. */
- s32 func_8015E908(void *origin, void *actor) {
+ s32 move_eligible_item(void *origin, void *actor) {
     u8 *origin_bytes = (u8 *)origin;
     u8 *actor_bytes = (u8 *)actor;
     s32 direction_offset;
@@ -26,9 +26,9 @@ typedef struct { s32 value; } ItemWord;
     u8 *item_ptr;
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
-    tile_slot = func_800A70E4(
-        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dirStepX) + direction_offset)),
-        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
+    tile_slot = find_floor_item_at_world_position(
+        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(((u8 *)dir_step_x) + direction_offset)),
+        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (tile_slot >= 0) {
         s32 *shared_base;
@@ -40,7 +40,7 @@ typedef struct { s32 value; } ItemWord;
         return (s32)shared_slot;
     }
 
-    target = dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = place_actor_at_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
@@ -69,7 +69,7 @@ typedef struct { s32 value; } ItemWord;
                     return 0;
                 }
                 count =
-                    (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
+                    (s32)((((generate_random_value() & 0xFFFF) % item_count) << 16) >> 14);
                 slot_index = count + 0x80010000;
                 if (*(u8 *)(slot_index + 0x249) == 0 || *(u8 *)(slot_index + 0x249) == 0x13) {
                     return 0;
@@ -87,7 +87,7 @@ typedef struct { s32 value; } ItemWord;
                     shared_base[0] = item_data;
 
 
-                    dungeonClearSlotAndUpdateLinkedState(item_ptr, (void *)slot_index);
+                    clear_slot_and_update_linked_state(item_ptr, (void *)slot_index);
                     return (s32)shared_base;
                 }
             }

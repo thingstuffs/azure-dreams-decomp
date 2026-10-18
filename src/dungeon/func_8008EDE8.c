@@ -14,7 +14,7 @@ typedef struct S_80094548_1 {
 
 
 /* Store the value scaled by 512 in the indexed object's field. */
-void dungeonSetLinkedActorOctantFacing(s32 index, s32 value) {
+void set_linked_actor_octant_facing(s32 index, s32 value) {
     s32 entry_offset;
     s32 table_base;
 

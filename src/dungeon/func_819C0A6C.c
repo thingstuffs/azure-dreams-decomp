@@ -54,7 +54,7 @@ typedef struct S_8002626C_2 {
 } S_8002626C_2;
 
 /* Creates a colored effect at an offset position with velocity toward its base. */
-void dungeonCreateOffsetColoredEffect(
+void create_offset_colored_effect(
     s32 unused_0, s32 unused_1, s32 unused_2, s32 unused_3,
     s32 offset_x, s32 offset_y, s32 offset_z, s32 base_x, s32 base_y, s32 base_z) {
     s16 color_channel;
@@ -66,7 +66,7 @@ void dungeonCreateOffsetColoredEffect(
     if (effect != NULL) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x14;
-        ((S_8002626C_1 *)effect)->unk_10 = (void *)dungeonUpdateEffectMotionAndVisual;
+        ((S_8002626C_1 *)effect)->unk_10 = (void *)update_effect_motion_and_visual;
         func_8004491C(effect, (s32)func_80045340);
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x40;
@@ -85,7 +85,7 @@ void dungeonCreateOffsetColoredEffect(
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
         sprite->unk_1E = 0x3000;
         sprite->unk_1C = 0x3000;
-        color_channel = func_8002458C(3);
+        color_channel = update_palette_particle_transition(3);
         sprite->unk_0E = 0;
         sprite->unk_0D = 0;
         sprite->unk_0C = 0;

@@ -8,20 +8,20 @@ typedef struct S_800BBCA0_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800BBCA0_0;   /* self in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_0;   /* self in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_1 {
     u8 pad_00[0x8];
     s32 * unk_08;
     u8 * unk_0C;
     u8 * unk_10;
-} S_800BBCA0_1;   /* object in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_1;   /* object in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800BBCA0_2;   /* origin in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_2;   /* origin in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_3 {
     u8 pad_00[0xC];
@@ -32,7 +32,7 @@ typedef struct S_800BBCA0_3 {
     s16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_800BBCA0_3;   /* motion in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_3;   /* motion in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_4 {
     u8 * unk_00;
@@ -47,12 +47,12 @@ typedef struct S_800BBCA0_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800BBCA0_4;   /* sprite in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_4;   /* sprite in spawn_burst_particles_around_origin */
 
 typedef struct S_800BBCA0_5 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800BBCA0_5;   /* spriteType in townSpawnBurstParticlesAroundOrigin */
+} S_800BBCA0_5;   /* spriteType in spawn_burst_particles_around_origin */
 
 
 extern s32 func_80033BC0(s32);
@@ -64,7 +64,7 @@ extern u8 D_800BC00C[];
 extern u8 D_800F1654[];
 
 /* Spawns particles around the origin, emits a burst, then marks the effect finished. */
-void townSpawnBurstParticlesAroundOrigin(void *self, void *origin)
+void spawn_burst_particles_around_origin(void *self, void *origin)
 {
     register u16 next_state;
     s32 state;
@@ -187,7 +187,7 @@ void townSpawnBurstParticlesAroundOrigin(void *self, void *origin)
     case 2:
     if ((s16)timer < 0) {
         (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     return;

@@ -10,8 +10,8 @@ typedef struct S_800B8248_2 {
 
 
 
-extern s32 *townInitializeSharedScriptData();
-extern void **townScaleCoordinatesAndAppendPointers();
+extern s32 *initialize_shared_script_data();
+extern void **scale_coordinates_and_append_pointers();
 extern void func_8009CE34();
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
@@ -30,7 +30,7 @@ typedef struct S_800B8248_1 {
 } S_800B8248_1;
 
 /* Initializes the default region and processes each occupied resource slot. */
-void townInitializeBuildingRegionResources(void) {
+void initialize_building_region_resources(void) {
     s32 region_x;
     s32 region_y;
     s32 region_width;
@@ -43,8 +43,8 @@ void townInitializeBuildingRegionResources(void) {
     S_800B8248_0 *slot;
     S_800B8248_1 *region;
 
-    townInitializeSharedScriptData();
-    townScaleCoordinatesAndAppendPointers(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
+    initialize_shared_script_data();
+    scale_coordinates_and_append_pointers(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
     slot_counter = 0;
     state_base = (void *)0x80010000;
     resources = D_800D2644;
@@ -60,7 +60,7 @@ void townInitializeBuildingRegionResources(void) {
             region_width = region->unk_02;
             region_height = region->unk_03;
             resource_index = slot->unk_33A4;
-            townScaleCoordinatesAndAppendPointers(region_x, region_y, region_width, region_height,
+            scale_coordinates_and_append_pointers(region_x, region_y, region_width, region_height,
                           (resource_index << 5) + (D_800D2644 + 0xC));
         }
         slot_counter += 1;

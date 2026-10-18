@@ -7,10 +7,10 @@ typedef struct S_8009431C_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
-} S_8009431C_0;   /* arg0 in func_8009431C */
+} S_8009431C_0;   /* arg0 in initialize_threshold_interaction_action */
 
 /* Initialize the object's data pointer and clear its state field. */
-void func_8009431C(S_8009431C_0 *object) {
+void initialize_threshold_interaction_action(S_8009431C_0 *object) {
     object->unk_00 = &D_800920F4;
     object->unk_0A = 0;
 }

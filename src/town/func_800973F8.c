@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Converts directional button flags to an angle, or -1 if no direction is held. */
-s32 townDirectionalButtonsToAngle(s32 buttons) {
+s32 directional_buttons_to_angle(s32 buttons) {
     if (buttons & 0x1000) {
         s32 left_flag;
         s32 right_flag;

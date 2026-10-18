@@ -5,12 +5,12 @@
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_800A48F0(void *, s32, s32);
-extern s32 func_800A6D30();
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern void dungeonUpdateActorCallbacksAndGround(void);
-extern void dungeonUpdateActorAnimationAndBehavior(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value();
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern void update_actor_callbacks_and_ground(void);
+extern void update_actor_animation_and_behavior(void);
 
 extern u8 D_80175E40[];
 extern u8 D_80175EA0[];
@@ -21,7 +21,7 @@ typedef struct S_801708B4_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801708B4_0;   /* entity in dungeonCreateGridPositionEntity */
+} S_801708B4_0;   /* entity in create_grid_position_entity */
 
 typedef struct S_801708B4_1 {
     u8 pad_00[0x13];
@@ -29,12 +29,12 @@ typedef struct S_801708B4_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_801708B4_1;   /* inner in dungeonCreateGridPositionEntity */
+} S_801708B4_1;   /* inner in create_grid_position_entity */
 
 typedef struct S_801708B4_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_801708B4_2;   /* part_a in dungeonCreateGridPositionEntity */
+} S_801708B4_2;   /* part_a in create_grid_position_entity */
 
 typedef struct S_801708B4_3 {
     u8 pad_00[0x24];
@@ -42,7 +42,7 @@ typedef struct S_801708B4_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801708B4_3;   /* part_b in dungeonCreateGridPositionEntity */
+} S_801708B4_3;   /* part_b in create_grid_position_entity */
 
 typedef struct S_801708B4_4 {
     u8 pad_00[0x8C];
@@ -53,10 +53,10 @@ typedef struct S_801708B4_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_801708B4_4;   /* result in dungeonCreateGridPositionEntity */
+} S_801708B4_4;   /* result in create_grid_position_entity */
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
-void *dungeonCreateGridPositionEntity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
+void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
     void *entity;
     S_801708B4_2 *position;
@@ -77,7 +77,7 @@ void *dungeonCreateGridPositionEntity(s16 spawn_flags, s16 grid_x, s16 grid_y, s
     entity = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
-        ((S_801708B4_0 *)entity)->unk_10 = dungeonUpdateActorCallbacksAndGround;
+        ((S_801708B4_0 *)entity)->unk_10 = update_actor_callbacks_and_ground;
         ((S_801708B4_1 *)entity_data)->unk_13 = 2;
         func_8004491C(entity, func_80045340);
 
@@ -101,25 +101,25 @@ void *dungeonCreateGridPositionEntity(s16 spawn_flags, s16 grid_x, s16 grid_y, s
                 void *call_entity = entity;
                 void *call_position = position;
 
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     s32 random_value;
                     void *second_entity = entity;
 
-                    random_value = func_800A6D30();
+                    random_value = generate_random_value();
 
-                    func_800A48F0(entity_data, 1, (random_value & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(entity_data, 1, (random_value & 0x3F) | 0x20);
                     placement->unk_2C = D_80175EA0;
                 }
             }
         }
 
-        func_800A9C18(entity, position, placement, saved_flags);
+        initialize_actor_sprite_and_animation(entity, position, placement, saved_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = dungeonUpdateActorAnimationAndBehavior;
+        actor->unk_8C = update_actor_animation_and_behavior;
         ((S_801708B4_1 *)entity_data)->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
-        func_800AA36C(actor, position, placement, entity_data);
+        try_move_actor_to_valid_position(actor, position, placement, entity_data);
     }
     return entity_data;
 }

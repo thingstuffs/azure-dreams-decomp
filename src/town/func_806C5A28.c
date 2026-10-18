@@ -3,7 +3,7 @@
 extern s32 func_800175A8();
 
 /* Submit command 8 with its flag set and remaining arguments cleared. */
-void townSubmitEventCommandEight(void) {
+void submit_event_command_eight(void) {
     s8 command_args[4];
 
     command_args[1] = 1;

@@ -11,11 +11,11 @@ typedef struct {
 } D_80083460_t;
 
 
-extern void func_8009A028();
-extern void func_8009A21C();
-extern void dungeonSetRecordIntegerTileCenter();
-extern void func_800A32A4();
-extern s16 func_800BCB04();
+extern void unlink_entity_node();
+extern void cycle_map_cell_flags();
+extern void set_record_integer_tile_center();
+extern void detach_record_and_update_slot_state();
+extern s16 sample_terrain_surface_height();
 
 
 typedef struct S_800AC5C8_0 {
@@ -26,21 +26,21 @@ typedef struct S_800AC5C8_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_800AC5C8_0;   /* arg0 in dungeonUpdateSpinningActorFall */
+} S_800AC5C8_0;   /* arg0 in update_spinning_actor_fall */
 
 typedef struct S_800AC5C8_1_pre {
     u16 unk_00;
-} S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in dungeonUpdateSpinningActorFall, addressed as arg3[-1] */
+} S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in update_spinning_actor_fall, addressed as arg3[-1] */
 
 
 typedef struct S_800AC5C8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800AC5C8_3;   /* arg2 in dungeonUpdateSpinningActorFall */
+} S_800AC5C8_3;   /* arg2 in update_spinning_actor_fall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 dungeonUpdateSpinningActorFall(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
+s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;
@@ -64,17 +64,17 @@ s32 dungeonUpdateSpinningActorFall(S_800AC5C8_0 *animation, EntityRec *position,
         }
 
         position->flags14 = 0;
-        dungeonSetRecordIntegerTileCenter(position, tile->unk_24, tile->unk_25);
+        set_record_integer_tile_center(position, tile->unk_24, tile->unk_25);
         animation->unk_96 = 0x10;
 
         if (!(((Rec_D_80082E80 *)object)->unk_14.at00_s32.v & 0x4000)) {
-            dungeonStatus.unk_0A--;
-            func_800A32A4(object);
-            func_8009A028(object);
+            g_dungeon_status.unk_0A--;
+            detach_record_and_update_slot_state(object);
+            unlink_entity_node(object);
             ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         } else {
-            ((Rec_D_80082E80 *)object)->unk_88.as_u16 = func_800BCB04(
+            ((Rec_D_80082E80 *)object)->unk_88.as_u16 = sample_terrain_surface_height(
                 (tile->unk_24 << 6) | 0x20,
                 (tile->unk_25 << 6) | 0x20,
                 -0x400);
@@ -100,8 +100,8 @@ s32 dungeonUpdateSpinningActorFall(S_800AC5C8_0 *animation, EntityRec *position,
         } else {
             force = 0x3000;
         }
-        func_8009A21C(tile_x, tile_y, force);
-        dungeonStatus.unk_0A--;
+        cycle_map_cell_flags(tile_x, tile_y, force);
+        g_dungeon_status.unk_0A--;
         {
             u16 saved_angle;
             s32 finished;

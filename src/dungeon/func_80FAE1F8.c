@@ -11,11 +11,11 @@ extern void func_8014D138(void *, void *, void *, void *);
 extern void func_8014FD38(void *, s32, void *, void *);
 
 
-extern s32 func_800A2C34(void *);
+extern s32 has_pending_actor_or_turn_action(void *);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
+extern void update_actor_status_and_food(void *);
 extern void func_800AA258(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern u8 D_80150AF4[];
 extern u8 D_80150AFC[];
 
@@ -63,10 +63,10 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        activity_counts = &dungeonStatus;
+        activity_counts = &g_dungeon_status;
         (*(u16 *)&activity_counts->unk_0A)--;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80150AFC;
-        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80150AFC[direction & 7], 0);
         ((S_801739F8_0 *)controller)->unk_9B++;
         return;
@@ -77,16 +77,16 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             register DungeonGlobalStatus *activity_counts;
 
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80150AF4;
-            direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+            direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             func_80047784(sprite, D_80150AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
-            activity_counts = &dungeonStatus;
+            activity_counts = &g_dungeon_status;
             (*(u16 *)&activity_counts->unk_0A)++;
             ((S_801739F8_0 *)controller)->unk_9B++;
             return;
         }
 
-        dungeon_state = &dungeonStatus.unk_00;
+        dungeon_state = &g_dungeon_status.unk_00;
         if (((S_801739F8_4 *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
@@ -96,7 +96,7 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             return;
         }
 
@@ -106,7 +106,7 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
         }
 
         if (((u32)((EntityRec *)entity)->flags1C) & 0x80000) {
-            func_800AA888(controller, context, sprite, entity);
+            begin_actor_move_to_target_facing(controller, context, sprite, entity);
             ((S_801739F8_0 *)controller)->unk_A0 = 0;
             func_8014FD38(controller, context, sprite, entity);
             return;
@@ -116,7 +116,7 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(entity,
@@ -125,14 +125,14 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             }
         }
 
-        func_800A9A0C(entity);
+        update_actor_status_and_food(entity);
         func_800A9A04(entity);
         if (((EntityRec *)entity)->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80150AF4;
-        direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80150AF4[direction & 7], 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         ((S_801739F8_4 *)dungeon_state)->unk_0A++;
@@ -148,7 +148,7 @@ void func_8014F9F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        activity_counts = &dungeonStatus;
+        activity_counts = &g_dungeon_status;
         (*(u16 *)&activity_counts->unk_0A)--;
         ((EntityRec *)entity)->flags1C &= ~0x208;
         ((S_801739F8_0 *)controller)->unk_8C = func_8014D138;

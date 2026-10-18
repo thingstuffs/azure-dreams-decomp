@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 func_800161C8(void) {
+s32 check_any_entry_matches_predicate(void) {
     u8 *entry = &D_8001A92C;
 
     if (D_8001A92C != 0) {

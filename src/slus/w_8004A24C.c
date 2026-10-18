@@ -12,11 +12,11 @@ typedef struct S_8004A24C_0 {
 } S_8004A24C_0;   /* arg0 in func_8004A24C */
 
 
-void soundInitializeOrderedElements();                            /* extern */
-void menuInitializeFourSubBlocksPositionOffsetsFixedHeaderDerivedValues();       /* extern */
-s32 lookupFirstMaskValue();                         /* extern */
+void sound_initialize_ordered_elements();                            /* extern */
+void menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values();       /* extern */
+s32 lookup_first_mask_value();                         /* extern */
 s32 func_8004A10C();                             /* extern */
-void menuCopyTheDefaultTemplateFillsFiveBytePairsNegatedHalf();       /* extern */
+void menu_copy_the_default_template_fills_five_byte_pairs_negated_half();       /* extern */
 s32 func_8004DC14();                /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
@@ -25,8 +25,8 @@ void func_8004A24C(S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x, s
     u16 resolved_size;
     s32 requested_size;
 
-    soundInitializeOrderedElements(state);
-    state->unk_1C = lookupFirstMaskValue(config_id);
+    sound_initialize_ordered_elements(state);
+    state->unk_1C = lookup_first_mask_value(config_id);
     resource_handle = func_8004DC14(resource_id, 1);
     requested_size = size;
     resolved_size = requested_size;
@@ -35,7 +35,7 @@ void func_8004A24C(S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x, s
     if (requested_size == -1) {
         resolved_size = func_8004A10C(resource_handle) + 0x20;
     }
-    menuCopyTheDefaultTemplateFillsFiveBytePairsNegatedHalf(state, state->unk_08, resolved_size & 0xFFFF, state->unk_00 & 1);
+    menu_copy_the_default_template_fills_five_byte_pairs_negated_half(state, state->unk_08, resolved_size & 0xFFFF, state->unk_00 & 1);
     state->unk_14 = (s32) state->unk_08;
-    menuInitializeFourSubBlocksPositionOffsetsFixedHeaderDerivedValues(state, x, y, (s16) resolved_size);
+    menu_initialize_four_sub_blocks_position_offsets_fixed_header_derived_values(state, x, y, (s16) resolved_size);
 }

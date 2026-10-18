@@ -8,7 +8,7 @@ typedef struct S_800B1BEC_0 {
     void * unk_0C;
     u8 pad_10[0x34];
     void * unk_44;
-} S_800B1BEC_0;   /* part in townCreateDualBufferObject */
+} S_800B1BEC_0;   /* part in create_dual_buffer_object */
 
 typedef struct S_800B1BEC_1 {
     u8 pad_00[0xC];
@@ -16,21 +16,21 @@ typedef struct S_800B1BEC_1 {
     void * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
-} S_800B1BEC_1;   /* object in townCreateDualBufferObject */
+} S_800B1BEC_1;   /* object in create_dual_buffer_object */
 
 
 extern void *func_8004B404(s32);
 extern void func_8004B1A4(void *);
-extern void townInitializeFourAnchoredNodes(void *);
-extern void *townProcessContextWithSelector4(void *);
-extern void func_800B1B10(void *, s32, s32, s32);
+extern void initialize_four_anchored_nodes(void *);
+extern void *process_context_with_selector_4(void *);
+extern void build_owned_floating_number_widget(void *, s32, s32, s32);
 extern void func_8004491C(void *, void *);
-extern void townLowerValueTowardTarget(void);
+extern void lower_value_toward_target(void);
 
 extern u8 D_8004CAA0[];
 
 /* Create an object with two buffers and initialize its state and position. */
-void *townCreateDualBufferObject(s32 setup_value, s32 x, s32 y)
+void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
 {
     void *object;
     S_800B1BEC_0 *part;
@@ -47,18 +47,18 @@ void *townCreateDualBufferObject(s32 setup_value, s32 x, s32 y)
 
         if (part->unk_08 != 0 && second_buffer != 0) {
             ((S_800B1BEC_1 *)object)->unk_0C = (u8 *)object + 0x58;
-            townInitializeFourAnchoredNodes(part);
-            part->unk_44 = townProcessContextWithSelector4((u8 *)object + 0x68);
-            func_800B1B10(part, setup_value, x, y);
+            initialize_four_anchored_nodes(part);
+            part->unk_44 = process_context_with_selector_4((u8 *)object + 0x68);
+            build_owned_floating_number_widget(part, setup_value, x, y);
             func_8004491C(object, D_8004CAA0);
-            ((S_800B1BEC_1 *)object)->unk_10 = townLowerValueTowardTarget;
+            ((S_800B1BEC_1 *)object)->unk_10 = lower_value_toward_target;
         } else {
             func_8004B1A4(part->unk_08);
             func_8004B1A4(part->unk_0C);
             object_flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
-            global_flags = ((u32)objectFlagBlock.flags) | 0x8000;
+            global_flags = ((u32)object_flag_block.flags) | 0x8000;
             ((S_800B1BEC_1 *)object)->unk_1E = object_flags;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
         }
     }
     return object;

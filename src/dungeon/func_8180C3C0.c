@@ -15,7 +15,7 @@ typedef struct S_800253C0_0 {
     u8 pad_9C[0x10];
     void * unk_AC;
     void * unk_B0;
-} S_800253C0_0;   /* arg0 in func_800253C0 */
+} S_800253C0_0;   /* arg0 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_1 {
     u8 pad_00[0x2A];
@@ -24,23 +24,23 @@ typedef struct S_800253C0_1 {
     void * unk_60;
     u8 pad_64[0x24];
     s16 unk_88;
-} S_800253C0_1;   /* arg3 in func_800253C0 */
+} S_800253C0_1;   /* arg3 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_3 {
     u8 pad_00[0x2C];
     void * unk_2C;
-} S_800253C0_3;   /* fa0 in func_800253C0 */
+} S_800253C0_3;   /* fa0 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_4 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800253C0_4;   /* record in func_800253C0 */
+} S_800253C0_4;   /* record in advance_paired_object_sequence */
 
 typedef struct S_800253C0_5_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_800253C0_5_pre;   /* the 0x18 bytes before object in func_800253C0, addressed as object[-1] */
+} S_800253C0_5_pre;   /* the 0x18 bytes before object in advance_paired_object_sequence, addressed as object[-1] */
 
 typedef struct S_800253C0_5 {
     u8 pad_00[0x14];
@@ -50,7 +50,7 @@ typedef struct S_800253C0_5 {
     u8 pad_2C[0x5C];
     union { s16 s; u16 u; } unk_88;   /* accessed as both */
     u16 unk_8A;
-} S_800253C0_5;   /* object in func_800253C0 */
+} S_800253C0_5;   /* object in advance_paired_object_sequence */
 
 typedef struct S_800253C0_8 {
     u8 pad_00[0x14];
@@ -58,7 +58,7 @@ typedef struct S_800253C0_8 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800253C0_8;   /* arg2 in func_800253C0 */
+} S_800253C0_8;   /* arg2 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_9 {
     u8 pad_00[0x2];
@@ -67,7 +67,7 @@ typedef struct S_800253C0_9 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-} S_800253C0_9;   /* prim in func_800253C0 */
+} S_800253C0_9;   /* prim in advance_paired_object_sequence */
 
 typedef struct S_800253C0_10 {
     u8 pad_00[0x2];
@@ -76,21 +76,21 @@ typedef struct S_800253C0_10 {
     s16 unk_06;
     u8 pad_08[0x2];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-} S_800253C0_10;   /* arg1 in func_800253C0 */
+} S_800253C0_10;   /* arg1 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_11 {
     u32 unk_00;
-} S_800253C0_11;   /* amounts in func_800253C0 */
+} S_800253C0_11;   /* amounts in advance_paired_object_sequence */
 
 typedef struct S_800253C0_12 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800253C0_12;   /* record2 in func_800253C0 */
+} S_800253C0_12;   /* record2 in advance_paired_object_sequence */
 
 typedef struct S_800253C0_14_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800253C0_14_pre;   /* the 0x18 bytes before other in func_800253C0, addressed as other[-1] */
+} S_800253C0_14_pre;   /* the 0x18 bytes before other in advance_paired_object_sequence, addressed as other[-1] */
 
 typedef struct S_800253C0_15 {
     u8 pad_00[0x2];
@@ -99,12 +99,12 @@ typedef struct S_800253C0_15 {
     u32 unk_0C;
     u8 pad_10[0xB8];
     s16 unk_C8;
-} S_800253C0_15;   /* tb in func_800253C0 */
+} S_800253C0_15;   /* tb in advance_paired_object_sequence */
 
 typedef struct S_800253C0_16_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800253C0_16_pre;   /* the 0x14 bytes before object2 in func_800253C0, addressed as object2[-1] */
+} S_800253C0_16_pre;   /* the 0x14 bytes before object2 in advance_paired_object_sequence, addressed as object2[-1] */
 
 typedef struct S_800253C0_17 {
     u8 pad_00[0xC];
@@ -120,12 +120,12 @@ typedef struct S_800253C0_17 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800253C0_17;   /* child in func_800253C0 */
+} S_800253C0_17;   /* child in advance_paired_object_sequence */
 
 typedef struct S_800253C0_18 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_800253C0_18;   /* (void *)((i << 2) + (s32)arg0) in func_800253C0 */
+} S_800253C0_18;   /* (void *)((i << 2) + (s32)arg0) in advance_paired_object_sequence */
 
 
 extern void *D_8006CD58[];
@@ -137,37 +137,37 @@ extern u8 D_80025028[];
 extern u8 D_80025068[];
 extern u8 D_800287F0[];
 
-extern void soundSetCdCueParameters(void *, void *, void *, s32);
+extern void sound_set_cd_cue_parameters(void *, void *, void *, s32);
 extern s32 func_800445E0(void);
 extern void Control_CD(s32, s32, s32);
-extern void dungeonBeginActorFlaggedAction(void *, void *, void *, void *);
-extern void func_800A56E0(s32);
-extern void *dungeonCreateAndLinkSixOffsetObjects(s16, s16, s16, void *);
-extern void *dungeonCreateSixOffsetEffects(void *, void *, void *, void *);
-extern void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
-extern void dungeonProcessAdjacentObjectsWithGrayNodes(void *, void *);
-extern s32 hasEnoughAvailableRuntimeNodes(s32);
-extern s32 func_800990FC(void);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 func_80099734(void *record, u8 *out);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern void begin_actor_flagged_action(void *, void *, void *, void *);
+extern void play_sound_if_enabled(s32);
+extern void *create_and_link_six_offset_objects(s16, s16, s16, void *);
+extern void *create_six_offset_effects(void *, void *, void *, void *);
+extern void draw_textured_ellipse(void *, void *, s32, s32);
+extern void process_adjacent_objects_with_gray_nodes(void *, void *);
+extern s32 has_enough_available_runtime_nodes(s32);
+extern s32 get_unused_text_buffer(void);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteStatusPrefixBytes(s32);
-extern void func_800A5720(s8 *text);
-extern void *dungeonSelectObjectByFlagsAndKeys(void *, void *, void *);
-extern void *func_800264D4(void *, void *, s32, s16);
-extern void *dungeonCreatePositionedGraphicObject(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
-extern void *dungeonMergeCreatureAbilitiesAndState(void *, void *, s32);
-extern s32 dungeonBuildStatusEffectNameList(void *, s32);
-extern void *dungeonCreateFourGroupsOfAngularEffects(s16, s16, s16, s32);
+extern s32 write_status_prefix_bytes(s32);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void *select_object_by_flags_and_keys(void *, void *, void *);
+extern void *create_linked_objects(void *, void *, s32, s16);
+extern void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value);
+extern void *merge_creature_abilities_and_state(void *, void *, s32);
+extern s32 build_status_effect_name_list(void *, s32);
+extern void *create_four_groups_of_angular_effects(s16, s16, s16, s32);
 extern void func_80048A44(void *, s32, s32, s32);
 
 
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
-void func_800253C0(void *sequence, void *position, void *actor, void *owner)
+void advance_paired_object_sequence(void *sequence, void *position, void *actor, void *owner)
 {
     s32 message_id;
-    GameWork *scene = &gameWork;
+    GameWork *scene = &g_game_work;
     u8 *anim_entry;
     u8 state;
     u32 result_flags;
@@ -198,7 +198,7 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
         }
         {
             void *sound_data = *(void **)&D_8006CD58[0];
-            soundSetCdCueParameters(0, sound_data, 0, 0x1000530);
+            sound_set_cd_cue_parameters(0, sound_data, 0, 0x1000530);
         }
         {
             s32 cd_value = func_800445E0();
@@ -214,7 +214,7 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
         GameWork *turn_scene;
         u16 old_angle;
 
-        turn_scene = &gameWork;
+        turn_scene = &g_game_work;
         old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
         index = ((turn_scene->view.viewAngle +
             ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
@@ -240,7 +240,7 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
         do {
             object_m = ((S_800253C0_4 *)message_text)->unk_AC;
             if ((((S_800253C0_5 *)object_m)->unk_14 & slot_value) != 0) {
-                dungeonBeginActorFlaggedAction(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
+                begin_actor_flagged_action(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
                     ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
             }
             object_index_m++;
@@ -252,7 +252,7 @@ void func_800253C0(void *sequence, void *position, void *actor, void *owner)
         return;
 
     case 3:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
         {
@@ -283,9 +283,9 @@ case 4:
         message_text = (s32)((u8 *)scene + 0xA8);
         object_index_m = 0;
         object_slot = sequence;
-        move_scene = &gameWork;
-        table_x = (s16 *)((s8 *)dirStepX);
-        table_y = (s16 *)((s8 *)dirStepY);
+        move_scene = &g_game_work;
+        table_x = (s16 *)((s8 *)dir_step_x);
+        table_y = (s16 *)((s8 *)dir_step_y);
         scene->view.unk_090 = brightness;
         ((u8 *)message_text)[1] = brightness;
         ((u8 *)message_text)[2] = brightness;
@@ -340,7 +340,7 @@ case 4:
         if (timer > 0) {
             return;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         {
             GameWork *snap_scene;
             s16 *snap_x;
@@ -348,9 +348,9 @@ case 4:
             void *final_slot;
             ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
             object_index_m = 0;
-            snap_scene = &gameWork;
-            snap_x = (s16 *)((s8 *)dirStepX);
-            snap_y = (s16 *)((s8 *)dirStepY);
+            snap_scene = &g_game_work;
+            snap_x = (s16 *)((s8 *)dir_step_x);
+            snap_y = (s16 *)((s8 *)dir_step_y);
             final_slot = sequence;
             do {
                 s32 table_index = (object_index_m << 11) - snap_scene->view.viewAngle;
@@ -385,7 +385,7 @@ case 4:
         if (timer > 0) {
             return;
         }
-        dungeonCreateAndLinkSixOffsetObjects(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
+        create_and_link_six_offset_objects(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
             ((S_800253C0_10 *)position)->unk_0A.s, actor);
         {
             coord_delta = 32;
@@ -410,7 +410,7 @@ case 4:
             void *call_position = position;
             void *call_actor = actor;
             object_m = ((S_800253C0_4 *)(void *)page_cursor)->unk_AC;
-            dungeonCreateSixOffsetEffects(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
+            create_six_offset_effects(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
             page_cursor += 4;
             object_index_m++;
         } while (object_index_m < 2);
@@ -422,13 +422,13 @@ case 4:
             texture_rect[1] = 0x180;
             texture_rect[3] = 0x40;
             texture_rect[2] = 0x40;
-            dungeonDrawTexturedEllipse(D_800287F0, texture_rect, 1, 0);
+            draw_textured_ellipse(D_800287F0, texture_rect, 1, 0);
         }
         return;
     }
 
     case 7:
-        dungeonProcessAdjacentObjectsWithGrayNodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
+        process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
@@ -445,7 +445,7 @@ case 4:
         }
 
     case 8:
-        dungeonProcessAdjacentObjectsWithGrayNodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
+        process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
@@ -453,22 +453,22 @@ case 4:
                 return;
             }
         }
-        if (hasEnoughAvailableRuntimeNodes(13) == 0) {
+        if (has_enough_available_runtime_nodes(13) == 0) {
             return;
         }
         {
-            s32 work = (s32)&gameWork;
-            s32 step_x = (s32)dirStepX;
-            s32 step_y = (s32)dirStepY;
-            message_id = func_800990FC();
-            message_text = dungeonWriteTextByteAndAdvance(8, message_id);
-            message_text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, message_text);
-            message_text = func_80099194(D_80025000, message_text);
-            message_text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, message_text);
-            message_text = func_80099194(D_80025024, message_text);
+            s32 work = (s32)&g_game_work;
+            s32 step_x = (s32)dir_step_x;
+            s32 step_y = (s32)dir_step_y;
+            message_id = get_unused_text_buffer();
+            message_text = write_text_byte_and_advance(8, message_id);
+            message_text = append_entity_display_text(((S_800253C0_0 *)sequence)->unk_AC, message_text);
+            message_text = expand_text_control_codes(D_80025000, message_text);
+            message_text = append_entity_display_text(((S_800253C0_0 *)sequence)->unk_B0, message_text);
+            message_text = expand_text_control_codes(D_80025024, message_text);
             {
                 object_m =
-                    dungeonSelectObjectByFlagsAndKeys(((S_800253C0_0 *)sequence)->unk_AC,
+                    select_object_by_flags_and_keys(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0,
                     &result_flags);
                 ((S_800253C0_1 *)owner)->unk_60 = object_m;
@@ -480,7 +480,7 @@ case 4:
                         object_slot = (u8 *)sequence + object_index_m * sizeof(void *);
                         slot_value = (s16)object_index_m;
                         other = ((S_800253C0_4 *)object_slot)->unk_AC;
-                        func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
+                        create_linked_objects(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_value, object_m == other);
                         if (object_m == ((S_800253C0_4 *)object_slot)->unk_AC) {
                             s32 angle;
@@ -492,7 +492,7 @@ case 4:
                             index = ((angle + 0x500) >> 8) & 0xE;
                             x = ((S_800253C0_8 *)actor)->unk_24 + *(s16 *)(index + step_x);
                             y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(index + step_y);
-                            dungeonCreatePositionedGraphicObject((s16)((x << 6) + 0x20),
+                            create_positioned_graphic_object((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
                                 ((S_800253C0_1 *)owner)->unk_88, slot_value, object_m);
                         }
@@ -523,19 +523,19 @@ case 4:
                     ((S_800253C0_0 *)sequence)->unk_96.n = 38;
                     ((S_800253C0_0 *)sequence)->unk_9B.n++;
                 } else {
-                    message_text = dungeonWriteTextByteAndAdvance(10, message_text);
-                    message_text = func_80099194(D_80025028, message_text);
+                    message_text = write_text_byte_and_advance(10, message_text);
+                    message_text = expand_text_control_codes(D_80025028, message_text);
                     ((S_800253C0_0 *)sequence)->unk_96.n = 32;
                     ((S_800253C0_0 *)sequence)->unk_9B.n += 2;
                 }
             }
             func_80099290(message_text);
-            func_800A5720(message_id);
+            display_text_with_fullwidth_adjustment(message_id);
             return;
         }
 
     case 9:
-        dungeonProcessAdjacentObjectsWithGrayNodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
+        process_adjacent_objects_with_gray_nodes(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             void *object_slot = sequence;
             object_index_m = 0;
@@ -575,44 +575,44 @@ case 4:
                 void **text_slot;
                 void **removed_slot;
 
-                message_id = func_800990FC();
+                message_id = get_unused_text_buffer();
                 first_slot = (void **)((u8 *)sequence + 0xAC);
                 text_slot = first_slot;
                 if (*first_slot != object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 message_text = message_id;
-                message_text = func_80099734(*text_slot, message_text);
-                message_text = func_80099194(D_80025068, message_text);
+                message_text = append_entity_display_text(*text_slot, message_text);
+                message_text = expand_text_control_codes(D_80025068, message_text);
                 text_slot = first_slot;
                 if (*first_slot == object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
-                message_text = func_80099734(*text_slot, message_text);
-                message_text = func_80099194(D_80025024, message_text);
-                message_text = dungeonWriteStatusPrefixBytes(message_text);
+                message_text = append_entity_display_text(*text_slot, message_text);
+                message_text = expand_text_control_codes(D_80025024, message_text);
+                message_text = write_status_prefix_bytes(message_text);
                 message_text = func_80099290(message_text);
-                message_text = dungeonWriteTextByteAndAdvance(17, message_text);
-                func_800A5720(message_id);
-                object_m = dungeonMergeCreatureAbilitiesAndState(((S_800253C0_0 *)sequence)->unk_AC,
+                message_text = write_text_byte_and_advance(17, message_text);
+                display_text_with_fullwidth_adjustment(message_id);
+                object_m = merge_creature_abilities_and_state(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0, 0);
                 removed_slot = first_slot;
                 if (*first_slot == object_m) {
                     removed_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 *removed_slot = 0;
-                message_id = func_800990FC();
-                message_text = dungeonBuildStatusEffectNameList(object_m, message_id);
+                message_id = get_unused_text_buffer();
+                message_text = build_status_effect_name_list(object_m, message_id);
                 message_text = func_80099290(message_text);
-                func_800A5720(message_id);
+                display_text_with_fullwidth_adjustment(message_id);
             }
         }
         {
             GameWork *restore_scene;
             s16 *table_x;
             object_index_m = 0;
-            restore_scene = &gameWork;
-            table_x = (s16 *)((s8 *)dirStepX);
+            restore_scene = &g_game_work;
+            table_x = (s16 *)((s8 *)dir_step_x);
 loop_7:
             {
                 object_m =
@@ -634,12 +634,12 @@ loop_7:
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
                     ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
-                    y_table = (u8 *)((s8 *)dirStepY);
+                    y_table = (u8 *)((s8 *)dir_step_y);
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
                     ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
                     z = ((S_800253C0_10 *)position)->unk_0A.u;
                     ((S_800253C0_9 *)prim_m)->unk_0A.u = z;
-                    dungeonCreateFourGroupsOfAngularEffects(((S_800253C0_9 *)prim_m)->unk_02.s, ((S_800253C0_9 *)prim_m)->unk_06.s,
+                    create_four_groups_of_angular_effects(((S_800253C0_9 *)prim_m)->unk_02.s, ((S_800253C0_9 *)prim_m)->unk_06.s,
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index_m++;
@@ -769,7 +769,7 @@ loop_7:
 
     case 12:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
-        anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_s16 +
+        anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_C8.as_s16 +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
         func_80048A44(actor, *anim_entry, 0, 1);
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
@@ -782,11 +782,11 @@ loop_7:
         }
         {
             u16 value;
-            value = dungeonStatus.flags;
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.flags = value | 0x812;
+            value = g_dungeon_status.flags;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.flags = value | 0x812;
         }
-        ((S_800253C0_0 *)sequence)->unk_8C =dungeonHandlePlayerInput;
+        ((S_800253C0_0 *)sequence)->unk_8C =handle_player_input;
 
     }
     return;

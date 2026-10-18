@@ -44,15 +44,15 @@ typedef struct S_80173140_4 {
 typedef struct S_80173140_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in dungeonCreateScriptedEncounterObject */
+} S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in create_scripted_encounter_object */
 
 
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
 void func_80047784();         /* extern */
-void func_8009A028();                      /* extern */
-void func_8009A3D0();             /* extern */
-void func_800A9C18(void *, void *, void *, s32); /* extern */
+void unlink_entity_node();                      /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
 extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
 extern void *D_80175D54;
@@ -63,7 +63,7 @@ static __inline__ u16 active_flag(u32 value)
 }
 
 /* Create and initialize a dungeon object and store it as the active object. */
-void dungeonCreateScriptedEncounterObject(void) {
+void create_scripted_encounter_object(void) {
     s32 masked_flags;
     s32 flag_mask;
     s32 state_flags;
@@ -95,9 +95,9 @@ void dungeonCreateScriptedEncounterObject(void) {
         origin_y = D_80082E80.tileY;
         ((S_80173140_4 *)sprite)->unk_2C.s = &D_80173DA4;
         ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
-        func_800A9C18(object, object_attrs, sprite, 0);
+        initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.view.viewAngle + 0xD00)
+        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (g_game_work.view.viewAngle + 0xD00)
             >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
@@ -114,8 +114,8 @@ void dungeonCreateScriptedEncounterObject(void) {
         if (masked_flags) {
             cell_mask = 0x300;
         }
-        func_8009A3D0(cell_x, cell_y, cell_mask);
-        func_8009A028(st);
+        update_map_cell_flags_with_item_limit(cell_x, cell_y, cell_mask);
+        unlink_entity_node(st);
         D_80175D54 = object;
         ((S_80173140_0 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
     }

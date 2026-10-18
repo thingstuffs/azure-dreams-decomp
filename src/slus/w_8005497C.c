@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void soundAssignSequencePayloadSlot(s32 a0);
+extern void sound_assign_sequence_payload_slot(s32 a0);
 extern void func_80055BD8(s32 a0);
 
 /* Reports the low-byte event code and forwards an index for events 0x11, 0x12, 0x14 and 0x18. */
@@ -9,7 +9,7 @@ void func_8005497C(s32 event)
     s32 event_code = event & 0xFF;
     s32 event_index;
 
-    soundAssignSequencePayloadSlot(event_code);
+    sound_assign_sequence_payload_slot(event_code);
 
     switch (event_code) {
     case 0x11:

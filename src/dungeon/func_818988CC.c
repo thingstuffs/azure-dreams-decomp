@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void *dungeonCreateASpriteRandomRotationCopiesInitialData(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
+void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ovl_18b8824_818988CC_Object *obj;
     ovl_18b8824_818988CC_S_800240CC_0 *fields;
@@ -10,7 +10,7 @@ void *dungeonCreateASpriteRandomRotationCopiesInitialData(void *context, ovl_18b
 
     obj = (ovl_18b8824_818988CC_Object *)func_8003FC64(0x212);
     if (obj != 0) {
-        obj->callback = (void *)func_80024024;
+        obj->callback = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
         fields->unk_0C = context;
         fields->unk_10 = 0;

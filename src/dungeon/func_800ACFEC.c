@@ -5,10 +5,10 @@ typedef void (*ActorCallback)(void *, void *, void *, void *);
 
 extern ActorCallback D_800DF1E8[];
 
-extern void dungeonApplyMonsterKoyawData(void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern void dungeonUpdatePendingEntityAction(void *, void *, void *, void *);
-extern s16 func_800BCB04(u16, u16, s16);
+extern void apply_monster_koyaw_data(void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern void update_pending_entity_action(void *, void *, void *, void *);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -18,8 +18,8 @@ extern s16 func_800BCB04(u16, u16, s16);
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
-void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
-    u16 global_flags = dungeonStatus.flags;
+void update_actor_motion_and_rendering(u8 *actor, u8 *motion, u8 *render) {
+    u16 global_flags = g_dungeon_status.flags;
     u8 *actor_alias = actor;
     s16 old_state;
     ActorCallback callback;
@@ -38,7 +38,7 @@ void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
         return;
     }
 
-    dungeonUpdatePendingEntityAction(actor, motion, render, actor);
+    update_pending_entity_action(actor, motion, render, actor);
 
     callback = *(ActorCallback *)(actor + 0x8C);
     if (callback != 0) {
@@ -48,11 +48,11 @@ void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
     D_800DF1E8[U8_AT(actor, 0x9A)](actor, motion, render, actor);
 
     if ((s16)old_state != S8_AT(actor, 0x6D)) {
-        func_800AA36C(actor, motion, render, actor);
+        try_move_actor_to_valid_position(actor, motion, render, actor);
     }
 
     if (!(U16_AT(render, 0x14) & 0x8000)) {
-        dungeonApplyMonsterKoyawData((void *)U32_AT(actor, 0x1C), render + 0xC);
+        apply_monster_koyaw_data((void *)U32_AT(actor, 0x1C), render + 0xC);
     }
     U16_AT(render, 0x14) |= 0x7000;
 
@@ -69,7 +69,7 @@ void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
     S32_AT(actor, 0x90) += S32_AT(motion, 0x14);
 
     if (!(U16_AT(actor, 0x98) & 4) &&
-        (ground_height = func_800BCB04(
+        (ground_height = sample_terrain_surface_height(
              U16_AT(motion, 2),
              U16_AT(motion, 6),
              (s16)(U16_AT(actor_alias, 0x88) - 0x20))) < 0x200) {
@@ -88,7 +88,7 @@ void dungeonUpdateActorMotionAndRendering(u8 *actor, u8 *motion, u8 *render) {
         }
         if (U32_AT(actor_alias, 0x1C) & 0x40000000) {
             U32_AT(actor_alias, 0x1C) &= 0xBFFFFFFF;
-            ground_height = func_800BCB04(
+            ground_height = sample_terrain_surface_height(
                 (U8_AT(render, 0x24) << 6) | 0x20,
                 (U8_AT(render, 0x25) << 6) | 0x20,
                 (s16)(U16_AT(actor_alias, 0x88) - 0x20));

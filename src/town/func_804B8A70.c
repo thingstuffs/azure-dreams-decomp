@@ -7,7 +7,7 @@ typedef void (*Callback)(s32);
 
 
 /* Invoke both town callbacks with 1 and shift the position by (+32, -16). */
-void townRunSceneCallbackWithPositionShift(void)
+void run_scene_callback_with_position_shift(void)
 {
     D_80016000->unk_20->callback_248(1);
     D_80016000->unk_20->callback_244(1);

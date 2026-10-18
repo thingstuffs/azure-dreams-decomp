@@ -114,15 +114,15 @@ typedef struct S_func_81008664_12 {
 
 
 void func_80047784();
-void func_8009A21C();
+void cycle_map_cell_flags();
 s32 func_8009A2B8();
-void func_8009A3D0();
-s32 dungeonAdvanceStatusTimers();
-s32 selectDungeonSpawnTile();
-s32 func_800A56E0();
-void func_800AA53C();
-void dungeonReduceActorFoodMeter();
-s16 func_800BCB04();
+void update_map_cell_flags_with_item_limit();
+s32 advance_status_timers();
+s32 select_dungeon_spawn_tile();
+s32 play_sound_if_enabled();
+void refresh_actor_proximity_state();
+void reduce_actor_food_meter();
+s16 sample_terrain_surface_height();
 extern s16 D_8008146E;
 extern M2C_UNK D_80171058;
 extern u8 D_80174888[];
@@ -230,7 +230,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         if (partner_flags) {
             partner_tile_mask = 0x300;
         }
-        func_8009A3D0(partner_x, partner_y, partner_tile_mask);
+        update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
         sprite_x = sprite->unk_24;
         entity_flags = ((S_func_81008664_3 *)entity)->unk_1C;
         entity_flags &= 0x2000;
@@ -239,7 +239,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         if (entity_flags) {
             tile_mask = 0x300;
         }
-        func_8009A3D0(sprite_x, sprite_y, tile_mask);
+        update_map_cell_flags_with_item_limit(sprite_x, sprite_y, tile_mask);
         angle = 0xFFFB0000;
         cleared_flags = ((S_func_81008664_3 *)entity)->unk_1C;
         angle |= 0xFFFF;
@@ -262,7 +262,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
             actor->unk_9B = 2;
             return;
         }
-        x_step_table = ((u8 *)dirStepX);
+        x_step_table = ((u8 *)dir_step_x);
         step_offset = direction * 2;
         x_step_table = (u8 *) (step_offset + (u32) x_step_table);
         x_velocity = * (s16 *) x_step_table;
@@ -270,7 +270,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         x_velocity <<= 0x16;
         x_velocity = x_velocity / launch_duration;
         motion->unk_0C = x_velocity;
-        y_step_table = ((u8 *)dirStepY);
+        y_step_table = ((u8 *)dir_step_y);
         y_step_ptr = (s16 *) (step_offset + (u32) y_step_table);
         y_velocity = *y_step_ptr;
         y_velocity <<= 0x16;
@@ -280,7 +280,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         partner->unk_1C = (s32) (partner->unk_1C & 0xFFFBFFFF);
         partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
         anim_table0 = D_801748F0;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
@@ -304,13 +304,13 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         motion->unk_14 = -0x40000;
-        func_800A56E0(0x802);
+        play_sound_if_enabled(0x802);
         {
             fall_anim = 0x10;
             anim_table1 = D_801748F8;
             actor->unk_96 = fall_anim;
         }
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
@@ -342,7 +342,7 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
                 partner_sprite->unk_25 = saved_y;
                 goto place_actors;
             }
-            tile_type = (s16) selectDungeonSpawnTile(tile_x_ptr, &partner_sprite->unk_25);
+            tile_type = (s16) select_dungeon_spawn_tile(tile_x_ptr, &partner_sprite->unk_25);
             if (tile_type < 0) {
                 continue;
             }
@@ -358,15 +358,15 @@ void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_8
             }
             partner_sprite->unk_26 = (s8) tile_type;
             sprite->unk_26 = (s8) tile_type;
-            sprite->unk_24 = partner_sprite->unk_24 + dirStepX[direction];
-            sprite->unk_25 = partner_sprite->unk_25 + dirStepY[direction];
-            landing_height = func_800BCB04((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20,
+            sprite->unk_24 = partner_sprite->unk_24 + dir_step_x[direction];
+            sprite->unk_25 = partner_sprite->unk_25 + dir_step_y[direction];
+            landing_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20,
                 (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
             ((S_func_81008664_3 *)entity)->unk_88 = landing_height;
             if (landing_height >= 0x201) {
                 continue;
             }
-            partner_height = func_800BCB04((partner_sprite->unk_24 << 6) | 0x20, (partner_sprite->unk_25 << 6) | 0x20,
+            partner_height = sample_terrain_surface_height((partner_sprite->unk_24 << 6) | 0x20, (partner_sprite->unk_25 << 6) | 0x20,
                 (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
             partner->unk_88 = partner_height;
             if ((s16) partner_height >= 0x201) {
@@ -391,14 +391,14 @@ place_actors:
         motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10)
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
         anim_table2 = D_801748F8;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         direction_slot = &((LocalSpriteFieldView_81008664 *)sprite)->field_2C;
         *direction_slot = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
         func_80047784(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
-        func_800AA53C(entity);
-        func_800AA53C(partner);
+        refresh_actor_proximity_state(entity);
+        refresh_actor_proximity_state(partner);
         actor->unk_9B = actor->unk_9B + 1;
         return;
     case 3:
@@ -436,8 +436,8 @@ place_actors:
             direction = angle_or_duration >> 8;
             return_step_offset = direction & 0xE;
             angle_or_duration = 8;
-            motion->unk_0C = -(((S_func_81008664_10 *)((u8 *)dirStepX + return_step_offset))->unk_00 << 0x16) / angle_or_duration;
-            motion->unk_10 = -(((S_func_81008664_10 *)((u8 *)dirStepY + return_step_offset))->unk_00 << 0x16) / actor->unk_96;
+            motion->unk_0C = -(((S_func_81008664_10 *)((u8 *)dir_step_x + return_step_offset))->unk_00 << 0x16) / angle_or_duration;
+            motion->unk_10 = -(((S_func_81008664_10 *)((u8 *)dir_step_y + return_step_offset))->unk_00 << 0x16) / actor->unk_96;
             partner_motion->unk_14 = 0;
             motion->unk_14 = 0;
             actor->unk_9B = actor->unk_9B + 1;
@@ -462,14 +462,14 @@ place_actors:
         motion->unk_04 = final_y;
         saved_handler = actor->unk_AC;
         partner_actor->unk_8C = saved_handler;
-        dungeonReduceActorFoodMeter(reset_entity, 0x100);
+        reduce_actor_food_meter(reset_entity, 0x100);
         next_handler = &D_80171058;
         actor->unk_8C = next_handler;
-        active_count = ((u16)dungeonStatus.unk_0A);
+        active_count = ((u16)g_dungeon_status.unk_0A);
         finish_entity = entity;
         active_count -= 1;
-        dungeonStatus.unk_0A = active_count;
-        dungeonAdvanceStatusTimers(finish_entity);
+        g_dungeon_status.unk_0A = active_count;
+        advance_status_timers(finish_entity);
         ((S_func_81008664_1 *)actor)->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
 
         {
@@ -489,7 +489,7 @@ place_actors:
             if (restore_flags) {
                 restore_tile_mask = 0x300;
             }
-            func_8009A21C(restore_x, restore_y, restore_tile_mask);
+            cycle_map_cell_flags(restore_x, restore_y, restore_tile_mask);
         }
         {
             u32 restore_flags;
@@ -504,10 +504,10 @@ place_actors:
             if (restore_flags) {
                 restore_partner_mask = 0x300;
             }
-            func_8009A21C(restore_x, restore_y, restore_partner_mask);
+            cycle_map_cell_flags(restore_x, restore_y, restore_partner_mask);
         }
         anim_table3 = D_80174888;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;

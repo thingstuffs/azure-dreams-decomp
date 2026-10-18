@@ -13,13 +13,13 @@ typedef struct S_80035760_0 {
     M2C_UNK * unk_68;
     u8 pad_6C[0x8];
     u8 * unk_74;
-} S_80035760_0;   /* arg0 in runtimeResetStateAndAdvanceCallback */
+} S_80035760_0;   /* arg0 in runtime_reset_state_and_advance_callback */
 
 
-extern M2C_UNK runtimeAssignCode101Callback;
+extern M2C_UNK runtime_assign_code_101_callback;
 
 /* Reset the state bytes and advance the callback when the shared flag or state requests it. */
-void runtimeResetStateAndAdvanceCallback(S_80035760_0 *state) {
+void runtime_reset_state_and_advance_callback(S_80035760_0 *state) {
     u8 *shared_flag;
 
     shared_flag = state->unk_74;
@@ -28,6 +28,6 @@ void runtimeResetStateAndAdvanceCallback(S_80035760_0 *state) {
         state->unk_4C = 0xFE;
         state->unk_4D = 0xFE;
         state->unk_51 = 0U;
-        state->unk_68 = &runtimeAssignCode101Callback;
+        state->unk_68 = &runtime_assign_code_101_callback;
     }
 }

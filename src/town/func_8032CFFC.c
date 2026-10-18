@@ -2,18 +2,18 @@
 
 typedef s32 M2C_UNK;
 
-extern s32 townResolveEntryFlag();
-extern s32 townApplyEntryPosition();
+extern s32 resolve_entry_flag();
+extern s32 apply_entry_position();
 extern M2C_UNK D_8001BB7C;
 extern M2C_UNK D_8001C358;
 extern u8 D_8001E891;
 
 /* Process the selected entry and return its result or the override pointer. */
-s32 townDispatchEntryOrReturnOverride(s32 context, s32 unused, M2C_UNK entry_id) {
+s32 dispatch_entry_or_return_override(s32 context, s32 unused, M2C_UNK entry_id) {
     M2C_UNK entry_result;
 
-    entry_result = townApplyEntryPosition(&D_8001BB7C, &D_8001C358, context, entry_id);
-    return townResolveEntryFlag(&D_8001BB7C, context, entry_id) != 0
+    entry_result = apply_entry_position(&D_8001BB7C, &D_8001C358, context, entry_id);
+    return resolve_entry_flag(&D_8001BB7C, context, entry_id) != 0
         ? (s32)&D_8001E891
     : entry_result;
 }

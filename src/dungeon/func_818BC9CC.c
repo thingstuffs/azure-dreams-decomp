@@ -154,10 +154,10 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     s16 tile_window[4];
     s16 full_window[4];
 
-    render_state = &gameWork;
+    render_state = &g_game_work;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->view.viewAngle;
-    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&gameWork)))->unk_00 + 0xB0;
+    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&g_game_work)))->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     texture_v = (effect->unk_04 % 4) << 3;

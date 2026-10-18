@@ -21,7 +21,7 @@ typedef struct S_8016738C_0 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_8016738C_0;   /* node in dungeonCreateColorCyclingPulse */
+} S_8016738C_0;   /* node in create_color_cycling_pulse */
 
 typedef struct S_8016738C_1 {
     u8 pad_00[0x6];
@@ -37,22 +37,22 @@ typedef struct S_8016738C_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016738C_1;   /* ctrl in dungeonCreateColorCyclingPulse */
+} S_8016738C_1;   /* ctrl in create_color_cycling_pulse */
 
 typedef struct S_8016738C_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8016738C_2;   /* dst in dungeonCreateColorCyclingPulse */
+} S_8016738C_2;   /* dst in create_color_cycling_pulse */
 
 typedef struct S_8016738C_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8016738C_3;   /* arg0 in dungeonCreateColorCyclingPulse */
+} S_8016738C_3;   /* arg0 in create_color_cycling_pulse */
 
 /* Create and initialize an object at the supplied position with a fixed Z offset. */
-void dungeonCreateColorCyclingPulse(S_8016738C_3 *origin)
+void create_color_cycling_pulse(S_8016738C_3 *origin)
 {
     void *object;
     S_8016738C_2 *position;

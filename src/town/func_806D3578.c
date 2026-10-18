@@ -3,7 +3,7 @@
 
 
 /* Returns the indexed flag's bit mask, with indices 0 and 1 returning themselves. */
-s32 func_80016D78(s32 flagIndex)
+s32 select_data_array_based_flag(s32 flagIndex)
 {
     s32 wordIndex;
     s32 result;

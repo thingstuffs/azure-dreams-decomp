@@ -4,7 +4,7 @@
 
 void func_80150100(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonPropagateActorActionFlag(state, motion, position, actor) > 0) {
+    if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = func_8014CE54;
     }
 }

@@ -7,17 +7,17 @@ typedef struct S_8080BCD4_0 {
     void * unk_04;
     u8 pad_08[0xE];
     u16 unk_16;
-} S_8080BCD4_0;   /* ptr in townAdvanceDelayedPanelLine */
+} S_8080BCD4_0;   /* ptr in advance_delayed_panel_line */
 
 typedef struct S_8080BCD4_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8080BCD4_1;   /* context in townAdvanceDelayedPanelLine */
+} S_8080BCD4_1;   /* context in advance_delayed_panel_line */
 
 
 extern s32 D_80084D5C;
 
-void townAdvanceDelayedPanelLine(void *ptr) {
+void advance_delayed_panel_line(void *ptr) {
     s16 state;
     u16 remaining;
     u16 next_state;

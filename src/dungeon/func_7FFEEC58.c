@@ -1,7 +1,7 @@
 #include "common.h"
 
 // Returns the sign of a weighted sum of the selected entry's first two components divided by 4096.
-s32 townDotSignWithTruncatedQ12Coefficients(s32 *entries, s32 entryIndex, s16 *weights) {
+s32 dot_sign_with_truncated_q_12_coefficients(s32 *entries, s32 entryIndex, s16 *weights) {
     s32 *selectedEntry;
     s32 weightedSum;
 

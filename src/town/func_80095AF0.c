@@ -10,38 +10,38 @@ typedef struct {
 
 extern u8 D_800CFCEF;
 
-extern void townInitializeSceneActionRecord(void *, TownObject *, void *);
-extern void townStoreTheValidSharedAngleInOffsetHex10(void *);
-extern void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(TownObject *);
-extern void townAddHex20000SSignedOffsetHex14(TownObject *);
-extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(TownObject *);
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(TownObject *, void *);
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(TownObject *, s16, void *);
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(TownObject *);
+extern void initialize_scene_action_record(void *, TownObject *, void *);
+extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
+extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
+extern void add_hex_20000_s_signed_offset_hex_14(TownObject *);
+extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *);
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(TownObject *, void *);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(TownObject *, s16, void *);
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(TownObject *);
 
 /* Updates a town object based on its computed threshold and the global flag. */
-void townUpdateThresholdObject(void *context, TownObject *object, void *update_data)
+void update_threshold_object(void *context, TownObject *object, void *update_data)
 {
     s16 threshold;
     u8 *threshold_data;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
-    townStoreTheValidSharedAngleInOffsetHex10(context);
-    townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(object);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
+    store_the_valid_shared_angle_in_offset_hex_10(context);
+    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
     threshold_data = ((u8 *)&D_800FE488);
-    threshold = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(object, threshold_data);
+    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, threshold_data);
 
     if (object->field_A >= threshold) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(object, threshold, threshold_data);
-        townInitializeSceneActionRecord(context, object, update_data);
+        compute_and_clamps_vector_based_adjustment_updates_town(object, threshold, threshold_data);
+        initialize_scene_action_record(context, object, update_data);
         return;
     }
 
     if (D_800CFCEF != 0) {
         object->field_14 = 0;
-        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(object);
-        townInitializeSceneActionRecord(context, object, update_data);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
+        initialize_scene_action_record(context, object, update_data);
     } else {
-        townAddHex20000SSignedOffsetHex14(object);
+        add_hex_20000_s_signed_offset_hex_14(object);
     }
 }

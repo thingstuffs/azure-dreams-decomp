@@ -3,15 +3,15 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-   /* obj in dungeonSpawnOwnerRandomVariantEffect */
+   /* obj in spawn_owner_random_variant_effect */
 
-   /* render in dungeonSpawnOwnerRandomVariantEffect */
+   /* render in spawn_owner_random_variant_effect */
 
-   /* owner in dungeonSpawnOwnerRandomVariantEffect */
+   /* owner in spawn_owner_random_variant_effect */
 
-   /* transform in dungeonSpawnOwnerRandomVariantEffect */
+   /* transform in spawn_owner_random_variant_effect */
 
-   /* dst in dungeonSpawnOwnerRandomVariantEffect */
+   /* dst in spawn_owner_random_variant_effect */
 
 
 
@@ -20,7 +20,7 @@
 
 
 /* Spawn a 0x212 effect object for the owner with a random variant and spin, and copy the transform into it. */
-s32 dungeonSpawnOwnerRandomVariantEffect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
+s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform) {
     s32 roll;
     s32 random;
     s32 adjusted;
@@ -34,7 +34,7 @@ s32 dungeonSpawnOwnerRandomVariantEffect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_8
 
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
-        update_handler = func_800250E8;
+        update_handler = update_spark_effect;
         part = obj + 0x20;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_10 = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;

@@ -66,16 +66,16 @@ typedef struct Global_80090854 {
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
-extern s32 townCheckScratchQuadHalfTurnGaps(Scratch_80090854 *);
+extern s32 check_scratch_quad_half_turn_gaps(Scratch_80090854 *);
 
 /* Finds the greatest cell-plane intersection within the query position's search limit. */
-s32 townFindGreatestCellIntersection(s16 query_x, u16 query_y, u16 query_z)
+s32 find_greatest_cell_intersection(s16 query_x, u16 query_y, u16 query_z)
 {
     Scratch_80090854 *scratch = (Scratch_80090854 *)0x1F800000;
     s16 scan_z;
     s16 scan_x;
     s32 block = (s16)(query_x & -0x40);
-    Global_80090854 *global = ((Global_80090854 *)&gameWork);
+    Global_80090854 *global = ((Global_80090854 *)&g_game_work);
     Map_80090854 *map;
     u16 *tiles;
     Vec_80090854 *vertices;
@@ -202,7 +202,7 @@ s32 townFindGreatestCellIntersection(s16 query_x, u16 query_y, u16 query_z)
                             vertex_delta -= (u16)scratch->z;
                             scratch->quad[7] = vertex_delta;
 
-                            if (townCheckScratchQuadHalfTurnGaps(scratch) != 0) {
+                            if (check_scratch_quad_half_turn_gaps(scratch) != 0) {
                                 u16 plane_index = cell->plane;
                                 u16 vertex_index = cell->v0;
                                 register Vec_80090854 *plane;

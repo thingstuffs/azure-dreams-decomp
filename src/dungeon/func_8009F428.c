@@ -8,7 +8,7 @@ typedef struct S_800A4B88_0_pre {
     s32 unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in dungeonApplyEntityActionFlags, addressed as arg0[-1] */
+} S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in apply_entity_action_flags, addressed as arg0[-1] */
 
 
 typedef struct S_800A4B88_1 {
@@ -22,16 +22,16 @@ typedef struct S_800A4B88_1 {
 void func_8003DB94();     /* extern */
 M2C_UNK func_8003E188();            /* extern */
 void func_80041E70();                      /* extern */
-void dungeonRestorePlayerControlCallback();              /* extern */
-void func_8009A21C();             /* extern */
-void func_8009A3D0();             /* extern */
-void dungeonBeginActorFlaggedAction(); /* extern */
-void *dungeonResetActorAnimationState();                      /* extern */
+void restore_player_control_callback();              /* extern */
+void cycle_map_cell_flags();             /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+void begin_actor_flagged_action(); /* extern */
+void *reset_actor_animation_state();                      /* extern */
 extern s32 D_80083110[];
 extern u8 D_800DD274[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
-void dungeonApplyEntityActionFlags(void *object, s32 action) {
+void apply_entity_action_flags(void *object, s32 action) {
     s32 clear_mask;
     s32 enable_clear_mask;
     s32 set_mask;
@@ -79,7 +79,7 @@ void dungeonApplyEntityActionFlags(void *object, s32 action) {
         if (((EntityRec *)object)->flags1C & 0x2000) {
             clear_mask = 0x300;
         }
-        func_8009A3D0(tile_x, tile_y, clear_mask);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
         break;
     case 10:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
@@ -89,7 +89,7 @@ void dungeonApplyEntityActionFlags(void *object, s32 action) {
         if (((EntityRec *)object)->flags1C & 0x2000) {
             enable_clear_mask = 0x300;
         }
-        func_8009A3D0(tile_x, tile_y, enable_clear_mask);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
         updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
         ((EntityRec *)object)->flags1C = updated_flags;
         tile_x = ((S_800A4B88_1 *)position)->unk_24;
@@ -98,7 +98,7 @@ void dungeonApplyEntityActionFlags(void *object, s32 action) {
         if (updated_flags & 0x2000) {
             set_mask = 0x300;
         }
-        func_8009A21C(tile_x, tile_y, set_mask);
+        cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
     case 11:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
@@ -108,28 +108,28 @@ void dungeonApplyEntityActionFlags(void *object, s32 action) {
         if (((EntityRec *)object)->flags1C & 0x2000) {
             disable_clear_mask = 0x300;
         }
-        func_8009A3D0(tile_x, tile_y, disable_clear_mask);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
         ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
         tile_x = ((S_800A4B88_1 *)position)->unk_24;
         tile_y = ((S_800A4B88_1 *)position)->unk_25;
         set_mask = 0x3000;
-        func_8009A21C(tile_x, tile_y, set_mask);
+        cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;
     case 9:
         func_8003E188(0x2E, 0);
         if (((EntityRec *)object)->flags14 & 0x20000000) {
-            dungeonBeginActorFlaggedAction(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
+            begin_actor_flagged_action(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
                 object);
             return;
         }
-        dungeonResetActorAnimationState(object);
+        reset_actor_animation_state(object);
         if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
             break;
         }
-        dungeonRestorePlayerControlCallback(object, object);
+        restore_player_control_callback(object, object);
         update_state = &D_80082E80;
         (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
-        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.viewAngle + (((EntityRec *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = D_80083110;
         reset_slot += 3;

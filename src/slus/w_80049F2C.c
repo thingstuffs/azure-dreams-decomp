@@ -12,7 +12,7 @@ typedef struct {
 } S_80049F2C;
 
 /* Move the current position halfway toward the target position. */
-void menuMoveThePositionHalfwayTowardTargetPosition(S_80049F2C *position) {
+void menu_move_the_position_halfway_toward_target_position(S_80049F2C *position) {
     s32 delta_x, delta_y;
     delta_x = position->target_x - position->x;
     position->x = position->x + (delta_x >> 1);

@@ -3,7 +3,7 @@
 extern void func_8004E994();
 
 /* Clear words referenced by three pointer arrays, notifying func_8004E994 for the first array. */
-void func_80024E44(void *object) {
+void draw_cylindrical(void *object) {
     s32 slot_index;
     void *four_slot_base;
     void *ten_slot_base;

@@ -8,7 +8,7 @@ extern void *func_800373DC();
 extern u8 D_8052FEDC[];
 
 /* Create an object and assign its data pointer and supplied value. */
-void townCreateValueObject(s16 object_value) {
+void create_value_object(s16 object_value) {
     void *object;
 
     object = func_800373DC(2);

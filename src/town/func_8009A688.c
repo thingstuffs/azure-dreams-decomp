@@ -7,7 +7,7 @@ extern s32 func_800352FC(void);
 extern s32 *D_800D0508[];
 extern s32 *D_800FE5D8[3];
 
-void townDispatchStateCallbackByMode(s32 value, void *ptr, void *ptr2, void *unused) {
+void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, void *unused) {
     u8 *state;
     Callback callback;
     s8 status;

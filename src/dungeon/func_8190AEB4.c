@@ -8,18 +8,18 @@ typedef struct S_8190AEB4_0 {
     u8 pad_04[0x2C];
     union { void * s; u8 * u; } unk_30;   /* accessed as both */
     void * unk_34;
-} S_8190AEB4_0;   /* arg0 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
+} S_8190AEB4_0;   /* arg0 in advance_the_animation_draws_rectangles_in_randomized_order */
 
 typedef struct S_8190AEB4_1 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_8190AEB4_1;   /* arg2 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
+} S_8190AEB4_1;   /* arg2 in advance_the_animation_draws_rectangles_in_randomized_order */
 
 typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder */
+} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
 
 
 
@@ -28,11 +28,11 @@ extern s32 D_80025638[4];
 extern u8 D_80025648[48];
 extern u8 D_80025678[44];
 
-extern s32 dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(s32);
+extern s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32);
 extern void func_800672D8(Rect *, s32 *);
 
 /* Advances the object animation and draws rectangles in randomized order. */
-void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s32 *position, void *transform)
+void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform)
 {
     Rect rect;
     Rect draw_rect;
@@ -60,7 +60,7 @@ void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s3
     case 0:
         center.x = rect.x + ((s16)rect.w >> 1);
         center.y = rect.y + 0x48;
-        func_800B8FC8(((S_8190AEB4_0 *)effect)->unk_30.s, &rect, &center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(((S_8190AEB4_0 *)effect)->unk_30.s, &rect, &center, 1, 1);
 
         model = ((S_8190AEB4_0 *)effect)->unk_30.u;
         source_position = *(s32 **)(model - 0x18);
@@ -159,7 +159,7 @@ void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s3
             shuffle_order = D_80025648;
             slot_2 = shuffle_order + entry;
             saved_entry = *slot_2;
-            order_index = dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(0x30);
+            order_index = get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(0x30);
             *slot_2 = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -167,7 +167,7 @@ void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s3
             shuffle_order = D_80025678;
             slot = shuffle_order + entry;
             saved_entry = *slot;
-            order_index = dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(0x2C);
+            order_index = get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(0x2C);
             *slot = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
@@ -204,7 +204,7 @@ void dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder(void *effect, s3
         }
         ((S_8190AEB4_2 *)(((S_8190AEB4_0 *)effect)->unk_34))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
     }

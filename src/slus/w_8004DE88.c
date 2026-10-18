@@ -4,7 +4,7 @@ extern u32 D_80083D88[0x24];
 extern char D_80083E18[0x100];
 
 /* Builds and dispatches a message with control codes and two embedded addresses. */
-void runtimeDispatchControlCodedMessage(char *message)
+void runtime_dispatch_control_coded_message(char *message)
 {
     char *cursor;
     u32 address;

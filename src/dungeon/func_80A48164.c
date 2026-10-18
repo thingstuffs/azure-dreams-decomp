@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonUpdateActorObjectMotion(void *motion, void *unused, void *actor, void *path_state)
+void update_actor_object_motion(void *motion, void *unused, void *actor, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -21,7 +21,7 @@ void dungeonUpdateActorObjectMotion(void *motion, void *unused, void *actor, voi
         (*(u8 * *)((u8 *)actor + 0x2C)) = ((u8 *)D_8017586C);
         func_80047784(
             actor,
-            ((u8 *)D_8017586C)[((gameWork.view.viewAngle + ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)D_8017586C)[((g_game_work.view.viewAngle + ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -31,7 +31,7 @@ void dungeonUpdateActorObjectMotion(void *motion, void *unused, void *actor, voi
     if (((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, tile_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     ((R06_80171964_S_8017169C_1 *)actor)->unk_24 =
         ((R06_80171964_S_8017169C_3 *)((u8 *)path_state + ((R06_80171964_S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
@@ -45,16 +45,16 @@ void dungeonUpdateActorObjectMotion(void *motion, void *unused, void *actor, voi
     if (((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, tile_mask);
+    cycle_map_cell_flags(new_x, new_y, tile_mask);
 
-    ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A = ((s16)dungeonGetRoundedFacingAndRoundingFlag(
+    ((R06_80171964_S_8017169C_0 *)path_state)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, ((R06_80171964_S_8017169C_1 *)actor)->unk_24, ((R06_80171964_S_8017169C_1 *)actor)->unk_25,
         (u8 *)motion + 0x98));
     ((R06_80171964_S_8017169C_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((R06_80171964_S_8017169C_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((R06_80171964_S_8017169C_2 *)motion)->unk_96 = 0;
         return;
     }

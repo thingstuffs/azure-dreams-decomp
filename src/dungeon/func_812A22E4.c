@@ -1,8 +1,8 @@
 #define func_80173A48 func_8014EA48
-#define dungeonClearEntryFlagAndLinkOwner func_80098DDC
+#define clear_entry_flag_and_link_owner func_80098DDC
 #define D_800E3D7C D_800E397C
 #define D_80174710 D_8014F710
-/* Relink of matched dungeon/dungeonProcessGlobalEffectSlots at file 0x12742E4; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/process_global_effect_slots at file 0x12742E4; imports and data use paired retail relocations. */
 #include "common.h"
 #include "shared/record_ptrs.h"
 

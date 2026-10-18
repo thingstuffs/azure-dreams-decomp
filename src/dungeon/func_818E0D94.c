@@ -51,7 +51,7 @@ void func_80024594(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_8008
     transform.field10 = *(Row_818E0D94_Unaligned8 *)((u8 *)effect + 0x0C);
     transform.field18 = 1;
     transform.field1A = 0;
-    dungeonTransformRotatedVertices(&transform);
+    transform_rotated_vertices(&transform);
 
     position->unk_02 = offset.x;
     position->unk_06 = offset.y;

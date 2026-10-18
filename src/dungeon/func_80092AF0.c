@@ -8,7 +8,7 @@ typedef struct {
 } UnkStruct;
 
 /* Return the adjusted value clamped to the range 0 through 99. */
-s16 dungeonClampAdjustedValue0To99(UnkStruct *entity) {
+s16 clamp_adjusted_value_0_to_99(UnkStruct *entity) {
     s16 adjusted_value;
 
     adjusted_value = entity->unk86;

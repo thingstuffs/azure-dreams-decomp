@@ -15,7 +15,7 @@
  * town100_79380C (0x79380C..0x7938C0) and town100_7946C8 (0x7946C8..0x794CC4).
  * Landing needs a config/overlays/town.rowbase.jsonl record for
  * foff [0x7941B8,0x794610) with delta 0x7FD9AC00; the function is then named
- * townRunScheduledThreeActorDisplay (true-space naming), as it is here.
+ * run_scheduled_three_actor_display (true-space naming), as it is here.
  *
  * One non-obvious spelling is load-bearing (gcc 2.6.3 sched.c alias model):
  *  1) `*(u16 *)((u8 *)town_state + 26)` at the top of state1 instead of town_state->flags.
@@ -53,7 +53,7 @@ extern void func_8003F8A8(s32);
 extern void func_8024A884(void);
 extern void func_8024A900(void);
 extern s32 func_80071494(void);
-extern void func_8052E4C0(u32, s32, s32, s32);
+extern void create_object_position_configures_color(u32, s32, s32, s32);
 extern void func_80050BFC(s32);
 extern void func_80050BD8(s32);
 extern void func_8003F75C(s32);
@@ -75,7 +75,7 @@ extern s32 D_805305B0;
 extern s32 D_805305B4;
 
 /* Per-frame town-state step: run the arrival/idle/departure machine and drive its actors. */
-void townRunScheduledThreeActorDisplay(TownState *town_state)
+void run_scheduled_three_actor_display(TownState *town_state)
 {
     TownActor *actor;
     s32 i;
@@ -173,7 +173,7 @@ void townRunScheduledThreeActorDisplay(TownState *town_state)
             for (i = 7; i >= 0; i--) {
                 x = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[0];
                 y = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[1];
-                func_8052E4C0(0x00F0F0F0, x, y, 0);
+                create_object_position_configures_color(0x00F0F0F0, x, y, 0);
             }
         }
         if (town_state->flags & 2) {

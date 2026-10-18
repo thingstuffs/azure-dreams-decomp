@@ -2,6 +2,6 @@
 
 
 /* Forwards the value to func_8006005C with a zero first argument. */
-s32 func_80177958(void (*callback)(void)) {
+s32 register_mode_zero_callback(void (*callback)(void)) {
     return func_8006005C(0, callback);
 }

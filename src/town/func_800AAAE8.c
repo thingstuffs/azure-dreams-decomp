@@ -10,7 +10,7 @@ extern s32 D_800D0428;
 extern void func_80033D08(void *object);
 
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
-void townCopyAdjustedVectorOrFlagObject(void *object, s32 *out_vector)
+void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector)
 {
     s32 *state_refs = D_800834B8;
 
@@ -18,7 +18,7 @@ void townCopyAdjustedVectorOrFlagObject(void *object, s32 *out_vector)
         (state_refs[1] != (s32)&D_80097EA0)) {
         func_80033D08(object);
         *(u16 *)((u8 *)object - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

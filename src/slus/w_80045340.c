@@ -27,7 +27,7 @@ typedef struct S_80045340_Entry {
     u8 pad1C[4];
 } S_80045340_Entry; /* size >= 0x20 */
 
-extern s32 isFramePacketArenaOverflowed(u32 a0);
+extern s32 is_frame_packet_arena_overflowed(u32 a0);
 
 /* Scratchpad hardware-flag word at fixed address 0x1F80013C, reached by casting the
  * scratchpad base (0x1F800000) to a padded struct so gcc folds the whole address into
@@ -50,7 +50,7 @@ s32 func_80045340(void *group_data, s32 context, S_80045340_Entry *entry, s32 un
     for (;;) {
         if (!(current_entry->unk14 & 0x80)) {
             func_800453E0(current_data, (void *)context, (Entry *)current_entry, current_entry->unk06);
-            if (isFramePacketArenaOverflowed(((S_80045340_Target *)D_80083160[0])->unk8D0)) {
+            if (is_frame_packet_arena_overflowed(((S_80045340_Target *)D_80083160[0])->unk8D0)) {
                 return 0;
             }
         }

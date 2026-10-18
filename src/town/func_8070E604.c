@@ -3,8 +3,8 @@
 
 
 extern void func_80016CC4(void);
-extern void func_80016DBC(void);
-extern void townUpdateEntryFlags(void);
+extern void initialize_resources_assigns_pointer_lookup(void);
+extern void update_entry_flags(void);
 extern s32 func_8001991C(s32, s32);
 extern void func_8001A554(s32);
 extern void func_8001A7AC(void);
@@ -12,22 +12,22 @@ extern void func_8001A7AC(void);
 typedef struct S_80017604_0 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_80017604_0;   /* *(void **)D_80016000 in func_80017604 */
+} S_80017604_0;   /* *(void **)D_80016000 in run_three_teardown_passes */
 
 typedef struct S_80017604_1 {
     u8 pad_00[0x2F8];
     void (*unk_2F8)(s32, s32);
-} S_80017604_1;   /* ((S_80017604_0 *)(*(void **)D_80016000))->unk_20 in func_80017604 */
+} S_80017604_1;   /* ((S_80017604_0 *)(*(void **)D_80016000))->unk_20 in run_three_teardown_passes */
 
 
 /* Run the three teardown passes; when the check fails, stop the scene object and report failure. */
-s32 func_80017604(s32 kind, s32 value)
+s32 run_three_teardown_passes(s32 kind, s32 value)
 {
     s32 result;
 
     func_80016CC4();
-    func_80016DBC();
-    townUpdateEntryFlags();
+    initialize_resources_assigns_pointer_lookup();
+    update_entry_flags();
     if (func_8001991C(kind, value) == 0) {
         func_8001A7AC();
         ((S_80017604_1 *)(((S_80017604_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20))

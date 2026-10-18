@@ -257,13 +257,13 @@ typedef struct S_func_81886800_19 {
 } S_func_81886800_19;
 
 
-extern void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
+extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 extern s32 set_item_w0(s32, s32, s32, s32);
-extern s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s32);
+extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern void func_80065F90(s32, s32);
-extern void dungeonCheckTheTargetUsingScaledLowByteConditionallyAppliesGlobal800E1D01(s32, s32, void *);
+extern void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(s32, s32, void *);
 
 extern u8 D_8002632C[];
 extern u8 D_80026344[];
@@ -272,7 +272,7 @@ extern u8 D_80026878[];
 void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_18a6800_entry)(S_func_81886800_1 *, S_func_81886800_11 *, S_func_81886800_3 *) = func_80024064;
 
@@ -296,7 +296,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     case 0:
     texture_rect[0] = 0x01000340;
     texture_rect[1] = 0x00200020;
-    dungeonDrawTexturedEllipse(D_8002632C, texture_rect, 1, 0);
+    draw_textured_ellipse(D_8002632C, texture_rect, 1, 0);
 
     sprite->unk_0C.u32 = 0x00808080;
     sprite->unk_1E = 0x555;
@@ -369,7 +369,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
                 direction = effect->unk_16.s16;
                 target_data = ((S_func_81886800_13 *)((u8 *)(owner) - 0x14))->unk_00;
                 tile_coord = target_data->unk_24 +
-                        ((u8 *)dirStepX)[(s32)direction * 2];
+                        ((u8 *)dir_step_x)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1E.u8 = tile_coord;
                 effect->unk_20.parts.unk_20 = tile_coord;
             }
@@ -378,7 +378,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
                 u8 tile_coord;
                 direction = effect->unk_16.s16;
                 tile_coord = target_data->unk_25 +
-                        ((u8 *)dirStepY)[(s32)direction * 2];
+                        ((u8 *)dir_step_y)[(s32)direction * 2];
                 effect->unk_1C.parts.unk_1E.parts.unk_1F.u8 = tile_coord;
                 effect->unk_20.parts.unk_21 = tile_coord;
             }
@@ -410,12 +410,12 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         effect->unk_10.u16 = owner->unk_88.u16 - 80;
     }
     {
-        u8 *x_offsets = ((u8 *)dirStepX);
+        u8 *x_offsets = ((u8 *)dir_step_x);
         s16 direction = effect->unk_16.s16;
         motion->unk_0C.parts.unk_0E.u16 =
             ((S_func_81886800_14 *)(x_offsets + (s32)direction * 2))->unk_00 * 8;
         {
-            u8 *y_offsets = ((u8 *)dirStepY);
+            u8 *y_offsets = ((u8 *)dir_step_y);
             s16 y_direction = effect->unk_16.s16;
             motion->unk_10.parts.unk_12.u16 =
                 ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;
@@ -457,7 +457,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         s32 bob_offset = func_800644B8((s32)effect->unk_18.s16 << 7);
         motion->unk_08.s32 += bob_offset << 6;
     }
-    dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(motion, sprite);
+    handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
     {
         s32 tile_coord = motion->unk_00.parts.unk_02.s16;
         if (tile_coord < 0) {
@@ -480,7 +480,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
             target_distance = (s16)target_distance;
             if (target_distance < 5) {
                 effect->unk_58 = 1;
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
             }
         }
     }
@@ -499,7 +499,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
                 motion->unk_04.parts.unk_06.s16 = (coordinate << 6) + 0x20;
             }
             motion->unk_08.parts.unk_0A = effect->unk_10.u16;
-            dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(snapped_motion, sprite);
+            handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(snapped_motion, sprite);
             {
                 u16 next_state = effect->unk_0A.u16;
                 u16 target_id =
@@ -523,7 +523,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         if ((timer << 16) != 0) {
             s32 world_x = (((s32)effect->unk_1C.parts.unk_1E.parts.unk_1E.s8 << 6) + 0x20) & 0xFFE0;
             s32 world_y = (((s32)effect->unk_1C.parts.unk_1E.parts.unk_1F.s8 << 6) + 0x20) & 0xFFE0;
-            collision = dungeonCheckLeftTileAndCenterHeight(world_x, world_y, effect->unk_2C.parts.unk_2E.s16);
+            collision = check_left_tile_and_center_height(world_x, world_y, effect->unk_2C.parts.unk_2E.s16);
             if ((collision << 16) == 0) {
                 break;
             }
@@ -535,7 +535,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     case 3:
     func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     target_object = owner->unk_60;
-    effect->unk_28 = dungeonCreateAnCopiesThreeSourceFieldsChildRunsN16ChildSetup(
+    effect->unk_28 = create_an_copies_three_source_fields_child_runs_n_16_child_setup(
         effect, motion, target_object->unk_88.s16, target_object);
     if (effect->unk_28 == 0) {
         break;
@@ -550,7 +550,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
             break;
         }
         if (owner->unk_60 != 0) {
-            dungeonCheckTheTargetUsingScaledLowByteConditionallyAppliesGlobal800E1D01(owner->unk_60,
+            check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1_d_01(owner->unk_60,
                           effect->unk_09, owner);
         }
         effect->unk_0A.u16 = 17;
@@ -574,7 +574,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 1;
         sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 1;
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 1;
-        dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(motion, sprite);
+        handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
             effect->unk_0A.u16++;
         }
@@ -585,9 +585,9 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     if (((S_func_81886800_17 *)(&D_80026326))->unk_00.s16 != 0) {
         break;
     }
-    ((S_func_81886800_18 *)(((u8 *)(&dungeonStatus.unk_0C))))->unk_00 = 0;
+    ((S_func_81886800_18 *)(((u8 *)(&g_dungeon_status.unk_0C))))->unk_00 = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
-    ((S_func_81886800_19 *)(((u8 *)(&objectFlagBlock))))->unk_00 |= 0x8000;
+    ((S_func_81886800_19 *)(((u8 *)(&object_flag_block))))->unk_00 |= 0x8000;
 
     }
     {

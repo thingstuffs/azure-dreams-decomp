@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Initializes two 12-byte records from alternating source bytes and returns the end pointer. */
-void *initPairedPacketRecords(void *record, void *source)
+void *init_paired_packet_records(void *record, void *source)
 {
     u8 *src = (u8 *)source;
 

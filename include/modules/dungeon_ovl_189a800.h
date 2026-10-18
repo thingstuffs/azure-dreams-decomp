@@ -84,13 +84,13 @@ typedef struct S_func_800241A8_4 {
     } unk_6E;
 } S_func_800241A8_4;
 
-void transformAndQueueMeshPrimitives(S_func_800241A8_4 *, S_func_800241A8_2 *, S_func_800241A8_3 *, s32);
+void transform_and_queue_mesh_primitives(S_func_800241A8_4 *, S_func_800241A8_2 *, S_func_800241A8_3 *, s32);
 /* Bank callbacks whose definitions precede their users in the native TU. */
 void func_80024D40(void *object, s32 unused, void *target);
-void advanceFadingEffectAnimation(void *effect_data, s32 unused_arg, void *color_data);
+void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data);
 struct S_8187BE9C_1;
-void func_8002569C(void *effect, s32 unused, struct S_8187BE9C_1 *primitive);
-s32 func_800249A0(void *record, void *context, void *data);
-s32 projectShadedPointsToOrderingTable(u8 *points, u8 *position, u8 *orientation);
-void initializeStarEffectSequence(void *state_data, void *source_data);
+void create_object_offset(void *effect, s32 unused, struct S_8187BE9C_1 *primitive);
+s32 decrement_object_counter(void *record, void *context, void *data);
+s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orientation);
+void initialize_star_effect_sequence(void *state_data, void *source_data);
 #endif

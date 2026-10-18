@@ -9,14 +9,14 @@
 
 void func_80041E70(void *);             /* extern */
 s32 func_80042900();            /* extern */
-void dungeonBeginModeSelectedItemAction(); /* extern */
-s32 dungeonProcessRecordAndUpdateLinkedState();           /* extern */
-void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
-void func_800997FC();                   /* extern */
-void dungeonAdjustSourceValueAndFinalize();           /* extern */
-void func_800A5F38();                 /* extern */
-void func_800A63B8();            /* extern */
-s32 dungeonApplyActorFoodPreference();            /* extern */
+void begin_mode_selected_item_action(); /* extern */
+s32 process_record_and_update_linked_state();           /* extern */
+void clear_slot_and_update_linked_state();                         /* extern */
+void display_formatted_context_message();                   /* extern */
+void adjust_source_value_and_finalize();           /* extern */
+void apply_item_effect_at_entity_position();                 /* extern */
+void display_item_status_message();            /* extern */
+s32 apply_actor_food_preference();            /* extern */
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
 extern void *D_800E3DF0[];
@@ -25,7 +25,7 @@ extern void *D_800E3DF0[];
 typedef struct S_800C22EC_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C22EC_1;   /* counter in dungeonUseItemToReviveSelectedActor */
+} S_800C22EC_1;   /* counter in use_item_to_revive_selected_actor */
 
 typedef struct S_800C22EC_2 {
     u8 pad_00[0x1];
@@ -43,7 +43,7 @@ typedef struct S_800C22EC_3 {
 } S_800C22EC_3;
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 dungeonUseItemToReviveSelectedActor(EntityRec *entity, s32 action, s16 action_type, void *context) {
+s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_type, void *context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;
@@ -52,23 +52,23 @@ s32 dungeonUseItemToReviveSelectedActor(EntityRec *entity, s32 action, s16 actio
 
     target_updated = 0;
     if (action_type == 0xD) {
-        return dungeonProcessRecordAndUpdateLinkedState(action, context);
+        return process_record_and_update_linked_state(action, context);
     }
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
-        dungeonBeginModeSelectedItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_mode_selected_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
-        func_800A63B8(entity, action, action_type);
-        if (dungeonApplyActorFoodPreference(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
-            func_800A5F38(entity, action);
+        display_item_status_message(entity, action, action_type);
+        if (apply_actor_food_preference(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(entity, action);
             return 1;
         }
-        dungeonClearSlotAndUpdateLinkedState(action);
+        clear_slot_and_update_linked_state(action);
         {
 
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         }
         return 1;
     }
@@ -86,17 +86,17 @@ s32 dungeonUseItemToReviveSelectedActor(EntityRec *entity, s32 action, s16 actio
                 target->unk_1C = (s32) (target->unk_1C & flags_mask);
                 func_80041E70(update_target);
                 target_updated = 1;
-                dungeonAdjustSourceValueAndFinalize(target, &D_800E1580);
+                adjust_source_value_and_finalize(target, &D_800E1580);
             }
         }
     }
     if (target_updated == 0) {
-        func_800997FC(&D_800E15A2);
+        display_formatted_context_message(&D_800E15A2);
     }
-    dungeonClearSlotAndUpdateLinkedState(action);
+    clear_slot_and_update_linked_state(action);
     {
 
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     }
     return 1;
 }

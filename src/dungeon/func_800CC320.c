@@ -9,7 +9,7 @@ typedef struct S_800D1A80_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800D1A80_0;   /* arg0 in dungeonFadeActorToRemoval */
+} S_800D1A80_0;   /* arg0 in fade_actor_to_removal */
 
 typedef struct S_800D1A80_1 {
     u8 pad_00[0xC];
@@ -25,11 +25,11 @@ typedef struct S_800D1A80_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800D1A80_1;   /* arg2 in dungeonFadeActorToRemoval */
+} S_800D1A80_1;   /* arg2 in fade_actor_to_removal */
 
 typedef struct S_800D1A80_2_pre {
     u16 unk_00;
-} S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in dungeonFadeActorToRemoval, addressed as arg3[-1] */
+} S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in fade_actor_to_removal, addressed as arg3[-1] */
 
 
 typedef struct S_800D1A80_3 {
@@ -41,14 +41,14 @@ typedef struct S_800D1A80_3 {
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-void func_8009A028(void *node);
-void func_8009A3D0(u8 x, u8 y, s32 flag_mask);
-void func_800A32A4(void *record);
-void func_800A56E0(s32 query_value);
+void unlink_entity_node(void *node);
+void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 flag_mask);
+void detach_record_and_update_slot_state(void *record);
+void play_sound_if_enabled(s32 query_value);
 s32 func_80042900(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
-s32 dungeonFadeActorToRemoval(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
+s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {
     s16 fade_frames;
     M2C_UNK tile_flags;
     s16 frames_left;
@@ -63,14 +63,14 @@ s32 dungeonFadeActorToRemoval(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *v
     phase = state->unk_9B;
     switch (phase) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return 0;
         }
         visual->unk_10 = 0x20;
         visual->unk_12 = (u16) (visual->unk_12 - 0x80);
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
         ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         visual->unk_0C.at00.v = 0x808080;
         state->unk_96 = 0x10;
         state->unk_9B = (u8) (state->unk_9B + 1);
@@ -90,11 +90,11 @@ s32 dungeonFadeActorToRemoval(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *v
     frames_left = (u16) state->unk_96 - 1;
     state->unk_96 = frames_left;
     if (!(((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0))) {
-        entity_ref = ((s32)dungeonStatus.unk_10);
+        entity_ref = ((s32)g_dungeon_status.unk_10);
         if (entity_ref == (entity - 0x20)) {
-            dungeonStatus.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
+            g_dungeon_status.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
         }
-        func_800A32A4(entity);
+        detach_record_and_update_slot_state(entity);
         if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
             tile_x = visual->unk_24;
             tile_y = visual->unk_25;
@@ -102,11 +102,11 @@ s32 dungeonFadeActorToRemoval(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *v
             if (((EntityRec *)entity)->flags1C & 0x2000) {
                 tile_flags = 0x300;
             }
-            func_8009A3D0(tile_x, tile_y, tile_flags);
+            update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         }
-        func_8009A028(entity);
+        unlink_entity_node(entity);
         ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return 1;
     }
     return 0;

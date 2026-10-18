@@ -8,7 +8,7 @@ typedef struct S_80F2D000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80F2D000_0;   /* object in func_8014C854 */
+} S_80F2D000_0;   /* object in spawn_effect_object */
 
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
@@ -16,12 +16,12 @@ typedef struct S_80F2D000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80F2D000_1;   /* work in func_8014C854 */
+} S_80F2D000_1;   /* work in spawn_effect_object */
 
 typedef struct S_80F2D000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80F2D000_2;   /* part_a in func_8014C854 */
+} S_80F2D000_2;   /* part_a in spawn_effect_object */
 
 typedef struct S_80F2D000_3 {
     u8 pad_00[0x10];
@@ -33,7 +33,7 @@ typedef struct S_80F2D000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80F2D000_3;   /* part_b in func_8014C854 */
+} S_80F2D000_3;   /* part_b in spawn_effect_object */
 
 typedef struct S_80F2D000_4 {
     u8 pad_00[0x8C];
@@ -45,17 +45,17 @@ typedef struct S_80F2D000_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_80F2D000_4;   /* work_copy in func_8014C854 */
+} S_80F2D000_4;   /* work_copy in spawn_effect_object */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64();                 /* extern */
 s32 func_8004491C();                /* extern */
-s16 func_800A48F0();        /* extern */
-s32 func_800A6D30();                          /* extern */
-void func_800A9C18(); /* extern */
-s32 func_800AA36C(); /* extern */
-void dungeonRetireTrackedEffectById();                      /* extern */
+s16 set_or_clear_actor_status_slot();        /* extern */
+s32 generate_random_value();                          /* extern */
+void initialize_actor_sprite_and_animation(); /* extern */
+s32 try_move_actor_to_valid_position(); /* extern */
+void retire_tracked_effect_by_id();                      /* extern */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;
 extern M2C_UNK D_8014FD30;
@@ -63,9 +63,9 @@ extern M2C_UNK D_8014FD78;
 
 
 
-void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 unksp20;
     s32 kind;
     s32 variant;
@@ -101,15 +101,15 @@ void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             work->unk_1C = (s32) (work->unk_1C | 0x2000);
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     work->unk_1C = (s32) (work->unk_1C | 0x200);
-                    func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = &D_8014FD78;
                 }
             }
-            variant = func_800A6D30() & 3;
+            variant = generate_random_value() & 3;
         }
-        func_800A9C18(object, part_a, part_b, spawn_flags);
+        initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
         ((S_80F2D000_4 *)work_copy)->unk_9A = 0xFF;
         ((S_80F2D000_4 *)work_copy)->unk_9C = -1;
         ((S_80F2D000_4 *)work_copy)->unk_8C = &D_8014CF74;
@@ -123,9 +123,9 @@ void *func_8014C854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             part_b->unk_14 = (u16) (part_b->unk_14 | 0xC);
             part_b->unk_12 = (u16) (part_b->unk_12 - 0x80);
             func_80044A50(obj_alt);
-            dungeonRetireTrackedEffectById(obj_alt);
+            retire_tracked_effect_by_id(obj_alt);
         }
-        func_800AA36C(work_copy, part_a, part_b, work);
+        try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
     }
     return work;
 }

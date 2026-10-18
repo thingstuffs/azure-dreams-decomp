@@ -4,13 +4,13 @@ typedef struct S_80123604_0 {
     s32 unk_00;
     void * unk_04;
     void * unk_08;
-} S_80123604_0;   /* *dst in func_80123604 */
+} S_80123604_0;   /* *dst in initialize_catalog_slot_records */
 
 typedef struct S_80123604_1 {
     u8 pad_00[0x68];
     void * unk_68;
     void * unk_6C;
-} S_80123604_1;   /* tail_dst in func_80123604 */
+} S_80123604_1;   /* tail_dst in initialize_catalog_slot_records */
 
 typedef struct S_80123604_2 {
     u8 pad_00[0x64];
@@ -19,41 +19,41 @@ typedef struct S_80123604_2 {
     u8 pad_68[0x4];
     u16 unk_6C;
     u16 unk_6E;
-} S_80123604_2;   /* tail_src in func_80123604 */
+} S_80123604_2;   /* tail_src in initialize_catalog_slot_records */
 
 typedef struct S_80123604_3 {
     u8 pad_00[0x8];
     u16 unk_08;
     u16 unk_0A;
-} S_80123604_3;   /* ((S_80123604_0 *)(*dst))->unk_04 in func_80123604 */
+} S_80123604_3;   /* ((S_80123604_0 *)(*dst))->unk_04 in initialize_catalog_slot_records */
 
 typedef struct S_80123604_4 {
     u8 pad_00[0x6];
     s16 unk_06;
     s16 unk_08;
-} S_80123604_4;   /* ((S_80123604_0 *)(*dst))->unk_08 in func_80123604 */
+} S_80123604_4;   /* ((S_80123604_0 *)(*dst))->unk_08 in initialize_catalog_slot_records */
 
 typedef struct S_80123604_5 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80123604_5;   /* ((S_80123604_1 *)tail_dst)->unk_68 in func_80123604 */
+} S_80123604_5;   /* ((S_80123604_1 *)tail_dst)->unk_68 in initialize_catalog_slot_records */
 
 typedef struct S_80123604_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80123604_6;   /* ((S_80123604_1 *)tail_dst)->unk_6C in func_80123604 */
+} S_80123604_6;   /* ((S_80123604_1 *)tail_dst)->unk_6C in initialize_catalog_slot_records */
 
 typedef struct S_80123604_7 {
     u8 pad_00[0x6];
     u16 unk_06;
     u16 unk_08;
-} S_80123604_7;   /* ((S_80123604_5 *)(((S_80123604_1 *)tail_dst)->unk_68))->unk_08 in func_80123604 */
+} S_80123604_7;   /* ((S_80123604_5 *)(((S_80123604_1 *)tail_dst)->unk_68))->unk_08 in initialize_catalog_slot_records */
 
 typedef struct S_80123604_8 {
     u8 pad_00[0x6];
     u16 unk_06;
     u16 unk_08;
-} S_80123604_8;   /* ((S_80123604_6 *)(((S_80123604_1 *)tail_dst)->unk_6C))->unk_08 in func_80123604 */
+} S_80123604_8;   /* ((S_80123604_6 *)(((S_80123604_1 *)tail_dst)->unk_6C))->unk_08 in initialize_catalog_slot_records */
 
 
 
@@ -67,7 +67,7 @@ typedef struct SourceEntry {
 } SourceEntry;
 
 /* Initializes fourteen objects from the source table and overrides the last two value pairs. */
-void func_80123604(void) {
+void initialize_catalog_slot_records(void) {
     {
         SourceEntry *source_entry;
         u8 *address_base;

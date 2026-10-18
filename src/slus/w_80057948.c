@@ -18,13 +18,13 @@ extern s32 D_80073734[];
 extern s32 D_80073740[];
 extern S_80085458 D_80085458[];
 
-extern s32 soundApplyIndexedVoiceEnvelope();
+extern s32 sound_apply_indexed_voice_envelope();
 extern s32 func_8005E97C();
 
 #define ACTIVE_COUNT (*(s32 *)0x80073734)
 
 /* Process active records matching both key bytes and combine their masks. */
-void audioSequenceNoteOff(s32 first_key, s32 second_key) {
+void audio_sequence_note_off(s32 first_key, s32 second_key) {
     S_80085458 *record;
     s32 *mask_entry;
     s32 record_mask;
@@ -44,7 +44,7 @@ void audioSequenceNoteOff(s32 first_key, s32 second_key) {
             if ((first_byte == record->field06) &&
                 (second_byte == record->field0A)) {
                 if (record->field1D == 0) {
-                    soundApplyIndexedVoiceEnvelope(record_index, record);
+                    sound_apply_indexed_voice_envelope(record_index, record);
                     record_mask = *mask_entry;
                     combined_mask |= record_mask;
                     func_8005E97C(0, record_mask);

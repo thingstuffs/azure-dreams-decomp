@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_809A4078; every changed retail word is a paired relocation. */
-/* Relink of matched dungeon/func_807AFB48; every changed retail word is a paired relocation. */
+/* Relink of matched dungeon/advance_position_and_color_transition; every changed retail word is a paired relocation. */
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -79,6 +79,6 @@ void func_8016F878(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color
     if ((steps_left << 0x10) <= 0) {
         ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 = (u16) (((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

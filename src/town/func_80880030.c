@@ -1,3 +1,3 @@
 #include "common.h"
 extern s32 func_80700F98(s32);
-s32 func_80701030(void) { return func_80700F98(4); }
+s32 call_helper_with_fixed_id_4(void) { return func_80700F98(4); }

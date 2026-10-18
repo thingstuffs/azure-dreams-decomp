@@ -20,7 +20,7 @@ typedef struct S_800B1390_1 {
 
 extern s32 D_800B0824[];
 
-void townInitializeShopSubrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
+void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
                    s32 value_14, s32 value_24, s32 value_18) {
     S_800B1390_1 *r = record_data;
     r->unk_04 = 1;

@@ -23,16 +23,16 @@ typedef struct SinkActionWork {
 extern u8 D_80161FD0[];
 extern u8 D_80161FB8[];
 extern s32 D_8015EF68;
-void dungeonSetRecordIntegerTileCenter();
-s16 func_800A48F0();
-s32 dungeonAdvanceStatusTimers();
-s32 func_800A56E0();
-s32 func_800A6D30();
+void set_record_integer_tile_center();
+s16 set_or_clear_actor_status_slot();
+s32 advance_status_timers();
+s32 play_sound_if_enabled();
+s32 generate_random_value();
 extern u8 D_80161FD8[];
 extern u8 D_80161FE0[];
 
 /* Run the actor's eight-step sink animation, advancing its phase and swapping the sprite each step. */
-void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor) {
     s32 sinkStep;
     u16 flags;
     s32 phase;
@@ -44,7 +44,7 @@ void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80
     switch (phase) {
     case 0:
     case 4:
-        func_800A56E0(0x51C);
+        play_sound_if_enabled(0x51C);
         flags = sprite->unk_14.at00_u16.v;
         if (flags & 0x8000) {
             work->phase = 7;
@@ -54,7 +54,7 @@ void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80
             return;
         }
         sprite->unk_2C.as_pu8 = D_80161FD8;
-        func_80047784(sprite, D_80161FD8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80161FD8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->actionFlags = (u16) (work->actionFlags | 8);
         /* This motion word supplies the sink acceleration. */
         motion->flags14 = 0xFFF00000;
@@ -93,9 +93,9 @@ void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->unk_24, sprite->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         sprite->unk_2C.as_pu8 = D_80161FE0;
-        func_80047784(sprite, D_80161FE0[((s32)(gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80161FE0[((s32)(g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->phase++;
         return;
     case 3:
@@ -103,7 +103,7 @@ void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80
             return;
         }
         sprite->unk_2C.as_pu8 = D_80161FD0;
-        func_80047784(sprite, D_80161FD0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80161FD0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->phase++;
         return;
     case 7:
@@ -111,15 +111,15 @@ void advanceActorSinkAnimation(SinkActionWork *work, EntityRec *motion, Rec_D_80
             return;
         }
         sprite->unk_2C.as_pu8 = D_80161FB8;
-        func_80047784(sprite, D_80161FB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        dungeonAdvanceStatusTimers(actor);
+        func_80047784(sprite, D_80161FB8[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        advance_status_timers(actor);
         actor->unk_6D = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         work->handler = &D_8015EF68;
         work->actionFlags = (u16) (work->actionFlags | 0x8000);
-        work->recoveryTicks = (s16) ((func_800A6D30() & 7) + 8);
-        func_800A48F0(actor, 0x1A, (s8) work->recoveryTicks);
+        work->recoveryTicks = (s16) ((generate_random_value() & 7) + 8);
+        set_or_clear_actor_status_slot(actor, 0x1A, (s8) work->recoveryTicks);
         return;
     default:
         return;

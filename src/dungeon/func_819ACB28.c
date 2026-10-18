@@ -6,7 +6,7 @@
 
 typedef struct S_819ACB28_0_pre {
     u16 unk_00;
-} S_819ACB28_0_pre;   /* the 0x2 bytes before object in dungeonAdvanceEffectPhases, addressed as object[-1] */
+} S_819ACB28_0_pre;   /* the 0x2 bytes before object in advance_effect_phases, addressed as object[-1] */
 
 typedef struct S_819ACB28_0 {
     u8 pad_00[0x8];
@@ -18,14 +18,14 @@ typedef struct S_819ACB28_0 {
     u8 pad_2A[0x2];
     union { s16 s; u16 u; } unk_2C;   /* accessed as both */
     s16 unk_2E;
-} S_819ACB28_0;   /* object in dungeonAdvanceEffectPhases */
+} S_819ACB28_0;   /* object in advance_effect_phases */
 
 typedef struct S_819ACB28_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_819ACB28_1;   /* data_ptr in dungeonAdvanceEffectPhases */
+} S_819ACB28_1;   /* data_ptr in advance_effect_phases */
 
 
 typedef struct S_819ACB28_3 {
@@ -35,18 +35,18 @@ typedef struct S_819ACB28_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_819ACB28_3;   /* offsets in dungeonAdvanceEffectPhases */
+} S_819ACB28_3;   /* offsets in advance_effect_phases */
 
 typedef struct S_819ACB28_4 {
     u8 pad_00[0xC];
     union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
-} S_819ACB28_4;   /* packed_value in dungeonAdvanceEffectPhases */
+} S_819ACB28_4;   /* packed_value in advance_effect_phases */
 
 typedef struct S_819ACB28_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in dungeonAdvanceEffectPhases */
+} S_819ACB28_5;   /* ((S_819ACB28_0 *)object)->unk_08 in advance_effect_phases */
 
 
 
@@ -61,7 +61,7 @@ typedef struct FlagsView {
 } FlagsView;
 
 
-void dungeonAdvanceEffectPhases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
+void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
     s16 mode;
     u16 mode_value;
@@ -75,7 +75,7 @@ void dungeonAdvanceEffectPhases(void *object, Rec_func_800249DC_arg0 *record, S_
     if (mode == 0) {
         data_ptr = ((S_819ACB28_5 *)(((S_819ACB28_0 *)object)->unk_08))->unk_0C;
         if (((S_819ACB28_0 *)object)->unk_2E == 0) {
-            if (resolveRecordOrientationOrFallback(data_ptr->unk_08, data_ptr,
+            if (resolve_record_orientation_or_fallback(data_ptr->unk_08, data_ptr,
                               (u8 *)object + 0x24, 0) == 0) {
                 if (data_ptr->unk_14 & 0x8000) {
                     ((S_819ACB28_0 *)object)->unk_28.s = -0x40;
@@ -91,7 +91,7 @@ void dungeonAdvanceEffectPhases(void *object, Rec_func_800249DC_arg0 *record, S_
             offsets->unk_06 + ((S_819ACB28_0 *)object)->unk_26;
         record->unk_0A =
             offsets->unk_0A + ((S_819ACB28_0 *)object)->unk_28.u;
-        if (func_800249DC(record) != 0) {
+        if (move_effect_toward_target(record) != 0) {
             func_8004491C((u8 *)object - 0x20, func_80045340);
             ((S_819ACB28_0 *)object)->unk_2C.u = ((S_819ACB28_0 *)object)->unk_2C.u + 1;
             return;
@@ -107,7 +107,7 @@ void dungeonAdvanceEffectPhases(void *object, Rec_func_800249DC_arg0 *record, S_
         packed_value->unk_0C.u32 += 0xFFEFEFF0;
         if (packed_value->unk_0C.u8 == 0) {
             ((S_819ACB28_0_pre *)object)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

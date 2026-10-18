@@ -2,11 +2,11 @@
 
 extern void bzero(void *dst, int n);
 extern void *func_8004B404(u32 size);
-extern s32 allocBufferArray(s32 *a0, s32 a1);
-extern void applyBlock16TemplateToNodes(s32 *a0, s32 a1);
+extern s32 alloc_buffer_array(s32 *a0, s32 a1);
+extern void apply_block_16_template_to_nodes(s32 *a0, s32 a1);
 
 /* Rebuilds the pointer buffer and links corresponding records from two sub-buffer banks. */
-s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
+s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
 {
     s32 *entries;
     s32 *bank_slot;
@@ -17,7 +17,7 @@ s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
     buffer_slot[0] = (s32) entries;
     buffer_slot += 1;
     if (entries != 0) {
-        if (allocBufferArray(buffer_slot, (s32)((u32) entry_count >> 4) + 1) == 0) {
+        if (alloc_buffer_array(buffer_slot, (s32)((u32) entry_count >> 4) + 1) == 0) {
             entries = 0;
         } else {
             bank_slot = bank_bases;
@@ -26,7 +26,7 @@ s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
                 buffer_slot++;
                 bank_slot++;
             }
-            if (allocBufferArray(buffer_slot, (s32)((u32) entry_count >> 4) + 1) == 0) {
+            if (alloc_buffer_array(buffer_slot, (s32)((u32) entry_count >> 4) + 1) == 0) {
                 entries = 0;
             } else {
                 bank_slot = bank_bases;
@@ -50,7 +50,7 @@ s32 *reallocField0Buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)
                         entry_slot++;
                     } while (entry_index < entry_count);
                 }
-                applyBlock16TemplateToNodes(entries, entry_count);
+                apply_block_16_template_to_nodes(entries, entry_count);
             }
         }
     }

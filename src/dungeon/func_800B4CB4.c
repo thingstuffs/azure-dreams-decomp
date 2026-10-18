@@ -14,7 +14,7 @@ typedef struct S_800BA414_0 {
     u8 pad_F0[0x10];
     u32 unk_100;
     u16 unk_104;
-} S_800BA414_0;   /* scratch in dungeonDrawProjectedQuadWithDepthBias */
+} S_800BA414_0;   /* scratch in draw_projected_quad_with_depth_bias */
 
 typedef struct S_800BA414_1 {
     u8 pad_00[0x2];
@@ -23,9 +23,9 @@ typedef struct S_800BA414_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BA414_1;   /* arg1 in dungeonDrawProjectedQuadWithDepthBias */
+} S_800BA414_1;   /* arg1 in draw_projected_quad_with_depth_bias */
 
-   /* state in dungeonDrawProjectedQuadWithDepthBias */
+   /* state in draw_projected_quad_with_depth_bias */
 
 typedef struct S_800BA414_3 {
     u8 pad_00[0x4];
@@ -38,14 +38,14 @@ typedef struct S_800BA414_3 {
     u16 unk_12;
     u16 unk_14;
     u16 unk_16;
-} S_800BA414_3;   /* prim in dungeonDrawProjectedQuadWithDepthBias */
+} S_800BA414_3;   /* prim in draw_projected_quad_with_depth_bias */
 
 typedef struct S_800BA414_4 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800BA414_4;   /* owner in dungeonDrawProjectedQuadWithDepthBias */
+} S_800BA414_4;   /* owner in draw_projected_quad_with_depth_bias */
 
-   /* *global in dungeonDrawProjectedQuadWithDepthBias */
+   /* *global in draw_projected_quad_with_depth_bias */
 
 
 extern void *func_80064840(void *, void *, void *);
@@ -62,7 +62,7 @@ extern void func_800666E0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Project a quad and enqueue it with its draw mode when depth and screen bounds allow. */
-void dungeonDrawProjectedQuadWithDepthBias(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
+void draw_projected_quad_with_depth_bias(void *unused, S_800BA414_1 *position, void *owner_data, s16 depth_bias)
 {
     u8 *scratch;
     u8 *prim;
@@ -92,7 +92,7 @@ void dungeonDrawProjectedQuadWithDepthBias(void *unused, S_800BA414_1 *position,
     s32 corner_visible;
 
     (void)unused;
-    state = *(u8 **)((s8 *)(&gameWork));
+    state = *(u8 **)((s8 *)(&g_game_work));
     scratch = (u8 *)0x1F800000;
     owner = owner_data;
     depth_offset = depth_bias;
@@ -101,7 +101,7 @@ void dungeonDrawProjectedQuadWithDepthBias(void *unused, S_800BA414_1 *position,
     ((S_800BA414_0 *)scratch)->unk_E8 = position->unk_06;
     ((S_800BA414_0 *)scratch)->unk_EC = position->unk_0A;
     prim = ((GpuContext *)state)->packetCursor;
-    state_slot = (u8 **)((s8 *)(&gameWork));
+    state_slot = (u8 **)((s8 *)(&g_game_work));
 
     func_800649A0();
     rotation = scratch;

@@ -16,9 +16,9 @@
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_18ac800_entry)(u8 *, u8 *, u8 *) = func_80024050;
+void (*const dungeon_18ac800_entry)(u8 *, u8 *, u8 *) = follow_brighten;
 
 static __inline__ s32 align_effect_coord(s32 coord)
 {
@@ -26,7 +26,7 @@ static __inline__ s32 align_effect_coord(s32 coord)
 }
 
 /* Updates a moving effect through initialization, travel, impact, and fading. */
-void func_80024050(u8 *self, u8 *motion, u8 *part)
+void follow_brighten(u8 *self, u8 *motion, u8 *part)
 {
     u8 *owner;
     u8 *base;
@@ -68,7 +68,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         }
         scratch[2] = init_flags;
         scratch[3] = init_size;
-        dungeonDrawTexturedEllipse(effect_params - 12, scratch + 2, 1, 0);
+        draw_textured_ellipse(effect_params - 12, scratch + 2, 1, 0);
         ((MovingEffectState *)self)->unk_0A.u++;
     case 1:
         if (func_8003DF74(((MovingSpriteFlags *)(((MovingObject *)base)->unk_0C))->unk_08,
@@ -111,12 +111,12 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
                 {
                     u8 *target_record = ((MovingActor_pre *)owner)[-1].unk_00;
                     u8 x = ((MovingTile *)target_record)->unk_24 +
-                           ((u8 *)dirStepX)[((MovingEffectState *)self)->unk_16.s * 2];
+                           ((u8 *)dir_step_x)[((MovingEffectState *)self)->unk_16.s * 2];
                     ((MovingEffectState *)self)->unk_1C.at02.v = x;
                     ((MovingEffectState *)self)->unk_20.at00.v = x;
                     {
                         u8 y = ((MovingTile *)target_record)->unk_25 +
-                               ((u8 *)dirStepY)[((MovingEffectState *)self)->unk_16.s * 2];
+                               ((u8 *)dir_step_y)[((MovingEffectState *)self)->unk_16.s * 2];
                         ((MovingEffectState *)self)->unk_1C.at03.v = y;
                         ((MovingEffectState *)self)->unk_20.at01.v = y;
                     }
@@ -142,9 +142,9 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
             }
         }
         ((MovingMotion *)motion)->unk_0C.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dirStepX) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)((u8 *)((u8 *)dir_step_x) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
         ((MovingMotion *)motion)->unk_10.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dirStepY) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
+            (*(s16 *)((u8 *)((u8 *)dir_step_y) + ((MovingEffectState *)self)->unk_16.s * 2)) * 8;
         ((MovingEffectState *)self)->unk_0A.u++;
         break;
 
@@ -256,7 +256,7 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
                 s32 height = ((MovingEffectState *)self)->unk_30.at02u.v;
                 s32 y;
                 y = align_effect_coord(((MovingEffectState *)self)->unk_1C.at03u.v);
-                if ((dungeonCheckLeftTileAndCenterHeight(x, y, height) << 16) == 0) {
+                if ((check_left_tile_and_center_height(x, y, height) << 16) == 0) {
                     break;
                 }
             }
@@ -268,14 +268,14 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         func_80065F90(((MovingMotion *)motion)->unk_0C.at02.v,
             ((MovingMotion *)motion)->unk_10.at02.v);
         ((MovingEffectState *)self)->unk_2C.i =
-            dungeonCreateEffectObjectGroups(((MovingMotion *)motion)->unk_00.at02u.v,
+            create_effect_object_groups(((MovingMotion *)motion)->unk_00.at02u.v,
                 ((MovingMotion *)motion)->unk_04.at02u.v,
                           ((MovingMotion *)motion)->unk_08.at02u.v);
         if (((MovingEffectState *)self)->unk_2C.i == 0) {
             break;
         }
         if (((MovingActor *)owner)->unk_60.p2 != 0) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
         }
         ((MovingEffectState *)self)->unk_0A.u++;
     case 4:
@@ -286,12 +286,12 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
             break;
         }
         if (((MovingActor *)owner)->unk_60.p2 != 0) {
-            dungeonApplyConditionalTargetEffect(((MovingActor *)owner)->unk_60.p2, ((MovingEffectState *)self)->unk_09,
+            apply_conditional_target_effect(((MovingActor *)owner)->unk_60.p2, ((MovingEffectState *)self)->unk_09,
                 owner);
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     case 16:
@@ -316,9 +316,9 @@ void func_80024050(u8 *self, u8 *motion, u8 *part)
         if (D_80026472.value.s != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     {
         u16 frame = ((MovingEffectState *)self)->unk_18.u;

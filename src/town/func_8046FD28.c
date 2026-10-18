@@ -1,9 +1,9 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 townSelectDialogueWith799Override(s32 speaker, s32 interaction, s32 dialogue_id) {
+s32 select_dialogue_with_799_override(s32 speaker, s32 interaction, s32 dialogue_id) {
     s32 dialogue;
 
-    if (townCheckTableResultBelowMinus47(speaker, interaction) != 0) {
+    if (check_table_result_below_minus_47(speaker, interaction) != 0) {
 
         return &D_8001B63C;
     }
@@ -13,7 +13,7 @@ s32 townSelectDialogueWith799Override(s32 speaker, s32 interaction, s32 dialogue
 
             dialogue = &D_8001CDF2;
         } else {
-            dialogue = func_8001628C(speaker, interaction, dialogue_id);
+            dialogue = select_state_result_with_lookup_overrides(speaker, interaction, dialogue_id);
         }
     }
     return dialogue;

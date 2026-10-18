@@ -4,6 +4,6 @@
 
 
 /* Returns the first value in the indexed 32-word entry. */
-s32 cardBootGetSlotMarker(s32 entry_index) {
+s32 card_boot_get_slot_marker(s32 entry_index) {
     return (*(s32 (*)[])(&D_80083E98))[entry_index * 32];
 }

@@ -12,14 +12,14 @@ typedef struct {
 extern u8 D_80098078[];
 extern u8 D_800D01C8[];
 
-extern void townClearEntityRecordFields(void *record);
+extern void clear_entity_record_fields(void *record);
 
 /* Initializes object state and resets global state before processing the supplied context. */
-void townInitializeIndexedObjectState(Struct_func_8009BDDC_arg0 *object, void *context, void *ptr2) {
-    townCallTheHandlerSelectsNonzeroEntry((s32 *) D_800D01C8, (Rec_func_80094268_arg0 *) object, ptr2);
+void initialize_indexed_object_state(Struct_func_8009BDDC_arg0 *object, void *context, void *ptr2) {
+    call_the_handler_selects_nonzero_entry((s32 *) D_800D01C8, (Rec_func_80094268_arg0 *) object, ptr2);
     D_80082660[1].unk_00 = 0;
     D_80082660[1].unk_01 = 0;
     object->unk4 = D_80098078;
     object->unkA = 4;
-    townClearEntityRecordFields(context);
+    clear_entity_record_fields(context);
 }

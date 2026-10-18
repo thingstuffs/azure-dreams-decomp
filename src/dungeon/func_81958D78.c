@@ -12,7 +12,7 @@ typedef struct S_80024578_0 {
     void * unk_10;
     u8 pad_14[0x14];
     s32 unk_28;
-} S_80024578_0;   /* object in func_80024578 */
+} S_80024578_0;   /* object in update_actor_effect_sequence */
 
 typedef struct S_80024578_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_80024578_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024578_1;   /* part in func_80024578 */
+} S_80024578_1;   /* part in update_actor_effect_sequence */
 
 typedef struct S_80024578_2 {
     u8 pad_00[0x2];
@@ -30,7 +30,7 @@ typedef struct S_80024578_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024578_2;   /* arg0 in func_80024578 */
+} S_80024578_2;   /* arg0 in update_actor_effect_sequence */
 
 typedef struct S_80024578_3 {
     u8 pad_00[0x8];
@@ -38,16 +38,16 @@ typedef struct S_80024578_3 {
     u8 pad_0C[0x10];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024578_3;   /* effect in func_80024578 */
+} S_80024578_3;   /* effect in update_actor_effect_sequence */
 
 
-extern s32 dungeonDrawTexturedEllipse();
+extern s32 draw_textured_ellipse();
 extern u8 D_800243C4[9];
 extern u8 D_80028208[9];
 extern u8 D_800DF334[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *func_80024578(S_80024578_2 *source_part, s32 offset_base) {
+void *update_actor_effect_sequence(S_80024578_2 *source_part, s32 offset_base) {
     s32 init_data[2];
     void *object;
     S_80024578_1 *part;
@@ -58,7 +58,7 @@ void *func_80024578(S_80024578_2 *source_part, s32 offset_base) {
     if (object != NULL) {
         init_data[0] = 0x01000340;
         init_data[1] = 0x00200020;
-        dungeonDrawTexturedEllipse(D_800DF334, init_data, 1, 0);
+        draw_textured_ellipse(D_800DF334, init_data, 1, 0);
 
         part = ((S_80024578_0 *)object)->unk_08;
         ((S_80024578_0 *)object)->unk_10 = D_800243C4;

@@ -47,7 +47,7 @@ void func_80024294(void *motion, void *position_data)
     D_80025118[0] = 1;
     if (updated_value) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     countdown = ((S_818D4A94_1 *)motion)->unk_32;
@@ -56,6 +56,6 @@ void func_80024294(void *motion, void *position_data)
     countdown <<= 16;
     if (countdown <= 0) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

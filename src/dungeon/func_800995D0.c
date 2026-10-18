@@ -64,7 +64,7 @@ extern u8 D_8009E798[];
 extern u8 D_800DD7E0[];
 
 /* Create and initialize the type 0x12 object if it is not already active. */
-void dungeonCreateInactiveTypeTwelveObject(void) {
+void create_inactive_type_twelve_object(void) {
     Obj12 *object;
 
     if (!(D_800E296C & 0x80)) {

@@ -11,11 +11,11 @@ typedef struct CueRecord {
 extern CueRecord *func_8003F534(void);
 extern int func_80054AF0(int);
 extern void func_80054C58(void);
-extern void soundBeginCdPlaybackSetup(void);
-extern void audioHandleStreamControlEvent(s32);
+extern void sound_begin_cd_playback_setup(void);
+extern void audio_handle_stream_control_event(s32);
 
 /* Loads pending CD cue fields from the current record or dispatches a countdown message. */
-void audioDispatchStreamRequest(s32 message)
+void audio_dispatch_stream_request(s32 message)
 {
     s32 message_type = message & 0xF000;
     switch (message_type) {
@@ -62,20 +62,20 @@ void audioDispatchStreamRequest(s32 message)
             update_state->unk_0A = initial_value;
         }
         func_80054C58();
-        soundBeginCdPlaybackSetup();
+        sound_begin_cd_playback_setup();
         break;
     }
 
     case 0x1000:
-        audioHandleStreamControlEvent(0x74);
+        audio_handle_stream_control_event(0x74);
         break;
 
     case 0x2000:
-        audioHandleStreamControlEvent(0xE4);
+        audio_handle_stream_control_event(0xE4);
         break;
 
     case 0x4000:
-        audioHandleStreamControlEvent(0xF4);
+        audio_handle_stream_control_event(0xF4);
         break;
 
     }

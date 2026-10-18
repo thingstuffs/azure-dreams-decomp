@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81085198; every changed retail word is a paired relocation. */
-#define dungeonAdvanceActorHopToTile func_80160998
+#define advance_actor_hop_to_tile func_80160998
 #define D_80170E94 D_8015EE94
 #include "common.h"
 #include "shared/tile_object.h"
@@ -24,12 +24,12 @@ typedef struct S_80172998_0 {
 
 
 extern s32 func_800644B8(s32);
-extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern M2C_UNK D_8015EE94;
 
@@ -86,7 +86,7 @@ void func_80160998(S_80172998_0 *motion, EntityRec *transform, Rec_D_80082E80 *t
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(transform, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
             motion->unk_9B++;
         }
 
@@ -102,14 +102,14 @@ void func_80160998(S_80172998_0 *motion, EntityRec *transform, Rec_D_80082E80 *t
     transform->flags14 = 0;
     transform->unk_10 = 0;
     transform->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(transform, tile->unk_24, tile->unk_25);
-    dungeonReduceActorFoodMeter(actor, 5);
-    dungeonAdvanceStatusTimers(actor);
+    set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
+    reduce_actor_food_meter(actor, 5);
+    advance_status_timers(actor);
 
     {
 
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08--;
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08--;
         }
     }
 
@@ -121,14 +121,14 @@ void func_80160998(S_80172998_0 *motion, EntityRec *transform, Rec_D_80082E80 *t
     } else {
         if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                actor->facing = get_rounded_facing_and_rounding_flag(
                     tile->unk_24, tile->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &coord_result);
             }
         }
     }
 
-    if ((dungeonCheckActorFloorTrap(tile, actor) << 16) > 0) {
+    if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
         motion->unk_8C = &D_8015EE94;
         func_800A9A04(actor);
     }

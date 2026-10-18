@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 extern M2C_UNK D_8001C048;
 /* Call the scene object's 0x268 method with the D_8001C048 record. */
-void townInvokeSceneRecordHandler(void)
+void invoke_scene_record_handler(void)
 {
     M2C_UNK (*handler)(M2C_UNK *, M2C_UNK);
     void **slot;

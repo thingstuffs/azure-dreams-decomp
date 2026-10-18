@@ -83,6 +83,6 @@ void func_8005CE98(u16 *src, u32 bytes_left);
 void func_8005D064(void);
 void func_8005D124(s32 ram_address, s16 spu_address, s32 block_count);
 s32 func_8005D1D0(s32 command, ...);
-void delayMultiplyLoop(void);
+void delay_multiply_loop(void);
 
 #endif

@@ -10,8 +10,8 @@ typedef struct {
     s32 unkC;
 } CallbackEntry;
 
-extern s32 func_800167B4();
-extern s32 func_80016D78();
+extern s32 check_initial_query_zero_secondary();
+extern s32 select_data_array_based_flag();
 extern s16 D_800160B2[8];
 
 typedef struct S_80016818_0 {
@@ -21,15 +21,15 @@ typedef struct S_80016818_0 {
     s32 unk_14;
     u8 pad_18[0x2];
     s16 unk_1A;
-} S_80016818_0;   /* arg0 in townRunFlagTestCallbacks */
+} S_80016818_0;   /* arg0 in run_flag_test_callbacks */
 
 /* Run callbacks until one returns zero, then return its index. */
-s32 townRunFlagTestCallbacks(S_80016818_0 *context) {
+s32 run_flag_test_callbacks(S_80016818_0 *context) {
     s32 callback_index;
 
     if ((((s32) context->unk_00 >> 0x17) & 1) ||
-        (func_80016D78((*(__typeof__(D_800160B2) *)0x800160B2)[0]) == 0)) {
-        func_800167B4(context->unk_14,
+        (select_data_array_based_flag((*(__typeof__(D_800160B2) *)0x800160B2)[0]) == 0)) {
+        check_initial_query_zero_secondary(context->unk_14,
                       context->unk_1A);
     }
     callback_index = 0;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void dungeonAdvanceHeightOffsetAndPlacement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object) {
+void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object) {
     s32 angle;
     u16 height_offset;
     ovl_18d0850_818B0AE0_S_800242E0_1 *counter;

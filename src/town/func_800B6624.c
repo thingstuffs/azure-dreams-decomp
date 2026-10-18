@@ -1,15 +1,15 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 townSelectChoiceFromInputFlags(s32);                                /* extern */
-void townWriteIndexedTemplateValue();                    /* extern */
+s32 select_choice_from_input_flags(s32);                                /* extern */
+void write_indexed_template_value();                    /* extern */
 
 /* Processes the entry when its lookup returns a valid index. */
-void townProcessValidEntryLookup(s32 entry_id) {
+void process_valid_entry_lookup(s32 entry_id) {
     s32 entry_index;
 
-    entry_index = townSelectChoiceFromInputFlags(entry_id);
+    entry_index = select_choice_from_input_flags(entry_id);
     if (entry_index != -1) {
-        townWriteIndexedTemplateValue(entry_id, entry_index);
+        write_indexed_template_value(entry_id, entry_index);
     }
 }

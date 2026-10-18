@@ -14,20 +14,20 @@ typedef struct S_800250C0_0 {
     u8 pad_22[0x8];
     u8 unk_2A;
     u8 unk_2B;
-} S_800250C0_0;   /* arg0 in dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd; pointer addresses record offset 0x2 */
+} S_800250C0_0;   /* arg0 in update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end; pointer addresses record offset 0x2 */
 
 typedef struct S_800250C0_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_800250C0_1;   /* arg2 in dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd */
+} S_800250C0_1;   /* arg2 in update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end */
 
 
 extern s16 D_80026428[];
 
 /* Updates an effect's grayscale intensity and animation frame, marking it finished at the end of its lifetime. */
-void dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
+void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
     s32 frame_count;
     s32 fade_scaled;
     s32 intensity;
@@ -76,6 +76,6 @@ check_lifetime:
         return;
     }
     ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
-    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+    object_flag_block.flags = object_flag_block.flags | 0x8000;
     return;
 }

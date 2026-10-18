@@ -3,6 +3,6 @@
 extern void func_8016B650(void *, void *, void *, void *);
 
 void func_8016E288(CB_80175274_CallbackState *state,void *position,void *sprite,void *entity) {
- if(dungeonPropagateActorActionFlag(state,position,sprite,entity) != 0)
+ if(propagate_actor_action_flag(state,position,sprite,entity) != 0)
   state->handler=func_8016B650;
 }

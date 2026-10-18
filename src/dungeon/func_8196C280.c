@@ -33,7 +33,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         check_y = ((S_8196C280_0 *)position)->unk_04.at02.v;
         check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
         D_800269B4 = 1;
-        if ((dungeonCheckLeftTileAndCenterHeight(check_x, check_y, check_z) << 0x10) != 0) {
+        if ((check_left_tile_and_center_height(check_x, check_y, check_z) << 0x10) != 0) {
             ((S_8196C280_0 *)position)->unk_00.at00.v -= ((S_8196C280_1 *)effect)->unk_8C;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
             ((S_8196C280_1 *)effect)->unk_98 = 0;
@@ -41,7 +41,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
     }
     ((S_8196C280_0 *)position)->unk_04.at00.v += ((S_8196C280_1 *)effect)->unk_90;
     ((S_8196C280_1 *)effect)->unk_90 += ((S_8196C280_1 *)effect)->unk_9C;
-    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
         ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
         ((S_8196C280_0 *)position)->unk_04.at00.v -= ((S_8196C280_1 *)effect)->unk_90;
         ((S_8196C280_1 *)effect)->unk_90 = 0;
@@ -53,12 +53,12 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         s32 height;
 
         height = ((S_8196C280_0 *)position)->unk_08.at02.v;
-        if (((s16)func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+        if (((s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
             (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
             ((S_8196C280_1 *)effect)->unk_94 = 0;
             ((S_8196C280_1 *)effect)->unk_90 = 0;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
-            ((S_8196C280_0 *)position)->unk_08.at02.v = (s16)func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v,
+            ((S_8196C280_0 *)position)->unk_08.at02.v = (s16)sample_terrain_surface_height(((S_8196C280_0 *)position)->unk_00.at02.v,
                 ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
             - 0x11;
             ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
@@ -94,10 +94,10 @@ void func_80025A80(void *effect, void *position, void *sprite) {
     ((S_8196C280_1 *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (((S_8196C280_2 *)sprite)->unk_14 & 0x8000) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

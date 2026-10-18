@@ -1,11 +1,11 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 func_800178B4(S_800178B4_0 *menu, s32 index) {
+s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
     s32 offset;
     s32 offset2;
     S_800178B4_2 *slot;
 
-    if ((func_8001A510(0x479) == 0) && (townCheckInteraction13Type3() != 0)) {
+    if ((func_8001A510(0x479) == 0) && (check_interaction_13_type_3() != 0)) {
         func_8001A418(0x479);
         offset = index * 0x10;
         {
@@ -13,12 +13,12 @@ s32 func_800178B4(S_800178B4_0 *menu, s32 index) {
             s32 slot_addr;
 
             slot_addr = offset + menu->unk_10;
-            handler = townSelectInteractionResultWithRefresh;
+            handler = select_interaction_result_with_refresh;
             ((S_800178B4_1 *)slot_addr)->handler = handler;
         }
         slot = offset + menu->unk_10;
         slot->unk_08 = &D_8001B718;
-        townMarkProgressStateReady();
+        mark_progress_state_ready();
         return 0;
     }
     if (func_8001A510(0x479) != 0) {

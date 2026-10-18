@@ -3,11 +3,11 @@
 typedef struct S_800981D4_0 {
     u8 pad_00[0x6];
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} S_800981D4_0;   /* arg1 in townMoveValueToward300 */
+} S_800981D4_0;   /* arg1 in move_value_toward_300 */
 
 extern s32 func_80098DC0(s32 value, S_800981D4_0 *field_ptr, s32 other_value);
 
-s32 townMoveValueToward300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
+s32 move_value_toward_300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
 {
     s16 current;
     u16 raw;

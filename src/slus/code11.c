@@ -15,7 +15,7 @@ typedef struct Node {
 } Node;
 
 /* Sets bit 0x8000 in the node and global flags when the node exists. */
-void tableSetBitHex8000InNodeGlobalFlagsNodeExists(Node *node)
+void table_set_bit_hex_8000_in_node_global_flags_node_exists(Node *node)
 {
     if (node != 0) {
         node->field_1E |= 0x8000;

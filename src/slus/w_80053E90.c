@@ -3,14 +3,14 @@
 
 
 /* Returns volume scale [0] / [1] / [2] for selector 2 / 1 / 4, zero for any other selector. */
-s32 getVolumeScaleBySelector(s32 selector) {
+s32 get_volume_scale_by_selector(s32 selector) {
     switch (selector) {
     case 4:
-        return volumeScale[2];
+        return g_volume_scale[2];
     case 1:
-        return volumeScale[1];
+        return g_volume_scale[1];
     case 2:
-        return volumeScale[0];
+        return g_volume_scale[0];
     default:
         return 0;
     }

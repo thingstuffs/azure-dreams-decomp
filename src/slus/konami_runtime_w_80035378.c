@@ -11,7 +11,7 @@ extern RuntimeState D_80082A38;
 extern s32 D_80082AB8[];
 
 /* Stores a value in the first empty runtime slot, shifting slots when full. */
-void runtimeStoreValueInShiftedSlotPool(s32 value) {
+void runtime_store_value_in_shifted_slot_pool(s32 value) {
     s32 slot_index;
 
     for (slot_index = 10; slot_index < 15; slot_index++) {

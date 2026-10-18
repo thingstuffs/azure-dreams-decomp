@@ -31,7 +31,7 @@ typedef struct S_80175858_1 {
 typedef struct S_80175858_2 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80175858_2;   /* arg0_hold in dungeonCreateDirectionalRenderObject */
+} S_80175858_2;   /* arg0_hold in create_directional_render_object */
 
 typedef struct S_80175858_3 {
     u8 pad_00[0xC];
@@ -48,7 +48,7 @@ typedef struct S_80175858_4 {
     u16 unk_12;
     u8 pad_14[0x14];
     s32 unk_28;
-} S_80175858_4;   /* arg2_hold in dungeonCreateDirectionalRenderObject */
+} S_80175858_4;   /* arg2_hold in create_directional_render_object */
 
 
 
@@ -62,7 +62,7 @@ extern u8 D_8017573C;
 extern u8 D_80176498[];
 
 /* Allocate and initialize an object with source direction, render properties, and copied data. */
-void *dungeonCreateDirectionalRenderObject(void *direction_src, Copy24 *initial_data, void *render_src) {
+void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
     void *render_data;
     void *object_state;
     void *object;
@@ -90,7 +90,7 @@ void *dungeonCreateDirectionalRenderObject(void *direction_src, Copy24 *initial_
         func_80047784(
             render_data,
             D_80176498[
-                ((gameWork.view.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                ((g_game_work.view.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);
         data_dst = ((S_80175858_0 *)object)->unk_08;

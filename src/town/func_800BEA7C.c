@@ -36,7 +36,7 @@ extern void func_8004491C(void *, void *);
 extern void func_80044BB0(void);
 
 /* Create an object at the supplied position and initialize its callback and display data. */
-void townCreatePositionedCallbackObject(Input *position, s32 object_value, s32 data_value)
+void create_positioned_callback_object(Input *position, s32 object_value, s32 data_value)
 {
     Object *object;
     u8 *field_base;

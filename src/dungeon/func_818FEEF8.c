@@ -14,7 +14,7 @@ void func_800246F8(void *state_data, s32 unused, void *scale_data)
     ((s16 *)D_80025E80)[0] = 1;
     if (remaining_ticks <= 0) {
         *(u16 *)(state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

@@ -10,7 +10,7 @@ typedef struct Box {
 } Box;
 
 /* Tests whether two offset boxes overlap or touch on all three axes. */
-s32 townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(Box *box_a, Box *offset_a, Box *box_b, Box *offset_b)
+s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(Box *box_a, Box *offset_a, Box *box_b, Box *offset_b)
 {
     s32 axis_a;
     s32 axis_b;

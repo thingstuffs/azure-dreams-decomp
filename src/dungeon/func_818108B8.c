@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void restoreItemTextBeforeEdit(void *item_object)
+void restore_item_text_before_edit(void *item_object)
 {
     s32 category;
     s32 subobject_base;

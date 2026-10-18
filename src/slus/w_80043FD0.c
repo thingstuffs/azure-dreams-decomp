@@ -7,8 +7,8 @@ extern s8 D_80080A86;
 #define D_80080A86_store (*(s8 *)0x80080A86)
 extern s32 D_800814A0_load[3];
 #define D_800814A0_store (*(s32 *)0x800814A0)
-extern s16 reserveRuntimeSlot(s16 a0, s16 a1);
-extern void clearFlagsOnResourceList(void);
+extern s16 reserve_runtime_slot(s16 a0, s16 a1);
+extern void clear_flags_on_resource_list(void);
 extern void func_80040418(void);
 typedef struct S_80043FD0_Node
 {
@@ -27,7 +27,7 @@ typedef struct S_80043FD0
 }
 S_80043FD0;
 /* Advances the controller state and updates node and global status flags. */
-void updateDeferredResourceTransitionTask(S_80043FD0 *controller)
+void update_deferred_resource_transition_task(S_80043FD0 *controller)
 {
     s16 state = controller->field_A;
     S_80043FD0_Node *node;
@@ -36,9 +36,9 @@ void updateDeferredResourceTransitionTask(S_80043FD0 *controller)
         if ((*((u8 *) controller->field_4)) != 0) {
             s16 slot_arg = controller->field_C;
             if (slot_arg != 0) {
-                controller->field_8 = reserveRuntimeSlot(5, slot_arg);
+                controller->field_8 = reserve_runtime_slot(5, slot_arg);
             }
-            clearFlagsOnResourceList();
+            clear_flags_on_resource_list();
             D_80080A86_store = 0;
             controller->field_A = 0;
         }

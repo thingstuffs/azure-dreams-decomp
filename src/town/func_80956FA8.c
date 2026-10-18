@@ -7,7 +7,7 @@ typedef struct EffectScaleState {
     s16 scale_enabled;
 } EffectScaleState;
 extern s32 D_800814A0;
-void func_80023FA8(void *actor, void *unused, void *packet) {
+void adjust_actor_packet_depth_and_mark_complete(void *actor, void *unused, void *packet) {
     u16 depth;
     u16 *flags;
     ((Rec_D_80082E80 *)packet)->unk_0C.at00_s32.v += 0xFFEFEFF0U;

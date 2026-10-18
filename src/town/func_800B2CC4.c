@@ -1,21 +1,21 @@
 #include "common.h"
 
 
-extern void townSetItemMenuDataPointer();
-extern void townSetItemMenuSecondaryHandler();
-extern s32 townInvokeItemMenuOffsetHandler();
+extern void set_item_menu_data_pointer();
+extern void set_item_menu_secondary_handler();
+extern s32 invoke_item_menu_offset_handler();
 
 /* Dispatch the request's payload according to its result code. */
-void townDispatchItemMenuRequestResult(void *request) {
+void dispatch_item_menu_request_result(void *request) {
     s32 result_code;
 
-    result_code = townInvokeItemMenuOffsetHandler(((s32 *)request)[1], ((s32 *)request)[3]);
+    result_code = invoke_item_menu_offset_handler(((s32 *)request)[1], ((s32 *)request)[3]);
     if (result_code == 1) {
-        townSetItemMenuSecondaryHandler(((s32 *)request)[2]);
+        set_item_menu_secondary_handler(((s32 *)request)[2]);
         return;
     }
     if (result_code == 2) {
-        townSetItemMenuDataPointer(((s32 *)request)[2]);
+        set_item_menu_data_pointer(((s32 *)request)[2]);
         return;
     }
 }

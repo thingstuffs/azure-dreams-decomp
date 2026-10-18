@@ -6,12 +6,12 @@ typedef struct {
     u8 type;
 } Record818105FC;
 
-extern char *dungeonGetMappedMenuTableEntry(s32 row_id, s32 entry_index);
+extern char *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
 extern s32 strncmp(const char *lhs, const char *rhs, s32 count);
 extern char *strncpy(char *dst, const char *src, s32 count);
 
 /* Stores a text record in the circular table unless it matches an existing entry. */
-void dungeonStoreUniqueTextRecord(char *text, s32 type, s32 value) {
+void store_unique_text_record(char *text, s32 type, s32 value) {
     Record818105FC *record;
     u8 *type_base;
     u8 *records_base;
@@ -21,7 +21,7 @@ void dungeonStoreUniqueTextRecord(char *text, s32 type, s32 value) {
 
     if (type == 19) {
         for (cursor = 0; cursor < 5; cursor++) {
-            if (strncmp(text, dungeonGetMappedMenuTableEntry(value, cursor), 18) == 0) {
+            if (strncmp(text, get_mapped_menu_table_entry(value, cursor), 18) == 0) {
                 return;
             }
         }

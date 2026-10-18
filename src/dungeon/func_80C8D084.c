@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_cad084.h"
 
 /* Builds point and draw-mode packets for a linked list and adds them to the ordering table. */
-s32 func_8014C884(u8 *item_data, u16 *coords)
+s32 queue_linked_point_packets(u8 *item_data, u16 *coords)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = ((void * *)(&gameWork));
+    void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

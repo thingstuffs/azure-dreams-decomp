@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonStartSelectedMoveAndResetAction(void *action, EntityRec *position, void *sprite, EntityRec *actor)
+void start_selected_move_and_reset_action(void *action, EntityRec *position, void *sprite, EntityRec *actor)
 {
     s32 phase;
     s16 is_special;
@@ -74,7 +74,7 @@ void dungeonStartSelectedMoveAndResetAction(void *action, EntityRec *position, v
                 }
             } else {
                 actor->target =
-                    dungeonScanMonsterAlongHeading(actor,
+                    scan_monster_along_heading(actor,
                     ((R06_80172970_S_80172970_4 *)sprite)->unk_24,
                     ((R06_80172970_S_80172970_4 *)sprite)->unk_25,
                     actor->facing, 0x10);
@@ -88,12 +88,12 @@ void dungeonStartSelectedMoveAndResetAction(void *action, EntityRec *position, v
             }
 
             ((R06_80172970_S_80172970_0 *)action)->unk_98 |= 0x1000;
-            if (dungeonCreateActorSpellEffect(actor, move_data,(s16)(is_special),
+            if (create_actor_spell_effect(actor, move_data,(s16)(is_special),
                 (u16 *)((u8 *)action + 0x98)) == 0) {
                 return;
             }
             ((R06_80172970_S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
-            func_800A56E0(0x703);
+            play_sound_if_enabled(0x703);
             ((R06_80172970_S_80172970_0 *)action)->unk_96 = 0xE;
             ((R06_80172970_S_80172970_0 *)action)->unk_9B++;
             return;
@@ -102,19 +102,19 @@ void dungeonStartSelectedMoveAndResetAction(void *action, EntityRec *position, v
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         (*(u8 *)&actor->unk_6D)--;
-        ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)func_8017140C);
+        ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)initialize_destination_state);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((R06_80172970_S_80172970_4 *)sprite)->unk_14 |= 0x800;
             return;
         }
@@ -136,31 +136,31 @@ void dungeonStartSelectedMoveAndResetAction(void *action, EntityRec *position, v
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(position, ((R06_80172970_S_80172970_4 *)sprite)->unk_24, ((R06_80172970_S_80172970_4 *)sprite)->unk_25);
         if (((R06_80172970_S_80172970_4 *)sprite)->unk_2C != ((u8 *)D_8017586C)) {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017586C);
             func_80047784(
                 sprite,
-                ((u8 *)D_8017586C)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_8017586C)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         ((R06_80172970_S_80172970_4 *)sprite)->unk_14 &= 0xF7FF;
-        ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)func_8017140C);
-        dungeonAdvanceStatusTimers(actor);
+        ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)initialize_destination_state);
+        advance_status_timers(actor);
         if (actor->unk_6D > 0) {
             (*(u8 *)&actor->unk_6D)--;
         }
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
 
         return;
     default:

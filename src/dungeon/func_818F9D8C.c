@@ -12,7 +12,7 @@ typedef struct Func818F9D8CState {
 
 
 /* Updates a grayscale fade, advances its progress, and flags completion. */
-void dungeonAdvanceGrayscaleFade(Func818F9D8CState *state, s32 unused, u8 *out)
+void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
 {
     s32 current;
     s32 target;
@@ -39,7 +39,7 @@ void dungeonAdvanceGrayscaleFade(Func818F9D8CState *state, s32 unused, u8 *out)
     state->current = next_step;
     if (next_step >= state->limit) {
         ((u16 *)state)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

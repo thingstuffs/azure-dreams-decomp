@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-s32 dungeonDrawN16ShadedLineSegmentsLinkThemOrderingTableDepth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
+s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = D_80080000;
   s32 segment = 15;
@@ -10,7 +10,7 @@ s32 dungeonDrawN16ShadedLineSegmentsLinkThemOrderingTableDepth(void *unused_0, v
   u8 *scratch;
   u8 *line_prim;
   GpuContext *initial_ctx;
-  GameWork *render_state = &gameWork;
+  GameWork *render_state = &g_game_work;
   s32 depth;
   initial_ctx = *((GpuContext **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;

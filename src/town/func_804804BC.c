@@ -8,7 +8,7 @@
 extern s32 D_80019438;
 
 /* Decrements the current state's counter by D_80019438. */
-void townTickSceneStateCounter(void) {
+void tick_scene_state_counter(void) {
     TownStateRecord *counter_state;
 
     counter_state = D_80016000->unk_38;

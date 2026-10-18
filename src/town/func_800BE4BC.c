@@ -19,7 +19,7 @@ extern void func_80033B78(s32 flag_id);
 extern void *func_8003FD64(s32 flags, void *list_head);
 extern u8 D_800BBCA0[16];
 /* Creates an object and initializes its data pointer and three input values. */
-s32 townCreateObjectFromThreeValues(s32 *values)
+s32 create_object_from_three_values(s32 *values)
 {
     S_800BE4BC *object;
     u8 (*object_data)[16];

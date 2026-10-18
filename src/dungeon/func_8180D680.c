@@ -16,7 +16,7 @@ extern s32 rand(void);
 extern u8 D_80028868[];
 
 /* Update a trailing effect's position, brightness, and animation frame. */
-void dungeonUpdateTrailingEffectAnimation(void *effect, void *transform, void *render_data)
+void update_trailing_effect_animation(void *effect, void *transform, void *render_data)
 {
     s32 history_index;
     s16 brightness;
@@ -95,7 +95,7 @@ void dungeonUpdateTrailingEffectAnimation(void *effect, void *transform, void *r
 
             if (S16_AT(effect, 0x6A) < 0x11) {
                 U16_AT(effect, -2) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
         }
     } else {
@@ -118,7 +118,7 @@ void dungeonUpdateTrailingEffectAnimation(void *effect, void *transform, void *r
         S16_AT(effect, 0x66) = frames_left;
         if ((frames_left <= 0) && ((s16)brightness == 0)) {
             U16_AT(effect, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         U8_AT(render_data, 0xE) = brightness;
         U8_AT(render_data, 0xD) = brightness;

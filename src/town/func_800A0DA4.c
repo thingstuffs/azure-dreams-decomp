@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Sets object type fields and selects the corresponding resource. */
-void townSetObjectTypesAndResource(void *object, s32 index, void *output)
+void set_object_types_and_resource(void *object, s32 index, void *output)
 {
     u32 resource;
     u8 mode;
@@ -9,19 +9,19 @@ void townSetObjectTypesAndResource(void *object, s32 index, void *output)
 
     mode = BU(object, 0x94);
     if (mode == 0) {
-        townConfigureTheSetModeN4(object, index, D_800D073C);
-        townInitializeOptionalObjectState(object, index, output, D_800D076C);
+        configure_the_set_mode_n_4(object, index, D_800D073C);
+        initialize_optional_object_state(object, index, output, D_800D076C);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else
     if ((s8)mode == -1) {
-        townConfigureTheSetModeN3(object, index, D_800D073C);
-        townInitializeOptionalObjectState(object, index, output, 0);
+        configure_the_set_mode_n_3(object, index, D_800D073C);
+        initialize_optional_object_state(object, index, output, 0);
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else {
-        townConfigureTheSetModeN4(object, index, D_800D073C);
-        townInitializeOptionalObjectState(object, index, output, D_800D0788);
+        configure_the_set_mode_n_4(object, index, D_800D073C);
+        initialize_optional_object_state(object, index, output, D_800D0788);
         {
             u8 *type_table;
 
@@ -31,14 +31,14 @@ void townSetObjectTypesAndResource(void *object, s32 index, void *output)
             BU(object, 0x4E) = type_table[BU(object, 0x95) * 4 + 0x982];
             BU(object, 0x4F) = type_table[BU(object, 0x95) * 4 + 0x983];
         }
-        townInitializeEntityFlagsTransformTypeDependentVariant(object, object, index, output);
+        initialize_entity_flags_transform_type_dependent_variant(object, object, index, output);
     }
 
-    if (townIsUnk18N12Unk1ABetweenN37N41() == 0) {
-        resource = (u32)&townCleanupOrDispatchObject;
+    if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0) {
+        resource = (u32)&cleanup_or_dispatch_object;
         PP(object, -0x10) = (u8 *)resource;
     } else {
-        resource = (u32)townDispatchObjectOrSwitchAlternateState;
+        resource = (u32)dispatch_object_or_switch_alternate_state;
         PP(object, -0x10) = (u8 *)resource;
     }
     if ((u32)(BU(object, 0x4D) - 0x12) < 2U) {
@@ -51,7 +51,7 @@ void townSetObjectTypesAndResource(void *object, s32 index, void *output)
     } else if (type == 0x13) {
         u8 *data_base = (u8 *)0x80010000;
 
-        townSetObjectStateForMode(
+        set_object_state_for_mode(
             object,
             output,
             BU(object, 0x4C),
@@ -60,7 +60,7 @@ void townSetObjectTypesAndResource(void *object, s32 index, void *output)
                     + 0xA94]);
         return;
     } else {
-        resource = lookupItemCategoryMappedValue(BU(object, 0x4D), BU(object, 0x4C));
+        resource = lookup_item_category_mapped_value(BU(object, 0x4D), BU(object, 0x4C));
     }
     WD(output, 8) = resource;
 }

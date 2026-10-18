@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_8009FB34();
-extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 find_active_rect_containing_point();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 
 /* Tests whether distinct neighboring positions share a lookup value or pass the relation check. */
-s32 dungeonCompareMonsterNeighborValues(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
+s32 compare_monster_neighbor_values(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     u16 src_x_bits = src_x;
     u16 src_y_bits = src_y;
     u16 dst_x_bits = dst_x;
@@ -42,11 +42,11 @@ s32 dungeonCompareMonsterNeighborValues(s32 src_x, s32 src_y, s32 dst_x, s32 dst
             if (detail_out != 0) {
                 query_x = src_x_bits & 0xFFFF;
                 query_y = src_y_bits & 0xFFFF;
-                src_value = func_8009FB34(query_x, query_y);
+                src_value = find_active_rect_containing_point(query_x, query_y);
                 query_x = dst_x_bits & 0xFFFF;
                 query_y = dst_y_bits & 0xFFFF;
                 saved_src_value = src_value;
-                dst_value = func_8009FB34(query_x, query_y);
+                dst_value = find_active_rect_containing_point(query_x, query_y);
                 if ((saved_src_value << 0x10) == (dst_value << 0x10)) {
                     return 1;
                 }
@@ -54,7 +54,7 @@ s32 dungeonCompareMonsterNeighborValues(s32 src_x, s32 src_y, s32 dst_x, s32 dst
                 query_y = signed_src_y;
                 query_dst_x = signed_dst_x;
                 query_dst_y = signed_dst_y;
-                relation_flags = (s32) (dungeonGetRoundedFacingAndRoundingFlag(query_x, query_y, query_dst_x, query_dst_y, &relation_detail)
+                relation_flags = (s32) (get_rounded_facing_and_rounding_flag(query_x, query_y, query_dst_x, query_dst_y, &relation_detail)
                     << 0x10) >> 0x19;
                 relation_detail = (s16) relation_flags;
                 allowed = 1;

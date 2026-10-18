@@ -8,11 +8,11 @@ extern s32 D_8008148C;
 extern void func_80043D04(void);
 
 /* Registers a function-pointer callback (matched, gcc 2.8.1, src/code2.c). */
-extern void setScenePhaseCallback(void (*a0)(void));
+extern void set_scene_phase_callback(void (*a0)(void));
 
 /* Copies D_8008148C's leading word into D_80081480 and registers func_80043D04 as the next callback. */
 void func_80043CD0(void)
 {
     D_80081480 = D_8008148C;
-    setScenePhaseCallback(func_80043D04);
+    set_scene_phase_callback(func_80043D04);
 }

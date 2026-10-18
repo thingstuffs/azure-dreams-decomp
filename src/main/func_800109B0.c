@@ -9,7 +9,7 @@ typedef struct S_800239B0_0 {
 } S_800239B0_0;
 
 /* Processes the values referenced by three consecutive record entries. */
-void cardBootReleaseThreeRowPanelText(void *record) {
+void card_boot_release_three_row_panel_text(void *record) {
     s32 *value_ptr;
     s32 entry_index;
     void *entry_cursor;

@@ -3,7 +3,7 @@
 
 typedef struct S_80025360_0_pre {
     u16 unk_00;
-} S_80025360_0_pre;   /* the 0x2 bytes before obj in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion, addressed as obj[-1] */
+} S_80025360_0_pre;   /* the 0x2 bytes before obj in update_a_timed_rectangle_effect_fading_color_in_out_marking_completion, addressed as obj[-1] */
 
 typedef struct S_80025360_0 {
     s16 unk_00;
@@ -12,7 +12,7 @@ typedef struct S_80025360_0 {
     void * unk_40;
     u8 pad_44[0x4];
     s32 unk_48;
-} S_80025360_0;   /* obj in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
+} S_80025360_0;   /* obj in update_a_timed_rectangle_effect_fading_color_in_out_marking_completion */
 
 typedef struct S_80025360_1 {
     u8 pad_00[0xC];
@@ -21,15 +21,15 @@ typedef struct S_80025360_1 {
     s8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_80025360_1;   /* dest in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
+} S_80025360_1;   /* dest in update_a_timed_rectangle_effect_fading_color_in_out_marking_completion */
 
 typedef struct S_80025360_2 {
     u8 pad_00[0x9C];
     s16 unk_9C;
-} S_80025360_2;   /* ((S_80025360_0 *)obj)->unk_40 in dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion */
+} S_80025360_2;   /* ((S_80025360_0 *)obj)->unk_40 in update_a_timed_rectangle_effect_fading_color_in_out_marking_completion */
 
 
-extern s32 func_80024A5C();
+extern s32 draw_effect_and_restore_clip();
 typedef struct Rect {
     s16 x;
     s16 y;
@@ -47,7 +47,7 @@ extern Rect D_80024048;
 extern s16 D_80026428;
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
-void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *effect_arg, void *unused, void *sprite_arg)
+void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void *effect_arg, void *unused, void *sprite_arg)
 {
     Work work;
     s16 next_frame;
@@ -84,7 +84,7 @@ void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *e
     work.x = 0x370;
     work.y = 0x120;
     one = 1;
-    func_80024A5C(((S_80025360_0 *)effect_arg)->unk_48, &work.rect, &work.x, one, one);
+    draw_effect_and_restore_clip(((S_80025360_0 *)effect_arg)->unk_48, &work.rect, &work.x, one, one);
     frame = ((S_80025360_0 *)effect_arg)->unk_02;
     if (frame < 0x15) {
         ((S_80025360_1 *)sprite)->unk_0E = (s8)((frame << 7) / 20);
@@ -103,6 +103,6 @@ void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *e
         ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
         ((S_80025360_2 *)(((S_80025360_0 *)effect_arg)->unk_40))->unk_9C = one;
         (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

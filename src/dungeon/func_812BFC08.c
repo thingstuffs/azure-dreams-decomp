@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_812A7C08; every changed retail word is a paired relocation. */
-#define dungeonUpdateJumpMovementAndLanding func_8015B408
+#define update_jump_movement_and_landing func_8015B408
 #define D_80171FA4 D_80159FA4
 #define D_80175C48 D_8015DC48
 #define D_80175C50 D_8015DC50
@@ -14,11 +14,11 @@
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 extern void func_8015D3DC(void *, s32);
 
 extern s32 D_80159FA4;
@@ -76,16 +76,16 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
                 ((S_80173408_0 *)jump)->unk_9B.n = 4;
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-                dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
+                resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_2 *)actor)->unk_2A, 1);
                 return;
             }
         }
 
         motion->unk_0C -=
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
+            *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
         motion->unk_10 -=
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
+            *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
         ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
         if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
@@ -102,7 +102,7 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
         }
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8015DC48;
         func_80047784(sprite,
-            D_8015DC48[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_8015DC48[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         func_8015D3DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
         state = ((S_80173408_0 *)jump)->unk_9B.v;
@@ -119,10 +119,10 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
             s32 arc;
             s16 timer;
 
-            x_table = (s16 *)((s8 *)dirStepX);
+            x_table = (s16 *)((s8 *)dir_step_x);
             y_entry = (s16 *)(((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE);
             x_entry = (s16 *)((s32)y_entry + (u8 *)x_table);
-            y_table = (s16 *)((s8 *)dirStepY);
+            y_table = (s16 *)((s8 *)dir_step_y);
             y_entry = (s16 *)((s32)y_entry + (u8 *)y_table);
             arc = *x_entry;
             y_entry = (s16 *)(*y_entry);
@@ -140,9 +140,9 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
         }
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8015DC50;
         func_80047784(sprite,
-            D_8015DC50[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            D_8015DC50[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
             0);
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         state = ((S_80173408_0 *)jump)->unk_9B.n;
         ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
         return;
@@ -161,12 +161,12 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
             s32 velocity_y;
 
             if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
-                dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
+                resolve_attack_damage_and_effects(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
             }
-            x_table = (s16 *)((s8 *)dirStepX);
+            x_table = (s16 *)((s8 *)dir_step_x);
             dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
             x_entry = (s16 *)(dir_offset + (u8 *)x_table);
-            y_table = (s16 *)((s8 *)dirStepY);
+            y_table = (s16 *)((s8 *)dir_step_y);
             y_entry = (s16 *)(dir_offset + (u8 *)y_table);
             direction_x = *x_entry;
             arc = *y_entry;
@@ -183,7 +183,7 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
             }
             (*(u8 * *)((u8 *)sprite + (0x2C))) = D_8015DC58;
             func_80047784(sprite,
-                D_8015DC58[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+                D_8015DC58[((g_game_work.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)x_table +
@@ -217,11 +217,11 @@ void func_8015B408(void *jump, EntityRec *motion, void *sprite, void *actor)
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &D_80159FA4;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
     }
 }

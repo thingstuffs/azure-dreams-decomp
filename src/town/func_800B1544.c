@@ -5,7 +5,7 @@
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
     void * unk_D8;
-} S_800AECA4_2;   /* arg0 in townInitializeItemMenuListEntries */
+} S_800AECA4_2;   /* arg0 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_3 {
     u8 pad_00[0x8];
@@ -14,7 +14,7 @@ typedef struct S_800AECA4_3 {
     void * unk_20;
     u8 pad_24[0x14];
     void * unk_38;
-} S_800AECA4_3;   /* base in townInitializeItemMenuListEntries */
+} S_800AECA4_3;   /* base in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_4 {
     u8 pad_00[0x50];
@@ -24,22 +24,22 @@ typedef struct S_800AECA4_4 {
 typedef struct S_800AECA4_5 {
     s32 * unk_00;
     M2C_UNK ** unk_04;
-} S_800AECA4_5;   /* ((S_800AECA4_2 *)arg0)->unk_D8 in townInitializeItemMenuListEntries */
+} S_800AECA4_5;   /* ((S_800AECA4_2 *)arg0)->unk_D8 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_6 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AECA4_6;   /* ((S_800AECA4_3 *)base)->unk_38 in townInitializeItemMenuListEntries */
+} S_800AECA4_6;   /* ((S_800AECA4_3 *)base)->unk_38 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_7 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AECA4_7;   /* ((S_800AECA4_3 *)base)->unk_08 in townInitializeItemMenuListEntries */
+} S_800AECA4_7;   /* ((S_800AECA4_3 *)base)->unk_08 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_8 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AECA4_8;   /* ((S_800AECA4_3 *)base)->unk_20 in townInitializeItemMenuListEntries */
+} S_800AECA4_8;   /* ((S_800AECA4_3 *)base)->unk_20 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_9 {
     u8 pad_00[0x4];
@@ -49,22 +49,22 @@ typedef struct S_800AECA4_9 {
 typedef struct S_800AECA4_10 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AECA4_10;   /* ((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00 in townInitializeItemMenuListEntries */
+} S_800AECA4_10;   /* ((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_11 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AECA4_11;   /* ((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04 in townInitializeItemMenuListEntries */
+} S_800AECA4_11;   /* ((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_12 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AECA4_12;   /* ((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04 in townInitializeItemMenuListEntries */
+} S_800AECA4_12;   /* ((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_13 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AECA4_13;   /* ((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04 in townInitializeItemMenuListEntries */
+} S_800AECA4_13;   /* ((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_14 {
     u8 pad_00[0xA];
@@ -74,13 +74,13 @@ typedef struct S_800AECA4_14 {
 typedef struct S_800AECA4_15 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800AECA4_15;   /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in townInitializeItemMenuListEntries */
+} S_800AECA4_15;   /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
 
 
 int func_80049E6C();
 s32 func_8004DC14();
-s32 townGetItemMenuTableEntry();
-void townAnimateItemMenuCursorTransition();
+s32 get_item_menu_table_entry();
+void animate_item_menu_cursor_transition();
 extern u8 D_80077E84[12];
 extern u8 D_80077EF0[12];
 extern u8 D_80077EFC[12];
@@ -95,7 +95,7 @@ typedef struct S_800AECA4_0 {
     u8 * unk_38;
     u8 pad_3C[0x9C];
     void * unk_D8;
-} S_800AECA4_0;   /* arg0 in townInitializeItemMenuListEntries */
+} S_800AECA4_0;   /* arg0 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_1 {
     u8 pad_00[0x8];
@@ -106,10 +106,10 @@ typedef struct S_800AECA4_1 {
     void ** unk_38;
     u8 pad_3C[0x14];
     s32 * unk_50;
-} S_800AECA4_1;   /* base in townInitializeItemMenuListEntries */
+} S_800AECA4_1;   /* base in initialize_item_menu_list_entries */
 
 /* Initializes the list display entries and activates the list. */
-void townInitializeItemMenuListEntries(void *list) {
+void initialize_item_menu_list_entries(void *list) {
     s16 row_y;
     s16 entry_y;
     s32 row_slot;
@@ -154,7 +154,7 @@ void townInitializeItemMenuListEntries(void *list) {
             }
             row_y += 0x10;
             {
-                s32 entry_handle = func_8004DC14(townGetItemMenuTableEntry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
+                s32 entry_handle = func_8004DC14(get_item_menu_table_entry(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
                 u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *((S_800AECA4_1 *)row_slots)->unk_50 = entry_handle;
             }
@@ -166,5 +166,5 @@ void townInitializeItemMenuListEntries(void *list) {
     }
     ((S_800AECA4_0 *)list)->unk_04 = 1;
     ((S_800AECA4_0 *)list)->unk_08 = 1;
-    townAnimateItemMenuCursorTransition(list);
+    animate_item_menu_cursor_transition(list);
 }

@@ -19,7 +19,7 @@ extern s32 rcos(s32);
 extern s32 rsin(s32);
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
-void runtimeTransformSpriteAttachmentPoint(void *transform, void *point, void *result)
+void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result)
 {
     u8 *render_state;
     u8 *scratch;
@@ -35,7 +35,7 @@ void runtimeTransformSpriteAttachmentPoint(void *transform, void *point, void *r
     s32 final_angle_z;
     s32 base_angle;
 
-    render_state = (u8 *)((void * *)(&gameWork));
+    render_state = (u8 *)((void * *)(&g_game_work));
     PushMatrix();
     scratch = (u8 *)0x1F800000;
 

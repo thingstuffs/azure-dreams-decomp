@@ -9,7 +9,7 @@ typedef struct S_80023194_0 {
 } S_80023194_0;
 
 /* Processes the values referenced by five consecutive record entries. */
-void cardBootReleaseFiveMessageEntries(void *record) {
+void card_boot_release_five_message_entries(void *record) {
     s32 *value_ptr;
     s32 entry_index;
     void *entry_cursor;

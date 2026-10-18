@@ -4,7 +4,7 @@
 extern void func_800478B8(void *target);
 
 /* Increment the linked object's counter, process the target, and propagate its status flags. */
-void dungeonAdvanceLinkedObjectCounter(void *entry, s32 unused, void *target) {
+void advance_linked_object_counter(void *entry, s32 unused, void *target) {
     u8 *linked_obj;
 
     linked_obj = *(u8 **)((u8 *)entry + 0xC);
@@ -12,6 +12,6 @@ void dungeonAdvanceLinkedObjectCounter(void *entry, s32 unused, void *target) {
     func_800478B8(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

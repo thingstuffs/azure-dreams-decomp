@@ -14,7 +14,7 @@ extern M2C_UNK D_8002116C;
 
 
 /* Initializes resources and assigns their data pointer when lookup succeeds. */
-void func_80016DBC(void) {
+void initialize_resources_assigns_pointer_lookup(void) {
     s32 resource_id;
 
     resource_id = func_800198A4(0xD, 6);

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_12c50ac.h"
 
-void *dungeonCreateAndInitializesEntityCenterSpecifiedTile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
+void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
     Func812A5000Child *tile_state;
     Func812A5000Child *position;
@@ -24,18 +24,18 @@ void *dungeonCreateAndInitializesEntityCenterSpecifiedTile(s16 entity_id, s16 ti
         position->field2 = (s16)((tile_state->field24 << 6) + 0x20);
         position->field6 = (s16)((tile_state->field25 << 6) + 0x20);
         position->fieldA = height;
-        entity->field2A = (s16)(func_800F6D28(position) << 9);
+        entity->field2A = (s16)(get_direction_toward_target_position(position) << 9);
         entity->field13 = 2;
         entity->field14 |= 0x6000;
         entity->field1C |= 0x6000;
-        func_800A9C18(parent, position, tile_state, entity_id);
+        initialize_actor_sprite_and_animation(parent, position, tile_state, entity_id);
         entity->field9A = 0xFF;
         entity->field9C = -1;
         entity->field8C = D_80171FA4;
         entity->field92 = -0x20;
         entity->field13 = 0x39;
         entity->field1C |= 0x40000;
-        func_800AA36C(entity, position, tile_state, entity);
+        try_move_actor_to_valid_position(entity, position, tile_state, entity);
     }
     return entity;
 }

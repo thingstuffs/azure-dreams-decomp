@@ -12,7 +12,7 @@ typedef struct S_800255B8_0 {
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_800255B8_0;   /* *cur in dungeonCreateLinkedSpritePieces */
+} S_800255B8_0;   /* *cur in create_linked_sprite_pieces */
 
 typedef struct S_800255B8_1 {
     u8 pad_00[0x2];
@@ -21,7 +21,7 @@ typedef struct S_800255B8_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800255B8_1;   /* partA in dungeonCreateLinkedSpritePieces */
+} S_800255B8_1;   /* partA in create_linked_sprite_pieces */
 
 typedef struct S_800255B8_2 {
     u8 pad_00[0x8];
@@ -36,7 +36,7 @@ typedef struct S_800255B8_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800255B8_2;   /* partB in dungeonCreateLinkedSpritePieces */
+} S_800255B8_2;   /* partB in create_linked_sprite_pieces */
 
 typedef struct S_800255B8_3 {
     u8 pad_00[0x20];
@@ -54,20 +54,20 @@ typedef struct S_800255B8_3 {
     u8 pad_44[0x2];
     s16 unk_46;
     s16 unk_48;
-} S_800255B8_3;   /* tail in dungeonCreateLinkedSpritePieces */
+} S_800255B8_3;   /* tail in create_linked_sprite_pieces */
 
 
 extern u8 D_800274C0[];
 extern u8 D_80027580[];
 
-extern s32 hasEnoughAvailableRuntimeNodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32);
 
 static __inline__ s16 dir_step(s16 *table, u16 offset) {
     return *(s16 *)(offset + (u32)table);
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
-void *dungeonCreateLinkedSpritePieces(s16 x, s16 y, s16 z, s16 heading) {
+void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
     void *objects[12];
     s32 piece_index;
     s16 *x_offsets;
@@ -82,12 +82,12 @@ void *dungeonCreateLinkedSpritePieces(s16 x, s16 y, s16 z, s16 heading) {
     s32 y_offset;
     u16 sprite_flags;
 
-    if (hasEnoughAvailableRuntimeNodes(12) == 0) {
+    if (has_enough_available_runtime_nodes(12) == 0) {
         return 0;
     }
 
     piece_index = 0;
-    x_offsets = dirStepX;
+    x_offsets = dir_step_x;
     color_table = &D_80082E80;
     do {
         {
@@ -100,14 +100,14 @@ void *dungeonCreateLinkedSpritePieces(s16 x, s16 y, s16 z, s16 heading) {
             }
             objects[piece_index] = func_8003FD64(2, template);
         }
-        ((S_800255B8_0 *)objects[piece_index])->unk_10 = dungeonUpdateWarpCameraAndEffects;
-        func_8004491C(objects[piece_index], func_800C9034);
+        ((S_800255B8_0 *)objects[piece_index])->unk_10 = update_warp_camera_and_effects;
+        func_8004491C(objects[piece_index], draw_linked_model_chain);
 
         offset_addr = (heading >> 8) & 0xE;
         component_data = ((S_800255B8_0 *)objects[piece_index])->unk_08;
         x_offset = dir_step(x_offsets, offset_addr) << 5;
         ((S_800255B8_1 *)component_data)->unk_02 = x + x_offset;
-        y_offset = dir_step(dirStepY, offset_addr) << 5;
+        y_offset = dir_step(dir_step_y, offset_addr) << 5;
         ((S_800255B8_1 *)component_data)->unk_0A = z;
         ((S_800255B8_1 *)component_data)->unk_06 = y + y_offset;
 

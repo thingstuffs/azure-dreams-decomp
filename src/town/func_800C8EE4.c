@@ -7,17 +7,17 @@
 typedef struct S_800C6644_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
-} S_800C6644_0;   /* arg0 in func_800C6644 */
+} S_800C6644_0;   /* arg0 in apply_setup_on_timeout_variant_2 */
 
 
-void townApplyObjectSetupAndUpdate(S_800C6644_0 *, M2C_UNK, M2C_UNK);
-/* Decrement the countdown and call townApplyObjectSetupAndUpdate when it reaches zero or becomes negative. */
-void func_800C6644(S_800C6644_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+void apply_object_setup_and_update(S_800C6644_0 *, M2C_UNK, M2C_UNK);
+/* Decrement the countdown and call apply_object_setup_and_update when it reaches zero or becomes negative. */
+void apply_setup_on_timeout_variant_2(S_800C6644_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
     u16 countdown;
 
     countdown = object->unk_6C - 1;
     object->unk_6C = countdown;
     if ((countdown << 0x10) <= 0) {
-        townApplyObjectSetupAndUpdate(object, callback_arg_1, callback_arg_2);
+        apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
     }
 }

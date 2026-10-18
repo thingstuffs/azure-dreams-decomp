@@ -17,7 +17,7 @@ typedef struct S_80404EA0_4 {
     s32 unk_2C;
     s32 unk_30;
     s32 unk_34;
-} S_80404EA0_4;   /* D_8009DDD8 + (((S_80404EA0_0 *)arg0)->unk_7C << 7) in cardBuildSelectedSlotDetails */
+} S_80404EA0_4;   /* D_8009DDD8 + (((S_80404EA0_0 *)arg0)->unk_7C << 7) in card_build_selected_slot_details */
 
 typedef struct S_80404EA0_5 {
     u8 pad_00[0x8];
@@ -37,7 +37,7 @@ typedef struct S_80404EA0_0 {
     void * unk_B28;
     void * unk_B2C;
     void * unk_B30;
-} S_80404EA0_0;   /* arg0 in cardBuildSelectedSlotDetails */
+} S_80404EA0_0;   /* arg0 in card_build_selected_slot_details */
 
 typedef struct S_80404EA0_1 {
     union { void * s; s32 u; } unk_00;   /* accessed as both */
@@ -75,7 +75,7 @@ extern s32 D_80408CFC[];
 extern u8 D_8009DDD8[];
 
 /* Build the selected slot's text fields and position its status icons. */
-void cardBuildSelectedSlotDetails(void *panel) {
+void card_build_selected_slot_details(void *panel) {
     s16 text_buf[32];
     s16 number_buf[8];
     s16 time_buf[4];

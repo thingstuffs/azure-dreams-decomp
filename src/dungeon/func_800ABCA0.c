@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set flags in the second byte of each record through the end marker. */
-void dungeonSetRecordByteFlagsThroughEnd(u8 *record, s32 flags) {
+void set_record_byte_flags_through_end(u8 *record, s32 flags) {
     for (;;) {
         record[1] = record[1] | flags;
         if ((s8)record[0] < 0) {

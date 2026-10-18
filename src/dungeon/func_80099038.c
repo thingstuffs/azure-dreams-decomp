@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
-   /* state in dungeonBuildTransformedSpriteQuads */
+   /* state in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_1 {
     union { u16 u; s16 s; } unk_00;   /* accessed as both */
@@ -53,7 +53,7 @@ typedef struct S_8009E798_1 {
     u8 pad_F0[0x10];
     u16 unk_100;
     u16 unk_102;
-} S_8009E798_1;   /* scratch in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_1;   /* scratch in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_2 {
     u8 pad_00[0x2];
@@ -62,7 +62,7 @@ typedef struct S_8009E798_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8009E798_2;   /* arg1 in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_2;   /* arg1 in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_3 {
     u8 pad_00[0x8];
@@ -127,7 +127,7 @@ typedef struct S_8009E798_6 {
     u8 pad_10[0x12];
     u16 unk_22;
     u16 unk_24;
-} S_8009E798_6;   /* packet in dungeonBuildTransformedSpriteQuads */
+} S_8009E798_6;   /* packet in build_transformed_sprite_quads */
 
 typedef struct S_8009E798_7 {
     u8 pad_00[0x4];
@@ -137,11 +137,11 @@ typedef struct S_8009E798_7 {
     u16 unk_0A;
 } S_8009E798_7;
 
-   /* ret_state in dungeonBuildTransformedSpriteQuads */
+   /* ret_state in build_transformed_sprite_quads */
 
 
 
-extern void copyWordsForward(void *, void *, s32);
+extern void copy_words_forward(void *, void *, s32);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
 extern void *func_80064BC0(void *, void *);
@@ -158,9 +158,9 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_801C9E40[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
-s32 dungeonBuildTransformedSpriteQuads(void *draw_area, void *placement, void *sprite)
+s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite)
 {
-    u8 **state_ptr = (u8 **)((u8 *)(&gameWork));
+    u8 **state_ptr = (u8 **)((u8 *)(&g_game_work));
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((GpuContext *)state)->packetCursor;
@@ -190,7 +190,7 @@ s32 dungeonBuildTransformedSpriteQuads(void *draw_area, void *placement, void *s
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
-    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_u16;
+    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_C8.as_u16;
     func_80065820(scratch + 0x98, scratch + 0xD0);
     func_80064BC0(scratch + 0xD0, scratch + 0x30);
 
@@ -263,7 +263,7 @@ s32 dungeonBuildTransformedSpriteQuads(void *draw_area, void *placement, void *s
     func_800666F4(packet);
 
     copy = packet + 0x28;
-    copyWordsForward(copy, packet, 0xA);
+    copy_words_forward(copy, packet, 0xA);
     ((S_8009E798_6 *)packet)->unk_04.at03.v |= 2;
     packet = copy;
     prim = packet + 0x28;

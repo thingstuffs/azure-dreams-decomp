@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_1990800.h"
-void (* const dungeon_1990800_entry)(void *, void *, void *) = func_8002512C;
+void (* const dungeon_1990800_entry)(void *, void *, void *) = advance_effect_sequence;
 #include "../func_81970800.c"
 #include "../func_81970D44.c"
 #include "../func_81970D98.c"

@@ -7,14 +7,14 @@ typedef struct {
     u8 *read_ptr;
 } Func80039258State;
 
-extern void clearResidentBitmapBit(s32 value);
+extern void clear_resident_bitmap_bit(s32 value);
 
-/* Consumes a signed little-endian 16-bit script operand and passes it to clearResidentBitmapBit. */
-void vmOp13ClearFlagBit(Func80039258State *state) {
+/* Consumes a signed little-endian 16-bit script operand and passes it to clear_resident_bitmap_bit. */
+void vm_op_13_clear_flag_bit(Func80039258State *state) {
     u8 *cursor = state->read_ptr;
     s32 low = cursor[0];
     s32 high = cursor[1];
 
     state->read_ptr = cursor + 2;
-    clearResidentBitmapBit((s16)(low + (high << 8)));
+    clear_resident_bitmap_bit((s16)(low + (high << 8)));
 }

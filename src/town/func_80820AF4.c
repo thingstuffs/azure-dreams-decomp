@@ -9,17 +9,17 @@ typedef struct S_800232F4_0 {
     void * unk_0C;
     u8 pad_10[0x6];
     s16 unk_16;
-} S_800232F4_0;   /* obj in townUpdateMinigameOutboundMotion */
+} S_800232F4_0;   /* obj in update_minigame_outbound_motion */
 
 typedef struct S_800232F4_1 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_800232F4_1;   /* owner in townUpdateMinigameOutboundMotion */
+} S_800232F4_1;   /* owner in update_minigame_outbound_motion */
 
 
-extern void formatDecimalFieldSpacePadded(s32 value, s32 width, char *buf);
+extern void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 /* Updates the display value, then moves the object outward and flags it when out of bounds. */
-void townUpdateMinigameOutboundMotion(void *object)
+void update_minigame_outbound_motion(void *object)
 {
     u8 *obj;
     void *owner;
@@ -33,7 +33,7 @@ void townUpdateMinigameOutboundMotion(void *object)
     switch (state) {
     case 0:
     step = *((S_800232F4_0 *)obj)->unk_08;
-    formatDecimalFieldSpacePadded(step * 100, 5,
+    format_decimal_field_space_padded(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);
     if (((S_800232F4_1 *)owner)->unk_5C != 3) {
         return;
@@ -52,7 +52,7 @@ void townUpdateMinigameOutboundMotion(void *object)
     ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s >> 2;
     if ((u16)(((S_800232F4_0 *)obj)->unk_16 + 8) >= 249) {
         (*(u16 *)((u8 *)obj + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
         break;
     }

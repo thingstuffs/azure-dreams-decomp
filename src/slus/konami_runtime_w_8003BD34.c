@@ -13,7 +13,7 @@ extern CopyBlock D_8006ADBC[3];
 extern CopyBlock D_8006ADEC[3];
 
 /* Copy three blocks from D_8006ADEC to D_8006ADBC. */
-void runtimeCopyThreeGlobalBlocks(void) {
+void runtime_copy_three_global_blocks(void) {
     CopyBlock *destination = D_8006ADBC;
     CopyBlock *source = D_8006ADEC;
     CopyBlock *source_end = source + 3;

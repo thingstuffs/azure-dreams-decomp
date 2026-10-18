@@ -25,7 +25,7 @@ extern u8 D_8002614C[];
 extern u8 D_800F7944[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
-void townCreateTakoProjectile(Copy20 *init_data, s32 pos_y)
+void create_tako_projectile(Copy20 *init_data, s32 pos_y)
 {
     Object136 *obj;
     u8 *data;

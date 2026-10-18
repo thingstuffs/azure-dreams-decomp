@@ -1,5 +1,5 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-void townInvokeHandlerWithCode11FB(void) {
+void invoke_handler_with_code_11_fb(void) {
     func_8001A418(0x11FB);
 }

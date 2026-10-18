@@ -5,13 +5,13 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
-void func_8002401C(void *, void *);
-void updateSpiralingEffectGrowthAndFade(void *, void *, void *);
-void func_80024654(void *, s16, s16, void *, s32);
-void processEffectModesAndCompletion(void *);
-void allocateAndInitializeEffectObject(s32, s16, s16, s32);
-void dungeonDrawTexturedEllipse(s32, void *, u16, u16);
-void dungeonCreateTimedModelEffect(s32, void *, s32, s32);
+void update_directional_actor_effect(void *, void *);
+void update_spiraling_effect_growth_and_fade(void *, void *, void *);
+void spawn_spiraling(void *, s16, s16, void *, s32);
+void process_effect_modes_and_completion(void *);
+void allocate_and_initialize_effect_object(s32, s16, s16, s32);
+void draw_textured_ellipse(s32, void *, u16, u16);
+void create_timed_model_effect(s32, void *, s32, s32);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 extern u8 D_800DF334[];

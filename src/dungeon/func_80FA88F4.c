@@ -21,13 +21,13 @@ typedef struct S_801740F4_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
-extern s32 func_800990FC(void);
-extern s32 func_80099194();
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes();
 extern s32 func_80099290();
-extern s32 func_80099734();
-extern s32 func_800A2BDC();
-extern s32 func_800A5720();
-extern s32 func_800A6D30(void);
+extern s32 append_entity_display_text();
+extern s32 has_pending_dungeon_activity();
+extern s32 display_text_with_fullwidth_adjustment();
+extern s32 generate_random_value(void);
 
 extern const u8 D_80152854[20];
 extern u8 D_80156B0C[];
@@ -43,7 +43,7 @@ void func_801560F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
     u8 *table_base;
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         ((S_801740F4_1 *)work)->unk_8C = 0;
         ((S_801740F4_1 *)work)->unk_9A = 0x17;
         ((S_801740F4_1 *)work)->unk_9B = 0;
@@ -52,7 +52,7 @@ void func_801560F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
             if (!(flags & 0x80000000)) {
                 flags |= 0x80000000;
                 actor->flags14 = (s32)flags;
-                actor->facing = (u16)(((u16)actor->facing) + ((func_800A6D30() & 7) << 9));
+                actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
         field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
@@ -60,17 +60,17 @@ void func_801560F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
         table_base = D_80156B0C;
         actor->target = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(gameWork.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
+        func_80047784(part_b, table_base[((s32)(g_game_work.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
             >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
-        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
-        raw_result = func_800990FC();
+        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
+        raw_result = get_unused_text_buffer();
         call_arg = actor;
         pass_result = raw_result;
         result = pass_result;
-        raw_result = func_80099734(call_arg, pass_result);
-        func_80099290(func_80099194(&D_80152854, raw_result));
-        func_800A5720(result);
+        raw_result = append_entity_display_text(call_arg, pass_result);
+        func_80099290(expand_text_control_codes(&D_80152854, raw_result));
+        display_text_with_fullwidth_adjustment(result);
     }
 }
 

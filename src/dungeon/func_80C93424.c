@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster)
+void set_boss_effect_flag(void *entity, CB_80170C24_S_80170C24_2 *motion, void *monster)
 {
     void *actor = entity;
     s32 direction;
@@ -13,7 +13,7 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
     s16 actor_height;
     s16 direction_index;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         CB_80170C24_Callback early_callback;
 
         early_callback = (*(CB_80170C24_Callback *)((u8 *)entity + 0x8C));
@@ -27,7 +27,7 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
 
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -39,12 +39,12 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
     D_8017533C[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, entity);
 
     if ((s16)old_direction != (*(s8 *)((u8 *)entity + 0x6D))) {
-        func_800AA36C(entity, motion, monster, entity);
+        try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
     monster_flags = ((CB_80170C24_S_80170C24_0 *)monster)->unk_14;
     if (!(monster_flags & 0x8000)) {
-        direction_value = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        direction_value = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
         direction_index = direction;
         direction_copy = direction;
@@ -52,12 +52,12 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             u8 *tile_map = ((CB_80170C24_S_80170C24_0 *)monster)->unk_2C;
             if (tile_map != 0) {
-                selectIndirectTableEntry(monster, tile_map[direction_index], ((CB_80170C24_S_80170C24_0 *)monster)->unk_04);
+                select_indirect_table_entry(monster, tile_map[direction_index], ((CB_80170C24_S_80170C24_0 *)monster)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
-        if (dirSpriteFlag[direction_copy] != 0) {
+        if (dir_sprite_flag[direction_copy] != 0) {
             ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 |= 1;
         } else {
             ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 &= 0xFFFE;
@@ -71,7 +71,7 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
             ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 |= 0x7000;
         }
 
-        dungeonApplyMonsterKoyawData(((CB_80170C24_S_80170C24_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
+        apply_monster_koyaw_data(((CB_80170C24_S_80170C24_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((CB_80170C24_S_80170C24_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
@@ -93,7 +93,7 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor_height = func_800BCB04(motion->unk_00.at02.v,
+        floor_height = sample_terrain_surface_height(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
                               (s16)(((CB_80170C24_S_80170C24_1 *)actor)->unk_88.u - 0x20));
         if (floor_height < 0x200) {
@@ -113,7 +113,7 @@ void dungeonSetBossEffectFlag(void *entity, CB_80170C24_S_80170C24_2 *motion, vo
             }
             if (((CB_80170C24_S_80170C24_1 *)actor)->unk_1C & 0x40000000) {
                 ((CB_80170C24_S_80170C24_1 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = func_800BCB04((((CB_80170C24_S_80170C24_0 *)monster)->unk_24 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((((CB_80170C24_S_80170C24_0 *)monster)->unk_24 << 6) | 0x20,
                                       (((CB_80170C24_S_80170C24_0 *)monster)->unk_25 << 6) | 0x20,
                                       (s16)(((CB_80170C24_S_80170C24_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((CB_80170C24_S_80170C24_1 *)actor)->unk_88.u - floor_height;

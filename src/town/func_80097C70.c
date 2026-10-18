@@ -28,7 +28,7 @@ typedef struct TownMoveOut {
 extern TownMoveGlobal D_800CFCB4;
 
 /* Applies the enabled movement offsets, adding the z offset only when positive. */
-void townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive(TownMoveOut *out) {
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(TownMoveOut *out) {
     s32 z_offset;
 
     if (D_800CFCB4.enabled != 0) {

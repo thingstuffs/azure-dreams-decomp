@@ -4,19 +4,19 @@
 typedef struct S_800A3B80_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A3B80_0;   /* town in townEmitBidirectionalAngularSegments */
+} S_800A3B80_0;   /* town in emit_bidirectional_angular_segments */
 
 typedef struct S_800A3B80_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x3];
     u8 unk_0F;
-} S_800A3B80_1;   /* arg2_temp in townEmitBidirectionalAngularSegments */
+} S_800A3B80_1;   /* arg2_temp in emit_bidirectional_angular_segments */
 
 typedef struct S_800A3B80_2 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800A3B80_2;   /* arg2_data in townEmitBidirectionalAngularSegments */
+} S_800A3B80_2;   /* arg2_data in emit_bidirectional_angular_segments */
 
 typedef struct S_800A3B80_3 {
     s16 unk_00;
@@ -24,16 +24,16 @@ typedef struct S_800A3B80_3 {
     u8 unk_06;
     u8 pad_07[0x5];
     s16 unk_0C;
-} S_800A3B80_3;   /* arg0 in townEmitBidirectionalAngularSegments */
+} S_800A3B80_3;   /* arg0 in emit_bidirectional_angular_segments */
 
 typedef struct S_800A3B80_4 {
     void * unk_00;
-} S_800A3B80_4;   /* global_base in townEmitBidirectionalAngularSegments */
+} S_800A3B80_4;   /* global_base in emit_bidirectional_angular_segments */
 
 typedef struct S_800A3B80_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A3B80_5;   /* end_town in townEmitBidirectionalAngularSegments */
+} S_800A3B80_5;   /* end_town in emit_bidirectional_angular_segments */
 
 
 typedef struct TownGlobals {
@@ -66,10 +66,10 @@ extern u16 D_80100D8A;
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void *townProjectVisibleTexturedStrips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
+extern void *project_visible_textured_strips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index);
 
 /* Emits segments in both angular directions and updates the town output pointer. */
-s32 townEmitBidirectionalAngularSegments(S_800A3B80_3 *object, s32 unused, void *context)
+s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *context)
 {
     Scratch *scratch;
     s16 coord_y;
@@ -93,8 +93,8 @@ s32 townEmitBidirectionalAngularSegments(S_800A3B80_3 *object, s32 unused, void 
     s32 next_angle;
 
     scratch = (Scratch *)0x1F800000;
-    global_base = &gameWork;
-    town = gameWork.unk_000;
+    global_base = &g_game_work;
+    town = g_game_work.unk_000;
     output = ((S_800A3B80_0 *)town)->unk_8D0;
     scratch->data20 = (u8 *)town + 0x8B0;
     origin_y = D_80100D88;
@@ -105,7 +105,7 @@ s32 townEmitBidirectionalAngularSegments(S_800A3B80_3 *object, s32 unused, void 
     context_view->unk_0F = context_data->unk_01;
 
     angle_or_coord = object->unk_06;
-    view_angle = ((u16)gameWork.view.viewAngle);
+    view_angle = ((u16)g_game_work.view.viewAngle);
     angle_or_coord += 0xC00;
     view_angle = (view_angle + 0x80) & 0xF00;
     angle_or_coord -= view_angle;
@@ -163,7 +163,7 @@ forward_segment:
     }
     scratch->data8A = result;
     scratch->data7A = result;
-    next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 0);
+    next_output = project_visible_textured_strips(object, context, scratch, output, 0);
     if (next_output != 0) {
         output = next_output;
 
@@ -211,7 +211,7 @@ forward_segment:
         }
         scratch->data8A = result;
         scratch->data7A = result;
-        next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 1);
+        next_output = project_visible_textured_strips(object, context, scratch, output, 1);
         if (next_output != 0) {
             output = next_output;
             goto forward_segment;
@@ -270,7 +270,7 @@ reverse_segment:
     }
     scratch->data82 = result;
     scratch->data72 = result;
-    next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 1);
+    next_output = project_visible_textured_strips(object, context, scratch, output, 1);
     if (next_output != 0) {
         output = next_output;
 
@@ -318,7 +318,7 @@ reverse_segment:
         }
         scratch->data82 = result;
         scratch->data72 = result;
-        next_output = townProjectVisibleTexturedStrips(object, context, scratch, output, 0);
+        next_output = project_visible_textured_strips(object, context, scratch, output, 0);
         if (next_output != 0) {
             output = next_output;
             goto reverse_segment;

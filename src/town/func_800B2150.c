@@ -9,14 +9,14 @@ typedef struct S_800AF8B0_2 {
     s32 unk_18;
     u8 pad_1C[0x4];
     s32 unk_20;
-} S_800AF8B0_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in townPlaceSelectedItemMenuEntry */
+} S_800AF8B0_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in place_selected_item_menu_entry */
 
 
-void *townCreateItemMenuDisplayController(); /* extern */
+void *create_item_menu_display_controller(); /* extern */
 
 
 /* Positions an indexed entry in a two-column, five-row layout. */
-void townPlaceSelectedItemMenuEntry(Rec_func_800AF254_arg1 *entry) {
+void place_selected_item_menu_entry(Rec_func_800AF254_arg1 *entry) {
     M2C_UNK x_pos;
     s32 page_slot;
 
@@ -26,7 +26,7 @@ void townPlaceSelectedItemMenuEntry(Rec_func_800AF254_arg1 *entry) {
         x_pos = 0x28;
     }
     entry->unk_10 = 0;
-    townCreateItemMenuDisplayController(entry->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18, x_pos,
+    create_item_menu_display_controller(entry->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18, x_pos,
         ((page_slot % 5) * 0x18) - 0x80,
         ((s32 *)((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_20)[((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18]);
 }

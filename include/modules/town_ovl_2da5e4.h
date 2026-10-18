@@ -4,6 +4,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-void townInvokeCallbackWithZero(void);
+void invoke_callback_with_zero(void);
 
 #endif

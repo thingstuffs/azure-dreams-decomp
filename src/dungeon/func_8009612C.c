@@ -7,12 +7,12 @@
 extern u16 D_800DCE6C[];
 extern u16 D_800DCE8C[];
 
-extern void zeroWords(void *, s32);
+extern void zero_words(void *, s32);
 extern s32 func_80065F90(s32, s32);
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 dungeonGetActorHeightDifference(void *, void *);
-extern s32 func_800A0548(s32, s32);
-extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 get_actor_height_difference(void *, void *);
+extern s32 is_map_coordinate_out_of_bounds(s32, s32);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 static __inline__ s16 offset_tile(u16 center, u16 offset)
 {
@@ -20,7 +20,7 @@ static __inline__ s16 offset_tile(u16 center, u16 offset)
 }
 
 /* Find an unoccupied valid position at the target or within two tiles. */
-s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
+s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
     u16 tile_flags;
     u8 *occupied;
     u16 search_seed;
@@ -66,7 +66,7 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
         wrap_pending = 1;
         entry = *(u8 **)(actor + 88) + 32;
     }
-    zeroWords(occupied, 7);
+    zero_words(occupied, 7);
     entry = *(u8 **)(entry + 92) + 32;
     while (entry != actor || (wrap_check = wrap_pending) != 0) {
         object = *(u8 **)(entry - 20);
@@ -88,7 +88,7 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
             } else {
                 slot = (((func_80065F90(object_y - (s16)target_y, object_x - (s16)target_x) + 128) >> 8) & 15) + 9;
             }
-            separation = (s16)dungeonGetActorHeightDifference(actor, entry);
+            separation = (s16)get_actor_height_difference(actor, entry);
             if (separation < 0) {
                 separation = -separation;
             }
@@ -103,11 +103,11 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
     if (occupied[0] == 0) {
         center_x = (s16)target_x;
         center_y = (s16)target_y;
-        if ((func_800A0548(center_x, center_y) == 0) &&
-            ((getOffsetMapCellValueAndFlags((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) != 0) &&
+        if ((is_map_coordinate_out_of_bounds(center_x, center_y) == 0) &&
+            ((get_offset_map_cell_value_and_flags((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) != 0) &&
             ((tile_flags & 0x8000) == 0) &&
             ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
-            ((s16)func_800BCB04((((center_x << 6) + 32) & 0xffe0), (((center_y << 6) + 32) & 0xffe0),
+            ((s16)sample_terrain_surface_height((((center_x << 6) + 32) & 0xffe0), (((center_y << 6) + 32) & 0xffe0),
                            (s16)(*(u16 *)(actor + 136) - 32)) < 512)) {
             *out_x = target_x;
             *out_y = target_y;
@@ -117,20 +117,20 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
 
     attempts = 0;
     near_x = (s16)target_x;
-    search_seed = dungeonStatus.unk_1E;
+    search_seed = g_dungeon_status.unk_1E;
     far_x = (s16)target_y;
     slot = search_seed & 7;
     do {
         near_dir = slot;
         if (*(occupied + near_dir + 1) == 0) {
-            near_dx = dirStepX + near_dir;
-            near_dy = dirStepY + near_dir;
+            near_dx = dir_step_x + near_dir;
+            near_dy = dir_step_y + near_dir;
             if ((near_offset_x = near_dx[0], near_offset_y = near_dy[0],
-                 func_800A0548((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
-                (getOffsetMapCellValueAndFlags(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
+                 is_map_coordinate_out_of_bounds((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
+                (get_offset_map_cell_value_and_flags(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
-                (s16)func_800BCB04((((near_x + (s16)near_dx[0]) << 6) + 32) & 0xffe0,
+                (s16)sample_terrain_surface_height((((near_x + (s16)near_dx[0]) << 6) + 32) & 0xffe0,
                                    (((far_x + (s16)near_dy[0]) << 6) + 32) & 0xffe0,
                                    (s16)(*(u16 *)(actor + 136) - 32)) < 512) {
                 s16 near_result_x, near_result_y;
@@ -147,7 +147,7 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
 
     attempts = 0;
     far_x = (s16)target_x;
-    search_seed = dungeonStatus.unk_1E;
+    search_seed = g_dungeon_status.unk_1E;
     far_y = (s16)target_y;
     near_dy = search_seed & 15;
     slot = near_dy;
@@ -158,13 +158,13 @@ s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *o
             far_dy = D_800DCE8C + far_dir;
 
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
-                 func_800A0548(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&
+                 is_map_coordinate_out_of_bounds(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&
                 ((tile_offset_x = far_dx[0], tile_offset_y = far_dy[0],
-                  getOffsetMapCellValueAndFlags((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags))
+                  get_offset_map_cell_value_and_flags((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags))
                       << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
-                (s16)func_800BCB04((((far_x + (s16)far_dx[0]) << 6) + 32) & 0xffe0,
+                (s16)sample_terrain_surface_height((((far_x + (s16)far_dx[0]) << 6) + 32) & 0xffe0,
                                    (((far_y + (s16)far_dy[0]) << 6) + 32) & 0xffe0,
                                    (s16)(*(u16 *)(actor + 136) - 32)) < 512) {
                 result_dx = far_dx[0];

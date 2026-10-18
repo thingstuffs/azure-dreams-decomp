@@ -21,7 +21,7 @@ typedef struct {
 
 
 /* Packs item flag 0x400 into a RAM bitset for each item category. */
-void packItemFlag400Bitmap(void)
+void pack_item_flag_400_bitmap(void)
 {
     DungeonGroup *item_category;
     DungeonGroup *cell_group;

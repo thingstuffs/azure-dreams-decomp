@@ -14,7 +14,7 @@ extern void func_8004491C(Effect *, void *);
 extern u8 D_800CEEFC[], D_80024784[];
 
 /* Create a positioned effect and set its animation and lifetime parameters. */
-Effect *func_80024924(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
+Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
     Effect *effect;
     u8 *sprite;
     u8 *work;

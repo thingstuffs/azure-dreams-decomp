@@ -6,21 +6,21 @@
 #include "shared/dungeon_status.h"
 
 extern void func_80042B68();
-extern void dungeonBeginDeferredItemAction();
-extern void dungeonClearSlotAndUpdateLinkedState();
-extern s32 func_800990FC(void);
-extern s32 func_80099194();
+extern void begin_deferred_item_action();
+extern void clear_slot_and_update_linked_state();
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes();
 extern void func_80099290();
-extern void func_800A5720();
-extern void func_800A5F38();
-extern void func_800A63B8();
-extern s32 dungeonApplyActorFoodPreference();
-extern void dungeonCreateTimedPairedParticleEmitter();
+extern void display_text_with_fullwidth_adjustment();
+extern void apply_item_effect_at_entity_position();
+extern void display_item_status_message();
+extern s32 apply_actor_food_preference();
+extern void create_timed_paired_particle_emitter();
 
 extern u8 D_800E188B[];
 
 /* Updates an entity and its effects, decrementing the shared counter on completion. */
-s32 dungeonUseItemToRestoreEyesight(void *entity_arg, s32 amount_arg, s16 effect_arg)
+s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_arg)
 {
     s32 amount = amount_arg;
     s32 initial_id;
@@ -28,7 +28,7 @@ s32 dungeonUseItemToRestoreEyesight(void *entity_arg, s32 amount_arg, s16 effect
 
     if (entity_arg == D_800E3D7C) {
         *(s32 *)((u8 *)entity_arg + 0x110) = amount;
-        dungeonBeginDeferredItemAction(((void *)(entity_arg)), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), ((void *)(entity_arg)));
+        begin_deferred_item_action(((void *)(entity_arg)), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), ((void *)(entity_arg)));
         return 0;
     }
 
@@ -37,30 +37,30 @@ s32 dungeonUseItemToRestoreEyesight(void *entity_arg, s32 amount_arg, s16 effect
         u16 *type_table;
         s32 entity_type;
 
-        func_800A63B8(entity_arg, amount, effect_arg);
+        display_item_status_message(entity_arg, amount, effect_arg);
         lookup_entity = entity_arg;
         entity_type = *((u8 *)entity_arg + 0x13);
         type_table = (u16 *)&D_800DDE84;
-        if (dungeonApplyActorFoodPreference(lookup_entity,
+        if (apply_actor_food_preference(lookup_entity,
                           (type_table[entity_type] >> 6) & 3,
                           0) == 0) {
-            func_800A5F38(entity_arg, amount);
+            apply_item_effect_at_entity_position(entity_arg, amount);
             return 1;
         }
     }
 
-    dungeonCreateTimedPairedParticleEmitter(*(s32 *)((u8 *)entity_arg - 0x18), 0xC02020, entity_arg);
+    create_timed_paired_particle_emitter(*(s32 *)((u8 *)entity_arg - 0x18), 0xC02020, entity_arg);
     if (*(s32 *)((u8 *)entity_arg + 0x14) & 0x4000) {
-        initial_id = func_800990FC();
+        initial_id = get_unused_text_buffer();
         selected_id = initial_id;
         if (!(*(s32 *)((u8 *)entity_arg + 0x1C) & 0x10)) {
-            selected_id = func_80099194(D_800E188B, initial_id);
+            selected_id = expand_text_control_codes(D_800E188B, initial_id);
         }
         func_80099290(selected_id);
-        func_800A5720(initial_id);
+        display_text_with_fullwidth_adjustment(initial_id);
     }
     func_80042B68(entity_arg, 3);
-    dungeonClearSlotAndUpdateLinkedState(amount);
-    dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+    clear_slot_and_update_linked_state(amount);
+    g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
     return 1;
 }

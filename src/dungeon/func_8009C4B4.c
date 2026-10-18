@@ -8,7 +8,7 @@ typedef struct {
 extern D_800E3D7C_t D_800E3D7C;
 
 /* Finds the first matching value in the four slots at offset 0xE4, or returns -1. */
-s32 func_800A1C14(s32 target_value) {
+s32 find_entity_slot_by_field_e4(s32 target_value) {
     s32 slot;
     s32 *slot_ptr;
     s32 slot_value;

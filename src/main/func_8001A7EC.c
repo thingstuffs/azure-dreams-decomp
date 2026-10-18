@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 cardDevkitPollFirstSoftwareEvent(void);
+extern s32 card_devkit_poll_first_software_event(void);
 extern s32 func_804019A4(void);
 extern void func_80400948(s32 value, s32 index);
 
@@ -9,13 +9,13 @@ extern s32 D_80409268[];
 extern s32 D_804094F8[];
 
 /* Updates a slot's flag after four repeats of a nonzero state and returns the flag array. */
-s32 *cardDevkitDebounceChannelStatus(void)
+s32 *card_devkit_debounce_channel_status(void)
 {
     s32 current_state;
     s32 slot_index;
     s32 one;
 
-    current_state = cardDevkitPollFirstSoftwareEvent();
+    current_state = card_devkit_poll_first_software_event();
     if (current_state != 0) {
         slot_index = func_804019A4();
         if (D_80409268[slot_index] == current_state) {

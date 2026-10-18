@@ -3,7 +3,7 @@
 void func_8017526C(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
-    GameWork *fade_state = &gameWork;
+    GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
         (*(s32 *)D_80175A84) = *(s32 *)(input + 8);
@@ -26,7 +26,7 @@ void func_8017526C(u8 *task, void *context, u8 *input)
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
             *(u16 *)(task - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

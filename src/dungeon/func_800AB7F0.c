@@ -7,19 +7,19 @@
 void *func_8003FD64();
 extern s32 func_8004491C();
 s32 func_8004DA74();
-s32 buildPositionedTextGlyphs();
+s32 build_positioned_text_glyphs();
 M2C_UNK func_8004E5A0();
 s32 func_80069E98();
 void *func_800B119C();
-extern s32 dungeonAllocatePanelOffsetOrZero(void);
-void dungeonOffsetRecordCoordinates();
-void dungeonSetRecordFlagsAndNegateX();
+extern s32 allocate_panel_offset_or_zero(void);
+void offset_record_coordinates();
+void set_record_flags_and_negate_x();
 extern M2C_UNK D_80077FEC;
-extern void func_800B0D34();
+extern void update_attached_effect_position();
 extern s32 D_800DEFF8[];
-extern s32 dungeonTransformLinkedQuadBatches(u8 *, s32, u8 *);
+extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
-void *dungeonCreatePanelEffectObject(void *owner)
+void *create_panel_effect_object(void *owner)
 {
     s8 text_buf[16];
     s32 prim_index;
@@ -58,15 +58,15 @@ void *dungeonCreatePanelEffectObject(void *owner)
         *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (D_800DDC40[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
-        *((M2C_UNK **) (((s8 *) panel) + 0x10)) = func_800B0D34;
-        func_8004491C(panel, dungeonTransformLinkedQuadBatches, owner_pos, panel_pos);
+        *((M2C_UNK **) (((s8 *) panel) + 0x10)) = update_attached_effect_position;
+        func_8004491C(panel, transform_linked_quad_batches, owner_pos, panel_pos);
         panel_data = panel + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
         *((void **) (((s8 *) panel) + 0x20)) = (void *) (panel + 0x70);
         *((void **) (((s8 *) panel_data) + 4)) = (void *) (panel + 0x58);
         *((M2C_UNK **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
-        prim = dungeonAllocatePanelOffsetOrZero();
+        prim = allocate_panel_offset_or_zero();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;
         if (prim != 0) {
             void *owner_pos;
@@ -83,15 +83,15 @@ void *dungeonCreatePanelEffectObject(void *owner)
                 text_buf[1] = text_style;
             }
             func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x28)), count_or_color, digits);
-            *((s32 *) (((s8 *) panel) + 0x74)) = buildPositionedTextGlyphs(prim, text_buf, 0);
-            dungeonOffsetRecordCoordinates(prim, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) prim) + 3))) << 0x18)) >> 8))) >> 0x10);
-            dungeonSetRecordFlagsAndNegateX(prim, 8);
+            *((s32 *) (((s8 *) panel) + 0x74)) = build_positioned_text_glyphs(prim, text_buf, 0);
+            offset_record_coordinates(prim, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) prim) + 3))) << 0x18)) >> 8))) >> 0x10);
+            set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x5C)) = color_or_addr;
             func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x25)), 3, digits);
-            *((s32 *) (((s8 *) panel) + 0x78)) = buildPositionedTextGlyphs(prim, text_buf, 0);
-            dungeonOffsetRecordCoordinates(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
-            dungeonSetRecordFlagsAndNegateX(prim, 8);
+            *((s32 *) (((s8 *) panel) + 0x78)) = build_positioned_text_glyphs(prim, text_buf, 0);
+            offset_record_coordinates(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
+            set_record_flags_and_negate_x(prim, 8);
             prim += 0x24;
             *((s32 *) (((s8 *) panel) + 0x60)) = color_or_addr;
             text_id = *((u16 *) (((s8 *) entity) + 0x46));
@@ -111,9 +111,9 @@ void *dungeonCreatePanelEffectObject(void *owner)
                 text_width = func_80069E98(text_addr_2 + 1);
             }
             text_width *= 4;
-                dungeonOffsetRecordCoordinates(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80),
+                offset_record_coordinates(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80),
                     (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 0x11)));
-                dungeonSetRecordFlagsAndNegateX(prim, 8);
+                set_record_flags_and_negate_x(prim, 8);
                 prim += 0x30;
             *color_ptr = 0x808080;
             *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;

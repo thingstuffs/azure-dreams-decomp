@@ -6,7 +6,7 @@
 #define D_80174718 D_80156718
 #include "common.h"
 
-extern void func_8009A028(s32 node);
+extern void unlink_entity_node(s32 node);
 extern s32 D_80156714;
 extern s32 D_80156710;
 extern s16 D_80156718;
@@ -66,7 +66,7 @@ void func_80155C60(void) {
         slot_offset = (slot_index << 16) >> 14;
         object_addr = *(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC);
         if (object_addr != 0) {
-            func_8009A028(object_addr);
+            unlink_entity_node(object_addr);
             object_header = (void *)(*(s32 *)(slot_offset + *(s32 *)(table_page + 0x3D7C) + 0xAC) - 0x20);
             *(u32 *)((u8 *)object_header + 0x10) |= high_bit;
         }

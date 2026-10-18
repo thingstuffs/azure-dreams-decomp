@@ -11,11 +11,11 @@ typedef struct DungeonArea {
     u8 pad[8];
 } DungeonArea;
 
-extern s32 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 func_800A6D30(void);
+extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 generate_random_value(void);
 extern s16 D_80081468[3];
 
-s32 selectDungeonSpawnTile(u8 *x_out, u8 *y_out)
+s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
 {
     u16 tile;
     s16 areaIndex;
@@ -32,14 +32,14 @@ s32 selectDungeonSpawnTile(u8 *x_out, u8 *y_out)
     areas = (DungeonArea *)D_800E2970;
 
     do {
-        areaIndex = (u16)func_800A6D30() % limits[3];
+        areaIndex = (u16)generate_random_value() % limits[3];
         area = (DungeonArea *)((areaIndex * (s32)sizeof(*area)) + (u32)areas);
         if (area->enabled != 0) {
-            x = (u32)(func_800A6D30() & 0xFFFF) % area->width;
-            y = (u32)(func_800A6D30() & 0xFFFF) % area->height;
+            x = (u32)(generate_random_value() & 0xFFFF) % area->width;
+            y = (u32)(generate_random_value() & 0xFFFF) % area->height;
             x += area->x;
             y += area->y;
-            if ((s16)getOffsetMapCellValueAndFlags((s16)(x - 1), y, 0, &tile) != 0) {
+            if ((s16)get_offset_map_cell_value_and_flags((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = areaIndex;
                     *x_out = x;
@@ -53,7 +53,7 @@ s32 selectDungeonSpawnTile(u8 *x_out, u8 *y_out)
 
     for (y = 1; y < 0x3F; y++) {
         for (x = 1; x < 0x3F; x++) {
-            if ((s16)getOffsetMapCellValueAndFlags((s16)(x - 1), y, 0, &tile) != 0) {
+            if ((s16)get_offset_map_cell_value_and_flags((s16)(x - 1), y, 0, &tile) != 0) {
                 if ((tile & 0xF720) == 0) {
                     result = 0;
                     *x_out = x;

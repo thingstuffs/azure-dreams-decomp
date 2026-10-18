@@ -16,7 +16,7 @@ extern u8 D_80016000[];
 
 extern void func_8003C6F8(s32 key, s32 index);
 
-s32 findRuntimeTableKeyIndex(s32 key);
+s32 find_runtime_table_key_index(s32 key);
 s32 func_8003C758(s32 key);
 void func_8003C920(void);
 

@@ -1,11 +1,11 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-s32 inventoryCheckTypeFourLinkedObject(Rec_func_80025850_arg0 *context) {
+s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
     s32 check_passed;
 
     check_passed = 0;
     if (context->unk_08 == 4) {
-        check_passed = dungeonCheckObjectBytePairsContent(((ovl_1830850_818109CC_S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28) == 0;
+        check_passed = check_object_byte_pairs_content(((ovl_1830850_818109CC_S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28) == 0;
     }
     return check_passed;
 }

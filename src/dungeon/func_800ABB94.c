@@ -3,7 +3,7 @@
 extern ObjectNodeHeader * func_8003FC64();
 
 /* Add 0x20 to a nonzero result from func_8003FC64(0), preserving zero. */
-s32 dungeonAllocatePanelOffsetOrZero(void) {
+s32 allocate_panel_offset_or_zero(void) {
     s32 value;
     s32 adjusted_value;
 

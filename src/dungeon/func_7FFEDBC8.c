@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_load.h"
 
-s32 func_8008B328(void) {
+s32 has_listed_resource_in_slots(void) {
     s32 slot;
     u8 *entry_indices;
     s32 *entries;
@@ -10,7 +10,7 @@ s32 func_8008B328(void) {
     entry_indices = D_800CF828;
     entries = D_800CF838;
     for (; slot < 0xF; slot++) {
-        s32 found = townResourceValueTableContains(entries[*(u8 *)((u32)slot + (u32)entry_indices)]);
+        s32 found = resource_value_table_contains(entries[*(u8 *)((u32)slot + (u32)entry_indices)]);
 
         if (found != 0) {
             any_found = 1;

@@ -8,7 +8,7 @@ typedef struct S_80173A3C_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173A3C_0;   /* arg0 in dungeonFadeReshapeAndRemoveEntity */
+} S_80173A3C_0;   /* arg0 in fade_reshape_and_remove_entity */
 
 typedef struct S_80173A3C_1 {
     u8 pad_00[0xC];
@@ -27,7 +27,7 @@ typedef struct S_80173A3C_1 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_80173A3C_1;   /* arg2 in dungeonFadeReshapeAndRemoveEntity */
+} S_80173A3C_1;   /* arg2 in fade_reshape_and_remove_entity */
 
 
 typedef struct S_80173A3C_4 {
@@ -35,21 +35,21 @@ typedef struct S_80173A3C_4 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_80173A3C_4;   /* arg1 in dungeonFadeReshapeAndRemoveEntity */
+} S_80173A3C_4;   /* arg1 in fade_reshape_and_remove_entity */
 
 
-extern void func_800A56E0(s32);
-extern void func_800A2FE0(void *);
-extern void func_800A32A4(void *);
-extern void dungeonCreateEffectOrFallback(s32, s32, s32, void *);
+extern void play_sound_if_enabled(s32);
+extern void distribute_experience_and_report_gains(void *);
+extern void detach_record_and_update_slot_state(void *);
+extern void create_effect_or_fallback(s32, s32, s32, void *);
 extern s32 func_80042900(void *, s32);
-extern void func_8009A3D0(s32, s32, s32);
-extern void func_8009A028(void *);
-extern void dungeonAnnounceFamiliarDefeat(void *);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern void unlink_entity_node(void *);
+extern void announce_familiar_defeat(void *);
 
 
 /* Fades and reshapes the sprite, then removes the entity when the effect ends. */
-void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *sprite, void *entity)
+void fade_reshape_and_remove_entity(void *fade_state, void *position, void *sprite, void *entity)
 {
     u8 fade_phase;
     u16 frames_left;
@@ -57,7 +57,7 @@ void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *s
     fade_phase = ((S_80173A3C_0 *)fade_state)->unk_9B;
     switch (fade_phase) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
 
@@ -66,7 +66,7 @@ void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *s
         ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
         ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
         ((EntityRec *)entity)->flags1C |= 0x10000000;
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
         ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
     case 1:
@@ -93,18 +93,18 @@ void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *s
     }
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
-        DungeonGlobalStatus *entity_tracker = &dungeonStatus;
+        DungeonGlobalStatus *entity_tracker = &g_dungeon_status;
         if (entity_tracker->unk_10 == (u8 *)entity - 0x20) {
             (*(u32 *)&entity_tracker->unk_10) &= 0x7FFFFFFF;
         }
     }
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x4000) == 0) {
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
         if (((EntityRec *)entity)->unk_49 != 0 &&
             (((EntityRec *)entity)->unk_4B & 0x20) == 0) {
-            dungeonCreateEffectOrFallback(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
+            create_effect_or_fallback(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
                           ((EntityRec *)entity)->unk_88, (u8 *)entity + 0x48);
         }
         if ((func_80042900(entity, 0x1B) << 16) == 0) {
@@ -115,19 +115,19 @@ void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *s
             if (entity_flags & 0x2000) {
                 effect_mask = 0x300;
             }
-            func_8009A3D0(effect_color_0, effect_color_1, effect_mask);
+            update_map_cell_flags_with_item_limit(effect_color_0, effect_color_1, effect_mask);
         }
-        func_8009A028(entity);
+        unlink_entity_node(entity);
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 
     if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
-        dungeonAnnounceFamiliarDefeat(entity);
+        announce_familiar_defeat(entity);
     }
-    func_800A2FE0(entity);
-    func_800A32A4(entity);
+    distribute_experience_and_report_gains(entity);
+    detach_record_and_update_slot_state(entity);
     if ((func_80042900(entity, 0x1B) << 16) == 0) {
         s32 entity_flags = ((u32)((EntityRec *)entity)->flags1C);
         s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
@@ -136,10 +136,10 @@ void dungeonFadeReshapeAndRemoveEntity(void *fade_state, void *position, void *s
         if (entity_flags & 0x2000) {
             effect_mask = 0x300;
         }
-        func_8009A3D0(effect_color_0, effect_color_1, effect_mask);
+        update_map_cell_flags_with_item_limit(effect_color_0, effect_color_1, effect_mask);
     }
-    func_8009A028(entity);
+    unlink_entity_node(entity);
     (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    func_800A56E0(0x609);
+    object_flag_block.flags |= 0x8000;
+    play_sound_if_enabled(0x609);
 }

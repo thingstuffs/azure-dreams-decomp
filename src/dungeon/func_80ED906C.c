@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_ef906c.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *dungeonSpawnConfiguredOverlayEffect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work;
@@ -58,18 +58,18 @@ void *dungeonSpawnConfiguredOverlayEffect(s16 spawn_flags, s16 attr_a, s16 attr_
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(((S_8014C86C_1 *)work)->unk_14 & 0x200)) {
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     if (left & 1) {
                         ((S_8014C86C_1 *)work)->unk_1C |= 0x200;
-                        right = func_800A6D30();
-                        func_800A48F0(work, 1, (right & 0x3F) | 0x20);
+                        right = generate_random_value();
+                        set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
                         part_b->unk_2C = D_801501CC;
                     }
                 }
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, held_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, held_flags);
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
@@ -107,20 +107,20 @@ void *dungeonSpawnConfiguredOverlayEffect(s16 spawn_flags, s16 attr_a, s16 attr_
 
                     elem->unk_12 = part_b->unk_12 - 128;
                     elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8014C86C_9 *)(base->unk_A4))->unk_10 = dungeonProcessEffectBlockEntries;
+                    ((S_8014C86C_9 *)(base->unk_A4))->unk_10 = process_effect_block_entries;
 
                     func_80047784(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8014C86C_6 *)child)->unk_06 = 0;
-                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, dungeonDrawSpriteEffectQuads, 0);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, draw_sprite_effect_quads, 0);
                     ((S_8014C86C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }
             current = (u8 *)current + 4;
             count++;
         } while (count < actor->unk_9E);
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

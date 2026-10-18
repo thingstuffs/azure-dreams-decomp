@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void dungeonSpawnParentOffsetRandomMotionEffect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
+void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
     register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
     register void *parent = parent_arg;
     register s16 effect_param = effect_param_arg;
@@ -31,7 +31,7 @@ void dungeonSpawnParentOffsetRandomMotionEffect(void *parent_arg, register s16 e
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = 5;
         effect_data->unk_34 = 5;
-        func_8004491C(effect, func_80170884);
+        func_8004491C(effect, build_projected_tile_packets);
         ((S_80BC172C_0 *)effect)->unk_20 = state_value;
         effect_data->unk_08 = state_value;
     }

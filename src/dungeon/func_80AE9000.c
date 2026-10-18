@@ -46,7 +46,7 @@ typedef struct Packet {
 s32 FUNC_80AE9000_BODY(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **global_state = ((void * *)(&gameWork));
+    void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)global_state[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

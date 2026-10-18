@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void dungeonAdvanceMenuValueFade(void *state) {
+void advance_menu_value_fade(void *state) {
     s32 nextStep;
 
     ((ovl_1831cd8_81812F34_S_80027F34_2 *)(((ovl_1831cd8_81812F34_S_80027F34_1 *)state)->unk_80))->unk_02 =
@@ -12,5 +12,5 @@ void dungeonAdvanceMenuValueFade(void *state) {
         ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = 0;
         ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = (void *)func_80027A68;
     }
-    dungeonInvokeEnabledMenuCallback(state);
+    invoke_enabled_menu_callback(state);
 }

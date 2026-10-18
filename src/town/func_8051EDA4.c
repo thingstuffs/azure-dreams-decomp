@@ -2,7 +2,7 @@
 
 typedef s32 M2C_UNK;
 
-M2C_UNK func_80017B84();
+M2C_UNK query_referenced_flag_for_table_entry();
 M2C_UNK func_80018ADC();
 s32 func_80018B5C();
 
@@ -14,7 +14,7 @@ s32 func_8051EDA4(s32 target, M2C_UNK value) {
     if (func_80018B5C(0x9A) == 0) {
         result = 0;
     } else {
-        func_80017B84(target, value);
+        query_referenced_flag_for_table_entry(target, value);
         result = 1;
     }
 

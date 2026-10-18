@@ -4,7 +4,7 @@ extern s32 *D_80129728[];
 extern s32 D_801331A0;
 
 /* Save and clear the values referenced by slots sixteen through twenty-seven. */
-void func_80123898(void) {
+void backup_and_clear_linked_values(void) {
     s32 **entry_table;
     s32 **entry_slot;
     s32 *entry;

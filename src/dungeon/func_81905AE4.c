@@ -2,7 +2,7 @@
 
 
 /* Updates a timed brightness pulse and clears the linked object flag on completion. */
-void dungeonUpdateEffectBrightnessPulse(u8 *effect, void *unused, u8 *target)
+void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
 {
     u8 *object;
     u8 *linked_object;
@@ -15,7 +15,7 @@ void dungeonUpdateEffectBrightnessPulse(u8 *effect, void *unused, u8 *target)
     D_800267B8[0] = 1;
     if ((u32)(object[0x13] - 0x33) < 4U) {
         *(u16 *)(effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 
@@ -39,11 +39,11 @@ void dungeonUpdateEffectBrightnessPulse(u8 *effect, void *unused, u8 *target)
 
     if (*(s16 *)(effect + 2) <= 0) {
         *(u16 *)(effect - 2) |= 0x8000;
-        global_flags = objectFlagBlock.flags;
+        global_flags = object_flag_block.flags;
         linked_flags = *(u16 *)(linked_object + 0x14);
         global_flags |= 0x8000;
         linked_flags &= 0xFF7F;
-        objectFlagBlock.flags = global_flags;
+        object_flag_block.flags = global_flags;
         *(u16 *)(linked_object + 0x14) = linked_flags;
     }
 }

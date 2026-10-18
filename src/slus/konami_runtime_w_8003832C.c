@@ -18,11 +18,11 @@ typedef struct {
     u8 *buffer;
 } Func80039AF0State;
 void func_80039AF0(Func80039AF0State *state);                            /* extern */
-extern M2C_UNK slusDecrementCountdownAndSwitchB;
+extern M2C_UNK decrement_countdown_and_switch_b;
 
 /* Initialize the context and set its next handler and state. */
 void func_8003832C(S_8003832C_0 *context) {
     func_80039AF0((Func80039AF0State *)context);
     context->unk_18 = 5;
-    context->unk_10 = &slusDecrementCountdownAndSwitchB;
+    context->unk_10 = &decrement_countdown_and_switch_b;
 }

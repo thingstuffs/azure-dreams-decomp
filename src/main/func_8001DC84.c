@@ -12,7 +12,7 @@ extern s32 func_80047FD8(void *base);
 extern void func_8007BEF0(s32 value);
 extern void func_8007BFE0(void *object, s32 size);
 extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
-extern s32 func_804046C8(void *ptr);
+extern s32 select_object_handler_slots_by_flag(void *ptr);
 extern s32 func_80404B5C(s32 field_220);
 extern void func_80404B84(void *object, s32 value);
 extern void func_80404C44(void *object, s32 value);
@@ -38,7 +38,7 @@ typedef struct {
 extern Root D_8040B1D0;
 
 /* Create or reset the card background object and initialize its callback. */
-s32 initCardBackgroundObject(s32 init_value, s32 config_value) {
+s32 init_card_background_object(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
 
@@ -67,6 +67,6 @@ s32 initCardBackgroundObject(s32 init_value, s32 config_value) {
     base->field_0C = (u8 *)obj + 0x210;
     obj->field_21C = func_80404B5C(obj->field_220);
     func_80404C44(obj, (obj->field_04 = config_value, init_value));
-    func_804046C8((base->field_10 = func_804046C8, obj));
+    select_object_handler_slots_by_flag((base->field_10 = select_object_handler_slots_by_flag, obj));
     return (s32)base;
 }

@@ -7,7 +7,7 @@
 
 
 /* Restore bit 4 of the current record flags when it was saved as set. */
-void func_800A68F4(void) {
+void restore_entity_flag_ten(void) {
     if (D_800DD878 != 0) {
         D_800E3D7C->flags1C = (s32) (D_800E3D7C->flags1C | 0x10);
     }

@@ -9,7 +9,7 @@
 
 
 /* Update packed map levels for the current region or neighboring tiles, then submit the map. */
-void dungeonUpdatePackedMapLevels(void) {
+void update_packed_map_levels(void) {
     TransitionWords map_params;
     MapGrid *grid;
     TileObject *obj;
@@ -27,7 +27,7 @@ void dungeonUpdatePackedMapLevels(void) {
     GameWork *gw;
 
     map_params = D_80088CB0;
-    gw = &gameWork;
+    gw = &g_game_work;
     grid = &gw->map;
     obj = &D_80082E80;
     if (obj->unk_026 >= 0) {
@@ -59,8 +59,8 @@ void dungeonUpdatePackedMapLevels(void) {
         }
     } else {
         for (n = 7; n >= 0; n--) {
-            x = D_80082E80.tileX + dirStepX[n];
-            y = D_80082E80.tileY + dirStepY[n];
+            x = D_80082E80.tileX + dir_step_x[n];
+            y = D_80082E80.tileY + dir_step_y[n];
             index = (y << grid->shiftX) + x;
             tile = &D_800EA000[index];
             if (tile->type != 0 && tile->type != 3) {

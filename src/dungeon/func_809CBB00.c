@@ -2,5 +2,5 @@
 
 void func_80173300(void *state, void *motion, void *position, void *actor)
 {
-    dungeonAdvanceActorRemoval(state, motion, position, actor);
+    advance_actor_removal(state, motion, position, actor);
 }

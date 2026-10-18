@@ -57,9 +57,9 @@ extern u8 D_800D00A0[];
 extern u8 D_800D00A8[];
 extern u8 D_800D00B8[];
 extern u8 D_80097D2C[];
-extern void townDrawTranslucentGradientLineList(void);
+extern void draw_translucent_gradient_line_list(void);
 
-extern void townInitializeSourceAndInitialData(void *, void *);
+extern void initialize_source_and_initial_data(void *, void *);
 extern s32 func_800352FC(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -67,12 +67,12 @@ extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
-extern void townInitializeTownContextAction(void);
-extern void func_80093C70(void);
-extern void townApplyGlobalSceneValue(void *);
-extern void townInitializeSceneActionRecord(void *, void *, void *, ...);
-extern s32 townCreateDualBufferObject(s32, s32, s32);
-extern void townSetObjectDataPointer(s32);
+extern void initialize_town_context_action(void);
+extern void create_familiar_deployment_effect_with_owner_state(void);
+extern void apply_global_scene_value(void *);
+extern void initialize_scene_action_record(void *, void *, void *, ...);
+extern s32 create_dual_buffer_object(s32, s32, s32);
+extern void set_object_data_pointer_2(s32);
 
 
 typedef struct S_800211A4_0 {
@@ -80,7 +80,7 @@ typedef struct S_800211A4_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800211A4_0;   /* object in townUpdateBettingEffect */
+} S_800211A4_0;   /* object in update_betting_effect */
 
 typedef struct S_800211A4_1 {
     u8 pad_00[0x4];
@@ -94,12 +94,12 @@ typedef struct S_800211A4_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_800211A4_1;   /* object_child in townUpdateBettingEffect */
+} S_800211A4_1;   /* object_child in update_betting_effect */
 
 typedef struct S_800211A4_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800211A4_2;   /* object_link in townUpdateBettingEffect */
+} S_800211A4_2;   /* object_link in update_betting_effect */
 
 typedef struct S_800211A4_3 {
     u8 pad_00[0x10];
@@ -107,46 +107,46 @@ typedef struct S_800211A4_3 {
     s32 unk_14;
     u8 pad_18[0x2];
     s16 unk_1A;
-} S_800211A4_3;   /* arg0 in townUpdateBettingEffect */
+} S_800211A4_3;   /* arg0 in update_betting_effect */
 
 typedef struct S_800211A4_5 {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x8];
     u16 unk_10;
-} S_800211A4_5;   /* primitive in townUpdateBettingEffect */
+} S_800211A4_5;   /* primitive in update_betting_effect */
 
 typedef struct S_800211A4_6 {
     u8 pad_00[0x70];
     s16 unk_70;
     s16 unk_72;
     s16 unk_74;
-} S_800211A4_6;   /* child in townUpdateBettingEffect */
+} S_800211A4_6;   /* child in update_betting_effect */
 
 
 typedef struct S_800211A4_10 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800211A4_10;   /* (u8 *)counter in townUpdateBettingEffect */
+} S_800211A4_10;   /* (u8 *)counter in update_betting_effect */
 
 typedef struct S_800211A4_11 {
     u8 pad_00[0x1D];
     u8 unk_1D;
-} S_800211A4_11;   /* &message in townUpdateBettingEffect */
+} S_800211A4_11;   /* &message in update_betting_effect */
 
 typedef struct S_800211A4_12 {
     u8 pad_00[0x70];
     union { s16 s; u16 u; } unk_70;   /* accessed as both */
-} S_800211A4_12;   /* digit in townUpdateBettingEffect */
+} S_800211A4_12;   /* digit in update_betting_effect */
 
 typedef struct S_800211A4_13 {
     u32 unk_00;
     u32 unk_04;
     u32 unk_08;
-} S_800211A4_13;   /* ((S_800211A4_0 *)object)->unk_08 in townUpdateBettingEffect */
+} S_800211A4_13;   /* ((S_800211A4_0 *)object)->unk_08 in update_betting_effect */
 
 /* Updates the betting effect, handling input, animation, payouts, and refunds. */
-void townUpdateBettingEffect(TownEffect *input)
+void update_betting_effect(TownEffect *input)
 {
     GameWork *controls;
     u8 *primitive;
@@ -158,7 +158,7 @@ void townUpdateBettingEffect(TownEffect *input)
 #define scratch frame.scratch
 #define digits frame.digits
 
-    controls = &gameWork;
+    controls = &g_game_work;
     child = (u8 *)effect->child + 0x20;
     state = effect->state;
     primitive = D_800834B8;
@@ -180,7 +180,7 @@ void townUpdateBettingEffect(TownEffect *input)
         effect->amount = 0;
         flags &= ~2;
         effect->flags = flags;
-        townInitializeTownContextAction();
+        initialize_town_context_action();
         SD_Call(0x700);
         effect->state = 1;
         effect->flags &= ~8;
@@ -204,7 +204,7 @@ state0_inner:
                 scratch.d = 0;
                 scratch.a = grid_origin_x - (grid_x << 22);
                 scratch.c = -((s32)message.y << 19);
-                townInitializeSourceAndInitialData(message_ptr, &scratch);
+                initialize_source_and_initial_data(message_ptr, &scratch);
             }
             if (--message.y >= 0) {
                 message_ptr = &message;
@@ -245,7 +245,7 @@ state0_inner:
             break;
         }
         SD_Call(0x523);
-        handle = townCreateDualBufferObject(0, -80, 64);
+        handle = create_dual_buffer_object(0, -80, 64);
         payout_scale = 6 / (effect->phase + 1);
         D_80024558[0] = handle;
         ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
@@ -255,9 +255,9 @@ state0_inner:
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             ((S_800211A4_5 *)primitive)->unk_10 = 0;
-            townApplyGlobalSceneValue(D_800D0078);
+            apply_global_scene_value(D_800D0078);
             ((S_800211A4_5 *)primitive)->unk_00 = D_80097D2C;
-            ((S_800211A4_5 *)primitive)->unk_04 = townDrawTranslucentGradientLineList;
+            ((S_800211A4_5 *)primitive)->unk_04 = draw_translucent_gradient_line_list;
         }
         ((S_800211A4_6 *)child)->unk_70 = 1;
         ((S_800211A4_6 *)child)->unk_72 = 16;
@@ -375,8 +375,8 @@ state0_inner:
         }
         motion->z.v = (s32)0xFF000000;
         effect->state = 4;
-        townInitializeSceneActionRecord(primitive, motion, ((u8 *)(&D_80082E80)), (s32)0xFF000000);
-        func_80093C70();
+        initialize_scene_action_record(primitive, motion, ((u8 *)(&D_80082E80)), (s32)0xFF000000);
+        create_familiar_deployment_effect_with_owner_state();
         break;
     }
 
@@ -388,7 +388,7 @@ state0_inner:
             break;
         }
         SD_Call(0x50A);
-        townApplyGlobalSceneValue(D_800D00A0);
+        apply_global_scene_value(D_800D00A0);
         motion = &D_80083780;
         motion->unk_10 = 0x48000;
         motion->flags14 = (s32)0xFFF40000;
@@ -416,10 +416,10 @@ state0_inner:
         switch (frame_index) {
 
         case 0:
-            townApplyGlobalSceneValue(D_800D00A8);
+            apply_global_scene_value(D_800D00A8);
             break;
         case 5:
-            townApplyGlobalSceneValue(D_800D00B8);
+            apply_global_scene_value(D_800D00B8);
             break;
         case 20:
             SD_Call(0x508);
@@ -430,19 +430,19 @@ state0_inner:
                 motion = &D_80083780;
                 motion->flags14 = (s32)0xFFF40000;
                 motion->unk_10 = y_speed;
-                townApplyGlobalSceneValue(animation);
+                apply_global_scene_value(animation);
             }
             break;
         case 25:
         case 41:
         case 53:
-            townApplyGlobalSceneValue(D_800D00B8);
+            apply_global_scene_value(D_800D00B8);
             break;
         case 21:
         case 37:
         case 49:
         case 62:
-            townApplyGlobalSceneValue(D_800D00A8);
+            apply_global_scene_value(D_800D00A8);
             break;
         case 36:
             SD_Call(0x508);
@@ -452,18 +452,18 @@ state0_inner:
                 motion = &D_80083780;
                 motion->flags14 = (s32)0xFFF80000;
                 motion->unk_10 = 0x20000;
-                townApplyGlobalSceneValue(animation);
+                apply_global_scene_value(animation);
             }
             break;
         case 48:
             SD_Call(0x508);
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
-            townApplyGlobalSceneValue(D_800D0078);
+            apply_global_scene_value(D_800D0078);
             break;
         case 61:
             SD_Call(0x508);
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC8000;
-            townApplyGlobalSceneValue(D_800D0078);
+            apply_global_scene_value(D_800D0078);
 
         }
 
@@ -477,7 +477,7 @@ state0_inner:
             motion->flags14 = (s32)0xFFFB0000;
             motion->unk_10 = 0;
             motion->z.v = (s32)0xFFC00000;
-            townApplyGlobalSceneValue(animation);
+            apply_global_scene_value(animation);
         }
         effect->count = 0;
         effect->state = 6;
@@ -505,15 +505,15 @@ state0_inner:
         case 0:
         case 11:
         case 19:
-            townApplyGlobalSceneValue(D_800D00A8);
+            apply_global_scene_value(D_800D00A8);
             break;
         case 5:
-            townApplyGlobalSceneValue(D_800D00B8);
+            apply_global_scene_value(D_800D00B8);
             break;
         case 10:
             SD_Call(0x508);
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
-            townApplyGlobalSceneValue(D_800D0078);
+            apply_global_scene_value(D_800D0078);
             break;
         case 18:
             SD_Call(0x508);
@@ -524,7 +524,7 @@ state0_inner:
                 ((S_800211A4_10 *)((u8 *)count_or_addr))->unk_14 = z_speed;
             }
         case 26:
-            townApplyGlobalSceneValue(D_800D0078);
+            apply_global_scene_value(D_800D0078);
             break;
         }
 
@@ -538,7 +538,7 @@ state0_inner:
             motion = &D_80083780;
             motion->flags14 = 0;
             motion->z.v = (s32)0xFFC00000;
-            townApplyGlobalSceneValue(animation);
+            apply_global_scene_value(animation);
         }
         effect->count = 3;
         effect->state = 7;
@@ -560,7 +560,7 @@ state0_inner:
         orbit_component = func_80064584(0x1000 - *timer_ptr);
         motion_words->y.v = (s32)((u32)(orbit_component * 5) << 9) + 0x03600000;
         if (--effect->count == 0) {
-            townApplyGlobalSceneValue(D_800D0080);
+            apply_global_scene_value(D_800D0080);
         }
         if (((S_800211A4_6 *)child)->unk_70 != 0) {
             break;
@@ -596,7 +596,7 @@ state0_inner:
         tick_dec = (u16)effect->ticks - 2;
         effect->ticks = (s16)tick_dec;
         if ((s16)tick_dec < 0) {
-            townInitializeTownContextAction();
+            initialize_town_context_action();
             effect->ticks = 0;
             effect->flags |= 8;
         }
@@ -655,7 +655,7 @@ state0_inner:
             scratch.d = (s32)((u32)(func_800644B8(angle) * 5) << 6);
             scratch.e = (s32)((u32)(func_80064584(angle) * 5) << 6);
             scratch.f = (s32)0xFFF80000;
-            townInitializeSourceAndInitialData(&message, &scratch);
+            initialize_source_and_initial_data(&message, &scratch);
             particle_index++;
         }
         effect->state = 9;
@@ -670,7 +670,7 @@ state0_inner:
         if ((s16)timer_left > 0) {
             break;
         }
-        townSetObjectDataPointer(D_80024558[0]);
+        set_object_data_pointer_2(D_80024558[0]);
         effect->state = 0;
         effect->flags |= 2;
         break;
@@ -693,11 +693,11 @@ state0_inner:
         if ((s16)ticks_left > 0) {
             break;
         }
-        townSetObjectDataPointer(D_80024558[0]);
+        set_object_data_pointer_2(D_80024558[0]);
         effect->ticks = 0;
         effect->state = 0;
         effect->flags |= 0xA;
-        townInitializeSceneActionRecord(primitive, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)));
+        initialize_scene_action_record(primitive, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)));
     }
     }
 

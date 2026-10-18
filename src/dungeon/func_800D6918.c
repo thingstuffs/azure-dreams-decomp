@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Stores a scaled input and its complement relative to 0x57 in the record. */
-void dungeonSetScaledValueAndComplement(void *record, s32 input_value) {
+void set_scaled_value_and_complement(void *record, s32 input_value) {
     s32 scaled_value = (s16)input_value;
 
     if (scaled_value < 0x80) {

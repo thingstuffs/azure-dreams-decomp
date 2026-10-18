@@ -12,7 +12,7 @@ struct S_8195FD40_3;
 /* Draw each payload in the linked object chain: the payload follows its node
  * header, and the header's link leads to the next object's header.
  */
-s32 dungeonDrawLinkedObjectChain(void *payload, void *position, void *render)
+s32 draw_linked_object_chain(void *payload, void *position, void *render)
 {
     DrawChainNode *next;
     while (1) {

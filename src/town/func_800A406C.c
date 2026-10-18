@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* root in townDrawTexturedSpriteQuad */
+   /* root in draw_textured_sprite_quad */
 
 typedef struct S_800A17CC_1 {
     u8 pad_00[0x4];
@@ -26,7 +26,7 @@ typedef struct S_800A17CC_1 {
     u8 pad_22[0x2];
     s8 unk_24;
     s8 unk_25;
-} S_800A17CC_1;   /* packet40 in townDrawTexturedSpriteQuad */
+} S_800A17CC_1;   /* packet40 in draw_textured_sprite_quad */
 
 typedef struct S_800A17CC_2 {
     u8 pad_00[0x12];
@@ -40,7 +40,7 @@ typedef struct S_800A17CC_2 {
     u8 pad_73[0x5];
     u16 unk_78;
     s16 unk_7A;
-} S_800A17CC_2;   /* arg0 in townDrawTexturedSpriteQuad */
+} S_800A17CC_2;   /* arg0 in draw_textured_sprite_quad */
 
 typedef struct S_800A17CC_3 {
     u8 pad_00[0x4];
@@ -55,7 +55,7 @@ typedef struct S_800A17CC_3 {
     u16 unk_10;
     u16 unk_12;
     u16 unk_14;
-} S_800A17CC_3;   /* packet24 in townDrawTexturedSpriteQuad */
+} S_800A17CC_3;   /* packet24 in draw_textured_sprite_quad */
 
 
 #define SCRATCH(type, offset) (((struct { u8 _pad_[offset]; type v; } *)scratch)->v)
@@ -70,12 +70,12 @@ extern void func_80066640();
 extern void func_800666E0();
 extern void func_800666F4();
 extern void func_80067F20();
-extern void townCopyOddHalfwords3();
-extern void townCopyMenuVectorHalfwords();
+extern void copy_odd_halfwords_3();
+extern void copy_menu_vector_halfwords();
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */
-void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
+void draw_textured_sprite_quad(void *sprite, s32 position) {
     s16 texture_window[4];
     s32 texture_page;
     s32 texture_y;
@@ -107,7 +107,7 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     texture_window[3] = window_size;
 
     {
-        u8 *state = gameWork.unk_000;
+        u8 *state = g_game_work.unk_000;
 
         textured_quad = ((GpuContext *)state)->packetCursor;
         quad_packet = textured_quad;
@@ -163,10 +163,10 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
         ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
 
-    townCopyOddHalfwords3((void *)0x1F800074, position);
-    townCopyOddHalfwords3((void *)0x1F80007C, position);
-    townCopyOddHalfwords3((void *)0x1F800084, position);
-    townCopyMenuVectorHalfwords((void *)0x1F80008C, (void *)0x1F800074);
+    copy_odd_halfwords_3((void *)0x1F800074, position);
+    copy_odd_halfwords_3((void *)0x1F80007C, position);
+    copy_odd_halfwords_3((void *)0x1F800084, position);
+    copy_menu_vector_halfwords((void *)0x1F80008C, (void *)0x1F800074);
 
     screen_xy0 = (void *)0x1F8000E8;
     screen_xy1 = (void *)0x1F8000EC;
@@ -219,7 +219,7 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     ((S_800A17CC_1 *)textured_quad)->unk_20 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)textured_quad + 0x22)) = SCRATCH(u16, 0xF6);
 
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     overlay_quad = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = overlay_quad + 0x18;
     ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
@@ -236,7 +236,7 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     ((S_800A17CC_3 *)overlay_quad)->unk_14 = SCRATCH(u16, 0xF4);
     (*(u16 *)((u8 *)overlay_quad + 0x16)) = SCRATCH(u16, 0xF6);
 
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
@@ -244,7 +244,7 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0,
@@ -252,7 +252,7 @@ void townDrawTexturedSpriteQuad(void *sprite, s32 position) {
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
     func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     draw_mode = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = draw_mode + 0xC;
     func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);

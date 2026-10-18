@@ -9,7 +9,7 @@
 
 
 /* Increment the byte counter in the record at offset 0x68. */
-void func_80016874(void) {
+void get_dispatch_result_fixed_data(void) {
     TownEventCursor *counter_record;
 
     counter_record = &((TownProgressState *)D_80016000->unk_40)->eventCursor;

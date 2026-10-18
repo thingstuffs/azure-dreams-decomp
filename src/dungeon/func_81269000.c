@@ -3,7 +3,7 @@
 
 typedef struct S_81269000_0_pre {
     u16 unk_00;
-} S_81269000_0_pre;   /* the 0x2 bytes before root in dungeonUpdateVariantPartBrightness, addressed as root[-1] */
+} S_81269000_0_pre;   /* the 0x2 bytes before root in update_variant_part_brightness, addressed as root[-1] */
 
 typedef struct S_81269000_0 {
     u8 pad_00[0xAC];
@@ -12,7 +12,7 @@ typedef struct S_81269000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_81269000_0;   /* root in dungeonUpdateVariantPartBrightness */
+} S_81269000_0;   /* root in update_variant_part_brightness */
 
 typedef struct S_81269000_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_81269000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81269000_1;   /* owner in dungeonUpdateVariantPartBrightness */
+} S_81269000_1;   /* owner in update_variant_part_brightness */
 
 typedef struct S_81269000_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_81269000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81269000_2;   /* part in dungeonUpdateVariantPartBrightness */
+} S_81269000_2;   /* part in update_variant_part_brightness */
 
 typedef struct S_81269000_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_81269000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81269000_3;   /* dst in dungeonUpdateVariantPartBrightness */
+} S_81269000_3;   /* dst in update_variant_part_brightness */
 
 typedef struct S_81269000_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_81269000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81269000_4;   /* out in dungeonUpdateVariantPartBrightness */
+} S_81269000_4;   /* out in update_variant_part_brightness */
 
 typedef struct S_81269000_5 {
     u8 pad_00[0x1];
@@ -62,24 +62,24 @@ typedef struct S_81269000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81269000_5;   /* copy in dungeonUpdateVariantPartBrightness */
+} S_81269000_5;   /* copy in update_variant_part_brightness */
 
 typedef struct S_81269000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_81269000_6;   /* callee_part in dungeonUpdateVariantPartBrightness */
+} S_81269000_6;   /* callee_part in update_variant_part_brightness */
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 
 
 
-void dungeonUpdateVariantPartBrightness(void *root_data, void *position_data, void *render_data)
+void update_variant_part_brightness(void *root_data, void *position_data, void *render_data)
 ;
 /* Updates part position, render state, and brightness from the current motion phase. */
-void dungeonUpdateVariantPartBrightness(void *root_data, void *position_data, void *render_data)
+void update_variant_part_brightness(void *root_data, void *position_data, void *render_data)
 {
     s16 offset[3];
     void *root = root_data;
@@ -103,7 +103,7 @@ void dungeonUpdateVariantPartBrightness(void *root_data, void *position_data, vo
     ((S_81269000_4 *)output_pos)->unk_0A = transform->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (resolveRecordOrientationOrFallback(motion_part->unk_08, motion_part, offset,
+    if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81269000_0 *)root)->unk_B6) != 0) {
         ((S_81269000_4 *)output_pos)->unk_02 +=
             (offset[0] + ((S_81269000_0 *)root)->unk_B0) / 2;
@@ -139,7 +139,7 @@ void dungeonUpdateVariantPartBrightness(void *root_data, void *position_data, vo
         }
         if (!(((S_81269000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81269000_2 *)position_data)->unk_04.u16 == 0x10C) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
@@ -160,14 +160,14 @@ void dungeonUpdateVariantPartBrightness(void *root_data, void *position_data, vo
         }
         if (!(((S_81269000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81269000_2 *)position_data)->unk_04.u16 == 0x104) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
     func_800478B8(render_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81269000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

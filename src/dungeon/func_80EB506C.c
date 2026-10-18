@@ -7,7 +7,7 @@ typedef struct S_8017086C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8017086C_0;   /* obj in dungeonUpdateActorActionController */
+} S_8017086C_0;   /* obj in update_actor_action_controller */
 
 typedef struct S_8017086C_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_8017086C_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8017086C_1;   /* work in dungeonUpdateActorActionController */
+} S_8017086C_1;   /* work in update_actor_action_controller */
 
 typedef struct S_8017086C_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8017086C_2;   /* part_a in dungeonUpdateActorActionController */
+} S_8017086C_2;   /* part_a in update_actor_action_controller */
 
 typedef struct S_8017086C_3 {
     u8 pad_00[0x12];
@@ -31,7 +31,7 @@ typedef struct S_8017086C_3 {
     u8 pad_26[0x2];
     s32 unk_28;
     void * unk_2C;
-} S_8017086C_3;   /* part_b in dungeonUpdateActorActionController */
+} S_8017086C_3;   /* part_b in update_actor_action_controller */
 
 typedef struct S_8017086C_4 {
     u8 pad_00[0x8C];
@@ -47,12 +47,12 @@ typedef struct S_8017086C_4 {
     s16 unk_9E;
     u8 pad_A0[0x8];
     u16 unk_A8;
-} S_8017086C_4;   /* actor in dungeonUpdateActorActionController */
+} S_8017086C_4;   /* actor in update_actor_action_controller */
 
 typedef struct S_8017086C_5 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8017086C_5;   /* current in dungeonUpdateActorActionController */
+} S_8017086C_5;   /* current in update_actor_action_controller */
 
 typedef struct S_8017086C_6 {
     u8 pad_00[0x2];
@@ -61,7 +61,7 @@ typedef struct S_8017086C_6 {
     u16 unk_06;
     u8 pad_08[0x90];
     u32 unk_98;
-} S_8017086C_6;   /* child in dungeonUpdateActorActionController */
+} S_8017086C_6;   /* child in update_actor_action_controller */
 
 typedef struct S_8017086C_7 {
     u8 pad_00[0xC];
@@ -71,26 +71,26 @@ typedef struct S_8017086C_7 {
     u16 unk_14;
     u8 pad_16[0x12];
     u32 unk_28;
-} S_8017086C_7;   /* elem in dungeonUpdateActorActionController */
+} S_8017086C_7;   /* elem in update_actor_action_controller */
 
 typedef struct S_8017086C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
-} S_8017086C_8;   /* base in dungeonUpdateActorActionController */
+} S_8017086C_8;   /* base in update_actor_action_controller */
 
 typedef struct S_8017086C_9 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_8017086C_9;   /* ((S_8017086C_8 *)base)->unk_A4 in dungeonUpdateActorActionController */
+} S_8017086C_9;   /* ((S_8017086C_8 *)base)->unk_A4 in update_actor_action_controller */
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30(void); /* Retail RNG reads no argument registers. */
-extern void func_800A48F0();
-extern void func_800A9C18();
+extern s32 generate_random_value(void); /* Retail RNG reads no argument registers. */
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
 extern void func_80047784();
-extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots();
-extern void func_800AA36C();
+extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
+extern void try_move_actor_to_valid_position();
 
 extern u8 D_800D71A8[];
 extern u8 D_800D78C0[];
@@ -99,7 +99,7 @@ extern u8 D_801711A4[];
 extern u8 D_8017418C[];
 extern u8 D_801741CC[];
 
-void *dungeonUpdateActorActionController(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
+void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *work;
@@ -156,18 +156,18 @@ void *dungeonUpdateActorActionController(s16 mode, s16 value_24, s16 value_25, s
         } else {
             if (((mode & ~3) << 16) == 0) {
                 if (!(((S_8017086C_1 *)work)->unk_14 & 0x200)) {
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     if (left & 1) {
                         ((S_8017086C_1 *)work)->unk_1C |= 0x200;
-                        right = func_800A6D30();
-                        func_800A48F0(work, 1, (right & 0x3F) | 0x20);
+                        right = generate_random_value();
+                        set_or_clear_actor_status_slot(work, 1, (right & 0x3F) | 0x20);
                         part_b->unk_2C = D_801741CC;
                     }
                 }
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, saved_mode);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, saved_mode);
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
@@ -211,14 +211,14 @@ void *dungeonUpdateActorActionController(s16 mode, s16 value_24, s16 value_25, s
                     elem_offset += 48;
                     i++;
                     ((S_8017086C_6 *)child)->unk_06 = 0;
-                    textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(part_b, D_800D71A8, 0);
+                    texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(part_b, D_800D71A8, 0);
                     ((S_8017086C_6 *)child)->unk_98 = (u8 *)obj + 30;
                 }
             }
             current = (u8 *)current + 4;
             count++;
         } while (count < actor->unk_9E);
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

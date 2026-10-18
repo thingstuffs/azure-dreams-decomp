@@ -1,15 +1,15 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void cardBootRefreshSlotWindow();                         /* extern */
+void card_boot_refresh_slot_window();                         /* extern */
 
 typedef struct S_80026270_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
 } S_80026270_0;
 
-/* Runs cardBootRefreshSlotWindow on each of five stored object addresses. */
-void cardBootRefreshFiveSlotObjects(void *object_list) {
+/* Runs card_boot_refresh_slot_window on each of five stored object addresses. */
+void card_boot_refresh_five_slot_objects(void *object_list) {
     s32 object_addr;
     s32 object_index;
     void *entry_cursor;
@@ -20,6 +20,6 @@ void cardBootRefreshFiveSlotObjects(void *object_list) {
         object_addr = ((S_80026270_0 *)entry_cursor)->unk_0C;
         entry_cursor += 4;
         object_index += 1;
-        cardBootRefreshSlotWindow(object_addr);
+        card_boot_refresh_slot_window(object_addr);
     } while (object_index < 5);
 }

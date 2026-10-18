@@ -8,7 +8,7 @@ typedef struct {
 extern S_800869C0 D_800869C0[16];
 extern u8 D_8007382B[9];
 extern s32 D_80073830[9];
-extern void slusSortEntriesByKey(void);
+extern void sort_entries_by_key(void);
 
 /* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
 s32 func_80059E94(s32 size)
@@ -48,7 +48,7 @@ s32 func_80059E94(s32 size)
 found:
     entry->unk00 = end_offset;
     entry->unk04 = alloc_size;
-    slusSortEntriesByKey();
+    sort_entries_by_key();
     return offset;
 
 loop_start:
@@ -74,6 +74,6 @@ loop_start:
     }
 
 tail:
-    slusSortEntriesByKey();
+    sort_entries_by_key();
     return offset;
 }

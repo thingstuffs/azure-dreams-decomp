@@ -2,12 +2,12 @@
 #include "shared/game_work.h"
 
 extern u8 D_80162004[];
-extern void *townNoOpBuildingCallback();
+extern void *no_op_building_callback();
 
 /* Initialize the shared buffer pointer and paired parameters, then process the buffer. */
-void townInitializeBuildingSharedBuffer(void)
+void initialize_building_shared_buffer(void)
 {
-    GameWork *base = &gameWork;
+    GameWork *base = &g_game_work;
     MapGrid *map = &base->map;
     s32 limit;
     s32 size;
@@ -23,5 +23,5 @@ void townInitializeBuildingSharedBuffer(void)
     map->maskY = limit;
     map->spanY = size;
     base->map.cells = D_80162004;
-    townNoOpBuildingCallback(base, size, limit);
+    no_op_building_callback(base, size, limit);
 }

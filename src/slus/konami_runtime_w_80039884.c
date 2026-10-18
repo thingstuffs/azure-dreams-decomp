@@ -10,10 +10,10 @@ typedef struct {
 
 
 /* Returns whether the state flag is set or global flag bits 0x60 are clear. */
-s32 slusCheckStateOrGlobalFlags(S_80039884_Arg *state)
+s32 check_state_or_global_flags(S_80039884_Arg *state)
 {
     s32 result = 0;
-    GameWork *global = &gameWork;
+    GameWork *global = &g_game_work;
 
     if (state->field87 == 0) {
         if ((global->buttons & 0x60) != 0) {

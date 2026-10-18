@@ -12,15 +12,15 @@ typedef struct MainMemoryPage {
     u16 flags_3714;
 } MainMemoryPage;
 
-extern void clearTownMovieObjectField(void *object);
-extern void func_8008EF58(void);
-extern void func_8008FCE0(void);
-extern void func_800A03DC(void);
+extern void clear_town_movie_object_field(void *object);
+extern void initialize_circular_list_head(void);
+extern void initialize_pointer_table_self_links(void);
+extern void clear_entry_table(void);
 extern void obj_disp23_cancel_sw_set(s32 value);
 extern void func_8003B42C(s32 value);
 extern void func_8003B988(void);
 extern void func_8003B92C(void);
-extern s32 testResidentBitmapBit(s32 bit_id);
+extern s32 test_resident_bitmap_bit(s32 bit_id);
 extern void func_8003BA60(void);
 extern void func_8003BA9C(void);
 extern void func_8003B9B8(void);
@@ -30,11 +30,11 @@ extern void reserve_twch_load(s32 load_selector);
 extern void reserve_tw_mon_load(s32 load_selector);
 extern void file_load_com(void *file_data);
 extern void func_800434E4(void);
-extern void func_800B9830(void);
+extern void copy_record_tail_bytes(void);
 extern void change_map(void *map_data);
-extern void func_8009FF28(void);
-extern void func_800B9890(void);
-extern void func_800B98B4(void);
+extern void process_state_entries_and_referenced_objects(void);
+extern void load_resource_data(void);
+extern void process_enabled_entries(void);
 extern void town_sd_se_load_init(void);
 
 extern u8 D_800717D0[0x18];
@@ -45,16 +45,16 @@ extern u32 D_80080EA0;
 
 
 /* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
-void dispatchTownTransition(void)
+void dispatch_town_transition(void)
 {
     u16 runtime_flags;
     MainMemoryPage *page;
 
-    clearTownMovieObjectField(D_800717D0);
-    clearTownMovieObjectField(D_800717E8);
-    func_8008EF58();
-    func_8008FCE0();
-    func_800A03DC();
+    clear_town_movie_object_field(D_800717D0);
+    clear_town_movie_object_field(D_800717E8);
+    initialize_circular_list_head();
+    initialize_pointer_table_self_links();
+    clear_entry_table();
     D_8006ADBC[0] = 0;
     obj_disp23_cancel_sw_set(0);
 
@@ -69,10 +69,10 @@ void dispatchTownTransition(void)
     } else if (runtime_flags & 0x8000) {
         func_8003B42C(1);
         func_8003B92C();
-        if ((testResidentBitmapBit(0x1391) == 0) ||
-            (testResidentBitmapBit(0xA2) != 0)) {
+        if ((test_resident_bitmap_bit(0x1391) == 0) ||
+            (test_resident_bitmap_bit(0xA2) != 0)) {
             func_8003BA60();
-        } else if (testResidentBitmapBit(0xA3) == 0) {
+        } else if (test_resident_bitmap_bit(0xA3) == 0) {
             func_8003BA9C();
         } else {
             chg_map_second_house_sel();
@@ -103,7 +103,7 @@ void dispatchTownTransition(void)
         } else {
             func_800434E4();
             page->red_collar_status = 1;
-            func_800B9830();
+            copy_record_tail_bytes();
             page->word_2D5C = 0;
             change_map(D_8006AEC4);
             reserve_twch_load(0);
@@ -112,8 +112,8 @@ void dispatchTownTransition(void)
     }
 
     D_80082E60.flags16 &= 0x3FF9;
-    func_8009FF28();
-    func_800B9890();
-    func_800B98B4();
+    process_state_entries_and_referenced_objects();
+    load_resource_data();
+    process_enabled_entries();
     town_sd_se_load_init();
 }

@@ -6,7 +6,7 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advance a timed state sequence, decrease its value, and set completion flags. */
-void townAdvanceTimedStateAndSetCompletion(void *object)
+void advance_timed_state_and_set_completion(void *object)
 {
     s32 state;
     s32 timer;
@@ -40,7 +40,7 @@ void townAdvanceTimedStateAndSetCompletion(void *object)
 
     case 2:
         U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 }

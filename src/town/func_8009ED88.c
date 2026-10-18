@@ -4,23 +4,23 @@
 
 
 extern s32 func_80033D08(void *);
-extern s32 townAddHex20000SSignedOffsetHex14();
-extern s32 townAddMotionDeltasToPosition();
-extern s16 townQueryLoweredTransformPosition();
+extern s32 add_hex_20000_s_signed_offset_hex_14();
+extern s32 add_motion_deltas_to_position();
+extern s16 query_lowered_transform_position();
 
 extern u8 D_8009C5D8[];
 
 
 typedef struct S_8009C4E8_0_pre {
     u16 unk_00;
-} S_8009C4E8_0_pre;   /* the 0x2 bytes before arg0 in townUpdateTimedObjectToHeightLimit, addressed as arg0[-1] */
+} S_8009C4E8_0_pre;   /* the 0x2 bytes before arg0 in update_timed_object_to_height_limit, addressed as arg0[-1] */
 
 typedef struct S_8009C4E8_0 {
     u8 pad_00[0x50];
     void * unk_50;
     u8 pad_54[0x18];
     u16 unk_6C;
-} S_8009C4E8_0;   /* arg0 in townUpdateTimedObjectToHeightLimit */
+} S_8009C4E8_0;   /* arg0 in update_timed_object_to_height_limit */
 
 
 typedef struct S_8009C4E8_2 {
@@ -32,10 +32,10 @@ typedef struct S_8009C4E8_2 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_8009C4E8_2;   /* arg2 in townUpdateTimedObjectToHeightLimit */
+} S_8009C4E8_2;   /* arg2 in update_timed_object_to_height_limit */
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
-void townUpdateTimedObjectToHeightLimit(void *object, EntityRec *motion, S_8009C4E8_2 *appearance) {
+void update_timed_object_to_height_limit(void *object, EntityRec *motion, S_8009C4E8_2 *appearance) {
     s16 height_limit;
     u16 timer;
 
@@ -44,13 +44,13 @@ void townUpdateTimedObjectToHeightLimit(void *object, EntityRec *motion, S_8009C
     if ((s16)(timer) < 0) {
         func_80033D08(object);
         ((S_8009C4E8_0_pre *)object)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 
-    townAddHex20000SSignedOffsetHex14(motion);
-    townAddMotionDeltasToPosition(motion);
-    height_limit = townQueryLoweredTransformPosition(motion);
+    add_hex_20000_s_signed_offset_hex_14(motion);
+    add_motion_deltas_to_position(motion);
+    height_limit = query_lowered_transform_position(motion);
     if (motion->z.w.i > height_limit) {
         motion->z.w.i = height_limit;
         motion->unk_0C = 0;

@@ -2,7 +2,7 @@
 
 void func_80175A14(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonPropagateActorActionFlag(state, motion, position, actor) > 0) {
-        state->callback = func_80170E70;
+    if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
+        state->callback = update_actor_state_and_select_target;
     }
 }

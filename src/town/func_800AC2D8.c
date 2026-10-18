@@ -5,7 +5,7 @@ extern s8 D_800D1074[];
 extern s32 D_800D1080[];
 
 /* Classifies listed entry types by two value thresholds, returning 3 for unlisted types. */
-s32 func_800A9A38(u8 *entry) {
+s32 classify_listed_entry_type(u8 *entry) {
     s32 type_index;
     s32 entry_value;
 

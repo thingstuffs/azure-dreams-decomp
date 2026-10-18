@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates the actor's directional animation and advances its action state. */
-void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
 {
     unsigned long table_entry;
 
@@ -12,7 +12,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             return;
         }
         {
-            DungeonGlobalStatus *counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
             counter_base->unk_0A--;
         }
@@ -23,7 +23,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E54;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -31,7 +31,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E5C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -39,7 +39,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E64;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -63,7 +63,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             dir_table = D_80175E54;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -75,7 +75,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             dir_table = D_80175E5C;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -87,7 +87,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             dir_table = D_80175E64;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -101,7 +101,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             switch (((EntityRec *)actor)->unk_48) {
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -109,7 +109,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -117,7 +117,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -125,40 +125,40 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             }
         } else {
-            if (dungeonStatus.flags & 0x1000) {
+            if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
             if (((EntityRec *)actor)->unk_64 != 0) {
-                if (dungeonBeginReadyActorDirectionalAction(controller, context, animation, 0) != 0) {
+                if (begin_ready_actor_directional_action(controller, context, animation, 0) != 0) {
                     return;
                 }
             }
-            if ((func_800A2C34(actor) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 return;
             }
             {
                 s32 actor_flags = ((EntityRec *)actor)->flags1C;
 
                 if (actor_flags & 0x100) {
-                    dungeonBeginPushedActorMove(controller, context, animation, actor);
+                    begin_pushed_actor_move(controller, context, animation, actor);
                     return;
                 }
                 if (actor_flags & 0x80000) {
-                    func_800AA888(controller, context, animation, actor);
-                    dungeonUpdateDirectionalActionDisplay(controller, context, animation, actor);
+                    begin_actor_move_to_target_facing(controller, context, animation, actor);
+                    update_directional_action_display(controller, context, animation, actor);
                     return;
                 }
             }
             if (((EntityRec *)actor)->unk_6D == 0) {
                 return;
             }
-            if ((func_800A2C34(actor) << 16) != 0) {
-                if ((dungeonCheckEntityRelation(actor,
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
+                if ((check_entity_relation(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             func_800A9A04(actor);
             if (((EntityRec *)actor)->tileY == 0) {
                 return;
@@ -166,7 +166,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
             switch (((EntityRec *)actor)->unk_48) {
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -174,7 +174,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -182,7 +182,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
-                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 func_80047784(animation,
                     *(u8 *)table_entry,
@@ -193,7 +193,7 @@ void dungeonUpdateActorActionAnimationState(T_80175574_Obj0 *controller, void *c
 
 increment_counter:
         {
-            DungeonGlobalStatus *counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
             counter_base->unk_0A++;
         }
@@ -206,11 +206,11 @@ increment_state:
             return;
         }
         {
-            DungeonGlobalStatus *counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &g_dungeon_status;
 
             counter_base->unk_0A--;
         }
-        ((T_80175574_S_80175574_0 *)controller)->unk_8C = dungeonUpdateActorBehavior;
+        ((T_80175574_S_80175574_0 *)controller)->unk_8C = update_actor_behavior;
         return;
 
     default:

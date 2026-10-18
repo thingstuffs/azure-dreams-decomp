@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_bf9084.h"
 
-s32 func_80158884(u8 *item, u16 *coords)
+s32 queue_linked_object_draw_packets(u8 *item, u16 *coords)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = ((void * *)(&gameWork));
+    void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

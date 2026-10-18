@@ -4,7 +4,7 @@
 #define U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define PTR(base, offset) (*(u8 **)((u8 *)(base) + (offset)))
-s32 dungeonQueueFourShadedQuadrants(void *rect_arg, void *owner_arg)
+s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg)
 {
     u8 *rect_data;
     u8 *owner;
@@ -19,7 +19,7 @@ s32 dungeonQueueFourShadedQuadrants(void *rect_arg, void *owner_arg)
 
     rect_data = rect_arg;
     owner = owner_arg;
-    render_state_ptr = (u8 **)((s8 *)(&gameWork));
+    render_state_ptr = (u8 **)((s8 *)(&g_game_work));
     for (;;) {
         quadrant = 3;
         do {

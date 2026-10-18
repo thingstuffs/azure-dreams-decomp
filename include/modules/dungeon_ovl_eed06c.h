@@ -88,19 +88,19 @@ typedef struct S_8015886C_9 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
 extern void func_80047784();
-extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots();
-extern void func_800AA36C();
+extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
+extern void try_move_actor_to_valid_position();
 
-extern void dungeonProcessEffectBlockEntries();
+extern void process_effect_block_entries();
 extern void func_80158B64();
 extern void func_801591A4();
 extern u8 D_8015C18C[];
 extern u8 D_8015C1CC[];
 
-void * dungeonSpawnModeDependent112ObjectVariant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void * dungeonDrawSpriteEffectQuads();
+void * spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
+extern void * draw_sprite_effect_quads();
 #endif

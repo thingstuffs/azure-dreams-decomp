@@ -9,7 +9,7 @@ extern s32 D_00000F4C[3];
 extern s32 D_00001028[3];
 
 /* Returns the selected table entry's value plus the global offset after updating state. */
-s32 func_808BB364(void) {
+s32 get_table_entry_plus_global(void) {
     s32 selectedIndex;
     s32 entryValue;
 

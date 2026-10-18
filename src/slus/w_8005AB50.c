@@ -21,8 +21,8 @@ typedef struct {
 
 extern S_8007382C D_8007382C;
 
-extern s32 clampAndSubmitDriverParameter(s32 dest, u32 size);
-extern void lookupAndScaleDriverAddress(s32 value);
+extern s32 clamp_and_submit_driver_parameter(s32 dest, u32 size);
+extern void lookup_and_scale_driver_address(s32 value);
 
 /* Reads a bounded chunk from the selected entry and advances its cursor. */
 s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)
@@ -38,14 +38,14 @@ s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)
         return -1;
     }
 
-    lookupAndScaleDriverAddress(entry->unk10 + D_8007382C.value);
+    lookup_and_scale_driver_address(entry->unk10 + D_8007382C.value);
 
     remaining = entry->unk14 - D_8007382C.value;
     if (remaining < read_size) {
         read_size = remaining;
     }
 
-    if (clampAndSubmitDriverParameter(dest, read_size) != read_size) {
+    if (clamp_and_submit_driver_parameter(dest, read_size) != read_size) {
         return -1;
     }
 

@@ -8,11 +8,11 @@ typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
 
 extern u8 D_80171FA4[];
-extern void dungeonSetRecordIntegerTileCenter(S_B *, u8, u8);
-extern void dungeonApplyClampedActorValueDelta(S_D *);
+extern void set_record_integer_tile_center(S_B *, u8, u8);
+extern void apply_clamped_actor_value_delta(S_D *);
 
 /* Updates staged motion and snaps to the target tile when the countdown ends. */
-void dungeonAdvanceStagedMotionAndSnapTile(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
+void advance_staged_motion_and_snap_tile(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     s16 ticks_left;
     s32 target_pos;
     s32 current_pos;
@@ -24,7 +24,7 @@ void dungeonAdvanceStagedMotionAndSnapTile(S_A *motion_state, S_B *motion, S_C *
     active_flag = 1;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(actor);
+        apply_clamped_actor_value_delta(actor);
         motion_state->state9b = (u8)(motion_state->state9b + 1);
         if (actor->flag28 == 0) {
             actor->flag28 = (u8)active_flag;
@@ -34,12 +34,12 @@ void dungeonAdvanceStagedMotionAndSnapTile(S_A *motion_state, S_B *motion, S_C *
             motion_state->state9b = 2;
             return;
         }
-        motion->dxC = (-(*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
-        motion->dy10 = (-(*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dxC = (-(*(s16 *)(((u8 *)dir_step_x) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
+        motion->dy10 = (-(*(s16 *)(((u8 *)dir_step_y) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
         motion_state->count96 = 8;
     case 1:
-        motion->dxC += (*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
-        motion->dy10 += (*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dxC += (*(s16 *)(((u8 *)dir_step_x) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
+        motion->dy10 += (*(s16 *)(((u8 *)dir_step_y) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
         next_count = (u16)motion_state->count96 - 1;
         motion_state->count96 = (s16)next_count;
         if ((next_count << 0x10) <= 0) {
@@ -69,9 +69,9 @@ void dungeonAdvanceStagedMotionAndSnapTile(S_A *motion_state, S_B *motion, S_C *
             motion->dz14 = 0;
             motion->dy10 = 0;
             motion->dxC = 0;
-            dungeonSetRecordIntegerTileCenter(motion, target->x24, target->y25);
-            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
-                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+            set_record_integer_tile_center(motion, target->x24, target->y25);
+            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)actor - 0x20)) {
+                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
                 motion_state->field8c = D_80171FA4;
             } else {
                 motion_state->field8c = D_80171FA4;

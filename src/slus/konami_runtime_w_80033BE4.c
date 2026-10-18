@@ -17,7 +17,7 @@ extern u8 D_800816C0[];
 
 /* port body: port/hal/resident_gap2.c:201 */
 /* Returns the first unused slot in the twenty-entry pool, or NULL if full. */
-void *runtimeFindUnusedPoolSlot(void)
+void *runtime_find_unused_pool_slot(void)
 {
     u8 *slot = D_800816C0;
     s32 slot_index;

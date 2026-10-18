@@ -8,16 +8,16 @@ typedef s32 (*TownCallback)(void *, void *, s32);
 typedef struct S_8001A044_0 {
     u8 pad_00[0x6000];
     void * unk_6000;
-} S_8001A044_0;   /* page in townBuildObjectSetAndSelectLists */
+} S_8001A044_0;   /* page in build_object_set_and_select_lists */
 
 typedef struct S_8001A044_1 {
     void * unk_00;
-} S_8001A044_1;   /* l1_v0 in townBuildObjectSetAndSelectLists */
+} S_8001A044_1;   /* l1_v0 in build_object_set_and_select_lists */
 
 typedef struct S_8001A044_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8001A044_2;   /* l1_v1 in townBuildObjectSetAndSelectLists */
+} S_8001A044_2;   /* l1_v1 in build_object_set_and_select_lists */
 
 typedef struct S_8001A044_3 {
     s32 unk_00;
@@ -38,7 +38,7 @@ typedef struct S_8001A044_4 {
 typedef struct S_8001A044_6 {
     u8 pad_00[0x6000];
     void * unk_6000;
-} S_8001A044_6;   /* page2 in townBuildObjectSetAndSelectLists */
+} S_8001A044_6;   /* page2 in build_object_set_and_select_lists */
 
 typedef struct S_8001A044_7 {
     union { void * p; s32 i; } unk_00;   /* accessed as both */
@@ -61,9 +61,9 @@ typedef struct S_8001A044_11 {
 } S_8001A044_11;
 
 
-extern void *townFindMaskedRecordAndInitialize(void *, void *);
-extern void *townPopulateAndDispatchEntryRecords(void *, void *, s32, s32);
-extern s32 townFindEligibleEntry(void *, s32);
+extern void *find_masked_record_and_initialize(void *, void *);
+extern void *populate_and_dispatch_entry_records(void *, void *, s32, s32);
+extern s32 find_eligible_entry(void *, s32);
 
 extern u8 D_80016094[];
 extern u8 D_800160A0[];
@@ -72,7 +72,7 @@ extern u8 D_800160FC[];
 extern u8 D_8001DC10[];
 
 /* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
-void townBuildObjectSetAndSelectLists(s32 *records, void *ost_w, void *osel_w)
+void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
 {
     register u8 *cd_header_entry;
     s32 *pp;
@@ -123,16 +123,16 @@ void townBuildObjectSetAndSelectLists(s32 *records, void *ost_w, void *osel_w)
                     record = (void *)((u32)(record_index * 0x1C) + (u32)records);
                     if (record->unk_08 != 0) {
                         ((Rec_D_80016000 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
-                        variant_index = townFindEligibleEntry(record, group_bits);
+                        variant_index = find_eligible_entry(record, group_bits);
                         updated_flags = (record->unk_00 & ~0xFF) |
                                    (variant_index & 0xFF);
                         record->unk_00 = updated_flags;
-                        next_object_set = townPopulateAndDispatchEntryRecords(p,
+                        next_object_set = populate_and_dispatch_entry_records(p,
                               (void *)((S_8001A044_11 *)((variant_index * 0x10) +
                                             (u8 *)record->unk_10))->unk_08,
                               updated_flags, record_index);
                         if ((next_object_set - 0x14) != p) {
-                            townFindMaskedRecordAndInitialize(D_8001DC10, record);
+                            find_masked_record_and_initialize(D_8001DC10, record);
                             record->unk_04 = p;
                             p = next_object_set;
                         }
@@ -140,7 +140,7 @@ void townBuildObjectSetAndSelectLists(s32 *records, void *ost_w, void *osel_w)
                         direct_record = (void *)((u32)(record_index * 0x1C) +
                                                  (u32)records);
                         direct_record->unk_04 = p;
-                        p = townPopulateAndDispatchEntryRecords(p,
+                        p = populate_and_dispatch_entry_records(p,
                             (void *)direct_record->unk_10, 0, record_index);
                     }
                 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18ca83c.h"
 
-void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearance) {
+void advance_target_travel_effect(void *effect, void *motion, void *appearance) {
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;
     s16 *path_dist_cursor;
@@ -36,7 +36,7 @@ void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearan
     case 1:
         source_record = source - 0x20;
         source_info = ((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C;
-        if (resolveRecordOrientationOrFallback(((ovl_18ca83c_818AAE60_S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+        if (resolve_record_orientation_or_fallback(((ovl_18ca83c_818AAE60_S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(((ovl_18ca83c_818AAE60_S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
                 ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
                 return;
@@ -99,7 +99,7 @@ void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearan
                 - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
             ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at00.v
                 - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             ((Rec_func_800243B8_arg0 *)effect)->unk_0A += 1;
         } else {
             u16 path_x;
@@ -122,35 +122,35 @@ void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearan
             while (index < 8) {
                 grid_x = (s16)path_x;
                 grid_y = (s16)path_y;
-                if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
+                if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
                         ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88,
                         (s16)(((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) != 0) {
                     break;
                 }
-                source_pos = &dirStepX[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
+                source_pos = &dir_step_x[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
                 probe_z = (u16)((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88;
                 probe_z -= 32;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                step_y = &dirStepY[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
-                floor_height = func_800BCB04(((grid_x + *(s16 *)source_pos) << 6) + 32 & 0xFFE0,
+                step_y = &dir_step_y[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
+                floor_height = sample_terrain_surface_height(((grid_x + *(s16 *)source_pos) << 6) + 32 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 32 & 0xFFE0, probe_z);
                 if ((s16)floor_height >= 513 ||
                     (s16)(floor_height - ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_88) < -63) {
                     break;
                 }
                 index++;
-                path_x += dirStepX[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
-                path_y += dirStepY[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
+                path_x += dir_step_x[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
+                path_y += dir_step_y[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E];
                 saved_y = path_y;
                 last_x = path_x;
             }
             destination = (M2C_UNK *)&scratch;
             index = 1;
             path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-            dest_x = ((last_x << 16) >> 10) + ((dirStepX[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+            dest_x = ((last_x << 16) >> 10) + ((dir_step_x[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
             ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_00.at02.v = dest_x;
-            dest_y = ((saved_y << 16) >> 10) + ((dirStepY[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+            dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16)((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
             ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_04.at02.v = dest_y;
             ((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_08.at02.v = ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_08.at02.v + 32;
             scratch.dist[0] = abs(((ovl_18ca83c_818AAE60_S_80024660_8 *)destination)->unk_00.at02.v - ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at02u.v);
@@ -181,7 +181,7 @@ void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearan
         index = 0x1F;
         tile_x = effect + 0x7C;
         do {
-            ((ovl_18ca83c_818AAE60_S_80024660_10 *)tile_x)->unk_18 = dungeonCreateRandomizedTargetEffect(effect, motion, destination, (s16)index);
+            ((ovl_18ca83c_818AAE60_S_80024660_10 *)tile_x)->unk_18 = create_randomized_target_effect(effect, motion, destination, (s16)index);
             index -= 1;
             tile_x -= 4;
         } while (index >= 0);
@@ -199,9 +199,9 @@ void dungeonAdvanceTargetTravelEffect(void *effect, void *motion, void *appearan
         if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         break;
     case 2:
         ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v

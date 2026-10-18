@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e09000_code.h"
 
-void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     void *result = NULL;
     void *root;
@@ -47,9 +47,9 @@ void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
                 } else {
                     if ((s16)(spawn_flags & ~3) == 0) {
                         if (!(((S_8016A800_0 *)result)->unk_14 & 0x200)) {
-                            spawn_flags = func_800A6D30();
+                            spawn_flags = generate_random_value();
                             if (spawn_flags & 1) {
-                                func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                                set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                                 ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E538;
                             }
                         }
@@ -63,10 +63,10 @@ void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
                 }
             }
             ((S_8016A800_1 *)root)->unk_10 = func_8016AA58;
-            func_800A9C18(root, position, arg3_part, (s16)held_flags);
+            initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9A = 0xFF;
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9C = -1;
-            func_800AA36C(arg2_work, position, arg3_part, result);
+            try_move_actor_to_valid_position(arg2_work, position, arg3_part, result);
         }
     }
     return result;

@@ -12,10 +12,10 @@ typedef struct Owner_800A48F0 {
 
 extern void func_80042BDC(void *, s16);
 extern void func_80042B68(void *, s8);
-extern void dungeonApplyEntityActionFlags(void *, s32);
+extern void apply_entity_action_flags(void *, s32);
 
 /* Updates or inserts a four-slot entry, clearing conflicts or evicting an entry when full. */
-s16 func_800A48F0(Owner_800A48F0 *owner, s8 id, s8 value) {
+s16 set_or_clear_actor_status_slot(Owner_800A48F0 *owner, s8 id, s8 value) {
     s16 min_id;
     s32 i;
     s32 used;
@@ -30,7 +30,7 @@ s16 func_800A48F0(Owner_800A48F0 *owner, s8 id, s8 value) {
             } else {
                 owner->slots[i].value = value;
             }
-            dungeonApplyEntityActionFlags(owner, id);
+            apply_entity_action_flags(owner, id);
             return i;
         }
     }
@@ -44,7 +44,7 @@ s16 func_800A48F0(Owner_800A48F0 *owner, s8 id, s8 value) {
             }
             owner->slots[i].id = id;
             owner->slots[i].value = value;
-            dungeonApplyEntityActionFlags(owner, id);
+            apply_entity_action_flags(owner, id);
             return i;
         }
         if (used < min_id) {
@@ -53,7 +53,7 @@ s16 func_800A48F0(Owner_800A48F0 *owner, s8 id, s8 value) {
     }
     if (min_id > id) {
         func_80042B68(owner, min_id);
-        return func_800A48F0(owner, id, value);
+        return set_or_clear_actor_status_slot(owner, id, value);
     }
     return -1;
 }

@@ -19,11 +19,11 @@ typedef struct {
     u8 pad02[10];
 } RegionPos;
 
-s32 func_8009FB34();
+s32 find_active_rect_containing_point();
 
 
 /* Finds the nearest matching entry in the entity's region and writes its coordinates. */
-u32 findNearestFloorItemInRoom(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
+u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     s16 best_distance;
     s32 best_index;
     s32 i;
@@ -48,7 +48,7 @@ u32 findNearestFloorItemInRoom(Entity *entity, s32 filter, s16 *out_x, s16 *out_
         if (D_800E3548[i].kind == id && (type == 0 || D_800E3548[i].unk_00 == type)) {
             x = ((RegionPos *)D_800E36C8)[i].x;
             y = ((RegionPos *)D_800E36C8)[i].y;
-            if ((s16)func_8009FB34(x, y) == entity->kind) {
+            if ((s16)find_active_rect_containing_point(x, y) == entity->kind) {
                 dx = abs(x - entity->x);
                 dy = abs(y - entity->y);
                 y_larger = dx < dy;

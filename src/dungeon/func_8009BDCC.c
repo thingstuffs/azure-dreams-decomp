@@ -11,10 +11,10 @@ typedef struct {
     u8 count;
 } Entry;
 
-extern Entry *func_800A1618(s16 requested_id, s16 requested_type);
+extern Entry *find_or_retain_sprite_resource_slot(s16 requested_id, s16 requested_type);
 
 /* Normalize the entry type and increment the matching entry and dungeon counts. */
-s32 retainSpawnResource(s16 entry_type, s16 entry_key) {
+s32 retain_spawn_resource(s16 entry_type, s16 entry_key) {
     s16 type;
     Entry *entry;
 
@@ -22,11 +22,11 @@ s32 retainSpawnResource(s16 entry_type, s16 entry_key) {
     if (entry_type == 0x39) {
         type = 2;
     }
-    entry = func_800A1618(type, entry_key);
+    entry = find_or_retain_sprite_resource_slot(type, entry_key);
     if (entry != NULL) {
         entry->type = type;
         entry->count++;
-        dungeonStatus.unk_1C++;
+        g_dungeon_status.unk_1C++;
         return 1;
     }
     return 0;

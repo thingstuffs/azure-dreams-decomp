@@ -28,7 +28,7 @@ typedef struct S_func_80016BE8_3 {
 } S_func_80016BE8_3;
 
 /* Conditionally updates the town state pointer and invokes the town callback. */
-s32 func_80016BE8(void) {
+s32 check_query_0x5c0_zero(void) {
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);
     if (func_80018C50(0xFE8) == 0) {

@@ -4,7 +4,7 @@
 extern s16 D_8002571C;
 
 /* Decrements the object counter and sets flags when it reaches zero. */
-void func_800249A0(void *object)
+void decrement_object_counter(void *object)
 {
     u8 *object_bytes = object;
     u16 counter;
@@ -15,7 +15,7 @@ void func_800249A0(void *object)
     *(u16 *)(object_bytes + 42) = counter;
     if ((counter << 16) <= 0) {
         *(u16 *)(object_bytes - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

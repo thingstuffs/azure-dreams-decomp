@@ -10,7 +10,7 @@ typedef struct EventSource_8003E4FC {
     void *field4;
 } EventSource_8003E4FC;
 
-extern s32 enqueueCdCommandRecord();
+extern s32 enqueue_cd_command_record();
 
 /* Dispatch supported event codes and update the associated event state. */
 s32 Control_CD(s32 event_code, void *event_data, s32 payload)
@@ -103,13 +103,13 @@ case_2:
     goto call_with_data;
 
 case_ff:
-    result.value = enqueueCdCommandRecord(0xFF, event_data, payload);
+    result.value = enqueue_cd_command_record(0xFF, event_data, payload);
     return result.value;
 
 case_6:
     call_arg = event_data;
     D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
-    result.value = enqueueCdCommandRecord((u8)event_code, call_arg, payload);
+    result.value = enqueue_cd_command_record((u8)event_code, call_arg, payload);
     return result.value;
 
 case_9:
@@ -124,22 +124,22 @@ case_13:
     D_80080AD4 = 0;
     if (event_data == 0) {
         null_kind = 13;
-        result.value = enqueueCdCommandRecord(null_kind, 0, payload);
+        result.value = enqueue_cd_command_record(null_kind, 0, payload);
         return result.value;
     }
-    enqueueCdCommandRecord(13, 0, payload);
-    enqueueCdCommandRecord(2, event_data, 0);
-    result.value = enqueueCdCommandRecord(27, event_data, 0);
+    enqueue_cd_command_record(13, 0, payload);
+    enqueue_cd_command_record(2, event_data, 0);
+    result.value = enqueue_cd_command_record(27, event_data, 0);
     D_80080ADC = event_data;
     return result.value;
 
 case_14:
     null_kind = 14;
-    result.value = enqueueCdCommandRecord(null_kind, 0, payload);
+    result.value = enqueue_cd_command_record(null_kind, 0, payload);
     return result.value;
 
 case_21:
-    enqueueCdCommandRecord(2, event_data, 0);
+    enqueue_cd_command_record(2, event_data, 0);
     call_kind = 21;
     goto call_with_data;
 
@@ -148,7 +148,7 @@ case_27:
 call_with_data:
     call_arg = event_data;
 call_three:
-    result.value = enqueueCdCommandRecord(call_kind, call_arg, 0);
+    result.value = enqueue_cd_command_record(call_kind, call_arg, 0);
     goto done;
 
 return_zero:

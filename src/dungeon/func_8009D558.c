@@ -11,10 +11,10 @@ typedef struct S_800A2CB8_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_800A2CB8_1;   /* arg1 in func_800A2CB8 */
+} S_800A2CB8_1;   /* arg1 in check_entity_interaction_compatibility */
 
 /* Checks entity status and shared flags against another entity. */
-u32 func_800A2CB8(void *entity, S_800A2CB8_1 *other_entity) {
+u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_entity) {
     if (other_entity == NULL) {
         return 0;
     }

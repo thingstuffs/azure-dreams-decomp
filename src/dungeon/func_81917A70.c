@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-s32 dungeonCreateAnAttachedEffectCopiedTransformDataRandomizedAngle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
+s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     s32 first_word;
     s32 second_word;
     s32 random_value;

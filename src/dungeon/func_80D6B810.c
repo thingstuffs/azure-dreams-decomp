@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80D65810; every changed retail word is a paired relocation. */
-#define dungeonCreateOriginMotionEffect func_8016B010
-#define dungeonUpdateEffectCollisionAndLifetime D_8016AD34
+#define create_origin_motion_effect func_8016B010
+#define update_effect_collision_and_lifetime D_8016AD34
 #include "shared/object_node.h"
 #include "common.h"
 
@@ -72,7 +72,7 @@ s32 func_8004491C();
 s32 rand();
 extern u8 D_800DE870[];
 extern void func_80045340(void);
-extern void dungeonUpdateEffectCollisionAndLifetime(void);
+extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
 void func_8016B010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
@@ -99,7 +99,7 @@ void func_8016B010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x
         motion = effect + 0x20;
         motion->unk_0C = 0x1E;
         motion->unk_0E = 0x1E;
-        ((S_80D65810_1 *)effect)->unk_10 = dungeonUpdateEffectCollisionAndLifetime;
+        ((S_80D65810_1 *)effect)->unk_10 = update_effect_collision_and_lifetime;
         func_8004491C(effect, func_80045340);
         render = ((S_80D65810_1 *)effect)->unk_0C;
         render->unk_14 |= 0xC;

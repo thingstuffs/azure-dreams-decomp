@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* see src/code2.c sibling audioSetAllTrackTempoSteps: same D_80085FA8 array-of-structs / D_800869B4 count idiom */
+/* see src/code2.c sibling audio_set_all_track_tempo_steps: same D_80085FA8 array-of-structs / D_800869B4 count idiom */
 
 extern int D_800869B4[3];
 
@@ -14,7 +14,7 @@ typedef struct {
 extern Struct_80059D1C_80085FA8 D_80085FA8[];
 
 /* Sets field_2C to 1 and clears field_00 for each active entry. */
-void slusActivateEntriesAndClearState(void) {
+void activate_entries_and_clear_state(void) {
     int one;
     unsigned int entry_index = 0;
     unsigned int entry_count;

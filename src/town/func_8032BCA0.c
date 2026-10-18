@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8001B080();                     /* extern */
+M2C_UNK contains_record_value_in_byte_0();                     /* extern */
 
-/* Calls func_8001B080 with selector 0x10. */
-void townQueryStateWithSelector10(void) {
-    func_8001B080(0x10);
+/* Calls contains_record_value_in_byte_0 with selector 0x10. */
+void query_state_with_selector_10(void) {
+    contains_record_value_in_byte_0(0x10);
 }

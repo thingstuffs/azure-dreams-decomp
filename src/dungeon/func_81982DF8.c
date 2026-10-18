@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void dungeonMoveFadeAndExpandEffect(void *effect_data, void *motion_data, void *sprite_data)
+void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data)
 {
     ovl_19a332c_81982DF8_Arg2 *sprite = (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     void *effect = effect_data;
@@ -34,6 +34,6 @@ void dungeonMoveFadeAndExpandEffect(void *effect_data, void *motion_data, void *
     *((s16 *) (((s8 *) effect) + 0x30)) = frames_left;
     if ((frames_left << 0x10) <= zero) {
         *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | 0x8000);
-        ((s32 *)(&objectFlagBlock))[zero] = (s32) (objectFlagBlock.flags | 0x8000);
+        ((s32 *)(&object_flag_block))[zero] = (s32) (object_flag_block.flags | 0x8000);
     }
 }

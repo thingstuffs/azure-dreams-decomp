@@ -5,10 +5,10 @@ typedef struct {
 } __attribute__((packed)) PackedWord;
 
 extern PackedWord D_80018880;
-extern s32 func_80018594(s32);
+extern s32 initialize_state_two_entries_pointer(s32);
 
 /* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
-u8 * townDispatchEventD8A(u8 *entries) {
+u8 * dispatch_event_d_8_a(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;
@@ -25,7 +25,7 @@ u8 * townDispatchEventD8A(u8 *entries) {
         entry = entries + index * 4;
         entry[1] = marker;
         entry[0] = index;
-        if (func_80018594(index + 0x1497) != 0) {
+        if (initialize_state_two_entries_pointer(index + 0x1497) != 0) {
             entry[3] |= 0x80;
         }
         index++;

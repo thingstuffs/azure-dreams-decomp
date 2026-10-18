@@ -2,7 +2,7 @@
 
 
 /* Prints decoder diagnostics and resets the decoder and its DMA channels. */
-static s32 func_80177D08(const char *diagnostic_value) {
+static s32 report_decoder_error_and_reset(const char *diagnostic_value) {
     u32 decoder_status;
     u32 input_dma_busy;
     u32 output_dma_busy;

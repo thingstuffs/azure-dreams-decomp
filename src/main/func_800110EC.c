@@ -3,7 +3,7 @@
 extern void func_8004E994(s32 value);
 
 // Process and clear three referenced values, then clear a fourth referenced value.
-void func_800240EC(void *owner) {
+void write_fixed_palette_pixels(void *owner) {
     s32 slotIndex;
 
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {

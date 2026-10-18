@@ -16,7 +16,7 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)dungeonUpdateActorCallbacksAnimationAndGround);
+        ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)update_actor_callbacks_animation_and_ground);
         ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = 10;
         func_8004491C(object, func_80045340);
 
@@ -50,16 +50,16 @@ void *func_80170F3C(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
             ((R10_80170F3C_S_80170F3C_1 *)result)->unk_1C = flags1;
         } else if (((flags & -4) << 16) == 0 &&
                    (((R10_80170F3C_S_80170F3C_1 *)result)->unk_14 & 0x200) == 0 &&
-                   (func_800A6D30() & 1) != 0) {
-            func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                   (generate_random_value() & 1) != 0) {
+            set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
             part1->unk_2C = ((u8 *)D_801759E8);
         }
 
-        func_800A9C18(object, part0, part1,(s16)(flags));
+        initialize_actor_sprite_and_animation(object, part0, part1,(s16)(flags));
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
         result_copy->unk_8C = ((void *)func_801717F4);
-        func_800AA36C(result_copy, part0, part1, result);
+        try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
 
     return result;

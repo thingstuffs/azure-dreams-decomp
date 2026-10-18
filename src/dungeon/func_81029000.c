@@ -9,7 +9,7 @@ typedef struct S_81029000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_81029000_0;   /* obj in dungeonSpawnOverlayAttributeEffect */
+} S_81029000_0;   /* obj in spawn_overlay_attribute_effect */
 
 typedef struct S_81029000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_81029000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_81029000_1;   /* work in dungeonSpawnOverlayAttributeEffect */
+} S_81029000_1;   /* work in spawn_overlay_attribute_effect */
 
 typedef struct S_81029000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_81029000_2;   /* part_a in dungeonSpawnOverlayAttributeEffect */
+} S_81029000_2;   /* part_a in spawn_overlay_attribute_effect */
 
 typedef struct S_81029000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_81029000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_81029000_3;   /* part_b in dungeonSpawnOverlayAttributeEffect */
+} S_81029000_3;   /* part_b in spawn_overlay_attribute_effect */
 
 typedef struct S_81029000_4 {
     u8 pad_00[0x8C];
@@ -41,15 +41,15 @@ typedef struct S_81029000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_81029000_4;   /* actor in dungeonSpawnOverlayAttributeEffect */
+} S_81029000_4;   /* actor in spawn_overlay_attribute_effect */
 
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern M2C_UNK D_8014CA78;
 extern M2C_UNK D_8014D058;
 extern M2C_UNK D_80150880;
@@ -57,12 +57,12 @@ extern M2C_UNK D_801508E0;
 
 
 
-void *dungeonSpawnOverlayAttributeEffect(s16, s16, s16, s16)
+void *spawn_overlay_attribute_effect(s16, s16, s16, s16)
 
 ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *dungeonSpawnOverlayAttributeEffect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
+void *spawn_overlay_attribute_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s16 final_arg0;
     s32 left;
@@ -102,23 +102,23 @@ void *dungeonSpawnOverlayAttributeEffect(s16 spawn_flags, s16 attr_a, s16 attr_b
         } else {
             if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     if (left & 1) {
                         work->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = &D_801508E0;
                     }
                 }
             }
         }
-        func_800A9C18(obj, part_a, part_b, final_arg0);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, final_arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014D058;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x18;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

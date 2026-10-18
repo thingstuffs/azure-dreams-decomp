@@ -23,10 +23,10 @@ typedef struct GlobalFlags {
 extern s32 D_800E3648[0x20];
 extern EntitySlot D_800E39C8[0x20];
 
-extern void func_8009A3D0(u8 x, u8 y, s32 type);
+extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 type);
 
 /* Clears a slot's state and flags any attached entity before detaching it. */
-void dungeonClearSlotAndDetachEntity(s32 slot_index) {
+void clear_slot_and_detach_entity(s32 slot_index) {
     s32 slot_offset;
     EntitySlot *slot_base;
     EntitySlot *slot;
@@ -39,13 +39,13 @@ void dungeonClearSlotAndDetachEntity(s32 slot_index) {
     slot_offset = slot_index * 0x18;
 
     slot = (EntitySlot *)((u8 *)slot_base + slot_offset);
-    func_8009A3D0(slot->x, slot->y, 0x20);
+    update_map_cell_flags_with_item_limit(slot->x, slot->y, 0x20);
     entity = slot->entity;
     if (entity != 0) {
         entity_flags = entity->flags;
-        global_flags = objectFlagBlock.flags;
+        global_flags = object_flag_block.flags;
         entity->flags = entity_flags | 0x8000;
-        objectFlagBlock.flags = global_flags | 0x8000;
+        object_flag_block.flags = global_flags | 0x8000;
         slot->entity = 0;
     }
 }

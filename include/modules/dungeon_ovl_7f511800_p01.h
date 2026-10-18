@@ -49,15 +49,15 @@ typedef struct T_80172664_S_80172664_3 {
 
 
 extern void func_80047784(void *, u8, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 extern void * D_800E3DE8;
 extern u8 D_80170E7C;
 extern u8 D_80174D7C;
 extern u8 D_80174D84;
 extern u8 D_80174D8C;
-void func_80172664(void *animation, void *motion, void *sprite, void *actor);
+void settle_actor_after_movement(void *animation, void *motion, void *sprite, void *actor);
 #endif

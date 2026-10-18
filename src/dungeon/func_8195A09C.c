@@ -14,7 +14,7 @@ extern u8 D_80025764[12];
 extern u8 D_8002822C[12];
 extern u8 D_800C95C0[12];
 /* Spawn two pairs of effects at random offsets around the source. */
-void dungeonSpawnPairedRandomEffects(void *source, s16 effect_param, s32 render_param)
+void spawn_paired_random_effects(void *source, s16 effect_param, s32 render_param)
 {
     s32 remaining;
     void *effect;

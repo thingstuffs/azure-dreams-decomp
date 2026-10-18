@@ -13,19 +13,19 @@ typedef struct S_8009B014_1 {
     s16 unk_10;
     u8 pad_12[0x20];
     s16 unk_32;
-} S_8009B014_1;   /* arg0 in townAdvancePlayerTowardTarget */
+} S_8009B014_1;   /* arg0 in advance_player_toward_target */
 
 
 
-extern void townCallTheHandlerSelectsNonzeroEntry(void *entries, void *record, s32 handler_param);
-extern void townClearEntityRecordFields(void *record);
+extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
+extern void clear_entity_record_fields(void *record);
 extern void *D_8009AFF4[3];
 extern u8 D_800D0078[3];
 extern s32 D_800D0620;
 extern M2C_UNK D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
-void townAdvancePlayerTowardTarget(void *state, EntityRec *motion, M2C_UNK context) {
+void advance_player_toward_target(void *state, EntityRec *motion, M2C_UNK context) {
     u16 ticks_left;
     s32 target_index;
     s32 *target_bases;
@@ -40,10 +40,10 @@ void townAdvancePlayerTowardTarget(void *state, EntityRec *motion, M2C_UNK conte
     ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
         motion->y.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
-        townClearEntityRecordFields(motion);
+        clear_entity_record_fields(motion);
         ((S_8009B014_1 *)state)->unk_10 = 0x400;
         ((S_8009B014_1 *)state)->unk_0A.u = 0xA;
-        townCallTheHandlerSelectsNonzeroEntry(D_800D0078, state, context);
+        call_the_handler_selects_nonzero_entry(D_800D0078, state, context);
         ((S_8009B014_1 *)state)->unk_04 = D_8009AFF4;
     }
 }

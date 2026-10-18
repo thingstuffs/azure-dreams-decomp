@@ -27,7 +27,7 @@ extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 
 /* Marks qualifying entries and their associated state with 0x400 in mode 2. */
-s32 townMarkQualifyingEntriesInModeTwo(void)
+s32 mark_qualifying_entries_in_mode_two(void)
 {
     s32 entry_index;
     s32 mark_value;

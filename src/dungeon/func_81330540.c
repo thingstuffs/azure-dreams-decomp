@@ -9,7 +9,7 @@ typedef struct S_80167540_0 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80167540_0;   /* arg0 in dungeonUpdateFlickeringLayerSprite; pointer addresses record offset 0x2 */
+} S_80167540_0;   /* arg0 in update_flickering_layer_sprite; pointer addresses record offset 0x2 */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -17,7 +17,7 @@ s32 rand();                   /* extern */
 s16 func_80167088();                         /* extern */
 
 /* Scale effect channels by remaining lifetime, randomize flags, and mark expiration. */
-void dungeonUpdateFlickeringLayerSprite(void *effect_data, void *unused, Rec_D_80082E80 *effect) {
+void update_flickering_layer_sprite(void *effect_data, void *unused, Rec_D_80082E80 *effect) {
     s16 selected_channel;
     s32 channel_1_scale;
     s32 channel_2_scale;
@@ -59,6 +59,6 @@ void dungeonUpdateFlickeringLayerSprite(void *effect_data, void *unused, Rec_D_8
     if (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A <= 0) {
         ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

@@ -6,13 +6,13 @@ extern u8 D_800E6000[16400];
 extern u8 *D_80081508;
 
 /* Clear flag 0x80 on the listed tiles and reset the list. */
-void dungeonClearListedTileFlags(void) {
+void clear_listed_tile_flags(void) {
     u8 *entry;
     u8 *tile;
     u16 tile_flags;
     MapGrid *map_config;
 
-    map_config = &gameWork.map;
+    map_config = &g_game_work.map;
     entry = D_80081508;
     if (*entry != 0) {
         do {

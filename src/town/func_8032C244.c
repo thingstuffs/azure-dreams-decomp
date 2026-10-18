@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Calls townSetScriptFlagBit with ID 0xD82. */
-void townDispatchEventD82(void) {
-    townSetScriptFlagBit(0xD82);
+/* Calls set_script_flag_bit with ID 0xD82. */
+void dispatch_event_d_82(void) {
+    set_script_flag_bit(0xD82);
 }

@@ -17,7 +17,7 @@ typedef struct S_800A94A0_0 {
     void * unk_78;
     u8 pad_7C[0x24];
     s16 unk_A0;
-} S_800A94A0_0;   /* arg0 in dungeonCreateActorSpellEffect; pointer addresses record offset 0x18 */
+} S_800A94A0_0;   /* arg0 in create_actor_spell_effect; pointer addresses record offset 0x18 */
 
 
 typedef struct S_800A94A0_2 {
@@ -77,7 +77,7 @@ typedef struct S_800A94A0_9 {
     u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_800A94A0_9;   /* *D_800E3D7C in dungeonCreateActorSpellEffect */
+} S_800A94A0_9;   /* *D_800E3D7C in create_actor_spell_effect */
 
 
 extern u8 D_800E3CC8[];
@@ -86,18 +86,18 @@ extern u16 D_800DCEBC[];
 
 void *func_8003FD64();
 M2C_UNK func_80069EF8();
-s32 func_800990FC();
-s32 func_80099194();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void *func_80099290();
-s32 func_80099734();
-s16 dungeonGetTileChebyshevDistance();
-s32 func_800A5720();
-s16 dungeonResolveAlternateSpellId();
-s32 dungeonLoadSpellEffectCode();
-s32 dungeonSelectNearbyTargetAndInitializeSlot();
-void dungeonSetupObjectWithinPlanarRange();
-void dungeonProcessNearbyObjectMidpoint();
-void dungeonReduceActorFoodMeter();
+s32 append_entity_display_text();
+s16 get_tile_chebyshev_distance();
+s32 display_text_with_fullwidth_adjustment();
+s16 resolve_alternate_spell_id();
+s32 load_spell_effect_code();
+s32 select_nearby_target_and_initialize_slot();
+void setup_object_within_planar_range();
+void process_nearby_object_midpoint();
+void reduce_actor_food_meter();
 extern M2C_UNK D_80089080;
 extern u8 D_800DD880[];
 extern u8 D_800DD8B4[];
@@ -105,7 +105,7 @@ extern M2C_UNK D_800E1C58;
 extern u8 D_800E3D68;
 
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
-void *dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
+void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
     s32 message;
     s32 name_text;
     s32 effect_data;
@@ -135,13 +135,13 @@ void *dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 m
             effect_id = (*(u8 *)&effect_record->x);
             entry_variant = (*(u8 *)((u8 *)&effect_record->x + 1));
             D_800E3D68 = entry_variant;
-            effect_data = dungeonLoadSpellEffectCode((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
+            effect_data = load_spell_effect_code((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
         if (effect_data == 0) {
             effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
-            global_flags = objectFlagBlock.flags | 0x8000;
+            global_flags = object_flag_block.flags | 0x8000;
             ((S_800A94A0_2 *)effect)->unk_1E = effect_flags;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
             return NULL;
         }
         ((S_800A94A0_2 *)effect)->unk_10 = effect_data;
@@ -163,14 +163,14 @@ void *dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 m
             if (!((u16) *((s16 *)&D_80013714) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
-                    dungeonGetTileChebyshevDistance(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
+                    get_tile_chebyshev_distance(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
                         ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
-                    dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
+                    select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
                 } else {
-                    dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
+                    select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
                 }
             } else {
-                dungeonSelectNearbyTargetAndInitializeSlot(effect, effect_position, 8, 0x300);
+                select_nearby_target_and_initialize_slot(effect, effect_position, 8, 0x300);
             }
             if (text_context) {
                 /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
@@ -180,36 +180,36 @@ void *dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 m
             map_state = &D_80082E80;
             if (!(actor_state->unk_14 & 0x8000)) {
                 if (!(map_state->unk_014 & 0x8000)) {
-                    dungeonProcessNearbyObjectMidpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
+                    process_nearby_object_midpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
                         ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                     goto set_effect_scale;
                 }
             }
             direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-            dungeonSetupObjectWithinPlanarRange(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
+            setup_object_within_planar_range(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
                 << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
                 + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            dungeonReduceActorFoodMeter(actor, D_800DD8B4[effect_id] << 6);
+            reduce_actor_food_meter(actor, D_800DD8B4[effect_id] << 6);
         } else {
-            dungeonReduceActorFoodMeter(actor, D_800DD880[effect_id] << 8);
+            reduce_actor_food_meter(actor, D_800DD880[effect_id] << 8);
         }
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
-            new_text_context = func_800990FC();
-            message = func_80099734(actor, new_text_context);
-            message = func_80099194(&D_800E1C58, message);
+            new_text_context = get_unused_text_buffer();
+            message = append_entity_display_text(actor, new_text_context);
+            message = expand_text_control_codes(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
-                effect_id = dungeonResolveAlternateSpellId(effect_id);
+                effect_id = resolve_alternate_spell_id(effect_id);
                 name_text = D_8006DE24[effect_id].unk_08;
-                message = func_80099194(name_text, message);
+                message = expand_text_control_codes(name_text, message);
             } else {
                 name_text = D_8006DE24[effect_id].unk_00;
-                message = func_80099194(name_text, message);
+                message = expand_text_control_codes(name_text, message);
             }
-            func_80099290(func_80099194(&D_80089080, message));
-            func_800A5720(new_text_context);
+            func_80099290(expand_text_control_codes(&D_80089080, message));
+            display_text_with_fullwidth_adjustment(new_text_context);
             return effect;
         }
     }

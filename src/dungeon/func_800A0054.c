@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return the first of three entries matching the target's group, or -1. */
-s32 func_800A57B4(void *entry, s16 target) {
+s32 find_slot_by_item_group(void *entry, s16 target) {
     s32 index;
 
     index = 0;

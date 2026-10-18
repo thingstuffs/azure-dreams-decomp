@@ -14,12 +14,12 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern void func_8003DB94(void *, void *, s8);
 extern void func_800478B8(void *);
-extern s32 townUpdateObjectAndClearStatusFields(void *);
-extern void townSetStateBytesFromFlags(s32 flags, u8 *state);
-extern void townCreateColoredScaledEffect(StackRecord *);
-extern void func_800A6B70(StackRecord *);
-extern s32 townQuantizeHeadingToSector(s16, s16);
-extern s32 townCheckHeadingPastHalfSector(s16, s16);
+extern s32 update_object_and_clear_status_fields(void *);
+extern void set_state_bytes_from_flags(s32 flags, u8 *state);
+extern void create_colored_scaled_effect(StackRecord *);
+extern void update_sine_pulse_color(StackRecord *);
+extern s32 quantize_heading_to_sector(s16, s16);
+extern s32 check_heading_past_half_sector(s16, s16);
 
 
 typedef struct S_800A6684_0 {
@@ -31,11 +31,11 @@ typedef struct S_800A6684_0 {
     u8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_800A6684_0;   /* arg2 in townUpdateEntitySpriteAndEffects */
+} S_800A6684_0;   /* arg2 in update_entity_sprite_and_effects */
 
 
 /* Update the entity sprite and trigger effects when it crosses the height threshold. */
-void townUpdateEntitySpriteAndEffects(void *entity, EntityRec *position, S_800A6684_0 *sprite)
+void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6684_0 *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
@@ -43,15 +43,15 @@ void townUpdateEntitySpriteAndEffects(void *entity, EntityRec *position, S_800A6
 
     (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);
     if (!((*(u16 *)((u8 *)entity + -2)) & 0x8000)) {
-        townSetStateBytesFromFlags(townUpdateObjectAndClearStatusFields(position), entity);
+        set_state_bytes_from_flags(update_object_and_clear_status_fields(position), entity);
 
-        frame_index = townQuantizeHeadingToSector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
+        frame_index = quantize_heading_to_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
         if ((*(s16 *)((u8 *)entity + 0x74)) != frame_index) {
             func_8003DB94(sprite, (*(void ** *)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
             (*(s16 *)((u8 *)entity + 0x74)) = frame_index;
         }
 
-        if ((townCheckHeadingPastHalfSector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64))) << 0x10) != 0) {
+        if ((check_heading_past_half_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64))) << 0x10) != 0) {
             sprite->unk_14 |= 1;
         } else {
             sprite->unk_14 &= 0xFFFE;
@@ -64,14 +64,14 @@ void townUpdateEntitySpriteAndEffects(void *entity, EntityRec *position, S_800A6
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06400000;
             effect_pos.unk8 = position->z.v - 0x00280000;
-            townCreateColoredScaledEffect(&effect_pos);
+            create_colored_scaled_effect(&effect_pos);
         } else if (position->y.v > 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06600000;
             effect_pos.unk8 = position->z.v - 0x00280000;
-            func_800A6B70(&effect_pos);
+            update_sine_pulse_color(&effect_pos);
         } else {
             height_or_shade = sprite->unk_0C - 8;
             sprite->unk_0C = height_or_shade;

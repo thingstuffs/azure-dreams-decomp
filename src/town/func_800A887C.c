@@ -8,26 +8,26 @@ typedef struct S_800A5FDC_0 {
     s32 unk_00;
     u8 pad_04[0x6];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} S_800A5FDC_0;   /* state in townUpdateTownMovementAndActions */
+} S_800A5FDC_0;   /* state in update_town_movement_and_actions */
 
 
-extern s32 scaleRandomToUnsignedHalfwordLimit();
-extern s32 runtimeEstimateVectorLength();
+extern s32 scale_random_to_unsigned_halfword_limit();
+extern s32 runtime_estimate_vector_length();
 extern void SD_Call();
-extern s32 townReadMapCellAtWorldPosition();
-extern s16 townInputAngleWithOffset();
-extern void townStoreTheValidSharedAngleInOffsetHex10();
-extern void townAddADirectionalStepVectorScaleDownExceedsLengthLimit();
-extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
-extern void townAddHex20000SSignedOffsetHex14();
-extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2();
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
-extern void townSpawnDirectionalEffects();
-extern void townInitializeEffectAndAdjustValue();
-extern s32 townComputeHeightBasedOffset();
-extern s32 townCheckMaskedValueInCurrentRange();
+extern s32 read_map_cell_at_world_position();
+extern s16 input_angle_with_offset();
+extern void store_the_valid_shared_angle_in_offset_hex_10();
+extern void add_a_directional_step_vector_scale_down_exceeds_length_limit();
+extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+extern void add_hex_20000_s_signed_offset_hex_14();
+extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+extern void compute_and_clamps_vector_based_adjustment_updates_town();
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+extern void spawn_directional_effects();
+extern void initialize_effect_and_adjust_value();
+extern s32 compute_height_based_offset();
+extern s32 check_masked_value_in_current_range();
 extern int abs(int);
 
 extern s32 D_800A58CC;
@@ -36,7 +36,7 @@ extern s32 D_80100E20[];
 
 
 /* Updates town movement, terrain response, facing, and action state from input. */
-void townUpdateTownMovementAndActions(u8 *state, EntityRec *table, void *action_context)
+void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_context)
 {
     u8 *context;
     GameWork *globals;
@@ -51,49 +51,49 @@ void townUpdateTownMovementAndActions(u8 *state, EntityRec *table, void *action_
     s16 ground_height;
 
     context = action_context;
-    globals = &gameWork;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(table);
+    globals = &g_game_work;
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(table);
 
     ((S_800A5FDC_0 *)state)->unk_0A.s--;
     if (((S_800A5FDC_0 *)state)->unk_0A.u <= 0) {
-        ((S_800A5FDC_0 *)state)->unk_0A.s = scaleRandomToUnsignedHalfwordLimit(3) + 5;
-        random_choice = scaleRandomToUnsignedHalfwordLimit(2);
-        townSpawnDirectionalEffects(table, (u16)random_choice + 2);
+        ((S_800A5FDC_0 *)state)->unk_0A.s = scale_random_to_unsigned_halfword_limit(3) + 5;
+        random_choice = scale_random_to_unsigned_halfword_limit(2);
+        spawn_directional_effects(table, (u16)random_choice + 2);
     }
 
     input_flags = globals->buttons;
     if (input_flags & 0xF000) {
-        townStoreTheValidSharedAngleInOffsetHex10(state);
-        direction = townInputAngleWithOffset(globals->buttons,
+        store_the_valid_shared_angle_in_offset_hex_10(state);
+        direction = input_angle_with_offset(globals->buttons,
                                   globals->view.viewAngle);
         if (direction != -1) {
-            townAddADirectionalStepVectorScaleDownExceedsLengthLimit(direction, D_80100E20[0], table);
+            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, D_80100E20[0], table);
         }
-        random_choice = scaleRandomToUnsignedHalfwordLimit(1);
-        townSpawnDirectionalEffects(table, (u16)random_choice);
+        random_choice = scale_random_to_unsigned_halfword_limit(1);
+        spawn_directional_effects(table, (u16)random_choice);
     } else {
         if (input_flags & 0x10) {
-            townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(table);
+            move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
         }
-        townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(table);
+        move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
     }
 
-    ground_height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(table, ((u8 *)&D_800FE488));
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, ((u8 *)&D_800FE488));
     if (table->z.w.i >= ground_height) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(table, ground_height, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(table, ground_height, ((u8 *)&D_800FE488));
     } else if (D_800CFCEE[1] != 0) {
         table->flags14 = 0;
-        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(table);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(table);
     } else {
-        townAddHex20000SSignedOffsetHex14(table);
+        add_hex_20000_s_signed_offset_hex_14(table);
     }
-    tile_id = townReadMapCellAtWorldPosition(D_80083780.x.w.i,
+    tile_id = read_map_cell_at_world_position(D_80083780.x.w.i,
                             D_80083780.y.w.i);
-    if (townCheckMaskedValueInCurrentRange((u16)tile_id) != 0) {
-        table->flags14 -= townComputeHeightBasedOffset(table);
+    if (check_masked_value_in_current_range((u16)tile_id) != 0) {
+        table->flags14 -= compute_height_based_offset(table);
     }
 
-    speed = runtimeEstimateVectorLength(table->unk_0C,
+    speed = runtime_estimate_vector_length(table->unk_0C,
                           table->unk_10);
     if (D_80100E20[0] != 0) {
         speed_delta = abs(D_80100E20[0] - speed);
@@ -120,7 +120,7 @@ void townUpdateTownMovementAndActions(u8 *state, EntityRec *table, void *action_
 
     if ((((s32)globals->unk_010) & 0x10) &&
         (D_800CFCEE[0] == 0)) {
-        townInitializeEffectAndAdjustValue(state, table, context);
+        initialize_effect_and_adjust_value(state, table, context);
         return;
     }
 

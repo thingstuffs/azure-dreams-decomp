@@ -8,10 +8,10 @@ typedef struct S_80026FD4_0 {
 } S_80026FD4_0;
 
 /* Stores a value in the object's embedded state and processes that state. */
-void cardBootSetPairedChoiceSelection(s32 object_addr, s32 value) {
+void card_boot_set_paired_choice_selection(s32 object_addr, s32 value) {
     S_80026FD4_0 *state;
 
     state = object_addr + 0x20;
     state->unk_24 = value;
-    cardBootRefreshPairedChoiceLabels(state);
+    card_boot_refresh_paired_choice_labels(state);
 }

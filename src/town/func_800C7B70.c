@@ -18,7 +18,7 @@ extern s32 D_800D513C;
 typedef struct S_800C52D0_0 {
     u8 pad_00[0x9C];
     void * unk_9C;
-} S_800C52D0_0;   /* arg0 in func_800C52D0 */
+} S_800C52D0_0;   /* arg0 in compute_offset_position */
 
 typedef struct S_800C52D0_1 {
     u8 pad_00[0x8];
@@ -30,7 +30,7 @@ typedef struct S_800C52D0_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800C52D0_2;   /* arg1 in func_800C52D0 */
+} S_800C52D0_2;   /* arg1 in compute_offset_position */
 
 typedef struct S_800C52D0_3 {
     s32 unk_00;
@@ -47,10 +47,10 @@ typedef struct S_800C52D0_4 {
 typedef struct S_800C52D0_5 {
     u8 pad_00[0x1A];
     u16 unk_1A;
-} S_800C52D0_5;   /* arg2 in func_800C52D0 */
+} S_800C52D0_5;   /* arg2 in compute_offset_position */
 
 /* Computes an offset position and subtracts 0x20 from the output state. */
-void func_800C52D0(S_800C52D0_0 *object, S_800C52D0_2 *out_pos, S_800C52D0_5 *state) {
+void compute_offset_position(S_800C52D0_0 *object, S_800C52D0_2 *out_pos, S_800C52D0_5 *state) {
     s32 z_product;
     S_800C52D0_4 *offsets;
     S_800C52D0_3 *base_pos;

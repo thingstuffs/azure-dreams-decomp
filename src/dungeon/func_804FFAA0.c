@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_802842A0; every changed retail word is a paired relocation. */
-#define dungeonInitializeRandomEffectPosition func_800172A0
+#define initialize_random_effect_position func_800172A0
 #include "modules/dungeon_dungeon_setup.h"
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
@@ -15,7 +15,7 @@ void func_800172A0(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset)
     s16 rotation_step;
     s32 random_bits;
 
-    state = &gameWork.view;
+    state = &g_game_work.view;
     bounds = (u8 *)state + 0x1C4;
     effect = (u8 *)state + 0xB8;
     random_angle = (rand() & 0x1FFF) - 0x1000;
@@ -53,7 +53,7 @@ void func_800172A0(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset)
         state_offset = base_offset + ((((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
         state->unk_098 = state_offset;
         ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

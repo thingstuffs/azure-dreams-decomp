@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void func_80024C0C(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
+void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
     u16 ticks_left;
     u16 updated_value;
     s32 fade_level;
@@ -32,10 +32,10 @@ void func_80024C0C(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *ef
 
     if (*(s16 *)(entity_data + 0x5A) <= 0) {
         *(u16 *)(entity_data - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (effect_data->flags_14 & 0x8000) {
         *(u16 *)(entity_data - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

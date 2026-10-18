@@ -23,34 +23,34 @@ typedef struct S_80172480_0 {
     u8 pad_9C[0x14];
     u16 unk_B0;
     s16 unk_B2;
-} S_80172480_0;   /* arg0 in dungeonAdvanceTurnAnimationAndRestoreHeading */
+} S_80172480_0;   /* arg0 in advance_turn_animation_and_restore_heading */
 
 typedef struct S_80172480_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0xA];
     u16 unk_2A;
-} S_80172480_1;   /* arg3 in dungeonAdvanceTurnAnimationAndRestoreHeading */
+} S_80172480_1;   /* arg3 in advance_turn_animation_and_restore_heading */
 
 typedef struct S_80172480_2 {
     u8 pad_00[0x8];
     u16 unk_08;
     u8 pad_0A[0xBE];
     u16 unk_C8;
-} S_80172480_2;   /* base_83160 in dungeonAdvanceTurnAnimationAndRestoreHeading */
+} S_80172480_2;   /* base_83160 in advance_turn_animation_and_restore_heading */
 
 
 typedef struct S_80172480_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
-} S_80172480_4;   /* D_800E3D7C[0] in dungeonAdvanceTurnAnimationAndRestoreHeading */
+} S_80172480_4;   /* D_800E3D7C[0] in advance_turn_animation_and_restore_heading */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
+void advance_turn_animation_and_restore_heading(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
     S_80172480_1 *transform = transform_in;
     s32 heading;
     u8 phase;
-    GameWork *scene_state = &gameWork;
+    GameWork *scene_state = &g_game_work;
 
     phase = actor->unk_9B;
     switch (phase) {
@@ -70,7 +70,7 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
                 u8 *animation_table = D_80175EC8;
                 animation->unk_2C.as_pm = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     func_80047784(animation, *(u8 *)animation_entry, 0);
@@ -87,7 +87,7 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
             u8 *animation_table = D_80175EC8;
             animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                     + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                 animation_entry += (unsigned long)animation_table;
                 func_80047784(animation, *(u8 *)animation_entry, 0);
@@ -103,7 +103,7 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
                 animation_table = (u8 *)D_80175ED0;
                 animation->unk_2C.as_pm = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     func_80047784(animation, *(u8 *)animation_entry, 0);
@@ -122,7 +122,7 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
                 u8 *animation_table = D_80175EC8;
                 animation->unk_2C.as_pm = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     func_80047784(animation, *(u8 *)animation_entry, 0);
@@ -137,7 +137,7 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
                 u8 *animation_table = D_80175EC8;
                 animation->unk_2C.as_pm = animation_table;
                 {
-                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    unsigned long animation_entry = (unsigned long)(((s32) (g_game_work.view.viewAngle
                         + (s16) transform->unk_2A + 0x100) >> 9) & 7);
                     animation_entry += (unsigned long)animation_table;
                     func_80047784(animation, *(u8 *)animation_entry, 0);
@@ -158,13 +158,13 @@ void dungeonAdvanceTurnAnimationAndRestoreHeading(S_80172480_0 *actor, s32 unuse
             {
                 u8 *animation_table = D_80175EB8;
                 animation->unk_2C.as_pm = animation_table;
-                func_80047784(animation, animation_table[((s32) (gameWork.view.viewAngle + (s16) transform->unk_2A
+                func_80047784(animation, animation_table[((s32) (g_game_work.view.viewAngle + (s16) transform->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
             actor->unk_8C = D_801710EC;
             transform->unk_2A = (u16) actor->unk_B0;
             actor->unk_B2 = 0;
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         }
         return;
     default:

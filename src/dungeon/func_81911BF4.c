@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
+void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911BF4_Obj81911BF4 *effect, s32 *position)
 {
     s32 point_index;
     s32 brightness;
@@ -26,7 +26,7 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
 
     switch (state) {
     case 0:
-        dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(effect, position, effect->timer, effect->duration);
+        build_and_depth_sorts_five_radial_line_segments_effect(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -36,7 +36,7 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
         return;
 
     case 1:
-        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, effect->timer, effect->duration);
+        build_and_enqueue_five_translucent_quads_between_interpolated_points(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -46,8 +46,8 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
         return;
 
     case 2:
-        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
-        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, effect->timer, effect->duration);
+        build_and_enqueue_five_translucent_quads_between_interpolated_points(effect, position, 0, 0);
+        build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(effect, position, effect->timer, effect->duration);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -63,8 +63,8 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
         signed_angle = effect->angle;
         effect->field10 += 0x10;
         effect->angle = signed_angle % 0x1000;
-        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
-        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
+        build_and_enqueue_five_translucent_quads_between_interpolated_points(effect, position, 0, 0);
+        build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(effect, position, 0, 0);
         if (effect->timer < effect->duration) {
             return;
         }
@@ -90,12 +90,12 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
             angle_dividend += 0xFFF;
         }
         effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
-        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
-        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
+        build_and_enqueue_five_translucent_quads_between_interpolated_points(effect, position, 0, 0);
+        build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(effect, position, 0, 0);
         if (effect->timer < effect->duration) {
             return;
         }
-        dungeonCreateObjectHex212InitializeDataPointerMode(effect);
+        create_object_hex_212_initialize_data_pointer_mode(effect);
         effect->timer = 0;
         effect->duration = 0x20;
         effect->state++;
@@ -120,7 +120,7 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
             angle_dividend += 0xFFF;
         }
         effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
-        dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints(effect, position, 0, 0);
+        build_and_enqueue_five_translucent_quads_between_interpolated_points(effect, position, 0, 0);
         effect->scale = (u16)effect->scale * 2;
 
         for (point_index = 0; point_index < 5; point_index++) {
@@ -128,7 +128,7 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
             effect->y[point_index] = position[1] + (((func_80064584(point_index * 0x333 + effect->angle) >> 4) * effect->scale) << 9);
         }
 
-        dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(effect, position, 0, 0);
+        build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(effect, position, 0, 0);
         effect->scale = ((s32)(u16)effect->scale << 16) >> 17;
         if (effect->timer < effect->duration) {
             return;
@@ -140,7 +140,7 @@ void dungeonUpdateTheFiveOrbitingPointsAdvanceEffectAnimation(ovl_1930844_81911B
 
     case 6:
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 }

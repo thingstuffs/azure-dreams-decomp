@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_809A32D4; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorRenderEffectAndPosition func_80150AD4
+#define update_actor_render_effect_and_position func_80150AD4
 #include "modules/dungeon_ovl_9c32d4.h"
 extern void func_80150FC0(void *, s16, s32);
 extern void func_801510E4(u16, u16, u16, u16, u16, s16, void *, void *, s32, s32, s32);
@@ -82,7 +82,7 @@ void func_80150AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         func_8006658C(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
-        func_8004491C((u8 *)actor - 0x20, dungeonProcessLinkedMeshStatesMode0);
+        func_8004491C((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
         actor->state++;
     } else if (state == 3) {
         decay_level = ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C;
@@ -91,7 +91,7 @@ void func_80150AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
             ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C = decay_level;
             if (decay_level == 0) {
                 (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
         }
     } else {

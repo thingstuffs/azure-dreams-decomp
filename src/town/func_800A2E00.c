@@ -14,16 +14,16 @@ struct TownLink {
 };
 
 extern s32 D_800CFCB4;
-extern s32 townIsUnk18N12Unk1ABetweenN37N41(void);
-extern void townHandleInsertsFirstFreeSlotDiscardingFirstFull(void *);
+extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void);
+extern void handle_inserts_first_free_slot_discarding_first_full(void *);
 
 /* Process active type-4 town links that have no associated object. */
-void func_800A0560(void)
+void process_unlinked_type_four_entries(void)
 {
     TownLink *sentinel = (TownLink *)&D_800CFCB4;
     TownLink *link = sentinel->next;
 
-    if (townIsUnk18N12Unk1ABetweenN37N41() != 0) {
+    if (is_unk_18_n_12_unk_1_a_between_n_37_n_41() != 0) {
         return;
     }
 
@@ -33,7 +33,7 @@ void func_800A0560(void)
 
     do {
         if (link->type == 4 && link->state != -1 && link->object == 0) {
-            townHandleInsertsFirstFreeSlotDiscardingFirstFull((u8 *)link + 0x4C);
+            handle_inserts_first_free_slot_discarding_first_full((u8 *)link + 0x4C);
         }
         link = link->next;
     } while (link != sentinel);

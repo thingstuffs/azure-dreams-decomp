@@ -7,10 +7,10 @@
 extern u8 *func_8003FD64();
 extern void func_8004491C();
 extern void func_80045340(void);
-extern u32 func_800A6D30(void);
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern u32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 extern void func_8016AE9C(void);
 extern void func_8016EED8(void);

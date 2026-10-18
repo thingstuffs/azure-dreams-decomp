@@ -18,7 +18,7 @@ typedef struct {
 } S_80047270_hdr;
 
 extern void DrawSync(s32 a0);
-extern void *decodeOrCopyResourcePixels(u8 *src_start, u8 *dst_start);
+extern void *decode_or_copy_resource_pixels(u8 *src_start, u8 *dst_start);
 extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer and waiting for the GPU when full. */
@@ -33,7 +33,7 @@ void func_80047270(void *encoded_data, S_80047270_hdr *image_rect)
         D_80081480 = D_8008148C;
         DrawSync(0);
     }
-    decodeOrCopyResourcePixels(encoded_data, (void *)D_80081480);
+    decode_or_copy_resource_pixels(encoded_data, (void *)D_80081480);
     LoadImage(image_rect, (void *)D_80081480);
     height_bytes = image_rect->unk06 * 2;
     image_bytes = image_rect->unk04 * height_bytes;

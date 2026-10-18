@@ -16,13 +16,13 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires(EffectRecord *state, EntityRec *position)
+void handle_raise_position_toward_queried_height_set_flags_countdown_expires(EffectRecord *state, EntityRec *position)
 {
     u16 countdown;
 
     D_80025630 = 1;
     if ((s16)(u16)position->z.w.i <
-        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i,
+        (s16)sample_terrain_surface_height((u16)position->x.w.i, (u16)position->y.w.i,
                       (s16)((u16)position->z.w.i + 2))) {
         position->z.v += 0x20000 + (rand() & 0xFFF);
     }
@@ -31,6 +31,6 @@ void dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires(Effec
     state->timer = countdown;
     if ((s32)(countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

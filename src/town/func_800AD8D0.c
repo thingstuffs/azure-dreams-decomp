@@ -6,7 +6,7 @@ s32 func_800644B8();                             /* extern */
 
 
 /* Advances the stored value by 0xCC and returns the helper result divided by 384. */
-s16 townAdvancePersonLookupValue(Rec_func_800AB030_arg0 *record) {
+s16 advance_person_lookup_value(Rec_func_800AB030_arg0 *record) {
     u16 updated_value;
 
     updated_value = record->unk_6A + 0xCC;

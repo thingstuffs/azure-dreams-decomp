@@ -14,14 +14,14 @@ typedef struct S_80172D1C_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172D1C_0;   /* arg0 in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_0;   /* arg0 in update_actor_movement_and_emit_particles */
 
 typedef struct S_80172D1C_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80172D1C_1;   /* obj in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_1;   /* obj in update_actor_movement_and_emit_particles */
 
 typedef struct S_80172D1C_2 {
     u8 pad_00[0x2];
@@ -33,12 +33,12 @@ typedef struct S_80172D1C_2 {
     union { s32 s; s32 u; } unk_0C;   /* accessed as both */
     union { s32 s; s32 u; } unk_10;   /* accessed as both */
     s32 unk_14;
-} S_80172D1C_2;   /* arg1 in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_2;   /* arg1 in update_actor_movement_and_emit_particles */
 
 typedef struct S_80172D1C_3 {
     u8 pad_00[0x48];
     s16 unk_48;
-} S_80172D1C_3;   /* (u8 *)calc_other in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_3;   /* (u8 *)calc_other in update_actor_movement_and_emit_particles */
 
 
 typedef struct S_80172D1C_5 {
@@ -52,13 +52,13 @@ typedef struct S_80172D1C_5 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80172D1C_5;   /* part in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_5;   /* part in update_actor_movement_and_emit_particles */
 
 
 typedef struct S_80172D1C_7 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80172D1C_7;   /* global_base in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_7;   /* global_base in update_actor_movement_and_emit_particles */
 
 typedef struct S_80172D1C_8 {
     u8 pad_00[0x2];
@@ -70,16 +70,16 @@ typedef struct S_80172D1C_8 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in dungeonUpdateActorMovementAndEmitParticles */
+} S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in update_actor_movement_and_emit_particles */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784();
 extern s32 rand(void);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_801711A4[];
 extern u8 D_8017406C[];
@@ -87,7 +87,7 @@ extern u8 D_8017418C[];
 extern u8 D_80174194[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
-void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void *sprite, void *entity) {
+void update_actor_movement_and_emit_particles(void *actor, void *motion, void *sprite, void *entity) {
     void *particle;
     void *particle_sprite;
     void *particle_update;
@@ -152,12 +152,12 @@ void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void 
     state = ((S_80172D1C_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonBeginActorDisplayAction(actor, motion, sprite, D_80174194);
+            begin_actor_display_action(actor, motion, sprite, D_80174194);
             break;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -166,8 +166,8 @@ void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void 
             break;
         }
 
-        ((S_80172D1C_2 *)motion)->unk_0C.s = dirStepX[particle_or_dir_index] << 18;
-        ((S_80172D1C_2 *)motion)->unk_10.s = dirStepY[particle_or_dir_index] << 18;
+        ((S_80172D1C_2 *)motion)->unk_0C.s = dir_step_x[particle_or_dir_index] << 18;
+        ((S_80172D1C_2 *)motion)->unk_10.s = dir_step_y[particle_or_dir_index] << 18;
         ((S_80172D1C_0 *)actor)->unk_9B++;
         state_timer = -1;
         if (((EntityRec *)entity)->flags1C & 0x228) {
@@ -181,8 +181,8 @@ void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void 
         break;
 
     case 1:
-        ((S_80172D1C_2 *)motion)->unk_0C.s -= dirStepX[particle_or_dir_index] << 14;
-        ((S_80172D1C_2 *)motion)->unk_10.s -= dirStepY[particle_or_dir_index] << 14;
+        ((S_80172D1C_2 *)motion)->unk_0C.s -= dir_step_x[particle_or_dir_index] << 14;
+        ((S_80172D1C_2 *)motion)->unk_10.s -= dir_step_y[particle_or_dir_index] << 14;
         timer = ((S_80172D1C_0 *)actor)->unk_96.s;
         if (timer > 0) {
             ((S_80172D1C_0 *)actor)->unk_96.s = ((S_80172D1C_0 *)actor)->unk_96.u - 1;
@@ -199,7 +199,7 @@ void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void 
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonBeginActorDisplayAction(actor, motion, sprite, D_80174194);
+            begin_actor_display_action(actor, motion, sprite, D_80174194);
             break;
         }
         ((S_80172D1C_0 *)actor)->unk_96.s = 8;
@@ -239,13 +239,13 @@ void dungeonUpdateActorMovementAndEmitParticles(void *actor, void *motion, void 
             ((S_80172D1C_2 *)motion)->unk_14 = 0;
             ((S_80172D1C_2 *)motion)->unk_10.s = 0;
             ((S_80172D1C_2 *)motion)->unk_0C.s = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8017418C;
             func_80047784(sprite,
-                          D_8017418C[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                          D_8017418C[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                           0);
-            if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)entity - 0x20)) {
-                *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+            if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
             }
             ((S_80172D1C_0 *)actor)->unk_8C = D_801711A4;
         }

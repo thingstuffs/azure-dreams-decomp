@@ -33,7 +33,7 @@ typedef struct S_800B6B10_1 {
 } S_800B6B10_1;
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
-void townProcessHandledEntryTypes(void **entries) {
+void process_handled_entry_types(void **entries) {
     s32 entry_index;
     s32 type_two;
     u8 entry_type;

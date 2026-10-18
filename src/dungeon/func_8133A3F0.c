@@ -38,7 +38,7 @@ extern s32 D_80170F68;
 extern s8 D_80175DC1;
 
 /* Creates object 0x112 and initializes its position and render state. */
-void dungeonCreateEncounterActorObject(void) {
+void create_encounter_actor_object(void) {
     S_func_8133A3F0_0 *object;
     S_func_8133A3F0_1 *render_state;
     S_func_8133A3F0_2 *position;

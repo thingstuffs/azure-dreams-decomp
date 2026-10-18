@@ -20,7 +20,7 @@ typedef struct S_8004CC38_Node {
 } S_8004CC38_Node;
 
 /* Copies D_8002E5D8 into each node's target record. */
-void applyBlock16TemplateToNodes(S_8004CC38_Node **nodes, s32 node_count) {
+void apply_block_16_template_to_nodes(S_8004CC38_Node **nodes, s32 node_count) {
     s32 node_index;
 
     node_index = 0;

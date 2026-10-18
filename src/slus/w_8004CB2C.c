@@ -15,7 +15,7 @@ typedef struct FrameState {
 } FrameState;
 
 /* Advances the frame sequence and updates its output when the countdown expires. */
-s32 advanceTimedTaggedStream(FrameState *state)
+s32 advance_timed_tagged_stream(FrameState *state)
 {
     s32 status = -1;
     s32 ticks_left;

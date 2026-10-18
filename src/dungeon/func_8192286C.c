@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_194286c.h"
 
-s32 dungeonProjectAndQueueVisibleShadedQuad(s32 limit) {
+s32 project_and_queue_visible_shaded_quad(s32 limit) {
     s16 result;
     s32 sample;
 

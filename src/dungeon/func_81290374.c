@@ -1,7 +1,7 @@
-#define dungeonSetMonsterDataPointer func_8009E8B4
-#define spawnInitialFloorMonsters func_800A569C
+#define set_monster_data_pointer func_8009E8B4
+#define spawn_initial_floor_monsters func_800A569C
 #define D_800E296C D_800E1D4C
-/* Relink of matched dungeon/dungeonClearGlobalEffectFlags at file 0x1274374; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/clear_global_effect_flags at file 0x1274374; imports and data use paired retail relocations. */
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"

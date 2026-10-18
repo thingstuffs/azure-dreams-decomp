@@ -12,12 +12,12 @@ typedef struct S_80095A10_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80095A10_0;   /* arg0 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_0;   /* arg0 in update_familiar_summoning */
 
 typedef struct S_80095A10_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80095A10_1;   /* arg2 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_1;   /* arg2 in update_familiar_summoning */
 
 typedef struct S_80095A10_2 {
     u8 pad_00[0x2A];
@@ -30,7 +30,7 @@ typedef struct S_80095A10_2 {
     s8 unk_73;
     u8 pad_74[0x14];
     u16 unk_88;
-} S_80095A10_2;   /* arg3 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_2;   /* arg3 in update_familiar_summoning */
 
 typedef struct S_80095A10_3 {
     u8 unk_00;
@@ -40,7 +40,7 @@ typedef struct S_80095A10_3 {
 
 typedef struct S_80095A10_4 {
     u8 unk_00;
-} S_80095A10_4;   /* &D_800E3E40 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_4;   /* &D_800E3E40 in update_familiar_summoning */
 
 typedef struct S_80095A10_5_pre {
     void * unk_00;
@@ -79,7 +79,7 @@ typedef struct S_80095A10_8 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80095A10_8;   /* arg1 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_8;   /* arg1 in update_familiar_summoning */
 
 typedef struct S_80095A10_9 {
     u8 pad_00[0x2];
@@ -89,7 +89,7 @@ typedef struct S_80095A10_9 {
 typedef struct S_80095A10_10 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in dungeonUpdateFamiliarSummoning */
+} S_80095A10_10;   /* ((S_80095A10_2 *)arg3)->unk_60 in update_familiar_summoning */
 
 
 s32 Control_CD();
@@ -97,18 +97,18 @@ void func_800424E0();
 void func_80042560();
 M2C_UNK func_80042640();
 void func_80042B68();
-void runtimeMapType16EntryCode();
+void runtime_map_type_16_entry_code();
 s32 func_80047DB8();
-void runtimeNoOpCallback();
+void runtime_no_op_callback();
 void func_80048A44();
-void func_80093C70();
-void dungeonCreateFamiliarDeploymentOverlay();
-void dungeonResolveFamiliarDeploymentRequest();
-void dungeonProcessUnflaggedLinkedEntries();
-void dungeonProcessUnflaggedLinkedEntriesAlt();
-void *(*func_800A0B94())(s32, s8, s8, s16);
-s32 func_800A1618();
-s32 func_800A56E0();
+void create_familiar_deployment_effect_with_owner_state();
+void create_familiar_deployment_overlay();
+void resolve_familiar_deployment_request();
+void process_unflagged_linked_entries();
+void process_unflagged_linked_entries_alt();
+void *(*load_monster_resource_data())(s32, s8, s8, s16);
+s32 find_or_retain_sprite_resource_slot();
+s32 play_sound_if_enabled();
 extern M2C_UNK D_8003E140;
 extern s32 D_80081488;
 extern u8 D_800DCFB0[];
@@ -118,7 +118,7 @@ extern void *D_800E3DF0[];
 extern s8 D_800E3E40;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, u8 *context) {
+void update_familiar_summoning(u8 *actor, void *position, void *animation, u8 *context) {
 
     u8 *animation_table;
     s32 load_resource;
@@ -141,23 +141,23 @@ void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, 
             return;
         }
         (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
-        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD138), 0, 1);
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
-        func_80093C70(actor, position, animation);
-        dungeonCreateFamiliarDeploymentOverlay(actor, position, animation);
+        create_familiar_deployment_effect_with_owner_state(actor, position, animation);
+        create_familiar_deployment_overlay(actor, position, animation);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
     case 1:
-        load_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        load_resource = find_or_retain_sprite_resource_slot(((S_80095A10_3 *)resource_info)->unk_00, 2);
         if (load_resource == 0) {
             previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
         }
         D_80081488 = func_80047DB8(((S_80095A10_3 *)resource_info)->unk_00);
-        func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
+        load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
         (*(s8 *)&D_800E3E40) = 0;
         Control_CD(0xFF, &D_8003E140, &D_800E3E40);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
@@ -167,17 +167,17 @@ void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, 
         if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
             return;
         }
-        runtimeNoOpCallback(state);
+        runtime_no_op_callback(state);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
     case 3:
-        spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        spawn_resource = find_or_retain_sprite_resource_slot(((S_80095A10_3 *)resource_info)->unk_00, 2);
         if (spawn_resource == 0) {
             return;
         }
-        runtimeMapType16EntryCode(((u8 *)D_80082E80.unk_030));
-        object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
+        runtime_map_type_16_entry_code(((u8 *)D_80082E80.unk_030));
+        object = load_monster_resource_data(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
             ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
             (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
         if (object != NULL) {
@@ -197,7 +197,7 @@ void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, 
             object_flags |= 0x20000;
             ((S_80095A10_5 *)object)->unk_1C = object_flags;
             func_80042560(object);
-            func_800A56E0(0x704);
+            play_sound_if_enabled(0x704);
             func_80042B68(object, 3);
             func_80042B68(object, 1);
             if (((S_80095A10_5 *)object)->unk_25 == 0) {
@@ -218,7 +218,7 @@ void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, 
             return;
         }
         (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
-        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD140), 0, 1);
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
         ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
@@ -232,7 +232,7 @@ void dungeonUpdateFamiliarSummoning(u8 *actor, void *position, void *animation, 
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
         (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
-        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+        func_80048A44(animation, *((((s32) (g_game_work.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + animation_table), 0, 1);
 advance_state:
         previous_state = ((S_80095A10_0 *)actor)->unk_9B;
@@ -243,11 +243,11 @@ store_next_state:
         if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
             return;
         }
-        dungeonResolveFamiliarDeploymentRequest(actor, position, animation, resource_info);
-        ((S_80095A10_0 *)actor)->unk_8C = dungeonHandlePlayerInput;
-        dungeonProcessUnflaggedLinkedEntriesAlt(((S_80095A10_2 *)context)->unk_5C);
-        dungeonProcessUnflaggedLinkedEntries(((S_80095A10_2 *)context)->unk_5C);
-        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
+        resolve_familiar_deployment_request(actor, position, animation, resource_info);
+        ((S_80095A10_0 *)actor)->unk_8C = handle_player_input;
+        process_unflagged_linked_entries_alt(((S_80095A10_2 *)context)->unk_5C);
+        process_unflagged_linked_entries(((S_80095A10_2 *)context)->unk_5C);
+        g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
         return;
     }
 }

@@ -4,11 +4,11 @@
 
 /* Draw each linked record with zero depth bias; the next record is chained through the previous header's
  * unk_18 link, and its node supplies the transform and object pointers. */
-s32 dungeonDrawLinkedRecordsZeroDepthBias(void *record, void *transform, void *object) {
+s32 draw_linked_records_zero_depth_bias(void *record, void *transform, void *object) {
     ObjectNodeHeader *node;
 
     for (;;) {
-        dungeonProjectAndQueueVisibleShadedQuad(record, transform, object, 0);
+        project_and_queue_visible_shaded_quad(record, transform, object, 0);
         node = ((ObjectNodeHeader *)record - 1)->chain_next;
         if (node == 0) {
             return 0;

@@ -6,8 +6,8 @@
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
 satisfies the tool's textual defines()
-check for the proven-region rename of func_8015E800. */
-    void func_8015E800(void);
+check for the proven-region rename of create_randomized_flagged_object_2. */
+    void create_randomized_flagged_object_2(void);
 #endif
 
 typedef struct DungeonSub2 DungeonSub2;
@@ -46,10 +46,10 @@ struct DungeonSub1 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30(void);
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value(void);
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern u8 D_8015EA7C[];
 extern M2C_UNK D_8015EEA8;
 extern M2C_UNK D_80162038;
@@ -57,10 +57,10 @@ extern M2C_UNK D_80162088;
 
 
 
-void *dungeonAllocateAndInitializeNode(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
+void *allocate_and_initialize_node(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) ;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
-void *dungeonAllocateAndInitializeNode(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
+void *allocate_and_initialize_node(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
     DungeonSub1 *state;
     DungeonNode *node;
     u16 saved_placement;
@@ -103,19 +103,19 @@ void *dungeonAllocateAndInitializeNode(s16 setup_bits, s32 grid_x, s32 grid_y, s
             flags = setup_bits & ~3;
             if ((flags << 0x10) == 0) {
                 if (!(state->field14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         state->field1c |= 0x200;
-                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                         placement->field2c = &D_80162088;
                     }
                 }
             }
         }
-        func_800A9C18(node, node_data, placement, (s16)(s32) setup_bits);
+        initialize_actor_sprite_and_animation(node, node_data, placement, (s16)(s32) setup_bits);
         init_state->field9a = 0xff;
         init_state->field9c = -1;
         init_state->field8c = &D_8015EEA8;
-        func_800AA36C(init_state, node_data, placement, state);
+        try_move_actor_to_valid_position(init_state, node_data, placement, state);
     }
     return state;
 }

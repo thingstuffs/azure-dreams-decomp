@@ -12,7 +12,7 @@ typedef struct {
 extern void func_8005EDA0(S_8005A5C8_Snd *attr);
 
 /* Applies left and right sound volumes scaled by 128 with zero volume modes. */
-void soundSetSpuMasterVolume(s32 left_volume, s32 right_volume)
+void sound_set_spu_master_volume(s32 left_volume, s32 right_volume)
 {
     S_8005A5C8_Snd sound_params;
 

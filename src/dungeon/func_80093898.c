@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Find the first empty slot and clear its associated table entry. */
-s32 func_80098FF8(void) {
+s32 find_and_clear_empty_item_slot(void) {
     s32 slot_index;
     s32 empty_index;
     s32 *base;

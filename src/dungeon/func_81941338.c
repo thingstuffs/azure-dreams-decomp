@@ -22,15 +22,15 @@ extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
 extern u8 D_800DE870[];
 
-extern s32 dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(void *, void *, void *, void *, s32, s32, s32, s32);
-extern s32 func_800243D8(void *, void *, void *);
-extern s32 func_800B8FC8(void *, void *, void *, s32, s32);
+extern s32 create_an_copied_position_packed_data_initialize_rendering_state(void *, void *, void *, void *, s32, s32, s32, s32);
+extern s32 advance_object_spawning_displays_high(void *, void *, void *);
+extern s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
-extern s32 dungeonHandleSpawnInitializeRandomizedOffsetParent(void *, s32, s32, s32, s16, s16, s16);
+extern s32 handle_spawn_initialize_randomized_offset_parent(void *, s32, s32, s32, s16, s16, s16);
 extern s32 func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 extern void func_8003DB94(void *, void *, void *);
 extern u8 D_800248B8;
 
@@ -81,9 +81,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         initial_color = 0x00808080;
         F(D_800814A8, s32, 0xF4) = 0;
         F(((u8 *)(&D_80082E80)), u16, 6) = 6;
-        F(effect, void *, 0x64) = dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(effect, position, effect_context, D_80025704,
+        F(effect, void *, 0x64) = create_an_copied_position_packed_data_initialize_rendering_state(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
-        F(effect, void *, 0x68) = dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(effect, position, effect_context, D_80025710,
+        F(effect, void *, 0x68) = create_an_copied_position_packed_data_initialize_rendering_state(effect, position, effect_context, D_80025710,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
         old_state = F(effect, u16, 0xA);
         F(D_8002571C, u16, 0) = (u16)enabled;
@@ -103,7 +103,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         component = F(D_800814A8, u16, 0x2A);
         F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
         F(effect, u16, 0x26) = (u16)component;
-        func_800243D8(init_object, position, effect_context);
+        advance_object_spawning_displays_high(init_object, position, effect_context);
         if (F(effect, void *, 0x68) != 0) {
             texture_rect[0] = 0x340;
             texture_rect[1] = 0x100;
@@ -111,7 +111,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
+            draw_transformed_sprite_with_clip_rect(F(effect, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
         }
         if (F(effect, void *, 0x64) == 0) {
             return;
@@ -123,7 +123,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
+            draw_transformed_sprite_with_clip_rect(F(effect, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
         }
         return;
 
@@ -136,9 +136,9 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         }
         if (F(effect, s16, 0x20) == 0x13) {
             if (func_80053EF0(4) != 2) {
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
             } else {
-                func_800A56E0(0x4300);
+                play_sound_if_enabled(0x4300);
             }
         }
         if (F(effect, s16, 0x20) < 11) {
@@ -154,7 +154,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                     particle_level = F(effect, s16, 0x26);
                     particle_x = F(effect, s16, 0xC);
                     particle_color |= 0x20F0;
-                    dungeonHandleSpawnInitializeRandomizedOffsetParent((u8 *)D_800814A8 - 0x20,
+                    handle_spawn_initialize_randomized_offset_parent((u8 *)D_800814A8 - 0x20,
                                   particle_level, particle_color,
                                   sprite_rgb,
                                   particle_x, F(effect, s16, 0xE),
@@ -242,7 +242,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                         particle_level = F(effect, s16, 0x26);
                         particle_x = F(effect, s16, 0x18);
                         particle_color |= 0x20F0;
-                        dungeonHandleSpawnInitializeRandomizedOffsetParent((u8 *)D_800814A8 - 0x20,
+                        handle_spawn_initialize_randomized_offset_parent((u8 *)D_800814A8 - 0x20,
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),
@@ -484,14 +484,14 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
                 F(model_color, u32, 0xC) = (u32)neutral_color;
             }
             {
-                DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+                DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
                 bits_2 = ((u16)dungeon_state->unk_0A);
                 F(dungeon_state, u32, 0xC) = 0;
                 F(((u8 *)(&D_80082E80)), u16, 6) = 0;
                 dungeon_state->unk_0A = (u16)(bits_2 - 1);
             }
             F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         F(D_8002571C, s16, 0) = 0;

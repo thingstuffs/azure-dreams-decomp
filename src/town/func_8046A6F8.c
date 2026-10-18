@@ -5,7 +5,7 @@
 
 typedef s32 (*Callback)(s32, void *);
 
-extern s32 townCountEnabledTownEntries(void);
+extern s32 count_enabled_town_entries(void);
 extern void *D_80018094[];
 extern void *D_800180B4[];
 extern s16 D_80018074[];
@@ -14,7 +14,7 @@ extern u8 D_80020F85[];
 extern u8 D_80020FC7[];
 
 /* Resolve the key to its table entry, using the slot-4 special case or the paged lookup table. */
-void *townResolveEventResponseKey(s32 unused_a, s32 unused_b, s32 key)
+void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
 {
     s32 index;
     TownEventState *state0;
@@ -35,7 +35,7 @@ void *townResolveEventResponseKey(s32 unused_a, s32 unused_b, s32 key)
         state1 = D_8001E950;
         if (state1->unk_04 == 4) {
             if (D_80016000->unk_20->callback_2D4(0, table) == 2) {
-                if (townCountEnabledTownEntries() >= 3) {
+                if (count_enabled_town_entries() >= 3) {
                     return D_80020F85;
                 }
             }

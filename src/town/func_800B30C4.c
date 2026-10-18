@@ -5,7 +5,7 @@ typedef struct S_800B0824_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0xCC];
     void * unk_D0;
-} S_800B0824_0;   /* arg0 in townIncreaseShopSubrecordValue; pointer addresses record offset 0x10 */
+} S_800B0824_0;   /* arg0 in increase_shop_subrecord_value; pointer addresses record offset 0x10 */
 
 typedef struct S_800B0824_1 {
     u8 pad_00[0x6];
@@ -21,7 +21,7 @@ typedef struct S_800B0824_2 {
 extern M2C_UNK D_800B07D0;
 
 /* Increase the subrecord value by 0x200, clamp it to 0x1000, and switch handlers at the limit. */
-void townIncreaseShopSubrecordValue(void *record_data) {
+void increase_shop_subrecord_value(void *record_data) {
     S_800B0824_1 *subrecord;
     S_800B0824_2 *updated_subrecord;
 

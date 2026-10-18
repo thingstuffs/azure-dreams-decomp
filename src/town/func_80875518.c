@@ -15,8 +15,8 @@ extern State *D_80701968[3];
 
 extern s32 func_80700C9C(s32 entry);
 extern void func_80700D24(s32 entry);
-extern void func_80700D54(s32 entry);
-extern s32 func_8070168C();
+extern void pass_indexed_table(s32 entry);
+extern s32 call_indexed_callback_failed_test();
 
 /* When gate 2 and the counter both pass, set stage flag 8 and return the stage handler's result. */
 s32 func_80701518(s32 entry) {
@@ -24,8 +24,8 @@ s32 func_80701518(s32 entry) {
     if ((func_80700C9C(2) != 0) && (*D_80701988[0]->value >= 1)) {
         func_80700D24(2);
         D_80701968[0]->flags |= 8;
-        return func_8070168C();
+        return call_indexed_callback_failed_test();
     }
-    func_80700D54(2);
+    pass_indexed_table(2);
     return entry;
 }

@@ -2,15 +2,15 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 
-extern void spawnInitialFloorMonsters(void);
-extern void dungeonSetMonsterDataPointer(void);
+extern void spawn_initial_floor_monsters(void);
+extern void set_monster_data_pointer(void);
 
-/* Clears global flag bits and calls spawnInitialFloorMonsters and dungeonSetMonsterDataPointer. */
-void dungeonClearGlobalEffectFlags(void) {
+/* Clears global flag bits and calls spawn_initial_floor_monsters and set_monster_data_pointer. */
+void clear_global_effect_flags(void) {
     D_800E296C = (s32)(D_800E296C & 0xEFFFFFFF);
-    spawnInitialFloorMonsters();
+    spawn_initial_floor_monsters();
     D_80013714 = (s16)(D_80013714 & 0xFFF6);
-    dungeonSetMonsterDataPointer();
+    set_monster_data_pointer();
 }
 
 /* MECHANISM: Preserve the natural 0x18 frame and direct hi/lo global RMWs.

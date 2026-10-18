@@ -12,7 +12,7 @@ typedef struct S_8017313C_0 {
     u16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8017313C_0;   /* arg0 in dungeonUpdateEntityDimmingAndBrightness */
+} S_8017313C_0;   /* arg0 in update_entity_dimming_and_brightness */
 
 typedef struct S_8017313C_1 {
     u8 pad_00[0xC];
@@ -25,29 +25,29 @@ typedef struct S_8017313C_1 {
     s8 unk_26;
     u8 pad_27[0x5];
     union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_8017313C_1;   /* arg2 in dungeonUpdateEntityDimmingAndBrightness */
+} S_8017313C_1;   /* arg2 in update_entity_dimming_and_brightness */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s32 dungeonGetTileChebyshevDistance(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30(void);
+extern s32 check_entity_relation(void *, void *);
+extern s32 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_801737C4(void *, void *, void *, void *);
 
 extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
-void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, EntityRec *entity)
+void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, EntityRec *entity)
 {
     s32 entity_flags;
     u16 fade_ticks;
@@ -70,11 +70,11 @@ void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *con
         sprite->unk_0C = 0x40;
         func_80047784(sprite,
             sprite->unk_2C.u[
-                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         {
             u8 next_state = controller->unk_9B + 1;
@@ -97,54 +97,54 @@ void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *con
                 return;
             }
         } else {
-            if (dungeonStatus.flags & 0x1000) {
+            if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
             if (entity->unk_64 != 0) {
-                if (dungeonBeginReadyActorDirectionalAction(controller, context, sprite, 0) != 0) {
+                if (begin_ready_actor_directional_action(controller, context, sprite, 0) != 0) {
                     return;
                 }
             }
             if (entity->tileY == 0) {
-                if (dungeonStatus.flags & 0x2008) {
+                if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
-                dungeonAdvanceActorPendingAction(controller, context, sprite, entity);
+                advance_actor_pending_action(controller, context, sprite, entity);
                 return;
             }
-            if ((func_800A2C34(entity) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
                 return;
             }
             entity_flags = entity->flags1C;
             if (entity_flags & 0x100) {
-                dungeonBeginPushedActorMove(controller, context, sprite, entity);
+                begin_pushed_actor_move(controller, context, sprite, entity);
                 return;
             }
             if (entity_flags & 0x80000) {
-                func_800AA888(controller, context, sprite, entity);
+                begin_actor_move_to_target_facing(controller, context, sprite, entity);
                 func_801737C4(controller, context, sprite, entity);
                 return;
             }
             if (entity->unk_6D == 0) {
                 return;
             }
-            if ((func_800A2C34(entity) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((dungeonCheckEntityRelation(entity,
+                if ((check_entity_relation(entity,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
             func_800A9A04(entity);
             if ((func_80042900(entity, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
                 s8 tile = sprite->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)dungeonGetTileChebyshevDistance(origin, sprite) < 2)) {
-                    if (!(func_800A6D30() & 7)) {
+                    ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
+                    if (!(generate_random_value() & 7)) {
                         func_80042B68(entity, 1);
                     }
                 }
@@ -167,7 +167,7 @@ void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *con
         }
         {
 
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
         }
         controller->unk_96 = 6;
         {
@@ -192,7 +192,7 @@ void dungeonUpdateEntityDimmingAndBrightness(S_8017313C_0 *controller, void *con
         }
         {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         sprite->unk_0E = 0x80;
         sprite->unk_0D = 0x80;

@@ -8,7 +8,7 @@
 
 
 /* Fade the color toward 0xE0, then to black, and flag completion. */
-void dungeonFadeTrapColorToBlack(void *fade, void *unused, void *color) {
+void fade_trap_color_to_black(void *fade, void *unused, void *color) {
     s16 steps;
     s16 brighten_left;
     s16 darken_left;
@@ -41,7 +41,7 @@ void dungeonFadeTrapColorToBlack(void *fade, void *unused, void *color) {
         S16(fade, 2) = darken_left;
         if ((darken_left << 16) <= 0) {
             U16(fade, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

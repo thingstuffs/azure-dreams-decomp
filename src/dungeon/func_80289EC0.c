@@ -1,8 +1,8 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonAdjustRandomParityTileHeights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
+void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
 {
-    MapGrid *dungeon = &gameWork.map;
+    MapGrid *dungeon = &g_game_work.map;
     s32 parity;
     s32 x_end;
     s32 y_end;
@@ -15,7 +15,7 @@ void dungeonAdjustRandomParityTileHeights(floor_generate_isolated_80289EC0_Rect 
     s32 y_parity;
     floor_generate_isolated_80289EC0_Tile *tile;
 
-    parity = func_800A6D30() & 1;
+    parity = generate_random_value() & 1;
     initial_y = rect->y;
     initial_x = rect->x;
     initial_width = rect->width;

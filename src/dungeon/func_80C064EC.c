@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80C004EC; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorSequenceVariant func_8015BCEC
+#define update_actor_sequence_variant func_8015BCEC
 #define D_801616AC D_8015B6AC
 #define D_80161B94 D_8015BB94
 #define D_801622CC D_8015C2CC
@@ -56,19 +56,19 @@ typedef struct EffectSpriteView {
 
 void func_8003DB94();
 s32 Control_CD();
-void soundSetCdCueParameters();
+void sound_set_cd_cue_parameters();
 void func_80041588();
 int func_800445E0();
 s32 func_8004491C();
-s32 lookupMaskedByteTable();
+s32 lookup_masked_byte_table();
 s32 func_80069EF8();
-void func_8009A028();
-void func_8009A3D0();
-void dungeonDecrementMonsterEntryCount();
-s32 dungeonAdvanceStagedEntityLoad();
-s32 func_800A56E0();
-s32 dungeonCreateStatusLinkedRenderEffect();
-s32 dungeonSelectNearbyTargetAndInitializeSlot();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void decrement_monster_entry_count();
+s32 advance_staged_entity_load();
+s32 play_sound_if_enabled();
+s32 create_status_linked_render_effect();
+s32 select_nearby_target_and_initialize_slot();
 extern void func_8015B904(s32, void *, s32, s32, s16, u16);
 extern s32 D_8003E140;
 extern s32 D_8006CD58;
@@ -106,7 +106,7 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     GameWork *scene_color;
     EffectObjectView *effect;
 
-    scene_color = &gameWork;
+    scene_color = &g_game_work;
     phase = state->unk_9B;
     switch (phase) {
     case 0:
@@ -120,7 +120,7 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v =
             (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
+        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
         if ((*(u8 *)&D_8015C2E4) == 0 || direction != 2) {
             if (direction == 2) {
@@ -130,11 +130,11 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
             return;
         }
         func_80041588(&D_8015C2CC, &D_8015C2E4, 1);
-        soundSetCdCueParameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_8015C2E5 = 0;
         Control_CD(0xFF, &D_8003E140, &D_8015C2E5);
-        dungeonSelectNearbyTargetAndInitializeSlot(model - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(model - 0x20, position, 8, 0x300);
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
     case 3:
@@ -148,10 +148,10 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
                 return;
             }
             state->unk_9B = (u8) (state->unk_9B + 1);
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             return;
         }
-        target_color = D_800DCEEC[lookupMaskedByteTable(model)];
+        target_color = D_800DCEEC[lookup_masked_byte_table(model)];
         scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->red
             - scene_color->view.unk_090) / (s16) state->unk_96));
         scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->green
@@ -179,7 +179,7 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         effect_sprite->scaleY = 0x1000;
         effect_sprite->scaleX = 0x1000;
         effect_sprite->colorOrPointer.color = color;
-        variant_index = lookupMaskedByteTable(effect_model) - 1;
+        variant_index = lookup_masked_byte_table(effect_model) - 1;
         effect_variant = variant_index;
         if ((variant_index << 0x10) < 0) {
             effect_variant = func_80069EF8() % 3;
@@ -215,19 +215,19 @@ void func_8015BCEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
         if (state->unk_9B != 6) {
             return;
         }
-        if (dungeonCreateStatusLinkedRenderEffect(position, D_8015C2E8, D_8015C2E0, &D_800DCF5C) == 0) {
+        if (create_status_linked_render_effect(position, D_8015C2E8, D_8015C2E0, &D_800DCF5C) == 0) {
             return;
         }
         state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
-        dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
-        func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
-        func_8009A028(model);
+        decrement_monster_entry_count(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
+        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25, 0x300);
+        unlink_entity_node(model);
         effect_sprite = model - 0x20;
         effect_sprite->flags = (s32) (effect_sprite->flags | 0x80000000);
         return;
     case 7:
-        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = dungeonAdvanceStagedEntityLoad(actor, model);
+        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = advance_staged_entity_load(actor, model);
         return;
     }
 }

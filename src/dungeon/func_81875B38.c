@@ -94,7 +94,7 @@ void func_80025338(
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = property_52;
-        func_8004491C(effect_obj, dungeonProjectColoredPoint);
+        func_8004491C(effect_obj, project_colored_point);
         ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
         ((S_func_81875B38_5 *)effect_ptr)->unk_08 = property_28;
     }

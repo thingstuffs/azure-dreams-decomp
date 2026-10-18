@@ -4,7 +4,7 @@ extern s8 D_80129728;
 extern s32 D_801331A0;
 
 /* Restore saved values to the entries in slots sixteen through twenty-seven. */
-void func_801238E4(void) {
+void restore_linked_values_from_backup(void) {
     s32 **entry_slot;
     s32 *entry;
     s32 *saved_value;

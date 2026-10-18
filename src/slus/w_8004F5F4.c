@@ -17,11 +17,11 @@ typedef struct S_8004F5F4_node {
     S_8004F5F4_sub sub;
 } S_8004F5F4_node;
 
-extern void handleAnimatedSelectionMenuCancel(void *a0);
-extern void *createAnimatedSelectionMenu(void *a0);
+extern void handle_animated_selection_menu_cancel(void *a0);
+extern void *create_animated_selection_menu(void *a0);
 
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
-void *createAnimatedSelectionMenuOwner(void *unused, void *source)
+void *create_animated_selection_menu_owner(void *unused, void *source)
 {
     S_8004F5F4_node *node = (S_8004F5F4_node *)func_8003FC64(0);
     void *result;
@@ -30,14 +30,14 @@ void *createAnimatedSelectionMenuOwner(void *unused, void *source)
     u8 *global_page;
 
     if (node != 0) {
-        node->callback = handleAnimatedSelectionMenuCancel;
+        node->callback = handle_animated_selection_menu_cancel;
         sub = &node->sub;
-        result = (sub->result = createAnimatedSelectionMenu(source));
+        result = (sub->result = create_animated_selection_menu(source));
         if (result == 0) {
             do {
                 node->flags |= 0x8000;
             } while (0);
-            global_flags = objectFlagBlock.flags;
+            global_flags = object_flag_block.flags;
             node = 0;
             global_flags |= 0x8000;
 

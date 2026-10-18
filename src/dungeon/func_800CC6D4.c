@@ -7,7 +7,7 @@ typedef void (*EntityCallback)(void *, void *, void *, void *);
 extern EntityCallback D_800E21C0[];
 
 extern void func_800478B8(void *entity);
-extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
+extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 
 typedef struct S_800D1E34_0 {
@@ -16,7 +16,7 @@ typedef struct S_800D1E34_0 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800D1E34_0;   /* ent in dungeonUpdateActorFloorContact */
+} S_800D1E34_0;   /* ent in update_actor_floor_contact */
 
 typedef struct S_800D1E34_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -26,7 +26,7 @@ typedef struct S_800D1E34_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D1E34_1;   /* pos in dungeonUpdateActorFloorContact */
+} S_800D1E34_1;   /* pos in update_actor_floor_contact */
 
 typedef struct S_800D1E34_2 {
     u8 pad_00[0x90];
@@ -39,10 +39,10 @@ typedef struct S_800D1E34_2 {
     u16 unk_98;
     u8 pad_9A[0x3];
     union { u8 n; s8 n2; u8 v; } unk_9D;   /* accessed as both */
-} S_800D1E34_2;   /* obj in dungeonUpdateActorFloorContact */
+} S_800D1E34_2;   /* obj in update_actor_floor_contact */
 
 /* Run entity callbacks, advance movement, and resolve floor contact. */
-void dungeonUpdateActorFloorContact(void *object_arg, void *motion_arg, void *entity_arg)
+void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity_arg)
 {
     void *object = object_arg;
     register void *motion = motion_arg;
@@ -51,7 +51,7 @@ void dungeonUpdateActorFloorContact(void *object_arg, void *motion_arg, void *en
     EntityCallback callback;
     s16 floor_height;
     u16 entity_flags;
-    u16 global_flags = dungeonStatus.flags;
+    u16 global_flags = g_dungeon_status.flags;
 
     if (global_flags & 0x2000) {
         (*(u8 *)((u8 *)object_base + (0x71))) &= 0x7F;
@@ -84,7 +84,7 @@ void dungeonUpdateActorFloorContact(void *object_arg, void *motion_arg, void *en
     ((S_800D1E34_2 *)object)->unk_90.at00.v += ((S_800D1E34_1 *)motion)->unk_14;
 
     if (!(((S_800D1E34_2 *)object)->unk_98 & 4)) {
-        floor_height = func_800BCB04(((S_800D1E34_1 *)motion)->unk_00.at02.v, ((S_800D1E34_1 *)motion)->unk_04.at02.v,
+        floor_height = sample_terrain_surface_height(((S_800D1E34_1 *)motion)->unk_00.at02.v, ((S_800D1E34_1 *)motion)->unk_04.at02.v,
                               (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
         if (floor_height < 0x200) {
             if (((S_800D1E34_2 *)object)->unk_90.at02.v + (*(s16 *)((u8 *)object_base + (0x88))) < floor_height) {
@@ -102,7 +102,7 @@ void dungeonUpdateActorFloorContact(void *object_arg, void *motion_arg, void *en
 
             if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
                 (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x40000000;
-                floor_height = func_800BCB04(
+                floor_height = sample_terrain_surface_height(
                     (((S_800D1E34_0 *)entity)->unk_24 << 6) | 0x20,
                     (((S_800D1E34_0 *)entity)->unk_25 << 6) | 0x20,
                     (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));

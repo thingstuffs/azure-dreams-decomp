@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-extern s16 func_800ABEEC(s32 dir, s16 start_x, s16 start_y);
+extern s16 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y);
 
 typedef struct {
     u8 *field0;
@@ -13,7 +13,7 @@ typedef struct {
 
 
 /* Counts flagged tiles along a direction for up to ten in-bounds positions. */
-s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
+s32 count_flagged_tiles_along_direction(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     u16 *tiles;
     MapGrid *config;
     s16 next_x;
@@ -33,20 +33,20 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     y = start_y;
     steps_left = 0xA;
     flagged_count = 0;
-    config = &gameWork.map;
-    tiles = *(u16 **)((Config *)((u8 *)&gameWork + 476));
+    config = &g_game_work.map;
+    tiles = *(u16 **)((Config *)((u8 *)&g_game_work + 476));
     if (start_x < 0 || start_x >= (1 << config->shiftX) || start_y < 0 || start_y >= (1 << config->shiftY)) {
         return 0;
     }
     direction_shifted = direction << 0x10;
-    x_steps = (u8 *)dirStepX;
+    x_steps = (u8 *)dir_step_x;
     direction_offset = direction_shifted >> 0xF;
     x_step = (u16 *)(x_steps + direction_offset);
     do {
         tile_x = x;
         if ((*(u16 *)((u8 *)tiles + ((tile_x + (y << config->shiftX)) << 1)) & 0x8000) &&
             (flagged_count += 1,
-             (func_800ABEEC(direction_shifted >> 0x10, tile_x, y) >= 2))) {
+             (count_flagged_cells_in_opposite_directions(direction_shifted >> 0x10, tile_x, y) >= 2))) {
             break;
         }
         next_x = x + *x_step;
@@ -57,7 +57,7 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
         if (next_x >= (1 << config->shiftX)) {
             break;
         }
-        y_steps = (u8 *)dirStepY;
+        y_steps = (u8 *)dir_step_y;
         next_y = y + *(u16 *)(y_steps + direction_offset);
         y = next_y;
         if (next_y < 0) {

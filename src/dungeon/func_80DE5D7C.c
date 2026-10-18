@@ -7,7 +7,7 @@ typedef struct {
 } SpriteFieldView_80DE5D7C;
 
 
-void func_8017357C(void *controller, void *context, void *sprite, EntityRec *actor)
+void handle_actor_action_effects(void *controller, void *context, void *sprite, EntityRec *actor)
 {
     u8 state;
     u8 *effect;
@@ -24,25 +24,25 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
         }
 
         initial_effect = D_80174538;
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = initial_effect;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, initial_effect[direction & 7], 0);
         ((E_8017357C_S_8017357C_0 *)controller)->unk_9B++;
         return;
     }
     case 1:
         if (actor->tileY == 0) {
-            if (dungeonStatus.flags & 0x1000) {
+            if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
 
             if ((actor->unk_64 != 0) &&
-                dungeonBeginReadyActorDirectionalAction(controller, context, sprite, 0)) {
+                begin_ready_actor_directional_action(controller, context, sprite, 0)) {
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 return;
             }
 
@@ -51,14 +51,14 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
 
                 if (((u32)actor->flags1C) & 0x100) {
                     do {
-                        dungeonBeginPushedActorMove(call_controller, context, sprite, actor);
+                        begin_pushed_actor_move(call_controller, context, sprite, actor);
                     } while (0);
                     return;
                 }
 
                 if (((u32)actor->flags1C) & 0x80000) {
-                    func_800AA888(call_controller, context, sprite, actor);
-                    func_801737DC(controller, context, sprite, actor);
+                    begin_actor_move_to_target_facing(call_controller, context, sprite, actor);
+                    update_actor_landing_and_trap(controller, context, sprite, actor);
                     return;
                 }
             }
@@ -67,16 +67,16 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 EntityRec *owner;
 
                 owner = D_800814A8;
-                if ((s16)dungeonCheckEntityRelation(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
+                if ((s16)check_entity_relation(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             func_800A9A04(actor);
             if (actor->tileY == 0) {
                 return;
@@ -85,9 +85,9 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
 
         effect = D_80174520;
         (((SpriteFieldView_80DE5D7C *)sprite)->field_2C) = effect;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         func_80047784(sprite, effect[direction & 7], 0);
-        ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = func_80170E5C;
+        ((E_8017357C_S_8017357C_0 *)controller)->unk_8C = update_actor_behavior_facing_and_animation_2;
         actor->flags1C &= ~0x200;
     }
 }

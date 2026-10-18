@@ -63,16 +63,16 @@ extern void func_8006658C();
 extern void func_800667BC();
 extern void func_80067E2C();
 extern s32 func_80069EF8();
-extern void dungeonBeginDeferredPlayerItemEffect();
-extern s32 reserveRuntimeSlot();
+extern void begin_deferred_player_item_effect();
+extern s32 reserve_runtime_slot();
 extern void func_80048A44();
-extern void dungeonSnapshotInventoryAndFamiliars();
-extern void dungeonSnapshotInventoryFamiliarRecords();
-extern void func_800B8FC8();
+extern void snapshot_inventory_and_familiars();
+extern void snapshot_inventory_familiar_records();
+extern void draw_transformed_sprite_with_clip_rect();
 extern void func_80041094();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
-void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, EffectState *effect) {
+void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectState *effect) {
     StackData draw_data;
     s16 use_alt_buffer;
     u32 buffer_diff;
@@ -87,13 +87,13 @@ void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, Eff
     area_origin = 0x01800340;
     draw_data.field18 = area_origin;
     draw_data.field1C = 0x00400040;
-    render_state_slot = &gameWork.unk_000;
-    render_state = gameWork.unk_000;
+    render_state_slot = &g_game_work.unk_000;
+    render_state = g_game_work.unk_000;
     prim = (Primitive *)render_state->nextPrim;
     render_state->nextPrim = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
     prim_list = (u8 *)render_state + 0x8B0;
-    call_state = gameWork.unk_000;
+    call_state = g_game_work.unk_000;
     use_alt_buffer = buffer_diff != 0;
     func_80067E2C(prim, call_state, render_state);
     func_8006658C(prim_list, prim);
@@ -142,7 +142,7 @@ void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, Eff
     }
     draw_data.field20 = 0x360;
     draw_data.field22 = 0x1B8;
-    func_800B8FC8(obj->handle, &draw_data.field18, &draw_data.field20, 1, 0);
+    draw_transformed_sprite_with_clip_rect(obj->handle, &draw_data.field18, &draw_data.field20, 1, 0);
 
     {
         u16 frame_count = obj->counter + 1;
@@ -152,13 +152,13 @@ void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, Eff
             if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
                     EntityRec *dungeon_state;
-                    dungeonBeginDeferredPlayerItemEffect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+                    begin_deferred_player_item_effect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
                     D_800E3D7C->unk_9B = 0x11;
                     dungeon_state = D_800E3D7C;
                     D_80082E80.unk_02C = (s32)D_800DD0F8;
                     func_80048A44(
                         ((u8 *)(&D_80082E80)),
-                        D_800DD0F8[((s32)(gameWork.view.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(g_game_work.view.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }
@@ -178,7 +178,7 @@ void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, Eff
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
                 (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
-                s16 entry_index = reserveRuntimeSlot(6, 0x20);
+                s16 entry_index = reserve_runtime_slot(6, 0x20);
                 u8 *entry_table = (u8 *)D_80083120;
                 s16 *entry_flag;
                 void *active_dungeon;
@@ -186,8 +186,8 @@ void dungeonUpdateReturnMagicAscent(DungeonObject *obj, MotionState *motion, Eff
                 entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
                 active_dungeon = D_800E3D7C;
                 *entry_flag = index_or_phase;
-                dungeonSnapshotInventoryAndFamiliars(active_dungeon);
-                dungeonSnapshotInventoryFamiliarRecords();
+                snapshot_inventory_and_familiars(active_dungeon);
+                snapshot_inventory_familiar_records();
                 D_80082E60.flags16 = 0x8000;
                 func_80041094(6, 0, 0, 0, 0x8000);
                 obj->phase = (u16)obj->phase + 1;

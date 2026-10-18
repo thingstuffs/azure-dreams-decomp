@@ -28,7 +28,7 @@ typedef struct {
 extern void func_800478B8(Sprite *);
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
-void dungeonUpdateShrinkingSpriteEffect(Actor *actor, Vec3 *vec, Sprite *sprite)
+void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
 {
     s32 distance_x;
     s32 distance_y;
@@ -47,7 +47,7 @@ void dungeonUpdateShrinkingSpriteEffect(Actor *actor, Vec3 *vec, Sprite *sprite)
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 
@@ -66,6 +66,6 @@ void dungeonUpdateShrinkingSpriteEffect(Actor *actor, Vec3 *vec, Sprite *sprite)
     func_800478B8(sprite);
     if (actor->scale <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

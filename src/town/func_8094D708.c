@@ -10,7 +10,7 @@ typedef struct Func8094D708Object {
     s16 field1A;
 } Func8094D708Object;
 
-extern void func_800166A4(s32, s16);
+extern void pass_2(s32, s16);
 /* Notify the object, then run its callbacks in order until one returns zero; return that index. */
 s32 func_8094D708(Func8094D708Object *object) {
     s32 i;
@@ -19,7 +19,7 @@ s32 func_8094D708(Func8094D708Object *object) {
     void *call_arg;
     Func8094D708Callback callback;
 
-    func_800166A4(object->field14, object->field1A);
+    pass_2(object->field14, object->field1A);
     for (i = 0;; i++) {
         call_arg = object;
         base = object->callbacks;

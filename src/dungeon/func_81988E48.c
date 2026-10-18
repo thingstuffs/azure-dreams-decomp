@@ -75,13 +75,13 @@ typedef struct Resource {
 
 extern u8 D_800DEC00[];
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, s16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
-void func_80024648(MainObject *obj)
+void update_effect_and_spawn_fragments(MainObject *obj)
 {
     s16 hit[3];
     s32 state_count;
@@ -110,7 +110,7 @@ void func_80024648(MainObject *obj)
         obj->state++;
     case 1:
         state_count = 14;
-        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
@@ -127,7 +127,7 @@ void func_80024648(MainObject *obj)
             state_count = 4;
         }
         obj->angle += 2;
-        if (resolveRecordOrientationOrFallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
+        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
@@ -144,7 +144,7 @@ void func_80024648(MainObject *obj)
         state_count = 5;
         if (obj->age == 15) {
             ((u16 *)obj)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }
@@ -158,7 +158,7 @@ void func_80024648(MainObject *obj)
         return;
     }
 
-    callback = dungeonMarkReferencedObjectAndUpdateFlags;
+    callback = mark_referenced_object_and_update_flags;
     resource = (Resource *)D_800DEC00;
     do {
         effect = (EffectObject *)func_8003FD64(0x312, ((u8 *)(&D_80083498)));

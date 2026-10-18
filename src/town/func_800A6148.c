@@ -4,7 +4,7 @@
 
 extern void func_80033D08(void *object);
 
-void func_800A38A8(void *object, void *unusedContext, u8 *primitive)
+void decrease_primitive_brightness_and_mark_cleanup(void *object, void *unusedContext, u8 *primitive)
 {
     s32 brightness;
 
@@ -20,5 +20,5 @@ void func_800A38A8(void *object, void *unusedContext, u8 *primitive)
     }
     func_80033D08(object);
     *(u16 *)((u8 *)object - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

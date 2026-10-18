@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80173280(void *actor, EntityRec *motion, void *tile_arg, EntityRec *action)
+void advance_actor_spell_effect_sequence(void *actor, EntityRec *motion, void *tile_arg, EntityRec *action)
 {
     s16 particle_index;
     s32 offset_y;
@@ -87,7 +87,7 @@ use_kind:
                     action->unk_73 = ((u8 *)state)[0x25];
                 }
             } else {
-                s32 x = (s32)dungeonScanMonsterAlongHeading(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
+                s32 x = (s32)scan_monster_along_heading(action, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25,
                               action->facing, 0x10);
                 s32 y;
 
@@ -104,7 +104,7 @@ use_kind:
                 action->unk_73 = y;
             }
         }
-        if (dungeonCreateActorSpellEffect(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
+        if (create_actor_spell_effect(action, kind_data,(s16)(effect_flags), (u8 *)actor + 0x98)) {
             ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0x18;
             ((R10_80173280_S_80173280_0 *)actor)->unk_9E = 4;
             ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
@@ -116,13 +116,13 @@ use_kind:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
+    set_record_integer_tile_center(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
     {
         u8 *active_actor = D_800814A8;
-        ((Rec_D_80083460 *)((u8 *)(&dungeonStatus)))->unk_0C = 0;
+        ((Rec_D_80083460 *)((u8 *)(&g_dungeon_status)))->unk_0C = 0;
         ((R10_80173280_S_80173280_6 *)active_actor)->unk_A6--;
     }
-    dungeonAdvanceStatusTimers(action);
+    advance_status_timers(action);
     (*(u8 *)&action->unk_6D)--;
     ((R10_80173280_S_80173280_0 *)actor)->unk_8C = ((u8 *)func_801717F4);
     action->unk_73 = 0;
@@ -131,13 +131,13 @@ use_kind:
     return;
 
 case 1:
-    if (getCdCommandQueueDepth()) {
+    if (get_cd_command_queue_depth()) {
         ((R10_80173280_S_80173280_3 *)tile_arg)->unk_14 |= 0x800;
         return;
     }
     ((R10_80173280_S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     ((R10_80173280_S_80173280_0 *)actor)->unk_9B++;
-    func_800A56E0(0x703);
+    play_sound_if_enabled(0x703);
 
 case 2:
     particle_index = 0;
@@ -170,7 +170,7 @@ case 2:
     return;
 
 case 3:
-    kind_data = ((u8 *)(&dungeonStatus));
+    kind_data = ((u8 *)(&g_dungeon_status));
     if (((R10_80173280_S_80173280_7 *)kind_data)->unk_0C == 0) {
         ((R10_80173280_S_80173280_0 *)actor)->unk_96.s = 0;
     }
@@ -185,12 +185,12 @@ case 3:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
+    set_record_integer_tile_center(motion, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_24, ((R10_80173280_S_80173280_3 *)tile_arg)->unk_25);
     if (((R10_80173280_S_80173280_3 *)tile_arg)->unk_2C != ((u8 *)D_80175988)) {
         u8 *frame_table = ((u8 *)D_80175988);
         (*(u8 * *)((u8 *)tile_arg + 0x2C)) = frame_table;
         func_80047784(tile_arg,
-            frame_table[((gameWork.view.viewAngle + action->facing + 0x100) >> 9) & 7],
+            frame_table[((g_game_work.view.viewAngle + action->facing + 0x100) >> 9) & 7],
             0);
         ((R10_80173280_S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }
@@ -199,12 +199,12 @@ case 3:
     }
     ((R10_80173280_S_80173280_7 *)kind_data)->unk_0A--;
     ((R10_80173280_S_80173280_0 *)actor)->unk_8C = ((u8 *)func_801717F4);
-    dungeonAdvanceStatusTimers(action);
+    advance_status_timers(action);
     action->unk_73 = 0;
     action->unk_72 = 0;
     (*(u8 *)&action->unk_6D)--;
     action->unk_46 &= 0x7FFF;
-    func_800A56E0(0xB4);
+    play_sound_if_enabled(0xB4);
         return;
     default:
         return;

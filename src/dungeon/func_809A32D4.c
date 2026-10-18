@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9c32d4.h"
 
-void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, u8 *effect_data)
+void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8 *effect_data)
 {
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
     ovl_9c32d4_809A32D4_Actor *actor;
@@ -51,7 +51,7 @@ void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, 
         }
         draw_region.v = draw_y;
 
-        dungeonEmitConcentricEllipseQuads(0x10, 0x10, 0, 0, texture_u, draw_region.v,
+        emit_concentric_ellipse_quads(0x10, 0x10, 0, 0, texture_u, draw_region.v,
                       actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
         rect_page = DUNGEON_FROM_PAGE;
@@ -76,7 +76,7 @@ void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, 
         func_8006658C(packet_list, region_packet);
         actor->state++;
     } else if (state == 1) {
-        func_8004491C((u8 *)actor - 0x20, dungeonProcessLinkedMeshStatesMode0);
+        func_8004491C((u8 *)actor - 0x20, process_linked_mesh_states_mode_0);
         actor->state++;
     } else if (state == 3) {
         decay_level = ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C;
@@ -85,7 +85,7 @@ void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, 
             ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C = decay_level;
             if (decay_level == 0) {
                 (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
         }
     } else {
@@ -103,7 +103,7 @@ void dungeonUpdateActorRenderEffectAndPosition(u8 *actor_data, u8 *output_data, 
         output->field06 = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_06;
         output->field0A = ((ovl_9c32d4_809A32D4_S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
         do {
-            func_80174FC0((u8 *)actor - 0x20, (((ovl_9c32d4_809A32D4_S_80174AD4_7 *)(((ovl_9c32d4_809A32D4_S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7,
+            spawn_randomized_directional_motion_object((u8 *)actor - 0x20, (((ovl_9c32d4_809A32D4_S_80174AD4_7 *)(((ovl_9c32d4_809A32D4_S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7,
                 0xFF);
             next_steps = steps_left - 1;
             steps_left = next_steps;

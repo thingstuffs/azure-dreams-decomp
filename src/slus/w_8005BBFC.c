@@ -89,7 +89,7 @@ extern s32 D_80073740[64];
 extern S_80085458 D_80085458[64];
 extern s32 D_80085F98[4];
 extern S_80086A40 D_80086A40[16];
-extern void soundResetIndexedVoiceEnvelope(s32 request_index);
+extern void sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 extern void func_8005EC0C(void *a0);
@@ -150,7 +150,7 @@ u16 right_gain_arg;
         note_pitch = (note_arg << 8) + fine_note_arg;
         tone_data = (S_8005BBFC_rec *) (bank_data + (((program_offset + tone_arg) << 5) + 0x820));
         if ((note_arg >= ((s32) tone_data->f06)) && (((s32) tone_data->f07) >= note_arg)) {
-            soundResetIndexedVoiceEnvelope(channel);
+            sound_reset_indexed_voice_envelope(channel);
             {
                 s32 * voice_ids = D_80073740;
                 voice_id = voice_ids + channel;

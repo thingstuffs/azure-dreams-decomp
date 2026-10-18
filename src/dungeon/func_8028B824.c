@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void initRandomFloorItemParameters(void *entity_data) {
+void init_random_floor_item_parameters(void *entity_data) {
     u8 *entity = entity_data;
     s16 output_flags;
     s16 combined_flags;
@@ -16,7 +16,7 @@ void initRandomFloorItemParameters(void *entity_data) {
     case 4:
         output_value = 1;
         if (((floor_spawns_isolated_8028B824_S_8001E824_0 *)entity)->unk_00 != 0x11) {
-            output_value = (func_800A6D30() & 7) | 4;
+            output_value = (generate_random_value() & 7) | 4;
         }
         output_flags = -0x80;
         break;
@@ -25,8 +25,8 @@ void initRandomFloorItemParameters(void *entity_data) {
             output_flags |= 0x40;
         }
     case 17:
-        if (!(func_800A6D30() & 3)) {
-            adjusted_value = (func_800A6D30() & 3) - 1;
+        if (!(generate_random_value() & 3)) {
+            adjusted_value = (generate_random_value() & 3) - 1;
             output_value = adjusted_value;
             if (adjusted_value < 0) {
                 output_flags |= 0x40;
@@ -36,14 +36,14 @@ void initRandomFloorItemParameters(void *entity_data) {
         minus_128 = -0x80;
         combined_flags = output_flags | minus_128;
         output_flags = combined_flags;
-        if (func_800A6D30() & 7) {
+        if (generate_random_value() & 7) {
             break;
         }
         output_value = -1;
         output_flags = combined_flags | 0x40;
         break;
     case 18:
-        output_value = ((u32)(func_800A6D30() & 0xFFFF) % 40U) + 0x3C;
+        output_value = ((u32)(generate_random_value() & 0xFFFF) % 40U) + 0x3C;
         break;
     case 1:
     default:

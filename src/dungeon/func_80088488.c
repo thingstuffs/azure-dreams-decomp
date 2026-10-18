@@ -8,19 +8,19 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 extern void func_80048A44(void *, u8, s32, s32);
-extern void dungeonBeginWakeNearbyMonsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
-extern s32 dungeonCollectGroundItem(void *, void *, void *, void *);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
+extern s32 collect_ground_item(void *, void *, void *, void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 D_800DD050[];
 
 typedef struct S_8008DBE8_5 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_8008DBE8_5;   /* late_status in dungeonAdvanceNormalTileCenterMotion */
+} S_8008DBE8_5;   /* late_status in advance_normal_tile_center_motion */
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
-void dungeonAdvanceNormalTileCenterMotion(void *entity, EntityRec *motion, void *sprite, EntityRec *facing) {
+void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sprite, EntityRec *facing) {
     void *late_status;
     u32 status_page;
     s32 frames_left;
@@ -30,11 +30,11 @@ void dungeonAdvanceNormalTileCenterMotion(void *entity, EntityRec *motion, void 
     s16 timer;
     u16 flags;
 
-    if (dungeonStatus.flags & 0x80) {
-        dungeonStatus.unk_04 = 0;
+    if (g_dungeon_status.flags & 0x80) {
+        g_dungeon_status.unk_04 = 0;
     }
 
-    timer = dungeonStatus.unk_04;
+    timer = g_dungeon_status.unk_04;
     if (timer != 0) {
         x_velocity =
             ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
@@ -42,7 +42,7 @@ void dungeonAdvanceNormalTileCenterMotion(void *entity, EntityRec *motion, void 
             timer;
         y_position = motion->y.v;
         motion->unk_0C = x_velocity;
-        move_frames = dungeonStatus.unk_04;
+        move_frames = g_dungeon_status.unk_04;
         motion->unk_10 =
             ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
@@ -50,10 +50,10 @@ void dungeonAdvanceNormalTileCenterMotion(void *entity, EntityRec *motion, void 
     }
 
     if (((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 & 0x100) {
-        frames_left = dungeonStatus.unk_04;
+        frames_left = g_dungeon_status.unk_04;
         if (((*(u16 *)0x80013714 & 8) && frames_left == 3) ||
             (!(*(u16 *)0x80013714 & 8) && frames_left == 6)) {
-            dungeonBeginWakeNearbyMonsters(entity, motion, sprite, facing);
+            begin_wake_nearby_monsters(entity, motion, sprite, facing);
             return;
         }
     }
@@ -66,13 +66,13 @@ continue_update:
             *(u8 **)((u8 *)sprite + 0x2C) = D_800DD050;
             func_80048A44(
                 sprite,
-                D_800DD050[((gameWork.view.viewAngle + facing->facing + 0x100) >> 9) & 7],
+                D_800DD050[((g_game_work.view.viewAngle + facing->facing + 0x100) >> 9) & 7],
                 0,
                 1);
         }
     }
 
-    status_page = (u32)&dungeonStatus.unk_00;
+    status_page = (u32)&g_dungeon_status.unk_00;
     late_status = (void *)status_page;
     timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
     ((S_8008DBE8_5 *)late_status)->unk_04 = timer;
@@ -84,10 +84,10 @@ continue_update:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x4000;
-    if ((s16)dungeonCollectGroundItem(entity, motion, sprite, facing) > 0) {
-        ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)dungeonHandlePlayerInput;
+    if ((s16)collect_ground_item(entity, motion, sprite, facing) > 0) {
+        ((Rec_func_8008ACDC_arg0 *)entity)->unk_8C.as_s32 = (s32)handle_player_input;
     }
 }

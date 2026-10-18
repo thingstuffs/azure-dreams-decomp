@@ -3,10 +3,10 @@
 
 
 /* Returns the quarter-turn sector of the stored angle relative to the offset input angle. */
-u32 townGetFacingSector(s32 angle) {
+u32 get_facing_sector(s32 angle) {
     s32 angle_delta;
 
     angle -= 0x600;
-    angle_delta = (gameWork.view.viewAngle - angle) & 0xFFF;
+    angle_delta = (g_game_work.view.viewAngle - angle) & 0xFFF;
     return (u32)(angle_delta / 1024);
 }

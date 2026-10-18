@@ -11,7 +11,7 @@
 
 
 /* Dispatches a nonzero handler result through the current mode's callback table. */
-s32 cardBootDispatchEventCallbacks(void)
+s32 card_boot_dispatch_event_callbacks(void)
 {
     CallbackWork callback_sets;
     MainCallback *first_callbacks;
@@ -24,12 +24,12 @@ s32 cardBootDispatchEventCallbacks(void)
     mode = D_800287E0[0];
     first_callbacks = callback_sets.first.value;
     if (mode == 0) {
-        result = cardBootPollSoftwareEvents();
+        result = card_boot_poll_software_events();
         if (result != 0) {
             result = first_callbacks[result]();
         }
     } else if (mode == 1) {
-        result = cardBootTakeHardwareStatus();
+        result = card_boot_take_hardware_status();
         if (result != 0) {
             result = (*(MainCallback *)((u8 *)first_callbacks + (result * 4) + 0x18))();
         }

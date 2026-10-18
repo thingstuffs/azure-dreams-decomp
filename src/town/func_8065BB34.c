@@ -5,7 +5,7 @@ s32 func_800173CC();                    /* extern */
 s32 func_80017FEC();                                /* extern */
 
 /* Check the supplied inputs only when the prerequisite value is at least 3. */
-s32 func_80016334(s32 check_value, M2C_UNK check_data) {
+s32 check_inputs_only_prerequisite_least(s32 check_value, M2C_UNK check_data) {
     s32 check_passed;
 
     check_passed = 0;

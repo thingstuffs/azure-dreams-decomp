@@ -156,9 +156,9 @@ extern s32 func_800644B8();
 extern s32 func_80064584();
 extern s32 D_800DEC70;
 extern s32 D_800DEC00;
-void advanceRecordStateAndSetCompletionFlags(void *record_data, T_80173FF4_S_80173FF4_0 *state, s32 update_arg);
-void func_8017406C(void *unused, void *position_data, void *unused_primitive);
-void updateOrbitHeightAndFadeEffect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive);
-void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
+void advance_record_state_and_set_completion_flags(void *record_data, T_80173FF4_S_80173FF4_0 *state, s32 update_arg);
+void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, void *unused_primitive);
+void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive);
+void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
     s16 angle, u16 height_offset);
 #endif

@@ -12,23 +12,23 @@ typedef struct {
     s16 unk20;
 } Func800B5948Object;
 
-extern void func_8009A3D0(s16, s16, s32);
-extern void dungeonClearSlotAndDetachEntity(s16);
+extern void update_map_cell_flags_with_item_limit(s16, s16, s32);
+extern void clear_slot_and_detach_entity(s16);
 
 /* Updates the object's countdown and triggers an effect when it expires. */
-void dungeonUpdateTimedTileEffect(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
+void update_timed_tile_effect(Func800B5948Object *object, s32 unused, Func800B5948Object *related_object) {
     u16 ticks_left;
 
-    if (dungeonStatus.flags & 0x10) {
+    if (g_dungeon_status.flags & 0x10) {
         ticks_left = object->unk1E - 1;
         object->unk1E = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             if (object->unk1C == 1) {
-                func_8009A3D0(object->unk10, object->unk12, 2);
+                update_map_cell_flags_with_item_limit(object->unk10, object->unk12, 2);
             } else {
-                func_8009A3D0(object->unk10, object->unk12, 0x10);
+                update_map_cell_flags_with_item_limit(object->unk10, object->unk12, 0x10);
             }
-            dungeonClearSlotAndDetachEntity(object->unk20);
+            clear_slot_and_detach_entity(object->unk20);
             return;
         }
     }

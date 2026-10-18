@@ -16,7 +16,7 @@
 
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void dungeonAdvanceEffectMotionAndSpeed(MotionRecord *motion, EntityRec *position)
+void advance_effect_motion_and_speed(MotionRecord *motion, EntityRec *position)
 {
     s16 next_speed;
     u16 update_count = D_80027452[0];
@@ -25,9 +25,9 @@ void dungeonAdvanceEffectMotionAndSpeed(MotionRecord *motion, EntityRec *positio
     u16 y = position->y.w.i;
 
     D_80027452[0] = update_count + 1;
-    if (position->z.w.i < (s16)func_800BCB04(x, y, z + 2)) {
-        position->x.v -= (dirStepX[motion->direction] * motion->speed) << 11;
-        position->y.v -= (dirStepY[motion->direction] * motion->speed) << 11;
+    if (position->z.w.i < (s16)sample_terrain_surface_height(x, y, z + 2)) {
+        position->x.v -= (dir_step_x[motion->direction] * motion->speed) << 11;
+        position->y.v -= (dir_step_y[motion->direction] * motion->speed) << 11;
         position->z.v += (0xC0 - motion->speed) << 10;
     }
 
@@ -35,7 +35,7 @@ void dungeonAdvanceEffectMotionAndSpeed(MotionRecord *motion, EntityRec *positio
     motion->speed = next_speed;
     if ((next_speed << 16) <= 0) {
         ((ObjectNodeHeader *)motion - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

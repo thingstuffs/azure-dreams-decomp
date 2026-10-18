@@ -31,7 +31,7 @@ typedef struct S_800BDBD0_2 {
 
 
 /* Creates an object at the supplied position and initializes its visual properties. */
-void *townCreatePositionedVisualObject(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_data, s32 angle, s32 visual_data) {
     S_800BDBD0_0 *object;
     S_800BDBD0_1 *visual;
     S_800BDBD0_2 *position;

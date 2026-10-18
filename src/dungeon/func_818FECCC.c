@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e705800.h"
 
-void func_800244CC(
+void spawn_jittered_child_effect(
     void *source,
     s16 field_34,
     s32 field_28,

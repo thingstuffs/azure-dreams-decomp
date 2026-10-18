@@ -159,7 +159,7 @@ typedef struct {
 
 
 /* Builds a filtered 4-bit glyph bitmap for the requested character. */
-s32 townBuildFilteredCatalogGlyph(s32 char_code, s32 dst_addr) {
+s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
     u8 frame_pad[32];
     s16 row;
     s16 col;

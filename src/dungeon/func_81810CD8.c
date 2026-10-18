@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void inventoryInitializePacketAndSetFlag(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
+void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
     s32 zero;
     s32 payload;
 

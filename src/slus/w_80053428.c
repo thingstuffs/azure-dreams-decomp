@@ -48,7 +48,7 @@ extern void SetSemiTrans(void *p, s32 abe);
 extern void SetDrawMode(void *a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Draw a fading fullscreen overlay and advance its frame counter. */
-s32 renderScreenFadeDecreasingIntensity(Param *fade)
+s32 render_screen_fade_decreasing_intensity(Param *fade)
 {
     D80083160_t *render_state;
     TPagePkt *tpage_pkt;

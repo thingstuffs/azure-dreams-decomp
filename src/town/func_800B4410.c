@@ -4,7 +4,7 @@ typedef struct Node { s32 unk0; void *data; void *anchor; s32 unkC; } Node;
 extern s32 D_8002E5D8[4];
 
 /* Initializes four nodes with a shared anchor and default data. */
-void townInitializeFourAnchoredNodes(void *state)
+void initialize_four_anchored_nodes(void *state)
 {
     s32 node_index;
     s32 data_offset;

@@ -1,12 +1,12 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void func_80024050(EntityRec *entity, s32 value_id) {
-    if (dungeonTryTriggerTargetRecordEffect(entity, 4) == 0) {
+void follow_brighten(EntityRec *entity, s32 value_id) {
+    if (try_trigger_target_record_effect(entity, 4) == 0) {
         s32 base_gain;
         s16 bonus;
         s32 gain;
 
-        base_gain = func_800A6870(value_id & 0xFF) + 8;
+        base_gain = get_random_scaled_value(value_id & 0xFF) + 8;
         bonus = entity->unk_28 & 4;
         gain = base_gain;
         if (bonus) {
@@ -14,9 +14,9 @@ void func_80024050(EntityRec *entity, s32 value_id) {
             gain = base_gain + bonus;
         }
         entity->unk_64 = (u16) (((u16)entity->unk_64) + gain);
-        dungeonCapPendingActorValueDelta(entity);
+        cap_pending_actor_value_delta(entity);
         base_gain = 0x8004;
-        createActorValuePopup(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
-        dungeonApplyClampedActorValueDelta(entity);
+        create_actor_value_popup(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
+        apply_clamped_actor_value_delta(entity);
     }
 }

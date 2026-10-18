@@ -46,7 +46,7 @@ typedef struct S_8002569C_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8002569C_2;   /* arg0 in func_8002569C */
+} S_8002569C_2;   /* arg0 in create_object_offset */
 
 typedef struct S_8002569C_3 {
     u8 pad_00[0x16];
@@ -71,7 +71,7 @@ typedef struct S_8002569C_5 {
 } S_8002569C_5;
 
 /* Create an object offset from an origin and record its starting position. */
-void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+void *create_object_offset(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
     s16 height;
     u16 slot_index;
     u16 origin_x;
@@ -86,8 +86,8 @@ void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offs
 
     object = func_8003FD64(0x202, alloc_arg);
     if (object != NULL) {
-        ((S_8002569C_0 *)object)->unk_10 = (s32 *)dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor;
-        func_8004491C(object, (s32 *)dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList);
+        ((S_8002569C_0 *)object)->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
+        func_8004491C(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
         positions = ((S_8002569C_0 *)object)->unk_08;
         positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
         positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));

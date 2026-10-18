@@ -13,14 +13,14 @@ typedef struct S_80D653B8_0 {
     s16 unk_AA;
     u8 pad_AC[0x4];
     void * unk_B0;
-} S_80D653B8_0;   /* work in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_0;   /* work in create_anchored_directional_object */
 
 typedef struct S_80D653B8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80D653B8_1;   /* linked in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_1;   /* linked in create_anchored_directional_object */
 
 typedef struct S_80D653B8_2 {
     u8 pad_00[0x6];
@@ -38,12 +38,12 @@ typedef struct S_80D653B8_2 {
     s16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_80D653B8_2;   /* object_data in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_2;   /* object_data in create_anchored_directional_object */
 
 typedef struct S_80D653B8_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80D653B8_3;   /* arg3 in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_3;   /* arg3 in create_anchored_directional_object */
 
 typedef struct S_80D653B8_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_80D653B8_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D653B8_4;   /* position in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_4;   /* position in create_anchored_directional_object */
 
 typedef struct S_80D653B8_5 {
     u8 pad_00[0x2];
@@ -63,7 +63,7 @@ typedef struct S_80D653B8_5 {
     u16 unk_0A;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_80D653B8_5;   /* arg1 in dungeonCreateAnchoredDirectionalObject */
+} S_80D653B8_5;   /* arg1 in create_anchored_directional_object */
 
 
 extern void *func_8003FD64();
@@ -75,7 +75,7 @@ extern u8 D_800D6FEC[];
 extern u8 D_800E23D0[];
 
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
-void dungeonCreateAnchoredDirectionalObject(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
+void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
                    S_80D653B8_3 *facing_source, s32 initial_value)
 {
     void *object;
@@ -110,7 +110,7 @@ void dungeonCreateAnchoredDirectionalObject(void *unused, S_80D653B8_5 *anchor, 
 
             object_data->unk_2C = direction_table;
             func_80047784(object_data,
-                direction_table[((gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 

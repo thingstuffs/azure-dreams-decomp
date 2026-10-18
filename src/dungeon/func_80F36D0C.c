@@ -73,15 +73,15 @@ extern u8 D_80174AE4[];
 extern u8 D_80174AEC[];
 extern void *D_800E3DE8[];
 
-extern s32 func_800A70E4(s16, s16, s16);
-extern Spawned *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
-extern void func_8009A3D0(s32, s32, s32);
+extern s32 find_floor_item_at_world_position(s16, s16, s16);
+extern Spawned *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void func_80047784(Effect *, u8, s32);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(Object *, s32);
-extern void dungeonAdvanceStatusTimers(Object *);
-extern void dungeonUpdateTimedEffectSizeAndPosition(void);
-extern void dungeonUpdateDungeonActorActions(void);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(Object *, s32);
+extern void advance_status_timers(Object *);
+extern void update_timed_effect_size_and_position(void);
+extern void update_dungeon_actor_actions(void);
 extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */
@@ -101,34 +101,34 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         direction = (object->angle >> 9) & 7;
         entity->saved_x = motion->x.w.i;
         entity->saved_y = motion->y.w.i;
-        index = (s16)func_800A70E4(effect->x_tile + dirStepX[direction],
-                                   effect->y_tile + dirStepY[direction], object->height);
+        index = (s16)find_floor_item_at_world_position(effect->x_tile + dir_step_x[direction],
+                                   effect->y_tile + dir_step_y[direction], object->height);
         records = ((PackedRecord *)D_800E3548);
         record = &records[index];
         if (record->bytes[1] == 0x12) {
             object->copy = *record;
             tiles = D_800E36C8;
             tile = &tiles[index];
-            spawned = func_800A8608((u8 *)entity - 0x20, record, (tile->x << 6) | 0x20,
+            spawned = create_item_render_object((u8 *)entity - 0x20, record, (tile->x << 6) | 0x20,
                                     (tile->y << 6) | 0x20, motion->height);
             if (spawned != 0) {
-                spawned->callback = dungeonUpdateTimedEffectSizeAndPosition;
+                spawned->callback = update_timed_effect_size_and_position;
                 spawned->state = 0;
             }
             record->bytes[0] = 0;
             record->bytes[1] = 0;
-            func_8009A3D0(tile->x, tile->y, 0x800);
+            update_map_cell_flags_with_item_limit(tile->x, tile->y, 0x800);
         }
         if (effect->flags & 0x8000) {
             entity->state = 3;
             entity->timer = 0;
             break;
         }
-        motion->velocity_x = (dirStepX[direction] << 16) + (dirStepX[direction] << 15);
-        motion->velocity_y = (dirStepY[direction] << 16) + (dirStepY[direction] << 15);
+        motion->velocity_x = (dir_step_x[direction] << 16) + (dir_step_x[direction] << 15);
+        motion->velocity_y = (dir_step_y[direction] << 16) + (dir_step_y[direction] << 15);
         effect->callback = (void (*)(void))D_80174AE4;
-        func_80047784(effect, D_80174AE4[((gameWork.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
-        func_800A56E0(0x51E);
+        func_80047784(effect, D_80174AE4[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        play_sound_if_enabled(0x51E);
         entity->timer = 2000;
         entity->state++;
         break;
@@ -144,7 +144,7 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
             break;
         }
         effect->callback = (void (*)(void))D_80174AEC;
-        func_80047784(effect, D_80174AEC[((gameWork.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        func_80047784(effect, D_80174AEC[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         entity->timer = 2000;
         entity->state++;
         break;
@@ -158,10 +158,10 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
             break;
         }
         index = (object->angle >> 9) & 7;
-        motion->velocity_x = -dirStepX[index] << 16;
-        motion->velocity_y = -dirStepY[index] << 16;
+        motion->velocity_x = -dir_step_x[index] << 16;
+        motion->velocity_y = -dir_step_y[index] << 16;
         effect->callback = (void (*)(void))D_80174A74;
-        func_80047784(effect, D_80174A74[((gameWork.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
+        func_80047784(effect, D_80174A74[((g_game_work.view.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         direction = abs(entity->saved_y - motion->y.w.i);
         distance = abs(entity->saved_x - motion->x.w.i);
         if (distance < direction) {
@@ -180,10 +180,10 @@ void func_80F36D0C(Entity *entity, Motion *motion, Effect *effect, Object *objec
         motion->y.v = entity->saved_y << 16;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        dungeonReduceActorFoodMeter(object, 0x100);
-        entity->callback = dungeonUpdateDungeonActorActions;
-        dungeonStatus.unk_0A--;
-        dungeonAdvanceStatusTimers(object);
+        reduce_actor_food_meter(object, 0x100);
+        entity->callback = update_dungeon_actor_actions;
+        g_dungeon_status.unk_0A--;
+        advance_status_timers(object);
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;
         } else {

@@ -66,7 +66,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     u8 texture_flags;
     u8 draw_flags;
 
-    page_ptr = &gameWork.unk_000;
+    page_ptr = &g_game_work.unk_000;
     initial_page = *page_ptr;
     *(u8 **)(scratch + 0x24) = initial_page + 0xB0;
     *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)position + 2);

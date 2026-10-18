@@ -106,7 +106,7 @@ M2C_UNK func_800654B0(void *, void *, void *, void *, void *, void *, void *, vo
 M2C_UNK func_80065820();        /* extern */
 void func_8006658C(void *, void *);         /* extern */
 void func_800666F4(void *);                 /* extern */
-u16 func_800BCB04();                   /* extern */
+u16 sample_terrain_surface_height();                   /* extern */
 extern M2C_UNK D_8006CD30[8];
 extern s32 D_800E296C[3];
 extern u8 D_800E3648[128];
@@ -119,7 +119,7 @@ typedef struct DebugEntry {
 extern u8 D_800E39C8[1024];
 
 /* Render active dungeon sprite parts and their ground shadows into the ordering table. */
-s32 dungeonRenderActiveSpritePartsAndShadows(void *unused_0, void *unused_1, void *render_params)
+s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void *render_params)
 {
     u8 saved_matrix[0x20];
     s32 entry_index;
@@ -128,7 +128,7 @@ s32 dungeonRenderActiveSpritePartsAndShadows(void *unused_0, void *unused_1, voi
     u8 *depth_cue;
     u8 *transform_flags;
 
-    u8 *game_base = (u8 *)&gameWork;
+    u8 *game_base = (u8 *)&g_game_work;
     u8 *matrix_base;
 
     S_SCRATCH *scr;
@@ -196,7 +196,7 @@ s32 dungeonRenderActiveSpritePartsAndShadows(void *unused_0, void *unused_1, voi
     void *entry_flags;
     void *render_state;
     scr = (S_SCRATCH *) 0x1F800000;
-    render_state = *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0));
+    render_state = *((void **) (((s8 *) (((struct S_8003E2D8 *)&g_game_work))) + 0));
     primitive_buffer = *((void **) (((s8 *) render_state) + 0x8D0));
     scr->unk_020 = render_state + 0xB0;
     scr->unk_08C = 0;
@@ -484,7 +484,7 @@ s32 dungeonRenderActiveSpritePartsAndShadows(void *unused_0, void *unused_1, voi
                             func_80064CF0(&saved_matrix);
                             world_pos_x = scr->unk_000.u16;
                             world_pos_y = scr->unk_002;
-                            scr->unk_004 = func_800BCB04(world_pos_x, world_pos_y,
+                            scr->unk_004 = sample_terrain_surface_height(world_pos_x, world_pos_y,
                                 (s16)(shadow_scale[2] = (s16)scr->unk_004 - 4));
                             depth_or_height = func_80065420((u8 *)scr, (u8 *)&scr->unk_0B8, depth_cue, transform_flags);
                             scr->unk_0C0 = depth_or_height;

@@ -6,7 +6,7 @@ int abs(int);
 s32 func_80065420();
 M2C_UNK func_80066640();
 M2C_UNK func_800666F4();
-void dungeonTransformRotatedVertices();
+void transform_rotated_vertices();
 typedef struct
 {
     u16 x;
@@ -39,7 +39,7 @@ typedef struct
 }
 E_PRIM;
 /* Emit each chain node's four trail quads into the display list, depth-sorted into the OT. */
-s32 func_80024B20(void *node)
+s32 update_segment(void *node)
 {
     E_SVEC scratch;
     s32 otz[6];
@@ -58,7 +58,7 @@ s32 func_80024B20(void *node)
     u8 colour_b;
     u8 colour_c;
     u8 colour_d;
-    base = &gameWork;
+    base = &g_game_work;
     do {
         obj = node;
         i = 4;
@@ -86,7 +86,7 @@ s32 func_80024B20(void *node)
         dy = dy - ((s16) sxy[5].y);
         scratch.y = (u16) abs((s32) dy);
         prim.f0C = *((u16 *) (((s8 *) base) + 0xC8));
-        dungeonTransformRotatedVertices(&prim, (s16) sxy[5].y);
+        transform_rotated_vertices(&prim, (s16) sxy[5].y);
         for (i = 0; i < 4; i++) {
             poly = *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0));
             *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);

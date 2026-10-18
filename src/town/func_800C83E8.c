@@ -8,17 +8,17 @@ extern s32 D_800D0428;
 typedef struct S_800C5B48_0 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800C5B48_0;   /* arg1 in func_800C5B48 */
+} S_800C5B48_0;   /* arg1 in move_motion_value_halfway_toward */
 
 typedef struct S_800C5B48_1 {
     u8 pad_00[0x54];
     M2C_UNK * unk_54;
     u8 pad_58[0x14];
     u16 unk_6C;
-} S_800C5B48_1;   /* arg0 in func_800C5B48 */
+} S_800C5B48_1;   /* arg0 in move_motion_value_halfway_toward */
 
 /* Move the motion value halfway toward the target sum and switch callbacks when the countdown expires. */
-void func_800C5B48(S_800C5B48_1 *actor, S_800C5B48_0 *motion) {
+void move_motion_value_halfway_toward(S_800C5B48_1 *actor, S_800C5B48_0 *motion) {
     s32 current_value;
     u16 ticks_left;
 

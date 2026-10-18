@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void placeRandomFloorElevators(void) {
+void place_random_floor_elevators(void) {
     s32 state;
     u8 x;
     u8 y;
@@ -16,8 +16,8 @@ void placeRandomFloorElevators(void) {
         state_page = (u8 *)0x80010000;
         state = *(s32 *)(state_page + 0x2090);
     }
-    config = &gameWork.map;
-    map = *(floor_generate_isolated_8028484C_MapCell **)((u8 *)(&gameWork.map));
+    config = &g_game_work.map;
+    map = *(floor_generate_isolated_8028484C_MapCell **)((u8 *)(&g_game_work.map));
 
     if ((state == 2) || ((*(s16 *)D_8008146C) != 0x28)) {
         spawn_count = 0;
@@ -26,7 +26,7 @@ void placeRandomFloorElevators(void) {
         do {
 retry:
         do {
-        } while ((s16)selectDungeonSpawnTile(&x, &y) < 0);
+        } while ((s16)select_dungeon_spawn_tile(&x, &y) < 0);
 
         {
             u8 *meta;
@@ -101,10 +101,10 @@ retry:
             spawn_cell = (floor_generate_isolated_8028484C_MapCell *)(cell_offset * 6 + (s32)map);
             update_size = 0x20;
             spawn_cell->flags = 1;
-            func_8009A21C(spawn_x, spawn_y, update_size);
+            cycle_map_cell_flags(spawn_x, spawn_y, update_size);
         }
 
-        if ((func_800A6D30() & 0x3F) != 0) {
+        if ((generate_random_value() & 0x3F) != 0) {
             break;
         }
         spawn_count++;

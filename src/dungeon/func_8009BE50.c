@@ -2,7 +2,7 @@
 extern u8 D_800E3DB0[];
 
 /* Return whether one of six entries matches the ID, treating 0x39 as 2. */
-s32 dungeonHasMatchingSixSlotEntry(s16 entry_id) {
+s32 has_matching_six_slot_entry(s16 entry_id) {
     s16 match_id = entry_id;
     u8 *entry = D_800E3DB0;
     s16 index;

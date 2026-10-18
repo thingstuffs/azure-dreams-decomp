@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Returns zero. */
-s32 townReturnZeroEventValue(void) {
+s32 return_zero_event_value(void) {
     return 0;
 }

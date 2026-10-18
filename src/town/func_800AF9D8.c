@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 
-extern s16 runtimeInitializePolygonEdges(s16 *, s32 *, u16 *);
+extern s16 runtime_initialize_polygon_edges(s16 *, s32 *, u16 *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, void *);
 
@@ -24,7 +24,7 @@ typedef struct S_800AD138_0 {
     s16 unk_16;
     s16 unk_18;
     s16 unk_1A;
-} S_800AD138_0;   /* record in func_800AD138 */
+} S_800AD138_0;   /* record in draw_empty_map_cell_quads */
 
 typedef struct S_800AD138_1 {
     u8 * unk_00;
@@ -33,14 +33,14 @@ typedef struct S_800AD138_1 {
     s32 unk_A8;
     u8 pad_AC[0x130];
     u16 * unk_1DC;
-} S_800AD138_1;   /* state in func_800AD138 */
+} S_800AD138_1;   /* state in draw_empty_map_cell_quads */
 
 typedef struct S_800AD138_2_pre {
     s8 unk_00;
     u8 unk_01;
     u8 unk_02;
     u8 unk_03;
-} S_800AD138_2_pre;   /* the 0x4 bytes before packet_use in func_800AD138, addressed as packet_use[-1] */
+} S_800AD138_2_pre;   /* the 0x4 bytes before packet_use in draw_empty_map_cell_quads, addressed as packet_use[-1] */
 
 typedef struct S_800AD138_2 {
     u8 pad_00[0x5];
@@ -55,20 +55,20 @@ typedef struct S_800AD138_2 {
     u8 pad_17[0x6];
     s8 unk_1D;
     s8 unk_1E;
-} S_800AD138_2;   /* packet_use in func_800AD138 */
+} S_800AD138_2;   /* packet_use in draw_empty_map_cell_quads */
 
 typedef struct S_800AD138_3 {
     s32 unk_00;
-} S_800AD138_3;   /* (u8 *)list in func_800AD138 */
+} S_800AD138_3;   /* (u8 *)list in draw_empty_map_cell_quads */
 
 typedef struct S_800AD138_4 {
     s32 unk_00;
-} S_800AD138_4;   /* (void *)((MapQuadScratch *)scratch)->chain_address in func_800AD138 */
+} S_800AD138_4;   /* (void *)((MapQuadScratch *)scratch)->chain_address in draw_empty_map_cell_quads */
 
 typedef struct S_800AD138_5 {
     u8 pad_00[0x8D0];
     s32 * unk_8D0;
-} S_800AD138_5;   /* ((S_800AD138_1 *)state)->unk_00 in func_800AD138 */
+} S_800AD138_5;   /* ((S_800AD138_1 *)state)->unk_00 in draw_empty_map_cell_quads */
 
 typedef struct MapQuadTextureWords {
     u8 pad_00[0xE];
@@ -137,7 +137,7 @@ typedef struct MapQuadScratch {
 } MapQuadScratch;
 
 /* Draw textured quads for empty cells in the visible map region. */
-void func_800AD138(u32 packet_limit)
+void draw_empty_map_cell_quads(u32 packet_limit)
 {
     u8 *scratch;
     u8 *state;
@@ -205,11 +205,11 @@ void func_800AD138(u32 packet_limit)
 
     ((MapQuadScratch *)scratch)->normal_z = -0x1000;
 
-    state = ((u8 *)(&gameWork));
+    state = ((u8 *)(&g_game_work));
     map_bounds = state + 0x1DC;
     ((MapQuadScratch *)scratch)->normal_x = 0;
     ((MapQuadScratch *)scratch)->normal_y = 0;
-    render_state = gameWork.unk_000;
+    render_state = g_game_work.unk_000;
     x_shift = ((S_800AD138_0 *)map_bounds)->unk_14;
     initial_size = 0x01000100;
     y_shift = ((S_800AD138_0 *)map_bounds)->unk_16;
@@ -242,7 +242,7 @@ void func_800AD138(u32 packet_limit)
     edge_count_addr = (s32)scratch;
     edge_count_addr |= 0x170;
     ((MapQuadScratch *)scratch)->scan_y.value =
-        runtimeInitializePolygonEdges(clip_vertices,
+        runtime_initialize_polygon_edges(clip_vertices,
                       (s32 *)edge_buffer,
                       (u16 *)edge_count_addr);
 

@@ -7,7 +7,7 @@ typedef s32 M2C_UNK;
 
 
 /* Return the first entry index matching both bytes, or -1 if none matches. */
-s32 townFindEntryIndexByGridBytes(s32 match_byte_1, s32 match_byte_0) {
+s32 find_entry_index_by_grid_bytes(s32 match_byte_1, s32 match_byte_0) {
     s32 result;
     s32 entry_index;
     void **entry_slot;

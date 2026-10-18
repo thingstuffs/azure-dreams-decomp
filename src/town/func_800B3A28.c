@@ -23,7 +23,7 @@ typedef struct S_800B1188_3 {
     void ** unk_04;
     s32 unk_08;
     M2C_UNK ** unk_0C;
-} S_800B1188_3;   /* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in townInitializeShopWindowLayout */
+} S_800B1188_3;   /* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in initialize_shop_window_layout */
 
 typedef struct S_800B1188_4 {
     u8 pad_00[0x4];
@@ -53,7 +53,7 @@ typedef struct S_800B1188_8 {
 typedef struct S_800B1188_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800B1188_9;   /* ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_9;   /* ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04 in initialize_shop_window_layout */
 
 typedef struct S_800B1188_10 {
     u8 pad_00[0x8];
@@ -88,22 +88,22 @@ typedef struct S_800B1188_14 {
 typedef struct S_800B1188_15 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800B1188_15;   /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in townInitializeShopWindowLayout */
+} S_800B1188_15;   /* ((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04 in initialize_shop_window_layout */
 
 
 
 extern void func_8004CBFC();
-extern void townProcessShopRecordAndSubrecord();
-extern void townPositionShopRowWidgets();
-extern void townPositionShopChildElements();
-extern void func_800B0FD4();
+extern void process_shop_record_and_subrecord();
+extern void position_shop_row_widgets();
+extern void position_shop_child_elements();
+extern void populate_shop_item_rows();
 extern M2C_UNK D_800788E0;
 extern M2C_UNK D_800792DC;
 extern M2C_UNK D_800D15F4;
 
 
 /* Initialize UI resources and position five rows of display elements. */
-void townInitializeShopWindowLayout(void *ui) {
+void initialize_shop_window_layout(void *ui) {
     s32 lower_y;
     s32 left_y;
     s32 right_y;
@@ -116,8 +116,8 @@ void townInitializeShopWindowLayout(void *ui) {
     *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
     ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A =
         0x2F;
-    townProcessShopRecordAndSubrecord(header);
-    townPositionShopRowWidgets(ui);
+    process_shop_record_and_subrecord(header);
+    position_shop_row_widgets(ui);
     func_8004CBFC(ui + 0x28, &D_800792DC, ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08);
     row = 4;
     lower_y = 0xC8;
@@ -151,6 +151,6 @@ void townInitializeShopWindowLayout(void *ui) {
             + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
         lower_y -= 0x10;
     } while (row >= 0);
-    townPositionShopChildElements(ui);
-    func_800B0FD4(ui);
+    position_shop_child_elements(ui);
+    populate_shop_item_rows(ui);
 }

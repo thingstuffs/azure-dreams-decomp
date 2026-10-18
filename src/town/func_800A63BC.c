@@ -1,16 +1,16 @@
 #include "common.h"
 
-extern s32 townEmitBidirectionalAngularSegments(void *, s32, void *);
+extern s32 emit_bidirectional_angular_segments(void *, s32, void *);
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
-s32 townProcessLinkedStateChain(void *initial_state) {
+s32 process_linked_state_chain(void *initial_state) {
     u8 *state = initial_state;
     u8 *carrier2;
     s32 carrier1;
     u16 result;
 
     for (;;) {
-        result = townEmitBidirectionalAngularSegments(state, carrier1, carrier2);
+        result = emit_bidirectional_angular_segments(state, carrier1, carrier2);
         if ((result << 0x10) != 0) {
             return (s16)result;
         }

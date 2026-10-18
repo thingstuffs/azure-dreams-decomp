@@ -24,10 +24,10 @@
 
 
 
-extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
 
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
-void createTimedRectangleEffect(void *owner) {
+void create_timed_rectangle_effect(void *owner) {
     s16 center[2];
     RectTable slot_rects;
     u8 *copy_src;
@@ -74,7 +74,7 @@ void createTimedRectangleEffect(void *owner) {
         rect = (Rect16 *)((u8 *)&slot_rects + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        func_800B8FC8(D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(D_800814A8, rect, center, 1, 1);
 
         child = func_8003FC64(0x212);
         if (child != 0) {
@@ -83,7 +83,7 @@ void createTimedRectangleEffect(void *owner) {
             ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
             ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
             ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
-            ((S_8196BA5C_1 *)child)->unk_10 = func_8002407C;
+            ((S_8196BA5C_1 *)child)->unk_10 = apply_random_actor_value_adjustment;
             func_8004491C(child, (s32)func_80045340);
 
             display = ((S_8196BA5C_1 *)child)->unk_0C;
@@ -114,7 +114,7 @@ void createTimedRectangleEffect(void *owner) {
     (*(u16 *)((u8 *)owner + 0x2C)) = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

@@ -26,8 +26,9 @@ def main(a,N):
  texts,idents=N.load_tree()
  for p in (N.ROOT/'include').rglob('*.h'):texts[p]=p.read_text()
  for c in N.CONTAINERS:
-  for p in (N.ROOT/'src'/c/'modules').glob('*.c'):texts[p]=p.read_text()
- applied={r[1]:r[2] for r in N.read_names()};taken=set(applied.values());plan=[];mapping={};new=[]
+  for p in sorted((N.ROOT/'src'/c).rglob('*')):
+   if p.suffix in('.c','.h') and p not in texts and p.is_file():texts[p]=p.read_text()  # modules, native_candidates, ... included by wrappers
+ applied={r[1]:r[2] for r in N.read_names()};taken=set(applied.values());plan=[];mapping={};new=[];renames={}
  for addr,old,name,evidence in proposed:
   rec=dict(addr=addr,old=old,new=name,at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
   identity=identities.get(name) or identities.get(old)
@@ -39,18 +40,24 @@ def main(a,N):
    current=applied.get(symbol,symbol)
    if not re.search(pat.replace(re.escape(symbol),re.escape(current)),texts[p],re.M):raise ValueError('identity does not name a current definition: '+old)
    old=symbol;rec['identity_row']=r['id']
-  elif old in defined:
+  elif old in defined and old not in applied:
    r=defined[old];old=r.get('true_name') or r.get('func') or old
   addr='0x'+old[5:];rec.update(old=old,addr=addr)
   if old in applied:
-   if applied[old]!=name:raise ValueError('alias identity conflict: '+old+' -> '+applied[old]+' vs '+name)
+   if applied[old]!=name:
+    if not getattr(a,'rename_existing',False):raise ValueError('alias identity conflict: '+old+' -> '+applied[old]+' vs '+name)
+    if not N.IDENT.fullmatch(name) or name.startswith('func_') or name in idents or name in taken:raise ValueError('name collision or invalid identifier: '+name)
+    renames[old]=(applied[old],name);mapping[applied[old]]=name;taken.discard(applied[old]);taken.add(name)
+    rec.update(renamed_from=applied[old],rename=True);applied[old]=name
    rec['existing']=True
   else:
    if not N.IDENT.fullmatch(name) or name.startswith('func_') or name in idents or name in taken:raise ValueError('name collision or invalid identifier: '+name)
    if old not in defined and not identity:raise ValueError('no defining row: '+old)
    new.append((addr,old,name,evidence));taken.add(name);applied[old]=name;rec['existing']=False
-  if old in mapping and mapping[old]!=name:raise ValueError('conflicting aliases: '+old)
-  mapping[old]=name;plan.append(rec)
+  if not rec.get('rename'):
+   if old in mapping and mapping[old]!=name:raise ValueError('conflicting aliases: '+old)
+   mapping[old]=name
+  plan.append(rec)
  pattern=re.compile(r'\b(?:'+'|'.join(map(re.escape,mapping))+r')\b')
  held={N.ROOT/'src'/r['container']/Path(r['c_path']).name:r for r in rs if a.hold_unproven_references and r.get('placement')=='unproven'}
  holds=[dict(row=r['id'],path=str(p.relative_to(N.ROOT)),aliases=sorted(set(pattern.findall(texts[p]))),reason='pre-existing placement-unproven source; preserve legacy alias references') for p,r in held.items() if p in texts and pattern.search(texts[p])]
@@ -59,10 +66,10 @@ def main(a,N):
    for old in set(pattern.findall(texts[p])):
     if re.search(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(old)+r'\s*\([^;{]*\)[^{;]*\{',texts[p],re.M):raise ValueError('cannot alias an excluded definition: '+old)
  if a.holds_log:Path(a.holds_log).write_text(json.dumps(holds,indent=1)+'\n')
- changed={p:rewrite(t,pattern,mapping,p.suffix=='.h' or p.parent.name=='modules') for p,t in texts.items() if p not in held and pattern.search(t)}
+ changed={p:rewrite(t,pattern,mapping,p.suffix=='.h' or p not in by_file) for p,t in texts.items() if p not in held and pattern.search(t)}
  changed={p:t for p,t in changed.items() if t!=texts[p]}
  # Include transitive users of rewritten headers; all per-row C keeps its own declarations.
- inc=re.compile(r'^\s*#\s*include\s*["<]([^">]+)[">]',re.M);headers={p for p in texts if p.suffix=='.h'}
+ inc=re.compile(r'^\s*#\s*include\s*["<]([^">]+)[">]',re.M);headers={p for p in texts if p.suffix=='.h' or p not in by_file}
  def closure(p,seen=None):
   seen=set() if seen is None else seen
   for h in inc.findall(texts[p]):
@@ -84,7 +91,12 @@ def main(a,N):
  names_before=N.NAMES.read_text();written=False;bad=[];proofs=[]
  try:
   written=True
-  N.NAMES.write_text(names_before.rstrip('\n')+'\n'+''.join('\t'.join(x)+'\n' for x in new))
+  lines=[]
+  for ln in names_before.splitlines():
+   c=ln.split('\t')
+   if len(c)>=3 and c[1] in renames and c[2]==renames[c[1]][0]:c[2]=renames[c[1]][1];ln='\t'.join(c)
+   lines.append(ln)
+  N.NAMES.write_text('\n'.join(lines).rstrip('\n')+'\n'+''.join('\t'.join(x)+'\n' for x in new))
   for p,t in changed.items():p.write_text(t)
   written=True
   if any(p.parts[-2]=='slus' and p.suffix=='.c' for p in changed):
@@ -107,20 +119,22 @@ def main(a,N):
    if a.proof_log:N.append_jsonl(Path(a.proof_log),record)
    if v.get('exact') is not True:bad.append((rid,v));print('not exact:',rid,v,flush=True)
    if i%50==0:print('batch verify',i,'/',len(touched_rows),'bad',len(bad),flush=True)
-  if bad:raise ValueError(str(len(bad))+' touched rows not exact')
+  if bad and getattr(a,'bad_report',None):
+   Path(a.bad_report).write_text(json.dumps([dict(id=i,result=v) for i,v in bad],indent=1)+'\n');print('bad rows reported (caller must show them to be failing at the base too):',len(bad),flush=True)
+  elif bad:raise ValueError(str(len(bad))+' touched rows not exact')
   if any(p.read_text()!=t for p,t in changed.items()):raise ValueError('source inputs changed during batch')
  except BaseException:
   if written:
    for p in changed:p.write_text(texts[p])
   N.NAMES.write_text(names_before)
   for rec in plan:
-   if not rec['existing']:N.append_jsonl(N.JOURNAL,dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]]))
+   if not rec['existing'] or rec.get('rename'):N.append_jsonl(N.JOURNAL,dict(rec,outcome='reverted',reason='atomic batch failed',failures=[(rid,v.get('status'),v.get('class'),v.get('total'),v.get('err')) for rid,v in bad[:5]]))
   raise
  for rec in plan:
-  old=rec['old'];pat=re.compile(r'\b'+re.escape(old)+r'\b')
+  old=rec.get('renamed_from') or rec['old'];pat=re.compile(r'\b'+re.escape(old)+r'\b')
   direct={p for p in changed if pat.search(texts[p])};h=direct&headers
   ids={r['id'] for p,r in by_file.items() if p in direct or h and dependencies.get(p,set())&h}
   if not rec['existing'] or direct:
-   rec.update(files=len(direct),rows=sorted(ids),outcome='references-rewritten' if rec['existing'] else 'applied',batch=True)
-   rec.pop('existing');N.append_jsonl(N.JOURNAL,rec)
+   rec.update(files=len(direct),rows=sorted(ids),outcome='renamed' if rec.get('rename') else 'references-rewritten' if rec['existing'] else 'applied',batch=True)
+   rec.pop('existing');rec.pop('rename',None);N.append_jsonl(N.JOURNAL,rec)
  print('batch applied:',len(new),'new aliases;',len(touched_rows),'rows exact',flush=True)

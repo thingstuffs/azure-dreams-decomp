@@ -11,7 +11,7 @@ extern DefaultWord D_8002D6A4;
 extern DefaultWord D_8002D6A8;
 typedef struct { u8 pad[8]; s16 x, y, width; u8 padE; u8 kind; } Primitive;
 typedef struct { s32 active; Primitive *primitive; s32 *settings; } Work;
-void func_80405624(Work *work, s32 *primitive, s32 *settings) {
+void initialize_menu_primitive_settings(Work *work, s32 *primitive, s32 *settings) {
     s32 setting;
     primitive[0] = D_8002D690.value;
     setting = D_8002D6A0.value;

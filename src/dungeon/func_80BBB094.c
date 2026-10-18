@@ -46,11 +46,11 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
             if (spawn_flags == 0) {
                 flag = result->unk14 & 0x200;
                 if (flag == 0) {
-                    randomTest = func_800A6D30() & 1;
+                    randomTest = generate_random_value() & 1;
                     if (randomTest != 0) {
-                        s32 random = func_800A6D30();
+                        s32 random = generate_random_value();
 
-                        func_800A48F0(result, 1, (random & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(result, 1, (random & 0x3F) | 0x20);
                         partB->unk2C = D_80150F00;
                     }
                 } else {
@@ -64,11 +64,11 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
         }
 
         obj->unk10 = D_8014CA98;
-        func_800A9C18(obj, partA, partB, savedArg0);
+        initialize_actor_sprite_and_animation(obj, partA, partB, savedArg0);
 
         resultAlias->unk9A = 0xFF;
         resultAlias->unk9C = -1;
-        func_800AA36C(resultAlias, partA, partB, result);
+        try_move_actor_to_valid_position(resultAlias, partA, partB, result);
     }
     return result;
 }

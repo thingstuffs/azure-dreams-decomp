@@ -23,11 +23,11 @@ typedef struct S_800164E0_3 {
 typedef struct S_800164E0_6 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_800164E0_6;   /* (*(void * *)((u8 *)D_80016000 + 0)) in townInitializeEventPositionState */
+} S_800164E0_6;   /* (*(void * *)((u8 *)D_80016000 + 0)) in initialize_event_position_state */
 
 
 /* Run two callbacks and initialize offset and saved coordinates from the current position. */
-void townInitializeEventPositionState(void) {
+void initialize_event_position_state(void) {
     void *offset_x_state;
     TownPositionState *offset_y_state;
     void *saved_x_state;

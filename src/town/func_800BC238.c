@@ -9,26 +9,26 @@ typedef struct S_800B9998_0 {
     union { u16 s; s16 u; } unk_66;   /* accessed as both */
     u8 pad_68[0x30];
     s8 * unk_98;
-} S_800B9998_0;   /* arg0 in func_800B9998 */
+} S_800B9998_0;   /* arg0 in deactivate_object_triggered */
 
 typedef struct S_800B9998_2 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800B9998_2;   /* p1 in func_800B9998 */
+} S_800B9998_2;   /* p1 in deactivate_object_triggered */
 
 typedef struct S_800B9998_3 {
     u8 pad_00[0x1A];
     union { u16 s; u16 u; } unk_1A;   /* accessed as both */
-} S_800B9998_3;   /* p2 in func_800B9998 */
+} S_800B9998_3;   /* p2 in deactivate_object_triggered */
 
 
 extern void func_80033D08(void *);
-extern s32 townClassifyObjectAgainstBounds(void *, void *);
+extern s32 classify_object_against_bounds(void *, void *);
 
 /* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
-void func_800B9998(void *object, void *position, void *rotation) {
+void deactivate_object_triggered(void *object, void *position, void *rotation) {
     u8 *position_data = position;
     u8 *rotation_data = rotation;
     s8 *active_flag;
@@ -42,14 +42,14 @@ void func_800B9998(void *object, void *position, void *rotation) {
     s32 angle_step;
     s32 t;
 
-    if (townClassifyObjectAgainstBounds(object, position) != 0) {
+    if (classify_object_against_bounds(object, position) != 0) {
         active_flag = ((S_800B9998_0 *)object)->unk_98;
         if (active_flag != 0) {
             *active_flag = 0;
         }
         func_80033D08(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

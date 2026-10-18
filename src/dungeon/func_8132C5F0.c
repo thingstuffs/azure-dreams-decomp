@@ -7,7 +7,7 @@ typedef struct S_80173DF0_0 {
 } S_80173DF0_0;
 
 /* Increment the byte counter in the record at the given base-relative offset. */
-void dungeonIncrementBossRecordByte(s32 record_offset) {
+void increment_boss_record_byte(s32 record_offset) {
     S_80173DF0_0 *record;
 
     record = record_offset + 0x80010000;

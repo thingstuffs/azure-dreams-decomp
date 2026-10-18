@@ -2,7 +2,7 @@
 
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void dungeonFadeEffectSpriteToBlack(void *effect, VecState *motion, void *sprite) {
+void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {
     void *owner = *(void **)effect;
     s32 z_velocity;
     s16 state;
@@ -39,7 +39,7 @@ void dungeonFadeEffectSpriteToBlack(void *effect, VecState *motion, void *sprite
         if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
             *(u32 *)((s8 *)sprite + 0xC) = 0;
             *(u16 *)((s8 *)effect - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         {

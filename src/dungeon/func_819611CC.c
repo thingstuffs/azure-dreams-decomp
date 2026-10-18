@@ -22,7 +22,7 @@
 #define SCRATCH ((Bank56_819611CC_Scratch *)0x1F800000)
 
 /* Project a textured quad and queue it with semitransparency when its depth is in range. */
-s32 dungeonProjectAndQueueSemitransparentQuad(Quad *quad, s32 unused, Material *material)
+s32 project_and_queue_semitransparent_quad(Quad *quad, s32 unused, Material *material)
 {
     Bank56_819611CC_Scratch *scratch;
     Bank56_819611CC_PolyFT4 *packet;
@@ -36,7 +36,7 @@ s32 dungeonProjectAndQueueSemitransparentQuad(Quad *quad, s32 unused, Material *
     u16 z;
     u16 z3;
 
-    slot = ((RenderState * *)(&gameWork));
+    slot = ((RenderState * *)(&g_game_work));
     packet = (Bank56_819611CC_PolyFT4 *)(*slot)->packet;
     scratch = SCRATCH;
     scratch->ot_base = (u32)*slot + 0xB0;

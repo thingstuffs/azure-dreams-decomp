@@ -32,8 +32,8 @@ typedef struct S_8102F348_1 {
 } S_8102F348_1;   /* arg0 in func_8102F348 */
 
 
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern s16 func_800BCB04(u16, u16, s16);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void func_800478B8(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
 void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite) {
@@ -41,7 +41,7 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
 
     position->unk_00.at00.v += ((S_8102F348_1 *)effect)->unk_50;
     ((S_8102F348_1 *)effect)->unk_50 += ((S_8102F348_1 *)effect)->unk_5C;
-    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) << 16) != 0) {
         position->unk_00.at00.v -= ((S_8102F348_1 *)effect)->unk_50;
         ((S_8102F348_1 *)effect)->unk_50 = 0;
@@ -50,7 +50,7 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
 
     position->unk_04.at00.v += ((S_8102F348_1 *)effect)->unk_54;
     ((S_8102F348_1 *)effect)->unk_54 += ((S_8102F348_1 *)effect)->unk_60;
-    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        position->unk_08.at02.v) << 16) != 0) {
         position->unk_04.at00.v -= ((S_8102F348_1 *)effect)->unk_54;
         ((S_8102F348_1 *)effect)->unk_54 = 0;
@@ -60,10 +60,10 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
     position->unk_08.at00.v += ((S_8102F348_1 *)effect)->unk_58;
     ((S_8102F348_1 *)effect)->unk_58 += ((S_8102F348_1 *)effect)->unk_64;
     height = position->unk_08.at02.v;
-    if ((func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        (s16)((u16)position->unk_08.at02u.v - 4)) - 0x10) < height) {
         ((S_8102F348_1 *)effect)->unk_58 = 0;
-        position->unk_08.at02.v = func_800BCB04(
+        position->unk_08.at02.v = sample_terrain_surface_height(
             position->unk_00.at02.v, position->unk_04.at02.v,
             (s16)((u16)position->unk_08.at02.v - 4)) - 0x11;
         position->unk_08.at00u.v = 0;

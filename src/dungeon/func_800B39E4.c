@@ -52,16 +52,16 @@ extern void func_8006658C(void *, void *, ...);
 extern void func_80067EF4(void *, s32, s32, ...);
 
 /* Build transformed textured quads from sprite parts and append them to the draw list. */
-void dungeonDrawTransformedSpriteParts(void *position, void *context, s32 depth, s16 draw_mode)
+void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode)
 {
     s32 (*callback)(void *, s32, void *, void *, void *);
     Scratch_800B39E4 *scratch = (Scratch_800B39E4 *)0x1F800000;
     u8 *sprite = P32(context, -0x14);
     s32 callback_arg = S32(context, -0x18);
     s16 saved_mode = draw_mode;
-    GpuContext *root = gameWork.unk_000;
+    GpuContext *root = g_game_work.unk_000;
     Record *part = P32(sprite, 8);
-    GpuContext **global_slot = ((GpuContext * *)(&gameWork));
+    GpuContext **global_slot = ((GpuContext * *)(&g_game_work));
     u8 *scratch_base;
     u8 *packet;
     s32 mode_bits;

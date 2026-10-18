@@ -16,13 +16,13 @@ typedef struct S_800A7C98_0 {
 
 
 extern void func_80033CD8();
-extern void townClearObjectStatusAndDispatchTarget();
+extern void clear_object_status_and_dispatch_target();
 extern s32 D_800A7DF8;
 extern s32 D_800F8F88;
 
 void func_800A7D48(void *object, s32 unused, s32 context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
-    townClearObjectStatusAndDispatchTarget(object, context, &D_800F8F88, 0);
+    clear_object_status_and_dispatch_target(object, context, &D_800F8F88, 0);
     func_80033CD8(object, func_80045340);
 }

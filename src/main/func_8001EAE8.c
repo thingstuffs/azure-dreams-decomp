@@ -1,24 +1,24 @@
 #include "common.h"
 
-extern void func_80403D7C(s32 object, s32 new_value);
-extern void cardDevkitSetWindowSelectionMarker(s32 object, s32 value);
+extern void save_object_value_and_set_control_fields(s32 object, s32 new_value);
+extern void card_devkit_set_window_selection_marker(s32 object, s32 value);
 extern void func_80404668(s32 object);
 extern void func_80405A00(s32 object, s32 value);
 
-void cardDevkitRefreshSaveSlotSelection(void *menu) {
+void card_devkit_refresh_save_slot_selection(void *menu) {
     s32 sentinel;
     s32 i;
 
     if (*(s32 *)((u8 *)menu + 0x48) == 1) {
         sentinel = 1;
     } else {
-        func_80403D7C(*(s32 *)((u8 *)menu + 0x18), *(s32 *)((u8 *)menu + 0x44));
+        save_object_value_and_set_control_fields(*(s32 *)((u8 *)menu + 0x18), *(s32 *)((u8 *)menu + 0x44));
         sentinel = 0;
     }
     i = 0;
     while (1) {
         if (i == *(s32 *)((u8 *)menu + 0x28)) {
-            cardDevkitSetWindowSelectionMarker(*(s32 *)((u8 *)menu + i * 4 + 4), sentinel);
+            card_devkit_set_window_selection_marker(*(s32 *)((u8 *)menu + i * 4 + 4), sentinel);
         } else {
             func_80404668(*(s32 *)((u8 *)menu + i * 4 + 4));
         }

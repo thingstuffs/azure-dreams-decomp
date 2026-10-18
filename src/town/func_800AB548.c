@@ -6,7 +6,7 @@
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern s32 func_80065420();
-extern s32 func_800A8C84();
+extern s32 copy_low_halfword_coordinates();
 
 typedef struct S_800A8CA8_0 {
     u8 pad_00[0x74];
@@ -26,7 +26,7 @@ typedef struct S_800A8CA8_0 {
     s8 unk_114;
     s8 unk_115;
     s8 unk_116;
-} S_800A8CA8_0;   /* arg0 in townUpdateProjectedEffectPoints */
+} S_800A8CA8_0;   /* arg0 in update_projected_effect_points */
 
 typedef struct S_800A8CA8_1 {
     u8 pad_00[0xE];
@@ -42,10 +42,10 @@ typedef struct S_800A8CA8_2 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_800A8CA8_2;   /* arg3 in townUpdateProjectedEffectPoints */
+} S_800A8CA8_2;   /* arg3 in update_projected_effect_points */
 
 /* Updates three offset points, their projected coordinates, and phase-based intensities. */
-void townUpdateProjectedEffectPoints(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
+void update_projected_effect_points(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
     S_800A8CA8_1 *source;
     u32 phase_bits;
     s32 offset_phase;
@@ -67,11 +67,11 @@ void townUpdateProjectedEffectPoints(void *object, s32 phase, void *source_data,
     ((S_800A8CA8_0 *)object)->unk_115 = (s8) ((func_800644B8(source->unk_12 + double_phase) + 0x1000) / 128);
     ((S_800A8CA8_0 *)object)->unk_116 = (s8) ((func_800644B8(source->unk_16 + double_phase) + 0x1000) / 128);
     start_point = object + 0x74;
-    func_800A8C84(start_point, source);
+    copy_low_halfword_coordinates(start_point, source);
     mid_point = object + 0x7C;
-    func_800A8C84(mid_point, source);
+    copy_low_halfword_coordinates(mid_point, source);
     end_point = object + 0x84;
-    func_800A8C84(end_point, source);
+    copy_low_halfword_coordinates(end_point, source);
     x_offset = (func_800644B8(offset_phase) * extent->unk_1C) / 4096;
     y_offset = (func_80064584(offset_phase) * extent->unk_1E) / 4096;
     projection_scale = object + 0x94;

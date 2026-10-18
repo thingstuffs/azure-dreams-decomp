@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_1954800.h"
-void func_80024128(void *self, void *output)
+void update_random_particle_field(void *self, void *output)
 {
     Copy24 *copy_src;
     void *effect;
@@ -36,7 +36,7 @@ void func_80024128(void *self, void *output)
         ((S_81934928_0 *)self)->unk_0C.s = 0x3C;
         ((S_81934928_0 *)self)->unk_0A.u++;
         ((S_81934928_0 *)self)->unk_14 = page_value;
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
     }
         /* fallthrough */
     case 1:
@@ -87,13 +87,13 @@ void func_80024128(void *self, void *output)
         target = (void *)D_800814A8;
         if (target != NULL) {
             void *lookup_origin = target;
-            while ((target = dungeonFindEligibleNearbyEntry(D_80082E80.tileX, D_80082E80.tileY, lookup_origin, target)) != NULL) {
+            while ((target = find_eligible_nearby_entry(D_80082E80.tileX, D_80082E80.tileY, lookup_origin, target)) != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
-                    func_8009CE1C(target, 0x20, (s32)copy_src, 0xA,
+                    apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
                                   ((S_81934928_5 *)effect)->unk_2A, effect, 2);
                 }
-                decrementFlaggedItemParameters(target);
+                decrement_flagged_item_parameters(target);
             }
         }
     }
@@ -123,9 +123,9 @@ void func_80024128(void *self, void *output)
             return;
         }
     }
-    dungeonStatus.unk_0C = 0;
+    g_dungeon_status.unk_0C = 0;
     (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 
         return;
     default:

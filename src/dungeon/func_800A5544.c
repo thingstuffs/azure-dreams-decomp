@@ -10,9 +10,9 @@ typedef struct LocalResult {
     s16 value;
 } LocalResult;
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, LocalResult *, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern s16 func_800BCB04(s32, s32, s16);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, LocalResult *, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 
 typedef struct S_800AACA4_1 {
@@ -24,13 +24,13 @@ typedef struct S_800AACA4_1 {
     u16 unk_6A;
     u8 pad_6C[0x1E];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_800AACA4_1;   /* arg3 in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_1;   /* arg3 in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_2_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_800AACA4_2_pre;   /* the 0x18 bytes before root in dungeonBeginActorThrowFromAttachment, addressed as root[-1] */
+} S_800AACA4_2_pre;   /* the 0x18 bytes before root in begin_actor_throw_from_attachment, addressed as root[-1] */
 
 typedef struct S_800AACA4_3 {
     u8 pad_00[0x24];
@@ -39,16 +39,16 @@ typedef struct S_800AACA4_3 {
     u8 pad_26[0x2];
     void * unk_28;
     void * unk_2C;
-} S_800AACA4_3;   /* object in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_3;   /* object in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_4 {
     void * unk_00;
-} S_800AACA4_4;   /* table in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_4;   /* table in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_5 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AACA4_5;   /* entry in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_5;   /* entry in begin_actor_throw_from_attachment */
 
 
 typedef struct S_800AACA4_8 {
@@ -56,24 +56,24 @@ typedef struct S_800AACA4_8 {
     u16 unk_2A;
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_800AACA4_8;   /* ((S_800AACA4_1 *)arg3)->unk_60 in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_8;   /* ((S_800AACA4_1 *)arg3)->unk_60 in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_9 {
     void * unk_00;
-} S_800AACA4_9;   /* ((S_800AACA4_3 *)object)->unk_28 in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_9;   /* ((S_800AACA4_3 *)object)->unk_28 in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_10 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800AACA4_10;   /* ((S_800AACA4_3 *)object)->unk_2C in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_10;   /* ((S_800AACA4_3 *)object)->unk_2C in begin_actor_throw_from_attachment */
 
 typedef struct S_800AACA4_11 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in dungeonBeginActorThrowFromAttachment */
+} S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in begin_actor_throw_from_attachment */
 
 /* Initialize movement from the source object, set vertical speed, and advance the tile. */
-void dungeonBeginActorThrowFromAttachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
+void begin_actor_throw_from_attachment(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
     LocalResult height_adjustment;
     S_800AACA4_3 *source_object;
     void *entity_data;
@@ -98,7 +98,7 @@ void dungeonBeginActorThrowFromAttachment(Rec_func_800A9E70_arg0 *state, EntityR
     resource_table = ((S_800AACA4_9 *)(source_object->unk_28))->unk_00;
     resource_entry = (*(void * *)((u8 *)(resource_table->unk_00)
         + ((S_800AACA4_10 *)(source_object->unk_2C))->unk_02 * 4));
-    if (resolveRecordOrientationOrFallback(resource_entry->unk_04, source_object, &height_adjustment, 0) == 0) {
+    if (resolve_record_orientation_or_fallback(resource_entry->unk_04, source_object, &height_adjustment, 0) == 0) {
         height_adjustment.value = -0x60;
     }
 
@@ -106,16 +106,16 @@ void dungeonBeginActorThrowFromAttachment(Rec_func_800A9E70_arg0 *state, EntityR
     motion->z.w.i = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
     tile->unk_24 = source_object->unk_24;
     tile->unk_25 = source_object->unk_25;
-    dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+    set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
 
     travel_steps = entity->unk_8A.s;
     if (travel_steps != 0) {
         target_offset = entity->unk_6A;
         target_offset >>= 8;
         target_offset &= 0xE;
-        target_height = func_800BCB04(
-            ((tile->unk_24 + (*(s16 *)((u8 *)(((s8 *)dirStepX)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
-            ((tile->unk_25 + (*(s16 *)((u8 *)(((s8 *)dirStepY)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+        target_height = sample_terrain_surface_height(
+            ((tile->unk_24 + (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->unk_25 + (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
             motion->z.w.i);
         travel_duration = entity->unk_8A.u + 2;
         entity->unk_8A.s = travel_duration;
@@ -127,6 +127,6 @@ void dungeonBeginActorThrowFromAttachment(Rec_func_800A9E70_arg0 *state, EntityR
         entity->unk_8A.s = entity->unk_8A.u - 2;
     }
 
-    tile->unk_24 += dirStepX[(entity->unk_6A >> 9) & 7];
-    tile->unk_25 += dirStepY[(entity->unk_6A >> 9) & 7];
+    tile->unk_24 += dir_step_x[(entity->unk_6A >> 9) & 7];
+    tile->unk_25 += dir_step_y[(entity->unk_6A >> 9) & 7];
 }

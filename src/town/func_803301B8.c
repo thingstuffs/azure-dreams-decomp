@@ -5,14 +5,14 @@ typedef struct Vec3s { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 typedef void (*ReportValue)(const char *, const char *, s32);
 
 
-extern void townCallStateHandlerAndCopyValues(Vec3s *, s32);
-extern s32 townBlendPoint2sBySignedWeight(Vec3s *, Vec3s *, s32, s32, Vec3s *);
+extern void call_state_handler_and_copy_values(Vec3s *, s32);
+extern s32 blend_point_2s_by_signed_weight(Vec3s *, Vec3s *, s32, s32, Vec3s *);
 extern char D_8001610C[8];
 extern char D_80016118[8];
 extern char D_80016120[8];
 extern char D_80016128[8];
 /* Blends s0 and s1 into s, reports their x values, and stores the result coordinates. */
-void townBlendPositionAndTrace(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight)
+void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight)
 {
     Vec3s s0;
     Vec3s s1;
@@ -21,7 +21,7 @@ void townBlendPositionAndTrace(s32 first_input, s32 second_input, s32 blend_weig
     const char *first_format;
     const char *second_format;
     const char *result_format;
-    townCallStateHandlerAndCopyValues(&s0, first_input);
+    call_state_handler_and_copy_values(&s0, first_input);
     {
         ReportValue report;
         report = D_80016000->unk_20->callback_168;
@@ -29,7 +29,7 @@ void townBlendPositionAndTrace(s32 first_input, s32 second_input, s32 blend_weig
         report(first_format, D_80016118, s0.x);
     }
     first_format = 0;
-    townCallStateHandlerAndCopyValues(&s1, second_input);
+    call_state_handler_and_copy_values(&s1, second_input);
     {
         ReportValue report;
         report = D_80016000->unk_20->callback_168;
@@ -37,7 +37,7 @@ void townBlendPositionAndTrace(s32 first_input, s32 second_input, s32 blend_weig
         report(second_format, D_80016120, s1.x);
     }
     second_format = 0;
-    townBlendPoint2sBySignedWeight(&s0, &s1, blend_weight, remaining_weight, &s);
+    blend_point_2s_by_signed_weight(&s0, &s1, blend_weight, remaining_weight, &s);
     {
         ReportValue report;
         report = D_80016000->unk_20->callback_168;

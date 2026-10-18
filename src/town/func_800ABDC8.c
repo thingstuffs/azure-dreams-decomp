@@ -4,7 +4,7 @@
 #define NULL 0
 #endif
 
-extern void townDrawShadedQuadRing(s32 shape, s32 source);
+extern void draw_shaded_quad_ring(s32 shape, s32 source);
 
 typedef struct {
     s32 unk00;
@@ -14,7 +14,7 @@ typedef struct {
 } Struct800ABDC8;
 
 /* Process the initial value and each linked record value until the chain ends. */
-s32 townProcessLinkedRecordValues(void *object, s32 x, s32 initial_value) {
+s32 process_linked_record_values(void *object, s32 x, s32 initial_value) {
     s32 current_value;
 
 
@@ -22,7 +22,7 @@ s32 townProcessLinkedRecordValues(void *object, s32 x, s32 initial_value) {
     object = (Struct800ABDC8 *)object;
     for (;;) {
 
-        townDrawShadedQuadRing(current_value, x);
+        draw_shaded_quad_ring(current_value, x);
         current_value = *(s32 *)((u8 *)object - 8);
         object = (Struct800ABDC8 *)((u8 *)current_value + 0x20);
         if (current_value == 0) {

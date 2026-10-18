@@ -13,7 +13,7 @@ typedef struct Func8003A4B4State {
 } Func8003A4B4State;
 
 /* Subtracts one event-script variable from another. */
-void vmOp60SubtractValues(Func8003A4B4State *state) {
+void vm_op_60_subtract_values(Func8003A4B4State *state) {
     u8 *script_cursor;
     s32 dest_index;
     s32 source_index;

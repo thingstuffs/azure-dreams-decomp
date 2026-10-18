@@ -8,7 +8,7 @@ typedef s32 M2C_UNK;
 typedef struct S_80016D18_1 {
     u8 pad_00[0x78];
     s32 (*unk_78)(s32);
-} S_80016D18_1;   /* ((S_80016D18_0 *)(*(void **)D_80016000))->unk_20 in func_80016D18 */
+} S_80016D18_1;   /* ((S_80016D18_0 *)(*(void **)D_80016000))->unk_20 in get_local_global_table */
 
 
 extern s32 func_800197FC();
@@ -20,10 +20,10 @@ extern s32 D_8002116C;
 typedef struct S_80016D18_0 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_80016D18_0;   /* *(void **)D_80016000 in func_80016D18 */
+} S_80016D18_0;   /* *(void **)D_80016000 in get_local_global_table */
 
 /* Processes event conditions and returns the corresponding data pointer, or null. */
-M2C_UNK *func_80016D18(void) {
+M2C_UNK *get_local_global_table(void) {
     if (func_800197FC(0xD, 6) != 0) {
         D_80016000->unk_20->callback_078(0);
         func_8001A554(0x92C);

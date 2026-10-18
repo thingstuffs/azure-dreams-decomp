@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void file_load_com(void *object);
-extern s32 func_8008B328(void);
+extern s32 has_listed_resource_in_slots(void);
 
 extern u8 D_800CF828[];
 extern void *D_800CF838[];
@@ -25,7 +25,7 @@ void func_8008B4B0(void) {
         slot++;
     } while (slot < 15);
 
-    if (func_8008B328() != 0) {
+    if (has_listed_resource_in_slots() != 0) {
         D_800CF828[0] = 1;
         D_800CF828[1] = 0;
         return;

@@ -8,7 +8,7 @@ typedef struct {
 extern S_800869C0 D_800869C0[16];
 extern s8 D_8007382B[9];
 extern s32 D_80073830[9];
-extern void slusSortEntriesByKey(void);
+extern void sort_entries_by_key(void);
 
 /* Register or resize a memory block at the requested address. */
 s32 func_80059F8C(u32 addr, s32 size)
@@ -31,7 +31,7 @@ s32 func_80059F8C(u32 addr, s32 size)
         if (addr + size < (u32)(0x80000 - D_80073830[*(u8 *)D_8007382B])) {
             D_800869C0[0].addr = addr;
             block->size = size;
-            slusSortEntriesByKey();
+            sort_entries_by_key();
             return addr;
         }
         return -1;
@@ -100,6 +100,6 @@ check_slot:
         return -1;
     }
 
-    slusSortEntriesByKey();
+    sort_entries_by_key();
     return addr;
 }

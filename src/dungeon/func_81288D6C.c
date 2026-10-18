@@ -1,19 +1,19 @@
-#define getCdCommandQueueDepth func_8003EE70
-#define dungeonAdvanceStatusTimers func_800A3784
+#define get_cd_command_queue_depth func_8003EE70
+#define advance_status_timers func_800A3784
 #define D_800814A8 D_800803DC
-#define dungeonCreateActorSpellEffect func_800A8158
-#define dungeonSetRecordIntegerTileCenter func_800A17D4
-#define func_800A56E0 func_800A4398
-#define dungeonCreateEffectFromSpriteAndFacing func_80163E18
-#define dungeonScanMonsterAlongHeading func_8009F394
+#define create_actor_spell_effect func_800A8158
+#define set_record_integer_tile_center func_800A17D4
+#define play_sound_if_enabled func_800A4398
+#define create_effect_from_sprite_and_facing func_80163E18
+#define scan_monster_along_heading func_8009F394
 #define D_80173E8C D_80166E8C
 #define D_80171514 D_80164514
 #define D_8006DE24 D_8006CC74
 #define func_80047784 func_80047320
 #define D_80173EDC D_80166EDC
 /* Relink of matched dungeon/func_81252D6C at file 0x1272D6C; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -222,7 +222,7 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
         ((S_8017256C_5 *)motion)->unk_10 = 0;
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         func_800A17D4(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((D800803DcFieldView_81288D6C *)D_800803DC)->field_A6--;
         func_800A3784(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
@@ -269,7 +269,7 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
         (((S_8017256C_4 *)sprite)->unk_2C) = D_80166EDC;
         func_80047320(
             sprite,
-            D_80166EDC[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80166EDC[((g_game_work.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -320,7 +320,7 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
         (((S_8017256C_4 *)sprite)->unk_2C) = D_80166E8C;
         func_80047320(
             sprite,
-            D_80166E8C[((gameWork.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80166E8C[((g_game_work.view.viewAngle + ((S_8017256C_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_8017256C_0 *)action)->unk_9E = 0;
         ((S_8017256C_0 *)action)->unk_92 = -0x20;
@@ -329,10 +329,10 @@ void func_8016556C(void *action, void *motion, void *sprite, void *actor)
     case 8:
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             ((S_8017256C_0 *)action)->unk_8C = &D_80164514;
             func_800A3784(actor);
             ((S_8017256C_1 *)actor)->unk_6D--;

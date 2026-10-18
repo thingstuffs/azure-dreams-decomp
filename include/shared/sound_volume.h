@@ -19,7 +19,7 @@
  * [8] is the size every declaration used before phase 9 (globals.h, the rows): the true extent is NOT known - it
  * may be a larger block that also holds the table D_80084810 (w_800550E8 reaches that from %hi(D_80084810), which a
  * field of one aggregate would also give), so do not read [8] as a claim that 0x80084810.. belongs to this array. */
-extern short volumeScale[8];
+extern short g_volume_scale[8];
 
 /* Playback state at D_800847D0: the CD request/activation routines move the
  * pending words +10/+14 into +08/+0C and test/set the two leading flag words.

@@ -11,10 +11,10 @@ typedef struct S_800C82B8_0 {
 typedef struct S_800C82B8_1 {
     u8 pad_00[0x54];
     s32 unk_54;
-} S_800C82B8_1;   /* arg0 in dungeonCountOccupiedEntitySlots */
+} S_800C82B8_1;   /* arg0 in count_occupied_entity_slots */
 
 /* Counts the two occupied slots when the current entity has flag 8 set. */
-s32 dungeonCountOccupiedEntitySlots(void *entity) {
+s32 count_occupied_entity_slots(void *entity) {
     s32 slot_index;
     s32 active_count;
     void *slot_base;

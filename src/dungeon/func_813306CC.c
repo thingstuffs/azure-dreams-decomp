@@ -53,7 +53,7 @@ typedef struct S_801676CC_5 {
 } S_801676CC_5;
 
 /* Creates sixteen effects at the given position with increasing sprite scales. */
-void dungeonCreateLayeredSpritePulse(EntityRec *origin) {
+void create_layered_sprite_pulse(EntityRec *origin) {
     s16 scale_x;
     s16 scale_y;
     s32 effect_index;

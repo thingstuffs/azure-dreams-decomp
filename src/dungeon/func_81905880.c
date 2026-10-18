@@ -1,9 +1,9 @@
 #include "shared/entity.h"
 #include "modules/dungeon_ovl_1924800.h"
 
-/* Retail 81905880 (func_80025080): spawn an effect object under the parent node, placed at the parent's
+/* Retail 81905880 (get_half_byte_length): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
@@ -26,7 +26,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)dungeonRaiseEffectToHeightLimit;
+        spawned->unk_10 = (void *)raise_effect_to_height_limit;
         jitter_x = rand() & 0x1F;
         position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
@@ -54,7 +54,7 @@ void func_80025080(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        func_8004491C(spawned, (s32)dungeonDrawBrightnessScaledLinkedTiles);
+        func_8004491C(spawned, (s32)draw_brightness_scaled_linked_tiles);
         fields->color = saved_field_28;
     }
 }

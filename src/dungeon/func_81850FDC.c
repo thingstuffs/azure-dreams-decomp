@@ -39,7 +39,7 @@ extern s32 func_80069EF8(void);
 /* Delay a spawned particle, then integrate its motion and fade until deletion.
  * Retail: [file 0x1870FDC,0x1871178), [RAM 0x800247DC,0x80024978).
  */
-void dungeonDelayAndFadeParticle(void *effect, void *position, void *primitive)
+void delay_and_fade_particle(void *effect, void *position, void *primitive)
 {
     ParticleEffect *p = effect;
     ParticleMotion *motion = position;
@@ -70,7 +70,7 @@ void dungeonDelayAndFadeParticle(void *effect, void *position, void *primitive)
                 sprite->red = sprite->green = sprite->blue -= p->fade_step;
             } else {
                 ((ObjectNodeHeader *)p - 1)->flags |= 0x8000; /* header precedes the record */
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
         }
         break;

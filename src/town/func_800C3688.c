@@ -7,9 +7,9 @@ typedef unsigned int u32;
 typedef int s32;
 extern u32 D_8006ADBC;
 extern s32 D_800D3824[];
-extern void townBuildTwoDisplayEntries(s32 data_id, s16 position_offset);
-/* Calls townBuildTwoDisplayEntries with the first table entry matching the state's ID. */
-void townDispatchFirstMatchingStateEntry(void)
+extern void build_two_display_entries(s32 data_id, s16 position_offset);
+/* Calls build_two_display_entries with the first table entry matching the state's ID. */
+void dispatch_first_matching_state_entry(void)
 {
     s32 *table_entry;
     s8 *state;
@@ -20,7 +20,7 @@ void townDispatchFirstMatchingStateEntry(void)
         table_entry = D_800D3824;
 check_entry:
         if (*((s16 *) (state + 0x1A)) == (*table_entry)) {
-            townBuildTwoDisplayEntries(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
+            build_two_display_entries(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
             return;
         }
         table_entry += 3;

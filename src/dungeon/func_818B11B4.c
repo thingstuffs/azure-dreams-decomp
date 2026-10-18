@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-s32 dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context) {
+s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context) {
     s32 trig_table[34];
     s32 *trig_buffer;
     s32 *trig_cursor;
@@ -46,7 +46,7 @@ s32 dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments(ovl_18d0
             segment_source = source;
             height = ((ovl_18d0850_818B11B4_S_818B11B4_1 *)height_cursor)->unk_1A;
             scaled_segment = segment_index << 0x11;
-            dungeonDrawN16ShadedLineSegmentsLinkThemOrderingTableDepth(segment_source, height_ref, context, angle,
+            draw_n_16_shaded_line_segments_link_them_ordering_table_depth(segment_source, height_ref, context, angle,
                          (u32)(s16)(height_ref->unk_0A - height),
                          trig_buffer, 0xFF, scaled_segment >> 0x10);
             height_cursor = (u8 *)height_cursor + 2;

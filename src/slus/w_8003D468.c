@@ -21,7 +21,7 @@ extern u8 D_8002D5B4[10];
 
 
 /* Clear the memory region and copy defaults while preserving six saved fields. */
-void resetGameStatePreservingSessionFields(void)
+void reset_game_state_preserving_session_fields(void)
 {
     u8 *page = (u8 *)0x80010000;
     void *clear_page = page;

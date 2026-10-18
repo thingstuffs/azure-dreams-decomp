@@ -9,20 +9,20 @@ typedef struct S_80023A00_0 {
     union { s16 s; u16 u; } unk_18;   /* accessed as both */
     u8 pad_1A[0x10];
     u16 unk_2A;
-} S_80023A00_0;   /* arg0 in func_80023A00 */
+} S_80023A00_0;   /* arg0 in process_nonzero */
 
 
 typedef struct S_80023A00_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80023A00_3;   /* caller_obj in func_80023A00 */
+} S_80023A00_3;   /* caller_obj in process_nonzero */
 
 
 typedef struct {
     s32 words[6];
 } Copy24;
 
-extern void townUpdateDirectionalRecord(void *, void *, void *);
+extern void update_directional_record(void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 
@@ -34,7 +34,7 @@ extern u8 D_800D2398[];
 extern u8 D_800D23A0[];
 
 /* Updates entity state and selects direction-dependent table entries. */
-void func_80023A00(void *object, void *output, void *entity_data)
+void process_nonzero(void *object, void *output, void *entity_data)
 {
     u8 *caller_obj = object;
     u8 *output_bytes = output;
@@ -103,7 +103,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
     }
 
     if (((S_80023A00_0 *)object)->unk_18.s != 0) {
-        townUpdateDirectionalRecord(caller_obj, object, entity_data);
+        update_directional_record(caller_obj, object, entity_data);
     }
 
     return;

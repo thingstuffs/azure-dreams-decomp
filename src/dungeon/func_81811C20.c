@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-s32 dungeonCheckObjectBytePairsContent(s32 object_addr) {
+s32 check_object_byte_pairs_content(s32 object_addr) {
     s32 byte_count;
     s32 loop_bound;
     u8 compare_space;

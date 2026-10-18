@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void dungeonAdvanceEffectMotionAndColorFade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
+void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
     s32 velocity_x;
     s32 velocity_y;
     u16 update_count;
@@ -25,6 +25,6 @@ void dungeonAdvanceEffectMotionAndColorFade(void *effect, ovl_19a332c_81983088_S
     ((ovl_19a332c_81983088_S_80024888_2 *)effect)->unk_30 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 = ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

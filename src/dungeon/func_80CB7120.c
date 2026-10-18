@@ -43,6 +43,6 @@ void func_8014C920(void *effect, void *unused, void *visual)
     ((CL_CD7000_80170920_S_80170920_1 *)visual)->unk_1A += 0x190;
     if (((CL_CD7000_80170920_S_80170920_0 *)effect)->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

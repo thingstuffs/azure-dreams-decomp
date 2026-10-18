@@ -18,7 +18,7 @@ typedef struct DungeonFade {
 
 
 /* Update the fade color and mark completion when its countdown ends. */
-void dungeonTickScaledRgbFade(DungeonFade *fade, void *progress) {
+void tick_scaled_rgb_fade(DungeonFade *fade, void *progress) {
     s16 steps_left;
 
     *(s32 *)((u8 *)progress + 8) += 0x10000;
@@ -30,6 +30,6 @@ void dungeonTickScaledRgbFade(DungeonFade *fade, void *progress) {
     fade->value = *(s32 *)&fade->scaled_r;
     if ((steps_left << 16) <= 0) {
         *(u16 *)((u8 *)fade - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

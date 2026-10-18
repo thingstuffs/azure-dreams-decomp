@@ -13,12 +13,12 @@ typedef struct S_8008E504_0 {
     u16 unk_A2;
     u8 pad_A4[0x80];
     void * unk_124;
-} S_8008E504_0;   /* arg0 in dungeonUpdatePlayerLandingRecovery */
+} S_8008E504_0;   /* arg0 in update_player_landing_recovery */
 
 typedef struct S_8008E504_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8008E504_1;   /* arg1 in dungeonUpdatePlayerLandingRecovery */
+} S_8008E504_1;   /* arg1 in update_player_landing_recovery */
 
 typedef struct S_8008E504_2 {
     u8 pad_00[0x1C];
@@ -28,7 +28,7 @@ typedef struct S_8008E504_2 {
     u8 pad_2C[0x5C];
     s16 unk_88;
     s16 unk_8A;
-} S_8008E504_2;   /* arg3 in dungeonUpdatePlayerLandingRecovery */
+} S_8008E504_2;   /* arg3 in update_player_landing_recovery */
 
 typedef struct S_8008E504_3 {
     u8 pad_00[0x1C];
@@ -40,7 +40,7 @@ typedef struct S_8008E504_4 {
     u16 unk_14;
     u8 pad_16[0x16];
     u8 * unk_2C;
-} S_8008E504_4;   /* arg2 in dungeonUpdatePlayerLandingRecovery */
+} S_8008E504_4;   /* arg2 in update_player_landing_recovery */
 
 
 extern s32 D_80081484;
@@ -50,10 +50,10 @@ extern u8 D_800DD058[];
 
 extern void func_800419EC(s32, s32);
 extern void func_80048A44(void *, u8, s32, s32);
-extern s32 dungeonHasActionInputWithoutModifier(void);
+extern s32 has_action_input_without_modifier(void);
 
 /* Advances an actor's timed animation state and selects its next behavior. */
-void dungeonUpdatePlayerLandingRecovery(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
+void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
     u16 state_or_ticks;
     u16 sprite_flags;
     s32 state;
@@ -95,7 +95,7 @@ void dungeonUpdatePlayerLandingRecovery(S_8008E504_0 *actor, S_8008E504_1 *actio
         }
         sprite->unk_2C = D_800DD058;
         func_80048A44(sprite,
-            D_800DD058[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+            D_800DD058[((g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
             0, 1);
         sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
         actor->unk_9B = (u8)(actor->unk_9B + 1);
@@ -109,8 +109,8 @@ void dungeonUpdatePlayerLandingRecovery(S_8008E504_0 *actor, S_8008E504_1 *actio
         }
         sprite_flags = sprite->unk_14;
         sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
-        if ((sprite_flags & 0xE000) != 0 || ((dungeonHasActionInputWithoutModifier() << 0x10) != 0)) {
-            actor->unk_8C =dungeonHandlePlayerInput;
+        if ((sprite_flags & 0xE000) != 0 || ((has_action_input_without_modifier() << 0x10) != 0)) {
+            actor->unk_8C =handle_player_input;
         }
         return;
     }

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return whether any of 20 referenced entries matches the combined byte key. */
-s32 func_800F61BC(s32 key, s32 key_low) {
+s32 has_saved_entry_key(s32 key, s32 key_low) {
     s32 entry_index;
     s8 *table_cursor;
     s32 result;

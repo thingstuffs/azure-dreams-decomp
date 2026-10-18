@@ -10,18 +10,18 @@
 typedef struct S_8009CE1C_3_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8009CE1C_3_pre;   /* the 0x14 bytes before arg0 in func_8009CE1C, addressed as arg0[-1] */
+} S_8009CE1C_3_pre;   /* the 0x14 bytes before arg0 in apply_attack_power_and_element_effects, addressed as arg0[-1] */
 
 typedef struct S_8009CE1C_4 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8009CE1C_4;   /* ((S_8009CE1C_3_pre *)arg0)[-1].unk_00 in func_8009CE1C */
+} S_8009CE1C_4;   /* ((S_8009CE1C_3_pre *)arg0)[-1].unk_00 in apply_attack_power_and_element_effects */
 
 
 typedef struct S_8009CE1C_0 {
     u8 pad_00[0x11];
     u8 unk_11;
-} S_8009CE1C_0;   /* *D_800E3D7C in func_8009CE1C */
+} S_8009CE1C_0;   /* *D_800E3D7C in apply_attack_power_and_element_effects */
 
 typedef struct S_8009CE1C_1 {
     void * unk_00;
@@ -44,7 +44,7 @@ typedef struct S_8009CE1C_1 {
     u16 unk_7E;
     u8 pad_80[0x1C];
     u16 unk_9C;
-} S_8009CE1C_1;   /* arg0 in func_8009CE1C; pointer addresses record offset 0x14 */
+} S_8009CE1C_1;   /* arg0 in apply_attack_power_and_element_effects; pointer addresses record offset 0x14 */
 
 typedef struct S_8009CE1C_2 {
     u8 pad_00[0x24];
@@ -54,17 +54,17 @@ typedef struct S_8009CE1C_2 {
 
 
 extern u8 D_800E3E41;
-void dungeonClearPlayerLinkedActionFlags(void);
-s32 dungeonClampAdjustedValue0To99();
+void clear_player_linked_action_flags(void);
+s32 clamp_adjusted_value_0_to_99();
 M2C_UNK func_8009CFB4();
 M2C_UNK func_8009CFF4();
 M2C_UNK func_8009D034();
-extern s32 dungeonTryTriggerTargetRecordEffect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
-s32 func_800A56E0(s32);
-extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern s32 try_trigger_target_record_effect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
+s32 play_sound_if_enabled(s32);
+extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 /* Compute elemental damage for a target and trigger its hit response. */
-void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
+void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 power_bonus, s16 elements,
                    u16 hit_angle, s32 source_flags, u16 hit_kind) {
     s32 event_id;
     s16 affinity_product;
@@ -86,7 +86,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     requested_bonus = power_bonus;
     bonus = requested_bonus;
     affinity = 0;
-    if ((target != NULL) && (dungeonTryTriggerTargetRecordEffect(target, (u16) element_mask, source_flags) == 0)) {
+    if ((target != NULL) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
             bonus = ((S_8009CE1C_0 *)(((u8 *)D_800E3D7C)))->unk_11 * 4;
             if (bonus >= 0x64) {
@@ -110,7 +110,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E = (u16) (hit_angle + 0x800);
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3B
-            + dungeonClampAdjustedValue0To99(target));
+            + clamp_adjusted_value_0_to_99(target));
         if ((func_80042900(target, 0xA) << 0x10) != 0) {
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) ((s32) (((S_8009CE1C_1 *)((u8 *)target
                 - 0x14))->unk_36.s << 0x10) >> 0x11);
@@ -119,7 +119,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
             ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_36.s = (u16) (((S_8009CE1C_1 *)((u8 *)target
                 - 0x14))->unk_36.s + 1);
         }
-        target_elements = dungeonGetMaskedRecordFlags(target, 7, 0);
+        target_elements = get_masked_record_flags(target, 7, 0);
         if (element_mask & 1) {
             if ((func_80042900(target, 0x13) << 0x10) != 0) {
                 power >>= 2;
@@ -175,13 +175,13 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         } else {
             shown_damage = 0;
         }
-        createActorValuePopup(3, target, shown_damage, 0);
+        create_actor_value_popup(3, target, shown_damage, 0);
         if (target == ((u8 *)D_800E3D7C)) {
             D_800E3E41 = (u8) hit_kind;
-            dungeonClearPlayerLinkedActionFlags();
+            clear_player_linked_action_flags();
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
-        dungeonStatus.unk_10 = target - 0x20;
+        g_dungeon_status.unk_10 = target - 0x20;
         if (!(((S_8009CE1C_4 *)(((S_8009CE1C_3_pre *)target)[-1].unk_00))->unk_14 & 0x8000)) {
             func_800419EC(8, 0x10);
         }
@@ -189,12 +189,12 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         if ((source_flags != 0) && !(source_flags & 0x20000000)) {
             event_id = 0x602;
         }
-        func_800A56E0(event_id);
+        play_sound_if_enabled(event_id);
         position = ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_00;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
         transition_effect_halfwords(
-            (u16) ((position->unk_24 << 6) + ((dirStepX[(u32) direction_offset >> 1] * 0x20) + 0x20)),
-            (u16) ((position->unk_25 << 6) + ((dirStepY[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->unk_24 << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
+            (u16) ((position->unk_25 << 6) + ((dir_step_y[(u32) direction_offset >> 1] * 0x20) + 0x20)),
             (s16) (((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_9C - 0x30),
             element_mask, (s32) (s16) hit_angle);
     }

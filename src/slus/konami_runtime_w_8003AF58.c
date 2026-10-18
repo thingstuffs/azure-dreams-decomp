@@ -6,16 +6,16 @@
 typedef struct S_8003AF58_0 {
     u8 pad_00[0x14];
     union { s32 s; void * u; } unk_14;   /* accessed as both */
-} S_8003AF58_0;   /* var_a0 in appendTownMovieListNode */
+} S_8003AF58_0;   /* var_a0 in append_town_movie_list_node */
 
 typedef struct S_8003AF58_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8003AF58_1;   /* arg1 in appendTownMovieListNode */
+} S_8003AF58_1;   /* arg1 in append_town_movie_list_node */
 
 
 /* Appends a node to the end of the linked list. */
-void appendTownMovieListNode(void *list_head, S_8003AF58_1 *new_node) {
+void append_town_movie_list_node(void *list_head, S_8003AF58_1 *new_node) {
     S_8003AF58_0 *tail;
 
     tail = list_head;

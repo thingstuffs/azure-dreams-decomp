@@ -11,7 +11,7 @@ typedef struct {
 
 
 
-extern void setScaledCellFlags8000(void);
+extern void set_scaled_cell_flags_8000(void);
 
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
 void func_800F6AF4(void)
@@ -21,7 +21,7 @@ void func_800F6AF4(void)
     RuntimeDispatchState *global_state;
     s32 coord;
 
-    dungeon = &gameWork.map;
+    dungeon = &g_game_work.map;
     cells = ((u8 *)dungeon->cells);
 
     coord = 0x10;
@@ -53,7 +53,7 @@ void func_800F6AF4(void)
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xBA))->flags |= 0x8000;
     ((DungeonCell *)(cells + (0x23 << dungeon->shiftX) * 6 + 0xC0))->flags |= 0x8000;
 
-    setScaledCellFlags8000();
+    set_scaled_cell_flags_8000();
 
     global_state = &D_80082E60;
     global_state->unk_10 = 0x1F;

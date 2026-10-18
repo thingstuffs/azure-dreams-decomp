@@ -7,21 +7,21 @@
 #include "m2c_compat.h"
 extern void func_80041E70(void *);
 extern void func_80042B68(void *, s8);
-extern void dungeonBeginDeferredItemAction(void *, u8 *, u8 *, void *);
-extern void dungeonClearSlotAndUpdateLinkedState(s32);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern void begin_deferred_item_action(void *, u8 *, u8 *, void *);
+extern void clear_slot_and_update_linked_state(s32);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_800A5720(s8 *text);
-extern void func_800A5F38(void *, s32);
-extern void func_800A63B8(void *, s32, s16);
-extern s32 dungeonApplyActorFoodPreference(void *, s32, s32);
-extern void dungeonCreateTimedPairedParticleEmitter(s32, s32, void *);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void apply_item_effect_at_entity_position(void *, s32);
+extern void display_item_status_message(void *, s32, s16);
+extern s32 apply_actor_food_preference(void *, s32, s32);
+extern void create_timed_paired_particle_emitter(s32, s32, void *);
 extern M2C_UNK D_800E0EB4;
 extern M2C_UNK D_800E0EC9;
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
-s32 dungeonUseItemToResetActorStatuses(void *actor, s32 cause, s16 amount)
+s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
 {
     s32 handle;
     s32 msg_value;
@@ -31,25 +31,25 @@ s32 dungeonUseItemToResetActorStatuses(void *actor, s32 cause, s16 amount)
     s32 slot;
     if (actor == (((u8 *)D_800E3D7C))) {
         *((s32 *) (((s8 *) actor) + 0x110)) = cause;
-        dungeonBeginDeferredItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_deferred_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         return 0;
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {
-        func_800A63B8(actor, cause, amount);
-        if (dungeonApplyActorFoodPreference(actor, (D_800DDE84[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
-            func_800A5F38(actor, cause);
+        display_item_status_message(actor, cause, amount);
+        if (apply_actor_food_preference(actor, (D_800DDE84[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(actor, cause);
             return 1;
         }
     }
-    dungeonCreateTimedPairedParticleEmitter(*((s32 *) (((s8 *) actor) + (-0x18))), 0x20C0C0, actor);
+    create_timed_paired_particle_emitter(*((s32 *) (((s8 *) actor) + (-0x18))), 0x20C0C0, actor);
 
     if ((*((s32 *) (((s8 *) actor) + 0x14))) & 0x4000) {
-        handle = func_800990FC();
+        handle = get_unused_text_buffer();
         msg = &D_800E0EB4;
         msg_arg = handle;
-        handle = func_80099194(msg, msg_value = msg_arg);
-        func_80099290(func_80099194(&D_800E0EC9, func_80099734(actor, handle)));
-        func_800A5720(msg_value);
+        handle = expand_text_control_codes(msg, msg_value = msg_arg);
+        func_80099290(expand_text_control_codes(&D_800E0EC9, append_entity_display_text(actor, handle)));
+        display_text_with_fullwidth_adjustment(msg_value);
     }
     if ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0x04000000) {
         *((s8 *) (((s8 *) actor) + 0x28)) = (s8) ((((u8) (*((u8 *) (((s8 *) actor) + 0x29)))) >> 1) + 1);
@@ -64,8 +64,8 @@ s32 dungeonUseItemToResetActorStatuses(void *actor, s32 cause, s16 amount)
     while (slot < 0x21);
     *((s32 *) (((s8 *) actor) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0xFBFFE10F);
     func_80041E70(actor);
-    dungeonClearSlotAndUpdateLinkedState(cause);
-    counters = &dungeonStatus;
+    clear_slot_and_update_linked_state(cause);
+    counters = &g_dungeon_status;
     *((u16 *) (((s8 *) counters) + 0xA)) = (u16) ((*((u16 *) (((s8 *) counters) + 0xA))) - 1);
     return 1;
 }

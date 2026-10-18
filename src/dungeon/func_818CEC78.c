@@ -25,11 +25,11 @@ void func_80024478(void *state, void *position, void *object)
     *(u16 *)((u8 *)state + 2) = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (*(u16 *)((u8 *)object + 0x14) & 0x8000) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

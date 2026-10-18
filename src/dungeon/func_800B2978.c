@@ -8,7 +8,7 @@ typedef struct S_800B80D8_0 {
     u8 pad_A6[0xA];
     s16 unk_B0;
     s16 unk_B2;
-} S_800B80D8_0;   /* arg0 in dungeonAnimateObjectMotionAndScale */
+} S_800B80D8_0;   /* arg0 in animate_object_motion_and_scale */
 
 typedef struct S_800B80D8_1 {
     u8 pad_00[0x14];
@@ -16,21 +16,21 @@ typedef struct S_800B80D8_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_800B80D8_1;   /* arg2 in dungeonAnimateObjectMotionAndScale */
+} S_800B80D8_1;   /* arg2 in animate_object_motion_and_scale */
 
 typedef struct S_800B80D8_2 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800B80D8_2;   /* arg1 in dungeonAnimateObjectMotionAndScale */
+} S_800B80D8_2;   /* arg1 in animate_object_motion_and_scale */
 
 
-extern void func_800A7A7C(s32, s32, s32, void *, void *);
+extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
 extern s32 D_8006E240;
 
 /* Animate object motion and scale, then signal completion. */
-void dungeonAnimateObjectMotionAndScale(void *object, void *motion, void *display)
+void animate_object_motion_and_scale(void *object, void *motion, void *display)
 {
     s16 state;
     s32 velocity;
@@ -64,13 +64,13 @@ void dungeonAnimateObjectMotionAndScale(void *object, void *motion, void *displa
         ((S_800B80D8_0 *)object)->unk_A2.u++;
         return;
     case 2:
-        func_800A7A7C(((S_800B80D8_0 *)object)->unk_B0,
+        place_item_at_valid_floor_position(((S_800B80D8_0 *)object)->unk_B0,
                       ((S_800B80D8_0 *)object)->unk_B2,
                       (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
                       &D_8006E240,
                       (u8 *)object + 0x98);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 }

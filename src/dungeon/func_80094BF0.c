@@ -11,7 +11,7 @@ typedef struct {
 
 
 /* Returns the grid entry value at the selected offset and writes its flags. */
-s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags)
+s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags)
 {
     s32 grid_x;
     s32 grid_y;
@@ -19,9 +19,9 @@ s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags)
     GameWork *state;
     Entry *entry;
 
-    grid_x = x + dirStepX[offset_index];
-    state = &gameWork;
-    grid_y = y + dirStepY[offset_index];
+    grid_x = x + dir_step_x[offset_index];
+    state = &g_game_work;
+    grid_y = y + dir_step_y[offset_index];
     entry_index = grid_x + (grid_y << state->map.shiftX);
     entry = (Entry *)((entry_index * sizeof(Entry)) +
                       (unsigned long)((Entry *)state->map.cells));

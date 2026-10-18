@@ -45,12 +45,12 @@ extern s16 D_800DCE66[5];
 extern void * func_8003FD64();
 extern s32 func_8004491C();
 extern s32 func_80045C34();
-extern void dungeonUpdateFamiliarSelectionMarker(void *state, void *position_arg, void *marker_arg);
+extern void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg);
 extern void func_8003DB94();
-extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
+extern s32 select_nearby_target_and_initialize_slot();
 
 /* Creates and initializes a display object attached to the entity. */
-void *dungeonCreateFamiliarSelectionMarker(EntityHdr **entity_ref) {
+void *create_familiar_selection_marker(EntityHdr **entity_ref) {
     Obj_800B4204 *object;
     SubA_800B4204 *transform;
     SubB_800B4204 *sprite;
@@ -60,7 +60,7 @@ void *dungeonCreateFamiliarSelectionMarker(EntityHdr **entity_ref) {
     if (object != 0) {
         owner_data = (u8 *)object + 0x20;
         func_8004491C(object, (void *)func_80045C34);
-        object->stateFn = dungeonUpdateFamiliarSelectionMarker;
+        object->stateFn = update_familiar_selection_marker;
 
         transform = object->sub1;
         sprite = object->sub2;
@@ -84,8 +84,8 @@ void *dungeonCreateFamiliarSelectionMarker(EntityHdr **entity_ref) {
             *(s16 *)(owner_data + 0xE) = 4;
             object->owner = entity_ref;
 
-            dungeonStatus.unk_0C = object;
-            dungeonSelectNearbyTargetAndInitializeSlot(object, transform, 8, D_800DCE66[0]);
+            g_dungeon_status.unk_0C = object;
+            select_nearby_target_and_initialize_slot(object, transform, 8, D_800DCE66[0]);
         }
     }
 

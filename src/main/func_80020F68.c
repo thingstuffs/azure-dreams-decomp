@@ -6,12 +6,12 @@ typedef struct S_80020F68_0 {
     s32 unk_48;
     s32 unk_4C;
     s32 unk_50;
-} S_80020F68_0;   /* ptr in cardBootInitializeMenuPointer; pointer addresses record offset 0x10 */
+} S_80020F68_0;   /* ptr in card_boot_initialize_menu_pointer; pointer addresses record offset 0x10 */
 
 
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
 
-extern void func_8040316C(void *first_ptr, void *second_ptr);
+extern void forward_target_value_initcardmessageobject_parameters(void *first_ptr, void *second_ptr);
 
 /* Narrow absolute symbol binds: these two -0x10 stores in the retail asm use
  * lui/addiu (address-of relocation form), not lui/ori (raw int), against two
@@ -21,13 +21,13 @@ extern void func_8040316C(void *first_ptr, void *second_ptr);
 extern void *D_804081AC;
 extern void *D_80407F40;
 
-void cardBootInitializeMenuPointer(void *ptr) {
+void card_boot_initialize_menu_pointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
         ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_804081AC;
         return;
     }
     ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_50 = 1;
-    func_8040316C(ptr - 0x20, ptr + 0x38);
+    forward_target_value_initcardmessageobject_parameters(ptr - 0x20, ptr + 0x38);
     ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_48 = 1;
     ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_80407F40;
 }

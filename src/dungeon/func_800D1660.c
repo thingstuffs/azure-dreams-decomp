@@ -81,10 +81,10 @@ typedef struct S_800D6DC0_2 {
 typedef struct S_800D6DC0_4 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_800D6DC0_4;   /* arg3 in dungeonCreateRadialEffectSegments */
+} S_800D6DC0_4;   /* arg3 in create_radial_effect_segments */
 
 /* Creates eight radial effect segments using the source position and render data. */
-void dungeonCreateRadialEffectSegments(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, S_800D6DC0_4 *orientation) {
+void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_template, S_800D6DC0_4 *orientation) {
     s32 end_y_scaled;
     s32 start_angle;
     s32 copy_end;
@@ -156,7 +156,7 @@ void dungeonCreateRadialEffectSegments(void *unused, Rec_func_800D6DC0_arg1 *ori
             effect_state->unk_4E = (s16) end_y;
             position->unk_16 = 0;
             render_data->unk_2C = direction_table;
-            func_80047784(render_data, *((u8 *) (((((s32) (gameWork.view.viewAngle + orientation->unk_2A + 0x100)
+            func_80047784(render_data, *((u8 *) (((((s32) (g_game_work.view.viewAngle + orientation->unk_2A + 0x100)
                 >> 9) & 7) + (s32) direction_table))), 0);
         }
         segment += 1;

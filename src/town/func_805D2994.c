@@ -5,6 +5,6 @@
 M2C_UNK func_800193E0();                     /* extern */
 
 /* Calls func_800193E0 with argument 0x63A. */
-void townDispatchEvent63AThrough193E0(void) {
+void dispatch_event_63_a_through_193_e_0(void) {
     func_800193E0(0x63A);
 }

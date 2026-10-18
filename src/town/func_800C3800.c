@@ -8,7 +8,7 @@ typedef struct TownEntry {
 extern TownEntry D_800D4094[];
 
 /* Return the index of the matching value or the terminating zero in the entry table. */
-s32 townFindSoundEntryOrTerminatorIndex(s32 target_value) {
+s32 find_sound_entry_or_terminator_index(s32 target_value) {
     s32 entry_index;
 
     for (entry_index = 0; D_800D4094[entry_index].value != 0; entry_index++) {

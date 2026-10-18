@@ -4,20 +4,20 @@
 
 typedef struct S_800AF520_3 {
     void * unk_00;
-} S_800AF520_3;   /* ctx in townPopulateItemMenuLowerEntries */
+} S_800AF520_3;   /* ctx in populate_item_menu_lower_entries */
 
 typedef struct S_800AF520_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in townPopulateItemMenuLowerEntries */
+} S_800AF520_4;   /* ((S_800AF520_3 *)ctx)->unk_00 in populate_item_menu_lower_entries */
 
-extern s32 lookupItemCategoryMappedValue();
+extern s32 lookup_item_category_mapped_value();
 
 typedef struct S_800AF520_0 {
     void * unk_00;
     u8 pad_04[0xA4];
     s32 unk_A8;
-} S_800AF520_0;   /* ctx in townPopulateItemMenuLowerEntries */
+} S_800AF520_0;   /* ctx in populate_item_menu_lower_entries */
 
 typedef struct S_800AF520_1 {
     u8 pad_00[0x1C];
@@ -31,7 +31,7 @@ typedef struct S_800AF520_2 {
 } S_800AF520_2;
 
 /* Fill slots 6 through 15 from the current page of entries, then clear unused slots. */
-void townPopulateItemMenuLowerEntries(void *context) {
+void populate_item_menu_lower_entries(void *context) {
     s32 *empty_slot;
     void *slots;
     register s32 entry_index;
@@ -61,7 +61,7 @@ void townPopulateItemMenuLowerEntries(void *context) {
         }
         slot_addr = (void *)((entry_index << 2) + entries->unk_20);
         entry = *(void **)slot_addr;
-        value = lookupItemCategoryMappedValue(entry->unk_01, entry->unk_00);
+        value = lookup_item_category_mapped_value(entry->unk_01, entry->unk_00);
         entry_index += 1;
         slots = (void *)ctx->unk_A8;
         slot = *((s32 **)((slot_index * 4) + (u8 *)slots));

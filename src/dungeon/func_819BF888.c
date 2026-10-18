@@ -47,7 +47,7 @@ void func_80025088(void *state, void *position, void *render_state) {
                             *(u16 *)((u8 *)state + 0x28) = ticks_left,
                             ((ticks_left << 16) <= 0))) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

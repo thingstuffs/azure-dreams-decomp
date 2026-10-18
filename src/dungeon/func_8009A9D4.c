@@ -3,6 +3,6 @@
 #include "shared/entity.h"
 
 /* Returns the signed difference between the records' 16-bit values at offset 0x88. */
-s16 dungeonGetActorHeightDifference(EntityRec *left_record, EntityRec *right_record) {
+s16 get_actor_height_difference(EntityRec *left_record, EntityRec *right_record) {
     return (s16) (((u16)left_record->unk_88) - ((u16)right_record->unk_88));
 }

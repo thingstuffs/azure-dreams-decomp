@@ -11,34 +11,34 @@ typedef struct S_800CA93C_0 {
     u16 unk_46;
     u8 pad_48[0x18];
     void * unk_60;
-} S_800CA93C_0;   /* obj in func_800CA93C */
+} S_800CA93C_0;   /* obj in choose_best_eligible_entry_for_actor */
 
 typedef struct S_800CA93C_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CA93C_1_pre;   /* the 0x14 bytes before entry in func_800CA93C, addressed as entry[-1] */
+} S_800CA93C_1_pre;   /* the 0x14 bytes before entry in choose_best_eligible_entry_for_actor, addressed as entry[-1] */
 
 typedef struct S_800CA93C_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CA93C_2;   /* arg2_hold in func_800CA93C */
+} S_800CA93C_2;   /* arg2_hold in choose_best_eligible_entry_for_actor */
 
 typedef struct S_800CA93C_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CA93C_3;   /* other in func_800CA93C */
+} S_800CA93C_3;   /* other in choose_best_eligible_entry_for_actor */
 
 
-extern s32 dungeonFindEligibleEntryAtCoordinates(u8 *entry, s16 x, s16 y);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void *dungeonChooseBestEligibleEntry();
-extern void func_800CA444(void *, s32, void *, void *);
-extern void func_800CA788(void *, s32, void *, void *);
+extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void *choose_best_eligible_entry();
+extern void update_actor_targeting_for_tile(void *, s32, void *, void *);
+extern void select_target_tile_for_actor_action(void *, s32, void *, void *);
 
 /* Selects a target and updates the object's state before dispatching its action. */
-s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
+s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
     void *actor;
     s32 clear_flag_mask;
     S_800CA93C_3 *target;
@@ -48,7 +48,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
     actor = actor_arg;
     ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
     ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-    ((S_800CA93C_0 *)actor)->unk_60 = dungeonChooseBestEligibleEntry(origin, actor, 4);
+    ((S_800CA93C_0 *)actor)->unk_60 = choose_best_eligible_entry(origin, actor, 4);
 
     clear_flag_mask = -0x2001;
     ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
@@ -58,17 +58,17 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
         target = ((S_800CA93C_1_pre *)target_entry)[-1].unk_00;
         ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
         ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-        found_entry = dungeonFindEligibleEntryAtCoordinates(
+        found_entry = find_eligible_entry_at_coordinates(
             actor,
             origin->unk_24,
             origin->unk_25);
         ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
         ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
         if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
-            func_800CA788(actor, action_arg, origin, actor);
+            select_target_tile_for_actor_action(actor, action_arg, origin, actor);
             return 0;
         }
-        ((S_800CA93C_0 *)actor)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+        ((S_800CA93C_0 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
             origin->unk_24,
             origin->unk_25,
             target->unk_24,
@@ -77,7 +77,7 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
         ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
     }
 
-    func_800CA444(actor_arg, action_arg, origin, actor);
+    update_actor_targeting_for_tile(actor_arg, action_arg, origin, actor);
     return 0;
 }
 

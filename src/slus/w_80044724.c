@@ -2,12 +2,12 @@
 #include "shared/game_work.h"
 
 /* Update the four saved vectors and return 1 if any coordinate changed, otherwise return 0. */
-s32 runtimeUpdateSavedVectors(void)
+s32 runtime_update_saved_vectors(void)
 {
     GameView *source;
     struct S_80083178State *saved;
 
-    source = &gameWork.view;
+    source = &g_game_work.view;
     saved = &D_80083CE8;
 
     if (source->unk_094 != saved->v[0].x

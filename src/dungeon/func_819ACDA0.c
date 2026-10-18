@@ -55,10 +55,10 @@ typedef struct Vec3u {
 
 extern void **D_800E3D18;
 
-extern void dungeonSpawnBlinkingSpriteFlash(s16, s16, s16);
+extern void spawn_blinking_sprite_flash(s16, s16, s16);
 
 /* Run the warp cutscene: pick the exit point, ease the camera to it, fade out and fire the arrival effects. */
-void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
+void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
@@ -76,9 +76,9 @@ void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
         entity = D_800E3D7C;
         base.z = ((u16)entity->unk_88) - 0x50;
         index =
-            ((gameWork.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
+            ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
-        resolveRecordOrientationOrFallback(
+        resolve_record_orientation_or_fallback(
             *(void **)(index + (s32)D_800E3D18),
             ((u8 *)(&D_80082E80)), &delta, 0);
 
@@ -123,7 +123,7 @@ void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
         if (motion->timer > 0) {
             return;
         }
-        dungeonSpawnBlinkingSpriteFlash(motion->target_x, motion->target_y, motion->target_z);
+        spawn_blinking_sprite_flash(motion->target_x, motion->target_y, motion->target_z);
         final_state = ((S_819ACDA0_1 *)motion)->unk_2C;
         motion->timer = 5;
         motion->state = final_state + 1;
@@ -145,8 +145,8 @@ void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
 
     case 3:
         source = &D_80082E80;
-        if (resolveRecordOrientationOrFallback(((void *)source->unk_008), source, &base, 0) != 0) {
-            func_8002614C(
+        if (resolve_record_orientation_or_fallback(((void *)source->unk_008), source, &base, 0) != 0) {
+            update_object_movement_proximity_reactions(
                 D_80083780.x.w.i + base.x,
                 D_80083780.y.w.i + base.y,
                 D_80083780.z.w.i + base.z,
@@ -157,7 +157,7 @@ void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
         if (motion->effect_timer > 0) {
             return;
         }
-        dungeonCreateLinkedSpritePieces(
+        create_linked_sprite_pieces(
             D_80083780.x.w.i,
             D_80083780.y.w.i,
             D_80083780.z.w.i - 0x20,
@@ -169,6 +169,6 @@ void dungeonRunWarpCutscene(Motion *motion, Position *position, u8 *color)
     }
 
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }
 

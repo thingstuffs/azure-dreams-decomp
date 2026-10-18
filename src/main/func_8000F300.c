@@ -11,7 +11,7 @@ typedef struct {
 } Struct_8000F300;
 
 /* Initializes a packet for the selected slot and returns the next packet. */
-void *cardBootBuildSlotMarkerPacket(s32 unused, Struct_8000F300 *packet, s32 slot_index) {
+void *card_boot_build_slot_marker_packet(s32 unused, Struct_8000F300 *packet, s32 slot_index) {
     s32 command = 0xA04010;
     u8 flags = packet->unk0;
     void *next_packet;

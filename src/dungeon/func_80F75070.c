@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_f95070.h"
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
-void *dungeonCreateKindActor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
+void *create_kind_actor(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;
@@ -52,18 +52,18 @@ void *dungeonCreateKindActor(s16 kind_flags, s16 part_value_24, s16 part_value_2
             if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 query_part = part_a;
                 work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
+                set_or_clear_actor_status_slot(work, 1,
+                              (generate_random_value() & 0x3F) | 0x20);
                 part_b->unk_2C = D_8015C1DC;
             }
         }
         init_obj = obj;
-        func_800A9C18(init_obj, part_a, part_b, kind_flags);
+        initialize_actor_sprite_and_animation(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &dungeonDispatchAbilityAction;
+        actor->unk_8C = &dispatch_ability_action;
         part_b->unk_14 |= 0xC;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

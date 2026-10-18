@@ -743,47 +743,47 @@ typedef struct {
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
 void func_80025014(void *motion_state, void *position, void *draw_state);
-void *dungeonAllocateSpriteDataObject(s32 user_data);
-void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *appearance_in);
-void dungeonUpdateDirectionalObjectFade(void *state_arg, void *buffer_arg, void *obj_arg);
-void dungeonDrawAndRestoreFadingObject(void *object_arg, void *position_arg, void *sprite_arg);
-void dungeonSwitchActiveObjectIndex(void *object, s16 new_index);
-void dungeonInitializeChildrenOrShutdown(void *owner);
-void dungeonInitializeFadingEffect(void *effect, void *control);
-void *dungeonInitializeAvailableObject(s16 initialValue);
-s32 dungeonRenderThreeByThreeTerrainGrid(Objects *objects, ViewPosition *view_position, RenderParams *render_params);
-void dungeonSetNegatedCoordinateScratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
-s32 dungeonQueueFourShadedQuadrants(void *rect_arg, void *owner_arg);
+void *allocate_sprite_data_object(s32 user_data);
+void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);
+void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
+void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg);
+void switch_active_object_index(void *object, s16 new_index);
+void initialize_children_or_shutdown(void *owner);
+void initialize_fading_effect(void *effect, void *control);
+void *initialize_available_object(s16 initialValue);
+s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params);
+void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
+s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg);
 
 extern void func_800478B8(void *, s16, void *, void *);
 M2C_UNK func_8003DB94();  /* extern */
 extern M2C_UNK D_80079444;
 s32 func_800644B8();                        /* extern */
-s32 dungeonResolvePlayerInputFacing();               /* extern */
-void dungeonAppendPackedActionRecord();      /* extern */
-u32 dungeonGetRoundedFacingAndRoundingFlag(); /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 resolve_player_input_facing();               /* extern */
+void append_packed_action_record();      /* extern */
+u32 get_rounded_facing_and_rounding_flag(); /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern u8 D_80080A87[16];
-extern void textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(void *, u8, s8, s32);
+extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 D_8002715A;
 extern u8 D_800DD008[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern void func_80042640(void *, s16);
 extern void func_80042710(void *, void *);
 extern s32 func_800429E4(void *);
 extern void func_8004397C(void *);
 extern void func_80044A50(void *);
 extern void func_8004E130(void);
-extern void *func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern s32 func_800A1618(s32, s32);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern void dungeonRetireTrackedEffectById(void *);
+extern void *load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
+extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void retire_tracked_effect_by_id(void *);
 M2C_UNK func_8004DCE0();                     /* extern */
-void runtimeCallSelectedModeHandler();                            /* extern */
+void runtime_call_selected_mode_handler();                            /* extern */
 M2C_UNK func_8004DD2C();                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell D_80027120[];
@@ -801,7 +801,7 @@ extern void func_80065034();
 extern void func_800453E0();
 extern void func_80045CC4();
 extern void func_80064A40();
-extern void func_800BC4D4();
+extern void render_projected_sprite_with_depth_bias();
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);

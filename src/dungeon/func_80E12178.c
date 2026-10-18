@@ -22,12 +22,12 @@ typedef struct {
 
 
 extern s32 func_800644B8(u32);
-extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern void func_800478B8(void *);
 extern void func_80047784(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
-void dungeonAdvanceMotionOutputAnimation(FuncState *motion, void *position, FuncOutput *output) {
+void advance_motion_output_animation(FuncState *motion, void *position, FuncOutput *output) {
     u16 frame_count;
     void *object;
 
@@ -53,11 +53,11 @@ void dungeonAdvanceMotionOutputAnimation(FuncState *motion, void *position, Func
             break;
         }
         *((u16 *)motion - 1) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     object = (void *)((s8 *)motion - 0x20);
-    dungeonSelectNearbyTargetAndInitializeSlot(object, position, 8, 0x300);
+    select_nearby_target_and_initialize_slot(object, position, 8, 0x300);
     func_800478B8(output);
     if (output->flags & 0x6000) {
         func_80047784(output, 0x47, 0);

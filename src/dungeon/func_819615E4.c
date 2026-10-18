@@ -38,7 +38,7 @@ extern void **D_800E3D18;
    case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
    in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
-void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S_func_819615E4_0 *color)
+void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;
     Vec3s position;
@@ -58,8 +58,8 @@ void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S
         position.x = ((u16)D_80083780.x.w.i);
         position.y = ((u16)D_80083780.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
-        transform_offset = ((gameWork.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
-        resolveRecordOrientationOrFallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
+        transform_offset = ((g_game_work.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;
@@ -119,7 +119,7 @@ void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S
     if ((s16)phase_value > 0) {
         return;
     }
-    dungeonSpawnBlinkingSpriteFlash(state->x, state->y, state->z);
+    spawn_blinking_sprite_flash(state->x, state->y, state->z);
     phase_value = state->state;
     const_reg = 5;
     state->timer = const_reg;
@@ -142,7 +142,7 @@ void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S
         return;
     }
     *(u16 *)((u8 *)state - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
     return;
 
     case 3:
@@ -151,7 +151,7 @@ void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S
         TileObject *table;
 
         table = &D_80082E80;
-        resolveRecordOrientationOrFallback(((void *)table->unk_008), table, &position, 0);
+        resolve_record_orientation_or_fallback(((void *)table->unk_008), table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {
@@ -160,12 +160,12 @@ void dungeonInterpolateTargetAndFinishTransition(State *state, Target *target, S
         direction_offset = ((((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
             (s16)(((table->tileX +
-                    (((S_func_819615E4_5 *)((u8 *)((s8 *)dirStepX) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+                    (((S_func_819615E4_5 *)((u8 *)((s8 *)dir_step_x) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->tileY +
-                    (((S_func_819615E4_6 *)((u8 *)((s8 *)dirStepY) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
+                    (((S_func_819615E4_6 *)((u8 *)((s8 *)dir_step_y) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     }

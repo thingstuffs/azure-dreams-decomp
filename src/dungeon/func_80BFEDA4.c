@@ -67,19 +67,19 @@ typedef struct MotionResetView {
 } MotionResetView;
 
 extern s32 abs(s32);
-extern s32 getCdCommandQueueDepth(void);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784(void *, u8, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *, u8 *, s32, u16 *);
-extern void dungeonCreateActorLinkedEffect(void *);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
+extern void create_actor_linked_effect(void *);
 
 extern u8 D_8015F014[];
 extern u8 D_8016220C[];
 
-void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, void *object_in)
+void update_actor_motion_variant(void *owner, void *motion, void *actor, void *object_in)
 {
     void *object = object_in;
     register s32 is_special;
@@ -164,7 +164,7 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
                         ((ActionActorView *)object)->targetY.unsignedByte = action_value;
                     }
                 } else {
-                    target = dungeonScanMonsterAlongHeading(
+                    target = scan_monster_along_heading(
                         object,
                         ((ActionSpriteView *)actor)->tileX,
                         ((ActionSpriteView *)actor)->tileY,
@@ -181,11 +181,11 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
                 }
             }
 
-            if (dungeonCreateActorSpellEffect(object, item_slot, is_special,
+            if (create_actor_spell_effect(object, item_slot, is_special,
                               &((ObjectActionState *)owner)->flags) == 0) {
                 return;
             }
-            dungeonCreateActorLinkedEffect(object);
+            create_actor_linked_effect(object);
             ((ObjectActionState *)owner)->phase++;
             return;
         }
@@ -193,10 +193,10 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        g_dungeon_status.unk_0C = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
-        dungeonAdvanceStatusTimers(object);
+        advance_status_timers(object);
         ((ActionActorView *)object)->remainingActions--;
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;
         ((ActionActorView *)object)->targetY.unsignedByte = 0;
@@ -205,7 +205,7 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((ActionSpriteView *)actor)->flags |= 0x0800;
             return;
         }
@@ -226,7 +226,7 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
         ((MotionResetView *)motion)->motionFlags = 0;
         ((MotionResetView *)motion)->velocityY = 0;
         ((MotionResetView *)motion)->velocityX = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
+        set_record_integer_tile_center(motion, ((ActionSpriteView *)actor)->tileX, ((ActionSpriteView *)actor)->tileY);
 
         {
             u8 *direction_table = D_8016220C;
@@ -234,24 +234,24 @@ void dungeonUpdateActorMotionVariant(void *owner, void *motion, void *actor, voi
                 ((ActionSpriteView *)actor)->animationTable = direction_table;
                 func_80047784(
                     actor,
-                    direction_table[((gameWork.view.viewAngle + ((ActionActorView *)object)->facing + 0x100) >> 9) & 7],
+                    direction_table[((g_game_work.view.viewAngle + ((ActionActorView *)object)->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
 
         {
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;
-        dungeonAdvanceStatusTimers(object);
+        advance_status_timers(object);
         ((ActionActorView *)object)->targetY.unsignedByte = 0;
         ((ActionActorView *)object)->targetX.unsignedByte = 0;
         ((ActionActorView *)object)->remainingActions--;
         ((ActionActorView *)object)->actionFlags &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
     default:
         return;

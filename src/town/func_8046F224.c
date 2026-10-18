@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 townLookupVariantWithSpecialOverrides(s32 requiredFlag, s32 completionFlag) {
+s32 lookup_variant_with_special_overrides(s32 requiredFlag, s32 completionFlag) {
     if (func_8001A510(requiredFlag) == 0) {
         return 1;
     }

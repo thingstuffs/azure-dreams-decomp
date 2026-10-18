@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81033FE0; every changed retail word is a paired relocation. */
-#define dungeonUpdateActionAndCheckForwardTile func_8016F7E0
+#define update_action_and_check_forward_tile func_8016F7E0
 #define D_80170B48 D_8016AB48
 #define D_801714B8 D_8016B4B8
 #define D_8017609C D_8017009C
@@ -21,16 +21,16 @@ typedef struct {
 typedef s32 M2C_UNK;
 
 extern void func_8003DB94(void *, void *, s32);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern s16 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s16 func_800BCB04(u16, u16, s16);
+extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern s16 check_left_tile_and_center_height(u16, u16, s16);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void * func_8016EA00(void *, u16, u16, s16);
 extern void func_8016F494(void *, void *, void *);
 
@@ -165,7 +165,7 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
         ((S_801757E0_0 *)actor)->unk_AC.u = 0;
         ((S_801757E0_0 *)actor)->unk_AD.u = 0;
         ((S_801757E0_0 *)actor)->unk_9B++;
-        func_800A56E0(0x80A);
+        play_sound_if_enabled(0x80A);
         return;
 
     case 1:
@@ -186,7 +186,7 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
 
                 owner = ((S_801757E0_0_pre *)actor)[-1].unk_00;
                 particle_transform = ((S_801757E0_4 *)particle)->unk_08;
-                if (resolveRecordOrientationOrFallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
+                if (resolve_record_orientation_or_fallback(((S_801757E0_6 *)owner)->unk_08, owner, offsets, 1)) {
                     ((S_801757E0_7 *)particle_transform)->unk_02 = ((S_801757E0_2 *)motion)->unk_02.u;
                     ((S_801757E0_7 *)particle_transform)->unk_06 = ((S_801757E0_2 *)motion)->unk_06.u;
                     ((S_801757E0_7 *)particle_transform)->unk_0A = ((S_801757E0_2 *)motion)->unk_0A.u;
@@ -252,12 +252,12 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
             target_x = (u16)x;
             target_y = (u16)y;
 
-            if ((s16)dungeonCheckLeftTileAndCenterHeight(target_x, target_y,
+            if ((s16)check_left_tile_and_center_height(target_x, target_y,
                                    ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
                 ((S_801757E0_0 *)actor)->unk_AD.s = 1;
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-                getOffsetMapCellValueAndFlags(((S_801757E0_1 *)animation)->unk_24,
+                get_offset_map_cell_value_and_flags(((S_801757E0_1 *)animation)->unk_24,
                               ((S_801757E0_1 *)animation)->unk_25,
                               (((u16)entity->facing) >> 9) & 7,
                               &collision_flags);
@@ -276,7 +276,7 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
                 }
             }
             if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-                floor_height = func_800BCB04(target_x, target_y,
+                floor_height = sample_terrain_surface_height(target_x, target_y,
                                      ((S_801757E0_2 *)motion)->unk_0A.s - 0x20);
                 if (floor_height >= 0x200 ||
                     floor_height > ((S_801757E0_2 *)motion)->unk_0A.s + 0x20 ||
@@ -294,14 +294,14 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
         ((S_801757E0_2 *)motion)->unk_14 = 0;
         ((S_801757E0_2 *)motion)->unk_10 = 0;
         ((S_801757E0_2 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_801757E0_1 *)animation)->unk_24, ((S_801757E0_1 *)animation)->unk_25);
+        set_record_integer_tile_center(motion, ((S_801757E0_1 *)animation)->unk_24, ((S_801757E0_1 *)animation)->unk_25);
 
         if (((S_801757E0_1 *)animation)->unk_2C.p != D_8017009C) {
             ((S_801757E0_1 *)animation)->unk_2C.p = D_8017009C;
             ((S_801757E0_1 *)animation)->unk_14 &= 0xF7FF;
             func_80047784(animation,
                 ((S_801757E0_1 *)animation)->unk_2C.p2
-                    [((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                    [((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
@@ -345,7 +345,7 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
         ((S_801757E0_0 *)actor)->unk_9B++;
         (*(void * *)((u8 *)animation + 0x2C)) = D_801700A4;
         func_80047784(animation,
-            D_801700A4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_801700A4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -353,7 +353,7 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
         if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
             (*(void * *)((u8 *)animation + 0x2C)) = D_8017009C;
             func_80047784(animation,
-                D_8017009C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_8017009C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801757E0_0 *)actor)->unk_96.u = 0;
             ((S_801757E0_0 *)actor)->unk_9B++;
@@ -402,9 +402,9 @@ void func_8016F7E0(void *actor, void *motion, void *animation, EntityRec *entity
         return;
 
     case 9:
-        dungeonReduceActorFoodMeter(entity, 0x800);
+        reduce_actor_food_meter(entity, 0x800);
         ((S_801757E0_0 *)actor)->unk_8C = &D_8016B4B8;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         (entity->unk_46) &= 0x7FFF;
 
     case 16:

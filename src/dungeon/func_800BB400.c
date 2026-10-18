@@ -6,18 +6,18 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void dungeonBeginDeferredItemAction();
-extern void func_800A63B8();
-extern s32 dungeonApplyActorFoodPreference();
-extern void func_800A5F38();
-extern void dungeonCreateColoredEffectWithSound();
+extern void begin_deferred_item_action();
+extern void display_item_status_message();
+extern s32 apply_actor_food_preference();
+extern void apply_item_effect_at_entity_position();
+extern void create_colored_effect_with_sound();
 extern void func_80042984();
-extern void *func_800990FC(void);
-extern u8 *func_80099194();
-extern u8 *func_80099734();
+extern void *get_unused_text_buffer(void);
+extern u8 *expand_text_control_codes();
+extern u8 *append_entity_display_text();
 extern void func_80099290();
-extern void func_800A5720();
-extern void dungeonClearSlotAndUpdateLinkedState();
+extern void display_text_with_fullwidth_adjustment();
+extern void clear_slot_and_update_linked_state();
 
 extern u8 D_800E13FB[];
 extern u8 D_800E1402[];
@@ -27,7 +27,7 @@ extern u8 D_80089380[];
 extern u8 D_800E140A[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
-s32 dungeonApplyGenusChangeItem(u8 *target, u8 *event, s32 value)
+s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
 {
     
     u8 *message;
@@ -37,13 +37,13 @@ s32 dungeonApplyGenusChangeItem(u8 *target, u8 *event, s32 value)
 
     if (target == ((u8 *)D_800E3D7C)) {
         *(u8 **)(target + 0x110) = event;
-        dungeonBeginDeferredItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFF) {
-        func_800A63B8(target, event, (s16)value);
-        if (dungeonApplyActorFoodPreference(target, (D_800DDE84[target[0x13]] >> 6) & 3, 0) == 0) {
-            func_800A5F38(target, event);
+        display_item_status_message(target, event, (s16)value);
+        if (apply_actor_food_preference(target, (D_800DDE84[target[0x13]] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(target, event);
             return 1;
         }
         *(s32 *)(target + 0x14) &= -8;
@@ -76,7 +76,7 @@ s32 dungeonApplyGenusChangeItem(u8 *target, u8 *event, s32 value)
                 *(s32 *)(target + 0x14) |= 4;
                 *(s32 *)(target + 0x1C) |= 4;
             }
-            dungeonCreateColoredEffectWithSound(effect_target, color_mask, effect_code);
+            create_colored_effect_with_sound(effect_target, color_mask, effect_code);
         }
         func_80042984(target);
 
@@ -100,27 +100,27 @@ s32 dungeonApplyGenusChangeItem(u8 *target, u8 *event, s32 value)
 
         if (*(s32 *)(target + 0x14) & 0x4000) {
             u8 *message_start;
-            message_end = func_800990FC();
+            message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = func_80099734(target, message_end);
-            message_end = func_80099194(D_800E1411, message_end);
-            message_end = func_80099194(message, message_end);
-            message_end = func_80099194(D_80089380, message_end);
+            message_end = append_entity_display_text(target, message_end);
+            message_end = expand_text_control_codes(D_800E1411, message_end);
+            message_end = expand_text_control_codes(message, message_end);
+            message_end = expand_text_control_codes(D_80089380, message_end);
             func_80099290(message_end);
-            func_800A5720(message_start);
+            display_text_with_fullwidth_adjustment(message_start);
         }
     } else {
         u8 *message_start;
-        message_end = func_800990FC();
+        message_end = get_unused_text_buffer();
         message_start = message_end;
-        message_end = func_80099194(D_800E1426, message_end);
-        message_end = func_80099734(target, message_end);
-        message_end = func_80099194(D_80089380, message_end);
+        message_end = expand_text_control_codes(D_800E1426, message_end);
+        message_end = append_entity_display_text(target, message_end);
+        message_end = expand_text_control_codes(D_80089380, message_end);
         func_80099290(message_end);
-        func_800A5720(message_start);
+        display_text_with_fullwidth_adjustment(message_start);
     }
 
-    dungeonClearSlotAndUpdateLinkedState(event);
-    dungeonStatus.unk_0A -= 1;
+    clear_slot_and_update_linked_state(event);
+    g_dungeon_status.unk_0A -= 1;
     return 1;
 }

@@ -12,13 +12,13 @@ typedef struct S_80173964_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80173964_0;   /* arg0 in dungeonMoveActorBrieflyAndRealign */
+} S_80173964_0;   /* arg0 in move_actor_briefly_and_realign */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 
 extern s32 D_80171728;
 extern u8 D_80174DEC[];
@@ -26,7 +26,7 @@ extern u8 D_80174DFC[];
 extern u8 D_80174E24[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
-void dungeonMoveActorBrieflyAndRealign(void *action, EntityRec *motion, void *actor, EntityRec *entity)
+void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor, EntityRec *entity)
 {
     s32 state;
     s16 timer;
@@ -41,14 +41,14 @@ void dungeonMoveActorBrieflyAndRealign(void *action, EntityRec *motion, void *ac
     state = ((S_80173964_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         ((S_80173964_0 *)action)->unk_96.s = 12;
         ((S_80173964_0 *)action)->unk_9B++;
         if (entity->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, actor, D_80174E24);
+            begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
         if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
@@ -63,10 +63,10 @@ void dungeonMoveActorBrieflyAndRealign(void *action, EntityRec *motion, void *ac
         timer = timer_bits;
         if (timer >= 11) {
             motion->unk_0C =
-                *(s16 *)((u8 *)((s8 *)dirStepX) +
+                *(s16 *)((u8 *)((s8 *)dir_step_x) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
             motion->unk_10 =
-                *(s16 *)((u8 *)((s8 *)dirStepY) +
+                *(s16 *)((u8 *)((s8 *)dir_step_y) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
             ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
             return;
@@ -99,7 +99,7 @@ void dungeonMoveActorBrieflyAndRealign(void *action, EntityRec *motion, void *ac
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, actor, D_80174E24);
+            begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
         timer = ((S_80173964_0 *)action)->unk_96.s;
@@ -127,17 +127,17 @@ void dungeonMoveActorBrieflyAndRealign(void *action, EntityRec *motion, void *ac
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
         if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv == D_80174DFC) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174DEC;
             func_80047784(
                 actor,
-                D_80174DEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80174DEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         ((S_80173964_0 *)action)->unk_8C = &D_80171728;
 

@@ -34,6 +34,6 @@ void func_80921A44(void *entry, void *motion, void *object) {
     func_800478B8(object, motion, (s32) (velocity_y * 4) >> 0x1F, (s32) (velocity_x * 4) >> 0x1F);
     if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_80921A44_2_pre *)entry)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

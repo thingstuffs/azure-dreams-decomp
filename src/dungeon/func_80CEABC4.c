@@ -14,16 +14,16 @@ typedef struct S_801743C4_0 {
     u8 unk_9B;
     u8 pad_9C[0xE];
     s16 unk_AA;
-} S_801743C4_0;   /* arg0 in dungeonAdvanceTimedDirectionalAction */
+} S_801743C4_0;   /* arg0 in advance_timed_directional_action */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void dungeonCreateTargetedMotionEffect(void *, void *, void *, void *);
-extern void dungeonCreateActorActionEffect(void *, void *, void *, void *);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void create_targeted_motion_effect(void *, void *, void *, void *);
+extern void create_actor_action_effect(void *, void *, void *, void *);
 
 extern u8 D_801724BC[];
 extern u8 D_80175DDC[8];
@@ -31,7 +31,7 @@ extern u8 D_80175DE4[8];
 extern u8 D_80175DEC[8];
 
 /* Advance a timed action sequence with directional animation and sound effects. */
-void dungeonAdvanceTimedDirectionalAction(void *action, void *motion, void *sprite, EntityRec *entity)
+void advance_timed_directional_action(void *action, void *motion, void *sprite, EntityRec *entity)
 {
     s16 timer;
     u8 state;
@@ -61,22 +61,22 @@ void dungeonAdvanceTimedDirectionalAction(void *action, void *motion, void *spri
         case 13:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DDC;
             func_80047784(sprite,
-                D_80175DDC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80175DDC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DE4;
             func_80047784(sprite,
-                D_80175DE4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80175DE4[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175DEC;
             func_80047784(sprite,
-                D_80175DEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80175DEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801743C4_0 *)action)->unk_9B = 5;
-            func_800A56E0(0x60C);
+            play_sound_if_enabled(0x60C);
             return;
         default:
             return;
@@ -86,22 +86,22 @@ void dungeonAdvanceTimedDirectionalAction(void *action, void *motion, void *spri
         timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
         ((S_801743C4_0 *)action)->unk_96.s = timer;
         if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(entity, sprite, entity->facing, 1);
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing, 1);
             ((S_801743C4_0 *)action)->unk_96.s = 0;
             ((S_801743C4_0 *)action)->unk_9B++;
         }
         if (((S_801743C4_0 *)action)->unk_96.u == 3) {
-            func_800A56E0(0x804);
+            play_sound_if_enabled(0x804);
             return;
         }
         return;
 
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            dungeonReduceActorFoodMeter(entity, 0x100);
+            reduce_actor_food_meter(entity, 0x100);
             ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(entity);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(entity);
             entity->unk_46 &= 0x7FFF;
         }
         return;
@@ -111,13 +111,13 @@ void dungeonAdvanceTimedDirectionalAction(void *action, void *motion, void *spri
         ((S_801743C4_0 *)action)->unk_96.s = timer;
         if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
-            func_800A56E0(0x804);
-            dungeonCreateTargetedMotionEffect(action, motion, sprite, entity);
-            dungeonCreateActorActionEffect(action, motion, sprite, entity);
+            play_sound_if_enabled(0x804);
+            create_targeted_motion_effect(action, motion, sprite, entity);
+            create_actor_action_effect(action, motion, sprite, entity);
         }
         if ((((S_801743C4_0 *)action)->unk_96.u == 12) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(entity, sprite, entity->facing,
+            resolve_attack_damage_and_effects(entity, sprite, entity->facing,
                 ((S_801743C4_0 *)action)->unk_AA);
         }
         if ((((S_801743C4_0 *)action)->unk_96.u == 20) ||

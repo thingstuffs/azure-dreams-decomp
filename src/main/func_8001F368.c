@@ -10,7 +10,7 @@ typedef struct S_80406368_0 {
     u8 pad_34[0x10];
     s32 unk_44;
     s32 unk_48;
-} S_80406368_0;   /* menu in mainHandleObjectMenuInput */
+} S_80406368_0;   /* menu in handle_object_menu_input */
 
 
 extern s32 D_801379A8;
@@ -18,16 +18,16 @@ extern s32 D_801379B0;
 
 extern void func_80063FF8(s32 sound_code);
 extern s32  func_80058FF0(s32 selection_index, s32 direction, s32 selection_count);
-extern s32  cardDevkitPollStableSlotState(void);
-extern void func_804018FC(void);
-extern void cardDevkitRefreshSaveSlotSelection(void *menu);
-extern void func_804062F4(void *menu);
+extern s32  card_devkit_poll_stable_slot_state(void);
+extern void submit_stored_and_queried_boot_values(void);
+extern void card_devkit_refresh_save_slot_selection(void *menu);
+extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);
-extern void func_80406720(void *object);
-extern void func_804083FC(s32 value0, s32 value1);
+extern void propagate_object_high_bit_flags(void *object);
+extern void allocate_or_reuse_effect_and_install_callback(s32 value0, s32 value1);
 
 /* Handles menu navigation, button actions, and display refreshes. */
-void mainHandleObjectMenuInput(void *menu)
+void handle_object_menu_input(void *menu)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -44,8 +44,8 @@ void mainHandleObjectMenuInput(void *menu)
         pressed_buttons = D_801379B0;
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
-            func_80406720((u8 *) menu - 0x20);
-            func_804083FC(((S_80406368_0 *)menu)->unk_20, 0);
+            propagate_object_high_bit_flags((u8 *) menu - 0x20);
+            allocate_or_reuse_effect_and_install_callback(((S_80406368_0 *)menu)->unk_20, 0);
             return;
         } else if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
@@ -53,7 +53,7 @@ void mainHandleObjectMenuInput(void *menu)
                 func_80406358(menu);
                 needs_refresh = 1;
             } else {
-                func_804062F4(menu);
+                invoke_indexed_object_callback(menu);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
@@ -92,19 +92,19 @@ void mainHandleObjectMenuInput(void *menu)
             } else {
                 ((S_80406368_0 *)menu)->unk_44 = func_80058FF0(((S_80406368_0 *)menu)->unk_44, nav_result, 4);
             }
-            cardDevkitRefreshSaveSlotSelection(menu);
+            card_devkit_refresh_save_slot_selection(menu);
         }
     }
 
-    nav_result = cardDevkitPollStableSlotState();
-    func_804018FC();
+    nav_result = card_devkit_poll_stable_slot_state();
+    submit_stored_and_queried_boot_values();
     if (nav_result != 0) {
         if (nav_result != 1) {
-            func_80406720((u8 *) menu - 0x20);
-            func_804083FC(((S_80406368_0 *)menu)->unk_20, 0);
+            propagate_object_high_bit_flags((u8 *) menu - 0x20);
+            allocate_or_reuse_effect_and_install_callback(((S_80406368_0 *)menu)->unk_20, 0);
         }
     }
     if (needs_refresh != 0) {
-        cardDevkitRefreshSaveSlotSelection(menu);
+        card_devkit_refresh_save_slot_selection(menu);
     }
 }

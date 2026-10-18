@@ -8,7 +8,7 @@ extern u32 D_8006B008[3];
 extern u32 D_800D0858[3];
 
 /* Returns an indexed value from the table selected by the current mode. */
-u32 runtimeGetModeIndexedValue(s32 index)
+u32 runtime_get_mode_indexed_value(s32 index)
 {
     if (D_80082E6A[0] == 2) {
         return D_8006B008[index];

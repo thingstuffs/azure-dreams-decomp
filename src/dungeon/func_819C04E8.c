@@ -31,7 +31,7 @@ extern Object *func_8003FD64(s32, void *);
 
 
 extern u8 D_80028664[];
-s32 func_800C9034(void *, s32, void *);
+s32 draw_linked_model_chain(void *, s32, void *);
 
 
 typedef struct S_80025CE8_0 {
@@ -133,7 +133,7 @@ u16 angle;
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
-            new_object->part10 = (void *)dungeonUpdateOwnerFollowingEffect;
+            new_object->part10 = (void *)update_owner_following_effect;
             color |= 0x8080;
             data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;
@@ -156,7 +156,7 @@ u16 angle;
             render->unk_0C = color;
             render_flags |= 0xC;
             render->unk_14 = render_flags;
-            func_8004491C(*slot, (s32)func_800C9034);
+            func_8004491C(*slot, (s32)draw_linked_model_chain);
 
             current_object = *slot;
             data_entry = (u8 *)current_object + 0x20;
@@ -189,9 +189,9 @@ u16 angle;
                     alloc_parent = predecessor_test;
                     cleanup_object = *(Object **)alloc_page;
                     cleanup_flags = ((S_80025CE8_4 *)cleanup_object)->unk_1E;
-                    flag_work = objectFlagBlock.flags;
+                    flag_work = object_flag_block.flags;
                     flag_work |= 0x8000;
-                    objectFlagBlock.flags = flag_work;
+                    object_flag_block.flags = flag_work;
                     cleanup_flags |= 0x8000;
                     ((S_80025CE8_4 *)cleanup_object)->unk_1E = cleanup_flags;
                 } while ((s32)alloc_parent >= 0);

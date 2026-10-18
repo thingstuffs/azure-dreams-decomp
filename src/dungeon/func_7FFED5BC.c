@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-s32 townFindResourceIndexByKey(s32 first_byte, s32 second_byte, s32 halfword_value) {
+s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_value) {
     s32 entry_index;
     s32 end_marker;
     s32 scan_end_marker;

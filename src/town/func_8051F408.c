@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 townLookupWithOverrideFallback(void *, s32, s32);
+extern s32 lookup_with_override_fallback(void *, s32, s32);
 extern void func_80017A8C(s16, s16, s16);
 extern void func_80018A64(s32);
 extern s32 func_80018B5C(s32);
@@ -11,10 +11,10 @@ extern u8 D_8001CD7B[];
 extern u8 D_8001D244[];
 
 /* Selects a result address after checking the object, its position, and state. */
-u8 *townSelectSceneResultAddress(void *object, s32 check_input_b, s32 check_input_c) {
+u8 *select_scene_result_address(void *object, s32 check_input_b, s32 check_input_c) {
     void *pos;
 
-    if (townLookupWithOverrideFallback(object, check_input_b, check_input_c) != 0) {
+    if (lookup_with_override_fallback(object, check_input_b, check_input_c) != 0) {
         return D_8001D244;
     }
 

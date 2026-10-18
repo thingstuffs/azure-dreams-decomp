@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-M2C_UNK func_800A4928();                            /* extern */
+M2C_UNK initialize_paired_state_blocks();                            /* extern */
 
 /* Dispatch to the town runtime routine. */
 void func_8003AEC8(void) {
-    func_800A4928();
+    initialize_paired_state_blocks();
 }

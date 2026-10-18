@@ -21,30 +21,30 @@ typedef struct S_801724BC_2 {
     s8 unk_26;
     u8 pad_27[0x5];
     M2C_UNK * unk_2C;
-} S_801724BC_2;   /* arg2 in dungeonUpdateActorBehavior */
+} S_801724BC_2;   /* arg2 in update_actor_behavior */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_80047784();         /* extern */
-s32 dungeonCheckEntityRelation();                     /* extern */
-s8 func_8009FB34();                           /* extern */
-s32 dungeonCompareMonsterNeighborValues();                  /* extern */
-s32 dungeonGetRoundedFacingAndRoundingFlag();       /* extern */
-s32 func_800A1C58();                          /* extern */
-void func_800A9A0C();                      /* extern */
-void dungeonBeginPushedActorMove(); /* extern */
-s32 dungeonBeginReadyActorDirectionalAction(); /* extern */
-s32 dungeonAdvanceActorPendingAction(); /* extern */
-void func_800AA888(); /* extern */
-s32 dungeonResetActorActionState(); /* extern */
-s32 dungeonProcessSelectedActorRecord(); /* extern */
-void dungeonBeginActorSpellAction(); /* extern */
-void func_80172CC0(void *, M2C_UNK, void *, void *);                            /* extern */
-void dungeonSelectAndAdvanceActorMove(); /* extern */
-s32 dungeonCheckAndPrepareActorMove(); /* extern */
-void dungeonPrepareActorPathMovement(); /* extern */
+s32 check_entity_relation();                     /* extern */
+s8 find_active_rect_containing_point();                           /* extern */
+s32 compare_monster_neighbor_values();                  /* extern */
+s32 get_rounded_facing_and_rounding_flag();       /* extern */
+s32 can_entity_gain_level();                          /* extern */
+void update_actor_status_and_food();                      /* extern */
+void begin_pushed_actor_move(); /* extern */
+s32 begin_ready_actor_directional_action(); /* extern */
+s32 advance_actor_pending_action(); /* extern */
+void begin_actor_move_to_target_facing(); /* extern */
+s32 reset_actor_action_state(); /* extern */
+s32 process_selected_actor_record(); /* extern */
+void begin_actor_spell_action(); /* extern */
+void advance_actor_stored_path_2(void *, M2C_UNK, void *, void *);                            /* extern */
+void select_and_advance_actor_move(); /* extern */
+s32 check_and_prepare_actor_move(); /* extern */
+void prepare_actor_path_movement(); /* extern */
 s32 func_80173EAC(); /* extern */
-void dungeonUpdateDirectionalActionDisplay(); /* extern */
+void update_directional_action_display(); /* extern */
 extern M2C_UNK D_801724BC;
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
@@ -63,7 +63,7 @@ extern M2C_UNK D_80175E8C;
 extern M2C_UNK D_80175E94;
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
-void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, EntityRec *state) {
+void update_actor_behavior(void *actor, M2C_UNK context, void *sprite, EntityRec *state) {
     M2C_UNK path_info;
     u8 *next_row;
     M2C_UNK *current_row;
@@ -81,13 +81,13 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
     s32 effect_mode;
     s32 rest_mode;
 
-    if (dungeonStatus.flags & 0x1000) {
+    if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-        func_80172CC0(actor, context, sprite, state);
+        advance_actor_stored_path_2(actor, context, sprite, state);
         return;
     }
     if (state->tileY == 0) {
-        dungeonAdvanceActorPendingAction(actor, context, sprite, state);
+        advance_actor_pending_action(actor, context, sprite, state);
         anim_mode = state->unk_48;
         switch (anim_mode) {
         case 0xD:
@@ -95,21 +95,21 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
                 return;
             }
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E84;
-            func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E84)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xE:
             if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
                 return;
             }
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
-            func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E8C)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xF:
             if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
                 return;
             }
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E94;
-            func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E94)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         }
         return;
@@ -125,7 +125,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }
-            if (dungeonResetActorActionState(actor, context, sprite, &D_80175E84) != 0) {
+            if (reset_actor_action_state(actor, context, sprite, &D_80175E84) != 0) {
                 return;
             }
             break;
@@ -137,7 +137,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }
-            if (dungeonResetActorActionState(actor, context, sprite, &D_80175E8C) != 0) {
+            if (reset_actor_action_state(actor, context, sprite, &D_80175E8C) != 0) {
                 return;
             }
             break;
@@ -149,7 +149,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
                 state->flags1C = (s32) (state->flags1C & 0xFFFBFFFF);
                 return;
             }
-            if (dungeonResetActorActionState(actor, context, sprite, &D_80175E94) != 0) {
+            if (reset_actor_action_state(actor, context, sprite, &D_80175E94) != 0) {
                 return;
             }
             break;
@@ -160,7 +160,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
     }
     if (!(flags_page[0x1A31] & 0x2000)) {
         if (state->flags1C & 0x100) {
-            dungeonBeginPushedActorMove(actor, context, sprite, state);
+            begin_pushed_actor_move(actor, context, sprite, state);
             return;
         }
         if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
@@ -169,21 +169,21 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
             case 0xD:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
                     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E24;
-                    func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                    func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xE:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
                     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
-                    func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                    func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xF:
                 if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
                     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E34;
-                    func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                    func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (g_game_work.view.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
@@ -195,45 +195,45 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
             effect_mode = state->unk_48;
             switch (effect_mode) {
             case 0xD:
-                if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, &D_80175E3C) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80175E3C) != 0) {
                     return;
                 }
                 break;
             case 0xE:
-                if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, &D_80175E44) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80175E44) != 0) {
                     return;
                 }
                 break;
             case 0xF:
-                if (dungeonBeginReadyActorDirectionalAction(actor, context, sprite, &D_80175E4C) != 0) {
+                if (begin_ready_actor_directional_action(actor, context, sprite, &D_80175E4C) != 0) {
                     return;
                 }
                 break;
             }
         }
         if (state->flags1C & 0x80000) {
-            func_800AA888(actor, context, sprite, state);
-            dungeonUpdateDirectionalActionDisplay(actor, context, sprite, state);
+            begin_actor_move_to_target_facing(actor, context, sprite, state);
+            update_directional_action_display(actor, context, sprite, state);
             return;
         }
-        if ((func_800A1C58(state) << 0x10) != 0) {
-            dungeonProcessSelectedActorRecord(actor, context, sprite, state);
+        if ((can_entity_gain_level(state) << 0x10) != 0) {
+            process_selected_actor_record(actor, context, sprite, state);
         }
     }
-    room_id = func_8009FB34(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v);
+    room_id = find_active_rect_containing_point(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v);
     ((S_801724BC_2 *)sprite)->unk_26 = room_id;
     if (state->unk_6D > 0) {
         if (state->flags1C & 0x20) {
-            func_800A9A0C(state);
+            update_actor_status_and_food(state);
             return;
         }
         if (((S_801724BC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            dungeonSelectAndAdvanceActorMove(actor, context, sprite, state);
+            select_and_advance_actor_move(actor, context, sprite, state);
             return;
         }
         if (!(state->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((dungeonCheckEntityRelation(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+            if (g_dungeon_status.flags & 0x2000) {
+                if ((check_entity_relation(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                     return;
                 }
             }
@@ -243,7 +243,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
             action_flags = state->unk_46 | 0x4000;
             state->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                dungeonSelectAndAdvanceActorMove(actor, context, sprite, state);
+                select_and_advance_actor_move(actor, context, sprite, state);
                 return;
             }
         }
@@ -251,25 +251,25 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
         switch (action_id) {
         case 8:
         case 9:
-            if ((dungeonCheckAndPrepareActorMove(actor, context, sprite, state) << 0x10) != 0) {
+            if ((check_and_prepare_actor_move(actor, context, sprite, state) << 0x10) != 0) {
                 return;
             }
-            dungeonPrepareActorPathMovement(actor, context, sprite, state);
+            prepare_actor_path_movement(actor, context, sprite, state);
             return;
         case 12:
-            func_800A9A0C(state);
+            update_actor_status_and_food(state);
             return;
         case 5:
         case 6:
         case 7:
         {
-            heading = dungeonGetRoundedFacingAndRoundingFlag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            heading = get_rounded_facing_and_rounding_flag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &path_info);
         }
             player = D_800814A8;
             state->facing = heading;
             if (player->unk_9A != 0x11) {
-                func_800A9A0C(state);
+                update_actor_status_and_food(state);
                 return;
             }
         case 1:
@@ -278,34 +278,34 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
             action_mode = state->unk_48;
             switch (action_mode) {
             case 0xD:
-                dungeonBeginActorSpellAction(actor, context, sprite, &D_80175DF4, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175DF4, &D_801724BC);
                 return;
             case 0xE:
-                dungeonBeginActorSpellAction(actor, context, sprite, &D_80175DFC, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175DFC, &D_801724BC);
                 return;
             case 0xF:
-                dungeonBeginActorSpellAction(actor, context, sprite, &D_80175E04, &D_801724BC);
+                begin_actor_spell_action(actor, context, sprite, &D_80175E04, &D_801724BC);
                 return;
             }
             return;
         case 11:
         default:
-            dungeonSelectAndAdvanceActorMove(actor, context, sprite, state);
+            select_and_advance_actor_move(actor, context, sprite, state);
             return;
         }
     }
     state_flags = state->flags1C;
     if ((state_flags & 0x2000) || (room_id >= 0 && (D_800E2970[room_id].flags & 2)) || (state_flags & 0x430)) {
-        if (dungeonStatus.flags & 0x2000) {
+        if (g_dungeon_status.flags & 0x2000) {
             return;
         }
     } else {
-        if ((dungeonCompareMonsterNeighborValues(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+        if ((compare_monster_neighbor_values(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
             D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
-            state->facing = dungeonGetRoundedFacingAndRoundingFlag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            state->facing = get_rounded_facing_and_rounding_flag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY, &path_info);
         }
-        if (dungeonStatus.flags & 0x2000) {
+        if (g_dungeon_status.flags & 0x2000) {
             return;
         }
     }
@@ -333,7 +333,7 @@ void dungeonUpdateActorBehavior(void *actor, M2C_UNK context, void *sprite, Enti
         return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
-    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7)
+    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7)
         + (unsigned long)next_row), 0);
     return;
 }

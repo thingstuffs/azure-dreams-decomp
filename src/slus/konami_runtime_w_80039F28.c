@@ -6,7 +6,7 @@
 typedef struct S_80039F28_1 {
     u8 pad_00[0x48];
     s32 unk_48;
-} S_80039F28_1;   /* ((*temp_v1 * 4) + arg0->unk_80) in vmOp49ClearValue */
+} S_80039F28_1;   /* ((*temp_v1 * 4) + arg0->unk_80) in vm_op_49_clear_value */
 
 
 typedef struct S_80039F28_0 {
@@ -14,11 +14,11 @@ typedef struct S_80039F28_0 {
     u8 * unk_1C;
     u8 pad_20[0x60];
     s32 unk_80;
-} S_80039F28_0;   /* arg0 in vmOp49ClearValue */
+} S_80039F28_0;   /* arg0 in vm_op_49_clear_value */
 
 
 /* Clear the script-selected word and advance the script cursor. */
-void vmOp49ClearValue(S_80039F28_0 *vm) {
+void vm_op_49_clear_value(S_80039F28_0 *vm) {
     u8 *script;
 
     script = vm->unk_1C;

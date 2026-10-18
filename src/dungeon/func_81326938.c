@@ -10,14 +10,14 @@ typedef struct {
     s32 flags;
 } Status;
 
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void func_8009A3D0(s32, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(s32, s32, s32);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern void set_record_integer_tile_center(s32, s32, s32);
 extern Copy12 D_8016A858[];
 extern u8 *D_80174704;
 
 /* Reposition the current object using an indexed offset from the reference coordinates. */
-void dungeonRepositionObjectByIndexedOffset(s32 offset_index) {
+void reposition_object_by_indexed_offset(s32 offset_index) {
     Copy12 offsets = D_8016A858[0];
     s32 old_tile_mask;
     u8 *offset_bytes;
@@ -45,19 +45,19 @@ void dungeonRepositionObjectByIndexedOffset(s32 offset_index) {
         old_tile_mask = 0x300;
     }
     offset_bytes = (u8 *)&offsets;
-    func_8009A3D0(x, y, old_tile_mask);
+    update_map_cell_flags_with_item_limit(x, y, old_tile_mask);
     origin = &D_80082E80;
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin->tileX + ((u8 *)xy_offset)[0];
     object[0x25] = origin->tileY + ((u8 *)xy_offset)[1];
-    dungeonSetRecordIntegerTileCenter(object_handle, object[0x24], object[0x25]);
+    set_record_integer_tile_center(object_handle, object[0x24], object[0x25]);
     status_flags = *(s32 *)&status->flags;
     x = object[0x24];
     updated_y = object[0x25];
     if (status_flags & 0x2000) {
-        func_8009A21C(x, updated_y, 0x300);
+        cycle_map_cell_flags(x, updated_y, 0x300);
     } else {
-        func_8009A21C(x, updated_y, 0x3000);
+        cycle_map_cell_flags(x, updated_y, 0x3000);
     }
 }

@@ -7,9 +7,9 @@ extern void func_8007BEF0(s32 value);
 extern void func_80040560(void *object, void *data);
 extern void func_804059A8(void *object);
 extern void func_8007BFE0(void *object, s32 value);
-extern void func_804056F4(void *object, s32 value);
+extern void initialize_menu_primitive_entries(void *object, s32 value);
 extern s32 func_804056CC(void *value);
-extern void func_804057B0(void *object, s32 option);
+extern void initialize_menu_overlay_objects(void *object, s32 option);
 extern u8 D_8040861C[];
 extern u8 D_80400738[];
 extern u8 D_80400760[];
@@ -22,7 +22,7 @@ typedef struct {
 extern Root D_8040B4F8;
 
 /* Initializes the memory card information object and its working state. */
-void *initCardInfoObject(s32 init_option, s32 info_value) {
+void *init_card_info_object(s32 init_option, s32 info_value) {
     void *base;
     void *card_state;
 
@@ -41,10 +41,10 @@ void *initCardInfoObject(s32 init_option, s32 info_value) {
         func_8007BFE0(card_state, 0xDFC);
     }
     *(s32 *)((u8 *)card_state + 0x7C) = info_value;
-    func_804056F4(card_state, 0x15);
+    initialize_menu_primitive_entries(card_state, 0x15);
     *(void **)((u8 *)base + 0xC) = (u8 *)card_state + 0xAF8;
     *(s32 *)((u8 *)card_state + 0xB04) = func_804056CC((u8 *)card_state + 0xB08);
-    func_804057B0(card_state, init_option);
+    initialize_menu_overlay_objects(card_state, init_option);
     *(s32 *)((u8 *)base + 0x10) = 0;
     return base;
 }

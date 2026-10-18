@@ -13,7 +13,7 @@ extern char D_80016080[];
 extern char D_800160A8[];
 
 /* Return the index of the matching key, or assert and terminate if absent. */
-s32 townFindEntry8IndexOrAssertRevB(Entry *entries, s32 key)
+s32 find_entry_8_index_or_assert_rev_b(Entry *entries, s32 key)
 {
     Entry *entry;
     s32 index;

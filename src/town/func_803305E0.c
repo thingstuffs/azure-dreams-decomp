@@ -3,7 +3,7 @@
 
 
 /* Returns the indexed flag mask, with indices 0 and 1 yielding constant false and true. */
-s32 townGetScriptFlagMask(s32 flagIndex) {
+s32 get_script_flag_mask(s32 flagIndex) {
     s32 wordOffsetOrBitIndex;
     s32 addressOrMask;
     s32 *flagWord;

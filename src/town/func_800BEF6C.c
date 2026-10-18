@@ -9,23 +9,23 @@ typedef struct S_800BC6CC_0 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_800BC6CC_0;   /* arg1 in townAdvanceCoordinatesAndPropagateFlags */
+} S_800BC6CC_0;   /* arg1 in advance_coordinates_and_propagate_flags */
 
 
 typedef struct S_800BC6CC_2_pre {
     u16 unk_00;
-} S_800BC6CC_2_pre;   /* the 0x2 bytes before arg0 in townAdvanceCoordinatesAndPropagateFlags, addressed as arg0[-1] */
+} S_800BC6CC_2_pre;   /* the 0x2 bytes before arg0 in advance_coordinates_and_propagate_flags, addressed as arg0[-1] */
 
 
 extern int func_800478B8();
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
-void townAdvanceCoordinatesAndPropagateFlags(void *object_data, void *motion, void *status) {
+void advance_coordinates_and_propagate_flags(void *object_data, void *motion, void *status) {
     func_800478B8(status);
     ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
     if (((Rec_D_80082E80 *)status)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)object_data + -2)) = (u16) (((S_800BC6CC_2_pre *)object_data)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

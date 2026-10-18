@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e765800.h"
 
-s32 func_800243BC(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform)
+s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform)
 {
     s32 random_value;
     s32 rounded_random;

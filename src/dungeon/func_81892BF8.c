@@ -21,6 +21,6 @@ void func_800243F8(void *counterState) {
     ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_04 = incrementedCount;
     if ((s16) incrementedCount >= ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_06) {
         ((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

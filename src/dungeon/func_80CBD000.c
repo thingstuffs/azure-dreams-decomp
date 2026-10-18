@@ -10,19 +10,19 @@ typedef struct S_80CBD000_0 {
     u32 unk_1C;
     u8 pad_20[0x6C];
     void * unk_8C;
-} S_80CBD000_0;   /* work in func_801708A4 */
+} S_80CBD000_0;   /* work in create_actor_grid_object */
 
 typedef struct S_80CBD000_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80CBD000_1;   /* part in func_801708A4 */
+} S_80CBD000_1;   /* part in create_actor_grid_object */
 
 typedef struct S_80CBD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80CBD000_2;   /* coord in func_801708A4 */
+} S_80CBD000_2;   /* coord in create_actor_grid_object */
 
 typedef struct S_80CBD000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80CBD000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80CBD000_3;   /* state in func_801708A4 */
+} S_80CBD000_3;   /* state in create_actor_grid_object */
 
 typedef struct S_80CBD000_4 {
     u8 pad_00[0x8C];
@@ -42,15 +42,15 @@ typedef struct S_80CBD000_4 {
     u8 pad_9D[0xA];
     s8 unk_A7;
     s8 unk_A8;
-} S_80CBD000_4;   /* actor in func_801708A4 */
+} S_80CBD000_4;   /* actor in create_actor_grid_object */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_800A48F0(void *, s32, s32);
-extern s32 func_800A6D30(void);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value(void);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_800E2968;
 extern u8 D_80170AE0[];
@@ -63,7 +63,7 @@ extern u8 D_80176320[];
 
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_801708A4(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
+void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
 {
     s8 kind_id;
     s16 spawn_value;
@@ -109,10 +109,10 @@ void *func_801708A4(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn
             state->unk_2C = D_801762C0;
         } else if (((flags & -4) << 16) == 0) {
             if (!(((S_80CBD000_0 *)work)->unk_14 & 0x200)) {
-                random = func_800A6D30();
+                random = generate_random_value();
                 if (random & 1) {
-                    random = func_800A6D30();
-                    func_800A48F0(work, 1, (random & 0x3F) | 0x20);
+                    random = generate_random_value();
+                    set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
                     state->unk_2C = D_80176300;
                 }
             }
@@ -130,11 +130,11 @@ void *func_801708A4(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn
         }
 
         ((S_80CBD000_1 *)part)->unk_10 = D_80170AE0;
-        func_800A9C18(part, coord, state, arg0_copy);
+        initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
         ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
         ((S_80CBD000_4 *)actor)->unk_9C = -1;
         ((S_80CBD000_4 *)actor)->unk_A8 = 0;
-        func_800AA36C(actor, coord, state, work);
+        try_move_actor_to_valid_position(actor, coord, state, work);
     }
     return work;
 }

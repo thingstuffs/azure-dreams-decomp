@@ -9,7 +9,7 @@ extern u8 D_800BFF7C[9];
 extern u8 D_800F15AC[9];
 
 /* Moves the object through its animation states, spawns an effect, and marks completion. */
-void townAdvanceObjectAnimationAndEffect(void *object)
+void advance_object_animation_and_effect(void *object)
 {
     s32 state;
     void *effect;
@@ -84,7 +84,7 @@ void townAdvanceObjectAnimationAndEffect(void *object)
 
     case 0xFF:
         *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     default:

@@ -44,7 +44,7 @@ Scratch800D1A48;
 typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
 extern void *func_800654B0(u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *);
 /* Build visible textured quads for the matching sprite and link them into the ordering table. */
-void *dungeonDrawSpriteEffectQuads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf)
+void *draw_sprite_effect_quads(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf)
 {
     Scratch800D1A48 *scratch;
     s32 index;

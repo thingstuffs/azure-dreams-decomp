@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18c4828.h"
 
-s32 func_800244A0(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
+s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
     s32 result;
     s16 angle;
     u16 height;

@@ -3,7 +3,7 @@
 #include "common.h"
 
 typedef struct S_8004FA2C {
-    void (*f0)(void *self);   /* 0x00 - callback, compared to animateSelectionMenuEntrySpacing */
+    void (*f0)(void *self);   /* 0x00 - callback, compared to animate_selection_menu_entry_spacing */
     u8 pad04[0x20 - 0x4];
     s32 f20;                  /* 0x20 */
     s32 f24;                  /* 0x24 */
@@ -13,19 +13,19 @@ typedef struct S_8004FA2C {
     s32 f34;                  /* 0x34 */
 } S_8004FA2C;
 
-extern void animateSelectionMenuEntrySpacing(void *a0);
-extern void animateSelectionMenuIndexTransition(void *a0);
-extern int advanceIndexWithSingleWrap(int a0, int a1, int a2);
+extern void animate_selection_menu_entry_spacing(void *a0);
+extern void animate_selection_menu_index_transition(void *a0);
+extern int advance_index_with_single_wrap(int a0, int a1, int a2);
 
 /* Resets the object's transition state, switches callbacks, and advances its saved value. */
-void beginSelectionMenuIndexChange(S_8004FA2C *object, int target)
+void begin_selection_menu_index_change(S_8004FA2C *object, int target)
 {
     object->f2C = 0;
-    if (object->f0 == animateSelectionMenuEntrySpacing) {
+    if (object->f0 == animate_selection_menu_entry_spacing) {
         object->f20 = 0x20;
-        animateSelectionMenuEntrySpacing(object);
+        animate_selection_menu_entry_spacing(object);
     }
     object->f34 = object->f30;
-    object->f0 = animateSelectionMenuIndexTransition;
-    object->f30 = advanceIndexWithSingleWrap(object->f30, target, object->f24);
+    object->f0 = animate_selection_menu_index_transition;
+    object->f30 = advance_index_with_single_wrap(object->f30, target, object->f24);
 }

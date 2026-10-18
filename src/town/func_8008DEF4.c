@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern s32 runtimeFindUnusedPoolSlot(void);
-extern void runtimeInitializeStateValue(s32, s32);
-extern void runtimeClearValue(s32);
+extern s32 runtime_find_unused_pool_slot(void);
+extern void runtime_initialize_state_value(s32, s32);
+extern void runtime_clear_value(s32);
 extern s32 func_8003FC64(s32);
-extern void unlinkActiveNode(s32);
-extern void pushNodeOntoFreeList(s32);
-extern void func_8008B818(s32, s32, s32, s32);
+extern void unlink_active_node(s32);
+extern void push_node_onto_free_list(s32);
+extern void initialize_town_map_object_state(s32, s32, s32, s32);
 extern s8 D_800CFC2C[11];
 extern u8 D_800FC418;
 
@@ -29,11 +29,11 @@ s32 town_map_set(s32 value_7c, s32 value_78)
         if (new_object == 0) {
             break;
         }
-        new_resource = runtimeFindUnusedPoolSlot();
+        new_resource = runtime_find_unused_pool_slot();
         if (new_resource == 0) {
             break;
         }
-        runtimeInitializeStateValue(new_resource, 0);
+        runtime_initialize_state_value(new_resource, 0);
         *object_slot++ = new_object;
         *resource_slot++ = new_resource;
         index++;
@@ -44,15 +44,15 @@ s32 town_map_set(s32 value_7c, s32 value_78)
             array_start = objects;
             do {
                 object_slot--;
-                unlinkActiveNode(*object_slot);
-                pushNodeOntoFreeList(*object_slot);
+                unlink_active_node(*object_slot);
+                push_node_onto_free_list(*object_slot);
             } while (object_slot != array_start);
         }
         if (resource_slot != resources) {
             array_start = resources;
             do {
                 resource_slot--;
-                runtimeClearValue(*resource_slot);
+                runtime_clear_value(*resource_slot);
             } while (resource_slot != array_start);
         }
         return 0;
@@ -72,7 +72,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
         *(s32 *)(object_data + 0x74) = 0;
         *(s32 *)(object_data + 0x78) = value_78;
         *(s32 *)(object_data + 0x7C) = value_7c;
-        func_8008B818(index, linked_data, *object_slot++, *resource_slot++);
+        initialize_town_map_object_state(index, linked_data, *object_slot++, *resource_slot++);
         index++;
     } while (index < 11);
     D_800FC418 = 0;

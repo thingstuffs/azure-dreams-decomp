@@ -21,7 +21,7 @@ extern void SetDrawMode(void *p, s32 dfe, s32 abe, u16 tpage,
 extern void AddPrim(void *ot, void *p);
 
 /* Queue a draw mode primitive with a 64-by-32 texture window at the given ordering table index. */
-void queueWindowTextureDrawMode(s32 ot_index)
+void queue_window_texture_draw_mode(s32 ot_index)
 {
     void *draw_mode;
     Func800369C8_DrawMode texture_window;

@@ -10,7 +10,7 @@
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
-} S_FUNC_8197C800_BODY_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
+} S_FUNC_8197C800_BODY_0_pre;   /* the 0x2 bytes before arg0 in update_directional_actor_effect, addressed as arg0[-1] */
 
 typedef struct S_FUNC_8197C800_BODY_0 {
     void * unk_00;
@@ -21,20 +21,20 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     u8 pad_0C[0x44];
     union { u16 s; s16 u; } unk_50;   /* accessed as both */
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
-} S_FUNC_8197C800_BODY_0;   /* arg0 in func_8002401C */
+} S_FUNC_8197C800_BODY_0;   /* arg0 in update_directional_actor_effect */
 
 
 typedef struct S_FUNC_8197C800_BODY_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_2;   /* arg1 in func_8002401C */
+} S_FUNC_8197C800_BODY_2;   /* arg1 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_3 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_FUNC_8197C800_BODY_3;   /* root in func_8002401C */
+} S_FUNC_8197C800_BODY_3;   /* root in update_directional_actor_effect */
 
 
 typedef struct S_FUNC_8197C800_BODY_5 {
@@ -44,19 +44,19 @@ typedef struct S_FUNC_8197C800_BODY_5 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_FUNC_8197C800_BODY_5;   /* obj in func_8002401C */
+} S_FUNC_8197C800_BODY_5;   /* obj in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_6 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_6;   /* src_position in func_8002401C */
+} S_FUNC_8197C800_BODY_6;   /* src_position in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_7 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_7;   /* dst_position in func_8002401C */
+} S_FUNC_8197C800_BODY_7;   /* dst_position in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_8 {
     void * unk_00;
@@ -71,23 +71,23 @@ typedef struct S_FUNC_8197C800_BODY_8 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_FUNC_8197C800_BODY_8;   /* node in func_8002401C */
+} S_FUNC_8197C800_BODY_8;   /* node in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_FUNC_8197C800_BODY_9;   /* D_800DEDB0 in func_8002401C */
+} S_FUNC_8197C800_BODY_9;   /* D_800DEDB0 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_10 {
     u8 pad_00[0x4C];
     u16 unk_4C;
-} S_FUNC_8197C800_BODY_10;   /* tail in func_8002401C */
+} S_FUNC_8197C800_BODY_10;   /* tail in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_13 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_FUNC_8197C800_BODY_13;   /* image0 in func_8002401C */
+} S_FUNC_8197C800_BODY_13;   /* image0 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_14 {
     u8 pad_00[0x2];
@@ -96,40 +96,40 @@ typedef struct S_FUNC_8197C800_BODY_14 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_FUNC_8197C800_BODY_14;   /* position in func_8002401C */
+} S_FUNC_8197C800_BODY_14;   /* position in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_15 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_FUNC_8197C800_BODY_15;   /* template in func_8002401C */
+} S_FUNC_8197C800_BODY_15;   /* template in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_17 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_FUNC_8197C800_BODY_17;   /* image in func_8002401C */
+} S_FUNC_8197C800_BODY_17;   /* image in update_directional_actor_effect */
 
 
 typedef struct S_FUNC_8197C800_BODY_19 {
     u8 pad_00[0xA];
     u16 unk_0A;
     u32 unk_0C;
-} S_FUNC_8197C800_BODY_19;   /* status in func_8002401C */
+} S_FUNC_8197C800_BODY_19;   /* status in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_20 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_20;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_08 in func_8002401C */
+} S_FUNC_8197C800_BODY_20;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_08 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_21 {
     u16 unk_00;
-} S_FUNC_8197C800_BODY_21;   /* ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_04 in func_8002401C */
+} S_FUNC_8197C800_BODY_21;   /* ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_04 in update_directional_actor_effect */
 
 typedef struct S_FUNC_8197C800_BODY_22 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in func_8002401C */
+} S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in update_directional_actor_effect */
 
 
 
@@ -138,7 +138,7 @@ typedef struct S_FUNC_8197C800_BODY_25 {
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in func_8002401C */
+} S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in update_directional_actor_effect */
 
 
 
@@ -146,10 +146,10 @@ extern u8 D_800DEDB0[];
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 func_80053EF0(s32);
 extern s32 func_80069EF8(void);
-extern void func_8009CE1C(void *, s32, s32, s32, s16, void *, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
 static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 {
@@ -164,15 +164,15 @@ static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
     return scaled + jitter;
 }
 
-void func_8002401C(void *input, void *output);
+void update_directional_actor_effect(void *input, void *output);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_199c800_entry)(void *, void *) = func_8002401C;
+void (*const dungeon_199c800_entry)(void *, void *) = update_directional_actor_effect;
 
 /* Updates a timed effect, spawns particles, and completes its owner's action. */
-void func_8002401C(void *input, void *output)
+void update_directional_actor_effect(void *input, void *output)
 {
     s16 offsets[3];
     s32 state;
@@ -231,14 +231,14 @@ void func_8002401C(void *input, void *output)
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = func_8003FD64(0x312, &D_80083498.next);
     if (particle != 0) {
-        if (resolveRecordOrientationOrFallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
+        if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
                           ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
             offsets[2] = 0;
             offsets[1] = 0;
             offsets[0] = 0;
         }
         particle_data = (u8 *)particle + 0x20;
-        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)dungeonBuildAndEnqueueFiveTranslucentQuadsBetweenInterpolatedPoints;
+        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
         func_8004491C(particle, (s32)func_80045340);
         random_value = 0x00800000u;
         sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
@@ -284,9 +284,9 @@ void func_8002401C(void *input, void *output)
     }
     result = func_80053EF0(4);
     if (result != 2) {
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
     } else {
-        func_800A56E0(0x4300);
+        play_sound_if_enabled(0x4300);
     }
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
 
@@ -299,7 +299,7 @@ void func_8002401C(void *input, void *output)
     case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
         remaining = 1;
-        height = (s16)func_800BCB04((u16)D_80083780.x.w.i, (u16)D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
+        height = (s16)sample_terrain_surface_height((u16)D_80083780.x.w.i, (u16)D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
         particle_script = (void *)func_80024BB8;
         burst_origin = &D_80082E80;
         do {
@@ -314,7 +314,7 @@ void func_8002401C(void *input, void *output)
                 step = angle;
                 step <<= 16;
                 step >>= 25;
-                result = (s32)dirStepX;
+                result = (s32)dir_step_x;
                 {
                     s32 grid_coord;
                     void *position;
@@ -332,7 +332,7 @@ void func_8002401C(void *input, void *output)
                 step = angle;
                 step <<= 16;
                 step >>= 25;
-                result = (s32)dirStepY;
+                result = (s32)dir_step_y;
                 {
                     s32 grid_coord;
                     void *position;
@@ -375,7 +375,7 @@ void func_8002401C(void *input, void *output)
         } while (remaining >= 0);
 
         remaining = 9;
-        particle_script_debris = (void *)dungeonUpdateRisingLandingEffect;
+        particle_script_debris = (void *)update_rising_landing_effect;
         debris_origin = &D_80082E80;
         do {
             particle = func_8003FD64(0x312, &D_80083498.next);
@@ -389,7 +389,7 @@ void func_8002401C(void *input, void *output)
                 step = angle;
                 step <<= 16;
                 step >>= 25;
-                result = (s32)dirStepX;
+                result = (s32)dir_step_x;
                 {
                     s32 grid_coord;
                     void *position;
@@ -407,7 +407,7 @@ void func_8002401C(void *input, void *output)
                 step = angle;
                 step <<= 16;
                 step >>= 25;
-                result = (s32)dirStepY;
+                result = (s32)dir_step_y;
                 {
                     s32 grid_coord;
                     void *position;
@@ -472,12 +472,12 @@ store_state:
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
         return;
     }
-    func_8009CE1C(((EntityRec *)(D_800814A8))->target, 8,
+    apply_attack_power_and_element_effects(((EntityRec *)(D_800814A8))->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((EntityRec *)owner_data)->facing, owner_data, 2);
-    dungeonStatus.unk_0C = 0;
-    dungeonStatus.unk_0A -= 1;
+    g_dungeon_status.unk_0C = 0;
+    g_dungeon_status.unk_0A -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
     }
 }

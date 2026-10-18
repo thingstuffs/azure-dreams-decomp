@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_fa1070.h"
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
-void *dungeonCreateActorWithKindParts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
+void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
 {
     s32 kind;
     S_8014C870_1 *work;
@@ -51,19 +51,19 @@ void *dungeonCreateActorWithKindParts(s16 kind_flags, s16 grid_x, s16 grid_y, s1
             if (((kind_flags & ~3) << 16) == 0) {
                 if (!(((Work *)work)->flags14 & 0x200)) {
                     ((Work *)work)->flags1c |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_801501DC;
                 }
             }
         }
         init_obj = obj;
-        func_800A9C18(init_obj, part_a, part_b, kind_flags);
+        initialize_actor_sprite_and_animation(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &dispatchDungeonActorBehaviorAndFacing;
+        actor->unk_8C = &dispatch_dungeon_actor_behavior_and_facing;
         part_b->unk_14 |= 0xC;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

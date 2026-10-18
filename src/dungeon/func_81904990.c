@@ -1,11 +1,11 @@
 #include "modules/dungeon_ovl_1924800.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-#define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&gameWork)) + (offset)))
+#define D_FIELD(type_ptr, offset) (*(type_ptr)(((u8 *)(&g_game_work)) + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 /* Build textured sprite strips and append their packets to the ordering table. */
-void dungeonBuildTexturedSpriteStrips(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
+void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
     u16 saved_draw_mode;
     s32 callback_arg;
     s32 matrix_arg;
@@ -62,7 +62,7 @@ void dungeonBuildTexturedSpriteStrips(void *screen_pos, void *sprite, s32 *order
     frame = ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_04;
     {
         void **state_ptr;
-        state_page = &gameWork;
+        state_page = &g_game_work;
         state_ptr = (void **)state_page;
         callback_arg = ((S_func_81904990_1 *)((u8 *)sprite - 0x18))->unk_00;
         render_state = *state_ptr;

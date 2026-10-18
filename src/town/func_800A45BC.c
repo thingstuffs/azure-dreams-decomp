@@ -11,7 +11,7 @@ M2C_UNK func_80065320();     /* extern */
 
 typedef struct S_800A1D1C_0_pre {
     u16 unk_00;
-} S_800A1D1C_0_pre;   /* the 0x2 bytes before arg0 in townRenderShadedObjectPrimitive, addressed as arg0[-1] */
+} S_800A1D1C_0_pre;   /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */
 
 typedef struct S_800A1D1C_0 {
     M2C_UNK (*unk_00)(void *, void *, void *);
@@ -28,7 +28,7 @@ typedef struct S_800A1D1C_0 {
     u8 unk_3C;
     u8 unk_3D;
     u8 unk_3E;
-} S_800A1D1C_0;   /* arg0 in townRenderShadedObjectPrimitive */
+} S_800A1D1C_0;   /* arg0 in render_shaded_object_primitive */
 
 typedef struct S_800A1D1C_1 {
     u8 pad_00[0xA];
@@ -40,21 +40,21 @@ typedef struct S_800A1D1C_1 {
 typedef struct S_800A1D1C_2 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800A1D1C_2;   /* global_page in townRenderShadedObjectPrimitive */
+} S_800A1D1C_2;   /* global_page in render_shaded_object_primitive */
 
 typedef struct S_800A1D1C_3 {
     u8 pad_00[0xC];
     union { u8 u; s8 s; } unk_0C;   /* accessed as both */
     union { u8 u; s8 s; } unk_0D;   /* accessed as both */
     union { u8 u; s8 s; } unk_0E;   /* accessed as both */
-} S_800A1D1C_3;   /* arg2_local in townRenderShadedObjectPrimitive */
+} S_800A1D1C_3;   /* arg2_local in render_shaded_object_primitive */
 
 typedef struct S_800A1D1C_4 {
     u8 pad_00[0x2C];
     u16 unk_2C;
     u16 unk_2E;
     u16 unk_30;
-} S_800A1D1C_4;   /* scratch in townRenderShadedObjectPrimitive */
+} S_800A1D1C_4;   /* scratch in render_shaded_object_primitive */
 
 typedef struct S_800A1D1C_5 {
     u8 pad_00[0x2];
@@ -63,10 +63,10 @@ typedef struct S_800A1D1C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A1D1C_5;   /* arg1 in townRenderShadedObjectPrimitive */
+} S_800A1D1C_5;   /* arg1 in render_shaded_object_primitive */
 
 /* Update primitive shading and transform object coordinates, or mark it inactive. */
-void townRenderShadedObjectPrimitive(void *object, S_800A1D1C_5 *coords, void *primitive) {
+void render_shaded_object_primitive(void *object, S_800A1D1C_5 *coords, void *primitive) {
     s32 matrix_index;
     s32 red_scaled;
     s32 green_scaled;

@@ -3,7 +3,7 @@
 
 typedef struct S_81263000_0_pre {
     u16 unk_00;
-} S_81263000_0_pre;   /* the 0x2 bytes before root in func_8015E898, addressed as root[-1] */
+} S_81263000_0_pre;   /* the 0x2 bytes before root in create_flagged_actor_object_2, addressed as root[-1] */
 
 typedef struct S_81263000_0 {
     u8 pad_00[0xAC];
@@ -12,7 +12,7 @@ typedef struct S_81263000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_81263000_0;   /* root in func_8015E898 */
+} S_81263000_0;   /* root in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_1 {
     u8 pad_00[0x8];
@@ -20,7 +20,7 @@ typedef struct S_81263000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_81263000_1;   /* owner in func_8015E898 */
+} S_81263000_1;   /* owner in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_2 {
     u8 pad_00[0x4];
@@ -30,7 +30,7 @@ typedef struct S_81263000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81263000_2;   /* part in func_8015E898 */
+} S_81263000_2;   /* part in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_3 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_81263000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_81263000_3;   /* dst in func_8015E898 */
+} S_81263000_3;   /* dst in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_4 {
     u8 pad_00[0x2];
@@ -52,7 +52,7 @@ typedef struct S_81263000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81263000_4;   /* out in func_8015E898 */
+} S_81263000_4;   /* out in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_5 {
     u8 pad_00[0x1];
@@ -62,24 +62,24 @@ typedef struct S_81263000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_81263000_5;   /* copy in func_8015E898 */
+} S_81263000_5;   /* copy in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_81263000_6;   /* callee_part in func_8015E898 */
+} S_81263000_6;   /* callee_part in create_flagged_actor_object_2 */
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 
 
 
-void func_8015E898(void *root, void *output_pos, void *target_data)
+void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 ;
 /* Update part position, shading, and flags from its owner. */
-void func_8015E898(void *root, void *output_pos, void *target_data)
+void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 {
     s16 offset[3];
     void *position_data;
@@ -104,7 +104,7 @@ void func_8015E898(void *root, void *output_pos, void *target_data)
     ((S_81263000_4 *)output_pos)->unk_0A = pos_data->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (resolveRecordOrientationOrFallback(motion_part->unk_08, motion_part, offset,
+    if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, offset,
                       ((S_81263000_0 *)root)->unk_B6) != 0) {
         ((S_81263000_4 *)output_pos)->unk_02 +=
             (offset[0] + ((S_81263000_0 *)root)->unk_B0) / 2;
@@ -138,7 +138,7 @@ void func_8015E898(void *root, void *output_pos, void *target_data)
         }
         if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81263000_2 *)position_data)->unk_04.u16 == 0x10C) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
@@ -160,14 +160,14 @@ void func_8015E898(void *root, void *output_pos, void *target_data)
         }
         if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81263000_2 *)position_data)->unk_04.u16 == 0x104) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
     func_800478B8(target_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81263000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

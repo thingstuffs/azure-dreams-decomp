@@ -17,12 +17,12 @@ typedef struct S_800B0D34_0 {
     void * unk_14;
     u8 pad_18[0x44];
     s32 unk_5C;
-} S_800B0D34_0;   /* arg0 in func_800B0D34 */
+} S_800B0D34_0;   /* arg0 in update_attached_effect_position */
 
 typedef struct S_800B0D34_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800B0D34_1_pre;   /* the 0x18 bytes before info in func_800B0D34, addressed as info[-1] */
+} S_800B0D34_1_pre;   /* the 0x18 bytes before info in update_attached_effect_position, addressed as info[-1] */
 
 typedef struct S_800B0D34_1 {
     u8 pad_00[0x11];
@@ -34,34 +34,34 @@ typedef struct S_800B0D34_1 {
     u8 pad_26[0x2];
     u8 unk_28;
     u8 unk_29;
-} S_800B0D34_1;   /* info in func_800B0D34 */
+} S_800B0D34_1;   /* info in update_attached_effect_position */
 
 typedef struct S_800B0D34_2 {
     s8 unk_00;
     s8 unk_01;
     s8 unk_02;
-} S_800B0D34_2;   /* out in func_800B0D34 */
+} S_800B0D34_2;   /* out in update_attached_effect_position */
 
 typedef struct S_800B0D34_3 {
     u8 pad_00[0x4];
     u8 unk_04;
     u8 pad_05[0x13];
     union { u16 u; s16 s; } unk_18;   /* accessed as both */
-} S_800B0D34_3;   /* arg2 in func_800B0D34 */
+} S_800B0D34_3;   /* arg2 in update_attached_effect_position */
 
 typedef struct S_800B0D34_4 {
     u8 pad_00[0x104];
     void * unk_104;
-} S_800B0D34_4;   /* D_800E3D7C[0] in func_800B0D34 */
+} S_800B0D34_4;   /* D_800E3D7C[0] in update_attached_effect_position */
 
 typedef struct S_800B0D34_5 {
     u8 pad_00[0x28];
     void * unk_28;
-} S_800B0D34_5;   /* object in func_800B0D34 */
+} S_800B0D34_5;   /* object in update_attached_effect_position */
 
 typedef struct S_800B0D34_6_pre {
     u16 unk_00;
-} S_800B0D34_6_pre;   /* the 0x2 bytes before entry in func_800B0D34, addressed as entry[-1] */
+} S_800B0D34_6_pre;   /* the 0x2 bytes before entry in update_attached_effect_position, addressed as entry[-1] */
 
 typedef struct S_800B0D34_7 {
     u8 pad_00[0x2];
@@ -70,7 +70,7 @@ typedef struct S_800B0D34_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B0D34_7;   /* arg1 in func_800B0D34 */
+} S_800B0D34_7;   /* arg1 in update_attached_effect_position */
 
 typedef struct S_800B0D34_8 {
     u8 pad_00[0x2];
@@ -79,10 +79,10 @@ typedef struct S_800B0D34_8 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B0D34_8;   /* source in func_800B0D34 */
+} S_800B0D34_8;   /* source in update_attached_effect_position */
 
 /* Updates status colors and exit animation, releases finished objects, and copies their position. */
-void func_800B0D34(void *object, void *position, void *anim_state) {
+void update_attached_effect_position(void *object, void *position, void *anim_state) {
     u16 frame_count;
     s32 base_phase;
     s16 phase;
@@ -160,7 +160,7 @@ void func_800B0D34(void *object, void *position, void *anim_state) {
                 } while (entry_index < 4);
             }
             (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }

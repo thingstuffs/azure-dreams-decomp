@@ -50,10 +50,10 @@ typedef struct S_80036D4C_3 {
 } S_80036D4C_3;   /* temp_s2 in func_80036D4C */
 
 
-void runtimeInitializeStateValue();                 /* extern */
+void runtime_initialize_state_value();                 /* extern */
 M2C_UNK func_800350B0();                 /* extern */
-void copyTextureDescriptorWithPageOffsets(); /* extern */
-void *initializeRuntimeNodeStorage(); /* extern */
+void copy_texture_descriptor_with_page_offsets(); /* extern */
+void *initialize_runtime_node_storage(); /* extern */
 s32 func_8004491C();           /* extern */
 extern u8 D_8006A958[];
 extern u8 D_8006A964[];
@@ -62,7 +62,7 @@ extern u8 D_80082B50[];
 extern u8 D_80082B60[];
 extern u8 D_80082B70[];
 extern u8 D_80082BC0[];
-void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback();
+void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback();
 void func_80036F24();
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
@@ -72,15 +72,15 @@ void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initi
     S_80036D4C_3 *display;
     void *node;
 
-    node = initializeRuntimeNodeStorage(0x11, node_addr, 0x49, &D_80082BC0);
+    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &D_80082BC0);
     ((S_80036D4C_0 *)node)->unk_10 = &func_80036F24;
-    func_8004491C(node, &runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
+    func_8004491C(node, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     state = node + 0x20;
     display = ((S_80036D4C_0 *)node)->unk_0C;
     state->unk_44 = config;
     state->unk_48 = 1;
     state->unk_4A = initial_mode;
-    runtimeInitializeStateValue(record, *config);
+    runtime_initialize_state_value(record, *config);
     ((S_80036D4C_0 *)node)->unk_20 = record;
     record->unk_60 = 6;
     ((S_80036D4C_5 *)(((S_80036D4C_4 *)node)->unk_20))->unk_10 = 0x47;
@@ -89,9 +89,9 @@ void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initi
     state->unk_08 = 0;
     func_800350B0(setup_id, state);
     display->unk_0C = 0xC0C0C0;
-    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A958, &D_80082B50);
-    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A964, &D_80082B60);
-    copyTextureDescriptorWithPageOffsets(state->unk_44 + 3, &D_8006A970, &D_80082B70);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A958, &D_80082B50);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A964, &D_80082B60);
+    copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &D_8006A970, &D_80082B70);
     display->unk_08 = &D_80082B60;
     display->unk_00 = 0;
     display->unk_04 = 0;

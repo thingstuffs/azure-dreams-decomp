@@ -2,12 +2,12 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void townProcessValidEntryLookup(s32);                            /* extern */
-void townSetPairedEntryBrightness();                         /* extern */
+void process_valid_entry_lookup(s32);                            /* extern */
+void set_paired_entry_brightness();                         /* extern */
 
 /* Runs the three update steps for an entry. */
-void townRunEntryUpdateSteps(s32 entry_id) {
-    townProcessValidEntryLookup(entry_id);
-    func_800B3C74(entry_id);
-    townSetPairedEntryBrightness(entry_id);
+void run_entry_update_steps(s32 entry_id) {
+    process_valid_entry_lookup(entry_id);
+    process_resources_for_expired_slot_countdowns(entry_id);
+    set_paired_entry_brightness(entry_id);
 }

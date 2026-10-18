@@ -8,7 +8,7 @@ typedef struct S_80098FB0_0 {
 } S_80098FB0_0;
 
 /* Find the start of the last contiguous run of zero entries. */
-s32 dungeonFindLastZeroEntryRunStart(void) {
+s32 find_last_zero_entry_run_start(void) {
     s8 *entry_address;
     s32 run_start;
     s32 shifted_index;

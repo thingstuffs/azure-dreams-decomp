@@ -20,7 +20,7 @@ typedef struct S_800A634C_1 {
 } S_800A634C_1;
 
 /* Allocates an object and initializes its state with the supplied value. */
-void *func_800A634C(s16 initialValue) {
+void *create_fullscreen_quad_updater(s16 initialValue) {
     void *object;
     S_800A634C_1 *objectState;
 

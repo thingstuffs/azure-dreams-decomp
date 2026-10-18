@@ -3,7 +3,7 @@
 
 typedef struct S_805267E0_0_pre {
     u16 unk_00;
-} S_805267E0_0_pre;   /* the 0x2 bytes before arg0 in townFadePanelAfterLinkedFlag, addressed as arg0[-1] */
+} S_805267E0_0_pre;   /* the 0x2 bytes before arg0 in fade_panel_after_linked_flag, addressed as arg0[-1] */
 
 typedef struct S_805267E0_0 {
     s16 unk_00;
@@ -12,18 +12,18 @@ typedef struct S_805267E0_0 {
     s32 unk_08;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_805267E0_0;   /* arg0 in townFadePanelAfterLinkedFlag */
+} S_805267E0_0;   /* arg0 in fade_panel_after_linked_flag */
 
 typedef struct S_805267E0_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_805267E0_1;   /* sub in townFadePanelAfterLinkedFlag */
+} S_805267E0_1;   /* sub in fade_panel_after_linked_flag */
 
 
 extern s32 D_80084D5C;
 
 /* Advances a delayed fade and sets completion flags when the color reaches its threshold. */
-void townFadePanelAfterLinkedFlag(void *effect) {
+void fade_panel_after_linked_flag(void *effect) {
     s16 state;
     s32 color;
     u16 timer;

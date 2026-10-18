@@ -8,7 +8,7 @@
 typedef struct S_800206F4_0 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_800206F4_0;   /* obj in townCreateSceneObjectWith48BytePayload */
+} S_800206F4_0;   /* obj in create_scene_object_with_48_byte_payload */
 
 
 extern void *func_8003FD64();
@@ -20,7 +20,7 @@ typedef struct CopyBlock {
 } CopyBlock;
 
 /* Creates an object with the supplied value and 48-byte initialization block. */
-void townCreateSceneObjectWith48BytePayload(s32 init_value, void *init_data)
+void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data)
 {
     void *obj;
 

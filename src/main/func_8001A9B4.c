@@ -11,7 +11,7 @@ s32 func_8007CAB8();
 s32 func_8007CAC8();
 
 /* Collects entries matching the selected search path and returns their count. */
-s32 func_8001A9B4(void) {
+s32 build_entry_list(void) {
     s32 search_path[8];
     s32 *path_prefix;
     s8 *entry;

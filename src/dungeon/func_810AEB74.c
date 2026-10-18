@@ -15,32 +15,32 @@ typedef struct S_80172374_0 {
     u8 unk_9B;
     u8 pad_9C[0x8];
     s32 unk_A4;
-} S_80172374_0;   /* arg0 in advanceJumpToTargetTile */
+} S_80172374_0;   /* arg0 in advance_jump_to_target_tile */
 
 
 typedef struct S_80172374_4 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_80172374_4;   /* global in advanceJumpToTargetTile */
+} S_80172374_4;   /* global in advance_jump_to_target_tile */
 
 typedef struct S_80172374_5 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172374_5;   /* map in advanceJumpToTargetTile */
+} S_80172374_5;   /* map in advance_jump_to_target_tile */
 
 
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonAdvanceStatusTimers();
+extern s16 get_rounded_facing_and_rounding_flag();
+extern void set_record_integer_tile_center();
+extern void advance_status_timers();
 extern void func_800A9A04();
-extern void dungeonReduceActorFoodMeter();
-extern s32 dungeonCheckActorFloorTrap();
+extern void reduce_actor_food_meter();
+extern s32 check_actor_floor_trap();
 
 extern u8 D_80170E54;
 
 /* Advances a jump toward the target tile and finishes movement when the timer expires. */
-void advanceJumpToTargetTile(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
+void advance_jump_to_target_tile(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *target_tile, EntityRec *entity) {
     s32 direction_aux;
     s32 jump_state;
     s32 frames_left;
@@ -91,7 +91,7 @@ void advanceJumpToTargetTile(S_80172374_0 *motion, EntityRec *position, Rec_D_80
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(position, target_tile->unk_24, target_tile->unk_25);
+            set_record_integer_tile_center(position, target_tile->unk_24, target_tile->unk_25);
             motion->unk_9B++;
         }
         break;
@@ -103,12 +103,12 @@ void advanceJumpToTargetTile(S_80172374_0 *motion, EntityRec *position, Rec_D_80
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(position, target_tile->unk_24, target_tile->unk_25);
-        dungeonReduceActorFoodMeter(entity, 5);
-        dungeonAdvanceStatusTimers(entity);
+        set_record_integer_tile_center(position, target_tile->unk_24, target_tile->unk_25);
+        reduce_actor_food_meter(entity, 5);
+        advance_status_timers(entity);
 
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
         }
 
         entity_flags = entity->flags1C;
@@ -119,13 +119,13 @@ void advanceJumpToTargetTile(S_80172374_0 *motion, EntityRec *position, Rec_D_80
         } else if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {
 
-                entity->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                entity->facing = get_rounded_facing_and_rounding_flag(
                     target_tile->unk_24, target_tile->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
 
-        if ((dungeonCheckActorFloorTrap(target_tile, entity) << 16) > 0) {
+        if ((check_actor_floor_trap(target_tile, entity) << 16) > 0) {
             motion->unk_8C = &D_80170E54;
             func_800A9A04(entity);
         }

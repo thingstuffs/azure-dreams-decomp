@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80A4AA14; every changed retail word is a paired relocation. */
-#define dungeonAdvanceRandomizedMotionAndComplete D_801680E4
-#define dungeonAppendLinkedShadedPointPackets D_80167E94
+#define advance_randomized_motion_and_complete D_801680E4
+#define append_linked_shaded_point_packets D_80167E94
 #include "modules/dungeon_resource06_slot0.h"
 extern s32 rand(void);
 
@@ -35,7 +35,7 @@ void func_80168214(
 
     object_fields = func_8003FD64(0x211, source_obj);
     if (object_fields != NULL) {
-        object_fields->unk_10 = (s32)((u8 *)dungeonAdvanceRandomizedMotionAndComplete);
+        object_fields->unk_10 = (s32)((u8 *)advance_randomized_motion_and_complete);
         x_jitter = rand() & 0x1F;
         x_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_02;
         x_dest = object_fields->unk_08.s;
@@ -53,7 +53,7 @@ void func_80168214(
         y_dest->unk_06 = (s16)y_pos;
 
         z_jitter = rand();
-        init_data = ((void *)dungeonAppendLinkedShadedPointPackets);
+        init_data = ((void *)append_linked_shaded_point_packets);
         z_pos = ((R06_80174214_S_80174214_6 *)(source_obj->unk_08))->unk_0A;
         z_jitter &= 0x1F;
         fields = (R06_80174214_S_80174214_0 *)((u8 *)object_fields + 0x20);
@@ -69,5 +69,5 @@ void func_80168214(
     }
 }
 
-/* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)dungeonAdvanceRandomizedMotionAndComplete) / ((u8 *)dungeonAppendLinkedShadedPointPackets) as HIGH/LO pairs itself (the lui in the beqz delay slot).
+/* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)advance_randomized_motion_and_complete) / ((u8 *)append_linked_shaded_point_packets) as HIGH/LO pairs itself (the lui in the beqz delay slot).
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */

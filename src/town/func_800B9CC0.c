@@ -1,6 +1,6 @@
 #include "common.h"
 
 /* Return without performing any operation. */
-void townNoOpBuildingCallback(void) {
+void no_op_building_callback(void) {
 
 }

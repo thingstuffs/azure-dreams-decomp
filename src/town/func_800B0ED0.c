@@ -4,12 +4,12 @@
 typedef struct S_800AE630_2 {
     u8 pad_00[0xD0];
     void * unk_D0;
-} S_800AE630_2;   /* obj in townAdvanceItemMenuObjectAnimation */
+} S_800AE630_2;   /* obj in advance_item_menu_object_animation */
 
 typedef struct S_800AE630_3 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800AE630_3;   /* ((S_800AE630_2 *)obj)->unk_D0 in townAdvanceItemMenuObjectAnimation */
+} S_800AE630_3;   /* ((S_800AE630_2 *)obj)->unk_D0 in advance_item_menu_object_animation */
 
 
 typedef struct S_800AE630_0 {
@@ -28,7 +28,7 @@ typedef struct S_800AE630_0 {
     s32 unk_34;
     u8 pad_38[0xA4];
     void * unk_DC;
-} S_800AE630_0;   /* obj in townAdvanceItemMenuObjectAnimation; pointer addresses record offset 0x10 */
+} S_800AE630_0;   /* obj in advance_item_menu_object_animation; pointer addresses record offset 0x10 */
 
 typedef struct S_800AE630_1 {
     u8 pad_00[0x8];
@@ -41,7 +41,7 @@ typedef struct S_800AE630_1 {
 extern M2C_UNK D_800AE600;
 
 /* Advance the object position and transition step, then invoke its callback. */
-void townAdvanceItemMenuObjectAnimation(void *object) {
+void advance_item_menu_object_animation(void *object) {
     s32 next_step;
     s32 scaled_x;
     s32 scaled_y;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite, void *actor)
+void complete_timed_actor_animation(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 next_state;
@@ -17,7 +17,7 @@ void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((CB_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
             return;
         }
 
@@ -26,7 +26,7 @@ void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite
         ((CB_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801752DC;
         func_80047784(sprite,
-            D_801752DC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801752DC[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
         next_state = ((CB_801729A8_S_801729A8_0 *)action)->unk_9B;
         ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s = 0;
@@ -37,10 +37,10 @@ void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite
         timer = ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
         ((CB_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
         if ((s16)timer == 7 || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
         }
         if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
-            func_800A56E0(0x808);
+            play_sound_if_enabled(0x808);
         }
         if (((CB_801729A8_S_801729A8_0 *)action)->unk_96.u == 8) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
@@ -55,10 +55,10 @@ void dungeonCompleteTimedActorAnimation(void *action, void *motion, void *sprite
         return;
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            dungeonReduceActorFoodMeter(actor, 0x100);
+            reduce_actor_food_meter(actor, 0x100);
             ((CB_801729A8_S_801729A8_0 *)action)->unk_8C = func_8017102C;
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(actor);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(actor);
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
         }
         return;

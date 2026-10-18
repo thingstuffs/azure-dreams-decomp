@@ -9,12 +9,12 @@ typedef struct S_800A54FC_0 {
     s16 unk_04;
     u8 pad_06[0x16];
     M2C_UNK * unk_1C;
-} S_800A54FC_0;   /* arg0 in townInitializeObjectWhenInactive */
+} S_800A54FC_0;   /* arg0 in initialize_object_when_inactive */
 
 
 s32 func_800352FC(void);
 /* Initialize the object value and handler when func_800352FC returns zero. */
-void townInitializeObjectWhenInactive(S_800A54FC_0 *object, s32 value_1, s32 value_2, s32 value_3) {
+void initialize_object_when_inactive(S_800A54FC_0 *object, s32 value_1, s32 value_2, s32 value_3) {
     if (func_800352FC() == 0) {
         object->unk_04 = 0x400;
         object->unk_1C = &D_800A5340;

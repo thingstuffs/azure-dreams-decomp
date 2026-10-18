@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void dungeonAdvanceObjectAngleAndHeight(u16 *record_data, s32 unused, R08_80174180_Object *object) {
+void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_Object *object) {
     u16 height;
 
     object->field_1A += 0x320;
@@ -9,6 +9,6 @@ void dungeonAdvanceObjectAngleAndHeight(u16 *record_data, s32 unused, R08_801741
     object->field_1C = height;
     if (height >= 0x2000) {
         record_data[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

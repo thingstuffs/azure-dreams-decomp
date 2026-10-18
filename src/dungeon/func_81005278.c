@@ -43,13 +43,13 @@ extern u8 D_80171058[];
 extern u8 D_80174880[9];
 extern Callback D_80174900[];
 
-extern void selectIndirectTableEntry(void *, u8, s8);
+extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 
 typedef struct S_80170A78_0 {
@@ -60,7 +60,7 @@ typedef struct S_80170A78_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170A78_0;   /* arg1 in dungeonUpdateObjectMovementFacingTerrain */
+} S_80170A78_0;   /* arg1 in update_object_movement_facing_terrain */
 
 typedef struct S_80170A78_1 {
     u8 pad_00[0x4];
@@ -72,7 +72,7 @@ typedef struct S_80170A78_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     union { u8 * p; void * p2; } unk_2C;   /* accessed as both */
-} S_80170A78_1;   /* arg2 in dungeonUpdateObjectMovementFacingTerrain */
+} S_80170A78_1;   /* arg2 in update_object_movement_facing_terrain */
 
 typedef struct S_80170A78_2 {
     u8 pad_00[0x1C];
@@ -81,10 +81,10 @@ typedef struct S_80170A78_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80170A78_2;   /* state in dungeonUpdateObjectMovementFacingTerrain */
+} S_80170A78_2;   /* state in update_object_movement_facing_terrain */
 
 /* Updates object callbacks, movement, facing, and terrain-relative height. */
-void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, void *input_part)
+void update_object_movement_facing_terrain(void *obj, void *input_motion, void *input_part)
 {
     void *state = obj;
     s32 mode_or_dir;
@@ -101,7 +101,7 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
     u8 direction_flag;
     s16 saved_mode;
 
-    if (*(u16 *)(((u8 *)(&dungeonStatus)) + 2) & 0x2000) {
+    if (*(u16 *)(((u8 *)(&g_dungeon_status)) + 2) & 0x2000) {
         callback = (*(Callback *)((u8 *)obj + 0x8C));
         if (callback == (Callback)D_80171058) {
             void *entry_obj = obj;
@@ -114,7 +114,7 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
     }
 
     saved_mode = ((ObjFieldView_81005278 *)obj)->field_6D;
-    if (dungeonRefreshActorFacingAndLifecycle(obj, input_motion, input_part, obj) != 0) {
+    if (refresh_actor_facing_and_lifecycle(obj, input_motion, input_part, obj) != 0) {
         return;
     }
 
@@ -127,7 +127,7 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
     }
     D_80174900[(((ObjFieldView_81005278 *)obj)->field_9A)](obj, input_motion, input_part, obj);
     if (saved_mode != (((ObjFieldView_81005278 *)obj)->field_6D)) {
-        func_800AA36C(obj, input_motion, input_part, obj);
+        try_move_actor_to_valid_position(obj, input_motion, input_part, obj);
     }
 
     {
@@ -150,18 +150,18 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
     (((ObjFieldView_81005278 *)obj)->field_90.s32) += ((S_80170A78_0 *)input_motion)->unk_14;
     part_flags = ((S_80170A78_1 *)input_part)->unk_14;
     if (!(part_flags & 0x8000)) {
-        value_bits = *(s16 *)((u8 *)((u8 *)(&dungeonStatus)) - 0x238) +
+        value_bits = *(s16 *)((u8 *)((u8 *)(&g_dungeon_status)) - 0x238) +
             ((S_80170A78_2 *)state)->unk_2A + 0x100;
         direction = ((s32)value_bits >> 9) & 7;
         mode_or_dir = (u16)direction;
         mode_or_dir = (s16)mode_or_dir;
         if ((((ObjFieldView_81005278 *)obj)->field_94) != mode_or_dir) {
-            selectIndirectTableEntry(input_part,
+            select_indirect_table_entry(input_part,
                 *(u8 *)(((S_80170A78_1 *)input_part)->unk_2C.p + mode_or_dir),
                 ((S_80170A78_1 *)input_part)->unk_04);
             (((ObjFieldView_81005278 *)obj)->field_94) = direction;
         }
-        value_bits = (u32)&dirSpriteFlag[mode_or_dir];
+        value_bits = (u32)&dir_sprite_flag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
             value_bits = ((S_80170A78_1 *)input_part)->unk_14 | 1;
@@ -171,7 +171,7 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
 
         ((S_80170A78_1 *)input_part)->unk_14 = value_bits;
 
-        dungeonApplyMonsterKoyawData(((S_80170A78_2 *)state)->unk_1C, (u8 *)input_part + 0xC);
+        apply_monster_koyaw_data(((S_80170A78_2 *)state)->unk_1C, (u8 *)input_part + 0xC);
         if (!(((S_80170A78_2 *)state)->unk_1C & 0x20)) {
             if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40)) {
                 func_800478B8(input_part);
@@ -193,7 +193,7 @@ void dungeonUpdateObjectMovementFacingTerrain(void *obj, void *input_motion, voi
             (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
         if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
@@ -219,7 +219,7 @@ reset_height:
         (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
         (((ObjFieldView_81005278 *)obj)->field_90.s32) -= bob_offset;
         if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
@@ -239,7 +239,7 @@ reset_height:
             (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
         if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
                 ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
@@ -255,7 +255,7 @@ reset_height:
     }
     if (((S_80170A78_2 *)state)->unk_1C & 0x40000000) {
         ((S_80170A78_2 *)state)->unk_1C &= 0xBFFFFFFF;
-        floor_delta = func_800BCB04((((S_80170A78_1 *)input_part)->unk_24 << 6) | 0x20,
+        floor_delta = sample_terrain_surface_height((((S_80170A78_1 *)input_part)->unk_24 << 6) | 0x20,
             (((S_80170A78_1 *)input_part)->unk_25 << 6) | 0x20,
             (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20));
         if ((s16)floor_delta < 0x200) {

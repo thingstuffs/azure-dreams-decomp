@@ -9,19 +9,19 @@ typedef struct {
     u8 *unk20;
 } UnkStruct800B023C;
 
-extern s32 townCountNonzeroFixedTableWords(void);
-extern s32 townCountEntriesWithFlag20(u8 *entries);
+extern s32 count_nonzero_fixed_table_words(void);
+extern s32 count_entries_with_flag_20(u8 *entries);
 
 /* Checks whether the entry bypasses the limit or its combined value is below 20. */
-s32 townCheckEntryLimitOrCombinedValue(UnkStruct800B023C *entry) {
+s32 check_entry_limit_or_combined_value(UnkStruct800B023C *entry) {
     s32 total;
 
     if (entry->unk18 == 0) {
         if ((u32) (entry->unk20[(entry->unk04 * 4) + 1] - 0x17) < 2U) {
             return 1;
         }
-        total = townCountNonzeroFixedTableWords();
-        total += townCountEntriesWithFlag20(entry->unk20);
+        total = count_nonzero_fixed_table_words();
+        total += count_entries_with_flag_20(entry->unk20);
         return total < 20;
     }
     return 1;

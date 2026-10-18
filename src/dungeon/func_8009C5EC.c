@@ -8,14 +8,14 @@
 extern s32 func_8003AD08();
 extern s32 func_80041E70();
 extern s32 func_800647A0();
-extern s32 func_800990FC();
-extern s32 func_80099194();
-extern s32 dungeonCopyFourTextBytes();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
+extern s32 copy_four_text_bytes();
 extern void * func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance();
-extern s32 func_80099734();
-extern s32 func_800A5720();
-extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern s32 write_text_byte_and_advance();
+extern s32 append_entity_display_text();
+extern s32 display_text_with_fullwidth_adjustment();
+extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 D_8006D168[];
 extern u8 D_800DDCBC[];
@@ -25,7 +25,7 @@ extern u8 D_800E0970[];
 extern u8 D_800E0979[];
 
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
-s32 raiseEntityLevel(void *entity_data, s32 show_message) {
+s32 raise_entity_level(void *entity_data, s32 show_message) {
     u8 ability_gained[3];
     u8 *stat_growth;
     u8 *initial_stats;
@@ -309,21 +309,21 @@ loop_0:
         if ((show_message << 0x10) != 0) {
             if (!(D_80013714 & 1)) {
                 D_800DCF4F[0] = 1;
-                dungeonStatus.unk_0A++;
+                g_dungeon_status.unk_0A++;
             }
             stat_gain_m = 0x8003;
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
                 stat_gain_m = 0x8002;
             }
-            createActorValuePopup(stat_gain_m, ((u8 *)entity_data), -2, 1);
+            create_actor_value_popup(stat_gain_m, ((u8 *)entity_data), -2, 1);
 
-            message = func_800990FC();
-            text_end = func_80099194(D_800E0953, message);
-            text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
-            text_end = func_80099734(((u8 *)entity_data), text_end);
-            text_end = func_80099194(D_800E095F, text_end);
+            message = get_unused_text_buffer();
+            text_end = expand_text_control_codes(D_800E0953, message);
+            text_end = write_text_byte_and_advance(0xA, text_end);
+            text_end = append_entity_display_text(((u8 *)entity_data), text_end);
+            text_end = expand_text_control_codes(D_800E095F, text_end);
             text_end = func_8003AD08(((u8 *)entity_data)[0x11], text_end);
-            text_end = func_80099194(D_80089000, text_end);
+            text_end = expand_text_control_codes(D_80089000, text_end);
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
                 u8 *ability_slot;
@@ -333,10 +333,10 @@ loop_0:
                 ability_slot = ((u8 *)entity_data);
                 do {
                     if (ability_gained[slot] != 0) {
-                        text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
-                        text_end = func_80099194(*(s32 *)(ability_table + ability_slot[8] * 0x14), text_end);
-                        text_end = func_80099194(D_800E0970, text_end);
-                        text_end = func_80099194(D_800E0979, text_end);
+                        text_end = write_text_byte_and_advance(0xA, text_end);
+                        text_end = expand_text_control_codes(*(s32 *)(ability_table + ability_slot[8] * 0x14), text_end);
+                        text_end = expand_text_control_codes(D_800E0970, text_end);
+                        text_end = expand_text_control_codes(D_800E0979, text_end);
                     }
                     slot += 1;
                     ability_slot += 3;
@@ -344,12 +344,12 @@ loop_0:
             }
 
             if (!(D_80013714 & 1)) {
-                text_end = dungeonWriteTextByteAndAdvance(0x11, text_end);
-                text_end = dungeonWriteTextByteAndAdvance(0x4C, text_end);
-                text_end = dungeonCopyFourTextBytes(D_800E0458, text_end);
+                text_end = write_text_byte_and_advance(0x11, text_end);
+                text_end = write_text_byte_and_advance(0x4C, text_end);
+                text_end = copy_four_text_bytes(D_800E0458, text_end);
             }
             func_80099290(text_end);
-            func_800A5720(message);
+            display_text_with_fullwidth_adjustment(message);
         }
     }
 }

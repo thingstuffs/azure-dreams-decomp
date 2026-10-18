@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an effect at an offset position with randomized attributes and motion. */
-void dungeonSpawnRandomColorBurstParticle(void *source, void *position) {
+void spawn_random_color_burst_particle(void *source, void *position) {
     T_80171790_S_80171790_5 *source_obj;
     T_80171790_S_80171790_4 *source_pos;
     s32 obj_or_angle;
@@ -20,8 +20,8 @@ void dungeonSpawnRandomColorBurstParticle(void *source, void *position) {
         effect_state = (void *) obj_or_angle + 0x20;
         effect_state->unk_18 = 6;
         effect_state->unk_1A = 6;
-        ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_10 = &dungeonUpdateSavedRgbFade;
-        func_8004491C(init_obj, ((s32 *)dungeonUpdateRotatingActorAura));
+        ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_10 = &update_saved_rgb_fade;
+        func_8004491C(init_obj, ((s32 *)update_rotating_actor_aura));
         data_or_speed = (s32) ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
         ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_10 = 0x60;
         ((T_80171790_S_80171790_2 *)((void *) data_or_speed))->unk_14 =

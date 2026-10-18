@@ -5,7 +5,7 @@ extern s32 rsin(s32 angle);
 extern s32 rcos(s32 angle);
 
 /* Estimates vector length using its dominant component and angle. */
-s32 runtimeEstimateVectorLength(s32 x, s32 y) {
+s32 runtime_estimate_vector_length(s32 x, s32 y) {
     s32 abs_x = (x >= 0) ? x : -x;
     s32 abs_y = (y >= 0) ? y : -y;
 

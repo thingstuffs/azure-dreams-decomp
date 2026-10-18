@@ -5,16 +5,16 @@
 #define NULL 0
 #endif
 
-extern s32 cardBootInitializeSaveMenuRequest(void *a0, s32 a1);
-extern void cardBootEraseTemporaryFile(void);
-extern void cardBootRefreshDirectorySummary(void);
-extern s32 createOrResetSevenEntryMenuBackdrop(void *a0, s32 a1);
-extern s32 func_80024D58(void *a0, s32 a1, s32 a2);
-extern s32 mainCreateSaveHeading(void *a0);
+extern s32 card_boot_initialize_save_menu_request(void *a0, s32 a1);
+extern void card_boot_erase_temporary_file(void);
+extern void card_boot_refresh_directory_summary(void);
+extern s32 create_or_reset_seven_entry_menu_backdrop(void *a0, s32 a1);
+extern s32 render_rotated_grid_surface(void *a0, s32 a1, s32 a2);
+extern s32 create_save_heading(void *a0);
 extern s32 D_800267C0[];
 
 /* Allocate an object and initialize its state and dispatch table. */
-void *cardBootCreateSaveSlotMenu(s32 init_value, s32 state_value)
+void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value)
 {
     void *object;
     void *state;
@@ -23,12 +23,12 @@ void *cardBootCreateSaveSlotMenu(s32 init_value, s32 state_value)
     if (object != NULL) {
         state = (u8 *)object + 0x20;
         *(s32 *)((u8 *)state + 0x24) = state_value;
-        cardBootInitializeSaveMenuRequest(state, init_value);
-        cardBootEraseTemporaryFile();
-        cardBootRefreshDirectorySummary();
-        *(s32 *)((u8 *)object + 0x20) = createOrResetSevenEntryMenuBackdrop(object, 0);
-        *(s32 *)((u8 *)state + 4) = func_80024D58(object, *(s32 *)((u8 *)state + 0x2C), 3);
-        *(s32 *)((u8 *)state + 8) = mainCreateSaveHeading(object);
+        card_boot_initialize_save_menu_request(state, init_value);
+        card_boot_erase_temporary_file();
+        card_boot_refresh_directory_summary();
+        *(s32 *)((u8 *)object + 0x20) = create_or_reset_seven_entry_menu_backdrop(object, 0);
+        *(s32 *)((u8 *)state + 4) = render_rotated_grid_surface(object, *(s32 *)((u8 *)state + 0x2C), 3);
+        *(s32 *)((u8 *)state + 8) = create_save_heading(object);
         *(s32 *)((u8 *)state + 0x28) = 0;
         *(void **)((u8 *)object + 0x10) = D_800267C0;
     }

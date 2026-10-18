@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_188898c.h"
-void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))func_80024CD4;
+void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 #include "../func_81868860.c"
 #include "../func_8186898C.c"
 #include "../func_81868A64.c"

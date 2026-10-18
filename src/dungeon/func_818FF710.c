@@ -23,16 +23,16 @@ typedef union {
 } Local38;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8002407C();          /* extern */
-void func_800244CC(); /* extern */
+void apply_random_actor_value_adjustment();          /* extern */
+void spawn_jittered_child_effect(); /* extern */
 void func_80024DB8(); /* extern */
-s32 resolveRecordOrientationOrFallback();     /* extern */
+s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 func_8004491C();           /* extern */
 s16 func_80066460(); /* extern */
 s32 func_80069EF8();                                /* extern */
-s32 func_800A4778();           /* extern */
-s32 func_800A56E0();                     /* extern */
-void func_800B8FC8(); /* extern */
+s32 check_adjacent_tile_height_clearance();           /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+void draw_transformed_sprite_with_clip_rect(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;
 extern M2C_UNK D_800245EC;
@@ -70,7 +70,7 @@ typedef struct S_818FF710_1 {
     u16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_1;   /* arg2 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_1;   /* arg2 in update_effect_particles_and_cleanup */
 
 typedef struct S_818FF710_2_pre {
     void * unk_00;
@@ -91,7 +91,7 @@ typedef struct S_818FF710_2 {
 
 typedef struct S_818FF710_3 {
     s16 unk_00;
-} S_818FF710_3;   /* &D_80025E80 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_3;   /* &D_80025E80 in update_effect_particles_and_cleanup */
 
 typedef struct S_818FF710_4 {
     u8 pad_00[0x8];
@@ -105,7 +105,7 @@ typedef struct S_818FF710_5 {
     s32 unk_0C;
     union { s32 i; void * p; } unk_10;   /* accessed as both */
     s32 unk_14;
-} S_818FF710_5;   /* arg1 in dungeonUpdateEffectParticlesAndCleanup */
+} S_818FF710_5;   /* arg1 in update_effect_particles_and_cleanup */
 
 typedef struct S_818FF710_6 {
     u8 pad_00[0x2];
@@ -330,7 +330,7 @@ typedef struct S_818FF710_33 {
 } S_818FF710_33;
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
-void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sprite) {
+void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprite) {
     u16 offset[3];
     Local28 texture_rect;
     Local38 direction_steps;
@@ -412,7 +412,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
         (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     case 1:
         parent_sprite = parent_object->unk_0C;
-        if (resolveRecordOrientationOrFallback(parent_sprite->unk_08, parent_sprite, &offset[0], 0) == 0
+        if (resolve_record_orientation_or_fallback(parent_sprite->unk_08, parent_sprite, &offset[0], 0) == 0
             && !(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
             return;
         }
@@ -447,9 +447,9 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
             (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A
                 - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
             origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
-            (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dirStepX)[(*(s16 *)((u8 *)effect
+            (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dir_step_x)[(*(s16 *)((u8 *)effect
                 + 0x7E)) * 2]);
-            (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dirStepY)[(*(s16 *)((u8 *)effect
+            (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dir_step_y)[(*(s16 *)((u8 *)effect
                 + 0x7E)) * 2]);
             parent_tile = ((S_818FF710_2 *)parent)->unk_72;
             tile_distance = parent_tile;
@@ -493,7 +493,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
-                func_800244CC(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+                spawn_jittered_child_effect(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
         old_flight_angle = ((S_818FF710_1 *)sprite)->unk_1A;
@@ -511,7 +511,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
         blue_tick = ((*(s16 *)((u8 *)effect + 0x88)) - (*(s8 *)((u8 *)effect + 0x7B))) + 1;
         ((S_818FF710_1 *)sprite)->unk_0C.at02.v =
             (s8) (((s32) (blue_tick * blue_tick * 0x6C) / (s16) (*(s16 *)((u8 *)effect + 0x8A))) + 0x14);
-        if ((func_800A4778(((S_818FF710_5 *)motion)->unk_00.at02.v, ((S_818FF710_5 *)motion)->unk_04.at02.v,
+        if ((check_adjacent_tile_height_clearance(((S_818FF710_5 *)motion)->unk_00.at02.v, ((S_818FF710_5 *)motion)->unk_04.at02.v,
             (s16) ((S_818FF710_5 *)motion)->unk_08.at02.v, ((S_818FF710_2 *)parent)->unk_60) << 0x10) != 0) {
             (*(s16 *)((u8 *)effect + 0xA)) = 8;
             (*(u16 *)((u8 *)effect + 0x82)) = 0U;
@@ -526,7 +526,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
             if (((S_818FF710_2 *)parent)->unk_60 != NULL) {
                 (*(s16 *)((u8 *)effect + 0xA)) = 3;
                 (*(u16 *)((u8 *)effect + 0x82)) = 0U;
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 impact_target = ((S_818FF710_2 *)parent)->unk_60;
                 target_hit_flags = ((S_818FF710_10_pre *)impact_target)[-1].unk_00;
                 if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) >= 4U) {
@@ -590,7 +590,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
             texture_rect.half[3] = (s16) rect_height;
             texture_rect.half[4] = (s16) rect_right;
             texture_rect.half[5] = (s16) 0x19A;
-            func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
+            draw_transformed_sprite_with_clip_rect(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
             texture_start = rect_start;
             texture_end = rect_end;
             texture_rect.half[0] = (s16) rect_left;
@@ -602,7 +602,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
             texture_rect.half[4] = (s16) rect_right;
             rect_bottom = 0x1EF;
             texture_rect.half[5] = (s16) rect_bottom;
-            func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
+            draw_transformed_sprite_with_clip_rect(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
         }
         impact_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
         if (impact_tick != 4) {
@@ -765,7 +765,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
                 particle_color = 0x2020E0;
                 particle_size = (random_value & 0xFF) | 0x80;
                 particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
-                func_800244CC(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+                spawn_jittered_child_effect(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
             }
         }
         old_impact_angle = ((S_818FF710_1 *)sprite)->unk_1A;
@@ -795,7 +795,7 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
         if (D_800E3D68 != 0xFF) {
             source_id = (*(u8 *)((u8 *)effect + 9));
         }
-        func_8002407C(((S_818FF710_2 *)parent)->unk_60, source_id, parent);
+        apply_random_actor_value_adjustment(((S_818FF710_2 *)parent)->unk_60, source_id, parent);
         (*(u16 *)((u8 *)effect + 0x82)) = 0U;
         (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
         return;
@@ -822,9 +822,9 @@ void dungeonUpdateEffectParticlesAndCleanup(void *effect, void *motion, void *sp
         effect_active = (s32) ((S_818FF710_3 *)(&D_80025E80))->unk_00;
         (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
         if (effect_active == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-            (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
             return;
         }
         (*(s16 *)&D_80025E80) = 0;

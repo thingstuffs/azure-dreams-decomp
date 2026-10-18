@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-s32 inventoryCopyStateVectorAfterBuffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
+s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
 {
     s32 success = 0;
     s32 *buffer = state->unk58;
@@ -15,7 +15,7 @@ s32 inventoryCopyStateVectorAfterBuffers(ovl_1830850_818110CC_Unk818110CC *state
             state->unk38[0] = D_8002E5E8.unk0;
             state->unk38[1] = D_8002E5E8.unk4;
             state->unk38[2] = D_8002E5E8.unk8;
-            textureSetTheFieldOffsetHex8InEachEntryPointerArray(state->unk54, state->unk38, 13);
+            texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(state->unk54, state->unk38, 13);
             success = 1;
         }
     }

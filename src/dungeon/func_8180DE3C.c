@@ -5,26 +5,26 @@ typedef s32 M2C_UNK;
 
 typedef struct S_80026E3C_0_pre {
     u16 unk_00;
-} S_80026E3C_0_pre;   /* the 0x2 bytes before arg0 in dungeonAlternateEffectShadeAndDecay, addressed as arg0[-1] */
+} S_80026E3C_0_pre;   /* the 0x2 bytes before arg0 in alternate_effect_shade_and_decay, addressed as arg0[-1] */
 
 typedef struct S_80026E3C_0 {
     u8 pad_00[0x66];
     u16 unk_66;
     u16 unk_68;
     union { u8 u8; u16 u16; } unk_6A;   /* accessed as both */
-} S_80026E3C_0;   /* arg0 in dungeonAlternateEffectShadeAndDecay */
+} S_80026E3C_0;   /* arg0 in alternate_effect_shade_and_decay */
 
 typedef struct S_80026E3C_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_80026E3C_1;   /* arg2 in dungeonAlternateEffectShadeAndDecay */
+} S_80026E3C_1;   /* arg2 in alternate_effect_shade_and_decay */
 
 
 
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
-void dungeonAlternateEffectShadeAndDecay(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
+void alternate_effect_shade_and_decay(void *effect, M2C_UNK ticks_left, S_80026E3C_1 *color)
 {
     u16 frame;
     u16 intensity;
@@ -49,6 +49,6 @@ void dungeonAlternateEffectShadeAndDecay(void *effect, M2C_UNK ticks_left, S_800
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026E3C_0_pre *)effect)[-1].unk_00 =
             (u16)(((S_80026E3C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

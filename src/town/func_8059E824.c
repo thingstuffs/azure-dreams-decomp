@@ -11,7 +11,7 @@
 M2C_UNK func_8001886C();                     /* extern */
 
 /* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */
-void advanceTownCountdownAndInvokeHandler(void) {
+void advance_town_countdown_and_invoke_handler(void) {
     u8 countdown;
     TownEventCursor *countdown_record;
 

@@ -10,6 +10,6 @@ typedef struct CallbackEntry {
     void *data;
 } CallbackEntry;
 
-void dispatchTownCallbackOrFallback(s32 value0, s32 value1);
+void dispatch_town_callback_or_fallback(s32 value0, s32 value1);
 void func_80016128(s32 value0, s32 value1);
 #endif

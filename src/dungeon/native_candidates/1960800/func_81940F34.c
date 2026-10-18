@@ -17,6 +17,6 @@ void func_80024734(Entity *entity, State *state)
     entity->timer = remainingTimer;
     if (remainingTimer <= 0) {
         ((u16 *)entity)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

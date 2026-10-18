@@ -14,12 +14,12 @@ typedef struct {
 
 
 /* Set object and global flags when the state is zero and subobject bit 3 is set. */
-void townRetireSceneLabelAfterExitFlag(S_8081CB78 *object) {
+void retire_scene_label_after_exit_flag(S_8081CB78 *object) {
     s16 state = object->state;
     S_8081CB78_sub *sub = object->sub;
 
     if (state == 0 && (sub->flags & 8)) {
         ((u16 *)object)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

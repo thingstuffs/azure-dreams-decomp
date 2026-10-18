@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonResetGlobalEffectConfiguredValue at file 0x1274430; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/reset_global_effect_configured_value at file 0x1274430; imports and data use paired retail relocations. */
 #include "common.h"
 
 typedef struct {

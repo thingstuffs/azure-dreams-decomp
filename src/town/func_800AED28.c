@@ -3,7 +3,7 @@
 extern s8 D_800D1548[0x1549];
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
-void townSetTextureQuad32Uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v) {
+void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v) {
     s8 right_u;
     s8 bottom_v;
 

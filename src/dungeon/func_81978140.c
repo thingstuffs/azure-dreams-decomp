@@ -97,7 +97,7 @@ void func_81978140(S_81978140 *entity)
 
     case 4:
         entity[-1].timer |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

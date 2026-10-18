@@ -4,30 +4,30 @@
 #include "m2c_compat.h"
 
 
-extern s32 townCheckCallbackRecordBytes(s32, s32);
-extern void townSetCurrentEntryScriptFlag(void);
-extern void townApplyEntryPosition(void *, void *, s32, s32);
-extern void townSetScriptFlagBit(s32);
-extern s32 townGetScriptFlagMask(s32);
+extern s32 check_callback_record_bytes(s32, s32);
+extern void set_current_entry_script_flag(void);
+extern void apply_entry_position(void *, void *, s32, s32);
+extern void set_script_flag_bit(s32);
+extern s32 get_script_flag_mask(s32);
 extern M2C_UNK D_8001BE2C;
 extern M2C_UNK D_8001BE44;
 extern M2C_UNK D_8001C354;
 
 
 /* Handles the conditional callback and selects data according to flag 0x1460. */
-void townHandleConditionalEventCallback(s32 context, s32 unused, s32 event_code) {
+void handle_conditional_event_callback(s32 context, s32 unused, s32 event_code) {
     void *selected_data;
 
-    if ((event_code == 0x1E) && (townCheckCallbackRecordBytes(0xD, 1) != 0)) {
+    if ((event_code == 0x1E) && (check_callback_record_bytes(0xD, 1) != 0)) {
         D_80016000->unk_20->callback_078(0);
-        townSetScriptFlagBit(0x1460);
-        townSetCurrentEntryScriptFlag();
+        set_script_flag_bit(0x1460);
+        set_current_entry_script_flag();
     }
 
-    if (townGetScriptFlagMask(0x1460) != 0) {
+    if (get_script_flag_mask(0x1460) != 0) {
         selected_data = &D_8001BE2C;
     } else {
         selected_data = &D_8001BE44;
     }
-    townApplyEntryPosition(selected_data, &D_8001C354, context, event_code);
+    apply_entry_position(selected_data, &D_8001C354, context, event_code);
 }

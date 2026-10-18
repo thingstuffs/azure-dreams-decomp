@@ -8,10 +8,10 @@ typedef void (*Callback)();
 extern void func_8003DB94();
 extern void func_800478B8();
 extern s32 func_80069EF8(void);
-extern void dungeonApplyMonsterKoyawData();
-extern s32 dungeonRefreshActorFacingAndLifecycle();
-extern void func_800AA36C();
-extern s16 func_800BCB04();
+extern void apply_monster_koyaw_data();
+extern s32 refresh_actor_facing_and_lifecycle();
+extern void try_move_actor_to_valid_position();
+extern s16 sample_terrain_surface_height();
 
 extern u8 D_800D8C64;
 extern u8 D_800E260C[];
@@ -92,7 +92,7 @@ typedef struct S_func_800D8728_2 {
 } S_func_800D8728_2;
 
 /* Update entity callbacks, facing, movement, and floor contact. */
-void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
+void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
 {
     S_func_800D8728_0 *actor;
     s16 previous_direction;
@@ -106,7 +106,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
     actor = entity;
     *(u16 *)((u8 *)monster + 0x12) = 0;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
         if (special_callback == (Callback)&D_800D8C64) {
             special_callback(entity, motion, monster, entity);
@@ -117,7 +117,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
     }
 
     previous_direction = (s8)entity->unk_6D;
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, monster, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
         return;
     }
 
@@ -130,12 +130,12 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
     D_800E264C[entity->unk_9A](entity, motion, monster, entity);
 
     if ((s16)previous_direction != (s8)entity->unk_6D) {
-        func_800AA36C(entity, motion, monster, entity);
+        try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
     model_flags = monster->unk_14;
     if (!(model_flags & 0x8000)) {
-        direction_sector = (gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9;
+        direction_sector = (g_game_work.view.viewAngle + entity->unk_2A + 0x100) >> 9;
         state_direction = direction_sector & 7;
         lookup_direction = state_direction;
         compare_direction = state_direction;
@@ -150,7 +150,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
             entity->unk_94 = state_direction;
         }
 
-        if (dirSpriteFlag[lookup_direction] != 0) {
+        if (dir_sprite_flag[lookup_direction] != 0) {
             monster->unk_14 |= 1;
         } else {
             ((S_func_800D8728_2 *)monster)->unk_14 &= 0xFFFE;
@@ -164,7 +164,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
             ((S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
         }
 
-        dungeonApplyMonsterKoyawData(actor->unk_1C, (u8 *)monster + 0xC);
+        apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
     } else if (model_flags & 0x800) {
         monster->unk_14 = model_flags & 0x8FFF;
     } else {
@@ -181,7 +181,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
             s32 hop_direction_offset;
             entity->unk_98 |= 1;
             *(u8 **)((u8 *)monster + 0x2C) = D_800E260C;
-            hop_direction_offset = ((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
+            hop_direction_offset = ((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
             func_8003DB94(monster, *(void **)(D_800E260C + hop_direction_offset), 0);
         }
 
@@ -213,7 +213,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
     entity->unk_90.s32 += motion->unk_14;
 
     if (!(entity->unk_98 & 4)) {
-        floor_height = func_800BCB04(motion->unk_00.half.unk_02,
+        floor_height = sample_terrain_surface_height(motion->unk_00.half.unk_02,
                                      motion->unk_04.half.unk_06,
                                      (s16)(actor->unk_88.u16 - 0x20));
         if (floor_height < 0x200) {
@@ -233,7 +233,7 @@ void dungeonUpdateActorMovementAndContact(S_func_800D8728_0 *entity, S_func_800D
 
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
-                floor_height = func_800BCB04((monster->unk_24 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
                                              (monster->unk_25 << 6) | 0x20,
                                              (s16)(actor->unk_88.u16 - 0x20));
                 entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor_height;

@@ -9,17 +9,17 @@
 extern u8 D_80081470[];
 extern u8 D_800E3648[];
 
-extern s32 dungeonLookupDefinitionPairValue(u8, u8);
-extern s16 dungeonFindEntryAtTileCoordinates(u8, u8, s16);
-extern s16 func_800A70E4(u8, u8, s16);
+extern s32 lookup_definition_pair_value(u8, u8);
+extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
+extern s16 find_floor_item_at_world_position(u8, u8, s16);
 
 typedef struct S_800A4300_2 {
     u8 pad_00[0xF0];
     union { void * p; s32 i; } unk_F0;   /* accessed as both */
-} S_800A4300_2;   /* D_800814A8[0] in dungeonSelectPositionDataAndUpdateOwner */
+} S_800A4300_2;   /* D_800814A8[0] in select_position_data_and_update_owner */
 
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
-void dungeonSelectPositionDataAndUpdateOwner(Rec_D_80082E80 *entity, EntityRec *search_state) {
+void select_position_data_and_update_owner(Rec_D_80082E80 *entity, EntityRec *search_state) {
     s32 lookup_code;
     void *owner;
     u32 map_index_bits, floor_index_bits;
@@ -27,13 +27,13 @@ void dungeonSelectPositionDataAndUpdateOwner(Rec_D_80082E80 *entity, EntityRec *
     s16 floor_index, map_index;
     u8 *floor_entry, *map_entry;
 
-    lookup_code = dungeonLookupDefinitionPairValue(entity->unk_24, entity->unk_25);
+    lookup_code = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
     if ((lookup_code << 16) != 0) {
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
         D_800814A8->unk_F0 = 0;
         return;
     } else {
-        map_index_bits = (u32)dungeonFindEntryAtTileCoordinates(entity->unk_24,
+        map_index_bits = (u32)find_entry_at_tile_coordinates(entity->unk_24,
                                             entity->unk_25,
                                             search_state->unk_88) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
@@ -49,7 +49,7 @@ void dungeonSelectPositionDataAndUpdateOwner(Rec_D_80082E80 *entity, EntityRec *
             return;
         }
 
-        floor_index_bits = (u32)func_800A70E4(entity->unk_24,
+        floor_index_bits = (u32)find_floor_item_at_world_position(entity->unk_24,
                                               entity->unk_25,
                                               search_state->unk_88) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);

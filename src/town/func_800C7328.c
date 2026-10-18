@@ -9,10 +9,10 @@ typedef struct {
 } TownSlot;
 
 extern u16 D_800D5070[];
-extern void townInstallObjectHandlerAndClearSlotFlag(void *, void *, void *, void *);
+extern void install_object_handler_and_clear_slot_flag(void *, void *, void *, void *);
 
 /* Deactivate the town slot, apply its variant to the object and child, and update the object. */
-void townDeactivateTownSlotAndApplyVariant(void *town_object, void *passthru_1, void *passthru_2, void *child)
+void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1, void *passthru_2, void *child)
 {
     u32 slot;
     u8 raw_variant;
@@ -28,5 +28,5 @@ void townDeactivateTownSlotAndApplyVariant(void *town_object, void *passthru_1, 
         *(u8 *)((u8 *)child + 4) = slot;
     }
     *(u16 *)((u8 *)town_object + 0x6E) = D_800D5070[slot];
-    townInstallObjectHandlerAndClearSlotFlag(town_object, passthru_1, passthru_2, child);
+    install_object_handler_and_clear_slot_flag(town_object, passthru_1, passthru_2, child);
 }

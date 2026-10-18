@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81087818; every changed retail word is a paired relocation. */
-#define dungeonUpdateStagedTargetMotion func_80151018
+#define update_staged_target_motion func_80151018
 #define D_80175F68 D_80151F68
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -97,12 +97,12 @@ typedef struct S_81087818_7 {
 } S_81087818_7;
 
 extern void func_800478B8(void *);
-extern void *resolveRecordOrientationOrFallback(void *, void *, u16 *, s32);
+extern void *resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
-extern void dungeonResolveAttackDamageAndEffects(void *, void *, s16, s16);
-extern void dungeonSelectNearbyTargetAndInitializeSlot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
 extern void func_80151A90(void *, void *);
 
 extern u8 D_80151F68;
@@ -123,7 +123,7 @@ void func_80151018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     {
         S_81087818_1 *actor = motion->unk_48;
         if ((actor->unk_14 & 0x9FFF) == 0 &&
-            resolveRecordOrientationOrFallback(actor->unk_08, actor, delta, 3) != 0) {
+            resolve_record_orientation_or_fallback(actor->unk_08, actor, delta, 3) != 0) {
             ((S_81087818_4 *)&base)->unk_02.u += delta[0];
             ((S_81087818_4 *)&base)->unk_06.u += delta[1];
             ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
@@ -156,13 +156,13 @@ void func_80151018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
             source = motion->unk_4C;
             tile_x = actor->unk_A8;
             direction_offset = (source->unk_2A.u >> 8) & 0xE;
-            direction_table = dirStepX;
+            direction_table = dir_step_x;
             motion->unk_28.half.unk_2A =
                 (tile_x * 64) +
                 ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
             motion->unk_2C.half.unk_2E =
                 (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
-                ((*(s16 *)((u8 *)dirStepY + direction_offset) + 1) * 32);
+                ((*(s16 *)((u8 *)dir_step_y + direction_offset) + 1) * 32);
             distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
             motion->unk_30.half.unk_32.u = distance_x;
 
@@ -330,7 +330,7 @@ void func_80151018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
                 S_81087818_1 *actor = motion->unk_40;
                 if (actor->unk_AE == 2) {
                     S_81087818_2 *source = motion->unk_4C;
-                    dungeonResolveAttackDamageAndEffects(source, motion->unk_48,
+                    resolve_attack_damage_and_effects(source, motion->unk_48,
                                   source->unk_2A.s, actor->unk_AC);
                 }
             }
@@ -377,7 +377,7 @@ void func_80151018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
         S_81087818_1 *actor = motion->unk_48;
         if (actor->unk_2C != &D_80151F68) {
             (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         actor->unk_14 &= 0xF7FF;
@@ -388,7 +388,7 @@ void func_80151018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     }
 
     if (motion->unk_00.s != 0) {
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)motion - 0x20, trajectory, 8, 0x300);
+        select_nearby_target_and_initialize_slot((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
 #undef delta
 #undef base

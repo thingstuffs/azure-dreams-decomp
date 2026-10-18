@@ -19,14 +19,14 @@ typedef struct S_800AAF00_0 {
     u8 unk_6D;
     u8 pad_6E[0x3];
     u8 unk_71;
-} S_800AAF00_0;   /* obj in dungeonBeginActorSpellAction */
+} S_800AAF00_0;   /* obj in begin_actor_spell_action */
 
 typedef struct S_800AAF00_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_800AAF00_1;   /* state in dungeonBeginActorSpellAction */
+} S_800AAF00_1;   /* state in begin_actor_spell_action */
 
 typedef struct S_800AAF00_2 {
     u8 pad_00[0x98];
@@ -35,7 +35,7 @@ typedef struct S_800AAF00_2 {
     u16 unk_A6;
     u8 pad_A8[0x74];
     void * unk_11C;
-} S_800AAF00_2;   /* D_800E3D7C in dungeonBeginActorSpellAction */
+} S_800AAF00_2;   /* D_800E3D7C in begin_actor_spell_action */
 
 typedef struct S_800AAF00_3 {
     u8 pad_00[0x8C];
@@ -43,7 +43,7 @@ typedef struct S_800AAF00_3 {
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 unk_9B;
-} S_800AAF00_3;   /* owner in dungeonBeginActorSpellAction */
+} S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
 typedef struct S_800AAF00_4 {
     u8 pad_00[0x14];
@@ -51,24 +51,24 @@ typedef struct S_800AAF00_4 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800AAF00_4;   /* other in dungeonBeginActorSpellAction */
+} S_800AAF00_4;   /* other in begin_actor_spell_action */
 
 typedef struct S_800AAF00_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AAF00_5;   /* state2 in dungeonBeginActorSpellAction */
+} S_800AAF00_5;   /* state2 in begin_actor_spell_action */
 
 
 extern s32 func_80047784();
-extern s32 dungeonScanMonsterAlongHeading();
-extern s32 func_800A2B5C();
-extern void dungeonAdvanceStatusTimers();
-extern s32 func_800A6D30();
-extern void dungeonSelectNearbyTargetAndInitializeSlot();
+extern s32 scan_monster_along_heading();
+extern s32 try_claim_dungeon_action_slot();
+extern void advance_status_timers();
+extern s32 generate_random_value();
+extern void select_nearby_target_and_initialize_slot();
 
 
 /* Updates the object action state and applies direction data to its target. */
-void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
+void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
     void *object;
     s32 special_action;
     u8 *slot_data;
@@ -81,7 +81,7 @@ void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u
 
     object = actor;
     ((S_800AAF00_0 *)object)->unk_71 &= 0x7F;
-    input_flags = dungeonStatus.flags;
+    input_flags = g_dungeon_status.flags;
     special_action = 0;
 
     if (!(input_flags & 0x2008)) {
@@ -92,20 +92,20 @@ void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u
                 (((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6 == 0)) {
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.u16 |= 0x1000;
                 ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
-                dungeonStatus.unk_0A++;
+                g_dungeon_status.unk_0A++;
             } else {
-                dungeonAdvanceStatusTimers(object);
+                advance_status_timers(object);
                 ((S_800AAF00_0 *)object)->unk_6D--;
                 ((S_800AAF00_3 *)actor)->unk_8C = next_state;
 
                 return;
             }
         } else {
-            if ((input_flags & 8) || ((func_800A2B5C(object) << 16) != 0)) {
+            if ((input_flags & 8) || ((try_claim_dungeon_action_slot(object) << 16) != 0)) {
                 return;
             }
-            dungeonSelectNearbyTargetAndInitializeSlot((u8 *)object - 0x20, effect_param, 8, 0x300);
-            if ((func_800A2B5C(object) << 16) != 0) {
+            select_nearby_target_and_initialize_slot((u8 *)object - 0x20, effect_param, 8, 0x300);
+            if ((try_claim_dungeon_action_slot(object) << 16) != 0) {
                 return;
             }
         }
@@ -116,7 +116,7 @@ void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u
                 if (!(object_flags & 0x80000000)) {
                     object_flags |= 0x80000000;
                     ((S_800AAF00_0 *)object)->unk_14 = object_flags;
-                    ((S_800AAF00_0 *)object)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                    ((S_800AAF00_0 *)object)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             }
 
@@ -133,7 +133,7 @@ void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u
                 type_index = slot_data[8];
                 type_data = type_table + type_index * 20;
                 if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
-                    ((S_800AAF00_0 *)object)->unk_60 = dungeonScanMonsterAlongHeading(
+                    ((S_800AAF00_0 *)object)->unk_60 = scan_monster_along_heading(
                         object,
                         ((S_800AAF00_4 *)target)->unk_24,
                         ((S_800AAF00_4 *)target)->unk_25,
@@ -153,11 +153,11 @@ void dungeonBeginActorSpellAction(void *actor, s32 effect_param, void *target, u
             (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
             func_80047784(
                 target,
-                direction_table[((gameWork.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
         }
         ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
-        dungeonStatus.unk_0A++;
+        g_dungeon_status.unk_0A++;
     }
 
 }

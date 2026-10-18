@@ -5,8 +5,8 @@
 
 s32 func_8004491C();           /* extern */
 M2C_UNK func_8004B248();                      /* extern */
-s32 townLinkMonsterStatusDisplayEntries();                             /* extern */
-void townInitializeEntryObject(); /* extern */
+s32 link_monster_status_display_entries();                             /* extern */
+void initialize_entry_object(); /* extern */
 s32 func_800B6990();                 /* extern */
 extern M2C_UNK D_8004CAA0;
 extern M2C_UNK D_800B6754;
@@ -27,7 +27,7 @@ typedef struct S_800B6A0C_1 {
 } S_800B6A0C_1;
 
 /* Allocate and initialize an object, marking it for cleanup if setup fails. */
-void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
+void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
     S_800B6A0C_1 *state;
     void *object;
 
@@ -36,8 +36,8 @@ void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
     if (object != NULL) {
         if (func_800B6990(state, 0x18) != 0) {
             ((S_800B6A0C_0 *)object)->unk_0C = (void *) (object + 0xA8);
-            state->unk_94 = townLinkMonsterStatusDisplayEntries(state->unk_98);
-            townInitializeEntryObject(state, resource_id, slot_index, x, y, z);
+            state->unk_94 = link_monster_status_display_entries(state->unk_98);
+            initialize_entry_object(state, resource_id, slot_index, x, y, z);
             ((S_800B6A0C_0 *)object)->unk_10 = &D_800B6754;
             func_8004491C(object, &D_8004CAA0);
             return object;
@@ -45,7 +45,7 @@ void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
         func_8004B248(object + 0xBC);
         ((S_800B6A0C_0 *)object)->unk_1E = (u16) (((S_800B6A0C_0 *)object)->unk_1E | 0x8000);
         object = NULL;
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
     return object;
 }

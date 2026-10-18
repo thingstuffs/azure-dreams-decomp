@@ -1,5 +1,5 @@
-#define func_800AA36C markCategoryItemsFlag400
-#define dungeonCreateAttachedSpriteWithOffset func_80163B50
+#define try_move_actor_to_valid_position mark_category_items_flag_400
+#define create_attached_sprite_with_offset func_80163B50
 #define func_80173C30 func_80166C30
 #define func_8003FD64 func_8003F958
 #define D_8017112C D_8016412C
@@ -8,7 +8,7 @@
 #define D_80174710 D_80167710
 #define D_80173E8C D_80166E8C
 #define D_80171514 D_80164514
-#define func_800A9C18 func_800A88D0
+#define initialize_actor_sprite_and_animation func_800A88D0
 #define D_80083498 D_800871C8
 #define func_80045340 func_80044EDC
 /* Relink of matched dungeon/func_81251784 at file 0x1271784; imports and data use paired retail relocations. */
@@ -21,7 +21,7 @@
 void *func_8003F958();
 s32 func_800444B8();
 void func_800A88D0();
-s32 markCategoryItemsFlag400();
+s32 mark_category_items_flag_400();
 void func_80163B50();
 M2C_UNK func_80166C30();
 extern M2C_UNK D_8016412C;
@@ -109,7 +109,7 @@ void *func_80163F84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
         entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
         tile_state->unk_10 = 0x20;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);
-        markCategoryItemsFlag400(entity_state, world_state, tile_state, entity_state);
+        mark_category_items_flag_400(entity_state, world_state, tile_state, entity_state);
         world_state->unk_0A = (u16) ((u16)D_800875C8.z.w.i);
         world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
         world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);

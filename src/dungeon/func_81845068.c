@@ -43,7 +43,7 @@ s32 func_80024868(u8 *first_node)
 
     u32 tag_mask;
     node = first_node;
-    render_state = &gameWork;
+    render_state = &g_game_work;
     do {
         uv_choices[0] = 0xA0;
         uv_choices[1] = 0x80;

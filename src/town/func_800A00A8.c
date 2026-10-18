@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Compute coordinate bounds for four points using the configured limits. */
-void townComputeFourPointCoordinateBounds(void *points, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point) {
+void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808_2 *max_point, func_800A00A8_S_8009D808_1 *min_point) {
     s16 x_for_max;
     s16 x_for_min;
     s16 y_for_max;
@@ -21,7 +21,7 @@ void townComputeFourPointCoordinateBounds(void *points, func_800A00A8_S_8009D808
     first_y = ((func_800A00A8_S_8009D808_0 *)points)->unk_02;
     min_point->unk_02 = first_y;
     max_point->unk_02 = first_y;
-    config_base = ((u8 *)(&gameWork));
+    config_base = ((u8 *)(&g_game_work));
     size_config = config_base + 0x1DC;
     if ((s16) max_point->unk_00 < 0) {
         min_point->unk_00 = 0U;

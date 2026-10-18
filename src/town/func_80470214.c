@@ -1,12 +1,12 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 townSelectOneTimeInteractionResponse(void *object, s32 check_value, s32 selection)
+s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection)
 {
     void *response_table;
     s32 default_response;
     s32 response;
 
-    if (townCheckTableResultBelowMinus47(object, check_value) != 0) {
+    if (check_table_result_below_minus_47(object, check_value) != 0) {
 
         return &D_8001B7AE;
     }

@@ -17,7 +17,7 @@ extern u8 D_800D1D54;
 extern u8 D_80080F48;
 extern u8 D_80080F98;
 /* Initialize town resources and configure the scene. */
-void func_800C1854(void)
+void initialize_resources(void)
 {
     u8 *resource_data;
     func_8003AFE0(1, 0x73);

@@ -39,7 +39,7 @@ typedef struct S_800C1A44_3 {
 } S_800C1A44_3;
 
 /* Create an object at the tile center and initialize its rendering and state. */
-void *func_800C1A44(s32 tile_x, s32 tile_y, s32 z) {
+void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     void *object;
     S_800C1A44_1 *position;
     S_800C1A44_2 *render_state;

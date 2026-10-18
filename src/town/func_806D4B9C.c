@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 townGetSpecialDataForLowValueId(s32);
+extern s32 get_special_data_for_low_value_id(s32);
 extern s32 func_800178A8(void *, s32, s32);
 extern s32 func_80017904(void *, s32, s32);
 extern s32 func_80017960(void *, void *, s32, s32);
-extern void func_80018594(s32);
+extern void initialize_state_two_entries_pointer(s32);
 extern s32 func_8001868C(s32);
 extern s32 func_80018868(s32, s32);
 extern void func_800188E8(s32, s32, s32);
@@ -15,7 +15,7 @@ extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
 /* Selects a response and advances the four-state counter for event 11. */
-s32 townSelectEvent11Response(s32 context, s32 unused, s32 event_id)
+s32 select_event_11_response(s32 context, s32 unused, s32 event_id)
 {
     u8 *event_table;
     s32 result;
@@ -25,7 +25,7 @@ s32 townSelectEvent11Response(s32 context, s32 unused, s32 event_id)
         return (s32) D_8001B3D2;
     }
 
-    result = townGetSpecialDataForLowValueId(event_id);
+    result = get_special_data_for_low_value_id(event_id);
     if (result != 0) {
         return result;
     }
@@ -38,7 +38,7 @@ s32 townSelectEvent11Response(s32 context, s32 unused, s32 event_id)
         return result;
     }
 
-    func_80018594(0x998);
+    initialize_state_two_entries_pointer(0x998);
     if (func_80017904(event_table, context, 0xB) == 0) {
         if (func_8001868C(0x997) == 0) {
             state_index++;

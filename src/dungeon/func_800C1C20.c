@@ -50,20 +50,20 @@ typedef struct {
     DungeonState state;
 } DungeonObject;
 
-extern void copyWordsForward(void *, void *, s32);
+extern void copy_words_forward(void *, void *, s32);
 extern DungeonObject *func_8003FD64(s32, void *);
 extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80045C34();
 extern u8 D_800777E8[];
-extern void dungeonUpdateTimedTileEffect();
-extern void dungeonUpdatePulsingColorFade();
+extern void update_timed_tile_effect();
+extern void update_pulsing_color_fade();
 extern u8 D_800D0774[];
 extern u8 D_800DF3B4[];
 
 /* Creates a dungeon effect with a central object and up to eleven surrounding children. */
-DungeonObject *dungeonCreateCentralAndChildEffects(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 speed) {
+DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s16 height, s16 speed) {
     s32 color;
     DungeonObject *parent;
     DungeonObject *child;
@@ -81,7 +81,7 @@ DungeonObject *dungeonCreateCentralAndChildEffects(s16 tile_x, s16 tile_y, u16 z
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;
-        parent->callback = dungeonUpdateTimedTileEffect;
+        parent->callback = update_timed_tile_effect;
         func_8004491C(parent, func_80045C34);
         color = 0x404040;
         state = &parent->state;
@@ -108,7 +108,7 @@ DungeonObject *dungeonCreateCentralAndChildEffects(s16 tile_x, s16 tile_y, u16 z
         state->height = height;
         state->limit = state_limit;
         state->speed = speed;
-        callback_fn = dungeonUpdatePulsingColorFade;
+        callback_fn = update_pulsing_color_fade;
         do {
             child = func_8003FD64(0x12, parent);
             if (child != NULL) {
@@ -133,7 +133,7 @@ DungeonObject *dungeonCreateCentralAndChildEffects(s16 tile_x, s16 tile_y, u16 z
                 image_data = (void *) ((u8 *) child + 0x24);
                 state->height = height;
                 render->image = image_data;
-                copyWordsForward(image_data, D_800DF3B4, 3);
+                copy_words_forward(image_data, D_800DF3B4, 3);
                 state->angle = (s8) (frame & 0xBF);
                 state->frame = frame;
                 state->parent = parent;

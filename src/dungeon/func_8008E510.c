@@ -52,7 +52,7 @@ M2C_UNK func_80048A44(); /* extern */
 extern M2C_UNK D_80093A94;
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */
-void func_80093C70(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
+void create_familiar_deployment_effect_with_owner_state(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
     S_80093C70_3 *sprite;
     void *effect;
     S_80093C70_1 *position;

@@ -13,10 +13,10 @@ extern s32 *D_800179D8;
 extern void func_800175FC(s32);
 extern void func_80017674(s32);
 extern s32 func_800176F4(s32);
-extern s32 func_80017868(s32);
+extern s32 contains_value_in_table(s32);
 
 /* Initialize callback data, invoke the owner callback, and dispatch conditional updates. */
-void townCheckInputsAfterThresholdFive(void)
+void check_inputs_after_threshold_five(void)
 {
     s32 zero = 0;
     s32 (*callback)(s32);
@@ -30,7 +30,7 @@ void townCheckInputsAfterThresholdFive(void)
     callback(zero);
 
     if (func_800176F4(0x942) != 0) {
-        if (func_80017868(0xB) != 0) {
+        if (contains_value_in_table(0xB) != 0) {
             func_800175FC(0xB0F);
             if (func_800176F4(0xB10) == 0) {
                 func_800175FC(0xB0E);

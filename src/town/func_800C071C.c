@@ -6,16 +6,16 @@ typedef struct S_800BDE7C_0 {
     union { s16 s; u16 u; } unk_68;   /* accessed as both */
     u8 pad_6A[0x36];
     s32 * unk_A0;
-} S_800BDE7C_0;   /* arg0 in townUpdateRecordOutputGrid */
+} S_800BDE7C_0;   /* arg0 in update_record_output_grid */
 
 typedef struct S_800BDE7C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800BDE7C_1;   /* arg2 in townUpdateRecordOutputGrid */
+} S_800BDE7C_1;   /* arg2 in update_record_output_grid */
 
 
 
-void townUpdateRecordOutputGrid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE7C_1 *output, s32 unused_value2)
+void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE7C_1 *output, s32 unused_value2)
 {
     s16 state;
         /* MATCH: Preserve retail's source register after making call arguments explicit. */
@@ -32,7 +32,7 @@ void townUpdateRecordOutputGrid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE
         if (func_800352FC() == 0) {
             return;
         }
-        if (townCheckTransformIdentifierAndHook(record) == 0) {
+        if (check_transform_identifier_and_hook(record) == 0) {
             return;
         }
         output->unk_08 = source[1];
@@ -40,7 +40,7 @@ void townUpdateRecordOutputGrid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE
         return;
     case 1:
     case 3:
-        if ((func_800352FC() == 0) || (townCheckTransformIdentifierAndHook(record) == 0)) {
+        if ((func_800352FC() == 0) || (check_transform_identifier_and_hook(record) == 0)) {
             record->unk_68.u = (record->unk_68.u + 1) & 3;
         }
         return;
@@ -48,7 +48,7 @@ void townUpdateRecordOutputGrid(S_800BDE7C_0 *record, s32 unused_value, S_800BDE
         if (func_800352FC() == 0) {
             return;
         }
-        if (townCheckTransformIdentifierAndHook(record) == 0) {
+        if (check_transform_identifier_and_hook(record) == 0) {
             return;
         }
         output->unk_08 = source[0];

@@ -17,23 +17,23 @@ typedef struct S_80172540_0 {
     u8 unk_9B;
     u8 pad_9C[0x4];
     s32 unk_A0;
-} S_80172540_0;   /* arg0 in dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes */
+} S_80172540_0;   /* arg0 in update_a_jump_toward_target_tile_restores_actor_finishes */
 
 
 void func_80047784();
-s16 dungeonGetRoundedFacingAndRoundingFlag();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
+s16 get_rounded_facing_and_rounding_flag();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
 M2C_UNK func_800A9A04();
-void dungeonReduceActorFoodMeter();
-s32 dungeonCheckActorFloorTrap();
+void reduce_actor_food_meter();
+s32 check_actor_floor_trap();
 
 extern u8 D_801710F4;
 extern u8 D_80174F20[];
 extern u8 D_80174F28[];
 
 /* Updates a jump toward the target tile and restores the actor when it finishes. */
-void dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes(void *jump_state, EntityRec *motion, void *map_entity, EntityRec *actor) {
+void update_a_jump_toward_target_tile_restores_actor_finishes(void *jump_state, EntityRec *motion, void *map_entity, EntityRec *actor) {
     s32 distance;
     s32 frames_left;
     s16 next_timer;
@@ -49,7 +49,7 @@ void dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes(void *jump_state, E
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F20;
         func_80047784(
             map_entity,
-            D_80174F20[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80174F20[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172540_0 *)jump_state)->unk_98 |= 8;
         motion->flags14 = 0xFFEE0000;
@@ -89,11 +89,11 @@ void dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes(void *jump_state, E
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_80174F28;
             func_80047784(
                 map_entity,
-                D_80174F28[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80174F28[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172540_0 *)jump_state)->unk_9B++;
         }
@@ -105,13 +105,13 @@ void dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes(void *jump_state, E
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 3);
-        dungeonAdvanceStatusTimers(actor);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        reduce_actor_food_meter(actor, 3);
+        advance_status_timers(actor);
         {
 
-            if (dungeonStatus.unk_08 != 0) {
-                dungeonStatus.unk_08--;
+            if (g_dungeon_status.unk_08 != 0) {
+                g_dungeon_status.unk_08--;
             }
         }
 
@@ -123,13 +123,13 @@ void dungeonUpdateAJumpTowardTargetTileRestoresActorFinishes(void *jump_state, E
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                actor->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &distance);
             }
         }
 
-        if ((dungeonCheckActorFloorTrap(map_entity, actor) << 16) > 0) {
+        if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
             ((S_80172540_0 *)jump_state)->unk_8C = &D_801710F4;
             func_800A9A04(actor);
         }

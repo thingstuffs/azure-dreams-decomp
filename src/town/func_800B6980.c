@@ -12,7 +12,7 @@ extern Packed24 D_800D16E4;
 extern Packed12 D_800D16D8;
 
 /* Copies two packed data blocks into a contiguous 36-byte destination. */
-void townCopyContiguousDisplayBlocks(void *dst) {
+void copy_contiguous_display_blocks(void *dst) {
     void *src;
 
     src = &D_800D16E4;

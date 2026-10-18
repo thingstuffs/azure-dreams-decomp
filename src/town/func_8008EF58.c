@@ -18,9 +18,9 @@ typedef struct WorkVec {
     s32 unused[3];
 } WorkVec;
 
-extern s32 townEvaluateSurfaceComponentsC(WorkVec *);
+extern s32 evaluate_surface_components_c(WorkVec *);
 
-s16 dungeonAdjustSummedVectorByEntryComponent(Vec4 *vector, Vec4 *entries, s32 entry_index)
+s16 adjust_summed_vector_by_entry_component(Vec4 *vector, Vec4 *entries, s32 entry_index)
 {
     WorkVec sum;
     s32 offset = entry_index * 16;
@@ -30,7 +30,7 @@ s16 dungeonAdjustSummedVectorByEntryComponent(Vec4 *vector, Vec4 *entries, s32 e
     sum.x = vector->x + entry->x;
     sum.y = vector->y + entry->y;
     sum.z = vector->z + entry->z;
-    result = townEvaluateSurfaceComponentsC(&sum);
+    result = evaluate_surface_components_c(&sum);
 
     if ((result << 16) == 0) {
         return 0;

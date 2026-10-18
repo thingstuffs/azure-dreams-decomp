@@ -10,12 +10,12 @@ typedef long long s64;
 #endif
 
 
-void dungeonProcessUnflaggedLinkedEntriesAlt();
-s32 dungeonCheckDiagonalSideHeight();
-s32 findEligibleActorAtTileAndHeight();
-Ent *dungeonPrepareDirectionalAttack();
-void dungeonAppendPackedActionRecord();
-s32 func_800A5C70();
+void process_unflagged_linked_entries_alt();
+s32 check_diagonal_side_height();
+s32 find_eligible_actor_at_tile_and_height();
+Ent *prepare_directional_attack();
+void append_packed_action_record();
+s32 check_action_available_without_nearby_actor();
 
 
 typedef struct S_8008C8BC_0 {
@@ -28,20 +28,20 @@ typedef struct S_8008C8BC_0 {
     union { s32 i; void * p; } unk_60;   /* accessed as both */
     u8 pad_64[0x24];
     u16 unk_88;
-} S_8008C8BC_0;   /* held3 in dungeonBeginFrontTileAttack */
+} S_8008C8BC_0;   /* held3 in begin_front_tile_attack */
 
 typedef struct S_8008C8BC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8008C8BC_1;   /* held2 in dungeonBeginFrontTileAttack */
+} S_8008C8BC_1;   /* held2 in begin_front_tile_attack */
 
 typedef struct S_8008C8BC_2 {
     u8 pad_00[0x3186];
     u8 unk_3186;
     u8 pad_3187[0x58D];
     u16 unk_3714;
-} S_8008C8BC_2;   /* r4 in dungeonBeginFrontTileAttack */
+} S_8008C8BC_2;   /* r4 in begin_front_tile_attack */
 
 typedef struct S_8008C8BC_3 {
     u8 pad_00[0x14];
@@ -60,28 +60,28 @@ typedef struct S_8008C8BC_4 {
     s16 unk_A6;
     u8 pad_A8[0x5A];
     s8 unk_102;
-} S_8008C8BC_4;   /* held0 in dungeonBeginFrontTileAttack */
+} S_8008C8BC_4;   /* held0 in begin_front_tile_attack */
 
 typedef struct S_8008C8BC_5 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x8];
     void * unk_0C;
-} S_8008C8BC_5;   /* state in dungeonBeginFrontTileAttack */
+} S_8008C8BC_5;   /* state in begin_front_tile_attack */
 
 /* Selects a target in the facing direction and initializes the entity action state. */
-s32 dungeonBeginFrontTileAttack(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
+s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
     register void *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;
     s32 target;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
-    if ((dungeonCheckDiagonalSideHeight(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25,
+    if ((check_diagonal_side_height(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25,
         (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = findEligibleActorAtTileAndHeight(entity, (((S_8008C8BC_1 *)position_arg)->unk_24
-            + ((u16 *)dirStepX)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25
-            + ((u16 *)dirStepY)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+        target = find_eligible_actor_at_tile_and_height(entity, (((S_8008C8BC_1 *)position_arg)->unk_24
+            + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25
+            + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
         if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
@@ -91,21 +91,21 @@ s32 dungeonBeginFrontTileAttack(void *actor_state_arg, void *unused, void *posit
             return 0;
         }
         page_or_entity = (u8 *)entity;
-        dungeonPrepareDirectionalAttack(page_or_entity, position_arg, (s16) ((S_8008C8BC_0 *)entity)->unk_2A, 1, 0);
+        prepare_directional_attack(page_or_entity, position_arg, (s16) ((S_8008C8BC_0 *)entity)->unk_2A, 1, 0);
     } else {
         ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
-    dungeonStatus.unk_0C = entity;
+    g_dungeon_status.unk_0C = entity;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
-    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x400);
-    dungeonProcessUnflaggedLinkedEntriesAlt(((S_8008C8BC_0 *)entity)->unk_5C);
-    dungeonAppendPackedActionRecord(entity, 0x18, 0, 0);
-    if (func_800A5C70() != 0) {
-        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x80);
+    g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x400);
+    process_unflagged_linked_entries_alt(((S_8008C8BC_0 *)entity)->unk_5C);
+    append_packed_action_record(entity, 0x18, 0, 0);
+    if (check_action_available_without_nearby_actor() != 0) {
+        g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);
     }
     ((S_8008C8BC_4 *)actor_state_arg)->unk_96 = 6;
     ((S_8008C8BC_4 *)actor_state_arg)->unk_102 = 0;

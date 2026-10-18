@@ -9,7 +9,7 @@ typedef struct {
 extern GlobalADBC D_8006ADBC;
 
 /* Check whether unk18 is 12 and unk1A is between 37 and 41. */
-s32 townIsUnk18N12Unk1ABetweenN37N41(void) {
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void) {
     GlobalADBC *global_state = &D_8006ADBC;
 
     if (global_state->unk18 == 12) {

@@ -26,6 +26,6 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
     func_800478B8(status);
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

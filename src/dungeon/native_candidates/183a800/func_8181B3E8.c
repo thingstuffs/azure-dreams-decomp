@@ -66,8 +66,8 @@ extern s32 func_8003DF74(s32, void *, s16 *, s32);
 extern void func_800419EC(s32, s32, void *);
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
-extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
-extern s32 func_800A4778(u16, u16, s16, void *);
+extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
+extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 
 extern u8 D_800258FC[];
 extern u8 D_8006CCD8[];
@@ -212,7 +212,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         s32 color_mode;
         s32 random_intensity;
 
-        if ((func_800A4778(((S_80024BE8_5 *)motion)->unk_00.at02.v, ((S_80024BE8_5 *)motion)->unk_04.at02.v,
+        if ((check_adjacent_tile_height_clearance(((S_80024BE8_5 *)motion)->unk_00.at02.v, ((S_80024BE8_5 *)motion)->unk_04.at02.v,
             ((S_80024BE8_5 *)motion)->unk_08.at02u.v, ((S_80024BE8_3 *)source)->unk_60) << 16) != 0) {
             ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
@@ -252,7 +252,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                 ((S_80024BE8_10 *)target_graphics)->unk_0D = random_intensity;
                 ((S_80024BE8_10 *)target_graphics)->unk_0E = random_intensity;
                 func_800419EC(color_mode, 8, target_graphics);
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
 
                 impact = func_8003FC64(0x212);
                 if (impact != 0) {
@@ -401,7 +401,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800249A0((u8 *)effect - 0x20, impact_sprite,
+            decrement_object_counter((u8 *)effect - 0x20, impact_sprite,
                 (s16)((func_80069EF8() & 0x3F) - 0x20),
                 (s16)(-(((S_80024BE8_0 *)effect)->unk_86.s * 2) + 0x10), 0x1E);
         } while (particle_count_m < 2);
@@ -411,7 +411,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         impact = func_8003FC64(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
-            ((S_80024BE8_15 *)impact)->unk_10 = func_8002443C;
+            ((S_80024BE8_15 *)impact)->unk_10 = create_radial_height_offset_effect;
             func_8004491C(impact, (s32)func_80045340);
             particle_sprite = ((S_80024BE8_15 *)impact)->unk_0C;
             ((S_80024BE8_16 *)particle_sprite)->unk_10 = 0;
@@ -501,7 +501,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 0x20;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800249A0((u8 *)effect - 0x20, impact_position, impact_sprite,
+            decrement_object_counter((u8 *)effect - 0x20, impact_position, impact_sprite,
                 (s16)(-0x20 - (func_80069EF8() & 0x3F)), 0x1E);
         } while (particle_count_m < 2);
 
@@ -519,7 +519,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             ((S_80024BE8_21 *)target_graphics)->unk_0C = 0x80;
             ((S_80024BE8_21 *)target_graphics)->unk_0D = 0x80;
             ((S_80024BE8_21 *)target_graphics)->unk_0E = 0x80;
-            func_8009CE1C(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
+            apply_attack_power_and_element_effects(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
                 (s16)(((S_80024BE8_0 *)effect)->unk_7E.u << 9), source, 2);
         }
         break;
@@ -549,7 +549,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             active = D_80025914;
             ((S_80024BE8_0 *)effect)->unk_82 = elapsed;
             if (active == 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 ((S_80024BE8_0_pre *)effect)[-1].unk_00 |= 0x8000;
                 D_800814A0[0] |= 0x8000;
             } else {

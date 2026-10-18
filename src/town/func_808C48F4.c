@@ -1,4 +1,4 @@
-/* Relinked copy of town/func_808BB058 (func_808BB058.c); it posts code 0x107 (twin 0x278), otherwise retail differs only at relocation sites. */
+/* Relinked copy of town/call_entry_has_bit_0 (call_entry_has_bit_0.c); it posts code 0x107 (twin 0x278), otherwise retail differs only at relocation sites. */
 #include "common.h"
 
 extern u8 D_00000DC4[];

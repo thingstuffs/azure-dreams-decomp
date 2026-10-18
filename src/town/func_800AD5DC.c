@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern void townInitializePersonVector(void *, s32, s32 *);
+extern void initialize_person_vector(void *, s32, s32 *);
 extern s32 D_800834B8;
 extern u8 D_800AA5F8[];
 extern s32 *D_800D0B14;
 extern u16 D_80100D62;
 
-/* Copy global state into the object and values, then conditionally call townInitializePersonVector. */
-void townUpdatePersonGlobalState(void *object, s32 call_arg, s32 *values) {
+/* Copy global state into the object and values, then conditionally call initialize_person_vector. */
+void update_person_global_state(void *object, s32 call_arg, s32 *values) {
     u16 saved_value = D_80100D62;
     s32 *saved_values = D_800D0B14;
 
@@ -19,6 +19,6 @@ void townUpdatePersonGlobalState(void *object, s32 call_arg, s32 *values) {
     }
 
     if (D_800834B8 != (s32)D_800AA5F8) {
-        townInitializePersonVector(object, call_arg, values);
+        initialize_person_vector(object, call_arg, values);
     }
 }

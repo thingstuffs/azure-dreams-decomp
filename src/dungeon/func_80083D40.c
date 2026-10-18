@@ -9,37 +9,37 @@ extern u8 D_80080A86;
 extern u16 D_80013714;
 extern u8 D_80083160[];
 extern DungeonControl *D_800814A8;
-extern void runActiveNodeCallbacks(void);
-extern void removeMarkedActiveNodes(void);
-extern void integrateActiveNodeVectors(void);
+extern void run_active_node_callbacks(void);
+extern void remove_marked_active_nodes(void);
+extern void integrate_active_node_vectors(void);
 extern void func_8004D70C(void);
-extern void dungeonProcessCurrentFacingDirections(void);
-extern void dungeonRenderMapCellMesh(void);
-extern void dungeonDispatchObjectRenderers(void);
-extern void appendDrawModePrimitive(void);
-extern void dungeonQueueFramebufferStripQuads(void);
+extern void process_current_facing_directions(void);
+extern void render_map_cell_mesh(void);
+extern void dispatch_object_renderers(void);
+extern void append_draw_mode_primitive(void);
+extern void queue_framebuffer_strip_quads(void);
 
-void func_800894A0(void) {
+void update_active_nodes_and_render_frame(void) {
     u8 *work = D_80083160;
-    runActiveNodeCallbacks();
+    run_active_node_callbacks();
     if (D_800814A0 & 0x8000) {
-        removeMarkedActiveNodes();
+        remove_marked_active_nodes();
     }
     D_800814A0 = 0;
     if (D_80080A86 == 0) {
-        integrateActiveNodeVectors();
+        integrate_active_node_vectors();
         if (D_80013714 & 2) {
             return;
         }
         if (*(s32 *)(work + 0x1DC) != 0) {
             func_8004D70C();
-            dungeonProcessCurrentFacingDirections();
+            process_current_facing_directions();
             if (!(D_800814A8->flags & 0x10)) {
-                dungeonRenderMapCellMesh();
+                render_map_cell_mesh();
             }
         }
     }
-    dungeonDispatchObjectRenderers();
-    appendDrawModePrimitive();
-    dungeonQueueFramebufferStripQuads();
+    dispatch_object_renderers();
+    append_draw_mode_primitive();
+    queue_framebuffer_strip_quads();
 }

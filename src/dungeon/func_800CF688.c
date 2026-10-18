@@ -12,7 +12,7 @@
 
 typedef struct S_800D4DE8_0_pre {
     u16 unk_00;
-} S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in dungeonEmitParticlesUntilExpired, addressed as arg0[-1] */
+} S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in emit_particles_until_expired, addressed as arg0[-1] */
 
 
 typedef struct S_800D4DE8_2 {
@@ -44,7 +44,7 @@ typedef struct S_800D4DE8_5 {
 typedef struct S_800D4DE8_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800D4DE8_6;   /* global in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_6;   /* global in emit_particles_until_expired */
 
 typedef struct S_800D4DE8_7 {
     u8 pad_00[0x2];
@@ -58,15 +58,15 @@ typedef struct S_800D4DE8_7 {
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in dungeonEmitParticlesUntilExpired */
+} S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
 
 extern s32 rand(void);
-extern void dungeonInitializeEffectObjectState(void *, void *, void *, s32);
+extern void initialize_effect_object_state(void *, void *, void *, s32);
 extern u8 D_800D4CB0[];
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
-void dungeonEmitParticlesUntilExpired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {
+void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param) {
     s32 particle_index;
     u16 age;
     u16 life_left;
@@ -92,7 +92,7 @@ void dungeonEmitParticlesUntilExpired(void *emitter, Rec_func_800D4BD4_arg2 *pos
         do {
             particle = func_8003FC64(0x212);
             if (particle != NULL) {
-                dungeonInitializeEffectObjectState(particle, emitter, position, init_param);
+                initialize_effect_object_state(particle, emitter, position, init_param);
                 particle_state = (u8 *)particle + 0x20;
                 particle_state->unk_1E = 0xA;
                 particle_state->unk_20 = 0xA;
@@ -115,7 +115,7 @@ void dungeonEmitParticlesUntilExpired(void *emitter, Rec_func_800D4BD4_arg2 *pos
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 = ((S_800D4DE8_0_pre *)emitter)[-1].unk_00 | 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+        object_flag_block.flags |= 0x8000;
+        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
     }
 }

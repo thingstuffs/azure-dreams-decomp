@@ -7,7 +7,7 @@ typedef s32 (*Callback2)(s32, void *);
 
 
 /* Runs object callbacks and adjusts a type-3 state value if it lies within the saved-value window. */
-s32 func_80017098(void) {
+s32 select_handler_by_state_code_0x798(void) {
     Rec_D_80016000 **object_slot;
     TownPositionState *initial_state;
     TownPositionState *updated_state;

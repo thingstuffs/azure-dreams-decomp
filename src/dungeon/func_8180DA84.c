@@ -12,9 +12,9 @@ typedef struct {
     s32 words[3];
 } TableEntry;
 
-extern s32 func_80026ED0();
-extern s32 dungeonCreateOffsetSpriteObjectWithZ();
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 create_visual_object();
+extern s32 create_offset_sprite_object_with_z();
+extern s32 resolve_record_orientation_or_fallback();
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 
@@ -39,7 +39,7 @@ typedef struct S_80026A84_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80026A84_2;   /* arg0 in dungeonCreateSixOffsetEffects */
+} S_80026A84_2;   /* arg0 in create_six_offset_effects */
 
 typedef struct S_80026A84_3 {
     u8 pad_00[0x2];
@@ -90,10 +90,10 @@ typedef struct S_80026A84_7 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80026A84_7;   /* arg1 in dungeonCreateSixOffsetEffects */
+} S_80026A84_7;   /* arg1 in create_six_offset_effects */
 
 /* Creates six linked effects at an offset from the origin and initializes their points. */
-void *dungeonCreateSixOffsetEffects(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
+void *create_six_offset_effects(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_param, Rec_D_80082E80 *source)
 {
     u16 offset[3];
     s32 *callback;
@@ -110,7 +110,7 @@ void *dungeonCreateSixOffsetEffects(S_80026A84_2 *origin, S_80026A84_7 *target_p
 
     chain_head = NULL;
     offset[0] = offset[1] = 0;
-    if (resolveRecordOrientationOrFallback(source->unk_08, source, offset, 0) == 0) {
+    if (resolve_record_orientation_or_fallback(source->unk_08, source, offset, 0) == 0) {
         offset[2] = (0 - D_800DDC40[0]) + 0x10;
     }
     effect_index = 0;
@@ -154,10 +154,10 @@ void *dungeonCreateSixOffsetEffects(S_80026A84_2 *origin, S_80026A84_7 *target_p
         effect_index += 1;
         effect_entry += 1;
     } while (effect_index < 6);
-    func_80026ED0((s16)(origin->unk_02 + offset[0]),
+    create_visual_object((s16)(origin->unk_02 + offset[0]),
                   (s16)(origin->unk_06 + offset[1]),
                   (s16)(origin->unk_0A + offset[2]), 0x800);
-    dungeonCreateOffsetSpriteObjectWithZ(target_pos->unk_02, target_pos->unk_06,
+    create_offset_sprite_object_with_z(target_pos->unk_02, target_pos->unk_06,
                   target_pos->unk_0A, effect_param);
     return effect;
 }

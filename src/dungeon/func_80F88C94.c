@@ -20,7 +20,7 @@ typedef struct S_80172494_0 {
     u16 unk_46;
     u8 pad_48[0x25];
     s8 unk_6D;
-} S_80172494_0;   /* arg3_reg in dungeonUpdateBankStagedMovement */
+} S_80172494_0;   /* arg3_reg in update_bank_staged_movement */
 
 typedef struct S_80172494_1 {
     u8 pad_00[0x8C];
@@ -31,7 +31,7 @@ typedef struct S_80172494_1 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172494_1;   /* arg0 in dungeonUpdateBankStagedMovement */
+} S_80172494_1;   /* arg0 in update_bank_staged_movement */
 
 
 typedef struct S_80172494_3 {
@@ -44,7 +44,7 @@ typedef struct S_80172494_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80172494_3;   /* arg1 in dungeonUpdateBankStagedMovement */
+} S_80172494_3;   /* arg1 in update_bank_staged_movement */
 
 typedef struct S_80172494_4 {
     u8 pad_00[0xC];
@@ -96,14 +96,14 @@ typedef struct S_80172494_8 {
 
 
 extern s32 rand(void);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
 extern u8 D_80174AE4[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
-void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor, void *actor_arg) {
+void update_bank_staged_movement(void *action, void *motion, void *map_actor, void *actor_arg) {
     s32 direction_x;
     s32 direction_y;
     s32 setup_value;
@@ -134,9 +134,9 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
 
     index = ((S_80172494_0 *)actor_arg)->unk_2A.s >> 8;
     setup_value = index & 0xE;
-    direction_x_table = (u8 *)((s8 *)dirStepX);
+    direction_x_table = (u8 *)((s8 *)dir_step_x);
     direction_x_table += setup_value;
-    direction_y_table = (u8 *)((s8 *)dirStepY);
+    direction_y_table = (u8 *)((s8 *)dir_step_y);
     direction_x = *(s16 *)direction_x_table;
     setup_value = (s32)(direction_y_table + setup_value);
     direction_y = *(s16 *)setup_value;
@@ -148,7 +148,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
         if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172494_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
             return;
         }
         setup_value = 0xF7FFFFFF;
@@ -193,7 +193,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
             ((S_80172494_3 *)motion)->unk_10 = 0;
             ((S_80172494_3 *)motion)->unk_14 = 0;
             (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AE4;
-            direction_index = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
             func_80047784(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
@@ -205,7 +205,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
         ((S_80172494_1 *)action)->unk_96.s = 4;
         ((S_80172494_3 *)motion)->unk_0C = (direction_x << 18) + (direction_x << 17);
         ((S_80172494_3 *)motion)->unk_10 = (direction_y << 18) + (direction_y << 17);
-        func_800A56E0(0x80E);
+        play_sound_if_enabled(0x80E);
         ((S_80172494_1 *)action)->unk_9B++;
         return;
 
@@ -216,8 +216,8 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
             return;
         }
-        func_800A56E0(0x808);
-        dungeonResolveAttackDamageAndEffects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
+        play_sound_if_enabled(0x808);
+        resolve_attack_damage_and_effects(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
 
         ((S_80172494_1 *)action)->unk_9B++;
         return;
@@ -253,7 +253,7 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
                 if (particle != NULL) {
                     func_8004491C(particle, func_80045340);
                     particle_motion = (u8 *)particle + 0x20;
-                    ((S_80172494_4 *)particle)->unk_10 = dungeonUpdateBankEffectFade;
+                    ((S_80172494_4 *)particle)->unk_10 = update_bank_effect_fade;
                     particle_sprite = ((S_80172494_4 *)particle)->unk_0C;
                     ((S_80172494_5 *)particle_motion)->unk_0C =
                         ((S_80172494_3 *)motion)->unk_02.u - (direction_x * 0x28);
@@ -290,15 +290,15 @@ void dungeonUpdateBankStagedMovement(void *action, void *motion, void *map_actor
         }
         ((S_80172494_3 *)motion)->unk_10 = 0;
         ((S_80172494_3 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_actor)->unk_24,
                       ((Rec_D_80082E80 *)map_actor)->unk_25);
-        dungeonReduceActorFoodMeter(actor_arg, 0x100);
-        ((S_80172494_1 *)action)->unk_8C = dungeonUpdateBankActorState;
-        dungeonStatus.unk_0C = 0;
+        reduce_actor_food_meter(actor_arg, 0x100);
+        ((S_80172494_1 *)action)->unk_8C = update_bank_actor_state;
+        g_dungeon_status.unk_0C = 0;
         (((Rec_D_80082E80 *)map_actor)->unk_2C.as_pv) = D_80174AD4;
-        direction_index_2 = (gameWork.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
+        direction_index_2 = (g_game_work.view.viewAngle + ((S_80172494_0 *)actor_arg)->unk_2A.u + 0x100) >> 9;
         func_80047784(map_actor, D_80174AD4[direction_index_2 & 7], 0);
-        dungeonAdvanceStatusTimers(actor_arg);
+        advance_status_timers(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {
             ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;
             return;

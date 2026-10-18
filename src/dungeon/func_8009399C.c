@@ -5,7 +5,7 @@ extern s32 D_800DD718[];
 extern u8 D_800E4958[];
 
 /* Selects the next buffer not referenced by the five checked table entries. */
-void *func_800990FC(void) {
+void *get_unused_text_buffer(void) {
     s32 buffer_index;
     s32 entry_index;
     void *buffer;
@@ -20,7 +20,7 @@ void *func_800990FC(void) {
     do {
         entry_index += 1;
         if (entry[18] == (s32)buffer) {
-            return func_800990FC();
+            return get_unused_text_buffer();
         }
         entry += 1;
     } while (entry_index < 0xF);

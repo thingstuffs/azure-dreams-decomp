@@ -1,6 +1,6 @@
 #include "modules/town_ovl_4f9100.h"
 
-void townInvokeCallbackAndSetSharedPointer(void) {
+void invoke_callback_and_set_shared_pointer(void) {
     TownStateRecord *activeState;
     s32 valueBeforeClamp;
 

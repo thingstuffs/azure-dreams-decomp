@@ -3,8 +3,8 @@
 #include "shared/town_root.h"
 
 /* Return whether any of the 34 two-byte entries at +0X33A4 of the town state record holds the requested value
- * in byte 0 (this module's copy of townRecordValueTableContains, src/town/func_80330838.c, which tests byte 1). */
-s32 func_80017868(s32 target_value) {
+ * in byte 0 (this module's copy of record_value_table_contains, src/town/func_80330838.c, which tests byte 1). */
+s32 contains_value_in_table(s32 target_value) {
     s32 entry_index;
     u8 *entry;
 

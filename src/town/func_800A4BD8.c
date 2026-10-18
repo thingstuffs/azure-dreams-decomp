@@ -10,20 +10,20 @@ typedef struct TownObject {
 
 
 /* Flags inactive objects; otherwise copies shared bytes and invokes the callback. */
-void townFlagInactiveObjectOrRunCallback(TownObject *object, s32 unused, u8 *output) {
+void flag_inactive_object_or_run_callback(TownObject *object, s32 unused, u8 *output) {
     u8 *active_flag;
 
     active_flag = object->field_40;
     if (active_flag != 0) {
         if (*active_flag == 0) {
             ((u16 *)object)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }
 
-    output[0xC] = gameWork.view.unk_090;
-    output[0xD] = gameWork.view.unk_091;
-    output[0xE] = gameWork.view.unk_092;
+    output[0xC] = g_game_work.view.unk_090;
+    output[0xD] = g_game_work.view.unk_091;
+    output[0xE] = g_game_work.view.unk_092;
     object->callback();
 }

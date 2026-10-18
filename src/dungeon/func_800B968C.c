@@ -6,22 +6,22 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern s32 dungeonBeginModeSelectedItemAction();
-extern s32 dungeonBeginParameterizedActorAction();
-extern s32 dungeonProcessRecordAndUpdateLinkedState(u8 *, s32);
-extern s32 dungeonClearSlotAndUpdateLinkedState();
-extern s32 func_800990FC();
-extern s32 func_80099194();
+extern s32 begin_mode_selected_item_action();
+extern s32 begin_parameterized_actor_action();
+extern s32 process_record_and_update_linked_state(u8 *, s32);
+extern s32 clear_slot_and_update_linked_state();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
 extern s32 func_80099290();
-extern s32 dungeonAppendTypedFormattedValue();
-extern s32 dungeonApplyTypeBasedEntryAdjustments();
-extern s32 func_800997FC();
-extern s32 dungeonCopyFullwidthVowelBytes();
-extern s32 dungeonAppendValueSevenSuffix();
-extern s32 func_800A5720();
-extern s32 func_800A5F38();
-extern s32 func_800A6480();
-extern s32 dungeonApplyActorFoodPreference();
+extern s32 append_typed_formatted_value();
+extern s32 apply_type_based_entry_adjustments();
+extern s32 display_formatted_context_message();
+extern s32 copy_fullwidth_vowel_bytes();
+extern s32 append_value_seven_suffix();
+extern s32 display_text_with_fullwidth_adjustment();
+extern s32 apply_item_effect_at_entity_position();
+extern s32 display_actor_item_status_message();
+extern s32 apply_actor_food_preference();
 
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
@@ -31,7 +31,7 @@ extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
-s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
+s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
     u8 *actor;
     s32 text_target;
     register s32 text_cursor;
@@ -40,7 +40,7 @@ s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, 
 
 
     if (effect_type == 0xD) {
-        return dungeonProcessRecordAndUpdateLinkedState(item, effect_value);
+        return process_record_and_update_linked_state(item, effect_value);
     }
 
     actor = ((u8 *)D_800E3D7C);
@@ -49,7 +49,7 @@ s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, 
         s32 result;
 
         *(u8 **)(actor + 0x110) = item;
-        dungeonBeginModeSelectedItemAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_mode_selected_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         item_flags = item[3];
         result = 0;
         item[3] = item_flags & 0xDF;
@@ -57,13 +57,13 @@ s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, 
     }
 
     if (target_addr <= 0x9FFFFFFF) {
-        func_800A6480(target_addr, item, effect_type);
-        if (dungeonApplyActorFoodPreference(target_addr, D_800DDE84[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
-            func_800A5F38(target_addr, item);
+        display_actor_item_status_message(target_addr, item, effect_type);
+        if (apply_actor_food_preference(target_addr, D_800DDE84[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(target_addr, item);
             return 1;
         }
-        dungeonStatus.unk_0A--;
-        dungeonClearSlotAndUpdateLinkedState(item);
+        g_dungeon_status.unk_0A--;
+        clear_slot_and_update_linked_state(item);
         return 1;
     }
 
@@ -74,7 +74,7 @@ s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, 
             register s32 result;
 
             ((EntityRec *)actor)->unk_114 = 0x802020;
-            dungeonBeginParameterizedActorAction(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
+            begin_parameterized_actor_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;
             item[3] = item_flags | 0x20;
@@ -88,32 +88,32 @@ s32 dungeonApplyEquippedItemUpgrade(u32 target_addr, u8 *item, s16 effect_type, 
             if (!(linked_item[3] & 0x40)) {
                 s32 next_cursor;
 
-                text_start = func_800990FC();
-                text_cursor = dungeonApplyTypeBasedEntryAdjustments(linked_item, text_start);
+                text_start = get_unused_text_buffer();
+                text_cursor = apply_type_based_entry_adjustments(linked_item, text_start);
                 if (*(s8 *)(linked_item + 2) < 0x63) {
                     linked_item[2] = linked_item[2] + 1;
                 }
-                text_cursor = dungeonAppendValueSevenSuffix(func_80099194(D_800E118C, text_cursor));
-                next_cursor = func_80099194(D_8008936C, text_cursor);
+                text_cursor = append_value_seven_suffix(expand_text_control_codes(D_800E118C, text_cursor));
+                next_cursor = expand_text_control_codes(D_8008936C, text_cursor);
                 text_target = text_cursor - 2;
                 text_cursor = next_cursor;
-                next_cursor = dungeonAppendTypedFormattedValue(linked_item, text_cursor);
+                next_cursor = append_typed_formatted_value(linked_item, text_cursor);
                 message_end = text_cursor;
                 text_cursor = next_cursor;
-                dungeonCopyFullwidthVowelBytes(text_target, message_end);
-                func_80099290(func_80099194(D_80089370, text_cursor));
+                copy_fullwidth_vowel_bytes(text_target, message_end);
+                func_80099290(expand_text_control_codes(D_80089370, text_cursor));
             } else {
-                text_start = func_800990FC();
+                text_start = get_unused_text_buffer();
 
-                text_end = dungeonAppendTypedFormattedValue(linked_item, text_start);
-                func_80099290(func_80099194(D_800E11AB, text_end));
+                text_end = append_typed_formatted_value(linked_item, text_start);
+                func_80099290(expand_text_control_codes(D_800E11AB, text_end));
             }
         }
-        func_800A5720(text_start);
+        display_text_with_fullwidth_adjustment(text_start);
     } else {
-        func_800997FC(D_800E11D7, effect_value, effect_type);
+        display_formatted_context_message(D_800E11D7, effect_value, effect_type);
     }
-    dungeonStatus.unk_0A--;
-    dungeonClearSlotAndUpdateLinkedState(item);
+    g_dungeon_status.unk_0A--;
+    clear_slot_and_update_linked_state(item);
     return 1;
 }

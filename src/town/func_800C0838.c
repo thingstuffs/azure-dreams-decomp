@@ -2,5 +2,5 @@
 #include "common.h"
 
 /* Performs no operation. */
-void townNoOpEffectCallback(void) {
+void no_op_effect_callback(void) {
 }

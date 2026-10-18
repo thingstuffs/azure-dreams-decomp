@@ -4,7 +4,7 @@
 
 
 /* Reset the record to state 0x34 with flag bit 0 cleared. */
-void dungeonResetRecordToState34(Rec_func_8008ACDC_arg0 *record) {
+void reset_record_to_state_34(Rec_func_8008ACDC_arg0 *record) {
     record->unk_9A.as_s8 = 0x34;
     record->unk_9B.as_s8 = 0;
     record->unk_8C.as_s32 = 0;

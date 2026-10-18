@@ -15,12 +15,12 @@ typedef struct S_8002191C_0 {
     union { s16 s; u16 u; } unk_32;   /* accessed as both */
     union { s16 s; u16 u; } unk_34;   /* accessed as both */
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
-} S_8002191C_0;   /* scene in func_8002191C */
+} S_8002191C_0;   /* scene in count_entries_matching_search_path */
 
 typedef struct S_8002191C_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002191C_1;   /* root in func_8002191C */
+} S_8002191C_1;   /* root in count_entries_matching_search_path */
 
 typedef struct S_8002191C_2 {
     u8 pad_00[0x2];
@@ -31,48 +31,48 @@ typedef struct S_8002191C_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8002191C_2;   /* motion in func_8002191C */
+} S_8002191C_2;   /* motion in count_entries_matching_search_path */
 
 typedef struct S_8002191C_3 {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x8];
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
-} S_8002191C_3;   /* global in func_8002191C */
+} S_8002191C_3;   /* global in count_entries_matching_search_path */
 
 typedef struct S_8002191C_4 {
     u8 pad_00[0x8];
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8002191C_4;   /* work in func_8002191C */
+} S_8002191C_4;   /* work in count_entries_matching_search_path */
 
 typedef struct S_8002191C_5 {
     u8 pad_00[0x68];
     s16 unk_68;
-} S_8002191C_5;   /* part in func_8002191C */
+} S_8002191C_5;   /* part in count_entries_matching_search_path */
 
 typedef struct S_8002191C_6 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_8002191C_6;   /* node_part in func_8002191C */
+} S_8002191C_6;   /* node_part in count_entries_matching_search_path */
 
 typedef struct S_8002191C_7 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002191C_7;   /* node in func_8002191C */
+} S_8002191C_7;   /* node in count_entries_matching_search_path */
 
 typedef struct S_8002191C_8 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_8002191C_8;   /* node_pos in func_8002191C */
+} S_8002191C_8;   /* node_pos in count_entries_matching_search_path */
 
 typedef struct S_8002191C_9 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_8002191C_9;   /* compare in func_8002191C */
+} S_8002191C_9;   /* compare in count_entries_matching_search_path */
 
 
 typedef struct TownDraw32 {
@@ -115,25 +115,25 @@ extern s32 D_80097D2C[3];
 extern u8 D_800D0128[];
 
 extern int abs(int);
-extern void townCreateSceneObjectWith48BytePayload(void *, TownDraw32 *);
-extern void townCreateEightLinkedSceneSprites(void *);
-extern void townCreatePairedVectorColorEffect(void *, TownPos *, s32 *, void *);
-extern void townCreateRotatingLayeredLineCage(u8 *effect);
+extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
+extern void create_eight_linked_scene_sprites(void *);
+extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, void *);
+extern void create_rotating_layered_line_cage(u8 *effect);
 extern void func_80033B78(s32);
 extern s32 func_800352FC(void);
 extern void func_80043FB8(void *, s32);
 extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void townInitializeTownContextAction(void);
-extern void func_80093C70(void);
-extern void townApplyGlobalSceneValue(void *);
-extern void townInitializeSceneActionRecord(void *, void *, void *);
+extern void initialize_town_context_action(void);
+extern void create_familiar_deployment_effect_with_owner_state(void);
+extern void apply_global_scene_value(void *);
+extern void initialize_scene_action_record(void *, void *, void *);
 extern void tw_sd_sq_ld_call(s32, s32);
-extern s16 townQueryLoweredTransformPosition(void *);
+extern s16 query_lowered_transform_position(void *);
 
 /* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
-void func_8002191C(void *scene)
+void count_entries_matching_search_path(void *scene)
 {
     TownDraw32 draw;
     TownPos pos;
@@ -236,7 +236,7 @@ void func_8002191C(void *scene)
             ((s32 *)work)[1] = m1 + ((0x04700000 - m1) >> 1);
         }
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
-        i = townQueryLoweredTransformPosition(work);
+        i = query_lowered_transform_position(work);
         if (((S_8002191C_4 *)work)->unk_08.at02.v < i) {
             break;
         }
@@ -246,8 +246,8 @@ void func_8002191C(void *scene)
         }
         tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)scene)->unk_36.s = 4;
-        townCreateEightLinkedSceneSprites(scene);
-        townInitializeSceneActionRecord(global, work, ((u8 *)(&D_80082E80)));
+        create_eight_linked_scene_sprites(scene);
+        initialize_scene_action_record(global, work, ((u8 *)(&D_80082E80)));
         break;
 
     case 4:
@@ -273,8 +273,8 @@ void func_8002191C(void *scene)
             break;
         }
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
-        func_80093C70();
-        townApplyGlobalSceneValue(D_800D0128);
+        create_familiar_deployment_effect_with_owner_state();
+        apply_global_scene_value(D_800D0128);
         motion = ((u8 *)(&D_80083780));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
@@ -322,15 +322,15 @@ void func_8002191C(void *scene)
             pos.h0A = ((S_8002191C_0 *)scene)->unk_32.u - t / 24;
         }
         if (((S_8002191C_5 *)part)->unk_68 == 9) {
-            func_80093C70();
-            townApplyGlobalSceneValue(D_800D0128);
-            townCreatePairedVectorColorEffect(D_80022454, &pos, color, scene);
+            create_familiar_deployment_effect_with_owner_state();
+            apply_global_scene_value(D_800D0128);
+            create_paired_vector_color_effect(D_80022454, &pos, color, scene);
             ((S_8002191C_0 *)scene)->unk_28.s = 0x200;
             ((S_8002191C_0 *)scene)->unk_2E.s = 0;
             ((S_8002191C_0 *)scene)->unk_36.s = 7;
             ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
         } else {
-            townCreatePairedVectorColorEffect(D_8002241C, &pos, color, scene);
+            create_paired_vector_color_effect(D_8002241C, &pos, color, scene);
         }
         break;
     }
@@ -361,11 +361,11 @@ void func_8002191C(void *scene)
         }
         ((S_8002191C_0 *)scene)->unk_28.s =
             (((S_8002191C_0 *)scene)->unk_28.s + ((S_8002191C_0 *)scene)->unk_2E.s + 0x1000) & 0xFFF;
-        townCreateRotatingLayeredLineCage(scene);
+        create_rotating_layered_line_cage(scene);
         if (((S_8002191C_5 *)part)->unk_68 != 0xA) {
             break;
         }
-        townInitializeTownContextAction();
+        initialize_town_context_action();
         ((S_8002191C_3 *)global)->unk_00 = D_800930E4;
         draw.h14 = ((S_8002191C_0 *)scene)->unk_34.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
@@ -378,7 +378,7 @@ void func_8002191C(void *scene)
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
-        townCreateSceneObjectWith48BytePayload(D_80020618, &draw);
+        create_scene_object_with_48_byte_payload(D_80020618, &draw);
         ((S_8002191C_0 *)scene)->unk_36.s = 8;
         break;
     }
@@ -432,7 +432,7 @@ void func_8002191C(void *scene)
             break;
         }
         ((S_8002191C_0 *)scene)->unk_2A.s = flags & 0xFFFD;
-        townInitializeTownContextAction();
+        initialize_town_context_action();
         value = ((S_8002191C_0 *)scene)->unk_34.u + 1;
         ((S_8002191C_0 *)scene)->unk_34.u = value;
         if ((s16)value == 8) {
@@ -440,7 +440,7 @@ void func_8002191C(void *scene)
             ((S_8002191C_0 *)scene)->unk_28.s = 0x78;
             ((S_8002191C_0 *)scene)->unk_36.s = 0xFF;
         } else {
-            townCreateEightLinkedSceneSprites(scene);
+            create_eight_linked_scene_sprites(scene);
             ((S_8002191C_0 *)scene)->unk_36.s = 4;
         }
         break;
@@ -458,7 +458,7 @@ void func_8002191C(void *scene)
     case 0x100:
         func_80033B78(0xA5);
         (*(u16 *)((u8 *)scene + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     }

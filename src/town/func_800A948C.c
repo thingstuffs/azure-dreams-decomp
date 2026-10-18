@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-void func_800A6BEC(void *record, s32 unused, void *effect) {
+void fade_effect_and_mark_cleanup(void *record, s32 unused, void *effect) {
     s32 intensity;
     u16 size;
 
@@ -10,7 +10,7 @@ void func_800A6BEC(void *record, s32 unused, void *effect) {
     intensity -= 0x10;
     if (intensity < 0) {
         *(u16 *)((u8 *)record - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

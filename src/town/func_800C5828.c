@@ -18,7 +18,7 @@ extern struct {
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 
-extern s32 runtimeIsRecordFieldSet(void *);
+extern s32 runtime_is_record_field_set(void *);
 
 /* psn_lookable_get: find the first eligible person node with the requested ID. */
 Node *psn_lookable_get(s16 target_id)
@@ -41,7 +41,7 @@ Node *psn_lookable_get(s16 target_id)
                 data = node->data;
                 if ((kind == (s32)kind_a || kind == (s32)kind_b) &&
                     *(s32 *)(data + 0x60) == target_id &&
-                    runtimeIsRecordFieldSet(data) != 0) {
+                    runtime_is_record_field_set(data) != 0) {
                     return node;
                 }
             }

@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8014C884(void);
+extern void queue_linked_point_packets(void);
 
 /* entry; owner: dungeon/func_80A41000. */
 const u32 D_8014C800[1] __attribute__((aligned(4))) = {
-    (u32)func_8014C884
+    (u32)queue_linked_point_packets
 };

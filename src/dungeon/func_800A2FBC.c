@@ -9,14 +9,14 @@
 #include "shared/entity.h"
 #include "m2c_compat.h"
 
-s32 resolveRecordOrientationOrFallback();
-s32 dispatchDungeonCategoryAction();
-void func_8009A028();
-s32 dungeonCheckNeighborTileBlocking();
-void *findEligibleActorAtTileAndHeight();
-void dungeonSetRecordIntegerTileCenter();
-s32 func_800A7A7C();
-void dungeonEmitScatteredEffectsUnlessBlocked();
+s32 resolve_record_orientation_or_fallback();
+s32 dispatch_dungeon_category_action();
+void unlink_entity_node();
+s32 check_neighbor_tile_blocking();
+void *find_eligible_actor_at_tile_and_height();
+void set_record_integer_tile_center();
+s32 place_item_at_valid_floor_position();
+void emit_scattered_effects_unless_blocked();
 extern M2C_UNK D_80081484;
 extern u8 D_800DD7DC[];
 extern s32 D_800E3540;
@@ -31,7 +31,7 @@ typedef struct S_800A871C_0 {
 
 typedef struct S_800A871C_1_pre {
     u16 unk_00;
-} S_800A871C_1_pre;   /* the 0x2 bytes before r_arg0 in func_800A871C, addressed as r_arg0[-1] */
+} S_800A871C_1_pre;   /* the 0x2 bytes before r_arg0 in update_dropped_object_motion, addressed as r_arg0[-1] */
 
 typedef struct S_800A871C_1 {
     u8 pad_00[0x8C];
@@ -42,11 +42,11 @@ typedef struct S_800A871C_1 {
     s16 unk_A0;
     s16 unk_A2;
     s16 unk_A4;
-} S_800A871C_1;   /* r_arg0 in func_800A871C */
+} S_800A871C_1;   /* r_arg0 in update_dropped_object_motion */
 
 typedef struct S_800A871C_2 {
     s16 unk_00;
-} S_800A871C_2;   /* &sp18[2] in func_800A871C */
+} S_800A871C_2;   /* &sp18[2] in update_dropped_object_motion */
 
 typedef struct S_800A871C_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -55,7 +55,7 @@ typedef struct S_800A871C_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A871C_3;   /* r_arg1 in func_800A871C */
+} S_800A871C_3;   /* r_arg1 in update_dropped_object_motion */
 
 typedef struct S_800A871C_4 {
     u8 pad_00[0x8];
@@ -63,7 +63,7 @@ typedef struct S_800A871C_4 {
     u8 pad_0C[0x18];
     union { u8 n; u8 v; } unk_24;   /* accessed as both */
     union { u8 n; u8 v; } unk_25;   /* accessed as both */
-} S_800A871C_4;   /* r_arg2 in func_800A871C */
+} S_800A871C_4;   /* r_arg2 in update_dropped_object_motion */
 
 typedef struct S_800A871C_5 {
     u8 pad_00[0x2A];
@@ -149,7 +149,7 @@ typedef struct S_800A871C_20 {
     u8 pad_26[0x2];
     s32 ** unk_28;
     void * unk_2C;
-} S_800A871C_20;   /* ((S_800A871C_1 *)r_arg0)->unk_90 in func_800A871C */
+} S_800A871C_20;   /* ((S_800A871C_1 *)r_arg0)->unk_90 in update_dropped_object_motion */
 
 typedef struct S_800A871C_21 {
     u8 pad_00[0x2];
@@ -158,7 +158,7 @@ typedef struct S_800A871C_21 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A871C_21;   /* ((S_800A871C_1 *)r_arg0)->unk_8C in func_800A871C */
+} S_800A871C_21;   /* ((S_800A871C_1 *)r_arg0)->unk_8C in update_dropped_object_motion */
 
 typedef struct S_800A871C_22 {
     u8 pad_00[0x124];
@@ -167,26 +167,26 @@ typedef struct S_800A871C_22 {
 
 typedef struct S_800A871C_23 {
     s32 unk_00;
-} S_800A871C_23;   /* ((S_800A871C_1 *)r_arg0)->unk_9C in func_800A871C */
+} S_800A871C_23;   /* ((S_800A871C_1 *)r_arg0)->unk_9C in update_dropped_object_motion */
 
 typedef struct S_800A871C_24 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_800A871C_24;   /* ((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C in func_800A871C */
+} S_800A871C_24;   /* ((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C in update_dropped_object_motion */
 
 typedef struct S_800A871C_25 {
     s32 unk_00;
 } S_800A871C_25;   /* **((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_28 +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4) in func_800A871C */
+                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4) in update_dropped_object_motion */
 
 typedef struct S_800A871C_26 {
     u8 pad_00[0x4];
     s32 unk_04;
 } S_800A871C_26;   /* ((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_28 +
-                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in func_800A871C */
+                                ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in update_dropped_object_motion */
 
 /* Updates an object's launch, movement, collisions, and landing. */
-void func_800A871C(void *object, register void *motion, void *tile) {
+void update_dropped_object_motion(void *object, register void *motion, void *tile) {
     void *object_data;
     u16 offset[3];
     s16 move_ticks;
@@ -238,7 +238,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
         if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x200000) {
             (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
                 + (0x60)))))->unk_2A;
-            if (resolveRecordOrientationOrFallback(
+            if (resolve_record_orientation_or_fallback(
                     ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28
                         +
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
@@ -249,7 +249,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
-            dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
+            set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
             ((S_800A871C_1 *)object)->unk_A0 = (s16) ((u16) ((S_800A871C_1 *)object)->unk_A0 + 1);
             launch_source = (*(void * *)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
@@ -257,9 +257,9 @@ void func_800A871C(void *object, register void *motion, void *tile) {
             (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) launch_heading;
             direction = (launch_heading >> 9) & 7;
             if (travel_steps != 0) {
-                s16 *x_steps = (s16 *)((s8 *)dirStepX);
+                s16 *x_steps = (s16 *)((s8 *)dir_step_x);
                 dir_offset = direction * 2;
-                y_steps = (u8 *)((s8 *)dirStepY);
+                y_steps = (u8 *)((s8 *)dir_step_y);
                 y_step = (u8 *)((unsigned long)dir_offset + (unsigned long)y_steps);
                 target_height = effect_height_short((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
                     + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
@@ -275,18 +275,18 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                 ((S_800A871C_3 *)motion)->unk_14 = (s32) (height_delta << 0xF) / (s16) (*(u16 *)((u8 *)object_data
                     + (0x8A)));
             }
-            launch_x_steps = (u8 *)((s8 *)dirStepX);
+            launch_x_steps = (u8 *)((s8 *)dir_step_x);
             launch_dir_offset = direction * 2;
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
                 + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
-            launch_y_step = (u8 *)((s8 *)dirStepY) + launch_dir_offset;
+            launch_y_step = (u8 *)((s8 *)dir_step_y) + launch_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n
                 + ((S_800A871C_8 *)launch_y_step)->unk_00);
             ((S_800A871C_1 *)object)->unk_A4 = 2;
             return;
         }
         source_sprite = ((S_800A871C_1 *)object)->unk_90;
-        if ((resolveRecordOrientationOrFallback(source_sprite->unk_08, source_sprite, offset, 0) != 0)
+        if ((resolve_record_orientation_or_fallback(source_sprite->unk_08, source_sprite, offset, 0) != 0)
             && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
             ((S_800A871C_3 *)motion)->unk_00.at02.v =
@@ -304,7 +304,7 @@ void func_800A871C(void *object, register void *motion, void *tile) {
             }
             {
                 drop_source = (*(void **)((u8 *)object_data + (0x60)));
-                drop_x_steps = (u8 *)((s8 *)dirStepX);
+                drop_x_steps = (u8 *)((s8 *)dir_step_x);
                 drop_heading = ((S_800A871C_11 *)drop_source)->unk_2A;
                 drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
                 (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
@@ -313,23 +313,23 @@ void func_800A871C(void *object, register void *motion, void *tile) {
                     + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset
                     + (unsigned long)drop_x_steps)))->unk_00);
                 ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25
-                    + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
-                dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
+                    + ((S_800A871C_14 *)((u8 *)((s8 *)dir_step_y) + drop_dir_offset))->unk_00);
+                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
                 drop_height = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (drop_height >= 0x201) {
                     drop_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
                 }
-                func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
+                place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
                     ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                dungeon_flags = objectFlagBlock.flags;
+                dungeon_flags = object_flag_block.flags;
                 height = ((S_800A871C_3 *)motion)->unk_08.at02.v;
-                objectFlagBlock.flags = (s32) (dungeon_flags | 0x8000);
+                object_flag_block.flags = (s32) (dungeon_flags | 0x8000);
                 ((S_800A871C_3 *)motion)->unk_08.at02.v = effect_height_short((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
                     (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
-                dungeonEmitScatteredEffectsUnlessBlocked(motion);
-                func_8009A028(object_data);
+                emit_scattered_effects_unless_blocked(motion);
+                unlink_entity_node(object_data);
                 return;
             }
         } else {
@@ -344,7 +344,7 @@ check_completion:
             ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
             dungeon_flags = ((S_800A871C_16 *)flags_page)->unk_14A0;
             dungeon_flags |= 0x8000;
-            func_8009A028((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
+            unlink_entity_node((((S_800A871C_16 *)flags_page)->unk_14A0 = dungeon_flags, finished_object));
             return;
         }
         break;
@@ -369,37 +369,37 @@ check_completion:
         if ((ticks_left << 0x10) > 0) {
             break;
         }
-        hit_object = findEligibleActorAtTileAndHeight(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
+        hit_object = find_eligible_actor_at_tile_and_height(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
             (*(s16 *)((u8 *)object_data + (0x88))));
         if (hit_object != NULL) {
             if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
                 hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-                func_8009A028(object_data);
-                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+                unlink_entity_node(object_data);
+                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
                 return;
             }
-            if (dispatchDungeonCategoryAction(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
+            if (dispatch_dungeon_category_action(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-                func_8009A028(object_data);
-                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+                unlink_entity_node(object_data);
+                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
                 return;
             }
         }
-        if ((dungeonCheckNeighborTileBlocking((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
+        if ((check_neighbor_tile_blocking((*(s16 *)((u8 *)object_data + (0x6A))), motion, tile) << 0x10) != 0) {
             steps_left = (*(u16 *)((u8 *)object_data + (0x8A))) - 1;
             (*(u16 *)((u8 *)object_data + (0x8A))) = steps_left;
             if ((steps_left << 0x10) > 0) {
-                dungeonSetRecordIntegerTileCenter(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
-                next_x_steps = (u8 *)((s8 *)dirStepX);
+                set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
+                next_x_steps = (u8 *)((s8 *)dir_step_x);
                 next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
                 ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
                     + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
-                    + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
-                next_y_step = (u8 *)((s8 *)dirStepY) + next_dir_offset;
+                    + (unsigned long)(u8 *)((s8 *)dir_step_x))))->unk_00);
+                next_y_step = (u8 *)((s8 *)dir_step_y) + next_dir_offset;
                 ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
                 ((S_800A871C_1 *)object)->unk_A4 = 2;
                 break;
@@ -410,12 +410,12 @@ check_completion:
         if (land_height >= 0x201) {
             land_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
         }
-        func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
+        place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
             ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
         ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
-        func_8009A028(object_data);
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        unlink_entity_node(object_data);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     default:
         break;
     }

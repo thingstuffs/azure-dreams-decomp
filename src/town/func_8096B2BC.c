@@ -4,7 +4,7 @@ extern s32 D_80126A88[];
 extern u8 D_80129728[];
 
 /* Initialize fourteen entries from the value table and clear their linked counters. */
-void func_80123754(void) {
+void reset_linked_value_records(void) {
     void **entry_slot;
     s32 *entry;
     s32 initial_value;

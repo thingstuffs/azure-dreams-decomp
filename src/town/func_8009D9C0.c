@@ -4,10 +4,10 @@
 typedef struct S_8009B120_0 {
     u8 unk_00;
     u8 unk_01;
-} S_8009B120_0;   /* arg0 in townCheckObjectTypeAndDataTag */
+} S_8009B120_0;   /* arg0 in check_object_type_and_data_tag */
 
 /* Checks whether the record's first two bytes are 4 and 0xD. */
-s32 townCheckObjectTypeAndDataTag(S_8009B120_0 *record) {
+s32 check_object_type_and_data_tag(S_8009B120_0 *record) {
     s32 matches;
 
     matches = 0;

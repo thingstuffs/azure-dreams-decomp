@@ -49,9 +49,9 @@ typedef struct {
 
 void *func_8003FD64();                 /* extern */
 s32 func_8004491C();                /* extern */
-void func_800A9C18(); /* extern */
-s32 func_800AA36C(); /* extern */
-s32 func_800F6D28();                          /* extern */
+void initialize_actor_sprite_and_animation(); /* extern */
+s32 try_move_actor_to_valid_position(); /* extern */
+s32 get_direction_toward_target_position();                          /* extern */
 extern void *D_800FBE1C[];
 void func_80170A4C(void *, void *, void *);
 
@@ -323,16 +323,16 @@ typedef struct S_812A524C_40 {
 
 s32 func_800353F4(); /* extern */
 void func_80042B68();                /* extern */
-void selectIndirectTableEntry();              /* extern */
+void select_indirect_table_entry();              /* extern */
 void func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
-void dungeonApplyMonsterKoyawData();                 /* extern */
-s32 func_800A2C34();                          /* extern */
-s16 func_800A48F0();       /* extern */
-void func_800A9A0C();                      /* extern */
-s32 dungeonRefreshActorFacingAndLifecycle();  /* extern */
-s32 func_800BCB04();                   /* extern */
-void *func_800F6DFC();                /* extern */
+void apply_monster_koyaw_data();                 /* extern */
+s32 has_pending_actor_or_turn_action();                          /* extern */
+s16 set_or_clear_actor_status_slot();       /* extern */
+void update_actor_status_and_food();                      /* extern */
+s32 refresh_actor_facing_and_lifecycle();  /* extern */
+s32 sample_terrain_surface_height();                   /* extern */
+void *find_linked_entity_of_type_21();                /* extern */
 extern u16 D_80013714[8];
 extern u8 D_8006EE9C[16];
 extern u8 D_8006F47A[16];

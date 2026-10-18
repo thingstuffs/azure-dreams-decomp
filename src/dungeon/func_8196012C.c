@@ -5,20 +5,20 @@
 #define NULL 0
 #endif
 
-   /* object in func_8002592C */
+   /* object in set_record_pair_to_one */
 
-   /* position in func_8002592C */
+   /* position in set_record_pair_to_one */
 
-   /* render in func_8002592C */
+   /* render in set_record_pair_to_one */
 
-   /* primitive in func_8002592C */
+   /* primitive in set_record_pair_to_one */
 
 
 struct RegistrationNode;
 extern s32 rand();
 
 /* Spawn a textured particle with randomized motion at the given position. */
-void func_8002592C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
+void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     s32 random_angle;
     s32 primitive_word;
     s16 tile_row_copy;
@@ -31,7 +31,7 @@ void func_8002592C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     object = func_8003FC64(0x202);
     if (object != NULL) {
         ((S_8196012C_0 *)object)->unk_10 = func_80025460;
-        func_8004491C(object, (s32)dungeonDrawLinkedObjectChain);
+        func_8004491C(object, (s32)draw_linked_object_chain);
         position = ((S_8196012C_0 *)object)->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

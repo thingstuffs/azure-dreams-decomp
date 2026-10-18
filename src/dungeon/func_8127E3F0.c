@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonLoadGlobalEffectTableEntry at file 0x12743F0; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/load_global_effect_table_entry at file 0x12743F0; imports and data use paired retail relocations. */
 #include "common.h"
 
 extern s32 D_80172FBC[];
@@ -7,7 +7,7 @@ extern s32 D_80173714;
 extern s16 D_80173718;
 
 /* Loads the selected table entry and marks the object state with its index. */
-void func_80172BF0(s32 entry_index) {
+void load_selected_table_entry(s32 entry_index) {
     s8 *state_data;
 
     D_80173718 = 0;

@@ -6,9 +6,9 @@
 typedef struct S_8001C31C_0 {
     u8 pad_00[0x4];
     u8 unk_04;
-} S_8001C31C_0;   /* *D_8001E950 in townIsEventStateTwo */
+} S_8001C31C_0;   /* *D_8001E950 in is_event_state_two */
 
 /* Check whether the first entry's state byte is 2. */
-s32 townIsEventStateTwo(void) {
+s32 is_event_state_two(void) {
     return ((S_8001C31C_0 *)(((u8 *)D_8001E950)))->unk_04 == 2;
 }

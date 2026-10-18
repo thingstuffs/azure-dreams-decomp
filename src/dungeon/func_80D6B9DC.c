@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80D659DC; every changed retail word is a paired relocation. */
-#define dungeonSpawnAngledRandomVelocityEffect func_8016B1DC
+#define spawn_angled_random_velocity_effect func_8016B1DC
 #include "common.h"
 #include "shared/entity.h"
 

@@ -5,8 +5,8 @@
 M2C_UNK func_80033D08();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-void townClearObjectSlotAndMarkRemoved();                      /* extern */
-s32 townIsDefaultObjectData();                          /* extern */
+void clear_object_slot_and_mark_removed();                      /* extern */
+s32 is_default_object_data();                          /* extern */
 
 typedef struct S_800CB9B8_1 {
     u8 pad_00[0x8];
@@ -18,7 +18,7 @@ typedef struct S_800CB9B8_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800CB9B8_2;   /* arg1 in townUpdateEntityRelativePosition */
+} S_800CB9B8_2;   /* arg1 in update_entity_relative_position */
 
 typedef struct S_800CB9B8_3 {
     s32 unk_00;
@@ -34,7 +34,7 @@ typedef struct S_800CB9B8_4 {
 typedef struct S_800CB9B8_5 {
     u8 pad_00[0x72];
     s16 unk_72;
-} S_800CB9B8_5;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in townUpdateEntityRelativePosition */
+} S_800CB9B8_5;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in update_entity_relative_position */
 
 typedef struct S_800CB9B8_6 {
     u8 pad_00[0x3];
@@ -44,7 +44,7 @@ typedef struct S_800CB9B8_6 {
 /* extern */
 
 /* Compute an entity-relative position, or run fallback updates if its state check fails. */
-void townUpdateEntityRelativePosition(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_pos) {
+void update_entity_relative_position(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_pos) {
     void *state;
     S_800CB9B8_3 *base_pos;
     S_800CB9B8_4 *height_info;
@@ -54,9 +54,9 @@ void townUpdateEntityRelativePosition(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_
     state_header = state - 0x20;
     base_pos = state_header->unk_08;
     height_info = state_header->unk_0C;
-    if (townIsDefaultObjectData(state) == 0) {
+    if (is_default_object_data(state) == 0) {
         func_80033D08(entity);
-        townClearObjectSlotAndMarkRemoved(entity);
+        clear_object_slot_and_mark_removed(entity);
         return;
     }
     out_pos->unk_00 = (s32) (base_pos->unk_00 + (func_800644B8(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));

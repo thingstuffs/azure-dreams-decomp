@@ -15,7 +15,7 @@ void func_80161C0C(void *effect, s32 unused, void *primitive)
     ticks_left = *(u16 *)((u8 *)effect + 0x24) - 1;
     *(s16 *)((u8 *)effect + 0x24) = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        ObjectFlagBlock *global_flags = &objectFlagBlock;
+        ObjectFlagBlock *global_flags = &object_flag_block;
 
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         global_flags->flags |= 0x8000;

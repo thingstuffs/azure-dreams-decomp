@@ -1,13 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 townEvaluateSurfaceComponentsB(s32 *);
+extern s32 evaluate_surface_components_b(s32 *);
 
 typedef struct S_8008C610_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C610_0;   /* arg0 in dungeonEvaluateSummedPositionMinusYOffset */
+} S_8008C610_0;   /* arg0 in evaluate_summed_position_minus_y_offset */
 
 typedef struct S_8008C610_1 {
     s32 unk_00;
@@ -16,7 +16,7 @@ typedef struct S_8008C610_1 {
 } S_8008C610_1;
 
 /* Evaluates the summed position and subtracts the offset's integer Y component. */
-s16 dungeonEvaluateSummedPositionMinusYOffset(S_8008C610_0 *base_pos, s32 offsets_addr, s32 offset_index) {
+s16 evaluate_summed_position_minus_y_offset(S_8008C610_0 *base_pos, s32 offsets_addr, s32 offset_index) {
     s32 position[5];
     s32 sample_result;
     s32 offset_bytes;
@@ -29,7 +29,7 @@ s16 dungeonEvaluateSummedPositionMinusYOffset(S_8008C610_0 *base_pos, s32 offset
     position[0] = base_pos->unk_00 + offset->unk_00;
     position[1] = base_pos->unk_04 + offset->unk_04;
     position[2] = base_pos->unk_08 + offset->unk_08;
-    sample_result = townEvaluateSurfaceComponentsB(position);
+    sample_result = evaluate_surface_components_b(position);
     if ((s16) sample_result == 0x7FFF) {
         return 0x7FFF;
     }

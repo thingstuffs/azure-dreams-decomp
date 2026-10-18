@@ -9,17 +9,17 @@ extern State *D_80701968[3];
 
 extern s32 func_80700C9C(s32 carry_value);
 extern void func_80700D24(s32 carry_value);
-extern void func_80700D54(s32 carry_value);
-extern void func_8070168C(void);
+extern void pass_indexed_table(s32 carry_value);
+extern void call_indexed_callback_failed_test(void);
 
 
 /* Devkit page 2: pass the value through when idle, else set the redraw flag and rescan. */
-s32 townHandleDevkitPage2Value(s32 carry_value) {
+s32 handle_devkit_page_2_value(s32 carry_value) {
     if (func_80700C9C(2) == 0) {
-        func_80700D54(2);
+        pass_indexed_table(2);
         return carry_value;
     }
     func_80700D24(2);
     D_80701968[0]->flags |= 0x10;
-    func_8070168C();
+    call_indexed_callback_failed_test();
 }

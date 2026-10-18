@@ -38,7 +38,7 @@ typedef struct S_80024130_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024130_3;   /* arg1 in dungeonCreateRandomizedEffectObject */
+} S_80024130_3;   /* arg1 in create_randomized_effect_object */
 
 
 extern s32 func_8003DB94();
@@ -48,7 +48,7 @@ extern u8 D_80024048[9];
 extern u8 D_800DE8E8[9];
 
 /* Creates an object with the given context and position and randomized rotation. */
-s32 dungeonCreateRandomizedEffectObject(s32 context, S_80024130_3 *position)
+s32 create_randomized_effect_object(s32 context, S_80024130_3 *position)
 {
     s32 random_value;
     s32 rounded_value;

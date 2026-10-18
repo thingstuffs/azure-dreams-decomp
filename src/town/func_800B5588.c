@@ -7,10 +7,10 @@ extern M2C_UNK D_800B2C6C;
 typedef struct S_800B2CE8_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B2CE8_0;   /* arg0 in func_800B2CE8 */
+} S_800B2CE8_0;   /* arg0 in set_object_data_pointer_if_present */
 
 /* Set the object's data pointer when the object is present. */
-void func_800B2CE8(S_800B2CE8_0 *object) {
+void set_object_data_pointer_if_present(S_800B2CE8_0 *object) {
     if (object != NULL) {
         object->unk_10 = &D_800B2C6C;
     }

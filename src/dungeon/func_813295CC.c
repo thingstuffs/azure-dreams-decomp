@@ -39,7 +39,7 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80170D60;
 
 /* Creates and configures a node at a fixed offset from the given position. */
-void dungeonCreateOffsetAnimationSprite(void *unused, void *origin) {
+void create_offset_animation_sprite(void *unused, void *origin) {
     Node *node;
     Sub *node_sub;
     Vec3 *position;

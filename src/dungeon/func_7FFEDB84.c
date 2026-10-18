@@ -1,6 +1,6 @@
 #include "modules/dungeon_town_load.h"
 
-s32 townResourceValueTableContains(s32 value) {
+s32 resource_value_table_contains(s32 value) {
     s32 i = 0;
 
     while (D_800CF85C[i] != 0) {

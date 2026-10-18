@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/func_80F87270; every changed retail word is a paired relocation. */
-#define dungeonUpdateBankActorMovement func_8015EA70
+#define update_bank_actor_movement func_8015EA70
 #define D_80174B1C D_80162B1C
-#define dungeonUpdateBankActorState D_8015F138
+#define update_bank_actor_state D_8015F138
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"
 #include "shared/dir_step.h"
@@ -10,12 +10,12 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void selectIndirectTableEntry(void *, u8, s8);
+extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern Callback D_80162B1C[];
 
 typedef struct S_80170A70_0 {
@@ -65,9 +65,9 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
     u32 object_height;
 
     bob_offset = 0;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (paused_callback == (Callback)dungeonUpdateBankActorState) {
+        if (paused_callback == (Callback)update_bank_actor_state) {
             paused_callback(entity, motion_arg, sprite_arg, entity);
             return;
         }
@@ -76,7 +76,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
     }
 
     state_or_facing = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
 
@@ -86,7 +86,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
     }
     D_80162B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
-        func_800AA36C(entity, motion_arg, sprite_arg, entity);
+        try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
 
     ((S_80170A70_0 *)motion_arg)->unk_00.at00.v += ((S_80170A70_0 *)motion_arg)->unk_0C;
@@ -103,10 +103,10 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
     sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
-        facing = ((gameWork.view.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
+        facing = ((g_game_work.view.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
         state_or_facing = facing;
         if ((*(s16 *)((u8 *)entity + (0x94))) != state_or_facing) {
-            selectIndirectTableEntry(sprite_arg,
+            select_indirect_table_entry(sprite_arg,
                 ((u8 *)((S_80170A70_1 *)sprite_arg)->unk_2C)[state_or_facing],
                 ((S_80170A70_1 *)sprite_arg)->unk_04);
             (*(s16 *)((u8 *)entity + (0x94))) = facing;
@@ -114,7 +114,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
 
         {
 
-            if (dirSpriteFlag[state_or_facing] != 0) {
+            if (dir_sprite_flag[state_or_facing] != 0) {
                 ((S_80170A70_1 *)sprite_arg)->unk_14 |= 1;
             } else {
                 ((S_80170A70_1 *)sprite_arg)->unk_14 &= 0xFFFE;
@@ -122,7 +122,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
         }
 
         if ((*(u8 *)((u8 *)entity + (0x9A))) != 8) {
-            dungeonApplyMonsterKoyawData(object->unk_1C, (u8 *)sprite_arg + 0xC);
+            apply_monster_koyaw_data(object->unk_1C, (u8 *)sprite_arg + 0xC);
         }
 
         if (!(object->unk_1C & 0x20)) {
@@ -150,7 +150,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
             }
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-                ground_height = (s16)(func_800BCB04(
+                ground_height = (s16)(sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
@@ -167,7 +167,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
             (*(s16 *)((u8 *)entity + (0xA0))) = 0;
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
-                ground_delta = (s16)func_800BCB04(
+                ground_delta = (s16)sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
@@ -192,7 +192,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
             bob_offset = 0;
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
-                ground_delta = (s16)func_800BCB04(
+                ground_delta = (s16)sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
@@ -217,7 +217,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
             }
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-                ground_height = (s16)(func_800BCB04(
+                ground_height = (s16)(sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
@@ -236,7 +236,7 @@ void func_8015EA70(void *entity, void *motion_arg, void *sprite_arg)
 
     if (object->unk_1C & 0x40000000) {
         object->unk_1C &= 0xBFFFFFFF;
-        ground_height = func_800BCB04(
+        ground_height = sample_terrain_surface_height(
             (((S_80170A70_1 *)sprite_arg)->unk_24 << 6) | 0x20,
             (((S_80170A70_1 *)sprite_arg)->unk_25 << 6) | 0x20,
             (s16)(object->unk_88.u - 0x20));

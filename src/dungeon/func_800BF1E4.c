@@ -66,7 +66,7 @@ extern s32 rand(void);
 extern s32 func_8004491C(void *, void *);
 
 /* Spawn two effects at the source position and decrement its remaining count. */
-void dungeonTickPairedParticleEmitter(FuncArg *source) {
+void tick_paired_particle_emitter(FuncArg *source) {
     s32 effect_index;
     FuncSub *effect_state;
     FuncItem *effect_item;
@@ -129,8 +129,8 @@ void dungeonTickPairedParticleEmitter(FuncArg *source) {
             u16 *source_flags;
             source_flags = (u16 *)source - 1;
             *source_flags = *source_flags | 0x8000;
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
         }
     }
 }

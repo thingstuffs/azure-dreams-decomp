@@ -4,6 +4,6 @@
 extern M2C_UNK D_8001B688;
 
 /* Returns a pointer to D_8001B688. */
-M2C_UNK *townGetDataPointer1B688(void) {
+M2C_UNK *get_data_pointer_1_b_688(void) {
     return &D_8001B688;
 }

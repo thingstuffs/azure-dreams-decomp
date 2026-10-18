@@ -6,7 +6,7 @@
 
 typedef struct S_80089608_0_pre {
     u16 unk_00;
-} S_80089608_0_pre;   /* the 0x2 bytes before arg0 in mainUpdateSettingsEffect, addressed as arg0[-1] */
+} S_80089608_0_pre;   /* the 0x2 bytes before arg0 in update_settings_effect, addressed as arg0[-1] */
 
 typedef struct S_80089608_0 {
     void * unk_00;
@@ -15,7 +15,7 @@ typedef struct S_80089608_0 {
     u16 unk_0A;
     u8 pad_0C[0x2];
     union { u16 s; s16 u; } unk_0E;   /* accessed as both */
-} S_80089608_0;   /* arg0 in mainUpdateSettingsEffect */
+} S_80089608_0;   /* arg0 in update_settings_effect */
 
 typedef struct S_80089608_1 {
     u8 pad_00[0x20];
@@ -107,7 +107,7 @@ typedef struct {
 } Words2;
 
 /* Updates effect brightness and rotation and spawns ten visual elements. */
-void mainUpdateSettingsEffect(void *effect) {
+void update_settings_effect(void *effect) {
     unsigned char effect_tables[104];
     Words4 *style_src;
     Words4 *mask_src;
@@ -184,7 +184,7 @@ void mainUpdateSettingsEffect(void *effect) {
         break;
     case 0xFF:
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     default:
         break;

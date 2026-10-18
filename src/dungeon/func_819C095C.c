@@ -4,7 +4,7 @@
 extern void func_800478B8(void *visual);
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
-void dungeonUpdateEffectMotionAndVisual(void *effect, void *position, void *visual) {
+void update_effect_motion_and_visual(void *effect, void *position, void *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame;
@@ -31,7 +31,7 @@ void dungeonUpdateEffectMotionAndVisual(void *effect, void *position, void *visu
     *(u16 *)((u8 *)effect + 0x28) = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81088290; every changed retail word is a paired relocation. */
-#define dungeonDrawRandomizedShadedPolylines func_80169A90
+#define draw_randomized_shaded_polylines func_80169A90
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -72,7 +72,7 @@ extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *,
 /* Draw seven shaded polylines with randomized offsets between two positions. */
 void func_80169A90(S_80175A90_3 *start_pos, EntityRec *end_pos)
 {
-    void **context_ptr = (void **)((u8 *)(&gameWork));
+    void **context_ptr = (void **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *prim;
     s32 line_index = 0;

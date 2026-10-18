@@ -15,7 +15,7 @@ extern M2C_UNK *D_800D0418;
 extern M2C_UNK *D_800D041C;
 
 /* Initialize six global pointers to their corresponding storage blocks. */
-void townInitializeSixGlobalPointersCorrespondingStorageBlocks(void) {
+void initialize_six_global_pointers_corresponding_storage_blocks(void) {
     D_800D0408 = &D_800D0208;
     D_800D040C = &D_800D0248;
     D_800D0410 = &D_800D0288;

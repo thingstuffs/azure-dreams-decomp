@@ -3,9 +3,9 @@
 extern int abs(int);
 
 
-extern void townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(void *, void *, void *);
-extern void func_8008F5B4(void *, void *, void *);
-extern void func_8008F60C(void *, void *, void *);
+extern void apply_the_entry_adjustment_increment_slot_count_store_slot(void *, void *, void *);
+extern void update_first_axis_slot_value(void *, void *, void *);
+extern void update_second_axis_slot_value(void *, void *, void *);
 
 typedef struct CollisionBounds {
     s32 offset_x, offset_y, offset_z;
@@ -38,7 +38,7 @@ typedef struct CollisionScratch {
 } CollisionScratch;
 
 /* Resolve bounding-box overlaps with linked colliders along the least-penetrating axis. */
-void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *collider, void *position) {
+void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *collider, void *position) {
     u8 *scratch;
     void *bounds;
     void *other_bounds;
@@ -290,7 +290,7 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
         }
         shift_z = ((CollisionScratch *)scratch)->z_near;
         if (shift_z > 0 && ((EntityRec *)(position))->flags14 >= shift_z && shift_x != 0 && shift_y != 0) {
-            func_8008F60C(collider, position, scratch);
+            update_second_axis_slot_value(collider, position, scratch);
             continue;
         }
         {
@@ -309,20 +309,20 @@ void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxi
                 if (!z_depth) {
                     z_depth = abs_x < abs_z;
                     if (!z_depth) {
-                        func_8008F60C(collider, position, scratch);
+                        update_second_axis_slot_value(collider, position, scratch);
                         continue;
                     }
                 }
-                townApplyTheEntryAdjustmentIncrementSlotCountStoreSlot(collider, position, scratch);
+                apply_the_entry_adjustment_increment_slot_count_store_slot(collider, position, scratch);
                 continue;
             }
             z_depth = ((CollisionScratch *)scratch)->z_near;
             z_depth = abs(z_depth);
             if (y_depth >= z_depth) {
-                func_8008F60C(collider, position, scratch);
+                update_second_axis_slot_value(collider, position, scratch);
                 continue;
             }
-            func_8008F5B4(collider, position, scratch);
+            update_first_axis_slot_value(collider, position, scratch);
         }
     }
 

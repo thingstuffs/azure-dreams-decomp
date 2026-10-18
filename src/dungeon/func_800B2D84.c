@@ -45,7 +45,7 @@ extern s32 func_80064584(s32, ...);
 extern void func_8006658C(void *, void *, ...);
 extern void func_8006671C(u8 *);
 /* Emit textured ellipse segments around the given position. */
-void dungeonDrawTexturedEllipseSegments(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
+void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
 {
     EllipseWork *scratchpad;
     u8 *cursor;
@@ -65,7 +65,7 @@ void dungeonDrawTexturedEllipseSegments(DungeonPosition *position, DungeonParame
     s32 packet_order;
     s32 scratch;
     GpuContext **state_slot;
-    packet_order = (s32)(((u8 *)(&gameWork)) - 0x3160);
+    packet_order = (s32)(((u8 *)(&g_game_work)) - 0x3160);
     cursor = (*((GpuContext **) (((u8 *)packet_order) + 0x3160)))->packetCursor;
     scratchpad = (EllipseWork *) 0x1F800000;
     scratchpad->prev_z = 0;
@@ -84,7 +84,7 @@ void dungeonDrawTexturedEllipseSegments(DungeonPosition *position, DungeonParame
         angle_step = segment;
 loop_0:
         {
-            state_slot = (GpuContext **)&gameWork;
+            state_slot = (GpuContext **)&g_game_work;
             scratchpad->prev.xy = scratchpad->cur.xy;
             center_u = (u8)scratchpad->tex_u
                 + (scratchpad->tex_w >> 1);

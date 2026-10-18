@@ -28,16 +28,16 @@ typedef struct {
 } TownState;
 
 extern void SD_Call(s32);
-extern s32 townIsCatalogEntryAvailable(u8);
-extern void func_801237A4(TownState *);
-extern void townResetCatalogScrollIndicators(TownState *);
-extern void townUpdateCatalogScrollAvailability(TownState *);
+extern s32 is_catalog_entry_available(u8);
+extern void select_paired_value_tables(TownState *);
+extern void reset_catalog_scroll_indicators(TownState *);
+extern void update_catalog_scroll_availability(TownState *);
 
 extern u8 D_801269F8[];
 extern ImageList D_801278B0[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
-void townHandleCatalogDetailInput(TownState *state)
+void handle_catalog_detail_input(TownState *state)
 {
     u32 buttons;
     s32 max_scroll;
@@ -47,16 +47,16 @@ void townHandleCatalogDetailInput(TownState *state)
     u8 side_choice;
     u16 toggle_timer;
 
-    if (((u32)gameWork.unk_010) & 0x20) {
+    if (((u32)g_game_work.unk_010) & 0x20) {
         SD_Call(0x702);
-        townResetCatalogScrollIndicators(state);
+        reset_catalog_scroll_indicators(state);
         state->state = 9;
         state->field4 = 1;
         state->field6 = 0x19;
         return;
     }
 
-    buttons = ((u32)gameWork.buttons);
+    buttons = ((u32)g_game_work.buttons);
     if (buttons & 0x1000) {
         u8 *selection = D_801269F8;
 
@@ -66,8 +66,8 @@ void townHandleCatalogDetailInput(TownState *state)
         } else {
             selection[9] = 0;
         }
-        townResetCatalogScrollIndicators(state);
-        townUpdateCatalogScrollAvailability(state);
+        reset_catalog_scroll_indicators(state);
+        update_catalog_scroll_availability(state);
         return;
     }
 
@@ -82,8 +82,8 @@ void townHandleCatalogDetailInput(TownState *state)
         } else {
             selection[9] = max_scroll;
         }
-        townResetCatalogScrollIndicators(state);
-        townUpdateCatalogScrollAvailability(state);
+        reset_catalog_scroll_indicators(state);
+        update_catalog_scroll_availability(state);
         return;
     }
 
@@ -95,7 +95,7 @@ void townHandleCatalogDetailInput(TownState *state)
                 state->index = index_count;
             }
             state->index--;
-        } while (!(townIsCatalogEntryAvailable(state->index) & 0xFF) &&
+        } while (!(is_catalog_entry_available(state->index) & 0xFF) &&
             state->index != state->old_index);
 
         if (state->index == 0x31) {
@@ -119,9 +119,9 @@ void townHandleCatalogDetailInput(TownState *state)
         previous_index = state->old_index;
         if (current_index < previous_index) {
             SD_Call(0x702);
-            townResetCatalogScrollIndicators(state);
+            reset_catalog_scroll_indicators(state);
             state->side ^= 1;
-            func_801237A4(state);
+            select_paired_value_tables(state);
             side_choice = state->choices[state->side];
             if (side_choice != state->index) {
                 state->state = 0xC;
@@ -134,9 +134,9 @@ void townHandleCatalogDetailInput(TownState *state)
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
-            townResetCatalogScrollIndicators(state);
+            reset_catalog_scroll_indicators(state);
             state->side ^= 1;
-            func_801237A4(state);
+            select_paired_value_tables(state);
             if (state->choices[state->side] == state->index) {
                 state->state = 0xB;
                 state->field4 = 1;
@@ -157,7 +157,7 @@ void townHandleCatalogDetailInput(TownState *state)
             if ((next_index & 0xFF) == wrap_limit) {
                 state->index = 0;
             }
-        } while (!(townIsCatalogEntryAvailable(state->index) & 0xFF) &&
+        } while (!(is_catalog_entry_available(state->index) & 0xFF) &&
             state->index != state->old_index);
 
         if (state->index == 0x31) {
@@ -181,9 +181,9 @@ void townHandleCatalogDetailInput(TownState *state)
         previous_index = state->old_index;
         if (current_index < previous_index) {
             SD_Call(0x702);
-            townResetCatalogScrollIndicators(state);
+            reset_catalog_scroll_indicators(state);
             state->side ^= 1;
-            func_801237A4(state);
+            select_paired_value_tables(state);
             if (state->choices[state->side] != state->index) {
                 state->state = 0xC;
                 return;
@@ -195,9 +195,9 @@ void townHandleCatalogDetailInput(TownState *state)
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
-            townResetCatalogScrollIndicators(state);
+            reset_catalog_scroll_indicators(state);
             state->side ^= 1;
-            func_801237A4(state);
+            select_paired_value_tables(state);
             if (state->choices[state->side] == state->index) {
                 state->state = 0xB;
                 state->field4 = 1;
@@ -216,7 +216,7 @@ void townHandleCatalogDetailInput(TownState *state)
         state->toggleC ^= 1;
     }
 
-    townUpdateCatalogScrollAvailability(state);
+    update_catalog_scroll_availability(state);
 
     return;
 }

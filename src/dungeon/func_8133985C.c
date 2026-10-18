@@ -11,7 +11,7 @@ typedef struct S_8017085C_0 {
     s8 unk_59;
     u8 pad_5A[0x2];
     s32 unk_5C;
-} S_8017085C_0;   /* arg0 in dungeonUpdateVerticalMotionAndEffect */
+} S_8017085C_0;   /* arg0 in update_vertical_motion_and_effect */
 
 typedef struct S_8017085C_1 {
     u8 pad_00[0x2];
@@ -21,19 +21,19 @@ typedef struct S_8017085C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_8017085C_1;   /* arg1 in dungeonUpdateVerticalMotionAndEffect */
+} S_8017085C_1;   /* arg1 in update_vertical_motion_and_effect */
 
 typedef struct S_8017085C_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8017085C_2;   /* arg2 in dungeonUpdateVerticalMotionAndEffect */
+} S_8017085C_2;   /* arg2 in update_vertical_motion_and_effect */
 
 
 extern s32 func_800644B8();
-extern void func_800A7A7C();
+extern void place_item_at_valid_floor_position();
 
 /* Updates vertical animation and triggers an effect upon reaching the resting height. */
-void dungeonUpdateVerticalMotionAndEffect(void *motion, void *position, void *effect) {
+void update_vertical_motion_and_effect(void *motion, void *position, void *effect) {
     s8 effect_args[4];
     s16 world_z;
     s16 state;
@@ -104,10 +104,10 @@ void dungeonUpdateVerticalMotionAndEffect(void *motion, void *position, void *ef
         }
         tile_z = centered_z >> 6;
         ((S_8017085C_0 *)motion)->unk_59 = tile_z;
-        func_800A7A7C(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
+        place_item_at_valid_floor_position(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
             ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
 
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

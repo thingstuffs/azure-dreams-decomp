@@ -11,7 +11,7 @@ typedef struct {
 } S_80042518;
 
 /* Clear the last slot of the requested type and return its value, or zero if absent. */
-s32 findSlotByType(S_80042518 *slots, s8 type) {
+s32 find_slot_by_type(S_80042518 *slots, s8 type) {
     s32 slot_index;
 
     for (slot_index = 3; slot_index >= 0; slot_index--) {

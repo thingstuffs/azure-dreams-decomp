@@ -9,29 +9,29 @@ extern int abs(int);
 typedef struct S_800A5C70_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800A5C70_0_pre;   /* the 0x14 bytes before cursor in func_800A5C70, addressed as cursor[-1] */
+} S_800A5C70_0_pre;   /* the 0x14 bytes before cursor in check_action_available_without_nearby_actor, addressed as cursor[-1] */
 
 typedef struct S_800A5C70_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0x3C];
     void * unk_5C;
-} S_800A5C70_0;   /* cursor in func_800A5C70 */
+} S_800A5C70_0;   /* cursor in check_action_available_without_nearby_actor */
 
 typedef struct S_800A5C70_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A5C70_1;   /* coords in func_800A5C70 */
+} S_800A5C70_1;   /* coords in check_action_available_without_nearby_actor */
 
 typedef struct S_800A5C70_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A5C70_2;   /* other in func_800A5C70 */
+} S_800A5C70_2;   /* other in check_action_available_without_nearby_actor */
 
 /* Checks buttons and state, rejecting eligible entries within four tiles on both axes. */
-s32 func_800A5C70(void) {
+s32 check_action_available_without_nearby_actor(void) {
     u16 buttons;
     TileObject *origin_coords;
     void **entry_addr;

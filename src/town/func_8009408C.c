@@ -6,17 +6,17 @@
 
 
 
-s32 scaleRandomToUnsignedHalfwordLimit();
+s32 scale_random_to_unsigned_halfword_limit();
 M2C_UNK func_80094048();
-M2C_UNK dungeonInitializeActionObject();
-void townTriggerEventHex519IntervalMultiplesEnabled();
-void townStoreTheValidSharedAngleInOffsetHex10();
-void townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58();
-void townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides();
-s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
-void townSpawnRadialEffectObjects();
+M2C_UNK initialize_action_object();
+void trigger_event_hex_519_interval_multiples_enabled();
+void store_the_valid_shared_angle_in_offset_hex_10();
+void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
+void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();
+s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+void compute_and_clamps_vector_based_adjustment_updates_town();
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+void spawn_radial_effect_objects();
 extern u8 D_800CFCEF[];
 extern u8 D_800D043C[];
 extern s32 D_800FE4E0;
@@ -29,44 +29,44 @@ typedef struct S_800917EC_2 {
 } S_800917EC_2;
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
-void townUpdateActorWithPeriodicEffect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context) {
-    GameWork *state = &gameWork;
+void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context) {
+    GameWork *state = &g_game_work;
     s16 surface_height;
     s16 action_timer;
     s32 *effect_pos;
     s32 state_flags;
     u16 effect_timer;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(position);
-    townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(position);
-    surface_height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(position, ((u8 *)&D_800FE488));
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
+    move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(position);
+    surface_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&D_800FE488));
     if ((surface_height - position->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            dungeonInitializeActionObject(actor, position, context);
+            initialize_action_object(actor, position, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(position, surface_height, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(position, surface_height, ((u8 *)&D_800FE488));
     }
     effect_timer = actor->unk_0A.as_u16 - 1;
     actor->unk_0A.as_u16 = effect_timer;
     if ((effect_timer << 0x10) <= 0) {
-        actor->unk_0A.as_u16 = (u16)(scaleRandomToUnsignedHalfwordLimit(4) + 3);
+        actor->unk_0A.as_u16 = (u16)(scale_random_to_unsigned_halfword_limit(4) + 3);
         D_800FE4E0 = position->x.v;
         effect_pos = &D_800FE4E0;
         ((S_800917EC_2 *)effect_pos)->unk_04 = position->y.v;
         ((S_800917EC_2 *)effect_pos)->unk_08 =
             position->z.v + 0xFFB00000;
-        townSpawnRadialEffectObjects(effect_pos, D_800D043C,
-                      (scaleRandomToUnsignedHalfwordLimit(2) & 0xFFFF) + 2);
+        spawn_radial_effect_objects(effect_pos, D_800D043C,
+                      (scale_random_to_unsigned_halfword_limit(2) & 0xFFFF) + 2);
     }
     state_flags = state->buttons;
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
         action_timer = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = (u16)action_timer;
-        townTriggerEventHex519IntervalMultiplesEnabled(action_timer, 8);
-        townStoreTheValidSharedAngleInOffsetHex10(actor);
-        townCallTheValidSharedAngleFixedHex120000ContextCallee80094F58(position);
+        trigger_event_hex_519_interval_multiples_enabled(action_timer, 8);
+        store_the_valid_shared_angle_in_offset_hex_10(actor);
+        call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(position);
         return;
     }
     func_80094048(actor, position, context);

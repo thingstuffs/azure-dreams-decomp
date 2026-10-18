@@ -5,12 +5,12 @@
 typedef struct S_801257C8_0 {
     u8 pad_00[0xA];
     s8 unk_0A;
-} S_801257C8_0;   /* arg0 in townEnterCatalogGrid */
+} S_801257C8_0;   /* arg0 in enter_catalog_grid */
 
 
-extern void townRefreshCatalogEntryGrid(S_801257C8_0 *);
+extern void refresh_catalog_entry_grid(S_801257C8_0 *);
 /* Update the controller and set its state to one. */
-void townEnterCatalogGrid(S_801257C8_0 *controller) {
-    townRefreshCatalogEntryGrid(controller);
+void enter_catalog_grid(S_801257C8_0 *controller) {
+    refresh_catalog_entry_grid(controller);
     controller->unk_0A = 1;
 }

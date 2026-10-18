@@ -7,9 +7,9 @@ extern M2C_UNK D_800AE414;
 typedef struct S_800AE484_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800AE484_0;   /* arg0 in townSetItemMenuDataPointer */
+} S_800AE484_0;   /* arg0 in set_item_menu_data_pointer */
 
 /* Sets the object's data pointer to D_800AE414. */
-void townSetItemMenuDataPointer(S_800AE484_0 *object) {
+void set_item_menu_data_pointer(S_800AE484_0 *object) {
     object->unk_10 = &D_800AE414;
 }

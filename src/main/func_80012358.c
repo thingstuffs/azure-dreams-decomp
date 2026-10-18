@@ -1,5 +1,5 @@
 #include "common.h"
 
-extern void cardBootBuildSaveDescription(void *, s32);
-extern void func_80025FFC(void *, s32);
-void func_80025358(void *owner, s32 value) { cardBootBuildSaveDescription(owner, value); func_80025FFC(owner, value); }
+extern void card_boot_build_save_description(void *, s32);
+extern void initialize_text_editor_context(void *, s32);
+void initialize_save_description(void *owner, s32 value) { card_boot_build_save_description(owner, value); initialize_text_editor_context(owner, value); }

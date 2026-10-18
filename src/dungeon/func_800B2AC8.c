@@ -46,16 +46,16 @@ typedef struct {
 
 
 extern void func_8004491C(void *, void *);
-extern void func_800A56E0(s32);
-extern s32 func_800A7A38(void *, s32);
-extern void func_800A7A7C(s32, s32, s32, void *, void *);
-extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
+extern void play_sound_if_enabled(s32);
+extern s32 get_item_category_value(void *, s32);
+extern void place_item_at_valid_floor_position(s32, s32, s32, void *, void *);
+extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 D_8006E240[9];
 extern u8 D_800B80D8[];
 
 /* Creates and initializes an effect, or invokes its fallback if allocation fails. */
-void *dungeonCreateEffectOrFallback(u32 x, u32 y, s32 z, void *effect_data) {
+void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     S_800B8228_2 *appearance;
     void *effect;
     S_800B8228_1 *position;
@@ -74,15 +74,15 @@ void *dungeonCreateEffectOrFallback(u32 x, u32 y, s32 z, void *effect_data) {
         appearance->unk_0C = 0x808080;
         appearance->unk_1E = 0xC90;
         appearance->unk_1C = 0xC90;
-        appearance->unk_08 = func_800A7A38(effect_data, appearance->unk_0C);
+        appearance->unk_08 = get_item_category_value(effect_data, appearance->unk_0C);
         grid_position = (u8 *)effect + 0x20;
         grid_position->unk_B0 = x >> 6;
         grid_position->unk_B2 = y >> 6;
         *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;
-        dungeonCreateTrackedEffect(effect, 0, 0, 0);
-        func_800A56E0(0x51C);
+        create_tracked_effect(effect, 0, 0, 0);
+        play_sound_if_enabled(0x51C);
     } else {
-        func_800A7A7C((s32)(x << 0xA) >> 0x10,
+        place_item_at_valid_floor_position((s32)(x << 0xA) >> 0x10,
                       (s32)(y << 0xA) >> 0x10,
                       (s32)(z << 0x10) >> 0x10,
                       D_8006E240, effect_data);

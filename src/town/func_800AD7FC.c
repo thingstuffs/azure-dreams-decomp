@@ -13,7 +13,7 @@ extern s16 D_800834C8;
 extern s32 D_80100E40;
 
 /* Shifts the eight-record history and stores the current values in the first record. */
-void func_800AAF5C(void)
+void shift_history_and_store_current_values(void)
 {
     s32 destination_offset;
     s32 record_index;

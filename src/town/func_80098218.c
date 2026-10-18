@@ -9,13 +9,13 @@ typedef struct {
     s32 unused[3];
 } LocalRecord;
 
-extern s16 townSelectLowestCorrectedProbe(LocalRecord *, M2C_UNK *, s32, s32 *, s32, s32);
-extern s16 townForwardSurfaceQueryWithArgument(LocalRecord *, s32 *);
+extern s16 select_lowest_corrected_probe(LocalRecord *, M2C_UNK *, s32, s32 *, s32, s32);
+extern s16 forward_surface_query_with_argument(LocalRecord *, s32 *);
 extern M2C_UNK *D_800D0408;
 extern s32 D_800FE5C0[];
 
 /* Selects the smaller position query result, capped at 64, and writes its associated value. */
-s32 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(s32 *position, s32 *out_value) {
+s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *position, s32 *out_value) {
     LocalRecord local_pos;
     s32 query_value;
     s32 *height_base;
@@ -29,12 +29,12 @@ s32 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(s32 *positi
     local_pos.x = position[0];
     local_pos.y = position[1];
     local_pos.z = position[2] - height_base[5];
-    min_result = townForwardSurfaceQueryWithArgument(&local_pos, query_value_ptr);
+    min_result = forward_surface_query_with_argument(&local_pos, query_value_ptr);
     *out_value = query_value;
     local_pos.x = position[0];
     local_pos.y = position[1];
     local_pos.z = position[2] - height_base[5];
-    candidate_result = townSelectLowestCorrectedProbe(&local_pos, D_800D0408, 4, query_value_ptr, min_result, *out_value);
+    candidate_result = select_lowest_corrected_probe(&local_pos, D_800D0408, 4, query_value_ptr, min_result, *out_value);
     if (candidate_result < min_result) {
         min_result = candidate_result;
         *out_value = query_value;

@@ -12,7 +12,7 @@ typedef struct S_8016F2BC_0 {
 } S_8016F2BC_0;
 
 /* Clears three state fields in the current object. */
-void dungeonResetMultiFormActorAction(void) {
+void reset_multi_form_actor_action(void) {
     S_8016F2BC_0 *state;
 
     state = D_80175D50 + 0x20;

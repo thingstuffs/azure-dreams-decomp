@@ -10,7 +10,7 @@ typedef struct S_8008CD4C_0 {
     union { u8 s; u8 u; } unk_25;   /* accessed as both */
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8008CD4C_0;   /* arg2 in dungeonBeginPlayerPush */
+} S_8008CD4C_0;   /* arg2 in begin_player_push */
 
 
 typedef struct S_8008CD4C_2 {
@@ -20,30 +20,30 @@ typedef struct S_8008CD4C_2 {
     union { u16 s; s16 u; } unk_2A;   /* accessed as both */
     u8 pad_2C[0x5C];
     s16 unk_88;
-} S_8008CD4C_2;   /* actor in dungeonBeginPlayerPush */
+} S_8008CD4C_2;   /* actor in begin_player_push */
 
 typedef struct S_8008CD4C_3 {
     u8 pad_00[0x2];
     u16 unk_02;
     s16 unk_04;
-} S_8008CD4C_3;   /* control in dungeonBeginPlayerPush */
+} S_8008CD4C_3;   /* control in begin_player_push */
 
 
 
 M2C_UNK func_80048A44();
-s16 dungeonCheckTileEntryAtAdjustedHeight();
-void func_8009A21C();
-void func_8009A3D0();
-s32 dungeonCanPushAdjacentActor();
-s32 findEligibleActorAtTileAndHeight();
-void dungeonAppendPackedActionRecord();
-s32 func_800A56E0();
+s16 check_tile_entry_at_adjusted_height();
+void cycle_map_cell_flags();
+void update_map_cell_flags_with_item_limit();
+s32 can_push_adjacent_actor();
+s32 find_eligible_actor_at_tile_and_height();
+void append_packed_action_record();
+s32 play_sound_if_enabled();
 
 extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void dungeonBeginPlayerPush(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
+void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
     s16 move_state) {
     s16 state;
     s32 direction_offset;
@@ -61,34 +61,34 @@ void dungeonBeginPlayerPush(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008C
 
     if ((s16)state != -2) {
         direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
-        x_step = (u16 *)((u8 *)dirStepX + direction_offset);
+        x_step = (u16 *)((u8 *)dir_step_x + direction_offset);
         next_x = sprite->unk_24 + *x_step;
-        y_step = (u16 *)((u8 *)dirStepY + direction_offset);
+        y_step = (u16 *)((u8 *)dir_step_y + direction_offset);
         next_y = sprite->unk_25.s + *y_step;
-        target = findEligibleActorAtTileAndHeight(actor, next_x & 0xFFFF, next_y & 0xFFFF,
+        target = find_eligible_actor_at_tile_and_height(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                                actor->unk_88);
         if (target != 0) {
-            if ((dungeonCanPushAdjacentActor(actor, target, (s16)next_x, (s16)next_y,
+            if ((can_push_adjacent_actor(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {
                 action->unk_124 = target;
-                func_8009A3D0(sprite->unk_24,
+                update_map_cell_flags_with_item_limit(sprite->unk_24,
                               sprite->unk_25.s, 0x300);
                 sprite->unk_24 =
                     sprite->unk_24 + *(u8 *)x_step;
                 sprite->unk_25.u =
                     sprite->unk_25.s + *(u8 *)y_step;
-                func_8009A21C(sprite->unk_24,
+                cycle_map_cell_flags(sprite->unk_24,
                               sprite->unk_25.u, 0x300);
 
                 actor->unk_1C |= 0x40000000;
-                dungeonStatus.unk_04 = 0x20;
-                dungeonStatus.flags |= 8;
+                g_dungeon_status.unk_04 = 0x20;
+                g_dungeon_status.flags |= 8;
                 action->unk_9B.as_u8 = 0x10;
                 sprite->unk_2C = D_800DCFB8;
                 action->unk_96.as_s16 = 4;
-                dungeonAppendPackedActionRecord(actor, 8, 0, 0);
-                func_800A56E0(0x50B);
-                dungeonCheckTileEntryAtAdjustedHeight(action, context, sprite, actor);
+                append_packed_action_record(actor, 8, 0, 0);
+                play_sound_if_enabled(0x50B);
+                check_tile_entry_at_adjusted_height(action, context, sprite, actor);
             }
         }
     }
@@ -96,6 +96,6 @@ void dungeonBeginPlayerPush(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008C
     func_80048A44(
         sprite,
         sprite->unk_2C
-            [((gameWork.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
+            [((g_game_work.view.viewAngle + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
 }

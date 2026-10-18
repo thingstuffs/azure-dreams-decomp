@@ -52,7 +52,7 @@ extern Box D_800240E0[];
     break;
 
 /* Resolve actor collisions against zone boundaries and linked boxes. */
-s32 townResolveActorZoneCollisions(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
+s32 resolve_actor_zone_collisions(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     s32 candidate;
     s32 box_id;
     u32 old_zone;

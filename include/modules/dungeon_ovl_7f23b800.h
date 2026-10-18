@@ -59,12 +59,12 @@ extern void func_8016AF74();
 
 extern void *func_8003FD64();
 extern s32 func_8004491C();
-extern s32 func_800A6D30();
-extern s16 func_800A48F0();
-extern void func_800A9C18();
-extern s32 func_800AA36C();
+extern s32 generate_random_value();
+extern s16 set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern s32 try_move_actor_to_valid_position();
 extern void func_80044A50();
-extern void dungeonRetireTrackedEffectById();
+extern void retire_tracked_effect_by_id();
 
-void * func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
+void * create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 #endif

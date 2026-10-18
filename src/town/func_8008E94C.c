@@ -17,9 +17,9 @@ typedef struct S_80083160_View {
 
 
 /* Compute the map entry address from masked tile coordinates. */
-s32 townMapCellAddressAtTile(s32 tile_x, s32 tile_y)
+s32 map_cell_address_at_tile(s32 tile_x, s32 tile_y)
 {
-    S_80083160_View *map_state = ((S_80083160_View *)&gameWork);
+    S_80083160_View *map_state = ((S_80083160_View *)&g_game_work);
     S_8008E94C_Sub *map_layout = &map_state->sub;
     s32 tile_index;
 

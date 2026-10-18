@@ -1,6 +1,6 @@
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
-s32 func_800F6208(s32 key_high, s32 key_low) {
+s32 has_active_dungeon_cell_key(s32 key_high, s32 key_low) {
     s32 index;
     s32 key;
     u8 *entry;

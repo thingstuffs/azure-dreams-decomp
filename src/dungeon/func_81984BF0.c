@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void inventoryClearCircularListFlag2000(void *unused_actor)
+void inventory_clear_circular_list_flag_2000(void *unused_actor)
 {
     void *link;
     void *object;

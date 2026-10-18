@@ -7,7 +7,7 @@
 #define S32_FIELD(ptr, offset) (*(s32 *)((u8 *)(ptr) + (offset)))
 
 /* Steps an enabled value toward its positive or negative limit. */
-void soundStepClampedSignedRamp(void *state) {
+void sound_step_clamped_signed_ramp(void *state) {
     s32 next_value;
     s32 lower_limit;
     u16 upper_limit;

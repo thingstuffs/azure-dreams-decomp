@@ -6,7 +6,7 @@ typedef struct S_8017573C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
     s16 unk_04;
-} S_8017573C_0;   /* arg0 in dungeonGrowObjectAfterDelay */
+} S_8017573C_0;   /* arg0 in grow_object_after_delay */
 
 
 extern void func_80047784(void *, u8, s32);
@@ -14,7 +14,7 @@ extern void func_800478B8(void *);
 extern u8 D_80176460[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
-void dungeonGrowObjectAfterDelay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
+void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
     s32 direction_index;
     s16 phase;
     u16 phase_u;
@@ -23,7 +23,7 @@ void dungeonGrowObjectAfterDelay(S_8017573C_0 *animation, s32 unused, Rec_D_8008
     animation->unk_02.s = animation->unk_02.s + 1;
     func_800478B8(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        direction_index = gameWork.view.viewAngle;
+        direction_index = g_game_work.view.viewAngle;
         direction_index += animation->unk_04;
         direction_index += 0x100;
         direction_index >>= 9;

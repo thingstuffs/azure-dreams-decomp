@@ -1,25 +1,25 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 dungeonUpdateActorMovementToTile();
-extern s32 dungeonReduceActorFoodMeter();
-extern s32 dungeonCheckActorFloorTrap();
+extern s32 advance_status_timers();
+extern s32 update_actor_movement_to_tile();
+extern s32 reduce_actor_food_meter();
+extern s32 check_actor_floor_trap();
 
 extern s32 D_801714D4[];
 
 /* Selects the state table after a successful target check and applies the flagged offset. */
-void dungeonSelectStateTableWithFlaggedOffset(void *state, s32 unused, s32 source, s32 target) {
-    if (dungeonUpdateActorMovementToTile() != 0) {
-        dungeonReduceActorFoodMeter(target, 4);
-        dungeonAdvanceStatusTimers(target);
-        if ((dungeonCheckActorFloorTrap(source, target) << 16) > 0) {
+void select_state_table_with_flagged_offset(void *state, s32 unused, s32 source, s32 target) {
+    if (update_actor_movement_to_tile() != 0) {
+        reduce_actor_food_meter(target, 4);
+        advance_status_timers(target);
+        if ((check_actor_floor_trap(source, target) << 16) > 0) {
             *(s32 **)((u8 *)state + 0x8C) = D_801714D4;
-            if (dungeonStatus.flags & 0x80) {
+            if (g_dungeon_status.flags & 0x80) {
                 *(s16 *)((u8 *)state + 0x92) = -0x20;
             }
         }
-    } else if (dungeonStatus.flags & 0x80) {
+    } else if (g_dungeon_status.flags & 0x80) {
         *(s16 *)((u8 *)state + 0x92) = -0x20;
     }
 }

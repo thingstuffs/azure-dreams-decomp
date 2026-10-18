@@ -17,7 +17,7 @@ extern M2C_UNK D_80129728;
 
 
 /* Initialize 14 entries from the value table and set each linked field to 0x800. */
-void func_80123700(void) {
+void initialize_linked_value_records(void) {
     s8 *entry_table;
     s8 *source_record;
     s32 source_value;

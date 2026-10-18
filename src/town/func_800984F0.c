@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s16 dungeonAdjustSummedVectorByEntryComponent(s32 input_value, s32 value, s32 parameter);
+extern s16 adjust_summed_vector_by_entry_component(s32 input_value, s32 value, s32 parameter);
 extern s32 D_800D041C;
 
-/* Call dungeonAdjustSummedVectorByEntryComponent with the input, D_800D041C, and parameter. */
-s16 townCallCallee8008C6B8Global800D041CParameter(s32 input_value, s32 parameter) {
-    return dungeonAdjustSummedVectorByEntryComponent(input_value, D_800D041C, parameter);
+/* Call adjust_summed_vector_by_entry_component with the input, D_800D041C, and parameter. */
+s16 call_callee_8008_c_6_b_8_global_800_d_041_c_parameter(s32 input_value, s32 parameter) {
+    return adjust_summed_vector_by_entry_component(input_value, D_800D041C, parameter);
 }

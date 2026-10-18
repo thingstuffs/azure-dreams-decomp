@@ -33,7 +33,7 @@ typedef struct S_800CB8CC_2 {
 } S_800CB8CC_2;
 
 /* Creates an object, initializes its render data, and invokes its callback. */
-s32 townCreateAndInvokeRenderObject(s32 initial_value, s32 resource_index) {
+s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     s32 callback_arg;
     S_800CB8CC_2 *render_data;
     S_800CB8CC_1 *state;

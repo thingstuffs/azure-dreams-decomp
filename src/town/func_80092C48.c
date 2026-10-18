@@ -2,5 +2,5 @@
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
 void plt_init_sleep_set(void) {
-    D_800D0438 = &townInitializeGlobalSceneRecord;
+    D_800D0438 = &initialize_global_scene_record;
 }

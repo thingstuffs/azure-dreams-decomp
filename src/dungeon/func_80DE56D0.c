@@ -1,18 +1,18 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void dungeonDampenActorMovementToTile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
+void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
     s32 tracked_entity;
 
     switch (action->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
+        apply_clamped_actor_value_delta(entity);
         motion->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
+            *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
+            *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         action->unk_9B++;
 
@@ -20,7 +20,7 @@ void dungeonDampenActorMovementToTile(E_80172ED0_S_80172ED0_0 *action, EntityRec
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
+            begin_actor_display_action(action, motion, tile_state, &D_80174550);
             return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
@@ -60,7 +60,7 @@ void dungeonDampenActorMovementToTile(E_80172ED0_S_80172ED0_0 *action, EntityRec
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
+        begin_actor_display_action(action, motion, tile_state, &D_80174550);
         return;
 
     case 2:
@@ -89,19 +89,19 @@ void dungeonDampenActorMovementToTile(E_80172ED0_S_80172ED0_0 *action, EntityRec
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, tile_state, &D_80174550);
+            begin_actor_display_action(action, motion, tile_state, &D_80174550);
             return;
         } else {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, tile_state->unk_24, tile_state->unk_25);
+            set_record_integer_tile_center(motion, tile_state->unk_24, tile_state->unk_25);
 
-            tracked_entity = ((s32)dungeonStatus.unk_10);
+            tracked_entity = ((s32)g_dungeon_status.unk_10);
             if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-                dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+                g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
             }
-            action->unk_8C = func_80170E5C;
+            action->unk_8C = update_actor_behavior_facing_and_animation_2;
             return;
         }
 

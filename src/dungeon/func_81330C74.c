@@ -10,7 +10,7 @@
 
 typedef struct S_80167C74_0_pre {
     u16 unk_00;
-} S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateTargetedRibbonTrail, addressed as arg0[-1] */
+} S_80167C74_0_pre;   /* the 0x2 bytes before arg0 in update_targeted_ribbon_trail, addressed as arg0[-1] */
 
 
 typedef struct S_80167C74_1 {
@@ -78,7 +78,7 @@ typedef struct S_80167C74_11 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x2]; u8 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_80167C74_11;   /* arg2 in dungeonUpdateTargetedRibbonTrail */
+} S_80167C74_11;   /* arg2 in update_targeted_ribbon_trail */
 
 typedef struct S_80167C74_12 {
     s16 unk_00;
@@ -141,9 +141,9 @@ typedef struct {
 void func_8003DB94();
 void func_800419EC();
 s32 func_8004491C();
-s32 func_800A56E0();
-void dungeonCreateJitteredChildEffect();
-void dungeonCreateRibbonHeadSprite();
+s32 play_sound_if_enabled();
+void create_jittered_child_effect();
+void create_ribbon_head_sprite();
 extern u8 D_800DEAE0[];
 extern void D_80166D14();
 extern u8 D_80167C30[];
@@ -155,7 +155,7 @@ static __inline__ s16 clamp_narrow(s32 value)
 }
 
 /* Update trail motion, emit interpolated particles, and build fading trail segments. */
-void dungeonUpdateTargetedRibbonTrail(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
+void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
     u8 *motion_table;
     u8 *table_join;
     u8 *clamp_base;
@@ -277,11 +277,11 @@ void dungeonUpdateTargetedRibbonTrail(void *effect_data, Rec_func_80167A98_arg1 
         phase_tick = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E + 1;
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
-            dungeonCreateRibbonHeadSprite(effect_data, origin, color);
+            create_ribbon_head_sprite(effect_data, origin, color);
             D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
             D_800814A8->unk_6A = (s16) (((u16)D_800814A8->facing) + 0x800);
             func_800419EC(6, 0xC, ((EntityRec *)D_800814A8));
-            func_800A56E0(0x601);
+            play_sound_if_enabled(0x601);
         }
         if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {
             ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = 0;
@@ -411,7 +411,7 @@ copy_pairs:
             interp_z0 = ((S_80167C74_10 *)interp_row)->unk_1C;
             interp_x0 = ((S_80167C74_10 *)interp_row)->unk_18;
             interp_z1 = ((S_80167C74_10 *)interp_row)->unk_22;
-            dungeonCreateJitteredChildEffect(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x),
+            create_jittered_child_effect(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x),
                 (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
             sum_z += delta_z;
             sum_y += delta_y;
@@ -502,6 +502,6 @@ copy_object_axes:
     ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_80167C74_0_pre *)effect_data)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

@@ -16,7 +16,7 @@ extern u16 D_80024500[8];
 extern u8 D_800F8E9C[16];
 
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
-void townUpdateMinigameChildPositions(void *state)
+void update_minigame_child_positions(void *state)
 {
     void *child_obj;
     u8 *child_state;

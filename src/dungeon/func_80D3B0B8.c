@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d5b0b8.h"
 
-void createOwnerLinkedDirectionalObject(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
+void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;
     u8 *object_data;
     u8 *sprite;
@@ -23,7 +23,7 @@ void createOwnerLinkedDirectionalObject(u8 *owner_data, u8 *source_position, u8 
         direction_table = D_800E23F0;
         ((S_80D3B0B8_3 *)sprite)->unk_2C = direction_table;
         func_80047784(sprite,
-            direction_table[((gameWork.view.viewAngle +
+            direction_table[((g_game_work.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
         position = ((S_80D3B0B8_1 *)object)->unk_08;
@@ -43,9 +43,9 @@ void createOwnerLinkedDirectionalObject(u8 *owner_data, u8 *source_position, u8 
             ((S_80D3B0B8_3 *)sprite)->unk_1E = sprite_field_1e;
         }
         ((S_80D3B0B8_3 *)sprite)->unk_06 =
-            D_800DCECC[((gameWork.view.viewAngle +
+            D_800DCECC[((g_game_work.view.viewAngle +
                 ((S_80D3B0B8_2 *)owner_data)->unk_2A.u + 0x100) >> 9) & 7] * 4;
         ((S_80D3B0B8_2 *)owner_data)->unk_B0++;
-        dungeonCreateTrackedEffect(object, 0, sprite + 0x2C, object_data + 0x2A);
+        create_tracked_effect(object, 0, sprite + 0x2C, object_data + 0x2A);
     }
 }

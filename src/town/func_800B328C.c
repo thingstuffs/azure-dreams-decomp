@@ -31,7 +31,7 @@ extern s32 D_80080B54;
 extern s32 D_800D15EC[];
 
 /* Set a color slot's layer and end colors from the indexed flags and object palette. */
-void townSetShopSlotColors(TownObject *object, s32 index)
+void set_shop_slot_colors(TownObject *object, s32 index)
 {
     s32 slot = index % 5;
     u8 flags = object->flag_words[index].flags;

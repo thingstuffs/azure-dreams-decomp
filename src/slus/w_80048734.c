@@ -3,7 +3,7 @@
 #include "common.h"
 
 /* Expands six-bit values into runs of one to four bytes until the 1, 1 terminator. */
-void textureHandleExpandsSixBitValuesRunsOneFourBytesUntilN1(u8 *source, u8 *output)
+void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output)
 {
     u32 encoded_byte;
     s32 run_limit;

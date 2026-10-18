@@ -28,22 +28,22 @@ typedef struct {
 
 
 extern s32 func_800644B8(s32 angle);
-extern s32 func_8009A028(void *node);
-extern s32 func_800A2C78(void *unused);
-extern s32 func_800A32A4(void *record);
+extern s32 unlink_entity_node(void *node);
+extern s32 has_pending_action_or_turn_count(void *unused);
+extern s32 detach_record_and_update_slot_state(void *record);
 
 /* Animate a staged shrinking and fading effect, then release its object. */
-void func_800CB170(State *state, Position *position, Motion *motion, void *object) {
+void advance_pulsing_effect_animation(State *state, Position *position, Motion *motion, void *object) {
     u16 counter;
     u8 shade;
     s32 one = 1;
 
     switch (state->state_9b) {
     case 0:
-        if ((func_800A2C78(object) << 16) != 0) {
+        if ((has_pending_action_or_turn_count(object) << 16) != 0) {
             return;
         }
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
+        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
         state->state_9b = state->state_9b + 1;
@@ -72,11 +72,11 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *objec
         motion->pad_0d = shade;
         motion->pad_0c = shade;
         if ((s16)motion->value_1c <= 0) {
-            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-            func_800A32A4(object);
-            func_8009A028(object);
+            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
+            detach_record_and_update_slot_state(object);
+            unlink_entity_node(object);
             ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
         return;
     }

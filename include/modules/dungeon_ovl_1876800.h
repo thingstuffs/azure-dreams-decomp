@@ -36,6 +36,6 @@ typedef struct SpriteEntry {
 } SpriteEntry;
 
 
-void dungeonAdvanceMotionAndFadeSprite(EffectRecord *, EffectMotion *, SpriteEntry *);
-s32 dungeonProjectLinkedShapeQuads(void *);
+void advance_motion_and_fade_sprite(EffectRecord *, EffectMotion *, SpriteEntry *);
+s32 project_linked_shape_quads(void *);
 #endif

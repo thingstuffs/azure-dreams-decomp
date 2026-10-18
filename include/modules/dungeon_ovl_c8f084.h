@@ -41,5 +41,5 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-s32 func_8016A884(u8 *object_data, u16 *point_data);
+s32 queue_projected_point_primitives_2(u8 *object_data, u16 *point_data);
 #endif

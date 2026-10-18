@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 townMaxAdjustedXQueryAtLeastZero(s32 *values, void *ptr, s32 value);
+extern s16 max_adjusted_x_query_at_least_zero(s32 *values, void *ptr, s32 value);
 extern s32 D_800CFD78;
 
 typedef struct {
@@ -11,11 +11,11 @@ typedef struct {
 } StackRecord;
 
 /* Evaluate a position after subtracting its stored offset from the first component. */
-s16 func_8008F41C(void *position) {
+s16 query_position_with_first_component_offset(void *position) {
     StackRecord record;
 
     record.x = *(s32 *)position - *(s32 *)((u8 *)position + 0xC);
     record.y = *(s32 *)((u8 *)position + 4);
     record.z = *(s32 *)((u8 *)position + 8);
-    return townMaxAdjustedXQueryAtLeastZero(&record.x, &D_800CFD78, 2);
+    return max_adjusted_x_query_at_least_zero(&record.x, &D_800CFD78, 2);
 }

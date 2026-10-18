@@ -73,7 +73,7 @@ typedef struct S_8001C8C8_12 {
 
 
 void func_80403698();                      /* extern */
-void func_80403738();       /* extern */
+void initialize_values();       /* extern */
 void func_804037F4(void *);                            /* extern */
 M2C_UNK func_80403868();    /* extern */
 
@@ -120,5 +120,5 @@ void func_8001C8C8(void *panel) {
         ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(row_cursor->unk_1E0))->unk_04))->unk_0A = row_y;
         row_y += 0x10;
     }
-    func_80403738(panel, row_y, lower_y, row);
+    initialize_values(panel, row_y, lower_y, row);
 }

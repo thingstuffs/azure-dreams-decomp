@@ -70,6 +70,8 @@ def main():
     ap.add_argument("--holds-log", type=Path, help="write the explicitly held reference sites as JSON")
     ap.add_argument("--proof-log", type=Path, help="with --batch, write every per-row result as JSONL")
     ap.add_argument("--identity-map", type=Path, help="JSON new name (or proposal symbol) -> {row, symbol}; validate an explicit current C definition when row metadata is stale")
+    ap.add_argument("--rename-existing", action="store_true", help="with --batch, accept a new name for an already-named symbol (renames the names.tsv row and rewrites every reference to the old spelling)")
+    ap.add_argument("--bad-report", type=Path, help="with --batch, do not revert on non-exact rows: write them to this JSON for comparison against the base")
     ap.add_argument("tsv"); ap.add_argument("--limit", type=int); ap.add_argument("--only")
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--data", action="store_true", help="accept D_<addr> data aliases without a defining function row")

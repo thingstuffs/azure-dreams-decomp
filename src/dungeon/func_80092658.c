@@ -23,11 +23,11 @@ typedef struct {
 extern u8 D_80096384[];
 extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
-extern s32 func_800A5C70(void);
+extern void process_unflagged_linked_entries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
+extern s32 check_action_available_without_nearby_actor(void);
 
-void dungeonUpdateTimedActorAction(Object *object, s32 unused1, s32 unused2, Resource *resource) {
+void update_timed_actor_action(Object *object, s32 unused1, s32 unused2, Resource *resource) {
     s32 state;
         /* MATCH: Keep the guard result in v0 across argument setup. */
     s32 guard;
@@ -39,7 +39,7 @@ void dungeonUpdateTimedActorAction(Object *object, s32 unused1, s32 unused2, Res
     Resource *callResource;
 
     state = object->state;
-    work = &gameWork;
+    work = &g_game_work;
     switch (state) {
     case 0:
         object->callback = &D_80097C78;
@@ -47,35 +47,35 @@ void dungeonUpdateTimedActorAction(Object *object, s32 unused1, s32 unused2, Res
         break;
     case 1:
                 /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-        if ((dungeonStatus.flags & 4) == 0 && (object->flags & 0x10) != 0) {
+        if ((g_dungeon_status.flags & 4) == 0 && (object->flags & 0x10) != 0) {
             guard = work->buttons & 0x20;
             callResource = resource;
             if (guard != 0) {
-                guard = func_800A5C70();
+                guard = check_action_available_without_nearby_actor();
                 callResource = resource;
                 if (guard != 0) {
-                    status = &dungeonStatus;
+                    status = &g_dungeon_status;
                     status->flags |= 0x80;
                 }
             }
             if ((func_80042900(callResource, 1) << 16) == 0) {
                 object->callback = 0;
-                dungeonStatus.unk_0A += 1;
+                g_dungeon_status.unk_0A += 1;
                 object->state += 1;
             } else {
-                dungeonProcessUnflaggedLinkedEntriesAlt(resource->value);
-                dungeonProcessUnflaggedLinkedEntries(resource->value);
-                dungeonStatus.flags |= 0x812;
+                process_unflagged_linked_entries_alt(resource->value);
+                process_unflagged_linked_entries(resource->value);
+                g_dungeon_status.flags |= 0x812;
             }
         }
         break;
     case 2:
         resource->flags &= ~0x200;
-        dungeonProcessUnflaggedLinkedEntriesAlt(resource->value);
-        dungeonProcessUnflaggedLinkedEntries(resource->value);
-        dungeonStatus.flags |= 0x812;
+        process_unflagged_linked_entries_alt(resource->value);
+        process_unflagged_linked_entries(resource->value);
+        g_dungeon_status.flags |= 0x812;
         object->callback = D_80096384;
-        dungeonStatus.unk_0A -= 1;
+        g_dungeon_status.unk_0A -= 1;
         break;
     }
     object->counter += 1;

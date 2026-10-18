@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Process each zero-terminated value list in the null-terminated entry array. */
-void townProcessZeroTerminatedEntryLists(void **entries) {
+void process_zero_terminated_entry_lists(void **entries) {
     s32 *value_ptr;
     s32 value;
     void **entry_ptr;
@@ -14,7 +14,7 @@ void townProcessZeroTerminatedEntryLists(void **entries) {
                 do {
                     value = *value_ptr;
                     value_ptr += 1;
-                    townClearRecord20StatusBytes(value);
+                    clear_record_20_status_bytes(value);
                 } while (*value_ptr != 0);
             }
             entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));

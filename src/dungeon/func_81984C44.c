@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *func_80026444(void *source_entity)
+void *find_eligible_nearby_entity(void *source_entity)
 {
     void *node;
     s16 owner_limit;
@@ -19,8 +19,8 @@ void *func_80026444(void *source_entity)
     if (node != D_800814A8) {
         do {
             void *next_link;
-            if (((func_800A2CB8(D_800814A8, node) << 16) != 0) &&
-                ((dungeonCheckEntityEligibility(node) << 16) != 0) &&
+            if (((check_entity_interaction_compatibility(D_800814A8, node) << 16) != 0) &&
+                ((check_entity_eligibility(node) << 16) != 0) &&
                 !(((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {
                 entity_floor = ((ovl_19a332c_81984C44_S_81984C44_1 *)source_entity)->unk_26;
                 owner = ((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_00;
@@ -30,7 +30,7 @@ void *func_80026444(void *source_entity)
                     }
                 } else {
                     owner_limit = initial_limit;
-                    if (dungeonGetTileChebyshevDistance(owner, source_entity) < owner_limit) {
+                    if (get_tile_chebyshev_distance(owner, source_entity) < owner_limit) {
                         return node;
                     }
                 }

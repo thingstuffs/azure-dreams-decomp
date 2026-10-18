@@ -14,7 +14,7 @@ typedef struct S_800CA444_0 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
-} S_800CA444_0;   /* arg2 in func_800CA444 */
+} S_800CA444_0;   /* arg2 in update_actor_targeting_for_tile */
 
 typedef struct S_800CA444_1 {
     u8 pad_00[0x2A];
@@ -27,14 +27,14 @@ typedef struct S_800CA444_1 {
     u8 unk_71;
     u8 pad_72[0x16];
     u16 unk_88;
-} S_800CA444_1;   /* arg3 in func_800CA444 */
+} S_800CA444_1;   /* arg3 in update_actor_targeting_for_tile */
 
 typedef struct S_800CA444_2 {
     u8 pad_00[0x98];
     u16 unk_98;
     u8 pad_9A[0x2];
     s8 unk_9C;
-} S_800CA444_2;   /* arg0 in func_800CA444 */
+} S_800CA444_2;   /* arg0 in update_actor_targeting_for_tile */
 
 typedef struct S_800CA444_3 {
     s16 unk_00;
@@ -43,14 +43,14 @@ typedef struct S_800CA444_3 {
 typedef struct S_800CA444_4 {
     u8 pad_00[0x58];
     s32 unk_58;
-} S_800CA444_4;   /* *D_800814A8 in func_800CA444 */
+} S_800CA444_4;   /* *D_800814A8 in update_actor_targeting_for_tile */
 
 typedef struct S_800CA444_5 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_800CA444_5;   /* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in func_800CA444 */
+} S_800CA444_5;   /* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in update_actor_targeting_for_tile */
 
 
 typedef struct {
@@ -60,15 +60,15 @@ typedef struct {
 } DungeonTableEntry;
 
 extern s16 D_8006CD00[];
-s32 dungeonRebuildMonsterReachableTiles();
-s32 dungeonUpdateActorProximityFlag();
-void func_800A9A0C();
-s32 dungeonCheckEntityRelation();
-s16 func_800BCB04();
-s32 func_800CA1E0();
+s32 rebuild_monster_reachable_tiles();
+s32 update_actor_proximity_flag();
+void update_actor_status_and_food();
+s32 check_entity_relation();
+s16 sample_terrain_surface_height();
+s32 get_adjacent_tile_for_action();
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
-void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
+void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
     s16 next_heading;
     s16 height;
     s16 scan_result;
@@ -79,19 +79,19 @@ void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
     s32 direction_index;
     s8 tile_type;
 
-    if (dungeonStatus.flags & 0x4000) {
-        func_800A9A0C(actor);
+    if (g_dungeon_status.flags & 0x4000) {
+        update_actor_status_and_food(actor);
         return;
     }
-    if (!(dungeonStatus.flags & 0x2000)) {
+    if (!(g_dungeon_status.flags & 0x2000)) {
         return;
     }
-    dungeonUpdateActorProximityFlag(tile, actor, 3, 6, motion + 0x9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (D_800E2970[tile_type].flags & 2)) {
-        dungeonRebuildMonsterReachableTiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
-        dungeonRebuildMonsterReachableTiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     }
     scan_result = 0;
     heading_offsets = D_8006CD00;
@@ -105,18 +105,18 @@ void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
             heading_offset = heading_offsets[scan_result];
             next_heading = heading + heading_offset;
         }
-        if ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0) {
+        if ((get_adjacent_tile_for_action(next_heading, tile, actor, 0x20) << 0x10) > 0) {
             ((S_800CA444_1 *)actor)->unk_2A = next_heading;
             ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = tile->unk_24.at00.v;
             ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = tile->unk_24.at01.v;
             ((S_800CA444_1 *)actor)->unk_71++;
             direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
-            tile->unk_24.at00.v += dirStepX[direction_index];
-            tile->unk_24.at01.v += dirStepY[direction_index];
+            tile->unk_24.at00.v += dir_step_x[direction_index];
+            tile->unk_24.at01.v += dir_step_y[direction_index];
             break;
         }
         if (scan_result == 0 && *(u16 *)(&map_state->tileX) != tile->unk_24.at00u.v) {
-            if ((dungeonCheckEntityRelation(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+            if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
         }
@@ -125,18 +125,18 @@ void func_800CA444(void *motion, s32 unused, S_800CA444_0 *tile, void *actor) {
     if (scan_result >= 8) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
-        func_800A9A0C(actor);
+        update_actor_status_and_food(actor);
         return;
     }
     ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
     ((S_800CA444_2 *)motion)->unk_9C = (s8) (u8) tile->unk_26;
     ((S_800CA444_1 *)actor)->unk_6D.u = (u8) (((S_800CA444_1 *)actor)->unk_6D.u - 1);
-    dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
+    g_dungeon_status.unk_08 = (u16) (((u16)g_dungeon_status.unk_08) + 1);
     if (((S_800CA444_1 *)actor)->unk_6D.s == 0) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         return;
     }
-    scan_result = func_800BCB04((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
+    scan_result = sample_terrain_surface_height((tile->unk_24.at00.v << 6) | 0x20, (tile->unk_24.at01.v << 6) | 0x20,
         (s16) (((S_800CA444_1 *)actor)->unk_88 - 0x20));
     height = scan_result;
     if (height < 0x200) {

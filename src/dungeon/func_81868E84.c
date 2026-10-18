@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void createCoordinateSpriteObject(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
+void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
     u32 owner_value;
     u16 x;
     u16 y;
@@ -11,7 +11,7 @@ void createCoordinateSpriteObject(void *owner, ovl_188898c_81868E84_S_81868E84_3
 
     object = func_8003FC64(0x212);
     if (object != 0) {
-        ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_10 = (void *)func_80024384;
+        ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_10 = (void *)animate_spiral_grayscale_effect;
         state = object + 0x20;
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_20 = 0;
         state->unk_02 = 0;

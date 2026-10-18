@@ -23,12 +23,12 @@ typedef struct {
     s16 pad_A;
 } TownPosition;
 
-extern s32 testResidentBitmapBit(s32);
+extern s32 test_resident_bitmap_bit(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
 extern u8 D_800C21F8[];
 
 /* Applies an eligible nearby object's effects and updates its callback. */
-s32 townApplyNearbyObjectEffects(TownObject *object) {
+s32 apply_nearby_object_effects(TownObject *object) {
     TownPosition *position;
     s32 coord_value_3;
     s32 offset_x;
@@ -42,7 +42,7 @@ s32 townApplyNearbyObjectEffects(TownObject *object) {
     distance_x = abs(offset_x);
     distance_z = abs(object->z - position->z);
     check_id = object->check_id;
-    if (testResidentBitmapBit(check_id) != 0) {
+    if (test_resident_bitmap_bit(check_id) != 0) {
         if (object->range_x >= distance_x) {
             coord_value_3 = distance_z;
             if (object->range_z >= coord_value_3) {

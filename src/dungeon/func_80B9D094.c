@@ -41,9 +41,9 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
             } else {
                 if ((s16)(flags & -4) == 0) {
                     if ((*(u32 *)(result + 20) & 0x200) == 0) {
-                        if ((func_800A6D30() & 1) != 0) {
-                            func_800A48F0(result, 1,
-                                          (func_800A6D30() & 0x3F) | 0x20);
+                        if ((generate_random_value() & 1) != 0) {
+                            set_or_clear_actor_status_slot(result, 1,
+                                          (generate_random_value() & 0x3F) | 0x20);
                             *(void (**)(void))(part_b + 44) = func_8016EF00;
                         }
                     }
@@ -56,11 +56,11 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
             }
         }
         *(void (**)(void))(allocation + 16) = func_8016AA98;
-        func_800A9C18(allocation, part_a, part_b, saved_flags);
+        initialize_actor_sprite_and_animation(allocation, part_a, part_b, saved_flags);
 
         secondary[154] = 0xFF;
         ((signed char *)secondary)[156] = -1;
-        func_800AA36C(secondary, part_a, part_b, result);
+        try_move_actor_to_valid_position(secondary, part_a, part_b, result);
     }
     return result;
 }

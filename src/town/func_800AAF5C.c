@@ -9,24 +9,24 @@ typedef struct S_800A86BC_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800A86BC_0;   /* arg1 in townUpdateFadingEffectMotion */
+} S_800A86BC_0;   /* arg1 in update_fading_effect_motion */
 
 typedef struct S_800A86BC_1_pre {
     u16 unk_00;
-} S_800A86BC_1_pre;   /* the 0x2 bytes before arg0 in townUpdateFadingEffectMotion, addressed as arg0[-1] */
+} S_800A86BC_1_pre;   /* the 0x2 bytes before arg0 in update_fading_effect_motion, addressed as arg0[-1] */
 
 typedef struct S_800A86BC_1 {
     u8 pad_00[0x2];
     u16 unk_02;
     s32 unk_04;
-} S_800A86BC_1;   /* arg0 in townUpdateFadingEffectMotion */
+} S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
 
 
 
 extern void func_800478B8();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
-void townUpdateFadingEffectMotion(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
+void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, Rec_D_80082E80 *primitive) {
     u8 shade;
     u16 ticks_left;
 
@@ -46,6 +46,6 @@ void townUpdateFadingEffectMotion(void *effect, S_800A86BC_0 *motion, Rec_D_8008
     ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_800A86BC_1_pre *)effect)[-1].unk_00 = ((S_800A86BC_1_pre *)effect)[-1].unk_00 | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

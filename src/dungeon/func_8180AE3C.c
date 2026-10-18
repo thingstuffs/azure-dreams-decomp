@@ -2,7 +2,7 @@
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
-void dungeonInitializeFadingEffect(void *effect, void *control)
+void initialize_fading_effect(void *effect, void *control)
 {
     s16 state;
     s16 dark_frames;
@@ -17,7 +17,7 @@ void dungeonInitializeFadingEffect(void *effect, void *control)
     state = S16_AT(effect, 0xE);
     switch (state) {
     case 0:
-        func_8004491C((u8 *)effect - 0x20, &dungeonQueueFourShadedQuadrants);
+        func_8004491C((u8 *)effect - 0x20, &queue_four_shaded_quadrants);
         S16_AT(effect, 0) = 0x50;
         S16_AT(effect, 4) = 0xA0;
         S16_AT(effect, 2) = 0x58;
@@ -65,7 +65,7 @@ void dungeonInitializeFadingEffect(void *effect, void *control)
             return;
         }
         U16_AT(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     default:
         return;

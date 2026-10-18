@@ -14,7 +14,7 @@ extern s32 strlen(s32);
 extern void memcpy(s32, s32, s32);
 
 /* Copies the selected text without its terminator and returns the destination end. */
-s32 dungeonCopySelectedTextWithoutTerminator(s32 text_id, s32 dest) {
+s32 copy_selected_text_without_terminator(s32 text_id, s32 dest) {
     s32 text_info;
     s32 text;
     s32 length;

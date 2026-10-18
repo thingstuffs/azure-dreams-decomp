@@ -14,7 +14,7 @@ typedef struct S_8004EEBC_Obj {
 } S_8004EEBC_Obj;
 
 /* Selects one of two embedded subobjects according to the linked state, when present. */
-void updateMenuBackdropVariant(S_8004EEBC_Obj *object)
+void update_menu_backdrop_variant(S_8004EEBC_Obj *object)
 {
     if (object->unk4 != 0) {
         if (object->unk4->unk0 != 0) {

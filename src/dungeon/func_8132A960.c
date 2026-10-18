@@ -62,7 +62,7 @@ extern M2C_UNK D_801720D0;
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Spawn and initialize an effect at a random offset from the source position. */
-void dungeonSpawnRisingTrailEmitter(void)
+void spawn_rising_trail_emitter(void)
 {
     S_80172160_3 *sprite_header;
     S_80172160_6 *sprite;

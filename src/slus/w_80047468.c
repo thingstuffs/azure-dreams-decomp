@@ -7,11 +7,11 @@ void func_80047468(S_80047468_arg0 *image, S_80047468_arg1 *source, s32 data_off
     u32 unsigned_width;
     S_80047270_hdr rect;
 
-    if (gameWork.unk_004 != D_80081526) {
+    if (g_game_work.unk_004 != D_80081526) {
         D_80081524 = 0;
         D_80081522 = 0;
         D_80081520 = 0;
-        D_80081526 = gameWork.unk_004;
+        D_80081526 = g_game_work.unk_004;
     }
     word_width = (image->unk0A + 3) / 4;
     rect.unk04 = (s16)word_width;

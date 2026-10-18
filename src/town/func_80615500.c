@@ -7,7 +7,7 @@ extern s32 D_8001925C;
 extern void func_800181C8();
 
 /* Calls func_800181C8 with the selected 24-byte entry and two forwarded values. */
-void func_80016D00(s32 firstValue, s32 unusedValue, s32 secondValue) {
+void call_24_byte_entry_two(s32 firstValue, s32 unusedValue, s32 secondValue) {
     s32 entryIndex;
     s32 twiceEntryIndex;
     s32 thriceEntryIndex;

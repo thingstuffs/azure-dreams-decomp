@@ -7,7 +7,7 @@ int func_8003D92C(void)
     int flags;
     int saved_setting;
     GameWork *input_state;
-    input_state = &gameWork;
+    input_state = &g_game_work;
     if (D_80082E60.flags0F & 0x80) {
         return 0;
     }
@@ -47,7 +47,7 @@ int func_8003D92C(void)
     if ((0x78 / D_80080A84) < D_80080ABC) {
         D_80080ABE = 0;
         D_80080ABC = 0;
-        drainCdCommandQueue();
+        drain_cd_command_queue();
         while (func_80053EF0(4) == 0x100) {
             func_8003E758();
             func_80044618(2);
@@ -59,7 +59,7 @@ int func_8003D92C(void)
             func_80044618(2);
         }
 
-        drainCdCommandQueue();
+        drain_cd_command_queue();
         func_80040AA0(3);
         {
             saved_setting = D_80080A94;
@@ -68,12 +68,12 @@ int func_8003D92C(void)
             D_80080A88 = 0;
             D_80080AA0 = 0;
             D_80082E60.field_0 = flags & ~2;
-            soundSetCdPlaybackVolumeScale(saved_setting);
+            sound_set_cd_playback_volume_scale(saved_setting);
         }
-        soundSetSequenceVolumeScale(D_80080A98);
-        soundSetVoiceGainScale(D_80080A9C);
+        sound_set_sequence_volume_scale(D_80080A98);
+        sound_set_voice_gain_scale(D_80080A9C);
         SD_Call(0x7F);
-        resetGameStatePreservingSessionFields();
+        reset_game_state_preserving_session_fields();
         D_80080A84 = 2;
         return 1;
     }

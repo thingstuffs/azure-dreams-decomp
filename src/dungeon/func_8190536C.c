@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1924800.h"
 
-/* Draw-environment page reached through gameWork.unk_000: an ordering-table head at +0x8B0 and the
+/* Draw-environment page reached through g_game_work.unk_000: an ordering-table head at +0x8B0 and the
  * packet allocation cursor at +0x8D0 (partial layout; GpuContext does not cover +0x8B0). */
 
 /* Screen position: x, then y (a page-relative row). */
@@ -12,7 +12,7 @@
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
  * Keeping the page pointer live across setup and spelling the sign extension as one expression
  * reproduce the retail allocation and call-argument order. */
-void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
+void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -32,15 +32,15 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     void *call_order_table;
     s32 call_param;
 
-    draw_page = gameWork.unk_000;
+    draw_page = g_game_work.unk_000;
     pos_or_ot = screen_pos;
     clip_packet = draw_page->packetCursor;
     offset_y = (void *)draw_page != (void *)D_801C9E40;
     draw_page->packetCursor = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
-    page_ptr = &gameWork;
-    func_80067E2C(clip_packet, gameWork.unk_000);
+    page_ptr = &g_game_work;
+    func_80067E2C(clip_packet, g_game_work.unk_000);
     tag_mask = 0xFF000000U;
 
     *(u32 *)clip_packet = (*(u32 *)clip_packet & tag_mask) |
@@ -59,12 +59,12 @@ void func_80024B6C(s32 draw_data, ScreenRect *clip_rect, void *screen_pos, u16 c
     call_order_table = order_table;
     call_data = draw_data;
     draw_pos[1] = draw_y;
-    dungeonBuildTexturedSpriteStrips(call_pos, (void *)call_data, call_order_table, call_param);
+    build_textured_sprite_strips(call_pos, (void *)call_data, call_order_table, call_param);
 
     if (clear_enabled != 0) {
         FillPacket *fill_packet;
 
-        packet_page = gameWork.unk_000;
+        packet_page = g_game_work.unk_000;
         fill_packet = (FillPacket *)packet_page->packetCursor;
         packet_page->packetCursor = (u8 *)fill_packet + 0x10;
         fill_packet->command = 0x60000000;

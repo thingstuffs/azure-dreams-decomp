@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80BEDF38; every changed retail word is a paired relocation. */
-#define dungeonUpdateExpandingSpiralEffect func_80161738
+#define update_expanding_spiral_effect func_80161738
 #include "modules/dungeon_resource16_slot0.h"
 extern s32 func_800644B8(s32);
 
@@ -35,7 +35,7 @@ void func_80161738(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80
     ((R16_80173738_S_80173738_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((R16_80173738_S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 =
-            (s32) (((R16_80173738_S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+        ((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 =
+            (s32) (((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
     }
 }

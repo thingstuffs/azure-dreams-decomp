@@ -4,15 +4,15 @@
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
 extern void *func_8003AD08();
-extern void *func_80099194();
-extern void *dungeonAppendSignedValueBytes();
-extern void *dungeonCopySelectedTextWithoutTerminator();
+extern void *expand_text_control_codes();
+extern void *append_signed_value_bytes();
+extern void *copy_selected_text_without_terminator();
 extern u8 *D_800DD720;
 extern s32 D_800DD72C[];
 extern s32 D_800DD784[];
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
-u8 *dungeonAppendTypedFormattedValue(FuncData *data, u8 *buffer) {
+u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     s32 prefix_id;
     s32 suffix_id;
     s32 value;
@@ -29,15 +29,15 @@ u8 *dungeonAppendTypedFormattedValue(FuncData *data, u8 *buffer) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
-            out = func_80099194(prefix_id, out);
+            out = expand_text_control_codes(prefix_id, out);
         }
     }
-    out = dungeonCopySelectedTextWithoutTerminator(data, out);
+    out = copy_selected_text_without_terminator(data, out);
     if (!(D_800E3D7C->flags1C & 0x10)) {
         suffix_kind = data->unk1;
         suffix_id = D_800DD784[suffix_kind];
         if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
-            out = func_80099194(suffix_id, out);
+            out = expand_text_control_codes(suffix_id, out);
         }
         kind = data->unk1;
         switch (kind) {
@@ -62,7 +62,7 @@ u8 *dungeonAppendTypedFormattedValue(FuncData *data, u8 *buffer) {
             if (!(data->unk3 & 0x80)) {
                 value = data->unk2;
                 if (value != 0) {
-                    out = dungeonAppendSignedValueBytes(value, out);
+                    out = append_signed_value_bytes(value, out);
                     if (value < 0)
                         value = -value;
                     out = func_8003AD08(value, out);

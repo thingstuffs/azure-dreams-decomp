@@ -7,7 +7,7 @@ extern s32 D_80409274[];
 extern s32 D_80409278[];
 extern s32 D_8040927C[];
 
-s32 cardDevkitPollFirstSoftwareEvent(void) {
+s32 card_devkit_poll_first_software_event(void) {
     s32 result;
 
     result = 0;

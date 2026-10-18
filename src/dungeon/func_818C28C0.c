@@ -26,7 +26,7 @@ void func_818C28C0(Obj *obj)
 
     if (timer >= 0x30) {
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

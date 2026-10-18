@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* This TOWN module's copy of townCheckFlagTestRecord (src/town/func_806D2D84.c). */
+/* This TOWN module's copy of check_flag_test_record (src/town/func_806D2D84.c). */
 
 typedef struct FlagTestRecord {
     u8 pad_00[0x18];

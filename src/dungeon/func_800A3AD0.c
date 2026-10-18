@@ -2,9 +2,9 @@
 #include "common.h"
 
 extern s32 func_80033BC0(s32);
-extern s32 func_800A697C(s32, s32);
-extern s32 func_800A6D30(void);
-extern s32 randomDungeonRange16(s32, s32);
+extern s32 has_recorded_value_pair(s32, s32);
+extern s32 generate_random_value(void);
+extern s32 random_dungeon_range_16(s32, s32);
 
 extern s32 D_80012090[];
 extern s16 D_8008146C;
@@ -12,7 +12,7 @@ extern s8 D_800DCF5A;
 extern s16 D_800E3CCC;
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
-s32 func_800A9230(void *actor)
+s32 select_random_eligible_item_entry(void *actor)
 {
     s32 result;
     s32 state;
@@ -30,7 +30,7 @@ s32 func_800A9230(void *actor)
                 if (D_8008146C == 0x19) {
                     if (func_80033BC0(0x11F9) != 0) {
                         if (func_80033BC0(0x11FC) == 0) {
-                            if ((s16)func_800A697C(0xD, 2) == 0) {
+                            if ((s16)has_recorded_value_pair(0xD, 2) == 0) {
                                 *(u8 *)&result = 2;
                                 *((u8 *)&result + 1) = 0xD;
                                 *(s16 *)((u8 *)*(void **)((u8 *)actor - 0x14) + 0x12) = 0xC;
@@ -48,11 +48,11 @@ s32 func_800A9230(void *actor)
     if (*(u8 *)((u8 *)actor + 0x49) != 0) {
         return result;
     }
-    if ((func_800A6D30() & 3) != 0) {
+    if ((generate_random_value() & 3) != 0) {
         return result;
     }
 
-    index = randomDungeonRange16(1, 0x1F) & 0xFFFF;
+    index = random_dungeon_range_16(1, 0x1F) & 0xFFFF;
     base = ((u8 *)D_800E3548);
     entry = &base[index * 4];
     kind = entry[1];

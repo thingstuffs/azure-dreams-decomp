@@ -97,21 +97,21 @@ extern u8 D_80162AA4[];
 extern u8 D_80162AAC[];
 extern u8 D_8015EE94[];
 extern void *D_800E3DE8[];
-s32 resolveRecordOrientationOrFallback();
+s32 resolve_record_orientation_or_fallback();
 void *func_8003FD64(s32, void *);
 s32 func_8004491C();
 s16 func_80066460();
 s16 func_8006649C();
-void *dungeonResolveAttackDamageAndEffects();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
-s32 func_800A56E0();
+void *resolve_attack_damage_and_effects();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
+s32 play_sound_if_enabled();
 extern s32 D_800DB618;
 extern s32 D_800DB660;
 extern u8 D_80162A8C;
 extern u8 D_80162A94;
 
-void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motion, ActorSpriteView *animation, EntityRec *actor)
+void update_actor_behavior_variant(ActorActionView *action, EntityRec *motion, ActorSpriteView *animation, EntityRec *actor)
 {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
@@ -144,7 +144,7 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
         if (animation->flags & 0x8000) {
             action->phase = 5U;
             animation->flags = (u16) (animation->flags | 0x6000);
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
         facing = ((u16) actor->facing >> 9) & 7;
@@ -154,10 +154,10 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
             wrapped_facing = facing + 0xB;
         }
         direction_index = reverse_facing - (wrapped_facing & 0x18);
-        motion->unk_0C = (s32) ((s16) dirStepX[direction_index] * 0x30000);
-        motion->unk_10 = (s32) ((s16) dirStepY[direction_index] * 0x30000);
+        motion->unk_0C = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
+        motion->unk_10 = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
         animation->directionFrames = &D_80162A8C;
-        func_80047784(animation, (&D_80162A8C)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, (&D_80162A8C)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         previous_state = action->phase;
         action->phase = (u8) (previous_state + 1);
         return;
@@ -166,7 +166,7 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
             return;
         }
         animation->directionFrames = &D_80162A94;
-        func_80047784(animation, (&D_80162A94)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, (&D_80162A94)[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->motionOffset.v = 0;
         action->flags = (u16) (action->flags | 8);
         motion->flags14 = 0xFFF40000;
@@ -183,13 +183,13 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
         motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
         motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
         animation->directionFrames = D_80162AA4;
-        func_80047784(animation, D_80162AA4[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80162AA4[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->timer.unsignedTicks = 7;
         action->phase = (u8) (action->phase + 1);
         return;
     case 3:
         if (animation->frame < 3) {
-            if (resolveRecordOrientationOrFallback(animation->animationKey, animation, &action->effectX, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(animation->animationKey, animation, &action->effectX, 0) == 0) {
                 action->effectZ = 0U;
                 action->effectY = 0U;
                 action->effectX = 0U;
@@ -206,7 +206,7 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
                 effect_data->startX = (u16) action->effectX;
                 effect_data->startY = (u16) action->effectY;
                 effect_data->startZ = (u16) action->effectZ;
-                has_offset = resolveRecordOrientationOrFallback(animation->animationKey, animation, &action->effectX, 0);
+                has_offset = resolve_record_orientation_or_fallback(animation->animationKey, animation, &action->effectX, 0);
                 if (has_offset == 0) {
                     action->effectZ = 0U;
                     action->effectY = 0U;
@@ -247,14 +247,14 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
         ticks_left = action->timer.unsignedTicks - 1;
         action->timer.unsignedTicks = ticks_left;
         if ((ticks_left << 16) == 0 || (animation->flags & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
-            func_800A56E0(0x808);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
+            play_sound_if_enabled(0x808);
         }
         if (!(animation->flags & 0xE000)) {
             return;
         }
         animation->directionFrames = D_80162AAC;
-        func_80047784(animation, D_80162AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80162AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->flags = (u16) (action->flags & 0xFFF7);
         action->phase = (u8) (action->phase + 1);
         return;
@@ -263,9 +263,9 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
             return;
         }
         animation->directionFrames = D_80162AAC;
-        func_80047784(animation, D_80162AAC[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_80162AAC[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         if (animation->flags & 0x8000) {
-            dungeonSetRecordIntegerTileCenter(motion, animation->position.tile.x, animation->position.tile.y);
+            set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
         }
         previous_state = action->phase;
         action->phase = (u8) (previous_state + 1);
@@ -285,10 +285,10 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
                 axis_distance = 0 - axis_distance;
             }
             if (axis_distance >= 0x41) {
-                dungeonSetRecordIntegerTileCenter(motion, animation->position.tile.x, animation->position.tile.y);
+                set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
             }
         } else {
-            dungeonSetRecordIntegerTileCenter(motion, animation->position.tile.x, animation->position.tile.y);
+            set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
         }
         if ((s16) ((u16)motion->x.w.i) != (s16) action->effectState.startX) {
             return;
@@ -298,11 +298,11 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
         }
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, animation->position.tile.x, animation->position.tile.y);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, animation->position.tile.x, animation->position.tile.y);
+        reduce_actor_food_meter(actor, 0x100);
         action->nextAction.frames = D_8015EE94;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         } else {
@@ -315,7 +315,7 @@ void dungeonUpdateActorBehaviorVariant(ActorActionView *action, EntityRec *motio
         if (actor->flags14 & 0x20000) {
             return;
         }
-        dungeonRollActorStackSplit(actor_handle, 0x10);
+        roll_actor_stack_split(actor_handle, 0x10);
         return;
     }
 }

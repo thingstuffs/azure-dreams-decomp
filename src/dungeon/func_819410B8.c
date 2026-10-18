@@ -4,7 +4,7 @@
 extern s16 D_8002571C[5];
 
 /* Advance animation values and set completion flags when the countdown expires. */
-void dungeonAdvanceAnimationValuesSetCompletionFlagsCountdownExpires(void *countdownState, s32 unused, void *animationState)
+void advance_animation_values_set_completion_flags_countdown_expires(void *countdownState, s32 unused, void *animationState)
 {
     s32 remainingTicks;
 
@@ -21,6 +21,6 @@ void dungeonAdvanceAnimationValuesSetCompletionFlagsCountdownExpires(void *count
     if (remainingTicks <= 0) {
         *(u16 *)((u8 *)countdownState - 2) =
             (u16)(*(u16 *)((u8 *)countdownState - 2) | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

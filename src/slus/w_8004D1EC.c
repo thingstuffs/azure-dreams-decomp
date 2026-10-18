@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern void runtimeAdvanceThreeComponentInterpolation(void *);
+extern void runtime_advance_three_component_interpolation(void *);
 
 /* Initializes three-component interpolation state and its update callback. */
 void func_8004D1EC(void *state_data, u16 *target, s32 duration, u16 *values) {
@@ -24,7 +24,7 @@ void func_8004D1EC(void *state_data, u16 *target, s32 duration, u16 *values) {
         *(s16 *)((s8 *)state + 6) = target[1] - values[1];
         delta_z = target[2] - values[2];
         *(void **)((s8 *)state + 0) = values;
-        *(void (**)(void *))((s8 *)state - 4) = runtimeAdvanceThreeComponentInterpolation;
+        *(void (**)(void *))((s8 *)state - 4) = runtime_advance_three_component_interpolation;
         *(s16 *)((s8 *)state + 8) = delta_z;
     }
 }

@@ -9,6 +9,6 @@ extern s8 D_800DCF4D;
 void func_800F7B5C(void) {
     *((s8 *)D_800FBE1C + 0xD8) = 1;
     D_800DCF4D = -1;
-    dungeonStatus.unk_0A++;
+    g_dungeon_status.unk_0A++;
     D_80013714 |= 8;
 }

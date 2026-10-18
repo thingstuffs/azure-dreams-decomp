@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern u32 *D_80129728[28];
-extern void func_801237A4();
+extern void select_paired_value_tables();
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
-void func_801237E8(u8 *state)
+void swap_paired_entry_values_and_node_halfwords(u8 *state)
 {
     s32 **second_entry;
     s32 **first_entry;
@@ -36,5 +36,5 @@ void func_801237E8(u8 *state)
     *(u16 *)((u8 *)*(void **)((u8 *)D_80129728[22] + 4) + 8) = saved_half;
 
     state[0x16] ^= 1;
-    func_801237A4(state);
+    select_paired_value_tables(state);
 }

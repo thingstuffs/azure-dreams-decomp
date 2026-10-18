@@ -45,15 +45,15 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern s32 D_8015FCE8;
 extern u8 D_80162EE0[];
 
-void dungeonAdvanceActorActionVariantA(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_actor_action_variant_a(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     u8 state;
     EntityRec *call_actor;
@@ -71,7 +71,7 @@ void dungeonAdvanceActorActionVariantA(ActorActionView *action, EntityRec *motio
             action->phase = 4;
             call_sprite = sprite;
             ((ActorSpriteView *)call_sprite)->flags |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(call_actor, call_sprite, call_actor->facing, 1);
+            resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
         motion->flags14 = 0;
@@ -79,7 +79,7 @@ void dungeonAdvanceActorActionVariantA(ActorActionView *action, EntityRec *motio
         motion->unk_0C = 0;
         sprite->directionFrames = D_80162EE0;
         func_80047784(sprite,
-            D_80162EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80162EE0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->timer.unsignedTicks = 0;
         action->phase++;
@@ -101,7 +101,7 @@ void dungeonAdvanceActorActionVariantA(ActorActionView *action, EntityRec *motio
             action->timer.unsignedTicks = 0;
             action->phase++;
             sprite->flags &= 0xF7FF;
-            func_800A56E0(0x804);
+            play_sound_if_enabled(0x804);
             return;
         }
         return;
@@ -121,17 +121,17 @@ void dungeonAdvanceActorActionVariantA(ActorActionView *action, EntityRec *motio
         if (action->timer.signedTicks == 1 ||
             (sprite->flags & 0xE000)) {
             call_sprite = sprite;
-            dungeonResolveAttackDamageAndEffects(call_actor, call_sprite, call_actor->facing, 1);
+            resolve_attack_damage_and_effects(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }
         return;
 
     case 4:
         if (sprite->flags & 0xE000) {
-            dungeonReduceActorFoodMeter(actor, 0x100);
+            reduce_actor_food_meter(actor, 0x100);
             action->nextAction.word = &D_8015FCE8;
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(actor);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }
     }

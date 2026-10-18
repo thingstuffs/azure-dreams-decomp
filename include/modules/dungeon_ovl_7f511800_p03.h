@@ -48,17 +48,17 @@ typedef struct T_80173450_S_80173450_3 {
 
 
 
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
-extern void func_8009A028(void *);
-extern void func_8009A3D0(s32, s32, s32);
-extern void func_800A2FE0(void *);
-extern void func_800A32A4(void *);
-extern void func_800A56E0(s32);
-extern void dungeonAnnounceFamiliarDefeat(void *);
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern void distribute_experience_and_report_gains(void *);
+extern void detach_record_and_update_slot_state(void *);
+extern void play_sound_if_enabled(s32);
+extern void announce_familiar_defeat(void *);
 extern u8 D_80170E7C;
 extern u8 D_80174D5C;
-void updateDirectionalMotionAndRecenterActor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
-void fadeAndRemoveEntitySprite(void *action, void *unused, void *sprite, void *entity);
+void update_directional_motion_and_recenter_actor(T_8017314C_S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *actor, void *source);
+void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity);
 #endif

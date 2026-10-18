@@ -8,10 +8,10 @@ typedef struct {
     s32 unk10;
 } Unk800A5C88;
 
-extern s32 townAllocateObjectWithInitialState(s32 *, s32);
+extern s32 allocate_object_with_initial_state(s32 *, s32);
 
 // Checks up to 12 indices against adjusted input, stopping at the first zero result.
-void townCheckAdjustedInputIndices(Unk800A5C88 *input) {
+void check_adjusted_input_indices(Unk800A5C88 *input) {
     Unk800A5C88 adjustedInput;
     s32 checkIndex;
 
@@ -21,7 +21,7 @@ void townCheckAdjustedInputIndices(Unk800A5C88 *input) {
     adjustedInput.unk8 = input->unk8 - 0x240000;
 
     do {
-        if (townAllocateObjectWithInitialState(&adjustedInput.unk0, checkIndex) == 0) {
+        if (allocate_object_with_initial_state(&adjustedInput.unk0, checkIndex) == 0) {
             break;
         }
         checkIndex++;

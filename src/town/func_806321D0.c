@@ -3,4 +3,4 @@
 
 extern u8 D_800176D4[];
 extern void *D_8001778C;
-void townCheckInputsAfterThresholdFive(void) { D_8001778C = D_800176D4; }
+void check_inputs_after_threshold_five(void) { D_8001778C = D_800176D4; }

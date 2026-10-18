@@ -55,15 +55,15 @@ typedef struct S_80036B10_8 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void runtimeInitializeStateValue();
+void runtime_initialize_state_value();
 void func_800350B0();
-void *initializeRuntimeNodeStorage();
+void *initialize_runtime_node_storage();
 s32 func_8004491C();
 M2C_UNK func_8003DB94();
 extern u8 D_8006A934[];
 extern u8 D_80073DC4[];
 extern u8 D_80082BC0[];
-extern void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(void);
+extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void func_80036C44(void);
 
 /* Initializes and links a task, then sets up its source record, state, and rendering data. */
@@ -73,15 +73,15 @@ void func_80036B10(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 sta
     void *task;
     s16 *variant_table;
 
-    task = initializeRuntimeNodeStorage(0x11, task_buffer, 0x49, &D_80082BC0);
+    task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &D_80082BC0);
     ((S_80036B10_0 *)task)->unk_10 = func_80036C44;
-    func_8004491C(task, &runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
+    func_8004491C(task, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     state = task + 0x20;
     render_data = ((S_80036B10_0 *)task)->unk_0C;
     state->unk_44 = source;
     state->unk_48 = 1;
     state->unk_4A = state_value;
-    runtimeInitializeStateValue(record, *source);
+    runtime_initialize_state_value(record, *source);
     ((S_80036B10_0 *)task)->unk_20 = record;
     record->unk_60 = 6;
     ((S_80036B10_6 *)(((S_80036B10_4 *)task)->unk_20))->unk_10 = 0x10C;

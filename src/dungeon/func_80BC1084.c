@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-s32 func_80170884(u8 *point_data, u16 *position)
+s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = ((void * *)(&gameWork));
+    void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

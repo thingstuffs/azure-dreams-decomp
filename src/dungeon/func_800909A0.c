@@ -12,8 +12,8 @@ s32 func_80033BC0();
 s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
-s32 func_800A2BDC();
-void dungeonAdvanceWrappedCycleIndex();
+s32 has_pending_dungeon_activity();
+void advance_wrapped_cycle_index();
 extern u16 D_800120A0[5];
 extern s16 D_800DD26C[];
 s32 func_8004D7A8(s32 enable);
@@ -30,7 +30,7 @@ s32 func_80096100(void *actor)
     stopped = 0;
     result = 0;
     changed = 0;
-    base = &gameWork;
+    base = &g_game_work;
     if (D_800E296C & 0x40000) {
         stopped = 1;
     }
@@ -40,7 +40,7 @@ s32 func_80096100(void *actor)
             stopped = 1;
         }
         else
-            if ((func_800A2BDC(0) << 16) == 0) {
+            if ((has_pending_dungeon_activity(0) << 16) == 0) {
                 result = 1;
             }
         else {
@@ -48,7 +48,7 @@ s32 func_80096100(void *actor)
         }
     }
     if (stopped == 0) {
-        if (gameWork.view.slot[2].callback == 0) {
+        if (g_game_work.view.slot[2].callback == 0) {
             if (((*((s32 *) (((s8 *) base) + 8))) & 0x10) == 0) {
                 if ((*((s32 *) (((s8 *) base) + 8))) & 8) {
                     changed = 1;
@@ -69,7 +69,7 @@ s32 func_80096100(void *actor)
                 }
             }
             if (changed != 0) {
-                gameWork.view.slot[2].callback = 0;
+                g_game_work.view.slot[2].callback = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 1);
             }
@@ -84,7 +84,7 @@ s32 func_80096100(void *actor)
         }
         if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 2) {
-                dungeonAdvanceWrappedCycleIndex();
+                advance_wrapped_cycle_index();
             }
         }
         if (func_80033BC0(0xA2) != 0) {

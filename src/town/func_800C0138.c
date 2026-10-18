@@ -21,7 +21,7 @@ extern s32 D_800E9E14[];
 extern s32 D_800E9E34[];
 
 /* Advance motion, update every eighth tick, and flag zero horizontal velocity. */
-void townAdvanceMotionAndFlagZeroVelocity(Actor *actor, Motion *motion, s32 actor_id) {
+void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id) {
     u16 tick;
 
     func_800478B8(actor_id);
@@ -40,6 +40,6 @@ void townAdvanceMotionAndFlagZeroVelocity(Actor *actor, Motion *motion, s32 acto
     }
     if (motion->dx == 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

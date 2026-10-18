@@ -32,10 +32,10 @@ extern s32 D_800A5A98;
 extern TownState D_80100D98;
 
 extern s32 func_800352FC(void);
-extern s32 runtimeEstimateVectorLength(s32, s32);
+extern s32 runtime_estimate_vector_length(s32, s32);
 
 /* Pick the title-screen object's next handler and timing from the current scene and progress flags. */
-void townSelectTitleObjectHandler(TownObject *obj)
+void select_title_object_handler(TownObject *obj)
 {
     if ((D_80083498.field_10 == &D_800A5638) &&
         ((D_80083498.field_20 == &D_800A5A98) ||
@@ -46,7 +46,7 @@ void townSelectTitleObjectHandler(TownObject *obj)
         return;
     }
 
-    if ((runtimeEstimateVectorLength(D_80100D98.field_C,
+    if ((runtime_estimate_vector_length(D_80100D98.field_C,
                        D_80100D98.field_10) > 0xDFFFF) &&
         ((s16)D_8006ADD4 != 0xC)) {
         obj->field_4 = 0x448;

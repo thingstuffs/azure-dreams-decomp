@@ -31,7 +31,7 @@ typedef struct Bank1990800_1990d98_Scratch80024598 {
 /* Shaded point primitive (code 0x6A, 3 words). */
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 dungeonProjectScaledColoredPoint(ScaledPointRecord *record, EntityRec *position)
+s32 project_scaled_colored_point(ScaledPointRecord *record, EntityRec *position)
 {
     GpuContext **state_ptr;
     Bank1990800_1990d98_Scratch80024598 *scratch;
@@ -42,8 +42,8 @@ s32 dungeonProjectScaledColoredPoint(ScaledPointRecord *record, EntityRec *posit
     u8 blue;
     u32 depth_index;
 
-    render_state = *(GpuContext **)&gameWork;
-    state_ptr = (GpuContext **)&gameWork;
+    render_state = *(GpuContext **)&g_game_work;
+    state_ptr = (GpuContext **)&g_game_work;
     scratch = (Bank1990800_1990d98_Scratch80024598 *)0x1F800000;
     scratch->cursor = render_state->packetCursor;
     scratch->ot = (u32 *)&render_state->orderTag;

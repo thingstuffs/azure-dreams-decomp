@@ -16,7 +16,7 @@ typedef struct S_8001A51C_1 {
     s16 unk_02;
     s16 unk_04;
     s16 unk_06;
-} S_8001A51C_1;   /* arg1 in townBlitNonzeroU16Rectangle */
+} S_8001A51C_1;   /* arg1 in blit_nonzero_u16_rectangle */
 
 typedef struct S_8001A51C_2 {
     u8 pad_00[0x14];
@@ -24,7 +24,7 @@ typedef struct S_8001A51C_2 {
 } S_8001A51C_2;
 
 /* Copy nonzero 16-bit values from the source into the destination rectangle. */
-void townBlitNonzeroU16Rectangle(u16 *source, S_8001A51C_1 *rect) {
+void blit_nonzero_u16_rectangle(u16 *source, S_8001A51C_1 *rect) {
     s32 col;
     s32 row;
     s32 dst_index;

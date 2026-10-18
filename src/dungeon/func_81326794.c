@@ -34,9 +34,9 @@ typedef struct {
     void *handler;    /* 0x371C */
 } SysWork;
 
-extern void func_8009A028(void *);
-extern u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonClearActorActionMarkers(u8 *state);
+extern void unlink_entity_node(void *);
+extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void clear_actor_action_markers(u8 *state);
 
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
@@ -47,7 +47,7 @@ extern s32 *D_80174CCC;
 extern s16 D_80174CD0;
 
 /* Reset map state, update coordinate lookup values, and process both active entries. */
-void dungeonResetMapStateAndProcessEntries(void) {
+void reset_map_state_and_process_entries(void) {
     s32 coord_aux;
     s16 entry_slot;
     s32 slot_offset;
@@ -67,7 +67,7 @@ void dungeonResetMapStateAndProcessEntries(void) {
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
-    dungeonStatus.unk_0A -= 1;
+    g_dungeon_status.unk_0A -= 1;
     active_object = D_80174704;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = D_800834E2;
@@ -75,7 +75,7 @@ void dungeonResetMapStateAndProcessEntries(void) {
     map_object = ((ActiveObjectFieldView_81326794 *)active_object)->field_0C;
     D_800DCF4D = -1;
     map_data = active_object + 0x20;
-    coord_result = dungeonGetRoundedFacingAndRoundingFlag(map_object[0x24], map_object[0x25],
+    coord_result = get_rounded_facing_and_rounding_flag(map_object[0x24], map_object[0x25],
                            D_80082E80.tileX, D_80082E80.tileY, &coord_aux);
     ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
     D_80174CD0 = 0;
@@ -86,8 +86,8 @@ loop:
     entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
     if (entry != 0) {
 
-        dungeonClearActorActionMarkers(entry);
-        func_8009A028(*(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC]);
+        clear_actor_action_markers(entry);
+        unlink_entity_node(*(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC]);
         entry = *(u8 **)&(((EntryPageFieldView_81326794 *)entry_page)->field_3D7C)[slot_offset + 0xAC];
         entry -= 0x20;
         ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;

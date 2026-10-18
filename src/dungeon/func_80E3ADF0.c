@@ -6,7 +6,7 @@
 typedef struct S_801745F0_3 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_801745F0_3;   /* arg0 in dungeonCopyLinkedPositionAndCheckStatus */
+} S_801745F0_3;   /* arg0 in copy_linked_position_and_check_status */
 
 typedef struct S_801745F0_4 {
     u8 pad_00[0x2];
@@ -15,7 +15,7 @@ typedef struct S_801745F0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745F0_4;   /* ((S_801745F0_3 *)arg0)->unk_1C in dungeonCopyLinkedPositionAndCheckStatus */
+} S_801745F0_4;   /* ((S_801745F0_3 *)arg0)->unk_1C in copy_linked_position_and_check_status */
 
 
 typedef struct S_801745F0_0 {
@@ -25,18 +25,18 @@ typedef struct S_801745F0_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801745F0_0;   /* arg1 in dungeonCopyLinkedPositionAndCheckStatus */
+} S_801745F0_0;   /* arg1 in copy_linked_position_and_check_status */
 
 
 typedef struct S_801745F0_2 {
     u16 unk_00;
-} S_801745F0_2;   /* arg0 in dungeonCopyLinkedPositionAndCheckStatus; pointer addresses record offset 0x2 */
+} S_801745F0_2;   /* arg0 in copy_linked_position_and_check_status; pointer addresses record offset 0x2 */
 
 
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Copy three object fields and set object and global flags from the processed status. */
-void dungeonCopyLinkedPositionAndCheckStatus(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status) {
+void copy_linked_position_and_check_status(void *object, S_801745F0_0 *dest, Rec_D_80082E80 *status) {
     dest->unk_02 = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_02;
     dest->unk_06 = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_06;
     dest->unk_0A = (u16) ((S_801745F0_4 *)(((S_801745F0_3 *)object)->unk_1C))->unk_0A;
@@ -44,6 +44,6 @@ void dungeonCopyLinkedPositionAndCheckStatus(void *object, S_801745F0_0 *dest, R
     if (status->unk_14.at00_u16.v & 0x6000) {
         ((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00 = (u16) (((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

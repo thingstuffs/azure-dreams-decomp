@@ -212,17 +212,17 @@ typedef struct {
     u16 field1C;
     u16 field1E;
 } B31_818C8824_EffectObject;
-void func_80024024(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object);
+void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object);
 void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object);
-void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, B31_818C8A70_S_818C8A70_4 *position);
-void dungeonUpdateAnEffectThroughAttachmentMotionTimedCleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part);
+void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position);
+void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part);
 void func_8003DB94(void *, void *, s32);
 extern const B31_818C8FD0_OffsetTable D_80024004;
 extern s16 D_80024D04;
-s32 dungeonTryApplyConfusionStatus();        /* extern */
-s32 func_800A6D30();                                /* extern */
-s32 func_800A4778();           /* extern */
-s32 dungeonTryTriggerTargetRecordEffect();            /* extern */
+s32 try_apply_confusion_status();        /* extern */
+s32 generate_random_value();                                /* extern */
+s32 check_adjacent_tile_height_clearance();           /* extern */
+s32 try_trigger_target_record_effect();            /* extern */
 s32 func_80069EF8();                                /* extern */
 extern void *func_8003DF74(void *, void *, void *, s32);
 #endif

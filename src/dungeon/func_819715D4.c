@@ -63,7 +63,7 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
         object_data = (u8 *)object + 0x20;
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
         ((S_819715D4_0 *)object_data)->unk_3A = 0x14;
-        object->callback = (u8 *)func_80024AB4;
+        object->callback = (u8 *)fade_effect_color_by_quarter;
         func_8004491C(object, (s32)func_80045340);
         sprite = object->sprite;
         sprite->flags10 = 0x20;

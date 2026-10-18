@@ -45,10 +45,10 @@ typedef struct S_800B3FB8_2 {
     u16 unk_0C;
     u16 unk_0E;
     s32 unk_10;
-} S_800B3FB8_2;   /* arg1 in func_800B3FB8 */
+} S_800B3FB8_2;   /* arg1 in update_four_slot_element_values_and_positions */
 
 /* Updates the values and positions of four elements in the selected slot. */
-void func_800B3FB8(Rec_func_800B3FB8_arg0 *owner, S_800B3FB8_2 *layout, s32 slot_index) {
+void update_four_slot_element_values_and_positions(Rec_func_800B3FB8_arg0 *owner, S_800B3FB8_2 *layout, s32 slot_index) {
     s32 slot_offset;
     S_800B3FB8_0 *element;
 

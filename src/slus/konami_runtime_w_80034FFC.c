@@ -4,7 +4,7 @@
 
 extern u8 D_80082E6A[9];
 extern s16 D_8006ADE8[5];
-extern s32 runtimeIsRecordHandlerChanged(void *record);
+extern s32 runtime_is_record_handler_changed(void *record);
 
 /* Returns the check result in mode 2, otherwise whether the check or fallback status is nonzero. */
 s32 func_80034FFC(void *context) {
@@ -12,7 +12,7 @@ s32 func_80034FFC(void *context) {
 
     if (D_80082E6A[0] != 2) {
         result = 0;
-        if (runtimeIsRecordHandlerChanged(context) != 0) {
+        if (runtime_is_record_handler_changed(context) != 0) {
             result = 1;
         } else {
             s16 *fallback_status = D_8006ADE8;
@@ -23,5 +23,5 @@ s32 func_80034FFC(void *context) {
         return result;
     }
 
-    return runtimeIsRecordHandlerChanged(context);
+    return runtime_is_record_handler_changed(context);
 }

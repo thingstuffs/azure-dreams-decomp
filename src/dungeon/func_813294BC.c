@@ -11,7 +11,7 @@ typedef struct S_80170CBC_0 {
 } S_80170CBC_0;
 
 /* Clear the object's halfword field and increment its byte counter. */
-void dungeonAdvanceBossEffectCounter(void) {
+void advance_boss_effect_counter(void) {
     S_80170CBC_0 *object;
 
     object = D_80174CE0 + 0x20;

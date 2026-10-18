@@ -7,14 +7,14 @@
 
 typedef struct { u8 pad0[2]; u16 field2; s16 field4; u8 pad6[6]; } D_80083460_t;
 extern u8 D_80096384[];
-extern void dungeonBeginPlayerTrapTrigger(void *, void *, void *, void *);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
+extern void begin_player_trap_trigger(void *, void *, void *, void *);
+extern void process_unflagged_linked_entries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
 
 /* Advances timed movement toward a destination and handles completion. */
-void dungeonAdvanceTimedDestinationMotion(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_80082E80 *destination, EntityRec *actor) {
+void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_80082E80 *destination, EntityRec *actor) {
     u16 delay;
     u8 state;
     s32 vertical_speed;
@@ -37,47 +37,47 @@ void dungeonAdvanceTimedDestinationMotion(Rec_func_8008ACDC_arg0 *action, Entity
             vertical_speed = 0xFFEC0000;
         }
         motion->flags14 = vertical_speed;
-        dungeonProcessUnflaggedLinkedEntriesAlt(actor->unk_5C);
-        dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
-        dungeonStatus.flags |= 0x812;
+        process_unflagged_linked_entries_alt(actor->unk_5C);
+        process_unflagged_linked_entries(actor->unk_5C);
+        g_dungeon_status.flags |= 0x812;
         action->unk_98 &= 0xFFF3;
         action->unk_9B.as_u8++;
-        func_800A56E0(0x50A);
+        play_sound_if_enabled(0x50A);
         return;
     case 1:
     case 9:
     case 11:
-        if (dungeonStatus.unk_04 != 0) {
+        if (g_dungeon_status.unk_04 != 0) {
             s32 target_x, current_x, current_y;
             target_x = destination->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = ((target_x - current_x) << 16) / dungeonStatus.unk_04;
+            motion->unk_0C = ((target_x - current_x) << 16) / g_dungeon_status.unk_04;
             current_y = motion->y.w.i - 0x20;
-            motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / dungeonStatus.unk_04;
+            motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.unk_04;
         }
-        dungeonStatus.unk_04--;
-        if (dungeonStatus.unk_04 > 0)
+        g_dungeon_status.unk_04--;
+        if (g_dungeon_status.unk_04 > 0)
             return;
-        dungeonStatus.unk_04 = 0;
+        g_dungeon_status.unk_04 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, destination->unk_24, destination->unk_25);
+        set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
         if (action->unk_9B.as_u8 >= 10) {
-            dungeonStatus.unk_04 = 1;
+            g_dungeon_status.unk_04 = 1;
             action->unk_9B.as_u8++;
             return;
         }
         if (action->unk_100 >= 0) {
-            dungeonBeginPlayerTrapTrigger(action, motion, destination, actor);
+            begin_player_trap_trigger(action, motion, destination, actor);
             return;
         }
         action->unk_8C.as_pv = D_80096384;
         return;
     case 12:
         if (destination->unk_14.at00_u16.v & 0x6000) {
-            dungeonStatus.unk_04 = 0;
+            g_dungeon_status.unk_04 = 0;
             if (action->unk_100 >= 0) {
-                dungeonBeginPlayerTrapTrigger(action, motion, destination, actor);
+                begin_player_trap_trigger(action, motion, destination, actor);
                 return;
             }
             action->unk_8C.as_pv = D_80096384;

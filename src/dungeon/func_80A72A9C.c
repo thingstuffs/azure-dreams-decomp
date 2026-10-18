@@ -5,7 +5,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
     s32 result;
     void *entity = entity_arg;
 
-    state_type = (s16)dungeonRelinkEntityAndClearHighFlag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
+    state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
         func_801717B4(entity, primary_context_arg, secondary_context_arg, entity);
@@ -15,7 +15,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
     switch (state_type) {
     case 0:
         ((R07_8017229C_S_80172628_0 *)entity)->unk_9A = 0xE;
-        func_800A9A0C(entity);
+        update_actor_status_and_food(entity);
         result = 0;
         return result;
     case 2:
@@ -24,13 +24,13 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
         return result;
     case 1:
         ((R07_8017229C_S_80172628_0 *)entity)->unk_71 = (u8) (((R07_8017229C_S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((func_800A2BDC(entity) << 0x10) != 0) {
+        if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
             break;
         }
                                 /* fall through */
     default:
         ((R07_8017229C_S_80172628_0 *)entity)->unk_71 = (u8) (((R07_8017229C_S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((dungeonStatus.flags & 8) == 0) {
+        if ((g_dungeon_status.flags & 8) == 0) {
             result = 1;
             return result;
         }

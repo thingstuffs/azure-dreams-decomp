@@ -23,7 +23,7 @@ extern u8 D_801285FC[];
 extern u8 D_80128608[];
 
 /* Set town slots from an active object's flags, or clear them when inactive. */
-void townUpdateCatalogScrollIndicators(TownObject *object)
+void update_catalog_scroll_indicators(TownObject *object)
 {
     if (object->active != 0) {
         if (object->flags & 1) {

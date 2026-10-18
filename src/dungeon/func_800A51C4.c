@@ -12,11 +12,11 @@ typedef struct {
 extern void func_80047784(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
-s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *direction_frames)
+s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
-    if (dungeonStatus.flags & 0x2008) {
+    if (g_dungeon_status.flags & 0x2008) {
         *(s8 *)((u8 *)actor + 0x9A) = 0xE;
         return 1;
     }
@@ -32,10 +32,10 @@ s32 dungeonResetActorActionState(void *actor, s32 unused, void *sprite, u8 *dire
     if (direction_frames != 0) {
         *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
         func_80047784(sprite,
-            direction_frames[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+            direction_frames[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
-    dungeonStatus.unk_0A++;
+    g_dungeon_status.unk_0A++;
     *(s32 *)((u8 *)actor + 0x1C) &= ~0x40000;
     return 1;
 }

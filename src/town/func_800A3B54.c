@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80100B70.h"
 
-void townDrawTexturedSpriteQuad(Rec_D_80100B70 *, s32);                            /* extern */
+void draw_textured_sprite_quad(Rec_D_80100B70 *, s32);                            /* extern */
 
 
 /* Decrease the value with a floor of four, advance the cyclic counter, and update the record. */
-void townDecreaseValueAndAdvanceCounter(Rec_D_80100B70 *record, s32 value) {
+void decrease_value_and_advance_counter(Rec_D_80100B70 *record, s32 value) {
     u16 reduced_value;
 
     reduced_value = record->unk_12 - 4;
@@ -15,5 +15,5 @@ void townDecreaseValueAndAdvanceCounter(Rec_D_80100B70 *record, s32 value) {
         record->unk_12 = 4U;
     }
     record->unk_6E = (u16) ((record->unk_6E + 1) & 0x7F);
-    townDrawTexturedSpriteQuad(record, value);
+    draw_textured_sprite_quad(record, value);
 }

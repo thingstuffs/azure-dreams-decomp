@@ -31,7 +31,7 @@ extern s32 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 extern void SetDrawMode(S_80053A88_DRTPAGE *p, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Builds tile and draw-mode packets for each node and links enabled packets into the draw list. */
-s32 buildMenuLineTilePackets(S_80053A88_Node *first_node)
+s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)
 {
     GameWork *work;
     S_80053A88_Node *node;
@@ -43,7 +43,7 @@ s32 buildMenuLineTilePackets(S_80053A88_Node *first_node)
     u32 addr_mask;
     u32 tag_mask;
     node = first_node;
-    work = &gameWork;
+    work = &g_game_work;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
     do {

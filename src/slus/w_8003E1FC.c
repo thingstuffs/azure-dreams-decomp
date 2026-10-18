@@ -8,7 +8,7 @@ extern s32 D_80080AC8;
 extern u8 D_80082E6A[9];
 
 /* Select a table based on D_80082E6A[0] and pass it to Control_CD. */
-void queueModeSelectedResourceTable(void)
+void queue_mode_selected_resource_table(void)
 {
     void *table = &D_80080AC0;
 

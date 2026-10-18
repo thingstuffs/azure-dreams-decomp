@@ -11,7 +11,7 @@ typedef struct {
 } S_80053CFC;
 
 extern void Control_CD(s32 command_code, void *command_ptr, s32 value);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern s32 D_80081568;
 extern s32 D_8008156C;
 

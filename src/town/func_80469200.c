@@ -15,11 +15,11 @@ typedef struct S_8001A200_2 {
 } S_8001A200_2;
 
 
-void copyTownRecordPairFields();     /* extern */
+void copy_town_record_pair_fields();     /* extern */
 extern u8 D_8001791C[96];
 
 /* Dispatches each record to the first matching kind-table entry. */
-void townDispatchRecordsByKind(void *records, s32 *value_sets) {
+void dispatch_records_by_kind(void *records, s32 *value_sets) {
     u8 *kind_entry;
     s32 record_kind;
     s32 values_base;
@@ -49,7 +49,7 @@ next_kind:
         next_status = *(s32 *)kind_entry;
         record_kind = (*(s32 *)((u8 *)status_ptr + 0xB));
         if ((next_status == record_kind) || ((next_status == 6) && (record_kind == 0x64))) {
-            copyTownRecordPairFields(record, value_addr, kind_entry, slot_index);
+            copy_town_record_pair_fields(record, value_addr, kind_entry, slot_index);
         } else {
             value_addr += 4;
             slot_index += 1;

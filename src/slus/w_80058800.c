@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Compares n bytes at p1 and p2, returning their first difference or -1 when n is zero. */
-s32 compareByteSpan(u8 *p1, u8 *p2, s32 n) {
+s32 compare_byte_span(u8 *p1, u8 *p2, s32 n) {
     s32 result;
 
     if (n == 0) {

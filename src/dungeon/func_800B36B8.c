@@ -18,10 +18,10 @@ typedef struct Effect {
 
 
 /* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
-void func_800B8E18(Object_800B36B8 *object, s32 unused, Effect *effect) {
+void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, s32 unused, Effect *effect) {
     u16 magnitude;
     u8 level;
-    ObjectFlagBlock *state_flags = &objectFlagBlock;
+    ObjectFlagBlock *state_flags = &object_flag_block;
 
     magnitude = effect->field1E;
     magnitude = magnitude - ((magnitude * object->field2) / 24);

@@ -13,7 +13,7 @@ typedef struct S_800246AC_0 {
     u16 unk_02;
     u8 pad_04[0x4];
     s16 unk_08;
-} S_800246AC_0;   /* arg0 in dungeonAdvanceOrbitAndPosition */
+} S_800246AC_0;   /* arg0 in advance_orbit_and_position */
 
 
 typedef struct S_800246AC_2 {
@@ -21,10 +21,10 @@ typedef struct S_800246AC_2 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800246AC_2;   /* arg1 in dungeonAdvanceOrbitAndPosition */
+} S_800246AC_2;   /* arg1 in advance_orbit_and_position */
 
 /* Advance the orbit angle and update the position when the object flags allow it. */
-void dungeonAdvanceOrbitAndPosition(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec_D_80082E80 *object) {
+void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec_D_80082E80 *object) {
     s16 angle;
     s32 next_angle;
     s32 wrap_angle;

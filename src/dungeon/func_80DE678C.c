@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80173F8C(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
+void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
     func_800478B8(object);
     if (object->flags & 0x6000) {
         *(u16 *)((u8 *)state_data - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

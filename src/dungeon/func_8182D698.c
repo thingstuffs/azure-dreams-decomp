@@ -8,7 +8,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
-void dungeonAdvanceMotionDampingDownwardAccelerationCountDownFadeEffect(Object *object, Motion *motion, Effect *effect) {
+void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, Effect *effect) {
     s16 state;
     ((s32 *)object->child)[3] |= 0x8000;
     motion->x += motion->dx;
@@ -40,7 +40,7 @@ void dungeonAdvanceMotionDampingDownwardAccelerationCountDownFadeEffect(Object *
             if (fade_step >= effect->limit) {
                 *(s32 *)((u8 *)effect + 0xC) = 0;
                 *((u16 *)((u8 *)object - 2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             } else {
                 u8 fade_value = effect->value_e - fade_step;

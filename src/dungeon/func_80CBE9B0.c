@@ -18,31 +18,31 @@ typedef struct S_801721B0_0 {
     u8 pad_9C[0x2];
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     s32 unk_A0;
-} S_801721B0_0;   /* arg0 in dungeonAnimateHopToActorTile */
+} S_801721B0_0;   /* arg0 in animate_hop_to_actor_tile */
 
 
 typedef struct S_801721B0_4 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_801721B0_4;   /* global in dungeonAnimateHopToActorTile */
+} S_801721B0_4;   /* global in animate_hop_to_actor_tile */
 
 
 extern void func_80047784(void *, s16, s16);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A5DFC(void *, void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void apply_capped_damage_and_hit_effect(void *, void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170F20[];
 extern u8 D_801762D8[];
 extern u8 D_801762E0[];
 
 /* Animate a hop to the actor's tile and finish the action when its timer expires. */
-void dungeonAnimateHopToActorTile(void *action, void *motion, void *sprite, void *actor)
+void animate_hop_to_actor_tile(void *action, void *motion, void *sprite, void *actor)
 {
     s32 target_distance;
     s32 tile_origin_y;
@@ -59,7 +59,7 @@ void dungeonAnimateHopToActorTile(void *action, void *motion, void *sprite, void
             (*(void * *)((u8 *)sprite + 0x2C)) = D_801762D8;
             func_80047784(
                 sprite,
-                D_801762D8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+                D_801762D8[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                             9) &
                            7],
                 0);
@@ -110,12 +110,12 @@ void dungeonAnimateHopToActorTile(void *action, void *motion, void *sprite, void
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
                           ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
             func_80047784(
                 sprite,
-                D_801762E0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
+                D_801762E0[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
                             9) &
                            7],
                 0);
@@ -130,12 +130,12 @@ void dungeonAnimateHopToActorTile(void *action, void *motion, void *sprite, void
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_14 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
                       ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 4);
-        dungeonAdvanceStatusTimers(actor);
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
+        reduce_actor_food_meter(actor, 4);
+        advance_status_timers(actor);
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
         }
         actor_flags = ((EntityRec *)actor)->flags1C;
         if (actor_flags & 0x2000) {
@@ -147,13 +147,13 @@ void dungeonAnimateHopToActorTile(void *action, void *motion, void *sprite, void
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((EntityRec *)actor)->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                     D_80082E80.tileX, D_80082E80.tileY, &target_distance);
             }
         }
-        func_800A5DFC(actor, motion);
-        if ((dungeonCheckActorFloorTrap(sprite, actor) << 0x10) > 0) {
+        apply_capped_damage_and_hit_effect(actor, motion);
+        if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
             ((S_801721B0_0 *)action)->unk_8C = D_80170F20;
             func_800A9A04(actor);
         }

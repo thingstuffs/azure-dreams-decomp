@@ -46,17 +46,17 @@ typedef struct S_80DA7000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
-s16 func_800A48F0(); /* extern */
-s32 func_800A6D30();
-void func_800A9C18(); /* extern */
-s32 func_800AA36C(); /* extern */
+s16 set_or_clear_actor_status_slot(); /* extern */
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation(); /* extern */
+s32 try_move_actor_to_valid_position(); /* extern */
 extern M2C_UNK D_80158A3C;
 extern M2C_UNK D_80158E68;
 extern M2C_UNK D_8015B86C;
 
-void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) ;
+void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) ;
 /* Allocates an object and initializes its state and attached data from the supplied flags and values. */
-void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
+void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
     s32 global_byte;
     s32 unused_stack;
     s32 init_mode;
@@ -100,18 +100,18 @@ void *func_80158874(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
             if (((init_flags & ~3) << 0x10) == 0) {
                 if (!(state->unk_14 & 0x200)) {
                     data_arg = data_08;
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         state->unk_1C = (s32) (state->unk_1C | 0x200);
-                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }
             }
         }
-        func_800A9C18(object, data_08, data_0c, init_flags);
+        initialize_actor_sprite_and_animation(object, data_08, data_0c, init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_80158E68;
-        func_800AA36C(extended_state, data_08, data_0c, state);
+        try_move_actor_to_valid_position(extended_state, data_08, data_0c, state);
     }
     return state;
 }

@@ -16,7 +16,7 @@ typedef struct List {
 } List;
 
 /* Insert a non-null node before the global list sentinel. */
-s32 townAppendSceneListNode(Node *node) {
+s32 append_scene_list_node(Node *node) {
     Node *head;
 
     if (node != NULL) {

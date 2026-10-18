@@ -42,17 +42,17 @@ typedef struct Obj3 {
     struct Obj3 *field60;
 } Obj3;
 
-extern void dungeonReduceActorFoodMeter(Obj3 *, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
+extern void reduce_actor_food_meter(Obj3 *, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
 extern void func_80047784(Obj2 *, u8, s32);
 extern void func_80174CB0(s32);
 extern void func_80174D0C(s32);
-extern void dungeonCreateSourceAdjustedMotionObject(Obj0 *, void *, Obj2 *);
-extern void func_801762A4(s32, Obj3 *);
+extern void create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
+extern void format_entity_message(s32, Obj3 *);
 
 /* Advance the timed object state sequence and update its direction from flags. */
-void dungeonAdvanceTimedObjectAction(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
+void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
     s32 state;
     s32 old_state;
     u16 ticks_left;
@@ -79,12 +79,12 @@ void dungeonAdvanceTimedObjectAction(Obj0 *controller, void *context, Obj2 *obje
                 break;
             }
         }
-        dungeonCreateSourceAdjustedMotionObject(controller, context, object);
+        create_source_adjusted_motion_object(controller, context, object);
         actor_selector = 1;
         if ((actor->field14 & 0x4000) || (actor_selector = 0, (actor->field60->field14 & 0x4000) != 0)) {
-            func_801762A4(actor_selector, actor);
+            format_entity_message(actor_selector, actor);
         }
-        func_800A56E0(0x80D);
+        play_sound_if_enabled(0x80D);
         old_state = controller->state9b;
         delay = 0x20;
         controller->field96 = delay;
@@ -109,16 +109,16 @@ void dungeonAdvanceTimedObjectAction(Obj0 *controller, void *context, Obj2 *obje
         if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
             return;
         }
-        dungeonReduceActorFoodMeter(actor, 0x400);
-        dungeonSetRecordIntegerTileCenter(context, object->field24, object->field25);
+        reduce_actor_food_meter(actor, 0x400);
+        set_record_integer_tile_center(context, object->field24, object->field25);
         controller->field8c = D_80171094;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         actor->field46 &= 0x7FFF;
     }
 
     if (object->field14 & 0xE000) {
         object->field2c = D_80176460;
-        func_80047784(object, D_80176460[((gameWork.view.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
+        func_80047784(object, D_80176460[((g_game_work.view.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
         controller->field98 &= 0xFFF7;
     }
 

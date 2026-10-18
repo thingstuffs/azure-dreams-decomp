@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 townDispatchCode7A0ByStatus(void) {
+s32 dispatch_code_7_a_0_by_status(void) {
     s32 status;
 
     status = func_80019928();

@@ -9,12 +9,12 @@ typedef struct S_800A7774_0 {
     M2C_UNK * unk_50;
     u8 pad_54[0x3C];
     u16 unk_90;
-} S_800A7774_0;   /* arg0 in townDecrementEffectTimerAndSwitch */
+} S_800A7774_0;   /* arg0 in decrement_effect_timer_and_switch */
 
 
 M2C_UNK func_80033D08(S_800A7774_0 *);
 /* Decrement the countdown and reset it to ten while changing the handler when it expires. */
-void townDecrementEffectTimerAndSwitch(S_800A7774_0 *object, s32 value) {
+void decrement_effect_timer_and_switch(S_800A7774_0 *object, s32 value) {
     u16 remaining_ticks;
 
     remaining_ticks = object->unk_90 - 1;

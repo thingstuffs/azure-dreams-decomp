@@ -11,7 +11,7 @@ typedef struct {
 extern s32 func_800644B8(s32);
 
 /* Advance the object counters and wrapped phase according to its state. */
-void dungeonAdvanceObjectPhaseCounters(Obj *obj)
+void advance_object_phase_counters(Obj *obj)
 {
     s16 state;
     s16 phase;

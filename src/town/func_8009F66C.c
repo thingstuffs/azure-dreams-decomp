@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Scale a coordinate pair by 64 and append it to the null-terminated pointer list. */
-void **townScaleCoordinatesAndAppendPointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY,
+void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX, s32 secondY,
                      func_8009F66C_CoordPair *coords)
 {
     if (coords != NULL) {

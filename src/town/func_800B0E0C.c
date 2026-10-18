@@ -10,10 +10,10 @@ typedef struct S_800AE56C_0 {
     s32 unk_1C;
     u8 pad_20[0x18];
     s32 unk_38;
-} S_800AE56C_0;   /* arg0 in townDispatchItemMenuEntryCallback */
+} S_800AE56C_0;   /* arg0 in dispatch_item_menu_entry_callback */
 
 /* Dispatch the callback selected by the byte at the current state offset. */
-void townDispatchItemMenuEntryCallback(S_800AE56C_0 *state, M2C_UNK callback_arg) {
+void dispatch_item_menu_entry_callback(S_800AE56C_0 *state, M2C_UNK callback_arg) {
     D_800D157C[*(u8 *)(state->unk_38 +
                        state->unk_1C)](callback_arg);
 }

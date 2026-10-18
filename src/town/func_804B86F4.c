@@ -5,7 +5,7 @@
 
 
 /* Set the inner object's unk4 and unk8 fields to 1248 and 1184. */
-void townSetSceneObjectOffsetB(void) {
+void set_scene_object_offset_b(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 1248;
     ((TownPositionState *)D_80016000->unk_1C)->y = 1184;
 }

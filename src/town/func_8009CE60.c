@@ -7,12 +7,12 @@
 typedef struct GapPlayerSlot {
     u8 pad_00[0x40];
     s32 unk_40;
-} GapPlayerSlot;   /* arg0 in func_8009A5C0 */
+} GapPlayerSlot;   /* arg0 in clear_indexed_entry_and_initialize_handler_table */
 
 
-void townInitializeTargetAndHandlerTable(GapPlayerSlot *, s32);
-/* Clear the indexed table entry and call townInitializeTargetAndHandlerTable. */
-void func_8009A5C0(GapPlayerSlot *object, s32 value) {
+void initialize_target_and_handler_table(GapPlayerSlot *, s32);
+/* Clear the indexed table entry and call initialize_target_and_handler_table. */
+void clear_indexed_entry_and_initialize_handler_table(GapPlayerSlot *object, s32 value) {
     D_80082660[object->unk_40].unk_00 = 0;
-    townInitializeTargetAndHandlerTable(object, value);
+    initialize_target_and_handler_table(object, value);
 }

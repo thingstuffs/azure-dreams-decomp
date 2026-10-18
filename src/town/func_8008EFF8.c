@@ -5,11 +5,11 @@ typedef struct { s32 x; s32 y; s32 z; } Vec3i;
 typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
 typedef struct { Vec3i work; s32 unused[3]; s32 item; } WorkArea;
 
-extern s32 townDotSignWithTruncatedQ12Coefficients();
-extern s32 townForwardSurfaceQueryWithArgument();
+extern s32 dot_sign_with_truncated_q_12_coefficients();
+extern s32 forward_surface_query_with_argument();
 
 /* Selects the item with the smallest corrected probe value across the offsets. */
-s16 townSelectLowestCorrectedProbe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item,
+s16 select_lowest_corrected_probe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item,
                   u16 best_value, s32 initial_item)
 {
     WorkArea probe;
@@ -39,7 +39,7 @@ s16 townSelectLowestCorrectedProbe(Vec3i *origin, Vec4i *items, s32 count, s32 *
         trunc_bias = 0xFFFF;
         offset = items;
 loop:
-        if (townDotSignWithTruncatedQ12Coefficients(items, item_index, seed_item) >= 0) {
+        if (dot_sign_with_truncated_q_12_coefficients(items, item_index, seed_item) >= 0) {
             probe.work.x = origin->x + offset->x;
             probe.work.y = origin->y + offset->y;
             radius = abs(offset->x);
@@ -48,8 +48,8 @@ loop:
             if (radius < offset_y)
                 radius = offset_y;
             probe.work.z = origin->z - (radius * 2);
-            townForwardSurfaceQueryWithArgument(&probe.work, &probe.item, radius);
-            if (townDotSignWithTruncatedQ12Coefficients(items, item_index, probe.item) < 0) {
+            forward_surface_query_with_argument(&probe.work, &probe.item, radius);
+            if (dot_sign_with_truncated_q_12_coefficients(items, item_index, probe.item) < 0) {
                 coeffs = (s16 *)probe.item;
                 offset_x = offset->x;
                 neg_x = -offset_x;
@@ -77,7 +77,7 @@ loop:
                         probe_z += offset->z;
                         probe_z += correction << 16;
                         probe.work.z = probe_z;
-                        value = townForwardSurfaceQueryWithArgument(&probe.work, &probe.item);
+                        value = forward_surface_query_with_argument(&probe.work, &probe.item);
                     } while (0);
                 } while (0);
             } while (0);

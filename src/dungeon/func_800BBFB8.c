@@ -42,12 +42,12 @@ typedef struct {
 
 extern void func_80042B68(void *obj, s8 index);
 extern void func_80041E70(void *obj);
-extern void dungeonCapPendingActorValueDelta(void *obj);
-extern void dungeonCreateOrbitingColorParticle(s16 x, s16 y, s16 z, s16 angle,
+extern void cap_pending_actor_value_delta(void *obj);
+extern void create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle,
                           s16 height, s16 depth, s32 color, s16 offset);
 
 /* Updates a three-stage visual effect, restoring objects and fading the rendered effect. */
-void dungeonUpdateFamiliarRestorationEffect(DungeonState *state, RenderSource *render_source, u8 *effect_data) {
+void update_familiar_restoration_effect(DungeonState *state, RenderSource *render_source, u8 *effect_data) {
     s32 object_index;
     s32 step_index;
     RenderSource *source = render_source;
@@ -88,7 +88,7 @@ void dungeonUpdateFamiliarRestorationEffect(DungeonState *state, RenderSource *r
                 } while (step_index < 0x21);
                 *(s16 *)(object + 0x64) = reset_marker;
                 *(s32 *)(object + 0x1c) &= 0xfbffe107;
-                dungeonCapPendingActorValueDelta(object);
+                cap_pending_actor_value_delta(object);
                 *(s8 *)(object + 0x24) = reset_marker;
                 *(u8 *)(object + 0x25) = *(u8 *)(object + 0x66);
                 func_80041E70(object);
@@ -107,7 +107,7 @@ void dungeonUpdateFamiliarRestorationEffect(DungeonState *state, RenderSource *r
         do {
             grow_angle = state->field4e + 0x100;
             state->field4e = grow_angle;
-            dungeonCreateOrbitingColorParticle(source->x, source->y, source->z, (s16)grow_angle,
+            create_orbiting_color_particle(source->x, source->y, source->z, (s16)grow_angle,
                           state->field50, state->field58, 0x802020,
                           state->field48);
             step_index += 1;
@@ -133,7 +133,7 @@ void dungeonUpdateFamiliarRestorationEffect(DungeonState *state, RenderSource *r
         do {
             fade_angle = state->field4e + 0x100;
             state->field4e = fade_angle;
-            dungeonCreateOrbitingColorParticle(source->x, source->y, source->z, (s16)fade_angle,
+            create_orbiting_color_particle(source->x, source->y, source->z, (s16)fade_angle,
                           state->field50, state->field58, 0x802020,
                           state->field48);
             step_index += 1;
@@ -143,7 +143,7 @@ void dungeonUpdateFamiliarRestorationEffect(DungeonState *state, RenderSource *r
         if ((frames_left << 16) > 0)
             return;
         *((u16 *)state - 1) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     }

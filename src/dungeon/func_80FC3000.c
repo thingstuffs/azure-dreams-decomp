@@ -50,10 +50,10 @@ typedef struct S_8015E8A4_4 {
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
-extern void func_800A48F0(void *, s32, s32);
-extern s32 func_800A6D30();
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value();
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8015EB40[];
 extern u8 D_8015EF6C[];
 extern u8 D_80163258[];
@@ -143,18 +143,18 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         } else {
             if ((s16)((s32)flags & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
-                value = func_800A6D30();
+                value = generate_random_value();
                 if (value & 1) {
                     ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
-                    value = func_800A6D30();
-                    func_800A48F0(work, 1, (value & 0x3F) | 0x20);
+                    value = generate_random_value();
+                    set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
                     (*(Callback *)((u8 *)monster + 0x2C)) = D_80163298;
                 }
             }
         }
 
         init_arg0 = created;
-        func_800A9C18(init_arg0, position, monster, (s16)saved_flags);
+        initialize_actor_sprite_and_animation(init_arg0, position, monster, (s16)saved_flags);
         i = 0;
         value = (*(u16 *)((u8 *)monster + 0x12));
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;
@@ -186,7 +186,7 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             rect.x += 0x40;
         } while (rect.x < 0x100);
 
-        func_800AA36C(actor, position, monster, work);
+        try_move_actor_to_valid_position(actor, position, monster, work);
     }
     return work;
 }

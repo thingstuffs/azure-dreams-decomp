@@ -31,9 +31,9 @@ s32 func_80024154(PointRecord *first_point, EntityRec *first_position)
 {
     PointRecord *point = first_point;
     EntityRec *position = first_position;
-    GameWork *render_state = &gameWork;
+    GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    GpuContext *render_ctx = gameWork.unk_000;
+    GpuContext *render_ctx = g_game_work.unk_000;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Scratch80024154 *scratch =

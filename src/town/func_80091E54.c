@@ -7,7 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 /* Apply the entry adjustment, increment its slot count, and store its slot value. */
-void func_8008F5B4(s32 state_base, void *value_record, void *entry)
+void update_first_axis_slot_value(s32 state_base, void *value_record, void *entry)
 {
     int adjusted_value;
     void *slot_base;

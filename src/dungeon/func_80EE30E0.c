@@ -24,12 +24,12 @@ extern u8 D_80174F18[];
 
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
-void dungeonSpawnMovingActor(void *action_work, void *position, void *sprite, void *actor) {
+void spawn_moving_actor(void *action_work, void *position, void *sprite, void *actor) {
     Copy32 direction_vectors = D_80170808;
     s32 state;
     u16 timer;
@@ -58,13 +58,13 @@ void dungeonSpawnMovingActor(void *action_work, void *position, void *sprite, vo
         animations = D_80174F18;
         PTR_AT(sprite, 0x2C) = animations;
         func_80047784(sprite,
-            animations[((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+            animations[((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         U16_AT(action_work, 0x96) = 0x14;
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
     case 1:
         if ((S16_AT(action_work, 0x96) == 0x13) || (U16_AT(sprite, 0x14) & 0x8000)) {
             if (!(U16_AT(sprite, 0x14) & 0x8000)) {
-                func_800A56E0(0x707);
+                play_sound_if_enabled(0x707);
             }
             spawned_actor = func_8003FC64(0x12);
             if (spawned_actor != 0) {
@@ -137,21 +137,21 @@ void dungeonSpawnMovingActor(void *action_work, void *position, void *sprite, vo
         S32_AT(position, 0x14) = 0;
         S32_AT(position, 0x10) = 0;
         S32_AT(position, 0x0C) = 0;
-        dungeonSetRecordIntegerTileCenter(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
+        set_record_integer_tile_center(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
         if (PTR_AT(sprite, 0x2C) == D_80174EB8) {
             return;
         }
         PTR_AT(sprite, 0x2C) = D_80174EB8;
         U16_AT(sprite, 0x14) &= 0xF7FF;
-        direction_index = ((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
+        direction_index = ((g_game_work.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
         func_80047784(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
         return;
     case 3:
         if (S16_AT(action_work, 0xA4) != 0x4D) {
-            dungeonReduceActorFoodMeter(actor, 0x2000);
+            reduce_actor_food_meter(actor, 0x2000);
             PTR_AT(action_work, 0x8C) = &D_80171CE8;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             U16_AT(actor, 0x46) &= 0x7FFF;
         }
     }

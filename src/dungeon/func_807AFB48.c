@@ -77,6 +77,6 @@ void func_800F7348(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color
     if ((steps_left << 0x10) <= 0) {
         ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 = (u16) (((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

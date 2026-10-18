@@ -18,22 +18,22 @@ typedef struct S_80172908_1 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80172908_1;   /* arg0 in dungeonUpdateMovementAnimationSettlesActorTargetTile */
+} S_80172908_1;   /* arg0 in update_movement_animation_settles_actor_target_tile */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern Node *D_800E3DE8[];
 extern u8 D_801710F4[];
 extern u8 D_80174F30;
 
 /* Updates movement animation and settles the actor at its target tile. */
-void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *motion, void *sprite, void *actor)
+void update_movement_animation_settles_actor_target_tile(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 direction_offset;
@@ -42,22 +42,22 @@ void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *mo
     u16 frames_left;
 
     direction_offset = ((u16)((EntityRec *)actor)->facing >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     state = ((S_80172908_1 *)action)->unk_9B;
     switch (state) {
     case 0:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172908_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
             return;
         }
 
         (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174F30;
         func_80047784(sprite,
             *(&D_80174F30 +
-              (((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+              (((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172908_1 *)action)->unk_9B++;
         return;
@@ -65,7 +65,7 @@ void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *mo
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == state &&
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_800A56E0(0x808);
+            play_sound_if_enabled(0x808);
             ((S_80172908_1 *)action)->unk_90 = 0;
             ((S_80172908_1 *)action)->unk_98 |= 8;
             ((EntityRec *)motion)->flags14 = (s32)0xFFF50000;
@@ -79,7 +79,7 @@ void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *mo
         frames_left = ((S_80172908_1 *)action)->unk_96.s - 1;
         ((S_80172908_1 *)action)->unk_96.s = frames_left;
         if ((s16)frames_left == 3) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
         }
 
         ((EntityRec *)motion)->flags14 += (5 - ((S_80172908_1 *)action)->unk_96.u) << 16;
@@ -113,11 +113,11 @@ void dungeonUpdateMovementAnimationSettlesActorTargetTile(void *action, void *mo
         }
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = D_801710F4;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (((EntityRec *)actor)->unk_6D == 0) {
             ((EntityRec *)actor)->unk_46 &= 0x7FFF;
         } else {

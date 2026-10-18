@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p04.h"
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
-void updateOrbitHeightAndFadeEffect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {
+void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {
     s16 life;
     s16 angle;
     s16 next_life;
@@ -14,7 +14,7 @@ void updateOrbitHeightAndFadeEffect(void *effect, EntityRec *position, Rec_D_800
     position->z.v = (s32) (position->z.v + 0xFFF60000);
     func_800478B8(primitive);
     if ((((T_801741A0_S_801741A0_0 *)effect)->unk_1A < 0x11) && (((T_801741A0_S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
-        func_8017406C(effect, position, primitive);
+        create_tinted_sprite_effect_supplied_position(effect, position, primitive);
     }
     life = ((T_801741A0_S_801741A0_0 *)effect)->unk_1A;
     if (life < 0xA) {
@@ -26,6 +26,6 @@ void updateOrbitHeightAndFadeEffect(void *effect, EntityRec *position, Rec_D_800
     ((T_801741A0_S_801741A0_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

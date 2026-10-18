@@ -1,19 +1,19 @@
 #include "common.h"
 
-extern s32 townHasMatchingEntryResult(s32, s32);
-extern void townSetCurrentEntryScriptFlag(void);
-extern s32 townApplySelectedEntryValues(s32, s32);
-extern void townClearScriptFlagBit(s32);
+extern s32 has_matching_entry_result(s32, s32);
+extern void set_current_entry_script_flag(void);
+extern s32 apply_selected_entry_values(s32, s32);
+extern void clear_script_flag_bit(s32);
 
 /* Processes the selected context entry and applies a fallback value on failure. */
-s32 townProcessContextEntryWithFallback(s32 entryContext, s32 entryIndex)
+s32 process_context_entry_with_fallback(s32 entryContext, s32 entryIndex)
 {
-    if (townHasMatchingEntryResult(13, 1) != 0) {
-        townSetCurrentEntryScriptFlag();
+    if (has_matching_entry_result(13, 1) != 0) {
+        set_current_entry_script_flag();
     }
 
-    if (townApplySelectedEntryValues(entryContext, entryIndex) == 0) {
-        townClearScriptFlagBit(0xD7F);
+    if (apply_selected_entry_values(entryContext, entryIndex) == 0) {
+        clear_script_flag_bit(0xD7F);
         return 0;
     }
 

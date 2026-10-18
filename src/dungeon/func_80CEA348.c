@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p03.h"
 
 /* Resolves action targets, updates the actor position, and sets the follow-up state. */
-void dungeonPrepareActorPathMovement(void *action_input, s32 x_offset_input, void *position_input, void *actor_input)
+void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *position_input, void *actor_input)
 {
     void *actor = actor_input;
     s32 remaining_steps;
@@ -14,16 +14,16 @@ void dungeonPrepareActorPathMovement(void *action_input, s32 x_offset_input, voi
 
 
     ((T_80173B48_S_80173B48_0 *)actor)->unk_71 &= 0x7F;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return;
     }
 
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return;
     }
 
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, x_offset_input, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, x_offset_input, 8, 0x300);
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return;
     }
 
@@ -34,15 +34,15 @@ void dungeonPrepareActorPathMovement(void *action_input, s32 x_offset_input, voi
 
     if (((T_80173B48_S_80173B48_0 *)actor)->unk_48 == 15) {
         ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-            dungeonScanMonsterAlongHeading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
+            scan_monster_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
                           ((T_80173B48_S_80173B48_2 *)position_input)->unk_25, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 10);
         ((T_80173B48_S_80173B48_1 *)action_input)->unk_AC = 0;
         if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
             {
-                s16 travel_steps = dungeonGetTileChebyshevDistance(
+                s16 travel_steps = get_tile_chebyshev_distance(
                     ((T_80173B48_S_80173B48_3_pre *)(((T_80173B48_S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
                 ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = travel_steps;
-                dungeonPrepareDirectionalAttack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
                               ((T_80173B48_S_80173B48_0 *)actor)->unk_60);
             }
 
@@ -54,31 +54,31 @@ void dungeonPrepareActorPathMovement(void *action_input, s32 x_offset_input, voi
 loop:
                 next_x = ((T_80173B48_S_80173B48_0 *)actor)->unk_72;
                 next_y = ((T_80173B48_S_80173B48_0 *)actor)->unk_73;
-                dungeonResolveAttackDamageAndEffects(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A,
+                resolve_attack_damage_and_effects(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A,
                               ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA);
                 remaining_steps -= ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA;
                 if (remaining_steps != 0) {
                     ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = next_x;
                     ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = next_y;
                     ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-                        dungeonScanMonsterAlongHeading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
+                        scan_monster_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
                                       ((T_80173B48_S_80173B48_2 *)position_input)->unk_25,
                                       ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
                     if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
                         ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = saved_x;
                         ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = saved_y;
                         {
-                            s16 travel_steps = dungeonGetTileChebyshevDistance(
+                            s16 travel_steps = get_tile_chebyshev_distance(
                                 ((T_80173B48_S_80173B48_3_pre *)(((T_80173B48_S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
                             ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = travel_steps;
-                            dungeonPrepareDirectionalAttack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                            prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, travel_steps,
                                           ((T_80173B48_S_80173B48_0 *)actor)->unk_60);
                         }
                         if (((T_80173B48_S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
                             goto loop;
                         }
                     } else {
-                        dungeonPrepareDirectionalAttack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
+                        prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
                         ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
                     }
                 }
@@ -87,13 +87,13 @@ loop:
                 ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = saved_y;
             }
         } else {
-            dungeonPrepareDirectionalAttack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
+            prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
             ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
         }
 
         {
             u32 direction_offset = (((T_80173B48_S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
-            dungeonSetupObjectWithinPlanarRange(
+            setup_object_within_planar_range(
                 (u8 *)actor - 0x20,
                 (((T_80173B48_S_80173B48_2 *)position_input)->unk_24 << 6) +
                     ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
@@ -102,7 +102,7 @@ loop:
                 ((T_80173B48_S_80173B48_0 *)actor)->unk_88, 8, 0x300);
         }
     } else {
-        dungeonPrepareDirectionalAttack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        prepare_directional_attack(actor, position_input, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 1, 0);
         ((T_80173B48_S_80173B48_1 *)action_input)->unk_AA = 1;
     }
 

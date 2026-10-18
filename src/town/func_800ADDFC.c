@@ -15,7 +15,7 @@ typedef struct {
 extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
-void func_800AB55C(State *state) {
+void update_timed_state_transition(State *state) {
     u16 timer;
 
     if (state->value < 100) {

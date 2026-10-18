@@ -47,7 +47,7 @@ typedef struct S_func_818BD74C_4 {
 } S_func_818BD74C_4;
 
 extern void func_800247B0(void *, void *, s16);
-extern void func_800249C4(void *, void *, s16, s32);
+extern void create_colored(void *, void *, s16, s32);
 extern void func_80024D2C(void *, void *, s16, s16);
 extern s32 func_80069EF8(void);
 
@@ -133,7 +133,7 @@ void func_818BD74C(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
         random_value = (s16)func_80069EF8();
         magnitude_table = D_800DDC40;
         scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
-        func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
+        create_colored(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
         func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
         effect->unk_10.s = 0;
         effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
@@ -151,9 +151,9 @@ void func_818BD74C(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
         *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
         final_state = *(u16 *)((u8 *)effect + 0xE);
         {
-            s32 global_flags = objectFlagBlock.flags;
+            s32 global_flags = object_flag_block.flags;
             *(u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
-            objectFlagBlock.flags = global_flags | 0x8000;
+            object_flag_block.flags = global_flags | 0x8000;
         }
     }
 }

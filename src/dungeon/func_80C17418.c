@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource17_slot0.h"
 
-void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
+void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
     s32 state_index;
@@ -91,7 +91,7 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
                 s32 offset_y;
                 s32 offset_x;
 
-                ent->f60 = dungeonScanMonsterAlongHeading(
+                ent->f60 = scan_monster_along_heading(
                     ent,(u8)(actor->f24),(u8)(actor->f25),(s16)(ent->f2A), 0x10);
                 offset_x = __builtin_abs(ent->f72);
                 offset_y = __builtin_abs(ent->f73);
@@ -103,14 +103,14 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
             actor_base->f2C = (void (*)(void))((u8 *)D_801744E4);
             func_80047784(
                 actor_base,
-                ((u8 *)D_801744E4)[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_801744E4)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
-            if (!dungeonCreateActorSpellEffect(ent, item_slot, use_main_link, &state->flags98)) {
+            if (!create_actor_spell_effect(ent, item_slot, use_main_link, &state->flags98)) {
                 return;
             }
             actor->flags14 &= 0xF7FF;
-            dungeonCreateSourcePositionedObject(pos, 5);
-            func_800A56E0(0x703);
+            create_source_positioned_object(pos, 5);
+            play_sound_if_enabled(0x703);
             state->state9B++;
             state->flags98 |= 8;
             ent->flags1C &= 0xF7FFFFFF;
@@ -121,17 +121,17 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        dungeonSetRecordIntegerTileCenter(pos,(u8)(actor->f24),(u8)(actor->f25));
+        set_record_integer_tile_center(pos,(u8)(actor->f24),(u8)(actor->f25));
         {
             R17_80172C18_MainObj *main_obj;
 
             main_obj = ((R17_80172C18_MainObj *)D_800814A8);
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             main_obj->fA6--;
         }
-        dungeonAdvanceStatusTimers(ent);
+        advance_status_timers(ent);
         ent->f6D--;
-        state->f8C = (void (*)(void))((u8 *)func_801713A8);
+        state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);
         ent->f73 = 0;
         ent->f72 = 0;
         ent->f46 &= 0x7FFF;
@@ -144,7 +144,7 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
             actor->f2C = (void (*)(void))((u8 *)D_801744DC);
             func_80047784(
                 actor,
-                ((u8 *)D_801744DC)[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_801744DC)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 0);
             state->f96 = state_index;
             state->state9B++;
@@ -153,7 +153,7 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
 
 
     case 2:
-        if (getCdCommandQueueDepth()) {
+        if (get_cd_command_queue_depth()) {
             actor->flags14 |= 0x800;
             return;
         }
@@ -179,7 +179,7 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        dungeonSetRecordIntegerTileCenter(pos,(u8)(actor->f24),(u8)(actor->f25));
+        set_record_integer_tile_center(pos,(u8)(actor->f24),(u8)(actor->f25));
         state->flags98 &= 0xFFF7;
         ent->flags1C |= 0x08000000;
         ent->flags1C |= 0x00040000;
@@ -191,29 +191,29 @@ void updateEntityItemActionAndIdleReturn(R17_80172C18_State *state, R17_80172C18
             actor->f2C = (void (*)(void))((u8 *)D_80174494);
             func_80047784(
                 actor,
-                ((u8 *)D_80174494)[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                ((u8 *)D_80174494)[((g_game_work.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
                 state->fA8);
         }
         {
 
-            if (((u32)dungeonStatus.unk_0C) != 0) {
+            if (((u32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
             if (!(state->flags98 & 0x4000)) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         actor->flags14 &= 0xF7FF;
-        state->f8C = (void (*)(void))((u8 *)func_801713A8);
-        dungeonAdvanceStatusTimers(ent);
+        state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);
+        advance_status_timers(ent);
         if (ent->f6D > 0) {
             ent->f6D--;
         }
         ent->f73 = 0;
         ent->f72 = 0;
         ent->f46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
 
         return;
     default:

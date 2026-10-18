@@ -1,19 +1,19 @@
-#define func_80173E00 func_801666B8
-#define func_800A2C34 func_800A1904
+#define update_directional_sprite_state_and_signals func_801666B8
+#define has_pending_actor_or_turn_action func_800A1904
 #define D_800814A8 D_800803DC
-#define func_800A9A0C func_800A86C4
-#define dungeonBeginPushedActorMove func_800A8F10
-#define func_800AA888 func_800A9540
-#define func_800A9A04 townUpdateFadingEffectMotion
+#define update_actor_status_and_food func_800A86C4
+#define begin_pushed_actor_move func_800A8F10
+#define begin_actor_move_to_target_facing func_800A9540
+#define func_800A9A04 update_fading_effect_motion
 #define D_80174160 D_80166ECC
 #define D_80174158 D_80166EC4
-#define dungeonBeginReadyActorDirectionalAction func_800A936C
+#define begin_ready_actor_directional_action func_800A936C
 #define func_80047784 func_80047320
 #define D_801714D4 D_80164514
-#define dungeonCheckEntityRelation func_80098F70
+#define check_entity_relation func_80098F70
 /* Relink of matched dungeon/func_809782AC at file 0x9982AC; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -26,7 +26,7 @@
 extern void func_80047320(void *, s32, s32);
 extern s32 func_80098F70(void *, void *);
 extern s32 func_800A1904(void *);
-extern void townUpdateFadingEffectMotion(void *);
+extern void update_fading_effect_motion(void *);
 extern void func_800A86C4(void *);
 extern void func_800A8F10(void *, void *, void *, void *);
 extern s32 func_800A936C(void *, void *, void *, s32);
@@ -52,11 +52,11 @@ void func_80166364(void *actor, void *context, void *animation, EntityRec *entit
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         direction_anims = D_80166EC4;
         (*(void * *)((u8 *)animation + 0x2C)) = direction_anims;
         func_80047320(animation,
-            direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
         return;
@@ -69,15 +69,15 @@ void func_80166364(void *actor, void *context, void *animation, EntityRec *entit
 
             (*(void * *)((u8 *)animation + 0x2C)) = D_80166ECC;
             func_80047320(animation,
-                D_80166ECC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_80166ECC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
             ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
             return;
         }
 
-        if (dungeonStatus.flags & 0x1000) {
+        if (g_dungeon_status.flags & 0x1000) {
             return;
         }
 
@@ -122,24 +122,24 @@ void func_80166364(void *actor, void *context, void *animation, EntityRec *entit
         }
 
         func_800A86C4(entity);
-        townUpdateFadingEffectMotion(entity);
+        update_fading_effect_motion(entity);
         if (entity->tileY == 0) {
             return;
         }
 
         (*(void * *)((u8 *)animation + 0x2C)) = D_80166ECC;
         func_80047320(animation,
-            D_80166ECC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_80166ECC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
-        dungeonStatus.unk_0A++;
+        g_dungeon_status.unk_0A++;
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
     }
         break;
     case 2:
         if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             entity->flags1C &= ~8;
             ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &D_80164514;
         }

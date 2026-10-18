@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = func_8017087C;
-void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = createDirectionalTemplateEffect;
+void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = create_directional_template_effect;
 #include "../func_80B4307C.c"
 #include "../func_80B43244.c"
 #include "../func_80B43670.c"

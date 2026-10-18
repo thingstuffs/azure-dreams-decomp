@@ -28,7 +28,7 @@ typedef struct S_800D6AD4_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D6AD4_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in dungeonCreateOffsetSpriteEffect */
+} S_800D6AD4_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_offset_sprite_effect */
 
 
 
@@ -76,7 +76,7 @@ typedef struct S_800D6AD4_5 {
 } S_800D6AD4_5;
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
-void dungeonCreateOffsetSpriteEffect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
+void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
                    s32 motion_scale) {
     s32 *z_argument = &z_offset;
     s32 *motion_argument = &motion_scale;

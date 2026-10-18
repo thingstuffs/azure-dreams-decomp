@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void dungeonClearSharedStateValues(void) {
+void clear_shared_state_values(void) {
     u8 *state;
 
     ((dungeon_setup_8028403C_S_8001703C_0 *)(&D_80083CE8))->unk_00 = 0;

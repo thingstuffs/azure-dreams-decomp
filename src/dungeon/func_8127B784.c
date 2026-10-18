@@ -1,5 +1,5 @@
-#define func_800AA36C markCategoryItemsFlag400
-#define dungeonCreateAttachedSpriteWithOffset func_8016FB50
+#define try_move_actor_to_valid_position mark_category_items_flag_400
+#define create_attached_sprite_with_offset create_attached_sprite_object
 #define func_80173C30 func_80172C30
 #define func_8003FD64 func_8003F958
 #define D_8017112C D_8017012C
@@ -8,7 +8,7 @@
 #define D_80174710 D_80173710
 #define D_80173E8C D_80172E8C
 #define D_80171514 D_80170514
-#define func_800A9C18 func_800A88D0
+#define initialize_actor_sprite_and_animation func_800A88D0
 #define D_80083498 D_800871C8
 #define func_80045340 func_80044EDC
 /* Relink of matched dungeon/func_81251784 at file 0x1271784; imports and data use paired retail relocations. */
@@ -21,8 +21,8 @@
 void *func_8003F958();
 s32 func_800444B8();
 void func_800A88D0();
-s32 markCategoryItemsFlag400();
-void func_8016FB50();
+s32 mark_category_items_flag_400();
+void create_attached_sprite_object();
 M2C_UNK func_80172C30();
 extern M2C_UNK D_8017012C;
 extern M2C_UNK D_80170514;
@@ -74,7 +74,7 @@ typedef struct S_80170F84_3 {
 } S_80170F84_3;
 
 /* Create a dungeon entity and initialize its state and placement. */
-void *func_8016FF84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
+void *create_dungeon_entity_state(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
     S_80170F84_1 *entity_state = NULL;
     s16 saved_tile_x;
     s16 saved_height;
@@ -109,7 +109,7 @@ void *func_8016FF84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
         entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
         tile_state->unk_10 = 0x20;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);
-        markCategoryItemsFlag400(entity_state, world_state, tile_state, entity_state);
+        mark_category_items_flag_400(entity_state, world_state, tile_state, entity_state);
         world_state->unk_0A = (u16) ((u16)D_800875C8.z.w.i);
         world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
         world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);
@@ -118,8 +118,8 @@ void *func_8016FF84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
         tile_state->unk_1C = 0U;
         tile_state->unk_1E = 0U;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0x80);
-        func_8016FB50(entity_state, world_state, tile_state, 1);
-        func_8016FB50(entity_state, world_state, tile_state, 2);
+        create_attached_sprite_object(entity_state, world_state, tile_state, 1);
+        create_attached_sprite_object(entity_state, world_state, tile_state, 2);
         tile_state->unk_1C = saved_tile_1c;
         tile_state->unk_1E = saved_tile_1e;
         func_80172C30();

@@ -9,7 +9,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 /* Scale the linked object's value at offset 8 by 64 and add 0x220. */
-void townScaleSceneObjectValue(void)
+void scale_scene_object_value(void)
 {
     void *object_data;
     object_data = *(void **) ((s8 *) *((int *)(&D_80016000)) + 0x1C);

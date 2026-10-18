@@ -23,12 +23,12 @@ typedef struct S_80ADF3AC_0 {
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_80159728;
 extern u8 D_8015CDEC[];
@@ -59,7 +59,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE0C;
         func_80047784(
             sprite,
-            D_8015CE0C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_8015CE0C[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((S_80ADF3AC_0 *)action)->unk_98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -102,11 +102,11 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CE14;
             func_80047784(
                 sprite,
-                D_8015CE14[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                D_8015CE14[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80ADF3AC_0 *)action)->unk_9B++;
         }
@@ -118,7 +118,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015CDEC;
         func_80047784(
             sprite,
-            D_8015CDEC[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            D_8015CDEC[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
     }
     action_timer = ((S_80ADF3AC_0 *)action)->unk_96 - 1;
@@ -129,10 +129,10 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonReduceActorFoodMeter(entity, 4);
-    dungeonAdvanceStatusTimers(entity);
-    shared_state = &dungeonStatus;
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    reduce_actor_food_meter(entity, 4);
+    advance_status_timers(entity);
+    shared_state = &g_dungeon_status;
     if (shared_state->unk_08 != 0) {
         (*(u16 *)&shared_state->unk_08)--;
     }
@@ -143,7 +143,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         }
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
-            entity->facing = dungeonGetRoundedFacingAndRoundingFlag(
+            entity->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24,
                 ((Rec_D_80082E80 *)sprite)->unk_25,
                 D_80082E80.tileX,
@@ -151,7 +151,7 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
                 &target_distance);
         }
     }
-    if ((dungeonCheckActorFloorTrap(sprite, entity) << 16) > 0) {
+    if ((check_actor_floor_trap(sprite, entity) << 16) > 0) {
         ((S_80ADF3AC_0 *)action)->unk_8C = &D_80159728;
         func_800A9A04(entity);
     }

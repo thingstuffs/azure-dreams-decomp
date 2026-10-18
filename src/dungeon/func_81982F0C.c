@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *dungeonSpawnRandomMotionParticles(s16 x, s16 y, s16 z, s16 heading, s16 count)
+void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 {
     ovl_19a332c_81982F0C_Object *particle = 0;
     s16 base_angle = (s16)heading;
@@ -15,7 +15,7 @@ void *dungeonSpawnRandomMotionParticles(s16 x, s16 y, s16 z, s16 heading, s16 co
             ovl_19a332c_81982F0C_S_8002470C_1 *sprite;
             u8 *extra;
 
-            particle->callback = dungeonMoveFadeAndExpandEffect;
+            particle->callback = move_fade_and_expand_effect;
             func_8004491C(particle, func_80045340);
             motion = particle->dst;
             motion->unk_02 = (s16)x;

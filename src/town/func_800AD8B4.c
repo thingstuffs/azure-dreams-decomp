@@ -8,10 +8,10 @@ extern M2C_UNK D_80100E40;
 typedef struct S_800AB014_1 {
     u8 pad_00[0x6];
     u16 unk_06;
-} S_800AB014_1;   /* p in townCopyPersonTableValue */
+} S_800AB014_1;   /* p in copy_person_table_value */
 
 /* Copy the indexed table entry's 16-bit value into the record. */
-void townCopyPersonTableValue(Rec_func_800AB014_arg0 *record, s32 entry_index) {
+void copy_person_table_value(Rec_func_800AB014_arg0 *record, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 

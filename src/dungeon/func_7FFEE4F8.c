@@ -1,14 +1,14 @@
 #include "modules/dungeon_town_map.h"
 
-void func_8008BC58(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
+void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
 {
-    GameWork *input = &gameWork;
+    GameWork *input = &g_game_work;
     u8 *selection_ids = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_7C;
     u8 *display_record;
     s16 state;
 
     if (D_800FC418 != 0) {
-        ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_68 = (void *)func_8008BED8;
+        ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_68 = (void *)restore_town_map_input_state;
         return;
     }
 
@@ -72,7 +72,7 @@ void func_8008BC58(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void
             if (selection_index >= ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_78) {
                 ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = 0;
             }
-            func_8008B620(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
+            send_resource_command_23(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
         } else if (buttons & 0x9000) {
             selection_index_2 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 - 1;
             ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index_2;
@@ -80,7 +80,7 @@ void func_8008BC58(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void
                 selection_index_3 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_78 - 1;
                 ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 = selection_index_3;
             }
-            func_8008B620(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
+            send_resource_command_23(selection_ids[((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74]);
         }
 
         selection_index_4 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;

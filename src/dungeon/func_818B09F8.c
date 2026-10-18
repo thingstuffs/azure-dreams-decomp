@@ -1,13 +1,13 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-ovl_18d0850_818B09F8_MainObj *dungeonCreateAnInitializedRenderStateCopyVector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
+ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
     ovl_18d0850_818B09F8_SubObj *sub;
     ovl_18d0850_818B09F8_VecObj *vec;
     ovl_18d0850_818B09F8_MainObj *result;
 
     if (obj != 0) {
-        obj->callback = (void *)func_8002417C;
+        obj->callback = (void *)advance_owner_effect_counter;
         sub = obj->sub;
         obj->source_state = object_value;
         sub->b = 128;

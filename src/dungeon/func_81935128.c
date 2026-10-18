@@ -9,7 +9,7 @@ extern void func_800478B8(Render *);
 extern s32 func_80069EF8(void);
 
 /* Randomize color and mark the owner complete when the render flags request it. */
-void func_80024928(SpriteOwner **action, void *unused, Render *render) {
+void randomize_color(SpriteOwner **action, void *unused, Render *render) {
     (*action)->flags |= 0x8000;
     func_800478B8(render);
     render->r = (func_80069EF8() & 0x7F) + 0x20;

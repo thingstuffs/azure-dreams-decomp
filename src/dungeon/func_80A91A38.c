@@ -13,7 +13,7 @@ typedef struct S_80155238_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80155238_1;   /* arg0 in func_80155238 */
+} S_80155238_1;   /* arg0 in settle_entity_after_directional_motion */
 
 typedef struct S_80155238_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -22,20 +22,20 @@ typedef struct S_80155238_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80155238_2;   /* arg1 in func_80155238 */
+} S_80155238_2;   /* arg1 in settle_entity_after_directional_motion */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_80152E54;
 extern u8 D_80156150[];
 extern u8 D_80156178[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
-void func_80155238(void *action, void *motion, void *sprite, void *entity)
+void settle_entity_after_directional_motion(void *action, void *motion, void *sprite, void *entity)
 {
     s32 state;
     s32 direction;
@@ -46,16 +46,16 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
     state = ((S_80155238_1 *)action)->unk_9B;
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
-        ((S_80155238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
-        ((S_80155238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
+        apply_clamped_actor_value_delta(entity);
+        ((S_80155238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
+        ((S_80155238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         ((S_80155238_1 *)action)->unk_9B++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
             ((S_80155238_2 *)motion)->unk_14 = 0;
             ((S_80155238_2 *)motion)->unk_10 = 0;
             ((S_80155238_2 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, sprite, D_80156178);
+            begin_actor_display_action(action, motion, sprite, D_80156178);
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -75,8 +75,8 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
         ((S_80155238_2 *)motion)->unk_10 -= ((S_80155238_2 *)motion)->unk_10 / 4;
 
     case 1:
-        ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-        ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
         if (((S_80155238_1 *)action)->unk_96.s > 0) {
             ((S_80155238_1 *)action)->unk_96.s = ((S_80155238_1 *)action)->unk_96.u - 1;
@@ -91,21 +91,21 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
             ((S_80155238_2 *)motion)->unk_14 = 0;
             ((S_80155238_2 *)motion)->unk_10 = 0;
             ((S_80155238_2 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, sprite, D_80156178);
+            begin_actor_display_action(action, motion, sprite, D_80156178);
             return;
         } else {
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
             func_80047784(
                 sprite,
-                D_80156150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80155238_1 *)action)->unk_9B++;
             return;
         }
 
     case 2:
-        ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-        ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
             return;
         }
@@ -113,7 +113,7 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
         func_80047784(
             sprite,
-            D_80156150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            D_80156150[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80155238_1 *)action)->unk_96.s = 8;
         ((S_80155238_1 *)action)->unk_9B++;
@@ -146,11 +146,11 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
         ((S_80155238_2 *)motion)->unk_0C = 0;
         ((S_80155238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
         ((S_80155238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-        tracked_addr = ((s32)dungeonStatus.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.unk_10);
         if (tracked_addr == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
         ((S_80155238_1 *)action)->unk_8C = &D_80152E54;
 

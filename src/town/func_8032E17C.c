@@ -5,7 +5,7 @@ extern s32 D_8001C368;
 typedef struct { u8 pad[0x110]; s32 counter; } StepState;
 
 /* Store the step count and advance the state counter by twice that count plus one. */
-void townStoreStepCountAndAdvanceState(s32 step_count) {
+void store_step_count_and_advance_state(s32 step_count) {
     void *root;
     StepState *state;
     s32 counter;

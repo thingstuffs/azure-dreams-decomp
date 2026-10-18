@@ -39,15 +39,15 @@ extern u8 D_800DD0F0;
 
 extern s32 func_80042900(void *entry, s32 effect_id);
 extern void func_80048A44(void *obj, s32 frame_group, s32 frame_index, s32 slot_index);
-extern void dungeonProcessUnflaggedLinkedEntries(s32 firstEntryBase);
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32 firstNodeBase);
-extern void func_800A56E0(s32 query_value);
-extern s32 func_800A5C70(void);
+extern void process_unflagged_linked_entries(s32 firstEntryBase);
+extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
+extern void play_sound_if_enabled(s32 query_value);
+extern s32 check_action_available_without_nearby_actor(void);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
-void dungeonUpdatePlayerSleepAction(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
+void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
     s32 event_code;
-    GameWork *scene = &gameWork;
+    GameWork *scene = &g_game_work;
 
     (void)unused;
     switch (controller->state) {
@@ -67,23 +67,23 @@ void dungeonUpdatePlayerSleepAction(Arg0Struct *controller, void *unused, Arg2St
             if (controller->timer & 0x20) {
                 event_code = 0x50E;
             }
-            func_800A56E0(event_code);
+            play_sound_if_enabled(event_code);
         }
-        if (!(dungeonStatus.flags & 4) && (controller->flagsa2 & 0x10)) {
-            if ((scene->buttons & 0x20) && (func_800A5C70() != 0)) {
-                dungeonStatus.flags |= 0x80;
+        if (!(g_dungeon_status.flags & 4) && (controller->flagsa2 & 0x10)) {
+            if ((scene->buttons & 0x20) && (check_action_available_without_nearby_actor() != 0)) {
+                g_dungeon_status.flags |= 0x80;
             }
             if ((func_80042900(actor, 1) << 0x10) == 0) {
                 animation->table = D_800DD0F8;
-                func_80048A44(animation, D_800DD0F8[((s32)(gameWork.view.viewAngle + actor->angle + 0x100) >> 9) & 7],
+                func_80048A44(animation, D_800DD0F8[((s32)(g_game_work.view.viewAngle + actor->angle + 0x100) >> 9) & 7],
                     0, 1);
                 controller->handler = NULL;
-                dungeonStatus.unk_0A += 1;
+                g_dungeon_status.unk_0A += 1;
                 controller->state += 1;
             } else {
-                dungeonProcessUnflaggedLinkedEntriesAlt(actor->val5c);
-                dungeonProcessUnflaggedLinkedEntries(actor->val5c);
-                dungeonStatus.flags |= 0x812;
+                process_unflagged_linked_entries_alt(actor->val5c);
+                process_unflagged_linked_entries(actor->val5c);
+                g_dungeon_status.flags |= 0x812;
             }
         }
         break;
@@ -91,11 +91,11 @@ void dungeonUpdatePlayerSleepAction(Arg0Struct *controller, void *unused, Arg2St
     case 2:
         if (animation->flags14 & 0xE000) {
             actor->flags1c &= ~0x200;
-            dungeonProcessUnflaggedLinkedEntriesAlt(actor->val5c);
-            dungeonProcessUnflaggedLinkedEntries(actor->val5c);
-            dungeonStatus.flags |= 0x812;
-            controller->handler =dungeonHandlePlayerInput;
-            dungeonStatus.unk_0A -= 1;
+            process_unflagged_linked_entries_alt(actor->val5c);
+            process_unflagged_linked_entries(actor->val5c);
+            g_dungeon_status.flags |= 0x812;
+            controller->handler =handle_player_input;
+            g_dungeon_status.unk_0A -= 1;
         }
         break;
     }

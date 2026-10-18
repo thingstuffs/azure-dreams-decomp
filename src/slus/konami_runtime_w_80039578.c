@@ -12,7 +12,7 @@ typedef struct Func80039578State {
 extern void func_80038128(void *state);
 
 /* Reads a little-endian 16-bit script operand and selects the next callback. */
-void handleVmOpcode18(Func80039578State *state) {
+void handle_vm_opcode_18(Func80039578State *state) {
     u32 addr_or_high = (u32)state->read_ptr;
     u32 read_addr = addr_or_high;
     u32 low_byte = *(u8 *)addr_or_high;

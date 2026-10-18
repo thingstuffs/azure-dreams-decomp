@@ -23,7 +23,7 @@ typedef struct S_800D5294_6 {
 
 typedef struct S_800D5294_0_pre {
     u16 unk_00;
-} S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in dungeonEmitRandomizedRelativeParticles, addressed as arg0[-1] */
+} S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in emit_randomized_relative_particles, addressed as arg0[-1] */
 
 
 typedef struct S_800D5294_2 {
@@ -53,11 +53,11 @@ typedef struct S_800D5294_4 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                                /* extern */
-void dungeonInitializeEffectObjectState(); /* extern */
+void initialize_effect_object_state(); /* extern */
 extern M2C_UNK D_800D50FC[3];
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
-void dungeonEmitRandomizedRelativeParticles(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
+void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
     s32 particle_index;
     u16 tick_or_offset;
     u16 life_left;
@@ -85,7 +85,7 @@ void dungeonEmitRandomizedRelativeParticles(void *emitter, Rec_func_800D4BD4_arg
         do {
             particle = func_8003FC64(0x212);
             if (particle != NULL) {
-                dungeonInitializeEffectObjectState(particle, emitter, position, spawn_context);
+                initialize_effect_object_state(particle, emitter, position, spawn_context);
                 particle_state = particle + 0x20;
                 particle_state->unk_1E = particle_size;
                 particle_state->unk_20 = particle_size;
@@ -110,7 +110,7 @@ void dungeonEmitRandomizedRelativeParticles(void *emitter, Rec_func_800D4BD4_arg
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_800D5294_0_pre *)emitter)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)emitter)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
     }
 }

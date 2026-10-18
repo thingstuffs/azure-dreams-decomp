@@ -2,7 +2,7 @@
 
 void func_801743B4(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonUpdateSpinningActorFall(state, motion, position, actor)) {
-        state->callback = func_801713A8;
+    if (update_spinning_actor_fall(state, motion, position, actor)) {
+        state->callback = update_entity_movement_and_ground_height;
     }
 }

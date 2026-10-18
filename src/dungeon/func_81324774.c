@@ -10,7 +10,7 @@ typedef struct S_8016BF74_0 {
     u16 unk_02;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_8016BF74_0;   /* state in advanceActorPath */
+} S_8016BF74_0;   /* state in advance_actor_path */
 
 typedef struct S_8016BF74_1 {
     u8 pad_00[0x12];
@@ -30,7 +30,7 @@ typedef struct S_8016BF74_1 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x16];
     u16 unk_88;
-} S_8016BF74_1;   /* arg3 in advanceActorPath */
+} S_8016BF74_1;   /* arg3 in advance_actor_path */
 
 typedef struct S_8016BF74_2 {
     u8 pad_00[0x24];
@@ -40,7 +40,7 @@ typedef struct S_8016BF74_2 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
-} S_8016BF74_2;   /* arg2 in advanceActorPath */
+} S_8016BF74_2;   /* arg2 in advance_actor_path */
 
 typedef struct S_8016BF74_3_pre {
     void * unk_00;
@@ -60,7 +60,7 @@ typedef struct S_8016BF74_5 {
     s8 unk_9C;
     u8 pad_9D[0x15];
     u8 unk_B2;
-} S_8016BF74_5;   /* arg0 in advanceActorPath */
+} S_8016BF74_5;   /* arg0 in advance_actor_path */
 
 
 typedef struct S_8016BF74_7 {
@@ -71,31 +71,31 @@ typedef struct S_8016BF74_7 {
 typedef struct S_8016BF74_8 {
     u8 pad_00[0x8];
     u16 unk_08;
-} S_8016BF74_8;   /* state2 in advanceActorPath */
+} S_8016BF74_8;   /* state2 in advance_actor_path */
 
 typedef struct S_8016BF74_9 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016BF74_9;   /* (arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F)) in advanceActorPath */
+} S_8016BF74_9;   /* (arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F)) in advance_actor_path */
 
 
-s32 dungeonCheckEntityRelation();                     /* extern */
-void func_8009A21C();             /* extern */
-void func_8009A3D0();             /* extern */
-s32 dungeonCheckDiagonalSideHeight();                /* extern */
-s32 dungeonCheckMovementClearanceAndHeight();    /* extern */
-s32 dungeonCompareMonsterNeighborValues();                  /* extern */
-s16 dungeonGetActorHeightDifference();                  /* extern */
-void *dungeonFindValidMonsterNeighbor();                /* extern */
-void *dungeonPlaceActorAtDirectionalNeighbor();           /* extern */
-u16 dungeonGetRoundedFacingAndRoundingFlag();          /* extern */
-s32 dungeonRebuildMonsterReachableTiles();  /* extern */
-s32 dungeonUpdateActorProximityFlag(); /* extern */
-s32 func_800A6D30();                            /* extern */
-void func_800A9A0C();                      /* extern */
-s16 func_800BCB04();                   /* extern */
+s32 check_entity_relation();                     /* extern */
+void cycle_map_cell_flags();             /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+s32 check_diagonal_side_height();                /* extern */
+s32 check_movement_clearance_and_height();    /* extern */
+s32 compare_monster_neighbor_values();                  /* extern */
+s16 get_actor_height_difference();                  /* extern */
+void *find_valid_monster_neighbor();                /* extern */
+void *place_actor_at_directional_neighbor();           /* extern */
+u16 get_rounded_facing_and_rounding_flag();          /* extern */
+s32 rebuild_monster_reachable_tiles();  /* extern */
+s32 update_actor_proximity_flag(); /* extern */
+s32 generate_random_value();                            /* extern */
+void update_actor_status_and_food();                      /* extern */
+s16 sample_terrain_surface_height();                   /* extern */
 s32 func_8016C720();          /* extern */
 typedef struct {
     u8 pad[0xC];
@@ -109,11 +109,11 @@ extern u16 D_80082EA4;
 extern D_800E2970Entry D_800E2970[];
 
 static __inline__ u8 get_y_step(s16 byte_offset) {
-    return ((u8 *)dirStepY)[byte_offset];
+    return ((u8 *)dir_step_y)[byte_offset];
 }
 
 /* Selects a movement direction and advances the actor path through available tiles. */
-void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void *actor) {
+void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, void *actor) {
     s32 turn_index;
     s32 near_target;
     u8 *x_offsets;
@@ -156,15 +156,15 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
     s32 current_y;
     u8 *world_position;
 
-    state_flags = dungeonStatus.flags;
+    state_flags = g_dungeon_status.flags;
     near_target = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
         if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10)
             == 0)) {
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             return;
         }
-        active_actor = ((s32)dungeonStatus.unk_0C);
+        active_actor = ((s32)g_dungeon_status.unk_0C);
         if ((void *)active_actor == actor) {
             path_status = 0xC008;
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;
@@ -173,11 +173,11 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
         return;
     }
     if (state_flags & 0x2000) {
-        dungeonUpdateActorProximityFlag(position, actor, 3, 6, motion + 0x9C);
+        update_actor_proximity_flag(position, actor, 3, 6, motion + 0x9C);
         actor_flags = ((S_8016BF74_1 *)actor)->unk_1C;
         if (actor_flags & 0x410) {
             if (actor_flags & 0x400) {
-                initialized_bit = (s32)(dungeonFindValidMonsterNeighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
+                initialized_bit = (s32)(find_valid_monster_neighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
                 if ((void *)initialized_bit != NULL) {
                     source_x = position->unk_24.at00.v;
                     target_position = ((S_8016BF74_3_pre *)(void *)initialized_bit)[-1].unk_00;
@@ -185,7 +185,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                     dest_x = target_position->unk_24;
                     dest_y = target_position->unk_25;
                     motion_flags = motion + 0x98;
-                    ((S_8016BF74_1 *)actor)->unk_2A.u = dungeonGetRoundedFacingAndRoundingFlag(source_x, source_y, dest_x, dest_y, motion_flags);
+                    ((S_8016BF74_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(source_x, source_y, dest_x, dest_y, motion_flags);
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
@@ -194,11 +194,11 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                     initialized_bit = 0x80000000;
                     move_value |= initialized_bit;
                     ((S_8016BF74_1 *)actor)->unk_14 = move_value;
-                    result = func_800A6D30();
+                    result = generate_random_value();
                     ((S_8016BF74_1 *)actor)->unk_2A.u += (result & 7) << 9;
                 }
             } else {
-                x_offset = dungeonPlaceActorAtDirectionalNeighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v,
+                x_offset = place_actor_at_directional_neighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v,
                     (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
                 if (x_offset != NULL) {
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -212,25 +212,25 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                         >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
-                    x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dirStepX)) + direction_offset));
-                    y_offset = (*(u16 *)((u8 *)(((s32 *)dirStepY)) + direction_offset));
+                    x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dir_step_x)) + direction_offset));
+                    y_offset = (*(u16 *)((u8 *)(((s32 *)dir_step_y)) + direction_offset));
                     current_x = (((S_8016BF74_2 *)position)->unk_24.at00.v);
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;
                     if ((current_x != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
-                        target_angle = dungeonGetRoundedFacingAndRoundingFlag(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x,
+                        target_angle = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x,
                             (s16) target_y, motion + 0x98);
                         ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) target_angle;
-                        if ((dungeonCheckMovementClearanceAndHeight(target_angle, position, actor, 0x20) << 0x10) <= 0) {
+                        if ((check_movement_clearance_and_height(target_angle, position, actor, 0x20) << 0x10) <= 0) {
                             u8 *fallback_position;
 
                             fallback_position = (u8 *)&D_80082EA4 - 0x24;
-                            ((S_8016BF74_1 *)actor)->unk_2A.u = dungeonGetRoundedFacingAndRoundingFlag(position->unk_24.at00.v,
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v,
                                 position->unk_24.at01.v, fallback_position[0x24], fallback_position[0x25],
                                 motion + 0x98);
                         }
                         world_position = (u8 *)&D_80082EA4 - 0x24;
-                        result = dungeonCompareMonsterNeighborValues(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24],
+                        result = compare_monster_neighbor_values(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24],
                             world_position[0x25]);
                         if ((result << 0x10) != 0) {
                             near_target = 1;
@@ -240,32 +240,32 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                         return;
                     }
                 } else {
-                    dungeonRebuildMonsterReachableTiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                    rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                 }
             }
         } else {
             tile_index = position->unk_26;
             if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
                 if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
-                    initialized_bit = (s32)(dungeonPlaceActorAtDirectionalNeighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v,
+                    initialized_bit = (s32)(place_actor_at_directional_neighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v,
                         (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
                     if (((void *)initialized_bit == NULL)
                         || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000)
-                        || (dungeonGetActorHeightDifference((void *)initialized_bit, actor) >= 0x81)
-                        || ((dungeonCheckDiagonalSideHeight(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF,
+                        || (get_actor_height_difference((void *)initialized_bit, actor) >= 0x81)
+                        || ((check_diagonal_side_height(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF,
                         position->unk_24.at00.v, position->unk_24.at01.v,
                         (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
                         if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
                             u8 *world_origin;
 
                             world_origin = (u8 *)&D_80082E80;
-                            ((S_8016BF74_1 *)actor)->unk_2A.u = dungeonGetRoundedFacingAndRoundingFlag(position->unk_24.at00.v,
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(position->unk_24.at00.v,
                                 position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
-                            if ((dungeonCompareMonsterNeighborValues(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24],
+                            if ((compare_monster_neighbor_values(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24],
                                 world_origin[0x25]) << 0x10) != 0) {
-                                actor_distance = dungeonGetActorHeightDifference(D_800814A8, actor);
+                                actor_distance = get_actor_height_difference(D_800814A8, actor);
                                 if (actor_distance < 0x81) {
-                                    result = dungeonCheckDiagonalSideHeight(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10)
+                                    result = check_diagonal_side_height(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10)
                                         >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v,
                                         (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
                                     if ((result << 0x10) != 0) {
@@ -276,7 +276,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                             } else {
                             }
                         } else {
-                            dungeonRebuildMonsterReachableTiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                            rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                         }
                     } else {
                         ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -284,7 +284,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                     }
                 }
             } else {
-                dungeonRebuildMonsterReachableTiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                rebuild_monster_reachable_tiles(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
             }
         }
         turn_index = 0;
@@ -298,7 +298,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                 move_value = D_8006CD00[turn_index];
                 candidate_angle = current_angle + move_value;
             }
-            if ((dungeonCheckMovementClearanceAndHeight(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
+            if ((check_movement_clearance_and_height(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
                 if (turn_index >= 3) {
                     move_value = near_target;
                     if (move_value != 0) {
@@ -320,7 +320,7 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                 if ((s32)x_offset_ptr) {
                     old_tile_mask = 0x300;
                 }
-                func_8009A3D0(tile_x_or_offset, first_tile_y, old_tile_mask);
+                update_map_cell_flags_with_item_limit(tile_x_or_offset, first_tile_y, old_tile_mask);
                 tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
                 x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
                 position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
@@ -334,11 +334,11 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
                 if (new_tile_flags) {
                     new_tile_mask = 0x300;
                 }
-                func_8009A21C(next_x, tile_y, new_tile_mask);
+                cycle_map_cell_flags(next_x, tile_y, new_tile_mask);
                 break;
             }
             if ((turn_index == 0) && (D_80082EA4 != position->unk_24.at00u.v)
-                && ((dungeonCheckEntityRelation(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)) {
+                && ((check_entity_relation(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)) {
                 return;
             }
             turn_index += 1;
@@ -348,18 +348,18 @@ void advanceActorPath(void *motion, void *context, S_8016BF74_2 *position, void 
             if (result == 0) {
                 ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
                 ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
-                func_800A9A0C(actor);
+                update_actor_status_and_food(actor);
                 return;
             }
             ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
             ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
             ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
-            dungeonStatus.unk_08 = (u16) (((u16)dungeonStatus.unk_08) + 1);
+            g_dungeon_status.unk_08 = (u16) (((u16)g_dungeon_status.unk_08) + 1);
             if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
                 ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
-            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
+            turn_index = sample_terrain_surface_height((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
                 (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
             result = turn_index < 0x200;
             if (result != 0) {

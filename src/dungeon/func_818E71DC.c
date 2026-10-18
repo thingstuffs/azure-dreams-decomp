@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e71d800.h"
 
-void func_800249DC(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
+void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
@@ -48,7 +48,7 @@ void func_800249DC(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71
     if ((u8)visual->unk_0C.u8 >= 0x60U) {
         ((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 =
             (u16)(((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
         return;
     }
 

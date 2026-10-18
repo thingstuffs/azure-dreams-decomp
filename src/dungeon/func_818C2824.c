@@ -7,11 +7,11 @@ typedef struct {
     u16 value64;
 } Obj;
 
-extern s32 dungeonTryTriggerTargetRecordEffect(Obj *, s32);
-extern s32 func_800A6870(s16 input_value);
-extern void dungeonCapPendingActorValueDelta(Obj *);
-extern void createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern void dungeonApplyClampedActorValueDelta(Obj *);
+extern s32 try_trigger_target_record_effect(Obj *, s32);
+extern s32 get_random_scaled_value(s16 input_value);
+extern void cap_pending_actor_value_delta(Obj *);
+extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern void apply_clamped_actor_value_delta(Obj *);
 
 /* Applies a flag-adjusted value increase and updates the target. */
 void func_818C2824(Obj *target, s32 amount_param)
@@ -19,16 +19,16 @@ void func_818C2824(Obj *target, s32 amount_param)
     s32 base_amount;
     register s32 adjusted_amount;
 
-    if (dungeonTryTriggerTargetRecordEffect(target, 4) == 0) {
-        base_amount = func_800A6870(amount_param & 0xFF) + 0x10;
+    if (try_trigger_target_record_effect(target, 4) == 0) {
+        base_amount = get_random_scaled_value(amount_param & 0xFF) + 0x10;
         adjusted_amount = base_amount;
         if (target->flags & 1) {
             adjusted_amount = base_amount + ((s16)base_amount >> 1);
         }
         target->value64 += adjusted_amount;
-        dungeonCapPendingActorValueDelta(target);
+        cap_pending_actor_value_delta(target);
         base_amount = 0x8004;
-        createActorValuePopup(base_amount, target, (s16)target->value64, 1);
-        dungeonApplyClampedActorValueDelta(target);
+        create_actor_value_popup(base_amount, target, (s16)target->value64, 1);
+        apply_clamped_actor_value_delta(target);
     }
 }

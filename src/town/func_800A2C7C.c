@@ -3,7 +3,7 @@
 extern s32 D_80100AA0[];
 
 /* Clears all 20 entries in D_80100AA0. */
-void func_800A03DC(void) {
+void clear_entry_table(void) {
     s32 *entry;
     s32 index;
 

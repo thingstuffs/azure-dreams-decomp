@@ -26,7 +26,7 @@ extern Object *D_80174CC8[3];
 extern u8 D_8016E300[];
 
 /* Creates and initializes a sprite object offset from the first source position. */
-void func_8016E434(void) {
+void create_sprite_object_offset(void) {
     s32 *source_pos;
     Object *obj;
     s32 *position;

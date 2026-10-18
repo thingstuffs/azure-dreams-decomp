@@ -11,10 +11,10 @@ typedef struct {
     u8 command;
 } Func80039BE4State;
 
-extern void slusRunIndexedHandlerAndSetNext(void *);
+extern void run_indexed_handler_and_set_next(void *);
 
-/* Read a script command byte and select slusRunIndexedHandlerAndSetNext as the next callback. */
-void handleVmOpcode38(Func80039BE4State *state) {
+/* Read a script command byte and select run_indexed_handler_and_set_next as the next callback. */
+void handle_vm_opcode_38(Func80039BE4State *state) {
     state->command = *state->cursor++;
-    state->callback = slusRunIndexedHandlerAndSetNext;
+    state->callback = run_indexed_handler_and_set_next;
 }

@@ -4,7 +4,7 @@
 extern s16 D_8008146E;
 
 /* Returns the first active rectangle containing the point, or -1 if none does. */
-s32 func_8009FB34(s32 point_x, s32 point_y) {
+s32 find_active_rect_containing_point(s32 point_x, s32 point_y) {
     u8 *record;
     s32 index;
     s32 initial_count;

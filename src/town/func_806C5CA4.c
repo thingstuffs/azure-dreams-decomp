@@ -5,7 +5,7 @@ extern s32 func_80018CEC();
 extern s32 func_80018D6C();
 
 /* Runs the town event prerequisite checks and returns 1 when they trigger 0x7D4. */
-s32 townCheckEventPrerequisites(void) {
+s32 check_event_prerequisites(void) {
     func_80018CEC(0xFCB);
     func_80018CEC(0xFCD);
     if (func_80018D6C(0x7D1) != 0) {

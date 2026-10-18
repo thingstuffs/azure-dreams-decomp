@@ -40,14 +40,14 @@ typedef struct {
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-extern s32 func_800A6D30();
-extern void dungeonSetupObjectWithinPlanarRange(void *, s32, s32, s32, s32, s32);
-extern s32 dungeonCheckDiagonalSideHeight(s32, s32, s32, s32);
-extern Ent *findEligibleActorAtTileAndHeight(Ent *, s32, s32, s32);
-extern s32 dungeonGetClampedAdjustedValue(Ent *);
+extern s32 generate_random_value();
+extern void setup_object_within_planar_range(void *, s32, s32, s32, s32, s32);
+extern s32 check_diagonal_side_height(s32, s32, s32, s32);
+extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s32);
+extern s32 get_clamped_adjusted_value(Ent *);
 extern void func_8003E188(s32, s32);
 
-Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
+Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     s32 zero = 0;
     u16 coord;
     s32 savedMult;
@@ -68,7 +68,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
         if ((a->flags1c & 0x400) != 0 && ((f = a->flags14) & 0x80000000) == 0) {
             f |= 0x80000000;
             a->flags14 = f;
-            nc = coordArg + ((func_800A6D30() & 7) << 9);
+            nc = coordArg + ((generate_random_value() & 7) << 9);
             coord = nc;
             a->unk2a = nc;
         }
@@ -78,18 +78,18 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
     tableA = D_800DCEAC;
     off = shifted & 0xE;
 
-    dungeonSetupObjectWithinPlanarRange(base,
+    setup_object_within_planar_range(base,
                   (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
                   (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)D_800DCEBC + off) >> 1) + 0x20,
                   a->unk88, 8, 0x300);
     a->unk60 = ent2;
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
-        if ((dungeonCheckDiagonalSideHeight((a->unk2a >> 9) & 7, b->unk24, b->unk25,
+        if ((check_diagonal_side_height((a->unk2a >> 9) & 7, b->unk24, b->unk25,
                            (s16)(*(u16 *)&a->unk88 - 0x20)) << 16) != 0) {
-            ent2 = findEligibleActorAtTileAndHeight(a,
-                                 (u16)(b->unk24 + *(u16 *)((u8 *)dirStepX + off) * savedMult),
-                                 (u16)(b->unk25 + *(u16 *)((u8 *)dirStepY + off) * savedMult),
+            ent2 = find_eligible_actor_at_tile_and_height(a,
+                                 (u16)(b->unk24 + *(u16 *)((u8 *)dir_step_x + off) * savedMult),
+                                 (u16)(b->unk25 + *(u16 *)((u8 *)dir_step_y + off) * savedMult),
                                  a->unk88);
             a->unk60 = ent2;
             if (ent2 == 0) {
@@ -112,7 +112,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
         dance = a->unk84;
         value = dance;
         {
-            s32 r = func_800A6D30() & 0xFFFF;
+            s32 r = generate_random_value() & 0xFFFF;
 
             step = (s16)value;
             if (a->unk3 != 0) {
@@ -135,7 +135,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
     if ((ent2->flags1c & 0x238) == 0 && (s16)value < 0x80) {
         return ent2;
     }
-    value = func_800A6D30();
+    value = generate_random_value();
     {
 
         s32 low_bit = value & 1;
@@ -143,7 +143,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
         s32 flag = masked != 0;
         s32 sum = low_bit + flag;
         
-        step = sum + (a->unk26 + (s16)dungeonGetClampedAdjustedValue(a)) * 2;
+        step = sum + (a->unk26 + (s16)get_clamped_adjusted_value(a)) * 2;
     }
     a->unk20 = step;
     if (a->flags1c & 0x1000) {
@@ -151,7 +151,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
     } else {
         value = a->unk3 >> 6;
     }
-    if ((s16)value >= (s32)(func_800A6D30() & 0x7F)) {
+    if ((s16)value >= (s32)(generate_random_value() & 0x7F)) {
         a->flags1c |= 0x1000000;
     } else {
         a->flags1c &= ~0x1000000;
@@ -160,7 +160,7 @@ Ent *dungeonPrepareDirectionalAttack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent
         u8 d;
         s32 rnd;
 
-        rnd = func_800A6D30() & 0xFFFF;
+        rnd = generate_random_value() & 0xFFFF;
         d = ent2->unk3;
 
         if (d != 0) {

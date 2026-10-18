@@ -8,18 +8,18 @@ typedef struct State {
     s32 flags;
 } State;
 
-void townUpdateActorGroundAndInput(s32 *, s32, s32);
-void townInitializeSceneActionRecord();
+void update_actor_ground_and_input(s32 *, s32, s32);
+void initialize_scene_action_record();
 
-/* Calls townInitializeSceneActionRecord if townUpdateActorGroundAndInput leaves the value unchanged and flag 0x20 is clear. */
-void townUpdateInputAndFallbackAction(s32 *value, s32 input_a, s32 input_b) {
+/* Calls initialize_scene_action_record if update_actor_ground_and_input leaves the value unchanged and flag 0x20 is clear. */
+void update_input_and_fallback_action(s32 *value, s32 input_a, s32 input_b) {
     GameWork *state;
     s32 old_value;
 
-    state = &gameWork;
+    state = &g_game_work;
     old_value = *value;
-    townUpdateActorGroundAndInput(value, input_a, input_b);
+    update_actor_ground_and_input(value, input_a, input_b);
     if ((old_value == *value) && !(state->buttons & 0x20)) {
-        townInitializeSceneActionRecord(value, input_a, input_b);
+        initialize_scene_action_record(value, input_a, input_b);
     }
 }

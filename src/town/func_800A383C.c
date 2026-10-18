@@ -21,10 +21,10 @@ typedef struct TownObject {
     s16 field_7A;
 } TownObject;
 
-extern void *townCreateDisplayObjectWithCallbacks(TownObject *, s32, void *);
+extern void *create_display_object_with_callbacks(TownObject *, s32, void *);
 
 /* Initializes the object's items in reverse order and sets its default fields. */
-s32 townInitializeObjectItemsInReverse(TownObject *object, void *item_data, s32 item_count) {
+s32 initialize_object_items_in_reverse(TownObject *object, void *item_data, s32 item_count) {
     void **items;
     s32 remaining;
 
@@ -32,7 +32,7 @@ s32 townInitializeObjectItemsInReverse(TownObject *object, void *item_data, s32 
     items = object->items;
     while (remaining > 0) {
         remaining--;
-        items[remaining] = townCreateDisplayObjectWithCallbacks(object, remaining, item_data);
+        items[remaining] = create_display_object_with_callbacks(object, remaining, item_data);
         if (items == 0) {
             return remaining + 1;
         }

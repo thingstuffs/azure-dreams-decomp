@@ -2,9 +2,9 @@
 
 
 /* Read status bit 29, or refresh and hand back the refresher's status. */
-s32 func_801778E0(s32 read_status_bit) {
+s32 read_decoder_input_dma_status(s32 read_status_bit) {
     if (read_status_bit != 0) {
-        return (func_80177CF0() >> 0x1D) & 1;
+        return (read_decoder_status_register() >> 0x1D) & 1;
     }
-    return func_80177BC0();
+    return wait_for_decoder_input_dma();
 }

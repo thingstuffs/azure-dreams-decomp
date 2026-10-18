@@ -9,22 +9,22 @@ typedef struct S_80126890_0 {
     u8 pad_14[0xA];
     u16 unk_1E;
     void * unk_20;
-} S_80126890_0;   /* node in func_80126890 */
+} S_80126890_0;   /* node in allocate_and_initialize_node_2 */
 
 
 extern void func_8004491C(void *, void *);
 extern void func_8004B248(void *);
 extern void SD_Call(s32);
-extern void townInitializeCatalogGlyphCache(void);
-extern s32 townInitializeCatalogDisplayNodes(void *);
-extern void townInitializeCatalogState(void *);
+extern void initialize_catalog_glyph_cache(void);
+extern s32 initialize_catalog_display_nodes(void *);
+extern void initialize_catalog_state(void *);
 
 extern s32 D_8004CAA0;
 extern s8 D_80080A84;
 extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */
-static void *func_80126890(void *data) {
+static void *allocate_and_initialize_node_2(void *data) {
     void *node;
     void *payload;
 
@@ -32,18 +32,18 @@ static void *func_80126890(void *data) {
     if (node != 0) {
         ((S_80126890_0 *)node)->unk_20 = data;
         payload = (u8 *)node + 0x20;
-        if (townInitializeCatalogDisplayNodes(payload) != 0) {
+        if (initialize_catalog_display_nodes(payload) != 0) {
             D_80080A84 = 1;
-            townInitializeCatalogGlyphCache();
+            initialize_catalog_glyph_cache();
             ((S_80126890_0 *)node)->unk_0C = (u8 *)node + 0x68;
-            townInitializeCatalogState(payload);
+            initialize_catalog_state(payload);
             func_8004491C(node, &D_8004CAA0);
             ((S_80126890_0 *)node)->unk_10 = &D_80126704;
             SD_Call(0x701);
         } else {
             func_8004B248((u8 *)node + 0x7C);
             ((S_80126890_0 *)node)->unk_1E |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             node = 0;
         }
     }

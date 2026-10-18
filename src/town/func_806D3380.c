@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Sets flag 0x8000 on each indexed record until the 0xFF terminator. */
-void townMarkIndexedRecords8000RevB(s32 records_base, u8 *indices) {
+void mark_indexed_records_8000_rev_b(s32 records_base, u8 *indices) {
     s32 *record_flags;
     s32 flags;
     u8 *index_cursor;

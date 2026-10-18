@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonResetGlobalEffectState at file 0x12740F8; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/reset_global_effect_state at file 0x12740F8; imports and data use paired retail relocations. */
 #include "common.h"
 
 typedef struct {
@@ -13,7 +13,7 @@ typedef struct {
 extern s32 D_80172F84[];
 
 /* Resets global state fields and flags and loads the selected table entry. */
-void func_801728F8(s32 entry_index) {
+void reset_global_state_fields(s32 entry_index) {
     State *state = (State *)0x80010000;
 
     state->field_371A = 0;

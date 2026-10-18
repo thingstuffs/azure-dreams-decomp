@@ -2,15 +2,15 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void townInitializeObjectEntries();          /* extern */
+void initialize_object_entries();          /* extern */
 extern s8 D_80082680;
 extern M2C_UNK D_800C7EF0;
 extern M2C_UNK D_800D5FA0;
 
 
 /* Initialize the object callback and clear its state values. */
-void townInitializeMotherEventObject(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK init_data) {
-    townInitializeObjectEntries(object, init_data, &D_800D5FA0);
+void initialize_mother_event_object(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK init_data) {
+    initialize_object_entries(object, init_data, &D_800D5FA0);
     D_80082680 = 0;
     object->unk_54 = &D_800C7EF0;
     object->unk_72.as_s16 = 0;

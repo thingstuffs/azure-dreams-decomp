@@ -54,7 +54,7 @@ typedef struct S_80170E18_2 {
 typedef struct S_80170E18_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_80170E18_3;   /* arg3 in dungeonCreateEffectFromSpriteAndFacing */
+} S_80170E18_3;   /* arg3 in create_effect_from_sprite_and_facing */
 
 typedef struct S_80170E18_4 {
     u8 pad_00[0x2];
@@ -72,10 +72,10 @@ typedef struct S_80170E18_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170E18_5;   /* arg1 in dungeonCreateEffectFromSpriteAndFacing */
+} S_80170E18_5;   /* arg1 in create_effect_from_sprite_and_facing */
 
 /* Creates an effect using the supplied sprite data, transform, and facing. */
-void dungeonCreateEffectFromSpriteAndFacing(void *unused, S_80170E18_5 *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
+void create_effect_from_sprite_and_facing(void *unused, S_80170E18_5 *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
     S_80170E18_2 *sprite;
     void *effect;
     S_80170E18_0 *effect_state;
@@ -113,7 +113,7 @@ void dungeonCreateEffectFromSpriteAndFacing(void *unused, S_80170E18_5 *source_t
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_8004491C(effect, func_80045340);
         sprite->unk_2C = &D_80173EB4;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80173EB4), 0);
         transform = ((S_80170E18_1 *)effect)->unk_08;
         transform->unk_02 = (u16) source_transform->unk_02;

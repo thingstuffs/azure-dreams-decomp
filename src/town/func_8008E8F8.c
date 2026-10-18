@@ -1,9 +1,9 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
 
-extern void func_8008BF0C(void **);
+extern void release_town_map_record(void **);
 
-void func_8008C058(void **record_ref) {
+void advance_record_value_and_reset_when_capped(void **record_ref) {
     void *record;
     void *first_record;
     u16 value;
@@ -15,6 +15,6 @@ void func_8008C058(void **record_ref) {
     record = *record_ref;
     if (*(s16 *)((u8 *)record + 8) > 0x800) {
         *(s16 *)((u8 *)record + 8) = 0x800;
-        func_8008BF0C(record_ref);
+        release_town_map_record(record_ref);
     }
 }

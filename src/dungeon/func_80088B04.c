@@ -9,16 +9,16 @@
 
 
 M2C_UNK func_80048A44(); /* extern */
-s32 dungeonCollectGroundItem();  /* extern */
-void dungeonProcessUnflaggedLinkedEntries();                         /* extern */
-void dungeonProcessUnflaggedLinkedEntriesAlt();                         /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 collect_ground_item();  /* extern */
+void process_unflagged_linked_entries();                         /* extern */
+void process_unflagged_linked_entries_alt();                         /* extern */
+void set_record_integer_tile_center();              /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
-void dungeonUpdatePlayerHeightStep(void *actor, EntityRec *motion, void *sprite, EntityRec *model) {
+void update_player_height_step(void *actor, EntityRec *motion, void *sprite, EntityRec *model) {
     s16 ticks_left;
     s32 coord_or_ticks;
     s32 motion_value;
@@ -45,15 +45,15 @@ void dungeonUpdatePlayerHeightStep(void *actor, EntityRec *motion, void *sprite,
                 }
                 motion->flags14 = motion_value;
             }
-            dungeonProcessUnflaggedLinkedEntriesAlt(model->unk_5C);
-            dungeonProcessUnflaggedLinkedEntries(model->unk_5C);
-            dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
+            process_unflagged_linked_entries_alt(model->unk_5C);
+            process_unflagged_linked_entries(model->unk_5C);
+            g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_98 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_98 & 0xFFF3);
             (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD040;
-            func_80048A44(sprite, D_800DD040[((s32) (gameWork.view.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, D_800DD040[((s32) (g_game_work.view.viewAngle + model->facing + 0x100) >> 9) & 7], 0, 1);
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 = (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8
                 + 1);
-            func_800A56E0(0x50A);
+            play_sound_if_enabled(0x50A);
             return;
         }
     case 2:
@@ -67,48 +67,48 @@ void dungeonUpdatePlayerHeightStep(void *actor, EntityRec *motion, void *sprite,
     case 1:
     case 9:
     case 11:
-        if (dungeonStatus.unk_04 != 0) {
+        if (g_dungeon_status.unk_04 != 0) {
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
             coord_or_ticks = motion->x.w.i;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
-            motion->unk_0C = motion_value / dungeonStatus.unk_04;
+            motion->unk_0C = motion_value / g_dungeon_status.unk_04;
             coord_or_ticks = motion->y.w.i;
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_25;
             coord_or_ticks -= 0x20;
             motion_value <<= 6;
             motion_value -= coord_or_ticks;
-            coord_or_ticks = dungeonStatus.unk_04;
+            coord_or_ticks = g_dungeon_status.unk_04;
             motion_value <<= 0x10;
             motion->unk_10 = motion_value / coord_or_ticks;
         }
-        ticks_left = (u16) dungeonStatus.unk_04 - 1;
-        dungeonStatus.unk_04 = ticks_left;
+        ticks_left = (u16) g_dungeon_status.unk_04 - 1;
+        g_dungeon_status.unk_04 = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            dungeonStatus.unk_04 = 0;
+            g_dungeon_status.unk_04 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle + model->facing + 0x100) >> 9) & 7],
+                func_80048A44(sprite, D_800DD058[((s32) (g_game_work.view.viewAngle + model->facing + 0x100) >> 9) & 7],
                     0, 1);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 =
                     (u8) (((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 + 1);
-                dungeonStatus.unk_04 = 1;
+                g_dungeon_status.unk_04 = 1;
                 return;
             }
-            if ((dungeonCollectGroundItem(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = dungeonHandlePlayerInput;
+            if ((collect_ground_item(actor, motion, sprite, model) << 0x10) > 0) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = handle_player_input;
             }
             return;
         }
         return;
     case 12:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
-            dungeonStatus.unk_04 = 0;
-            if ((dungeonCollectGroundItem(actor, motion, sprite, model) << 0x10) > 0) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = dungeonHandlePlayerInput;
+            g_dungeon_status.unk_04 = 0;
+            if ((collect_ground_item(actor, motion, sprite, model) << 0x10) > 0) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = handle_player_input;
             }
             return;
         }

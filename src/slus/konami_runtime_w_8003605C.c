@@ -15,10 +15,10 @@ typedef struct RuntimeObject {
     void (*handler)(struct RuntimeObject *, s32, s32, s32);
 } RuntimeObject;
 
-extern void runtimeClearValue(void *);
-extern void runtimeUnlinkDoublyLinkedNode(void *);
+extern void runtime_clear_value(void *);
+extern void runtime_unlink_doubly_linked_node(void *);
 extern void func_80036900(RuntimeObject *);
-extern void unlinkActiveNode(void *);
+extern void unlink_active_node(void *);
 extern void func_80044A50(void *);
 
 /* Handles active-object state transitions and dispatches the object's handler. */
@@ -34,11 +34,11 @@ void func_8003605C(RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s3
 
         if (state == unset) {
             entry[0x50] = 1;
-            runtimeClearValue(object->sub);
-            runtimeUnlinkDoublyLinkedNode((u8 *)object + 0x54);
+            runtime_clear_value(object->sub);
+            runtime_unlink_doubly_linked_node((u8 *)object + 0x54);
             object = (RuntimeObject *)((u8 *)object - 0x20);
             func_80044A50(object);
-            unlinkActiveNode(object);
+            unlink_active_node(object);
             return;
         }
 

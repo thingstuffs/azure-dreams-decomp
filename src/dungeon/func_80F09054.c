@@ -10,7 +10,7 @@ typedef struct S_80170854_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80170854_0;   /* object in dungeonSpawnModeDependent112Object */
+} S_80170854_0;   /* object in spawn_mode_dependent_112_object */
 
 typedef struct S_80170854_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_80170854_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80170854_1;   /* result in dungeonSpawnModeDependent112Object */
+} S_80170854_1;   /* result in spawn_mode_dependent_112_object */
 
 typedef struct S_80170854_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170854_2;   /* part0 in dungeonSpawnModeDependent112Object */
+} S_80170854_2;   /* part0 in spawn_mode_dependent_112_object */
 
 typedef struct S_80170854_3 {
     u8 pad_00[0x10];
@@ -35,7 +35,7 @@ typedef struct S_80170854_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170854_3;   /* part1 in dungeonSpawnModeDependent112Object */
+} S_80170854_3;   /* part1 in spawn_mode_dependent_112_object */
 
 typedef struct S_80170854_4 {
     u8 pad_00[0x8C];
@@ -47,7 +47,7 @@ typedef struct S_80170854_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_80170854_4;   /* actor in dungeonSpawnModeDependent112Object */
+} S_80170854_4;   /* actor in spawn_mode_dependent_112_object */
 
 
 extern u8 D_80170A8C[];
@@ -57,20 +57,20 @@ extern u8 D_80170F74[];
 
 extern void *func_8003FD64();
 extern s32 func_8004491C();
-extern s32 func_800A6D30();
-extern s16 func_800A48F0();
-extern void func_800A9C18();
-extern s32 func_800AA36C();
+extern s32 generate_random_value();
+extern s16 set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern s32 try_move_actor_to_valid_position();
 extern void func_80044A50();
-extern void dungeonRetireTrackedEffectById();
+extern void retire_tracked_effect_by_id();
 
 #define BODY_STORAGE
 #define BODY_ATTR
 
-BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
+BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
-BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     s32 mode;
@@ -105,15 +105,15 @@ BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s1
             result->unk_1C |= 0x2000;
         } else if (((flags & ~3) << 16) == 0) {
             if (!(result->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
-                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                     part1->unk_2C = D_80173D78;
                 }
             }
-            mode = func_800A6D30() & 3;
+            mode = generate_random_value() & 3;
         }
-        func_800A9C18(object, part0, part1, flags);
+        initialize_actor_sprite_and_animation(object, part0, part1, flags);
         ((S_80170854_4 *)actor)->unk_9A = 0xFF;
         ((S_80170854_4 *)actor)->unk_9C = -1;
         ((S_80170854_4 *)actor)->unk_8C = D_80170F74;
@@ -127,9 +127,9 @@ BODY_STORAGE void *dungeonSpawnModeDependent112Object(s16 flags, s16 kind_id, s1
             part1->unk_14 |= 0xC;
             part1->unk_12 -= 0x80;
             func_80044A50(object_base);
-            dungeonRetireTrackedEffectById(object_base);
+            retire_tracked_effect_by_id(object_base);
         }
-        func_800AA36C(actor, part0, part1, result);
+        try_move_actor_to_valid_position(actor, part0, part1, result);
     }
 
     return result;

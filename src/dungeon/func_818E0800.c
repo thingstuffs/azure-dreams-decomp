@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_190081c.h"
 
-void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
+void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
     void *actor;
     void *actor_base;
@@ -84,10 +84,10 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (s32)dungeonScanMonsterAlongHeading(
+        found_target = (s32)scan_monster_along_heading(
             actor, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
-            (s16)dungeonGetDefinitionEntryByte13(0x23));
+            (s16)get_definition_entry_byte_13(0x23));
         ((Row_818E0800_S_818E0800_1 *)actor)->unk_60 = found_target;
         if (found_target == 0) {
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_72.s = ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24;
@@ -129,11 +129,11 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
         }
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((s16)effect_arg->unk_50);
         ground_z = (s16)(((Row_818E0800_S_818E0800_12 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_0A - 0x30);
-        ground_z = func_800BCB04(((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v,
+        ground_z = sample_terrain_surface_height(((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v,
             ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at02.v;
         ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
     case 1:
@@ -174,13 +174,13 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
         return;
     }
     case 0xF0:
-        func_80024784(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
+        jitter_effect_position_and_fade(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
         if (((s16)effect_arg->unk_50) == 2 &&
-            !dungeonTryTriggerTargetRecordEffect(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
+            !try_trigger_target_record_effect(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
             if (((Row_818E0800_S_818E0800_15 *)(((Row_818E0800_S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
                 if (((Row_818E0800_S_818E0800_1 *)actor)->unk_60 != 0) {
                     hit_effect = (((Row_818E0800_S_818E0800_11 *)D_800E3D68)->unk_00 == 0xFF) ? 0xFF : 0x10;
-                    func_800C8900(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, hit_effect, 2);
+                    try_apply_effect_four_by_chance(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, hit_effect, 2);
                 }
             }
         }
@@ -197,9 +197,9 @@ void func_8002401C(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0
         if (((s16)effect_arg->unk_50) > 0) {
             return;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((Row_818E0800_S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 }

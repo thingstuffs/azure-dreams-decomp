@@ -7,7 +7,7 @@ typedef struct S_800DC724_0 {
     s32 unk_50;
     s32 unk_54;
     s32 unk_58;
-} S_800DC724_0;   /* arg0 in dungeonMoveIndexedPositionAndApply */
+} S_800DC724_0;   /* arg0 in move_indexed_position_and_apply */
 
 typedef struct S_800DC724_1 {
     u16 unk_00;
@@ -17,7 +17,7 @@ typedef struct S_800DC724_1 {
 typedef struct S_800DC724_2 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800DC724_2;   /* holder in dungeonMoveIndexedPositionAndApply */
+} S_800DC724_2;   /* holder in move_indexed_position_and_apply */
 
 typedef struct S_800DC724_3 {
     u8 pad_00[0x8];
@@ -27,11 +27,11 @@ typedef struct S_800DC724_3 {
 
 
 extern s32 SD_Call();
-extern s32 dungeonMoveValueTowardTarget();
+extern s32 move_value_toward_target();
 extern u8 D_800E2924[];
 
 /* Move toward the indexed position, then apply the pending index once settled. */
-void dungeonMoveIndexedPositionAndApply(S_800DC724_0 *state, s32 coord)
+void move_indexed_position_and_apply(S_800DC724_0 *state, s32 coord)
 {
     s32 next_index;
     s32 delta_x;
@@ -69,7 +69,7 @@ void dungeonMoveIndexedPositionAndApply(S_800DC724_0 *state, s32 coord)
         biased_dy = delta_y > 0 ? delta_y + 3 : delta_y - 3;
         position->unk_0A = coord + (biased_dy >> 2);
     }
-    dungeonMoveValueTowardTarget(state, coord, target_y);
+    move_value_toward_target(state, coord, target_y);
     if (state->unk_58 != 0) {
         return;
     }

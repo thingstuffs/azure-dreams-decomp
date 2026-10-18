@@ -17,7 +17,7 @@ typedef struct S_80081498_Node {
 extern S_80081498_Node *D_80081498;
 
 /* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
-void runActiveNodeCallbacks(void)
+void run_active_node_callbacks(void)
 {
     S_80081498_Node *node;
     S_80081498_Node *next_node;

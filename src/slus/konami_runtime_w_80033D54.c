@@ -27,7 +27,7 @@ extern u8 *D_80083160[3];
 #define SCR_S32(o) (*(s32 *)(scratch + (o)))
 
 /* Transform and submit textured sprite quads for each node, then invoke its callback. */
-s32 runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(u8 *first_node, u8 *first_transform, u8 *first_context) {
+s32 runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(u8 *first_node, u8 *first_transform, u8 *first_context) {
     u8 *scratch;
     u8 *transform;
     u8 *context;

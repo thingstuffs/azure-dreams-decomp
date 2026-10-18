@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void dungeonCreateConfiguredOverlayActorThird(void);
+extern void create_configured_overlay_actor_third(void);
 
 /* entry; owner: dungeon/func_80F93000. */
 const u32 D_80164800[1] __attribute__((aligned(4))) = {
-    (u32)dungeonCreateConfiguredOverlayActorThird
+    (u32)create_configured_overlay_actor_third
 };

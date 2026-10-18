@@ -49,15 +49,15 @@ typedef struct T_80173AD4_S_80173AD4_3 {
 
 
 extern s32 func_80047784();
-extern s32 func_800990FC();
-extern s32 func_80099194();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
 extern void * func_80099290();
-extern s32 func_80099734();
-extern void func_8009A21C();
-extern void func_8009A3D0();
-extern s32 func_800A2BDC();
-extern s32 func_800A5720();
+extern s32 append_entity_display_text();
+extern void cycle_map_cell_flags();
+extern void update_map_cell_flags_with_item_limit();
+extern s32 has_pending_dungeon_activity();
+extern s32 display_text_with_fullwidth_adjustment();
 extern u8 D_80170854[];
 extern u8 D_80173FD0[];
-void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in, void *part_a, void *part_b_in, void *actor);
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor);
 #endif

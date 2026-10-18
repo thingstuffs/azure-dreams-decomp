@@ -77,11 +77,11 @@ extern s32 func_80033B9C(s32);
 extern s32 func_80033BC0();
 extern void func_80043FB8(void *, s32);
 extern void SD_Call(s32);
-extern s32 townCreateDualBufferObject(s32, s32, s32);
-extern void townSetObjectDataPointer(s32);
+extern s32 create_dual_buffer_object(s32, s32, s32);
+extern void set_object_data_pointer_2(s32);
 
 /* Updates the selection menu, quantity, payment, and closing state. */
-void townUpdateKeimaSelectionMenu(TownEntity *menu)
+void update_keima_selection_menu(TownEntity *menu)
 {
     TownEntity *entity = menu;
     TownRecord30 text_record;
@@ -100,7 +100,7 @@ void townUpdateKeimaSelectionMenu(TownEntity *menu)
     GameWork *input;
     s32 text_color;
 
-    input = &gameWork;
+    input = &g_game_work;
 
     if (func_80033BC0(0x590) != 0) {
         entity->state = 0x100;
@@ -183,7 +183,7 @@ void townUpdateKeimaSelectionMenu(TownEntity *menu)
             *money -= 100;
             D_80113158 = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
             func_80033B9C(0x592);
-            D_80024300[0] = townCreateDualBufferObject(0, -0x48, -0x28);
+            D_80024300[0] = create_dual_buffer_object(0, -0x48, -0x28);
             entity->timer = -1;
             entity->state = (u16)entity->state + 1;
             return;
@@ -253,13 +253,13 @@ void townUpdateKeimaSelectionMenu(TownEntity *menu)
             D_8011315C = total_factor * 100;
             D_80113158 = option_ids.value[entity->selection];
             func_80033B9C(0x592);
-            townSetObjectDataPointer(D_80024300[0]);
+            set_object_data_pointer_2(D_80024300[0]);
             entity->state = 0x100;
         }
         if (((s32)input->unk_010) & 0x20) {
             SD_Call(0x515);
             D_80012D5C += entity->quantity * 100;
-            townSetObjectDataPointer(D_80024300[0]);
+            set_object_data_pointer_2(D_80024300[0]);
             func_80033B9C(0x592);
             func_80033B9C(0x593);
             entity->state = 0x200;
@@ -273,7 +273,7 @@ void townUpdateKeimaSelectionMenu(TownEntity *menu)
         return;
     case 0x101:
     {
-        ObjectFlagBlock *global_flags = &objectFlagBlock;
+        ObjectFlagBlock *global_flags = &object_flag_block;
 
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
         global_flags->flags |= 0x8000;

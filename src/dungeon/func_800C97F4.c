@@ -8,15 +8,15 @@ typedef struct Node {
 
 #define ASM_CLOBBER_A0() ASM_CLOBBER("$4")
 
-extern void func_800CEFB8();
+extern void draw_mesh_quads_with_orientation_mode();
 
-/* Process each linked state with func_800CEFB8 in mode one. */
-s32 dungeonProcessLinkedMeshStatesMode1(void *initial_state, s32 value, void *data) {
+/* Process each linked state with draw_mesh_quads_with_orientation_mode in mode one. */
+s32 process_linked_mesh_states_mode_1(void *initial_state, s32 value, void *data) {
     u8 *state = initial_state;
     s32 mode = 1;
 
     for (;;) {
-        func_800CEFB8(state, value, data, *(s16 *)((u8 *)data + 6), mode);
+        draw_mesh_quads_with_orientation_mode(state, value, data, *(s16 *)((u8 *)data + 6), mode);
         data = *(Node **)(state - 8);
         if (data == 0) {
             break;

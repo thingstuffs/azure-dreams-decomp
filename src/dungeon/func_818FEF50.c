@@ -5,5 +5,5 @@ void func_80024750(void *object) {
 
     (*(s16 *)D_80025E80) = 1;
     *flags |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

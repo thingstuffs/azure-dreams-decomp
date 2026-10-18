@@ -4,7 +4,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                             /* extern */
-s16 func_800A48F0();        /* extern */
+s16 set_or_clear_actor_status_slot();        /* extern */
 
 typedef struct S_81832FE8_0 {
     u8 pad_00[0x60];
@@ -29,7 +29,7 @@ void func_800247E8(S_81832FE8_0 *owner) {
         if (flags & 0x20) return;
         if (flags & 1) {
             object->unk_1C = (s32) (object->unk_1C | 0x20);
-            func_800A48F0(owner->unk_60, 4, (rand() & 0x3F) | 0x20);
+            set_or_clear_actor_status_slot(owner->unk_60, 4, (rand() & 0x3F) | 0x20);
         }
     }
 }

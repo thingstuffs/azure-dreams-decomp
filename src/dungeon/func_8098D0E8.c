@@ -9,7 +9,7 @@ typedef struct S_801588E8_0 {
     s16 unk_98;
     u8 pad_9A[0x12];
     s16 unk_AC;
-} S_801588E8_0;   /* arg0 in applyCountdownScaledColorIntensity; pointer addresses record offset 0x2 */
+} S_801588E8_0;   /* arg0 in apply_countdown_scaled_color_intensity; pointer addresses record offset 0x2 */
 
 
 #define M2C_BREAK() ((void)0)
@@ -17,7 +17,7 @@ typedef struct S_801588E8_0 {
 
 
 /* Apply countdown-scaled intensity, decrement the timer, and flag completion at zero. */
-void applyCountdownScaledColorIntensity(void *record_data, void *unused, Rec_D_80082E80 *color) {
+void apply_countdown_scaled_color_intensity(void *record_data, void *unused, Rec_D_80082E80 *color) {
     s16 ticks_left;
     s32 intensity;
 
@@ -32,6 +32,6 @@ void applyCountdownScaledColorIntensity(void *record_data, void *unused, Rec_D_8
     if ((ticks_left << 0x10) <= 0) {
         ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801588E8_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

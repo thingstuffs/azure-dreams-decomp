@@ -53,22 +53,22 @@ void *func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             if (((flags & ~3) << 16) == 0) {
                 if (!(work->flags14 & 0x200)) {
                     call_a1 = part_a;
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     call_a1 = obj;
                     if (left & 1) {
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80174EF0;
                     }
                 }
             }
         }
         call_a1 = obj;
-        func_800A9C18(call_a1, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
         actor->byte9a = 0xFF;
         actor->byte9c = -1;
-        actor->ptr8c = &dungeonUpdateActorBehaviorAndDirection;
-        func_800AA36C(actor, part_a, part_b, work);
+        actor->ptr8c = &update_actor_behavior_and_direction;
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

@@ -19,7 +19,7 @@ typedef struct S_81254060_1 {
 
 /* Runs the global handler and clears both record flags when bit 21 is set. */
 void func_8016D860(S_81254060_1 *primary_record, M2C_UNK unused_1, M2C_UNK unused_2, S_81254060_0 *secondary_record) {
-    if (((s32)gameWork.unk_010) & 0x200000) {
+    if (((s32)g_game_work.unk_010) & 0x200000) {
         func_800353F4(&D_8016DFC8);
         secondary_record->unk_6D = 0;
         primary_record->unk_9B = 0;

@@ -11,9 +11,9 @@ extern u8 D_8002744D[9];
 
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
-void dungeonFlagNearbySevenBySevenTiles(s32 input_x, s32 center_y) {
+void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
     u16 center_x = input_x;
-    MapGrid *width_ref = &gameWork.map;
+    MapGrid *width_ref = &g_game_work.map;
     s32 one = 1;
     s16 tile_x;
     s32 signed_y;
@@ -46,10 +46,10 @@ void dungeonFlagNearbySevenBySevenTiles(s32 input_x, s32 center_y) {
         sample_y = world_y + 0x20;
         sample_ptr = (u16 *)sample_row;
         do {
-            tile_sample = dungeonGetSurfaceHeightAtCoordinates((tile_x << 6) & 0xFFC0, world_y);
+            tile_sample = get_surface_height_at_coordinates((tile_x << 6) & 0xFFC0, world_y);
             map = ((u8 *)D_800E3D7C);
             *sample_ptr = 0 - tile_sample;
-            tile = dungeonFindEligibleEntryAtCoordinates(map, (u16)tile_x, (u16)tile_y);
+            tile = find_eligible_entry_at_coordinates(map, (u16)tile_x, (u16)tile_y);
             if ((tile != NULL) && (tile != (s32)D_8002732C)) {
                 tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
             }
@@ -61,7 +61,7 @@ void dungeonFlagNearbySevenBySevenTiles(s32 input_x, s32 center_y) {
                 sample_x <<= 6;
                 sample_x += 0x20;
                 sample_x &= 0xFFE0;
-                output_value = dungeonSelectContainingCellSurface(sample_x, sample_y & 0xFFFF, -0x400);
+                output_value = select_containing_cell_surface(sample_x, sample_y & 0xFFFF, -0x400);
             }
             tile_sample = (u32)&D_800274DC[0][0];
             output_row = (u32)tile_sample;

@@ -3,7 +3,7 @@
 extern s32 func_80065F90();
 
 /* Computes a rounded direction between two points and updates flag bit 1. */
-s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags) {
+s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags) {
     u16 angle;
     u16 new_flags;
     s32 direction;

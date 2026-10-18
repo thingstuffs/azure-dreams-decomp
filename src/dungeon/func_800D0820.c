@@ -3,8 +3,8 @@
 #include "shared/entity.h"
 
 extern s8 D_800E2468[];
-s32 dungeonCheckLeftTileAndCenterHeight(s32, s32, s16);
-s16 func_800BCB04(s32, s32, s16);
+s32 check_left_tile_and_center_height(s32, s32, s16);
+s16 sample_terrain_surface_height(s32, s32, s16);
 
 
 typedef struct S_800D5F80_2 {
@@ -13,7 +13,7 @@ typedef struct S_800D5F80_2 {
 } S_800D5F80_2;
 
 /* Checks whether the position ahead passes the collision and height tests. */
-s32 dungeonCheckForwardCollisionAndHeight(EntityRec *position, EntityRec *orientation) {
+s32 check_forward_collision_and_height(EntityRec *position, EntityRec *orientation) {
     s16 surface_height;
     s32 probe_y;
     s32 probe_x;
@@ -28,8 +28,8 @@ s32 dungeonCheckForwardCollisionAndHeight(EntityRec *position, EntityRec *orient
     offset = offset_table + ((((u16)orientation->facing) >> 7) & 0x1C);
     probe_x = (position->x.w.i + (offset->unk_00 << 6)) & 0xFFFF;
     probe_y = (position->y.w.i + (offset->unk_02 << 6)) & 0xFFFF;
-    if ((dungeonCheckLeftTileAndCenterHeight(probe_x, probe_y, probe_height) << 0x10) == 0) {
-        surface_height = func_800BCB04(probe_x, probe_y, probe_height);
+    if ((check_left_tile_and_center_height(probe_x, probe_y, probe_height) << 0x10) == 0) {
+        surface_height = sample_terrain_surface_height(probe_x, probe_y, probe_height);
         if (surface_height < 0x200 &&
             (position->z.w.i - 0x40) < surface_height) {
             goto fail;

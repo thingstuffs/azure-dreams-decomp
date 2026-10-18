@@ -8,7 +8,7 @@ extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
 // Dispatches the town callback if check 0x1068 fails, otherwise issues commands 0x94F and 0x93E.
-s32 func_800184A4(void) {
+s32 dispatch_town_callback_if_fails(void) {
     s32 checkPassed;
 
     func_80016CC4();

@@ -14,10 +14,10 @@ typedef struct {
     s32 pad[3];
 } S_8008ECC0_Vec;
 
-extern s16 townForwardHighestSurfaceQuery(S_8008ECC0_Vec *record);
+extern s16 forward_highest_surface_query(S_8008ECC0_Vec *record);
 
 /* Query the summed position and subtract the selected offset's integer z component. */
-s16 townQueryOffsetPositionMinusZ(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)
+s16 query_offset_position_minus_z(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)
 {
     S_8008ECC0_Vec query_position;
     S_8008ECC0 *offset;
@@ -28,7 +28,7 @@ s16 townQueryOffsetPositionMinusZ(S_8008ECC0 *position, S_8008ECC0 *offsets, s32
     query_position.x = position->x + offset->x;
     query_position.y = position->y + offset->y;
     query_position.z = position->z + offset->z;
-    result = townForwardHighestSurfaceQuery(&query_position);
+    result = forward_highest_surface_query(&query_position);
 
     if (result == (s16)0x8001) {
         return (u16)0x8001;

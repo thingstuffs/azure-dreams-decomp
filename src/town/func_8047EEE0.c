@@ -4,6 +4,6 @@
 extern s32 D_80017954;
 
 /* Sets D_80017954 to 1. */
-void townCheckPositionThresholds(void) {
+void check_position_thresholds(void) {
     D_80017954 = 1;
 }

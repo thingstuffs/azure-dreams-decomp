@@ -31,7 +31,7 @@ typedef struct S_800423C0_Obj
 S_800423C0_Obj;
 extern S_800E3E48 D_800E3E48[];
 extern void func_80042710(void *dst, void *src);
-extern s16 func_800A1BD0(void *obj);
+extern s16 find_entity_slot_by_field_ac(void *obj);
 /* Copies source template data, updates object direction fields, and sets a flag. */
 void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {
@@ -50,7 +50,7 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
         obj->unk1C &= upper_bits_mask;
         obj->unk14 |= template_entry->unk14 & 7;
         obj->unk1C |= template_entry->unk1C & 7;
-        direction = func_800A1BD0(pinned_obj);
+        direction = find_entity_slot_by_field_ac(pinned_obj);
         if (direction >= 0) {
             u8 *direction_page;
             u16 *other_direction = (u16 *)0x80012094;

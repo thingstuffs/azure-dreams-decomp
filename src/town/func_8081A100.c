@@ -8,7 +8,7 @@
 typedef struct S_80024100_0 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_80024100_0;   /* obj in townInitializeMoguraMinigame */
+} S_80024100_0;   /* obj in initialize_mogura_minigame */
 
 typedef struct S_80024100_1 {
     u8 pad_00[0x4];
@@ -16,7 +16,7 @@ typedef struct S_80024100_1 {
     u8 pad_06[0x4];
     s16 unk_0A;
     u16 unk_0C;
-} S_80024100_1;   /* root in townInitializeMoguraMinigame */
+} S_80024100_1;   /* root in initialize_mogura_minigame */
 
 typedef struct S_80024100_2 {
     u8 pad_00[0x4];
@@ -36,7 +36,7 @@ typedef struct S_80024100_2 {
     union { s16 s; u16 u; } unk_16;   /* accessed as both */
     s16 unk_18;
     s16 unk_1A;
-} S_80024100_2;   /* part in townInitializeMoguraMinigame */
+} S_80024100_2;   /* part in initialize_mogura_minigame */
 
 typedef struct Vec3i {
     s32 x;
@@ -62,7 +62,7 @@ extern s32 rand(void);
 extern void tw_sd_sq_ld_call(s32, s32);
 
 /* Initializes shared state and three columns of linked display objects. */
-s32 townInitializeMoguraMinigame(void)
+s32 initialize_mogura_minigame(void)
 {
     Vec3i primary_values;
     Vec3i secondary_values;

@@ -5,7 +5,7 @@ extern s32 D_800FE508[4];
 extern s32 D_800FE520[33];
 
 /* Initializes the state tables with an extra entry for mode 10. */
-void townInitializeModeStateTables(void) {
+void initialize_mode_state_tables(void) {
     u8 *mode_page;
 
     D_800FE508[0] = 0x025FFFFF;

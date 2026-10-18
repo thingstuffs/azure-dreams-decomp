@@ -35,20 +35,20 @@ typedef struct S_807AFDEC_0 {
     union { s16 s; u16 u; } unk_08;   /* accessed as both */
     u8 pad_0A[0x2];
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
-} S_807AFDEC_0;   /* arg0 in func_800F75EC */
+} S_807AFDEC_0;   /* arg0 in update_owner_attached_color_effect */
 
 typedef struct S_807AFDEC_1_pre {
     Position3 * unk_00;
     u8 pad_04[0x14];
-} S_807AFDEC_1_pre;   /* the 0x18 bytes before ((S_807AFDEC_0 *)arg0)->unk_00 in func_800F75EC, addressed as ((S_807AFDEC_0 *)arg0)->unk_00[-1] */
+} S_807AFDEC_1_pre;   /* the 0x18 bytes before ((S_807AFDEC_0 *)arg0)->unk_00 in update_owner_attached_color_effect, addressed as ((S_807AFDEC_0 *)arg0)->unk_00[-1] */
 
 typedef struct S_807AFDEC_1 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in func_800F75EC */
+} S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in update_owner_attached_color_effect */
 
 /* Position the effect and fade its selected color channels in, then out. */
-void func_800F75EC(void *effect, Position3 *position, ColorPart *tint)
+void update_owner_attached_color_effect(void *effect, Position3 *position, ColorPart *tint)
 {
     void *effect_base;
     Offset3 offset;
@@ -116,7 +116,7 @@ void func_800F75EC(void *effect, Position3 *position, ColorPart *tint)
         ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

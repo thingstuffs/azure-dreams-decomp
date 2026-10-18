@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void dungeonAdvanceEffectTowardTarget(void *effect, void *position) {
+void advance_effect_toward_target(void *effect, void *position) {
     s16 fade_level;
     s32 scaled_red;
     s32 scaled_green;
@@ -21,7 +21,7 @@ void dungeonAdvanceEffectTowardTarget(void *effect, void *position) {
         y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - ((S_80BC1264_0 *)position)->unk_04.at02.v);
         if (y_distance < 0x10) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80BC1264_1_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }
     }
     scaled_red = ((S_80BC1264_1 *)effect)->unk_00 * ((S_80BC1264_1 *)effect)->unk_32;
@@ -35,6 +35,6 @@ void dungeonAdvanceEffectTowardTarget(void *effect, void *position) {
     ((S_80BC1264_1 *)effect)->unk_08 = (s32) ((S_80BC1264_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80BC1264_1_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

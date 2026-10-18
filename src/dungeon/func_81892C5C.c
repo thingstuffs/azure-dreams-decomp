@@ -2,21 +2,21 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* scratch in func_8002445C */
+   /* scratch in draw_red */
 
-   /* the 0x8 bytes before arg0 in func_8002445C, addressed as arg0[-1] */
+   /* the 0x8 bytes before arg0 in draw_red, addressed as arg0[-1] */
 
-   /* arg0 in func_8002445C */
+   /* arg0 in draw_red */
 
-   /* arg1 in func_8002445C */
+   /* arg1 in draw_red */
 
-   /* context in func_8002445C */
+   /* context in draw_red */
 
-   /* prim in func_8002445C */
+   /* prim in draw_red */
 
-   /* context2 in func_8002445C */
+   /* context2 in draw_red */
 
-   /* next in func_8002445C */
+   /* next in draw_red */
 
 
 
@@ -29,7 +29,7 @@
 
 
 /* Draw a red ring around the effect center using eight projected polylines. */
-s32 func_8002445C(void *effect, B22_81892C5C_S_81892C5C_2 *center)
+s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
 {
     u8 *scratch = (u8 *)0x1F800000;
     void *initial_context;
@@ -39,7 +39,7 @@ s32 func_8002445C(void *effect, B22_81892C5C_S_81892C5C_2 *center)
     s32 angle_step;
     void **ot_ctx;
 
-    ot_ctx = (void **)((u8 *)(&gameWork));
+    ot_ctx = (void **)((u8 *)(&g_game_work));
     initial_context = *ot_ctx;
     ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
     for (;;) {

@@ -4,8 +4,8 @@
 #include "records/Rec_func_800243C4_arg1.h"
 
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
-extern s32 dungeonCreateLinkedEffectSegments(void *);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
+extern s32 create_linked_effect_segments(void *);
 extern void func_8004491C(void *, void *);
 
 typedef struct CounterView {
@@ -80,7 +80,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
     if (phase == 0) {
         source = ((S_800243C4_5 *)(((S_800243C4_0 *)effect)->unk_08))->unk_0C;
         if (((S_800243C4_0 *)effect)->unk_2E == 0) {
-            if (resolveRecordOrientationOrFallback(source->unk_08, source,
+            if (resolve_record_orientation_or_fallback(source->unk_08, source,
                               (u8 *)effect + 0x24, 0) != 0) {
                 ((S_800243C4_0 *)effect)->unk_2E = 1;
             } else if (source->unk_14 & 0x8000) {
@@ -99,7 +99,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
             base_position->unk_06 + ((S_800243C4_0 *)effect)->unk_26;
         position->unk_0A.as_s16 =
             base_position->unk_0A + ((S_800243C4_0 *)effect)->unk_28.u;
-        if (dungeonCreateLinkedEffectSegments(position) != 0) {
+        if (create_linked_effect_segments(position) != 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_800243C4_0 *)effect)->unk_2C.u = ((S_800243C4_0 *)effect)->unk_2C.u + 1;
             return;
@@ -115,7 +115,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
         color->unk_0C.u32 += 0xFFFBFBFC;
         if (color->unk_0C.u8 == 0) {
             ((S_800243C4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

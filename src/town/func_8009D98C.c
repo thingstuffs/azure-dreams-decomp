@@ -8,10 +8,10 @@ typedef struct S_8009B0EC_0 {
     M2C_UNK * unk_04;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8009B0EC_0;   /* arg0 in townAdvanceTimedActionHandler */
+} S_8009B0EC_0;   /* arg0 in advance_timed_action_handler */
 
 /* Decrement the countdown, then reset it and switch handlers when it expires. */
-void townAdvanceTimedActionHandler(S_8009B0EC_0 *object) {
+void advance_timed_action_handler(S_8009B0EC_0 *object) {
     u16 countdown;
 
     countdown = object->unk_0A - 1;

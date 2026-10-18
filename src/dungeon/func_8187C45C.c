@@ -37,7 +37,7 @@ extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
-extern s32 func_800A4778(u16, u16, s16, void *);
+extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
 extern void *memcpy(void *, const void *, unsigned int);
 
 extern void func_80045340(void);
@@ -51,7 +51,7 @@ extern void func_80045340(void);
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Update a projectile effect, its trail, and the target hit animation. */
-void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite) {
+void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sprite) {
     u16 origin_offset[4];
     PointTable direction_steps;
     void *owner;
@@ -149,8 +149,8 @@ void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite)
                 U16(effect, 0x78) = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
-            U8(effect, 0xA4) = U8(owner_sprite, 0x24) + *(u8 *)&dirStepX[S16(effect, 0x7E)];
-            U8(effect, 0xA5) = U8(owner_sprite, 0x25) + *(u8 *)&dirStepY[S16(effect, 0x7E)];
+            U8(effect, 0xA4) = U8(owner_sprite, 0x24) + *(u8 *)&dir_step_x[S16(effect, 0x7E)];
+            U8(effect, 0xA5) = U8(owner_sprite, 0x25) + *(u8 *)&dir_step_y[S16(effect, 0x7E)];
             {
                 s32 grid;
                 tile_distance = S8(owner, 0x72);
@@ -197,7 +197,7 @@ void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite)
             if (object != 0) {
                 U16(object_data, 2) = 8;
                 U16(object_data, 4) = 8;
-                PTR(object, 0x10) = func_8002569C;
+                PTR(object, 0x10) = create_object_offset;
                 func_8004491C(object, func_80045340);
 
                 spawn_sprite = PTR(object, 0xC);
@@ -223,7 +223,7 @@ void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite)
                 PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
             }
 
-            if ((s16)func_800A4778(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
+            if ((s16)check_adjacent_tile_height_clearance(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
                                    PTR(owner, 0x60)) != 0) {
                 goto collision_hit;
             }
@@ -268,7 +268,7 @@ void updateProjectileTrailAndHitEffect(void *effect, void *motion, void *sprite)
             U16(object_data, 4) = 8;
             U16(object_data, 0xA) = 0x30;
             S16(object_data, 0xC) = -0xDE;
-            PTR(object, 0x10) = initializeStarEffectSequence;
+            PTR(object, 0x10) = initialize_star_effect_sequence;
             spawn_sprite = PTR(object, 0xC);
             U16(spawn_sprite, 0x10) = 0x20;
             U16(spawn_sprite, 0x14) |= 0xC;
@@ -420,7 +420,7 @@ finish_fade:
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         goto clear_busy;
@@ -442,7 +442,7 @@ reach_target:
     U16(motion, 2) = U16(object, 2);
     U16(motion, 6) = U16(object, 6);
     U16(motion, 0xA) = U16(effect, 0x78);
-    func_800A56E0(0x300);
+    play_sound_if_enabled(0x300);
     return;
 
 clear_busy:

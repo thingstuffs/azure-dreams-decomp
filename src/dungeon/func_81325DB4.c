@@ -9,10 +9,10 @@ typedef struct DungeonState {
 } DungeonState;
 
 extern u8 D_8016B778[];
-extern void dungeonAllocateType12Object(void);
+extern void allocate_type_12_object(void);
 
 /* Advances the object's counter and switches its script when the dungeon is ready. */
-void dungeonAdvanceObjectScriptWhenReady(void *object, s32 unused_1, s32 unused_2, s32 state_base)
+void advance_object_script_when_ready(void *object, s32 unused_1, s32 unused_2, s32 state_base)
 {
     u8 previous_count;
     u8 count;
@@ -22,19 +22,19 @@ void dungeonAdvanceObjectScriptWhenReady(void *object, s32 unused_1, s32 unused_
     *(u8 *)((u8 *)object + 0x9B) = count;
 
     if (count == 1) {
-        s32 state_code = ((s32)dungeonStatus.unk_10);
+        s32 state_code = ((s32)g_dungeon_status.unk_10);
 
         if (state_code == state_base - 0x20) {
-            dungeonStatus.unk_10 = state_code & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = state_code & 0x7FFFFFFF;
             return;
         }
     } else if (count >= 5) {
 
         *(u8 *)((u8 *)object + 0x9B) = previous_count;
-        if (dungeonStatus.unk_0A == 0) {
-            dungeonAllocateType12Object();
+        if (g_dungeon_status.unk_0A == 0) {
+            allocate_type_12_object();
             *(s8 *)((u8 *)object + 0xB4) = 1;
-            dungeonStatus.unk_0A = (u16)dungeonStatus.unk_0A + 1;
+            g_dungeon_status.unk_0A = (u16)g_dungeon_status.unk_0A + 1;
             *(u8 *)((u8 *)object + 0x9B) = 0;
             *(u8 **)((u8 *)object + 0x8C) = D_8016B778;
         }

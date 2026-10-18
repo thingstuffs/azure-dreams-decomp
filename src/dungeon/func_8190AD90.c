@@ -5,7 +5,7 @@ extern s32 rand(void);
 
 /* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
  * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
-s32 dungeonGetARandomInN0LimitZeroLimitZeroRejectionSampling(s32 limit) {
+s32 get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling(s32 limit) {
     s32 sample;
 
     sample = 0;

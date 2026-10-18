@@ -3,26 +3,26 @@
 
 typedef struct S_8001640C_0 {
     void * unk_00;
-} S_8001640C_0;   /* page in townPassAndClearSelectedEntryByte */
+} S_8001640C_0;   /* page in pass_and_clear_selected_entry_byte */
 
 typedef struct S_8001640C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x34];
     s32 unk_40;
-} S_8001640C_1;   /* ((S_8001640C_0 *)page)->unk_00 in townPassAndClearSelectedEntryByte */
+} S_8001640C_1;   /* ((S_8001640C_0 *)page)->unk_00 in pass_and_clear_selected_entry_byte */
 
 typedef struct S_8001640C_2 {
     u8 pad_00[0x4];
     u8 unk_04;
 } S_8001640C_2;   /* (((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_08 * 8) +
-            ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in townPassAndClearSelectedEntryByte */
+            ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in pass_and_clear_selected_entry_byte */
 
 typedef struct S_8001640C_3 {
     u8 pad_00[0x4];
     s8 unk_04;
 } S_8001640C_3;   /* (((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_08 * 8) +
-                ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in townPassAndClearSelectedEntryByte */
+                ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in pass_and_clear_selected_entry_byte */
 
 
 extern s32 D_80019AFC;
@@ -30,7 +30,7 @@ extern s32 D_80019AFC;
 s32 func_80018618(void);
 
 /* Pass the selected entry byte to func_80018618 and clear it if the call returns nonzero. */
-s32 townPassAndClearSelectedEntryByte(void) {
+s32 pass_and_clear_selected_entry_byte(void) {
     void **pageSlot;
     s32 handlerResult;
 

@@ -6,11 +6,11 @@
 #define F(e,t,o) (*(t)((s8 *)(e)+(o)))
 extern void * func_8003FD64(s32 flags, void **list_head);
 extern s32 func_8004491C(void *entry, s32 registration_id);
-extern s32 func_800A7A38(u8 *item);
-extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
+extern s32 get_item_category_value(u8 *item);
+extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
-void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
+void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
     void *object;
     void *sprite;
     void *position;
@@ -28,8 +28,8 @@ void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
         F(sprite, u8 *, 0xC) = 0x80;
         F(sprite, s16 *, 0x1E) = 0x1000;
         F(sprite, s16 *, 0x1C) = 0x1000;
-        F(sprite, s32 *, 8) = func_800A7A38((void *)sprite_source);
-        dungeonCreateTrackedEffect(object, 0, 0, 0);
+        F(sprite, s32 *, 8) = get_item_category_value((void *)sprite_source);
+        create_tracked_effect(object, 0, 0, 0);
     }
     return object;
 }

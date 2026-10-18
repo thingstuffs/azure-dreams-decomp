@@ -1,7 +1,7 @@
 #include "slus/sound_pitch_conversions.h"
 
 /* Scales a pitch by a fractional note offset, interpolating between adjacent steps. */
-u32 soundScalePitchByFractionalNote(s32 pitch, u32 note_offset)
+u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
 {
     s32 frame_pad[2];
     s32 step;

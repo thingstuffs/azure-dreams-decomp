@@ -5,7 +5,7 @@ typedef struct {
     s16 unk_18;
 } UnkStruct;
 
-extern void townProcessValueWithFixedTables(UnkStruct *);
+extern void process_value_with_fixed_tables(UnkStruct *);
 extern void func_800160D4(void);
 extern void func_80018A64(s32);
 extern void func_80018ADC(s32);
@@ -13,11 +13,11 @@ extern s32 func_80018B5C(s32);
 extern s16 D_80018CFA[5];
 
 /* Initializes the object and selects follow-up actions from status checks. */
-s32 townInitializeSceneActionState(UnkStruct *object) {
+s32 initialize_scene_action_state(UnkStruct *object) {
     s32 status;
     s32 result;
 
-    townProcessValueWithFixedTables(object);
+    process_value_with_fixed_tables(object);
     if (func_80018B5C(object->unk_18) != 0) {
         status = func_80018B5C(D_80018CFA[0]);
     } else {

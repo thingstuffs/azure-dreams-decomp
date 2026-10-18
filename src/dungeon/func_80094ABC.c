@@ -17,9 +17,9 @@ typedef struct {
 
 
 /* Sets map cell flags or cycles the selected flag fields. */
-void func_8009A21C(s16 x, s16 y, u16 flags)
+void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 {
-    DungeonState *state = ((DungeonState *)&gameWork);
+    DungeonState *state = ((DungeonState *)&g_game_work);
     MapCell *cell;
     u16 cycled_flags;
     u16 new_flags;

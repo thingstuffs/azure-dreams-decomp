@@ -27,10 +27,10 @@ extern s32 D_80071A84[4];
 extern void func_8005313C(void *a0);
 extern void *func_8003FD64(s32 a0, void *a1);
 extern void func_80052FE8(void *a0, s16 a1);
-extern void initSixteenPackedTemplates(void);
+extern void init_sixteen_packed_templates(void);
 
 /* Initializes the entity state and sub-object, creates up to 16 slots, and initializes the global table. */
-void sceneInitializeSixteenSpriteSequence(S_80053374_obj *entity, void *owner)
+void scene_initialize_sixteen_sprite_sequence(S_80053374_obj *entity, void *owner)
 {
     s16 *sub;
     s32 slot_index;
@@ -58,5 +58,5 @@ void sceneInitializeSixteenSpriteSequence(S_80053374_obj *entity, void *owner)
         slot_cursor++;
     } while (slot_index < 0x10);
 
-    initSixteenPackedTemplates();
+    init_sixteen_packed_templates();
 }

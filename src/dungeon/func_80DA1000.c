@@ -46,17 +46,17 @@ typedef struct S_80DA1000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
-s16 func_800A48F0(); /* extern */
-s32 func_800A6D30();
-void func_800A9C18(); /* extern */
-s32 func_800AA36C(); /* extern */
+s16 set_or_clear_actor_status_slot(); /* extern */
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation(); /* extern */
+s32 try_move_actor_to_valid_position(); /* extern */
 extern M2C_UNK D_8015EA3C;
 extern M2C_UNK D_8015EE68;
 extern M2C_UNK D_8016186C;
 
-void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
+void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
-void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
+void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
@@ -104,18 +104,18 @@ void *func_8015E874(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
         } else {
             if (((spawn_flags & ~3) << 0x10) == 0) {
                 if (!(entity->unk_14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         entity->unk_1C = (s32) (entity->unk_1C | 0x200);
-                        func_800A48F0(entity, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(entity, 1, (generate_random_value() & 0x3F) | 0x20);
                     }
                 }
             }
         }
-        func_800A9C18(object, type_data, placement, spawn_flags);
+        initialize_actor_sprite_and_animation(object, type_data, placement, spawn_flags);
         entity_data->unk_9A = 0xFF;
         entity_data->unk_9C = -1;
         entity_data->unk_8C = &D_8015EE68;
-        func_800AA36C(entity_data, type_data, placement, entity);
+        try_move_actor_to_valid_position(entity_data, type_data, placement, entity);
     }
     return entity;
 }

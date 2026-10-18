@@ -21,7 +21,7 @@ typedef struct {
 } Struct800497F4;
 
 /* Fades color toward gray, restoring the template on arrival or optionally stopping if already gray. */
-void fadeColorToGray(Struct800497F4 *object, s32 stop_at_gray)
+void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray)
 {
     Color800497F4 *color;
 

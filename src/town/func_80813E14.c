@@ -56,8 +56,8 @@ extern void func_80034A1C(void *, void *, s32);
 extern void func_8003EA54(void *);
 extern u32 func_80071494(void);
 extern void func_8023FB18(void *);
-extern void func_8052E4C0(u32, s32, s32, u32);
-extern void func_8052E5C8(void *, s32, s32);
+extern void create_object_position_configures_color(u32, s32, s32, u32);
+extern void create_object_initializes_position_sprite(void *, s32, s32);
 extern void func_8052FE94(s32);
 
 
@@ -65,10 +65,10 @@ typedef struct S_8052EA14_0 {
     u32 unk_00;
     u32 unk_04;
     u16 unk_08;
-} S_8052EA14_0;   /* record in townAdvanceShopItemPanel */
+} S_8052EA14_0;   /* record in advance_shop_item_panel */
 
 /* Per-frame shop-panel step: advance the panel's mode machine and spawn its sparkle particles. */
-void townAdvanceShopItemPanel(Func80813E14Object *object,
+void advance_shop_item_panel(Func80813E14Object *object,
                    Func80813E14State *state,
                    Func80813E14Input *input)
 {
@@ -134,7 +134,7 @@ void townAdvanceShopItemPanel(Func80813E14Object *object,
                 random = func_80071494();
                 height0 = state->height;
                 height0 += case_0_height;
-                func_8052E4C0(0x00808080, x, height0,
+                create_object_position_configures_color(0x00808080, x, height0,
                               (random & 0xF) << 16);
             } while (i >= 0);
             break;
@@ -156,7 +156,7 @@ void townAdvanceShopItemPanel(Func80813E14Object *object,
         local.zero0 = 0;
         local.zero1 = 0;
         local.object = object;
-        func_8052E5C8(&local, state->height, 0);
+        create_object_initializes_position_sprite(&local, state->height, 0);
         break;
 
     case 2:
@@ -193,7 +193,7 @@ void townAdvanceShopItemPanel(Func80813E14Object *object,
                         u32 spin = (random & 0xF) << 16;
                         height_raw = state->height;
                         height3 = height_raw + case_3_height;
-                        func_8052E4C0(colour, pos_x, height3, spin);
+                        create_object_position_configures_color(colour, pos_x, height3, spin);
                     }
                 }
             }

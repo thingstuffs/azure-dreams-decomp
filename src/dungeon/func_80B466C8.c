@@ -2,7 +2,7 @@
 
 void func_80173EC8(Resource12CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonUpdateSpinningActorFall(state, motion, position, actor)) {
-        state->callback = func_80170E70;
+    if (update_spinning_actor_fall(state, motion, position, actor)) {
+        state->callback = update_actor_state_and_select_target;
     }
 }

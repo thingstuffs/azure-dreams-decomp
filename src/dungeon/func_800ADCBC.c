@@ -19,7 +19,7 @@ typedef struct S_800B341C_1 {
 } S_800B341C_1;
 
 /* Allocates and initializes an object when the payload value is nonzero. */
-void dungeonAllocatePayloadObject(s32 allocationKey, s32 payloadValue, s16 payloadShortValue) {
+void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadShortValue) {
     void *allocatedObject;
     S_800B341C_1 *objectData;
 

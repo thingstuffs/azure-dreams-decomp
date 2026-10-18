@@ -1,5 +1,5 @@
-#define dungeonUpdateSpinningActorFall func_800AB280
-#define dungeonUpdateBankActorState func_8016A514
+#define update_spinning_actor_fall func_800AB280
+#define update_bank_actor_state func_8016A514
 /* Relink of matched dungeon/func_80F8A69C at file 0xFAA69C; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

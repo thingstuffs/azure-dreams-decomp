@@ -6,10 +6,10 @@ typedef struct S_800B8A40_0 {
     u8 unk_3608;
     u8 pad_3609[0x1];
     u8 unk_360A;
-} S_800B8A40_0;   /* temp_v0_2 in townApplyBuildingPendingUpdates */
+} S_800B8A40_0;   /* temp_v0_2 in apply_building_pending_updates */
 
 /* Apply and clear pending byte updates, then copy two additional state bytes. */
-void townApplyBuildingPendingUpdates(void) {
+void apply_building_pending_updates(void) {
     u8 *entry_base;
     s32 entry_index;
     s32 byte_index;

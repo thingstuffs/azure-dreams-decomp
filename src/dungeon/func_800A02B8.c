@@ -5,8 +5,8 @@
 
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
-s32 func_800A56E0();                     /* extern */
-void dungeonDrawTexturedEllipse(); /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+void draw_textured_ellipse(); /* extern */
 extern M2C_UNK D_800A5828;
 extern M2C_UNK D_800DD854;
 extern M2C_UNK D_800DD860;
@@ -34,7 +34,7 @@ typedef struct S_800A5A18_2 {
 } S_800A5A18_2;
 
 /* Creates an object and initializes its attached data and resources. */
-void *func_800A5A18(s32 object_id, s32 state_value) {
+void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
     s32 resource_params[2];
     void *object;
     S_800A5A18_1 *render_data;
@@ -54,8 +54,8 @@ void *func_800A5A18(s32 object_id, s32 state_value) {
         state_data->unk_66 = 4;
         resource_params[0] = 0x01800340;
         resource_params[1] = 0x400040;
-        dungeonDrawTexturedEllipse(&D_800DD860, resource_params, 1, 0);
-        func_800A56E0(0x60F);
+        draw_textured_ellipse(&D_800DD860, resource_params, 1, 0);
+        play_sound_if_enabled(0x60F);
     }
     return object;
 }

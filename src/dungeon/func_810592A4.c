@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f0f7800_p01.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
+void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part)
 {
     void *entity = actor;
     s16 state_direction;
@@ -25,9 +25,9 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
     u16 new_part_flags;
     u8 direction_flag;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         callback = (*(T_80170AA4_EntityCallback *)((u8 *)actor + 0x8C));
-        if (callback == (T_80170AA4_EntityCallback)&func_80170F68) {
+        if (callback == (T_80170AA4_EntityCallback)&update_dungeon_actor_behavior) {
             call_self = actor;
             callback(call_self, motion, part, call_self);
             return;
@@ -42,7 +42,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
     previous_state_2 = (*(u8 *)((u8 *)actor + 0x6D));
     call_self = actor;
     state_direction = (s8)previous_state_2;
-    if (dungeonRefreshActorFacingAndLifecycle(call_entity, call_motion, call_part, call_self) != 0) {
+    if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
@@ -59,7 +59,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
     current_state = (*(s8 *)((u8 *)actor + 0x6D));
     previous_state >>= 16;
     if (previous_state != current_state) {
-        func_800AA36C(actor, motion, part, actor);
+        try_move_actor_to_valid_position(actor, motion, part, actor);
     }
 
     if ((*(u16 *)((u8 *)actor + 0x98)) & 0x8000) {
@@ -67,7 +67,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
         (*(s16 *)((u8 *)actor + 0xAC)) = wobble;
         if (((s16)wobble >> 2) >= 2) {
             (*(s16 *)((u8 *)actor + 0xAC)) = -8;
-            func_800A56E0(0x60B);
+            play_sound_if_enabled(0x60B);
         }
         wobble = (*(u16 *)((u8 *)actor + 0xAC));
         wobble_base = (*(u16 *)((u8 *)actor + 0xA6));
@@ -84,20 +84,20 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
 
     part_flags = ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n;
     if (!(part_flags & 0x8000)) {
-        view_angle = gameWork.view.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
+        view_angle = g_game_work.view.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
         state_direction = (view_angle >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {
             if (((T_80170AA4_S_80170AA4_0 *)part)->unk_2C != 0) {
-                selectIndirectTableEntry(part,
+                select_indirect_table_entry(part,
                               ((T_80170AA4_S_80170AA4_0 *)part)->unk_2C[state_direction],
                               ((T_80170AA4_S_80170AA4_0 *)part)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = state_direction;
         }
 
-        direction_flag = dirSpriteFlag[direction_index];
+        direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
             ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n |= 1;
         } else {
@@ -110,7 +110,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
         } else {
             ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
         }
-        dungeonApplyMonsterKoyawData(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -131,7 +131,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
     (*(s32 *)((u8 *)actor + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
-        ground_height = func_800BCB04(motion->unk_00.at02.v,
+        ground_height = sample_terrain_surface_height(motion->unk_00.at02.v,
                                motion->unk_04.at02.v,
                                (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
         if ((s16)ground_height < 0x200) {
@@ -154,7 +154,7 @@ void dungeonUpdateEntityCallbacksDirectionalAnimationMovementGroundContact(void 
             entity_flags = ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
-                ground_height = func_800BCB04(
+                ground_height = sample_terrain_surface_height(
                     (((T_80170AA4_S_80170AA4_0 *)part)->unk_24 << 6) | 0x20,
                     (((T_80170AA4_S_80170AA4_0 *)part)->unk_25 << 6) | 0x20,
                     (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));

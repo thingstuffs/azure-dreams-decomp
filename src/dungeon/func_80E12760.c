@@ -23,10 +23,10 @@ typedef struct
 Vec3u16;
 extern void func_8004491C(void *object, void *callback);
 extern void func_80047784(void *object, s32 kind, s32 value);
-extern void *resolveRecordOrientationOrFallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
+extern void *resolve_record_orientation_or_fallback(void *ptr, void *ptr1, Vec3u16 *out, s32 value3);
 extern u8 D_80175978;
 /* Create a render object and initialize its position and motion toward a directional target. */
-void *dungeonCreateDirectionalTargetObject(void *emitter, Copy24 *position, void *source)
+void *create_directional_target_object(void *emitter, Copy24 *position, void *source)
 {
     void *emitter_copy;
     Copy24 target_position;
@@ -45,9 +45,9 @@ void *dungeonCreateDirectionalTargetObject(void *emitter, Copy24 *position, void
     emitter_copy = emitter;
     target_position = *position_data;
     direction_offset = (direction_flags >> 8) & 0xE;
-    *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (((u8 *)dirStepX)))
+    *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (((u8 *)dir_step_x)))
         + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
-    *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (((u8 *)dirStepY)))
+    *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (((u8 *)dir_step_y)))
         + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
     object = func_8003FC64(0x312);
     if (object != 0) {
@@ -67,7 +67,7 @@ void *dungeonCreateDirectionalTargetObject(void *emitter, Copy24 *position, void
         position_offset.z = 0;
         position_offset.y = 0;
         position_offset.x = 0;
-        if (resolveRecordOrientationOrFallback(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0) {
+        if (resolve_record_orientation_or_fallback(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0) {
             *((u16 *) (((u8 *) position_data) + 6)) += position_offset.x;
             *((u16 *) (((u8 *) transform) + 2)) = *((u16 *) (((u8 *) position_data) + 6));
             *((u16 *) (((u8 *) position_data) + 0xA)) += position_offset.y;

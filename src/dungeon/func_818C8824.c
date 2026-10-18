@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before arg0 in func_80024024, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
 
 
@@ -12,7 +12,7 @@
 
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
-void func_80024024(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
+void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
 {
     u16 life;
 
@@ -27,10 +27,10 @@ void func_80024024(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_
     state->life = life;
     if ((life << 16) <= 0) {
         ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (object->flags & 0x8000) {
         ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

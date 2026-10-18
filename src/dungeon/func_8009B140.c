@@ -11,19 +11,19 @@ extern u32 D_800835E4[];
 extern u8 D_800E2968;
 
 extern void func_80042640(void *, s32);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(s32, s32, s32);
-extern s32 func_8009FB34(s32, s32);
-extern SpawnFunc func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
-extern void retainSpawnResource(s16 entry_type, s16 entry_key);
-extern void *func_800A1618(s32, s32);
-extern void raiseEntityLevel(void *, s32);
-extern void func_800A32A4(void *);
-extern void selectDungeonSpawnTile(u8 *, u8 *);
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern s32 find_active_rect_containing_point(s32, s32);
+extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
+extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
+extern void *find_or_retain_sprite_resource_slot(s32, s32);
+extern void raise_entity_level(void *, s32);
+extern void detach_record_and_update_slot_state(void *);
+extern void select_dungeon_spawn_tile(u8 *, u8 *);
 /* Retail 0x800A6D30 (+0xC15D0 in DUNGEON.BIN), 48 bytes: RNG reads no argument registers, including a3. */
-extern s32 func_800A6D30(void);
-extern s32 func_800A9230(void *);
-extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern s32 generate_random_value(void);
+extern s32 select_random_eligible_item_entry(void *);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Places a monster from the spawn table and raises it to the selected level. */
 void func_800A08A0(s32 spawn_mode) {
@@ -50,7 +50,7 @@ void func_800A08A0(s32 spawn_mode) {
     if (D_800E296C & 0x10000000) {
         return;
     }
-    if (dungeonStatus.unk_1C >= 0x20) {
+    if (g_dungeon_status.unk_1C >= 0x20) {
         return;
     }
 
@@ -60,8 +60,8 @@ void func_800A08A0(s32 spawn_mode) {
     fixed_entry_offset = (mode - 2) * 2;
 
     for (; attempt < 0x10; ++attempt) {
-        selectDungeonSpawnTile(&tile_x, &tile_y);
-        if ((s16)func_8009FB34(tile_x, tile_y) < 0) {
+        select_dungeon_spawn_tile(&tile_x, &tile_y);
+        if ((s16)find_active_rect_containing_point(tile_x, tile_y) < 0) {
             continue;
         }
 
@@ -79,9 +79,9 @@ void func_800A08A0(s32 spawn_mode) {
             u8 *spawn_entry;
 
             entry_offset = (mode < 2) ?
-                             ((func_800A6D30() & 0xF) * 2) : fixed_entry_offset;
+                             ((generate_random_value() & 0xF) * 2) : fixed_entry_offset;
             {
-                u8 **spawn_table_addr = (u8 **)((u8 *)(&dungeonStatus.unk_18));
+                u8 **spawn_table_addr = (u8 **)((u8 *)(&g_dungeon_status.unk_18));
                 s32 signed_entry_offset = entry_offset;
                 u8 *spawn_table = *spawn_table_addr;
                 spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);
@@ -95,30 +95,30 @@ void func_800A08A0(s32 spawn_mode) {
         if (monster_type == 0) {
             return;
         }
-        monster = func_800A1618(monster_type, 1);
+        monster = find_or_retain_sprite_resource_slot(monster_type, 1);
         if (monster == 0) {
             continue;
         }
 
-        spawn_height = func_800BCB04((tile_x << 6) | 0x20, (tile_y << 6) | 0x20, -0x400);
-        spawn_monster = func_800A0B94(monster_type, monster, 1);
+        spawn_height = sample_terrain_surface_height((tile_x << 6) | 0x20, (tile_y << 6) | 0x20, -0x400);
+        spawn_monster = load_monster_resource_data(monster_type, monster, 1);
         monster = spawn_monster(0, tile_x, tile_y, (s16)spawn_height);
         if (monster == 0) {
             return;
         }
 
-        retainSpawnResource(monster_type, 1);
+        retain_spawn_resource(monster_type, 1);
         func_80042640(monster, monster_type);
-        ((u8 *)monster)[0x43] = func_800A6D30();
+        ((u8 *)monster)[0x43] = generate_random_value();
         ((u8 *)monster)[0x12] = 0;
 
         if (mode >= 2) {
             u8 *owner = *(u8 **)((u8 *)monster - 0x14);
-            func_8009A3D0(owner[0x24], owner[0x25], 0x3000);
-            func_800A32A4(monster);
-            func_8009A028(monster);
+            update_map_cell_flags_with_item_limit(owner[0x24], owner[0x25], 0x3000);
+            detach_record_and_update_slot_state(monster);
+            unlink_entity_node(monster);
             *(u16 *)((u8 *)monster - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
 
@@ -130,7 +130,7 @@ void func_800A08A0(s32 spawn_mode) {
             u32 next_level_exp;
             level_thresholds = next_limits;
             do {
-                raiseEntityLevel(monster, 0);
+                raise_entity_level(monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
             } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);
         }
@@ -138,7 +138,7 @@ void func_800A08A0(s32 spawn_mode) {
         if (((u8 *)level_monster)[0x49] != 0) {
             return;
         }
-        *(s32 *)((u8 *)monster + 0x48) = func_800A9230(monster);
+        *(s32 *)((u8 *)monster + 0x48) = select_random_eligible_item_entry(monster);
         return;
     }
 }

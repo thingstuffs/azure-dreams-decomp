@@ -41,9 +41,9 @@ void func_800559B4(void) {
     D_800847D0.unk_22 = 0;
     D_800847D0.unk_20 = 0;
 
-    volumeScale[0] = 0x7FFF;
-    volumeScale[1] = 0x7FFF;
-    volumeScale[2] = 0x7FFF;
+    g_volume_scale[0] = 0x7FFF;
+    g_volume_scale[1] = 0x7FFF;
+    g_volume_scale[2] = 0x7FFF;
 
     D_80084850[0] = 0;
     func_80055990(&D_800848F8);

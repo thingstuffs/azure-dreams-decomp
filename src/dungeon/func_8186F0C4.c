@@ -21,7 +21,7 @@ extern s32 func_8003DF74();
 extern void func_80045340(void);
 extern s32 func_80069EF8(void);
 
-extern s32 func_800A4778();
+extern s32 check_adjacent_tile_height_clearance();
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern void func_8003DB94();
@@ -33,7 +33,7 @@ extern s16 D_80025308;
 extern u8 D_800DEAE0[];
 
 /* Updates a moving effect, its particles, target color animation, and cleanup. */
-void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
+void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     s16 origin_offset[4];
     OffsetPair direction_offsets[8];
     u8 *display = effect_display;
@@ -140,7 +140,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                     table += 0x20;
                     target -= table;
 
-                    table = (u32)((u8 *)dirStepX);
+                    table = (u32)((u8 *)dir_step_x);
                     S16_AT(effect_data, 0x78) = target;
                     target = S16_AT(effect_data, 0x7E);
                     sprite = PTR_AT(owner, -0x14);
@@ -151,7 +151,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                     table += target;
                     U8_AT(effect_data, 0xA0) = table;
 
-                    table = (u32)((u8 *)dirStepY);
+                    table = (u32)((u8 *)dir_step_y);
                     target = S16_AT(effect_data, 0x7E);
                     target <<= 1;
                     target += table;
@@ -213,7 +213,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                 particle_color = 0x002020E0;
                 random &= 0xFF;
                 particle_param = random | 0x80;
-                dungeonSpawnParentAttachedEffect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                spawn_parent_attached_effect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
             }
         }
 
@@ -247,7 +247,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                 S16_AT(effect_data, 0x8A) + 0x14;
         }
 
-        if ((func_800A4778(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
+        if ((check_adjacent_tile_height_clearance(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
                 S16_AT(effect_pos, 0x0A), PTR_AT(owner, 0x60)) << 16) != 0) {
             S16_AT(effect_data, 0x0A) = 8;
             S16_AT(effect_data, 0x82) = 0;
@@ -267,7 +267,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                 U16_AT(effect_pos, 0x02) = U16_AT(copy_source, 0x02);
                 U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
                 U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 break;
             }
 
@@ -312,7 +312,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
             copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
             S32_AT(entity, 0x4C) = S32_AT(copy_source, 0x00);
             S32_AT(entity, 0x50) = S32_AT(copy_source, 0x04);
-            S32_AT(source, 0x10) = (s32)dungeonAdvanceRotatingFadingEffect;
+            S32_AT(source, 0x10) = (s32)advance_rotating_fading_effect;
             func_8004491C(source, func_80045340);
 
             {
@@ -381,7 +381,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                     particle_color = 0x002020E0;
                     random &= 0xFF;
                     particle_param = random | 0x80;
-                    dungeonSpawnParentAttachedEffect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                    spawn_parent_attached_effect(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
                 }
             }
         }
@@ -410,7 +410,7 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
             U8_AT(target_display, 0x0E) = 0x80;
             U8_AT(target_display, 0x0D) = 0x80;
             U8_AT(target_display, 0x0C) = 0x80;
-            func_8002407C(PTR_AT(owner, 0x60), U8_AT(effect_data, 0x09), owner);
+            apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), U8_AT(effect_data, 0x09), owner);
             S16_AT(effect_data, 0x0A) = 8;
             S16_AT(effect_data, 0x82) = 0x1E;
         }
@@ -428,9 +428,9 @@ void dungeonUpdateMovingEffectParticlesAndCleanup(u8 *effect_data, u8 *effect_po
                 s32 effect_active = D_80025308;
                 U16_AT(effect_data, 0x82) = old_frame;
                 if (effect_active == 0) {
-                    dungeonStatus.unk_0C = 0;
+                    g_dungeon_status.unk_0C = 0;
                     U16_AT(effect_data, -2) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                 } else {
                     D_80025308 = 0;
                 }

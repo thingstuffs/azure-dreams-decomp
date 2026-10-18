@@ -15,11 +15,11 @@ extern u8 D_800DED70[];
 void *func_8003FD64();                     /* extern */
 s32 func_8004491C();                /* extern */
 s32 func_80069EF8();                /* extern */
-void func_8009CE1C(); /* extern */
-void *dungeonScanMonsterAlongHeading();      /* extern */
-s32 dungeonGetDefinitionEntryByte13(s16);                         /* extern */
-s32 func_800A56E0();                     /* extern */
-s32 func_800BCB04(s32, s32, s16);                   /* extern */
+void apply_attack_power_and_element_effects(); /* extern */
+void *scan_monster_along_heading();      /* extern */
+s32 get_definition_entry_byte_13(s16);                         /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+s32 sample_terrain_surface_height(s32, s32, s16);                   /* extern */
 
 typedef struct S_func_81832800_1 {
     void *unk_00;
@@ -105,11 +105,11 @@ typedef struct S_func_81832800_9 {
 } S_func_81832800_9;
 
 
-void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = decrementFlaggedItemParameters;
+void (*const dungeon_1852800_entry)(S_func_81832800_1 *, S_func_81832800_4 *, void *) = decrement_flagged_item_parameters;
 
-void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
+void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite);
 /* Advance the effect state, move toward its target, and animate spawned particles. */
-void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
+void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;
     s32 step_y;
@@ -158,8 +158,8 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
     source = effect->unk_00;
     source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
     count = (source->facing >> 9) & 7;
-    step_x = dirStepX[count];
-    step_y = dirStepY[count];
+    step_x = dir_step_x[count];
+    step_y = dir_step_y[count];
     spawn_state = effect->unk_0A;
     effect->unk_50 = (u16) (effect->unk_50 - 1);
     source_object = (S_func_81832800_3 *) ((u8 *) source - 0x20);
@@ -205,7 +205,7 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
                 } while (jitter_count >= 0);
                 particle_position = object->unk_08;
                 ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 =
-                    func_800BCB04(particle_position->unk_00.parts.unk_02.as_u16,
+                    sample_terrain_surface_height(particle_position->unk_00.parts.unk_02.as_u16,
                     particle_position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
                 height_position = object->unk_08;
                 if (height_position->unk_08.parts.unk_0A.as_s16 >= 0x200) {
@@ -239,8 +239,8 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
     switch (state) {
     case 0:
         if (*effect->unk_04 & 0x80) {
-            found_target = dungeonScanMonsterAlongHeading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
-                (s32)(s16) dungeonGetDefinitionEntryByte13(6));
+            found_target = scan_monster_along_heading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
+                (s32)(s16) get_definition_entry_byte_13(6));
             source->target = found_target;
             if (found_target == NULL) {
                 source->unk_72 = (u8) source_sprite->unk_24;
@@ -266,7 +266,7 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
             effect->unk_50 = count * 4;
             position->unk_0C = (s32) (step_x << 0x14);
             position->unk_10 = (s32) (step_y << 0x14);
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             effect->unk_0A += 1;
             return;
         }
@@ -299,7 +299,7 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
 
     case 3:
         count = 3;
-        ground_height = (s16) func_800BCB04(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
+        ground_height = (s16) sample_terrain_surface_height(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
             (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
         do {
             object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
@@ -381,7 +381,7 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
             effect->unk_0A = 0xFF;
             return;
         }
-        func_8009CE1C(source->target, 8, effect->unk_09, 4, (s32) source->facing, source, 2);
+        apply_attack_power_and_element_effects(source->target, 8, effect->unk_09, 4, (s32) source->facing, source, 2);
         effect->unk_50 = 6U;
         effect->unk_0A = 0xF0;
         return;
@@ -406,9 +406,9 @@ void decrementFlaggedItemParameters(S_func_81832800_1 *effect, S_func_81832800_4
             effect->unk_52.as_u16 &= 0x7FFF;
             return;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

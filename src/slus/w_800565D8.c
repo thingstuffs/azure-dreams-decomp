@@ -7,7 +7,7 @@ typedef struct {
 } S_800565D8;
 
 /* Computes a signed 16-bit value using separate scales below and above 0x40. */
-s32 audioComputePitchBendOffset(S_800565D8 *scales, u32 level)
+s32 audio_compute_pitch_bend_offset(S_800565D8 *scales, u32 level)
 {
     s32 result;
 

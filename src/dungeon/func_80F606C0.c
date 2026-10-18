@@ -55,7 +55,7 @@ void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transfo
         return;
     case 1:
         ((S_80F606C0_0_pre *)effect)[-1].unk_00 = (u16) (((S_80F606C0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

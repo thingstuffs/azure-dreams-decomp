@@ -5,7 +5,7 @@
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];
     union { void * s; s32 u; } unk_D0;   /* accessed as both */
-} S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in dungeonStoreRecalledFamiliar */
+} S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in store_recalled_familiar */
 
 
 typedef struct S_80093E74_1 {
@@ -46,13 +46,13 @@ typedef struct {
 } Copy140;
 
 s32 func_80042900();                 /* extern */
-void func_8009A3D0(u8, u8, s32);     /* extern */
-s32 func_800A56E0();                     /* extern */
+void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
-void dungeonStoreRecalledFamiliar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
+void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
     M2C_UNK effect_mask;
     u8 effect_x;
     u8 effect_y;
@@ -109,6 +109,6 @@ void dungeonStoreRecalledFamiliar(s32 slot_table, void *unused_arg1, void *unuse
     if (((S_80093E74_5 *)((u8 *)owner_record - 0x14))->unk_30 & 0x2000) {
         effect_mask = 0x300;
     }
-    func_8009A3D0(effect_x, effect_y, effect_mask);
-    func_800A56E0(0x704);
+    update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_mask);
+    play_sound_if_enabled(0x704);
 }

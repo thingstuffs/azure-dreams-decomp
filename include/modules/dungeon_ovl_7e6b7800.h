@@ -314,7 +314,7 @@ typedef struct Row_8194D354_S_80024B54_13_pre {
 s32 func_80065F90(s32, s32);
 s32 func_80064710(s32);
 void func_8004491C(void *, void *);
-s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 func_800644B8(s32);
 void *func_8003FD64();
 M2C_UNK func_800478B8();
@@ -327,11 +327,11 @@ M2C_UNK func_8003DB94();
 s32 func_80053EF0();
 M2C_UNK func_80065820();
 s32 func_80069EF8();
-void func_8009CE1C();
-void *dungeonScanMonsterAlongHeading();
-s32 dungeonCheckLeftTileAndCenterHeight();
-s32 func_800A56E0();
-s16 dungeonGetSurfaceHeightAtRecord();
+void apply_attack_power_and_element_effects();
+void *scan_monster_along_heading();
+s32 check_left_tile_and_center_height();
+s32 play_sound_if_enabled();
+s16 get_surface_height_at_record();
 
 extern M2C_UNK D_800240F0;
 extern M2C_UNK D_8002455C[];
@@ -339,15 +339,15 @@ extern u8 D_800DE938[];
 extern M2C_UNK D_80024918;
 extern M2C_UNK D_800DE5DC;
 
-void func_8002401C(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles);
-void dungeonUpdateHomingArcAndBrightenEffect(void *effect, void *motion, void *sprite);
-void dungeonAllocateEffectAndInitializeSprite(s32 effect_data, s32 effect_param, s32 render_param);
-void dungeonUpdateRotatingEffectAndFade(void *effect, void *position, void *sprite);
-void dungeonCreateTexturedOffsetObject(void *source_object);
-void dungeonAdvanceObjectMotionAndAnimation(void *object);
-void dungeonAllocateEffectWithEndpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
+void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite);
+void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param);
+void update_rotating_effect_and_fade(void *effect, void *position, void *sprite);
+void create_textured_offset_object(void *source_object);
+void advance_object_motion_and_animation(void *object);
+void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params);
-void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position);
+void update_three_way_target_effect(void *effect_arg, void *position);
 extern u8 D_800E3D18[];
 #endif

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 dungeonConnectRoomsWithCorridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
+s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
     floor_generate_isolated_80287C4C_Pos start;
     floor_generate_isolated_80287C4C_Pos end;
     floor_generate_isolated_80287C4C_Pos side_start;
@@ -37,30 +37,30 @@ s16 dungeonConnectRoomsWithCorridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 
     s32 height_delta;
     s32 height_gap;
 
-    dungeon = &gameWork.map;
+    dungeon = &g_game_work.map;
     src_room = &D_800E2970[src_idx];
     dest_room = &D_800E2970[dest_idx];
     path_length = 0;
-    dungeonPickRelativeRoomEdgePoint(src_dir, &src_offset_x, &src_offset_y, src_room);
-    dungeonPickRelativeRoomEdgePoint((dest_dir + 4) & 6, &dest_offset_x, &dest_offset_y, dest_room);
+    pick_relative_room_edge_point(src_dir, &src_offset_x, &src_offset_y, src_room);
+    pick_relative_room_edge_point((dest_dir + 4) & 6, &dest_offset_x, &dest_offset_y, dest_room);
     travel_dir = src_dir;
     saved_dir = src_dir;
     if (D_800E2970[src_idx].unk_0A) {
-        dungeonAppendGenerationRegionEntry(src_idx, src_room->x + src_offset_x, src_room->y + src_offset_y, 0);
+        append_generation_region_entry(src_idx, src_room->x + src_offset_x, src_room->y + src_offset_y, 0);
     }
     if (D_800E2970[dest_idx].unk_0A) {
-        dungeonAppendGenerationRegionEntry(dest_idx, dest_room->x + dest_offset_x, dest_room->y + dest_offset_y, 0);
+        append_generation_region_entry(dest_idx, dest_room->x + dest_offset_x, dest_room->y + dest_offset_y, 0);
     }
-    func_800A6D60(1);
+    save_or_restore_random_seed(1);
     start.x = src_room->x + src_offset_x;
     start.y = src_room->y + src_offset_y;
     start.dir = src_dir;
     if (D_800E2970[src_idx].unk_0A) {
-        start.x = start.x + dirStepX[travel_dir];
-        start.y = start.y + dirStepY[travel_dir];
+        start.x = start.x + dir_step_x[travel_dir];
+        start.y = start.y + dir_step_y[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + dirStepX[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + dirStepY[travel_dir];
+    cursor_x = (s16)(src_idx % D_8001F660) + dir_step_x[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + dir_step_y[travel_dir];
     dest_grid_x = dest_idx % D_8001F660;
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
@@ -72,42 +72,42 @@ s16 dungeonConnectRoomsWithCorridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 
                 end.x = dest_room->x;
                 end.y = dest_room->y;
             }
-            end.x = end.x - dirStepX[dest_dir];
-            end.y = end.y - dirStepY[dest_dir];
-            path_length += dungeonChooseNextStepTowardDestination(&start, &end, 1, &join_x, &join_y);
-            start.x = start.x + dirStepX[(travel_dir + 2) & 7];
-            start.y = start.y + dirStepY[(travel_dir + 2) & 7];
-            end.x = end.x + dirStepX[(dest_dir + 2) & 7];
-            end.y = end.y + dirStepY[(dest_dir + 2) & 7];
-            join_x = join_x - dirStepX[travel_dir];
-            join_y = join_y - dirStepY[travel_dir];
-            dungeonChooseNextStepTowardDestination(&start, &end, 0, &join_x, &join_y);
+            end.x = end.x - dir_step_x[dest_dir];
+            end.y = end.y - dir_step_y[dest_dir];
+            path_length += choose_next_step_toward_destination(&start, &end, 1, &join_x, &join_y);
+            start.x = start.x + dir_step_x[(travel_dir + 2) & 7];
+            start.y = start.y + dir_step_y[(travel_dir + 2) & 7];
+            end.x = end.x + dir_step_x[(dest_dir + 2) & 7];
+            end.y = end.y + dir_step_y[(dest_dir + 2) & 7];
+            join_x = join_x - dir_step_x[travel_dir];
+            join_y = join_y - dir_step_y[travel_dir];
+            choose_next_step_toward_destination(&start, &end, 0, &join_x, &join_y);
             break;
         }
         room_idx = cursor_y * D_8001F660 + cursor_x;
         room_marks[room_idx] = 2;
         end.x = D_800E2970[room_idx].x;
         end.y = D_800E2970[room_idx].y;
-        path_length += dungeonChooseNextStepTowardDestination(&start, &end, 1, &join_x, &join_y);
+        path_length += choose_next_step_toward_destination(&start, &end, 1, &join_x, &join_y);
         side_start = start;
-        side_start.x = side_start.x + dirStepX[(travel_dir + 2) & 7];
-        side_start.y = side_start.y + dirStepY[(travel_dir + 2) & 7];
-        join_x = join_x - dirStepX[travel_dir];
-        join_y = join_y - dirStepY[travel_dir];
-        dungeonChooseNextStepTowardDestination(&side_start, &end, 0, &join_x, &join_y);
+        side_start.x = side_start.x + dir_step_x[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + dir_step_y[(travel_dir + 2) & 7];
+        join_x = join_x - dir_step_x[travel_dir];
+        join_y = join_y - dir_step_y[travel_dir];
+        choose_next_step_toward_destination(&side_start, &end, 0, &join_x, &join_y);
         start.x = end.x;
         start.y = end.y;
-        if (dirStepX[travel_dir] != 0) {
+        if (dir_step_x[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
-                start.dir = (dungeonForwardMonsterCoordinateDelta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
             if (cursor_y == dest_grid_y) {
-                start.dir = (dungeonForwardMonsterCoordinateDelta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cursor_x = cursor_x + dirStepX[start.dir];
-        cursor_y = cursor_y + dirStepY[start.dir];
+        cursor_x = cursor_x + dir_step_x[start.dir];
+        cursor_y = cursor_y + dir_step_y[start.dir];
         travel_dir = start.dir;
     }
 
@@ -116,37 +116,37 @@ s16 dungeonConnectRoomsWithCorridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 
     src_x = src_room->x + src_offset_x;
     src_y = src_room->y + src_offset_y;
     edge_cell = &D_800EA000[(src_y << dungeon->shiftX) + src_x];
-    inner_cell = &D_800EA000[((src_y + dirStepY[back_dir]) << dungeon->shiftX) + src_x + dirStepX[back_dir]];
+    inner_cell = &D_800EA000[((src_y + dir_step_y[back_dir]) << dungeon->shiftX) + src_x + dir_step_x[back_dir]];
     dest_x = dest_room->x + dest_offset_x;
     dest_y = dest_room->y + dest_offset_y;
-    if (dungeonIsValueWithinInclusiveBounds(edge_cell->kind, 15, 18)) {
+    if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
         edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
         edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
-        if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+        if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
             edge_cell->value = edge_cell->value + 96;
         }
     }
-    if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 19, 28)) {
+    if (is_value_within_inclusive_bounds(inner_cell->kind, 19, 28)) {
         inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
-    } else if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+    } else if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
         inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
         inner_cell->value = inner_cell->value + 96;
     }
 
-    cursor_x = src_x + dirStepX[(travel_dir + 2) & 7];
-    cursor_y = src_y + dirStepY[(travel_dir + 2) & 7];
+    cursor_x = src_x + dir_step_x[(travel_dir + 2) & 7];
+    cursor_y = src_y + dir_step_y[(travel_dir + 2) & 7];
     edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
-    inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->shiftX) + cursor_x + dirStepX[back_dir]];
-    if (dungeonIsValueWithinInclusiveBounds(edge_cell->kind, 15, 18)) {
+    inner_cell = &D_800EA000[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
+    if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
         edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
         edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
-        if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+        if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
             edge_cell->value = edge_cell->value + 96;
         }
     }
-    if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 19, 28)) {
+    if (is_value_within_inclusive_bounds(inner_cell->kind, 19, 28)) {
         inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
-    } else if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+    } else if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
         inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
         inner_cell->value = inner_cell->value + 96;
     }
@@ -156,44 +156,44 @@ s16 dungeonConnectRoomsWithCorridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 
         cursor_x = dest_x;
         cursor_y = dest_y;
         edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
-        cursor_x = cursor_x + dirStepX[dest_dir];
-        cursor_y = cursor_y + dirStepY[dest_dir];
+        cursor_x = cursor_x + dir_step_x[dest_dir];
+        cursor_y = cursor_y + dir_step_y[dest_dir];
         inner_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
         entry_dir = (dest_dir + 4) & 6;
-        if (dungeonIsValueWithinInclusiveBounds(edge_cell->kind, 15, 18)) {
+        if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
             edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
-            if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+            if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
                 edge_cell->value = edge_cell->value + 96;
             }
         }
-        if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 19, 28)) {
+        if (is_value_within_inclusive_bounds(inner_cell->kind, 19, 28)) {
             inner_cell->kind = inner_cell->flags + (entry_dir / 2) * 10 + 39;
-        } else if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+        } else if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
             inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
             inner_cell->value = inner_cell->value + 96;
         }
 
-        cursor_x = dest_x + dirStepX[(entry_dir - 2) & 7];
-        cursor_y = dest_y + dirStepY[(entry_dir - 2) & 7];
+        cursor_x = dest_x + dir_step_x[(entry_dir - 2) & 7];
+        cursor_y = dest_y + dir_step_y[(entry_dir - 2) & 7];
         edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
-        inner_cell = &D_800EA000[((cursor_y + dirStepY[back_dir]) << dungeon->shiftX) + cursor_x + dirStepX[back_dir]];
-        if (dungeonIsValueWithinInclusiveBounds(edge_cell->kind, 15, 18)) {
+        inner_cell = &D_800EA000[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
+        if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
             edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
-            if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+            if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
                 edge_cell->value = edge_cell->value + 96;
             }
         }
-        if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 19, 28)) {
+        if (is_value_within_inclusive_bounds(inner_cell->kind, 19, 28)) {
             inner_cell->kind = inner_cell->flags + (entry_dir / 2) * 10 + 39;
-        } else if (dungeonIsValueWithinInclusiveBounds(inner_cell->kind, 99, 103)) {
+        } else if (is_value_within_inclusive_bounds(inner_cell->kind, 99, 103)) {
             inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
             inner_cell->value = inner_cell->value + 96;
         }
     }
 
-    func_800A6D60(0);
+    save_or_restore_random_seed(0);
     travel_dir = saved_dir;
     if (D_800E2970[src_idx].unk_0A) {
         src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->shiftX) + src_room->x + src_offset_x].value;
@@ -225,11 +225,11 @@ failed:
     start.y = src_room->y + src_offset_y;
     start.dir = travel_dir;
     if (D_800E2970[src_idx].unk_0A) {
-        start.x = start.x + dirStepX[travel_dir];
-        start.y = start.y + dirStepY[travel_dir];
+        start.x = start.x + dir_step_x[travel_dir];
+        start.y = start.y + dir_step_y[travel_dir];
     }
-    cursor_x = (s16)(src_idx % D_8001F660) + dirStepX[travel_dir];
-    cursor_y = (s16)(src_idx / D_8001F660) + dirStepY[travel_dir];
+    cursor_x = (s16)(src_idx % D_8001F660) + dir_step_x[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + dir_step_y[travel_dir];
     dest_grid_x = dest_idx % D_8001F660;
     dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
@@ -241,18 +241,18 @@ failed:
                 end.x = dest_room->x;
                 end.y = dest_room->y;
             }
-            end.x = end.x - dirStepX[dest_dir];
-            end.y = end.y - dirStepY[dest_dir];
-            if (dungeonCarveCorridorTowardDestination(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
+            end.x = end.x - dir_step_x[dest_dir];
+            end.y = end.y - dir_step_y[dest_dir];
+            if (carve_corridor_toward_destination(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
                 return 1;
             }
-            start.x = start.x + dirStepX[(travel_dir + 2) & 7];
-            start.y = start.y + dirStepY[(travel_dir + 2) & 7];
-            end.x = end.x + dirStepX[(dest_dir + 2) & 7];
-            end.y = end.y + dirStepY[(dest_dir + 2) & 7];
-            join_x = join_x - dirStepX[travel_dir];
-            join_y = join_y - dirStepY[travel_dir];
-            if (dungeonCarveCorridorTowardDestination(&start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
+            start.x = start.x + dir_step_x[(travel_dir + 2) & 7];
+            start.y = start.y + dir_step_y[(travel_dir + 2) & 7];
+            end.x = end.x + dir_step_x[(dest_dir + 2) & 7];
+            end.y = end.y + dir_step_y[(dest_dir + 2) & 7];
+            join_x = join_x - dir_step_x[travel_dir];
+            join_y = join_y - dir_step_y[travel_dir];
+            if (carve_corridor_toward_destination(&start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
                 goto failed;
             }
             break;
@@ -261,30 +261,30 @@ failed:
         room_marks[room_idx] = 2;
         end.x = D_800E2970[room_idx].x;
         end.y = D_800E2970[room_idx].y;
-        if (dungeonCarveCorridorTowardDestination(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
+        if (carve_corridor_toward_destination(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
             return 1;
         }
         side_start = start;
-        side_start.x = side_start.x + dirStepX[(travel_dir + 2) & 7];
-        side_start.y = side_start.y + dirStepY[(travel_dir + 2) & 7];
-        join_x = join_x - dirStepX[travel_dir];
-        join_y = join_y - dirStepY[travel_dir];
-        if (dungeonCarveCorridorTowardDestination(&side_start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
+        side_start.x = side_start.x + dir_step_x[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + dir_step_y[(travel_dir + 2) & 7];
+        join_x = join_x - dir_step_x[travel_dir];
+        join_y = join_y - dir_step_y[travel_dir];
+        if (carve_corridor_toward_destination(&side_start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
             return 1;
         }
         start.x = end.x;
         start.y = end.y;
-        if (dirStepX[travel_dir] != 0) {
+        if (dir_step_x[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
-                start.dir = (dungeonForwardMonsterCoordinateDelta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
             if (cursor_y == dest_grid_y) {
-                start.dir = (dungeonForwardMonsterCoordinateDelta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cursor_x = cursor_x + dirStepX[start.dir];
-        cursor_y = cursor_y + dirStepY[start.dir];
+        cursor_x = cursor_x + dir_step_x[start.dir];
+        cursor_y = cursor_y + dir_step_y[start.dir];
         travel_dir = start.dir;
     }
     return 0;

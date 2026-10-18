@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9fb054.h"
 
-void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
+void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
 {
     s32 kind;
     void *obj;
@@ -51,24 +51,24 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
             if (((flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     query_part = part_a;
-                    init_obj = (void *)func_800A6D30();
+                    init_obj = (void *)generate_random_value();
                     flag_bits = (s32)init_obj;
                     init_obj = obj;
                     if (flag_bits & 1) {
                         work->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80161CDC;
                     }
                 }
             }
         }
         init_obj = obj;
-        func_800A9C18(init_obj, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(init_obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015EE54;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

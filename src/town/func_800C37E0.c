@@ -1,5 +1,5 @@
 #include "common.h"
 
 /* Returns without performing any work. */
-void townNoOpCallbackC(void) {
+void no_op_callback_c(void) {
 }

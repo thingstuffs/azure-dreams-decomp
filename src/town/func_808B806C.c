@@ -3,15 +3,15 @@
 
 extern u16 D_00003F5A[];
 
-s32 func_80003C70();                             /* extern */
+s32 test_indexed_flag_treating_indices();                             /* extern */
 
 /* Return 2 when the selected flag is set and flag 0x1F9 is clear. */
-s32 func_8000386C(void) {
+s32 get_2_flag_flag(void) {
     s32 result;
 
     result = 0;
-    if (func_80003C70(D_00003F5A[0]) != 0) {
-        result = (func_80003C70(0x1F9U) == 0) * 2;
+    if (test_indexed_flag_treating_indices(D_00003F5A[0]) != 0) {
+        result = (test_indexed_flag_treating_indices(0x1F9U) == 0) * 2;
     }
     return result;
 }

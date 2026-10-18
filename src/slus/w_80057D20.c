@@ -1,6 +1,6 @@
 #include "slus/jtbl_80057D20.h"
 
-void audioApplyChannelControl(u8 channel, u8 control, u32 value)
+void audio_apply_channel_control(u8 channel, u8 control, u32 value)
 {
     S_80084960 *settings = &D_80084960[channel];
     s32 refresh_notes = 0;
@@ -23,7 +23,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
                 settings->f3a = 0;
                 for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
-                        audioUpdateVoicePitch(&D_80085458[voice_idx], 1);
+                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
                     }
                 }
             }
@@ -31,7 +31,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
                 settings->f3a = 0;
                 for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
-                        audioUpdateVoicePitch(&D_80085458[voice_idx], 1);
+                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
                     }
                 }
             }
@@ -46,7 +46,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
                 settings->f3a = 0;
                 for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
-                        audioUpdateVoicePitch(&D_80085458[voice_idx], 1);
+                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
                     }
                 }
             }
@@ -54,7 +54,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
                 settings->f3a = 0;
                 for (voice_idx = 0; voice_idx < *(s32 *)&D_80073734; voice_idx++) {
                     if (D_80085458[voice_idx].f06 == channel) {
-                        audioUpdateVoicePitch(&D_80085458[voice_idx], 1);
+                        audio_update_voice_pitch(&D_80085458[voice_idx], 1);
                     }
                 }
             }
@@ -170,7 +170,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
 
     case 30:
         D_80073738.f0 = control_value & 0xFF;
-        audioRefreshSequenceVoiceVolumes();
+        audio_refresh_sequence_voice_volumes();
         break;
 
     case 64:
@@ -236,7 +236,7 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
     case 121:
 
     case 123:
-        audioResetSequenceTracksAndChannels();
+        audio_reset_sequence_tracks_and_channels();
         break;
 
     case 126:
@@ -258,8 +258,8 @@ void audioApplyChannelControl(u8 channel, u8 control, u32 value)
         if (needs_refresh) {
             for (entry_idx = 0; entry_idx < *(s32 *)&D_80073734; entry_idx++) {
                 if ((channel == D_80085458[entry_idx].f06) && (D_80085458[entry_idx].f1a != 0)) {
-                    audioComputeVoiceStereoVolumes(&D_80085458[entry_idx], &D_80084960[channel]);
-                    soundSetIndexedVoiceVolumes(entry_idx, D_80085458[entry_idx].f10, D_80085458[entry_idx].f12);
+                    audio_compute_voice_stereo_volumes(&D_80085458[entry_idx], &D_80084960[channel]);
+                    sound_set_indexed_voice_volumes(entry_idx, D_80085458[entry_idx].f10, D_80085458[entry_idx].f12);
                 }
             }
         }

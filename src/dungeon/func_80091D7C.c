@@ -18,7 +18,7 @@ typedef struct S_800974DC_0 {
     u16 unk_A2;
     u8 pad_A4[0x5E];
     u8 unk_102;
-} S_800974DC_0;   /* arg0 in dungeonUpdateAirborneActorMotion */
+} S_800974DC_0;   /* arg0 in update_airborne_actor_motion */
 
 
 typedef struct S_800974DC_4_pre {
@@ -33,16 +33,16 @@ typedef struct S_800974DC_6 {
 
 
 void func_8003DB94();
-void dungeonProcessUnflaggedLinkedEntries(); /* extern */
-s32 dungeonResolveAttackDamageAndEffects();
-void dungeonSetRecordIntegerTileCenter(); /* extern */
-s32 dungeonSelectNearbyTargetAndInitializeSlot(); /* extern */
+void process_unflagged_linked_entries(); /* extern */
+s32 resolve_attack_damage_and_effects();
+void set_record_integer_tile_center(); /* extern */
+s32 select_nearby_target_and_initialize_slot(); /* extern */
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
 extern u8 D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
-void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
@@ -52,13 +52,13 @@ void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *spr
     phase = ((S_800974DC_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, motion, 8, 0x300);
+        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
-        func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+        func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
-        motion->unk_0C = (s32) (*(s16 *)((u8 *)dirStepX + dir_offset) << 0x11);
-        dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
+        motion->unk_0C = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
+        dir_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
         motion->flags14 = 0xFFEBC000;
         motion->unk_10 = (s32) (dir_y << 0x11);
         ((S_800974DC_0 *)action)->unk_96.s = 3U;
@@ -74,7 +74,7 @@ void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *spr
         if (((S_800974DC_0 *)action)->unk_96.u == 0) {
             if (((S_800974DC_0 *)action)->unk_102 == 0) {
                 actor->unk_20 = 1;
-                if (dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1) == 0) {
+                if (resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1) == 0) {
                     linked_object = actor->target;
                     if (linked_object != NULL) {
                         actor->target = NULL;
@@ -87,7 +87,7 @@ void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *spr
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
                 (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-                func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing
+                func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
             }
@@ -103,7 +103,7 @@ void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *spr
             return;
         }
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-        func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+        func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
         return;
@@ -135,11 +135,11 @@ void dungeonUpdateAirborneActorMotion(void *action, EntityRec *motion, void *spr
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
-        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x412);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        process_unflagged_linked_entries(actor->unk_5C);
+        g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);
         ((S_800974DC_0 *)action)->unk_8C = &D_80096384;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_800974DC_0 *)action)->unk_96.s = 0U;
         return;
     }

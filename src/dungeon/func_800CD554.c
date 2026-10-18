@@ -5,11 +5,11 @@
 void func_8003DB94();  /* extern */
 void *func_8003FD64();            /* extern */
 s32 func_8004491C();           /* extern */
-void dungeonClearEntryFlagAndLinkOwner();                      /* extern */
-void func_8009A21C();             /* extern */
-s8 func_8009FB34();                           /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s16 func_800BCB04();                   /* extern */
+void clear_entry_flag_and_link_owner();                      /* extern */
+void cycle_map_cell_flags();             /* extern */
+s8 find_active_rect_containing_point();                           /* extern */
+void set_record_integer_tile_center();              /* extern */
+s16 sample_terrain_surface_height();                   /* extern */
 extern M2C_UNK D_800D2E9C;
 extern M2C_UNK D_800D3140;
 extern M2C_UNK D_800D36D0;
@@ -65,7 +65,7 @@ typedef struct S_800D2CB4_3 {
 } S_800D2CB4_3;
 
 /* Creates a dungeon object at the given tile and initializes its graphics and state. */
-void *dungeonCreateActorGraphicsAtTile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
+void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     s32 tile_flags;
     s16 saved_kind;
     S_800D2CB4_3 *graphics;
@@ -108,19 +108,19 @@ void *dungeonCreateActorGraphicsAtTile(s16 object_kind, u16 tile_x, u16 tile_y, 
         graphics->unk_14 = (u16) (graphics->unk_14 | 0x100);
         ((S_800D2CB4_1 *)object)->unk_10 = &D_800D2E9C;
         state->unk_8C = &D_800D3140;
-        graphics->unk_26 = func_8009FB34(graphics->unk_24, graphics->unk_25);
-        dungeonSetRecordIntegerTileCenter(position, graphics->unk_24, graphics->unk_25);
-        state->unk_88 = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);
+        graphics->unk_26 = find_active_rect_containing_point(graphics->unk_24, graphics->unk_25);
+        set_record_integer_tile_center(position, graphics->unk_24, graphics->unk_25);
+        state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
         graphics->unk_0C = 0x808080;
         graphics->unk_14 = (u16) (graphics->unk_14 | 0x8000);
-        dungeonClearEntryFlagAndLinkOwner(object);
+        clear_entry_flag_and_link_owner(object);
         call_x = graphics->unk_24;
         call_y = graphics->unk_25;
         tile_flags = 0x3000;
         if (state->unk_1C & 0x2000) {
             tile_flags = 0x300;
         }
-        func_8009A21C(call_x, call_y, tile_flags);
+        cycle_map_cell_flags(call_x, call_y, tile_flags);
         state->unk_9A = 0xE;
         state->unk_9C = -1;
         state->unk_9E = 0;

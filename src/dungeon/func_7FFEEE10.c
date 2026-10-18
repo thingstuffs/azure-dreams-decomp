@@ -2,13 +2,13 @@
 
 
 
-extern s32 townEvaluateSurfaceComponentsA(s32 *);
+extern s32 evaluate_surface_components_a(s32 *);
 
 typedef struct S_8008C570_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8008C570_0;   /* arg0 in townQueryOffsetPositionMinusX */
+} S_8008C570_0;   /* arg0 in query_offset_position_minus_x */
 
 typedef struct S_8008C570_1 {
     s32 unk_00;
@@ -17,7 +17,7 @@ typedef struct S_8008C570_1 {
 } S_8008C570_1;
 
 /* Evaluates the summed vector and subtracts the entry's integer first component on success. */
-s32 townQueryOffsetPositionMinusX(S_8008C570_0 *vector, s32 entry_base, s32 entry_index) {
+s32 query_offset_position_minus_x(S_8008C570_0 *vector, s32 entry_base, s32 entry_index) {
     s32 summed_vector[5];
     s32 entry_offset;
     s32 result;
@@ -30,7 +30,7 @@ s32 townQueryOffsetPositionMinusX(S_8008C570_0 *vector, s32 entry_base, s32 entr
     summed_vector[0] = vector->unk_00 + entry->unk_00;
     summed_vector[1] = vector->unk_04 + entry->unk_04;
     summed_vector[2] = vector->unk_08 + entry->unk_08;
-    result = townEvaluateSurfaceComponentsA(summed_vector);
+    result = evaluate_surface_components_a(summed_vector);
     if ((result << 0x10) == 0) {
         return 0;
     }

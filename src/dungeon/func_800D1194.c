@@ -40,10 +40,10 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Queues projected points and texture-page packets in the ordering table. */
-s32 func_800D68F4(u8 *node_data, u16 *position)
+s32 queue_projected_mesh_points_and_texture_packets(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **global_state = ((void * *)(&gameWork));
+    void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)global_state[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

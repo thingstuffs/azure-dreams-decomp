@@ -73,16 +73,16 @@ typedef struct GlobalObj {
 
 extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
-extern s32 dungeonGetSpecialTableDataIndex();
-extern s32 dispatchDungeonCategoryAction();
+extern s32 get_special_table_data_index();
+extern s32 dispatch_dungeon_category_action();
 struct S_800BA33C_0;
-extern s32 dungeonIsSelectableMenuTarget(struct S_800BA33C_0 *object);
+extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void func_800478B8();
-extern void dungeonAppendPackedActionRecord();
-extern s32 dungeonSelectNearbyTargetAndInitializeSlot();
+extern void append_packed_action_record();
+extern s32 select_nearby_target_and_initialize_slot();
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
-void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
+void update_item_target_marker(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
     GameWork *controls;
@@ -95,7 +95,7 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
     Entity *entity;
 
     render = render_arg;
-    controls = &gameWork;
+    controls = &g_game_work;
 
     {
         Node *node;
@@ -161,7 +161,7 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *left;
                 left = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->left;
-                if (dungeonIsSelectableMenuTarget(left)) {
+                if (is_selectable_menu_target(left)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
@@ -180,7 +180,7 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *right;
                 right = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->right;
-                if (dungeonIsSelectableMenuTarget(right)) {
+                if (is_selectable_menu_target(right)) {
                     status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
@@ -198,7 +198,7 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
         input = ((u32)controls->unk_010);
         if (input & 0x20) {
             if (work->mode == 0) {
-                (dungeonStatus.unk_0A)--;
+                (g_dungeon_status.unk_0A)--;
             }
             {
                 u8 *flags_page;
@@ -217,19 +217,19 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
                     s32 action;
                     s32 amount;
                     GlobalObj *object;
-                    result = dungeonGetSpecialTableDataIndex(((Work *)work)->handle);
+                    result = get_special_table_data_index(((Work *)work)->handle);
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
                     object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
-                    dungeonAppendPackedActionRecord(object, action, amount, 0);
+                    append_packed_action_record(object, action, amount, 0);
                 } else {
                     s32 amount;
                     GlobalObj *object;
-                    result = dungeonGetSpecialTableDataIndex((*(s32 *)((u8 *)work + 0x2C)));
+                    result = get_special_table_data_index((*(s32 *)((u8 *)work + 0x2C)));
                     amount = (s16)result;
                     object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
-                    dungeonAppendPackedActionRecord(object, 0x50,
+                    append_packed_action_record(object, 0x50,
                                   work->node->entity == object->right, amount);
                 }
             }
@@ -245,13 +245,13 @@ void dungeonUpdateItemTargetMarker(Work *work, Out *out, Render *render_arg)
             counter_base_2 = (u8 *)D_800E0000;
             entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)entity - 0x18);
-            dungeonSelectNearbyTargetAndInitializeSlot((u8 *)entity - 0x20, target_pos, count,
+            select_nearby_target_and_initialize_slot((u8 *)entity - 0x20, target_pos, count,
                           *(s16 *)(counter_base_2 - 0x319A));
-            result = dispatchDungeonCategoryAction(work->node->entity, work->handle, 0x15, 0);
+            result = dispatch_dungeon_category_action(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
                 return;
             }
-            (dungeonStatus.unk_0A)--;
+            (g_dungeon_status.unk_0A)--;
         }
         {
             u8 *flags_page;

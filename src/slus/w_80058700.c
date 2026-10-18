@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void soundUpdateVoiceModulationSlots(void);
+extern void sound_update_voice_modulation_slots(void);
 extern void func_800584E4(void);
 extern void func_8005ACDC(void);
 
@@ -14,7 +14,7 @@ extern s32 D_800737A4[];
 extern s32 D_800869A8[];
 
 /* Prevents re-entry while processing active state updates and running cleanup. */
-void soundRunGuardedSequenceUpdate(void) {
+void sound_run_guarded_sequence_update(void) {
     if (D_80085F98.v == 0) {
         D_80085F98.v = 1;
         if (D_800737A4[0] != 0) {
@@ -31,7 +31,7 @@ void soundRunGuardedSequenceUpdate(void) {
             func_800584E4();
             func_800584E4();
         }
-        soundUpdateVoiceModulationSlots();
+        sound_update_voice_modulation_slots();
         func_8005ACDC();
         D_80085F98.v = 0;
     }

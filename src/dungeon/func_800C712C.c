@@ -45,7 +45,7 @@ extern u8 D_800CC744[];
 extern s32 func_8004491C();
 
 /* Create an object at grid coordinates and initialize its display and tail data. */
-ObjectBlock *dungeonCreateGridEffectObject(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
+ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value, s16 size_mode) {
     ObjectBlock *obj;
     TailBlock *tail;
     CoordBlock *coords;

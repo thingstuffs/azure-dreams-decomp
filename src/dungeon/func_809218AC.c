@@ -9,6 +9,6 @@ void func_809218AC(s16 *state, s32 *position, u16 *object) {
     func_800478B8(object);
     if (*(u16 *)((u8 *)object + 0x14) & 0x6000) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

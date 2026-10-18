@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void func_80025D28(Rec_func_80025D28_arg0 *packet) {
+void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
     s32 initial_payload;
     s32 payload;
     u8 flags;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_193c848.h"
 
-void func_80024288(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
+void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
     s32 state;
     u16 state_unsigned;
     s32 timer;

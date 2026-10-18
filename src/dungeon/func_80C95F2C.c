@@ -16,11 +16,11 @@ void func_8017372C(void *actor_in, s32 actor_index, void *target, void *entity_i
     {
         DungeonGlobalStatus *shared_counter;
 
-        shared_counter = &dungeonStatus;
+        shared_counter = &g_dungeon_status;
         shared_counter->unk_0A--;
     }
     (*(void * *)((u8 *)target + 0x2C)) = D_801752FC;
-    direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+    direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
     func_80047784(target, D_801752FC[direction & 7], 0);
     ((CB_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
     return;
@@ -30,53 +30,53 @@ void func_8017372C(void *actor_in, s32 actor_index, void *target, void *entity_i
         DungeonGlobalStatus *shared_counter;
 
         (*(void * *)((u8 *)target + 0x2C)) = D_80175304;
-        direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(target, D_80175304[direction & 7], 0);
-        shared_counter = &dungeonStatus;
+        shared_counter = &g_dungeon_status;
         shared_counter->unk_0A++;
         ((CB_8017372C_S_801740DC_0 *)actor_in)->unk_9B++;
         return;
     } else {
-        shared_state = &dungeonStatus;
+        shared_state = &g_dungeon_status;
         if (shared_state->flags & 0x1000) {
             return;
         }
         if (entity->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(actor_in, actor_index, target, 0) != 0) {
+            if (begin_ready_actor_directional_action(actor_in, actor_index, target, 0) != 0) {
                 return;
             }
         }
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             return;
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x100) {
-            dungeonBeginPushedActorMove(actor_in, actor_index, target, entity);
+            begin_pushed_actor_move(actor_in, actor_index, target, entity);
             return;
         }
         if (entity_flags & 0x80000) {
-            func_800AA888(actor_in, actor_index, target, entity);
+            begin_actor_move_to_target_facing(actor_in, actor_index, target, entity);
             func_80173A38(actor_in, actor_index, target, entity);
             return;
         }
         if (entity->unk_6D == 0) {
             return;
         }
-        if ((func_800A2C34(entity) << 16) != 0) {
-            if ((dungeonCheckEntityRelation(entity,
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+            if ((check_entity_relation(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
         } else {
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
         }
         func_800A9A04(entity);
         if (entity->tileY == 0) {
             return;
         }
         (*(void * *)((u8 *)target + 0x2C)) = D_80175304;
-        direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(target, D_80175304[direction & 7], 0);
         shared_state->unk_0A++;
     }
@@ -90,7 +90,7 @@ void func_8017372C(void *actor_in, s32 actor_index, void *target, void *entity_i
     {
         DungeonGlobalStatus *shared_counter;
 
-        shared_counter = &dungeonStatus;
+        shared_counter = &g_dungeon_status;
         shared_counter->unk_0A--;
     }
     ((CB_8017372C_S_801740DC_0 *)actor_in)->unk_8C = func_8017102C;

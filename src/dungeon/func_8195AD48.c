@@ -4,7 +4,7 @@ extern void func_80065820(void *, void *);
 extern void func_80064BC0(void *, s32 *);
 
 /* Initializes the destination from the source position and signed vector components. */
-void dungeonInitializeDestinationFromVector(void *dest, void *source) {
+void initialize_destination_from_vector(void *dest, void *source) {
     s32 position[3];
 
     func_80065820(source, dest);

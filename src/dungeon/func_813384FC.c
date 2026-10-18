@@ -11,7 +11,7 @@ typedef struct {
 
 
 /* Return the direction from the global point to the target, or 9 if coincident. */
-s32 dungeonGetPlayerRelativePointOctant(DungeonPoint *target)
+s32 get_player_relative_point_octant(DungeonPoint *target)
 {
 
     if (D_80083780.x.w.i == target->x &&D_80083780.y.w.i == target->y) {

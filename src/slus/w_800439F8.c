@@ -6,7 +6,7 @@ extern u8 D_800814AC;
 extern u8 D_800814A4;
 
 /* Restores saved state when requested; otherwise saves the current state. */
-void runtimeSaveOrRestoreState(void)
+void runtime_save_or_restore_state(void)
 {
     if (D_80080A8A != 0) {
         u8 *ram_page;

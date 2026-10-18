@@ -18,7 +18,7 @@ typedef struct {
 } Context;
 
 // Arrange ten objects in two columns of five rows.
-void townLayoutItemMenuUpperPairColumns(Context *context)
+void layout_item_menu_upper_pair_columns(Context *context)
 {
     s32 layoutIndex;
 

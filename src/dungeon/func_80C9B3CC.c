@@ -70,7 +70,7 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
                 s32 target_y;
 
                 actor->unk_60 =
-                    dungeonScanMonsterAlongHeading(actor, entity->unk_24,
+                    scan_monster_along_heading(actor, entity->unk_24,
                                   entity->unk_25,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
@@ -79,7 +79,7 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
                 actor->unk_73.u8 = target_y;
             }
 
-            if (dungeonCreateActorSpellEffect(actor, part, alternate, (u8 *)work + 0x98) != 0) {
+            if (create_actor_spell_effect(actor, part, alternate, (u8 *)work + 0x98) != 0) {
                 work->unk_9B++;
             }
         } else {
@@ -88,12 +88,12 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
             position->unk_14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(position, entity->unk_24,
+            set_record_integer_tile_center(position, entity->unk_24,
                           entity->unk_25);
             active_actor = D_800814A8;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)active_actor + 0xA6))--;
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D--;
             work->unk_8C = func_8016B02C;
             actor->unk_73.u8 = 0;
@@ -103,7 +103,7 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
         break;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             entity->unk_14 |= 0x800;
             break;
         }
@@ -134,7 +134,7 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
             *(CL_CB9000_80172BCC_Copy12 *)((u8 *)actor + 0x9A) = D_8016F39C;
             model->unk_08 = (u8 *)actor + 0x9A;
         }
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         break;
 
     case 2:
@@ -148,7 +148,7 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
         break;
 
     case 3:
-        part = (CL_CB9000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&dungeonStatus.unk_0C) - 0x0C);
+        part = (CL_CB9000_80172BCC_S_func_80C953CC_9 *)((u8 *)((s32 *)&g_dungeon_status.unk_0C) - 0x0C);
         if (part->unk_0C == 0) {
             work->unk_96 = 0;
         }
@@ -159,13 +159,13 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
         position->unk_14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(position, entity->unk_24,
+        set_record_integer_tile_center(position, entity->unk_24,
                       entity->unk_25);
         if (entity->unk_2C != D_8016F2B4) {
             s32 direction;
 
             (*(void **)((u8 *)entity + 0x2C)) = D_8016F2B4;
-            direction = (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9;
+            direction = (g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9;
             func_80047784(entity, D_8016F2B4[direction & 7], 0);
         }
         if (part->unk_0C != 0) {
@@ -174,12 +174,12 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
 
         part->unk_0A--;
         work->unk_8C = func_8016B02C;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_73.u8 = 0;
         actor->unk_72.u8 = 0;
         actor->unk_6D--;
         actor->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         break;
     }
 }

@@ -15,7 +15,7 @@ typedef struct S_800B65D8_5 {
 s32 func_80048DA0();                         /* extern */
 s32 func_80048DCC();                             /* extern */
 s32 func_80048DE8();                             /* extern */
-void townSetMonsterStatusPanelHeight();                    /* extern */
+void set_monster_status_panel_height();                    /* extern */
 extern u8 D_80089344[];
 
 typedef struct S_800B65D8_0 {
@@ -36,10 +36,10 @@ typedef struct S_800B65D8_2 {
 typedef struct S_800B65D8_3 {
     u8 pad_00[0x5C];
     s32 * unk_5C;
-} S_800B65D8_3;   /* base in townUpdateModeDisplaySpacing */
+} S_800B65D8_3;   /* base in update_mode_display_spacing */
 
 /* Updates two display entries for the mode and adjusts their spacing. */
-void townUpdateModeDisplaySpacing(S_800B65D8_3 *base, s32 display_mode) {
+void update_mode_display_spacing(S_800B65D8_3 *base, s32 display_mode) {
     s32 mode;
     s32 total_width;
     s32 entry_index;
@@ -78,5 +78,5 @@ void townUpdateModeDisplaySpacing(S_800B65D8_3 *base, s32 display_mode) {
     if (total_width != 0) {
         spacing = total_width - 0x14;
     }
-    townSetMonsterStatusPanelHeight(*base->unk_5C, spacing);
+    set_monster_status_panel_height(*base->unk_5C, spacing);
 }

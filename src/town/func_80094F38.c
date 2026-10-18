@@ -10,14 +10,14 @@
 #endif
 
 
-extern void townInitializeSceneActionRecord();
-extern void func_800942B0();
-extern M2C_UNK dungeonInitializeActionObject();
-extern M2C_UNK func_8009451C();
-extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
+extern void initialize_scene_action_record();
+extern void initialize_actor_action_state();
+extern M2C_UNK initialize_action_object();
+extern M2C_UNK initialize_actor_movement_interaction_action();
+extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+extern void compute_and_clamps_vector_based_adjustment_updates_town();
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
 
 extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
@@ -25,40 +25,40 @@ extern u8 D_800CFCEF[9];
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
     u8 unk_14;
-} S_80092698_2;   /* D_800CFCC4[0] in townUpdateActorWithInteractionState */
+} S_80092698_2;   /* D_800CFCC4[0] in update_actor_with_interaction_state */
 
 /* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
-void townUpdateActorWithInteractionState(Rec_func_80094268_arg0 *controller, EntityRec *entity, s32 context) {
+void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, EntityRec *entity, s32 context) {
     s16 sampled_value;
     u16 countdown;
-    GameWork *state = &gameWork;
+    GameWork *state = &g_game_work;
     u8 *samples;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(entity);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(entity);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
     samples = ((u8 *)&D_800FE488);
-    sampled_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(entity, samples);
+    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            dungeonInitializeActionObject(controller, entity, context);
+            initialize_action_object(controller, entity, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(entity, sampled_value, samples);
+        compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, samples);
     }
     countdown = controller->unk_0A.as_u16 - 1;
     controller->unk_0A.as_u16 = countdown;
     if ((s16)countdown < 0) {
         if (D_800CFCC4[0] != NULL) {
             if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {
-                townInitializeSceneActionRecord(controller, entity, context);
+                initialize_scene_action_record(controller, entity, context);
                 return;
             }
         }
-        func_8009451C(controller, entity, context);
+        initialize_actor_movement_interaction_action(controller, entity, context);
         return;
     }
     if (((s32)state->unk_010) & 0x10) {
-        func_800942B0(controller, entity, context);
+        initialize_actor_action_state(controller, entity, context);
     }
 }

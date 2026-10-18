@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80E0F498; every changed retail word is a paired relocation. */
-#define dungeonAdvanceBackwardForwardMotion func_8016CC98
+#define advance_backward_forward_motion func_8016CC98
 #define D_80171094 D_8016B094
 #define D_80176488 D_80170488
 #include "common.h"
@@ -23,11 +23,11 @@ typedef struct S_80172C98_0 {
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 extern s32 func_8016F2EC(void *, void *, void *);
 extern s32 func_8016F5A8(void *, void *, void *);
 
@@ -59,7 +59,7 @@ void func_8016CC98(void *action, EntityRec *motion, void *animation, EntityRec *
                 motion->unk_10 =
                     motion->flags14 = 0;
             ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
 
@@ -77,7 +77,7 @@ void func_8016CC98(void *action, EntityRec *motion, void *animation, EntityRec *
             (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
             func_80047784(
                 animation,
-                direction_anims[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                direction_anims[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172C98_0 *)action)->unk_AE.s = 6;
             motion->unk_0C =
@@ -89,7 +89,7 @@ void func_8016CC98(void *action, EntityRec *motion, void *animation, EntityRec *
             ((S_80172C98_0 *)action)->unk_AE.u--;
             func_8016F2EC(action, motion, animation);
             func_8016F5A8(action, motion, animation);
-            func_800A56E0(0x80E);
+            play_sound_if_enabled(0x80E);
             ((S_80172C98_0 *)action)->unk_9B++;
             ((S_80172C98_0 *)action)->unk_96 = 0;
         }
@@ -107,21 +107,21 @@ void func_8016CC98(void *action, EntityRec *motion, void *animation, EntityRec *
         timer = ((S_80172C98_0 *)action)->unk_96 + 1;
         ((S_80172C98_0 *)action)->unk_96 = timer;
         if (((s16)timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
-            func_800A56E0(0x808);
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
+            play_sound_if_enabled(0x808);
         }
 
     case 3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-            dungeonReduceActorFoodMeter(actor, 0x100);
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
+            reduce_actor_food_meter(actor, 0x100);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             motion->unk_0C =
                 motion->unk_10 =
                     motion->flags14 = 0;
             ((S_80172C98_0 *)action)->unk_8C = D_8016B094;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (actor->unk_46) &= 0x7FFF;
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
         }
     }
 }

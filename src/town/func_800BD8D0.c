@@ -3,7 +3,7 @@
 
 typedef struct S_800BB030_0_pre {
     u16 unk_00;
-} S_800BB030_0_pre;   /* the 0x2 bytes before arg0 in func_800BB030, addressed as arg0[-1] */
+} S_800BB030_0_pre;   /* the 0x2 bytes before arg0 in update_four_phase_animation, addressed as arg0[-1] */
 
 typedef struct S_800BB030_0 {
     u8 pad_00[0x66];
@@ -14,26 +14,26 @@ typedef struct S_800BB030_0 {
     u8 pad_6E[0x29];
     s8 unk_97;
     s8 * unk_98;
-} S_800BB030_0;   /* arg0 in func_800BB030 */
+} S_800BB030_0;   /* arg0 in update_four_phase_animation */
 
 
-extern s32 townClassifyObjectAgainstBounds(void *, void *);
+extern s32 classify_object_against_bounds(void *, void *);
 
 /* Updates a four-phase animation and clears its activity flag on completion. */
-void func_800BB030(void *entity, void *context) {
+void update_four_phase_animation(void *entity, void *context) {
     s8 *activity_flag;
     s32 phase;
     s32 phase_ticks;
     s32 quarter_ticks;
     s8 intensity;
 
-    if (townClassifyObjectAgainstBounds(entity, context) != 0) {
+    if (classify_object_against_bounds(entity, context) != 0) {
         activity_flag = ((S_800BB030_0 *)entity)->unk_98;
         if (activity_flag != 0) {
             *activity_flag = 0;
         }
         ((S_800BB030_0_pre *)entity)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
 

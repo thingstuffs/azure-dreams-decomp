@@ -1,5 +1,5 @@
 #include "modules/town_door.h"
 
 /* Returns without performing any work. */
-void townDoorNoOp(void) {
+void door_no_op(void) {
 }

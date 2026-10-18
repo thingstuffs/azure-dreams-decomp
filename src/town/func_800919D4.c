@@ -9,7 +9,7 @@ typedef struct S_8008F134_1 {
 } S_8008F134_1;
 
 /* Unlink a linked node and clear its neighbor pointers. */
-void townUnlinkSceneListNode(Rec_func_80094268_arg0 *node) {
+void unlink_scene_list_node(Rec_func_80094268_arg0 *node) {
     S_8008F134_1 *prev_node;
 
     prev_node = node->unk_00.as_pv;

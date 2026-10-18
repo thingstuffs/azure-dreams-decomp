@@ -3,18 +3,18 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_800941D8();    /* extern */
-void townCallTheHandlerSelectsNonzeroEntry();  /* extern */
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                     /* extern */
+void call_the_handler_selects_nonzero_entry();  /* extern */
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                     /* extern */
 extern M2C_UNK D_800D00E0;
 
 
 /* Decrements the state countdown and invokes its handler when it expires. */
-void func_80091CE0(Rec_func_80094268_arg0 *state, s32 update_ctx, s32 handler_ctx) {
+void invoke_handler_when_countdown_expires(Rec_func_80094268_arg0 *state, s32 update_ctx, s32 handler_ctx) {
     s16 countdown;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(update_ctx);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(update_ctx);
     if (state->unk_0A.as_s16 == 0) {
-        townCallTheHandlerSelectsNonzeroEntry(&D_800D00E0, state, handler_ctx);
+        call_the_handler_selects_nonzero_entry(&D_800D00E0, state, handler_ctx);
     }
     countdown = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = countdown;

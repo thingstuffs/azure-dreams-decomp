@@ -7,7 +7,7 @@ extern int abs(int);
 #define F_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 extern s32 func_800352FC(void);
-extern s32 townCheckTransformIdentifierAndHook(void *);
+extern s32 check_transform_identifier_and_hook(void *);
 extern void SD_Call(s32);
 extern void func_800478B8(void *);
 extern s32 rand(void);
@@ -25,7 +25,7 @@ extern u8 D_800E9DD4[];
 extern u8 D_800E9DEC[];
 
 /* Updates random idle actions, bounded wandering, and sprite animation. */
-void townUpdateRandomIdleWander(void *actor, void *motion, void *sprite, s32 update_context) {
+void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 update_context) {
     void *anim_script;
     s16 *x_steps;
     s16 *y_steps;
@@ -43,7 +43,7 @@ void townUpdateRandomIdleWander(void *actor, void *motion, void *sprite, s32 upd
 
     anim_script = 0;
     if (func_800352FC() != 0 &&
-        townCheckTransformIdentifierAndHook(actor) != 0) {
+        check_transform_identifier_and_hook(actor) != 0) {
         if (!(F_S32(actor, 0xAC) & 1)) {
             SD_Call(0x601);
             F_S32(actor, 0xAC) |= 1;
@@ -76,8 +76,8 @@ void townUpdateRandomIdleWander(void *actor, void *motion, void *sprite, s32 upd
             anim_script = D_800E9DAC;
             F_S16(actor, 0x68) = 0x80;
         } else {
-            x_steps = dirStepX;
-            y_steps = dirStepY;
+            x_steps = dir_step_x;
+            y_steps = dir_step_y;
             for (;;) {
                 direction_index = rand() & 3;
                 step_offset = direction_index * 4;
@@ -95,8 +95,8 @@ void townUpdateRandomIdleWander(void *actor, void *motion, void *sprite, s32 upd
                 }
             }
             walk_ticks = 0x40;
-            step_x = (s16 *)((u8 *)dirStepX + step_offset);
-            step_y = (s16 *)((u8 *)dirStepY + step_offset);
+            step_x = (s16 *)((u8 *)dir_step_x + step_offset);
+            step_y = (s16 *)((u8 *)dir_step_y + step_offset);
             F_U16(actor, 0x6C) = walk_ticks;
             F_S16(actor, 0xA2) = (u16)F_S16(actor, 0xA2) + (u16)*step_x;
             F_S16(actor, 0xA0) = (u16)F_S16(actor, 0xA0) + (u16)*step_y;

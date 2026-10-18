@@ -19,7 +19,7 @@ typedef struct S_800489F4_Obj {
 } S_800489F4_Obj;
 
 /* Installs the selected animation frame and its secondary pointer, then updates the animation flags. */
-void textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(S_800489F4_Obj *object, s16 animation_index, s16 frame_index) {
+void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *object, s16 animation_index, s16 frame_index) {
     S_800489F4_Frame ***frame_table_ref = *object->unk28;
     S_800489F4_Frame **frame_table = *frame_table_ref;
     S_800489F4_Frame *frame_base = frame_table[animation_index];

@@ -10,10 +10,10 @@ typedef struct {
 } DungeonConfig;
 
 
-extern void dungeonCreateType212Object(s32 flag, s8 value);
+extern void create_type_212_object(s32 flag, s8 value);
 
 /* Pack dungeon cell height levels into nibbles and submit the buffer. */
-void dungeonPackAndSubmitCellHeightLevels(void) {
+void pack_and_submit_cell_height_levels(void) {
     TransitionWords upload_pair;
     DungeonConfig *config;
     u8 *dungeon_data;
@@ -38,7 +38,7 @@ void dungeonPackAndSubmitCellHeightLevels(void) {
     upload_pair = D_80088CB0;
     buffer = D_800E50A8;
     write_ptr = buffer;
-    dungeon_data = ((u8 *)(&gameWork));
+    dungeon_data = ((u8 *)(&g_game_work));
     config = (DungeonConfig *)(dungeon_data + 0x1DC);
     row = 0;
     if ((1 << config->field_16) > 0) {
@@ -125,5 +125,5 @@ void dungeonPackAndSubmitCellHeightLevels(void) {
         } while (value_2 < width_shift);
     }
     func_800672D8(&upload_pair, buffer);
-    dungeonCreateType212Object(1, 0x20);
+    create_type_212_object(1, 0x20);
 }

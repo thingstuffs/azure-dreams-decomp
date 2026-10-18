@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void shrinkAndBrightenEffect(void *state_ref, void *unused, void *effect) {
+void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     u16 scale;
     u8 brightness;
     void *state;
@@ -18,6 +18,6 @@ void shrinkAndBrightenEffect(void *state_ref, void *unused, void *effect) {
     if (*(u16 *)((u8 *)effect + 0x14) & 0x6000) {
         *(s8 *)((u8 *)*(void **)state_ref + 0x16) = 1;
         *(u16 *)((u8 *)state_ref - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

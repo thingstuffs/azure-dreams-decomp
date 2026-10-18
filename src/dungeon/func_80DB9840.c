@@ -12,7 +12,7 @@ typedef struct S_80171040_0 {
         struct { u8 pad[0x2]; u16 v; } at02u;
         struct { u8 pad[0x2]; u16 v; } at02p;
     } unk_08;   /* overlapping accesses */
-} S_80171040_0;   /* arg1 in dungeonUpdateDampedHeightEffect */
+} S_80171040_0;   /* arg1 in update_damped_height_effect */
 
 typedef struct S_80171040_1 {
     u8 pad_00[0x96];
@@ -25,22 +25,22 @@ typedef struct S_80171040_1 {
     s32 unk_A8;
     s32 unk_AC;
     s32 unk_B0;
-} S_80171040_1;   /* arg0 in dungeonUpdateDampedHeightEffect */
+} S_80171040_1;   /* arg0 in update_damped_height_effect */
 
 
 extern void func_800478B8(void *entity);
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16 x, u16 y, s16 z);
-extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
+extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
+extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
 /* Applies damped motion and height limits, updates the object, and checks its lifetime. */
-void dungeonUpdateDampedHeightEffect(void *state, void *position, void *object)
+void update_damped_height_effect(void *state, void *position, void *object)
 {
     s32 height;
     u16 ticks_left;
 
     ((S_80171040_0 *)position)->unk_00.at00.v += ((S_80171040_1 *)state)->unk_A4;
     ((S_80171040_1 *)state)->unk_A4 = (((S_80171040_1 *)state)->unk_A4 * 2) / 3;
-    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80171040_0 *)position)->unk_00.at02.v,
+    if ((s16)check_left_tile_and_center_height(((S_80171040_0 *)position)->unk_00.at02.v,
                            ((S_80171040_0 *)position)->unk_04.at02.v,
                            ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
         ((S_80171040_0 *)position)->unk_00.at00.v -= ((S_80171040_1 *)state)->unk_A4;
@@ -49,7 +49,7 @@ void dungeonUpdateDampedHeightEffect(void *state, void *position, void *object)
 
     ((S_80171040_0 *)position)->unk_04.at00.v += ((S_80171040_1 *)state)->unk_A8;
     ((S_80171040_1 *)state)->unk_A8 = (((S_80171040_1 *)state)->unk_A8 * 2) / 3;
-    if ((s16)dungeonCheckLeftTileAndCenterHeight(((S_80171040_0 *)position)->unk_00.at02.v,
+    if ((s16)check_left_tile_and_center_height(((S_80171040_0 *)position)->unk_00.at02.v,
                            ((S_80171040_0 *)position)->unk_04.at02.v,
                            ((S_80171040_0 *)position)->unk_08.at02.v) != 0) {
         ((S_80171040_0 *)position)->unk_04.at00.v -= ((S_80171040_1 *)state)->unk_A8;
@@ -60,11 +60,11 @@ void dungeonUpdateDampedHeightEffect(void *state, void *position, void *object)
     ((S_80171040_1 *)state)->unk_AC += ((S_80171040_1 *)state)->unk_B0;
 
     height = ((S_80171040_0 *)position)->unk_08.at02.v;
-    if (func_800BCB04(((S_80171040_0 *)position)->unk_00.at02.v,
+    if (sample_terrain_surface_height(((S_80171040_0 *)position)->unk_00.at02.v,
                       ((S_80171040_0 *)position)->unk_04.at02.v,
                       (s16)(((S_80171040_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
         ((S_80171040_1 *)state)->unk_AC = 0;
-        ((S_80171040_0 *)position)->unk_08.at02.v = func_800BCB04(
+        ((S_80171040_0 *)position)->unk_08.at02.v = sample_terrain_surface_height(
             ((S_80171040_0 *)position)->unk_00.at02.v, ((S_80171040_0 *)position)->unk_04.at02.v,
             (s16)(((S_80171040_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
         ((S_80171040_0 *)position)->unk_08.at00u.v = 0;
@@ -80,10 +80,10 @@ void dungeonUpdateDampedHeightEffect(void *state, void *position, void *object)
     ((S_80171040_1 *)state)->unk_96 = ticks_left;
     if ((s16)ticks_left <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/func_80A4B134; every changed retail word is a paired relocation. */
-#define dungeonUpdateFadingFourStripEffect func_80150934
+#define update_fading_four_strip_effect func_80150934
 #define D_80175910 D_80151910
-#define dungeonAdvanceRecordCountdown D_801508F0
+#define advance_record_countdown D_801508F0
 #include "modules/dungeon_resource06_slot0.h"
 extern s32 func_8015089C(void *, void *, void *);
 extern void func_80150214(void *, s16, s32, s16, s16, s16, s16);
@@ -88,7 +88,7 @@ void func_80150934(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
             strip_data = strip_obj + 0x20;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
-            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)dungeonAdvanceRecordCountdown);
+            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)advance_record_countdown);
             func_8004491C(init_obj, callback);
 
             render_ctl = ((R06_80174934_S_80174934_2 *)strip_obj)->unk_0C;
@@ -160,7 +160,7 @@ void func_80150934(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
     ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s = frames_left;
     if (frames_left <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     return;
 }

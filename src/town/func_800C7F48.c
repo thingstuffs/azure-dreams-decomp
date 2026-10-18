@@ -2,18 +2,18 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-void setResidentBitmapBit();                     /* extern */
-void townUnlinkSceneListNode();                      /* extern */
-void townClearObjectSlotAndMarkRemoved();                      /* extern */
+void set_resident_bitmap_bit();                     /* extern */
+void unlink_scene_list_node();                      /* extern */
+void clear_object_slot_and_mark_removed();                      /* extern */
 
 typedef struct S_800C56A8_0 {
     s32 unk_00;
     s32 unk_04;
-} S_800C56A8_0;   /* arg1 in func_800C56A8 */
+} S_800C56A8_0;   /* arg1 in adjust_two_state_values */
 
 
 /* Adjust the two state values and run completion actions when the countdown expires. */
-void func_800C56A8(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state) {
+void adjust_two_state_values(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state) {
     u16 ticks_left;
 
     state->unk_00 = (s32) (state->unk_00 + 0xFFFEAAAB);
@@ -21,8 +21,8 @@ void func_800C56A8(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state) {
     ticks_left = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        setResidentBitmapBit(0x54);
-        townUnlinkSceneListNode(object);
-        townClearObjectSlotAndMarkRemoved(object);
+        set_resident_bitmap_bit(0x54);
+        unlink_scene_list_node(object);
+        clear_object_slot_and_mark_removed(object);
     }
 }

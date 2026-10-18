@@ -5,7 +5,7 @@ extern M2C_UNK D_80129728[16];
 extern s32 D_801331A0;
 
 /* Restore 12 referenced values from the backup array. */
-void func_801238E4(void) {
+void restore_linked_values_from_backup(void) {
     M2C_UNK *table_base;
     s32 **value_slot;
     s32 *value_ptr;

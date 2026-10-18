@@ -21,8 +21,8 @@ typedef struct {
 
 extern StatusEntry D_800E39C8[];
 
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
+extern void process_unflagged_linked_entries(s32);
 extern s32 func_8003DB94(void *, s32, s32);
 
 typedef struct {
@@ -31,7 +31,7 @@ typedef struct {
 } Arg1Struct;
 
 /* Calls the selected handler and updates object and slot status on success. */
-s32 dungeonCallSlotHandlerAndUpdateStatus(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state) {
+s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state) {
     u8 *state = D_800E3D40;
     s32 result;
     StatusEntry *status;
@@ -43,9 +43,9 @@ s32 dungeonCallSlotHandlerAndUpdateStatus(s32 handler_id, void *object_ptr, s32 
     result = D_800DF2A8[(s16) handler_id](object, slot_index, slot_id << 0x10);
     if (result != 0) {
         if (state[0] != 0) {
-            dungeonProcessUnflaggedLinkedEntriesAlt(object->unk5C);
-            dungeonProcessUnflaggedLinkedEntries(object->unk5C);
-            dungeonStatus.flags |= 0x812;
+            process_unflagged_linked_entries_alt(object->unk5C);
+            process_unflagged_linked_entries(object->unk5C);
+            g_dungeon_status.flags |= 0x812;
         }
         slot_base = (u8 *) D_800E39C8;
         status = (StatusEntry *) (slot_base + slot_index * 0x18);

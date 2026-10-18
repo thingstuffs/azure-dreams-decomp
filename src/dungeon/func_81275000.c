@@ -69,9 +69,9 @@ typedef struct S_81275000_6 {
     s32 unk_08;
 } S_81275000_6;   /* callee_part in func_8014C898 */
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 
 
@@ -103,7 +103,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
     ((S_81275000_4 *)out_pos)->unk_0A = transform->unk_0A;
 
     motion_part = owner->unk_0C;
-    if (resolveRecordOrientationOrFallback(motion_part->unk_08, motion_part, motion_offset,
+    if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, motion_offset,
                       ((S_81275000_0 *)root_data)->unk_B6) != 0) {
         ((S_81275000_4 *)out_pos)->unk_02 +=
             (motion_offset[0] + ((S_81275000_0 *)root_data)->unk_B0) / 2;
@@ -138,7 +138,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
         }
         if (!(source_pos->unk_14 & 0x8000) &&
             source_pos->unk_04.u16 == 0x10C) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
@@ -158,14 +158,14 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
         }
         if (!(source_pos->unk_14 & 0x8000) &&
             source_pos->unk_04.u16 == 0x104) {
-            func_800A56E0(0x709);
+            play_sound_if_enabled(0x709);
         }
     }
 
     func_800478B8(render_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81275000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

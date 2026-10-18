@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-void townInvokeMatchCallbackOrLookup(void)
+void invoke_match_callback_or_lookup(void)
 {
     s32 lookup_result;
 

@@ -38,7 +38,7 @@ typedef struct S_7FFE7CBC_2 {
 typedef struct S_7FFE7CBC_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_7FFE7CBC_3;   /* arg0 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_3;   /* arg0 in create_colored_source_effect */
 
 typedef struct S_7FFE7CBC_4 {
     u8 pad_00[0xC];
@@ -63,7 +63,7 @@ typedef struct S_7FFE7CBC_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_7FFE7CBC_5;   /* ((S_7FFE7CBC_3 *)arg0)->unk_08 in dungeonCreateColoredSourceEffect */
+} S_7FFE7CBC_5;   /* ((S_7FFE7CBC_3 *)arg0)->unk_08 in create_colored_source_effect */
 
 
 
@@ -74,7 +74,7 @@ extern M2C_UNK D_800E2BB8;
 extern M2C_UNK D_8010AC34;
 
 /* Creates an effect at the source position with the given color. */
-void dungeonCreateColoredSourceEffect(S_7FFE7CBC_3 *source, s32 color) {
+void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
     s32 effect_color;
     S_7FFE7CBC_1 *render_state;
     S_7FFE7CBC_4 *render_data;

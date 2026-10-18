@@ -17,7 +17,7 @@ extern s32 D_00003F50;
 extern s32 D_00003F54;
 
 /* Print kind, mode, and scene/sequence number (sno) with their labels. */
-void func_80003544(s32 kind)
+void print_scene_sequence_number_sno(s32 kind)
 {
     D_00004610->print_value(D_000034B0, D_000034BC, kind);
     D_00004610->print_value(D_000034B0, D_000034C4, D_00003F54);

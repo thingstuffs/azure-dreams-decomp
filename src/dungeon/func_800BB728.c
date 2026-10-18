@@ -11,12 +11,12 @@ extern int abs(int);
 typedef struct S_800C0E88_1 {
     u8 pad_00[0x2];
     union { s8 s; u8 u; } unk_02;   /* accessed as both */
-} S_800C0E88_1;   /* data in dungeonUseMagicBall */
+} S_800C0E88_1;   /* data in use_magic_ball */
 
 typedef struct S_800C0E88_2_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_800C0E88_2_pre;   /* the 0x14 bytes before object in dungeonUseMagicBall, addressed as object[-1] */
+} S_800C0E88_2_pre;   /* the 0x14 bytes before object in use_magic_ball, addressed as object[-1] */
 
 typedef struct S_800C0E88_2 {
     u8 pad_00[0x8];
@@ -31,37 +31,37 @@ typedef struct S_800C0E88_2 {
     u8 pad_64[0xE];
     s8 unk_72;
     s8 unk_73;
-} S_800C0E88_2;   /* object in dungeonUseMagicBall */
+} S_800C0E88_2;   /* object in use_magic_ball */
 
 typedef struct S_800C0E88_3 {
     u8 pad_00[0x9];
     u8 unk_09;
     u8 unk_0A;
-} S_800C0E88_3;   /* scan in dungeonUseMagicBall */
+} S_800C0E88_3;   /* scan in use_magic_ball */
 
 typedef struct S_800C0E88_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C0E88_4;   /* tail_status in dungeonUseMagicBall */
+} S_800C0E88_4;   /* tail_status in use_magic_ball */
 
 
-extern s32 getCdCommandQueueDepth(void);
-extern void dungeonBeginModeSelectedItemAction(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
-extern s32 dungeonProcessRecordAndUpdateLinkedState();
-extern void dungeonClearSlotAndUpdateLinkedState();
-extern s32 func_800990FC(void);
-extern s32 func_80099194();
+extern s32 get_cd_command_queue_depth(void);
+extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
+extern s32 process_record_and_update_linked_state();
+extern void clear_slot_and_update_linked_state();
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes();
 extern void func_80099290();
-extern s32 dungeonCopySelectedTextWithoutTerminator();
-extern s32 func_80099734();
-extern void func_800997FC();
-extern void *dungeonScanMonsterAlongHeading();
-extern void func_800A5720();
-extern s32 func_800A57B4();
-extern void func_800A5F38();
-extern void func_800A6480();
-extern s32 dungeonCreateActorSpellEffect();
-extern s32 dungeonApplyActorFoodPreference();
+extern s32 copy_selected_text_without_terminator();
+extern s32 append_entity_display_text();
+extern void display_formatted_context_message();
+extern void *scan_monster_along_heading();
+extern void display_text_with_fullwidth_adjustment();
+extern s32 find_slot_by_item_group();
+extern void apply_item_effect_at_entity_position();
+extern void display_actor_item_status_message();
+extern s32 create_actor_spell_effect();
+extern s32 apply_actor_food_preference();
 
 extern u8 *D_80073470[];
 extern u16 D_800DF4B0[];
@@ -71,7 +71,7 @@ extern u8 D_800E1456[];
 extern u8 D_800E146F[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
-s32 dungeonUseMagicBall(u8 *object, u8 *data, s16 action, void *context)
+s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
 {
     u8 *slot_scan;
     u8 *object_record;
@@ -91,7 +91,7 @@ s32 dungeonUseMagicBall(u8 *object, u8 *data, s16 action, void *context)
 
 
     if (action == 13) {
-        return dungeonProcessRecordAndUpdateLinkedState(data, context);
+        return process_record_and_update_linked_state(data, context);
     }
 
     current_object = D_800E3D7C;
@@ -100,17 +100,17 @@ s32 dungeonUseMagicBall(u8 *object, u8 *data, s16 action, void *context)
         data[3] |= 0x20;
         active_object = D_800E3D7C;
         active_object->unk_110 = data;
-        dungeonBeginModeSelectedItemAction(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
+        begin_mode_selected_item_action(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
         return 0;
     }
 
     if ((u32)object <= 0x9FFFFFFF) {
-        func_800A6480(object, data);
+        display_actor_item_status_message(object, data);
 
         if (((S_800C0E88_1 *)data)->unk_02.s >= 10 && data[0] < 16) {
             slot = ((data[0] - 1) * 3) + 1;
-            if ((s16)func_800A57B4(object, slot) >= 0) {
-                dungeonClearSlotAndUpdateLinkedState(data);
+            if ((s16)find_slot_by_item_group(object, slot) >= 0) {
+                clear_slot_and_update_linked_state(data);
                 tail_status = (u8 *)0x80080000;
             } else {
                 message_table = D_8006DE24;
@@ -135,14 +135,14 @@ scan_next:
                     ((S_800C0E88_3 *)slot_scan)->unk_09 = slot_count;
 
                     if (((S_800C0E88_2 *)object)->unk_14 & 0x4000) {
-                        message_start = func_800990FC();
-                        message_end = func_80099734(object, message_start);
-                        message_end = func_80099194(D_800E1440, message_end);
-                        message_end = func_80099194(
+                        message_start = get_unused_text_buffer();
+                        message_end = append_entity_display_text(object, message_start);
+                        message_end = expand_text_control_codes(D_800E1440, message_end);
+                        message_end = expand_text_control_codes(
                             *(void **)(message_table + (slot_scan[8] * 20)), message_end);
-                        message_end = func_80099194(D_800E144C, message_end);
+                        message_end = expand_text_control_codes(D_800E144C, message_end);
                         func_80099290(message_end);
-                        func_800A5720(message_start);
+                        display_text_with_fullwidth_adjustment(message_start);
                     }
                 } else {
                     slot_scan += 3;
@@ -150,23 +150,23 @@ scan_next:
                         goto scan_next;
                     }
                 }
-                dungeonClearSlotAndUpdateLinkedState(data);
+                clear_slot_and_update_linked_state(data);
                 tail_status = (u8 *)0x80080000;
             }
         } else {
-            if (dungeonApplyActorFoodPreference(object,
+            if (apply_actor_food_preference(object,
                               D_800DDE84[object[0x13]] & 3, 0) == 0) {
-                func_800A5F38(object, data);
+                apply_item_effect_at_entity_position(object, data);
                 return 1;
             }
-            dungeonClearSlotAndUpdateLinkedState(data);
+            clear_slot_and_update_linked_state(data);
             tail_status = (u8 *)0x80080000;
         }
         tail_status += 0x3460;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else if (((S_800C0E88_1 *)data)->unk_02.s == 0) {
-        func_800997FC(D_800E1456);
-        tail_status = ((u8 *)(&dungeonStatus));
+        display_formatted_context_message(D_800E1456);
+        tail_status = ((u8 *)(&g_dungeon_status));
         data[3] &= 0xDF;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
     } else {
@@ -184,14 +184,14 @@ scan_next:
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
         object = (u8 *)((u32)object & 0xDFFFFFFF);
-        ((S_800C0E88_2 *)object)->unk_60 = dungeonScanMonsterAlongHeading(
+        ((S_800C0E88_2 *)object)->unk_60 = scan_monster_along_heading(
             object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
 
         ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
         ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);
 
         if (data[3] & 0x20) {
-            if (dungeonCreateActorSpellEffect(object, object + 8, 0,
+            if (create_actor_spell_effect(object, object + 8, 0,
                               ((u8 *)D_800E3D7C) + 0x98) == 0) {
                 return 0;
             }
@@ -206,20 +206,20 @@ scan_next:
         }
 
         D_800DF4B0[0] = 0;
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             return 0;
         }
 
-        status = &dungeonStatus;
+        status = &g_dungeon_status;
         status->unk_0C = object;
         D_800814A8->unk_98 |= 0x80;
         ((S_800C0E88_1 *)data)->unk_02.u--;
 
-        message_start = func_800990FC();
-        message_end = dungeonCopySelectedTextWithoutTerminator(data, message_start);
-        message_end = func_80099194(D_800E146F, message_end);
+        message_start = get_unused_text_buffer();
+        message_end = copy_selected_text_without_terminator(data, message_start);
+        message_end = expand_text_control_codes(D_800E146F, message_end);
         func_80099290(message_end);
-        func_800A5720(message_start);
+        display_text_with_fullwidth_adjustment(message_start);
         (*(u16 *)&status->unk_0A)--;
     }
     return 1;

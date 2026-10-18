@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Compiler switch destinations for townUpdateViewGrayLevel. These are its six case-block
+/* Compiler switch destinations for update_view_gray_level. These are its six case-block
  * addresses, not independent functions. The actual native owner emits this
  * table from its C switch; the storage view claims exactly these six pointers. */
 const void * const D_80089110[6] = {

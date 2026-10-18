@@ -34,13 +34,13 @@ typedef struct S_8017357C_3 {
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern s32 func_8009FD40(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30(void);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
+extern void update_actor_status_and_food(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern void func_800AA79C(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern u8 D_8016EAFC[];
 extern u8 D_8016EB04[];
 
@@ -58,9 +58,9 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8016EAFC;
         func_80047784(sprite,
-            D_8016EAFC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016EAFC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A
+        ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A
         - 1;
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
@@ -68,7 +68,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         if ((func_80042900(actor, 1) << 16) == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8016EB04;
             func_80047784(sprite,
-                D_8016EB04[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_8016EB04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             actor_flags = actor->flags1C | 0x40000;
             actor->flags1C = actor_flags;
@@ -78,13 +78,13 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             } else {
                 ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-                ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A =
-                    ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
+                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
+                    ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
                 ((S_8017357C_0 *)controller)->unk_9B++;
             }
             return;
         }
-        if (dungeonStatus.flags & 0x1000) {
+        if (g_dungeon_status.flags & 0x1000) {
             return;
         }
         if (actor->unk_64 != 0) {
@@ -93,13 +93,13 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             }
         }
         if (actor->tileY == 0) {
-            if (dungeonStatus.flags & 0x2008) {
+            if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
             func_800AA79C(controller, motion, sprite, actor);
             return;
         }
-        if ((func_800A2C34(actor) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             return;
         }
         actor_flags = actor->flags1C;
@@ -108,7 +108,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             return;
         }
         if (actor_flags & 0x80000) {
-            func_800AA888(controller, motion, sprite, actor);
+            begin_actor_move_to_target_facing(controller, motion, sprite, actor);
             ((S_8017357C_0 *)controller)->unk_A0 = 0;
             func_8016DD38(controller, motion, sprite, actor);
             return;
@@ -116,7 +116,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         if (actor->unk_6D == 0) {
             return;
         }
-        if ((func_800A2C34(actor) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             EntityRec *owner = D_800814A8;
 
             if ((func_8009A180(actor,
@@ -124,7 +124,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
                 return;
             }
         }
-        func_800A9A0C(actor);
+        update_actor_status_and_food(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
             TileObject *origin = &D_80082E80;
@@ -132,7 +132,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
 
             if (((tile == origin->unk_026) && (tile >= 0)) ||
                 ((s16)func_8009FD40(origin, sprite) < 2)) {
-                if (!(func_800A6D30() & 7)) {
+                if (!(generate_random_value() & 7)) {
                     func_80042B68(actor, 1);
                 }
             }
@@ -142,7 +142,7 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8016EB04;
         func_80047784(sprite,
-            D_8016EB04[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016EB04[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         actor_flags = actor->flags1C | 0x40000;
         actor->flags1C = actor_flags;
@@ -152,8 +152,8 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         } else {
             ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-            ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A =
-                ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
+            ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A =
+                ((S_8017357C_3 *)(u8 *)&g_dungeon_status.unk_00)->unk_0A + 1;
             ((S_8017357C_0 *)controller)->unk_9B++;
         }
         return;
@@ -169,11 +169,11 @@ void func_8016D57C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         ((S_8017357C_0 *)controller)->unk_A0 = 0;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8016EAD4;
         func_80047784(sprite,
-            D_8016EAD4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016EAD4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         actor->flags1C &= ~0x200;
         ((S_8017357C_0 *)controller)->unk_8C = func_8016B138;

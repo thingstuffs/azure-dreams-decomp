@@ -15,15 +15,15 @@ extern s32 EnableEvent(s32 event);
 extern s32 SetRCnt(u32 spec, u16 target, s32 mode);
 extern s32 StartRCnt(u32 spec);
 
-extern void soundTickGuardedPeriodicUpdate(void);
+extern void sound_tick_guarded_periodic_update(void);
 
 /* Set up the root counter interrupt event and start the counter unless setup is in progress. */
-void openTimer2UpdateEvent(void)
+void open_timer_2_update_event(void)
 {
     if (D_800737C0[0] == 0) {
         D_800737C0[0] = 1;
         EnterCriticalSection();
-        D_80085F9C[0] = OpenEvent(0xF2000002, 2, 0x1000, soundTickGuardedPeriodicUpdate);
+        D_80085F9C[0] = OpenEvent(0xF2000002, 2, 0x1000, sound_tick_guarded_periodic_update);
         EnableEvent(D_80085F9C[0]);
         SetRCnt(0xF2000002, 0x1C00, 0x1000);
         StartRCnt(0xF2000002);

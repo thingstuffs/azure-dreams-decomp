@@ -6,7 +6,7 @@
 
 
 /* Set the current record's two state values to 0x560 and 0x3E0. */
-void townSetSceneRecordStateOffsets(void) {
+void set_scene_record_state_offsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 0x560;
     ((TownPositionState *)D_80016000->unk_1C)->y = 0x3E0;
 }

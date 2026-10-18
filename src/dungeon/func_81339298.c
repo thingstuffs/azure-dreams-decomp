@@ -22,7 +22,7 @@ typedef struct S_80170298_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80170298_0;   /* part1 in dungeonCreateEncounterViewDarkener */
+} S_80170298_0;   /* part1 in create_encounter_view_darkener */
 
 typedef struct S_80170298_1 {
     u8 pad_00[0x8];
@@ -33,10 +33,10 @@ typedef struct S_80170298_1 {
     u8 pad_0F[0xD];
     s16 unk_1C;
     s16 unk_1E;
-} S_80170298_1;   /* part2 in dungeonCreateEncounterViewDarkener */
+} S_80170298_1;   /* part2 in create_encounter_view_darkener */
 
 /* Allocate a type 0x12 object, clear its state, and attach a copy of the default data. */
-void dungeonCreateEncounterViewDarkener(void)
+void create_encounter_view_darkener(void)
 {
     void *object;
     S_80170298_0 *axis_state;

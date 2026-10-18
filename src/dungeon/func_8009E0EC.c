@@ -25,16 +25,16 @@ typedef struct Entity {
 } Entity;
 
 extern s32 func_80042900();
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 dungeonCheckDiagonalSideHeight(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s16 dungeonGetTileChebyshevDistance();
-extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern s32 dungeonCompareThreeBitMasksCyclically(s32 left_mask, s32 right_mask);
-extern s32 dungeonCheckRowColumnOrDiagonalAlignment();
-extern s32 func_800A6D30(void);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+extern s16 get_tile_chebyshev_distance();
+extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern s32 compare_three_bit_masks_cyclically(s32 left_mask, s32 right_mask);
+extern s32 check_row_column_or_diagonal_alignment();
+extern s32 generate_random_value(void);
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
-s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
+s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_ability)
 {
     u16 tile_flags;
     s32 slots_checked;
@@ -72,12 +72,12 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
     if (abs(actor->coord88 - target->coord88) >= 0x40) {
         return -1;
     }
-    line_valid = dungeonCheckRowColumnOrDiagonalAlignment(actor_entity, target_entity);
-    distance = dungeonGetTileChebyshevDistance(target_entity, actor_entity);
-    angle = dungeonGetRoundedFacingAndRoundingFlag(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
+    line_valid = check_row_column_or_diagonal_alignment(actor_entity, target_entity);
+    distance = get_tile_chebyshev_distance(target_entity, actor_entity);
+    angle = get_rounded_facing_and_rounding_flag(actor_entity->x, actor_entity->y, target_entity->x, target_entity->y, &tile_flags);
     *out_angle = angle;
     if (prefer_ability == 0 && distance == 1) {
-        if ((s16)dungeonCheckDiagonalSideHeight((u16)((s16)angle >> 9), actor_entity->x, actor_entity->y,
+        if ((s16)check_diagonal_side_height((u16)((s16)angle >> 9), actor_entity->x, actor_entity->y,
                 actor->coord88 - 0x20) != 0) {
             return 8;
         }
@@ -85,16 +85,16 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
     flags = actor->flags14;
     if (!(flags & 0x10000)) {
         actor->flags14 = flags | 0x10000;
-        if (dungeonGetTileChebyshevDistance(&D_80082E80, actor_entity) < 0x11
-            && ((actor->flags14 & 0x6000) || !(self->status98 & 0x10) || !(func_800A6D30() & 0xF))
-            && !(func_800A6D30() & 3) && (s16)func_80042900(actor, 6) == 0) {
+        if (get_tile_chebyshev_distance(&D_80082E80, actor_entity) < 0x11
+            && ((actor->flags14 & 0x6000) || !(self->status98 & 0x10) || !(generate_random_value() & 0xF))
+            && !(generate_random_value() & 3) && (s16)func_80042900(actor, 6) == 0) {
             self->status98 |= 0x11;
         } else {
             self->status98 &= 0xFFFE;
         }
     }
     if (self->status98 & 1) {
-        slot = dungeonStatus.unk_1E & 3;
+        slot = g_dungeon_status.unk_1E & 3;
         for (slots_checked = 0; slots_checked < 3; slots_checked++, slot++) {
             if (slot == 3) {
                 slot = 0;
@@ -120,7 +120,7 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
             if (ability->unk_13 < distance) {
                 continue;
             }
-            score = dungeonCompareThreeBitMasksCyclically(ability->unk_10, *(u16 *)&actor->flags14);
+            score = compare_three_bit_masks_cyclically(ability->unk_10, *(u16 *)&actor->flags14);
             if ((s16)score <= best_score) {
                 continue;
             }
@@ -137,7 +137,7 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
                 y = actor_entity->y;
                 dir = (*out_angle >> 9) & 7;
                 for (steps = 0; steps < distance; steps++) {
-                    getOffsetMapCellValueAndFlags(x, y, dir, &tile_flags);
+                    get_offset_map_cell_value_and_flags(x, y, dir, &tile_flags);
                     move_flags = actor->flags1c;
                     if (!(move_flags & 0x410)) {
                         path_flags = (s16)tile_flags;
@@ -150,8 +150,8 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
                             break;
                         }
                     }
-                    x += dirStepX[dir];
-                    y += dirStepY[dir];
+                    x += dir_step_x[dir];
+                    y += dir_step_y[dir];
                 }
                 if (steps < distance) {
                     continue;
@@ -162,7 +162,7 @@ s16 dungeonChooseUsableAbilityOrAttack(Actor *actor, Actor *target, u16 *out_ang
         }
     }
     if (prefer_ability != 0 && distance == 1) {
-        if ((s16)dungeonCheckDiagonalSideHeight((u16)((s16)*out_angle >> 9), actor_entity->x, actor_entity->y,
+        if ((s16)check_diagonal_side_height((u16)((s16)*out_angle >> 9), actor_entity->x, actor_entity->y,
                 actor->coord88 - 0x20) != 0) {
             if (selected_action < 0) {
                 selected_action = 8;

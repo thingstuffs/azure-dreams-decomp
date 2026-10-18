@@ -4,7 +4,7 @@
 
 
 /* Dim the effect's color and flag completion when its countdown expires. */
-void func_80024A5C(void *effect, s32 unused, u8 *primitive) {
+void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
 
     D_800269B4 = 1;
@@ -27,6 +27,6 @@ void func_80024A5C(void *effect, s32 unused, u8 *primitive) {
 
     if (*(s16 *)((u8 *)effect + 0x2C) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

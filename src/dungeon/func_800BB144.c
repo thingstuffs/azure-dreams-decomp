@@ -31,33 +31,33 @@ typedef struct S_800C08A4_1 {
 typedef struct S_800C08A4_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C08A4_2;   /* counter_base in dungeonApplyMonsterEquipmentItem */
+} S_800C08A4_2;   /* counter_base in apply_monster_equipment_item */
 
 
-void dungeonBeginModeSelectedItemAction(); /* extern */
-s32 dungeonProcessRecordAndUpdateLinkedState(); /* extern */
-void dungeonClearSlotAndUpdateLinkedState(); /* extern */
-s32 lookupItemCategoryMappedValue();
-s32 dungeonCopyFullwidthVowelBytes();
-s32 func_800990FC();
-s32 func_80099194();
+void begin_mode_selected_item_action(); /* extern */
+s32 process_record_and_update_linked_state(); /* extern */
+void clear_slot_and_update_linked_state(); /* extern */
+s32 lookup_item_category_mapped_value();
+s32 copy_fullwidth_vowel_bytes();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void *func_80099290();
-s32 dungeonAppendTypedFormattedValue();
-s32 func_80099734();
-s32 dungeonAppendValueSevenSuffix();
-s32 func_800A5720(); /* extern */
-void func_800A5F38(); /* extern */
-void func_800A6480(); /* extern */
-s32 func_800A6D30(void);
-s32 func_800A7A7C(); /* extern */
-s32 dungeonApplyActorFoodPreference();
+s32 append_typed_formatted_value();
+s32 append_entity_display_text();
+s32 append_value_seven_suffix();
+s32 display_text_with_fullwidth_adjustment(); /* extern */
+void apply_item_effect_at_entity_position(); /* extern */
+void display_actor_item_status_message(); /* extern */
+s32 generate_random_value(void);
+s32 place_item_at_valid_floor_position(); /* extern */
+s32 apply_actor_food_preference();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
 extern M2C_UNK D_800E13DA;
 extern M2C_UNK D_800E13E9;
 
 /* Applies an entity action to a target and updates the pending count. */
-s32 dungeonApplyMonsterEquipmentItem(u8 *entity, u8 *target, s16 action, void *context) {
+s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *context) {
     s32 entity_value;
     s32 event_value;
     s32 external_entity_value;
@@ -67,83 +67,83 @@ s32 dungeonApplyMonsterEquipmentItem(u8 *entity, u8 *target, s16 action, void *c
     S_800C08A4_1 *position;
 
     if (action == 0xD) {
-        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((func_800A6D30() & 1) != 0)) {
-            return dungeonProcessRecordAndUpdateLinkedState(target, context);
+        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((generate_random_value() & 1) != 0)) {
+            return process_record_and_update_linked_state(target, context);
         }
     }
     compare_ptr = ((u8 *)D_800E3D7C);
     if (entity == compare_ptr) {
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
-        dungeonBeginModeSelectedItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_mode_selected_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;
     if ((u32) entity <= (u32) compare_ptr) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
-            func_800A6480(entity, target);
-            if (dungeonApplyActorFoodPreference(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
-                func_800A5F38(entity, target);
+            display_actor_item_status_message(entity, target);
+            if (apply_actor_food_preference(entity, (D_800DDE84[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+                apply_item_effect_at_entity_position(entity, target);
                 return 1;
             }
-            dungeonClearSlotAndUpdateLinkedState(target);
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            clear_slot_and_update_linked_state(target);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
             return 1;
 
         }
         position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
-        func_800A7A7C((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
-            lookupItemCategoryMappedValue(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
+        place_item_at_valid_floor_position((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+            lookup_item_category_mapped_value(((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_61,
             ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60), entity + 0x48);
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_60 = (u8) *target;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
-        script = func_800990FC();
-        entity_value = func_80099734(entity, script);
-        event_value = func_80099194(&D_800E13DA, entity_value);
+        script = get_unused_text_buffer();
+        entity_value = append_entity_display_text(entity, script);
+        event_value = expand_text_control_codes(&D_800E13DA, entity_value);
         {
             s32 node_offset;
             s32 result;
 
-            external_entity_value = dungeonAppendValueSevenSuffix(event_value);
-            result = func_80099194(&D_80089378, external_entity_value);
+            external_entity_value = append_value_seven_suffix(event_value);
+            result = expand_text_control_codes(&D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = dungeonAppendTypedFormattedValue(target, external_entity_value);
+            result = append_typed_formatted_value(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;
                 external_entity_value = result;
-                dungeonCopyFullwidthVowelBytes(node_offset, entity_value);
+                copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            func_80099290(func_80099194(&D_8008937C, external_entity_value));
+            func_80099290(expand_text_control_codes(&D_8008937C, external_entity_value));
         }
-        func_800A5720(script);
-        dungeonClearSlotAndUpdateLinkedState(target);
+        display_text_with_fullwidth_adjustment(script);
+        clear_slot_and_update_linked_state(target);
     } else {
-        script = func_800990FC();
-        external_entity_value = func_80099734(entity, script);
-        external_event_value = func_80099194(&D_800E13E9, external_entity_value);
+        script = get_unused_text_buffer();
+        external_entity_value = append_entity_display_text(entity, script);
+        external_event_value = expand_text_control_codes(&D_800E13E9, external_entity_value);
         {
             s32 node_offset;
             s32 result;
 
-            external_entity_value = dungeonAppendValueSevenSuffix(external_event_value);
-            result = func_80099194(&D_80089378, external_entity_value);
+            external_entity_value = append_value_seven_suffix(external_event_value);
+            result = expand_text_control_codes(&D_80089378, external_entity_value);
             node_offset = external_entity_value - 2;
             external_entity_value = result;
-            result = dungeonAppendTypedFormattedValue(target, external_entity_value);
+            result = append_typed_formatted_value(target, external_entity_value);
             {
 
                 entity_value = external_entity_value;
                 external_entity_value = result;
-                dungeonCopyFullwidthVowelBytes(node_offset, entity_value);
+                copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            func_80099290(func_80099194(&D_8008937C, external_entity_value));
+            func_80099290(expand_text_control_codes(&D_8008937C, external_entity_value));
         }
-        func_800A5720(script);
+        display_text_with_fullwidth_adjustment(script);
     }
     {
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     }
     return 1;
 }

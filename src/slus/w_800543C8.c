@@ -2,7 +2,7 @@
 
 extern int D_800847D4[3]; /* size > 8 to force %hi/%lo addressing (see gp-vs-hilo notes) */
 
-extern void processFirstPendingSoundChannel(void);
+extern void process_first_pending_sound_channel(void);
 extern void func_800544A4(void);
 extern void func_8005440C(void);
 
@@ -10,7 +10,7 @@ extern void func_8005440C(void);
 void func_800543C8(void)
 {
     if (D_800847D4[0] & 0xFF000000) {
-        processFirstPendingSoundChannel();
+        process_first_pending_sound_channel();
     }
     func_800544A4();
     func_8005440C();

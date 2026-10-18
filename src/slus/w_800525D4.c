@@ -8,11 +8,11 @@ typedef struct S_800525D4_sub {
     s16 count;  /* 0x04 - incremented once per successfully attached slot0 */
     s16 f6;     /* 0x06 */
     void *f8;   /* 0x08 - set to &D_80071E44 */
-    void *fC;   /* 0x0C - result of sceneInitializeArcMotionSprite */
-    void *f10;  /* 0x10 - result of sceneInitializeOrbitMotionSprite */
+    void *fC;   /* 0x0C - result of scene_initialize_arc_motion_sprite */
+    void *f10;  /* 0x10 - result of scene_initialize_orbit_motion_sprite */
     void *f14;  /* 0x14 - result of func_80051E94 */
     void *f18;  /* 0x18 - result of func_800520B4 */
-    void *f1C;  /* 0x1C - result of sceneInitializeSixteenSpriteSequence */
+    void *f1C;  /* 0x1C - result of scene_initialize_sixteen_sprite_sequence */
 } S_800525D4_sub;
 
 /* Allocated node (from func_8003FC64), size class 0x124 (see S_80081490 in
@@ -27,16 +27,16 @@ typedef struct S_800525D4_obj {
 
 extern u8 D_80071E44[0x10];
 
-extern void soundSetCdCueParameters(int a0, int a1, int a2, int a3);
+extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
 extern void *func_8003FD64(s32 a0, void *a1);
-extern s32 testResidentBitmapBit(s32 a0);
+extern s32 test_resident_bitmap_bit(s32 a0);
 extern void func_80052144(void);
-extern void sceneInitializeArcMotionSprite(void *a0, S_800525D4_sub *a1);
-extern void sceneInitializeOrbitMotionSprite(void *a0, S_800525D4_sub *a1);
+extern void scene_initialize_arc_motion_sprite(void *a0, S_800525D4_sub *a1);
+extern void scene_initialize_orbit_motion_sprite(void *a0, S_800525D4_sub *a1);
 extern void func_80051E94(void *a0, S_800525D4_sub *a1);
 extern void func_800520B4(void *a0, S_800525D4_sub *a1);
-extern void sceneInitializeSixteenSpriteSequence(void *a0, S_800525D4_sub *a1);
+extern void scene_initialize_sixteen_sprite_sequence(void *a0, S_800525D4_sub *a1);
 
 /* Allocates and initializes a node, then attaches up to five slots. */
 void func_800525D4(void)
@@ -63,19 +63,19 @@ void func_800525D4(void)
         slots->f14 = 0;
         slots->f18 = 0;
         slots->f1C = 0;
-        soundSetCdCueParameters(0, 0x15B7C, 0, 0x10093C8);
+        sound_set_cd_cue_parameters(0, 0x15B7C, 0, 0x10093C8);
         SD_Call(0x300);
 
         slot0 = func_8003FD64(0x212, node);
         if (slot0 != 0) {
-            sceneInitializeArcMotionSprite(slot0, slots);
+            scene_initialize_arc_motion_sprite(slot0, slots);
             slots->fC = slot0;
             slots->count++;
         }
-        if (testResidentBitmapBit(0x1392) == 0) {
+        if (test_resident_bitmap_bit(0x1392) == 0) {
             slot1 = func_8003FD64(0x212, node);
             if (slot1 != 0) {
-                sceneInitializeOrbitMotionSprite(slot1, slots);
+                scene_initialize_orbit_motion_sprite(slot1, slots);
                 slots->f10 = slot1;
                 slots->count++;
             }
@@ -94,7 +94,7 @@ void func_800525D4(void)
         }
         slot4 = func_8003FD64(0x212, node);
         if (slot4 != 0) {
-            sceneInitializeSixteenSpriteSequence(slot4, slots);
+            scene_initialize_sixteen_sprite_sequence(slot4, slots);
             slots->f1C = slot4;
             slots->count++;
         }

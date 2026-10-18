@@ -87,7 +87,7 @@ extern u8 D_80167C30[];
 extern s16 D_80175DD8[][8][2][3];
 
 /* Spawn seven colored segments from interpolated vertices and advance the effect lifetime. */
-void dungeonUpdateInterpolatedRibbon(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *colors)
+void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *colors)
 {
     s32 step;
     s32 vertex_index;
@@ -185,6 +185,6 @@ void dungeonUpdateInterpolatedRibbon(S_func_81331914_0 *state, s32 *position, S_
     state->unk_18.u = ticks_left;
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

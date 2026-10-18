@@ -21,7 +21,7 @@ void func_800247E8(Bank1990800_1990fe8_EffectState *state, EntityRec *position)
 
     D_80025FF4 = 1;
     if (position->z.w.i <
-        (s16)func_800BCB04((u16)position->x.w.i, (u16)position->y.w.i, position->z.w.i + 2)) {
+        (s16)sample_terrain_surface_height((u16)position->x.w.i, (u16)position->y.w.i, position->z.w.i + 2)) {
         position->z.v += state->height_step;
     }
 
@@ -29,7 +29,7 @@ void func_800247E8(Bank1990800_1990fe8_EffectState *state, EntityRec *position)
     state->countdown = countdown;
     if ((countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

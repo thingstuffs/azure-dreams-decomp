@@ -4,10 +4,10 @@
 #define D_80083498 D_800871C8
 #define func_80045340 func_80044EDC
 #define D_80170898 D_80151898
-#define resolveRecordOrientationOrFallback func_8003DA40
+#define resolve_record_orientation_or_fallback func_8003DA40
 #define func_80047784 func_80047320
 /* Relink of matched dungeon/func_81251350 at file 0x1271350; imports and data use paired retail relocations. */
-#define gameWork D_80084818
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -132,7 +132,7 @@ void func_80151B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
         } while (copy_src != (sprite_template + 0x30));
         func_800444B8(object, func_80044EDC, copy_dst, copy_src);
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80154EB4;
-        func_80047320(sprite, *((u8 *)&D_80154EB4 + ((((s32) (gameWork.view.viewAngle
+        func_80047320(sprite, *((u8 *)&D_80154EB4 + ((((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;

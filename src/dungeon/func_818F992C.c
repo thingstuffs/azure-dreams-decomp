@@ -3,7 +3,7 @@
 
 
 /* Return a random sign of either -1 or 1. */
-s32 func_8002512C(void) {
+s32 advance_effect_sequence(void) {
     s32 sign;
 
     sign = rand() & 1;

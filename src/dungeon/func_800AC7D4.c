@@ -5,23 +5,23 @@ typedef struct S_800B1F34_0 {
     s16 * unk_00;
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
     u16 unk_06;
-} S_800B1F34_0;   /* arg0 in dungeonAdvanceTimedPanelMotion */
+} S_800B1F34_0;   /* arg0 in advance_timed_panel_motion */
 
 typedef struct S_800B1F34_1 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800B1F34_1;   /* arg1 in dungeonAdvanceTimedPanelMotion */
+} S_800B1F34_1;   /* arg1 in advance_timed_panel_motion */
 
 typedef struct S_800B1F34_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800B1F34_2;   /* global in dungeonAdvanceTimedPanelMotion */
+} S_800B1F34_2;   /* global in advance_timed_panel_motion */
 
 
 /* Advances timed motion phases, updates the output offset, and sets the global update flag. */
-void dungeonAdvanceTimedPanelMotion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
+void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 {
     s16 state;
     u16 countdown;

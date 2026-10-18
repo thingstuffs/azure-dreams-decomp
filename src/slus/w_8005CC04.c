@@ -16,7 +16,7 @@ s32 func_8005CC04(s32 warm)
     D_80079958->mvoll = 0;
     D_80079958->mvolr = 0;
     D_80079958->control = 0;
-    delayMultiplyLoop();
+    delay_multiply_loop();
     D_80079958->mvoll = 0;
     D_80079958->mvolr = 0;
     status_polls = 0;
@@ -65,16 +65,16 @@ s32 func_8005CC04(s32 warm)
         }
         D_80079958->keyon_lo = 0xFFFF;
         D_80079958->keyon_hi = 0xFF;
-        delayMultiplyLoop();
-        delayMultiplyLoop();
-        delayMultiplyLoop();
-        delayMultiplyLoop();
+        delay_multiply_loop();
+        delay_multiply_loop();
+        delay_multiply_loop();
+        delay_multiply_loop();
         D_80079958->keyoff_lo = 0xFFFF;
         D_80079958->keyoff_hi = 0xFF;
-        delayMultiplyLoop();
-        delayMultiplyLoop();
-        delayMultiplyLoop();
-        delayMultiplyLoop();
+        delay_multiply_loop();
+        delay_multiply_loop();
+        delay_multiply_loop();
+        delay_multiply_loop();
     }
     result = 0;
     D_8007998C = 1;

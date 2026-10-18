@@ -2,10 +2,10 @@
 
 #define F(e, t, o) (*(t *)((s8 *)(e) + (o)))
 
-extern void townStyleItemMenuEntryRecords(void *);
+extern void style_item_menu_entry_records(void *);
 
 /* Animate the cursor position, row offsets, and colors during a row transition. */
-void townAnimateItemMenuCursorTransition(void *state) {
+void animate_item_menu_cursor_transition(void *state) {
     s32 start_row;
     s32 start_r_duration;
     s32 start_g_duration;
@@ -19,7 +19,7 @@ void townAnimateItemMenuCursorTransition(void *state) {
     s32 end_b_duration;
     void *cursor_prim;
 
-    townStyleItemMenuEntryRecords(state);
+    style_item_menu_entry_records(state);
     start_row = F(state, s32, 0x20);
     row_delta = F(state, s32, 0x1C) - start_row;
     scaled_progress = F(state, s32, 8) * 0x10;

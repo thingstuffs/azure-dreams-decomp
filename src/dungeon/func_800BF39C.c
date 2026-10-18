@@ -16,14 +16,14 @@ typedef struct S_800C4AFC_0 {
     u16 unk_24;
     u8 pad_26[0x2];
     s32 unk_28;
-} S_800C4AFC_0;   /* state in dungeonCreateTimedPairedParticleEmitter */
+} S_800C4AFC_0;   /* state in create_timed_paired_particle_emitter */
 
 typedef struct S_800C4AFC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_800C4AFC_1;   /* object in dungeonCreateTimedPairedParticleEmitter */
+} S_800C4AFC_1;   /* object in create_timed_paired_particle_emitter */
 
 typedef struct S_800C4AFC_2 {
     u8 pad_00[0x2];
@@ -32,7 +32,7 @@ typedef struct S_800C4AFC_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C4AFC_2;   /* arg0 in dungeonCreateTimedPairedParticleEmitter */
+} S_800C4AFC_2;   /* arg0 in create_timed_paired_particle_emitter */
 
 typedef struct S_800C4AFC_3 {
     u8 pad_00[0x2];
@@ -41,18 +41,18 @@ typedef struct S_800C4AFC_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C4AFC_3;   /* (void *)temp in dungeonCreateTimedPairedParticleEmitter */
+} S_800C4AFC_3;   /* (void *)temp in create_timed_paired_particle_emitter */
 
 
 extern void *func_8003FD64(s32, void *);
-extern void dungeonDrawTexturedEllipse(void *, s32 *, s32, s32);
-extern void func_800A56E0(s32);
-extern void dungeonTickPairedParticleEmitter(void);
+extern void draw_textured_ellipse(void *, s32 *, s32, s32);
+extern void play_sound_if_enabled(s32);
+extern void tick_paired_particle_emitter(void);
 
 extern u8 D_800DCF78[12];
 
 /* Create an effect object, copy its source components, and initialize its state. */
-void dungeonCreateTimedPairedParticleEmitter(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
+void create_timed_paired_particle_emitter(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
 {
     s32 effect_init[2];
     void *object;
@@ -76,11 +76,11 @@ void dungeonCreateTimedPairedParticleEmitter(S_800C4AFC_2 *source, s32 effect_pa
     effect_init[1] = init_value;
     effect = D_800DCF78;
     effect -= 0x10;
-    dungeonDrawTexturedEllipse(effect, effect_init, 1, 0);
+    draw_textured_ellipse(effect, effect_init, 1, 0);
 
     state = (u8 *)object + 0x20;
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
-    ((S_800C4AFC_1 *)object)->unk_10 = (void *)dungeonTickPairedParticleEmitter;
+    ((S_800C4AFC_1 *)object)->unk_10 = (void *)tick_paired_particle_emitter;
     components = ((S_800C4AFC_1 *)object)->unk_08;
     component_x = source->unk_02;
     components->unk_02 = component_x;
@@ -93,11 +93,11 @@ void dungeonCreateTimedPairedParticleEmitter(S_800C4AFC_2 *source, s32 effect_pa
     ((S_800C4AFC_0 *)state)->unk_24 = component_z;
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
-    func_800A56E0(0x702);
-    status = &dungeonStatus;
+    play_sound_if_enabled(0x702);
+    status = &g_dungeon_status;
     (*(u16 *)&status->unk_0A)++;
 }
 
 /* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs
-   reproduce the retail structure. Moving init[1]'s store immediately before dungeonDrawTexturedEllipse
+   reproduce the retail structure. Moving init[1]'s store immediately before draw_textured_ellipse
    schedules move a3,zero at word 25 and the stack store into the jal delay slot at word 28. */

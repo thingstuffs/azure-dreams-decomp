@@ -1,4 +1,4 @@
 #include "common.h"
 
-extern s32 dungeonClearGenerationCellGrid(void);
-s32 func_80016114(void) { return dungeonClearGenerationCellGrid(); }
+extern s32 clear_generation_cell_grid(void);
+s32 get_base_address(void) { return clear_generation_cell_grid(); }

@@ -21,7 +21,7 @@ typedef struct S_80026978_1 {
     u8 pad_08[0x2];
     u16 unk_0A;
     s32 unk_0C;
-} S_80026978_1;   /* arg0 in townCreateBriefRandomizedParticle */
+} S_80026978_1;   /* arg0 in create_brief_randomized_particle */
 
 typedef struct S_80026978_2 {
     u8 pad_00[0x2];
@@ -61,7 +61,7 @@ extern u8 D_80026B00[];
 extern u8 D_800F7944[];
 
 /* Spawns a gray sprite effect at a randomized offset from the origin. */
-void townCreateBriefRandomizedParticle(S_80026978_1 *origin)
+void create_brief_randomized_particle(S_80026978_1 *origin)
 {
     s32 spawn_x;
     s32 spawn_y;

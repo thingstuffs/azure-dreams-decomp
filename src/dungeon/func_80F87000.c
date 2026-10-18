@@ -44,10 +44,10 @@ typedef struct S_80F87000_4 {
 } S_80F87000_4;   /* actor in func_80170880 */
 
 
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 extern u8 D_80174AFC[];
 
@@ -80,7 +80,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80F87000_0 *)obj)->unk_10 = dungeonUpdateBankActorMovement;
+        ((S_80F87000_0 *)obj)->unk_10 = update_bank_actor_movement;
         ((S_80F87000_1 *)work)->unk_13 = 0x26;
         func_8004491C(obj, func_80045340);
 
@@ -106,25 +106,25 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         } else if (((flags & ~3) << 16) == 0) {
             if (!(((S_80F87000_1 *)work)->unk_14 & 0x200)) {
                 call_a1 = part_a;
-                left = func_800A6D30();
+                left = generate_random_value();
                 call_a0 = obj;
                 if (left & 1) {
                     ((S_80F87000_1 *)work)->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_80174AFC;
                 }
             }
         }
         call_a0 = obj;
-        func_800A9C18(call_a0, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(call_a0, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = dungeonUpdateBankActorState;
+        actor->unk_8C = update_bank_actor_state;
         ((S_80F87000_1 *)work)->unk_1C |= 0x40000;
         actor->unk_A0 = 0;
         actor->unk_92 = -0x30;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

@@ -11,11 +11,11 @@ typedef struct Node {
     s16 angle;
 } Node;
 
-extern s32 townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes();
-extern s32 townLow12ValuesWithin511();
+extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes();
+extern s32 low_12_values_within_511();
 
 /* Finds the first eligible active node in the circular list. */
-Node *townHandleFindsFirstEligibleActiveNodeInCircularList(Node *origin) {
+Node *handle_finds_first_eligible_active_node_in_circular_list(Node *origin) {
     s32 node_field_c;
     s32 node_field_8;
     s32 origin_field_8;
@@ -31,8 +31,8 @@ Node *townHandleFindsFirstEligibleActiveNodeInCircularList(Node *origin) {
             node_field_c = node->fieldC;
             if (node->active != 0) {
                 if (((u32)(node->type - 2) >= 2U) ||
-                    (townLow12ValuesWithin511(node->angle, origin->angle) != 0)) {
-                    if (townHandleTestsWhetherTwoOffsetBoxesOverlapTouchAllThreeAxes(origin_field_c, origin_field_8, node_field_c, node_field_8) != 0) {
+                    (low_12_values_within_511(node->angle, origin->angle) != 0)) {
+                    if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(origin_field_c, origin_field_8, node_field_c, node_field_8) != 0) {
                         return node;
                     }
                 }

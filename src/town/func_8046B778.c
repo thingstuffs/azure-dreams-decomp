@@ -4,6 +4,6 @@
 #include "m2c_compat.h"
 
 /* Return whether the stored value has reached 10000. */
-s32 townIsMoneyAtLeast10000(void) {
+s32 is_money_at_least_10000(void) {
     return (u32) D_80016000->unk_38->unk_2D68 >= 0x2710U;
 }

@@ -18,7 +18,7 @@ typedef struct {
 extern void func_800478B8(void *render_data);
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
-void func_80024AB4(Obj *effect, Motion *motion, s8 *render_data)
+void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
 {
     s32 intensity;
     u16 phase;
@@ -38,7 +38,7 @@ void func_80024AB4(Obj *effect, Motion *motion, s8 *render_data)
     motion->value += motion->delta;
     if (effect->timer <= 0) {
         ((u16 *)effect)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

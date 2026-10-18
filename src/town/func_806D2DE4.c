@@ -5,20 +5,20 @@ typedef struct S_800165E4_0 {
     u32 unk_10;
     u8 pad_14[0x4];
     s16 unk_18;
-} S_800165E4_0;   /* arg0 in func_800165E4 */
+} S_800165E4_0;   /* arg0 in set_one */
 
 typedef struct S_800165E4_1 {
     u8 pad_00[0xC];
     s16 unk_0C;
-} S_800165E4_1;   /* (void *)entry in func_800165E4 */
+} S_800165E4_1;   /* (void *)entry in set_one */
 
 
-extern s32 townCheckFlagTestRecord();
-extern void townSetFlagTestIndexedBit();
-extern void func_80016D20();
+extern s32 check_flag_test_record();
+extern void set_flag_test_indexed_bit();
+extern void clear_indexed_flag_unless_identifier();
 
 /* Processes a selected nonzero table value and its owner's parameter if the check succeeds. */
-s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
+s32 set_one(S_800165E4_0 *tableOwner, s32 entryIndex) {
     u32 entryAddress;
     s16 entryValue;
 
@@ -30,10 +30,10 @@ s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
     if (entryValue == 0) {
         return 0;
     }
-    if (townCheckFlagTestRecord() == 0) {
+    if (check_flag_test_record() == 0) {
         return 0;
     }
-    townSetFlagTestIndexedBit(entryValue);
-    func_80016D20(tableOwner->unk_18);
+    set_flag_test_indexed_bit(entryValue);
+    clear_indexed_flag_unless_identifier(tableOwner->unk_18);
     return 1;
 }

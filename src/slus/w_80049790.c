@@ -2,7 +2,7 @@
 
 /* Allocator wrapper: the retail definition of func_8004B404 (code7.c, gcc 2.8.1)
  * declares "void func_8004B404(int,int,int,int)" but is a tail-call forwarder to
- * createCallbackPairPayload, whose return value passes through in $v0 untouched. This call
+ * create_callback_pair_payload, whose return value passes through in $v0 untouched. This call
  * site only ever sets $a0 (the size), so we prototype/call it with just that one
  * argument and treat it as value-returning, matching the "value-returning wrapper"
  * idiom (v0 flows through from the tail jal, never re-touched before jr). */

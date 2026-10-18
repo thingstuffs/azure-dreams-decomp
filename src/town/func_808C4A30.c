@@ -1,4 +1,4 @@
-/* Relinked copy of town/func_808BB2B8 (func_808BB2B8.c); retail differs only at relocation sites. */
+/* Relinked copy of town/pass_pair_16_bit_table (pass_pair_16_bit_table.c); retail differs only at relocation sites. */
 #include "common.h"
 
 extern void func_80000B90(u16);

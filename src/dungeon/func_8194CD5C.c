@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void dungeonUpdateRotatingEffectAndFade(void *effect, void *position, void *sprite) {
+void update_rotating_effect_and_fade(void *effect, void *position, void *sprite) {
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
     s32 y_product;
@@ -37,7 +37,7 @@ void dungeonUpdateRotatingEffectAndFade(void *effect, void *position, void *spri
         ((Rec_D_80082E80 *)sprite)->unk_1A.as_u16 = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite),
         ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 /* MECHANISM: Two six-byte vector aggregates force stack slots sp+0x10..0x14 and sp+0x18..0x1C,

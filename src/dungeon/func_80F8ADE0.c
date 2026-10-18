@@ -4,7 +4,7 @@
 
 typedef struct S_80F8ADE0_0_pre {
     u16 unk_00;
-} S_80F8ADE0_0_pre;   /* the 0x2 bytes before arg0 in func_801745E0, addressed as arg0[-1] */
+} S_80F8ADE0_0_pre;   /* the 0x2 bytes before arg0 in create_cylindrical_effect, addressed as arg0[-1] */
 
 typedef struct S_80F8ADE0_0 {
     u8 pad_00[0x48];
@@ -13,11 +13,11 @@ typedef struct S_80F8ADE0_0 {
     s16 unk_4C;
     u8 pad_4E[0xA];
     s32 unk_58;
-} S_80F8ADE0_0;   /* arg0 in func_801745E0 */
+} S_80F8ADE0_0;   /* arg0 in create_cylindrical_effect */
 
 
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
-void func_801745E0(void *state) {
+void create_cylindrical_effect(void *state) {
     u16 ticks_left;
     u16 next_delay;
 
@@ -37,6 +37,6 @@ void func_801745E0(void *state) {
     }
     if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
         ((S_80F8ADE0_0_pre *)state)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

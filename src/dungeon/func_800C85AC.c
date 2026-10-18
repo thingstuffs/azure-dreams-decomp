@@ -6,14 +6,14 @@
 
 extern u8 D_800DF870[];
 
-extern s32 func_800A6D30(void);
-extern void func_800A6508();
-extern s32 func_800A56E0();
-extern void dungeonAttemptActionSixIfEligible(void *, s32, s32);
-extern void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
+extern s32 generate_random_value(void);
+extern void display_fixed_item_action_message();
+extern s32 play_sound_if_enabled();
+extern void attempt_action_six_if_eligible(void *, s32, s32);
+extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 
 /* Applies a chance-based effect, with visual and sound feedback for unflagged entries. */
-s32 dungeonApplyChanceBasedTrapEffect(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
+s32 apply_chance_based_trap_effect(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
 {
     s16 roll;
     s32 random_value;
@@ -21,7 +21,7 @@ s32 dungeonApplyChanceBasedTrapEffect(void *state, s32 rng_arg1, s32 rng_arg2, s
     Entry *entry;
 
     if (!D_800E3D40 &&
-        (random_value = func_800A6D30() & 0xffff,
+        (random_value = generate_random_value() & 0xffff,
          *(u8 *)((u8 *)state + 3))) {
         s32 remainder;
         remainder = random_value % *(u8 *)((u8 *)state + 3);
@@ -34,21 +34,21 @@ s32 dungeonApplyChanceBasedTrapEffect(void *state, s32 rng_arg1, s32 rng_arg2, s
         if (D_800E3D40 != 0) {
             effect_amount = 0x400;
         }
-        dungeonAttemptActionSixIfEligible(state, effect_amount, 0x10);
+        attempt_action_six_if_eligible(state, effect_amount, 0x10);
 
         entry = *(Entry **)((u8 *)state - 0x14);
         if (!(entry->flags & 0x8000)) {
-            func_800C5E5C((entry->x << 6) | 0x20,
+            spawn_vertical_particle_burst((entry->x << 6) | 0x20,
                           (entry->y << 6) | 0x20,
                           *(s16 *)((u8 *)state + 0x88), D_800DF870, 0);
-            func_800A56E0(0x70A);
+            play_sound_if_enabled(0x70A);
             return 1;
         }
         return 1;
     }
 
     if (*(u8 *)((u8 *)state + 0x13) == 0) {
-        func_800A6508();
+        display_fixed_item_action_message();
     }
     return 1;
 }

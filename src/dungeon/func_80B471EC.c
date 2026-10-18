@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonBuildAnimatedSphericalWireframe(void *effect, void *origin, void *tint) {
+void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
@@ -158,7 +158,7 @@ void dungeonBuildAnimatedSphericalWireframe(void *effect, void *origin, void *ti
             meridian_line = meridian_object + 0x20;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((R12_801749EC_S_801749EC_6 *)meridian_line)->unk_1C = 1;
-            ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)dungeonUpdateTurningFadeEffectAndModel);
+            ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
             func_8004491C(meridian_object, &func_80174954);
             meridian_render = ((R12_801749EC_S_801749EC_7 *)meridian_object)->unk_0C;
             ((R12_801749EC_S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
@@ -202,7 +202,7 @@ void dungeonBuildAnimatedSphericalWireframe(void *effect, void *origin, void *ti
                 meridian_line = ring_object + 0x20;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((R12_801749EC_S_801749EC_14 *)meridian_line)->unk_1C = 1;
-                ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)dungeonUpdateTurningFadeEffectAndModel);
+                ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_10 = ((u8 *)update_turning_fade_effect_and_model);
                 func_8004491C(ring_object, &func_80174954);
                 ring_render = ((R12_801749EC_S_801749EC_15 *)ring_object)->unk_0C;
                 {
@@ -247,7 +247,7 @@ void dungeonBuildAnimatedSphericalWireframe(void *effect, void *origin, void *ti
         ((R12_801749EC_S_801749EC_1 *)effect)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((R12_801749EC_S_801749EC_1_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
         return;
     }

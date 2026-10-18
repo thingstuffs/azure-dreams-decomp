@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-s32 func_80024670(void *state, void *position, void *appearance) {
+s32 draw_linked_shaded_quads(void *state, void *position, void *appearance) {
     Row_81922E70_GapNode *node;
     for (;;) {
-        dungeonProjectAndQueueShadedQuad(state, position, appearance, 0);
+        project_and_queue_shaded_quad(state, position, appearance, 0);
         node = *(Row_81922E70_GapNode **)((u8 *)state - 8);
         state = (u8 *)node + 0x20;
         if (node == 0) break;

@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
-extern s32 advanceIndexWithDirectionalClamp();
+extern s32 advance_index_with_directional_clamp();
 extern void func_800B1F10();
 extern void func_800B1F48();
 
@@ -16,7 +16,7 @@ typedef struct S_800B2068_1 {
 } S_800B2068_1;
 
 /* Decrement the selected entry value, update its quotient, and invoke entry callbacks. */
-void func_800B2068(void *state) {
+void decrement_entry_and_notify_handlers(void *state) {
     s32 selected_index;
     s32 refresh_index;
     s32 related_index;
@@ -24,7 +24,7 @@ void func_800B2068(void *state) {
     S_800B2068_1 *entry;
 
     entry = state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_0C * 0x10) + 0x1C);
-    updated_value = advanceIndexWithDirectionalClamp(entry->unk_08 - 1, 1, entry->unk_0C);
+    updated_value = advance_index_with_directional_clamp(entry->unk_08 - 1, 1, entry->unk_0C);
     entry->unk_08 = updated_value;
     entry->unk_00 = (s32) (updated_value / 10);
     selected_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_0C;

@@ -8,7 +8,7 @@ typedef struct {
 } Unk80092A98;
 
 /* Return the base value plus an optional signed modifier, clamped to 0 through 99. */
-s16 dungeonGetClampedAdjustedValue(Unk80092A98 *object) {
+s16 get_clamped_adjusted_value(Unk80092A98 *object) {
     s16 adjusted_value;
     u8 modifier_byte;
 

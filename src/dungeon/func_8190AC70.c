@@ -6,9 +6,9 @@
 
 extern s32 rand(void);
 
-/* Retail 8190AC70 (dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent): spawn an effect object under the parent node, placed at the parent's
+/* Retail 8190AC70 (handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
-void dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
+void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
                    s16 offset_y, s16 offset_z) {
     ObjectNodeHeader *source_obj = parent;
     u32 saved_field_28 = field_28;
@@ -31,7 +31,7 @@ void dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedP
     /* the parent's next slot is the list head the new node links behind */
     spawned = func_8003FD64(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)dungeonHandleRaisePositionTowardQueriedHeightSetFlagsCountdownExpires;
+        spawned->unk_10 = (void *)handle_raise_position_toward_queried_height_set_flags_countdown_expires;
         jitter_x = rand() & 0x1F;
         position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;

@@ -7,10 +7,10 @@ extern s32 D_80081480;
 
 extern u8 D_80126804[];
 
-extern void loadDispatchEntryFiles(u16);
-extern void queueModeSelectedResourceTable(void);
-extern s32 readCombinedControllerButtons(s32);
-extern void loadSceneResourceGroup(s16);
+extern void load_dispatch_entry_files(u16);
+extern void queue_mode_selected_resource_table(void);
+extern s32 read_combined_controller_buttons(s32);
+extern void load_scene_resource_group(s16);
 
 /* Selects the next mode, clears transient state, and dispatches mode setup. */
 void func_80040C08(void)
@@ -31,9 +31,9 @@ void func_80040C08(void)
         next_mode = 3;
     } else {
         D_8008148C = (s32)D_80126804;
-        loadDispatchEntryFiles(0);
-        queueModeSelectedResourceTable();
-        next_mode = readCombinedControllerButtons(0);
+        load_dispatch_entry_files(0);
+        queue_mode_selected_resource_table();
+        next_mode = read_combined_controller_buttons(0);
         if (next_mode != 0) {
             next_mode = 3;
         } else {
@@ -48,5 +48,5 @@ void func_80040C08(void)
     reset_state->field_C = 0;
     reset_state->field_18 = 0;
     reset_state->flags0F = flags & 0x7E;
-    loadSceneResourceGroup(buffer_size);
+    load_scene_resource_group(buffer_size);
 }

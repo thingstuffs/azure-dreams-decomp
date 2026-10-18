@@ -3,7 +3,7 @@
 s32 func_80017100(s32 value, s32 check_value, s32 lookup_value) {
     s32 result;
 
-    if (townCheckTableResultBelowMinus47(value, check_value) != 0) {
+    if (check_table_result_below_minus_47(value, check_value) != 0) {
         return (s32)&D_8001B7AE;
     }
     result = func_80019ABC(&D_8001A994, &D_8001B1FC, value, lookup_value);

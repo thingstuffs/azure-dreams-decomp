@@ -7,9 +7,9 @@ extern M2C_UNK D_800B1D00;
 typedef struct S_800B1DBC_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_800B1DBC_0;   /* arg0 in townSetObjectDataPointer */
+} S_800B1DBC_0;   /* arg0 in set_object_data_pointer_2 */
 
 /* Sets the object's pointer to D_800B1D00. */
-void townSetObjectDataPointer(S_800B1DBC_0 *object) {
+void set_object_data_pointer_2(S_800B1DBC_0 *object) {
     object->unk_10 = &D_800B1D00;
 }

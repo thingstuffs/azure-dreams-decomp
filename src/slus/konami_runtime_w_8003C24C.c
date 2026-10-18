@@ -19,7 +19,7 @@ typedef struct {
 } Manager;
 
 extern Manager D_80082D58;
-extern void runtimeSetDestinationFlagFromSource(void *dest, void *source);
+extern void runtime_set_destination_flag_from_source(void *dest, void *source);
 extern void func_8003C4C8(void);
 
 /* Prepare the state when needed, set the manager callback, and process the state. */
@@ -38,5 +38,5 @@ void func_8003C24C(void) {
         D_80082D58.callback = func_8003C4C8;
     }
 
-    runtimeSetDestinationFlagFromSource(manager, state);
+    runtime_set_destination_flag_from_source(manager, state);
 }

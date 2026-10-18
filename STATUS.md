@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-17T23:10:07Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-18T03:59:51Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,10 +13,10 @@ Generated 2026-10-17T23:10:07Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 18,908 of 18,908 rows (100.0%), 7,426,356 bytes; 0 unverified |
 | **Code that is C** | 91.1% as C; 99.3% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 97.6%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 268 current, 196 stale, 72 not certified yet |
+| **Readability** | L3 97.6%, L4 9.8%, L5 9.5% of bytes (levels below) |
+| **Module certificates** | 194 of 268 current, 2 stale, 72 not certified yet |
 
-**Current proof state.** 268 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 74 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 9.8% and 9.5%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -67,15 +67,15 @@ Baseline NOT exact: 0 rows
 | L0 | 7,426,356 | 100.0% |
 | L1 | 7,426,356 | 100.0% |
 | L2 | 7,426,356 | 100.0% |
-| L3 | 7,247,544 | 97.6% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L3 | 7,251,572 | 97.6% |
+| L4 | 728,428 | 9.8% |
+| L5 | 703,540 | 9.5% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3345 rows, 2,104,960 bytes (28.3%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 18,908 rows (7,426,356 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 17,425 rows (6,697,752 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -87,7 +87,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | goto | 224 | 364,836 | 4.9% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 7 | 8,984 | 0.1% |
-| any fidelity site | 3 | 23,788 | 0.3% |
+| any fidelity site | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed | 1,647 | 2,128,932 | 28.7% |
 | do{}while(0) scheduling barrier | 83 | 125,768 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
@@ -106,7 +106,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | computed-goto jump table | 317 | 436,504 | 5.9% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.3% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 9.1% | 0 | 0 | 0.0% |
-| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 17.2% | 3 | 23,788 | 0.3% |
+| any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 17.2% | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 17.2% | 1647 | 2,128,932 | 28.7% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.6% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.7% | 0 | 0 | 0.0% |
@@ -220,11 +220,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 194 | 1,471 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
+| current | 194 | 1,471 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
 | not certified yet | 18 | 293 | no certificate has been issued for this module |
 
-<details><summary>stale: inputs changed - 194 modules, 1,471 rows</summary>
+<details><summary>current - 194 modules, 1,471 rows</summary>
 
 | module | rows |
 |---|---:|

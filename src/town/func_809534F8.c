@@ -59,7 +59,7 @@ extern s16 D_8002430A[];
 extern void func_800201C8();
 extern void func_8002025C();
 extern void *func_8003FD64();
-extern void formatDecimalFieldSpacePadded();
+extern void format_decimal_field_space_padded();
 extern s32 strlen();
 
 /* baken_uriba: Draw a labeled grid with triangular entries of row and column products. */
@@ -195,7 +195,7 @@ void baken_uriba(void)
                 value_index++;
                 row_y += 0x10;
                 row_index++;
-                formatDecimalFieldSpacePadded(*column_factor * *row_factor,
+                format_decimal_field_space_padded(*column_factor * *row_factor,
                               strlen(screen.text.source), screen.text.source);
                 row_factor++;
                 func_800201C8(D_800204AC, value_screen);

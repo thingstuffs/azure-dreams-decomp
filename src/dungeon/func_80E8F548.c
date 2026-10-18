@@ -22,8 +22,8 @@ typedef struct {
 
 
 extern void func_8004491C(void *entry, void *registration_id);
-extern s32 lookupItemCategoryMappedValue(s32, s32);
-extern void dungeonCreateTrackedEffect(void *, s32, s32, s32);
+extern s32 lookup_item_category_mapped_value(s32, s32);
+extern void create_tracked_effect(void *, s32, s32, s32);
 
 extern u8 D_8006E240[9];
 extern u8 D_80174978[9];
@@ -65,7 +65,7 @@ typedef struct S_80174D48_3 {
 
 
 /* Creates and initializes a display object from the source position and appearance. */
-void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
+void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
 {
     s32 coord_z;
     s32 record_byte;
@@ -108,7 +108,7 @@ void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Re
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
         } else {
-            texture = (void *)lookupItemCategoryMappedValue((((AppearanceFieldView_80E8F548 *)appearance)->field_49),
+            texture = (void *)lookup_item_category_mapped_value((((AppearanceFieldView_80E8F548 *)appearance)->field_49),
                           (((AppearanceFieldView_80E8F548 *)appearance)->field_48));
             sprite->unk_08 = (s32)texture;
             record_byte = record->unk_24;
@@ -119,7 +119,7 @@ void dungeonCreateAndInitializesDisplaySourcePositionAppearance(void *source, Re
         ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
         zero = 0;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
-        dungeonCreateTrackedEffect(active_object, zero, zero, zero);
+        create_tracked_effect(active_object, zero, zero, zero);
         ((S_80174D48_0 *)object)->unk_10 = D_80174978;
     }
 }

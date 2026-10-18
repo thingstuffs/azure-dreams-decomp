@@ -6,9 +6,9 @@
 
 
 /* Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors. */
-s32 townQuantizeHeadingToSector(s32 referenceAngle, s16 sectorCount)
+s32 quantize_heading_to_sector(s32 referenceAngle, s16 sectorCount)
 {
-    GameWork *sharedState = &gameWork;
+    GameWork *sharedState = &g_game_work;
     s16 effectiveSectorCount;
     s32 sectorAngle;
     s32 roundedAngle;

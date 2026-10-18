@@ -5,7 +5,7 @@
 extern unsigned char D_800717D0[16];
 extern M2C_UNK D_800D42CC;
 
-/* Passes the global buffer and data address to appendTownMovieListNode. */
-void func_800C1A44(void) {
-    appendTownMovieListNode(D_800717D0, &D_800D42CC);
+/* Passes the global buffer and data address to append_town_movie_list_node. */
+void create_familiar_restoration_effect(void) {
+    append_town_movie_list_node(D_800717D0, &D_800D42CC);
 }

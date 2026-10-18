@@ -22,7 +22,7 @@ typedef struct S_800A7C64_1 {
 } S_800A7C64_1;
 
 /* Create an object and initialize its render data to neutral color and unit scale. */
-void func_800A7C64(void) {
+void create_floor_item_renderer(void) {
     S_800A7C64_1 *render_data;
     S_800A7C64_0 *object;
 

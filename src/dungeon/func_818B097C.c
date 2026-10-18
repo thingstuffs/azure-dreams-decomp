@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void func_8002417C(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state) {
+void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state) {
     owner->parent->flags++;
     func_800478B8(state);
     if (state->flags & 0x6000) {

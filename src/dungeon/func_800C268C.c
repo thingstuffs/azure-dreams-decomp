@@ -36,11 +36,11 @@ typedef struct Other {
 
 extern DungeonGroup D_80073414[];
 extern u8 D_800E3E41;
-extern s32 func_800A56E0();
-extern void func_800A5A18(void *, Object *);
+extern s32 play_sound_if_enabled();
+extern void create_textured_ellipse_effect(void *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
-s32 prepareQuarterDamageReturn(Object *object, Other *source) {
+s32 prepare_quarter_damage_return(Object *object, Other *source) {
     u8 *target_item;
     s16 total_value;
     u8 mode;
@@ -85,10 +85,10 @@ s32 prepareQuarterDamageReturn(Object *object, Other *source) {
             }
         }
         *(u16 *)&object->value64 = adjustment;
-        dungeonStatus.unk_10 = (u8 *)object - 0x20;
+        g_dungeon_status.unk_10 = (u8 *)object - 0x20;
         object->value60 = 0;
-        func_800A5A18(*(void **)((u8 *)object - 0x18), object);
-        func_800A56E0(0x60F);
+        create_textured_ellipse_effect(*(void **)((u8 *)object - 0x18), object);
+        play_sound_if_enabled(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {
             D_800E3E41 = 2;

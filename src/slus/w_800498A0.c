@@ -13,7 +13,7 @@ typedef struct {
 } S_800498A0;
 
 /* Copies the global lookup table and returns the byte selected by the low three field bits. */
-u8 lookupMaskedByteTable(S_800498A0 *state) {
+u8 lookup_masked_byte_table(S_800498A0 *state) {
     S_800498A0_Buf8 lookup_table = D_80080B20[0];
     return lookup_table.b[state->field_0x14 & 7];
 }

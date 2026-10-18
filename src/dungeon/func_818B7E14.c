@@ -12,7 +12,7 @@ extern s32 rand(void);
 
 
 /* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
-s32 dungeonSpawnOwnedRandomSpinEffect(void *owner, B28_818B7E14_DungeonSource *source)
+s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source)
 {
     s32 random;
     s32 adjusted;

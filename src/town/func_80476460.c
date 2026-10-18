@@ -14,7 +14,7 @@ extern s32 D_800175A4;
 extern s32 func_800198D0();
 
 /* Selects a data pointer based on queried conditions and the current state index. */
-void townSelectDataPointerByConditions(void **out_data) {
+void select_data_pointer_by_conditions(void **out_data) {
     TownValues condition_ids;
     register void *selected_data;
     s32 state_index;

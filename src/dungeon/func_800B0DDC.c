@@ -28,7 +28,7 @@ typedef struct S_800B653C_1 {
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800B653C_1;   /* held_arg0 in dungeonSpawnOppositeOffsetEffect */
+} S_800B653C_1;   /* held_arg0 in spawn_opposite_offset_effect */
 
 typedef struct S_800B653C_2 {
     u8 pad_00[0xC];
@@ -74,7 +74,7 @@ extern s32 D_800B63A8;
 extern s32 D_800DEA68;
 
 /* Spawn an offset effect with randomized motion opposite to the source. */
-void dungeonSpawnOppositeOffsetEffect(void *source_data, u32 direction_bits) {
+void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
     S_800B653C_1 *source;
     s16 *y_offset;
     s16 *x_offsets;
@@ -94,8 +94,8 @@ void dungeonSpawnOppositeOffsetEffect(void *source_data, u32 direction_bits) {
         effect_params = &effect->sub20;
         effect->unk10 = &D_800B63A8;
         func_8004491C(effect, func_80045340);
-        x_offsets = dirStepX;
-        y_offset = &dirStepY[direction];
+        x_offsets = dir_step_x;
+        y_offset = &dir_step_y[direction];
         motion->unk_02 =
             (s16)(source->unk_02 -
                   (x_offsets[direction] * 0x10));

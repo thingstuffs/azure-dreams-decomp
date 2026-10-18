@@ -14,7 +14,7 @@ typedef struct S_800BDC98_1 {
 } S_800BDC98_1;
 
 /* Writes a selected pair of 16-bit values to adjacent positions in the wrapped buffer. */
-void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
+void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     u16 value_pairs[8];
     s32 selected_pair;
     s32 saved_pair;
@@ -37,7 +37,7 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     saved_pair = pair_index;
     selected_pair = saved_pair;
     M2C_MEMCPY_UNALIGNED(value_pairs, D_80089660, 0x10);
-    state = &gameWork;
+    state = &g_game_work;
     buffer_info = (u8 *)state + 0x1DC;
     buffer = ((s8 *)state->map.cells);
     height = 1;

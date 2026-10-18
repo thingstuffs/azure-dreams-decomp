@@ -5,7 +5,7 @@
 
 typedef struct S_818C3898_0_pre {
     u16 unk_00;
-} S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateRotatingEffectLifetime, addressed as arg0[-1] */
+} S_818C3898_0_pre;   /* the 0x2 bytes before arg0 in update_rotating_effect_lifetime, addressed as arg0[-1] */
 
 typedef struct S_818C3898_0 {
     void * unk_00;
@@ -13,7 +13,7 @@ typedef struct S_818C3898_0 {
     u16 unk_10;
     u8 pad_12[0x2];
     s16 unk_14;
-} S_818C3898_0;   /* arg0 in dungeonUpdateRotatingEffectLifetime */
+} S_818C3898_0;   /* arg0 in update_rotating_effect_lifetime */
 
 typedef struct S_818C3898_1 {
     u8 pad_00[0xC];
@@ -34,7 +34,7 @@ typedef struct S_818C3898_3 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void func_800478B8(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
-void dungeonUpdateRotatingEffectLifetime(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
+void update_rotating_effect_lifetime(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
     s16 size;
     s32 color_step;
     s32 color_index;
@@ -73,7 +73,7 @@ void dungeonUpdateRotatingEffectLifetime(void *effect, void *motion_data, Rec_D_
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
     if ((s16) ((S_818C3898_0 *)effect)->unk_10 > ((S_818C3898_0 *)effect)->unk_14) {
         ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
-        global_flags = &objectFlagBlock;
+        global_flags = &object_flag_block;
         global_flags->flags = (s32) (global_flags->flags | 0x8000);
     }
 }

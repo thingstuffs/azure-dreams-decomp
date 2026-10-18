@@ -73,7 +73,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
-void updateObjectAnimationAndFacing(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
+void update_object_animation_and_facing(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
 {
     u32 entry_status = D_80085990.flags;
     s32 state_flags;

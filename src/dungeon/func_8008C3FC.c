@@ -6,7 +6,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 
 M2C_UNK func_80048A44(); /* extern */
-s16 dungeonGetRoundedFacingAndRoundingFlag();       /* extern */
+s16 get_rounded_facing_and_rounding_flag();       /* extern */
 extern u8 D_800DD030[];
 
 
@@ -15,14 +15,14 @@ typedef struct S_80091B5C_1 {
     s32 unk_14;
     u8 pad_18[0x12];
     s16 unk_2A;
-} S_80091B5C_1;   /* arg3 in dungeonBeginActorTurnTowardTarget */
+} S_80091B5C_1;   /* arg3 in begin_actor_turn_toward_target */
 
 
 typedef struct S_80091B5C_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
     void * unk_0C;
-} S_80091B5C_3;   /* base in dungeonBeginActorTurnTowardTarget */
+} S_80091B5C_3;   /* base in begin_actor_turn_toward_target */
 
 typedef struct S_80091B5C_4 {
     u8 pad_00[0x24];
@@ -33,10 +33,10 @@ typedef struct S_80091B5C_4 {
 typedef struct S_80091B5C_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80091B5C_5_pre;   /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in dungeonBeginActorTurnTowardTarget, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
+} S_80091B5C_5_pre;   /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in begin_actor_turn_toward_target, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
 
 /* Initializes the actor's action and turns it toward the current target. */
-void dungeonBeginActorTurnTowardTarget(void *action, void *unused, void *actor, void *motion) {
+void begin_actor_turn_toward_target(void *action, void *unused, void *actor, void *motion) {
     M2C_UNK distance;
     void *target;
 
@@ -47,14 +47,14 @@ void dungeonBeginActorTurnTowardTarget(void *action, void *unused, void *actor, 
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9A.as_s8 = 0x2A;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_9B.as_s8 = 0;
     (*(s32 *)((u8 *)action + (0x8C))) = 0;
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
     ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = 0x10;
     (*(u8 **)((u8 *)actor + (0x2C))) = D_800DD030;
-    func_80048A44(actor, D_800DD030[((s32) (gameWork.view.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
+    func_80048A44(actor, D_800DD030[((s32) (g_game_work.view.viewAngle + ((S_80091B5C_1 *)motion)->unk_2A + 0x100)
         >> 9) & 7], 0, 1);
-    target = ((S_80091B5C_5_pre *)(dungeonStatus.unk_0C))[-1].unk_00;
+    target = ((S_80091B5C_5_pre *)(g_dungeon_status.unk_0C))[-1].unk_00;
     ((Rec_func_8008ACDC_arg0 *)action)->unk_11A = (u16) ((S_80091B5C_1 *)motion)->unk_2A;
-    ((S_80091B5C_1 *)motion)->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(((Rec_D_80082E80 *)actor)->unk_24,
+    ((S_80091B5C_1 *)motion)->unk_2A = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)actor)->unk_24,
         ((Rec_D_80082E80 *)actor)->unk_25, ((S_80091B5C_4 *)target)->unk_24, ((S_80091B5C_4 *)target)->unk_25,
         &distance);
 }

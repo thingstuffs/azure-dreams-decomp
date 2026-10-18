@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7f559800.h"
 
-void *dungeonCreateFlaggedActorObject(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
+void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
     s32 mode;
     s32 flags_14;
@@ -44,19 +44,19 @@ void *dungeonCreateFlaggedActorObject(s16 init_flags, s16 tile_x, s16 tile_y, s1
             state->unk_1C = flags_1c;
         } else if (((init_flags & ~3) << 0x10) == 0) {
             if (!(state->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                if (generate_random_value() & 1) {
+                    set_or_clear_actor_status_slot(state, 1, (generate_random_value() & 0x3F) | 0x20);
                     placement->unk_2C = &D_8016E25C;
                 }
             }
         }
-        func_800A9C18(object, object_data, placement, init_flags);
+        initialize_actor_sprite_and_animation(object, object_data, placement, init_flags);
         runtime->unk_9A = 0xFF;
         runtime->unk_9C = -1;
         runtime->unk_8C = &D_8016B014;
         state->unk_1C = (s32)(state->unk_1C | 0x40000);
         runtime->unk_92 = -0x20;
-        func_800AA36C(runtime, object_data, placement, state);
+        try_move_actor_to_valid_position(runtime, object_data, placement, state);
     }
     return state;
 }

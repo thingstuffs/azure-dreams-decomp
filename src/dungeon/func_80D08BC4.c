@@ -13,21 +13,21 @@ typedef struct S_801563C4_0 {
     u8 unk_9B;
     u8 pad_9C[0xE];
     s16 unk_AA;
-} S_801563C4_0;   /* arg0 in dungeonAdvanceActorActionEffects */
+} S_801563C4_0;   /* arg0 in advance_actor_action_effects */
 
 typedef struct S_801563C4_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801563C4_1;   /* arg1 in dungeonAdvanceActorActionEffects */
+} S_801563C4_1;   /* arg1 in advance_actor_action_effects */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 extern void func_8015321C(void *, void *, void *, void *);
 extern void func_801534FC(void *, void *, void *, void *);
 
@@ -37,7 +37,7 @@ extern u8 D_80157DE4[8];
 extern u8 D_80157DEC[8];
 
 /* Advance the actor action animation and trigger its timed effects. */
-void dungeonAdvanceActorActionEffects(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_actor_action_effects(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     s16 timer;
     u8 state;
@@ -67,22 +67,22 @@ void dungeonAdvanceActorActionEffects(void *action, void *motion, void *sprite, 
         case 13:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80157DDC;
             func_80047784(sprite,
-                D_80157DDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80157DDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 14:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80157DE4;
             func_80047784(sprite,
-                D_80157DE4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80157DE4[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         case 15:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80157DEC;
             func_80047784(sprite,
-                D_80157DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80157DEC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_801563C4_0 *)action)->unk_9B = 5;
-            func_800A56E0(0x60C);
+            play_sound_if_enabled(0x60C);
             return;
         default:
             return;
@@ -92,22 +92,22 @@ void dungeonAdvanceActorActionEffects(void *action, void *motion, void *sprite, 
         timer = ((S_801563C4_0 *)action)->unk_96.s + 1;
         ((S_801563C4_0 *)action)->unk_96.s = timer;
         if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             ((S_801563C4_0 *)action)->unk_96.s = 0;
             ((S_801563C4_0 *)action)->unk_9B++;
         }
         if (((S_801563C4_0 *)action)->unk_96.u == 3) {
-            func_800A56E0(0x804);
+            play_sound_if_enabled(0x804);
             return;
         }
         return;
 
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            dungeonReduceActorFoodMeter(actor, 0x100);
+            reduce_actor_food_meter(actor, 0x100);
             ((S_801563C4_0 *)action)->unk_8C = D_801544BC;
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(actor);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }
         return;
@@ -117,13 +117,13 @@ void dungeonAdvanceActorActionEffects(void *action, void *motion, void *sprite, 
         ((S_801563C4_0 *)action)->unk_96.s = timer;
         if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
-            func_800A56E0(0x804);
+            play_sound_if_enabled(0x804);
             func_8015321C(action, motion, sprite, actor);
             func_801534FC(action, motion, sprite, actor);
         }
         if ((((S_801563C4_0 *)action)->unk_96.u == 12) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, actor->facing,
+            resolve_attack_damage_and_effects(actor, sprite, actor->facing,
                 ((S_801563C4_0 *)action)->unk_AA);
         }
         if ((((S_801563C4_0 *)action)->unk_96.u != 20) &&

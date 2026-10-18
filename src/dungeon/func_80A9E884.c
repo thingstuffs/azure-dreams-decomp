@@ -1,8 +1,8 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void dungeonCreateFourDirectionalEffects(Resource08CallbackState *state, void *motion, void *position, void *actor)
+void create_four_directional_effects(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonUpdateSpinningActorFall(state, motion, position, actor)) {
-        state->callback = dungeonUpdateActorBehaviorAndEffect;
+    if (update_spinning_actor_fall(state, motion, position, actor)) {
+        state->callback = update_actor_behavior_and_effect;
     }
 }

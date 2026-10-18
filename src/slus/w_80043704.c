@@ -5,11 +5,11 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK packTaggedResourceDescriptor();
+extern M2C_UNK pack_tagged_resource_descriptor();
 extern M2C_UNK D_800814F0;
 
 /* Builds and returns a shared descriptor for the record ID and packed value. */
-M2C_UNK *buildSpriteMetadataReadDescriptor(s16 record_id, M2C_UNK packed_value) {
+M2C_UNK *build_sprite_metadata_read_descriptor(s16 record_id, M2C_UNK packed_value) {
     M2C_UNK count;
     s32 offset;
 
@@ -24,6 +24,6 @@ M2C_UNK *buildSpriteMetadataReadDescriptor(s16 record_id, M2C_UNK packed_value) 
         }
         count = 0x1A;
     }
-    packTaggedResourceDescriptor(count, packed_value, &D_800814F0, offset);
+    pack_tagged_resource_descriptor(count, packed_value, &D_800814F0, offset);
     return &D_800814F0;
 }

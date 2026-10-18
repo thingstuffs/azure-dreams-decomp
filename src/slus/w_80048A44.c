@@ -39,7 +39,7 @@ typedef struct S_80083110 {
     s32 field_28;
 } S_80083110;
 
-extern void textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(S_800489F4_Obj *a0, s16 a1, s16 a2);
+extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *a0, s16 a1, s16 a2);
 extern void func_80048998(S_80083110 *a0, s32 a1);
 
 /* one byte (the next named symbol is D_80080A85); an extern, so absolute in ASPSX */
@@ -50,7 +50,7 @@ void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 sl
     u16 frame_value;
     u8 divisor;
 
-    textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags((S_800489F4_Obj *)obj, frame_group, frame_index);
+    texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((S_800489F4_Obj *)obj, frame_group, frame_index);
     func_80048998((S_80083110 *)obj, slot_index);
 
     frame_value = obj->unk0->unk0;

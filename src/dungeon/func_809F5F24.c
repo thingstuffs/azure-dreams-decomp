@@ -6,12 +6,12 @@
 
 typedef s32 M2C_UNK;
 
-void func_8009A028();
-void func_8009A3D0();
-void func_800A2FE0();
-s32 func_800A32A4();
-s32 func_800A56E0();
-void dungeonAnnounceFamiliarDefeat();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void distribute_experience_and_report_gains();
+s32 detach_record_and_update_slot_state();
+s32 play_sound_if_enabled();
+void announce_familiar_defeat();
 
 
 typedef struct S_80173724_0 {
@@ -20,11 +20,11 @@ typedef struct S_80173724_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80173724_0;   /* arg0 in dungeonAdvanceFadingDirectionalEntity */
+} S_80173724_0;   /* arg0 in advance_fading_directional_entity */
 
 typedef struct S_80173724_1_pre {
     u16 unk_00;
-} S_80173724_1_pre;   /* the 0x2 bytes before arg3 in dungeonAdvanceFadingDirectionalEntity, addressed as arg3[-1] */
+} S_80173724_1_pre;   /* the 0x2 bytes before arg3 in advance_fading_directional_entity, addressed as arg3[-1] */
 
 typedef struct S_80173724_1 {
     u8 pad_00[0x14];
@@ -33,14 +33,14 @@ typedef struct S_80173724_1 {
     union { u32 u; s32 s; } unk_1C;   /* accessed as both */
     u8 pad_20[0x4A];
     u16 unk_6A;
-} S_80173724_1;   /* arg3 in dungeonAdvanceFadingDirectionalEntity */
+} S_80173724_1;   /* arg3 in advance_fading_directional_entity */
 
 typedef struct S_80173724_2 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80173724_2;   /* arg1 in dungeonAdvanceFadingDirectionalEntity */
+} S_80173724_2;   /* arg1 in advance_fading_directional_entity */
 
 typedef struct S_80173724_3 {
     u8 pad_00[0xC];
@@ -54,15 +54,15 @@ typedef struct S_80173724_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80173724_3;   /* arg2 in dungeonAdvanceFadingDirectionalEntity */
+} S_80173724_3;   /* arg2 in advance_fading_directional_entity */
 
 typedef struct S_80173724_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80173724_4;   /* global_ptr in dungeonAdvanceFadingDirectionalEntity */
+} S_80173724_4;   /* global_ptr in advance_fading_directional_entity */
 
 /* Advance an entity through directional motion, fading, and removal. */
-void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void *sprite, void *entity) {
+void advance_fading_directional_entity(void *anim_state, void *motion, void *sprite, void *entity) {
     s32 sound_flags;
     s32 direction_x;
     s32 direction_y;
@@ -76,8 +76,8 @@ void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void 
 
     phase = ((S_80173724_0 *)anim_state)->unk_9B;
     direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+    direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     switch (phase) {
     case 0:
     {
@@ -97,12 +97,12 @@ void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void 
         ((S_80173724_2 *)motion)->unk_0C = direction_x << 0x10;
         ((S_80173724_2 *)motion)->unk_10 = direction_y << 0x10;
         ((S_80173724_2 *)motion)->unk_14 = 0xFFF40000;
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     }
     case 1:
         (((S_80173724_2 *)motion)->unk_14) += 0x1C000;
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
@@ -110,7 +110,7 @@ void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void 
         status_flags = ((S_80173724_1 *)entity)->unk_14;
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat(entity);
+                announce_familiar_defeat(entity);
             }
         }
         ((S_80173724_3 *)sprite)->unk_10 = 0x60;
@@ -136,21 +136,21 @@ void dungeonAdvanceFadingDirectionalEntity(void *anim_state, void *motion, void 
         if ((s16)next_brightness >= 0x18) {
             return;
         }
-        if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        if (((s32)g_dungeon_status.unk_10) == (entity - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
         sound_x = ((S_80173724_3 *)sprite)->unk_24;
         sound_y = ((S_80173724_3 *)sprite)->unk_25;
         sound_flags = 0x3000;
         if (((S_80173724_1 *)entity)->unk_1C.s & 0x2000) {
             sound_flags = 0x300;
         }
-        func_8009A3D0(sound_x, sound_y, sound_flags);
-        func_8009A028(entity);
+        update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
+        unlink_entity_node(entity);
         ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     default:
         return;

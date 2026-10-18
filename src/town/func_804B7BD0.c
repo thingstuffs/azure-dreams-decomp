@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_8001611C();                /* extern */
+void store_supplied_values();                /* extern */
 M2C_UNK func_80017EB0();                /* extern */
 M2C_UNK func_800188CC();                     /* extern */
 s32 func_8001894C();                             /* extern */
@@ -14,6 +14,6 @@ void func_804B7BD0(s32 forwardedValue, s32 forwardedData) {
             func_800188CC(0x50C);
         }
     }
-    func_8001611C(forwardedValue, forwardedData);
+    store_supplied_values(forwardedValue, forwardedData);
     func_80017EB0(forwardedValue, forwardedData);
 }

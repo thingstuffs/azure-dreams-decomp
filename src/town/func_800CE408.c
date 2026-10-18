@@ -19,18 +19,18 @@ typedef struct S_800CBB68_2 {
 } S_800CBB68_2;
 
 
-extern void *townCreateTownEffectObject();
-extern s16 townQueryLoweredTransformPosition();
-extern void townInitializeRecordFromTableIndex();
+extern void *create_town_effect_object();
+extern s16 query_lowered_transform_position();
+extern void initialize_record_from_table_index();
 
 /* Allocate and initialize an object with the given coordinates and variant. */
-void townAllocateVariantObject(s32 variant, s32 x, s32 y) {
+void allocate_variant_object(s32 variant, s32 x, s32 y) {
     s32 setup_arg;
     S_800CBB68_1 *position;
     S_800CBB68_2 *state;
     void *object;
 
-    object = townCreateTownEffectObject(0, 0, 0, 0);
+    object = create_town_effect_object(0, 0, 0, 0);
     if (object != NULL) {
         position = ((S_800CBB68_0 *)object)->unk_08;
         setup_arg = ((S_800CBB68_0 *)object)->unk_0C;
@@ -38,8 +38,8 @@ void townAllocateVariantObject(s32 variant, s32 x, s32 y) {
         position->unk_00 = (s32)(x << 0x10);
         position->unk_04 = (s32)(y << 0x10);
         position->unk_08.at00.v = 0xFF000000;
-        position->unk_08.at02.v = townQueryLoweredTransformPosition(position);
+        position->unk_08.at02.v = query_lowered_transform_position(position);
         state->unk_96 = variant;
-        townInitializeRecordFromTableIndex(state, position, setup_arg);
+        initialize_record_from_table_index(state, position, setup_arg);
     }
 }

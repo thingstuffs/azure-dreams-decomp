@@ -9,13 +9,13 @@ typedef struct S_80175C60_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175C60_0;   /* arg1_pinned in dungeonUpdateOffsetMotionObject */
+} S_80175C60_0;   /* arg1_pinned in update_offset_motion_object */
 
 typedef struct S_80175C60_1 {
     s16 * unk_00;
     u8 pad_04[0x1C];
     u16 unk_20;
-} S_80175C60_1;   /* arg0 in dungeonUpdateOffsetMotionObject */
+} S_80175C60_1;   /* arg0 in update_offset_motion_object */
 
 typedef struct S_80175C60_2 {
     u8 pad_00[0x18];
@@ -23,11 +23,11 @@ typedef struct S_80175C60_2 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_80175C60_2;   /* arg2 in dungeonUpdateOffsetMotionObject */
+} S_80175C60_2;   /* arg2 in update_offset_motion_object */
 
 
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
-void dungeonUpdateOffsetMotionObject(void *object, void *motion_data, void *rotation)
+void update_offset_motion_object(void *object, void *motion_data, void *rotation)
 {
     void *motion = motion_data;
     s32 facing;
@@ -51,7 +51,7 @@ void dungeonUpdateOffsetMotionObject(void *object, void *motion_data, void *rota
     ((S_80175C60_1 *)object)->unk_20 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     ((S_80175C60_2 *)rotation)->unk_1C += 0x80;
@@ -60,7 +60,7 @@ void dungeonUpdateOffsetMotionObject(void *object, void *motion_data, void *rota
     {
         u16 facing_test;
 
-        facing = ((((s32)(gameWork.view.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
+        facing = ((((s32)(g_game_work.view.viewAngle + *((S_80175C60_1 *)object)->unk_00 + 0x100) >> 9) & 7) + 2) << 9;
         facing_test = facing;
         ((S_80175C60_2 *)rotation)->unk_18 = facing;
         if ((facing_test == 0x400) || (facing_test == 0xC00)) {

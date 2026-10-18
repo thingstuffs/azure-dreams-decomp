@@ -3,11 +3,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 dungeonUpdateActorHopAndGrow();
+extern s32 update_actor_hop_and_grow();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void dungeonRestoreBankActorCallbackA(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
-    if (dungeonUpdateActorHopAndGrow(state, action, source, target) != 0) {
-        state->callback = dungeonUpdateBankActorState;
+void restore_bank_actor_callback_a(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+    if (update_actor_hop_and_grow(state, action, source, target) != 0) {
+        state->callback = update_bank_actor_state;
     }
 }
 

@@ -11,7 +11,7 @@ typedef struct S_800AC454_0 {
 } S_800AC454_0;
 
 /* Selects record zero, stores its field address, and clears the field and global counter. */
-void func_800AC454(void) {
+void clear_first_record_field_and_counter(void) {
     void *record;
 
     record = func_8003FC64(0);

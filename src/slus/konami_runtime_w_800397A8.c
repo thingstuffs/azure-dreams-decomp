@@ -8,7 +8,7 @@ typedef struct {
 extern u8 *func_8003C8E4(s32 entry_key);
 
 /* Consumes a script entry key and value, storing the value in the entry's third byte if found. */
-void vmOp28SetEntryByte(ParserState *parser)
+void vm_op_28_set_entry_byte(ParserState *parser)
 {
     u8 entry_key;
     u8 *entry;

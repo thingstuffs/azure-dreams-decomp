@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 townCreateObjectFromThreeValues();                     /* extern */
-void townResetObjectEntryAndBrighten();       /* extern */
+s32 create_object_from_three_values();                     /* extern */
+void reset_object_entry_and_brighten();       /* extern */
 
 /* Prepare the context and forward the arguments to the next handler. */
-void townPrepareAndForwardCallback(s32 object, s32 context, s32 callback_arg) {
-    townCreateObjectFromThreeValues(context);
-    townResetObjectEntryAndBrighten(object, context, callback_arg);
+void prepare_and_forward_callback(s32 object, s32 context, s32 callback_arg) {
+    create_object_from_three_values(context);
+    reset_object_entry_and_brighten(object, context, callback_arg);
 }

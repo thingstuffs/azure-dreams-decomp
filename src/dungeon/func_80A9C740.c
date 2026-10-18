@@ -8,6 +8,6 @@ void func_80171F40(void *object, void *unused, void *display, void *orientation)
     *((s8 *)object + 0x9B) = 0;
     directionTable = ((u8 *)D_80174C4C);
     *(void **)((u8 *)display + 0x2C) = directionTable;
-    directionIndex = ((gameWork.view.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
+    directionIndex = ((g_game_work.view.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
     func_80047784(display, directionTable[directionIndex], 0);
 }

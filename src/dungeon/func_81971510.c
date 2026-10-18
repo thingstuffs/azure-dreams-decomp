@@ -8,7 +8,7 @@
 
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
-void func_80024D10(void *effect, s32 unused, void *visual)
+void advance_timed_visual(void *effect, s32 unused, void *visual)
 {
     u8 *effect_bytes;
     u16 countdown;

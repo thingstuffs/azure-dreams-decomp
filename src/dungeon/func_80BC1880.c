@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_be1084.h"
 
-void dungeonSpawnConfiguredOverlayObjectB(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_state)
+void spawn_configured_overlay_object_b(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_state)
 {
     StackWork projection;
     s16 ticks_left;
@@ -32,6 +32,6 @@ void dungeonSpawnConfiguredOverlayObjectB(void *effect, S_80BC1880_2 *position, 
     ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ((S_80BC1880_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

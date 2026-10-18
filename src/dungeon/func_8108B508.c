@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_81085508; every changed retail word is a paired relocation. */
-#define dungeonAdvanceActorHeightArc func_8016CD08
+#define advance_actor_height_arc func_8016CD08
 #define D_80170E94 D_8016AE94
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -42,13 +42,13 @@ typedef struct S_80172D08_5 {
 
 
 extern s32 func_800644B8(s32);
-extern s32 dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern s16 dungeonCheckLayerOffsetHeight(u16 x, u16 y, s16 height, u32 flags);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 func_800BCB04(s32, s32, s16);
+extern s32 resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern s32 func_8016EA6C(void *, void *, void *);
 
 extern u8 D_8016AE94;
@@ -68,22 +68,22 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172D08_0 *)action)->unk_9B = 4;
             ((Rec_D_80082E80 *)record)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1);
+            resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
             return;
         }
 
         ((S_80172D08_0 *)action)->unk_AF = 0;
         if (actor->target == 0) {
             direction = (((u16)actor->facing) >> 9) & 7;
-            if ((s16)dungeonCheckLayerOffsetHeight(((Rec_D_80082E80 *)record)->unk_24 << 6,
+            if ((s16)check_layer_offset_height(((Rec_D_80082E80 *)record)->unk_24 << 6,
                                    ((Rec_D_80082E80 *)record)->unk_25 << 6,
                                    actor->unk_88,
                                    direction << 9) == 0) {
-                terrain_height = func_800BCB04(
+                terrain_height = sample_terrain_surface_height(
                     (((((Rec_D_80082E80 *)record)->unk_24 +
-                       ((s16 *)((s8 *)dirStepX))[direction]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_x))[direction]) << 6) + 0x20) & 0xFFE0,
                     (((((Rec_D_80082E80 *)record)->unk_25 +
-                       ((s16 *)((s8 *)dirStepY))[direction]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 if ((u16)(terrain_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
                     ((S_80172D08_0 *)action)->unk_AF = 1;
@@ -114,9 +114,9 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
         if (((S_80172D08_0 *)action)->unk_AF == 0) {
             direction = (((u16)actor->facing) >> 8) & 0xE;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
-                (((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8;
+                (((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8;
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
-                (((s16 *)((s8 *)dirStepY))[direction >> 1] << 22) / 8;
+                (((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8;
         }
         ((S_80172D08_0 *)action)->unk_98 |= 0xC;
         (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
@@ -166,11 +166,11 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
                 s32 height_delta;
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
-                terrain_height = func_800BCB04(
+                terrain_height = sample_terrain_surface_height(
                     (((((Rec_D_80082E80 *)record)->unk_24 +
-                       ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((((Rec_D_80082E80 *)record)->unk_25 +
-                       ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
                 signed_terrain_height = terrain_height << 16;
@@ -195,7 +195,7 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
         if (next_timer > 0) {
             return;
         }
-        func_800A56E0(0x803);
+        play_sound_if_enabled(0x803);
         ((S_80172D08_0 *)action)->unk_9B++;
         return;
     }
@@ -207,8 +207,8 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
         if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0xC) &&
              (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000)) {
-            if (dungeonResolveAttackDamageAndEffects(actor, record, actor->facing, 1) != 0) {
-                func_800A56E0(0x809);
+            if (resolve_attack_damage_and_effects(actor, record, actor->facing, 1) != 0) {
+                play_sound_if_enabled(0x809);
                 func_8016EA6C(action, motion, record);
             }
         }
@@ -219,9 +219,9 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
             if (((S_80172D08_0 *)action)->unk_AF == 0) {
                 direction = (((u16)actor->facing) >> 8) & 0xE;
                 ((Rec_func_80172D08_arg1 *)motion)->unk_0C =
-                    -((((s16 *)((s8 *)dirStepX))[direction >> 1] << 22) / 8);
+                    -((((s16 *)((s8 *)dir_step_x))[direction >> 1] << 22) / 8);
                 ((Rec_func_80172D08_arg1 *)motion)->unk_10 =
-                    -((((s16 *)((s8 *)dirStepY))[direction >> 1] << 22) / 8);
+                    -((((s16 *)((s8 *)dir_step_y))[direction >> 1] << 22) / 8);
             }
             ((S_80172D08_0 *)action)->unk_96.s = 8;
             ((S_80172D08_0 *)action)->unk_9B++;
@@ -268,11 +268,11 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
                 s32 base_height;
 
                 direction = (((u16)actor->facing) >> 8) & 0xE;
-                terrain_height = func_800BCB04(
+                terrain_height = sample_terrain_surface_height(
                     (((((Rec_D_80082E80 *)record)->unk_24 +
-                       ((s16 *)((s8 *)dirStepX))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((((Rec_D_80082E80 *)record)->unk_25 +
-                       ((s16 *)((s8 *)dirStepY))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
+                       ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (s16)(((u16)actor->unk_88) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
                 signed_terrain_height = terrain_height << 16;
@@ -297,15 +297,15 @@ void func_8016CD08(void *action, void *motion, void *record, EntityRec *actor)
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)record)->unk_24,
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)record)->unk_24,
                           ((Rec_D_80082E80 *)record)->unk_25);
-            dungeonReduceActorFoodMeter(actor, 0x200);
+            reduce_actor_food_meter(actor, 0x200);
             ((S_80172D08_0 *)action)->unk_8C = &D_8016AE94;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (actor->unk_46) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
             (*(u32 *)&actor->flags1C) |= 0x08000000;
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
         }
     }
     }

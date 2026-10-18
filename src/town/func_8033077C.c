@@ -8,7 +8,7 @@ typedef struct {
 extern ByteBlock8 D_80016164;
 
 /* Sum the weights selected by type flags for enabled records. */
-s32 townSumEnabledRecordWeights(void) {
+s32 sum_enabled_record_weights(void) {
     ByteBlock8 weights;
     s32 record_index;
     s32 total_weight;

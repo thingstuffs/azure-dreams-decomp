@@ -8,12 +8,12 @@
  *
  * The row's rowbase record already fires: true link base 0x800B13AC (PROVEN
  * region xfer_dungeon_A3000), so owner decision B applies -- this TU defines
- * dungeonStampHalfwordAcrossRecords and must never spell the synthetic row name anywhere in the
+ * stamp_halfword_across_records and must never spell the synthetic row name anywhere in the
  * file (the collect/frontier naming screen, tools/codex_wave.py::_naming_defect,
  * matches on the raw text, comments included; the gate refuses the TU either
  * way).  Retail word 4 is `j 0x800B13AC` -- a jump to the function's OWN first
  * instruction, i.e. a LOOP BACK-EDGE, not a tail call.  The census candidate
- * modelled it as a self-recursive call `dungeonStampHalfwordAcrossRecords()` (a fake zero-arg
+ * modelled it as a self-recursive call `stamp_halfword_across_records()` (a fake zero-arg
  * extern that happens to name the function's own true address); maspsx LEAD 22
  * SHAPE A then flipped the jal to j and LEAD 19 elided the frame, reproducing
  * 7 of 8 words -- but a CALL's delay slot can never receive the loop induction
@@ -37,7 +37,7 @@
  */
 #include "common.h"
 
-void dungeonStampHalfwordAcrossRecords(void *list, s16 value) {
+void stamp_halfword_across_records(void *list, s16 value) {
     for (;;) {
         s32 tag = *(s8 *)list;
         *(s16 *)((u8 *)list + 6) = value;

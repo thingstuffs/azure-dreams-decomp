@@ -9,7 +9,7 @@ typedef struct S_800AD7F8_1 {
 } S_800AD7F8_1;
 
 /* Toggle the selected entry flag 0x20 when flag 0x80 is clear. */
-void townToggleSelectedEntryFlag(Rec_func_800AD7F8_arg0 *state) {
+void toggle_selected_entry_flag(Rec_func_800AD7F8_arg0 *state) {
     u8 flags;
     S_800AD7F8_1 *entry;
 

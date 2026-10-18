@@ -6,7 +6,7 @@ typedef struct S_800390D0_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_800390D0_0;   /* arg0 in handleVmOpcode01 */
+} S_800390D0_0;   /* arg0 in handle_vm_opcode_01 */
 
 M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
@@ -14,7 +14,7 @@ extern u8 D_80082E6A[];
 void func_80038A00();
 
 /* Selects the next callback or clears it and decrements the state counter. */
-void handleVmOpcode01(S_800390D0_0 *state) {
+void handle_vm_opcode_01(S_800390D0_0 *state) {
     if (D_80082E6A[0] != 2) {
         if (func_80053EF0(4) != 0x100) {
             SD_Call(0xC4);

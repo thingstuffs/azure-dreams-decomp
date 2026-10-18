@@ -27,17 +27,17 @@ typedef struct S_8002466C_0 {
     u16 unk_4E;
     u16 unk_50;
     u16 unk_52;
-} S_8002466C_0;   /* arg0 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_0;   /* arg0 in update_animated_target_effect */
 
 typedef struct S_8002466C_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_8002466C_1;   /* owner in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_1;   /* owner in update_animated_target_effect */
 
 typedef struct S_8002466C_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002466C_2;   /* ctx1 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_2;   /* ctx1 in update_animated_target_effect */
 
 typedef struct S_8002466C_3 {
     u8 pad_00[0x2];
@@ -46,12 +46,12 @@ typedef struct S_8002466C_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8002466C_3;   /* coords1 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_3;   /* coords1 in update_animated_target_effect */
 
 typedef struct S_8002466C_4 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8002466C_4;   /* ctx2 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_4;   /* ctx2 in update_animated_target_effect */
 
 typedef struct S_8002466C_5 {
     u8 pad_00[0x2];
@@ -60,7 +60,7 @@ typedef struct S_8002466C_5 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8002466C_5;   /* coords2 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_5;   /* coords2 in update_animated_target_effect */
 
 typedef struct S_8002466C_6 {
     u8 pad_00[0x8];
@@ -69,7 +69,7 @@ typedef struct S_8002466C_6 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_8002466C_6;   /* obj in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_6;   /* obj in update_animated_target_effect */
 
 typedef struct S_8002466C_7 {
     void * unk_00;
@@ -84,35 +84,35 @@ typedef struct S_8002466C_7 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8002466C_7;   /* draw in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_7;   /* draw in update_animated_target_effect */
 
 typedef struct S_8002466C_8 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8002466C_8;   /* disp in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_8;   /* disp in update_animated_target_effect */
 
 typedef struct S_8002466C_9 {
     u8 pad_00[0x4C];
     s16 unk_4C;
-} S_8002466C_9;   /* ent in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_9;   /* ent in update_animated_target_effect */
 
 typedef struct S_8002466C_10 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8002466C_10;   /* ((S_8002466C_6 *)obj)->unk_08 in dungeonUpdateAnimatedTargetEffect */
+} S_8002466C_10;   /* ((S_8002466C_6 *)obj)->unk_08 in update_animated_target_effect */
 
 
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, s16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
 
 extern u8 D_800DEA68[];
 
 /* Update the animated effect, track its target, and spawn scattered particles. */
-void dungeonUpdateAnimatedTargetEffect(void *effect)
+void update_animated_target_effect(void *effect)
 {
     s16 target_pos[3];
     s16 state;
@@ -146,7 +146,7 @@ void dungeonUpdateAnimatedTargetEffect(void *effect)
     case 1:
         last_particle = 0xE;
         approach_target = &D_80082E80;
-        if (resolveRecordOrientationOrFallback(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                 ((target_pos[0] + D_80083780.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
@@ -172,7 +172,7 @@ void dungeonUpdateAnimatedTargetEffect(void *effect)
         }
         ((S_8002466C_0 *)effect)->unk_4E += 2;
         follow_target = &D_80082E80;
-        if (resolveRecordOrientationOrFallback(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
             ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
                 ((target_pos[0] + D_80083780.x.w.i) -
                  ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
@@ -198,7 +198,7 @@ void dungeonUpdateAnimatedTargetEffect(void *effect)
         last_particle = 5;
         if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }
@@ -208,7 +208,7 @@ void dungeonUpdateAnimatedTargetEffect(void *effect)
     ((S_8002466C_0 *)effect)->unk_42 =
         (((s32)(((S_8002466C_0 *)effect)->unk_48.s << 16) >> 18) << 5) + 0x80;
     if (particle_index >= 0) {
-        particle_data = dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints;
+        particle_data = build_and_queue_interpolated_vertical_quads_around_five_perimeter_points;
         display = D_800DEA68;
         do {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));

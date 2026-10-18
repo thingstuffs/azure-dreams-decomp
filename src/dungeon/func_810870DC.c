@@ -37,10 +37,10 @@ typedef struct S_func_810870DC_3 {
 } S_func_810870DC_3;
 
 /* Updates directional animation and entity state when the transition flags allow. */
-void dungeonUpdateDirectionalTransitionState(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
+void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
     S_func_810870DC_2 *orientation)
 {
-    GameWork *scene_data = &gameWork;
+    GameWork *scene_data = &g_game_work;
     u8 state = entity->unk_9B;
 
     switch (state) {
@@ -64,7 +64,7 @@ void dungeonUpdateDirectionalTransitionState(S_func_810870DC_0 *entity, void *un
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
             entity->unk_8C = D_80170E94;
             entity->unk_A6 = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
     }
         break;

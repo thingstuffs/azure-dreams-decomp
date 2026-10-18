@@ -97,15 +97,15 @@ typedef struct SignedHeight {
 } SignedHeight;
 
 void func_80047784();
-void func_8009A21C();
+void cycle_map_cell_flags();
 s32 func_8009A2B8();
-void func_8009A3D0();
-s32 dungeonAdvanceStatusTimers();
-s32 selectDungeonSpawnTile();
-s32 func_800A56E0();
-void func_800AA53C();
-void dungeonReduceActorFoodMeter();
-s16 func_800BCB04();
+void update_map_cell_flags_with_item_limit();
+s32 advance_status_timers();
+s32 select_dungeon_spawn_tile();
+s32 play_sound_if_enabled();
+void refresh_actor_proximity_state();
+void reduce_actor_food_meter();
+s16 sample_terrain_surface_height();
 extern s16 D_8008146E;
 extern s32 D_8015F058;
 extern u8 D_80162888[];
@@ -113,7 +113,7 @@ extern u8 D_801628F0[];
 extern u8 D_801628F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
-void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAction *actor, ActorMotion *motion, ActorSprite *sprite, void *entity) {
+void update_paired_actor_movement_tile_placement_animations_restored_flags(PairAction *actor, ActorMotion *motion, ActorSprite *sprite, void *entity) {
     ActorMotion *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -212,7 +212,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
         if (partner_flags) {
             partner_tile_mask = 0x300;
         }
-        func_8009A3D0(partner_x, partner_y, partner_tile_mask);
+        update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
         sprite_x = sprite->tileX;
         entity_flags = ((CreatureState *)entity)->flags;
         entity_flags &= 0x2000;
@@ -221,7 +221,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
         if (entity_flags) {
             tile_mask = 0x300;
         }
-        func_8009A3D0(sprite_x, sprite_y, tile_mask);
+        update_map_cell_flags_with_item_limit(sprite_x, sprite_y, tile_mask);
         angle = 0xFFFB0000;
         cleared_flags = ((CreatureState *)entity)->flags;
         angle |= 0xFFFF;
@@ -244,7 +244,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
             actor->phase = 2;
             return;
         }
-        x_step_table = ((u8 *)dirStepX);
+        x_step_table = ((u8 *)dir_step_x);
         step_offset = direction * 2;
         x_step_table = (u8 *) (step_offset + (u32) x_step_table);
         x_velocity = * (s16 *) x_step_table;
@@ -252,7 +252,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
         x_velocity <<= 0x16;
         x_velocity = x_velocity / launch_duration;
         motion->dx = x_velocity;
-        y_step_table = ((u8 *)dirStepY);
+        y_step_table = ((u8 *)dir_step_y);
         y_step_ptr = (s16 *) (step_offset + (u32) y_step_table);
         y_velocity = *y_step_ptr;
         y_velocity <<= 0x16;
@@ -262,7 +262,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
         partner->flags = (s32) (partner->flags & 0xFFFBFFFF);
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
         anim_table0 = D_801628F0;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         sprite->directionFrames = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
@@ -286,13 +286,13 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
         motion->dy = 0;
         motion->dx = 0;
         motion->dz = -0x40000;
-        func_800A56E0(0x802);
+        play_sound_if_enabled(0x802);
         {
             fall_anim = 0x10;
             anim_table1 = D_801628F8;
             actor->ticks = fall_anim;
         }
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         sprite->directionFrames = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
@@ -325,7 +325,7 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
                 partner_sprite->tileY = saved_y;
                 goto commit_tile_positions;
             }
-            tile_type = (s16) selectDungeonSpawnTile(tile_x_ptr, &partner_sprite->tileY);
+            tile_type = (s16) select_dungeon_spawn_tile(tile_x_ptr, &partner_sprite->tileY);
             if (tile_type < 0) {
                 continue;
             }
@@ -341,15 +341,15 @@ void dungeonUpdatePairedActorMovementTilePlacementAnimationsRestoredFlags(PairAc
             }
             partner_sprite->room = (s8) tile_type;
             sprite->room = (s8) tile_type;
-            sprite->tileX = partner_sprite->tileX + dirStepX[direction];
-            sprite->tileY = partner_sprite->tileY + dirStepY[direction];
-            landing_height = func_800BCB04((sprite->tileX << 6) | 0x20, (sprite->tileY << 6) | 0x20,
+            sprite->tileX = partner_sprite->tileX + dir_step_x[direction];
+            sprite->tileY = partner_sprite->tileY + dir_step_y[direction];
+            landing_height = sample_terrain_surface_height((sprite->tileX << 6) | 0x20, (sprite->tileY << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
             ((CreatureState *)entity)->groundHeight = landing_height;
             if (landing_height >= 0x201) {
                 continue;
             }
-            partner_height = func_800BCB04((partner_sprite->tileX << 6) | 0x20, (partner_sprite->tileY << 6) | 0x20,
+            partner_height = sample_terrain_surface_height((partner_sprite->tileX << 6) | 0x20, (partner_sprite->tileY << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
             partner->groundHeight = partner_height;
             if ((s16) partner_height >= 0x201) {
@@ -374,13 +374,13 @@ commit_tile_positions:
         motion->dz = (s32) ((s32) ((((CreatureState *)entity)->groundHeight << 0x10)
             - motion->z.word) / (s16) actor->ticks);
         anim_table2 = D_801628F8;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
         func_80047784(sprite, ((AnimationFrame *) rise_anim)->frame, 0);
-        func_800AA53C(entity);
-        func_800AA53C(partner);
+        refresh_actor_proximity_state(entity);
+        refresh_actor_proximity_state(partner);
         actor->phase = actor->phase + 1;
         return;
     case 3:
@@ -418,8 +418,8 @@ commit_tile_positions:
             direction = angle_or_duration >> 8;
             return_step_offset = direction & 0xE;
             angle_or_duration = 8;
-            motion->dx = -(((DirectionStep *)((u8 *)dirStepX + return_step_offset))->step << 0x16) / angle_or_duration;
-            motion->dy = -(((DirectionStep *)((u8 *)dirStepY + return_step_offset))->step << 0x16) / actor->ticks;
+            motion->dx = -(((DirectionStep *)((u8 *)dir_step_x + return_step_offset))->step << 0x16) / angle_or_duration;
+            motion->dy = -(((DirectionStep *)((u8 *)dir_step_y + return_step_offset))->step << 0x16) / actor->ticks;
             partner_motion->dz = 0;
             motion->dz = 0;
             actor->phase = actor->phase + 1;
@@ -444,14 +444,14 @@ commit_tile_positions:
         motion->y = final_y;
         saved_handler = actor->savedHandler;
         partner_actor->handler = saved_handler;
-        dungeonReduceActorFoodMeter(reset_entity, 0x100);
+        reduce_actor_food_meter(reset_entity, 0x100);
         next_handler = &D_8015F058;
         actor->handler = next_handler;
-        active_count = ((u16)dungeonStatus.unk_0A);
+        active_count = ((u16)g_dungeon_status.unk_0A);
         finish_entity = entity;
         active_count -= 1;
-        dungeonStatus.unk_0A = active_count;
-        dungeonAdvanceStatusTimers(finish_entity);
+        g_dungeon_status.unk_0A = active_count;
+        advance_status_timers(finish_entity);
         actor->flags = (u16) (actor->flags & 0xFFF3);
 
         {
@@ -471,7 +471,7 @@ commit_tile_positions:
             if (restore_flags) {
                 restore_tile_mask = 0x300;
             }
-            func_8009A21C(restore_x, restore_y, restore_tile_mask);
+            cycle_map_cell_flags(restore_x, restore_y, restore_tile_mask);
         }
         {
             u32 restore_flags;
@@ -486,10 +486,10 @@ commit_tile_positions:
             if (restore_flags) {
                 restore_partner_mask = 0x300;
             }
-            func_8009A21C(restore_x, restore_y, restore_partner_mask);
+            cycle_map_cell_flags(restore_x, restore_y, restore_partner_mask);
         }
         anim_table3 = D_80162888;
-        angle_or_count = &gameWork.view.viewAngle;
+        angle_or_count = &g_game_work.view.viewAngle;
         sprite->directionFrames = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;

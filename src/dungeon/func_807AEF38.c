@@ -14,7 +14,7 @@ typedef struct S_800F6738_0 {
 } S_800F6738_0;
 
 /* Set flag 0x800000 on type 0x32 entities in the ring and set the global state to 0x1F. */
-void func_800F6738(void) {
+void mark_special_actors_and_set_player_tile(void) {
     void *first_entity;
     S_800F6738_0 *entity;
 

@@ -103,7 +103,7 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
         state->owner->field_0x14 = 0;
         state->owner->field_0x06 = state->owner->field_0x06 + 1;
         *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
-        flags = ((u32)objectFlagBlock.flags);
+        flags = ((u32)object_flag_block.flags);
         flags |= 0x8000;
         flags_page = (u8 *) 0x80080000;
         *((u32 *) (flags_page + 0x14A0)) = flags;
@@ -116,7 +116,7 @@ void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visu
         state->owner->field_0x14 = 0;
         state->owner->field_0x06 = state->owner->field_0x06 + 1;
         *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
-        flags = ((u32)objectFlagBlock.flags);
+        flags = ((u32)object_flag_block.flags);
         flags |= 0x8000;
         flags_page = (u8 *) 0x80080000;
         *((u32 *) (flags_page + 0x14A0)) = flags;

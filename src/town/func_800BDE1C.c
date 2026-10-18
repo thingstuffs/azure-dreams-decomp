@@ -22,12 +22,12 @@ typedef struct {
 } FuncData;
 
 extern void func_8004491C(s32, void *);
-extern void townConfigureTheSetModeN3(s32, void *, void *);
+extern void configure_the_set_mode_n_3(s32, void *, void *);
 extern u8 D_80046398[];
 extern u8 D_800D1BDC[];
 
 /* Initialize object state, scale, and color, then offset and configure the object. */
-void func_800BB57C(s32 object_id, void *object, FuncData *state) {
+void initialize_object_state_and_appearance(s32 object_id, void *object, FuncData *state) {
     func_8004491C(object_id - 0x20, D_80046398);
 
     state->unk12 = 0;
@@ -42,10 +42,10 @@ void func_800BB57C(s32 object_id, void *object, FuncData *state) {
     state->unk1C = 0x1000;
     state->unk1E = 0x1000;
     state->unk20 = 0x1000;
-    state->unkC = gameWork.view.unk_090;
-    state->unkD = gameWork.view.unk_091;
-    state->unkE = gameWork.view.unk_092;
+    state->unkC = g_game_work.view.unk_090;
+    state->unkD = g_game_work.view.unk_091;
+    state->unkE = g_game_work.view.unk_092;
     *(s32 *)((u8 *)object + 8) += 0x200000;
 
-    townConfigureTheSetModeN3(object_id, object, D_800D1BDC);
+    configure_the_set_mode_n_3(object_id, object, D_800D1BDC);
 }

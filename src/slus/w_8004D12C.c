@@ -16,17 +16,17 @@ typedef struct S_8004D12C_0 {
     u8 pad_16[0x2];
     s32 unk_18;
     s32 unk_1C;
-} S_8004D12C_0;   /* arg0 in runtimeAdvanceThreeComponentInterpolation; pointer addresses record offset 0x4 */
+} S_8004D12C_0;   /* arg0 in runtime_advance_three_component_interpolation; pointer addresses record offset 0x4 */
 
 typedef struct S_8004D12C_1 {
     s16 unk_00;
     s16 unk_02;
     s16 unk_04;
-} S_8004D12C_1;   /* temp_a2 in runtimeAdvanceThreeComponentInterpolation */
+} S_8004D12C_1;   /* temp_a2 in runtime_advance_three_component_interpolation */
 
 
 /* Advances a three-component interpolation and deactivates it when complete. */
-void runtimeAdvanceThreeComponentInterpolation(void *record_data) {
+void runtime_advance_three_component_interpolation(void *record_data) {
     s32 progress;
     u16 delta_x;
     u16 delta_y;

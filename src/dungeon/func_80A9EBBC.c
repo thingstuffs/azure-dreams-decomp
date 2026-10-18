@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void dungeonCreatePositionedSpriteEffect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
+void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
     R08_801743BC_S_801743BC_0 *effect;
     R08_801743BC_S_801743BC_3 *sprite;
     R08_801743BC_S_801743BC_1 *effect_pos;
@@ -8,7 +8,7 @@ void dungeonCreatePositionedSpriteEffect(M2C_UNK unused, EntityRec *source_pos, 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect->unk_3A = 0x2D;
-        effect->unk_10 = ((void *)dungeonUpdateTimedEffectAndExpire);
+        effect->unk_10 = ((void *)update_timed_effect_and_expire);
         func_8004491C(effect, func_80045340);
         effect_pos = effect->unk_08;
         effect_pos->unk_02 = (u16) ((u16)source_pos->x.w.i);

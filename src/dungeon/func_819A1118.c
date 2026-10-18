@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void dungeonAdvanceObjectMotionAndAnimation(void *effect) {
+void advance_object_motion_and_animation(void *effect) {
     s32 blend_ticks;
     s32 elapsed_ticks;
     s32 color_index;
@@ -42,6 +42,6 @@ void dungeonAdvanceObjectMotionAndAnimation(void *effect) {
     }
     if ((s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

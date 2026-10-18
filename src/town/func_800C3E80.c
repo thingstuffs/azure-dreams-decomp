@@ -11,8 +11,8 @@ extern u8 D_800D4094[];
 extern u16 D_800D4244[];
 extern u16 D_800D4268[];
 
-extern s32 townFindSoundEntryOrTerminatorIndex(s16 target_value);
-extern s32 func_800B28A0(void);
+extern s32 find_sound_entry_or_terminator_index(s16 target_value);
+extern s32 find_target_byte_index_in_list(void);
 extern void func_8004437C(s32 effect, s32 value);
 extern void SD_Call(s32 sequence);
 
@@ -31,7 +31,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         /* MATCH: Keep the merged sequence argument in a0 through each arm. */
     s32 sequence;
 
-    entry_index = townFindSoundEntryOrTerminatorIndex(D_8006ADBC.index);
+    entry_index = find_sound_entry_or_terminator_index(D_8006ADBC.index);
     if (D_8006ADBC.state == 12) {
         u16 *current_sound;
 
@@ -52,7 +52,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         sequence |= sequence_flags;
         sequence = (u16)sequence;
     } else {
-        fallback_index = func_800B28A0();
+        fallback_index = find_target_byte_index_in_list();
         fallback_entries = D_800D4244;
         fallback_entry = fallback_entries + (fallback_index * 2);
         fallback_effect = fallback_entry[0];

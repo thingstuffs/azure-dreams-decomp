@@ -4,10 +4,10 @@ void reserve_twch_load(s32 entry_id) {
     s32 entry_index;
     s32 found;
 
-    found = townResourceValueTableContains(D_800CF838[entry_id]);
+    found = resource_value_table_contains(D_800CF838[entry_id]);
     entry_index = 0;
     if (found != 0) {
-        entry_index = func_8008B3AC();
+        entry_index = find_slot_for_resource_entry();
         if (entry_index >= 0) {
             D_800CF828[entry_index] = entry_id;
             return;

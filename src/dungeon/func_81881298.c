@@ -7,7 +7,7 @@ typedef struct S_80024A98_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80024A98_0;   /* node in dungeonCreateRadialEffectNode */
+} S_80024A98_0;   /* node in create_radial_effect_node */
 
 typedef struct S_80024A98_1 {
     u8 pad_00[0x2];
@@ -16,7 +16,7 @@ typedef struct S_80024A98_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024A98_1;   /* coords in dungeonCreateRadialEffectNode */
+} S_80024A98_1;   /* coords in create_radial_effect_node */
 
 typedef struct S_80024A98_2 {
     u8 pad_00[0x2];
@@ -25,7 +25,7 @@ typedef struct S_80024A98_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024A98_2;   /* arg0 in dungeonCreateRadialEffectNode */
+} S_80024A98_2;   /* arg0 in create_radial_effect_node */
 
 typedef struct S_80024A98_3 {
     u8 pad_00[0xC];
@@ -36,14 +36,14 @@ typedef struct S_80024A98_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80024A98_3;   /* part in dungeonCreateRadialEffectNode */
+} S_80024A98_3;   /* part in create_radial_effect_node */
 
 
 
 extern u8 D_800DE938[];
 
 /* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
-void *dungeonCreateRadialEffectNode(S_80024A98_2 *source_coords)
+void *create_radial_effect_node(S_80024A98_2 *source_coords)
 {
     s16 angle;
     s32 effect_index;
@@ -69,7 +69,7 @@ void *dungeonCreateRadialEffectNode(S_80024A98_2 *source_coords)
         effect_index = 0;
         angle = (s16)rand();
         do {
-            dungeonAllocateJitteredEffectNode(coords, angle, 0x10, 1);
+            allocate_jittered_effect_node(coords, angle, 0x10, 1);
             effect_index++;
             angle += 0x100;
         } while (effect_index < 0x10);

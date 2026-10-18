@@ -9,15 +9,15 @@ typedef struct S_800CD9F4_0 {
     u16 unk_6C;
     u8 pad_6E[0x22];
     s16 unk_90;
-} S_800CD9F4_0;   /* arg0 in townTickCounterAndEnterStateThree */
+} S_800CD9F4_0;   /* arg0 in tick_counter_and_enter_state_three */
 
 
-s32 townSelectObjectSetupPath(S_800CD9F4_0 *, M2C_UNK, M2C_UNK, s32);
+s32 select_object_setup_path(S_800CD9F4_0 *, M2C_UNK, M2C_UNK, s32);
 /* Decrement the counter when the check returns zero and enter state 3 when it expires. */
-void townTickCounterAndEnterStateThree(S_800CD9F4_0 *object, M2C_UNK context_a, M2C_UNK context_b, s32 check_arg) {
+void tick_counter_and_enter_state_three(S_800CD9F4_0 *object, M2C_UNK context_a, M2C_UNK context_b, s32 check_arg) {
     u16 remaining_count;
 
-    if (townSelectObjectSetupPath(object, context_a, context_b, check_arg) == 0) {
+    if (select_object_setup_path(object, context_a, context_b, check_arg) == 0) {
         remaining_count = object->unk_6C - 1;
         object->unk_6C = remaining_count;
         if ((remaining_count << 0x10) <= 0) {

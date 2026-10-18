@@ -15,7 +15,7 @@ extern s32 D_80126A88;
 extern M2C_UNK D_80129728;
 
 /* Copy 14 initial values into the referenced records and clear their linked counters. */
-void func_80123754(void) {
+void reset_linked_value_records(void) {
     s8 *initial_values;
     s32 initial_value;
     s32 *record_value;

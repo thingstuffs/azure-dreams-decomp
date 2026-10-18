@@ -29,8 +29,8 @@ typedef struct Obj {
 extern u8 D_80080A84[];
 extern u8 D_80080A78[];
 
-extern s32 renderScreenFadeDecreasingIntensity();
-extern s32 renderScreenFadeIncreasingIntensity();
+extern s32 render_screen_fade_decreasing_intensity();
+extern s32 render_screen_fade_increasing_intensity();
 extern void func_80053da8();
 extern void *func_8003fc64();
 extern void func_8003d468();
@@ -38,12 +38,12 @@ extern void func_80040aa0();
 extern void func_80089c24();
 
 /* Updates menu animation, selection, and idle demo transitions. */
-void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
+void update_settings_menu_animation(Obj *obj, s32 *position) {
     int frames_left;
     int slot;
     u16 next_state;
     void *child;
-    GameWork *input = &gameWork;
+    GameWork *input = &g_game_work;
 
     frames_left = obj->counter - 1;
     obj->counter = frames_left;
@@ -54,7 +54,7 @@ void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
             obj->state = 16;
             return;
         }
-        if ((s16) renderScreenFadeDecreasingIntensity((u8 *) obj + 24)) {
+        if ((s16) render_screen_fade_decreasing_intensity((u8 *) obj + 24)) {
             obj->f26 &= ~1;
             obj->state = 1;
         }
@@ -130,7 +130,7 @@ void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
         obj->state = 17;
                         /* fallthrough */
     case 17:
-        if ((s16) renderScreenFadeIncreasingIntensity((u8 *) obj + 24)) {
+        if ((s16) render_screen_fade_increasing_intensity((u8 *) obj + 24)) {
             position[1] = 0;
             obj->f1a = 0;
             obj->state = 18;
@@ -138,7 +138,7 @@ void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
         return;
 
     case 18:
-        if ((s16) renderScreenFadeDecreasingIntensity((u8 *) obj + 24)) {
+        if ((s16) render_screen_fade_decreasing_intensity((u8 *) obj + 24)) {
             obj->f1a = 0;
             obj->state = 19;
         }
@@ -172,7 +172,7 @@ void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
                 obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) child + 16) = (void *) mainAssignObjectDescriptorOnCheck;
+            *(void **) ((u8 *) child + 16) = (void *) assign_object_descriptor_on_check;
             obj->state = 253;
             break;
         case 1:
@@ -206,7 +206,7 @@ void mainUpdateSettingsMenuAnimation(Obj *obj, s32 *position) {
     case 253:
         D_80080A84[0] = 2;
         ((u16 *) obj)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     case 254:

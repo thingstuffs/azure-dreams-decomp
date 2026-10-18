@@ -35,7 +35,7 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800478B8();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
-void dungeonAdvanceJitteredEffectModes(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
+void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
     position->x = state->random_data[1] + (rand() % 11) - 5;
     position->y = state->random_data[3] + (rand() % 11) - 5;
     position->z = state->random_data[5] + (rand() % 11) - 5;
@@ -48,7 +48,7 @@ void dungeonAdvanceJitteredEffectModes(D_800DB420_Obj *state, D_800DB420_RngOut 
         return;
     case 1:
         func_8004491C((u8 *)state - 0x20, func_80045340);
-        func_80047784(effect, effect->data2c[((gameWork.view.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
+        func_80047784(effect, effect->data2c[((g_game_work.view.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 2:
@@ -58,7 +58,7 @@ void dungeonAdvanceJitteredEffectModes(D_800DB420_Obj *state, D_800DB420_RngOut 
             *(u16 *)((u8 *)state + 6) = remaining;
             if ((remaining << 0x10) <= 0) {
                 *(u16 *)((u8 *)state - 2) |= 0x8000;
-                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+                object_flag_block.flags = object_flag_block.flags | 0x8000;
             }
         }
     default:

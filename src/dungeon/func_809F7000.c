@@ -21,7 +21,7 @@ typedef struct S_80174800_0 {
     s8 unk_02;
     u8 pad_03[0x17];
     s16 unk_1A;
-} S_80174800_0;   /* part in func_80174800 */
+} S_80174800_0;   /* part in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_1 {
     u8 pad_00[0x6];
@@ -38,7 +38,7 @@ typedef struct S_80174800_1 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_80174800_1;   /* data in func_80174800 */
+} S_80174800_1;   /* data in create_randomly_rotated_offset_effect */
 
 typedef struct S_80174800_2 {
     u8 pad_00[0x2];
@@ -47,11 +47,11 @@ typedef struct S_80174800_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80174800_2;   /* pos in func_80174800 */
+} S_80174800_2;   /* pos in create_randomly_rotated_offset_effect */
 
 
 /* Creates an effect at an offset from the source position with a random rotation. */
-void func_80174800(void *unused_ptr, EntityRec *source_pos, s32 unused_value, s16 scale)
+void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_pos, s32 unused_value, s16 scale)
 {
     void *node;
     S_80174800_0 *part;

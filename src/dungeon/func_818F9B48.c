@@ -11,7 +11,7 @@ typedef struct CountdownRecord {
 } CountdownRecord;
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void dungeonAdvanceRecordCounter(CountdownRecord *record)
+void advance_record_counter(CountdownRecord *record)
 {
     u16 counter;
 
@@ -21,7 +21,7 @@ void dungeonAdvanceRecordCounter(CountdownRecord *record)
     record->counter = counter;
     if ((counter << 16) <= 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

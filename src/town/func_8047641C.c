@@ -8,7 +8,7 @@ extern s32 *D_80019BB8;
 extern s32 D_80019BBC;
 
 /* Call func_800182A8, then set the global pointer and base-derived value. */
-void func_8001741C(s32 first_input, s32 second_input, s32 third_input) {
+void call_set_global_pointer(s32 first_input, s32 second_input, s32 third_input) {
     Rec_D_80016000 *base;
 
     func_800182A8(first_input, second_input, third_input);

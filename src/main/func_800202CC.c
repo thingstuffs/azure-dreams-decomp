@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern void func_8004DDBC(void *ptr, void *ptr1, void *ptr2);
-extern void func_80407160(void *ptr);
+extern void update_two_slots_using_selection_mapping(void *ptr);
 extern u8 D_80408A30[];
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */
-void cardBootUpdateOrClearsSelectedSlotOutputsRefreshesStateAnySelected(void *state, s32 *enabled, s32 *selected) {
+void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected(void *state, s32 *enabled, s32 *selected) {
     s32 slot;
     s32 updated;
     s32 data_offset;
@@ -35,6 +35,6 @@ void cardBootUpdateOrClearsSelectedSlotOutputsRefreshesStateAnySelected(void *st
     } while (slot < 2);
 
     if (updated != 0) {
-        func_80407160(state);
+        update_two_slots_using_selection_mapping(state);
     }
 }

@@ -20,6 +20,6 @@ void func_80170BFC(FadeEffect *effect,EffectMotion *motion) {
  effect->output=effect->current.packed;
  if(remaining<=0) {
   *(u16 *)((u8 *)effect-2)|=0x8000;
-  objectFlagBlock.flags|=0x8000;
+  object_flag_block.flags|=0x8000;
  }
 }

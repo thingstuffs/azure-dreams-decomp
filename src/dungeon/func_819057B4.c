@@ -7,7 +7,7 @@
 /* Effect record: the object header precedes it. */
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void dungeonRaiseEffectToHeightLimit(EffectRecord *object, EntityRec *source)
+void raise_effect_to_height_limit(EffectRecord *object, EntityRec *source)
 {
     u16 x;
     u16 y;
@@ -21,7 +21,7 @@ void dungeonRaiseEffectToHeightLimit(EffectRecord *object, EntityRec *source)
     y = (u16)source->y.w.i;
     probe_z = z + 2;
     D_800267B8[0] = 1;
-    height_limit = (s16)func_800BCB04(x, y, (s16)probe_z);
+    height_limit = (s16)sample_terrain_surface_height(x, y, (s16)probe_z);
     if ((s16)(u16)source->z.w.i < height_limit) {
         random_value = rand();
         source->z.v += 0x20000 + (random_value & 0xFFF);
@@ -30,6 +30,6 @@ void dungeonRaiseEffectToHeightLimit(EffectRecord *object, EntityRec *source)
     object->timer -= 8;
     if (object->timer <= 0) {
         ((ObjectNodeHeader *)object - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

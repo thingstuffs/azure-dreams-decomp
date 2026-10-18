@@ -4,9 +4,9 @@
 
 
 extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 cycle_map_cell_flags();
+extern s32 update_map_cell_flags_with_item_limit();
+extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 D_80173E8C[8];
 
@@ -21,7 +21,7 @@ typedef struct S_801719C0_0 {
     u8 pad_72[0x16];
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_801719C0_0;   /* arg3 in dungeonAdvanceQueuedMovementStep */
+} S_801719C0_0;   /* arg3 in advance_queued_movement_step */
 
 typedef struct S_801719C0_1 {
     u8 pad_00[0x5];
@@ -31,7 +31,7 @@ typedef struct S_801719C0_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_801719C0_1;   /* arg2 in dungeonAdvanceQueuedMovementStep */
+} S_801719C0_1;   /* arg2 in advance_queued_movement_step */
 
 typedef struct S_801719C0_2 {
     u8 pad_00[0x8C];
@@ -46,24 +46,24 @@ typedef struct S_801719C0_2 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_801719C0_2;   /* arg0 in dungeonAdvanceQueuedMovementStep */
+} S_801719C0_2;   /* arg0 in advance_queued_movement_step */
 
 typedef struct S_801719C0_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_801719C0_3;   /* entry in dungeonAdvanceQueuedMovementStep */
+} S_801719C0_3;   /* entry in advance_queued_movement_step */
 
 typedef struct S_801719C0_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in dungeonAdvanceQueuedMovementStep */
+} S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in advance_queued_movement_step */
 
 /* Advances a queued movement step and updates position, direction, and timing. */
-void dungeonAdvanceQueuedMovementStep(void *motion, s32 unused, void *sprite, void *path)
+void advance_queued_movement_step(void *motion, s32 unused, void *sprite, void *path)
 {
     s32 tile_mask;
     s32 step_count;
@@ -82,7 +82,7 @@ void dungeonAdvanceQueuedMovementStep(void *motion, s32 unused, void *sprite, vo
         (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
         func_80047784(
             sprite,
-            D_80173E8C[((gameWork.view.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            D_80173E8C[((g_game_work.view.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801719C0_1 *)sprite)->unk_05 = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;
@@ -103,7 +103,7 @@ void dungeonAdvanceQueuedMovementStep(void *motion, s32 unused, void *sprite, vo
         if (((S_801719C0_0 *)path)->unk_1C & 0x2000) {
             tile_mask = 0x300;
         }
-        func_8009A3D0(old_x, old_y, tile_mask);
+        update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
         ((S_801719C0_1 *)sprite)->unk_24 =
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_74;
@@ -111,18 +111,18 @@ void dungeonAdvanceQueuedMovementStep(void *motion, s32 unused, void *sprite, vo
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_7C;
         ((S_801719C0_0 *)path)->unk_8A.u++;
 
-        func_8009A21C(((S_801719C0_1 *)sprite)->unk_24, ((S_801719C0_1 *)sprite)->unk_25,
+        cycle_map_cell_flags(((S_801719C0_1 *)sprite)->unk_24, ((S_801719C0_1 *)sprite)->unk_25,
                       (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_801719C0_0 *)path)->unk_2A =
-            dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
+            get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
                           ((S_801719C0_1 *)sprite)->unk_25, (u8 *)motion + 0x98);
     }
     ((S_801719C0_2 *)motion)->unk_9A = 0xF;
     ((S_801719C0_2 *)motion)->unk_8C = 0;
     (*(s32 *)((u8 *)path + (0x1C))) |= 0x40000000;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_801719C0_2 *)motion)->unk_96 = 0;
         return;
     }

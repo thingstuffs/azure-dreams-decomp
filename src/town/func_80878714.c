@@ -3,7 +3,7 @@
 extern s32 *D_807030A4[];
 
 /* Tests an indexed flag, treating indices zero and one as constant results. */
-s32 townShopTestIndexedFlag(s32 flag_index)
+s32 shop_test_indexed_flag(s32 flag_index)
 {
     s32 unit_bit;
     s32 value;

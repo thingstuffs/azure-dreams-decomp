@@ -6,17 +6,17 @@ s32 func_800644B8();                             /* extern */
 typedef struct S_800A6B70_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800A6B70_0;   /* arg0 in func_800A6B70 */
+} S_800A6B70_0;   /* arg0 in update_sine_pulse_color */
 
 typedef struct S_800A6B70_1 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_800A6B70_1;   /* arg2 in func_800A6B70 */
+} S_800A6B70_1;   /* arg2 in update_sine_pulse_color */
 
 /* Advances the phase and sets all three color channels to the same intensity. */
-void func_800A6B70(S_800A6B70_0 *phase_state, M2C_UNK unused, S_800A6B70_1 *color) {
+void update_sine_pulse_color(S_800A6B70_0 *phase_state, M2C_UNK unused, S_800A6B70_1 *color) {
     s32 phase;
     s8 intensity;
 

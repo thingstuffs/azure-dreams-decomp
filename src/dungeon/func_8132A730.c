@@ -7,24 +7,24 @@ typedef struct S_80171F30_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_80171F30_0;   /* object in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_0;   /* object in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80171F30_1;   /* arg0 in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_1;   /* arg0 in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_2 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_80171F30_2;   /* data in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_2;   /* data in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_3 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80171F30_3;   /* header in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_3;   /* header in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_4 {
     u8 pad_00[0x8];
@@ -32,7 +32,7 @@ typedef struct S_80171F30_4 {
     u8 pad_0C[0x26];
     s16 unk_32;
     s16 unk_34;
-} S_80171F30_4;   /* tail in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_4;   /* tail in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_5 {
     u8 pad_00[0x2];
@@ -41,7 +41,7 @@ typedef struct S_80171F30_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80171F30_5;   /* ((S_80171F30_0 *)object)->unk_08 in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_5;   /* ((S_80171F30_0 *)object)->unk_08 in spawn_jittered_trail_particle */
 
 typedef struct S_80171F30_6 {
     u8 pad_00[0x2];
@@ -50,7 +50,7 @@ typedef struct S_80171F30_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80171F30_6;   /* ((S_80171F30_1 *)arg0)->unk_08 in dungeonSpawnJitteredTrailParticle */
+} S_80171F30_6;   /* ((S_80171F30_1 *)arg0)->unk_08 in spawn_jittered_trail_particle */
 
 
 extern u8 D_80171704[];
@@ -63,7 +63,7 @@ extern void func_8004491C(void *, void *);
 extern s32 rand(void);
 
 /* Creates an object at a randomized offset from its parent and initializes its mode and state. */
-void dungeonSpawnJitteredTrailParticle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
+void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
 {
     void *object;
     S_80171F30_3 *header;

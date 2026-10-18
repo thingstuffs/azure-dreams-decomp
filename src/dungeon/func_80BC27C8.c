@@ -12,7 +12,7 @@ typedef struct S_80171FC8_0 {
     u8 pad_72[0x16];
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171FC8_0;   /* arg3 in dungeonAdvanceEntityPathState */
+} S_80171FC8_0;   /* arg3 in advance_entity_path_state */
 
 typedef struct S_80171FC8_1 {
     u8 pad_00[0x24];
@@ -20,14 +20,14 @@ typedef struct S_80171FC8_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171FC8_1;   /* arg2 in dungeonAdvanceEntityPathState */
+} S_80171FC8_1;   /* arg2 in advance_entity_path_state */
 
 typedef struct S_80171FC8_2 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171FC8_2;   /* tile in dungeonAdvanceEntityPathState */
+} S_80171FC8_2;   /* tile in advance_entity_path_state */
 
 typedef struct S_80171FC8_3 {
     u8 pad_00[0x8C];
@@ -38,25 +38,25 @@ typedef struct S_80171FC8_3 {
     u16 unk_96;
     u8 pad_98[0x2];
     s8 unk_9A;
-} S_80171FC8_3;   /* arg0 in dungeonAdvanceEntityPathState */
+} S_80171FC8_3;   /* arg0 in advance_entity_path_state */
 
 typedef struct S_80171FC8_4 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in dungeonAdvanceEntityPathState */
+} S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
 
 extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 cycle_map_cell_flags();
+extern s32 update_map_cell_flags_with_item_limit();
+extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 D_80174634[];
 
 /* Advance the entity along its path and update its movement state. */
-void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity, void *path_state)
+void advance_entity_path_state(void *motion_state, s32 unused, void *entity, void *path_state)
 {
     s32 distance;
     s32 flags;
@@ -78,7 +78,7 @@ void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity,
     if (((S_80171FC8_1 *)entity)->unk_2C != D_80174634) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174634;
         func_80047784(entity,
-                      D_80174634[((gameWork.view.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      D_80174634[((g_game_work.view.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 
@@ -100,7 +100,7 @@ void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity,
             distance = 0x300;
         }
 
-        func_8009A3D0(old_x, old_y, distance);
+        update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
         ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
@@ -108,11 +108,11 @@ void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity,
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
-        func_8009A21C(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,
+        cycle_map_cell_flags(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,
                       (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_80171FC8_0 *)path_state)->unk_2A =
-            dungeonGetRoundedFacingAndRoundingFlag(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
+            get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
                           ((S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98);
     }
 
@@ -120,7 +120,7 @@ void dungeonAdvanceEntityPathState(void *motion_state, s32 unused, void *entity,
     ((S_80171FC8_3 *)motion_state)->unk_8C = 0;
     (*(s32 *)((u8 *)path_state + 0x1C)) |= 0x40000000;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_80171FC8_3 *)motion_state)->unk_96 = 0;
         return;
     }

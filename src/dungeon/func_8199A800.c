@@ -17,20 +17,20 @@ extern u16 D_80024A70[];
 
 
 extern s32 func_80053EF0(s32);
-extern void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
+extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 D_80080000[];
 
 #define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&D_800814A8)), 0))
 
-void func_8002401C(void *state_data);
+void update_directional_actor_effect(void *state_data);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19ba800_entry)(void *) = func_8002401C;
+void (*const dungeon_19ba800_entry)(void *) = update_directional_actor_effect;
 
 /* Advances a timed effect sequence, updates the entry tint, and draws the animation. */
-void func_8002401C(void *state_data)
+void update_directional_actor_effect(void *state_data)
 {
     u8 *state = (u8 *)state_data;
     GameWork *effect_flags;
@@ -41,7 +41,7 @@ void func_8002401C(void *state_data)
 
     U16_AT(state, 0x16)++;
     phase = S16_AT(state, 0x0A);
-    effect_flags = &gameWork;
+    effect_flags = &g_game_work;
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
@@ -64,9 +64,9 @@ void func_8002401C(void *state_data)
         }
         result = func_80053EF0(4);
         if (result != 2) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
         } else {
-            func_800A56E0(0x4300);
+            play_sound_if_enabled(0x4300);
         }
         U8_AT(MANAGER_PTR(), 0xA8) = U8_AT(state, 8);
         U16_AT(state, 0x14) = U16_AT(MANAGER_PTR(), 0x2A);
@@ -118,12 +118,12 @@ void func_8002401C(void *state_data)
     case 4:
         if (S16_AT(D_80024A70, 0) == 0) {
             {
-                DungeonGlobalStatus *sequence_state = &dungeonStatus;
+                DungeonGlobalStatus *sequence_state = &g_dungeon_status;
                 U16_AT(sequence_state, 0x0A)--;
                 U32_AT(sequence_state, 0x0C) = 0;
             }
             U16_AT(state, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
     if (S16_AT(state, 0x0A) >= 2) {
@@ -132,7 +132,7 @@ void func_8002401C(void *state_data)
 
         draw_params[0] = 0x01000360;
         draw_params[1] = 0x00200020;
-        dungeonDrawTexturedEllipse(draw_data, draw_params, 1, 0);
+        draw_textured_ellipse(draw_data, draw_params, 1, 0);
         U8_AT(draw_data, 8) += 0x10;
     }
     D_80024A70[0] = 0;

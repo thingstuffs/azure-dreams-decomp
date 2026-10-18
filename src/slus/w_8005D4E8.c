@@ -1,7 +1,7 @@
 #include "slus/sound_transfer_frontends.h"
 
 /* Uploads a buffer to the current SPU transfer address and returns its size. */
-s32 submitDriverTransferModeZero(s32 buffer_addr, s32 size)
+s32 submit_driver_transfer_mode_zero(s32 buffer_addr, s32 size)
 {
     s32 upload_addr = buffer_addr;
     s32 upload_size = size;

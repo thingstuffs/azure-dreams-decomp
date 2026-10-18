@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Copy records through the end marker and return the next destination slot. */
-void *dungeonCopyRecordsThroughEnd(void *dest, void *src) {
+void *copy_records_through_end(void *dest, void *src) {
     void *src_tail = src + 8;
     void *dest_tail = dest + 8;
 

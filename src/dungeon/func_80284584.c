@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s16 dungeonFindFirstNonzeroRectangleField(s16 start_x, s16 start_y, s16 width, s16 height) {
+s16 find_first_nonzero_rectangle_field(s16 start_x, s16 start_y, s16 width, s16 height) {
     MapGrid *config;
     s32 shifted_x;
     s32 shifted_width;
@@ -15,7 +15,7 @@ s16 dungeonFindFirstNonzeroRectangleField(s16 start_x, s16 start_y, s16 width, s
     if ((shifted_x >> 16) <= 0) {
         goto ret_err;
     }
-    config = &gameWork.map;
+    config = &g_game_work.map;
     if (row + height >= (1 << config->shiftY)) {
         return -1;
     }

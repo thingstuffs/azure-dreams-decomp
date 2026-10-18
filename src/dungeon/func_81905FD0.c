@@ -2,7 +2,7 @@
 
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
-void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
+void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
 {
     S_func_81905FD0_3 *target_render;
     u8 scratch[56];
@@ -90,9 +90,9 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
                 effect->unk_78.u16 = target_motion_m->unk_08.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
                 effect->unk_BA = owner_info->unk_24 +
-                    ((u8 *)dirStepX)[effect->unk_7E.s16 * 2];
+                    ((u8 *)dir_step_x)[effect->unk_7E.s16 * 2];
                 effect->unk_BB = owner_info->unk_25 +
-                    ((u8 *)dirStepY)[effect->unk_7E.s16 * 2];
+                    ((u8 *)dir_step_y)[effect->unk_7E.s16 * 2];
                 {
                     s32 target_tile;
 
@@ -145,14 +145,14 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
         index = 0;
         while (1) {
             random_bits = func_80069EF8();
-            func_80025080((u8 *)effect - 0x20, effect->unk_7E.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
+            get_half_byte_length((u8 *)effect - 0x20, effect->unk_7E.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
                 0, 0);
             index++;
             if (index >= 4) {
                 break;
             }
         }
-        result = func_800A4778(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
+        result = check_adjacent_tile_height_clearance(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
                                motion->unk_08.s16_0A.unk_0A, owner->unk_60);
         if ((s16)result == 0) {
             {
@@ -185,7 +185,7 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
             if (owner->unk_60 != 0) {
                 effect->unk_0A.u16 = 3;
                 effect->unk_82.u16 = 0;
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 {
                     S_func_81905FD0_6 *target = owner->unk_60;
                     kind_or_shade = target->unk_13;
@@ -277,7 +277,7 @@ update_coords:
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = 410;
-                func_800B8FC8(owner->unk_60, rect_arg,
+                draw_transformed_sprite_with_clip_rect(owner->unk_60, rect_arg,
                               dest_arg, 1, frame);
                 rect_arg = tex_rect;
                 dest_arg = tex_dest;
@@ -290,7 +290,7 @@ update_coords:
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = second_dest_y;
-                func_800B8FC8(owner->unk_60, rect_arg,
+                draw_transformed_sprite_with_clip_rect(owner->unk_60, rect_arg,
                               dest_arg, 1, frame);
             }
             if (effect->unk_82.s16 != 4) {
@@ -310,7 +310,7 @@ update_coords:
             if (upper_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
-                upper_effect->unk_10 = (void *)dungeonTickEffectRecord;
+                upper_effect->unk_10 = (void *)tick_effect_record;
                 func_8004491C(upper_effect, func_80045340);
                 child_render = upper_effect->unk_0C;
                 {
@@ -352,7 +352,7 @@ update_coords:
             if (lower_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
-                lower_effect->unk_10 = (void *)dungeonUpdateEffectBrightnessPulse;
+                lower_effect->unk_10 = (void *)update_effect_brightness_pulse;
                 func_8004491C(lower_effect, func_80045340);
                 child_render = lower_effect->unk_0C;
                 child_render->unk_14 &= 0xFFF3;
@@ -387,7 +387,7 @@ update_coords:
             if (ring_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
-                ring_effect->unk_10 = (void *)dungeonUpdateEffectAnimationSlots;
+                ring_effect->unk_10 = (void *)update_effect_animation_slots;
                 func_8004491C(ring_effect, func_80045340);
                 child_render = ring_effect->unk_0C;
                 {
@@ -454,7 +454,7 @@ update_coords:
                 child_data->unk_44 = (void *)((u32)((u32)((u8 *)upper_effect + 0x20)));
                 child_data->unk_48 = (u8 *)ring_effect + 0x20;
                 child_data->unk_4C = (u8 *)lower_effect + 0x20;
-                control_script = (void *)func_80025408;
+                control_script = (void *)build_inverted;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;
                 control_effect->unk_10 = control_script;
@@ -590,9 +590,9 @@ update_coords:
 
             effect->unk_82.u16 = previous_timer;
             if (active_flag == 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 *(u16 *)((u8 *)effect - 2) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             } else {
                 ((S_func_81905FD0_10 *)D_800267B8)->unk_00.u16 = 0;
             }

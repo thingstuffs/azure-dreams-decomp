@@ -28,10 +28,10 @@ extern u8 D_800F7DFC[];
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
 extern void func_8003DB94(void *, void *, s32);
-extern void soundSetCdCueParameters(s32, s32, s32, s32);
+extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void clearAlternateTextureRegions(s32);
+extern void clear_alternate_texture_regions(s32);
 extern s32 SD_Call(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
 
@@ -41,14 +41,14 @@ typedef struct S_800243D8_0 {
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-} S_800243D8_0;   /* object in func_800243D8 */
+} S_800243D8_0;   /* object in advance_object_spawning_displays_high */
 
 typedef struct S_800243D8_1 {
     u8 pad_00[0xA0];
     s16 unk_A0;
     u8 pad_A2[0xA];
     State8081A3D8 * unk_AC;
-} S_800243D8_1;   /* object_tail in func_800243D8 */
+} S_800243D8_1;   /* object_tail in advance_object_spawning_displays_high */
 
 typedef struct S_800243D8_2 {
     u8 pad_00[0x2];
@@ -71,16 +71,16 @@ typedef struct S_800243D8_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_800243D8_2;   /* inner in func_800243D8 */
+} S_800243D8_2;   /* inner in advance_object_spawning_displays_high */
 
 typedef struct S_800243D8_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_800243D8_3;   /* ((S_800243D8_0 *)object)->unk_08 in func_800243D8 */
+} S_800243D8_3;   /* ((S_800243D8_0 *)object)->unk_08 in advance_object_spawning_displays_high */
 
 /* Advances object spawning, result displays, and high-score handling. */
-void func_800243D8(State8081A3D8 *controller)
+void advance_object_spawning_displays_high(State8081A3D8 *controller)
 {
     u8 *object;
     u8 *object_data;
@@ -239,18 +239,18 @@ void func_800243D8(State8081A3D8 *controller)
         if ((s16)best_score < score_threshold) {
             s32 dialog_id;
             dialog_id = 0x2C3D;
-            soundSetCdCueParameters(dialog_zero, dialog_id, 0x01000001, 0x01000271);
+            sound_set_cd_cue_parameters(dialog_zero, dialog_id, 0x01000001, 0x01000271);
             SD_Call(0x300);
             D_800135BC[0] = controller->threshold;
             func_80033B9C(0x553);
         } else {
             s32 dialog_id;
             dialog_id = 0x2C3D;
-            soundSetCdCueParameters(dialog_zero, dialog_id, dialog_zero, 0x01000290);
+            sound_set_cd_cue_parameters(dialog_zero, dialog_id, dialog_zero, 0x01000290);
             SD_Call(0x300);
             func_80033B78(0x553);
         }
-        clearAlternateTextureRegions(1);
+        clear_alternate_texture_regions(1);
         func_80033B78(0xA5);
         controller->state = 5;
         controller->flags |= 2;
@@ -258,7 +258,7 @@ void func_800243D8(State8081A3D8 *controller)
 
     case 5:
         *((u16 *)controller - 1) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     default:
         break;
     }

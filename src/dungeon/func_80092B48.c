@@ -21,17 +21,17 @@ typedef struct {
 extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
 extern s32 *D_800E3D18[];
-extern Item *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, s16 flag);
+extern Item *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag);
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 dungeonAppendTypedFormattedValue(Item *, s32);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_800A56E0(s32);
-extern void func_800A5720(s8 *text);
-extern void clearAlternateTextureRegions(s32);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_typed_formatted_value(Item *, s32);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void play_sound_if_enabled(s32);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void clear_alternate_texture_regions(s32);
 extern void func_80048568(s32);
 extern void func_80048590(s32);
 extern u8 D_80088B64[];
@@ -49,7 +49,7 @@ extern u8 D_800E3D80[];
 extern u8 D_800DD2C4[];
 extern u8 D_800DD2B4[];
 
-void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
+void equip_item_and_update_status(Arg0 *context, Item *item) {
     s32 value;
     register s32 result_value;
     s32 item_index;
@@ -67,14 +67,14 @@ void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
     state = 0;
     if (selected_item != NULL) {
         if (selected_item->b1 == 0xF && selected_item->b0 >= 0xD) {
-            func_800A56E0(0x506);
-            result_value = func_800990FC();
-            item_b3 = dungeonAppendTypedFormattedValue(selected_item, func_80099194(D_800E080A, func_80099734(context, dungeonWriteTextByteAndAdvance(8, result_value))));
-            func_80099290(func_80099194(D_80088B64, item_b3));
-            func_800A5720(result_value);
+            play_sound_if_enabled(0x506);
+            result_value = get_unused_text_buffer();
+            item_b3 = append_typed_formatted_value(selected_item, expand_text_control_codes(D_800E080A, append_entity_display_text(context, write_text_byte_and_advance(8, result_value))));
+            func_80099290(expand_text_control_codes(D_80088B64, item_b3));
+            display_text_with_fullwidth_adjustment(result_value);
             return;
         }
-        selected_item = dungeonRegisterItemObjectInFreeSlot(selected_item, D_800E07C0, D_800E07D3, 0);
+        selected_item = register_item_object_in_free_slot(selected_item, D_800E07C0, D_800E07D3, 0);
         if (selected_item == NULL) {
             return;
         }
@@ -84,11 +84,11 @@ void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
     if (current_item != NULL) {
         value = current_item->b3;
         if (value & 0x40) {
-            func_800A56E0(0x70A);
-            result_value = func_800990FC();
-            item_b3 = dungeonAppendTypedFormattedValue(current_item, dungeonWriteTextByteAndAdvance(8, result_value));
-            func_80099290(func_80099194(D_800E081C, item_b3));
-            func_800A5720(result_value);
+            play_sound_if_enabled(0x70A);
+            result_value = get_unused_text_buffer();
+            item_b3 = append_typed_formatted_value(current_item, write_text_byte_and_advance(8, result_value));
+            func_80099290(expand_text_control_codes(D_800E081C, item_b3));
+            display_text_with_fullwidth_adjustment(result_value);
             return;
         }
         current_item->b3 = value & 0xDF;
@@ -103,27 +103,27 @@ void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
         item_b3 = selected_item->b3;
         item_index = selected_item->b0;
         selected_item->b3 = item_b3 & 0x7F;
-        result_value = func_800990FC();
-        func_80099290(func_80099194(D_800E0844, dungeonAppendTypedFormattedValue(selected_item, dungeonWriteTextByteAndAdvance(8, result_value))));
-        func_800A5720(result_value);
+        result_value = get_unused_text_buffer();
+        func_80099290(expand_text_control_codes(D_800E0844, append_typed_formatted_value(selected_item, write_text_byte_and_advance(8, result_value))));
+        display_text_with_fullwidth_adjustment(result_value);
         D_800E3D18[0] = (s32 *)D_800E3D80;
         tail_index = 0x70A;
         if (selected_item->b3 & 0x40) {
             context->flags |= 0x800;
-            func_800A56E0(tail_index);
-            result_value = func_800990FC();
-            func_80099290(func_80099194(D_800E0853, dungeonAppendTypedFormattedValue(selected_item, result_value)));
-            func_800A5720(result_value);
+            play_sound_if_enabled(tail_index);
+            result_value = get_unused_text_buffer();
+            func_80099290(expand_text_control_codes(D_800E0853, append_typed_formatted_value(selected_item, result_value)));
+            display_text_with_fullwidth_adjustment(result_value);
         }
         selected_item->b3 |= 0x20;
     } else {
         if (state != 0) {
-            result_value = func_800990FC();
-            value = dungeonWriteTextByteAndAdvance(8, result_value);
-            value = dungeonAppendTypedFormattedValue(context->field4C, value);
-            value = func_80099194(D_800E0862, value);
+            result_value = get_unused_text_buffer();
+            value = write_text_byte_and_advance(8, result_value);
+            value = append_typed_formatted_value(context->field4C, value);
+            value = expand_text_control_codes(D_800E0862, value);
             func_80099290(value);
-            func_800A5720(result_value);
+            display_text_with_fullwidth_adjustment(result_value);
         }
         head_c = D_800DD2C4;
         context->b84 = head_c[0];
@@ -133,13 +133,13 @@ void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
         context->b85 = head_b_value;
     }
     context->field4C = selected_item;
-    func_800A56E0(0x508);
+    play_sound_if_enabled(0x508);
     tail_index = item_index;
     if (selected_item->b1 == 0x10) {
         context->b84 = D_800DD2E0[tail_index];
         context->b85 = D_800DD2D4[tail_index];
         if (tail_index == 0) {
-            clearAlternateTextureRegions(1);
+            clear_alternate_texture_regions(1);
             return;
         }
         func_80048590(tail_index);
@@ -147,12 +147,12 @@ void dungeonEquipItemAndUpdateStatus(Arg0 *context, Item *item) {
         context->b84 = D_800DD2C4[tail_index];
         context->b85 = D_800DD2B4[tail_index];
         if (tail_index == 0) {
-            clearAlternateTextureRegions(1);
+            clear_alternate_texture_regions(1);
             return;
         }
         func_80048568(tail_index);
     }
     if (item_index == 0) {
-        clearAlternateTextureRegions(1);
+        clear_alternate_texture_regions(1);
     }
 }

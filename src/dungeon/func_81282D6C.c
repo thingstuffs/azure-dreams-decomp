@@ -1,19 +1,19 @@
 #define D_8016DEDC D_8016CEDC
-#define getCdCommandQueueDepth func_8003EE70
-#define dungeonAdvanceStatusTimers func_800A3784
+#define get_cd_command_queue_depth func_8003EE70
+#define advance_status_timers func_800A3784
 #define D_8016B514 D_8016A514
 #define D_800814A8 D_800803DC
-#define dungeonCreateActorSpellEffect func_800A8158
-#define dungeonSetRecordIntegerTileCenter func_800A17D4
-#define func_800A56E0 func_800A4398
+#define create_actor_spell_effect func_800A8158
+#define set_record_integer_tile_center func_800A17D4
+#define play_sound_if_enabled func_800A4398
 #define D_8006DE24 D_8006CC74
 #define D_8016DE8C D_8016CE8C
-#define dungeonScanMonsterAlongHeading func_8009F394
+#define scan_monster_along_heading func_8009F394
 #define func_80047784 func_80047320
 #define func_8016AE18 func_80169E18
 /* Relink of matched dungeon/func_81258D6C at file 0x1278D6C; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/def_table.h"
@@ -202,7 +202,7 @@ void func_8016B56C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A17D4(motion, sprite->position.tile.x, sprite->position.tile.y);
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((ActorCounterView *)D_800803DC)->pendingCount--;
         func_800A3784(actor);
         actor->unk_6D--;
@@ -249,7 +249,7 @@ void func_8016B56C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *
         sprite->directionFrames = D_8016CEDC;
         func_80047320(
             sprite,
-            D_8016CEDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016CEDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -300,7 +300,7 @@ void func_8016B56C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *
         sprite->directionFrames = D_8016CE8C;
         func_80047320(
             sprite,
-            D_8016CE8C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8016CE8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->adjustment = 0;
         action->remainingAmount.signedValue = -0x20;
@@ -309,10 +309,10 @@ void func_8016B56C(ActorActionWork *action, EntityRec *motion, ActorSpriteView *
     case 8:
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             action->handler = &D_8016A514;
             func_800A3784(actor);
             actor->unk_6D--;

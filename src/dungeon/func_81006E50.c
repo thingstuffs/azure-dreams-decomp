@@ -42,14 +42,14 @@ extern u8 D_80171058[];
 extern u8 D_801748B8[];
 
 void func_80047784(void *, u8, s32);
-void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-void dungeonAdvanceStatusTimers(void *);
-void func_800A56E0(s32);
-void dungeonReduceActorFoodMeter(void *, s32);
+void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+void set_record_integer_tile_center(void *, u8, u8);
+void advance_status_timers(void *);
+void play_sound_if_enabled(s32);
+void reduce_actor_food_meter(void *, s32);
 
 /* Advances the actor animation sequence and resets its action state on completion. */
-void dungeonAdvanceActorAnimationSequence(S_func_81006E50_0 *action, S_func_81006E50_1 *motion, S_func_81006E50_2 *animation,
+void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50_1 *motion, S_func_81006E50_2 *animation,
     S_func_81006E50_3 *actor) {
     u16 delay_ticks;
 
@@ -60,7 +60,7 @@ void dungeonAdvanceActorAnimationSequence(S_func_81006E50_0 *action, S_func_8100
         if (animation->unk_14 & 0x8000) {
             action->unk_9B = 3;
             animation->unk_14 |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
             break;
         }
         motion->unk_14 = 0;
@@ -68,7 +68,7 @@ void dungeonAdvanceActorAnimationSequence(S_func_81006E50_0 *action, S_func_8100
         motion->unk_0C = 0;
         *(void **)((u8 *)animation + 0x2C) = D_801748B8;
         func_80047784(animation,
-            D_801748B8[((gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
+            D_801748B8[((g_game_work.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);
         action->unk_9B++;
         action->unk_96 = 0;
@@ -79,19 +79,19 @@ void dungeonAdvanceActorAnimationSequence(S_func_81006E50_0 *action, S_func_8100
         if ((s16)delay_ticks != 2) {
             break;
         }
-        func_800A56E0(0x808);
-        dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk_2A, 1);
+        play_sound_if_enabled(0x808);
+        resolve_attack_damage_and_effects(actor, animation, actor->unk_2A, 1);
         action->unk_9B++;
         break;
     case 3:
         if (!(animation->unk_14 & 0xE000)) {
             break;
         }
-        dungeonSetRecordIntegerTileCenter(motion, animation->unk_24, animation->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         action->unk_8C = D_80171058;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
             break;

@@ -30,7 +30,7 @@ typedef struct S_func_8001A854_4 {
 
 
 /* Calls the state handler and copies two state values to the output. */
-void townCallStateHandlerAndCopyValues(S_func_8001A854_4 *output, s32 handler_arg) {
+void call_state_handler_and_copy_values(S_func_8001A854_4 *output, s32 handler_arg) {
     ((S_func_8001A854_2 *)((S_func_8001A854_1 *)((S_func_8001A854_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_20)->unk_258(handler_arg);
     output->unk_00 =
         ((S_func_8001A854_3 *)((S_func_8001A854_1 *)((S_func_8001A854_0 *)((s8 *)(&D_80016000)))->unk_00)->unk_1C)->unk_04;

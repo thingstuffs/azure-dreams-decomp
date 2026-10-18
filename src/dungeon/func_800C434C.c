@@ -9,9 +9,9 @@ typedef void (*Callback)(void *, void *, void *, void *);
 extern void func_8003DB94(void *, s32, s8);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern s16 func_800BCB04(s32, s32, s16);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern u8 D_800C9F34;
 extern Callback D_800E0354[];
@@ -29,7 +29,7 @@ typedef struct S_800C9AAC_0 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800C9AAC_0;   /* part in func_800C9AAC */
+} S_800C9AAC_0;   /* part in update_actor_facing_and_lifecycle */
 
 typedef struct S_800C9AAC_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -39,7 +39,7 @@ typedef struct S_800C9AAC_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800C9AAC_1;   /* motion in func_800C9AAC */
+} S_800C9AAC_1;   /* motion in update_actor_facing_and_lifecycle */
 
 typedef struct S_800C9AAC_2 {
     u8 pad_00[0x1C];
@@ -48,12 +48,12 @@ typedef struct S_800C9AAC_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_800C9AAC_2;   /* secondary in func_800C9AAC */
+} S_800C9AAC_2;   /* secondary in update_actor_facing_and_lifecycle */
 
 /* Updates object callbacks, motion, sprite direction, and height. */
-void func_800C9AAC(void *state, void *motion, void *part)
+void update_actor_facing_and_lifecycle(void *state, void *motion, void *part)
 {
-    u32 update_flags = dungeonStatus.flags;
+    u32 update_flags = g_dungeon_status.flags;
     void *secondary = state;
     Callback callback;
     s16 direction;
@@ -74,7 +74,7 @@ void func_800C9AAC(void *state, void *motion, void *part)
         return;
     }
 
-    if (dungeonRefreshActorFacingAndLifecycle(state, motion, part, state) != 0) {
+    if (refresh_actor_facing_and_lifecycle(state, motion, part, state) != 0) {
         return;
     }
 
@@ -100,7 +100,7 @@ void func_800C9AAC(void *state, void *motion, void *part)
     part_flags = ((S_800C9AAC_0 *)part)->unk_14;
     adjusted_flags = part_flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((gameWork.view.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
+        direction = ((g_game_work.view.viewAngle + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9);
         direction &= 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {
@@ -110,14 +110,14 @@ void func_800C9AAC(void *state, void *motion, void *part)
             (*(s16 *)((u8 *)state + (0x94))) = direction;
         }
 
-        if (dirSpriteFlag[direction_index] != 0) {
+        if (dir_sprite_flag[direction_index] != 0) {
             adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 | 1;
             ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
-            dungeonApplyMonsterKoyawData(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
         } else {
             adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 & 0xFFFE;
             ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
-            dungeonApplyMonsterKoyawData(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
+            apply_monster_koyaw_data(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
         }
 
         if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
@@ -139,7 +139,7 @@ void func_800C9AAC(void *state, void *motion, void *part)
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
                 s32 min_height = -0x20;
                 s16 height;
-                func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
+                sample_terrain_surface_height(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
                 height = (*(s16 *)((u8 *)state + (0x92)));
                 if (min_height < height) {
@@ -155,7 +155,7 @@ void func_800C9AAC(void *state, void *motion, void *part)
             (*(s32 *)((u8 *)state + (0xA0))) = 0;
             (*(s32 *)((u8 *)state + (0x90))) -= height_adjustment;
             if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
-                target_height = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v,
+                target_height = sample_terrain_surface_height(((S_800C9AAC_1 *)motion)->unk_00.at02.v,
                     ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
                     ((S_800C9AAC_2 *)secondary)->unk_88;
@@ -186,7 +186,7 @@ void func_800C9AAC(void *state, void *motion, void *part)
         if (object_flags & 0x40000000) {
             adjusted_flags = object_flags & 0xBFFFFFFF;
             ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
-            target_height = func_800BCB04(
+            target_height = sample_terrain_surface_height(
                 (((S_800C9AAC_0 *)part)->unk_24 << 6) | 0x20,
                 (((S_800C9AAC_0 *)part)->unk_25 << 6) | 0x20,
                 (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));

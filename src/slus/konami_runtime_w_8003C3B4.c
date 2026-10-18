@@ -11,7 +11,7 @@ void func_8003C3B4(void *entry, void *output, void *context) {
     s32 field_value;
     void (*callback)(void) = *(void (**)(void))entry;
 
-    runtime_state = &gameWork;
+    runtime_state = &g_game_work;
     if (callback != 0) {
         callback();
         if ((*(u16 *)((u8 *)entry - 2) & 0x8000) != 0) {

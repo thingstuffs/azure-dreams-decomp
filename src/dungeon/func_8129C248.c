@@ -1,12 +1,12 @@
-/* Relink of matched dungeon/dungeonUpdateGlobalEffectObject at file 0x1274248; imports and data use paired retail relocations. */
-#define objectFlagBlock D_800803D4
+/* Relink of matched dungeon/update_global_effect_object at file 0x1274248; imports and data use paired retail relocations. */
+#define object_flag_block D_800803D4
 #include "common.h"
 #include "shared/object_flags.h"
 
 extern u8 *D_80155710;
 
 extern void func_800A1F74(void *record);
-extern void townInitializeIndexedObjectAndLookupValue(s32 x, s32 y, s32 flag_mask);
+extern void initialize_indexed_object_and_lookup_value(s32 x, s32 y, s32 flag_mask);
 extern void func_80098E28(void *node);
 
 /* Updates the active object, triggers its positional effect, and clears its slot. */
@@ -30,10 +30,10 @@ void func_80154A48(void) {
         if (*(u32 *)(obj_state + 0x1C) & 0x2000) {
             effect_id = 0x300;
         }
-        townInitializeIndexedObjectAndLookupValue(sound_x, sound_y, effect_id);
+        initialize_indexed_object_and_lookup_value(sound_x, sound_y, effect_id);
         func_80098E28(obj_state);
         *(u16 *)(obj_state - 2) |= 0x8000;
         *active_slot = 0;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

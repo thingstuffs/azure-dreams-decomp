@@ -16,7 +16,7 @@ typedef struct S_8005A4E8 {
 extern void func_8005EDA0(S_8005A4E8 *s);
 
 /* Selects a tagged value type from two flags and passes its byte payload to func_8005EDA0. */
-void submitTaggedDriverByte(u8 type_group, u8 type_variant, u8 value) {
+void submit_tagged_driver_byte(u8 type_group, u8 type_variant, u8 value) {
     S_8005A4E8 tagged_value;
     if (type_group == 0) {
         if (type_variant == 0) {

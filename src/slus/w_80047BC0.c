@@ -9,7 +9,7 @@ typedef struct {
 extern S_80047BC0 D_80083D08[6];
 
 /* Returns the first slot index with the requested ID in D_80083D08, or -1 if absent. */
-s32 findSpriteResourceSlotById(s32 slot_id) {
+s32 find_sprite_resource_slot_by_id(s32 slot_id) {
     S_80047BC0 *slot;
     s32 match_index = -1;
     s32 slot_index = 0;

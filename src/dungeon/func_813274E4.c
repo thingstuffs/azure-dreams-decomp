@@ -6,7 +6,7 @@
 typedef struct S_8016ECE4_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_8016ECE4_0;   /* base in dungeonSpawnConditionalSourceEffect */
+} S_8016ECE4_0;   /* base in spawn_conditional_source_effect */
 
 typedef struct S_8016ECE4_1 {
     u8 pad_00[0x12];
@@ -91,7 +91,7 @@ extern TableEntry D_80174708[];
 
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
-void dungeonSpawnConditionalSourceEffect(void) {
+void spawn_conditional_source_effect(void) {
     s32 rounded_x;
     s32 rounded_y;
     u8 high_byte;

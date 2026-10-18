@@ -11,18 +11,18 @@
 extern s32 D_804094EC[];
 extern s32 D_804094EC_2[];
 
-void func_804014E4(void);
+void invoke_callback_for_four_global_values(void);
 void func_80408654(s32);
-void func_804013F8(s32);
+void wait_selected(s32);
 
 /* Run setup for both indices and replace the stored value with 16 minus itself. */
 void func_80019948(void) {
     s32 next_value;
 
-    func_804014E4();
+    invoke_callback_for_four_global_values();
     func_80408654(0);
     func_80408654(1);
     next_value = 0x10 - D_804094EC[0];
     D_804094EC_2[0] = next_value;
-    func_804013F8(next_value);
+    wait_selected(next_value);
 }

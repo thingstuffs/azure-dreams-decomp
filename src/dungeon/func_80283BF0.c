@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void dungeonApplyTileFlagsToRectangle(s16 start_x, s16 start_y, s16 width, s16 height)
+void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 height)
 {
     s32 tile_y;
     s32 tile_x;
@@ -19,7 +19,7 @@ void dungeonApplyTileFlagsToRectangle(s16 start_x, s16 start_y, s16 width, s16 h
     dungeon_setup_80283BF0_S_80016BF0_3 *tile_above;
     dungeon_setup_80283BF0_S_80016BF0_4 *tile_below;
 
-    state = &gameWork;
+    state = &g_game_work;
     map = (u8 *)state + 0x1DC;
     flag_table = map->unk_10;
     if (flag_table != 0) {

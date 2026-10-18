@@ -5,7 +5,7 @@ extern void func_80018BD0(s32);
 extern s32 func_80018C50(s32);
 
 /* Test 0xFC0 and process 0xFB5 on success or 0xFB7 and 0xFB8 on failure. */
-s32 func_800163E8(void) {
+s32 test_success_failure(void) {
     if (func_80018C50(0xFC0) != 0) {
         func_80018B58(0xFB5);
         return 1;

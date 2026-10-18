@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void dungeonUpdateEffectCountdownFields(void *object_data)
+void update_effect_countdown_fields(void *object_data)
 {
     s32 phase_index;
     s32 pair_offset;
@@ -56,7 +56,7 @@ void dungeonUpdateEffectCountdownFields(void *object_data)
         object->unk_3A = remaining_steps;
         if ((s16)remaining_steps <= 0) {
             *(u16 *)((u8 *)object - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

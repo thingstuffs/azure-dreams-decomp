@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -20,7 +20,7 @@ struct ScriptContext {
 };
 
 extern void func_80016FC0(s32 records, s32 count);
-extern s32 func_8001781C(s32 flag);
+extern s32 install_scene_handler_and_close_dialogue(s32 flag);
 extern s32 D_80017B74;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80017B74 is set. */
@@ -31,7 +31,7 @@ s32 func_800170AC(ScriptContext *context) {
     do {
         D_80017B74 = 0;
         entry_index = 0;
-        while (func_8001781C(context->entries[entry_index].flag) != 0 ||
+        while (install_scene_handler_and_close_dialogue(context->entries[entry_index].flag) != 0 ||
                context->entries[entry_index].callback(context, entry_index) != 0) {
             entry_index++;
         }

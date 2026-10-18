@@ -12,7 +12,7 @@ extern s32 D_8008C304[];
 extern void *D_800CFCA8[];
 
 /* Initialize an allocated node and store its data pointer in D_800CFCA8. */
-void func_8008C374(void)
+void create_town_map_entry_processor(void)
 {
     S_8008EC14_node *node = func_8003FC64(0);
 

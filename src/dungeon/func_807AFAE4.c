@@ -22,16 +22,16 @@ typedef struct S_807AFAE4_1 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-/* Initializes a linked object from the source record and invokes func_800A56E0 on success. */
+/* Initializes a linked object from the source record and invokes play_sound_if_enabled on success. */
 void func_800F72E4(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
     linkedObject = func_8003FD64(2, sourceData - 0x20);
     if (linkedObject != NULL) {
-        linkedObject->unk_10 = (void *)func_800F71A4;
+        linkedObject->unk_10 = (void *)advance_linked_particle_effect_state;
         linkedObject->unk_20 = sourceData;
         linkedObject->unk_08 = (s32) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_00;
         linkedObject->unk_2A = (u16) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_42;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
     }
 }

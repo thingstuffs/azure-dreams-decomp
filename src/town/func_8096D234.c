@@ -2,10 +2,10 @@
 #include "shared/object_flags.h"
 
 extern void func_8004B248(void *entries);
-extern void sceneLoadVariantTextureSet(void);
+extern void scene_load_variant_texture_set(void);
 
 // Set the linked object's flag, process the embedded data, and signal an update.
-void townCloseCatalogAndRestoreTextures(void *object)
+void close_catalog_and_restore_textures(void *object)
 {
     void *linkedObject;
 
@@ -15,6 +15,6 @@ void townCloseCatalogAndRestoreTextures(void *object)
     func_8004B248((u8 *)object + 0x5C);
     *(u16 *)((u8 *)object - 2) =
         (u16)(*(u16 *)((u8 *)object - 2) | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
-    sceneLoadVariantTextureSet();
+    object_flag_block.flags |= 0x8000;
+    scene_load_variant_texture_set();
 }

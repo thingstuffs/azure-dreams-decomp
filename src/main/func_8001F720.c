@@ -5,7 +5,7 @@
 #endif
 
 extern void func_80404DBC(s32 value);
-extern void func_80403D24(s32 value);
+extern void process_embedded_data_and_propagate_flags(s32 value);
 extern void func_804059A8(s32 value);
 extern void func_80404570(s32 value);
 
@@ -24,7 +24,7 @@ void func_8001F720(void *object) {
     component_cursor = (s32 *)((u8 *)object + 0x20);
     if (object != NULL) {
         func_80404DBC(*(s32 *)((u8 *)object + 0x20));
-        func_80403D24(*(s32 *)((u8 *)object + 0x38));
+        process_embedded_data_and_propagate_flags(*(s32 *)((u8 *)object + 0x38));
         func_804059A8(*(s32 *)((u8 *)object + 0x3C));
         for (component_count = 0; component_count < 5; component_count++) {
             func_80404570(component_cursor[component_count + 1]);

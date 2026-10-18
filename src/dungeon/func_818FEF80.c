@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191eef8.h"
 
-void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual) {
+void advance_timed_visual_effect(void *state, void *position, void *visual) {
     void *object;
     void *linked_visual;
     s16 ticks_left;
@@ -9,7 +9,7 @@ void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual) 
     (*(s16 *)D_80025E80) = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 
@@ -42,7 +42,7 @@ void dungeonAdvanceTimedVisualEffect(void *state, void *position, void *visual) 
 
         ((Row_818FEF80_S_818FEF80_0_pre *)state)[-1].unk_00 |= 0x8000;
         linked_flags = ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14 = linked_flags & 0xFF7F;
     }
 }

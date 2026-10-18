@@ -11,7 +11,7 @@ extern void func_80018BD0();
 extern s32 func_80018C50();
 
 /* Updates event state and checks completion conditions, invoking a callback if unmet. */
-s32 func_8001686C(void)
+s32 look_up_slot_record_falling(void)
 {
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);

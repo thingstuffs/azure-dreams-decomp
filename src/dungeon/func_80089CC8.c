@@ -7,16 +7,16 @@
 
 extern void func_80048A44();
 extern s32 rand();
-extern s32 func_800990FC();
-extern s32 func_80099194();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
 extern void *func_80099290();
-extern s32 func_80099734();
-extern void dungeonAdjustSourceValueAndFinalize();
-extern void dungeonProcessUnflaggedLinkedEntries();
-extern void dungeonProcessUnflaggedLinkedEntriesAlt();
-extern s32 func_800A56E0();
-extern s32 func_800A5720();
-extern s16 randomDungeonRange16();
+extern s32 append_entity_display_text();
+extern void adjust_source_value_and_finalize();
+extern void process_unflagged_linked_entries();
+extern void process_unflagged_linked_entries_alt();
+extern s32 play_sound_if_enabled();
+extern s32 display_text_with_fullwidth_adjustment();
+extern s16 random_dungeon_range_16();
 
 extern u8 D_8008EAC8[];
 extern u8 D_800DCFB0[8];
@@ -39,24 +39,24 @@ typedef struct S_8008F428_0 {
     void * unk_11C;
     u8 pad_120[0x4];
     void * unk_124;
-} S_8008F428_0;   /* arg0 in dungeonUpdateLiftObject */
+} S_8008F428_0;   /* arg0 in update_lift_object */
 
 typedef struct S_8008F428_1 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
     u16 unk_14;
-} S_8008F428_1;   /* arg2 in dungeonUpdateLiftObject */
+} S_8008F428_1;   /* arg2 in update_lift_object */
 
 typedef struct S_8008F428_2 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_8008F428_2;   /* old_value_page in dungeonUpdateLiftObject */
+} S_8008F428_2;   /* old_value_page in update_lift_object */
 
 typedef struct S_8008F428_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008F428_3;   /* entity in dungeonUpdateLiftObject */
+} S_8008F428_3;   /* entity in update_lift_object */
 
 typedef struct S_8008F428_4 {
     u8 pad_00[0x1C];
@@ -65,20 +65,20 @@ typedef struct S_8008F428_4 {
     s16 unk_2A;
     u8 pad_2C[0x30];
     void * unk_5C;
-} S_8008F428_4;   /* arg3 in dungeonUpdateLiftObject */
+} S_8008F428_4;   /* arg3 in update_lift_object */
 
 typedef struct S_8008F428_5 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_8008F428_5;   /* flags_base in dungeonUpdateLiftObject */
+} S_8008F428_5;   /* flags_base in update_lift_object */
 
 typedef struct S_8008F428_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in dungeonUpdateLiftObject */
+} S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in update_lift_object */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
-void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
+void update_lift_object(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
     s32 effect_result;
     u16 ticks_left;
     u8 state;
@@ -101,7 +101,7 @@ void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *an
             effect_target = animation;
             if (!(entity_flags & 0x2000)) {
                 if (!(entity_flags & 0x228)) {
-                    wait_roll = randomDungeonRange16(0, 0x10);
+                    wait_roll = random_dungeon_range_16(0, 0x10);
                     effect_target = animation;
                     if ((s16)wait_roll < 6) {
                         ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
@@ -113,7 +113,7 @@ void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *an
             ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
             func_80048A44(effect_target,
-                D_800DD0B8[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                D_800DD0B8[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
@@ -126,8 +126,8 @@ void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *an
             if ((s16)ticks_left > 0) {
                 return;
             }
-            func_800A56E0(0x510);
-            dungeonAdjustSourceValueAndFinalize(((S_8008F428_0 *)effect_state)->unk_124, D_800E0523);
+            play_sound_if_enabled(0x510);
+            adjust_source_value_and_finalize(((S_8008F428_0 *)effect_state)->unk_124, D_800E0523);
             {
                 void *entity;
                 s32 saved_global;
@@ -154,15 +154,15 @@ void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *an
 
         {
 
-            dungeonStatus.flags |= 0x412;
+            g_dungeon_status.flags |= 0x412;
         }
-        dungeonProcessUnflaggedLinkedEntriesAlt(((S_8008F428_4 *)owner)->unk_5C);
-        dungeonProcessUnflaggedLinkedEntries(((S_8008F428_4 *)owner)->unk_5C);
+        process_unflagged_linked_entries_alt(((S_8008F428_4 *)owner)->unk_5C);
+        process_unflagged_linked_entries(((S_8008F428_4 *)owner)->unk_5C);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)dungeonHandlePlayerInput;
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
-            D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
         return;
     }
@@ -184,22 +184,22 @@ void dungeonUpdateLiftObject(void *effect_state, void *saved_effect_id, void *an
         return;
     }
     ((S_8008F428_1 *)animation)->unk_14 &= 0xF7FF;
-    func_800A56E0(0x506);
+    play_sound_if_enabled(0x506);
     {
         s32 effect_id;
 
-        effect_result = func_800990FC();
+        effect_result = get_unused_text_buffer();
         target = ((S_8008F428_0 *)effect_state)->unk_11C;
         effect_id = effect_result;
-        effect_result = func_80099734(target, effect_id);
+        effect_result = append_entity_display_text(target, effect_id);
         saved_effect_id = effect_id;
-        func_80099290(func_80099194(D_800E0683, effect_result));
-        func_800A5720(saved_effect_id);
+        func_80099290(expand_text_control_codes(D_800E0683, effect_result));
+        display_text_with_fullwidth_adjustment(saved_effect_id);
         target = animation;
-        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)dungeonHandlePlayerInput;
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
-            D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFB0[((g_game_work.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

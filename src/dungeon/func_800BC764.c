@@ -4,7 +4,7 @@
 
 
 /* Decrements an entity's countdown and finalizes it when the countdown expires. */
-void dungeonTickHeightRestoreEffect(u16 *entity) {
+void tick_height_restore_effect(u16 *entity) {
     s16 remainingTicks;
     u16 *destination;
 
@@ -14,7 +14,7 @@ void dungeonTickHeightRestoreEffect(u16 *entity) {
         destination = *(u16 **)((u8 *)entity + 0xC);
         destination[0x88 / 2] = entity[4];
         entity[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        dungeonStatus.unk_0A--;
+        object_flag_block.flags |= 0x8000;
+        g_dungeon_status.unk_0A--;
     }
 }

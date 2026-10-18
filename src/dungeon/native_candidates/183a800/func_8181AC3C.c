@@ -11,7 +11,7 @@
 
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
-void func_8002443C(MotionState *state, s32 *sum, UpdateFlags *flags) {
+void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlags *flags) {
     s32 update_count;
     s32 more_updates;
     u16 next_tick;
@@ -53,10 +53,10 @@ void func_8002443C(MotionState *state, s32 *sum, UpdateFlags *flags) {
 
     if ((s16) state->frames_left <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (flags->flags & 0x8000) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

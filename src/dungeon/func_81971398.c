@@ -57,7 +57,7 @@ void func_80024B98(void *fade_data)
     }
     if (((S_81971398_0 *)fade)->unk_38.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

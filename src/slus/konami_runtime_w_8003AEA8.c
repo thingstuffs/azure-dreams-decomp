@@ -3,7 +3,7 @@
 #include "common.h"
 
 /* Zero the requested number of 32-bit words. */
-void zeroWordBuffer(s32 *words, s32 count) {
+void zero_word_buffer(s32 *words, s32 count) {
     s32 *word;
     s32 remaining;
 

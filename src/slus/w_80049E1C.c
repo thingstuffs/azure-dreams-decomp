@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Moves an index by a step, clamps in the step direction, and returns zero for an empty range. */
-s32 advanceIndexWithDirectionalClamp(s32 index, s32 step, s32 count)
+s32 advance_index_with_directional_clamp(s32 index, s32 step, s32 count)
 {
     s32 result;
     s32 clamped_index;

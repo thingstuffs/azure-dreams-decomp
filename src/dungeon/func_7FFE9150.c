@@ -19,7 +19,7 @@ extern Copy12 D_8010BF30;
 
 typedef struct S_7FFE9150_0_pre {
     u16 unk_00;
-} S_7FFE9150_0_pre;   /* the 0x2 bytes before arg0 in dungeonSpawnScatteredEmitterParticles, addressed as arg0[-1] */
+} S_7FFE9150_0_pre;   /* the 0x2 bytes before arg0 in spawn_scattered_emitter_particles, addressed as arg0[-1] */
 
 typedef struct S_7FFE9150_0 {
     u8 pad_00[0x16];
@@ -32,7 +32,7 @@ typedef struct S_7FFE9150_0 {
     u16 unk_3C;
     u16 unk_3E;
     u16 unk_40;
-} S_7FFE9150_0;   /* arg0 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_0;   /* arg0 in spawn_scattered_emitter_particles */
 
 typedef struct S_7FFE9150_1 {
     u8 pad_00[0x2];
@@ -41,7 +41,7 @@ typedef struct S_7FFE9150_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_7FFE9150_1;   /* arg1 in dungeonSpawnScatteredEmitterParticles */
+} S_7FFE9150_1;   /* arg1 in spawn_scattered_emitter_particles */
 
 typedef struct S_7FFE9150_2 {
     u8 pad_00[0x8];
@@ -70,7 +70,7 @@ typedef struct S_7FFE9150_5 {
 } S_7FFE9150_5;
 
 /* Update the emitter position, spawn scattered particles, and retire it when its lifetime expires. */
-void dungeonSpawnScatteredEmitterParticles(void *emitter, void *position, M2C_UNK spawn_context) {
+void spawn_scattered_emitter_particles(void *emitter, void *position, M2C_UNK spawn_context) {
     u16 age;
     u16 life_left;
     void *parent;

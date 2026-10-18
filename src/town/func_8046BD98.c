@@ -10,7 +10,7 @@ extern s16 D_8001888C[];
 extern s32 func_8001E670(u16);
 
 /* Applies selected values to entries whose condition checks match their flags. */
-void townApplySelectedValuesForMatchingFlags(void) {
+void apply_selected_values_for_matching_flags(void) {
     s8 *selected_values;
     s8 *entry;
     s16 *value_id;

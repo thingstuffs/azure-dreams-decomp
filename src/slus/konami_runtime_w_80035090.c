@@ -7,28 +7,28 @@ typedef struct S_80035090_1 {
     u8 pad_00[0x4];
     void * unk_04;
     void * unk_08;
-} S_80035090_1;   /* arg0 in runtimeUnlinkDoublyLinkedNode */
+} S_80035090_1;   /* arg0 in runtime_unlink_doubly_linked_node */
 
 typedef struct S_80035090_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80035090_2;   /* ((S_80035090_1 *)arg0)->unk_04 in runtimeUnlinkDoublyLinkedNode */
+} S_80035090_2;   /* ((S_80035090_1 *)arg0)->unk_04 in runtime_unlink_doubly_linked_node */
 
 typedef struct S_80035090_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80035090_3;   /* ((S_80035090_1 *)arg0)->unk_08 in runtimeUnlinkDoublyLinkedNode */
+} S_80035090_3;   /* ((S_80035090_1 *)arg0)->unk_08 in runtime_unlink_doubly_linked_node */
 
 
 typedef struct S_80035090_0 {
     u8 pad_00[0x4];
     void * unk_04;
     void * unk_08;
-} S_80035090_0;   /* arg0 in runtimeUnlinkDoublyLinkedNode */
+} S_80035090_0;   /* arg0 in runtime_unlink_doubly_linked_node */
 
 
 /* Unlink a node from a doubly linked list by connecting its neighbors. */
-void runtimeUnlinkDoublyLinkedNode(S_80035090_0 *node) {
+void runtime_unlink_doubly_linked_node(S_80035090_0 *node) {
     ((S_80035090_2 *)(((S_80035090_1 *)node)->unk_04))->unk_08 = (void *) node->unk_08;
     ((S_80035090_3 *)(((S_80035090_1 *)node)->unk_08))->unk_04 = (void *) node->unk_04;
 }

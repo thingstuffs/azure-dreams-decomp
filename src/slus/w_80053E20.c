@@ -5,18 +5,18 @@ extern void func_80054D64(void);
 extern void func_800552C8(void);
 
 /* Sets volume scale [0] / [1] / [2] for selector 2 / 1 / 4; [1] and [2] are re-applied at once. */
-void setVolumeScaleBySelector(s16 value, s32 stat_index) {
+void set_volume_scale_by_selector(s16 value, s32 stat_index) {
     switch (stat_index) {
     case 4:
-        volumeScale[2] = value;
+        g_volume_scale[2] = value;
         func_80054D64();
         break;
     case 1:
-        volumeScale[1] = value;
+        g_volume_scale[1] = value;
         func_800552C8();
         break;
     case 2:
-        volumeScale[0] = value;
+        g_volume_scale[0] = value;
         break;
     }
 }

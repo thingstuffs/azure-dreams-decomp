@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void townInitializeObjectEntries(void *state, s32 output, s32 entries);
+extern void initialize_object_entries(void *state, s32 output, s32 entries);
 extern s32 D_800C34CC;
 
 /* Updates the object using its stored value and installs its next handler. */
-void townInstallStoredValueHandler(void *object, s32 unused, s32 update_arg) {
+void install_stored_value_handler(void *object, s32 unused, s32 update_arg) {
     struct {
         char pad[0x50];
         void *unk50;
@@ -12,6 +12,6 @@ void townInstallStoredValueHandler(void *object, s32 unused, s32 update_arg) {
         s32 *unk7C;
     } *object_fields = object;
 
-    townInitializeObjectEntries(object, update_arg, *object_fields->unk7C);
+    initialize_object_entries(object, update_arg, *object_fields->unk7C);
     object_fields->unk50 = &D_800C34CC;
 }

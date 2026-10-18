@@ -25,7 +25,7 @@ struct Func800359FCEvent {
 
 extern s32 func_80037534(Func800359FCState *);
 extern void func_8003C24C(void);
-extern void shrinkWindowAndSignalLinkedRecord(Func800359FCState *, Func800359FCEvent *, void *);
+extern void shrink_window_and_signal_linked_record(Func800359FCState *, Func800359FCEvent *, void *);
 extern void func_80037C7C(Func800359FCState *state, s16 offset);
 
 /* Dispatches the event callback, switching handlers when the cursor marker is 0xFE. */
@@ -41,7 +41,7 @@ void func_800359FC(Func800359FCState *state, Func800359FCEvent *event, void *cal
             cursor = base + offset;
             if (cursor[0x4C] == 0xFE) {
                 func_8003C24C();
-                state->callback = shrinkWindowAndSignalLinkedRecord;
+                state->callback = shrink_window_and_signal_linked_record;
             }
         }
         state->callback(state, event, callback_data);

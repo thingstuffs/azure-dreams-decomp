@@ -38,7 +38,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                 if (spawned != 0) {
                     particle_data = (u8 *)spawned + 0x20;
                     sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                    ((S_81844800_2 *)spawned)->unk_10 = dungeonFadeEffectSpriteToBlack;
+                    ((S_81844800_2 *)spawned)->unk_10 = fade_effect_sprite_to_black;
                     ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.s =
                         ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
                     ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.s =
@@ -77,12 +77,12 @@ void func_80024020(void *effect, void *motion, void *source_render) {
         if ((((S_81844800_15 *)(((S_81844800_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
-        target = dungeonScanMonsterAlongHeading(
+        target = scan_monster_along_heading(
             owner,
             ((S_81844800_7 *)owner_sprite)->unk_24,
             ((S_81844800_7 *)owner_sprite)->unk_25,
             ((S_81844800_1 *)owner)->unk_2A,
-            (s16)dungeonGetDefinitionEntryByte13(9));
+            (s16)get_definition_entry_byte_13(9));
         ((S_81844800_1 *)owner)->unk_60 = target;
         if (target == 0) {
             ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_7 *)owner_sprite)->unk_24;
@@ -91,7 +91,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
             if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
                 if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
-                    func_8009CE1C(
+                    apply_attack_power_and_element_effects(
                         ((S_81844800_1 *)owner)->unk_60,
                         10,
                         ((S_81844800_0 *)effect)->unk_09,
@@ -107,7 +107,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
         }
         {
-            if (resolveRecordOrientationOrFallback(
+            if (resolve_record_orientation_or_fallback(
                 ((S_81844800_16 *)(((S_81844800_10 *)owner_start)->unk_0C))->unk_08,
                 ((S_81844800_10 *)owner_start)->unk_0C, &delta, 0) == 0) {
                 delta.z = 0;
@@ -139,14 +139,14 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_10.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
-                ((S_81844800_3 *)motion)->unk_14.at02.v = (s16)func_800BCB04(
+                ((S_81844800_3 *)motion)->unk_14.at02.v = (s16)sample_terrain_surface_height(
                     ((S_81844800_3 *)motion)->unk_00.at02.v,
                     ((S_81844800_3 *)motion)->unk_04.at02.v,
                     (s16)(((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A - 48)) -
                     (((S_81844800_3 *)motion)->unk_08.at02.v + 176);
             }
             ((S_81844800_3 *)motion)->unk_14.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             ((S_81844800_0 *)effect)->unk_0A.u++;
             return;
         }
@@ -193,7 +193,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             spawned = func_8003FD64(0x201, (ObjectNodeHeader **)&D_80083498);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
-                ((S_81844800_2 *)spawned)->unk_10 = dungeonUpdateEffectBaseState;
+                ((S_81844800_2 *)spawned)->unk_10 = update_effect_base_state;
                 func_8004491C(spawned, (s32)func_80024868);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
@@ -206,7 +206,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
         }
         if (((S_81844800_0 *)effect)->unk_50.u == 7 &&
             ((S_81844800_1 *)owner)->unk_60 != 0) {
-            func_8009CE1C(
+            apply_attack_power_and_element_effects(
                 ((S_81844800_1 *)owner)->unk_60,
                 10,
                 ((S_81844800_0 *)effect)->unk_09,
@@ -221,7 +221,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                ((S_81844800_2 *)spawned)->unk_10 = dungeonFadeEffectSpriteToBlack;
+                ((S_81844800_2 *)spawned)->unk_10 = fade_effect_sprite_to_black;
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.u =
                     ((S_81844800_3 *)motion)->unk_00.at00.v;
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.u =
@@ -284,9 +284,9 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             ((S_81844800_0 *)effect)->unk_52.s = effect_count;
             return;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_81844800_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
         return;

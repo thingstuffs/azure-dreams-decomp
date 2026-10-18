@@ -48,7 +48,7 @@ extern s32 D_80026E3C;
 extern s32 D_800DF358;
 
 /* Creates a visual object with the given position and size. */
-void *func_80026ED0(s16 x, s16 y, s16 z, s32 size) {
+void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
     void *object;
     S_80026ED0_1 *position;
     S_80026ED0_2 *render_data;

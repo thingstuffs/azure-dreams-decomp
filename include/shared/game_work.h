@@ -164,6 +164,6 @@ typedef struct GameWork {
     /* 0x200 */ unsigned char pad_200[0x0];
 } GameWork;
 
-extern GameWork gameWork;
+extern GameWork g_game_work;
 
 #endif

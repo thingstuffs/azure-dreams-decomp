@@ -18,10 +18,10 @@ typedef struct S_800AB7FC_1 {
     u8 pad_00[0x18];
     s16 unk_18;
     s16 unk_1A;
-} S_800AB7FC_1;   /* temp_global_a0 in townInitializePersonProjection */
+} S_800AB7FC_1;   /* temp_global_a0 in initialize_person_projection */
 
 /* Initialize town projection, lighting, view bounds, and color state. */
-void townInitializePersonProjection(void) {
+void initialize_person_projection(void) {
     GameView *view_state;
     GameWork *render_data;
     s32 screen_distance;
@@ -32,7 +32,7 @@ void townInitializePersonProjection(void) {
     s32 ambient_green;
     s32 ambient_blue;
 
-    render_data = &gameWork;
+    render_data = &g_game_work;
     view_state = &render_data->view;
     screen_distance = 0x200;
     view_state->unk_088 = screen_distance;

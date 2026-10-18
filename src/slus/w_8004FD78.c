@@ -9,7 +9,7 @@ typedef struct S_8004FD78 {
 extern s32 func_8002137C(void *a0);
 
 /* Finds the resolved target ID's index, returning the count if absent or zero if empty. */
-s32 findResolvedSelectionMenuIndex(void *id_list_data, void *object)
+s32 find_resolved_selection_menu_index(void *id_list_data, void *object)
 {
     S_8004FD78 *id_list = (S_8004FD78 *)id_list_data;
     s32 target_id = func_8002137C(object);

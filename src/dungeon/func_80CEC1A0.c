@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p07.h"
 
 /* Updates the display table and directional entry for kinds 13 through 15. */
-void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
+void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
     T_801759A0_Obj2 *display = display_arg;
     T_801759A0_Obj3 *state = state_arg;
@@ -22,7 +22,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -37,7 +37,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -52,7 +52,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)display + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -61,9 +61,9 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
         break;
     }
 
-    if (func_800AC82C(actor, context, display, state) != 0) {
-        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
-            actor->field8c = dungeonUpdateActorBehavior;
+    if (update_actor_transform_from_parent(actor, context, display, state) != 0) {
+        if ((check_actor_floor_trap(display, state) << 16) > 0) {
+            actor->field8c = update_actor_behavior;
         }
         return;
     }
@@ -75,7 +75,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DC4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DC4), 0);
         return;
     case 14:
@@ -84,7 +84,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DCC;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DCC), 0);
         return;
     case 15:
@@ -93,7 +93,7 @@ void dungeonUpdateDirectionalActionDisplay(T_801759A0_Obj0 *actor, void *context
             return;
         }
         *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DD4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DD4), 0);
         return;
     default:

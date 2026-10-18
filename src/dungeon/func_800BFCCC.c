@@ -11,7 +11,7 @@ typedef struct S_800C542C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_800C542C_0;   /* object in dungeonCreateOrbitingTeleportEffect */
+} S_800C542C_0;   /* object in create_orbiting_teleport_effect */
 
 typedef struct S_800C542C_1 {
     u8 pad_00[0x6];
@@ -20,13 +20,13 @@ typedef struct S_800C542C_1 {
     s32 unk_0C;
     u8 pad_10[0x10];
     s16 unk_20;
-} S_800C542C_1;   /* display in dungeonCreateOrbitingTeleportEffect */
+} S_800C542C_1;   /* display in create_orbiting_teleport_effect */
 
 typedef struct S_800C542C_2_pre {
     void * unk_00;
     s32 unk_04;
     u8 pad_08[0x10];
-} S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in dungeonCreateOrbitingTeleportEffect, addressed as arg0[-1] */
+} S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in create_orbiting_teleport_effect, addressed as arg0[-1] */
 
 
 typedef struct S_800C542C_3 {
@@ -36,7 +36,7 @@ typedef struct S_800C542C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C542C_3;   /* target in dungeonCreateOrbitingTeleportEffect */
+} S_800C542C_3;   /* target in create_orbiting_teleport_effect */
 
 typedef struct S_800C542C_4 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_800C542C_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C542C_4;   /* source in dungeonCreateOrbitingTeleportEffect */
+} S_800C542C_4;   /* source in create_orbiting_teleport_effect */
 
 typedef struct S_800C542C_5 {
     u8 pad_00[0x1C];
@@ -60,7 +60,7 @@ typedef struct S_800C542C_5 {
     s16 unk_32;
     u8 pad_34[0x2];
     s16 unk_36;
-} S_800C542C_5;   /* record in dungeonCreateOrbitingTeleportEffect */
+} S_800C542C_5;   /* record in create_orbiting_teleport_effect */
 
 
 extern u8 D_800C4F20[];
@@ -69,10 +69,10 @@ extern u8 D_800DF630[];
 
 extern void func_8004491C(void *, void *);
 extern int rand(void);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 /* Creates and initializes a display object linked to its owner. */
-void *dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
+void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
     void *object;
     S_800C542C_1 *display;
@@ -119,10 +119,10 @@ void *dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 dir
             record->unk_2A = 0;
         } else {
             if (effect_mode == 0) {
-                func_800A56E0(0x802);
+                play_sound_if_enabled(0x802);
                 initial_state = 0x10;
             } else {
-                func_800A56E0(0x802);
+                play_sound_if_enabled(0x802);
                 initial_state = 0x20;
             }
             record->unk_2A = initial_state;

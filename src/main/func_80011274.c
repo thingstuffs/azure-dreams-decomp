@@ -9,7 +9,7 @@ typedef struct S_80024274_0 {
 } S_80024274_0;
 
 /* Initialize the object's embedded state and clear its referenced word. */
-void cardBootClearSlotSelectionMarker(s32 object_addr) {
+void card_boot_clear_slot_selection_marker(s32 object_addr) {
     S_80024274_0 *state;
 
     if (object_addr != 0) {

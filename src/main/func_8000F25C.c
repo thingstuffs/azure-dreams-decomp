@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Finds a word's byte offset and character count, and counts preceding characters. */
-void cardBootMeasureDialogChoiceWord(
+void card_boot_measure_dialog_choice_word(
     u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out
     )
 {

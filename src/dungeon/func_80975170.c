@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void advanceAndFadeTransformedEffect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
+void advance_and_fade_transformed_effect(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
 {
     s16 ticks_left;
     s32 brightness;
@@ -26,6 +26,6 @@ void advanceAndFadeTransformedEffect(void *effect, S_80975170_1 *transform, Rec_
 
     if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
         ((S_80975170_0_pre *)effect)[-1].unk_00 = (u16)(((S_80975170_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

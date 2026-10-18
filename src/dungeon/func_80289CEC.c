@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonPickRelativeRoomEdgePoint(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
+void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
     if (room->fieldA == 0) {
         *out_x = 0;
         *out_y = 0;
@@ -10,21 +10,21 @@ void dungeonPickRelativeRoomEdgePoint(s16 side, s16 *out_x, s16 *out_y, floor_ge
     switch (side) {
     case 0:
         *out_x = room->field4;
-        *out_y = ((u16)func_800A6D30() % (room->field6 - 2)) + 1;
+        *out_y = ((u16)generate_random_value() % (room->field6 - 2)) + 1;
         break;
 
     case 2:
-        *out_x = ((u16)func_800A6D30() % (room->field4 - 2)) + 1;
+        *out_x = ((u16)generate_random_value() % (room->field4 - 2)) + 1;
         *out_y = room->field6;
         break;
 
     case 4:
         *out_x = -1;
-        *out_y = ((u16)func_800A6D30() % (room->field6 - 2)) + 1;
+        *out_y = ((u16)generate_random_value() % (room->field6 - 2)) + 1;
         break;
 
     default:
-        *out_x = ((u16)func_800A6D30() % (room->field4 - 2)) + 1;
+        *out_x = ((u16)generate_random_value() % (room->field4 - 2)) + 1;
         *out_y = -1;
         break;
     }

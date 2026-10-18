@@ -4,7 +4,7 @@
 
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void func_80024578(void *record)
+void update_actor_effect_sequence(void *record)
 {
     u8 *record_bytes = record;
     u16 counter;
@@ -15,7 +15,7 @@ void func_80024578(void *record)
     *(u16 *)(record_bytes + 2) = counter;
     if ((counter << 16) <= 0) {
         *(u16 *)(record_bytes - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

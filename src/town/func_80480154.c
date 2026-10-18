@@ -3,11 +3,11 @@
 
 extern s32 D_800189BC[];
 extern s32 D_80019548[];
-extern void func_80016540(s32, s32);
+extern void close_dialogue_if_open_hand(s32, s32);
 
-/* Call func_80016540, then copy the table entry selected by the current index. */
-void townDispatchStatusBoolean(s32 first_input, s32 second_input)
+/* Call close_dialogue_if_open_hand, then copy the table entry selected by the current index. */
+void dispatch_status_boolean(s32 first_input, s32 second_input)
 {
-    func_80016540(first_input, second_input);
+    close_dialogue_if_open_hand(first_input, second_input);
     D_80019548[0] = D_800189BC[*(s32 *)((u8 *)D_80016000 + 8)];
 }

@@ -6,13 +6,13 @@ typedef struct S_800A9AFC_2 {
     u8 unk_73;
     u8 pad_74[0x7];
     u8 unk_7B;
-} S_800A9AFC_2;   /* (arg1 + ((S_800A9AFC_0 *)arg1)->unk_71) in dungeonRotateActorMovementQueue */
+} S_800A9AFC_2;   /* (arg1 + ((S_800A9AFC_0 *)arg1)->unk_71) in rotate_actor_movement_queue */
 
 
 s32 func_80042900();             /* extern */
 M2C_UNK func_80069F28();     /* extern */
-void func_8009A21C();             /* extern */
-void func_8009A3D0();             /* extern */
+void cycle_map_cell_flags();             /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
 
 typedef struct S_800A9AFC_0 {
     u8 pad_00[0x1C];
@@ -30,16 +30,16 @@ typedef struct S_800A9AFC_0 {
     u8 pad_7D[0xB];
     u16 unk_88;
     u16 unk_8A;
-} S_800A9AFC_0;   /* arg1 in dungeonRotateActorMovementQueue */
+} S_800A9AFC_0;   /* arg1 in rotate_actor_movement_queue */
 
 typedef struct S_800A9AFC_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800A9AFC_1;   /* arg0 in dungeonRotateActorMovementQueue */
+} S_800A9AFC_1;   /* arg0 in rotate_actor_movement_queue */
 
 /* Rotates queued coordinates into the current position and updates tile flags. */
-void dungeonRotateActorMovementQueue(S_800A9AFC_1 *position, void *state) {
+void rotate_actor_movement_queue(S_800A9AFC_1 *position, void *state) {
     s32 clear_mask;
     s32 set_mask;
     s32 status_result;
@@ -60,7 +60,7 @@ void dungeonRotateActorMovementQueue(S_800A9AFC_1 *position, void *state) {
             if (flags & 0x2000) {
                 clear_mask = 0x300;
             }
-            func_8009A3D0(tile_x, tile_y, clear_mask);
+            update_map_cell_flags_with_item_limit(tile_x, tile_y, clear_mask);
         }
         next_x = ((S_800A9AFC_0 *)state)->unk_74;
         next_y = ((S_800A9AFC_0 *)state)->unk_7C;
@@ -83,7 +83,7 @@ void dungeonRotateActorMovementQueue(S_800A9AFC_1 *position, void *state) {
             if (flags & 0x2000) {
                 set_mask = 0x300;
             }
-            func_8009A21C(tile_x, tile_y, set_mask);
+            cycle_map_cell_flags(tile_x, tile_y, set_mask);
         }
         ((S_800A9AFC_0 *)state)->unk_8A = 0U;
     }

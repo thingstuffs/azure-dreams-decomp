@@ -2,11 +2,11 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-   /* the 0x2 bytes before arg0 in func_8196BF24, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in advance_effect_animation, addressed as arg0[-1] */
 
-   /* arg0 in func_8196BF24 */
+   /* arg0 in advance_effect_animation */
 
-   /* arg2 in func_8196BF24 */
+   /* arg2 in advance_effect_animation */
 
 
 /* Advance the effect animation and flag completion when its countdown expires. */
@@ -24,6 +24,6 @@ void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
     }
     if (((S_8196BF24_0 *)effect)->unk_2C.u <= 0) {
         ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32)(objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
     }
 }

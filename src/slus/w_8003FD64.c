@@ -12,7 +12,7 @@ typedef struct S_80013714 {
 } S_80013714;
 
 
-extern void zeroWords(int *p, int n);
+extern void zero_words(int *p, int n);
 extern void *func_8003FB98(s32 a0, void *a1);
 
 /* Allocates and initializes a node with the requested flags and links it at the list head. */
@@ -36,7 +36,7 @@ void *func_8003FD64(s32 flags, ObjectNodeHeader **list_head)
             extern ObjectNodeHeader *D_80081490;
             D_80081490 = node->next;
         }
-        zeroWords((int *)node, 0x49);
+        zero_words((int *)node, 0x49);
 
         node->next = *list_head;
         *list_head = node;

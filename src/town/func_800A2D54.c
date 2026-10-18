@@ -3,7 +3,7 @@
 extern s32 D_80100AA0[];
 
 /* Shift entries left until a free entry or the limit, then clear the tail. */
-void townHandleShiftEntriesLeftUntilFreeEntryLimitClearTail(void) {
+void handle_shift_entries_left_until_free_entry_limit_clear_tail(void) {
     s32 entry_index;
     s32 *entries = &D_80100AA0[0];
     s32 *write_entry;

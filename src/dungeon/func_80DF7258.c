@@ -53,12 +53,12 @@ void func_80160A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172
                     ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = (s8) temp_v1_3->unk_25;
                 }
             } else {
-                ((E_80172A58_S_80172A58_1 *)arg3)->unk_60 = dungeonScanMonsterAlongHeading(arg3, arg2->unk_24, arg2->unk_25, ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A, 0x10);
+                ((E_80172A58_S_80172A58_1 *)arg3)->unk_60 = scan_monster_along_heading(arg3, arg2->unk_24, arg2->unk_25, ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A, 0x10);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = abs(((E_80172A58_S_80172A58_1 *)arg3)->unk_72);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = abs(((E_80172A58_S_80172A58_1 *)arg3)->unk_73);
             }
-            if (dungeonCreateActorSpellEffect(arg3, var_s0, var_s5, arg0 + 0x98) != 0) {
-                dungeonCreateActorLinkedEffect(arg3);
+            if (create_actor_spell_effect(arg3, var_s0, var_s5, arg0 + 0x98) != 0) {
+                create_actor_linked_effect(arg3);
                 ((E_80172A58_S_80172A58_0 *)arg0)->unk_9B = (u8) (((E_80172A58_S_80172A58_0 *)arg0)->unk_9B + 1);
                 return;
             }
@@ -67,10 +67,10 @@ void func_80160A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172
         arg1->unk_14 = 0;
         arg1->unk_10 = 0;
         arg1->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(arg1, arg2->unk_24, arg2->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(arg1, arg2->unk_24, arg2->unk_25);
+        g_dungeon_status.unk_0C = 0;
         ((E_80172A58_S_80172A58_7 *)D_800814A8)->unk_A6 = (u16) (((E_80172A58_S_80172A58_7 *)D_800814A8)->unk_A6 - 1);
-        dungeonAdvanceStatusTimers(arg3);
+        advance_status_timers(arg3);
         ((E_80172A58_S_80172A58_1 *)arg3)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)arg3)->unk_6D - 1);
         ((E_80172A58_S_80172A58_0 *)arg0)->unk_8C = func_8015EE5C;
         ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = 0;
@@ -78,7 +78,7 @@ void func_80160A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172
         ((E_80172A58_S_80172A58_1 *)arg3)->unk_46 = (u16) (((E_80172A58_S_80172A58_1 *)arg3)->unk_46 & 0x7FFF);
         return;
     case 1:                                         /* switch 1 */
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             arg2->unk_14 = (u16) (arg2->unk_14 | 0x800);
             return;
         }
@@ -100,20 +100,20 @@ void func_80160A58(void *arg0, E_80172A58_S_80172A58_6 *arg1, E_80172A58_S_80172
             arg1->unk_14 = 0;
             arg1->unk_10 = 0;
             arg1->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(arg1, arg2->unk_24, arg2->unk_25);
+            set_record_integer_tile_center(arg1, arg2->unk_24, arg2->unk_25);
             if (arg2->unk_2C != D_80162520) {
                 arg2->unk_2C = D_80162520;
-                func_80047784(arg2, *((((s32) (gameWork.view.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80162520), 0);
+                func_80047784(arg2, *((((s32) (g_game_work.view.viewAngle + ((E_80172A58_S_80172A58_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + D_80162520), 0);
             }
-            if (dungeonStatus.unk_0C == 0) {
-                dungeonStatus.unk_0A = (u16) (dungeonStatus.unk_0A - 1);
+            if (g_dungeon_status.unk_0C == 0) {
+                g_dungeon_status.unk_0A = (u16) (g_dungeon_status.unk_0A - 1);
                 ((E_80172A58_S_80172A58_0 *)arg0)->unk_8C = func_8015EE5C;
-                dungeonAdvanceStatusTimers(arg3);
+                advance_status_timers(arg3);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_73 = 0;
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_72 = 0;
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_6D = (u8) (((E_80172A58_S_80172A58_1 *)arg3)->unk_6D - 1);
                 ((E_80172A58_S_80172A58_1 *)arg3)->unk_46 = (u16) (((E_80172A58_S_80172A58_1 *)arg3)->unk_46 & 0x7FFF);
-                func_800A56E0(0xB4);
+                play_sound_if_enabled(0xB4);
             }
         }
         break;

@@ -6,19 +6,19 @@
 
 extern int CdControlB(u8 com, u8 *param, u8 *result);
 extern void func_8003E70C(void);
-extern void wait512VerticalSyncs(void);
+extern void wait_512_vertical_syncs(void);
 
 /* Tries CD mode 0x84 up to 16 times, increments retry counters on failure, then waits. */
-void cdSetModeWithRetry(void) {
+void cd_set_mode_with_retry(void) {
     int attempts_left;
 
     D_800814D4 = 0x84;
     for (attempts_left = 0x10; attempts_left != 0; attempts_left--) {
         if (CdControlB(0xE, &D_800814D3[1], 0) != 0) {
-            wait512VerticalSyncs();
+            wait_512_vertical_syncs();
             return;
         }
     }
     func_8003E70C();
-    wait512VerticalSyncs();
+    wait_512_vertical_syncs();
 }

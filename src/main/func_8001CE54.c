@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80051B50(void *buffer, s32 value, s32 option);
-extern s32 func_80402268(void);
+extern s32 get_table_entry_by_flag(void);
 extern s32 D_8008432C;
 extern s32 D_80408CB0[];
 
@@ -22,7 +22,7 @@ void func_8001CE54(u8 *owner) {
     s32 resource_index;
 
     child = *(SubStruct **)(owner + 0x1DC);
-    resource_index = func_80402268() >= 3;
+    resource_index = get_table_entry_by_flag() >= 3;
     child->unk0 = (void *) func_80051B50(owner + 8, D_80408CB0[resource_index], 1);
     child->unk4->unk8 = 0xF0;
     child->unk4->unkA = 0x91;

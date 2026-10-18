@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1830850.h"
 
-void inventorySetPairedIndexOffset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
+void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index) {
     s16 offset;
 
     offset = (index * 0x10) - 0x38;

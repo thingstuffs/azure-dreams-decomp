@@ -9,9 +9,9 @@ void func_800F7910(void *motion_data, s16 *position) {
     s16 *motion = motion_data;
     s16 next_speed;
 
-    if (position[5] < (s16)func_800BCB04((u16) position[1], (u16) position[3], position[5] + 2)) {
-        ((s32 *) position)[0] -= (dirStepX[motion[10]] * motion[25]) << 11;
-        ((s32 *) position)[1] -= (dirStepY[motion[10]] * motion[25]) << 11;
+    if (position[5] < (s16)sample_terrain_surface_height((u16) position[1], (u16) position[3], position[5] + 2)) {
+        ((s32 *) position)[0] -= (dir_step_x[motion[10]] * motion[25]) << 11;
+        ((s32 *) position)[1] -= (dir_step_y[motion[10]] * motion[25]) << 11;
         ((s32 *) position)[2] += (0xC0 - motion[25]) << 10;
     }
 
@@ -19,6 +19,6 @@ void func_800F7910(void *motion_data, s16 *position) {
     motion[25] = next_speed;
     if ((next_speed << 16) <= 0) {
         ((u16 *) motion)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

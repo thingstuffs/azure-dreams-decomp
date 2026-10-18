@@ -5,11 +5,11 @@
 
 
 
-void townCopyThreeComponentValues();                      /* extern */
+void copy_three_component_values();                      /* extern */
 extern u8 D_80017B30;
 
 
-/* Pass the callback-selected eight-byte table entry to townCopyThreeComponentValues. */
-void townPassCallbackSelectedEntry(void) {
-    townCopyThreeComponentValues((D_80016000->unk_20->callback_2D4(0) * 8) + &D_80017B30);
+/* Pass the callback-selected eight-byte table entry to copy_three_component_values. */
+void pass_callback_selected_entry(void) {
+    copy_three_component_values((D_80016000->unk_20->callback_2D4(0) * 8) + &D_80017B30);
 }

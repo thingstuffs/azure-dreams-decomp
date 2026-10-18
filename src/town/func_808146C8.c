@@ -12,7 +12,7 @@ typedef struct S_8052F2C8_0 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     s16 unk_0E;
     u16 unk_10;
-} S_8052F2C8_0;   /* obj_held in townAnimateRisingEffectObject */
+} S_8052F2C8_0;   /* obj_held in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_1 {
     void * unk_00;
@@ -20,13 +20,13 @@ typedef struct S_8052F2C8_1 {
     union { s16 s; u16 u; } unk_54;   /* accessed as both */
     s16 unk_56;
     u16 unk_58;
-} S_8052F2C8_1;   /* root in townAnimateRisingEffectObject */
+} S_8052F2C8_1;   /* root in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8052F2C8_2;   /* state_held in townAnimateRisingEffectObject */
+} S_8052F2C8_2;   /* state_held in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_3 {
     u8 pad_00[0x8];
@@ -39,27 +39,27 @@ typedef struct S_8052F2C8_3 {
     u16 unk_1E;
     void * unk_20;
     s32 unk_24;
-} S_8052F2C8_3;   /* work in townAnimateRisingEffectObject */
+} S_8052F2C8_3;   /* work in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_4 {
     u8 pad_00[0x12];
     u16 unk_12;
-} S_8052F2C8_4;   /* data0 in townAnimateRisingEffectObject */
+} S_8052F2C8_4;   /* data0 in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_5 {
     u8 pad_00[0x16];
     u16 unk_16;
-} S_8052F2C8_5;   /* root_obj in townAnimateRisingEffectObject */
+} S_8052F2C8_5;   /* root_obj in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_6 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8052F2C8_6;   /* data1 in townAnimateRisingEffectObject */
+} S_8052F2C8_6;   /* data1 in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_7 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8052F2C8_7;   /* spawn_data in townAnimateRisingEffectObject */
+} S_8052F2C8_7;   /* spawn_data in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_8 {
     s32 unk_00;
@@ -67,7 +67,7 @@ typedef struct S_8052F2C8_8 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_8052F2C8_8;   /* position in townAnimateRisingEffectObject */
+} S_8052F2C8_8;   /* position in animate_rising_effect_object */
 
 typedef struct S_8052F2C8_9 {
     u8 pad_00[0x4];
@@ -79,15 +79,15 @@ typedef struct S_8052F2C8_9 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_8052F2C8_9;   /* entity_data in townAnimateRisingEffectObject */
+} S_8052F2C8_9;   /* entity_data in animate_rising_effect_object */
 
 
 extern void *func_800373DC();
 extern void func_8003BC18();
 extern void func_80058F88();
 extern s32 func_80071494();
-extern void func_8052E4C0();
-extern void townAdvanceEffectAndReduceScale();
+extern void create_object_position_configures_color();
+extern void advance_effect_and_reduce_scale();
 extern void func_8052F960();
 extern void func_8052FB08();
 extern u8 D_8003C558[12];
@@ -99,7 +99,7 @@ extern u8 D_8028E188[];
 extern void D_8052F8C4();
 
 /* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
-void townAnimateRisingEffectObject(void *obj, void *state_in, void *input) {
+void animate_rising_effect_object(void *obj, void *state_in, void *input) {
     register void *obj_held = obj;
     register void *state_held = state_in;
     register void *work;
@@ -287,7 +287,7 @@ void townAnimateRisingEffectObject(void *obj, void *state_in, void *input) {
             count--;
             x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
             rnd = func_80071494();
-            func_8052E4C0(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
+            create_object_position_configures_color(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
         timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
@@ -317,7 +317,7 @@ case_4_loop:
         count4--;
         x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + base;
         rnd4 = func_80071494();
-        func_8052E4C0(0, x4, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
+        create_object_position_configures_color(0, x4, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
                       ((rnd4 & 0x3F) << 16) | mask);
         if (count4 >= 0) {
             goto case_4_loop;

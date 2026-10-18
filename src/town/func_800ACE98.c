@@ -3,13 +3,13 @@
 #include "shared/game_work.h"
 
 extern s32 func_80064584(s32 wave_input);
-extern void dungeonInitializeActionObject(void *controller, void *object, s32 update_value);
-extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(void *record);
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(void *position, void *out_value);
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(void *obj, s16 base_value, void *vec_ptr);
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(void *position);
-extern void func_800A9F14(void *origin);
-extern void func_800AAA58(void *controller, void *object, s32 update_value);
+extern void initialize_action_object(void *controller, void *object, s32 update_value);
+extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *record);
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *position, void *out_value);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(void *obj, s16 base_value, void *vec_ptr);
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *position);
+extern void update_positions_from_origin(void *origin);
+extern void initialize_record_with_pointer_and_code(void *controller, void *object, s32 update_value);
 
 extern u8 D_800CFCEF;
 extern s32 D_800D0B14;
@@ -20,7 +20,7 @@ extern s16 D_80100D80;
 extern s16 D_80100D82;
 
 /* Updates input-driven motion and handles object action transitions. */
-void func_800AA5F8(void *controller, void *object, s32 update_arg) {
+void update_input_motion_and_action(void *controller, void *object, s32 update_arg) {
     s32 saved_arg;
     GameWork *buttons;
     u8 *position;
@@ -29,22 +29,22 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
     s32 rise;
 
     saved_arg = update_arg;
-    buttons = &gameWork;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(object);
-    angle = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(object, ((u8 *)&D_800FE488));
+    buttons = &g_game_work;
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
+    angle = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&D_800FE488));
     if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF == 0) {
-            dungeonInitializeActionObject(controller, object, saved_arg);
+            initialize_action_object(controller, object, saved_arg);
             D_800D0B14 = 0;
             return;
         }
     } else if (D_800CFCEF == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(object, angle, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(object, angle, ((u8 *)&D_800FE488));
     }
 
     if ((((s32)buttons->unk_010) & 0x40) && D_80100D1C >= 0x800) {
-        func_800AAA58(controller, object, saved_arg);
+        initialize_record_with_pointer_and_code(controller, object, saved_arg);
         D_800D0B14 = 0;
         return;
     }
@@ -94,5 +94,5 @@ void func_800AA5F8(void *controller, void *object, s32 update_arg) {
     } else {
         D_80100D18 = 0x1000;
     }
-    func_800A9F14(object);
+    update_positions_from_origin(object);
 }

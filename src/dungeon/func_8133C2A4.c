@@ -39,14 +39,14 @@ struct Aux {
 };
 
 extern s32 func_80047784(Aux *, u8, s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void func_800A56E0(s32);
-extern void func_800A9A0C(Entity *);
-extern void dungeonAdvanceActorMovementStep(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
-extern void dungeonCompleteActorFacingAction(Entity *, s32, Aux *, Entity *);
-extern void dungeonStartActorDirectionalAction(Entity *, s32, Aux *, Entity *);
-extern void dungeonAdvanceMultiFormRingPhase(void);
-extern void dungeonAdvanceSecondaryObjectState(void);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void play_sound_if_enabled(s32);
+extern void update_actor_status_and_food(Entity *);
+extern void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
+extern void complete_actor_facing_action(Entity *, s32, Aux *, Entity *);
+extern void start_actor_directional_action(Entity *, s32, Aux *, Entity *);
+extern void advance_multi_form_ring_phase(void);
+extern void advance_secondary_object_state(void);
 extern void func_80170838(void);
 
 extern u8 D_801739A0[];
@@ -60,7 +60,7 @@ extern u8 *D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
-s32 func_801732A4(Entity *entity, s32 action_value, Aux *aux)
+s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, Aux *aux)
 {
     s32 angle_out[2];
     Entity *actor;
@@ -112,17 +112,17 @@ top:
             goto top;
 
         case 0x08:
-            dungeonAdvanceActorMovementStep(entity, action_value, aux, actor);
+            advance_actor_movement_step(entity, action_value, aux, actor);
             return 0;
 
         case 0xF0:
-            dungeonStartActorDirectionalAction(entity, action_value, aux, actor);
+            start_actor_directional_action(entity, action_value, aux, actor);
             return 0;
 
         case 0xE8:
-            actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
+            actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
                 D_80082E80.tileX, D_80082E80.tileY, angle_out);
-            dungeonCompleteActorFacingAction(entity, action_value, aux, actor);
+            complete_actor_facing_action(entity, action_value, aux, actor);
             return 0;
 
         case 0x10:
@@ -145,7 +145,7 @@ top:
                 sequence = D_801739B8;
                 break;
             default:
-                func_800A9A0C(actor);
+                update_actor_status_and_food(actor);
                 return 0;
             }
             {
@@ -154,7 +154,7 @@ top:
                 if (old_sequence == sequence) {
                     break;
                 }
-                angle_base = &gameWork.view.viewAngle;
+                angle_base = &g_game_work.view.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -178,7 +178,7 @@ top:
                 if (old_sequence == start_sequence) {
                     break;
                 }
-                angle_base = &gameWork.view.viewAngle;
+                angle_base = &g_game_work.view.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
@@ -197,7 +197,7 @@ top:
                     break;
                 }
                 entity->animation = 2;
-                angle_base = &gameWork.view.viewAngle;
+                angle_base = &g_game_work.view.viewAngle;
                 sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -223,7 +223,7 @@ top:
                 if (aux->sequence == event_sequence) {
                     break;
                 }
-                angle_base = &gameWork.view.viewAngle;
+                angle_base = &g_game_work.view.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
@@ -239,19 +239,19 @@ top:
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
                 if ((s16)timer == 0x1A) {
-                    dungeonAdvanceSecondaryObjectState();
-                    dungeonAdvanceMultiFormRingPhase();
+                    advance_secondary_object_state();
+                    advance_multi_form_ring_phase();
                     D_80173AF8 = event_state;
                     func_80170838();
                 }
                 if ((s16)entity->timer == 0x24) {
-                    func_800A56E0(0x819);
+                    play_sound_if_enabled(0x819);
                 }
                 if ((s16)entity->timer < 0x2C) {
                     break;
                 }
                 entity->animation = 3;
-                angle_base = &gameWork.view.viewAngle;
+                angle_base = &g_game_work.view.viewAngle;
                 sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
@@ -271,7 +271,7 @@ top:
                 entity->timer = 0;
                 entity->direction = 0;
             case 1:
-                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
@@ -289,7 +289,7 @@ top:
             state = entity->state;
             switch (state) {
             case 0:
-                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 entity->state++;
                 entity->timer = 0;
@@ -306,10 +306,10 @@ top:
                 if ((s16)timer >= 4) {
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
-                    actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
+                    actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
                         D_80082E80.tileX, D_80082E80.tileY, angle_out);
                     idle_sequence = D_801739A0;
-                    angle_base = &gameWork.view.viewAngle;
+                    angle_base = &g_game_work.view.viewAngle;
                     entity->animation = 0;
                     (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
                     sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
@@ -318,7 +318,7 @@ top:
                 }
             }
             case 2:
-                actor->angle = dungeonGetRoundedFacingAndRoundingFlag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
                     D_80082E80.tileX, D_80082E80.tileY, angle_out);
                 break;
             }
@@ -326,6 +326,6 @@ top:
         }
     }
 
-    func_800A9A0C(actor);
+    update_actor_status_and_food(actor);
     return 0;
 }

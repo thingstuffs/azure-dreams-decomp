@@ -18,18 +18,18 @@ typedef struct S_800B6094_6 {
 } S_800B6094_6;
 
 
-s32 runtimeTestTableBytePattern();
+s32 runtime_test_table_byte_pattern();
 M2C_UNK func_800498EC();
 s32 func_80049918();
-s32 getLowFlagPriority();
-void townSetDisplayEntryTextAndPosition();
+s32 get_low_flag_priority();
+void set_display_entry_text_and_position();
 M2C_UNK func_800B53BC();
-s32 townBuildEncodedDisplaySequence();
+s32 build_encoded_display_sequence();
 
 typedef struct S_800B6094_0 {
     u8 unk_00;
     u8 unk_01;
-} S_800B6094_0;   /* held_arg0 in townPopulateDisplayRowWithIcon */
+} S_800B6094_0;   /* held_arg0 in populate_display_row_with_icon */
 
 typedef struct S_800B6094_1 {
     u8 pad_00[0x20];
@@ -56,7 +56,7 @@ typedef struct S_800B6094_3 {
 } S_800B6094_3;
 
 /* Populate a display row with entry text and a positioned icon. */
-void townPopulateDisplayRowWithIcon(void *entry_data, s32 display_base, s32 row_index) {
+void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index) {
     S_800B6094_0 *entry = entry_data;
     M2C_UNK text_buffer[3];
     s32 *icon_slot;
@@ -70,11 +70,11 @@ void townPopulateDisplayRowWithIcon(void *entry_data, s32 display_base, s32 row_
     text_y = (row_index * 0x10) + 0xD8;
     row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
     entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)D_8006DE24));
-    townSetDisplayEntryTextAndPosition(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
-    func_800B53BC(row_data->unk_2C, townBuildEncodedDisplaySequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
-    icon_id = getLowFlagPriority(entry_info->unk_10);
+    set_display_entry_text_and_position(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
+    func_800B53BC(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    icon_id = get_low_flag_priority(entry_info->unk_10);
     icon_slot = row_data->unk_38;
-    if (runtimeTestTableBytePattern(entry->unk_00) != 0) {
+    if (runtime_test_table_byte_pattern(entry->unk_00) != 0) {
         display_value = func_800498EC(icon_id);
     } else {
         display_value = func_80049918(icon_id);

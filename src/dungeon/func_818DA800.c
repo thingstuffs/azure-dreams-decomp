@@ -135,20 +135,20 @@ typedef struct S_func_818DA800_11 {
     u16 unk_02;
 } S_func_818DA800_11;
 
-extern s32 dungeonGetDefinitionEntryByte13(s16 entry_index);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s16);
-extern s32 dungeonTryTriggerTargetRecordEffect(void *, s32, void *);
-extern void func_800C8900(void *, s32, s32);
+extern s32 get_definition_entry_byte_13(s16 entry_index);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s16);
+extern s32 try_trigger_target_record_effect(void *, s32, void *);
+extern void try_apply_effect_four_by_chance(void *, s32, s32);
 
-#define D_80024538 ((u8 *)dungeonAdvanceTargetGrowthAndFade)
+#define D_80024538 ((u8 *)advance_target_growth_and_fade)
 extern u8 D_800DEAE0[];
-#define D_80024684 ((u8 *)createCoordinateSpriteObject)
+#define D_80024684 ((u8 *)create_coordinate_sprite_object)
 
 extern u8 D_800E3D68[];
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_18fa800_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) = func_80024020;
 
@@ -188,8 +188,8 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         S_func_818DA800_3 *target_actor;
         s16 height;
 
-        height = (s16)dungeonGetDefinitionEntryByte13(0x22);
-        target_actor = dungeonScanMonsterAlongHeading(actor,
+        height = (s16)get_definition_entry_byte_13(0x22);
+        target_actor = scan_monster_along_heading(actor,
             actor_data->unk_24,
             actor_data->unk_25,
             actor->unk_2A, height);
@@ -221,13 +221,13 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         (tile_coord << 6) - (motion->unk_04.half.unk_06.as_u16 - 0x20);
     motion->unk_10.as_s32 = motion->unk_10.as_s32 /
         effect_state->unk_50.as_s16;
-    motion->unk_14.half.unk_16 = func_800BCB04(
+    motion->unk_14.half.unk_16 = sample_terrain_surface_height(
         motion->unk_00.half.unk_02.as_u16, motion->unk_04.half.unk_06.as_u16,
         (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16 -
               0x30)) - motion->unk_08.half.unk_0A.as_s16;
     motion->unk_14.as_s32 = motion->unk_14.as_s32 /
         effect_state->unk_50.as_s16;
-    func_800A56E0(0x300);
+    play_sound_if_enabled(0x300);
     effect_state->unk_0A.as_u16++;
     break;
 
@@ -345,9 +345,9 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         break;
     }
     if (actor->unk_60 != 0 &&
-        dungeonTryTriggerTargetRecordEffect(actor->unk_60, 1, actor) == 0 &&
+        try_trigger_target_record_effect(actor->unk_60, 1, actor) == 0 &&
         (((S_func_818DA800_3 *)actor->unk_60)->unk_14 & 4) != 0) {
-        func_800C8900(
+        try_apply_effect_four_by_chance(
             actor->unk_60,
             ((S_func_818DA800_10 *)D_800E3D68)->unk_00 == 0xFF ? 0xFF : 0x10,
             2);
@@ -369,9 +369,9 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         effect_state->unk_52.as_u16 &= 0x7FFF;
     } else {
         if (effect_state->unk_50.as_s16 <= 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             break;
         }
     }

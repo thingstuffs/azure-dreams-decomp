@@ -18,7 +18,7 @@ typedef struct Local16 { u8 data[16]; } Local16;
 s32 func_8003830C(s32, void *);
 s32 func_80051B50(s32, void *, s32);
 s32 func_8007BF50(void *, void *);
-s32 func_80402268(void);
+s32 get_table_entry_by_flag(void);
 void *memcpy(void *dst, const void *src, u32 n);
 extern u8 D_804006C4[];
 extern u8 D_804006EC[];
@@ -36,7 +36,7 @@ typedef struct S_802EE3A0_1 {
 } S_802EE3A0_1;
 
 /* Builds count-dependent text and sets its display position. */
-void townBuildMemoryTaskText(s32 panel_addr) {
+void build_memory_task_text(s32 panel_addr) {
     s32 panel_base;
     s32 count;
     Local64 count_text;
@@ -51,7 +51,7 @@ void townBuildMemoryTaskText(s32 panel_addr) {
     void *join_src;
 
     panel_base = panel_addr;
-    count = func_80402268();
+    count = get_table_entry_by_flag();
     if (count < 3) {
         func_80051B50(panel_base + 0x80, D_804006C4, 1);
         join_dst = panel_base + 0x188;

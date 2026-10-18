@@ -4,7 +4,7 @@
 extern s32 func_8001839C(s32);
 extern u8 D_8001B5E7[], D_8001B71A[];
 
-u8 *func_80016E00(s32 id)
+u8 *get_special_data_by_id(s32 id)
 {
     u8 *special_data;
     special_data = 0;

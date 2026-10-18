@@ -1,26 +1,26 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 advanceIndexWithDirectionalClamp(s32 current_selection, s32 selection_step, s32 value);
+extern s32 advance_index_with_directional_clamp(s32 current_selection, s32 selection_step, s32 value);
 extern void SD_Call(s32 sound_id);
-extern void townStoreRecordCheckResult(s32 *menu);
-extern void townHandleSelectedEntry(s32 *menu);
-extern void townPassIndexedRecordToLoader(s32 *menu);
+extern void store_record_check_result(s32 *menu);
+extern void handle_selected_entry(s32 *menu);
+extern void pass_indexed_record_to_loader(s32 *menu);
 extern void close_twin_shop(void *shop_ptr);
-extern void townSetShopSubrecordValues(s32 menu_value, s32 row, s32 selection);
-extern void townStoreShopEmbeddedValue(s32 menu_value, s32 selection);
+extern void set_shop_subrecord_values(s32 menu_value, s32 row, s32 selection);
+extern void store_shop_embedded_value(s32 menu_value, s32 selection);
 
 extern s32 D_80082AB8;
 
 /* Handles twin shop input and updates the selected item and row. */
-void townHandleTwinShopInput(s32 *menu) {
+void handle_twin_shop_input(s32 *menu) {
     GameWork *pad_state;
     s32 held_buttons;
     s32 selection_step;
     s32 selection;
     s32 row;
 
-    pad_state = &gameWork;
+    pad_state = &g_game_work;
     held_buttons = pad_state->buttons;
     selection_step = 0;
     if (held_buttons == 0) {
@@ -29,7 +29,7 @@ void townHandleTwinShopInput(s32 *menu) {
 
     if (((s32)pad_state->unk_010) & 0x10) {
         SD_Call(0x514);
-        townStoreRecordCheckResult(menu);
+        store_record_check_result(menu);
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }
@@ -40,7 +40,7 @@ void townHandleTwinShopInput(s32 *menu) {
         return;
     }
     if (((s32)pad_state->unk_010) & 0x40) {
-        townHandleSelectedEntry(menu);
+        handle_selected_entry(menu);
         return;
     }
     if (!(held_buttons & 0xF000)) {
@@ -74,7 +74,7 @@ void townHandleTwinShopInput(s32 *menu) {
         }
     }
 
-    selection = advanceIndexWithDirectionalClamp(menu[1], selection_step, menu[2]);
+    selection = advance_index_with_directional_clamp(menu[1], selection_step, menu[2]);
     row = selection / 5;
     if (selection == menu[1]) {
         return;
@@ -84,11 +84,11 @@ void townHandleTwinShopInput(s32 *menu) {
     menu[1] = selection;
     if (row != menu[3]) {
         menu[3] = row;
-        townSetShopSubrecordValues(menu[10], row, selection);
+        set_shop_subrecord_values(menu[10], row, selection);
     }
-    townStoreShopEmbeddedValue(menu[10], selection);
+    store_shop_embedded_value(menu[10], selection);
     if (pad_state->buttons & 0x40) {
-        townHandleSelectedEntry(menu);
+        handle_selected_entry(menu);
     }
-    townPassIndexedRecordToLoader(menu);
+    pass_indexed_record_to_loader(menu);
 }

@@ -4,22 +4,22 @@
 typedef struct S_8016EC04_0 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016EC04_0;   /* entity in dungeonRelocateMultiFormActor */
+} S_8016EC04_0;   /* entity in relocate_multi_form_actor */
 
 typedef struct S_8016EC04_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
-} S_8016EC04_1;   /* state in dungeonRelocateMultiFormActor */
+} S_8016EC04_1;   /* state in relocate_multi_form_actor */
 
 
 extern u8 *D_80175D50;
 
-extern void func_8009A3D0(s32, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Reposition the current entity relative to the origin using the selected offset. */
-void dungeonRelocateMultiFormActor(s32 offset_index)
+void relocate_multi_form_actor(s32 offset_index)
 {
     s16 delta[2] = { 0, -12 };
     u8 *object;
@@ -36,7 +36,7 @@ void dungeonRelocateMultiFormActor(s32 offset_index)
 
     ((S_8016EC04_0 *)entity)->unk_14 &= 0xFF7F;
 
-    func_8009A3D0(entity[0x24], entity[0x25],
+    update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = &D_80082E80;
@@ -44,8 +44,8 @@ void dungeonRelocateMultiFormActor(s32 offset_index)
     entity[0x24] = origin->tileX + step[0];
     entity[0x25] = origin->tileY + step[2];
 
-    dungeonSetRecordIntegerTileCenter(motion, entity[0x24], entity[0x25]);
+    set_record_integer_tile_center(motion, entity[0x24], entity[0x25]);
 
-    func_8009A21C(entity[0x24], entity[0x25],
+    cycle_map_cell_flags(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 }

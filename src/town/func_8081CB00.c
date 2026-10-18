@@ -9,17 +9,17 @@ typedef struct S_80026B00_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80026B00_0;   /* arg1 in townAdvanceSceneMotionUntilTimeout */
+} S_80026B00_0;   /* arg1 in advance_scene_motion_until_timeout */
 
 typedef struct S_80026B00_1 {
     u16 unk_00;
     u8 pad_02[0xE];
     u16 unk_10;
-} S_80026B00_1;   /* arg0 in townAdvanceSceneMotionUntilTimeout; pointer addresses record offset 0x2 */
+} S_80026B00_1;   /* arg0 in advance_scene_motion_until_timeout; pointer addresses record offset 0x2 */
 
 
 /* Advance the position and flag the record and global state when its timer expires. */
-void townAdvanceSceneMotionUntilTimeout(void *record_data, S_80026B00_0 *motion) {
+void advance_scene_motion_until_timeout(void *record_data, S_80026B00_0 *motion) {
     u16 ticks_left;
 
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
@@ -30,6 +30,6 @@ void townAdvanceSceneMotionUntilTimeout(void *record_data, S_80026B00_0 *motion)
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80026B00_1 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

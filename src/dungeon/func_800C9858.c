@@ -5,7 +5,7 @@
 typedef struct S_800CEFB8_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800CEFB8_0;   /* global_base in func_800CEFB8 */
+} S_800CEFB8_0;   /* global_base in draw_mesh_quads_with_orientation_mode */
 
 typedef struct S_800CEFB8_1 {
     u8 pad_00[0x8];
@@ -21,7 +21,7 @@ typedef struct S_800CEFB8_1 {
     u16 unk_1E;
     u16 unk_20;
     u16 unk_22;
-} S_800CEFB8_1;   /* arg2_hold in func_800CEFB8 */
+} S_800CEFB8_1;   /* arg2_hold in draw_mesh_quads_with_orientation_mode */
 
 typedef struct S_800CEFB8_2 {
     u8 pad_00[0x2];
@@ -36,12 +36,12 @@ typedef struct S_800CEFB8_2 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_800CEFB8_2;   /* arg1 in func_800CEFB8 */
+} S_800CEFB8_2;   /* arg1 in draw_mesh_quads_with_orientation_mode */
 
 typedef struct S_800CEFB8_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800CEFB8_3;   /* (s32 *)end_depth in func_800CEFB8 */
+} S_800CEFB8_3;   /* (s32 *)end_depth in draw_mesh_quads_with_orientation_mode */
 
 
 typedef struct S_SCRATCH {
@@ -118,7 +118,7 @@ typedef struct S_800CEFB8_6 {
     u8 unk_09;
     u8 unk_0A;
     u8 unk_0B;
-} S_800CEFB8_6;   /* part in func_800CEFB8 */
+} S_800CEFB8_6;   /* part in draw_mesh_quads_with_orientation_mode */
 
 typedef struct S_800CEFB8_8 {
     u8 pad_00[0x3];
@@ -143,7 +143,7 @@ typedef struct S_800CEFB8_8 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
-} S_800CEFB8_8;   /* packet in func_800CEFB8 */
+} S_800CEFB8_8;   /* packet in draw_mesh_quads_with_orientation_mode */
 
 typedef struct S_800CEFB8_9 {
     u8 pad_00[0x8D0];
@@ -165,7 +165,7 @@ M2C_UNK func_8006658C();
 extern s32 D_8006CD30[];
 
 /* Projects sprite parts between two endpoints and queues visible textured quads. */
-void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, s16 orient_mode) {
+void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *sprite, s16 depth_bias, s16 orient_mode) {
     s32 camera_rot_x;
     s32 camera_rot_z;
     s32 camera_rot_y;
@@ -204,7 +204,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
 
     S_SCRATCH *scratch;
     scratch = (S_SCRATCH *)0x1F800000;
-    global_base = *(void **)((s8 *)(&gameWork));
+    global_base = *(void **)((s8 *)(&g_game_work));
 
 #define SPA(off) ((void *)((u8 *)scratch + (off)))
 
@@ -218,7 +218,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     ((S_800CEFB8_1 *)sprite)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite)->unk_14 | 0x8000);
     scratch->unk_000 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_02;
     scratch->unk_002 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_06;
-    render_state = &gameWork;
+    render_state = &g_game_work;
     scratch->unk_004 = (u16) ((S_800CEFB8_2 *)endpoints)->unk_0A;
     start_depth = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     scratch->unk_0C0 = start_depth;

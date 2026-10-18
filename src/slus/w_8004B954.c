@@ -12,7 +12,7 @@ typedef struct {
     s16 vy;
 } DVEC;
 
-extern s32 multiplyRgbTintSaturated(void *a, void *b);
+extern s32 multiply_rgb_tint_saturated(void *a, void *b);
 extern s32 rsin(s32 a);
 extern s32 rcos(s32 a);
 
@@ -95,15 +95,15 @@ void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
         }
         field_ptr = shaded_tri + 4;
         U32_AT(primitives, 0x04) = U32_AT(style, 0x04);
-        multiplyRgbTintSaturated(field_ptr, tint_a);
-        multiplyRgbTintSaturated(field_ptr, tint_b);
+        multiply_rgb_tint_saturated(field_ptr, tint_a);
+        multiply_rgb_tint_saturated(field_ptr, tint_b);
         U8_AT(shaded_tri, 0x07) = U8_AT(style, 0x01) & 0x7F;
         if (shaded != 0) {
             field_ptr = shaded_tri + 0xC;
             color_data = (void *)((u8 *)color_data + 0xC);
             U32_AT(shaded_tri, 0x0C) = U32_AT(color_data, 0);
-            multiplyRgbTintSaturated(field_ptr, tint_a);
-            multiplyRgbTintSaturated(field_ptr, tint_b);
+            multiply_rgb_tint_saturated(field_ptr, tint_a);
+            multiply_rgb_tint_saturated(field_ptr, tint_b);
             U32_AT(shaded_tri, 0x14) = U32_AT(shaded_tri, 0x0C);
             segment = first_segment;
             if (segment <= first_segment + segment_count) {

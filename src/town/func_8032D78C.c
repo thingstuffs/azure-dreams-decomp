@@ -9,6 +9,6 @@ extern M2C_UNK D_8001C0FC;
 
 
 /* Pass D_8001C0FC to the callback at offset 0x21C. */
-void townInvokeSystemCallback21C(void) {
+void invoke_system_callback_21_c(void) {
     D_80016000->unk_20->callback_21C(&D_8001C0FC);
 }

@@ -13,7 +13,7 @@ struct S_func_800A9F90 {
 extern void func_80033D08(S_func_800A9F90 *);
 
 /* Decrement the counter and handle expiry or invoke the callback. */
-s32 townDecrementCallbackObjectTimer(S_func_800A9F90 *self, s32 expiry_arg)
+s32 decrement_callback_object_timer(S_func_800A9F90 *self, s32 expiry_arg)
 {
     void (*callback)(S_func_800A9F90 *self);
     u16 counter;
@@ -24,7 +24,7 @@ s32 townDecrementCallbackObjectTimer(S_func_800A9F90 *self, s32 expiry_arg)
         func_80033D08(self);
         *(u16 *)((u8 *)self - 2) =
             (u16)(*(u16 *)((u8 *)self - 2) | 0x8000);
-        return (objectFlagBlock.flags |= 0x8000);
+        return (object_flag_block.flags |= 0x8000);
     }
 
     callback = self->callback;

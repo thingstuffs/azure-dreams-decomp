@@ -11,7 +11,7 @@ typedef struct S_80170CA0_0 {
 } S_80170CA0_0;
 
 /* Clear the current object's two state fields. */
-void dungeonClearTheSTwoStateFields(void) {
+void clear_the_s_two_state_fields(void) {
     S_80170CA0_0 *state;
 
     state = *D_80174CE0 + 0x20;

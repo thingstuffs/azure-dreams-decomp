@@ -1,17 +1,17 @@
 #include "modules/dungeon_ovl_18d6800.h"
 #include "common.h"
 
-   /* arg0 in dungeonDrawTwoRadialEffectBands */
+   /* arg0 in draw_two_radial_effect_bands */
 
-   /* arg1 in dungeonDrawTwoRadialEffectBands */
+   /* arg1 in draw_two_radial_effect_bands */
 
-   /* sc in dungeonDrawTwoRadialEffectBands */
+   /* sc in draw_two_radial_effect_bands */
 
 
 
 
 /* Builds and draws two eight-segment radial bands around the effect center. */
-s32 dungeonDrawTwoRadialEffectBands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
+s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg) {
     u8 *scratch;
     s32 first_outer_x;
     s32 first_outer_y;

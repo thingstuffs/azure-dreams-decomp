@@ -13,12 +13,12 @@ typedef struct {
 } D_80083460_t;
 
 
-void func_8009A028(void *node);
+void unlink_entity_node(void *node);
 
 
 typedef struct S_800CB600_0_pre {
     u16 unk_00;
-} S_800CB600_0_pre;   /* the 0x2 bytes before arg0 in func_800CB600, addressed as arg0[-1] */
+} S_800CB600_0_pre;   /* the 0x2 bytes before arg0 in update_owner_linked_pulsing_effect, addressed as arg0[-1] */
 
 typedef struct S_800CB600_0 {
     u8 pad_00[0x8A];
@@ -31,7 +31,7 @@ typedef struct S_800CB600_0 {
     u8 unk_9A;
     u8 pad_9B[0x2];
     u8 unk_9D;
-} S_800CB600_0;   /* arg0 in func_800CB600 */
+} S_800CB600_0;   /* arg0 in update_owner_linked_pulsing_effect */
 
 typedef struct S_800CB600_1 {
     u8 pad_00[0xC];
@@ -41,12 +41,12 @@ typedef struct S_800CB600_1 {
     u8 pad_0F[0xD];
     u16 unk_1C;
     u16 unk_1E;
-} S_800CB600_1;   /* arg2 in func_800CB600 */
+} S_800CB600_1;   /* arg2 in update_owner_linked_pulsing_effect */
 
 typedef struct S_800CB600_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_800CB600_2;   /* arg1 in func_800CB600 */
+} S_800CB600_2;   /* arg1 in update_owner_linked_pulsing_effect */
 
 typedef struct S_800CB600_3 {
     u8 pad_00[0x10];
@@ -54,7 +54,7 @@ typedef struct S_800CB600_3 {
 } S_800CB600_3;
 
 /* Updates a pulsing effect through growth, activation, and shrinkage before marking it for removal. */
-void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearance) {
+void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearance) {
     u16 next_brightness;
     u16 height_offset;
     u16 frames_left;
@@ -107,28 +107,28 @@ void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearanc
         }
 
         ((S_800CB600_0 *)effect)->unk_96.u = 0;
-        if (dungeonStatus.unk_0C != 0) {
+        if (g_dungeon_status.unk_0C != 0) {
             return;
         }
-        if (dungeonStatus.unk_10 != 0) {
+        if (g_dungeon_status.unk_10 != 0) {
             return;
         }
-        if (dungeonStatus.flags & 8) {
+        if (g_dungeon_status.flags & 8) {
             return;
         }
 
-        dungeonStatus.unk_0C = effect;
+        g_dungeon_status.unk_0C = effect;
         ((S_800CB600_0 *)effect)->unk_98 |= 0x80;
         ((S_800CB600_0 *)effect)->unk_9A++;
         return;
     }
 
     if (phase == 1) {
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
 
-        func_8009A028(effect);
+        unlink_entity_node(effect);
         owner = (u8 *)effect - 0x20;
         owner->unk_10 |= 0x80000000;
         ((S_800CB600_0 *)effect)->unk_96.u = 0x10;
@@ -149,7 +149,7 @@ void func_800CB600(void *effect, S_800CB600_2 *position, S_800CB600_1 *appearanc
         return;
     }
 
-    dungeonStatus.unk_0A--;
+    g_dungeon_status.unk_0A--;
     ((S_800CB600_0_pre *)effect)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

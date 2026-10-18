@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 townGetScriptFlagMask(s32 flagIndex);
-extern void townSetCurrentEntryScriptFlag(void);
-extern void townApplySelectedEntryValues(s32 record, s32 entry_index);
+extern s32 get_script_flag_mask(s32 flagIndex);
+extern void set_current_entry_script_flag(void);
+extern void apply_selected_entry_values(s32 record, s32 entry_index);
 
 /* Run the preliminary callback for condition 0x12C4, then dispatch the argument pair. */
-void townDispatchAfterCondition12C4(s32 dispatch_value, s32 dispatch_option) {
-    if (townGetScriptFlagMask(0x12C4) != 0) {
-        townSetCurrentEntryScriptFlag();
+void dispatch_after_condition_12_c_4(s32 dispatch_value, s32 dispatch_option) {
+    if (get_script_flag_mask(0x12C4) != 0) {
+        set_current_entry_script_flag();
     }
-    townApplySelectedEntryValues(dispatch_value, dispatch_option);
+    apply_selected_entry_values(dispatch_value, dispatch_option);
 }

@@ -20,13 +20,13 @@ typedef struct {
     s16 fieldC8;
 } TownState;
 
-extern s16 townInputAngleWithOffset(s32, s16);
+extern s16 input_angle_with_offset(s32, s16);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_800652AC(Vec3 *, Vec3 *, Vec3 *);
 
 /* Moves the actor perpendicular to the selected direction unless the step changes sides. */
-void townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(Actor *actor)
+void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(Actor *actor)
 {
     Vec3 direction;
     Vec3 step;
@@ -39,7 +39,7 @@ void townMoveTheActorPerpendicularSelectedDirectionUnlessStepChangesSides(Actor 
     Vec3 *position_ptr;
     Vec3 *call_result;
 
-    direction_index = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
+    direction_index = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
     if (direction_index == -1) {
         return;
     }

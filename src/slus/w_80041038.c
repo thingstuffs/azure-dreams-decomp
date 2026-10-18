@@ -11,17 +11,17 @@ typedef struct S_8006CE80 {
 
 extern S_8006CE80 D_8006CE80[];
 
-extern void uploadVramEntryArray(S_8006CE80 *a0);
+extern void upload_vram_entry_array(S_8006CE80 *a0);
 
 /* Follow two links from the indexed entry and dispatch the final entry if both links exist. */
-void uploadDispatchEntryVramRows(u16 entry_index) {
+void upload_dispatch_entry_vram_rows(u16 entry_index) {
     S_8006CE80 *entry = &D_8006CE80[(u16)entry_index & 0xFFFF];
     S_8006CE80 *linked_entry = entry->unk4;
 
     if (linked_entry != 0) {
         linked_entry = linked_entry->unk4;
         if (linked_entry != 0) {
-            uploadVramEntryArray(linked_entry);
+            upload_vram_entry_array(linked_entry);
         }
     }
 }

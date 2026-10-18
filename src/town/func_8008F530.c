@@ -3,7 +3,7 @@
 extern s32 func_80065F90(s32, s32);
 
 /* Checks cyclic half-turn limits for four vector directions, accepting zero vectors. */
-s32 townCheckFourVectorHalfTurnGaps(
+s32 check_four_vector_half_turn_gaps(
     s16 first_x, s16 first_y, s16 second_x, s16 second_y,
     u16 third_x, u16 third_y, u16 fourth_x, u16 fourth_y)
 {

@@ -7,7 +7,7 @@
 
 
 /* Scale both position components by 64 and add the 0x220 offset. */
-void townScaleScenePosition(void) {
+void scale_scene_position(void) {
     TownPositionState *first_position;
     TownPositionState *second_position;
 

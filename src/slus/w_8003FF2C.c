@@ -19,10 +19,10 @@ typedef struct S_8003FF2C {
     s16 flags1E;                /* 0x1E */
 } S_8003FF2C;
 
-extern void zeroWords(int *p, int n);
+extern void zero_words(int *p, int n);
 
 /* Clears and prepends a node, setting its flags and optional tail payload pointers. */
-S_8003FF2C *initializeRuntimeNodeStorage(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003FF2C **list_head)
+S_8003FF2C *initialize_runtime_node_storage(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003FF2C **list_head)
 {
     S_8003FF2C *old_head;
     S_8003FF2C *payload_cursor;
@@ -31,7 +31,7 @@ S_8003FF2C *initializeRuntimeNodeStorage(s32 flags, S_8003FF2C *storage, s16 wor
 
     flags = flags | 0x80;
     node = storage;
-    zeroWords((int *)node, word_count);
+    zero_words((int *)node, word_count);
     node->link0 = *list_head;
     *list_head = node;
     old_head = node->link0;

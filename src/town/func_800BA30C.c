@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Blit nonzero pixels using source header offsets and a 128-pixel destination stride. */
-void townBlitOriginU16Block(s32 dst_x, s32 dst_y, u16 *src, void *dst) {
+void blit_origin_u16_block(s32 dst_x, s32 dst_y, u16 *src, void *dst) {
     register s16 col;
     register s16 row;
     u16 height;

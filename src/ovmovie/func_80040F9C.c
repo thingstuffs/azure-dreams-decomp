@@ -6,14 +6,14 @@
 
 typedef struct S_80040F9C_0 {
     s32 unk_00;
-} S_80040F9C_0;   /* src in func_8017779C */
+} S_80040F9C_0;   /* src in copy_decoder_blocks_to_globals */
 
 typedef struct S_80040F9C_1 {
     s32 unk_00;
-} S_80040F9C_1;   /* dst in func_8017779C */
+} S_80040F9C_1;   /* dst in copy_decoder_blocks_to_globals */
 
 /* Copies two 64-byte blocks into global buffers and processes two global regions. */
-s8 *func_8017779C(s8 *data) {
+s8 *copy_decoder_blocks_to_globals(s8 *data) {
     s8 *data_start;
     s8 *src;
     s8 *dst;
@@ -43,7 +43,7 @@ s8 *func_8017779C(s8 *data) {
         dst += 4;
     } while (word_index != -1);
 
-    func_80177A9C((s32 *)&D_8017823C, 0x20);
-    func_80177A9C((s32 *)&D_801782C0, 0x20);
+    start_decoder_input_dma((s32 *)&D_8017823C, 0x20);
+    start_decoder_input_dma((s32 *)&D_801782C0, 0x20);
     return data_start;
 }

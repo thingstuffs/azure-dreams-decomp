@@ -36,15 +36,15 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             result->unk_1C |= 0x2000;
         } else if (((flags & ~3) << 16) == 0) {
             if (!(result->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     result->unk_1C |= 0x200;
-                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                     part1->unk_2C = D_8015BD78;
                 }
             }
-            mode = func_800A6D30() & 3;
+            mode = generate_random_value() & 3;
         }
-        func_800A9C18(object, part0, part1, flags);
+        initialize_actor_sprite_and_animation(object, part0, part1, flags);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;
         ((S_80158854_4 *)actor)->unk_9C = -1;
         ((S_80158854_4 *)actor)->unk_8C = func_80158F74;
@@ -58,9 +58,9 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             part1->unk_14 |= 0xC;
             part1->unk_12 -= 0x80;
             func_80044A50(object_base);
-            dungeonRetireTrackedEffectById(object_base);
+            retire_tracked_effect_by_id(object_base);
         }
-        func_800AA36C(actor, part0, part1, result);
+        try_move_actor_to_valid_position(actor, part0, part1, result);
     }
 
     return result;

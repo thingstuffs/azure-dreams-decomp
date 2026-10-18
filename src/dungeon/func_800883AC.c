@@ -7,17 +7,17 @@
 typedef struct S_8008DB0C_1 {
     u8 pad_00[0x8A];
     s16 unk_8A;
-} S_8008DB0C_1;   /* call_obj in dungeonBeginFamiliarDeploymentChange */
+} S_8008DB0C_1;   /* call_obj in begin_familiar_deployment_change */
 
 
 extern void func_80048A44(void *, u8, s32, s32);
-extern s32 dungeonGetSpecialTableDataIndex(s32);
-extern void dungeonAppendPackedActionRecord(void *, s32, s16, s32);
+extern s32 get_special_table_data_index(s32);
+extern void append_packed_action_record(void *, s32, s16, s32);
 
 extern u8 D_800DD130[];
 
 /* Initializes object state and its directional display, then dispatches an action. */
-void dungeonBeginFamiliarDeploymentChange(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
+void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 mode, u16 variant) {
     u8 *direction_table = D_800DD130;
     s32 lookup_result;
     u16 saved_mode;
@@ -29,7 +29,7 @@ void dungeonBeginFamiliarDeploymentChange(void *obj, s32 unused, void *display, 
     saved_mode = mode;
     func_80048A44(
         display,
-        direction_table[((gameWork.view.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((g_game_work.view.viewAngle + ((Rec_func_8008ACDC_arg0 *)obj)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
 
@@ -43,7 +43,7 @@ void dungeonBeginFamiliarDeploymentChange(void *obj, s32 unused, void *display, 
         register s32 action_arg;
 
         if (D_80082E80.unk_030 != 0) {
-            lookup_result = dungeonGetSpecialTableDataIndex(D_80082E80.unk_030);
+            lookup_result = get_special_table_data_index(D_80082E80.unk_030);
             action_obj = obj;
             action_kind = 0x68;
             field_value = ((Rec_func_8008ACDC_arg0 *)obj)->unk_8A;
@@ -54,7 +54,7 @@ void dungeonBeginFamiliarDeploymentChange(void *obj, s32 unused, void *display, 
             field_value = ((S_8008DB0C_1 *)action_obj)->unk_8A;
             action_arg = 0;
         }
-        dungeonAppendPackedActionRecord(action_obj, action_kind, field_value, action_arg);
+        append_packed_action_record(action_obj, action_kind, field_value, action_arg);
     }
 }
 

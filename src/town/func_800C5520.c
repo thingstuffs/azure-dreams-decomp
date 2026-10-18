@@ -6,7 +6,7 @@ M2C_UNK func_800478B8();                     /* extern */
 
 
 /* Calls the handler when the object status is zero. */
-void townDispatchObjectWhenIdle(Rec_func_80094268_arg0 *object, M2C_UNK callback_arg) {
+void dispatch_object_when_idle(Rec_func_80094268_arg0 *object, M2C_UNK callback_arg) {
     if (object->unk_92 == 0) {
         func_800478B8(callback_arg);
     }

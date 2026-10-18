@@ -11,7 +11,7 @@ typedef struct S_8016DECC_0 {
 } S_8016DECC_0;
 
 /* Clears two fields in the state block at D_80174704 + 0x20. */
-void dungeonResetActiveEncounterActionState(void) {
+void reset_active_encounter_action_state(void) {
     S_8016DECC_0 *state;
 
     state = D_80174704 + 0x20;

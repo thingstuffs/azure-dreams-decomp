@@ -3,7 +3,7 @@
 extern u8 D_80089260[];
 
 /* Returns the target byte's index in the copied list, or the terminator's index. */
-s32 func_800B28A0(void) {
+s32 find_target_byte_index_in_list(void) {
     u8 entries[6];
     u8 *cursor;
     s32 index;

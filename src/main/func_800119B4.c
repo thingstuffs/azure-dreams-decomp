@@ -31,7 +31,7 @@ typedef struct S_800249B4_2 {
 } S_800249B4_2;
 
 /* Initialize two resource buffers and assign them to vertically spaced entries. */
-void dungeonBuildATrigonometricTableProcessesUpEightHeightOffsetSegments(void *context) {
+void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void *context) {
     s32 entry_index;
     s16 x;
     s16 y;

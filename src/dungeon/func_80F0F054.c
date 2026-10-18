@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f23b800.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     s32 variant;
@@ -36,15 +36,15 @@ void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
             work->unk_1C |= 0x2000;
         } else if (((spawn_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_8016DD78;
                 }
             }
-            variant = func_800A6D30() & 3;
+            variant = generate_random_value() & 3;
         }
-        func_800A9C18(object, part_a, part_b, spawn_flags);
+        initialize_actor_sprite_and_animation(object, part_a, part_b, spawn_flags);
         ((S_8016A854_4 *)work_copy)->unk_9A = 0xFF;
         ((S_8016A854_4 *)work_copy)->unk_9C = -1;
         ((S_8016A854_4 *)work_copy)->unk_8C = func_8016AF74;
@@ -58,9 +58,9 @@ void *func_8016A854(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
             part_b->unk_14 |= 0xC;
             part_b->unk_12 -= 0x80;
             func_80044A50(obj_alt);
-            dungeonRetireTrackedEffectById(obj_alt);
+            retire_tracked_effect_by_id(obj_alt);
         }
-        func_800AA36C(work_copy, part_a, part_b, work);
+        try_move_actor_to_valid_position(work_copy, part_a, part_b, work);
     }
 
     return work;

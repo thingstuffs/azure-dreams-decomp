@@ -21,7 +21,7 @@ typedef struct S_80020DF0_0 {
     u8 pad_6E[0x3A];
     s32 unk_A8;
     void * unk_AC;
-} S_80020DF0_0;   /* arg0 in townUpdateSnowballMinigameActor */
+} S_80020DF0_0;   /* arg0 in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_1 {
     s32 unk_00;
@@ -32,7 +32,7 @@ typedef struct S_80020DF0_1 {
     u8 pad_30[0x4];
     s16 unk_34;
     s16 unk_36;
-} S_80020DF0_1;   /* actor in townUpdateSnowballMinigameActor */
+} S_80020DF0_1;   /* actor in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_2 {
     s32 unk_00;
@@ -41,7 +41,7 @@ typedef struct S_80020DF0_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80020DF0_2;   /* arg1 in townUpdateSnowballMinigameActor */
+} S_80020DF0_2;   /* arg1 in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_3 {
     u8 pad_00[0xC];
@@ -49,13 +49,13 @@ typedef struct S_80020DF0_3 {
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
-} S_80020DF0_3;   /* arg2 in townUpdateSnowballMinigameActor */
+} S_80020DF0_3;   /* arg2 in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_6 {
     u8 pad_00[0xC];
     void * unk_0C;
     void * unk_10;
-} S_80020DF0_6;   /* particle in townUpdateSnowballMinigameActor */
+} S_80020DF0_6;   /* particle in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_7 {
     u8 pad_00[0xC];
@@ -63,13 +63,13 @@ typedef struct S_80020DF0_7 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80020DF0_7;   /* part in townUpdateSnowballMinigameActor */
+} S_80020DF0_7;   /* part in update_snowball_minigame_actor */
 
 typedef struct S_80020DF0_8 {
     u8 pad_00[0x2];
     s16 unk_02;
     void * unk_04;
-} S_80020DF0_8;   /* link in townUpdateSnowballMinigameActor */
+} S_80020DF0_8;   /* link in update_snowball_minigame_actor */
 
 
 extern volatile u16 D_800135C0;
@@ -93,19 +93,19 @@ extern u8 D_800F3020[];
 extern void func_80033B78(s32);
 extern void func_80033B9C(s32);
 extern void func_8003DB94(void *, void *, s32);
-extern void soundSetCdCueParameters(s32, s32, s32, s32);
+extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void townUnlinkSceneListNode(void *);
-extern void townAddMotionDeltasToPosition(void *);
-extern s32 townQueryLoweredTransformPosition(void *);
+extern void unlink_scene_list_node(void *);
+extern void add_motion_deltas_to_position(void *);
+extern s32 query_lowered_transform_position(void *);
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
-void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
+void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
 {
     u8 *effect;
     void *actor;
@@ -118,10 +118,10 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
 
     effect = NULL;
     actor = NULL;
-    world = &gameWork;
+    world = &g_game_work;
     music = &D_800834B8;
 
-    ground_height = (s16)townQueryLoweredTransformPosition(motion);
+    ground_height = (s16)query_lowered_transform_position(motion);
     if (((S_80020DF0_0 *)object)->unk_68.s < 0xFF) {
         s32 actor_state;
 
@@ -131,7 +131,7 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
             ((S_80020DF0_0 *)object)->unk_68.s = actor_state;
         }
     }
-    townAddMotionDeltasToPosition(motion);
+    add_motion_deltas_to_position(motion);
     if (((S_80020DF0_2 *)motion)->unk_08.at02.v >= ground_height) {
         ((S_80020DF0_2 *)motion)->unk_08.at02.v = ground_height;
     }
@@ -143,7 +143,7 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
     case 0:
         ((S_80020DF0_2 *)motion)->unk_00 = 0x03A00000;
         ((S_80020DF0_2 *)motion)->unk_04 = 0x01E00000;
-        ((S_80020DF0_2 *)motion)->unk_08.at02.v = townQueryLoweredTransformPosition(motion);
+        ((S_80020DF0_2 *)motion)->unk_08.at02.v = query_lowered_transform_position(motion);
         ((S_80020DF0_0 *)object)->unk_15 = 0;
         ((S_80020DF0_0 *)object)->unk_6C.s = 0x40;
         ((S_80020DF0_0 *)object)->unk_68.s = 1;
@@ -232,7 +232,7 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
         target_height = target->z.v + D_800D0428;
         base_height = ((S_80020DF0_2 *)motion)->unk_08.at00.v + 0x80000;
         ((S_80020DF0_2 *)motion)->unk_14 = (target_height - base_height) >> 1;
-        townAddMotionDeltasToPosition(motion);
+        add_motion_deltas_to_position(motion);
         *music = D_800927EC;
         (*(u16 *)((u8 *)object + 0x6C))--;
         if ((s16)((S_80020DF0_0 *)object)->unk_6C.s <= 0) {
@@ -452,12 +452,12 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
             s32 zero = 0;
 
             if (best_score < score_total || score_total == 0x40) {
-                soundSetCdCueParameters(zero, 0x2C3D, 0x01000001, 0x01000271);
+                sound_set_cd_cue_parameters(zero, 0x2C3D, 0x01000001, 0x01000271);
                 SD_Call(0x300);
                 D_800135C0 = score_total;
                 func_80033B9C(0x5DA);
             } else {
-                soundSetCdCueParameters(zero, 0x2C3D, zero, 0x01000290);
+                sound_set_cd_cue_parameters(zero, 0x2C3D, zero, 0x01000290);
                 SD_Call(0x300);
                 func_80033B78(0x5DA);
             }
@@ -526,9 +526,9 @@ void townUpdateSnowballMinigameActor(void *object, void *motion, void *sprite)
         break;
 
     case 0x109:
-        townUnlinkSceneListNode(object);
+        unlink_scene_list_node(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     default:

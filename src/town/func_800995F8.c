@@ -16,7 +16,7 @@ extern s16 D_8006ADD4[];
 extern State D_800FE520;
 
 /* Update the state limits from the input value unless mode 12 is active. */
-void townUpdateStateLimits(Input *source) {
+void update_state_limits(Input *source) {
     Input *input;
     State *state_page;
     s32 input_value;

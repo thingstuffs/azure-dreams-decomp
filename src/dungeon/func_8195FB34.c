@@ -45,10 +45,10 @@ void func_80025334(s16 x, s16 y, s16 z) {
     if (object != NULL) {
         init_object = object;
 
-        callback = dungeonAnimateTileHeightsAndTransition;
+        callback = animate_tile_heights_and_transition;
 
         ((S_8195FB34_0 *)object)->unk_10 = callback;
-        func_8004491C(init_object, dungeonDispatchSevenBySevenTileGrid);
+        func_8004491C(init_object, dispatch_seven_by_seven_tile_grid);
         position = ((S_8195FB34_0 *)object)->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;

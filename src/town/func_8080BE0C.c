@@ -3,7 +3,7 @@
 
 typedef struct S_8080BE0C_0_pre {
     u16 unk_00;
-} S_8080BE0C_0_pre;   /* the 0x2 bytes before entry in townUpdatePanelAggregateValue, addressed as entry[-1] */
+} S_8080BE0C_0_pre;   /* the 0x2 bytes before entry in update_panel_aggregate_value, addressed as entry[-1] */
 
 typedef struct S_8080BE0C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,12 +13,12 @@ typedef struct S_8080BE0C_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_8080BE0C_0;   /* entry in townUpdatePanelAggregateValue */
+} S_8080BE0C_0;   /* entry in update_panel_aggregate_value */
 
 typedef struct S_8080BE0C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8080BE0C_1;   /* data_ptr in townUpdatePanelAggregateValue */
+} S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
 
 
 M2C_UNK func_80058588();               /* extern */
@@ -26,7 +26,7 @@ s32 func_80071424();                             /* extern */
 extern s32 D_80084D5C;
 extern s16 D_80530000[];
 
-void townUpdatePanelAggregateValue(void *entry) {
+void update_panel_aggregate_value(void *entry) {
     s16 *value_ptr;
     s16 current_state;
     s32 remaining;

@@ -32,7 +32,7 @@ typedef struct {
 } Vec4;
 
 /* Draw visible entity sprite quads and their translucent shadows. */
-s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
+s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     s32 entity_index;
     u8 *scratch;
     GameWork *render_state;
@@ -75,8 +75,8 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     vertex1 = (u8 *)0x1F800078;
     vertex2 = (u8 *)0x1F800080;
     scratch = (u8 *)0x1F800000;
-    render_state = &gameWork;
-    render_ctx = *(u8 **)((u8 *)(&gameWork));
+    render_state = &g_game_work;
+    render_ctx = *(u8 **)((u8 *)(&g_game_work));
     prim = *(u8 **)(render_ctx + 0x8D0);
     U32(scratch, 0x20) = (u32)(render_ctx + 0xB0);
     U32(scratch, 0xE4) = 0;

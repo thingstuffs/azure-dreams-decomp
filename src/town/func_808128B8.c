@@ -11,7 +11,7 @@ typedef struct {
     s16 angle;
 } TownAnimState;
 
-extern void func_8052D62C(s32 x, s32 y, s32 angle);
+extern void draw_wrapped_tile_column_vertical(s32 x, s32 y, s32 angle);
 
 /* Advance one town animation state machine step and redraw it at its current angle. */
 void func_808128B8(TownAnimState *anim)
@@ -21,7 +21,7 @@ void func_808128B8(TownAnimState *anim)
     switch (state) {
     case 0:
     anim->step = anim->angle = 0;
-    func_8052D62C(anim->x, anim->y, anim->angle);
+    draw_wrapped_tile_column_vertical(anim->x, anim->y, anim->angle);
     anim->state = 1;
     return;
 
@@ -40,7 +40,7 @@ void func_808128B8(TownAnimState *anim)
         anim->angle += 32;
         anim->y = (anim->y + 1) % 12;
     }
-    func_8052D62C(anim->x, anim->y, anim->angle);
+    draw_wrapped_tile_column_vertical(anim->x, anim->y, anim->angle);
     break;
 
     case 4:
@@ -50,7 +50,7 @@ void func_808128B8(TownAnimState *anim)
         anim->state = 0;
     }
 
-    func_8052D62C(anim->x, anim->y, anim->angle);
+    draw_wrapped_tile_column_vertical(anim->x, anim->y, anim->angle);
 
     case 1:
         break;

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f43f800_p05.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
-void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor) {
+void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor) {
     s16 direction_scratch;
     s32 current_state;
 
@@ -16,7 +16,7 @@ void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C
             break;
         sprite->ptr_2c = D_80174EA8;
         func_80047784(sprite,
-                      D_80174EA8[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                      D_80174EA8[((g_game_work.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
         state->flags_98 |= 8;
         actor->flags_1c &= 0xf7ffffff;
@@ -83,12 +83,12 @@ void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            dungeonSetRecordIntegerTileCenter(motion, sprite->value_24, sprite->value_25);
+            set_record_integer_tile_center(motion, sprite->value_24, sprite->value_25);
             sprite->value_1e = 0x1000;
             sprite->value_1c = 0x1000;
             sprite->ptr_2c = D_80174EB0;
             func_80047784(sprite,
-                          D_80174EB0[((gameWork.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
+                          D_80174EB0[((g_game_work.view.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                           0);
             state->state_9b += 1;
         }
@@ -110,13 +110,13 @@ void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            dungeonSetRecordIntegerTileCenter(motion, sprite->value_24, sprite->value_25);
+            set_record_integer_tile_center(motion, sprite->value_24, sprite->value_25);
             sprite->value_1c = 0x1000;
             sprite->value_1e = 0x1000;
-            dungeonReduceActorFoodMeter(actor, 4);
-            dungeonAdvanceStatusTimers(actor);
-            if (dungeonStatus.unk_08 != 0)
-                dungeonStatus.unk_08 = (u16)dungeonStatus.unk_08 - 1;
+            reduce_actor_food_meter(actor, 4);
+            advance_status_timers(actor);
+            if (g_dungeon_status.unk_08 != 0)
+                g_dungeon_status.unk_08 = (u16)g_dungeon_status.unk_08 - 1;
             actor_flags = actor->flags_1c;
             if (actor_flags & 0x2000) {
                 if (actor->flags_46 & 0x8000) {
@@ -125,14 +125,14 @@ void dungeonUpdateTimedActorMovementAndScale(T_80172B6C_State *state, T_80172B6C
             } else {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->value_2a = dungeonGetRoundedFacingAndRoundingFlag(sprite->value_24, sprite->value_25,
+                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->value_24, sprite->value_25,
                                                         D_80082E80.tileX, D_80082E80.tileY,
                                                         &direction_scratch);
                     }
                 }
             }
-            if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
-                state->ptr_8c = dungeonUpdateActorBehaviorAndDirection;
+            if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
+                state->ptr_8c = update_actor_behavior_and_direction;
                 func_800A9A04(actor);
             }
         }

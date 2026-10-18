@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80E658F8; every changed retail word is a paired relocation. */
-#define dungeonAdvanceDeformingActionAnimation func_8015D0F8
+#define advance_deforming_action_animation func_8015D0F8
 #define D_801716F4 D_801596F4
 #define D_8017555C D_8015D55C
 #define D_801755BC D_8015D5BC
@@ -39,8 +39,8 @@ typedef struct S_801750F8_2 {
 
 extern s32 func_8015C4E0(void *);
 extern void func_80047784(void *, s32, s32);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 extern void func_8015CD98(void *, void *, void *, void *);
 
 extern u8 D_801596F4[];
@@ -85,9 +85,9 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015D5BC;
         func_80047784(sprite,
-            D_8015D5BC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8015D5BC[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        func_800A56E0(0x51E);
+        play_sound_if_enabled(0x51E);
         return;
     }
 
@@ -99,7 +99,7 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015D5CC;
         func_80047784(sprite,
-            D_8015D5CC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8015D5CC[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
         return;
@@ -130,7 +130,7 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
             scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
             ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
             ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
-            func_800A56E0(0x51F);
+            play_sound_if_enabled(0x51F);
         } else if (timer < 7) {
             scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
             scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
@@ -143,7 +143,7 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
             scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
             ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
             ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
-            func_800A56E0(0x51F);
+            play_sound_if_enabled(0x51F);
         } else {
             if (timer < 0xF) {
                 scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
@@ -169,9 +169,9 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         ((S_801750F8_2 *)sprite)->unk_1C = 0x1000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015D5C4;
         func_80047784(sprite,
-            D_8015D5C4[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8015D5C4[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        func_800A56E0(0x509);
+        play_sound_if_enabled(0x509);
         func_8015CD98(action_in, direction_data, sprite, actor);
         return;
     }
@@ -192,14 +192,14 @@ void func_8015D0F8(void *action_in, void *direction_data_in, void *sprite_in, vo
     case 5:
     {
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8015D55C;
         func_80047784(sprite,
-            D_8015D55C[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8015D55C[((g_game_work.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        dungeonReduceActorFoodMeter(actor, 0x1000);
+        reduce_actor_food_meter(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801596F4;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }
     }

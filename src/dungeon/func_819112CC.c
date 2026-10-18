@@ -9,7 +9,7 @@ typedef union { s32 value; struct { u16 low, high; } half; } PointCoord;
 typedef struct { u8 prefix[0x18]; PointCoord x[5]; PointCoord y[5]; } EffectCoords;
 
 /* Build and queue interpolated vertical quads around five perimeter points. */
-void dungeonBuildAndQueueInterpolatedVerticalQuadsAroundFivePerimeterPoints(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(void *effect_in, ovl_1930844_819112CC_S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
     void *effect = effect_in;
     s32 step = step_in;

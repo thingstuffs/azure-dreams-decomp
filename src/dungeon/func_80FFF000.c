@@ -7,7 +7,7 @@ typedef struct S_80FFF000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FFF000_0;   /* created in dungeonCreateConfiguredOverlayActorAlt */
+} S_80FFF000_0;   /* created in create_configured_overlay_actor_alt */
 
 typedef struct S_80FFF000_1 {
     u8 pad_00[0x13];
@@ -15,12 +15,12 @@ typedef struct S_80FFF000_1 {
     u32 unk_14;
     u8 pad_18[0x4];
     u32 unk_1C;
-} S_80FFF000_1;   /* result in dungeonCreateConfiguredOverlayActorAlt */
+} S_80FFF000_1;   /* result in create_configured_overlay_actor_alt */
 
 typedef struct S_80FFF000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FFF000_2;   /* position in dungeonCreateConfiguredOverlayActorAlt */
+} S_80FFF000_2;   /* position in create_configured_overlay_actor_alt */
 
 typedef struct S_80FFF000_3 {
     u8 pad_00[0x24];
@@ -28,7 +28,7 @@ typedef struct S_80FFF000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FFF000_3;   /* part_b in dungeonCreateConfiguredOverlayActorAlt */
+} S_80FFF000_3;   /* part_b in create_configured_overlay_actor_alt */
 
 typedef struct S_80FFF000_4 {
     u8 pad_00[0x8C];
@@ -37,15 +37,15 @@ typedef struct S_80FFF000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FFF000_4;   /* actor in dungeonCreateConfiguredOverlayActorAlt */
+} S_80FFF000_4;   /* actor in create_configured_overlay_actor_alt */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void func_800A48F0();
-extern s32 func_800A6D30();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern void set_or_clear_actor_status_slot();
+extern s32 generate_random_value();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 extern u8 D_8014CA7C[];
 extern u8 D_8014CEA8[];
@@ -67,10 +67,10 @@ extern u8 D_8014EA64[];
 
 
 
-void *dungeonCreateConfiguredOverlayActorAlt(s16 flags, s32 kind_id, s32 variant, s32 spawn_value) ;
+void *create_configured_overlay_actor_alt(s16 flags, s32 kind_id, s32 variant, s32 spawn_value) ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *dungeonCreateConfiguredOverlayActorAlt(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
+void *create_configured_overlay_actor_alt(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;
     void *created;
@@ -118,22 +118,22 @@ void *dungeonCreateConfiguredOverlayActorAlt(s16 flags, s32 kind_id, s32 variant
             if (((flags & ~3) << 16) == 0) {
                 if (!(((S_80FFF000_1 *)result)->unk_14 & 0x200)) {
                     call_a1 = position;
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         ((S_80FFF000_1 *)result)->unk_1C |= 0x200;
-                        func_800A48F0(result, 1,
-                            (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(result, 1,
+                            (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80150088;
                     }
                 }
             }
         }
 
-        func_800A9C18(created, position, part_b,
+        initialize_actor_sprite_and_animation(created, position, part_b,
             (s16)original_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = D_8014CEA8;
-        func_800AA36C(actor, position, part_b, result);
+        try_move_actor_to_valid_position(actor, position, part_b, result);
     }
     return result;
 }

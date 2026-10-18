@@ -9,7 +9,7 @@ extern S_80173F90 D_80173F90;
 
 
 /* Resets global state fields and flags and loads the configured value. */
-void dungeonResetGlobalEffectConfiguredValue(void) {
+void reset_global_effect_configured_value(void) {
     u8 *page = (u8 *)0x80010000;
     u16 flags;
     s32 value;

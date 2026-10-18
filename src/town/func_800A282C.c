@@ -15,12 +15,12 @@ typedef struct {
     void *recordsOwner;
 } TownState;
 
-extern s32 runtimeEstimateVectorLength(s32, s32);
+extern s32 runtime_estimate_vector_length(s32, s32);
 extern s32 D_800D0728[];
 extern TownState *D_80100900;
 
 /* Return the nearest unflagged record's result, or -1 if none is available. */
-s32 townGetNearestUnflaggedSResultN1NoneAvailable(s32 record_set, void *target)
+s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, void *target)
 {
     TownRecord *records;
     TownRecord *record;
@@ -49,7 +49,7 @@ s32 townGetNearestUnflaggedSResultN1NoneAvailable(s32 record_set, void *target)
         flag_base = (u8 *)0x80010000;
         do {
             if (flag_base[0x981] == 0) {
-                distance = runtimeEstimateVectorLength(
+                distance = runtime_estimate_vector_length(
                     ((record->x + base_x) - *(s16 *)(target + 2)) << 16,
                     ((record->y + base_y) - *(s16 *)(target + 6)) << 16);
                 if (distance < best_distance) {

@@ -3,8 +3,8 @@
 #include "common.h"
 #ifndef NULL
 #define NULL 0
-extern void dungeonUpdateActorBehaviorAndDirection();
-extern void dungeonCreateTimedOffsetMotionEffect();
+extern void update_actor_behavior_and_direction();
+extern void create_timed_offset_motion_effect();
 #endif
 #include "shared/object_flags.h"
 
@@ -156,17 +156,17 @@ typedef struct T_80171190_Work {
 
 extern void * func_8003FD64();
 extern s32 func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_80171358[];
 extern u8 D_80174E88[];
 extern u8 D_80174EF0[];
-void dungeonMoveFadeAndAccelerateEffect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position);
-void dungeonSpawnRandomVelocityOffsetEffect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
+void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, T_80170F0C_S_func_80D1170C_2 *position);
+void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset);
 void * func_80171190(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void dungeonUpdateActorBehaviorAndDirection();
-extern void dungeonCreateTimedOffsetMotionEffect();
+extern void update_actor_behavior_and_direction();
+extern void create_timed_offset_motion_effect();
 #endif

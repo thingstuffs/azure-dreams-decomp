@@ -83,10 +83,10 @@ extern s32 D_800D81D4;
 
 extern void *func_8003FD64(void *, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A56E0(s32);
+extern s32 play_sound_if_enabled(s32);
 
 /* Spawns effect entries and marks the controller finished after two delays. */
-void dungeonUpdateEffectController(S_func_800D7FB8_0 *controller) {
+void update_effect_controller(S_func_800D7FB8_0 *controller) {
     S_func_800D7FB8_1 *entry_data;
     s16 state;
     s32 spawn_index;
@@ -101,7 +101,7 @@ void dungeonUpdateEffectController(S_func_800D7FB8_0 *controller) {
     case 0:
         controller->unk_02.s16_value = 0x3C;
         controller->unk_00 = (s16)((u16)controller->unk_00 + 1);
-        func_800A56E0(0x600);
+        play_sound_if_enabled(0x600);
         spawn_index = 0x96;
         do {
             entry = func_8003FD64((void *)0x312, ((u8 *)(&D_80083498)));
@@ -141,11 +141,11 @@ void dungeonUpdateEffectController(S_func_800D7FB8_0 *controller) {
         finish_timer = (u16)(controller->unk_02.u16_value - 1);
         controller->unk_02.u16_value = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
-            dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) - 1);
             ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 =
                 (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
-            ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 =
-                ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
+            ((S_func_800D7FB8_6 *)((s32 *)(&object_flag_block)))->unk_00 =
+                ((S_func_800D7FB8_6 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000;
         }
 
         return;

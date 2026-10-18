@@ -19,7 +19,7 @@ typedef struct S_80023260_0 {
     s16 unk_24;
     u8 pad_26[0x4];
     s16 unk_2A;
-} S_80023260_0;   /* arg0 in townUpdatePathFollowingActor */
+} S_80023260_0;   /* arg0 in update_path_following_actor */
 
 typedef struct S_80023260_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -29,7 +29,7 @@ typedef struct S_80023260_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80023260_1;   /* arg1 in townUpdatePathFollowingActor */
+} S_80023260_1;   /* arg1 in update_path_following_actor */
 
 
 typedef struct S_80023260_3 {
@@ -52,17 +52,17 @@ typedef struct S_80023260_5 {
 } S_80023260_5;
 
 
-void townUpdateDirectionalRecord();      /* extern */
-void townAdvanceBoundedEntryIndex();              /* extern */
-void townFillEligibleNegativeSlots();            /* extern */
+void update_directional_record();      /* extern */
+void advance_bounded_entry_index();              /* extern */
+void fill_eligible_negative_slots();            /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();              /* extern */
-void townAddMotionDeltasToPosition();                      /* extern */
-void townSpawnPersonRadialEffects();                 /* extern */
-s16 townQueryLoweredTransformPosition();                      /* extern */
+void add_motion_deltas_to_position();                      /* extern */
+void spawn_person_radial_effects();                 /* extern */
+s16 query_lowered_transform_position();                      /* extern */
 typedef struct {
     void *ptr;
     s16 field4;
@@ -85,7 +85,7 @@ extern s32 D_80081458[];
 extern u8 D_800D2388[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
-void townUpdatePathFollowingActor(void *actor, void *motion, void *sprite) {
+void update_path_following_actor(void *actor, void *motion, void *sprite) {
     s16 target_x;
     s16 steer_y;
     s16 target_y;
@@ -133,9 +133,9 @@ void townUpdatePathFollowingActor(void *actor, void *motion, void *sprite) {
     waypoint = paths[((S_80023260_0 *)actor)->unk_22].ptr + (((S_80023260_0 *)actor)->unk_1C * 8);
     func_800478B8(sprite);
     position_ref = actor + 0x14;
-    townAdvanceBoundedEntryIndex(motion, position_ref);
-    townFillEligibleNegativeSlots(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);
-    townAddMotionDeltasToPosition(motion);
+    advance_bounded_entry_index(motion, position_ref);
+    fill_eligible_negative_slots(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);
+    add_motion_deltas_to_position(motion);
     reached_point = 0;
     ((S_80023260_1 *)motion)->unk_00.at00.v = (s32) (((S_80023260_1 *)motion)->unk_00.at00.v
         + ((S_80023260_0 *)actor)->unk_0C.s);
@@ -174,13 +174,13 @@ init_sprite:
     directions = D_800D2388;
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = directions;
     ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v = sprite_config;
-    func_80047784(sprite, D_800D2388[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+    func_80047784(sprite, D_800D2388[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80023260_0 *)actor)->unk_18.p = (u16) (((S_80023260_0 *)actor)->unk_18.p + 1);
     goto update_motion;
 reset_sprite:
     ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_800D2388 - 8;
-    func_80047784(sprite, (D_800D2388 - 8)[((gameWork.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
+    func_80047784(sprite, (D_800D2388 - 8)[((g_game_work.view.viewAngle + ((S_80023260_0 *)actor)->unk_2A + 0x100)
         >> 9) & 7], 0);
     ((S_80023260_0 *)actor)->unk_18.p = idle_state;
     goto update_motion;
@@ -189,7 +189,7 @@ follow_path:
     ((S_80023260_0 *)actor)->unk_1A = path_ticks;
     if ((((S_80023260_0 *)actor)->unk_04 <= 0x200000) && (((S_80023260_3 *)waypoint)->unk_06 & 2)) {
         if (((s16) path_ticks % (s16) paths[((S_80023260_0 *)actor)->unk_22].flags) == 0) {
-            townSpawnPersonRadialEffects(motion);
+            spawn_person_radial_effects(motion);
             ((S_80023260_0 *)actor)->unk_04 = (s32) (((S_80023260_0 *)actor)->unk_04 + 0x80000);
         }
     }
@@ -312,7 +312,7 @@ update_motion:
         abs_bias = 0 - abs_bias;
     }
     if ((abs_bias >= 6) && (((u16) ((S_80023260_0 *)actor)->unk_1A >> 1) & 1)) {
-        townSpawnPersonRadialEffects(motion);
+        spawn_person_radial_effects(motion);
     }
     {
         Stack24 ground_probe = *(Stack24 *)motion;
@@ -320,7 +320,7 @@ update_motion:
         if ((surface_kind == 2) || (surface_kind == 6)) {
             ground_probe.field8 = 0xFE000000;
         }
-        ground_height = townQueryLoweredTransformPosition(&ground_probe);
+        ground_height = query_lowered_transform_position(&ground_probe);
         ((S_80023260_1 *)motion)->unk_0C =
             (s32) (func_80064584(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
         ((S_80023260_1 *)motion)->unk_10 =
@@ -331,7 +331,7 @@ update_motion:
                 ((S_80023260_1 *)motion)->unk_14 = 0;
             }
             if (((S_80023260_0 *)actor)->unk_08 & 1) {
-                townSpawnPersonRadialEffects(motion);
+                spawn_person_radial_effects(motion);
             }
             ((S_80023260_0 *)actor)->unk_08 = (s32) (((S_80023260_0 *)actor)->unk_08 & -2);
         } else {
@@ -348,7 +348,7 @@ update_motion:
         ((S_80023260_1 *)motion)->unk_14 = (s32) (((S_80023260_1 *)motion)->unk_14 + 0x20000);
         final_state = ((S_80023260_0 *)actor)->unk_18.u;
         if (final_state != 0) {
-            townUpdateDirectionalRecord(actor_ref, actor, sprite);
+            update_directional_record(actor_ref, actor, sprite);
         }
     }
 }

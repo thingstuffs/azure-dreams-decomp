@@ -17,15 +17,15 @@ extern s32 func_8001A7E8();
 typedef struct S_8001AC10_1 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8001AC10_1;   /* arg0 in townStoreLookupInState9Entry */
+} S_8001AC10_1;   /* arg0 in store_lookup_in_state_9_entry */
 
 typedef struct S_8001AC10_2 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8001AC10_2;   /* ((arg1 * 0x10) + ((S_8001AC10_1 *)arg0)->unk_10) in townStoreLookupInState9Entry */
+} S_8001AC10_2;   /* ((arg1 * 0x10) + ((S_8001AC10_1 *)arg0)->unk_10) in store_lookup_in_state_9_entry */
 
 /* Store the queried value in the selected entry when the current state is 9. */
-s32 townStoreLookupInState9Entry(S_8001AC10_1 *entry_table, s32 entry_index) {
+s32 store_lookup_in_state_9_entry(S_8001AC10_1 *entry_table, s32 entry_index) {
     if (D_8001E950->unk_05 == 9) {
         ((S_8001AC10_2 *)(((entry_index * 0x10) + entry_table->unk_10)))->unk_08 = func_8001A7E8();
         return 0;

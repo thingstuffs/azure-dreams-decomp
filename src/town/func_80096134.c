@@ -28,16 +28,16 @@ typedef struct {
     s32 unk18;
 } Unk96134State;
 
-extern void func_8008B5D8(void *ptr, s32 value);
-extern s32 townIsTownStatePairAccepted(void);
-extern void townInitializeSceneActionRecord(void *object, void *position, void *callback_data);
-extern void func_8009451C(void *object, void *position, void *callback_data);
-extern void townSetItemSelectionDataPointer(void *object, void *position, void *callback_data);
-extern void *townCreateConfiguredObject(void *context, Unk96134Pos *position, s32 mode);
-extern s32 townGetFirstFreeFourByteEntryIndexN1NoneAvailable(void *ptr, s32 value);
-extern s32 townIsUnk18N12Unk1ABetweenN37N41(s32 state_index);
-extern s32 townCountTypeN4LinksWhoseStateNotN1(void);
-extern s32 func_800B28A0(void);
+extern void write_resource_command(void *ptr, s32 value);
+extern s32 is_town_state_pair_accepted(void);
+extern void initialize_scene_action_record(void *object, void *position, void *callback_data);
+extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
+extern void set_item_selection_data_pointer(void *object, void *position, void *callback_data);
+extern void *create_configured_object(void *context, Unk96134Pos *position, s32 mode);
+extern s32 get_first_free_four_byte_entry_index_n_1_none_available(void *ptr, s32 value);
+extern s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(s32 state_index);
+extern s32 count_type_n_4_links_whose_state_not_n_1(void);
+extern s32 find_target_byte_index_in_list(void);
 
 extern u8 D_80088C0C[];
 extern u8 D_80088C48[];
@@ -57,25 +57,25 @@ typedef struct S_80093894_1 {
     Unk96134Bytes * unk_00;
     u8 pad_04[0x4];
     s32 unk_08;
-} S_80093894_1;   /* context in townHandleSelectionAndCreateObject */
+} S_80093894_1;   /* context in handle_selection_and_create_object */
 
 typedef struct S_80093894_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80093894_2;   /* arg1 in townHandleSelectionAndCreateObject */
+} S_80093894_2;   /* arg1 in handle_selection_and_create_object */
 
 typedef struct S_80093894_3 {
     void * unk_00;
-} S_80093894_3;   /* &D_80110EB8 in townHandleSelectionAndCreateObject */
+} S_80093894_3;   /* &D_80110EB8 in handle_selection_and_create_object */
 
 typedef struct S_80093894_4 {
     u8 pad_00[0x2C];
     void * unk_2C;
-} S_80093894_4;   /* object in townHandleSelectionAndCreateObject */
+} S_80093894_4;   /* object in handle_selection_and_create_object */
 
 /* Checks the current selection, displays rejection messages, or creates and selects an object. */
-void townHandleSelectionAndCreateObject(void) {
+void handle_selection_and_create_object(void) {
     Unk96134Work work;
     ObjectNodeHeader *data;
     u8 *context;
@@ -105,20 +105,20 @@ void townHandleSelectionAndCreateObject(void) {
         work.bytes.unk3 = source->unk3;
         state_index = state_code - 0x12;
         state_is_12_or_13 = (u32)state_index < 2;
-        is_available = townIsUnk18N12Unk1ABetweenN37N41(state_index) == 1;
+        is_available = is_unk_18_n_12_unk_1_a_between_n_37_n_41(state_index) == 1;
 
         switch (is_available) {
         case 0: {
-            if (townIsTownStatePairAccepted() != 0) {
-                func_8008B5D8(D_80088C0C, 0x11);
-            } else if (townCountTypeN4LinksWhoseStateNotN1() >= 0x12) {
-                func_8008B5D8(D_80088C48, 0x11);
+            if (is_town_state_pair_accepted() != 0) {
+                write_resource_command(D_80088C0C, 0x11);
+            } else if (count_type_n_4_links_whose_state_not_n_1() >= 0x12) {
+                write_resource_command(D_80088C48, 0x11);
             } else if (work.bytes.unk1 == 0x13) {
-                func_8008B5D8(D_80088C8C, 0x11);
+                write_resource_command(D_80088C8C, 0x11);
             } else {
                 break;
             }
-            townSetItemSelectionDataPointer(object, position, callback_data);
+            set_item_selection_data_pointer(object, position, callback_data);
             D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             D_800FE518 = 0;
             return;
@@ -126,17 +126,17 @@ void townHandleSelectionAndCreateObject(void) {
         default: {
             if (work.bytes.unk1 != 0x13) {
                 if (work.bytes.unk1 == 0x12) {
-                    mode = func_800B28A0();
-                    if (townGetFirstFreeFourByteEntryIndexN1NoneAvailable((void *)0x80010980, D_800D0728[mode]) == -1) {
-                        func_8008B5D8(D_80088CCC, 0x11);
-                        townSetItemSelectionDataPointer(object, position, callback_data);
+                    mode = find_target_byte_index_in_list();
+                    if (get_first_free_four_byte_entry_index_n_1_none_available((void *)0x80010980, D_800D0728[mode]) == -1) {
+                        write_resource_command(D_80088CCC, 0x11);
+                        set_item_selection_data_pointer(object, position, callback_data);
                         D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
                         D_800FE518 = 0;
                         return;
                     }
                 } else {
-                    func_8008B5D8(D_80088D04, 0x11);
-                    townSetItemSelectionDataPointer(object, position, callback_data);
+                    write_resource_command(D_80088D04, 0x11);
+                    set_item_selection_data_pointer(object, position, callback_data);
                     D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
                     D_800FE518 = 0;
                     return;
@@ -153,7 +153,7 @@ void townHandleSelectionAndCreateObject(void) {
         if (state_is_12_or_13) {
             mode = is_available != 0;
         }
-        created_entry = townCreateConfiguredObject(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
+        created_entry = create_configured_object(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
         if (created_entry != 0) {
             Unk96134State *state = (Unk96134State *)D_800CFCB4;
             void *next_object;
@@ -162,10 +162,10 @@ void townHandleSelectionAndCreateObject(void) {
             ((S_80093894_4 *)object)->unk_2C = next_object;
             state->unk10 = next_object;
             state->unk18 = 0;
-            func_8009451C(object, position, callback_data);
+            initialize_actor_movement_interaction_action(object, position, callback_data);
             return;
         }
-        townInitializeSceneActionRecord(object, position, callback_data);
+        initialize_scene_action_record(object, position, callback_data);
         return;
     }
 

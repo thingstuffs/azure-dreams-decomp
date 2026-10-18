@@ -10,13 +10,13 @@ typedef struct S_80174EB4_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80174EB4_0;   /* obj in dungeonCreateCopiedRenderObject */
+} S_80174EB4_0;   /* obj in create_copied_render_object */
 
 typedef struct S_80174EB4_1 {
     u8 pad_00[0x4];
     void * unk_04;
     void * unk_08;
-} S_80174EB4_1;   /* slot in dungeonCreateCopiedRenderObject */
+} S_80174EB4_1;   /* slot in create_copied_render_object */
 
 typedef struct S_80174EB4_2 {
     u8 pad_00[0xC];
@@ -32,7 +32,7 @@ typedef struct S_80174EB4_2 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80174EB4_2;   /* prim in dungeonCreateCopiedRenderObject */
+} S_80174EB4_2;   /* prim in create_copied_render_object */
 
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -41,22 +41,22 @@ typedef struct S_80174EB4_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80174EB4_5;   /* dst in dungeonCreateCopiedRenderObject */
+} S_80174EB4_5;   /* dst in create_copied_render_object */
 
 typedef struct S_80174EB4_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_80174EB4_6;   /* query_arg in dungeonCreateCopiedRenderObject */
+} S_80174EB4_6;   /* query_arg in create_copied_render_object */
 
 extern void *func_8003FD64(s32, s32);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 extern u8 D_80174D24[9];
 
 /* Create a render object, copy its source state, and apply queried position offsets. */
-s32 dungeonCreateCopiedRenderObject(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
+s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
     void *object;
     S_80174EB4_5 *state;
@@ -95,7 +95,7 @@ s32 dungeonCreateCopiedRenderObject(s32 priority, EntityRec *source_state, Rec_f
             offsets[2] = 0;
             offsets[1] = 0;
             offsets[0] = 0;
-            if (resolveRecordOrientationOrFallback(query_data->unk_08, query_data,
+            if (resolve_record_orientation_or_fallback(query_data->unk_08, query_data,
                               offset_out, 0) != 0) {
                 state->unk_00.at02.v += offsets[0];
                 state->unk_04.at02.v += offsets[1];

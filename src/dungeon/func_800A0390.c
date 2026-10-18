@@ -5,19 +5,19 @@
 
 typedef struct S_800A5AF0_0_pre {
     u16 unk_00;
-} S_800A5AF0_0_pre;   /* the 0x2 bytes before arg0 in func_800A5AF0, addressed as arg0[-1] */
+} S_800A5AF0_0_pre;   /* the 0x2 bytes before arg0 in update_effect_position_and_scale_transition, addressed as arg0[-1] */
 
 typedef struct S_800A5AF0_0 {
     u8 pad_00[0x4];
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
     s16 unk_06;
     s16 unk_08;
-} S_800A5AF0_0;   /* arg0 in func_800A5AF0 */
+} S_800A5AF0_0;   /* arg0 in update_effect_position_and_scale_transition */
 
 typedef struct S_800A5AF0_1 {
     u8 pad_00[0x2];
     s16 unk_02;
-} S_800A5AF0_1;   /* arg1 in func_800A5AF0 */
+} S_800A5AF0_1;   /* arg1 in update_effect_position_and_scale_transition */
 
 typedef struct S_800A5AF0_2 {
     u8 pad_00[0xC];
@@ -26,10 +26,10 @@ typedef struct S_800A5AF0_2 {
     u8 unk_0E;
     u8 pad_0F[0xD];
     u16 unk_1C;
-} S_800A5AF0_2;   /* arg2 in func_800A5AF0 */
+} S_800A5AF0_2;   /* arg2 in update_effect_position_and_scale_transition */
 
 /* Interpolate effect values, hold briefly, then fade the colors and mark completion. */
-void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appearance) {
+void update_effect_position_and_scale_transition(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appearance) {
     s16 divisor;
     s16 timer;
     s16 state;
@@ -56,7 +56,7 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
             ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
         }
     } else if (state == 1) {
-        if (((s32)gameWork.unk_010) != 0) {
+        if (((s32)g_game_work.unk_010) != 0) {
             ((S_800A5AF0_0 *)transition)->unk_06 = 0;
         }
 
@@ -84,7 +84,7 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
         ((S_800A5AF0_0 *)transition)->unk_06 = timer;
         if ((timer << 16) <= 0) {
             ((S_800A5AF0_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

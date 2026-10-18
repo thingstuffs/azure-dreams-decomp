@@ -10,14 +10,14 @@ extern GlobalState D_8006ADBC;
 extern s16 D_800D4258[];
 extern s16 D_800D4260[];
 
-extern void audioLoadSoundEffectBank(s32 record_id);
+extern void audio_load_sound_effect_bank(s32 record_id);
 extern void func_8004450C(s32 state_index);
 extern void SD_Call(s32 flags);
 extern void func_800542BC(void);
-extern u16 *func_800C1034(s16 unused, s16 index);
+extern u16 *build_four_value_entry_result(s16 unused, s16 index);
 
 /* Loads a four-value record and applies the pending override to its first value. */
-void townLoadPendingSoundRecord(void) {
+void load_pending_sound_record(void) {
     u16 *record_values;
     u16 *current_values;
 
@@ -25,10 +25,10 @@ void townLoadPendingSoundRecord(void) {
     func_800542BC();
     SD_Call(0x74);
     func_800542BC();
-    audioLoadSoundEffectBank(2);
+    audio_load_sound_effect_bank(2);
     func_8004450C(0);
 
-    record_values = func_800C1034(D_8006ADBC.field18, D_8006ADBC.field1A);
+    record_values = build_four_value_entry_result(D_8006ADBC.field18, D_8006ADBC.field1A);
     D_800D4260[0] = record_values[0];
     current_values = D_800D4260;
     current_values[1] = record_values[1];
@@ -43,6 +43,6 @@ void townLoadPendingSoundRecord(void) {
         D_800D4260[0] = D_800D4258[0];
     }
     if ((s16) D_800D4260[0] != -1) {
-        audioLoadSoundEffectBank((s16) D_800D4260[0]);
+        audio_load_sound_effect_bank((s16) D_800D4260[0]);
     }
 }

@@ -9,44 +9,44 @@
 typedef struct S_800AB778_19 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800AB778_19;   /* page4 in dungeonAdvanceActorRemoval */
+} S_800AB778_19;   /* page4 in advance_actor_removal */
 
 typedef struct S_800AB778_20 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800AB778_20;   /* page16 in dungeonAdvanceActorRemoval */
+} S_800AB778_20;   /* page16 in advance_actor_removal */
 
 typedef struct S_800AB778_21 {
     u8 pad_00[0xAC];
     s32 unk_AC;
     u8 pad_B0[0x60];
     s32 unk_110;
-} S_800AB778_21;   /* ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v in dungeonAdvanceActorRemoval */
+} S_800AB778_21;   /* ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v in advance_actor_removal */
 
 typedef struct S_800AB778_22 {
     u8 pad_00[0x110];
     void * unk_110;
-} S_800AB778_22;   /* ((S_800AB778_19 *)page4)->unk_3D7C in dungeonAdvanceActorRemoval */
+} S_800AB778_22;   /* ((S_800AB778_19 *)page4)->unk_3D7C in advance_actor_removal */
 
 typedef struct S_800AB778_23 {
     u8 pad_00[0x110];
     void * unk_110;
-} S_800AB778_23;   /* ((S_800AB778_20 *)page16)->unk_3D7C in dungeonAdvanceActorRemoval */
+} S_800AB778_23;   /* ((S_800AB778_20 *)page16)->unk_3D7C in advance_actor_removal */
 
 typedef struct S_800AB778_24 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800AB778_24;   /* ((S_800AB778_22 *)(((S_800AB778_19 *)page4)->unk_3D7C))->unk_110 in dungeonAdvanceActorRemoval */
+} S_800AB778_24;   /* ((S_800AB778_22 *)(((S_800AB778_19 *)page4)->unk_3D7C))->unk_110 in advance_actor_removal */
 
 typedef struct S_800AB778_25 {
     u8 pad_00[0x3];
     u8 unk_03;
-} S_800AB778_25;   /* ((S_800AB778_23 *)(((S_800AB778_20 *)page16)->unk_3D7C))->unk_110 in dungeonAdvanceActorRemoval */
+} S_800AB778_25;   /* ((S_800AB778_23 *)(((S_800AB778_20 *)page16)->unk_3D7C))->unk_110 in advance_actor_removal */
 
 
 typedef struct S_800AB778_0_pre {
     u16 unk_00;
-} S_800AB778_0_pre;   /* the 0x2 bytes before arg3 in dungeonAdvanceActorRemoval, addressed as arg3[-1] */
+} S_800AB778_0_pre;   /* the 0x2 bytes before arg3 in advance_actor_removal, addressed as arg3[-1] */
 
 
 typedef struct S_800AB778_1 {
@@ -54,12 +54,12 @@ typedef struct S_800AB778_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800AB778_1;   /* arg0 in dungeonAdvanceActorRemoval */
+} S_800AB778_1;   /* arg0 in advance_actor_removal */
 
 typedef struct S_800AB778_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AB778_2;   /* state0 in dungeonAdvanceActorRemoval */
+} S_800AB778_2;   /* state0 in advance_actor_removal */
 
 typedef struct S_800AB778_3 {
     u8 pad_00[0xC];
@@ -76,12 +76,12 @@ typedef struct S_800AB778_3 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_800AB778_3;   /* arg2 in dungeonAdvanceActorRemoval */
+} S_800AB778_3;   /* arg2 in advance_actor_removal */
 
 typedef struct S_800AB778_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AB778_4;   /* state4_head in dungeonAdvanceActorRemoval */
+} S_800AB778_4;   /* state4_head in advance_actor_removal */
 
 
 typedef struct S_800AB778_6 {
@@ -99,22 +99,22 @@ typedef struct S_800AB778_7 {
 typedef struct S_800AB778_8 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800AB778_8;   /* page4 in dungeonAdvanceActorRemoval */
+} S_800AB778_8;   /* page4 in advance_actor_removal */
 
 typedef struct S_800AB778_9 {
     u8 pad_00[0x110];
     void * unk_110;
-} S_800AB778_9;   /* page_obj4 in dungeonAdvanceActorRemoval */
+} S_800AB778_9;   /* page_obj4 in advance_actor_removal */
 
 typedef struct S_800AB778_10 {
     s32 unk_00;
-} S_800AB778_10;   /* &D_800814A0 in dungeonAdvanceActorRemoval */
+} S_800AB778_10;   /* &D_800814A0 in advance_actor_removal */
 
 typedef struct S_800AB778_11 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
-} S_800AB778_11;   /* state4_tail in dungeonAdvanceActorRemoval */
+} S_800AB778_11;   /* state4_tail in advance_actor_removal */
 
 typedef struct S_800AB778_12 {
     u8 pad_00[0xAC];
@@ -131,21 +131,21 @@ typedef struct S_800AB778_13 {
 typedef struct S_800AB778_14 {
     u8 pad_00[0x3D7C];
     void * unk_3D7C;
-} S_800AB778_14;   /* page16 in dungeonAdvanceActorRemoval */
+} S_800AB778_14;   /* page16 in advance_actor_removal */
 
 typedef struct S_800AB778_15 {
     u8 pad_00[0x110];
     void * unk_110;
-} S_800AB778_15;   /* page_obj16 in dungeonAdvanceActorRemoval */
+} S_800AB778_15;   /* page_obj16 in advance_actor_removal */
 
 typedef struct S_800AB778_16 {
     s32 unk_00;
-} S_800AB778_16;   /* global16 in dungeonAdvanceActorRemoval */
+} S_800AB778_16;   /* global16 in advance_actor_removal */
 
 typedef struct S_800AB778_17 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800AB778_17;   /* state16_tail in dungeonAdvanceActorRemoval */
+} S_800AB778_17;   /* state16_tail in advance_actor_removal */
 
 
 typedef struct {
@@ -154,26 +154,26 @@ typedef struct {
     u8 pad14[0x78];
 } D_800E3E48_Entry;
 
-void buildEntitySlotSnapshot();
+void build_entity_slot_snapshot();
 s32 func_80042900();
 s32 func_800429E4();
-void dungeonClearPlayerLinkedActionFlags();
-void dungeonClearSlotAndUpdateLinkedState();
-s32 func_800990FC();
-s32 func_80099194();
+void clear_player_linked_action_flags();
+void clear_slot_and_update_linked_state();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void *func_80099290();
-s32 dungeonWriteTextByteAndAdvance();
-s32 func_80099734();
-void dungeonAdjustSourceValueAndFinalize();
-void func_8009A028();
-void func_8009A3D0();
-void dungeonDecrementMonsterEntryCount();
-s16 func_800A1BD0();
-s32 func_800A2C78();
+s32 write_text_byte_and_advance();
+s32 append_entity_display_text();
+void adjust_source_value_and_finalize();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void decrement_monster_entry_count();
+s16 find_entity_slot_by_field_ac();
+s32 has_pending_action_or_turn_count();
 void func_800A31D0();
-s32 func_800A5720();
-void dungeonBeginActorFlaggedAction();
-void *dungeonCreateOrbitingTeleportEffect();
+s32 display_text_with_fullwidth_adjustment();
+void begin_actor_flagged_action();
+void *create_orbiting_teleport_effect();
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800DCE68;
 extern s16 D_800DCED4[];
@@ -184,7 +184,7 @@ extern void *D_800E3DF0[];
 extern D_800E3E48_Entry D_800E3E48[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
-s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor) {
+s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor) {
     s32 effect_flags;
     s16 actor_slot16;
     s16 fade_ticks;
@@ -222,7 +222,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
     actor_flags = ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v;
     if (actor_flags & 0x20000000) {
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x400000;
-        dungeonBeginActorFlaggedAction(state, unused_context, visual, actor);
+        begin_actor_flagged_action(state, unused_context, visual, actor);
         return 0;
     }
 
@@ -233,13 +233,13 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
         register s32 next_state;
 
         if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
-            if ((func_800A2C78(actor) << 0x10) != 0) {
+            if ((has_pending_action_or_turn_count(actor) << 0x10) != 0) {
                 break;
             }
         } else {
             ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_110 = 0;
         }
-        dungeonStatus.unk_0A++;
+        g_dungeon_status.unk_0A++;
         next_state = 3;
         state->unk_9B = next_state;
         break;
@@ -247,7 +247,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
 
     case 3:
         if (((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v & 0x80000) {
-            dungeonClearPlayerLinkedActionFlags();
+            clear_player_linked_action_flags();
         }
         if (((Rec_D_80082E80 *)actor)->unk_43 < 0x40U) {
             s32 event_index;
@@ -256,7 +256,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
             event_index = func_800429E4(actor);
             state4_event = actor;
             event_mode = 2;
-            dungeonCreateOrbitingTeleportEffect(state4_event,
+            create_orbiting_teleport_effect(state4_event,
                 D_800DCED4[event_index],
                 (s32)state4_event
                     == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x)))->unk_AC,
@@ -294,28 +294,28 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
             !(visual->unk_14 & 0x8000)) {
             return 0;
         }
-        event_source = func_800990FC();
-        event_arg = dungeonWriteTextByteAndAdvance(8, event_source);
+        event_source = get_unused_text_buffer();
+        event_arg = write_text_byte_and_advance(8, event_source);
         state_or_type = ((Rec_D_80082E80 *)actor)->unk_43;
         if (state_or_type == 0xFF) {
-            state4_result = func_80099734(actor, event_arg);
+            state4_result = append_entity_display_text(actor, event_arg);
             state4_event = &D_800E0C58;
-            func_80099290(func_80099194(state4_event, state4_result));
-            func_800A5720(event_source);
+            func_80099290(expand_text_control_codes(state4_event, state4_result));
+            display_text_with_fullwidth_adjustment(event_source);
         } else if (state_or_type == 0xFE) {
-            state4_result = func_80099734(actor, event_arg);
+            state4_result = append_entity_display_text(actor, event_arg);
             state4_event = &D_800E0C67;
-            func_80099290(func_80099194(state4_event, state4_result));
-            func_800A5720(event_source);
+            func_80099290(expand_text_control_codes(state4_event, state4_result));
+            display_text_with_fullwidth_adjustment(event_source);
         } else {
             u16 *state4_global;
 
             state4_global = (u16 *)&D_800DCE68;
             (*state4_global)--;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         func_800A31D0(actor);
-        actor_slot4 = func_800A1BD0(actor);
+        actor_slot4 = find_entity_slot_by_field_ac(actor);
         if (actor_slot4 >= 0) {
             void *actor_base4;
 
@@ -326,7 +326,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
         }
         globals_page4 = (void *)0x800E0000;
         if (((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110 != NULL) {
-            dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
+            decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
             object_id4 =
                 ((S_800AB778_24 *)(((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
             object_slot4 = &D_800E3DF0[object_id4];
@@ -334,9 +334,9 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
             D_800E3E48[object_id4].field13 = 0;
             globals4 = globals_page4->unk_3D7C;
             *object_slot4 = NULL;
-            dungeonClearSlotAndUpdateLinkedState(globals4->unk_110);
+            clear_slot_and_update_linked_state(globals4->unk_110);
         } else {
-            dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 2);
+            decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 2);
         }
         if ((func_80042900(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
@@ -346,17 +346,17 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
             }
-            func_8009A3D0(effect_x, effect_y, effect_flags);
+            update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
-        func_8009A028(actor);
+        unlink_entity_node(actor);
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_10 *)(&D_800814A0))->unk_00 |= 0x8000;
-        state4_count = ((u16)dungeonStatus.unk_0A);
-        state4_owner = ((s32)dungeonStatus.unk_0C);
+        state4_count = ((u16)g_dungeon_status.unk_0A);
+        state4_owner = ((s32)g_dungeon_status.unk_0C);
         state4_count--;
-        dungeonStatus.unk_0A = state4_count;
+        g_dungeon_status.unk_0A = state4_count;
         if (state4_owner == (s32)actor) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             return 0;
         }
         return 0;
@@ -364,7 +364,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
     case 16:
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x4000;
         flags_mask = actor_flags & 0x4000;
-        dungeonAdjustSourceValueAndFinalize(actor, &D_800E0C34);
+        adjust_source_value_and_finalize(actor, &D_800E0C34);
         if (flags_mask == 0) {
             ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v &= ~0x4000;
         }
@@ -376,9 +376,9 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
         }
         template_base = 0x80010A80;
         template_index = actor_type;
-        buildEntitySlotSnapshot(&((u8 *)template_base)[template_index * 0x54], actor);
-        dungeonDecrementMonsterEntryCount(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
-        actor_slot16 = func_800A1BD0(actor);
+        build_entity_slot_snapshot(&((u8 *)template_base)[template_index * 0x54], actor);
+        decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
+        actor_slot16 = find_entity_slot_by_field_ac(actor);
         if (actor_slot16 >= 0) {
             void *actor_base16;
 
@@ -395,7 +395,7 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
         D_800E3E48[object_id16].field13 = 0;
         globals16 = globals_page16->unk_3D7C;
         *object_slot16 = NULL;
-        dungeonClearSlotAndUpdateLinkedState(globals16->unk_110);
+        clear_slot_and_update_linked_state(globals16->unk_110);
         if ((func_80042900(actor, 0x1B) << 0x10) == 0) {
             effect_actor_flags = ((Rec_D_80082E80 *)actor)->unk_1C.at00_s32.v;
             effect_x = visual->unk_24;
@@ -404,15 +404,15 @@ s32 dungeonAdvanceActorRemoval(S_800AB778_1 *state, void *unused_context, S_800A
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
             }
-            func_8009A3D0(effect_x, effect_y, effect_flags);
+            update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
-        func_8009A028(actor);
+        unlink_entity_node(actor);
         update_flags = (s32 *)&D_800814A0;
         ((S_800AB778_0_pre *)actor)[-1].unk_00 |= 0x8000;
         ((S_800AB778_16 *)update_flags)->unk_00 |= 0x8000;
-        state16_count = ((u16)dungeonStatus.unk_0A);
+        state16_count = ((u16)g_dungeon_status.unk_0A);
         state16_count--;
-        dungeonStatus.unk_0A = state16_count;
+        g_dungeon_status.unk_0A = state16_count;
     }
     return 0;
 }

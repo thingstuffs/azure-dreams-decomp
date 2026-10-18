@@ -28,7 +28,7 @@ void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
         object_state = (u8 *)object + 0x20;
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
         ((S_8196BD3C_0 *)object_state)->unk_7C = source;
-        ((S_8196BD3C_1 *)object)->unk_10 = createTimedRectangleEffect;
+        ((S_8196BD3C_1 *)object)->unk_10 = create_timed_rectangle_effect;
         func_8004491C(object, (s32)func_80045340);
 
         display = ((S_8196BD3C_1 *)object)->unk_0C;

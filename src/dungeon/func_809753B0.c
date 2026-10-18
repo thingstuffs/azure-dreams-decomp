@@ -7,7 +7,7 @@ typedef struct S_80170BB0_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80170BB0_0;   /* object in func_80170BB0 */
+} S_80170BB0_0;   /* object in create_configured_effect_actor */
 
 typedef struct S_80170BB0_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80170BB0_1 {
     s32 unk_1C;
     u8 pad_20[0x7E];
     s16 unk_9E;
-} S_80170BB0_1;   /* actor in func_80170BB0 */
+} S_80170BB0_1;   /* actor in create_configured_effect_actor */
 
 typedef struct S_80170BB0_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170BB0_2;   /* part_a in func_80170BB0 */
+} S_80170BB0_2;   /* part_a in create_configured_effect_actor */
 
 typedef struct S_80170BB0_3 {
     u8 pad_00[0x10];
@@ -34,7 +34,7 @@ typedef struct S_80170BB0_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170BB0_3;   /* part_b in func_80170BB0 */
+} S_80170BB0_3;   /* part_b in create_configured_effect_actor */
 
 typedef struct S_80170BB0_4 {
     u8 pad_00[0x8C];
@@ -45,22 +45,22 @@ typedef struct S_80170BB0_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80170BB0_4;   /* actor2 in func_80170BB0 */
+} S_80170BB0_4;   /* actor2 in create_configured_effect_actor */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value(void);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80170DA8[16];
 extern u8 D_801714D4[16];
 extern u8 D_801740E0[16];
 extern u8 D_80174158[16];
 
-void *func_80170BB0(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
+void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
 {
     s32 kind;
     s32 flags14;
@@ -102,12 +102,12 @@ void *func_80170BB0(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
             flags1c = actor->unk_1C | 0x2000;
             actor->unk_14 = flags14;
             actor->unk_1C = flags1c;
-        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (func_800A6D30() & 1)) {
-            func_800A48F0(actor, 1, (func_800A6D30() & 0x3F) | 0x20);
+        } else if (((mask & ~3) << 16) == 0 && !(actor->unk_14 & 0x200) && (generate_random_value() & 1)) {
+            set_or_clear_actor_status_slot(actor, 1, (generate_random_value() & 0x3F) | 0x20);
             part_b->unk_2C = D_80174158;
         }
 
-        func_800A9C18(object, part_a, part_b, mask);
+        initialize_actor_sprite_and_animation(object, part_a, part_b, mask);
         actor2->unk_9A = 0xFF;
         actor2->unk_9C = -1;
         actor2->unk_8C = D_801714D4;
@@ -115,7 +115,7 @@ void *func_80170BB0(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
         actor2->unk_92 = -0x20;
         part_b->unk_10 = 0x20;
         part_b->unk_14 |= 0xC;
-        func_800AA36C(actor2, part_a, part_b, actor);
+        try_move_actor_to_valid_position(actor2, part_a, part_b, actor);
     }
     return actor;
 }

@@ -2,9 +2,9 @@
 
 void func_80173E2C(Resource12CallbackState *state, void *entity, void *position, void *graphic)
 {
-    if (dungeonUpdateThrownActorTravel(state, entity, position, graphic)) {
-        if ((s16)dungeonCheckActorFloorTrap(position, graphic) > 0) {
-            state->callback = func_80170E70;
+    if (update_thrown_actor_travel(state, entity, position, graphic)) {
+        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
+            state->callback = update_actor_state_and_select_target;
         }
     }
 }

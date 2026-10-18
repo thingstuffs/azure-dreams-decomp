@@ -1,7 +1,7 @@
 /* Relink of matched dungeon/func_80A9E9D0; every changed retail word is a paired relocation. */
-#define dungeonCreateTintedRotatedSprite func_8015C1D0
+#define create_tinted_rotated_sprite func_8015C1D0
 #define D_80174D08 D_8015CD08
-#define dungeonAdvanceObjectAngleAndHeight D_8015C180
+#define advance_object_angle_and_height D_8015C180
 #include "modules/dungeon_resource08_slot0.h"
 extern s32 rand(void);
 
@@ -14,7 +14,7 @@ void func_8015C1D0(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unus
 
     node = func_8003FC64(0x212);
     if (node != NULL) {
-        ((R08_801741D0_S_801741D0_0 *)node)->unk_10 = ((u8 *)dungeonAdvanceObjectAngleAndHeight);
+        ((R08_801741D0_S_801741D0_0 *)node)->unk_10 = ((u8 *)advance_object_angle_and_height);
         func_8004491C(node, func_80045340);
 
         sprite = ((R08_801741D0_S_801741D0_0 *)node)->unk_0C;

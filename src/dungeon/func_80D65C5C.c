@@ -10,19 +10,19 @@ typedef struct S_80D65C5C_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80D65C5C_0;   /* node in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_0;   /* node in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80D65C5C_1;   /* arg0 in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_1;   /* arg0 in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s16 unk_0C;
     s16 unk_0E;
-} S_80D65C5C_2;   /* sprite in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_2;   /* sprite in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_3 {
     u8 pad_00[0xC];
@@ -36,7 +36,7 @@ typedef struct S_80D65C5C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_80D65C5C_3;   /* part in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_3;   /* part in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_4 {
     u8 pad_00[0x2];
@@ -48,7 +48,7 @@ typedef struct S_80D65C5C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80D65C5C_4;   /* ((S_80D65C5C_0 *)node)->unk_08 in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_4;   /* ((S_80D65C5C_0 *)node)->unk_08 in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_5 {
     u8 pad_00[0x2];
@@ -57,12 +57,12 @@ typedef struct S_80D65C5C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D65C5C_5;   /* ((S_80D65C5C_1 *)arg0)->unk_08 in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_5;   /* ((S_80D65C5C_1 *)arg0)->unk_08 in spawn_directional_random_velocity_effect */
 
 typedef struct S_80D65C5C_6 {
     u8 pad_00[0x6];
     s16 unk_06;
-} S_80D65C5C_6;   /* ((S_80D65C5C_0 *)node)->unk_0C in dungeonSpawnDirectionalRandomVelocityEffect */
+} S_80D65C5C_6;   /* ((S_80D65C5C_0 *)node)->unk_0C in spawn_directional_random_velocity_effect */
 
 
 extern s32 rand(void);
@@ -74,7 +74,7 @@ extern s16 D_800E2468[];
 extern u8 D_80171384[];
 
 /* Spawns a directional sprite effect near the source with randomized velocity. */
-void dungeonSpawnDirectionalRandomVelocityEffect(S_80D65C5C_1 *source, s32 angle)
+void spawn_directional_random_velocity_effect(S_80D65C5C_1 *source, s32 angle)
 {
     void *node;
     S_80D65C5C_2 *sprite;

@@ -21,14 +21,14 @@ typedef struct S_800D3F74_0 {
     s8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_800D3F74_0;   /* result in dungeonCreateActorWithTileFlags */
+} S_800D3F74_0;   /* result in create_actor_with_tile_flags */
 
 typedef struct S_800D3F74_1 {
     u8 pad_00[0x8];
     s8 * unk_08;
     s8 * unk_0C;
     void * unk_10;
-} S_800D3F74_1;   /* object in dungeonCreateActorWithTileFlags */
+} S_800D3F74_1;   /* object in create_actor_with_tile_flags */
 
 typedef struct S_800D3F74_2 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800D3F74_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D3F74_2;   /* part0 in dungeonCreateActorWithTileFlags */
+} S_800D3F74_2;   /* part0 in create_actor_with_tile_flags */
 
 typedef struct S_800D3F74_3 {
     u8 pad_00[0xC];
@@ -52,25 +52,25 @@ typedef struct S_800D3F74_3 {
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800D3F74_3;   /* part1 in dungeonCreateActorWithTileFlags */
+} S_800D3F74_3;   /* part1 in create_actor_with_tile_flags */
 
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_8003DB94();
-extern s8 func_8009FB34();
-extern void dungeonSetRecordIntegerTileCenter();
-extern s16 func_800BCB04();
-extern void dungeonClearEntryFlagAndLinkOwner();
-extern void func_8009A21C();
+extern s8 find_active_rect_containing_point();
+extern void set_record_integer_tile_center();
+extern s16 sample_terrain_surface_height();
+extern void clear_entry_flag_and_link_owner();
+extern void cycle_map_cell_flags();
 
 extern u8 D_800D4158;
 extern u8 D_800D4494;
 extern u8 D_800DEEC0;
 
 /* Creates an object at the given tile and height, initializing its sprite and tile flags. */
-void *dungeonCreateActorWithTileFlags(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
+void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
 {
     s8 *position;
     s8 *entity = NULL;
@@ -108,10 +108,10 @@ void *dungeonCreateActorWithTileFlags(s16 variant, u16 tile_x, u16 tile_y, s16 s
         ((S_800D3F74_1 *)object)->unk_10 = &D_800D4158;
         ((S_800D3F74_0 *)entity)->unk_8C = &D_800D4494;
         ((S_800D3F74_3 *)sprite)->unk_26 =
-            func_8009FB34(((S_800D3F74_3 *)sprite)->unk_24, ((S_800D3F74_3 *)sprite)->unk_25);
-        dungeonSetRecordIntegerTileCenter(position, ((S_800D3F74_3 *)sprite)->unk_24,
+            find_active_rect_containing_point(((S_800D3F74_3 *)sprite)->unk_24, ((S_800D3F74_3 *)sprite)->unk_25);
+        set_record_integer_tile_center(position, ((S_800D3F74_3 *)sprite)->unk_24,
                      ((S_800D3F74_3 *)sprite)->unk_25);
-        ground_height = func_800BCB04(((S_800D3F74_2 *)position)->unk_02,
+        ground_height = sample_terrain_surface_height(((S_800D3F74_2 *)position)->unk_02,
                                ((S_800D3F74_2 *)position)->unk_06,
                                ((S_800D3F74_2 *)position)->unk_0A);
         ((S_800D3F74_0 *)entity)->unk_88 = ground_height;
@@ -119,14 +119,14 @@ void *dungeonCreateActorWithTileFlags(s16 variant, u16 tile_x, u16 tile_y, s16 s
         ((S_800D3F74_0 *)entity)->unk_90.at02.v = spawn_height - ground_height;
         ((S_800D3F74_3 *)sprite)->unk_0C.at00u.v = 0x2C808080;
         ((S_800D3F74_3 *)sprite)->unk_14 |= 0x8000;
-        dungeonClearEntryFlagAndLinkOwner(object);
+        clear_entry_flag_and_link_owner(object);
         sprite_tile_x = ((S_800D3F74_3 *)sprite)->unk_24;
         sprite_tile_y = ((S_800D3F74_3 *)sprite)->unk_25;
         tile_flags = 0x3000;
         if (((S_800D3F74_0 *)entity)->unk_1C & 0x2000) {
             tile_flags = 0x300;
         }
-        func_8009A21C(sprite_tile_x, sprite_tile_y, tile_flags);
+        cycle_map_cell_flags(sprite_tile_x, sprite_tile_y, tile_flags);
         ((S_800D3F74_0 *)entity)->unk_9A = 0xE;
         ((S_800D3F74_0 *)entity)->unk_9C = -1;
         ((S_800D3F74_0 *)entity)->unk_1C |= 0x40000200;

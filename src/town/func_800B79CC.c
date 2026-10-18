@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set two entry bytes to complementary values derived from the amount. */
-void *townSetComplementaryEntryBytes(void *entry, s16 amount) {
+void *set_complementary_entry_bytes(void *entry, s16 amount) {
     u8 *base = entry;
     s32 remaining;
     s32 hidden_v1;

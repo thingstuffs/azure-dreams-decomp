@@ -13,7 +13,7 @@ typedef struct S_800B8170_0 {
 } S_800B8170_0;
 
 /* Allocate an object, set its data pointer, and clear its two halfword fields. */
-void townCreateBuildingResourceObject(void) {
+void create_building_resource_object(void) {
     S_800B8170_0 *object;
 
     object = func_8003FC64(0);

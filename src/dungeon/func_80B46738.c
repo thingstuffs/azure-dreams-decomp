@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonDimEffectAfterDelay(void *effect) {
+void dim_effect_after_delay(void *effect) {
     s16 state;
     u16 timer;
 
@@ -17,7 +17,7 @@ void dungeonDimEffectAfterDelay(void *effect) {
 
     case 1:
         if (*(u8 *)((u8 *)effect + 8) < 0x11) {
-            ObjectFlagBlock *flags = &objectFlagBlock;
+            ObjectFlagBlock *flags = &object_flag_block;
 
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
             flags->flags |= 0x8000;

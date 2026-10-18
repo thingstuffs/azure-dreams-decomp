@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 func_800AC82C(void *, void *, void *, void *);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
+extern s32 check_actor_floor_trap(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
 extern u8 D_80152F20[];
@@ -13,14 +13,14 @@ extern u8 D_80158328[];
 extern u8 D_80158360[];
 
 /* Updates the owner's animation or selects a sprite frame for the actor's direction. */
-void dungeonUpdateOwnerAnimationOrDirectionFrame(void *owner_arg, void *context, void *sprite_arg, void *actor_arg) {
+void update_owner_animation_or_direction_frame(void *owner_arg, void *context, void *sprite_arg, void *actor_arg) {
     void *owner = owner_arg;
     void *sprite = sprite_arg;
     void *actor = actor_arg;
     void *frame_set;
 
-    if (func_800AC82C(owner_arg, context, sprite_arg, actor_arg) != 0) {
-        if ((dungeonCheckActorFloorTrap(sprite, actor) << 0x10) > 0) {
+    if (update_actor_transform_from_parent(owner_arg, context, sprite_arg, actor_arg) != 0) {
+        if ((check_actor_floor_trap(sprite, actor) << 0x10) > 0) {
             if (*(u8 *)((u8 *)owner + 0xA7) != 0) {
                 *(void **)((u8 *)owner + 0x8C) = D_80155B98;
             } else {
@@ -36,14 +36,14 @@ void dungeonUpdateOwnerAnimationOrDirectionFrame(void *owner_arg, void *context,
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_801582C8;
-        func_80047784(sprite, D_801582C8[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+        func_80047784(sprite, D_801582C8[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (frame_set == D_80158360) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)sprite + 0x2C) = D_80158328;
-        func_80047784(sprite, D_80158328[((gameWork.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
+        func_80047784(sprite, D_80158328[((g_game_work.view.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {
         return;

@@ -29,7 +29,7 @@ extern void func_80700D24(void);
 
 
 /* Devkit list redraw: raise the busy flag, rebuild the list and re-key every row. */
-void func_80700D48(void) {
+void redraw_devkit_list_and_rekey_rows(void) {
     u8 *row_cursor;
     u8 *row_base;
 

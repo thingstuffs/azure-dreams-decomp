@@ -52,13 +52,13 @@ extern s32 D_800933FC;
 extern s32 D_80093638;
 extern s32 D_800AA5F8;
 
-extern void townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(void *, void *);
-extern void townCallTheSameContextBothProcessingRoutines(void *, void *);
-extern void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(void *, void *);
+extern void get_smaller_query_result_capped_hex_80_writes_associated_output(void *, void *);
+extern void call_the_same_context_both_processing_routines(void *, void *);
+extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern s32 func_800352FC();
-extern s32 townCheckObjectTypeAndDataTag(void *);
+extern s32 check_object_type_and_data_tag(void *);
 extern void func_8009C340(void *, void *, void *, s32);
-extern void townRetrySoundSequenceWhenReady(void);
+extern void retry_sound_sequence_when_ready(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */
 void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
@@ -74,9 +74,9 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
     adjusted_pos->y.v = D_80083780.y.v;
     adjusted_pos->z.v = D_80083780.z.v + offset[2];
 
-    townGetSmallerQueryResultCappedHex80WritesAssociatedOutput(adjusted_pos, ((u8 *)&D_800FE488));
-    townCallTheSameContextBothProcessingRoutines(owner, adjusted_pos);
-    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(owner, adjusted_pos);
+    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, ((u8 *)&D_800FE488));
+    call_the_same_context_both_processing_routines(owner, adjusted_pos);
+    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(owner, adjusted_pos);
 
     target_z = D_80083780.z.v + offset[2];
     if (target_z - adjusted_pos->z.v >= 0x10) {
@@ -127,7 +127,7 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
             dispatched = 0;
         }
     }
-    if (dispatched != 0 && townCheckObjectTypeAndDataTag((u8 *)context + 0x4C) != 0) {
-        townRetrySoundSequenceWhenReady();
+    if (dispatched != 0 && check_object_type_and_data_tag((u8 *)context + 0x4C) != 0) {
+        retry_sound_sequence_when_ready();
     }
 }

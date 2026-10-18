@@ -23,6 +23,6 @@ void func_800A6194(void *ramp) {
     if (!(current_flags & 0x01000000)) {
         D_800E296C = current_flags & 0xFDFFFFFF;
         *(s16 *)((s8 *)ramp - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

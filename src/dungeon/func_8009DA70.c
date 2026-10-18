@@ -41,8 +41,8 @@ void func_800A31D0(Entity *owner_entity) {
                     do {
                         if ((node->kind == 0x1E) &&
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
-                            incremented_count = (u16)dungeonStatus.unk_0A + 1;
-                            dungeonStatus.unk_0A = incremented_count;
+                            incremented_count = (u16)g_dungeon_status.unk_0A + 1;
+                            g_dungeon_status.unk_0A = incremented_count;
                             marked_count = D_800DCE68[0];
                             node_status = node->status;
                             node->field6E = 0;

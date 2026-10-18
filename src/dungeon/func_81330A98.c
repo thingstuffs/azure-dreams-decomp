@@ -50,7 +50,7 @@ typedef struct S_80167A98_2 {
 
 
 /* Creates a visual object with a source-indexed position offset and appearance. */
-void dungeonCreateRibbonHeadSprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
+void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
     S_80167A98_2 *position;
     S_80167A98_1 *render_state;
     S_80167A98_0 *object;

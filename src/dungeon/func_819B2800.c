@@ -9,10 +9,10 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 resolveRecordOrientationOrFallback();     /* extern */
-void func_8009CE1C(); /* extern */
-void *dungeonFindEligibleNearbyEntry();           /* extern */
-s32 func_800A56E0();                     /* extern */
+s32 resolve_record_orientation_or_fallback();     /* extern */
+void apply_attack_power_and_element_effects(); /* extern */
+void *find_eligible_nearby_entry();           /* extern */
+s32 play_sound_if_enabled();                     /* extern */
 
 typedef struct S_func_819B2800_0 {
     void *unk_00;
@@ -92,15 +92,15 @@ typedef struct S_func_819B2800_8 {
     u16 unk_00;
 } S_func_819B2800_8;
 
-void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position);
+void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_1 *position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The phase table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The phase table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = func_8002401C;
+void (*const dungeon_19d2800_entry)(S_func_819B2800_0 *, S_func_819B2800_1 *) = update_directional_actor_effect;
 
 /* Advances a timed effect, spawns its visuals, and applies it to nearby targets. */
-void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
+void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
     s16 offset[3];
     u16 next_phase;
     u16 timer;
@@ -142,14 +142,14 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
         if (object_data != NULL) {
             model = location->unk_0C;
-            if (resolveRecordOrientationOrFallback(model->unk_08, model, offset, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(model->unk_08, model, offset, 0) == 0) {
                 offset[2] = 0;
                 offset[1] = 0;
                 offset[0] = 0;
             }
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = dungeonUpdateAnimatedTargetEffect;
-            func_8004491C(object_data, dungeonDrawLinkedSpriteEffectQuads);
+            object_data->unk_10 = update_animated_target_effect;
+            func_8004491C(object_data, draw_linked_sprite_effect_quads);
             pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
             position->unk_00 = pos_x;
             visual->unk_1C = pos_x;
@@ -174,7 +174,7 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         } else {
             effect_code = 0x4300;
         }
-        func_800A56E0(effect_code);
+        play_sound_if_enabled(effect_code);
         next_phase = effect->unk_0A.unk_A;
         phase_or_delay = 0xD;
         effect->unk_50 = phase_or_delay;
@@ -192,13 +192,13 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
         data_bytes = (u8 *) object_data;
         if (object_data != NULL) {
             visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-            object_data->unk_10 = func_80024B48;
-            func_8004491C(data_bytes, dungeonDrawFadingRadialEffectGrid);
+            object_data->unk_10 = update_actor_movement_animation_collision;
+            func_8004491C(data_bytes, draw_fading_radial_effect_grid);
             data_bytes = ((u8 *)(&D_80082E80));
             direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
             offset[0] = direction;
-            visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_24 + dirStepX[direction]);
-            visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_25 + dirStepY[offset[0]]);
+            visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_24 + dir_step_x[direction]);
+            visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_25 + dir_step_y[offset[0]]);
             visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
             object_data->unk_20 = effect;
         }
@@ -215,10 +215,10 @@ void func_8002401C(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
             if (target != 0) {
                 location = (S_func_819B2800_3 *) ((u8 *)(&D_80082E80));
 next_target:
-                target = dungeonFindEligibleNearbyEntry(location->unk_24, location->unk_25, position, (void *) target);
+                target = find_eligible_nearby_entry(location->unk_24, location->unk_25, position, (void *) target);
                 if (target != 0) {
                     if (!(((S_func_819B2800_5 *) target)->unk_1C & 0x2000)) {
-                        func_8009CE1C((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A,
+                        apply_attack_power_and_element_effects((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A,
                             object_data, 2);
                     }
                     goto next_target;
@@ -234,11 +234,11 @@ next_target:
             effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
             return;
         }
-        dungeonStatus.unk_0C = 0;
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0C = 0;
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 }

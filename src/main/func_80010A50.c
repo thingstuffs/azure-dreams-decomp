@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Set the object's value, preserve its previous value, and reset its state. */
-void cardBootBeginSelectedValueTransition(s32 object_addr, s32 value) {
+void card_boot_begin_selected_value_transition(s32 object_addr, s32 value) {
     s32 *state_fields;
     s32 previous_value;
 

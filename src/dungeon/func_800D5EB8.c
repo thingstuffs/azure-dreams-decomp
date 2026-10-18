@@ -3,7 +3,7 @@
 
 
 /* Subtracts the limit when available, otherwise marks the record and global flags. */
-void dungeonSubtractLimitOrFlagRecord(void *record) {
+void subtract_limit_or_flag_record(void *record) {
     s32 current = *(s32 *)((s8 *)record + 0x18);
     s32 limit = *(s32 *)((s8 *)record + 0x1C);
 
@@ -12,5 +12,5 @@ void dungeonSubtractLimitOrFlagRecord(void *record) {
         return;
     }
     *(u16 *)((s8 *)record - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

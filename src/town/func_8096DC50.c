@@ -6,21 +6,21 @@ typedef struct S_801260E8_1 {
     s32 unk_00;
     u8 pad_04[0x6C];
     void * unk_70;
-} S_801260E8_1;   /* clear_target in townAnimateCatalogPreviousDetail */
+} S_801260E8_1;   /* clear_target in animate_catalog_previous_detail */
 
 typedef struct S_801260E8_2 {
     s32 unk_00;
-} S_801260E8_2;   /* destination in townAnimateCatalogPreviousDetail */
+} S_801260E8_2;   /* destination in animate_catalog_previous_detail */
 
 typedef struct S_801260E8_3 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801260E8_3;   /* *objects_a1 in townAnimateCatalogPreviousDetail */
+} S_801260E8_3;   /* *objects_a1 in animate_catalog_previous_detail */
 
 typedef struct S_801260E8_4 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_801260E8_4;   /* object_data in townAnimateCatalogPreviousDetail */
+} S_801260E8_4;   /* object_data in animate_catalog_previous_detail */
 
 
 typedef struct TownInitialPosition {
@@ -29,18 +29,18 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void func_801235EC(void);
-extern void func_80123700(void);
-extern void func_801237E8(u8 *state);
-extern void func_80123898(void *);
-extern void func_801238E4(void *);
-extern void townRefreshCatalogSecondaryDetail(void *);
-extern void townRefreshCatalogPrimaryDetail(void *);
+extern void store_cached_value_at_pointer(void);
+extern void initialize_linked_value_records(void);
+extern void swap_paired_entry_values_and_node_halfwords(u8 *state);
+extern void backup_and_clear_linked_values(void *);
+extern void restore_linked_values_from_backup(void *);
+extern void refresh_catalog_secondary_detail(void *);
+extern void refresh_catalog_primary_detail(void *);
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
 /* Initializes, updates, or clears town objects according to the current action. */
-void townAnimateCatalogPreviousDetail(Rec_func_801237A4_arg0 *context)
+void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
 {
     s32 action_index;
     s32 object_index;
@@ -62,12 +62,12 @@ void townAnimateCatalogPreviousDetail(Rec_func_801237A4_arg0 *context)
         clear_target = clear_target->unk_70;
         clear_target->unk_00 = 0;
     }
-        func_80123700();
-        townRefreshCatalogSecondaryDetail(context);
-        func_801235EC();
-        townRefreshCatalogPrimaryDetail(context);
-        func_801237E8(context);
-        func_80123898(context);
+        initialize_linked_value_records();
+        refresh_catalog_secondary_detail(context);
+        store_cached_value_at_pointer();
+        refresh_catalog_primary_detail(context);
+        swap_paired_entry_values_and_node_halfwords(context);
+        backup_and_clear_linked_values(context);
         {
             s32 clear_index;
             u8 *clear_base;
@@ -108,7 +108,7 @@ void townAnimateCatalogPreviousDetail(Rec_func_801237A4_arg0 *context)
         } while (object_index < 28);
         return;
     case 11:
-        func_801238E4(context);
+        restore_linked_values_from_backup(context);
     case 12:
     case 13:
     case 14:
@@ -121,7 +121,7 @@ void townAnimateCatalogPreviousDetail(Rec_func_801237A4_arg0 *context)
         } while (object_index < 28);
         break;
     case 16:
-        func_801237E8(context);
+        swap_paired_entry_values_and_node_halfwords(context);
         {
             s32 clear_index;
             u8 *clear_base;

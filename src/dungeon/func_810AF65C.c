@@ -42,12 +42,12 @@ typedef struct {
 extern u8 D_80173C94[];
 extern u8 D_80170E54[];
 
-extern void dungeonSetRecordIntegerTileCenter(S810AF65C_1 *, u8, u8);
-extern void dungeonBeginActorDisplayAction(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
-extern void dungeonApplyClampedActorValueDelta(S810AF65C_3 *);
+extern void set_record_integer_tile_center(S810AF65C_1 *, u8, u8);
+extern void begin_actor_display_action(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
+extern void apply_clamped_actor_value_delta(S810AF65C_3 *);
 
 /* Updates directional movement, then returns the actor to its tile position. */
-void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 *motion,
+void update_directional_motion_and_return_to_tile(S810AF65C_0 *animation, S810AF65C_1 *motion,
                    S810AF65C_2 *tile, S810AF65C_3 *actor) {
     s32 timer;
     s32 direction;
@@ -65,7 +65,7 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
 
     switch (state) {
     case 0:
-        dungeonApplyClampedActorValueDelta(actor);
+        apply_clamped_actor_value_delta(actor);
         animation->field_96 = 2;
         animation->field_9b = animation->field_9b + 1;
         if (actor->field_28 == 0) {
@@ -73,7 +73,7 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
             motion->field_10 = 0;
             motion->field_0c = 0;
             animation->field_96 = 0;
-            dungeonBeginActorDisplayAction(animation, motion, tile, D_80173C94);
+            begin_actor_display_action(animation, motion, tile, D_80173C94);
             return;
         }
         if ((tile->field_14 & 0x8000) != 0) {
@@ -85,8 +85,8 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
         if ((s16)animation->field_96 > 0) {
             return;
         }
-        motion->field_0c = (s16)dirStepX[direction] << 18;
-        motion->field_10 = (s16)dirStepY[direction] << 18;
+        motion->field_0c = (s16)dir_step_x[direction] << 18;
+        motion->field_10 = (s16)dir_step_y[direction] << 18;
         move_ticks = 5;
         if ((actor->field_1c & 0x228) != 0) {
             move_ticks = 8;
@@ -104,8 +104,8 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
         animation->field_9b = animation->field_9b + 1;
         break;
     case 2:
-        motion->field_0c = motion->field_0c - ((s16)dirStepX[direction] << 15);
-        motion->field_10 = motion->field_10 - ((s16)dirStepY[direction] << 15);
+        motion->field_0c = motion->field_0c - ((s16)dir_step_x[direction] << 15);
+        motion->field_10 = motion->field_10 - ((s16)dir_step_y[direction] << 15);
         if ((s16)animation->field_96 != 0) {
             return;
         }
@@ -113,7 +113,7 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
             motion->field_14 = 0;
             motion->field_10 = 0;
             motion->field_0c = 0;
-            dungeonBeginActorDisplayAction(animation, motion, tile, D_80173C94);
+            begin_actor_display_action(animation, motion, tile, D_80173C94);
             return;
         }
         animation->field_96 = 4;
@@ -139,9 +139,9 @@ void updateDirectionalMotionAndReturnToTile(S810AF65C_0 *animation, S810AF65C_1 
         motion->field_14 = 0;
         motion->field_10 = 0;
         motion->field_0c = 0;
-        dungeonSetRecordIntegerTileCenter(motion, tile->field_24, tile->field_25);
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
-            dungeonStatus.unk_10 = ((s32)dungeonStatus.unk_10) & 0x7fffffff;
+        set_record_integer_tile_center(motion, tile->field_24, tile->field_25);
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)actor - 0x20)) {
+            g_dungeon_status.unk_10 = ((s32)g_dungeon_status.unk_10) & 0x7fffffff;
         }
         animation->field_8c = D_80170E54;
         break;

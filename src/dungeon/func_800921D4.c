@@ -7,19 +7,19 @@
 
 extern void func_8003DB94(void *sprite, void *ptr, s32 value);
 extern void func_80042B68(void *actor, s32 value);
-extern void dungeonResetActorMotionAtSpriteTile(void *state, void *motion, void *sprite, void *actor);
-extern void dungeonHandleActorCommandsAndFacing(void);
-extern void dungeonApplyClampedActorValueDelta(void *actor);
+extern void reset_actor_motion_at_sprite_tile(void *state, void *motion, void *sprite, void *actor);
+extern void handle_actor_commands_and_facing(void);
+extern void apply_clamped_actor_value_delta(void *actor);
 
 extern void *D_800DD274[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
-void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
+void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {
     s32 tracked_addr;
 
     if (state->unk_9B.as_u8 == 0) {
-        dungeonApplyClampedActorValueDelta(actor);
+        apply_clamped_actor_value_delta(actor);
         state->unk_9B.as_u8++;
     }
 
@@ -28,12 +28,12 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
         func_8003DB94(
             sprite,
             D_800DD274[
-                ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        tracked_addr = ((s32)dungeonStatus.unk_10);
+        tracked_addr = ((s32)g_dungeon_status.unk_10);
         if (tracked_addr == (u32)((u8 *)actor - 0x20)) {
-            dungeonStatus.unk_10 = tracked_addr & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_addr & 0x7FFFFFFF;
         }
 
         if (actor->unk_28 == 0) {
@@ -42,11 +42,11 @@ void func_80097934(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, Rec_D_80082
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             func_80042B68(actor, 10);
-            dungeonResetActorMotionAtSpriteTile(state, motion, sprite, actor);
+            reset_actor_motion_at_sprite_tile(state, motion, sprite, actor);
             return;
         }
 
         state->unk_96.as_s16 = 8;
-        state->unk_8C.as_pv = dungeonHandleActorCommandsAndFacing;
+        state->unk_8C.as_pv = handle_actor_commands_and_facing;
     }
 }

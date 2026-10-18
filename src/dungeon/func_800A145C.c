@@ -8,7 +8,7 @@ typedef struct {
 } Record;
 
 /* Adds successive multiples of the step to record values through the terminal record. */
-void func_800A6BBC(Record *record, s16 step)
+void advance_record_values_by_step(Record *record, s16 step)
 {
     u8 *value;
     s32 offset;

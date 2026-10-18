@@ -4,7 +4,7 @@
 
 
 /* Clears a pending flag and returns 5 if it was set, or 0 otherwise. */
-s32 cardBootResetOperationReturnFive(void) {
+s32 card_boot_reset_operation_return_five(void) {
     s32 status;
 
     status = 0;

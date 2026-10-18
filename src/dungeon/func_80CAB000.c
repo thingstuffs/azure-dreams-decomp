@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_ccb000.h"
 
-void dungeonSpawnOverlayAttributeEffectB(CL_CCB000_8017087C_Object *object, s32 field60_value, CL_CCB000_8017087C_CopyFields *source_coords)
+void spawn_overlay_attribute_effect_b(CL_CCB000_8017087C_Object *object, s32 field60_value, CL_CCB000_8017087C_CopyFields *source_coords)
 {
     CL_CCB000_8017087C_Part *part;
     CL_CCB000_8017087C_CopyFields *copy;

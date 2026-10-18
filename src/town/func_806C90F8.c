@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 M2C_UNK func_80016A78();
 M2C_UNK func_80016B20();
-s32 townApplyRecordValueForEitherFlag(s32, M2C_UNK);
+s32 apply_record_value_for_either_flag(s32, M2C_UNK);
 /* Run the optional pre-step when the guard passes, then the main step. */
-void townRunGuardedProcessingStep(s32 target, M2C_UNK param)
+void run_guarded_processing_step(s32 target, M2C_UNK param)
 {
-    if (townApplyRecordValueForEitherFlag(target, param) != 0) {
+    if (apply_record_value_for_either_flag(target, param) != 0) {
         func_80016A78();
     }
     func_80016B20(target, param);

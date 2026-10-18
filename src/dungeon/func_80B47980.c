@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void dungeonCreateOffsetEffect(void *source_arg, void *spawn_pos_arg, void *unused_context)
+void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context)
 {
     void *spawn_pos = spawn_pos_arg;
     u16 render_flags;
@@ -15,7 +15,7 @@ void dungeonCreateOffsetEffect(void *source_arg, void *spawn_pos_arg, void *unus
         ((R12_80175180_S_80175180_0 *)state)->unk_08 = 0x4A;
         ((R12_80175180_S_80175180_0 *)state)->unk_0A = ((R12_80175180_S_80175180_1 *)source_arg)->unk_96;
         ((R12_80175180_S_80175180_0 *)state)->unk_0C = 0;
-        ((R12_80175180_S_80175180_2 *)effect)->unk_10 = ((u8 *)dungeonBuildAnimatedSphericalWireframe);
+        ((R12_80175180_S_80175180_2 *)effect)->unk_10 = ((u8 *)build_animated_spherical_wireframe);
         source_arg = func_80045340;
         func_8004491C(effect, source_arg);
         render_part = ((R12_80175180_S_80175180_2 *)effect)->unk_0C;

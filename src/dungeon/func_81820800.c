@@ -12,7 +12,7 @@ extern int abs(int);
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_1840800_entry)(void *, TrailMotion *, void *) = func_80024020;
 
@@ -50,12 +50,12 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     coord_x = header_raw >> 8;
     dir_offset = coord_x & 0xE;
     actor_data = ((TrailObject *) ((u8 *) actor - 0x20))->unk_0C;
-    step_x = *(s16 *)((u8 *)dirStepX + dir_offset);
-    step_y = *(s16 *)((u8 *)dirStepY + dir_offset);
+    step_x = *(s16 *)((u8 *)dir_step_x + dir_offset);
+    step_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
     if (state_obj->unk_0A == 1) {
         motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
         motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-        coord_x = (s16)func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
+        coord_x = (s16)sample_terrain_surface_height(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
             (s16) (((TrailHeightView *) owner->unk_08)->unk_0A - 0x30));
         if (coord_x < 0x200) {
             motion->unk_0A = coord_x;
@@ -71,11 +71,11 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     {
         TrailSprite *tile_data;
         s32 search_mode;
-        start_y = (s16)dungeonGetDefinitionEntryByte13(3);
+        start_y = (s16)get_definition_entry_byte_13(3);
         search_mode = start_y << 0x10;
         tile_data = actor_data;
         end_x = tile_data->unk_24;
-        header_raw = (u32)dungeonScanMonsterAlongHeading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        header_raw = (u32)scan_monster_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (TrailActor *)header_raw;
     if (((TrailActor *)header_raw) != NULL) {
@@ -96,7 +96,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
             coord_y = tile_top + 0x20;
         }
         effect = (TrailSpawnedObject *)(u32)(u16)coord_x;
-        if ((dungeonCheckEnabledNeighborHeight((u32)effect, (u16)coord_y, (s16)func_800BCB04((u32)effect, (u16)coord_y, -0x400),
+        if ((check_enabled_neighbor_height((u32)effect, (u16)coord_y, (s16)sample_terrain_surface_height((u32)effect, (u16)coord_y, -0x400),
             (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
             break;
         }
@@ -142,7 +142,7 @@ start_motion:
     motion->unk_04.unk_04 = (s32) (((actor_data->unk_25 << 6) + 0x20) << 0x10);
     motion->unk_0C = (s32) ((step_x << 0x16) / 12);
     motion->unk_10 = (s32) ((step_y << 0x16) / 12);
-    func_800A56E0(0x300);
+    play_sound_if_enabled(0x300);
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 
@@ -154,7 +154,7 @@ start_motion:
         coord_y = -1;
     }
     coord_x = 2;
-    distance_or_script = (s32)&dungeonUpdateFlickeringEffectVertices;
+    distance_or_script = (s32)&update_flickering_effect_vertices;
 next_effect:
     effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
     if (effect != NULL) {
@@ -198,7 +198,7 @@ start_hit:
     return;
     case 3:
     if (actor->unk_60 != NULL) {
-        func_8009CE1C(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
+        apply_attack_power_and_element_effects(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
     }
     state_obj->unk_50 = 0x10U;
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
@@ -214,9 +214,9 @@ start_hit:
         state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
         return;
     }
-    dungeonStatus.unk_0C = 0;
+    g_dungeon_status.unk_0C = 0;
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
-    objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+    object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     return;
     }
 }

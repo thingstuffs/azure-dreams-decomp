@@ -8,7 +8,7 @@ typedef struct S_80172438_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172438_1;   /* arg2 in dungeonSearchAheadAndStartAction */
+} S_80172438_1;   /* arg2 in search_ahead_and_start_action */
 
 typedef struct S_80172438_2 {
     u8 pad_00[0x8C];
@@ -18,22 +18,22 @@ typedef struct S_80172438_2 {
     s8 unk_9B;
     u8 pad_9C[0x16];
     u16 unk_B2;
-} S_80172438_2;   /* arg0 in dungeonSearchAheadAndStartAction */
+} S_80172438_2;   /* arg0 in search_ahead_and_start_action */
 
 
-extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s16, s32);
-extern s16 func_800BCB04(u16, u16, s16);
-extern s32 dungeonFindEligibleEntryAtCoordinates(void *, u16, u16);
-extern s32 func_800A2CB8(void *, void *);
-extern s32 func_800A2B5C(void *);
-extern void dungeonApplyCameraOffsetAndSelectTarget(void *, void *, s32, s32);
+extern s32 check_layer_offset_height(s32, s32, s16, s32);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
+extern s32 find_eligible_entry_at_coordinates(void *, u16, u16);
+extern s32 check_entity_interaction_compatibility(void *, void *);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 extern void func_80047784(void *, u8, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern void advance_status_timers(void *);
 
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
-s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
+s32 search_ahead_and_start_action(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     s32 attempt;
     s32 tile_x;
     s32 tile_y;
@@ -48,7 +48,7 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
     s32 target;
 
     actor->unk_71 &= 0x7F;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
@@ -57,7 +57,7 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
     step_offset = direction << 1;
     tile_x = ((S_80172438_1 *)sprite)->unk_24;
     tile_y = ((S_80172438_1 *)sprite)->unk_25;
-    x_step = (s16 *)((u8 *)((s8 *)dirStepX) + step_offset);
+    x_step = (s16 *)((u8 *)((s8 *)dir_step_x) + step_offset);
     ((S_80172438_2 *)action_state)->unk_B2 = 0;
     call_direction = direction;
 
@@ -68,7 +68,7 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
         s32 floor_y;
 
         ((S_80172438_2 *)action_state)->unk_B2++;
-        if ((dungeonCheckLayerOffsetHeight((try_x << 6) & 0xFFC0,
+        if ((check_layer_offset_height((try_x << 6) & 0xFFC0,
                            (try_y << 6) & 0xFFC0,
                            actor->unk_88, call_direction << 9)
              << 16) != 0) {
@@ -76,11 +76,11 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
             return 2;
         }
 
-        floor_y = (s16 *)((s8 *)dirStepY);
+        floor_y = (s16 *)((s8 *)dir_step_y);
         floor_x = (((try_x + *x_step) << 6) + 0x20) & 0xFFE0;
         y_step = (s16 *)(step_offset + (u8 *)floor_y);
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;
-        floor_height = func_800BCB04(floor_x,
+        floor_height = sample_terrain_surface_height(floor_x,
                               floor_y,
                               (s16)(((u16)actor->unk_88) - 0x20));
         if (floor_height >= 0x201) {
@@ -94,7 +94,7 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
 
         next_x = tile_x + *(u16 *)x_step;
         next_y = tile_y + *(u16 *)y_step;
-        target = dungeonFindEligibleEntryAtCoordinates(actor, (u16)next_x, (u16)next_y);
+        target = find_eligible_entry_at_coordinates(actor, (u16)next_x, (u16)next_y);
         actor->target = target;
         if (target != 0) {
             break;
@@ -108,21 +108,21 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
     if (attempt >= 4) {
         return 3;
     }
-    if ((func_800A2CB8(actor, (void *)target) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, (void *)target) << 16) == 0) {
         return 0;
     }
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (dungeonStatus.flags & 8)) {
+    if (!(actor->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
@@ -131,9 +131,9 @@ s32 dungeonSearchAheadAndStartAction(void *action_state, void *action_context, v
     ((S_80172438_2 *)action_state)->unk_9A = 0x17;
     (*(void * *)((u8 *)sprite + 0x2C)) = D_801764A0;
     func_80047784(sprite,
-                  D_801764A0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  D_801764A0[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
-    dungeonAdvanceStatusTimers(actor);
+    advance_status_timers(actor);
     (*(u8 *)&actor->unk_6D)--;
     return 1;
 }

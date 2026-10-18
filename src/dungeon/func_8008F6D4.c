@@ -5,14 +5,14 @@
 typedef struct S_80094E34_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_80094E34_1;   /* object in dungeonClearPlayerLinkedActionFlags */
+} S_80094E34_1;   /* object in clear_player_linked_action_flags */
 
 
 extern s32 D_80081484;
 extern s32 D_800E3540;
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
-void dungeonClearPlayerLinkedActionFlags(void) {
+void clear_player_linked_action_flags(void) {
     EntityRec *root;
     S_80094E34_1 *linkedObject;
     s32 savedGlobalValue;

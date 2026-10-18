@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 
 extern void func_80017B3C(void *, s32);
-extern s32 townInvokeSystemCallback21C(void *, s32, s32);
+extern s32 invoke_system_callback_21_c(void *, s32, s32);
 extern s32 D_80018AF8;
 extern s32 D_80019A30;
 
@@ -16,7 +16,7 @@ s32 *func_804B7B30(s32 value, s32 unused, s32 selector) {
     u32 entry_offset;
 
     func_80017B3C(&D_80018AF8, value);
-    if (selector == 10 && townInvokeSystemCallback21C(&D_80018AF8, value, 10) == 0) {
+    if (selector == 10 && invoke_system_callback_21_c(&D_80018AF8, value, 10) == 0) {
         context = D_80016000;
         count_ptr = (s32 *)((u8 *)context + 8);
         table_ptr = (u8 **)((u8 *)context + 0x40);

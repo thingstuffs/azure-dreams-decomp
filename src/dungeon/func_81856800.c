@@ -180,24 +180,24 @@ typedef union {
 #endif
 
 extern s32 func_80069EF8(void);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 
-extern void func_8009CE1C(void *, s32, u8, s32, s32, void *, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
 
 extern u8 D_800DEE38[];
 extern u8 D_800DEC50[];
 extern u8 D_800DEC70[];
 
-extern void dungeonFadePackedObjectColorToZero(void *);
-extern void dungeonAnimateJitteringFivePointEffect();
+extern void fade_packed_object_color_to_zero(void *);
+extern void animate_jittering_five_point_effect();
 
 void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg);
 
 /* Native module entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_1876800_entry)(S_func_81856800_1 *, S_func_81856800_2 *) = func_80024020;
 
@@ -257,7 +257,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
                     particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
                     part = effect->unk_0C;
                     {
-                        void *effect_type = dungeonAdvanceMotionAndFadeSprite;
+                        void *effect_type = advance_motion_and_fade_sprite;
 
                         effect->unk_10 = effect_type;
                     }
@@ -344,7 +344,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
             object->unk_73.u8_73 = ((S_func_81856800_5 *)part)->unk_25;
         }
         model = object_base->unk_0C;
-        if (resolveRecordOrientationOrFallback(model->unk_08, model, coord_offset, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(model->unk_08, model, coord_offset, 0) == 0) {
             coord_offset[2] = 0;
             coord_offset[1] = 0;
             coord_offset[0] = 0;
@@ -390,10 +390,10 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
             motion_arg->unk_10.s32_10 = quotient;
         }
         height_limit = (s16)(((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A - 48);
-        target_height = func_800BCB04(motion_arg->unk_00.u16_02.unk_02, motion_arg->unk_04.u16_06.unk_06, height_limit);
+        target_height = sample_terrain_surface_height(motion_arg->unk_00.u16_02.unk_02, motion_arg->unk_04.u16_06.unk_06, height_limit);
         motion_arg->unk_14.s16_16.unk_16 = target_height - motion_arg->unk_08.u16_0A.unk_0A;
         motion_arg->unk_14.s32_14 /= action->unk_50.s16_50;
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         next_state = action->unk_0A.u16_0A;
         next_state++;
         action->unk_0A.u16_0A = next_state;
@@ -432,7 +432,7 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
         }
         index = 8;
         page_or_magic = (s32)0x80080000;
-        spawn_type = dungeonAnimateJitteringFivePointEffect;
+        spawn_type = animate_jittering_five_point_effect;
 
 case2_spawn_loop:
         effect = func_8003FD64(0x201, (void *)(page_or_magic + 0x3498));
@@ -472,8 +472,8 @@ case2_spawn_loop:
             effect = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
             if (effect != 0) {
                 part = (S_func_81856800_6 *)((u8 *)effect + 32);
-                effect->unk_10 = dungeonFadePackedObjectColorToZero;
-                func_8004491C(effect, dungeonProjectLinkedShapeQuads);
+                effect->unk_10 = fade_packed_object_color_to_zero;
+                func_8004491C(effect, project_linked_shape_quads);
                 part->unk_04.u16_04 =
                     motion_arg->unk_00.u16_02.unk_02 + (func_80069EF8() & 0x3F) - 32;
                 part->unk_06 =
@@ -558,7 +558,7 @@ case2_spawn_loop:
             return;
         }
         if (object->unk_60 != 0) {
-            func_8009CE1C(object->unk_60, 10,
+            apply_attack_power_and_element_effects(object->unk_60, 10,
                           action->unk_09, 4,
                           object->unk_2A, object, 2);
         }
@@ -580,7 +580,7 @@ case2_spawn_loop:
         if (effect != 0) {
             particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
             part = effect->unk_0C;
-            effect->unk_10 = dungeonAdvanceMotionAndFadeSprite;
+            effect->unk_10 = advance_motion_and_fade_sprite;
             ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
                 motion_arg->unk_00.s32_00 +
                 (((func_80069EF8() & 0x1FF) - 255) << 13);
@@ -631,9 +631,9 @@ case2_spawn_loop:
             action->unk_52.u16_52 &= 0x7FFF;
             return;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         ((S_func_81856800_9 *)((u8 *)action - 2))->unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     }
 }

@@ -9,18 +9,18 @@ typedef struct S_800C7E70_0 {
     u16 unk_6E;
     u8 pad_70[0x2];
     u16 unk_72;
-} S_800C7E70_0;   /* arg0 in townDecrementMotherEventTimerAndRestore */
+} S_800C7E70_0;   /* arg0 in decrement_mother_event_timer_and_restore */
 
 
-void townApplyObjectSetupAndUpdate(S_800C7E70_0 *, M2C_UNK, M2C_UNK);
-/* Decrement the countdown, then restore unk_72 from unk_6E and call townApplyObjectSetupAndUpdate when it expires. */
-void townDecrementMotherEventTimerAndRestore(S_800C7E70_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+void apply_object_setup_and_update(S_800C7E70_0 *, M2C_UNK, M2C_UNK);
+/* Decrement the countdown, then restore unk_72 from unk_6E and call apply_object_setup_and_update when it expires. */
+void decrement_mother_event_timer_and_restore(S_800C7E70_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
     u16 countdown;
 
     countdown = object->unk_6C - 1;
     object->unk_6C = countdown;
     if ((countdown << 0x10) <= 0) {
         object->unk_72 = (u16) object->unk_6E;
-        townApplyObjectSetupAndUpdate(object, callback_arg_1, callback_arg_2);
+        apply_object_setup_and_update(object, callback_arg_1, callback_arg_2);
     }
 }

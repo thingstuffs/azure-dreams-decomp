@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Struct shared with tableCountConsecutivePointerEntriesWhoseTargetByteMatchesFirstTargetByte sibling: byte field unk0 (index) and
+/* Struct shared with table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte sibling: byte field unk0 (index) and
  * unk1 (match key). */
 typedef struct {
     u8 unk0;
@@ -8,7 +8,7 @@ typedef struct {
 } S_8004AFE8;
 
 /* Mark unmarked slots with the one-based positions of matching entries in a NULL-terminated list. */
-void stampFirstMatchingEntryRanks(u8 *marks, S_8004AFE8 **entries, s32 match_key)
+void stamp_first_matching_entry_ranks(u8 *marks, S_8004AFE8 **entries, s32 match_key)
 {
     s32 entry_index;
     S_8004AFE8 *entry;

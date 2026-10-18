@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80FB4E68; every changed retail word is a paired relocation. */
-#define dungeonSpawnRotateAndRestoreActorState func_8015C668
+#define spawn_rotate_and_restore_actor_state func_8015C668
 #define D_8017086C D_8015886C
 #define D_80170874 D_80158874
 #define D_80170F6C D_80158F6C
@@ -142,18 +142,18 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 func_80099734(void *record, u8 *out);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void func_800A5720(s8 *text);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void func_800B8FC8(void *, void *, void *, s32, s32);
-extern s32 func_800BCB04(u16, u16, s16);
-extern void dungeonTryApplyConfusionStatus(void *, s32, s32);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void reduce_actor_food_meter(void *, s32);
+extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
+extern s32 sample_terrain_surface_height(u16, u16, s16);
+extern void try_apply_confusion_status(void *, s32, s32);
 
 extern u8 D_800DEC50[];
 extern u32 D_800E3DE8[];
@@ -188,13 +188,13 @@ void func_8015C668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
     state = effect->unk_9B;
     switch (state) {
     case 0:
-        spawned_object = dungeonScanMonsterAlongHeading(actor, sprite->unk_24,
+        spawned_object = scan_monster_along_heading(actor, sprite->unk_24,
             sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
         ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
         direction_table = D_8015D258;
         sprite->unk_2C = direction_table;
         func_80047784(sprite,
-            direction_table[((gameWork.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            direction_table[((g_game_work.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
             effect->unk_9B = 2;
@@ -209,20 +209,20 @@ void func_8015C668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
             return;
         }
 
-        result = func_80099734(actor, context = func_800990FC());
+        result = append_entity_display_text(actor, context = get_unused_text_buffer());
         previous_context = context;
         context = result;
-        result = func_80099194(D_80158874, context);
+        result = expand_text_control_codes(D_80158874, context);
         func_80099290(result);
-        func_800A5720(previous_context);
-        func_800A56E0(0x60A);
+        display_text_with_fullwidth_adjustment(previous_context);
+        play_sound_if_enabled(0x60A);
 
         tile = ((S_80174668_11_pre *)(((S_80174668_2 *)actor)->unk_60.u))[-1].unk_00;
         ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
         ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
         center.x = spawn.x + (spawn.dx >> 1);
         center.y = spawn.y + (spawn.dy >> 1);
-        func_800B8FC8(effect, &spawn, &center, 1, 0);
+        draw_transformed_sprite_with_clip_rect(effect, &spawn, &center, 1, 0);
 
         effect_alloc = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (effect_alloc == 0) {
@@ -272,7 +272,7 @@ void func_8015C668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
                         (tile_y << 6) + (random % 64);
                 }
                 particle_pos = ((S_80174668_5 *)effect_alloc)->unk_08;
-                height = func_800BCB04(((S_80174668_8 *)particle_pos)->unk_02,
+                height = sample_terrain_surface_height(((S_80174668_8 *)particle_pos)->unk_02,
                     ((S_80174668_8 *)particle_pos)->unk_06, -0x400);
                 {
                     s32 height_random = rand();
@@ -310,13 +310,13 @@ void func_8015C668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
         }
         ((S_80174668_2 *)actor)->unk_73.s = 0;
         ((S_80174668_2 *)actor)->unk_72.s = 0;
-        dungeonReduceActorFoodMeter(actor, 0x800);
+        reduce_actor_food_meter(actor, 0x800);
         {
             void *actor_to_reset;
             actor_to_reset = actor;
             effect->unk_8C = D_80158F6C;
-            ((S_80174668_10 *)((u8 *)(&dungeonStatus.unk_0C)))->unk_00 = 0;
-            dungeonAdvanceStatusTimers(actor_to_reset);
+            ((S_80174668_10 *)((u8 *)(&g_dungeon_status.unk_0C)))->unk_00 = 0;
+            advance_status_timers(actor_to_reset);
         }
         if (((S_80174668_2 *)actor)->unk_6D == 0) {
             ((S_80174668_2 *)actor)->unk_46 &= 0x7FFF;
@@ -326,7 +326,7 @@ void func_8015C668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
 
         spawned_object = ((S_80174668_2 *)actor)->unk_60.u;
         if (spawned_object != 0) {
-            dungeonTryApplyConfusionStatus(spawned_object, 0x28, 0x10);
+            try_apply_confusion_status(spawned_object, 0x28, 0x10);
         }
 
         return;

@@ -23,7 +23,7 @@ void func_8185CCD4(void *state, void *position, void *sprite)
     S32_AT(sprite, 0xC) = S32_AT(sprite, 0xC) + 0xFFF7F7F8;
 
     angle = U16_AT(state, 0x1C) + U16_AT(state, 0x1E);
-    angle_table = &gameWork;
+    angle_table = &g_game_work;
     U16_AT(state, 0x1C) = angle;
     U16_AT(state, 0x1C) = angle % 0x1000;
     U16_AT(state, 0x20) = U16_AT(state, 0x20) + 4;

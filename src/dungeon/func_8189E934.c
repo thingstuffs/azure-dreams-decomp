@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e765800.h"
 
-s32 dungeonAllocateDisplayObjectAndCopyState(s32 stored_value, void *input, s16 stored_tag) {
+s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag) {
     s32 random_or_w2;
     s32 rounded_random;
     void *object;

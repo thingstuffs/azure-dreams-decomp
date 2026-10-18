@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
+void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
     s32 scale;
     register s32 step;
@@ -18,14 +18,14 @@ void dungeonBuildAndDepthSortsFiveRadialLineSegmentsEffect(void *effect_data, vo
     s32 radial_y;
     s32 ray_index = 0;
     s32 prev_step;
-    render_global = &gameWork;
+    render_global = &g_game_work;
     scale = (s16) scale_factor;
     step = (s16) step_index;
     prev_step = step - 1;
     addr_mask = 0x00FFFFFF;
     angle = 0;
     scratch = (u8 *) 0x1F800000;
-    *((void **) (((u8 *) scratch) + 0x18)) = (*((u8 **) ((u8 *)(&gameWork)))) + 0xB0;
+    *((void **) (((u8 *) scratch) + 0x18)) = (*((u8 **) ((u8 *)(&g_game_work)))) + 0xB0;
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;

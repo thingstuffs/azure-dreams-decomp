@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_809F4F90; every changed retail word is a paired relocation. */
-#define dungeonUpdateStagedActorMovement func_8016C790
+#define update_staged_actor_movement func_8016C790
 #define D_80171400 D_8016B400
 #define D_801743EC D_8016E3EC
 #define D_80175148 D_8016F148
@@ -95,11 +95,11 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -145,12 +145,12 @@ void func_8016C790(void *action, void *motion, void *tile, void *actor)
     u8 *x_step_base;
 
     heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
-    x_step_entry = (u8 *)dirStepX;
+    x_step_entry = (u8 *)dir_step_x;
     heading_byte = (u32)heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
     x_step_base = x_step_entry;
     x_step = *(s16 *)((u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base));
-    y_step = *(s16 *)(direction_offset + (u8 *)dirStepY);
+    y_step = *(s16 *)(direction_offset + (u8 *)dir_step_y);
     ((S_80172790_1 *)action)->unk_96.s--;
 
     if ((u32)(((S_80172790_1 *)action)->unk_9B - 1) < 3U) {
@@ -215,13 +215,13 @@ void func_8016C790(void *action, void *motion, void *tile, void *actor)
         if (flags & 0x8000) {
             ((S_80172790_1 *)action)->unk_9B = 0xFF;
             ((S_80172790_6 *)tile)->unk_14 |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            resolve_attack_damage_and_effects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
             return;
         }
         if (flags & 0xE000) {
             move_frames = D_8016F160;
             (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
-            move_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+            move_angle = g_game_work.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             func_80047784(tile, move_frames[move_direction], 0);
             ((S_80172790_4 *)motion)->unk_0C = (-x_step) << 0x12;
@@ -258,7 +258,7 @@ void func_8016C790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_4 *)motion)->unk_0C = x_step << 0x12;
             ((S_80172790_4 *)motion)->unk_10 = y_step << 0x12;
             ((S_80172790_4 *)motion)->unk_14 = 0x30000;
-            func_800A56E0(0x80E);
+            play_sound_if_enabled(0x80E);
         } else {
             return;
         }
@@ -273,8 +273,8 @@ void func_8016C790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_4 *)motion)->unk_0C = 0;
         }
         if (((S_80172790_1 *)action)->unk_96.u == 1) {
-            dungeonResolveAttackDamageAndEffects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
-            func_800A56E0(0x808);
+            resolve_attack_damage_and_effects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
+            play_sound_if_enabled(0x808);
         }
         if (((S_80172790_1 *)action)->unk_96.u <= 0) {
             ((S_80172790_4 *)motion)->unk_14 = 0xFFF60000;
@@ -307,18 +307,18 @@ void func_8016C790(void *action, void *motion, void *tile, void *actor)
         ((S_80172790_4 *)motion)->unk_10 = 0;
         ((S_80172790_4 *)motion)->unk_0C = 0;
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        set_record_integer_tile_center(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_8016B400;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         ((S_80172790_4 *)motion)->unk_14 = 0;
         ((S_80172790_1 *)action)->unk_98 &= 0xFFF7;
         ((S_80172790_0 *)actor)->unk_1C |= 0x08000000;
         ((S_80172790_1 *)action)->unk_A8 = 7;
         idle_frames = D_8016F148;
         (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
-        idle_angle = gameWork.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
+        idle_angle = g_game_work.view.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         func_80047784(tile, idle_frames[idle_direction], 2);
         if (((S_80172790_0 *)actor)->unk_6D == 0) {

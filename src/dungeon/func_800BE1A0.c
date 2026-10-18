@@ -7,15 +7,15 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-void dungeonBeginDeferredItemAction(); /* extern */
-void dungeonClearPlayerLinkedActionFlags();                            /* extern */
-void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
-void func_800997FC();                   /* extern */
-void dungeonAdjustSourceValueAndFinalize();           /* extern */
-s32 func_800A56E0();                     /* extern */
-void func_800A5F38();                 /* extern */
-void func_800A63B8();            /* extern */
-s32 dungeonApplyActorFoodPreference();            /* extern */
+void begin_deferred_item_action(); /* extern */
+void clear_player_linked_action_flags();                            /* extern */
+void clear_slot_and_update_linked_state();                         /* extern */
+void display_formatted_context_message();                   /* extern */
+void adjust_source_value_and_finalize();           /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+void apply_item_effect_at_entity_position();                 /* extern */
+void display_item_status_message();            /* extern */
+s32 apply_actor_food_preference();            /* extern */
 extern M2C_UNK D_800E17C6;
 extern M2C_UNK D_800E17EF;
 extern M2C_UNK D_800E180E;
@@ -27,7 +27,7 @@ typedef struct S_800C3900_1 {
 } S_800C3900_1;
 
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
-s32 dungeonApplyFamiliarMagicDrainItem(EntityRec *entity, s32 action, s16 action_param) {
+s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_param) {
     void *counter_page;
     DungeonGlobalStatus *counter_base;
     s32 saved_flag;
@@ -36,14 +36,14 @@ s32 dungeonApplyFamiliarMagicDrainItem(EntityRec *entity, s32 action, s16 action
 
     if (entity == ((s32)D_800E3D7C)) {
         entity->unk_110 = action;
-        dungeonBeginDeferredItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {
-        func_800A63B8(entity, action, action_param);
+        display_item_status_message(entity, action, action_param);
         saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
-        if (dungeonApplyActorFoodPreference(entity, (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            func_800A5F38(entity, action);
+        if (apply_actor_food_preference(entity, (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(entity, action);
             return 1;
         }
         flag_test = saved_flag;
@@ -56,25 +56,25 @@ s32 dungeonApplyFamiliarMagicDrainItem(EntityRec *entity, s32 action, s16 action
             flag_test = flags & 0x80000;
             counter_page = (void *)0x80080000;
             if (flag_test != 0) {
-                dungeonClearPlayerLinkedActionFlags();
+                clear_player_linked_action_flags();
                 counter_page = (void *)0x80080000;
             }
-            counter_page = &dungeonStatus.unk_00;
+            counter_page = &g_dungeon_status.unk_00;
             ((S_800C3900_1 *)counter_page)->unk_0A = (u16) (((S_800C3900_1 *)counter_page)->unk_0A + 1);
         }
-        func_800A56E0(0x51E);
+        play_sound_if_enabled(0x51E);
         if (entity->flags14 & 0x4000) {
-            dungeonAdjustSourceValueAndFinalize(entity, &D_800E17C6);
+            adjust_source_value_and_finalize(entity, &D_800E17C6);
         }
-        dungeonClearSlotAndUpdateLinkedState(action);
+        clear_slot_and_update_linked_state(action);
     } else if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {
-        func_800997FC(&D_800E17EF);
-        func_800A56E0(0x506);
+        display_formatted_context_message(&D_800E17EF);
+        play_sound_if_enabled(0x506);
     } else {
-        dungeonClearSlotAndUpdateLinkedState(action);
-        func_800997FC(&D_800E180E);
+        clear_slot_and_update_linked_state(action);
+        display_formatted_context_message(&D_800E180E);
     }
-    counter_base = &dungeonStatus;
+    counter_base = &g_dungeon_status;
     counter_base->unk_0A = (u16) (((u16)counter_base->unk_0A) - 1);
     return 1;
 }

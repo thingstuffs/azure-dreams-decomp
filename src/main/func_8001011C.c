@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-u8 *cardBootCreateOrResetMessageDialog();   /* extern */
+u8 *card_boot_create_or_reset_message_dialog();   /* extern */
 
-/* Passes value to cardBootCreateOrResetMessageDialog with 0x11 and two zero arguments. */
-void cardBootShowOverwriteProtectedNotice(s32 value) {
+/* Passes value to card_boot_create_or_reset_message_dialog with 0x11 and two zero arguments. */
+void card_boot_show_overwrite_protected_notice(s32 value) {
     s32 zero = 0;
-    cardBootCreateOrResetMessageDialog(value, 0x11, zero, zero);
+    card_boot_create_or_reset_message_dialog(value, 0x11, zero, zero);
 }

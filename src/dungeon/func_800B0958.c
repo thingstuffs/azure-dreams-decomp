@@ -21,14 +21,14 @@ typedef struct {
 } D_800E39C8_entry;
 extern D_800E3648_entry D_800E3648[];
 extern u8 D_800DF258[];
-s32 dungeonFindEntryAtTileCoordinates();                   /* extern */
-s32 dungeonFindFirstFreeMapEntry();                                /* extern */
-void dungeonClearSlotAndDetachEntity();                         /* extern */
-extern void func_8009A21C();
+s32 find_entry_at_tile_coordinates();                   /* extern */
+s32 find_first_free_map_entry();                                /* extern */
+void clear_slot_and_detach_entity();                         /* extern */
+extern void cycle_map_cell_flags();
 extern D_800E39C8_entry D_800E39C8[];
 
 /* Selects and initializes an entry at the given position, returning its slot. */
-s32 dungeonSelectAndInitializeEntryAtPosition(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
+s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
     s32 slot;
     s32 slot_sign;
     s32 entry_type;
@@ -36,10 +36,10 @@ s32 dungeonSelectAndInitializeEntryAtPosition(s16 x, s16 y, s16 z, s32 type_id, 
     D_800E3648_entry *entry;
 
     entry_type = type_id;
-    slot = dungeonFindEntryAtTileCoordinates(x, y, z);
+    slot = find_entry_at_tile_coordinates(x, y, z);
     slot_sign = slot << 0x10;
     if (slot_sign < 0) {
-        slot = dungeonFindFirstFreeMapEntry();
+        slot = find_first_free_map_entry();
         slot_sign = slot << 0x10;
         if (slot_sign < 0) {
             slot = 0x1F;
@@ -47,7 +47,7 @@ s32 dungeonSelectAndInitializeEntryAtPosition(s16 x, s16 y, s16 z, s32 type_id, 
     }
     slot = slot << 0x10;
     slot = slot >> 0x10;
-    dungeonClearSlotAndDetachEntity(slot);
+    clear_slot_and_detach_entity(slot);
     entries = D_800E3648;
     entry = &entries[slot];
     entry->field1 = 0x15;
@@ -56,7 +56,7 @@ s32 dungeonSelectAndInitializeEntryAtPosition(s16 x, s16 y, s16 z, s32 type_id, 
     entry->field2 = 0;
     D_800E39C8[slot].field6 = (s8) x;
     D_800E39C8[slot].field7 = (s8) y;
-    func_8009A21C(x, y, 0x20);
+    cycle_map_cell_flags(x, y, 0x20);
     D_800E39C8[slot].field10 = z;
     D_800E39C8[slot].field14 = 0;
     D_800E39C8[slot].fieldC = entry_value;

@@ -4,7 +4,7 @@
 M2C_UNK func_8004E99C();                         /* extern */
 
 /* Processes and clears the values referenced by two consecutive groups of ten slots. */
-void townClearItemMenuEntryGroups(s32 slot_table) {
+void clear_item_menu_entry_groups(s32 slot_table) {
     s32 **first_slot;
     s32 **second_slot;
     s32 first_index;

@@ -43,7 +43,7 @@ extern struct {
 } D_800814A0;
 
 /* Advances motion and byte state, flagging completion near the target or when the timer expires. */
-void func_80170BB0(ObjectState *obj, MotionVector *pos, ByteState *state)
+void create_configured_effect_actor(ObjectState *obj, MotionVector *pos, ByteState *state)
 {
     s32 distance;
     s32 pos_coord;

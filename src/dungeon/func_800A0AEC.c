@@ -26,16 +26,16 @@ extern void func_80066640(void *, s32);
 extern void func_8006658C(void *, void *);
 
 /* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
-s32 func_800A624C(Input *input) {
+s32 draw_fullscreen_grayscale_quad(Input *input) {
     GpuContext *arena;
     u8 *draw_mode;
     Work *quad;
     s16 color;
 
-    arena = (GpuContext *)gameWork.unk_000;
+    arena = (GpuContext *)g_game_work.unk_000;
     draw_mode = arena->packetCursor;
     arena->packetCursor = draw_mode + 0xC;
-    arena = (GpuContext *)gameWork.unk_000;
+    arena = (GpuContext *)g_game_work.unk_000;
     quad = (Work *)arena->packetCursor;
     arena->packetCursor = (u8 *)quad + 0x18;
 
@@ -51,7 +51,7 @@ s32 func_800A624C(Input *input) {
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
-    func_8006658C((u8 *)gameWork.unk_000 + ((input->index * 4) + 0xB0), quad);
-    func_8006658C((u8 *)gameWork.unk_000 + ((input->index * 4) + 0xB0), draw_mode);
+    func_8006658C((u8 *)g_game_work.unk_000 + ((input->index * 4) + 0xB0), quad);
+    func_8006658C((u8 *)g_game_work.unk_000 + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }

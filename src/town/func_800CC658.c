@@ -3,11 +3,11 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 
-s32 scaleRandomToUnsignedHalfwordLimit();
+s32 scale_random_to_unsigned_halfword_limit();
 extern void (*D_800D65D8[])(void *, void *, M2C_UNK);
 
 /* Choose a random action and an in-bounds heading, then dispatch the action. */
-void townChooseReactionActionAndHeading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, M2C_UNK context) {
+void choose_reaction_action_and_heading(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, M2C_UNK context) {
     s32 x_radius;
     s32 y_radius;
     s32 current_x;
@@ -27,9 +27,9 @@ void townChooseReactionActionAndHeading(Rec_func_800C9B44_arg0 *actor, EntityRec
         if (attempts <= 0)
             break;
         {
-            action = scaleRandomToUnsignedHalfwordLimit(3) & 0xFFFF;
+            action = scale_random_to_unsigned_halfword_limit(3) & 0xFFFF;
             if (action == 1) {
-                direction = scaleRandomToUnsignedHalfwordLimit(4) & 0xFFFF;
+                direction = scale_random_to_unsigned_halfword_limit(4) & 0xFFFF;
                 if (direction == 0) {
                     s32 center_x = actor->unk_84;
                     x_radius = actor->unk_8C;

@@ -9,7 +9,7 @@ extern M2C_UNK D_80018F0C;
 extern M2C_UNK D_8001925C;
 
 /* Selects data based on the 0xFB1 check and forwards it with the caller's parameters. */
-void func_80016800(s32 callerValue, s32 unused, M2C_UNK callerData) {
+void select_based_parameters(s32 callerValue, s32 unused, M2C_UNK callerData) {
 
     func_80018B58(0xFE2);
     if (func_80018C50(0xFB1) == 0) {

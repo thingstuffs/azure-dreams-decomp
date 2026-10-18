@@ -5,27 +5,27 @@
 #include "shared/object_flags.h"
 extern int abs(int);
 
-   /* the 0x2 bytes before entity in dungeonUpdateChasingStarEffect, addressed as entity[-1] */
+   /* the 0x2 bytes before entity in update_chasing_star_effect, addressed as entity[-1] */
 
-   /* entity in dungeonUpdateChasingStarEffect */
+   /* entity in update_chasing_star_effect */
 
-   /* pos in dungeonUpdateChasingStarEffect */
+   /* pos in update_chasing_star_effect */
 
-   /* star in dungeonUpdateChasingStarEffect */
+   /* star in update_chasing_star_effect */
 
-   /* gfx in dungeonUpdateChasingStarEffect */
+   /* gfx in update_chasing_star_effect */
 
-   /* s3 in dungeonUpdateChasingStarEffect */
+   /* s3 in update_chasing_star_effect */
 
-   /* obj in dungeonUpdateChasingStarEffect */
+   /* obj in update_chasing_star_effect */
 
-   /* p in dungeonUpdateChasingStarEffect */
+   /* p in update_chasing_star_effect */
 
-   /* env in dungeonUpdateChasingStarEffect */
+   /* env in update_chasing_star_effect */
 
-   /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in dungeonUpdateChasingStarEffect, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
+   /* the 0x18 bytes before ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30 in update_chasing_star_effect, addressed as ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30[-1] */
 
-   /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in dungeonUpdateChasingStarEffect */
+   /* ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34 in update_chasing_star_effect */
 
 
 
@@ -40,7 +40,7 @@ extern u8 D_800DEC00[];
 extern u8 D_800E3D68[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
-void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
+void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
 {
     u8 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
@@ -70,11 +70,11 @@ void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos
             func_80024358((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
             p = (u8 *)p + 1;
         } if ((s32)p < 4) goto loop_0;
-        if ((func_800A4778(pos->unk_00.at02.v, pos->unk_04.at02.v,
+        if ((check_adjacent_tile_height_clearance(pos->unk_00.at02.v, pos->unk_04.at02.v,
                            pos->unk_08.at02.v, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_08 != 0) {
@@ -234,14 +234,14 @@ void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos
             if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
                 ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
         }
     }
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 1) {
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s == 0) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             func_800542BC();
         }
         cnt = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u + 1;
@@ -355,17 +355,17 @@ void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x29) {
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s = 0;
             ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.u += 1;
-            if (dungeonTryTriggerTargetRecordEffect(env->unk_60, 2, env) == 0) {
+            if (try_trigger_target_record_effect(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
                 s32 rr;
-                rr = (func_800A6D30() & 3) + 2;
+                rr = (generate_random_value() & 3) + 2;
                 a2v = (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_15 >> 2) + rr;
                 a1v = 0x10;
                 if (D_800E3D68[0] == 0xFF) {
                     a1v = 0xFF;
                 }
-                dungeonTryApplyConfusionStatus(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
+                try_apply_confusion_status(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
             }
         }
     }
@@ -376,14 +376,14 @@ void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x15) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }
     obj = func_8003FC64(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = func_80024578;
+        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
         func_8004491C(obj, func_80045340);
         p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
@@ -408,7 +408,7 @@ void dungeonUpdateChasingStarEffect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos
     obj = func_8003FC64(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = func_80024578;
+        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
         func_8004491C(obj, func_80045340);
         p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;

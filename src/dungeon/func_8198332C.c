@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *dungeonSpawnEffectActorOrCurvedTrail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
+void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
     ovl_19a332c_8198332C_Coord *coord;
     ovl_19a332c_8198332C_Prim *prim;
@@ -16,7 +16,7 @@ void *dungeonSpawnEffectActorOrCurvedTrail(s16 x, s16 y, s16 z, s16 angle, s16 s
     if (spawn_actor != 0) {
         actor = func_8003FC64(514);
         if (actor != NULL) {
-            actor->update = (void *)func_80024AB4;
+            actor->update = (void *)fade_effect_color_by_quarter;
             func_8004491C(actor, func_80045340);
             coord = actor->pos;
             coord->x = x;
@@ -40,7 +40,7 @@ void *dungeonSpawnEffectActorOrCurvedTrail(s16 x, s16 y, s16 z, s16 angle, s16 s
             path_y = y + step_y;
             path_z = z + step_z;
             for (point_index = 0; point_index < 16; point_index++) {
-                dungeonSpawnEffectActorOrCurvedTrail(path_x + ((func_80064584(angle) * func_800644B8(point_index << 7)) >> 21),
+                spawn_effect_actor_or_curved_trail(path_x + ((func_80064584(angle) * func_800644B8(point_index << 7)) >> 21),
                               path_y + ((func_800644B8(angle) * func_800644B8(point_index << 7)) >> 21),
                               path_z, angle, 1);
                 path_x += step_x;

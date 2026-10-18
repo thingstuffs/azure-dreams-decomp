@@ -16,10 +16,10 @@ typedef struct {
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 s32 rand(void);
-void townSpawnPersonOffsetEffect(UnkStack *, s16);
+void spawn_person_offset_effect(UnkStack *, s16);
 
 /* Spawns effects near the source with randomized positions and evenly spaced directions. */
-void townSpawnDirectionalEffects(void *source, s32 effect_count)
+void spawn_directional_effects(void *source, s32 effect_count)
 {
     UnkStack effect;
     s32 angle;
@@ -41,7 +41,7 @@ void townSpawnDirectionalEffects(void *source, s32 effect_count)
                             (rand() & 0x1F)) - 0x10;
                 effect.field_C = func_80064584(angle) << 5;
                 effect.field_10 = func_800644B8(angle) << 5;
-                townSpawnPersonOffsetEffect(&effect, (s16)angle);
+                spawn_person_offset_effect(&effect, (s16)angle);
                 angle += angle_step;
             } while (spawned < effect_count);
         }

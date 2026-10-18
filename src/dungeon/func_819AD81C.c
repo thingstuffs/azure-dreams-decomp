@@ -120,16 +120,16 @@ s32 func_80064584();
 void func_800649A0();
 void func_80064A40();
 void func_80065450();
-void func_8009CE1C();
-s32 dungeonForwardMonsterCoordinateDelta();
-s32 dungeonCheckLeftTileAndCenterHeight();
-void dungeonSpawnOppositeOffsetEffect();
+void apply_attack_power_and_element_effects();
+s32 forward_monster_coordinate_delta();
+s32 check_left_tile_and_center_height();
+void spawn_opposite_offset_effect();
 extern s8 D_8002758C[];
 extern u8 D_800287A2;
 extern s32 D_800287A4;
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
-void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
+void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     typedef struct Local20 {
         s16 unk0;
         u16 unk2;
@@ -196,7 +196,7 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
             if ((fade_left_out << 0x10) <= 0) {
                 ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0;
                 (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | 0x8000);
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
             if (((S_819AD81C_0 *)entity)->unk_2C.s >= 3) {
@@ -221,10 +221,10 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
             + ((S_819AD81C_2 *)motion)->unk_14);
         ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (dungeonForwardMonsterCoordinateDelta(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
+        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (forward_monster_coordinate_delta(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
-        dungeonAdvanceAnimationIndexWithinBounds(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
-        func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        advance_animation_index_within_bounds(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
+        update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
             ((S_819AD81C_1 *)gfx)->unk_04 = 0;
         }
@@ -233,7 +233,7 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
             tile_y = (s16) ((S_819AD81C_2 *)motion)->unk_04.at02.v / 64;
             ((S_819AD81C_0 *)entity)->unk_3C.at02.v = (s16) tile_y;
             if (((S_819AD81C_0 *)entity)->unk_40.at00.v != ((S_819AD81C_0 *)entity)->unk_3C.at00u.v) {
-                if ((dungeonCheckLeftTileAndCenterHeight(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
+                if ((check_left_tile_and_center_height(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
                     ((tile_y << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)motion)->unk_08.at02.v) << 0x10) != 0) {
                     ((S_819AD81C_0 *)entity)->unk_30 = 4;
                     ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
@@ -255,7 +255,7 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
                                     dz = 0 - dz;
                                 }
                                 if (dz < 0x40) {
-                                    func_8009CE1C(node, 0xC, D_800287A2, 0xA,
+                                    apply_attack_power_and_element_effects(node, 0xC, D_800287A2, 0xA,
                                         (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), D_800287A4, 2);
                                 }
                             }
@@ -278,13 +278,13 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
         }
         func_80025FCC(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
             ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
-        dungeonCreateCopiedEffectObject(entity, motion, gfx);
+        create_copied_effect_object(entity, motion, gfx);
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
         if (((S_819AD81C_5 *)attached)->unk_1E & 0x8000) {
             (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         link = ((S_819AD81C_5 *)attached)->unk_08;
@@ -303,7 +303,7 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
         node = attached + 0x20;
         if ((want_kind >= 0) && (((S_819AD81C_4 *)info)->unk_04 == want_kind)) {
             func_800649A0(attached);
-            func_8002593C(entity, motion, gfx);
+            build_install(entity, motion, gfx);
             zero_vec.unk0 = 0;
             zero_vec.unk2 = 0;
             zero_vec.unk4 = 0;
@@ -315,10 +315,10 @@ void dungeonUpdateWarpCameraAndEffects(void *entity, void *motion, void *gfx) {
             warp_params.unkC = func_80064584(((S_819AD81C_3 *)node)->unk_34) * 0x10;
             warp_params.unk10 = func_800644B8(((S_819AD81C_3 *)node)->unk_34) * 0x10;
             warp_params.unk14 = 0;
-            dungeonSpawnOppositeOffsetEffect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
+            spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
-        dungeonSetAnimationEntryAddress(gfx, ((S_819AD81C_4 *)info)->unk_04);
-        func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
+        set_animation_entry_address(gfx, ((S_819AD81C_4 *)info)->unk_04);
+        update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
     }
 }
 

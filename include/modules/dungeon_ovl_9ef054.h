@@ -47,10 +47,10 @@ typedef struct S_8016A854_4 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA28[];
 extern u8 D_8016AE54;
 extern u8 D_8016DC7C[];
@@ -58,5 +58,5 @@ extern u8 D_8016DCDC[];
 
 /* Allocates an actor object and initializes its parts and flags for the requested kind. */
 
-void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
+void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
 #endif

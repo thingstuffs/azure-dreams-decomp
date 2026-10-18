@@ -12,8 +12,8 @@ extern s32 func_800419EC();
 extern s32 func_80042900();
 extern s32 func_80042B68();
 extern s32 func_80048A44();
-extern s32 func_800997FC();
-extern s32 dungeonSetRecordIntegerTileCenter();
+extern s32 display_formatted_context_message();
+extern s32 set_record_integer_tile_center();
 
 extern Rec_D_80083460 D_80083460;
 extern u8 D_800DCFF8[];
@@ -27,45 +27,45 @@ typedef struct S_80092E90_1 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80092E90_1;   /* arg2 in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_1;   /* arg2 in update_wake_nearby_monsters */
 
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
     union { s16 n; u16 v; u16 n2; } unk_04;   /* accessed as both */
-} S_80092E90_3;   /* countBase in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_3;   /* countBase in update_wake_nearby_monsters */
 
 typedef struct S_80092E90_4 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_80092E90_4;   /* arg0 in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_4;   /* arg0 in update_wake_nearby_monsters */
 
 typedef struct S_80092E90_5 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x30];
     void * unk_5C;
-} S_80092E90_5;   /* savedArg3 in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_5;   /* savedArg3 in update_wake_nearby_monsters */
 
 typedef struct S_80092E90_7_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80092E90_7_pre;   /* the 0x14 bytes before node in dungeonUpdateWakeNearbyMonsters, addressed as node[-1] */
+} S_80092E90_7_pre;   /* the 0x14 bytes before node in update_wake_nearby_monsters, addressed as node[-1] */
 
 typedef struct S_80092E90_7 {
     u8 pad_00[0x5C];
     void * unk_5C;
-} S_80092E90_7;   /* node in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_7;   /* node in update_wake_nearby_monsters */
 
 typedef struct S_80092E90_9 {
     u8 pad_00[0x26];
     s8 unk_26;
-} S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in dungeonUpdateWakeNearbyMonsters */
+} S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in update_wake_nearby_monsters */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *actor, void *entry)
+void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *actor, void *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -78,7 +78,7 @@ void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *
     void *count_state;
     void *node;
 
-    move_frames = dungeonStatus.unk_04;
+    move_frames = g_dungeon_status.unk_04;
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
         tile_origin = motion->x.w.i - 0x20;
@@ -88,7 +88,7 @@ void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
         motion->unk_10 =
-            ((target_pos - tile_origin) << 16) / dungeonStatus.unk_04;
+            ((target_pos - tile_origin) << 16) / g_dungeon_status.unk_04;
     } else {
         motion->unk_0C = 0;
         motion->unk_10 = 0;
@@ -110,7 +110,7 @@ void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *
         (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
         func_80048A44(
             actor,
-            D_800DCFF8[((gameWork.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
+            D_800DCFF8[((g_game_work.view.viewAngle + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
             0,
             1);
         ((S_80092E90_4 *)controller)->unk_9B++;
@@ -142,16 +142,16 @@ void dungeonUpdateWakeNearbyMonsters(void *controller, EntityRec *motion, void *
                 } else {
                     message = &D_800E05C3;
                 }
-                func_800997FC(message);
+                display_formatted_context_message(message);
             }
         }
 
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
-        ((S_80092E90_4 *)controller)->unk_8C = dungeonHandlePlayerInput;
-        dungeonStatus.unk_0A--;
+        set_record_integer_tile_center(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
+        ((S_80092E90_4 *)controller)->unk_8C = handle_player_input;
+        g_dungeon_status.unk_0A--;
     default:
         return;
     }

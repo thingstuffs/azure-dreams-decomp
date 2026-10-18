@@ -3,7 +3,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 // Sets the value at offset 8 in records flagged 0x20 in each record list.
-void townSetFlaggedEntryValues(u32 *recordLists, s32 value)
+void set_flagged_entry_values(u32 *recordLists, s32 value)
 {
     s32 recordOffset;
     s32 isLastRecord;

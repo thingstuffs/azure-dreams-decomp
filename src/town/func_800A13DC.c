@@ -8,16 +8,16 @@
  * lui before the store), the "array/struct >8B" codegen shape noted in
  * w_800510DC.c rather than the two-independent-lui -G0 shape. */
 
-extern void townCopyAPointerTableInitializesExtraDataTagHex13(void *a0, void *a1);
-extern void townUnlinkSceneListNode(void *a0);
+extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, void *a1);
+extern void unlink_scene_list_node(void *a0);
 extern void func_80033D08(void *a0);
 
 /* Update the object from supplied data and set its local and global flags. */
-void townUpdateTheDataSetLocalGlobalFlags(void *object, void *update_data)
+void update_the_data_set_local_global_flags(void *object, void *update_data)
 {
-    townCopyAPointerTableInitializesExtraDataTagHex13(update_data, (u8 *)object + 0x4C);
-    townUnlinkSceneListNode(object);
+    copy_a_pointer_table_initializes_extra_data_tag_hex_13(update_data, (u8 *)object + 0x4C);
+    unlink_scene_list_node(object);
     func_80033D08(object);
     *(u16 *)((u8 *)object - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

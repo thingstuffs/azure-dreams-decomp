@@ -8,7 +8,7 @@ extern void func_80408958(void);
 extern void func_8007CA48(void);
 
 /* Run the setup sequence using the supplied context. */
-void townRunMemorySetupSequence(void *context) {
+void run_memory_setup_sequence(void *context) {
     func_8007CB08(0);
     func_8007CA38();
     func_80408798(context);

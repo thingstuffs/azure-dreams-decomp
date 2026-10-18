@@ -23,7 +23,7 @@ extern TownFlagTable D_00000000;
 
 /* Handles triggered flags and exits after cleanup. Normal paths finalize and return index.
    The cleanup paths have no defined return value, as in the object code. */
-s32 func_80000938(s32 index) {
+s32 handle_triggered_flags_exits_cleanup(s32 index) {
     if ((func_80000C6C(D_00000000.flag_F12) == 0) && (func_80000C6C(0x278U) != 0)
         && (func_800007E8(index) != 0)) {
         if (func_80000C6C(0x281U) != 0) {

@@ -26,14 +26,14 @@ typedef struct S_8016EE8C_0 {
 typedef struct S_8016EE8C_1 {
     u8 pad_00[0x296C];
     s32 unk_296C;
-} S_8016EE8C_1;   /* page_800e in dungeonBeginMultiFormRingScript */
+} S_8016EE8C_1;   /* page_800e in begin_multi_form_ring_script */
 
 typedef struct S_8016EE8C_2 {
     u8 pad_00[0x3714];
     u16 unk_3714;
     u8 pad_3716[0x6];
     s32 unk_371C;
-} S_8016EE8C_2;   /* page_8001 in dungeonBeginMultiFormRingScript */
+} S_8016EE8C_2;   /* page_8001 in begin_multi_form_ring_script */
 
 
 typedef struct S_8016EE8C_4 {
@@ -47,8 +47,8 @@ typedef struct S_8016EE8C_5 {
 } S_8016EE8C_5;
 
 
-void func_8009A028();                         /* extern */
-void dungeonCreateMultiFormSegmentRing();                   /* extern */
+void unlink_entity_node();                         /* extern */
+void create_multi_form_segment_ring();                   /* extern */
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 D_80175D50;
@@ -56,7 +56,7 @@ extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Reset shared state and update the two occupied object slots. */
-void dungeonBeginMultiFormRingScript(void) {
+void begin_multi_form_ring_script(void) {
     s32 object_data;
     s32 slot_offset;
     s32 slot_index;
@@ -73,7 +73,7 @@ void dungeonBeginMultiFormRingScript(void) {
     (((Page8001FieldView_81337E8C *)page_8001)->field_371A) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3718) = 0;
     (((Page8001FieldView_81337E8C *)page_8001)->field_3716) = 0;
-    dungeonStatus.unk_0C = 0;
+    g_dungeon_status.unk_0C = 0;
     D_80175DC8 = 0;
     ((S_8016EE8C_1 *)page_800e)->unk_296C = (s32) (((S_8016EE8C_1 *)page_800e)->unk_296C | 0x08000000);
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);
@@ -84,14 +84,14 @@ void dungeonBeginMultiFormRingScript(void) {
         slot_offset = slot_index * 4;
         object_data = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x.v)))->unk_AC;
         if (object_data != 0) {
-            func_8009A028(object_data);
+            unlink_entity_node(object_data);
             object_header = ((S_8016EE8C_5 *)((slot_offset + ((EntityRec *)(((M2C_UNK *)&D_800E3D7C)))->x.v)))->unk_AC
             - 0x20;
             ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
         }
         slot_index += 1;
     } while (slot_index < 2);
-    dungeonCreateMultiFormSegmentRing(&D_80083780.x.v);
+    create_multi_form_segment_ring(&D_80083780.x.v);
 }
 
 /* MECHANISM: A 40-byte frame falls out naturally from s0-s3: s2 holds the

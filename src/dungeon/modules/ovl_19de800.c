@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_19de800.h"
-void (* const dungeon_19de800_entry)(void *, void *, void *) = dungeonAdvanceParticleFadeAndCleanup;
+void (* const dungeon_19de800_entry)(void *, void *, void *) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections D_80024004[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
 const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};

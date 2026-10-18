@@ -24,7 +24,7 @@ extern u8 D_80071784[];
 extern u8 D_80071790[];
 
 /* Interpolates table values and fills each entry's three-byte buffer with the result. */
-void interpolateSelectionMenuEntryShade(S_8004F780 *state)
+void interpolate_selection_menu_entry_shade(S_8004F780 *state)
 {
     s32 entry_index;
     u8 *row;

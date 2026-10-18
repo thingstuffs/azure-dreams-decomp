@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return 0 if equal, 3 if left is greater, or 4 if left is less. */
-s32 townCompareValuesToDisplayCode(s32 left, s32 right) {
+s32 compare_values_to_display_code(s32 left, s32 right) {
     s32 result;
 
     result = 0;

@@ -30,9 +30,9 @@ typedef struct S_800D1824_0 {
     s32 unk_CC;
     u8 pad_D0[0x44];
     s32 unk_114;
-} S_800D1824_0;   /* scratch in dungeonBuildVisibleTileQuads */
+} S_800D1824_0;   /* scratch in build_visible_tile_quads */
 
-   /* root in dungeonBuildVisibleTileQuads */
+   /* root in build_visible_tile_quads */
 
 typedef struct S_800D1824_4 {
     u8 pad_00[0x8];
@@ -41,24 +41,24 @@ typedef struct S_800D1824_4 {
     u8 pad_10[0x2];
     u16 unk_12;
     u16 unk_14;
-} S_800D1824_4;   /* style in dungeonBuildVisibleTileQuads */
+} S_800D1824_4;   /* style in build_visible_tile_quads */
 
 typedef struct S_800D1824_5 {
     u8 pad_00[0x10];
     u8 * unk_10;
-} S_800D1824_5;   /* ((S_800D1824_1 *)globals)->unk_1E0 in dungeonBuildVisibleTileQuads */
+} S_800D1824_5;   /* ((S_800D1824_1 *)globals)->unk_1E0 in build_visible_tile_quads */
 
-   /* ((S_800D1824_1 *)globals)->unk_00 in dungeonBuildVisibleTileQuads */
+   /* ((S_800D1824_1 *)globals)->unk_00 in build_visible_tile_quads */
 
 
 extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
 extern void func_8006658C(s32 value, void *ptr);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
-void dungeonBuildVisibleTileQuads(u8 *tiles)
+void build_visible_tile_quads(u8 *tiles)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    GameWork *globals = &gameWork;
+    GameWork *globals = &g_game_work;
     u8 *style;
     u8 *prim;
     u8 *render_state;

@@ -11,7 +11,7 @@ typedef struct S_801738B8_0 {
     u8 pad_98[0x2];
     u8 unk_9A;
     u8 unk_9B;
-} S_801738B8_0;   /* object in dungeonResetActorAfterTimedMovement */
+} S_801738B8_0;   /* object in reset_actor_after_timed_movement */
 
 typedef struct S_801738B8_1 {
     u8 pad_00[0x28];
@@ -20,7 +20,7 @@ typedef struct S_801738B8_1 {
     s16 unk_2A;
     u8 pad_2C[0x3E];
     u16 unk_6A;
-} S_801738B8_1;   /* room in dungeonResetActorAfterTimedMovement */
+} S_801738B8_1;   /* room in reset_actor_after_timed_movement */
 
 typedef struct S_801738B8_2 {
     u8 pad_00[0x14];
@@ -30,7 +30,7 @@ typedef struct S_801738B8_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_801738B8_2;   /* actor in dungeonResetActorAfterTimedMovement */
+} S_801738B8_2;   /* actor in reset_actor_after_timed_movement */
 
 typedef struct S_801738B8_3 {
     u8 pad_00[0x2];
@@ -41,13 +41,13 @@ typedef struct S_801738B8_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_801738B8_3;   /* motion in dungeonResetActorAfterTimedMovement */
+} S_801738B8_3;   /* motion in reset_actor_after_timed_movement */
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(void *);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_801716F4[];
 extern u8 D_80175554[];
@@ -55,7 +55,7 @@ extern u8 D_80175564[];
 extern u8 D_8017558C[];
 
 /* Updates timed movement, returns the actor to its tile, and resets its action state. */
-void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
+void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
 {
     void *object = object_arg;
     void *motion = motion_arg;
@@ -67,14 +67,14 @@ void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, voi
 
     switch (((S_801738B8_0 *)object)->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(room);
+        apply_clamped_actor_value_delta(room);
         ((S_801738B8_0 *)object)->unk_96.s = 4;
         ((S_801738B8_0 *)object)->unk_9B++;
         if (((S_801738B8_1 *)room)->unk_28 == 0) {
             ((S_801738B8_3 *)motion)->unk_14 = 0;
             ((S_801738B8_3 *)motion)->unk_10 = 0;
             ((S_801738B8_3 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(object, motion, actor, D_8017558C);
+            begin_actor_display_action(object, motion, actor, D_8017558C);
             return;
         }
         if (!(((S_801738B8_2 *)actor)->unk_14 & 0x8000)) {
@@ -89,10 +89,10 @@ void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, voi
         ((S_801738B8_0 *)object)->unk_96.s = timer;
         if (timer > 0) {
             ((S_801738B8_3 *)motion)->unk_0C =
-                *(s16 *)((u8 *)((s8 *)dirStepX) +
+                *(s16 *)((u8 *)((s8 *)dir_step_x) +
                     ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 19;
             ((S_801738B8_3 *)motion)->unk_10 =
-                *(s16 *)((u8 *)((s8 *)dirStepY) +
+                *(s16 *)((u8 *)((s8 *)dir_step_y) +
                     ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 19;
             return;
         }
@@ -100,10 +100,10 @@ void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, voi
             return;
         }
         ((S_801738B8_3 *)motion)->unk_0C =
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
+            *(s16 *)((u8 *)((s8 *)dir_step_x) +
                 ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 18;
         ((S_801738B8_3 *)motion)->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
+            *(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((((S_801738B8_1 *)room)->unk_6A >> 8) & 0xE)) << 18;
         ((S_801738B8_0 *)object)->unk_96.s = 6;
         ((S_801738B8_0 *)object)->unk_9B++;
@@ -114,7 +114,7 @@ void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, voi
             ((S_801738B8_3 *)motion)->unk_14 = 0;
             ((S_801738B8_3 *)motion)->unk_10 = 0;
             ((S_801738B8_3 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(object, motion, actor, D_8017558C);
+            begin_actor_display_action(object, motion, actor, D_8017558C);
             return;
         }
 
@@ -151,16 +151,16 @@ void dungeonResetActorAfterTimedMovement(void *object_arg, void *motion_arg, voi
         ((S_801738B8_3 *)motion)->unk_14 = 0;
         ((S_801738B8_3 *)motion)->unk_10 = 0;
         ((S_801738B8_3 *)motion)->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_801738B8_2 *)actor)->unk_24, ((S_801738B8_2 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, ((S_801738B8_2 *)actor)->unk_24, ((S_801738B8_2 *)actor)->unk_25);
         if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
             (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
             func_80047784(actor,
-                D_80175554[((gameWork.view.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                D_80175554[((g_game_work.view.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
-        room_ref = ((s32)dungeonStatus.unk_10);
+        room_ref = ((s32)g_dungeon_status.unk_10);
         if (room_ref == (s32)((u8 *)room - 0x20)) {
-            dungeonStatus.unk_10 = room_ref & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = room_ref & 0x7FFFFFFF;
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;

@@ -43,5 +43,5 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Builds and queues render packets for a linked list of positioned entries. */
 
-s32 func_8014C884(u8 *entry, u16 *position);
+s32 queue_linked_point_packets(u8 *entry, u16 *position);
 #endif

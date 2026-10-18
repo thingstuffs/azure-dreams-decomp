@@ -12,24 +12,24 @@ extern u8 D_800E0000[];
 s32 func_8003AD08();
 void func_800419EC();
 s32 func_80042900();
-void dungeonClearPlayerLinkedActionFlags();
-s32 dungeonClampAdjustedValue0To99();
-s32 func_800990FC();
-s32 func_80099194();
+void clear_player_linked_action_flags();
+s32 clamp_adjusted_value_0_to_99();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 extern void * func_80099290(s8 *byte_ptr);
-s32 dungeonWriteTextByteAndAdvance();
-s32 dungeonApplyTypeBasedEntryAdjustments();
-s32 func_80099734();
-extern void dungeonCreateType212Object(s32 flag, s8 value);
-void dungeonAddRandomQuarterValue();
-s32 dungeonGetMaskedRecordFlags();
-void accumulateExperienceAward();
-s32 func_800A56E0();
-extern s32 func_800A5720(s8 *text);
-extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-s16 dungeonFindDirectionalEntryAndClearFlag();
-s32 prepareQuarterDamageReturn();
-s32 dungeonCountOccupiedEntitySlots();
+s32 write_text_byte_and_advance();
+s32 apply_type_based_entry_adjustments();
+s32 append_entity_display_text();
+extern void create_type_212_object(s32 flag, s8 value);
+void add_random_quarter_value();
+s32 get_masked_record_flags();
+void accumulate_experience_award();
+s32 play_sound_if_enabled();
+extern s32 display_text_with_fullwidth_adjustment(s8 *text);
+extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+s16 find_directional_entry_and_clear_flag();
+s32 prepare_quarter_damage_return();
+s32 count_occupied_entity_slots();
 extern M2C_UNK D_800E0D7B;
 extern M2C_UNK D_800E0D92;
 extern M2C_UNK D_800E0D9E;
@@ -60,7 +60,7 @@ typedef struct S_8009C12C_0 {
     u8 pad_8A[0x1C];
     s16 unk_A6;
     u8 unk_A8;
-} S_8009C12C_0;   /* arg0 in dungeonResolveAttackDamageAndEffects */
+} S_8009C12C_0;   /* arg0 in resolve_attack_damage_and_effects */
 
 typedef struct S_8009C12C_2 {
     u8 pad_00[0x14];
@@ -68,7 +68,7 @@ typedef struct S_8009C12C_2 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8009C12C_2;   /* arg1 in dungeonResolveAttackDamageAndEffects */
+} S_8009C12C_2;   /* arg1 in resolve_attack_damage_and_effects */
 
 typedef struct S_8009C12C_3_pre {
     void * unk_00;
@@ -101,10 +101,10 @@ typedef struct S_8009C12C_4 {
 typedef struct S_8009C12C_7 {
     u8 pad_00[0x88];
     u16 unk_88;
-} S_8009C12C_7;   /* table_v0 in dungeonResolveAttackDamageAndEffects */
+} S_8009C12C_7;   /* table_v0 in resolve_attack_damage_and_effects */
 
 /* Resolve an attack against the linked target and display its damage and effects. */
-void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance) {
+void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance) {
     s16 tile_result;
     s16 height_diff;
     s32 damage;
@@ -150,29 +150,29 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
     if (target == NULL) {
         null_result = NULL;
         if (attacker_in == (void *)D_800E3D7C) {
-            tile_result = dungeonFindDirectionalEntryAndClearFlag(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25,
+            tile_result = find_directional_entry_and_clear_flag(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25,
                 direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
             null_result = NULL;
             if (tile_result >= 0) {
                 s32 tile_text;
                 s32 tile_text_base;
-                message_start = func_800990FC();
-                message_cursor = dungeonWriteTextByteAndAdvance(8, message_start);
+                message_start = get_unused_text_buffer();
+                message_cursor = write_text_byte_and_advance(8, message_start);
                 tile_text = tile_result << 2;
                 tile_text_base = (s32)&D_800E3648;
                 tile_text += tile_text_base;
-                message_cursor = dungeonApplyTypeBasedEntryAdjustments(tile_text, message_cursor);
-                message_cursor = func_80099194(&D_800E0D7B, message_cursor);
+                message_cursor = apply_type_based_entry_adjustments(tile_text, message_cursor);
+                message_cursor = expand_text_control_codes(&D_800E0D7B, message_cursor);
                 func_80099290(message_cursor);
-                func_800A5720(message_start);
-                func_800A56E0(0x700);
-                accumulateExperienceAward(attacker_in, 8);
-                createActorValuePopup(0x82, attacker_in, 8, 1);
+                display_text_with_fullwidth_adjustment(message_start);
+                play_sound_if_enabled(0x700);
+                accumulate_experience_award(attacker_in, 8);
+                create_actor_value_popup(0x82, attacker_in, 8, 1);
             }
         }
         return NULL;
     }
-    message_start = func_800990FC();
+    message_start = get_unused_text_buffer();
     message_cursor = message_start;
     attacker_kind = ((S_8009C12C_0 *)attacker_in)->unk_13;
     kind_check = *(u8 *)((s8 *)attacker_in + 0x13);
@@ -181,9 +181,9 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
         target_traits = target_data->unk_14;
         if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
             || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
-            message_cursor = func_80099734(attacker_in, message_start);
-            message_cursor = func_80099194(&D_800E0D92, message_cursor);
-            message_cursor = dungeonWriteTextByteAndAdvance(0xA, message_cursor);
+            message_cursor = append_entity_display_text(attacker_in, message_start);
+            message_cursor = expand_text_control_codes(&D_800E0D92, message_cursor);
+            message_cursor = write_text_byte_and_advance(0xA, message_cursor);
         } else {
             attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
             if ((attacker_blocked != 0) || (message_state = -1, ((((S_8009C12C_3 *)target)->unk_14 & 0x4000) != 0))) {
@@ -191,8 +191,8 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
                 if (attacker_blocked != 0) {
                     blocked_actor = attacker_in;
                 }
-                message_cursor = func_80099734(blocked_actor, message_cursor);
-                message_cursor = func_80099194(&D_800E0D9E, message_cursor);
+                message_cursor = append_entity_display_text(blocked_actor, message_cursor);
+                message_cursor = expand_text_control_codes(&D_800E0D9E, message_cursor);
                 message_state = 1;
             }
         }
@@ -201,18 +201,18 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
         ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x04000000) {
-        createActorValuePopup(3, target, -1, 0);
+        create_actor_value_popup(3, target, -1, 0);
         if (((S_8009C12C_0 *)attacker_in)->unk_13 >= 0) {
             signed_value = message_state << 16;
             modifier = signed_value >> 16;
             if (modifier == 0) {
-                message_cursor = func_80099734(target, message_cursor);
-                message_cursor = func_80099194(&D_800E0DB8, message_cursor);
+                message_cursor = append_entity_display_text(target, message_cursor);
+                message_cursor = expand_text_control_codes(&D_800E0DB8, message_cursor);
             }
             null_result = NULL;
             if (modifier >= 0) {
                 func_80099290(message_cursor);
-                func_800A5720(message_start);
+                display_text_with_fullwidth_adjustment(message_start);
                 return (void *)0;
             }
             return null_result;
@@ -223,7 +223,7 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {
         ((S_8009C12C_3 *)target)->unk_22.n = ((S_8009C12C_3 *)target)->unk_27;
     } else {
-        ((S_8009C12C_3 *)target)->unk_22.v = (u16) (((S_8009C12C_3 *)target)->unk_27 + dungeonClampAdjustedValue0To99(target));
+        ((S_8009C12C_3 *)target)->unk_22.v = (u16) (((S_8009C12C_3 *)target)->unk_27 + clamp_adjusted_value_0_to_99(target));
     }
     if ((func_80042900(target, 0xA) << 0x10) != 0) {
         ((S_8009C12C_3 *)target)->unk_22.n = (u16) ((s32) (((S_8009C12C_3 *)target)->unk_22.n << 0x10) >> 0x11);
@@ -235,8 +235,8 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
             ((S_8009C12C_3 *)target)->unk_22.n = (u16) (defense_raw + 1);
         }
     }
-    attack_elements = dungeonGetMaskedRecordFlags(attacker_in, 7, 1);
-    target_elements = dungeonGetMaskedRecordFlags(target, 7, 0);
+    attack_elements = get_masked_record_flags(attacker_in, 7, 1);
+    target_elements = get_masked_record_flags(target, 7, 0);
     if (attack_elements & 1) {
         if ((func_80042900(target, 0x13) << 0x10) != 0) {
             ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16) ((s32) (((S_8009C12C_0 *)attacker_in)->unk_20.n << 0x10)
@@ -305,7 +305,7 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
         attack_raw = ((S_8009C12C_0 *)attacker_in)->unk_20.v;
         attack_value = element_product >> 3;
         ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(attack_raw + attack_value);
-        attack_bonus = dungeonCountOccupiedEntitySlots(bonus_actor);
+        attack_bonus = count_occupied_entity_slots(bonus_actor);
     }
     if (attack_bonus != 0) {
         u16 bonus_base;
@@ -328,12 +328,12 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
     signed_value = message_state;
     signed_value <<= 0x10;
     if (signed_value == 0) {
-        message_cursor = func_80099734(target, message_cursor);
+        message_cursor = append_entity_display_text(target, message_cursor);
         {
             if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x2000) {
-                message_cursor = func_80099194(D_800E0000 + 0xDD0, message_cursor);
+                message_cursor = expand_text_control_codes(D_800E0000 + 0xDD0, message_cursor);
             } else {
-                message_cursor = func_80099194(&D_800E0DDD, message_cursor);
+                message_cursor = expand_text_control_codes(&D_800E0DDD, message_cursor);
             }
         }
         {
@@ -347,15 +347,15 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
                 message_cursor = func_8003AD08(display_damage, message_cursor);
             }
         }
-        message_cursor = func_80099194(&D_800E0DEA, message_cursor);
+        message_cursor = expand_text_control_codes(&D_800E0DEA, message_cursor);
         signed_value = message_state << 0x10;
     }
     if (signed_value >= 0) {
         func_80099290(message_cursor);
-        func_800A5720(message_start);
+        display_text_with_fullwidth_adjustment(message_start);
     }
     if (distance == 1) {
-        prepareQuarterDamageReturn(attacker_in, target);
+        prepare_quarter_damage_return(attacker_in, target);
     }
     effect_flags = 0xDFFFFFFF;
     target_data = (S_8009C12C_4 *)D_800E0000;
@@ -363,7 +363,7 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
     target_data = target_data->unk_3D7C;
     ((S_8009C12C_3 *)target)->unk_1C = target_flags;
     if (target == target_data) {
-        dungeonAddRandomQuarterValue(target, attacker_in);
+        add_random_quarter_value(target, attacker_in);
     }
     signed_value = modifier << 0x10;
     damage = 0;
@@ -372,23 +372,23 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
         signed_value <<= 0x10;
         damage = signed_value >> 0x10;
     }
-    createActorValuePopup(3, target, damage, 0);
+    create_actor_value_popup(3, target, damage, 0);
     if (target == (void *)D_800E3D7C) {
-        dungeonClearPlayerLinkedActionFlags();
+        clear_player_linked_action_flags();
     }
     ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
     ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
-    dungeonStatus.unk_10 = target - 0x20;
+    g_dungeon_status.unk_10 = target - 0x20;
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         opposite_x_ptr = (s16 *)(4);
-        func_800A56E0(0x700);
+        play_sound_if_enabled(0x700);
         effect_flags = ((S_8009C12C_0 *)attacker_in)->unk_14.u16;
         effect_flags &= 0x2000;
         effect_flags <<= 0x10;
         effect_flags >>= 0x10;
-        dungeonCreateType212Object(effect_flags, (s32)opposite_x_ptr);
+        create_type_212_object(effect_flags, (s32)opposite_x_ptr);
     }
-    func_800A56E0(0x601);
+    play_sound_if_enabled(0x601);
     if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & 0x8000)) {
         func_800419EC(8, 0x10);
     }
@@ -401,11 +401,11 @@ void *dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16
     effect_elements = attack_elements << 0x10;
     effect_elements >>= 0x10;
     d = (u16)direction >> 9 & 7;
-    x = ((S_8009C12C_2 *)tile_in)->unk_24 + dirStepX[d] * distance;
+    x = ((S_8009C12C_2 *)tile_in)->unk_24 + dir_step_x[d] * distance;
     opp = (d + 4) & 7;
-    ox = (dirStepX[opp] << 5) + 0x20;
-    y = ((S_8009C12C_2 *)tile_in)->unk_25 + dirStepY[d] * distance;
-    oy = (dirStepY[opp] << 5) + 0x20;
+    ox = (dir_step_x[opp] << 5) + 0x20;
+    y = ((S_8009C12C_2 *)tile_in)->unk_25 + dir_step_y[d] * distance;
+    oy = (dir_step_y[opp] << 5) + 0x20;
     transition_effect_legacy((s16)((x << 6) + ox), (s16)((y << 6) + oy),
         (s16)(((S_8009C12C_7 *)((S_8009C12C_0 *)attacker_in)->unk_60)->unk_88 - 0x30), effect_elements,
         ((S_8009C12C_0 *)attacker_in)->unk_2A);

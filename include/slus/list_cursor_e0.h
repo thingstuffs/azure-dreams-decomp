@@ -7,8 +7,8 @@
 extern s32 D_80083C68[];
 extern s32 *D_800814E0;
 
-void resetSceneFrameCallbackList(void);
-void appendTerminatedRuntimeWord(s32 value);
-void removeRuntimeCallback(s32 value);
+void reset_scene_frame_callback_list(void);
+void append_terminated_runtime_word(s32 value);
+void remove_runtime_callback(s32 value);
 
 #endif

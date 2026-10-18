@@ -21,10 +21,10 @@ typedef struct TownTransition {
     Vec3i *other;
 } TownTransition;
 
-extern void townRestartOrUpdateMidpointTracking(void *state);
+extern void restart_or_update_midpoint_tracking(void *state);
 
 /* Reset on target changes or move toward the midpoint of the two targets. */
-void townResetOrAdvanceTargetMidpoint(TownTransition *state) {
+void reset_or_advance_target_midpoint(TownTransition *state) {
     Vec3i *target;
 
     target = state->target;
@@ -34,7 +34,7 @@ void townResetOrAdvanceTargetMidpoint(TownTransition *state) {
         state->unk18 = 0;
         state->unk1C = 0;
         state->previous_target = state->target;
-        townRestartOrUpdateMidpointTracking(state);
+        restart_or_update_midpoint_tracking(state);
         return;
     }
 
@@ -48,6 +48,6 @@ void townResetOrAdvanceTargetMidpoint(TownTransition *state) {
         state->steps;
     state->steps--;
     if (state->steps <= 0) {
-        state->callback = townRestartOrUpdateMidpointTracking;
+        state->callback = restart_or_update_midpoint_tracking;
     }
 }

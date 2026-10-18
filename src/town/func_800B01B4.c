@@ -4,7 +4,7 @@
 typedef struct S_800AD914_0 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800AD914_0;   /* arg0 in townCountEntriesWithFlag20 */
+} S_800AD914_0;   /* arg0 in count_entries_with_flag_20 */
 
 typedef struct S_800AD914_1 {
     u8 pad_00[0x2];
@@ -12,7 +12,7 @@ typedef struct S_800AD914_1 {
 } S_800AD914_1;
 
 /* Count entries with flag 0x20, excluding IDs 0x17 and 0x18. */
-s32 townCountEntriesWithFlag20(void *entries) {
+s32 count_entries_with_flag_20(void *entries) {
     s32 count;
     u8 *entry_id_ptr;
     u8 entry_id;

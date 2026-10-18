@@ -4,7 +4,7 @@
 extern void func_800478B8(void *visual);
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
-void dungeonAdvanceEffectMotionAndAnimation(void *effect, void *position, void *visual) {
+void advance_effect_motion_and_animation(void *effect, void *position, void *visual) {
     s32 accel_y;
     s32 accel_z;
     u16 frame_count;
@@ -31,7 +31,7 @@ void dungeonAdvanceEffectMotionAndAnimation(void *effect, void *position, void *
     *(u16 *)((u8 *)effect + 0x28) = frames_left;
     if ((frames_left << 0x10) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

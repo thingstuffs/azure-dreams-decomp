@@ -2,10 +2,10 @@
 
 extern void DrawSync(s32);
 extern void Control_CD(s32, void *, void *);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern void func_80041344(void *, s32);
-extern void runtimeLoadPackedResourceChunks(u8, void *);
-extern void setByteOne(void);
+extern void runtime_load_packed_resource_chunks(u8, void *);
+extern void set_byte_one(void);
 
 extern u8 D_800136B8;
 extern u8 D_80080BB4[8];
@@ -27,7 +27,7 @@ extern u8 D_800D381A;
 extern u8 D_8012F004[];
 
 /* Loads shared and variant-specific resources, then processes the selected table entry. */
-void sceneLoadVariantTextureSet(void)
+void scene_load_variant_texture_set(void)
 {
     u8 load_status;
     u8 *resource;
@@ -35,26 +35,26 @@ void sceneLoadVariantTextureSet(void)
 
     load_status = 0;
     Control_CD(6, D_80080BB4, 0);
-    Control_CD(0xFF, setByteOne, &load_status);
-    drainCdCommandQueue();
+    Control_CD(0xFF, set_byte_one, &load_status);
+    drain_cd_command_queue();
     func_80041344((void *)0x80020000, D_80081480);
     DrawSync(0);
     load_status = 0;
     Control_CD(6, D_80080BBC, 0);
-    Control_CD(0xFF, setByteOne, &load_status);
-    drainCdCommandQueue();
+    Control_CD(0xFF, set_byte_one, &load_status);
+    drain_cd_command_queue();
     func_80041344((void *)0x80020000, D_80081480);
     DrawSync(0);
     load_status = 0;
     Control_CD(6, D_80080BC4, 0);
-    Control_CD(0xFF, setByteOne, &load_status);
-    drainCdCommandQueue();
+    Control_CD(0xFF, set_byte_one, &load_status);
+    drain_cd_command_queue();
     func_80041344((void *)0x80020000, D_80081480);
     DrawSync(0);
     load_status = 0;
     Control_CD(6, D_80080BCC, 0);
-    Control_CD(0xFF, setByteOne, &load_status);
-    drainCdCommandQueue();
+    Control_CD(0xFF, set_byte_one, &load_status);
+    drain_cd_command_queue();
     func_80041344((void *)0x80020000, D_80081480);
     DrawSync(0);
     load_status = 0;
@@ -109,9 +109,9 @@ void sceneLoadVariantTextureSet(void)
     }
 
     Control_CD(command, resource, 0);
-    Control_CD(0xFF, setByteOne, &load_status);
-    drainCdCommandQueue();
+    Control_CD(0xFF, set_byte_one, &load_status);
+    drain_cd_command_queue();
     func_80041344((void *)0x80020000, D_80081480);
     DrawSync(0);
-    runtimeLoadPackedResourceChunks(D_800D2FB4[D_800D381A][0], D_8012F004);
+    runtime_load_packed_resource_chunks(D_800D2FB4[D_800D381A][0], D_8012F004);
 }

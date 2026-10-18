@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns the index of a matching table entry address, or -1. */
-s32 dungeonFindTableEntryAddressIndex(s32 entry_address) {
+s32 find_table_entry_address_index(s32 entry_address) {
     s32 entry_index = 0x13;
     s8 *entry = (s8 *)0x80010294;
 

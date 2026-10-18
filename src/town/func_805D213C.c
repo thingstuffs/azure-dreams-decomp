@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800161B4();                            /* extern */
+void clear_byte_offset_4_eight();                            /* extern */
 extern s32 D_8001967C;
 extern s32 D_80019AFC;
 
@@ -9,6 +9,6 @@ extern s32 D_80019AFC;
 void func_805D213C(void) {
     if (D_80019AFC == 2) {
         D_8001967C = 4;
-        func_800161B4();
+        clear_byte_offset_4_eight();
     }
 }

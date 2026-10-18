@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f0f7800_p07.h"
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
-void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in, void *part_a, void *part_b_in, void *actor) {
+void handle_kill_actor_clear_flags_fire_burst_tile_post_death_message(void *work_in, void *part_a, void *part_b_in, void *actor) {
     s32 burst;
     s32 handle;
     s32 msg;
@@ -18,7 +18,7 @@ void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in
     work = work_in;
     ((T_80173AD4_S_80173AD4_0 *)actor)->unk_71 = flags71 & 0x7F;
     part_b = part_b_in;
-    if (!(dungeonStatus.flags & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(actor) << 0x10) == 0)) {
         ((T_80173AD4_S_80173AD4_2 *)work)->unk_8C = 0;
         ((T_80173AD4_S_80173AD4_2 *)work)->unk_9A = 0x17;
         ((T_80173AD4_S_80173AD4_2 *)work)->unk_9B = 0;
@@ -27,7 +27,7 @@ void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in
             ((T_80173AD4_S_80173AD4_2 *)work)->unk_A6 = (u16) ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_12;
             ((T_80173AD4_S_80173AD4_2 *)work)->unk_AA = (s16) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_14 & 7);
         }
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D = (u8) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_6D - 1);
         call_flags = ((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C & 0x2000;
         call_a0 = ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24;
@@ -36,18 +36,18 @@ void dungeonHandleKillActorClearFlagsFireBurstTilePostDeathMessage(void *work_in
         if (call_flags) {
             burst = 0x300;
         }
-        func_8009A3D0(call_a0, call_a1, burst);
+        update_map_cell_flags_with_item_limit(call_a0, call_a1, burst);
         ((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C = (s32) (((T_80173AD4_S_80173AD4_0 *)actor)->unk_1C & ~0x2000);
-        func_8009A21C(((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24, ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_25, 0x3000);
+        cycle_map_cell_flags(((T_80173AD4_S_80173AD4_3 *)part_b)->unk_24, ((T_80173AD4_S_80173AD4_3 *)part_b)->unk_25, 0x3000);
         (*(u8 **)((u8 *)part_b + 0x2C)) = D_80173FD0;
-        func_80047784(part_b, D_80173FD0[((gameWork.view.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
+        func_80047784(part_b, D_80173FD0[((g_game_work.view.viewAngle + ((T_80173AD4_S_80173AD4_0 *)actor)->unk_2A + 0x100)
             >> 9) & 7], 0);
-        msg = func_800990FC();
+        msg = get_unused_text_buffer();
         msg_actor = actor;
         msg_handle = msg;
-        msg = func_80099734(msg_actor, msg_handle);
+        msg = append_entity_display_text(msg_actor, msg_handle);
         handle = msg_handle;
-        func_80099290(func_80099194(&D_80170854, msg));
-        func_800A5720(handle);
+        func_80099290(expand_text_control_codes(&D_80170854, msg));
+        display_text_with_fullwidth_adjustment(handle);
     }
 }

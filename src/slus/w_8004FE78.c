@@ -7,7 +7,7 @@
  * TWICE (load then store, in different registers) -- follow that. */
 extern int D_800814A0;
 
-/* Entity struct as seen by destroyAnimatedSelectionMenu: a 16-bit flags field at 0x1E and
+/* Entity struct as seen by destroy_animated_selection_menu: a 16-bit flags field at 0x1E and
  * an embedded sub-object at 0x20 (same sub-object base referenced by
  * func_8004FF00 in this TU) whose second word (a 3-element id/handle
  * array starting at 0x24) is walked here. */
@@ -21,7 +21,7 @@ typedef struct S_8004FE78_a0 {
 extern void func_8001832C(s32 handle);
 
 /* Process a non-null entity's nonzero handles and set its flags and the global flags to include 0x8000. */
-void destroyAnimatedSelectionMenu(S_8004FE78_a0 *entity)
+void destroy_animated_selection_menu(S_8004FE78_a0 *entity)
 {
     s32 handle_index;
     s32 *handle_cursor;

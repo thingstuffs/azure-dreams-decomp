@@ -5,18 +5,18 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-void dungeonPrepareDirectionalAttack(void *, void *, s16, s32, s32);
-s32 dungeonGetActorHeightDifference(s32, void *);
-s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-s32 func_800A2B5C(void *);
-s32 func_800A2CB8(void *, s32);
-void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
-void dungeonBeginActorExclusiveAction(void *, s32, void *, s32, s32);
+void prepare_directional_attack(void *, void *, s16, s32, s32);
+s32 get_actor_height_difference(s32, void *);
+s32 place_actor_at_directional_neighbor(void *, u8, u8, s16);
+s32 try_claim_dungeon_action_slot(void *);
+s32 check_entity_interaction_compatibility(void *, s32);
+void apply_camera_offset_and_select_target(void *, s32, s32, s32);
+void begin_actor_exclusive_action(void *, s32, void *, s32, s32);
 extern u8 D_80080000[];
 
 
 /* Turn toward the target and start an action once aligned. */
-s32 dungeonTryTurnActorTowardTarget(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target,
+s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target,
     EntityRec *actor) {
     s32 target_angle;
     u16 result;
@@ -33,9 +33,9 @@ s32 dungeonTryTurnActorTowardTarget(Rec_func_800A9E70_arg0 *action_state, M2C_UN
         return -1;
     }
 
-    target_angle = dungeonPlaceActorAtDirectionalNeighbor(actor, target->unk_24,
+    target_angle = place_actor_at_directional_neighbor(actor, target->unk_24,
         target->unk_25, actor->facing);
-    if ((func_800A2CB8(actor, target_angle) << 0x10) == 0) {
+    if ((check_entity_interaction_compatibility(actor, target_angle) << 0x10) == 0) {
         return result;
     }
 
@@ -45,14 +45,14 @@ s32 dungeonTryTurnActorTowardTarget(Rec_func_800A9E70_arg0 *action_state, M2C_UN
     if (!(actor->unk_46 & 0x8000) && (global_flags[1] & 8)) {
         return -1;
     }
-    if ((u32)(((0 - dungeonGetActorHeightDifference(target_angle, actor)) + 0x40) & 0xFFFF) <
+    if ((u32)(((0 - get_actor_height_difference(target_angle, actor)) + 0x40) & 0xFFFF) <
         0x81U) {
         result = 1;
-        if ((func_800A2B5C(actor) << 0x10) != 0) {
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
             return -1;
         }
-        dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_context, 8, 0x300);
-        if ((func_800A2B5C(actor) << 0x10) != 0) {
+        apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
+        if ((try_claim_dungeon_action_slot(actor) << 0x10) != 0) {
             return -1;
         }
 
@@ -64,10 +64,10 @@ s32 dungeonTryTurnActorTowardTarget(Rec_func_800A9E70_arg0 *action_state, M2C_UN
             actor->unk_85 = 0;
             action_state->unk_98 =
                 (u16)(action_state->unk_98 | 8);
-            dungeonPrepareDirectionalAttack(actor, target, actor->facing, 1, 0);
+            prepare_directional_attack(actor, target, actor->facing, 1, 0);
             actor->unk_6D--;
         } else {
-            dungeonBeginActorExclusiveAction(action_state, action_context, target, 1, 1);
+            begin_actor_exclusive_action(action_state, action_context, target, 1, 1);
         }
     }
     return result;

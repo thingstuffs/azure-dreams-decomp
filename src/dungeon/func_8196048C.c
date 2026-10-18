@@ -23,7 +23,7 @@ void func_80025C8C(void)
     u8 center_row;
     u8 center_column;
 
-    dungeon_state = ((u8 *)(&gameWork));
+    dungeon_state = ((u8 *)(&g_game_work));
     map = (DungeonMap *)(dungeon_state + 0x1DC);
     rows_copied = 0;
     source_row = D_800273CC;

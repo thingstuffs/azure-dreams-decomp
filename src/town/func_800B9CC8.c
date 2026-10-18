@@ -3,7 +3,7 @@
 extern u16 D_80162004[];
 
 /* Copies nonzero tiles into the town tilemap, selecting variants by map coordinate parity. */
-void townCopyVariantBuildingTiles(s16 x, s16 y, u16 *src_tiles)
+void copy_variant_building_tiles(s16 x, s16 y, u16 *src_tiles)
 {
     s16 width;
     s16 height;

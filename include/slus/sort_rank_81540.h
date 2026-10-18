@@ -4,6 +4,6 @@
 #include "common.h"
 
 extern u8 *D_80081540;
-extern s32 compareMappedLeadingBytes(u8 **left, u8 **right);
+extern s32 compare_mapped_leading_bytes(u8 **left, u8 **right);
 
 #endif

@@ -8,10 +8,10 @@ typedef struct {
     signed short y;
 } DirectionDelta;
 
-extern signed short dungeonCheckForwardCollisionAndHeight(void *, void *);
-extern void dungeonPackAndSubmitCellHeightLevels(void);
-extern void func_800A56E0(s32);
-extern s32 func_800BCB04(u16, u16, signed short);
+extern signed short check_forward_collision_and_height(void *, void *);
+extern void pack_and_submit_cell_height_levels(void);
+extern void play_sound_if_enabled(s32);
+extern s32 sample_terrain_surface_height(u16, u16, signed short);
 
 extern DirectionDelta D_800E2468[];
 
@@ -34,23 +34,23 @@ typedef struct S_80174C64_0 {
     u8 unk_B2;
     u8 unk_B3;
     u8 unk_B4;
-} S_80174C64_0;   /* arg0 in dungeonUpdateActorMovementHistory */
+} S_80174C64_0;   /* arg0 in update_actor_movement_history */
 
 
 typedef struct S_80174C64_2 {
     u8 pad_00[0x62];
     u16 unk_62;
     u16 unk_64;
-} S_80174C64_2;   /* (u8 *)((unsigned long)base + (i << 2)) in dungeonUpdateActorMovementHistory */
+} S_80174C64_2;   /* (u8 *)((unsigned long)base + (i << 2)) in update_actor_movement_history */
 
 typedef struct S_80174C64_3 {
     u8 pad_00[0x62];
     u16 unk_62;
     u16 unk_64;
-} S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in dungeonUpdateActorMovementHistory */
+} S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in update_actor_movement_history */
 
 /* Updates movement, turning, position history, and timed stop states. */
-void dungeonUpdateActorMovementHistory(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
+void update_actor_movement_history(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
 {
     u16 angle;
     u16 next_angle;
@@ -86,7 +86,7 @@ void dungeonUpdateActorMovementHistory(S_80174C64_0 *motion, void *position, Rec
                     break;
                 }
             } else if ((angle & 0x3FF) == 0) {
-                if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
+                if (check_forward_collision_and_height(position, object) != 0) {
                     u16 next_state;
 
                     next_state = 0x1E;
@@ -147,7 +147,7 @@ void dungeonUpdateActorMovementHistory(S_80174C64_0 *motion, void *position, Rec
                 motion->unk_B3 = 2;
                 break;
             }
-            if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
+            if (check_forward_collision_and_height(position, object) != 0) {
                 motion->unk_96 = 0x1E;
                 motion->unk_B2 = 0;
                 motion->unk_B1 = 0;
@@ -244,7 +244,7 @@ void dungeonUpdateActorMovementHistory(S_80174C64_0 *motion, void *position, Rec
             switch (motion->unk_B1) {
             case 0:
 state1_call:
-                if (dungeonCheckForwardCollisionAndHeight(position, object) == 0) {
+                if (check_forward_collision_and_height(position, object) == 0) {
                     motion->unk_B1 = 2;
                     motion->unk_B2 = 0;
                     goto state1_case2;
@@ -342,7 +342,7 @@ state1_case2:
                     if ((next_angle << 16) < 0) {
                         (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
                     }
-                    if (dungeonCheckForwardCollisionAndHeight(position, object) != 0) {
+                    if (check_forward_collision_and_height(position, object) != 0) {
                         motion->unk_B2 = 0;
                         motion->unk_B1 = 0;
                         (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
@@ -410,9 +410,9 @@ state1_minus_angle:
         motion->unk_B1 = 0;
         motion->unk_96 = 0;
         motion->unk_A2 = 0;
-        dungeonPackAndSubmitCellHeightLevels();
+        pack_and_submit_cell_height_levels();
         D_800E296C |= 0x800000;
-        func_800A56E0(0x80F);
+        play_sound_if_enabled(0x80F);
     }
 state3_test:
     if (motion->unk_B3 == 3) {
@@ -475,14 +475,14 @@ state3_test:
             motion->unk_B1 = 0;
             motion->unk_96 = 0;
             motion->unk_A2 = 0;
-            dungeonPackAndSubmitCellHeightLevels();
+            pack_and_submit_cell_height_levels();
             D_800E296C |= 0x800000;
-            func_800A56E0(0x80F);
+            play_sound_if_enabled(0x80F);
 
         }
 
     }
-    (*(signed short *)((u8 *)object + 0x88)) = func_800BCB04(
+    (*(signed short *)((u8 *)object + 0x88)) = sample_terrain_surface_height(
         (*(u16 *)((u8 *)position + 2)), (*(u16 *)((u8 *)position + 6)),
         (signed short)((*(u16 *)((u8 *)position + 0xA)) - 0x20));
 }

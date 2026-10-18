@@ -8,13 +8,13 @@ extern u8 D_80080000[];
 
 typedef struct S_800CB9DC_0_pre {
     u16 unk_00;
-} S_800CB9DC_0_pre;   /* the 0x2 bytes before arg0 in advanceGoUpTrapSequence, addressed as arg0[-1] */
+} S_800CB9DC_0_pre;   /* the 0x2 bytes before arg0 in advance_go_up_trap_sequence, addressed as arg0[-1] */
 
 typedef struct S_800CB9DC_0 {
     void * unk_00;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_800CB9DC_0;   /* arg0 in advanceGoUpTrapSequence */
+} S_800CB9DC_0;   /* arg0 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_1_pre {
     void * unk_00;
@@ -35,7 +35,7 @@ typedef struct S_800CB9DC_2 {
     s32 unk_234;
     u8 pad_238[0x34DC];
     u16 unk_3714;
-} S_800CB9DC_2;   /* arg1 in advanceGoUpTrapSequence */
+} S_800CB9DC_2;   /* arg1 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_3 {
     u8 pad_00[0x8];
@@ -45,12 +45,12 @@ typedef struct S_800CB9DC_3 {
 typedef struct S_800CB9DC_4 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800CB9DC_4;   /* arg2 in advanceGoUpTrapSequence */
+} S_800CB9DC_4;   /* arg2 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_5 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_800CB9DC_5;   /* counts in advanceGoUpTrapSequence */
+} S_800CB9DC_5;   /* counts in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_6 {
     u8 pad_00[0x24];
@@ -61,34 +61,34 @@ typedef struct S_800CB9DC_6 {
 typedef struct S_800CB9DC_7 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800CB9DC_7;   /* page14 in advanceGoUpTrapSequence */
+} S_800CB9DC_7;   /* page14 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CB9DC_8;   /* base34 in advanceGoUpTrapSequence */
+} S_800CB9DC_8;   /* base34 in advance_go_up_trap_sequence */
 
 typedef struct S_800CB9DC_9 {
     u8 pad_00[0x14A0];
     union { s32 s; s32 u; } unk_14A0;   /* accessed as both */
-} S_800CB9DC_9;   /* page14_again in advanceGoUpTrapSequence */
+} S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 
 M2C_UNK func_80040AA0();               /* extern */
 M2C_UNK func_800478B8();                      /* extern */
-void markSpriteResourcesForPurge();                            /* extern */
-void dungeonSnapshotInventoryAndFamiliars();           /* extern */
-void dungeonSnapshotInventoryFamiliarRecords();                            /* extern */
-void func_8009A028();                      /* extern */
-void func_8009A3D0();             /* extern */
-s32 func_800A32A4();                      /* extern */
-s32 func_800A6780();                            /* extern */
+void mark_sprite_resources_for_purge();                            /* extern */
+void snapshot_inventory_and_familiars();           /* extern */
+void snapshot_inventory_familiar_records();                            /* extern */
+void unlink_entity_node();                      /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+s32 detach_record_and_update_slot_state();                      /* extern */
+s32 check_action_boundary_and_set_flag();                            /* extern */
 extern s32 D_80010234;
 extern s16 D_80081468[3];
 extern u8 D_80082E6B;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
-void advanceGoUpTrapSequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
+void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
     S_800CB9DC_4 *animation = animation_in;
     void *actor_data;
@@ -120,9 +120,9 @@ void advanceGoUpTrapSequence(void *trap_state_in, void *motion_state_in, void *a
             if (motion_state->unk_3714 & 4) {
                 func_80040AA0(3U);
             } else {
-                dungeonSnapshotInventoryAndFamiliars(actor);
-                dungeonSnapshotInventoryFamiliarRecords();
-                func_800A6780();
+                snapshot_inventory_and_familiars(actor);
+                snapshot_inventory_familiar_records();
+                check_action_boundary_and_set_flag();
                 transition_page = (u8 *)D_80080000;
                 trap_counts = D_80081468;
                 transition_id = transition_page[0x2E6B];
@@ -132,7 +132,7 @@ void advanceGoUpTrapSequence(void *trap_state_in, void *motion_state_in, void *a
                 motion_state->unk_234 = floors_ascended;
                 ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
                 func_80040AA0(transition_id);
-                markSpriteResourcesForPurge();
+                mark_sprite_resources_for_purge();
             }
         } else {
             {
@@ -147,10 +147,10 @@ void advanceGoUpTrapSequence(void *trap_state_in, void *motion_state_in, void *a
                 if (actor_flags & 0x2000) {
                     tile_mask = 0x300;
                 }
-                func_8009A3D0(tile_x, tile_y, tile_mask);
+                update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
             }
-            func_800A32A4(actor);
-            func_8009A028(actor);
+            detach_record_and_update_slot_state(actor);
+            unlink_entity_node(actor);
             {
                 u8 *status_page;
                 DungeonGlobalStatus *actor_counts;
@@ -159,7 +159,7 @@ void advanceGoUpTrapSequence(void *trap_state_in, void *motion_state_in, void *a
                 u16 removal_flags;
 
                 status_page = (u8 *)0x80080000;
-                actor_counts = &dungeonStatus;
+                actor_counts = &g_dungeon_status;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
                 global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0 | 0x8000;

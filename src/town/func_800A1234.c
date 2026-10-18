@@ -17,14 +17,14 @@ typedef struct TownActor {
 
 extern s32 D_800D0428;
 
-extern void townAddMotionDeltasToPosition(MotionVector *motion);
-extern s32 townProcessTheItemIndexAvailableReportSuccess(TownActor *actor, s32 context,
+extern void add_motion_deltas_to_position(MotionVector *motion);
+extern s32 process_the_item_index_available_report_success(TownActor *actor, s32 context,
                          MotionVector *motion, s32 extra, s32 *work);
-extern void townSelectObjectValueByHeightBand(TownActor *actor, s32 context,
+extern void select_object_value_by_height_band(TownActor *actor, s32 context,
                           MotionVector *motion, s32 extra);
 
 /* Move toward the target and check for completion when the countdown expires. */
-void townMoveTowardTargetCheckCompletionCountdownExpires(TownActor *actor, s32 context,
+void move_toward_target_check_completion_countdown_expires(TownActor *actor, s32 context,
                    MotionVector *motion, s32 extra)
 {
     s32 work[5];
@@ -37,13 +37,13 @@ void townMoveTowardTargetCheckCompletionCountdownExpires(TownActor *actor, s32 c
     motion->step_y = (s32)delta_y / 2;
     shifted_z = (u32)motion->z + 0x200000U;
     motion->step_z = (s32)((u32)D_80083780.z.v - shifted_z) / 2;
-    townAddMotionDeltasToPosition(motion);
+    add_motion_deltas_to_position(motion);
 
     countdown = actor->countdown - 1;
     actor->countdown = countdown;
     if (((s32)((u32)countdown << 16) <= 0) &&
-        (townProcessTheItemIndexAvailableReportSuccess(actor, context, motion, extra, work) == 0)) {
+        (process_the_item_index_available_report_success(actor, context, motion, extra, work) == 0)) {
         motion->z = (s32)((u32)D_80083780.z.v + (u32)D_800D0428);
-        townSelectObjectValueByHeightBand(actor, context, motion, extra);
+        select_object_value_by_height_band(actor, context, motion, extra);
     }
 }

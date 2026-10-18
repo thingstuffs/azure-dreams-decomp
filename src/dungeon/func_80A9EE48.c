@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource08_slot0.h"
 
-void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
+void advance_effect_and_child_animation(void *effect_state, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
     u8 state;
     s32 effect_id;
@@ -8,7 +8,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
     u8 mode;
     u16 angle;
     u16 saved_angle;
-    R08_80174648_S_80174648_2 *effect_work = ((u8 *)(&gameWork));
+    R08_80174648_S_80174648_2 *effect_work = ((u8 *)(&g_game_work));
     state = ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B;
     if (state >= 9) {
         return;
@@ -27,7 +27,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
         /* fallthrough */
 
     case 2:
-        direction = ((gameWork.view.viewAngle + ((R08_80174648_S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((R08_80174648_S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         mode = ((u8 *)((void * *)D_80174D1C))[-4];
         angle = ((R08_80174648_S_80174648_1 *)actor)->unk_2A.u;
         if ((mode == 0) || (direction != 2)) {
@@ -38,12 +38,12 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             return;
         }
         func_80041588((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)D_80174D1C) - 4, 1);
-        soundSetCdCueParameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         effect_id = func_800445E0();
         Control_CD(0x15, effect_id, 0);
         ((u8 *)D_80174D19)[0] = 0;
         Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_80174D19));
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
         ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
 
@@ -60,12 +60,12 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
                 ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.u = frames_left;
                 if (effect_ready != 0) {
                     ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-                    func_800A56E0(0x300);
+                    play_sound_if_enabled(0x300);
                     return;
                 }
                 return;
             }
-            target_color = ((void * *)D_800DCEEC)[lookupMaskedByteTable(actor)];
+            target_color = ((void * *)D_800DCEEC)[lookup_masked_byte_table(actor)];
             effect_work->unk_A8 += (((R08_80174648_S_80174648_3 *)target_color)->unk_00
                 - effect_work->unk_A8) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
             effect_work->unk_A9 += (((R08_80174648_S_80174648_3 *)target_color)->unk_01
@@ -86,7 +86,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
                 return;
             }
             effect_work->unk_10.p = ((u8 *)func_8017451C);
-            func_8004491C(effect_work, ((u8 *)dungeonStartBankActorHitReaction));
+            func_8004491C(effect_work, ((u8 *)start_bank_actor_hit_reaction));
             color = 0x00808080;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_AC = effect_work;
             ((R08_80174648_S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;
@@ -97,7 +97,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             effect_work->unk_1E = 0x1000;
             effect_work->unk_1C = 0x1000;
             effect_work->unk_0C.i = color;
-            variant = lookupMaskedByteTable(actor) - 1;
+            variant = lookup_masked_byte_table(actor) - 1;
             if (variant < 0) {
                 variant = func_80069EF8() % 3;
             }
@@ -105,7 +105,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             entity->unk_14.at00_u16.v |= 0x80;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-            dungeonCreatePositionedSpriteEffect(effect_state, position, entity);
+            create_positioned_sprite_effect(effect_state, position, entity);
             return;
         }
 
@@ -116,9 +116,9 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             if (effect_work->unk_14 & 0xE000) {
                 ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
                 ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-                dungeonDecrementMonsterEntryCount(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
-                func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-                func_8009A028(actor);
+                decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+                update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+                unlink_entity_node(actor);
                 effect_work = (u8 *)actor - 0x20;
                 effect_work->unk_10.i |= 0x80000000;
             }
@@ -129,14 +129,14 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
         }
 
         {
-            if (dungeonCreateStatusLinkedRenderEffect(position, ((void * *)D_80174D1C)[0], ((s16 *)D_80174D14)[0], ((s32 *)D_800DCF5C)) == 0) {
+            if (create_status_linked_render_effect(position, ((void * *)D_80174D1C)[0], ((s16 *)D_80174D14)[0], ((s32 *)D_800DCF5C)) == 0) {
                 return;
             }
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_9B++;
-            dungeonDecrementMonsterEntryCount(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
-            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-            func_8009A028(actor);
+            decrement_monster_entry_count(((R08_80174648_S_80174648_1 *)actor)->unk_13, 3);
+            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            unlink_entity_node(actor);
             effect_work = (u8 *)actor - 0x20;
             effect_work->unk_10.i |= 0x80000000;
             return;
@@ -148,7 +148,7 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             R08_80174648_S_80174648_7 *child_sprite;
             s32 direction;
 
-            if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = dungeonAdvanceStagedEntityLoad(entity, actor)) == 0) {
+            if ((((R08_80174648_S_80174648_1 *)actor)->unk_60.p = advance_staged_entity_load(entity, actor)) == 0) {
                 return;
             }
             ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s = 0x10;
@@ -157,9 +157,9 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             child_or_angle = ((R08_80174648_S_80174648_1 *)actor)->unk_60.i;
             child_sprite = ((R08_80174648_S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
             child_or_angle = ((R08_80174648_S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-            direction = (gameWork.view.viewAngle + child_or_angle + 0x100) >> 9;
+            direction = (g_game_work.view.viewAngle + child_or_angle + 0x100) >> 9;
             direction &= 7;
-            selectIndirectTableEntry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
+            select_indirect_table_entry(child_sprite, ((R08_80174648_S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
                 child_sprite->unk_04);
             child_sprite->unk_14 &= 0xFFFE;
         }
@@ -173,8 +173,8 @@ void dungeonAdvanceEffectAndChildAnimation(void *effect_state, EntityRec *positi
             }
             ((R08_80174648_S_80174648_10 *)(((R08_80174648_S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;
             ((R08_80174648_S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-            dungeonStatus.unk_0A--;
+            object_flag_block.flags |= 0x8000;
+            g_dungeon_status.unk_0A--;
             ((R08_80174648_S_80174648_1 *)actor)->unk_6D = 0;
         }
         }

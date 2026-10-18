@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Passes 0xD77 to townSetScriptFlagBit. */
-void townInvokeEventCodeD77(void) {
-    townSetScriptFlagBit(0xD77);
+/* Passes 0xD77 to set_script_flag_bit. */
+void invoke_event_code_d_77(void) {
+    set_script_flag_bit(0xD77);
 }

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800B0FD4();                      /* extern */
-void townSetShopChangeIndicatorColor();                      /* extern */
+void populate_shop_item_rows();                      /* extern */
+void set_shop_change_indicator_color();                      /* extern */
 
 typedef struct S_800B1778_0 {
     u8 pad_00[0x8];
@@ -12,12 +12,12 @@ typedef struct S_800B1778_0 {
 } S_800B1778_0;
 
 /* Set two subrecord values and run their associated update routines. */
-void townSetShopSubrecordValues(s32 record_address, s32 value_10, s32 value_08) {
+void set_shop_subrecord_values(s32 record_address, s32 value_10, s32 value_08) {
     S_800B1778_0 *subrecord;
 
     subrecord = record_address + 0x20;
     subrecord->unk_08 = value_08;
-    townSetShopChangeIndicatorColor(subrecord);
+    set_shop_change_indicator_color(subrecord);
     subrecord->unk_10 = value_10;
-    func_800B0FD4(subrecord);
+    populate_shop_item_rows(subrecord);
 }

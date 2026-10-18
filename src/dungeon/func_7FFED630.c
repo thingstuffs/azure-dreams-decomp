@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-void townShiftResourceEntriesAndData(s32 record_count, s32 data_offset) {
+void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
     s32 data_addr;
     s32 record_value;
     s32 src_index;
@@ -23,8 +23,8 @@ void townShiftResourceEntriesAndData(s32 record_count, s32 data_offset) {
             dst_record->h2 = src_record->h2;
             record_value = src_record->w4;
             dst_record->w4 = record_value;
-            data_addr = *(s32 *)(state + 0x2c) + townSumResourceBytes(src_index);
-            townCopyWordsBackwardFromOffset(data_addr + data_offset, data_addr, record_value);
+            data_addr = *(s32 *)(state + 0x2c) + sum_resource_bytes(src_index);
+            copy_words_backward_from_offset(data_addr + data_offset, data_addr, record_value);
             dst_index = src_index;
         } while (dst_index != 0);
     }

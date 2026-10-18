@@ -56,7 +56,7 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
-void townProjectAndEnqueueShadedQuad(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
+void project_and_enqueue_shaded_quad(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
                    InputPair vertex_3, u16 shade)
 {
     OutputPair screen_0;
@@ -72,7 +72,7 @@ void townProjectAndEnqueueShadedQuad(InputPair vertex_0, InputPair vertex_1, Inp
     {
         u8 *quad_ctx;
 
-        quad_ctx = *(u8 **)((u8 *)(&gameWork));
+        quad_ctx = *(u8 **)((u8 *)(&g_game_work));
         packet = ((GpuContext *)quad_ctx)->packetCursor;
         ((GpuContext *)quad_ctx)->packetCursor = packet + 0x24;
         ((S_800A2E30_1 *)packet)->unk_16 = shade;
@@ -110,13 +110,13 @@ void townProjectAndEnqueueShadedQuad(InputPair vertex_0, InputPair vertex_1, Inp
         depth_or_page = 0;
     }
 
-    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet);
+    func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, packet);
 
-    draw_ctx = *(u8 **)((u8 *)(&gameWork));
+    draw_ctx = *(u8 **)((u8 *)(&g_game_work));
     packet = ((GpuContext *)draw_ctx)->packetCursor;
     ((GpuContext *)draw_ctx)->packetCursor = packet + 0xC;
     depth_or_page = func_80066460(0, 1, 0x140, 0);
     func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
 
-    func_8006658C(*(u8 **)((u8 *)(&gameWork)) + 0xD8, packet);
+    func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, packet);
 }

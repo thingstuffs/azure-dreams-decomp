@@ -23,15 +23,15 @@ typedef struct {
 } DungeonTile;
 
 
-extern void dungeonRefreshPackedGridNibbles(void);
-extern s32 func_800A56E0();
-extern void dungeonMarkAllActorsWithHighFlag(void);
-extern void dungeonAddValueToActiveEntriesAtTile(s16 x, s16 y, s32 amount);
-extern void dungeonSetValueOfActiveEntriesAtTile(s16 x, s16 y, s16 value);
+extern void refresh_packed_grid_nibbles(void);
+extern s32 play_sound_if_enabled();
+extern void mark_all_actors_with_high_flag(void);
+extern void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
+extern void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
 extern void func_800419EC();
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
-void dungeonUpdateLongLivedTrapEffect(DungeonEffect *effect) {
+void update_long_lived_trap_effect(DungeonEffect *effect) {
     s16 *target_ptr;
     s16 *initial_ptr;
     s16 target_ticks;
@@ -63,7 +63,7 @@ void dungeonUpdateLongLivedTrapEffect(DungeonEffect *effect) {
 
     state = effect->state;
     if (state == 0) {
-        grid = &gameWork.map;
+        grid = &g_game_work.map;
         tiles = ((DungeonTile *)grid->cells);
         target_row = 0;
         target_row_base = effect;
@@ -79,7 +79,7 @@ void dungeonUpdateLongLivedTrapEffect(DungeonEffect *effect) {
                 target_ptr++;
                 tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
                     (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
-                dungeonAddValueToActiveEntriesAtTile((s16)((u16)effect->x + target_col),
+                add_value_to_active_entries_at_tile((s16)((u16)effect->x + target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_step);
                 target_col++;
@@ -88,9 +88,9 @@ void dungeonUpdateLongLivedTrapEffect(DungeonEffect *effect) {
             target_row_base += 0xA;
         } while (target_row < 5);
 
-        dungeonMarkAllActorsWithHighFlag();
+        mark_all_actors_with_high_flag();
         if (!((u16)effect->timer & 7)) {
-            func_800A56E0(0x818);
+            play_sound_if_enabled(0x818);
         }
         target_ticks = (u16)effect->timer - 1;
         effect->timer = target_ticks;
@@ -107,7 +107,7 @@ snap_target_tile:
                 tiles[((target_row + origin_y) << row_shift) + origin_x + snap_target_col].height = *snap_target_ptr;
                 target_height = *snap_target_ptr;
                 snap_target_ptr++;
-                dungeonSetValueOfActiveEntriesAtTile((s16)((u16)effect->x + snap_target_col),
+                set_value_of_active_entries_at_tile((s16)((u16)effect->x + snap_target_col),
                               (s16)((u16)effect->y + target_row),
                               (s16)-target_height);
                 snap_target_col++;
@@ -117,18 +117,18 @@ snap_target_tile:
                 target_row++;
                 snap_target_base += 0xA;
             } while (target_row < 5);
-            dungeonRefreshPackedGridNibbles();
-            dungeonStatus.unk_0A--;
+            refresh_packed_grid_nibbles();
+            g_dungeon_status.unk_0A--;
             D_800E296C &= 0xFFF7FFFF;
             effect->state++;
             return;
         }
     } else if (state == 1) {
-        if (dungeonStatus.flags & 0x10) {
+        if (g_dungeon_status.flags & 0x10) {
             delay_ticks = (u16)effect->delay - 1;
             effect->delay = delay_ticks;
             if ((delay_ticks << 16) <= 0) {
-                dungeonStatus.unk_0A++;
+                g_dungeon_status.unk_0A++;
                 effect->timer = 0x20;
                 func_800419EC(0x20, 8);
                 effect->state++;
@@ -136,7 +136,7 @@ snap_target_tile:
             }
         }
     } else {
-        grid = &gameWork.map;
+        grid = &g_game_work.map;
         tiles = ((DungeonTile *)grid->cells);
         restore_row = 0;
         initial_row_base = effect;
@@ -152,7 +152,7 @@ snap_target_tile:
                 initial_ptr++;
                 tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
                     (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
-                dungeonAddValueToActiveEntriesAtTile((s16)((u16)effect->x + restore_col),
+                add_value_to_active_entries_at_tile((s16)((u16)effect->x + restore_col),
                               (s16)((u16)effect->y + restore_row),
                               (s16)-restore_step);
                 restore_col++;
@@ -162,7 +162,7 @@ snap_target_tile:
         } while (restore_row < 5);
 
         if (!((u16)effect->timer & 7)) {
-            func_800A56E0(0x818);
+            play_sound_if_enabled(0x818);
         }
         restore_ticks = (u16)effect->timer - 1;
         effect->timer = restore_ticks;
@@ -180,7 +180,7 @@ snap_initial_tile:
                 initial_height = *snap_initial_ptr;
                 snap_initial_ptr++;
                 x_or_mask = (s16)((u16)effect->x + snap_initial_col);
-                dungeonSetValueOfActiveEntriesAtTile(x_or_mask,
+                set_value_of_active_entries_at_tile(x_or_mask,
                               (s16)((u16)effect->y + restore_row),
                               (s16)-initial_height);
                 snap_initial_col++;
@@ -190,8 +190,8 @@ snap_initial_tile:
                 restore_row++;
                 snap_initial_base += 0xA;
             } while (restore_row < 5);
-            dungeonRefreshPackedGridNibbles();
-            dungeonStatus.unk_0A--;
+            refresh_packed_grid_nibbles();
+            g_dungeon_status.unk_0A--;
             x_or_mask = 0xBFF70000;
             if (effect->flag == 0) {
                 x_or_mask = 0x7FF70000;
@@ -199,9 +199,9 @@ snap_initial_tile:
             x_or_mask |= 0xFFFF;
             D_800E296C &= x_or_mask;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
-        dungeonMarkAllActorsWithHighFlag();
+        mark_all_actors_with_high_flag();
     }
     return;
 }

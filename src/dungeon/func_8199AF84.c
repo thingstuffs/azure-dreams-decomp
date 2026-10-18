@@ -30,7 +30,7 @@ typedef struct {
 } JitterSprite;
 typedef struct { u16 flags; } JitterHeader;
 
-void func_80024784(void *arg0, void *arg1, void *arg2) {
+void jitter_effect_position_and_fade(void *arg0, void *arg1, void *arg2) {
     s32 axes_left;
     u16 *base_coord;
     s32 jitter;
@@ -77,6 +77,6 @@ void func_80024784(void *arg0, void *arg1, void *arg2) {
     (((JitterSprite *)arg2)->red) = brightness;
     if ((s16) (((JitterEffect *)arg0)->fade.bits) <= 0) {
         (((JitterHeader *)arg0)[-1].flags) = (u16) ((((JitterHeader *)arg0)[-1].flags) | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

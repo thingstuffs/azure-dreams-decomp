@@ -35,7 +35,7 @@ extern void D_80045340(void);
 extern void func_8004491C(void *, void (*)(void));
 
 /* Initialize object rendering and copy the three supplied parameter fields. */
-void dungeonInitializeObjectRenderingAndParams(Obj *object, s32 state_value, Sub2 *source_params)
+void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *source_params)
 {
     Sub1 *render_state;
     Sub2 *dest_params;

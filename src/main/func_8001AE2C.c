@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_80401BF4(void *target, s32 entry_index);
-extern s32 cardDevkitHasDirectoryNamePrefix(s32 count, u8 *text);
-extern s32 func_80401C70(void *file_path, void *buffer, s32 block_count, s32 block_offset);
+extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
+extern s32 card_devkit_has_directory_name_prefix(s32 count, u8 *text);
+extern s32 read_file(void *file_path, void *buffer, s32 block_count, s32 block_offset);
 extern s32 D_804094EC[];
 extern s32 D_80136140[];
 extern u8 D_8009DDD8[];
@@ -16,17 +16,17 @@ s32 func_8001AE2C(s32 slot_index) {
     s32 result;
 
     result = 1;
-    func_80401BF4(slot_data, slot_index);
+    configure_target_for_active_state_and_entry(slot_data, slot_index);
     if (D_804094EC[0] != 0) {
         lookup_key = D_80136140 + 1;
     } else {
         lookup_key = D_80136140;
     }
     slot_offset = slot_index << 7;
-    lookup_result = cardDevkitHasDirectoryNamePrefix(*lookup_key, &slot_data[5]);
+    lookup_result = card_devkit_has_directory_name_prefix(*lookup_key, &slot_data[5]);
     *(s32 *)(D_8009DDD8 + slot_offset) = lookup_result;
     if (lookup_result != 0) {
-        result = func_80401C70(slot_data, D_8009DDD8 + slot_offset, 1, 4);
+        result = read_file(slot_data, D_8009DDD8 + slot_offset, 1, 4);
         *(s32 *)(D_8009DDD8 + slot_offset) = 1;
     }
     return result;

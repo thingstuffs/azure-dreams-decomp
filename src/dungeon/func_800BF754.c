@@ -5,7 +5,7 @@ extern void *func_8003FD64();
 extern s32 D_800C4E00[4];
 
 /* Creates an object with the D_800C4E00 table and initializes its payload fields. */
-void *dungeonCreateTimedRegionFlagExpiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC) {
+void *create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC) {
     void *object;
     void *payload;
 

@@ -9,7 +9,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 typedef void (*Callback)(void);
 
 extern void func_80171158(void);
-extern void func_80171320(void);
+extern void update_entity_callbacks_and_floor_motion(void);
 extern void func_80171B54(void);
 extern void func_80171B80(void);
 extern void func_80171B00(void);
@@ -18,18 +18,18 @@ extern void func_80171AE4(void);
 extern void func_80171B44(void);
 extern void func_80173020(void);
 extern void func_80173070(void);
-extern void func_801730E4(void);
+extern void advance_selected_item_action_2(void);
 extern void func_80173158(void);
 extern void func_801731D0(void);
 extern void func_8017329C(void);
 extern void func_801734CC(void);
-extern void func_80173514(void);
+extern void advance_timed_sprite_flashing_sequence(void);
 extern void func_80173744(void);
 extern void func_801737CC(void);
 extern void func_8017334C(void);
 extern void func_80173344(void);
 extern void func_8017333C(void);
-extern void func_80173354(void);
+extern void complete_directional_hop_to_tile(void);
 extern void func_801732F8(void);
 extern void func_801732F0(void);
 extern void func_801732E8(void);
@@ -39,16 +39,16 @@ struct CallbackBlock {
     u32 vectors[8];
 };
 
-const struct CallbackBlock func_80170800 __attribute__((section(".text.func_80170800"))) = {
+const struct CallbackBlock queue_projected_translucent_pixel __attribute__((section(".text.queue_projected_translucent_pixel"))) = {
     {
-        func_80171158, func_80171320, func_80171B54, func_80171B54,
+        func_80171158, update_entity_callbacks_and_floor_motion, func_80171B54, func_80171B54,
         func_80171B54, func_80171B80, func_80171B00, func_80171B00,
         func_80171B00, func_80171AAC, func_80171AE4, func_80171B80,
         func_80171B80, func_80171B44, func_80173020, func_80173070,
-        func_801730E4, func_80173158, func_801731D0, 0,
-        func_8017329C, func_801734CC, func_80173514, func_80173744,
+        advance_selected_item_action_2, func_80173158, func_801731D0, 0,
+        func_8017329C, func_801734CC, advance_timed_sprite_flashing_sequence, func_80173744,
         func_801737CC, 0, func_8017334C, func_80173344,
-        func_8017333C, func_80173354, func_801732F8, func_801732F0,
+        func_8017333C, complete_directional_hop_to_tile, func_801732F8, func_801732F0,
         func_801732E8
     },
     {
@@ -58,7 +58,7 @@ const struct CallbackBlock func_80170800 __attribute__((section(".text.func_8017
 };
 
 #ifdef __mips__
-__asm__(".size func_80170800, 644");
+__asm__(".size queue_projected_translucent_pixel, 644");
 #endif
 
 
@@ -95,10 +95,10 @@ typedef struct Packet {
 } Packet;
 
 /* Projects a point and queues a semitransparent pixel and its drawing mode. */
-s32 func_801708A4(u8 *node_data, u16 *position)
+s32 create_actor_grid_object(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **global_state = ((void * *)(&gameWork));
+    void **global_state = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)global_state[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

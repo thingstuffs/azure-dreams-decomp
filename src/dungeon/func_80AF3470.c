@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80174C70(void *effect, void *motion, void *render)
+void update_effect_motion_and_brightness(void *effect, void *motion, void *render)
 {
     R10_80174C70_LocalVector direction;
     R10_80174C70_LocalTable directions;
@@ -63,7 +63,7 @@ void func_80174C70(void *effect, void *motion, void *render)
 
     case 26:
         (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

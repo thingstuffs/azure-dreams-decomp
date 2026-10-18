@@ -5,7 +5,7 @@
 
 
 /* Update a dungeon effect's motion, flickering vertices, and fade state. */
-void dungeonUpdateFlickeringEffectVertices(DungeonObj *obj)
+void update_flickering_effect_vertices(DungeonObj *obj)
 {
     s32 height_or_index;
     s32 old_timer;
@@ -58,7 +58,7 @@ void dungeonUpdateFlickeringEffectVertices(DungeonObj *obj)
 
     if (obj->z < (s32)0xFFD00000 || obj->state == 3) {
         *((u16 *)obj - 1) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 
     if (obj->state == 0) {
@@ -69,7 +69,7 @@ void dungeonUpdateFlickeringEffectVertices(DungeonObj *obj)
     query_height = obj->height;
     query_height -= 0x30;
     query_height = (s16)query_height;
-    height_or_index = (s16)func_800BCB04(*(u16 *)((u8 *)obj + 6),
+    height_or_index = (s16)sample_terrain_surface_height(*(u16 *)((u8 *)obj + 6),
                            *(u16 *)((u8 *)obj + 0x0A), query_height);
     if (height_or_index < 0x200) {
         obj->height = height_or_index;
@@ -125,7 +125,7 @@ void dungeonUpdateFlickeringEffectVertices(DungeonObj *obj)
             packet.height = packet_height;
             packet.type = 4;
             packet.pad1A = 0;
-            dungeonTransformRotatedVertices(packet_ptr);
+            transform_rotated_vertices(packet_ptr);
         }
         return;
     }

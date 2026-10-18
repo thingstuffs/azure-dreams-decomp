@@ -1,6 +1,6 @@
 #include "modules/town_ovl_5ff1d0.h"
 
-s32 townCheckInputsAfterThresholdTen(s32 check_value, s32 check_data) {
+s32 check_inputs_after_threshold_ten(s32 check_value, s32 check_data) {
     s32 check_passed;
 
     check_passed = 0;

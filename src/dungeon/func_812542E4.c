@@ -2,12 +2,12 @@
 #include "shared/record_ptrs.h"
 
 extern void func_80173A48(void);
-extern void dungeonClearEntryFlagAndLinkOwner(void *);
+extern void clear_entry_flag_and_link_owner(void *);
 
 extern u8 *D_80174710;
 
 /* Clear the state flag, run the shared update, and process both occupied object slots. */
-void dungeonProcessGlobalEffectSlots(void)
+void process_global_effect_slots(void)
 {
     s16 slot;
     void *object;
@@ -20,7 +20,7 @@ void dungeonProcessGlobalEffectSlots(void)
     do {
         object = *(void **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
         if (object != 0) {
-            dungeonClearEntryFlagAndLinkOwner((u8 *)object - 0x20);
+            clear_entry_flag_and_link_owner((u8 *)object - 0x20);
         }
         slot++;
     } while (slot < 2);

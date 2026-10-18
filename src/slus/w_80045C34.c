@@ -12,7 +12,7 @@ typedef struct S_80045C34 {
 } S_80045C34;
 
 extern void func_80045CC4(void *a0, s32 a1, S_80045C34 *a2, s16 a3);
-extern s32 isFramePacketArenaOverflowed(u32 a0);
+extern s32 is_frame_packet_arena_overflowed(u32 a0);
 
 /* D_80083160[0] points at a large shared-state struct; only the pointer field
  * at offset 0x8D0 is read here. */
@@ -26,7 +26,7 @@ s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record)
     do {
         if (!(value_record->unk14 & 0x80)) {
             func_80045CC4(link_data, link_value, value_record, value_record->unk6);
-            if (isFramePacketArenaOverflowed(*(u32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
+            if (is_frame_packet_arena_overflowed(*(u32 *)((u8 *)g_game_work.unk_000 + 0x8D0))) {
                 return 0;
             }
         }

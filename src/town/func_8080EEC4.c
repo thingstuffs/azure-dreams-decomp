@@ -44,12 +44,12 @@ typedef struct S_8080EEC4_0 {
     u8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_8080EEC4_0;   /* view in townAnimateCollectionCenterSprite */
+} S_8080EEC4_0;   /* view in animate_collection_center_sprite */
 
 typedef struct S_8080EEC4_1 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8080EEC4_1;   /* setup in townAnimateCollectionCenterSprite */
+} S_8080EEC4_1;   /* setup in animate_collection_center_sprite */
 
 typedef struct S_8080EEC4_2 {
     u8 pad_00[0x4];
@@ -65,7 +65,7 @@ typedef struct S_8080EEC4_2 {
     s16 unk_70;
     union { s16 s; u16 u; } unk_72;   /* accessed as both */
     union { s16 s; u16 u; } unk_74;   /* accessed as both */
-} S_8080EEC4_2;   /* ctrl in townAnimateCollectionCenterSprite */
+} S_8080EEC4_2;   /* ctrl in animate_collection_center_sprite */
 
 typedef struct S_8080EEC4_3 {
     u8 pad_00[0x14];
@@ -75,10 +75,10 @@ typedef struct S_8080EEC4_3 {
     u8 pad_1C[0x6];
     s16 unk_22;
     s16 unk_24;
-} S_8080EEC4_3;   /* work in townAnimateCollectionCenterSprite */
+} S_8080EEC4_3;   /* work in animate_collection_center_sprite */
 
 /* Per-frame camera/approach step: measure the distance to the target, then run the six-state approach machine. */
-void townAnimateCollectionCenterSprite(u8 **ctrl, u8 *setup, u8 *view)
+void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
 {
     LocalRecord local;
     u8 *work;

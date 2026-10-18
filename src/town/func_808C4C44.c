@@ -8,7 +8,7 @@ typedef struct CopyBlock {
 extern u8 D_0000001C[];
 
 /* Copy 52 bytes from the source to the global buffer at offset 0xE34. */
-void func_80000C44(CopyBlock *source) {
+void copy_52_bytes_source_global(CopyBlock *source) {
     CopyBlock *dst = (CopyBlock *)(D_0000001C + 0xE34);
     CopyBlock *src = source;
     CopyBlock *end = src + 3;

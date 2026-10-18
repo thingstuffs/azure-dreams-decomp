@@ -41,13 +41,13 @@ typedef struct {
 
 extern u8 D_800DCF58[9];
 
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void dungeonSetRecordIntegerTileCenter(FuncArg1 *, u8, u8);
-extern s16 func_800BCB04(s32 x, s32 y, s16 min_height);
-extern void dungeonRestorePlayerControlCallback(FuncArg0 *, FuncArg3 *);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void set_record_integer_tile_center(FuncArg1 *, u8, u8);
+extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
+extern void restore_player_control_callback(FuncArg0 *, FuncArg3 *);
 
 /* Updates a spinning movement sequence and restores the actor's original rotation. */
-void dungeonUpdatePlayerRandomWarp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
+void update_player_random_warp(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
     FuncArg3 *actor;
     register s32 flags_mask;
     s32 state;
@@ -71,9 +71,9 @@ void dungeonUpdatePlayerRandomWarp(FuncArg0 *motion, FuncArg1 *position, FuncArg
             return;
         }
         position->field14 = 0;
-        dungeonSetRecordIntegerTileCenter(position, tile->field24, tile->field25);
+        set_record_integer_tile_center(position, tile->field24, tile->field25);
         height_offset = -0x400;
-        actor->field88 = func_800BCB04(position->field2, position->field6,
+        actor->field88 = sample_terrain_surface_height(position->field2, position->field6,
                                        (D_800DCF58[0] = 1, height_offset));
         motion->field92 = -0x200;
         motion->field96 = 0x10;
@@ -92,14 +92,14 @@ void dungeonUpdatePlayerRandomWarp(FuncArg0 *motion, FuncArg1 *position, FuncArg
         if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
             return;
         }
-        func_8009A21C(tile->field24, tile->field25,
+        cycle_map_cell_flags(tile->field24, tile->field25,
                       (actor->field1C & 0x2000) ? 0x300 : 0x3000);
         flags_mask = 0xFFFEFFFF;
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         actor_flags = actor->field1C & flags_mask;
         actor->field2A = actor->field6A;
         actor->field1C = actor_flags;
-        dungeonRestorePlayerControlCallback(motion, actor);
+        restore_player_control_callback(motion, actor);
 
         return;
     default:

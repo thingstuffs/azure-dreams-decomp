@@ -15,7 +15,7 @@ typedef struct S_800C30D4_0 {
     s16 unk_9C;
     u8 pad_9E[0x86];
     s32 unk_124;
-} S_800C30D4_0;   /* arg0 in dungeonUseItemToApplyPoison; pointer addresses record offset 0x14 */
+} S_800C30D4_0;   /* arg0 in use_item_to_apply_poison; pointer addresses record offset 0x14 */
 
 typedef struct S_800C30D4_1 {
     u8 pad_00[0x24];
@@ -25,42 +25,42 @@ typedef struct S_800C30D4_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void dungeonBeginDeferredItemAction(void *entity, void *first_ptr, void *second_ptr, void *entity_again);          /* extern */
-void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
-void dungeonAdjustSourceValueAndFinalize();           /* extern */
-s32 func_800A48F0();        /* extern */
-void func_800A5F38();                 /* extern */
-void func_800A63B8(void *entity, s32 item, s16 action_type);   /* extern */
-s32 dungeonApplyActorFoodPreference();            /* extern */
-void *dungeonSpawnRandomizedParticleBurst(); /* extern */
+void begin_deferred_item_action(void *entity, void *first_ptr, void *second_ptr, void *entity_again);          /* extern */
+void clear_slot_and_update_linked_state();                         /* extern */
+void adjust_source_value_and_finalize();           /* extern */
+s32 set_or_clear_actor_status_slot();        /* extern */
+void apply_item_effect_at_entity_position();                 /* extern */
+void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
+s32 apply_actor_food_preference();            /* extern */
+void *spawn_randomized_particle_burst(); /* extern */
 extern M2C_UNK D_800E1729;
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
-s32 dungeonUseItemToApplyPoison(void *entity, s32 item, s16 action_type) {
+s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
     S_800C30D4_1 *tile;
 
     if (entity == ((u8 *)D_800E3D7C)) {
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;
-        dungeonBeginDeferredItemAction(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
-        func_800A63B8(entity, item, action_type);
-        if (dungeonApplyActorFoodPreference(entity, (*((u16 *)(((u8 *)D_800DDE84) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
+        display_item_status_message(entity, item, action_type);
+        if (apply_actor_food_preference(entity, (*((u16 *)(((u8 *)D_800DDE84) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
             >> 6) & 3, 0) == 0) {
-            func_800A5F38(entity, item);
+            apply_item_effect_at_entity_position(entity, item);
             return 1;
         }
     }
     tile = ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_00;
-    dungeonSpawnRandomizedParticleBurst((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
+    spawn_randomized_particle_burst((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
-    if (((func_800A48F0(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
-        dungeonAdjustSourceValueAndFinalize(entity, &D_800E1729);
+    if (((set_or_clear_actor_status_slot(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
+        adjust_source_value_and_finalize(entity, &D_800E1729);
     }
-    dungeonClearSlotAndUpdateLinkedState(item);
+    clear_slot_and_update_linked_state(item);
     {
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     }
     return 1;
 }

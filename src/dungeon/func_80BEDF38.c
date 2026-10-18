@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource16_slot0.h"
 
-void dungeonUpdateExpandingSpiralEffect(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
+void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
     s16 life;
     s16 next_life;
     s32 y_offset;
@@ -32,7 +32,7 @@ void dungeonUpdateExpandingSpiralEffect(void *effect, R16_80173738_FuncArg1 *pos
     ((R16_80173738_S_80173738_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((R16_80173738_S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 =
-            (s32) (((R16_80173738_S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+        ((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 =
+            (s32) (((R16_80173738_S_80173738_2 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
     }
 }

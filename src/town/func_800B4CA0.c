@@ -27,11 +27,11 @@ typedef struct {
     s32 value;
 } __attribute__((packed)) M2C_UNALIGNED_WORD;
 
-s32 func_800B2130();
-void func_800B2190();
-u32 func_800B2280();
-void func_800B23C0();
-s32 func_800B29A4();
+s32 get_mode_value_or_default();
+void remove_selected_entry_from_list();
+u32 find_unused_pool_slot();
+void get_zero_based_group_index();
+s32 count_nonzero_entries();
 
 
 typedef struct S_800B2400_1 {
@@ -85,7 +85,7 @@ s32 func_800B2400(void *state) {
     S_800B2400_7 *dest_count;
     S_800B2400_5 *source_selection;
 
-    dest_capacity = func_800B2130(((Rec_func_800B1DCC_arg0 *)state)->unk_18);
+    dest_capacity = get_mode_value_or_default(((Rec_func_800B1DCC_arg0 *)state)->unk_18);
     dest_list = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
     if (dest_list->unk_28 >= dest_capacity) {
         result = 1;
@@ -104,22 +104,22 @@ s32 func_800B2400(void *state) {
                 result = 3;
             } else {
                 dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C
-                    + (func_800B29A4(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                    + (count_nonzero_entries(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
                     + state)))->unk_3C) * 4);
-                new_item = func_800B2280(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                new_item = find_unused_pool_slot(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
                     + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
                 *(M2C_UNALIGNED_WORD *)new_item = *(M2C_UNALIGNED_WORD *)selected_item;
                 dest_slot->unk_00 = new_item;
                 dest_slot->unk_04 = 0;
                 remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
-                func_800B2190(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C,
+                remove_selected_entry_from_list(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C,
                     (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
                 source_count = (((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + state;
                 source_count->unk_28 = (s32) (source_count->unk_28 - 1);
-                func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));
+                get_zero_based_group_index(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));
                 dest_count = state + (((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10);
                 dest_count->unk_28 = (s32) (dest_count->unk_28 + 1);
-                func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10) + 0x1C));
+                get_zero_based_group_index(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 0x10) + 0x1C));
                 result = 0;
             }
         }

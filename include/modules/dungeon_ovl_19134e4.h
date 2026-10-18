@@ -51,7 +51,7 @@ typedef struct Row_818F34E4_S_80024CE4_4 {
 
 /* Updates a timed effect's oscillation, fade, and scale, then marks it finished. */
 s32 func_800644B8(s16);
-s16 func_800BCB04(s32, s32, s16);
+s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 D_800259AC;
-void dungeonUpdateOscillatingFadingEffect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused);
+void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *position, Row_818F34E4_S_80024CE4_1 *visual, s32 unused);
 #endif

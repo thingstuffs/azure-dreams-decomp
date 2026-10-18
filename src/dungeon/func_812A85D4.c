@@ -11,18 +11,18 @@
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern void func_80047784(void *, u8, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
 extern u8 D_80080000[];
 
 /* Updates action movement and directional animation through three states. */
-void func_80173DD4(void *action, void *motion, void *object, void *actor)
+void update_actor_behavior_2(void *action, void *motion, void *object, void *actor)
 {
     s32 delta_x;
     s32 delta_y;
@@ -44,7 +44,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         if (flags & 0x8000) {
             U16(object, 0x14) = flags | 0x6000;
             U8(action, 0x9B) = 2;
-            dungeonResolveAttackDamageAndEffects(actor, object, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
             return;
         }
         if ((flags & 0x6000) == 0) {
@@ -54,10 +54,10 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
             return;
         }
         PTR(object, 0x2C) = D_80175C78;
-        facing_ptr = &D_80175C78[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        facing_ptr = &D_80175C78[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
         func_80047784(object, *facing_ptr, 0);
         U16(action, 0x96) = 0;
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         U8(action, 0x9B)++;
         return;
     }
@@ -71,7 +71,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         s32 signed_value;
 
         anim_table = U16(action, 0x96);
-        direction_base = (u8 *)&dirStepX;
+        direction_base = (u8 *)&dir_step_x;
         next_tick = anim_table + 1;
         anim_table -= 3;
         U16(action, 0x96) = next_tick;
@@ -79,7 +79,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         anim_table = (u32)anim_table < 8U;
         direction_base = (u8 *)(direction_off + (s32)direction_base);
         delta_x = *(s16 *)direction_base;
-        direction_base_2 = (u8 *)&dirStepY;
+        direction_base_2 = (u8 *)&dir_step_y;
         signed_value = *(s16 *)((s32)(direction_off + (s32)direction_base_2));
         delta_x = -delta_x;
         delta_x <<= 16;
@@ -105,7 +105,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         }
         object_type = S8(object, 4);
         if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
-            dungeonResolveAttackDamageAndEffects(actor, object, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
             anim_table = 0x80170000;
         } else {
             anim_table = 0x80170000;
@@ -127,7 +127,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        dungeonSetRecordIntegerTileCenter(motion, U8(object, 0x24), U8(object, 0x25));
+        set_record_integer_tile_center(motion, U8(object, 0x24), U8(object, 0x25));
         U8(action, 0x9B)++;
         return;
     }
@@ -139,11 +139,11 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
         if ((U16(object, 0x14) & 0xE000) == 0) {
             return;
         }
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        reduce_actor_food_meter(actor, 0x100);
         actor_arg = actor;
         PTR(action, 0x8C) = D_80171FA4;
         S32(D_80080000, 0x346C) = 0;
-        dungeonAdvanceStatusTimers(actor_arg);
+        advance_status_timers(actor_arg);
         U16(actor, 0x46) &= 0x7FFF;
     }
 

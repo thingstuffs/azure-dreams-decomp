@@ -6,12 +6,12 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void selectIndirectTableEntry(void *, u8, s8);
+extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern Callback D_80174B1C[];
 
 typedef struct S_80170A70_0 {
@@ -22,7 +22,7 @@ typedef struct S_80170A70_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170A70_0;   /* arg1 in dungeonUpdateBankActorMovement */
+} S_80170A70_0;   /* arg1 in update_bank_actor_movement */
 
 typedef struct S_80170A70_1 {
     u8 pad_00[0x4];
@@ -34,7 +34,7 @@ typedef struct S_80170A70_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170A70_1;   /* arg2 in dungeonUpdateBankActorMovement */
+} S_80170A70_1;   /* arg2 in update_bank_actor_movement */
 
 typedef struct S_80170A70_2 {
     u8 pad_00[0x1C];
@@ -43,10 +43,10 @@ typedef struct S_80170A70_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170A70_2;   /* object in dungeonUpdateBankActorMovement */
+} S_80170A70_2;   /* object in update_bank_actor_movement */
 
 /* Update entity behavior, movement, sprite facing, and ground-relative height. */
-void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite_arg)
+void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg)
 {
     S_80170A70_2 *object = entity;
     Callback paused_callback;
@@ -61,9 +61,9 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
     u32 object_height;
 
     bob_offset = 0;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
-        if (paused_callback == (Callback)dungeonUpdateBankActorState) {
+        if (paused_callback == (Callback)update_bank_actor_state) {
             paused_callback(entity, motion_arg, sprite_arg, entity);
             return;
         }
@@ -72,7 +72,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
     }
 
     state_or_facing = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
 
@@ -82,7 +82,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
     }
     D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
-        func_800AA36C(entity, motion_arg, sprite_arg, entity);
+        try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
 
     ((S_80170A70_0 *)motion_arg)->unk_00.at00.v += ((S_80170A70_0 *)motion_arg)->unk_0C;
@@ -99,10 +99,10 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
     sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
-        facing = ((gameWork.view.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
+        facing = ((g_game_work.view.viewAngle + object->unk_2A + 0x100) >> 9) & 7;
         state_or_facing = facing;
         if ((*(s16 *)((u8 *)entity + (0x94))) != state_or_facing) {
-            selectIndirectTableEntry(sprite_arg,
+            select_indirect_table_entry(sprite_arg,
                 ((u8 *)((S_80170A70_1 *)sprite_arg)->unk_2C)[state_or_facing],
                 ((S_80170A70_1 *)sprite_arg)->unk_04);
             (*(s16 *)((u8 *)entity + (0x94))) = facing;
@@ -110,7 +110,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
 
         {
 
-            if (dirSpriteFlag[state_or_facing] != 0) {
+            if (dir_sprite_flag[state_or_facing] != 0) {
                 ((S_80170A70_1 *)sprite_arg)->unk_14 |= 1;
             } else {
                 ((S_80170A70_1 *)sprite_arg)->unk_14 &= 0xFFFE;
@@ -118,7 +118,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
         }
 
         if ((*(u8 *)((u8 *)entity + (0x9A))) != 8) {
-            dungeonApplyMonsterKoyawData(object->unk_1C, (u8 *)sprite_arg + 0xC);
+            apply_monster_koyaw_data(object->unk_1C, (u8 *)sprite_arg + 0xC);
         }
 
         if (!(object->unk_1C & 0x20)) {
@@ -146,7 +146,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
             }
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-                ground_height = (s16)(func_800BCB04(
+                ground_height = (s16)(sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
@@ -163,7 +163,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
             (*(s16 *)((u8 *)entity + (0xA0))) = 0;
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
-                ground_delta = (s16)func_800BCB04(
+                ground_delta = (s16)sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
@@ -188,7 +188,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
             bob_offset = 0;
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
 
-                ground_delta = (s16)func_800BCB04(
+                ground_delta = (s16)sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
@@ -213,7 +213,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
             }
 
             if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-                ground_height = (s16)(func_800BCB04(
+                ground_height = (s16)(sample_terrain_surface_height(
                     ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
@@ -232,7 +232,7 @@ void dungeonUpdateBankActorMovement(void *entity, void *motion_arg, void *sprite
 
     if (object->unk_1C & 0x40000000) {
         object->unk_1C &= 0xBFFFFFFF;
-        ground_height = func_800BCB04(
+        ground_height = sample_terrain_surface_height(
             (((S_80170A70_1 *)sprite_arg)->unk_24 << 6) | 0x20,
             (((S_80170A70_1 *)sprite_arg)->unk_25 << 6) | 0x20,
             (s16)(object->unk_88.u - 0x20));

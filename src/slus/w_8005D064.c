@@ -8,7 +8,7 @@ void func_8005D064(void)
     SoundTransferRegisters *spu_regs;
 
     if (D_800799A8 == 0) {
-        delayMultiplyLoop();
+        delay_multiply_loop();
     }
 
     spu_regs = D_80079958;

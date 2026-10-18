@@ -8,13 +8,13 @@ typedef struct S_80023404_0 {
     s16 unk_0A;
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     union { s16 s; u16 u; } unk_0E;   /* accessed as both */
-} S_80023404_0;   /* arg0 in townUpdateMinigameScroll */
+} S_80023404_0;   /* arg0 in update_minigame_scroll */
 
 
-extern void townDrawScrollingColumn(s16, s16, s16);
+extern void draw_scrolling_column(s16, s16, s16);
 
 /* Updates scrolling through 12 positions, accelerating or settling according to state. */
-void townUpdateMinigameScroll(S_80023404_0 *scroll)
+void update_minigame_scroll(S_80023404_0 *scroll)
 {
     s32 state;
     state = scroll->unk_04.s;
@@ -23,7 +23,7 @@ void townUpdateMinigameScroll(S_80023404_0 *scroll)
     case 0:
         scroll->unk_0E.s = 0;
         scroll->unk_0C.s = 0;
-        townDrawScrollingColumn(scroll->unk_08,
+        draw_scrolling_column(scroll->unk_08,
                       scroll->unk_0A,
                       scroll->unk_0E.s);
         scroll->unk_04.s = 1;
@@ -51,7 +51,7 @@ void townUpdateMinigameScroll(S_80023404_0 *scroll)
                 scroll->unk_0A = (scroll->unk_0A + 1) % 12;
             } while ((s16)scroll->unk_0E.u < 0);
         }
-        townDrawScrollingColumn(scroll->unk_08, scroll->unk_0A, scroll->unk_0E.s);
+        draw_scrolling_column(scroll->unk_08, scroll->unk_0A, scroll->unk_0E.s);
         return;
 
     case 4:
@@ -60,7 +60,7 @@ void townUpdateMinigameScroll(S_80023404_0 *scroll)
             scroll->unk_0E.u = 0;
             scroll->unk_04.u = 0;
         }
-        townDrawScrollingColumn(scroll->unk_08,
+        draw_scrolling_column(scroll->unk_08,
                       scroll->unk_0A,
                       scroll->unk_0E.s);
         return;

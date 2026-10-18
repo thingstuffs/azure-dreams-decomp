@@ -5,7 +5,7 @@
 #include "modules/dungeon_native_abi.h"
 #include "shared/object_node.h"
 
-extern void dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark();
+extern void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark();
 extern M2C_UNK D_800CEEFC;
 
 /* One 4-byte slot of the fade record: only the second halfword is used. */
@@ -43,16 +43,16 @@ typedef struct FadeSettings {
     u16 unk_1E;
 } FadeSettings;
 
-/* Retail 818875E8 (dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start): creates a fade object (updated each frame by dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark) with its start
+/* Retail 818875E8 (handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start): creates a fade object (updated each frame by handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark) with its start
  * values, per-channel start - end differences and a copy of the settings. */
-ObjectNodeHeader *dungeonHandleRetailN818875E8Callee80024DE8CreatesFadeUpdatedEachFrameCallee80024D70Start(FadeEndpoints *endpoints, FadeSettings *settings) {
+ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_updated_each_frame_callee_80024_d_70_start(FadeEndpoints *endpoints, FadeSettings *settings) {
     FadeTransition *transition;
     ObjectNodeHeader *object;
     FadeSettings *object_settings;
 
     object = func_8003FC64(0x202);
     if (object != NULL) {
-        object->unk_10 = (void *)dungeonHandleRetailN81887570Callee80024D70FadeColourN1N8PerCallMark;
+        object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
         func_8004491C(object, (s32)&D_800CEEFC);
         transition = object->unk_08;
         transition->start[0].value = endpoints->start[0].value;

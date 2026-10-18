@@ -3,14 +3,14 @@
 
 typedef struct S_80026C54_0_pre {
     u16 unk_00;
-} S_80026C54_0_pre;   /* the 0x2 bytes before arg0 in townFadeSceneTileAfterLinkedFlag, addressed as arg0[-1] */
+} S_80026C54_0_pre;   /* the 0x2 bytes before arg0 in fade_scene_tile_after_linked_flag, addressed as arg0[-1] */
 
 typedef struct S_80026C54_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80026C54_0;   /* arg0 in townFadeSceneTileAfterLinkedFlag */
+} S_80026C54_0;   /* arg0 in fade_scene_tile_after_linked_flag */
 
 typedef struct S_80026C54_1 {
     u8 pad_00[0x1A];
@@ -19,7 +19,7 @@ typedef struct S_80026C54_1 {
 
 
 /* Waits for the linked object flag, then fades the stored value and marks completion. */
-void townFadeSceneTileAfterLinkedFlag(void *effect) {
+void fade_scene_tile_after_linked_flag(void *effect) {
     S_80026C54_1 *linked_object;
     s16 state;
     s32 fade_value;
@@ -39,7 +39,7 @@ void townFadeSceneTileAfterLinkedFlag(void *effect) {
         ((S_80026C54_0 *)effect)->unk_08 = fade_value;
         if (fade_value <= 0x80808) {
             ((S_80026C54_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

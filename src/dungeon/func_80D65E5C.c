@@ -3,7 +3,7 @@
 extern s32 rand(void);
 
 /* Returns a random sample below limit, or zero when limit is zero. */
-s32 dungeonRandomBelowLimit(s32 limit) {
+s32 random_below_limit(s32 limit) {
     s32 sample;
 
     sample = 0;

@@ -5,7 +5,7 @@ extern u8 D_80017BD0[];
 extern u8 D_8001791C[];
 
 /* Counts listed records whose value at offset 4 passes func_8001E670. */
-s32 townCountListedEnabledRecords(void) {
+s32 count_listed_enabled_records(void) {
     s32 match_count;
     u8 *record_ids;
     u8 *records;

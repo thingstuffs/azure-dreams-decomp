@@ -27,6 +27,6 @@ void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22
     entity->timer = timer;
     if (entity->limit < timer) {
         entity[-1].limit |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

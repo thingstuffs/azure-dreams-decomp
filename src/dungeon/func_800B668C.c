@@ -31,7 +31,7 @@ typedef struct S_800BBDEC_0 {
     u16 unk_100;
     u16 unk_102;
     u16 unk_104;
-} S_800BBDEC_0;   /* scratch in dungeonDrawShadedVerticalQuad */
+} S_800BBDEC_0;   /* scratch in draw_shaded_vertical_quad */
 
 typedef struct S_800BBDEC_1 {
     u8 pad_00[0x2];
@@ -40,9 +40,9 @@ typedef struct S_800BBDEC_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BBDEC_1;   /* arg1 in dungeonDrawShadedVerticalQuad */
+} S_800BBDEC_1;   /* arg1 in draw_shaded_vertical_quad */
 
-   /* *global in dungeonDrawShadedVerticalQuad */
+   /* *global in draw_shaded_vertical_quad */
 
 typedef struct S_800BBDEC_3 {
     u8 pad_00[0xC];
@@ -52,12 +52,12 @@ typedef struct S_800BBDEC_3 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_800BBDEC_3;   /* arg2 in dungeonDrawShadedVerticalQuad */
+} S_800BBDEC_3;   /* arg2 in draw_shaded_vertical_quad */
 
 typedef struct S_800BBDEC_4 {
     u8 pad_00[0x50];
     u16 unk_50;
-} S_800BBDEC_4;   /* arg0 in dungeonDrawShadedVerticalQuad */
+} S_800BBDEC_4;   /* arg0 in draw_shaded_vertical_quad */
 
 typedef struct S_800BBDEC_5 {
     u8 pad_00[0x4];
@@ -76,7 +76,7 @@ typedef struct S_800BBDEC_5 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_800BBDEC_5;   /* prim in dungeonDrawShadedVerticalQuad */
+} S_800BBDEC_5;   /* prim in draw_shaded_vertical_quad */
 
 
 extern void *func_80064840(void *, void *, void *);
@@ -92,10 +92,10 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Projects and queues a shaded quad with optional semitransparency. */
-void dungeonDrawShadedVerticalQuad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance, s32 unused_draw_value)
+void draw_shaded_vertical_quad(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance, s32 unused_draw_value)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    void **render_ctx = (void **)((u8 *)(&gameWork));
+    void **render_ctx = (void **)((u8 *)(&g_game_work));
     u8 *prim;
     u32 depth_index;
     s32 color_word;

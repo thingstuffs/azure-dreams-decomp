@@ -27,9 +27,9 @@ typedef struct {
     s8 f4d[3];
 } S_80085FA8;
 
-extern s32 slusReadNextByteAndFinish(S_80085FA8 *a0);
-extern s32 readBase128Vlq(S_80085FA8 *a0);
-extern s32 readBigEndianWord(S_80085FA8 *a0);
+extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
+extern s32 read_base_128_vlq(S_80085FA8 *a0);
+extern s32 read_big_endian_word(S_80085FA8 *a0);
 extern s32 func_80058E50(S_80085FA8 *a0, s32 a1);
 extern s32 D_800737C8[];
 extern S_80085FA8 D_80085FA8[];
@@ -52,19 +52,19 @@ void func_80058E6C(S_80085FA8 *track, s32 event_type)
     event_or_bpm = event_type & 0xFF;
     switch (event_or_bpm) {
     case 0 ... 0xF:
-        func_80058E50(track, readBase128Vlq(track));
+        func_80058E50(track, read_base_128_vlq(track));
         return;
     case 0x2F:
         track->f2c = 1;
-        slusReadNextByteAndFinish(track);
+        read_next_byte_and_finish(track);
         return;
     case 0x51:
         if (D_800737C8[0] == 1) {
-            track->f20 = readBigEndianWord(track) & 0xFFFFFF;
+            track->f20 = read_big_endian_word(track) & 0xFFFFFF;
         } else {
-            track->f20 = slusReadNextByteAndFinish(track) << 0x10;
-            track->f20 = track->f20 | (slusReadNextByteAndFinish(track) << 8);
-            track->f20 = track->f20 | slusReadNextByteAndFinish(track);
+            track->f20 = read_next_byte_and_finish(track) << 0x10;
+            track->f20 = track->f20 | (read_next_byte_and_finish(track) << 8);
+            track->f20 = track->f20 | read_next_byte_and_finish(track);
         }
         bpm = 0x03938700U / (u32) track->f20;
         track->f24 = bpm;
@@ -100,24 +100,24 @@ void func_80058E6C(S_80085FA8 *track, s32 event_type)
         }
         return;
     case 0x54:
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
         return;
     case 0x58:
-        slusReadNextByteAndFinish(track);
-        track->f34 = readBigEndianWord(track);
+        read_next_byte_and_finish(track);
+        track->f34 = read_big_endian_word(track);
         return;
     case 0x59:
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
-        slusReadNextByteAndFinish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
+        read_next_byte_and_finish(track);
         return;
     default:
-        func_80058E50(track, readBase128Vlq(track));
+        func_80058E50(track, read_base_128_vlq(track));
         return;
     }
 }

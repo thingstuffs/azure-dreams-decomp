@@ -6,17 +6,17 @@
 #include "m2c_compat.h"
 extern int abs(int);
 
-   /* arg0 in dungeonAdvanceMovementTowardReachableTile */
+   /* arg0 in advance_movement_toward_reachable_tile */
 
 
 
-   /* arg2 in dungeonAdvanceMovementTowardReachableTile */
+   /* arg2 in advance_movement_toward_reachable_tile */
 
 
 
 
 
-   /* arg1 in dungeonAdvanceMovementTowardReachableTile */
+   /* arg1 in advance_movement_toward_reachable_tile */
 
 
 
@@ -42,7 +42,7 @@ extern int abs(int);
 
 
 /* Advance movement toward a target or a reachable tile, then finish the timed action. */
-void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, void *render) {
+void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render) {
     B28_818B7F38_LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -88,7 +88,7 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
     case 1:
         source_header = owner - 0x20;
         source_data = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_0C;
-        if (resolveRecordOrientationOrFallback(((B28_818B7F38_S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(((B28_818B7F38_S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
             source_position = ((B28_818B7F38_S_80025738_3 *)source_header)->unk_08;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_02;
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((B28_818B7F38_S_80025738_6 *)source_position)->unk_06;
@@ -162,7 +162,7 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(((B28_818B7F38_S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            dungeonSpawnOwnerRandomVariantEffect(state, motion_in);
+            spawn_owner_random_variant_effect(state, motion_in);
             next_phase = (u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1;
         } else {
             index = 0;
@@ -174,33 +174,33 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
             while (index < 8) {
                 grid_x = (s16)tile_x;
                 grid_y = (s16)tile_y;
-                if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
+                if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((B28_818B7F38_S_80025738_1 *)owner)->unk_88,
                     (s16) (((B28_818B7F38_S_80025738_0 *)state)->unk_0E << 9)) != 0) {
                     break;
                 }
-                source_position = &dirStepX[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                source_position = &dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
                 probe_z = (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                step_y = &dirStepY[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
-                floor_z = func_800BCB04(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
+                step_y = &dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                floor_z = sample_terrain_surface_height(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
                 if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_88) < -0x3F) {
                     break;
                 }
                 index += 1;
-                tile_x += dirStepX[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
-                tile_y += dirStepY[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                tile_x += dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
+                tile_y += dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E];
                 saved_y = tile_y;
                 last_tile_x = tile_x;
             }
             destination = &frame.out_x;
             index = 1;
             path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-            world_x = ((last_tile_x << 16) >> 10) + ((dirStepX[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
             ((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v = world_x;
-            world_y = ((saved_y << 16) >> 10) + ((dirStepY[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0E] + 1) << 5);
             ((B28_818B7F38_S_80025738_7 *)destination)->unk_04.at02.v = world_y;
             ((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at02.v = ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
             frame.delta[0] = abs(((B28_818B7F38_S_80025738_7 *)destination)->unk_00.at02.v - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at02u.v);
@@ -225,7 +225,7 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
             ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((B28_818B7F38_S_80025738_7 *)destination)->unk_08.at00.v
                 - ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_12);
-            dungeonSpawnOwnedRandomSpinEffect(state, motion_in);
+            spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
         ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = next_phase;
@@ -238,7 +238,7 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < ((B28_818B7F38_S_80025738_0 *)state)->unk_12) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         goto advance_phase;
     case 3:
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 >= 0x10) {
@@ -250,7 +250,7 @@ void dungeonAdvanceMovementTowardReachableTile(void *state, void *motion_in, voi
         if ((s16) ((B28_818B7F38_S_80025738_0 *)state)->unk_10 < 0x30) {
             break;
         }
-        func_80024024(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, ((B28_818B7F38_S_80025738_0 *)state)->unk_09, owner);
+        interpolate_view_parameters(((B28_818B7F38_S_80025738_1 *)owner)->unk_60, ((B28_818B7F38_S_80025738_0 *)state)->unk_09, owner);
 advance_phase:
         ((B28_818B7F38_S_80025738_0 *)state)->unk_10 = 0U;
         ((B28_818B7F38_S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((B28_818B7F38_S_80025738_0 *)state)->unk_0A + 1);
@@ -259,9 +259,9 @@ advance_phase:
         if (((B28_818B7F38_S_80025738_0 *)state)->unk_14 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         break;
     case 6:
         ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v

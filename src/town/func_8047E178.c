@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3fe0d0_p00.h"
 
-void func_80016178(void) {
+void initialize_context_entry_tables_variant_2(void) {
     D_8001794C.record._0 = &D_80017774[0];
     {
         Rec_D_80016000 *context = D_80016000;

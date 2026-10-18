@@ -5,7 +5,7 @@
 M2C_UNK func_800478B8();                      /* extern */
 typedef struct S_800CB374_0_pre {
     u16 unk_00;
-} S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in func_800CB374, addressed as arg0[-1] */
+} S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */
 
 typedef struct S_800CB374_0 {
     u8 pad_00[0x96];
@@ -14,7 +14,7 @@ typedef struct S_800CB374_0 {
     void * unk_A8;
     u8 pad_AC[0x8];
     s16 unk_B4;
-} S_800CB374_0;   /* arg0 in func_800CB374 */
+} S_800CB374_0;   /* arg0 in fade_effect_primitive */
 
 typedef struct S_800CB374_1 {
     u8 pad_00[0x6];
@@ -29,7 +29,7 @@ typedef struct S_800CB374_1 {
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
-} S_800CB374_1;   /* arg2 in func_800CB374 */
+} S_800CB374_1;   /* arg2 in fade_effect_primitive */
 
 typedef struct S_800CB374_2 {
     u8 pad_00[0x1C];
@@ -44,10 +44,10 @@ typedef struct S_800CB374_3 {
     u16 unk_1E;
     u8 pad_20[0xAC];
     s32 unk_CC;
-} S_800CB374_3;   /* ((S_800CB374_0 *)arg0)->unk_A8 in func_800CB374 */
+} S_800CB374_3;   /* ((S_800CB374_0 *)arg0)->unk_A8 in fade_effect_primitive */
 
 /* Fades primitive colors or copies source attributes and propagates completion flags. */
-void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
+void fade_effect_primitive(void *effect, void *unused, S_800CB374_1 *primitive) {
     s16 fade_steps;
     u8 blue;
     S_800CB374_2 *source_primitive;
@@ -76,5 +76,5 @@ void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
         }
     }
     ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

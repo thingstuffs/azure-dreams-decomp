@@ -6,7 +6,7 @@
 
 
 /* Fade the effect color and set completion flags when red falls below eight. */
-void dungeonFadeEffectColorBelowEight(u16 *effect_data, s32 unused, EffectColor *color) {
+void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
@@ -22,6 +22,6 @@ void dungeonFadeEffectColorBelowEight(u16 *effect_data, s32 unused, EffectColor 
 
     if (color->red < 8) {
         effect_data[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

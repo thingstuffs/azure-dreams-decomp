@@ -4,27 +4,27 @@
 
 
 
-extern void townDispatchActorInteractionActions(void *, s32, s32);
-extern void townInitializeSharedSceneData();
+extern void dispatch_actor_interaction_actions(void *, s32, s32);
+extern void initialize_shared_scene_data();
 extern s32 func_80093DD8();
-extern s32 townRunTheActionSequenceContextUnlessFlagHexA5Set();
-extern void townRunTheThreeUpdateRoutinesContext();
-extern void townClearEntityRecordFields();
+extern s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();
+extern void run_the_three_update_routines_context();
+extern void clear_entity_record_fields();
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */
-void townUpdateEntityAndHandleFlaggedAction(void *record, s32 context, s32 update_arg) {
+void update_entity_and_handle_flagged_action(void *record, s32 context, s32 update_arg) {
     s32 previous_state;
     GameWork *global_state;
     u16 ticks_left;
 
-    global_state = &gameWork;
+    global_state = &g_game_work;
     previous_state = ((Rec_func_80090C68_arg0 *)record)->unk_00;
-    townDispatchActorInteractionActions(record, context, update_arg);
+    dispatch_actor_interaction_actions(record, context, update_arg);
     if (previous_state == ((Rec_func_80090C68_arg0 *)record)->unk_00) {
         if (global_state->buttons & 0x80) {
-            townClearEntityRecordFields(context);
-            townRunTheThreeUpdateRoutinesContext(context);
-            if (townRunTheActionSequenceContextUnlessFlagHexA5Set(record - 0x20) != 0) {
-                townInitializeSharedSceneData(record, context, update_arg);
+            clear_entity_record_fields(context);
+            run_the_three_update_routines_context(context);
+            if (run_the_action_sequence_context_unless_flag_hex_a_5_set(record - 0x20) != 0) {
+                initialize_shared_scene_data(record, context, update_arg);
                 return;
             }
         } else {

@@ -5,9 +5,9 @@
 typedef struct S_80026720_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80026720_0;   /* arg0 in cardBootSetSaveMenuRequest */
+} S_80026720_0;   /* arg0 in card_boot_set_save_menu_request */
 
 /* Stores the supplied value in the object's field at offset 0x20. */
-void cardBootSetSaveMenuRequest(S_80026720_0 *object, s32 value) {
+void card_boot_set_save_menu_request(S_80026720_0 *object, s32 value) {
     object->unk_20 = value;
 }

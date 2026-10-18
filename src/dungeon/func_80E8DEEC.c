@@ -8,13 +8,13 @@
 typedef s32 M2C_UNK;
 
 
-extern s32 func_800A56E0();
-extern s32 dungeonUpdateActorDefeatRemoval();
-extern void dungeonCreateAndInitializesDisplaySourcePositionAppearance();
+extern s32 play_sound_if_enabled();
+extern s32 update_actor_defeat_removal();
+extern void create_and_initializes_display_source_position_appearance();
 
 
 /* Initializes the visual effect and advances its action state. */
-void dungeonInitializeTheVisualEffectAdvancesActionState(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
+void initialize_the_visual_effect_advances_action_state(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
     s32 one;
     s32 phase;
 
@@ -22,13 +22,13 @@ void dungeonInitializeTheVisualEffectAdvancesActionState(Rec_func_800AD058_arg0 
     one = 1;
     switch (phase) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
         action->unk_9B = (u8)one;
     case 1:
         if (entity->unk_49 != 0) {
-            dungeonCreateAndInitializesDisplaySourcePositionAppearance(context, visual, entity);
+            create_and_initializes_display_source_position_appearance(context, visual, entity);
             entity->unk_48 = 0;
             entity->unk_49 = 0U;
         }
@@ -40,10 +40,10 @@ void dungeonInitializeTheVisualEffectAdvancesActionState(Rec_func_800AD058_arg0 
         visual->unk_0C = 0x808080;
         action->unk_96 = 0x10;
         action->unk_9B = (u8)(action->unk_9B + 1);
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         return;
     case 2:
-        dungeonUpdateActorDefeatRemoval(action, context, visual, entity);
+        update_actor_defeat_removal(action, context, visual, entity);
         return;
     }
 }

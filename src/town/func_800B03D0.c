@@ -7,9 +7,9 @@ typedef struct S_800ADB30_0 {
     s32 unk_04;
     u8 pad_08[0x18];
     s32 unk_20;
-} S_800ADB30_0;   /* arg0 in townPassIndexedEntryAddress */
+} S_800ADB30_0;   /* arg0 in pass_indexed_entry_address */
 
 /* Pass the indexed four-byte entry address to func_800494B4. */
-void townPassIndexedEntryAddress(S_800ADB30_0 *entry_table) {
+void pass_indexed_entry_address(S_800ADB30_0 *entry_table) {
     func_800494B4(entry_table->unk_20 + (entry_table->unk_04 * 4));
 }

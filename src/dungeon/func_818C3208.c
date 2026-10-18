@@ -38,6 +38,6 @@ void func_818C3208(State *state, void *position, void *visual) {
     }
 
     *(u16 *)((u8 *)state - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
     return;
 }

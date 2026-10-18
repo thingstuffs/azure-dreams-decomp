@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void cardBootBuildSlotMarkerPacket(void *unused, void *packet, s32 slot_index);
-extern void cardBootHighlightDialogTextRange(s32 entry_base, s32 start_index, s32 entry_count);
+extern void card_boot_build_slot_marker_packet(void *unused, void *packet, s32 slot_index);
+extern void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count);
 
 static __inline__ u32 calculate_x(
     void *context,
@@ -16,7 +16,7 @@ static __inline__ u32 calculate_x(
 }
 
 /* Positions the current record and updates the specified row. */
-void cardBootPositionDialogSelectionMarker(void *context, s32 column, s32 mode, s32 row, s32 row_value)
+void card_boot_position_dialog_selection_marker(void *context, s32 column, s32 mode, s32 row, s32 row_value)
 {
     void *state = context;
     s32 *record;
@@ -31,9 +31,9 @@ void cardBootPositionDialogSelectionMarker(void *context, s32 column, s32 mode, 
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
         (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
     saved_row_value = *(s32 *)&row_value;
-    cardBootBuildSlotMarkerPacket(state, position, mode);
+    card_boot_build_slot_marker_packet(state, position, mode);
     record[0] = (s32)(unsigned long)position;
-    cardBootHighlightDialogTextRange(
+    card_boot_highlight_dialog_text_range(
         *(s32 *)*(s32 **)((u8 *)state + row * 4 + 0x8CC),
         saved_row_value,
         mode);

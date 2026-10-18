@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/dungeonProcessGlobalEffectSlotsAfterReset at file 0x1274460; imports and data use paired retail relocations. */
+/* Relink of matched dungeon/process_global_effect_slots_after_reset at file 0x1274460; imports and data use paired retail relocations. */
 #include "common.h"
 
 extern void func_80098E28(s32 node);
@@ -24,7 +24,7 @@ typedef struct ActiveState {
 } ActiveState;
 
 /* Resets state and processes occupied entries in the two-slot object table. */
-void func_80172C60(void) {
+void reset_state_occupied_entries(void) {
     s16 slot_index;
     s16 next_slot;
     s32 object_addr;

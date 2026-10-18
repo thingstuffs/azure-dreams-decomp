@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Write a nibble into packed data at a wrapped index. */
-void townWriteWrappedPackedNibble(s32 nibble, s32 index, s32 nibble_count, u8 *packed_data)
+void write_wrapped_packed_nibble(s32 nibble, s32 index, s32 nibble_count, u8 *packed_data)
 {
     s32 wrapped_index;
     s32 packed_byte;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18b8824.h"
 
-void *func_8002441C(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
+void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
     ovl_18b8824_81898C1C_S_8002441C_1 *display;
     ovl_18b8824_81898C1C_S_8002441C_0 *object;
     ovl_18b8824_81898C1C_S_8002441C_2 *state;
@@ -8,7 +8,7 @@ void *func_8002441C(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_st
 
     object = func_8003FC64(0x212);
     if (object != 0) {
-        object->unk_10 = (void *)dungeonAdvanceTheEntryCountersTriggerCountMilestonesUpdateTarget;
+        object->unk_10 = (void *)advance_the_entry_counters_trigger_count_milestones_update_target;
         display = object->unk_0C;
         object->unk_20 = object_id;
         object->unk_24 = 0;

@@ -19,22 +19,22 @@ typedef struct S_80176084_0 {
     u8 pad_B2[0x2];
     u8 unk_B4;
     s8 unk_B5;
-} S_80176084_0;   /* arg0 in dungeonLeaveActorAuraMode */
+} S_80176084_0;   /* arg0 in leave_actor_aura_mode */
 
 
 extern void func_80042B68();
 extern void func_80047784();
-extern void dungeonSetRecordIntegerTileCenter();
-extern s32 func_800A56E0();
-extern s32 func_800AA36C();
-extern M2C_UNK createOwnerLinkedDirectionalObject();
+extern void set_record_integer_tile_center();
+extern s32 play_sound_if_enabled();
+extern s32 try_move_actor_to_valid_position();
+extern M2C_UNK create_owner_linked_directional_object();
 
 extern u8 D_800E23E0[];
 extern u8 D_800E2448[];
 extern u8 D_80171A80[];
 
 /* Advance a two-phase animation transition and finalize the entity state. */
-void dungeonLeaveActorAuraMode(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
+void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
     u16 start_ticks;
     u16 finish_ticks;
     u8 phase;
@@ -56,10 +56,10 @@ void dungeonLeaveActorAuraMode(void *state, EntityRec *motion, void *sprite, Ent
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E2448;
-                func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                func_80047784(sprite, D_800E2448[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)
-                      || (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
+                      || (play_sound_if_enabled(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
                     return;
                 }
             }
@@ -69,18 +69,18 @@ void dungeonLeaveActorAuraMode(void *state, EntityRec *motion, void *sprite, Ent
                 motion->flags14 = 0;
                 motion->unk_10 = 0;
                 motion->unk_0C = 0;
-                dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+                set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E23E0;
-                func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                func_80047784(sprite, D_800E23E0[((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
                 ((S_80176084_0 *)state)->unk_9B++;
                 ((S_80176084_0 *)state)->unk_B1++;
                 if (((S_80176084_0 *)state)->unk_B0 == 0) {
-                    createOwnerLinkedDirectionalObject(state, motion, sprite);
+                    create_owner_linked_directional_object(state, motion, sprite);
                 }
             }
         }
@@ -95,10 +95,10 @@ void dungeonLeaveActorAuraMode(void *state, EntityRec *motion, void *sprite, Ent
         ((S_80176084_0 *)state)->unk_8C = (u8 *)D_80171A80;
         func_80042B68(entity, 0x1B);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.unk_0A--;
             entity->unk_46 &= 0x7FFF;
         }
-        func_800AA36C(state, motion, sprite, entity);
+        try_move_actor_to_valid_position(state, motion, sprite, entity);
     }
 }

@@ -9,19 +9,19 @@ typedef struct {
     u8 flags;
 } DungeonEntry;
 
-extern s16 dungeonGetTileChebyshevDistance(void *, void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginActorFloorTrapAction(void *, void *);
-extern s16 dungeonFindEntryAtTileCoordinates(u8, u8, s16);
+extern s16 get_tile_chebyshev_distance(void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_actor_floor_trap_action(void *, void *);
+extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
 extern DungeonEntry D_800E3648[];
 
 typedef struct S_800AD9B4_0_pre {
     u16 unk_00;
-} S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in dungeonCheckActorFloorTrap, addressed as arg1[-1] */
+} S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in check_actor_floor_trap, addressed as arg1[-1] */
 
 /* Process an eligible dungeon entry and apply its state updates. */
-s32 dungeonCheckActorFloorTrap(Rec_D_80082E80 *actor, EntityRec *target)
+s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
 {
     TileObject *player;
     DungeonGlobalStatus *dungeon_state;
@@ -35,14 +35,14 @@ s32 dungeonCheckActorFloorTrap(Rec_D_80082E80 *actor, EntityRec *target)
         return 1;
     }
     player = &D_80082E80;
-    if (player->unk_026 != actor->unk_26.as_s8 && dungeonGetTileChebyshevDistance(player, actor) >= 7) {
+    if (player->unk_026 != actor->unk_26.as_s8 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
     if (target->tileY == 0) {
         return 1;
     }
 
-    entry_index = dungeonFindEntryAtTileCoordinates(actor->unk_24,
+    entry_index = find_entry_at_tile_coordinates(actor->unk_24,
                                   actor->unk_25,
                                   target->unk_88);
     result = 1;
@@ -52,7 +52,7 @@ s32 dungeonCheckActorFloorTrap(Rec_D_80082E80 *actor, EntityRec *target)
             return 1;
         }
 
-        dungeon_state = &dungeonStatus;
+        dungeon_state = &g_dungeon_status;
         if (dungeon_state->flags & 0x1000) {
             adjustment = ((s8)target->unk_71);
             if (adjustment > 0) {
@@ -64,8 +64,8 @@ s32 dungeonCheckActorFloorTrap(Rec_D_80082E80 *actor, EntityRec *target)
             }
         }
 
-        func_800A9A0C(target);
-        dungeonBeginActorFloorTrapAction(actor, target);
+        update_actor_status_and_food(target);
+        begin_actor_floor_trap_action(actor, target);
         result = 0;
     }
     return result;

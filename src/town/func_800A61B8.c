@@ -12,17 +12,17 @@ typedef struct S_800A3918_0 {
     u16 unk_12;
     union { s16 s; u16 u; } unk_14;   /* accessed as both */
     s16 unk_16;
-} S_800A3918_0;   /* arg0 in townAdvanceAnimationPhaseAndFrame */
+} S_800A3918_0;   /* arg0 in advance_animation_phase_and_frame */
 
 typedef struct S_800A3918_1 {
     u8 pad_00[0x74];
     void * unk_74;
-} S_800A3918_1;   /* D_8008274C in townAdvanceAnimationPhaseAndFrame */
+} S_800A3918_1;   /* D_8008274C in advance_animation_phase_and_frame */
 
 typedef struct S_800A3918_2 {
     u8 pad_00[0xD8A];
     union { s16 s; u16 u; } unk_D8A;   /* accessed as both */
-} S_800A3918_2;   /* base in townAdvanceAnimationPhaseAndFrame */
+} S_800A3918_2;   /* base in advance_animation_phase_and_frame */
 
 
 extern void *D_8008274C;
@@ -30,7 +30,7 @@ extern s32 D_800C5100;
 extern union { s16 s; u16 u; } D_80100D8A;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
-void townAdvanceAnimationPhaseAndFrame(S_800A3918_0 *anim, s32 unused) {
+void advance_animation_phase_and_frame(S_800A3918_0 *anim, s32 unused) {
     s32 phase;
     s16 offset;
     u16 offset_bits;

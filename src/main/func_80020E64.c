@@ -3,7 +3,7 @@
 typedef struct S_80407E64_0_pre {
     void * unk_00;
     u8 pad_04[0xC];
-} S_80407E64_0_pre;   /* the 0x10 bytes before arg0 in cardBootPollStatusAndSelectContext, addressed as arg0[-1] */
+} S_80407E64_0_pre;   /* the 0x10 bytes before arg0 in card_boot_poll_status_and_select_context, addressed as arg0[-1] */
 
 typedef struct S_80407E64_0 {
     u8 pad_00[0xC];
@@ -12,20 +12,20 @@ typedef struct S_80407E64_0 {
     void * unk_2C;
     u8 pad_30[0x8];
     s32 unk_38;
-} S_80407E64_0;   /* arg0 in cardBootPollStatusAndSelectContext */
+} S_80407E64_0;   /* arg0 in card_boot_poll_status_and_select_context */
 
 
 extern void func_80400908(void);
-extern s32 cardDevRunSelectedOperation(s32 card_index);
+extern s32 card_dev_run_selected_operation(s32 card_index);
 extern void func_804030F4(void *context);
 extern void func_80403284(void *context);
-extern void func_804032AC(void *context);
+extern void initialize_card_message_object_with_code_0xd(void *context);
 extern u8 D_80407D90[];
 extern u8 D_80407DB8[];
 extern u8 D_804081AC[];
 
 /* Polls the status and selects the corresponding context update and data. */
-void cardBootPollStatusAndSelectContext(void *state) {
+void card_boot_poll_status_and_select_context(void *state) {
     s32 retry_status;
     s32 status;
     s32 retries;
@@ -34,7 +34,7 @@ void cardBootPollStatusAndSelectContext(void *state) {
     retries = 0;
     retry_status = 5;
     do {
-        status = cardDevRunSelectedOperation(((S_80407E64_0 *)state)->unk_0C);
+        status = card_dev_run_selected_operation(((S_80407E64_0 *)state)->unk_0C);
         if (status != retry_status) {
             break;
         }
@@ -45,7 +45,7 @@ void cardBootPollStatusAndSelectContext(void *state) {
     if (status == 1) {
         context = (u8 *)state - 0x20;
         ((S_80407E64_0 *)state)->unk_2C = D_804081AC;
-        func_804032AC(context);
+        initialize_card_message_object_with_code_0xd(context);
         ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
     } else if (status == 4) {
         context = (u8 *)state - 0x20;

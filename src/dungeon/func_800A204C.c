@@ -8,8 +8,8 @@
 #include "shared/dungeon_status.h"
 
 
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
-extern void dungeonSelectPositionDataAndUpdateOwner(void *entity, void *search_state);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
+extern void select_position_data_and_update_owner(void *entity, void *search_state);
 
 typedef struct {
     u8 x;
@@ -39,7 +39,7 @@ typedef struct {
 } FuncVec;
 
 /* Ease the thrown object toward its landing tile; on arrival record it in the floor's item table and finish. */
-void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
+void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     s16 steps;
     u16 remaining;
     s32 slot;
@@ -77,15 +77,15 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value2 = height;
             entry->value4 = height;
             entry->value8 = target->z;
-            func_8009A21C(obj->fieldAA, obj->fieldAC, 0x800);
-            dungeonSelectPositionDataAndUpdateOwner(&D_80082E80.unk_000, ((s32)D_800E3D7C));
+            cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, 0x800);
+            select_position_data_and_update_owner(&D_80082E80.unk_000, ((s32)D_800E3D7C));
         }
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
            pass (tools/xform/t4_fields.py) refuses to fold into a struct; a `_pre` struct
            spelling was tried here and costs 9 words (const-remat), so it stays an explicit cast */
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }
 

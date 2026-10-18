@@ -52,7 +52,7 @@ void func_818BD3B0(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object)
     ((S_818BD3B0_0 *)motion)->unk_04 = tick;
     if (((S_818BD3B0_0 *)motion)->unk_06 < (s16) tick) {
         ((S_818BD3B0_0_pre *)motion)[-1].unk_00 = (u16) (((S_818BD3B0_0_pre *)motion)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
     height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * ((S_818BD3B0_0 *)motion)->unk_0A) >> 8;
@@ -71,5 +71,5 @@ void func_818BD3B0(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object)
 }
 
 /* MECHANISM: Preserve the seed's exact 0x20 frame and s0/s2/s1 lifetime shape.
-   The zero-argument func_80024D10 edge is noreturn, enabling LEAD 18 to replace
+   The zero-argument advance_timed_visual edge is noreturn, enabling LEAD 18 to replace
    jal-plus-epilogue with retail's tail j while retaining the global store slot. */

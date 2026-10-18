@@ -2,11 +2,11 @@
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 extern u8 D_80528910[];
 extern u16 D_80132AEA[];
-extern void func_80526E4C(void *, void *, void *, void *);
+extern void create_object_pair_word(void *, void *, void *, void *);
 extern s32 func_8006A3A4(s32);
 extern s32 func_8006A470(s32);
 /* Draw three stacked rotating square outlines with complementary grayscale colors. */
-void townDrawRotatingCollectionFrame(u8 *object)
+void draw_rotating_collection_frame(u8 *object)
 {
     Vec3s edge[2];
     Vec3s corner[4];
@@ -48,7 +48,7 @@ void townDrawRotatingCollectionFrame(u8 *object)
         for (index = 3; index >= 0; index--) {
             edge[0] = corner[index];
             edge[1] = corner[(index + 1) & 3];
-            func_80526E4C(D_80528910, edge, color, object);
+            create_object_pair_word(D_80528910, edge, color, object);
         }
         for (index = 3; index >= 0; index--)
             corner[index].z += 0x20;

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity, void *creature)
+void advance_actor_state_with_child(void *actor, void *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
     case 0:
@@ -20,9 +20,9 @@ void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity,
              (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
             func_80174460(creature);
-            func_800A56E0(0x80C);
-            dungeonCreateFourDirectionalEffects(actor, context, entity);
-            ((Rec_func_80173204_arg0 *)actor)->unk_A4 = func_801742AC(actor, context, entity);
+            play_sound_if_enabled(0x80C);
+            create_four_directional_effects(actor, context, entity);
+            ((Rec_func_80173204_arg0 *)actor)->unk_A4 = create_directional_effect_object(actor, context, entity);
             ((Rec_func_80173204_arg0 *)actor)->unk_9B++;
         }
         return;
@@ -52,17 +52,17 @@ void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity,
         shadow = ((Rec_func_80173204_arg0 *)actor)->unk_A4;
         ((E_80173A20_S_80173A20_2 *)shadow)->unk_1E |= 0x8000;
 
-        global_flags = objectFlagBlock.flags;
+        global_flags = object_flag_block.flags;
         direction_bits = ((E_80173A20_S_80173A20_3 *)creature)->unk_2A >> 8;
         creature_height = ((E_80173A20_S_80173A20_3 *)creature)->unk_88.s;
-        objectFlagBlock.flags = global_flags | 0x8000;
+        object_flag_block.flags = global_flags | 0x8000;
 
-        x_offsets = (u8 *)((s8 *)dirStepX);
+        x_offsets = (u8 *)((s8 *)dir_step_x);
         offset_index = direction_bits & 0xE;
         x_offset = (s16 *)(x_offsets + offset_index);
         world_x = ((((Rec_D_80082E80 *)entity)->unk_24 + *x_offset) << 6) & 0xFFC0;
-        y_offset = (s16 *)((u8 *)((s8 *)dirStepY) + offset_index);
-        spawn_height = func_800BCB04(world_x,
+        y_offset = (s16 *)((u8 *)((s8 *)dir_step_y) + offset_index);
+        spawn_height = sample_terrain_surface_height(world_x,
             ((((Rec_D_80082E80 *)entity)->unk_25 + *y_offset) << 6) & 0xFFC0,
             (s16)(creature_height - 0x20));
 
@@ -71,14 +71,14 @@ void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity,
         }
 
         object_flag = ((E_80173A20_S_80173A20_3 *)creature)->unk_1C & 0x2000;
-        object = dungeonCreateActorWithTileFlags(
+        object = create_actor_with_tile_flags(
             object_flag != 0,
             (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*x_offset),
             (s16)(((Rec_D_80082E80 *)entity)->unk_25 + (u16)*y_offset),
             spawn_height);
         func_80042640(object, 0x36);
 
-        value_bonus = (((E_80173A20_S_80173A20_3 *)creature)->unk_11 * 2) + (func_800A6D30() & 3);
+        value_bonus = (((E_80173A20_S_80173A20_3 *)creature)->unk_11 * 2) + (generate_random_value() & 3);
         value_total = ((E_80173A20_S_80173A20_4 *)object)->unk_29 + value_bonus;
         object_value = value_total;
         if (value_total >= 0x100) {
@@ -87,11 +87,11 @@ void dungeonAdvanceActorStateWithChild(void *actor, void *context, void *entity,
         ((E_80173A20_S_80173A20_4 *)object)->unk_28 = object_value;
         ((E_80173A20_S_80173A20_4 *)object)->unk_29 = object_value;
 
-        dungeonReduceActorFoodMeter(creature, 0x400);
-        dungeonSetRecordIntegerTileCenter(context, ((Rec_D_80082E80 *)entity)->unk_24,
+        reduce_actor_food_meter(creature, 0x400);
+        set_record_integer_tile_center(context, ((Rec_D_80082E80 *)entity)->unk_24,
                       ((Rec_D_80082E80 *)entity)->unk_25);
-        ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = func_80170E5C;
-        dungeonStatus.unk_0C = 0;
+        ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = update_actor_behavior_facing_and_animation_2;
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;
         return;
     }

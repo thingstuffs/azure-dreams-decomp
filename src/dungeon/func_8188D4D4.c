@@ -4,7 +4,7 @@
 
 typedef struct S_80024CD4_0_pre {
     u16 unk_00;
-} S_80024CD4_0_pre;   /* the 0x2 bytes before arg0 in func_80024CD4, addressed as arg0[-1] */
+} S_80024CD4_0_pre;   /* the 0x2 bytes before arg0 in move_linked_effect_along_path, addressed as arg0[-1] */
 
 typedef struct S_80024CD4_0 {
     u8 pad_00[0xA];
@@ -16,7 +16,7 @@ typedef struct S_80024CD4_0 {
     u16 unk_1C;
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80024CD4_0;   /* arg0 in func_80024CD4 */
+} S_80024CD4_0;   /* arg0 in move_linked_effect_along_path */
 
 typedef struct S_80024CD4_1 {
     u8 pad_00[0x6];
@@ -25,7 +25,7 @@ typedef struct S_80024CD4_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80024CD4_1;   /* arg2 in func_80024CD4 */
+} S_80024CD4_1;   /* arg2 in move_linked_effect_along_path */
 
 typedef struct S_80024CD4_2 {
     u8 pad_00[0x2];
@@ -34,7 +34,7 @@ typedef struct S_80024CD4_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80024CD4_2;   /* arg1 in func_80024CD4 */
+} S_80024CD4_2;   /* arg1 in move_linked_effect_along_path */
 
 
 typedef struct {
@@ -48,12 +48,12 @@ typedef struct {
 } Flag;
 
 void func_8002522C();
-void dungeonCreateEffectObjectGroups();
+void create_effect_object_groups();
 extern Counter D_80026472;
 extern Flag D_80026474;
 
 /* Advance the effect state, update its ramp and color, and apply its transform. */
-void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) {
+void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) {
     s16 state;
     u16 rising_value;
     u16 ramp_or_red;
@@ -110,7 +110,7 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
         visual->unk_06.s = final_ramp;
         if ((s16) final_ramp >= 0) {
             ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     default:
@@ -119,5 +119,5 @@ void func_80024CD4(void *effect, S_80024CD4_2 *transform, S_80024CD4_1 *visual) 
     visual->unk_0C = 0x20;
     visual->unk_0D = 0xE0;
     visual->unk_0E = 0x40;
-    dungeonCreateEffectObjectGroups(transform->unk_02, transform->unk_06, transform->unk_0A);
+    create_effect_object_groups(transform->unk_02, transform->unk_06, transform->unk_0A);
 }

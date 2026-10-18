@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_19b4800.h"
-void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = func_8002458C;
+void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable D_80024004 = {{
  {0x340,0x140,0x40,0x40}, {0x340,0x180,0x40,0x40},
  {0x340,0x1C0,0x40,0x40}, {0x380,0x100,0x40,0x40},

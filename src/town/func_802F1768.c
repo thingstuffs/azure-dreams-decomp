@@ -6,7 +6,7 @@ M2C_UNK func_804087C8();                            /* extern */
 M2C_UNK func_80408958();                            /* extern */
 
 /* Run the three callbacks in sequence. */
-void townRunMemoryCallbacks(void) {
+void run_memory_callbacks(void) {
     func_804087B8();
     func_80408958();
     func_804087C8();

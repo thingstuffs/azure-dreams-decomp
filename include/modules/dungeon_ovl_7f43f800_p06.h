@@ -102,21 +102,21 @@ typedef struct {
 
 s32 rand();                                /* extern */
 
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 resolve_record_orientation_or_fallback();
 extern void * func_8003FD64();
 extern s32 func_8004491C();
 extern void func_80047784();
 extern s32 func_80065420();
-extern void * dungeonResolveAttackDamageAndEffects();
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 func_800A56E0();
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void * resolve_attack_damage_and_effects();
+extern s32 advance_status_timers();
+extern s32 play_sound_if_enabled();
+extern void reduce_actor_food_meter(void *, s32);
 extern s8 D_800DCECC[];
 extern Packed32 D_80170838;
 extern u8 D_80174E90[];
 extern u8 D_80174EB8[];
 extern u8 D_80174EC0;
-void dungeonAdvanceActionAndSpawnRandomEffects(void *action, void *motion, void *sprite, EntityRec *actor);
-extern void dungeonUpdateActorBehaviorAndDirection();
-extern void dungeonProjectSpriteEntriesToQuads();
+void advance_action_and_spawn_random_effects(void *action, void *motion, void *sprite, EntityRec *actor);
+extern void update_actor_behavior_and_direction();
+extern void project_sprite_entries_to_quads();
 #endif

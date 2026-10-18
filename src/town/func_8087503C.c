@@ -7,7 +7,7 @@ typedef struct S_8087503C_0 {
 } S_8087503C_0;
 
 /* Clears bit 30 in the global state's flags and returns the supplied value. */
-s32 townClearDevkitStateBit30(s32 result) {
+s32 clear_devkit_state_bit_30(s32 result) {
     S_8087503C_0 *state;
 
     state = *(void **)0x80701968;

@@ -19,15 +19,15 @@ typedef struct S_801704A0_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_801704A0_0;   /* arg0 in dungeonMoveBossActorToTile */
+} S_801704A0_0;   /* arg0 in move_boss_actor_to_tile */
 
 M2C_UNK func_80047784();
 s32 func_800644B8();
-s16 dungeonGetRoundedFacingAndRoundingFlag();
-void dungeonSetRecordIntegerTileCenter();
-s32 dungeonAdvanceStatusTimers();
+s16 get_rounded_facing_and_rounding_flag();
+void set_record_integer_tile_center();
+s32 advance_status_timers();
 M2C_UNK func_800A9A04();
-s32 dungeonCheckActorFloorTrap();
+s32 check_actor_floor_trap();
 typedef struct {
     u8 pad[0x24];
     u8 x;
@@ -41,7 +41,7 @@ extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
 /* Updates movement toward a tile and completes the timed action. */
-void dungeonMoveBossActorToTile(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
+void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
     s32 facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -96,14 +96,14 @@ void dungeonMoveBossActorToTile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
             action->unk_9B = action->unk_9B + 1;
         }
         break;
     case 3:
         if (tile->unk_2C.as_pu8 != D_80174A2C) {
             tile->unk_2C.as_pu8 = D_80174A2C;
-            func_80047784(tile, D_80174A2C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(tile, D_80174A2C[((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     }
@@ -113,10 +113,10 @@ void dungeonMoveBossActorToTile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
-        dungeonAdvanceStatusTimers(entity);
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08 = (u16) dungeonStatus.unk_08 - 1;
+        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+        advance_status_timers(entity);
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 = (u16) g_dungeon_status.unk_08 - 1;
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
@@ -127,12 +127,12 @@ void dungeonMoveBossActorToTile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = dungeonGetRoundedFacingAndRoundingFlag(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
+                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
                         &facing_aux);
                 }
             }
         }
-        if ((dungeonCheckActorFloorTrap(tile, entity) << 0x10) > 0) {
+        if ((check_actor_floor_trap(tile, entity) << 0x10) > 0) {
             action->unk_8C = D_8016F78C;
             func_800A9A04(entity);
         }

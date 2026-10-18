@@ -10,14 +10,14 @@ typedef struct S_80173294_0 {
     s32 unk_1C;
     u8 pad_20[0x4A];
     u16 unk_6A;
-} S_80173294_0;   /* p3 in func_80173294 */
+} S_80173294_0;   /* p3 in slow_directional_motion */
 
 typedef struct S_80173294_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_80173294_1;   /* p1 in func_80173294 */
+} S_80173294_1;   /* p1 in slow_directional_motion */
 
 typedef struct S_80173294_2 {
     u8 pad_00[0x96];
@@ -25,7 +25,7 @@ typedef struct S_80173294_2 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_80173294_2;   /* p0 in func_80173294 */
+} S_80173294_2;   /* p0 in slow_directional_motion */
 
 typedef struct S_80173294_3 {
     u8 pad_00[0xC];
@@ -39,16 +39,16 @@ typedef struct S_80173294_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_80173294_3;   /* p2 in func_80173294 */
+} S_80173294_3;   /* p2 in slow_directional_motion */
 
 
-extern void func_8009A028();
-extern void func_800A2FE0();
-extern void func_800A32A4();
-extern void dungeonAnnounceFamiliarDefeat(void *);
+extern void unlink_entity_node();
+extern void distribute_experience_and_report_gains();
+extern void detach_record_and_update_slot_state();
+extern void announce_familiar_defeat(void *);
 
 /* Advance the object removal animation, fade its sprite, and release it when finished. */
-void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
+void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
     s32 direction_offset;
     s32 direction_x;
     u8 *direction_y_table;
@@ -60,8 +60,8 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     s32 is_low_state;
 
     direction_offset = (((S_80173294_0 *)object_data)->unk_6A >> 8) & 0xE;
-    direction_x = *(s16 *)((u8 *)((u8 *)dirStepX) + direction_offset);
-    direction_y = *(s16 *)((u8 *)((u8 *)dirStepY) + direction_offset);
+    direction_x = *(s16 *)((u8 *)((u8 *)dir_step_x) + direction_offset);
+    direction_y = *(s16 *)((u8 *)((u8 *)dir_step_y) + direction_offset);
     motion_step = 0xC000;
     motion_value = (((S_80173294_1 *)motion_data)->unk_14) + motion_step;
     ((S_80173294_1 *)motion_data)->unk_14 = motion_value;
@@ -76,7 +76,7 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         motion_value = direction_y << 16;
         (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
         (*(s32 *)((u8 *)motion_data + 0x14)) = state;
-        if (dungeonStatus.unk_0A != 0)
+        if (g_dungeon_status.unk_0A != 0)
             return;
         ((S_80173294_2 *)effect_data)->unk_9B++;
                         /* fall through */
@@ -93,9 +93,9 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         flags = ((S_80173294_0 *)object_data)->unk_14;
         if (flags & 0x4000) {
             if (!(flags & 0x20000000))
-                dungeonAnnounceFamiliarDefeat(object_data);
+                announce_familiar_defeat(object_data);
         }
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         clear_bit_27 = 0xF7FFFFFF;
         status = ((S_80173294_2 *)effect_data)->unk_98;
         clear_bit_18 = 0xFFFBFFFF;
@@ -141,21 +141,21 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
         if ((s16)fade_level >= 0x10)
             return;
-        linked_object = ((s32)dungeonStatus.unk_10);
+        linked_object = ((s32)g_dungeon_status.unk_10);
         if (linked_object == (s32)(object_data - 0x20))
-            dungeonStatus.unk_10 = linked_object & 0x7FFFFFFF;
-        func_800A2FE0(object_data);
-        func_800A32A4(object_data);
+            g_dungeon_status.unk_10 = linked_object & 0x7FFFFFFF;
+        distribute_experience_and_report_gains(object_data);
+        detach_record_and_update_slot_state(object_data);
         flags = ((S_80173294_0 *)object_data)->unk_1C;
         tile_x = ((S_80173294_3 *)sprite_data)->unk_24;
         tile_y = ((S_80173294_3 *)sprite_data)->unk_25;
         tile_mask = 0x3000;
         if (flags & 0x2000)
             tile_mask = 0x300;
-        func_8009A3D0(tile_x, tile_y, tile_mask);
-        func_8009A028(object_data);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
+        unlink_entity_node(object_data);
         (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
         return;
     default:

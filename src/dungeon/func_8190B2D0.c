@@ -15,7 +15,7 @@ extern u8 D_800E3D68[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
 
 extern s32 func_80069EF8(void);
-extern s32 func_800A4778(u16 x, u16 y, s32 z, void *skip_check);
+extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 
 extern u16 GetTPage(s32, s32, s32, s32);
 
@@ -202,7 +202,7 @@ typedef struct S_func_8190B2D0_9 {
 } S_func_8190B2D0_9;
 
 /* Updates a moving effect, its target animation, and cleanup state. */
-void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
+void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
     s16 start_offset[3];
     Rect capture_rect;
@@ -295,10 +295,10 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
             owner_sprite = ((S_func_8190B2D0_2 *)((u8 *)owner - 32))->unk_C;
             effect->unk_A2 =
                 owner_sprite->unk_24 +
-                ((u8 *)dirStepX)[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dir_step_x)[(s16)effect->unk_7E.s16 * 2];
             effect->unk_A3 =
                 owner_sprite->unk_25 +
-                ((u8 *)dirStepY)[(s16)effect->unk_7E.s16 * 2];
+                ((u8 *)dir_step_y)[(s16)effect->unk_7E.s16 * 2];
 
             coordinate_steps = owner->unk_72;
             target_coord = owner_sprite->unk_24;
@@ -347,7 +347,7 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
             s32 particle_shade;
             s32 random_bits = func_80069EF8();
             particle_shade = (random_bits & 0xFF) | 0x80;
-            dungeonHandleRetailN8190AC70Callee80024470SpawnEffectUnderParentNodePlacedParent((u8 *)effect - 32, effect->unk_7E.s16,
+            handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
         } while ((s32)particle_index < 4);
@@ -368,7 +368,7 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
         elapsed_frames_3 = effect->unk_88 - effect->unk_7B.s8 + 1;
         sprite->unk_C.at_E_u8.unk_E = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
-        collision = func_800A4778(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
+        collision = check_adjacent_tile_height_clearance(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
                                   motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);
         if ((collision << 16) != 0) {
             effect->unk_A.u16 = 8;
@@ -386,7 +386,7 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
             if (owner->unk_60 != 0) {
                 effect->unk_A.u16 = 3;
                 effect->unk_82.u16 = 0;
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 ((S_func_8190B2D0_6 *)owner->unk_60)->unk_14 |= 0x100000;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)owner->unk_60 - 32))->unk_8;
                 motion_or_child->unk_0.at_2_u16.unk_2 = target_pos->unk_0.at_2_u16.unk_2;
@@ -431,7 +431,7 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
         if (frame == 1) {
             capture_point.x = capture_rect.x + ((s16)capture_rect.w >> 1);
             capture_point.y = capture_rect.y + 72;
-            func_800B8FC8(owner->unk_60, &capture_rect, &capture_point, 1,
+            draw_transformed_sprite_with_clip_rect(owner->unk_60, &capture_rect, &capture_point, 1,
                           frame);
         }
         spawn_frame = effect->unk_82.s16;
@@ -446,7 +446,7 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
                 ((S_func_8190B2D0_7 *)child_data)->unk_2C = owner;
                 ((S_func_8190B2D0_7 *)child_data)->unk_30 = owner->unk_60;
                 ((S_func_8190B2D0_7 *)child_data)->unk_34 = effect;
-                motion_or_child->unk_10.ptr = dungeonAdvanceTheAnimationDrawsRectanglesInRandomizedOrder;
+                motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
                 func_8004491C(child_object, (s32)func_80045340);
                 sprite = motion_or_child->unk_C.ptr;
                 sprite->unk_10 = 32;
@@ -585,9 +585,9 @@ void dungeonUpdateAMovingEffectTargetAnimationCleanupState(S_func_8190B2D0_0 *ef
         switch (cleanup_pending) {
         case 0:
         {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             break;
         }
         default:

@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void dungeonInitializeRandomEffectPosition(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
+void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
     s16 state_offset;
     s16 position_x;
     s16 position_y;
@@ -11,7 +11,7 @@ void dungeonInitializeRandomEffectPosition(dungeon_setup_802842A0_S_800172A0_0 *
     s16 rotation_step;
     s32 random_bits;
 
-    state = &gameWork.view;
+    state = &g_game_work.view;
     bounds = (u8 *)state + 0x1C4;
     effect = (u8 *)state + 0xB8;
     random_angle = (rand() & 0x1FFF) - 0x1000;
@@ -49,7 +49,7 @@ void dungeonInitializeRandomEffectPosition(dungeon_setup_802842A0_S_800172A0_0 *
         state_offset = base_offset + ((((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_24 + 1) * 0x30);
         state->unk_098 = state_offset;
         ((dungeon_setup_802842A0_S_800172A0_3 *)effect)->unk_10 = (s32) state_offset;
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

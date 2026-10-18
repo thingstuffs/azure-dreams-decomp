@@ -4,19 +4,19 @@
    (unaligned word load/store) instead of a plain lw/sw for this copy */
 typedef struct { u32 v; } __attribute__((packed)) S_8004E21C_UA32;
 
-/* 12-byte scratch buffer passed to decodeGlyphFields; only the word at offset 8 is read back */
+/* 12-byte scratch buffer passed to decode_glyph_fields; only the word at offset 8 is read back */
 typedef struct S_8004E21C {
     u8 pad[12];
 } S_8004E21C;
 
-extern void *decodeGlyphFields(void *a0, u8 a1);
+extern void *decode_glyph_fields(void *a0, u8 a1);
 
 /* Decodes an item code, copies the packed fields, and returns the destination. */
-void *decodeItemCode(void *dest, u8 item_code)
+void *decode_item_code(void *dest, u8 item_code)
 {
     S_8004E21C decoded;
 
-    decodeGlyphFields(&decoded, item_code);
+    decode_glyph_fields(&decoded, item_code);
     *(S_8004E21C_UA32 *)dest = *(S_8004E21C_UA32 *)((u8 *)&decoded + 8);
     return dest;
 }

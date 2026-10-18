@@ -15,7 +15,7 @@ typedef struct S807AF9A4 {
 } S807AF9A4;
 
 /* Initializes random buffer data and advances the cycle and completion counters. */
-void func_800F71A4(S807AF9A4 *data)
+void advance_linked_particle_effect_state(S807AF9A4 *data)
 {
     s16 state;
     s16 buf_index;
@@ -37,7 +37,7 @@ void func_800F71A4(S807AF9A4 *data)
         data->flag_e = 0;
         data->buf[0x20] = 0;
         data->flag_f = 1;
-        func_8004491C((u8 *)data - 0x20, (void *)func_800F6E48);
+        func_8004491C((u8 *)data - 0x20, (void *)draw_linked_particle_effect_primitives);
         data->state = (u16) data->state + 1;
     }
     cycle_count = data->counter1 + 1;
@@ -55,6 +55,6 @@ void func_800F71A4(S807AF9A4 *data)
 
     if (data->flag_f == 0) {
         *(u16 *)((u8 *)data - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

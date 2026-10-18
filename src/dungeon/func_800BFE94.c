@@ -6,7 +6,7 @@ typedef struct S_800C55F4_0 {
     u8 ** unk_00;
     u8 pad_04[0x4];
     u8 ** unk_08;
-} S_800C55F4_0;   /* descriptor in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_0;   /* descriptor in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_1 {
     u8 pad_00[0x20];
@@ -38,7 +38,7 @@ typedef struct S_800C55F4_1 {
     s32 unk_CC;
     u8 pad_D0[0x44];
     s32 unk_114;
-} S_800C55F4_1;   /* scratch in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_1;   /* scratch in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_2 {
     u8 pad_00[0x14];
@@ -47,7 +47,7 @@ typedef struct S_800C55F4_2 {
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-} S_800C55F4_2;   /* arg2_alias in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_2;   /* arg2_alias in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_3 {
     u8 pad_00[0x2];
@@ -56,31 +56,31 @@ typedef struct S_800C55F4_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800C55F4_3;   /* arg1_record in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_3;   /* arg1_record in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_4 {
     u8 unk_00;
     u8 pad_01[0x315F];
     u8 * unk_3160;
-} S_800C55F4_4;   /* page_record7 in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_4;   /* page_record7 in transform_mesh_and_append_draw_packets */
 
-   /* root in dungeonTransformMeshAndAppendDrawPackets */
+   /* root in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_6 {
     u32 unk_00;
     u16 unk_04;
-} S_800C55F4_6;   /* (x << 3) + (u32)table in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_6;   /* (x << 3) + (u32)table in transform_mesh_and_append_draw_packets */
 
 typedef struct S_800C55F4_8 {
     u8 pad_00[0x30];
     s16 unk_30;
     s16 unk_32;
-} S_800C55F4_8;   /* arg0_pin in dungeonTransformMeshAndAppendDrawPackets */
+} S_800C55F4_8;   /* arg0_pin in transform_mesh_and_append_draw_packets */
 
-   /* ((S_800C55F4_9 *)global_base)->unk_00 in dungeonTransformMeshAndAppendDrawPackets */
+   /* ((S_800C55F4_9 *)global_base)->unk_00 in transform_mesh_and_append_draw_packets */
 
 
-extern s32 convertHsvToRgb();
+extern s32 convert_hsv_to_rgb();
 extern void *func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -109,7 +109,7 @@ static __inline__ s32 narrow_depth(s32 value)
 }
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
-void dungeonTransformMeshAndAppendDrawPackets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
+void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 {
     u8 saved_matrix[0x20];
     s16 depth_bias = depth_offset;
@@ -136,7 +136,7 @@ void dungeonTransformMeshAndAppendDrawPackets(u8 *params, u8 *record, void *mesh
     GameWork *global_base;
 
 
-    global_base = &gameWork;
+    global_base = &g_game_work;
     perspective_out = (void *)0x1F800090;
 
     descriptor = (*(u8 ** *)((u8 *)mesh_data + 8));
@@ -255,7 +255,7 @@ void dungeonTransformMeshAndAppendDrawPackets(u8 *params, u8 *record, void *mesh
                     {
                         shade_arg = (u32)shade << 16;
                         shade_arg >>= 16;
-                        convertHsvToRgb(((S_800C55F4_8 *)params)->unk_30,
+                        convert_hsv_to_rgb(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF, prim + 4);
                     }
                 }
@@ -278,7 +278,7 @@ void dungeonTransformMeshAndAppendDrawPackets(u8 *params, u8 *record, void *mesh
                     }
                     {
                         shade_arg = (s32)(s16)shade;
-                        convertHsvToRgb(((S_800C55F4_8 *)params)->unk_30,
+                        convert_hsv_to_rgb(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF,
                                       prim + 0xC);
                     }
@@ -302,7 +302,7 @@ void dungeonTransformMeshAndAppendDrawPackets(u8 *params, u8 *record, void *mesh
                     }
                     {
                         shade_arg = (s32)(s16)shade;
-                        convertHsvToRgb(((S_800C55F4_8 *)params)->unk_30,
+                        convert_hsv_to_rgb(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF,
                                       prim + 0x14);
                     }

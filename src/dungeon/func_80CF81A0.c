@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d16bc4_p02.h"
 
 /* Updates the direction table and selected entry for entity kinds 13 through 15. */
-void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
+void update_direction_table_for_entity_kinds(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
 {
     Obj2 *sprite = sprite_arg;
     Obj3 *entity = entity_arg;
@@ -22,7 +22,7 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
             func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -36,7 +36,7 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
             func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -50,15 +50,15 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
         }
         if (current_table != selected_table) {
             *(u32 *)((u8 *)sprite + 0x2c) = selected_table;
-            direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
             func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
     default:
         break;
     }
-    if (func_800AC82C(owner, context, sprite, entity) != 0) {
-        if ((dungeonCheckActorFloorTrap(sprite, entity) << 16) > 0) {
+    if (update_actor_transform_from_parent(owner, context, sprite, entity) != 0) {
+        if ((check_actor_floor_trap(sprite, entity) << 16) > 0) {
             owner->field8c = func_801664BC;
         }
         return;
@@ -71,7 +71,7 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
-        direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DC4), 0);
         return;
     case 14:
@@ -80,7 +80,7 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
-        direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DCC), 0);
         return;
     case 15:
@@ -89,7 +89,7 @@ void dungeonUpdateDirectionTableForEntityKinds(Obj0 *owner, void *context, Obj2 
             return;
         }
         *(u32 *)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
-        direction_index = (gameWork.view.viewAngle + entity->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + entity->value2a + 0x100) >> 9;
         func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DD4), 0);
         return;
     default:

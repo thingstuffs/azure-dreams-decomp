@@ -9,7 +9,7 @@ typedef struct S_80FB7000_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80FB7000_0;   /* obj in dungeonCreateActorWithPartsAndFlags */
+} S_80FB7000_0;   /* obj in create_actor_with_parts_and_flags */
 
 typedef struct S_80FB7000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FB7000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FB7000_1;   /* work in dungeonCreateActorWithPartsAndFlags */
+} S_80FB7000_1;   /* work in create_actor_with_parts_and_flags */
 
 typedef struct S_80FB7000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FB7000_2;   /* pin_part_a in dungeonCreateActorWithPartsAndFlags */
+} S_80FB7000_2;   /* pin_part_a in create_actor_with_parts_and_flags */
 
 typedef struct S_80FB7000_3 {
     u8 pad_00[0x8];
@@ -34,7 +34,7 @@ typedef struct S_80FB7000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80FB7000_3;   /* part_b in dungeonCreateActorWithPartsAndFlags */
+} S_80FB7000_3;   /* part_b in create_actor_with_parts_and_flags */
 
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
@@ -45,15 +45,15 @@ typedef struct S_80FB7000_4 {
     s8 unk_9C;
     u8 pad_9D[0x11];
     u16 unk_AE;
-} S_80FB7000_4;   /* pin_actor in dungeonCreateActorWithPartsAndFlags */
+} S_80FB7000_4;   /* pin_actor in create_actor_with_parts_and_flags */
 
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30();
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
 
 extern u8 D_8016AB40[];
@@ -63,12 +63,12 @@ extern u8 D_8016F298[];
 
 
 
-void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 
 ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
-void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
+void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     void *obj;
@@ -127,10 +127,10 @@ void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y,
                 non_kind_mask = -4;
                 if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) == 0) {
                     if (!(((S_80FB7000_1 *)work)->unk_14 & 0x200)) {
-                        if (func_800A6D30() & 1) {
+                        if (generate_random_value() & 1) {
                             ((S_80FB7000_1 *)work)->unk_1C |= 0x200;
-                            func_800A48F0(work, 1,
-                                          (func_800A6D30() & 0x3F) |
+                            set_or_clear_actor_status_slot(work, 1,
+                                          (generate_random_value() & 0x3F) |
                                           0x20);
                             part_b->unk_2C = D_8016F298;
                         }
@@ -139,7 +139,7 @@ void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y,
             }
         }
 
-        func_800A9C18(obj, pin_part_a, part_b, saved_flags);
+        initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_flags);
 
         entry_index = 0;
         actor_value = part_b->unk_12;
@@ -175,7 +175,7 @@ void *dungeonCreateActorWithPartsAndFlags(s32 spawn_flags, s16 pos_x, s16 pos_y,
             }
         } while (rect[0] < 0x100);
 
-        func_800AA36C(pin_actor, pin_part_a, part_b, work);
+        try_move_actor_to_valid_position(pin_actor, pin_part_a, part_b, work);
     }
     return work;
 }

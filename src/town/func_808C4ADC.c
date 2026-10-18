@@ -1,4 +1,4 @@
-/* Relinked copy of town/func_808BB364 (func_808BB364.c); retail differs only at relocation sites. */
+/* Relinked copy of town/get_table_entry_plus_global (get_table_entry_plus_global.c); retail differs only at relocation sites. */
 #include "common.h"
 
 extern s32 func_80000760(s32);

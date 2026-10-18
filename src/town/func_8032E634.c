@@ -2,10 +2,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-void townClearShopObjectAndLink(u8 *object_ref);
+void clear_shop_object_and_link(u8 *object_ref);
 
 // Clears the indexed object and marks its slot unused, with cleanup for type 0x13.
-void townReleaseLshopEntry(s32 slotIndex) {
+void release_lshop_entry(s32 slotIndex) {
     TownStateRecord *objectTableBase;
     void **objectSlot;
     void *object;
@@ -15,7 +15,7 @@ void townReleaseLshopEntry(s32 slotIndex) {
     objectSlot += slotIndex;
     object = *objectSlot;
     if (*((u8 *)object + 1) == 0x13) {
-        townClearShopObjectAndLink(object);
+        clear_shop_object_and_link(object);
     }
     *(s32 *)*objectSlot = 0;
     *objectSlot = (void *)-1;

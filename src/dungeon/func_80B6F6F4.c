@@ -13,20 +13,20 @@ typedef struct S_80172EF4_1 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_80172EF4_1;   /* arg0 in func_80172EF4 */
+} S_80172EF4_1;   /* arg0 in decelerate_and_center_actor_on_tile */
 
 
 extern void func_80047784();
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonBeginActorDisplayAction();
-extern void dungeonApplyClampedActorValueDelta();
+extern void set_record_integer_tile_center();
+extern void begin_actor_display_action();
+extern void apply_clamped_actor_value_delta();
 
 extern u8 D_80170E5C[];
 extern u8 D_80173D0C[];
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
-void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s16 timer;
     s16 *x_steps;
@@ -48,20 +48,20 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
     switch (((S_80172EF4_1 *)action)->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(actor);
-        x_steps = (s16 *)((s8 *)dirStepX);
+        apply_clamped_actor_value_delta(actor);
+        x_steps = (s16 *)((s8 *)dir_step_x);
         initial_step_offset = direction * 2;
         motion->unk_0C =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
         motion->unk_10 =
-            *(s16 *)((u8 *)((s8 *)dirStepY) + initial_step_offset) << 0x12;
+            *(s16 *)((u8 *)((s8 *)dir_step_y) + initial_step_offset) << 0x12;
         ((S_80172EF4_1 *)action)->unk_9B++;
 
         if (actor->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, sprite, &D_80173D24);
+            begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -88,9 +88,9 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
                         /* fall through */
 
     case 1:
-        x_steps = (s16 *)((s8 *)dirStepX);
+        x_steps = (s16 *)((s8 *)dir_step_x);
         brake_step_offset = direction * 2;
-        y_step = (s16 *)((u8 *)((s8 *)dirStepY) + brake_step_offset);
+        y_step = (s16 *)((u8 *)((s8 *)dir_step_y) + brake_step_offset);
         motion->unk_0C -=
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
         motion->unk_10 -= *y_step << 0xF;
@@ -107,7 +107,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonBeginActorDisplayAction(action, motion, sprite, &D_80173D24);
+            begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
         ((S_80172EF4_1 *)action)->unk_96.s = 4;
@@ -133,16 +133,16 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80173D0C;
         func_80047784(sprite,
-            D_80173D0C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173D0C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        actor_ref = ((s32)dungeonStatus.unk_10);
+        actor_ref = ((s32)g_dungeon_status.unk_10);
         if (actor_ref == (s32)((u8 *)actor - 0x20)) {
-            dungeonStatus.unk_10 = actor_ref & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = actor_ref & 0x7FFFFFFF;
         }
         ((S_80172EF4_1 *)action)->unk_8C = D_80170E5C;
         return;

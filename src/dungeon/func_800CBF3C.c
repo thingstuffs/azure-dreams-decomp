@@ -9,10 +9,10 @@ typedef struct {
 extern s16 D_80080B04[5];
 extern Record *D_80081508[3];
 
-extern s32 hasRuntimeKeyPair(s32 x, s32 y);
+extern s32 has_runtime_key_pair(s32 x, s32 y);
 
 /* Appends a coordinate record with a value or sentinel if capacity and the position check allow. */
-void dungeonAppendCoordinateRecord(s32 x, s32 y, s32 value, s32 store_value)
+void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value)
 {
     s32 has_room;
     s16 record_x;
@@ -24,7 +24,7 @@ void dungeonAppendCoordinateRecord(s32 x, s32 y, s32 value, s32 store_value)
     record_x = x;
     record_y = y;
     if (has_room) {
-        if ((s16)hasRuntimeKeyPair((u16)record_x, (u16)record_y) == 0) {
+        if ((s16)has_runtime_key_pair((u16)record_x, (u16)record_y) == 0) {
             record = &D_80081508[0][D_80080B04[0]];
             record->x = record_x;
             record->y = record_y;

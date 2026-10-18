@@ -17,7 +17,7 @@ extern void func_8001886C(s32);
 extern s32 D_800190D4;
 
 /* Dispatches state-dependent actions for two IDs, then invokes the town callback. */
-void func_8001677C(void)
+void dispatch_state_dependent_actions_two(void)
 {
     void *callback_arg;
     TownRoot *town_root;

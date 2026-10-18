@@ -19,7 +19,7 @@ extern M2C_UNK D_80173B34[3];
 typedef struct S_80165F00_0 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_80165F00_0;   /* arg0 in dungeonCreateJitteredLandingSpark */
+} S_80165F00_0;   /* arg0 in create_jittered_landing_spark */
 
 typedef struct S_80165F00_1 {
     u8 pad_00[0x6];
@@ -50,7 +50,7 @@ typedef struct S_80165F00_4 {
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_80165F00_4;   /* ((S_80165F00_0 *)arg0)->unk_08 in dungeonCreateJitteredLandingSpark */
+} S_80165F00_4;   /* ((S_80165F00_0 *)arg0)->unk_08 in create_jittered_landing_spark */
 
 typedef struct S_80165F00_5 {
     u8 pad_00[0x2];
@@ -64,7 +64,7 @@ typedef struct S_80165F00_5 {
 } S_80165F00_5;
 
 /* Spawns an effect near the source with randomized position and sprite scale. */
-void dungeonCreateJitteredLandingSpark(S_80165F00_0 *source)
+void create_jittered_landing_spark(S_80165F00_0 *source)
 {
     s32 base_x;
     s32 base_y;

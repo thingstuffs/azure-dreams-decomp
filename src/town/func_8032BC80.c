@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Calls townClearScriptFlagBit with the value 0xDAF. */
-void func_80016480(void) {
-    townClearScriptFlagBit(0xDAF);
+/* Calls clear_script_flag_bit with the value 0xDAF. */
+void call_clear_script_flag_bit(void) {
+    clear_script_flag_bit(0xDAF);
 }

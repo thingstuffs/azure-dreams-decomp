@@ -4,7 +4,7 @@
 
 typedef void (*Callback)(void *, s32);
 
-extern void townRefreshFormattedGlobalDisplay(void *);
+extern void refresh_formatted_global_display(void *);
 
 
 typedef struct S_800B1890_0 {
@@ -20,7 +20,7 @@ typedef struct ValueTransition {
 } ValueTransition;
 
 /* Lowers the state's value toward the target, or snaps to it and switches callbacks. */
-void townLowerValueTowardTarget(void *object) {
+void lower_value_toward_target(void *object) {
     S_800B1890_0 *state;
     s32 target_value;
     s32 current_value;
@@ -38,8 +38,8 @@ void townLowerValueTowardTarget(void *object) {
         state->unk_08.s = current_bits + adjustment;
     } else {
         state->unk_08.u = ((ValueTransition *)object)->target.low_half;
-        ((ObjectNodeHeader *)object)[-1].unk_10 = townRefreshFormattedGlobalDisplay;
+        ((ObjectNodeHeader *)object)[-1].unk_10 = refresh_formatted_global_display;
     }
 
-    townRefreshFormattedGlobalDisplay(object);
+    refresh_formatted_global_display(object);
 }

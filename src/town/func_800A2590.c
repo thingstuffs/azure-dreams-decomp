@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8009F6E4(void);
-extern void *townCopyAnEntrySlotCreatingAssociatedTypeHex13();
+extern void *copy_an_entry_slot_creating_associated_type_hex_13();
 
 /* set_item_w0: Packs four item parameter bytes and dispatches according to slot availability. */
 void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
@@ -19,7 +19,7 @@ void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3
         item_bytes[1] = item_byte_1;
         item_bytes[2] = item_byte_2;
         item_bytes[3] = item_byte_3;
-        result = townCopyAnEntrySlotCreatingAssociatedTypeHex13(slot, item_bytes_ptr);
+        result = copy_an_entry_slot_creating_associated_type_hex_13(slot, item_bytes_ptr);
     }
     return result;
 }

@@ -4,17 +4,17 @@
 
 
 extern void SD_Call(s32);
-extern void cardBootDestroySlotSelectionMenu(void *);
-extern void initCardBootRequestObject(s32, s32);
-extern void func_8002592C(void *);
-extern void cardBootDispatchSelectedMenuAction(void *);
-extern s32 advanceIndexWithSingleWrap(s32, s32, s32);
-extern void cardBootRefreshFiveSlotSelection(void *);
-extern s32 cardBootDebounceCardStatusEvents(void);
+extern void card_boot_destroy_slot_selection_menu(void *);
+extern void init_card_boot_request_object(s32, s32);
+extern void set_record_pair_to_one(void *);
+extern void card_boot_dispatch_selected_menu_action(void *);
+extern s32 advance_index_with_single_wrap(s32, s32, s32);
+extern void card_boot_refresh_five_slot_selection(void *);
+extern s32 card_boot_debounce_card_status_events(void);
 extern void func_80021904(void);
 
 /* Handle menu selection, directional repeat, and closing from controller input and update status. */
-void func_8002593C(u8 *object)
+void build_install(u8 *object)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -24,29 +24,29 @@ void func_8002593C(u8 *object)
     s32 needs_refresh;
     s32 update_status;
 
-    held_buttons = gameWork.buttons;
+    held_buttons = g_game_work.buttons;
     selection_step = 0;
     needs_refresh = selection_step;
     if (held_buttons != 0) {
-        pressed_buttons = ((s32)gameWork.unk_010);
+        pressed_buttons = ((s32)g_game_work.unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
-            cardBootDestroySlotSelectionMenu(object - 0x20);
-            initCardBootRequestObject(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
+            card_boot_destroy_slot_selection_menu(object - 0x20);
+            init_card_boot_request_object(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
             return;
         }
         if (pressed_buttons & 0x40) {
             SD_Call(0x503);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 0) {
-                func_8002592C(object);
+                set_record_pair_to_one(object);
                 needs_refresh = 1;
             } else {
-                cardBootDispatchSelectedMenuAction(object);
+                card_boot_dispatch_selected_menu_action(object);
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((Rec_func_80025030_arg0 *)object)->unk_30 = 0;
-                pressed_buttons = ((s32)gameWork.unk_010);
+                pressed_buttons = ((s32)g_game_work.unk_010);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
                 } else if (pressed_buttons & 0x4000) {
@@ -56,7 +56,7 @@ void func_8002593C(u8 *object)
                 repeat_ticks = ((Rec_func_80025030_arg0 *)object)->unk_30;
                 if (repeat_ticks >= 13) {
                     ((Rec_func_80025030_arg0 *)object)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = gameWork.buttons;
+                    repeat_buttons = g_game_work.buttons;
                     if (repeat_buttons & 0x1000) {
                         selection_step = -1;
                     } else if (repeat_buttons & 0x4000) {
@@ -79,26 +79,26 @@ void func_8002593C(u8 *object)
             SD_Call(0x502);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 1) {
                 ((Rec_func_80025030_arg0 *)object)->unk_28 =
-                    advanceIndexWithSingleWrap(((Rec_func_80025030_arg0 *)object)->unk_28, selection_step, 5);
+                    advance_index_with_single_wrap(((Rec_func_80025030_arg0 *)object)->unk_28, selection_step, 5);
             } else {
                 ((Rec_func_80025030_arg0 *)object)->unk_44 =
-                    advanceIndexWithSingleWrap(((Rec_func_80025030_arg0 *)object)->unk_44, selection_step, 3);
+                    advance_index_with_single_wrap(((Rec_func_80025030_arg0 *)object)->unk_44, selection_step, 3);
             }
-            cardBootRefreshFiveSlotSelection(object);
+            card_boot_refresh_five_slot_selection(object);
         }
     }
 
-    update_status = cardBootDebounceCardStatusEvents();
+    update_status = card_boot_debounce_card_status_events();
     func_80021904();
     if (update_status != 0) {
         if (update_status != 1) {
-            cardBootDestroySlotSelectionMenu(object - 0x20);
-            initCardBootRequestObject(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
+            card_boot_destroy_slot_selection_menu(object - 0x20);
+            init_card_boot_request_object(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
         }
     }
 
     if (needs_refresh != 0) {
-        cardBootRefreshFiveSlotSelection(object);
+        card_boot_refresh_five_slot_selection(object);
     }
     return;
 }

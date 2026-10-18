@@ -2,7 +2,7 @@
 #include "common.h"
 
 /* Linked-list node with a next pointer at offset 0x0 and a 16-bit
- * flags/state field at offset 0x1E (shared shape with integrateActiveNodeVectors's
+ * flags/state field at offset 0x1E (shared shape with integrate_active_node_vectors's
  * D_80081498 view). */
 
 /* D_80081498 is accessed via %hi/%lo, so its containing symbol must be
@@ -15,16 +15,16 @@ extern struct {
 extern s32 D_80012090[];
 
 
-extern void dungeonClearEntryFlagAndLinkOwner(void *entry);
+extern void clear_entry_flag_and_link_owner(void *entry);
 
 /* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
-void dungeonProcessFlaggedNodesAndClearGlobalBit(void) {
+void process_flagged_nodes_and_clear_global_bit(void) {
     ActiveNode *node = D_80081498.head;
 
     if (node != 0) {
         do {
             if (node->field_1E & 0x1000) {
-                dungeonClearEntryFlagAndLinkOwner(node);
+                clear_entry_flag_and_link_owner(node);
             }
             node = node->next;
         } while (node != 0);

@@ -4,7 +4,7 @@ typedef struct S_8052DC78_0 {
     u8 pad_00[0x5C];
     union { s16 s; u16 u; } unk_5C;   /* accessed as both */
     u16 unk_5E;
-} S_8052DC78_0;   /* arg0 in func_8052DC78 */
+} S_8052DC78_0;   /* arg0 in animate_image_strips_signal_completion */
 
 
 extern void func_8006E854(s16 *rect, u8 *image);
@@ -27,7 +27,7 @@ typedef struct CallbackOwner {
 } CallbackOwner;
 
 /* Animate image strips and signal completion when the timer expires. */
-void func_8052DC78(CallbackState *callback)
+void animate_image_strips_signal_completion(CallbackState *callback)
 {
     s16 rect[4];
     s16 phase;

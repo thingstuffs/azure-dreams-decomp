@@ -10,7 +10,7 @@ typedef struct {
 } Func80039EF4State;
 
 /* Decrements the script loop counter and rewinds the script while it remains nonnegative. */
-void vmOp85RepeatWhileCounterNonnegative(Func80039EF4State *vm) {
+void vm_op_85_repeat_while_counter_nonnegative(Func80039EF4State *vm) {
     u8 loop_count = vm->field_88;
 
     loop_count--;

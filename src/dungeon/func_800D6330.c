@@ -26,7 +26,7 @@ typedef struct Struct_800D6330 {
 } Struct_800D6330;
 
 /* Transforms source_vertices using the selected rotation matrix and stores their coordinates. */
-void dungeonTransformRotatedVertices(Struct_800D6330 *transform) {
+void transform_rotated_vertices(Struct_800D6330 *transform) {
     union {
         s16 rotation_matrix[9];
         struct {

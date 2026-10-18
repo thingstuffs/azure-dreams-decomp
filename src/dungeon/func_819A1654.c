@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
+void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;
     Row_819A1654_Effect *effect;
@@ -79,13 +79,13 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                 if (spawn_index != 2) {
                     sound_id = 0x300;
                 }
-                func_800A56E0(sound_id);
+                play_sound_if_enabled(sound_id);
             }
 
             if (entity->timer == 24) {
                 if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                     spawn_index = 0;
-                    particle_callback = func_80024B3C;
+                    particle_callback = choose_random_sign;
                     origin_loop = D_80083780;
                     do {
                         task = (Row_819A1654_Task *)func_8003FC64(0x212);
@@ -195,7 +195,7 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
                                     task->callback = func_80024834;
-                                    func_8004491C(task, func_80024564);
+                                    func_8004491C(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
                                     sprite->flags |= 0xC;
@@ -244,7 +244,7 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
                                     task->callback = func_80024834;
-                                    func_8004491C(task, func_80024564);
+                                    func_8004491C(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
                                     sprite->flags |= 0xC;
@@ -294,7 +294,7 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
                                     task->callback = func_80024834;
-                                    func_8004491C(task, func_80024564);
+                                    func_8004491C(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
                                     sprite->flags |= 0xC;
@@ -340,8 +340,8 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                                         effect->value10 = effect->value20;
                                         effect->value14 = effect->value24;
                                         effect->value18 = effect->value28;
-                                        task->callback = dungeonAdvanceObjectMotionAndAnimation;
-                                        func_8004491C(task, func_80024564);
+                                        task->callback = advance_object_motion_and_animation;
+                                        func_8004491C(task, draw_linked_effect_chain);
                                         sprite = task->sprite;
                                         sprite->field10 = 32;
                                         sprite->flags |= 0xC;
@@ -393,8 +393,8 @@ void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved
                                             effect->value10 = effect->value20;
                                             effect->value14 = effect->value24;
                                             effect->value18 = effect->value28;
-                                            task->callback = dungeonAdvanceObjectMotionAndAnimation;
-                                            func_8004491C(task, func_80024564);
+                                            task->callback = advance_object_motion_and_animation;
+                                            func_8004491C(task, draw_linked_effect_chain);
                                             sprite = task->sprite;
                                             sprite->field10 = 32;
                                             sprite->flags |= 0xC;
@@ -492,7 +492,7 @@ loop_1:
                 if (task != 0) {
                     effect->timer3A = 13;
                     effect->timer3C = 13;
-                    task->callback = dungeonUpdateEffectCountdownFields;
+                    task->callback = update_effect_countdown_fields;
                     func_8004491C(task, func_80045340);
                     sprite = task->sprite;
                     sprite->field6 = 6;
@@ -530,9 +530,9 @@ loop_1:
         case 4:
 cleanup:
             if (((s16 *)D_800261B0)[0] == 0) {
-                ((Row_819A1654_ControlGlobal *)&dungeonStatus)[0].active = 0;
+                ((Row_819A1654_ControlGlobal *)&g_dungeon_status)[0].active = 0;
                 D_80082E86[0] = 0;
-                ((Row_819A1654_ControlGlobal *)&dungeonStatus)[0].count--;
+                ((Row_819A1654_ControlGlobal *)&g_dungeon_status)[0].count--;
                 *((u16 *)entity - 1) |= 0x8000;
                 D_800814A0[0].flags |= 0x8000;
                 break;

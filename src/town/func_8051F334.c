@@ -5,7 +5,7 @@ extern void func_80018ADC();
 extern s32 func_80018B5C();
 
 /* Checks the entry and override flags before calling the handler. */
-s32 townCheckSceneEntryFlags(void *entry, s32 handler_arg) {
+s32 check_scene_entry_flags(void *entry, s32 handler_arg) {
     s32 result;
 
     if (func_80018B5C(0x5C5) != 0) {

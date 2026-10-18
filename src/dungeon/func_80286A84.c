@@ -1,12 +1,12 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonFillInactiveInteriorCells(s16 value) {
+void fill_inactive_interior_cells(s16 value) {
     MapGrid *state;
     floor_generate_isolated_80286A84_DungeonCell *cells;
     s32 row;
     s32 column;
 
-    state = &gameWork.map;
+    state = &g_game_work.map;
     cells = ((floor_generate_isolated_80286A84_DungeonCell *)D_800EA000);
     row = 1;
     do {

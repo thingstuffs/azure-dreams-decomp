@@ -25,21 +25,21 @@ typedef struct TownObject {
 
 extern Entry *D_80129728[28];
 
-extern void func_80123754(void);
-extern void townRefreshCatalogSecondaryDetail(TownObject *);
-extern void func_801235EC(void);
-extern void townRefreshCatalogPrimaryDetail(TownObject *);
+extern void reset_linked_value_records(void);
+extern void refresh_catalog_secondary_detail(TownObject *);
+extern void store_cached_value_at_pointer(void);
+extern void refresh_catalog_primary_detail(TownObject *);
 
 /* Resets the object or updates entry values and words according to its state. */
-void townAnimateCatalogNextDetail(TownObject *obj)
+void animate_catalog_next_detail(TownObject *obj)
 {
     switch ((s16)(obj->state - 1)) {
     case 0:
         *obj->context->slot70 = 0;
-        func_80123754();
-        townRefreshCatalogSecondaryDetail(obj);
-        func_801235EC();
-        townRefreshCatalogPrimaryDetail(obj);
+        reset_linked_value_records();
+        refresh_catalog_secondary_detail(obj);
+        store_cached_value_at_pointer();
+        refresh_catalog_primary_detail(obj);
         break;
 
     case 7:

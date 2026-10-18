@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void dungeonAllocateEffectWithEndpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
+void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params) {
     s32 start_x;
     s32 start_y;

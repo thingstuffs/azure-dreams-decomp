@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_8017442C(void *node, s32 target_x, s32 target_y, s32 target_height)
+void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
     R10_8017442C_OffsetTable offsets = (*(R10_8017442C_OffsetTable *)&D_80170854);
     void *head = node;
@@ -40,16 +40,16 @@ void func_8017442C(void *node, s32 target_x, s32 target_y, s32 target_height)
                         if (((R10_8017442C_S_801745BC_1 *)node)->unk_13 == 0x34) {
                             target_y = 0x80B;
                         }
-                        func_800A56E0(target_y);
+                        play_sound_if_enabled(target_y);
 
                         angle = ((R10_8017442C_S_801745BC_4 *)owner)->unk_2A;
                         offset = (R10_8017442C_OffsetPair *)((u8 *)&offsets +
                             (((s16)angle >> 7) & 0x1C));
-                        dungeonSpawnRadialParticleBurst((s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_02 + (offset->x * 32))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_06 +
+                        spawn_radial_particle_burst((s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_02 + (offset->x * 32))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_06 +
                                   ((s32)(offset->y << 16) >> 11))),(s16)((s16)(((R10_8017442C_S_801745BC_5 *)position)->unk_0A - 0x20)),(s16)(((R10_8017442C_S_801745BC_4 *)owner)->unk_14),
                             (s32)(s16)angle);
                     } else {
-                        dungeonResolveAttackDamageAndEffects(owner, owner_data,(s16)((s16)((R10_8017442C_S_801745BC_4 *)owner)->unk_2A),(s16)(1));
+                        resolve_attack_damage_and_effects(owner, owner_data,(s16)((s16)((R10_8017442C_S_801745BC_4 *)owner)->unk_2A),(s16)(1));
                     }
                 }
             }

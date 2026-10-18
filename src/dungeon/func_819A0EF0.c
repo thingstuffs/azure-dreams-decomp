@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void dungeonFadeMovingEffect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive)
+void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive)
 {
     s32 brightness;
     s32 x;
@@ -26,6 +26,6 @@ void dungeonFadeMovingEffect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Re
     motion->unk_04 = y + dy;
     if (((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.u <= 0) {
         ((Row_819A0EF0_S_800246F0_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        ((Row_819A0EF0_S_800246F0_3 *)((u8 *)(&objectFlagBlock)))->unk_00 |= 0x8000;
+        ((Row_819A0EF0_S_800246F0_3 *)((u8 *)(&object_flag_block)))->unk_00 |= 0x8000;
     }
 }

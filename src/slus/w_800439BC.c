@@ -6,7 +6,7 @@
 
 
 /* Test whether the table byte XOR its upper nibble has its lowest two bits clear. */
-s32 runtimeTestTableBytePattern(s16 entry_id) {
+s32 runtime_test_table_byte_pattern(s16 entry_id) {
     u32 value = D_8006DE24[entry_id].unk_10;
     return ((value ^ (value >> 4)) & 3) == 0;
 }

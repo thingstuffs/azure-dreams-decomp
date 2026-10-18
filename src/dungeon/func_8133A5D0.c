@@ -58,7 +58,7 @@ typedef struct S_801715D0_6 {
 typedef struct S_801715D0_7 {
     s16 unk_00;
     s16 unk_02;
-} S_801715D0_7;   /* entry in dungeonCreateActionOffsetObject */
+} S_801715D0_7;   /* entry in create_action_offset_object */
 
 typedef struct S_801715D0_8 {
     u8 pad_00[0x8];
@@ -72,7 +72,7 @@ typedef struct S_801715D0_8 {
 } S_801715D0_8;
 
 /* Creates and initializes an object offset in its owner's facing direction. */
-void dungeonCreateActionOffsetObject(void) {
+void create_action_offset_object(void) {
     s32 owner_x;
     s32 owner_y;
     s32 tile_x;

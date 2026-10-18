@@ -4,7 +4,7 @@
 
 
 /* Counts nonzero entries across five records. */
-s32 cardBootCountCachedSlots(void) {
+s32 card_boot_count_cached_slots(void) {
     s32 i;
     s32 active_count;
 

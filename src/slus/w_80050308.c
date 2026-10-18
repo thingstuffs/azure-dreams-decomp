@@ -30,7 +30,7 @@ typedef struct S_80050308 {
     u8 pad24[0x4];
     void *unk28;       /* arg passed to func_800502E0 */
     u8 pad2C[0x68 - 0x2C];
-    s32 unk68;         /* arg0 for slusAnimateSixEntrySelectionCursor */
+    s32 unk68;         /* arg0 for animate_six_entry_selection_cursor */
 } S_80050308;
 
 typedef void (*StateFn_80050308)(void *);
@@ -41,8 +41,8 @@ extern void func_80050EA8(void *a0);
 extern s32 func_800502E0(void *a0);
 extern s32 func_8004FF20(void *a0);
 extern void func_8004FFA8(void *a0);
-extern s32 advanceIndexWithSingleWrap(s32 a0, s32 a1, s32 a2);
-extern void slusAnimateSixEntrySelectionCursor(s32 a0, void *a1);
+extern s32 advance_index_with_single_wrap(s32 a0, s32 a1, s32 a2);
+extern void animate_six_entry_selection_cursor(s32 a0, void *a1);
 
 /* Handles object state changes and directional index updates from global input flags. */
 void func_80050308(void *object)
@@ -51,8 +51,8 @@ void func_80050308(void *object)
     s32 action_flags;
     s32 direction;
 
-    if (gameWork.buttons != 0) {
-        action_flags = ((s32)gameWork.unk_010);
+    if (g_game_work.buttons != 0) {
+        action_flags = ((s32)g_game_work.unk_010);
         if (action_flags & 0x20) {
             SD_Call(0x515);
             func_80050DA8((char *)obj - 0x20);
@@ -67,7 +67,7 @@ void func_80050308(void *object)
             } else {
                 func_80050EA8((char *)obj - 0x20);
             }
-        } else if (gameWork.buttons & 0x5000) {
+        } else if (g_game_work.buttons & 0x5000) {
             direction = 0;
             if (action_flags & 0x4000) {
                 direction = 1;
@@ -81,7 +81,7 @@ void func_80050308(void *object)
                 s32 repeat_flags;
 
                 obj->unk0C = obj->unk0C - 1;
-                repeat_flags = gameWork.buttons;
+                repeat_flags = g_game_work.buttons;
                 if (repeat_flags & 0x4000) {
                     direction = 1;
                     obj->unk10 = 2;
@@ -96,9 +96,9 @@ void func_80050308(void *object)
                 SD_Call(0x502);
                 obj->unk18 = obj->unk1C;
                 obj->unk14 = 0;
-                obj->unk1C = advanceIndexWithSingleWrap(obj->unk1C, direction, 6);
+                obj->unk1C = advance_index_with_single_wrap(obj->unk1C, direction, 6);
             }
         }
     }
-    slusAnimateSixEntrySelectionCursor(obj->unk68, obj);
+    animate_six_entry_selection_cursor(obj->unk68, obj);
 }

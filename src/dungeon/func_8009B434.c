@@ -2,8 +2,8 @@
 
 extern int abs(int);
 extern s32 Control_CD();
-extern s32 drainCdCommandQueue();
-extern s32 packTaggedResourceDescriptor();
+extern s32 drain_cd_command_queue();
+extern s32 pack_tagged_resource_descriptor();
 
 extern s8 D_800E3DA0[];
 extern u8 D_800E58A8[];
@@ -12,7 +12,7 @@ extern u8 D_8016A800[];
 extern u8 D_80170800[];
 
 /* Loads or reuses entry resource data, optionally waiting for the CD read. */
-s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
+s32 load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
     u8 *entry = resource_entry;
     s16 asset_id = resource_id;
     s32 wait_mode = wait_for_read;
@@ -64,11 +64,11 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             disc_offset = asset_offset + slot_part;
         }
         cd_params = D_800E58A8;
-        packTaggedResourceDescriptor(read_size, data, cd_params, disc_offset);
+        pack_tagged_resource_descriptor(read_size, data, cd_params, disc_offset);
         Control_CD(6, cd_params, 0);
 
         if ((wait_mode << 0x10) != 0) {
-            drainCdCommandQueue();
+            drain_cd_command_queue();
             if (entry[0] != 2) {
                 D_800E3DA0[entry[3]] = asset_id;
                 result = *(s32 *)data;

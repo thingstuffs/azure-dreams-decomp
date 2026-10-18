@@ -5,9 +5,9 @@
 
 
 /* Waits for both card channels and requests information for the selected channel. */
-void cardBootRecheckSelectedChannel(void) {
-    cardBootDrainSoftwareEvents();
+void card_boot_recheck_selected_channel(void) {
+    card_boot_drain_software_events();
     _card_wait(0);
     _card_wait(1);
-    cardBootRequestInfo((*(s32 *)(&D_800287CC)));
+    card_boot_request_info((*(s32 *)(&D_800287CC)));
 }

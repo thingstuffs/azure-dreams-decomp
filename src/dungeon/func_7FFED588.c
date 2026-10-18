@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_d54c.h"
 
-s32 townSumResourceBytes(s32 entry_count) {
+s32 sum_resource_bytes(s32 entry_count) {
     s32 sum;
     s32 entry_index;
 

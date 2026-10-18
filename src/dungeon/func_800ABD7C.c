@@ -5,6 +5,6 @@
 
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
-s32 dungeonCheckCurrentRecordValueNot29(void) {
+s32 check_current_record_value_not_29(void) {
     return D_800E3D7C->unk_9A != 0x29;
 }

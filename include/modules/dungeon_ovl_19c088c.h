@@ -491,7 +491,7 @@ s16 rand();
 s32 func_8003DF74(void *, void *, void *, s32);
 s32 func_80069EF8(void);
 s32 func_80053EF0(s32);
-void func_800A56E0(s32);
+void play_sound_if_enabled(s32);
 void D_80024C50(void *, void *, void *, s32, s32, s32);
 
 
@@ -510,16 +510,16 @@ extern Row_819A1654_Blob12 D_80026180[];
 extern Row_819A1654_Blob12 D_8002618C[];
 extern Row_819A1654_Blob24 D_80026198[];
 void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias);
-s32 func_80024564(void *state, void *position, void *appearance);
-void dungeonUpdateEffectCountdownFields(void *object_data);
-void dungeonFadeMovingEffect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive);
-void dungeonShrinkEffectAndSpawnParticles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
+s32 draw_linked_effect_chain(void *state, void *position, void *appearance);
+void update_effect_countdown_fields(void *object_data);
+void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, Rec_D_80082E80 *primitive);
+void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
 void func_80024834(void *fade_data);
-void dungeonAdvanceObjectMotionAndAnimation(void *effect);
-void func_80024B3C(void *effect, s32 unused, void *primitive);
+void advance_object_motion_and_animation(void *effect);
+void choose_random_sign(void *effect, s32 unused, void *primitive);
 void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj);
 void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);
-void dungeonAdvanceEntityEffectSequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data);
+void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data);
 extern u8 D_800261B0[];
 #endif

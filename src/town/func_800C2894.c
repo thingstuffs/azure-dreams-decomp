@@ -5,7 +5,7 @@
 typedef struct S_800BFFF4_0_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_800BFFF4_0_pre;   /* the 0x8 bytes before node in townDrawDepthSortedGradientLines, addressed as node[-1] */
+} S_800BFFF4_0_pre;   /* the 0x8 bytes before node in draw_depth_sorted_gradient_lines, addressed as node[-1] */
 
 typedef struct S_800BFFF4_0 {
     u8 pad_00[0x1E];
@@ -14,7 +14,7 @@ typedef struct S_800BFFF4_0 {
     u16 unk_22;
     u8 pad_24[0x2];
     u16 unk_26;
-} S_800BFFF4_0;   /* node in townDrawDepthSortedGradientLines */
+} S_800BFFF4_0;   /* node in draw_depth_sorted_gradient_lines */
 
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -34,7 +34,7 @@ void func_800667D0(LineG2 *);
 void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Draw depth-sorted gradient lines for the linked nodes. */
-s32 townDrawDepthSortedGradientLines(u8 *node)
+s32 draw_depth_sorted_gradient_lines(u8 *node)
 {
     u16 endpoint[3];
     s32 projection_param;
@@ -49,7 +49,7 @@ s32 townDrawDepthSortedGradientLines(u8 *node)
     s32 ot_offset;
     s32 zero;
 
-    town = &gameWork;
+    town = &g_game_work;
     do {
         line = (LineG2 *)((GpuContext *)town->unk_000)->packetCursor;
         ((GpuContext *)town->unk_000)->packetCursor = (u8 *)line + 0x14;

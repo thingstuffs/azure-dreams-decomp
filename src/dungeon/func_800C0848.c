@@ -19,31 +19,31 @@ extern u8 D_800E0BA1[];
 void func_800419EC();
 void func_80040AA0();
 s32 func_800429E4();
-void markSpriteResourcesForPurge();
-void dungeonSnapshotInventoryAndFamiliars();
-void dungeonSnapshotInventoryFamiliarRecords();
-s32 func_800990FC(void);
-s32 func_80099194();
-s32 dungeonCopyFourTextBytes();
+void mark_sprite_resources_for_purge();
+void snapshot_inventory_and_familiars();
+void snapshot_inventory_familiar_records();
+s32 get_unused_text_buffer(void);
+s32 expand_text_control_codes();
+s32 copy_four_text_bytes();
 void func_80099290();
-s32 dungeonWriteTextByteAndAdvance();
-void func_8009A028();
-void func_8009A3D0();
-void dungeonRefreshPackedGridNibbles();
-s32 dungeonFindActiveMonsterRecord();
-void func_800A32A4();
-extern s32 func_800A56E0();
-void func_800A5720();
-void func_800A6780();
-s32 func_800A6D30(void);
-void func_800A7030(s16, s16);
-void dungeonProcessActiveSlotsAtCoordinates(s16, s16);
-void dungeonTeleportFamiliarNearPlayer();
-void dungeonCreateOrbitingTeleportEffect();
+s32 write_text_byte_and_advance();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void refresh_packed_grid_nibbles();
+s32 find_active_monster_record();
+void detach_record_and_update_slot_state();
+extern s32 play_sound_if_enabled();
+void display_text_with_fullwidth_adjustment();
+void check_action_boundary_and_set_flag();
+s32 generate_random_value(void);
+void remove_floor_items_at_tile(s16, s16);
+void process_active_slots_at_coordinates(s16, s16);
+void teleport_familiar_near_player();
+void create_orbiting_teleport_effect();
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 
-void dungeonDispatchActionCallbackByOpcode(u8 *w) {
+void dispatch_action_callback_by_opcode(u8 *w) {
     GameWork *ctx;
     u8 *cells;
     u8 *fld;
@@ -79,12 +79,12 @@ void dungeonDispatchActionCallbackByOpcode(u8 *w) {
     u16 f;
     u16 a;
 
-    ctx = &gameWork;
+    ctx = &g_game_work;
     phase0 = *(s16 *)w;
     cells = ((u8 *)ctx->map.cells);
     fld = (u8 *)ctx + 0x1DC;
     if (phase0 == 0) {
-        st = (s32) ((u8 *)(&dungeonStatus));
+        st = (s32) ((u8 *)(&g_dungeon_status));
         f = *(u16 *)((u8 *) st + 2);
         if (f & 0x10) {
             *(u16 *)((u8 *) st + 2) = f | 0x200;
@@ -125,7 +125,7 @@ void dungeonDispatchActionCallbackByOpcode(u8 *w) {
             *(u16 *)(w + 22) = *(u16 *)(w + 22) - 1;
             return;
         }
-        func_800A56E0(0x818);
+        play_sound_if_enabled(0x818);
         func_800419EC(0x20, 8);
         *(u16 *)(w + 20) = *(u16 *)(w + 20) + 1;
         sys = (u8 *)0x80010000;
@@ -135,31 +135,31 @@ void dungeonDispatchActionCallbackByOpcode(u8 *w) {
             *(u16 *)((u8 *) st + 10) = ic + 1;
         }
         phase = 1;
-        hnd = func_800990FC();
+        hnd = get_unused_text_buffer();
         v = *(s16 *)(w + 20);
         if (v == phase) {
-            r = func_80099194(D_800E0B65, hnd);
+            r = expand_text_control_codes(D_800E0B65, hnd);
             if (!(*(u16 *)(sys + 0x3714) & 1)) {
-                r = dungeonWriteTextByteAndAdvance(0x11, r);
-                r = dungeonWriteTextByteAndAdvance(0x4C, r);
-                r = dungeonCopyFourTextBytes(D_800E0458, r);
+                r = write_text_byte_and_advance(0x11, r);
+                r = write_text_byte_and_advance(0x4C, r);
+                r = copy_four_text_bytes(D_800E0458, r);
             }
             func_80099290(r);
-            func_800A5720(hnd);
+            display_text_with_fullwidth_adjustment(hnd);
             *(s16 *)(w + 22) = 0x80;
             return;
         }
         if (v != 2) {
             goto L_third;
         }
-        r = func_80099194(D_800E0B73, hnd);
+        r = expand_text_control_codes(D_800E0B73, hnd);
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
-            r = dungeonWriteTextByteAndAdvance(0x11, r);
-            r = dungeonWriteTextByteAndAdvance(0x4C, r);
-            r = dungeonCopyFourTextBytes(D_800E0458, r);
+            r = write_text_byte_and_advance(0x11, r);
+            r = write_text_byte_and_advance(0x4C, r);
+            r = copy_four_text_bytes(D_800E0458, r);
         }
         func_80099290(r);
-        func_800A5720(hnd);
+        display_text_with_fullwidth_adjustment(hnd);
         *(s16 *)(w + 22) = 0x40;
         return;
 L_found:
@@ -174,19 +174,19 @@ L_found:
         *(s16 *)(w + 14) = t + *(u16 *)(room + 6) + 2;
         goto L_zero;
 L_third:
-        r = func_80099194(D_800E0BA1, hnd);
+        r = expand_text_control_codes(D_800E0BA1, hnd);
         *(s16 *)(w + 22) = 0;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
-            r = dungeonWriteTextByteAndAdvance(0x11, r);
-            r = dungeonWriteTextByteAndAdvance(0x4C, r);
-            r = dungeonCopyFourTextBytes(D_800E0458, r);
+            r = write_text_byte_and_advance(0x11, r);
+            r = write_text_byte_and_advance(0x4C, r);
+            r = copy_four_text_bytes(D_800E0458, r);
         }
         func_80099290(r);
-        func_800A5720(hnd);
+        display_text_with_fullwidth_adjustment(hnd);
         *(s16 *)w = phase;
         *(u16 *)((u8 *) st + 10) = *(u16 *)((u8 *) st + 10) + 1;
         *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
-        rv = func_800A6D30() & 0xFFFF;
+        rv = generate_random_value() & 0xFFFF;
         cnt = D_80081468;
         cc = *(s16 *)(cnt + 6);
         phase = rv % cc;
@@ -222,8 +222,8 @@ L_zero:
                         do {
                             *(u16 *)(CELL(x, y) + 4) |= 0x8000;
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
-                            dungeonProcessActiveSlotsAtCoordinates(x, y);
-                            func_800A7030(x, y);
+                            process_active_slots_at_coordinates(x, y);
+                            remove_floor_items_at_tile(x, y);
                             y = y + 1;
                         } while (y < y1);
                     }
@@ -239,8 +239,8 @@ L_zero:
                     do {
                         *(u16 *)(CELL(x, y) + 4) |= 0x8000;
                         *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
-                        dungeonProcessActiveSlotsAtCoordinates(x, y);
-                        func_800A7030(x, y);
+                        process_active_slots_at_coordinates(x, y);
+                        remove_floor_items_at_tile(x, y);
                         y = y + 1;
                     } while (y < y1);
                 }
@@ -253,26 +253,26 @@ L_zero:
         *(s16 *)(w + 18) = 0;
         do {
             ep = *(u8 **)(e - 20);
-            if (phase == (s16)dungeonFindActiveMonsterRecord(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
+            if (phase == (s16)find_active_monster_record(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
                     D_800E296C |= 0x2000;
-                    dungeonCreateOrbitingTeleportEffect(e, tbl[func_800429E4(e)], 0, 0);
+                    create_orbiting_teleport_effect(e, tbl[func_800429E4(e)], 0, 0);
                     p = D_800E3D7C;
                     q = ((u8 *)p->unk_AC);
                     if (q != 0) {
-                        dungeonCreateOrbitingTeleportEffect(q, tbl[func_800429E4(q)], 0, 0);
+                        create_orbiting_teleport_effect(q, tbl[func_800429E4(q)], 0, 0);
                     }
                     {
                         EntityRec *p2 = D_800E3D7C;
                         q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
-                        dungeonCreateOrbitingTeleportEffect(q, tbl[func_800429E4(q)], 1, 0);
+                        create_orbiting_teleport_effect(q, tbl[func_800429E4(q)], 1, 0);
                     }
                     *(s16 *)(w + 18) = 1;
                 } else if (*(u32 *)(e + 20) & 0x4000) {
                     if (*(s16 *)(w + 18) == 0) {
-                        dungeonTeleportFamiliarNearPlayer(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
+                        teleport_familiar_near_player(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
                     }
                 } else {
                     if (*(s16 *)(w + 18) != 0) {
@@ -286,14 +286,14 @@ L_zero:
                     if (*(u32 *)(o + 28) & 0x2000) {
                         mode = 0x300;
                     }
-                    func_8009A3D0(ea, eb, mode);
+                    update_map_cell_flags_with_item_limit(ea, eb, mode);
                     if ((*(u32 *)(o + 20) & 0x20000000) && *(u8 *)(o + 19) == 30) {
-                        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
+                        g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
                     }
-                    func_800A32A4(o);
-                    func_8009A028(o);
+                    detach_record_and_update_slot_state(o);
+                    unlink_entity_node(o);
                     *(u16 *)(o - 2) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                 }
             }
             e = *(u8 **)(e + 92) + 32;
@@ -317,7 +317,7 @@ L_zero:
                     y = *(s16 *)(w + 10);
                     if (y < y1) {
                         do {
-                            s32 mul8 = 8 - (func_800A6D30() & 7);
+                            s32 mul8 = 8 - (generate_random_value() & 7);
                             s32 dec = *(s16 *)(w + 4) - 1;
                             *(u16 *)(CELL(x, y) + 2) -= mul8 * (dec - k);
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
@@ -341,7 +341,7 @@ L_zero:
                     y = 1;
                     if (y < y1) {
                         do {
-                            s32 mul8 = 8 - (func_800A6D30() & 7);
+                            s32 mul8 = 8 - (generate_random_value() & 7);
                             s32 dec = *(s16 *)(w + 4) - 1;
                             *(u16 *)(CELL(x, y) + 2) -= mul8 * (dec - k);
                             *(u16 *)(CELL(x, y) + 4) &= 0xFF73;
@@ -364,13 +364,13 @@ L_zero:
         }
         *(s16 *)(w + 16) = 1;
         *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
-        dungeonRefreshPackedGridNibbles();
+        refresh_packed_grid_nibbles();
         if (!((x1 + 16) < *(s16 *)(w + 4))) {
             return;
         }
         if (*(s16 *)(w + 18) == 0) {
             *(s16 *)w = 0;
-            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+            g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) - 1;
             return;
         }
         ctx->view.slot[0].callback = 0;
@@ -383,9 +383,9 @@ L_zero:
         func_80040AA0(3);
         return;
     }
-    dungeonSnapshotInventoryAndFamiliars(((u8 *)D_800E3D7C));
-    dungeonSnapshotInventoryFamiliarRecords();
-    func_800A6780();
+    snapshot_inventory_and_familiars(((u8 *)D_800E3D7C));
+    snapshot_inventory_familiar_records();
+    check_action_boundary_and_set_flag();
     {
         u8 code;
 
@@ -397,7 +397,7 @@ L_zero:
     }
     D_8008146C = *(u16 *)(o + 0x234);
     func_80040AA0(ch);
-    markSpriteResourcesForPurge();
+    mark_sprite_resources_for_purge();
     *(u16 *)(w - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

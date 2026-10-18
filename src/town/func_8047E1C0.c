@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3fe0d0_p00.h"
 
-void townAdvanceFloorEventCounter(void) {
+void advance_floor_event_counter(void) {
     void *state_data;
     s32 call_code;
     TownServiceTable *dispatch_table;

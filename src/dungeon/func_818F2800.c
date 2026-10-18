@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_191284c.h"
 
-void func_8002404C(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
+void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
 {
     u8 *scratch;
     u8 *part;
@@ -24,7 +24,7 @@ void func_8002404C(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800
     Row_818F2800_S_BODY_6 *cache;
     s32 position_z;
 
-    globals = ((void * *)(&gameWork));
+    globals = ((void * *)(&g_game_work));
     graphics = globals[0];
     scratch = (u8 *)0x1F800000;
 

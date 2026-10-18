@@ -47,7 +47,7 @@ typedef struct S_80D65810_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D65810_4;   /* input in func_80165010 */
+} S_80D65810_4;   /* input in create_origin_relative_effect */
 
 typedef struct S_80D65810_5 {
     u8 pad_00[0xC];
@@ -71,7 +71,7 @@ extern void func_80045340(void);
 extern void func_80164D34(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void func_80165010(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+void create_origin_relative_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     void *origin_ptr;
     u16 render_flags;
     S_80D65810_4 *origin;

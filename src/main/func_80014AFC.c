@@ -1,7 +1,7 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 
-/* Linked-list node shape shared with findActiveListNode/markActiveNodesByCallback's Node/
+/* Linked-list node shape shared with find_active_list_node/mark_active_nodes_by_callback's Node/
  * S_80081498: next ptr @0x0, a pointer field @0x10, a 16-bit flags field
  * @0x1E. D_8002BB08 is accessed via %hi/%lo (not $gp), so declare it with
  * a size well past the -G8 small-data threshold. */
@@ -23,21 +23,21 @@ extern Node8002BB08 D_8002BB08;
 /* Address-only use; size clears the small-data threshold. */
 extern u8 D_80027A9C[];
 
-extern Node8002BB08 *findActiveListNode(Node8002BB08 *a0);
-extern Node8002BB08 *initializeSceneObjectInBuffer(s32 a0, void *a1, s32 a2);
-extern void cardBootDestroyCardChooser(void *a0);
+extern Node8002BB08 *find_active_list_node(Node8002BB08 *a0);
+extern Node8002BB08 *initialize_scene_object_in_buffer(s32 a0, void *a1, s32 a2);
+extern void card_boot_destroy_card_chooser(void *a0);
 extern void bzero(void *a0, s32 a1);
 extern void func_80027A68(void *a0, s32 a1, s32 a2);
 
 /* Create or reset the shared node and initialize its request and mode. */
-Node8002BB08 *initCardBootRequestObject(s32 request, s32 mode) {
+Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode) {
     Node8002BB08 *node = &D_8002BB08;
     void *node_data = (u8 *)node + 0x20;
 
-    if (findActiveListNode(node) == 0) {
-        node = initializeSceneObjectInBuffer(0, node, 25);
+    if (find_active_list_node(node) == 0) {
+        node = initialize_scene_object_in_buffer(0, node, 25);
     } else {
-        cardBootDestroyCardChooser(node);
+        card_boot_destroy_card_chooser(node);
         node->field_1E &= 0x7FFF;
         bzero(node_data, 0x44);
     }

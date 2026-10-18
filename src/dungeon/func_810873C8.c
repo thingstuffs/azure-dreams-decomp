@@ -8,7 +8,7 @@ typedef struct S_80174BC8_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_80174BC8_0;   /* obj in dungeonCreateOffsetActorObject */
+} S_80174BC8_0;   /* obj in create_offset_actor_object */
 
 typedef struct S_80174BC8_1 {
     u8 pad_00[0x6];
@@ -26,7 +26,7 @@ typedef struct S_80174BC8_1 {
     s16 unk_1E;
     u8 pad_20[0x8];
     s32 unk_28;
-} S_80174BC8_1;   /* prim in dungeonCreateOffsetActorObject */
+} S_80174BC8_1;   /* prim in create_offset_actor_object */
 
 
 typedef struct S_80174BC8_3 {
@@ -36,7 +36,7 @@ typedef struct S_80174BC8_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80174BC8_3;   /* dst in dungeonCreateOffsetActorObject */
+} S_80174BC8_3;   /* dst in create_offset_actor_object */
 
 
 typedef struct {
@@ -45,12 +45,12 @@ typedef struct {
 
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern s32 resolveRecordOrientationOrFallback(s32, void *, u16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 
 extern u8 D_80174A00[9];
 
 /* Creates and initializes an object, copies its data, and applies queried offsets. */
-s32 dungeonCreateOffsetActorObject(void *unused, void *source_data, Rec_D_80082E80 *source_state)
+s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *source_state)
 {
     u16 offsets[3];
     S_80174BC8_0 *object;
@@ -80,7 +80,7 @@ s32 dungeonCreateOffsetActorObject(void *unused, void *source_data, Rec_D_80082E
         offsets[2] = 0;
         offsets[1] = 0;
         offsets[0] = 0;
-        if (resolveRecordOrientationOrFallback(source_state->unk_08, source_state, offsets, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(source_state->unk_08, source_state, offsets, 0) != 0) {
             object_data->unk_02 += offsets[0];
             object_data->unk_06 += offsets[1];
             object_data->unk_0A += offsets[2];

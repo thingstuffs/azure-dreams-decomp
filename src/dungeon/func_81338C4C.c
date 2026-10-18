@@ -27,7 +27,7 @@ typedef struct S_8016FC4C_3 {
     u16 unk_96;
     u8 pad_98[0x2];
     u8 unk_9A;
-} S_8016FC4C_3;   /* arg0 in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_3;   /* arg0 in advance_encounter_actor_effect_phase */
 
 typedef struct S_8016FC4C_4 {
     u8 pad_00[0x2A];
@@ -47,7 +47,7 @@ typedef struct S_8016FC4C_5 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016FC4C_5;   /* object in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_5;   /* object in advance_encounter_actor_effect_phase */
 
 typedef struct S_8016FC4C_6 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -55,33 +55,33 @@ typedef struct S_8016FC4C_6 {
     u8 pad_08[0x4];
     s32 unk_0C;
     s32 unk_10;
-} S_8016FC4C_6;   /* entity in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_6;   /* entity in advance_encounter_actor_effect_phase */
 
 typedef struct S_8016FC4C_7 {
     s16 unk_00;
     s16 unk_02;
-} S_8016FC4C_7;   /* (u8 *)table_ptr in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_7;   /* (u8 *)table_ptr in advance_encounter_actor_effect_phase */
 
 typedef struct S_8016FC4C_8 {
     u8 pad_00[0x3228];
     s16 unk_3228;
     u8 pad_322A[0x2B26];
     void * unk_5D50;
-} S_8016FC4C_8;   /* (u8 *)common_page in dungeonAdvanceEncounterActorEffectPhase */
+} S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
 
-void selectIndirectTableEntry();
+void select_indirect_table_entry();
 void func_800478B8();
 s32 func_80069EF8();
-u16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-s32 func_800A56E0();
-void dungeonCreateRandomVelocityChildEffect();
-void dungeonCreateOffsetHalfScaleSpark(void *, s32, s32, s32);
+u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+s32 play_sound_if_enabled();
+void create_random_velocity_child_effect();
+void create_offset_half_scale_spark(void *, s32, s32, s32);
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
-void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
+void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     s32 distance;
     s32 burst_y;
     s16 sustain_y;
@@ -131,7 +131,7 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
     {
         s32 shrink_step;
         s32 scaled_step;
-        heading->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+        heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
@@ -151,12 +151,12 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
         shrink_step = rounded_step >> 0xC;
         shrink_source = effect - 0x20;
         do {
-            dungeonCreateRandomVelocityChildEffect(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);
+            create_random_velocity_child_effect(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);
             count += 1;
             shrink_source = effect - 0x20;
         } while (count < 6);
         if ((s16)((S_8016FC4C_3 *)effect)->unk_96 == 1)
-            func_800A56E0(0xB1);
+            play_sound_if_enabled(0xB1);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 120);
         if (phase_active == 0) {
             ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
@@ -168,7 +168,7 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
     {
         s32 burst_step;
         s32 scaled_step;
-        heading->unk_2A = dungeonGetRoundedFacingAndRoundingFlag(
+        heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
@@ -178,7 +178,7 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
         burst_step = scaled_step >> 0xC;
         burst_source = effect - 0x20;
         do {
-            dungeonCreateRandomVelocityChildEffect(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);
+            create_random_velocity_child_effect(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);
             count += 1;
             burst_source = effect - 0x20;
         } while (count < 6);
@@ -188,10 +188,10 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
             burst_x = (func_80069EF8(burst_source) & 0x1F) - 0xF;
             burst_x = (s16)(((s32)burst_x << 16) >> 16);
             burst_y = (s16)((func_80069EF8() & 0x1F) - 0xF);
-            dungeonCreateOffsetHalfScaleSpark(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            create_offset_half_scale_spark(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
         }
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7))
-            func_800A56E0(0x817);
+            play_sound_if_enabled(0x817);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 20);
         if (phase_active == 0) {
             ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
@@ -203,14 +203,14 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
         sustain_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = sustain_ticks;
         if (!(sustain_ticks & 7))
-            func_800A56E0(0x817);
+            play_sound_if_enabled(0x817);
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 1)) {
             random_bits = func_80069EF8();
             sustain_x = (random_bits & 0x1F) - 0xF;
             sustain_x = (s16)(((s32)sustain_x << 16) >> 16);
             sustain_y = (func_80069EF8() & 0x1F) - 0xF;
             sustain_y = (s16)(((s32)sustain_y << 16) >> 16);
-            dungeonCreateOffsetHalfScaleSpark(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
+            create_offset_half_scale_spark(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
         }
         break;
     case 4:
@@ -260,12 +260,12 @@ void dungeonAdvanceEncounterActorEffectPhase(void *effect, S_8016FC4C_6 *entity,
     if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;
-        common_page = (u32)(s32)gameWork.view.viewAngle;
+        common_page = (u32)(s32)g_game_work.view.viewAngle;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;
         if (old_direction != sprite_direction) {
-            selectIndirectTableEntry(object, *(object->unk_2C + sprite_direction), object->unk_04);
+            select_indirect_table_entry(object, *(object->unk_2C + sprite_direction), object->unk_04);
             ((S_8016FC4C_3 *)effect)->unk_94 = direction;
         }
         func_800478B8(object);

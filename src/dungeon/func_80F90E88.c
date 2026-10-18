@@ -82,7 +82,7 @@ typedef struct {
 typedef struct S_80F90E88_7 {
     u8 pad_00[0x8D0];
     s32 * unk_8D0;
-} S_80F90E88_7;   /* gameWork.unk_000 in func_80F90E88 */
+} S_80F90E88_7;   /* g_game_work.unk_000 in func_80F90E88 */
 
 
 #define getaddr(t) ((t) & address_mask)
@@ -127,7 +127,7 @@ s32 func_80F90E88(void *object) {
     z_ptr = &screen.z;
     address_mask = 0x00FFFFFF;
     hi_mask = 0xFFFF0000;
-    gw = &gameWork;
+    gw = &g_game_work;
 draw_object:
     screen.z = 8;
     half_width = (u16) screen.z;
@@ -157,7 +157,7 @@ loop_0:
     transform_rec.translation = *(PackedPair *)((s8 *)model + 0xC);
     transform_rec.count = 2;
     transform_rec.flags = 0;
-    dungeonTransformRotatedVertices(transform);
+    transform_rotated_vertices(transform);
     min_xy &= 0xFFFF;
     max_xy &= 0xFFFF;
     side = 1;

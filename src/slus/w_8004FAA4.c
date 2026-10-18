@@ -13,22 +13,22 @@ typedef struct S_8004FAA4_1 {
     s32 unk_30;
     u8 pad_34[0x4];
     s32 unk_38;
-} S_8004FAA4_1;   /* arg0 in handleAnimatedSelectionMenuInput */
+} S_8004FAA4_1;   /* arg0 in handle_animated_selection_menu_input */
 
 
-M2C_UNK beginSelectionMenuIndexChange();
-s32 findResolvedSelectionMenuIndex();
+M2C_UNK begin_selection_menu_index_change();
+s32 find_resolved_selection_menu_index();
 M2C_UNK SD_Call();
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
-void handleAnimatedSelectionMenuInput(S_8004FAA4_1 *menu) {
+void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
     GameWork *input;
     s32 next_index;
     s32 repeat_ticks;
     s32 held_buttons;
     s32 index_delta;
 
-    input = &gameWork;
+    input = &g_game_work;
     index_delta = 0;
     if ((input->buttons != 0) && (menu->unk_24 >= 2)) {
         if (input->buttons & 0xA000) {
@@ -60,13 +60,13 @@ void handleAnimatedSelectionMenuInput(S_8004FAA4_1 *menu) {
         if (index_delta == 0) {
             if (((s32)input->unk_010) & 1) {
                 if (((s32)D_800814A8->unk_B0) != 0) {
-                    next_index = findResolvedSelectionMenuIndex(menu, 1);
+                    next_index = find_resolved_selection_menu_index(menu, 1);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
             } else if (((s32)input->unk_010) & 2) {
                 if (((s32)D_800814A8->unk_AC) != 0) {
-                    next_index = findResolvedSelectionMenuIndex(menu, 0);
+                    next_index = find_resolved_selection_menu_index(menu, 0);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
@@ -74,7 +74,7 @@ void handleAnimatedSelectionMenuInput(S_8004FAA4_1 *menu) {
         }
         if (index_delta != 0) {
             SD_Call(0x504);
-            beginSelectionMenuIndexChange(menu, index_delta);
+            begin_selection_menu_index_change(menu, index_delta);
         }
     }
 }

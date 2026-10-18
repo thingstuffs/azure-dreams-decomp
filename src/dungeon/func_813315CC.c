@@ -69,7 +69,7 @@ extern u8 D_80167C74[];
 extern s16 D_80175DD8[][8][2][3];
 
 /* Create a direction- and color-selected effect and initialize its vertices. */
-void dungeonCreateTargetedRibbonTrail(EffectSource *source, Vec3 *origin, void *unused,
+void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unused,
                    void *effect_data, s32 input_color_mode)
 {
     LocalPositionTable positions;

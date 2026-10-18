@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_f7d070_p01.h"
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
-void *dungeonAllocateActorEffectObject(s16 kind_flags, s16 x, s16 y, s16 part_value)
+void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
 {
     s32 kind;
     void *obj;
@@ -48,17 +48,17 @@ void *dungeonAllocateActorEffectObject(s16 kind_flags, s16 x, s16 y, s16 part_va
         } else {
             if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
+                set_or_clear_actor_status_slot(work, 1,
+                              (generate_random_value() & 0x3F) | 0x20);
                 part_b->unk_2C = D_801741DC;
             }
         }
-        func_800A9C18(obj, part_a, part_b, kind_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80170E68;
         part_b->unk_14 |= 0xC;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

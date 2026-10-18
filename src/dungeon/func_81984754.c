@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
+void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
 {
     ovl_19a332c_81984754_Object *objects[9];
     u16 spawn_x;
@@ -29,7 +29,7 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
     spawn_x = x;
     spawn_y = y;
     spawn_z = z;
-    if (hasEnoughAvailableRuntimeNodes(9) == 0) {
+    if (has_enough_available_runtime_nodes(9) == 0) {
         return prev_entity;
     }
 
@@ -45,8 +45,8 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             prev_object = (ovl_19a332c_81984754_Object *)((u8 *)(&D_80083498));
         }
         *object_slot = func_8003FD64(2, prev_object);
-        (*object_slot)->state = (void (*)(void *))(void *)dungeonUpdateHomingEffectAndAttachedCopies;
-        func_8004491C(*object_slot, func_800C9034);
+        (*object_slot)->state = (void (*)(void *))(void *)update_homing_effect_and_attached_copies;
+        func_8004491C(*object_slot, draw_linked_model_chain);
 
         pos = (*object_slot)->pos;
         pos->x = spawn_x;
@@ -87,7 +87,7 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             prev_entity->next = *object_slot;
         }
 
-        target_angle = dungeonForwardMonsterCoordinateDelta(pos->x, pos->y,
+        target_angle = forward_monster_coordinate_delta(pos->x, pos->y,
                               target_pos->x.w.i,
                               target_pos->y.w.i);
 
@@ -127,8 +127,8 @@ void *func_80025F54(s32 x, s32 y, s32 z, s32 angle)
             history_index--;
         } while (history_index >= 0);
 
-        inventorySelectEntryAndResetObject(part, 0);
-        inventoryCopyAndSignExtendRecordFields(entity, part->unk0);
+        inventory_select_entry_and_reset_object(part, 0);
+        inventory_copy_and_sign_extend_record_fields(entity, part->unk0);
         prev_entity = entity;
         object_slot++;
         object_index++;

@@ -2,7 +2,7 @@
 extern int abs(int);
 
 /* Move three channel values a quarter of the way toward 0x80, snapping when within four. */
-void townMoveColorChannelsTowardNeutral(u8 *channels)
+void move_color_channels_toward_neutral(u8 *channels)
 {
     s32 delta;
     s32 magnitude;

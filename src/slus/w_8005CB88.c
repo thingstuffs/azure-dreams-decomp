@@ -8,7 +8,7 @@ void func_8005CB88(void)
     if (D_80079954 == 0) {
         D_80079954 = 1;
         EnterCriticalSection();
-        setDmaChannel4Callback((s32)func_8005D064);
+        set_dma_channel_4_callback((s32)func_8005D064);
         event_handle = OpenEvent(0xF0000009, 0x20, 0x2000, 0);
         D_800794EC = event_handle;
         EnableEvent(event_handle);

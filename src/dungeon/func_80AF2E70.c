@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80174670(void *node, s32 tile_x, s32 tile_y, s16 target_height)
+void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
     s32 match_x = tile_x;
     s32 match_y = tile_y;
@@ -23,7 +23,7 @@ void func_80174670(void *node, s32 tile_x, s32 tile_y, s16 target_height)
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->unk_26 * 3) >> 1);
-            dungeonPrepareDirectionalAttack(actor, owner,
+            prepare_directional_attack(actor, owner,
                           actor->unk_2A, 1, 0);
         }
         node = (u8 *)((Rec_func_80174800_arg0 *)node)->unk_5C + 0x20;

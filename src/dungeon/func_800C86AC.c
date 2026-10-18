@@ -12,7 +12,7 @@ typedef struct S_800CDE0C_0 {
 } S_800CDE0C_0;
 
 /* Set flag 0x40000000 on every record in the circular list. */
-void dungeonMarkAllActorsWithHighFlag(void) {
+void mark_all_actors_with_high_flag(void) {
     void *first_record;
     S_800CDE0C_0 *record;
 

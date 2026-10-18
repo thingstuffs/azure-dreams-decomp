@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80170B0C(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, R10_80170B0C_Sprite *sprite)
+void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, R10_80170B0C_Sprite *sprite)
 {
     s32 distance_x;
     s32 distance_y;
@@ -19,7 +19,7 @@ void func_80170B0C(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, R10_80170B
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 
@@ -38,6 +38,6 @@ void func_80170B0C(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, R10_80170B
     func_800478B8(sprite);
     if (actor->scale <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

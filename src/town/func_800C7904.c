@@ -6,7 +6,7 @@ extern s32 D_80113208[];
 extern u8 D_800C321C[];
 
 /* Set camera chase data and the object handler when the request succeeds. */
-void func_800C5064(void *object, void *chase_data, s32 request_param, s32 check_param) {
+void set_camera_chase_data(void *object, void *chase_data, s32 request_param, s32 check_param) {
     s32 *chase_fix;
     s32 second_value;
 

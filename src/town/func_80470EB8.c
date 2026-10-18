@@ -19,10 +19,10 @@ extern s32 func_800186D8();
 typedef struct S_80017EB8_0 {
     u8 unk_00;
     u8 unk_01;
-} S_80017EB8_0;   /* arg0 in func_80017EB8 */
+} S_80017EB8_0;   /* arg0 in check_selected_entry_8 */
 
 /* Checks whether the selected entry is 8 or 9 and func_800186D8 returns zero. */
-s32 func_80017EB8(S_80017EB8_0 *position) {
+s32 check_selected_entry_8(S_80017EB8_0 *position) {
     s32 entry_value;
     u8 column;
     u8 row;

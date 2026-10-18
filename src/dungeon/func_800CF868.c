@@ -10,11 +10,11 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 extern void func_8003DB94(void *, void *, s32);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 extern M2C_UNK D_800D4DE8;
 extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source position and optionally plays a sound. */
-void dungeonCreateColoredEffectWithSound(void *source, s32 color, unsigned short sound_id)
+void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id)
 {
     DungeonGlobalStatus *effect_state;
     s32 *color_ptr;
@@ -55,9 +55,9 @@ void dungeonCreateColoredEffectWithSound(void *source, s32 color, unsigned short
         func_8003DB94(render_data, sprite_data, 0);
         sound = sound_id & 0xFFFF;
         if (sound != 0) {
-            func_800A56E0(sound);
+            play_sound_if_enabled(sound);
         }
-        effect_state = &dungeonStatus;
+        effect_state = &g_dungeon_status;
         *((u16 *) (((u8 *) effect_state) + 0xA)) = (u16) ((*((u16 *) (((u8 *) effect_state) + 0xA))) + 1);
     }
 }

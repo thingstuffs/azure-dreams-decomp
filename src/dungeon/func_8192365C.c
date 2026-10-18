@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void dungeonUpdateEffectCycleAndBursts(void *effect, void *motion, void *sprite) {
+void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
     s32 delta_x;
     s16 reduced_scale;
     u8 *height_table;
@@ -75,7 +75,7 @@ void dungeonUpdateEffectCycleAndBursts(void *effect, void *motion, void *sprite)
     }
     completion_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.s;
     if (completion_state == 1) {
-        if ((func_800A4778(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
+        if ((check_adjacent_tile_height_clearance(((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02.v, ((Row_8192365C_S_80024E5C_2 *)motion)->unk_04.at02.v,
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
                 target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
@@ -175,14 +175,14 @@ void dungeonUpdateEffectCycleAndBursts(void *effect, void *motion, void *sprite)
                 if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C <= 0) {
                     ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
                     (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                     return;
                 }
             }
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 5) {
                 trail_index = 0;
                 do {
-                    dungeonCreateRandomOffsetEffect(effect, motion, sprite);
+                    create_random_offset_effect(effect, motion, sprite);
                     next_trail = trail_index + 1;
                     trail_index = next_trail;
                 } while (next_trail < 4);
@@ -190,7 +190,7 @@ void dungeonUpdateEffectCycleAndBursts(void *effect, void *motion, void *sprite)
         } else {
             ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
             (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }
@@ -200,8 +200,8 @@ update_impact:
         impact_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = impact_frame;
         if ((s16) impact_frame == impact_state) {
-            dungeonCreatePositionedRenderEffect(effect, motion, sprite);
-            func_800A56E0(0x300);
+            create_positioned_render_effect(effect, motion, sprite);
+            play_sound_if_enabled(0x300);
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0xA) {
             scale = ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_1C;
@@ -217,12 +217,12 @@ update_impact:
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x1E) {
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 + 3);
-            dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+            create_randomized_radial_effect(effect, motion, sprite);
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x28) {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
             }
             if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x2D) {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
             }
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x32) {
@@ -238,7 +238,7 @@ update_impact:
             burst_index = 0;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_56 - 3);
             do {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
                 next_burst = burst_index + 1;
                 burst_index = next_burst;
             } while (next_burst < 5);
@@ -246,7 +246,7 @@ update_impact:
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x10) {
             pair_index = 0;
             do {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
                 next_pair = pair_index + 1;
                 pair_index = next_pair;
             } while (next_pair < 2);
@@ -254,7 +254,7 @@ update_impact:
         triple_index = 0;
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x11) {
             do {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
                 next_triple = triple_index + 1;
                 triple_index = next_triple;
             } while (next_triple < 3);
@@ -262,7 +262,7 @@ update_impact:
         quad_index = 0;
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u == 0x12) {
             do {
-                dungeonCreateRandomizedRadialEffect(effect, motion, sprite);
+                create_randomized_radial_effect(effect, motion, sprite);
                 next_quad = quad_index + 1;
                 quad_index = next_quad;
             } while (next_quad < 4);
@@ -270,13 +270,13 @@ update_impact:
         end_frame = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
         completion_state = 1;
         if (end_frame == 1) {
-            func_800D4AB0(effect, motion, sprite);
+            create_attached_effect(effect, motion, sprite);
             end_frame = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s;
         }
         if (end_frame >= 0x1B) {
             ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
             (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }

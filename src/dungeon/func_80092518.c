@@ -3,34 +3,34 @@
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 
-extern void dungeonApplyPendingByteIncrease(void *, s32, void *, void *);
-extern void dungeonBeginPlayerMenuAction(void *, s32, void *, void *);
-extern void dungeonRunSavedActorAction(void *, s32, void *, void *);
+extern void apply_pending_byte_increase(void *, s32, void *, void *);
+extern void begin_player_menu_action(void *, s32, void *, void *);
+extern void run_saved_actor_action(void *, s32, void *, void *);
 extern void func_80097C50(void *, s32, void *, void *);
 
 extern u8 D_8004F5F4[];
 extern s32 D_800E4940;
 
 /* Apply pending actor updates and handle input-driven state transitions. */
-void dungeonApplyPendingActorUpdates(void *controller, s32 move_state, void *entity, void *actor)
+void apply_pending_actor_updates(void *controller, s32 move_state, void *entity, void *actor)
 {
     s16 pending_delta = *(s16 *)((u8 *)actor + 0x64);
-    GameWork *input_state = &gameWork;
+    GameWork *input_state = &g_game_work;
 
     if (pending_delta < 0) {
         *(u16 *)((u8 *)entity + 0x14) &= 0xF7FF;
-        dungeonRunSavedActorAction(controller, move_state, entity, actor);
+        run_saved_actor_action(controller, move_state, entity, actor);
         return;
     }
 
     if (pending_delta > 0) {
-        dungeonApplyPendingByteIncrease(controller, move_state, entity, actor);
+        apply_pending_byte_increase(controller, move_state, entity, actor);
     }
 
     if (!(D_80013714 & 1) && (input_state->buttons & 0x80)) {
         *(s16 *)((u8 *)actor + 0x8A) = 2;
         D_800E4940 = 2;
-        dungeonBeginPlayerMenuAction(controller, move_state, entity, D_8004F5F4);
+        begin_player_menu_action(controller, move_state, entity, D_8004F5F4);
         D_80082E80.unk_030 = 0;
         *(s32 *)((u8 *)controller + 0xC8) = 0;
         *(s32 *)((u8 *)controller + 0x104) = 0;

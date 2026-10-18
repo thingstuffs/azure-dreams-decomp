@@ -10,10 +10,10 @@ extern char D_80022694[];
 extern s32 func_8001A8EC(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
-extern char *func_80016E48(s32, s32, s32, s32);
+extern char *award_next_unearned_milestone(s32, s32, s32, s32);
 
 /* Selects a response from the selector and status flags, updating flags for special cases. */
-char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
+char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection, s32 extra)
 {
     s32 selector = selection;
     s32 arg2_val;
@@ -75,7 +75,7 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
     case 40:
     case 41:
     case 42:
-        return func_80016E48(selector, value, arg2_val, extra);
+        return award_next_unearned_milestone(selector, value, arg2_val, extra);
     default:
         return D_8001B14C;
     }

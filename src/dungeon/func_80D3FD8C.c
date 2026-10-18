@@ -30,7 +30,7 @@ typedef struct S_8017558C_0 {
     u16 unk_B6;
     u16 unk_B8;
     u16 unk_BA;
-} S_8017558C_0;   /* arg0 in dungeonUpdateActorTimedEffectAction */
+} S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
 
 typedef struct S_8017558C_4 {
@@ -84,15 +84,15 @@ extern u8 D_800E2488[];
 extern u8 D_80171A80[];
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();               /* extern */
-void dungeonPackAndSubmitCellHeightLevels();                            /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s32 func_800A56E0();                     /* extern */
-s32 func_800BCB04();                   /* extern */
-M2C_UNK createOwnerLinkedDirectionalObject();      /* extern */
-void dungeonUpdateActorMovementHistory(); /* extern */
+void pack_and_submit_cell_height_levels();                            /* extern */
+void set_record_integer_tile_center();              /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+s32 sample_terrain_surface_height();                   /* extern */
+M2C_UNK create_owner_linked_directional_object();      /* extern */
+void update_actor_movement_history(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
-void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void update_actor_timed_effect_action(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {
     s16 height_delta;
     s16 height;
     s16 view_dir;
@@ -120,7 +120,7 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
         if (sprite->unk_14.at00_u16.v & 0x8000) {
             {
                 s32 finish_phase;
-                dungeonPackAndSubmitCellHeightLevels();
+                pack_and_submit_cell_height_levels();
                 finish_phase = 5;
                 global_flags = D_800E296C;
                 ((S_8017558C_0 *)action)->unk_96 = finish_phase;
@@ -133,7 +133,7 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        height_delta = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88)
+        height_delta = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88)
             - 0x20));
         height = ((u16)actor->unk_88);
         height_delta -= height;
@@ -147,8 +147,8 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
         }
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
             sprite->unk_2C.as_pu8 = D_800E2438;
-            func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-            func_800A56E0(0x800);
+            func_80047784(sprite, D_800E2438[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            play_sound_if_enabled(0x800);
             ((S_8017558C_0 *)action)->unk_96 = 2U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
             sprite->unk_06.as_s16 = 6;
@@ -194,7 +194,7 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
             }
         }
         sprite->unk_2C.as_pu8 = D_800E2440;
-        func_80047784(sprite, D_800E2440[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_800E2440[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_8017558C_0 *)action)->unk_96 = 3U;
         ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
         ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
@@ -218,7 +218,7 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
         ((S_8017558C_0 *)action)->unk_9B = next_phase;
         return;
     case 3:
-        dungeonUpdateActorMovementHistory(action, position, sprite, actor);
+        update_actor_movement_history(action, position, sprite, actor);
         return;
     case 4:
         restore_phase = ((S_8017558C_0 *)action)->unk_B1;
@@ -232,8 +232,8 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
                 actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
                 saved_angle = ((S_8017558C_0 *)action)->unk_A6;
                 actor->facing = (s16) saved_angle;
-                view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
-                selectIndirectTableEntry(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
+                view_dir = ((s32) (g_game_work.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
+                select_indirect_table_entry(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
                 ((S_8017558C_0 *)action)->unk_94 = view_dir;
             }
             if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
@@ -252,9 +252,9 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
             ((S_8017558C_0 *)action)->unk_96 = 0U;
             ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
             sprite->unk_2C.as_pu8 = D_800E2448;
-            func_80047784(sprite, D_800E2448[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_800E2448[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
-            func_800A56E0(0x801);
+            play_sound_if_enabled(0x801);
             return;
         case 2:
             if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
@@ -263,20 +263,20 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
             position->flags14 = 0;
             position->unk_10 = 0;
             position->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(position, sprite->unk_24, sprite->unk_25);
+            set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
             if (sprite->unk_2C.as_pu8 == D_800E23E0) {
                 return;
             }
             sprite->unk_2C.as_pu8 = D_800E23E0;
-            func_80047784(sprite, D_800E23E0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_800E23E0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((S_8017558C_0 *)action)->unk_96 = 5U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
             if (((S_8017558C_0 *)action)->unk_B0 != 0) {
                 return;
             }
-            createOwnerLinkedDirectionalObject(action, position, sprite);
+            create_owner_linked_directional_object(action, position, sprite);
             return;
         }
         return;
@@ -287,9 +287,9 @@ void dungeonUpdateActorTimedEffectAction(void *action, EntityRec *position, Rec_
             return;
         }
         sprite->unk_06.as_s16 = 0;
-        dungeonReduceActorFoodMeter(actor, 0x1000);
+        reduce_actor_food_meter(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
         return;
     }

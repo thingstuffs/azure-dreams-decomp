@@ -7,7 +7,7 @@ typedef void (*TownCallback)(s32);
 
 
 /* Runs the town callbacks and offsets the position based on its x value. */
-void townRunSceneCallbacksWithXOffset(void)
+void run_scene_callbacks_with_x_offset(void)
 {
     TownPositionState *position;
     s32 position_x;

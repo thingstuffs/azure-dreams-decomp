@@ -59,12 +59,12 @@ typedef struct AnimData {
 
 extern s32 rand(void);
 extern void func_8003DB94(Anim *, void *, s32);
-extern void townConfigureTheSetModeN1(Actor *, Motion *, void *);
-extern void townUnlinkSceneListNode(Actor *);
+extern void configure_the_set_mode_n_1(Actor *, Motion *, void *);
+extern void unlink_scene_list_node(Actor *);
 extern void func_80033D08(Actor *);
 extern void SD_Call(s32);
 extern void func_800478B8(Anim *);
-extern s32 townTestThreeAxisBoxOverlap(void *, Motion *);
+extern s32 test_three_axis_box_overlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];
 extern u8 D_800F7D64[];
@@ -75,7 +75,7 @@ extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
 
 /* Updates actor movement, animation, and collision through its timed states. */
-void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
+void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Anim *anim)
 {
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
@@ -210,7 +210,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
             anim->value6 = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
-            townConfigureTheSetModeN1(actor, motion, D_80026F38);
+            configure_the_set_mode_n_1(actor, motion, D_80026F38);
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
@@ -276,13 +276,13 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 
     case 8:
         if (actor->timerA2 <= 0) {
-            townUnlinkSceneListNode(actor);
+            unlink_scene_list_node(actor);
             if (actor->ptr98 != 0) {
                 *actor->ptr98 = 0;
             }
             func_80033D08(actor);
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
 
@@ -301,7 +301,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 
     }
     func_800478B8(anim);
-    if ((actor->flagsA4 & 2) && townTestThreeAxisBoxOverlap(D_80026F38, motion)) {
+    if ((actor->flagsA4 & 2) && test_three_axis_box_overlap(D_80026F38, motion)) {
         motion->vz = 0;
         motion->vy = 0;
         motion->vx = 0;

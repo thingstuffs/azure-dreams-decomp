@@ -35,15 +35,15 @@ extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
 
-extern s16 townQueryLoweredTransformPosition(void *position);
-extern void townInitializeTownContextAction(void);
-extern s32 townTestThreeAxisBoxOverlap(void *box, void *offset);
+extern s16 query_lowered_transform_position(void *position);
+extern void initialize_town_context_action(void);
+extern s32 test_three_axis_box_overlap(void *box, void *offset);
 extern s16 SD_Call(s32 value);
-extern void *townCreateDualBufferObject(s32 setup_value, s32 x, s32 y);
-extern void *func_80093C70(void);
-extern void townSetObjectDataPointer(void *object);
+extern void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y);
+extern void *create_familiar_deployment_effect_with_owner_state(void);
+extern void set_object_data_pointer_2(void *object);
 extern void func_8004491C(void *entry, void *registration_id);
-extern void townConfigureTheSetModeN1(void *record, void *setup_value, void *setup_param);
+extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 
 
 typedef struct ReelSlotCursor {
@@ -110,9 +110,9 @@ typedef struct SlotBody {
 } SlotBody;
 
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
-void townProcessSlotMachineState(State8081FF68 *state, void *position)
+void process_slot_machine_state(State8081FF68 *state, void *position)
 {
-    GameWork *input = &gameWork;
+    GameWork *input = &g_game_work;
     u8 *payout_callback;
     s32 index;
     s32 angle;
@@ -127,10 +127,10 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
     if ((u32)((u16)state->mode.u - 2) < 5U) {
         EntityRec *angles = &D_80083780;
 
-        angle = townQueryLoweredTransformPosition(angles);
+        angle = query_lowered_transform_position(angles);
         if (angle > 0) {
             angles->z.v = 0xFFEE0000;
-            angle = townQueryLoweredTransformPosition(angles);
+            angle = query_lowered_transform_position(angles);
         } else {
             s16 current_angle = angles->z.w.i;
             angle_delta = angle - current_angle;
@@ -146,7 +146,7 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
     case 0:
         state->flags = 0;
         state->count = 0;
-        townInitializeTownContextAction();
+        initialize_town_context_action();
         state->mode.s = 1;
     case 1:
     {
@@ -154,13 +154,13 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
         if ((u32)money[0] < 100U) {
             return;
         }
-        if (townTestThreeAxisBoxOverlap(D_80024470, position) == 0) {
+        if (test_three_axis_box_overlap(D_80024470, position) == 0) {
             return;
         }
         SD_Call(0x523);
-        D_80024638[0] = (s32)townCreateDualBufferObject(0, -80, 64);
+        D_80024638[0] = (s32)create_dual_buffer_object(0, -80, 64);
         D_800834C8[0] = 0;
-        func_80093C70();
+        create_familiar_deployment_effect_with_owner_state();
         money[0] -= 100;
     }
         (*(u16 *)((u8 *)state + (0x64))) = 1;
@@ -227,7 +227,7 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
             return;
         }
         D_80012D5C[0] += state->count * 100;
-        townSetObjectDataPointer((void *)D_80024638[0]);
+        set_object_data_pointer_2((void *)D_80024638[0]);
         state->mode.s = 0;
         return;
     }
@@ -448,7 +448,7 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
     case 7:
         state->timer.u++;
         if ((s16)state->timer.u == 9) {
-            townInitializeTownContextAction();
+            initialize_town_context_action();
         }
         if ((state->timer.u & 3) != 0) {
             return;
@@ -459,7 +459,7 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
                 if ((state->flags & 2) == 0) {
                     void *bet_display = (void *)D_80024638[0];
                     state->count = 0;
-                    townSetObjectDataPointer(bet_display);
+                    set_object_data_pointer_2(bet_display);
                     state->timer.u = 10;
                     state->mode.s = 3;
                 }
@@ -516,7 +516,7 @@ void townProcessSlotMachineState(State8081FF68 *state, void *position)
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                townConfigureTheSetModeN1(payout_state + 8, ((SlotObject *)coin)->unk_08.p2, D_80024488);
+                configure_the_set_mode_n_1(payout_state + 8, ((SlotObject *)coin)->unk_08.p2, D_80024488);
             }
         }
     }

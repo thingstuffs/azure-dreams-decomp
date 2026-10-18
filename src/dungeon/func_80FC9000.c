@@ -51,10 +51,10 @@ typedef struct S_80FC9000_4 {
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
-extern void func_800A48F0(void *, s32, s32);
-extern s32 func_800A6D30(void);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern s32 generate_random_value(void);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_80158B40[];
 extern u8 D_80158F6C[];
 extern u8 D_8015D258[];
@@ -124,17 +124,17 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
         } else {
             if (((input_value = (s16)(input_value & ~3)) << 16) == 0) {
                 if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
-                    if (func_800A6D30() & 1) {
+                    if (generate_random_value() & 1) {
                         ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) |
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) |
                                       0x20);
                         part_b->unk_2C = D_8015D298;
                     }
                 }
             }
         }
-        func_800A9C18(obj, pin_part_a, part_b, saved_arg0);
+        initialize_actor_sprite_and_animation(obj, pin_part_a, part_b, saved_arg0);
         index = 0;
         actor_value = part_b->unk_12;
         ((S_80FC9000_4 *)pin_actor)->unk_9A = 0xFF;
@@ -167,7 +167,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
             values[0] += 0x40;
         } while (values[0] < 0x100);
 
-        func_800AA36C(pin_actor, pin_part_a, part_b, work);
+        try_move_actor_to_valid_position(pin_actor, pin_part_a, part_b, work);
     }
     return work;
 }

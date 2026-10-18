@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void *dungeonCreateAnInitializesVisualStateCopiesInitialData(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
+void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
     Row_81916AEC_S_800242EC_3 *visual;
     void *object;

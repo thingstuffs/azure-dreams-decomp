@@ -55,10 +55,10 @@ typedef struct S_80FD5000_4 {
 void *func_8003FD64();
 s32 func_8004491C();
 M2C_UNK func_800673A0();
-s16 func_800A48F0(); /* extern */
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C(); /* extern */
+s16 set_or_clear_actor_status_slot(); /* extern */
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position(); /* extern */
 void *func_8014C984();
 void *func_8014CA40();
 extern M2C_UNK D_8014CB40;
@@ -80,7 +80,7 @@ typedef struct {
 } Rect;
 
 /* Creates a monster actor and initializes its state, placement, and palette. */
-void *dungeonCreateMonsterActorAndPalette(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
+void *create_monster_actor_and_palette(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
 {
     s32 kind;
     S_80FD5000_1 *actor_state;
@@ -124,16 +124,16 @@ void *dungeonCreateMonsterActorAndPalette(s16 spawn_flags, s16 tile_x, s16 tile_
             actor_state->unk_1C |= 0x2000;
         } else if (((spawn_flags & -4) << 16) == 0) {
             if ((actor_state->unk_14 & 0x200) == 0) {
-                if ((func_800A6D30() & 1) != 0) {
+                if ((generate_random_value() & 1) != 0) {
                     actor_state->unk_1C |= 0x200;
-                    func_800A48F0(actor_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(actor_state, 1, (generate_random_value() & 0x3F) | 0x20);
                     monster->unk_2C = &D_80151298;
                 }
             }
         }
 
 
-        func_800A9C18(created, position, monster, spawn_flags);
+        initialize_actor_sprite_and_animation(created, position, monster, spawn_flags);
 
         entry_index = 0;
         appearance_id = monster->unk_12;
@@ -171,7 +171,7 @@ void *dungeonCreateMonsterActorAndPalette(s16 spawn_flags, s16 tile_x, s16 tile_
             palette_strip.x += 0x40;
         } while (palette_strip.x < 0x100);
 
-        func_800AA36C(actor, position, monster, actor_state);
+        try_move_actor_to_valid_position(actor, position, monster, actor_state);
     }
 
     return actor_state;

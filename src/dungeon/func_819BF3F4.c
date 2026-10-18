@@ -36,7 +36,7 @@ typedef struct S_80024BF4_0 {
     u16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_80024BF4_0;   /* scratch in dungeonProjectVisibleTexturedQuad */
+} S_80024BF4_0;   /* scratch in project_visible_textured_quad */
 
 typedef struct S_80024BF4_1 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_80024BF4_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80024BF4_1;   /* arg1 in dungeonProjectVisibleTexturedQuad */
+} S_80024BF4_1;   /* arg1 in project_visible_textured_quad */
 
 typedef struct S_80024BF4_2 {
     u8 pad_00[0x8];
@@ -57,9 +57,9 @@ typedef struct S_80024BF4_2 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_80024BF4_2;   /* arg2 in dungeonProjectVisibleTexturedQuad */
+} S_80024BF4_2;   /* arg2 in project_visible_textured_quad */
 
-   /* *(u8 **)D_80083160 in dungeonProjectVisibleTexturedQuad */
+   /* *(u8 **)D_80083160 in project_visible_textured_quad */
 
 typedef struct S_80024BF4_4 {
     u8 pad_00[0xC];
@@ -92,7 +92,7 @@ typedef struct S_80024BF4_4 {
     u16 unk_5C;
     u16 unk_5E;
     u16 unk_60;
-} S_80024BF4_4;   /* arg0 in dungeonProjectVisibleTexturedQuad */
+} S_80024BF4_4;   /* arg0 in project_visible_textured_quad */
 
 typedef struct S_80024BF4_5 {
     u32 unk_00;
@@ -119,7 +119,7 @@ typedef struct S_80024BF4_5 {
     u16 unk_2E;
     u8 unk_30;
     u8 unk_31;
-} S_80024BF4_5;   /* packet in dungeonProjectVisibleTexturedQuad */
+} S_80024BF4_5;   /* packet in project_visible_textured_quad */
 
 
 typedef struct {
@@ -139,7 +139,7 @@ extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
 
 /* Projects a textured quad and adds it to the ordering table when visible. */
-void dungeonProjectVisibleTexturedQuad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *render_state, s16 depth_bias)
+void project_visible_textured_quad(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -149,7 +149,7 @@ void dungeonProjectVisibleTexturedQuad(S_80024BF4_4 *quad, S_80024BF4_1 *positio
     u8 texture_flags;
     MATRIX matrix;
 
-    ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
     ((S_80024BF4_0 *)scratch)->unk_88 = position->unk_02;
     ((S_80024BF4_0 *)scratch)->unk_8C = position->unk_06;
     ((S_80024BF4_0 *)scratch)->unk_90 = position->unk_0A;
@@ -172,8 +172,8 @@ void dungeonProjectVisibleTexturedQuad(S_80024BF4_4 *quad, S_80024BF4_1 *positio
 
     texture = render_state->unk_08;
     ((S_80024BF4_0 *)scratch)->unk_28 = render_state->unk_14;
-    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
-    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor = packet + 0x34;
 
     ((S_80024BF4_0 *)scratch)->unk_B0 = quad->unk_4A;
     ((S_80024BF4_0 *)scratch)->unk_B8 = quad->unk_50;

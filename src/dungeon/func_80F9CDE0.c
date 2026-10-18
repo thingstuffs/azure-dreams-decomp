@@ -1,4 +1,4 @@
-/* Relink of matched dungeon/func_80F8ADE0; every changed retail word is a paired relocation. */
+/* Relink of matched dungeon/advance_timed_state_sequence_flags; every changed retail word is a paired relocation. */
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
@@ -38,6 +38,6 @@ void func_801625E0(void *state) {
     }
     if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
         ((S_80F8ADE0_0_pre *)state)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

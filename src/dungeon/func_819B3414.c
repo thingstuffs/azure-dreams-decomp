@@ -28,14 +28,14 @@ extern s32 func_80066708();
 extern s32 func_80067F20();
 
 /* Draw fading radial grids of shaded quads for the linked effects. */
-s32 dungeonDrawFadingRadialEffectGrid(void *effect_data) {
+s32 draw_fading_radial_effect_grid(void *effect_data) {
     u16 vertex[3];
     u32 screen_grid[16][16];
     s32 depth_cue;
     s32 projection_flags;
     u8 *effect;
     u8 *next_effect;
-    GameWork *gw = &gameWork;
+    GameWork *gw = &g_game_work;
     u8 *scratch = (u8 *)0x1f800000;
     s32 grid_last = 15;
 

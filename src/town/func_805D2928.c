@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_800161D8();
-extern s32 func_80016228(s32);
+extern s32 initialize_floor_generation_state();
+extern s32 set_selected_entry_state_3(s32);
 typedef struct {
     s32 value;
     s32 pad[2];
@@ -11,11 +11,11 @@ extern Global32 D_8001967C;
 extern Global32 D_80019AFC;
 
 /* Set the mode to two and dispatch according to the current state. */
-void townDispatchModeTwoByState(s32 state_input) {
+void dispatch_mode_two_by_state(s32 state_input) {
     D_8001967C.value = 2;
     if (3 == D_80019AFC.value) {
-        func_80016228(state_input);
+        set_selected_entry_state_3(state_input);
         return;
     }
-    func_800161D8();
+    initialize_floor_generation_state();
 }

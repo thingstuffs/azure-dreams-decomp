@@ -1,6 +1,6 @@
 #include "modules/dungeon_dungeon_setup.h"
 
-void func_80016F70(void) {
+void initialize_dungeon_region_records(void) {
     s16 next_count;
     s16 count;
     dungeon_setup_80283F70_S_80016F70_0 *record;

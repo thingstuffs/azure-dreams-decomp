@@ -6,7 +6,7 @@
 
 
 /* Mark and process entries without flag 0x4000, then set the global update flag. */
-void dungeonProcessUnflaggedEntriesAndSetUpdate(void)
+void process_unflagged_entries_and_set_update(void)
 {
     void *entry;
     void *node;
@@ -19,7 +19,7 @@ void dungeonProcessUnflaggedEntriesAndSetUpdate(void)
         if (!(*(s32 *)((u8 *)entry + 0x14) & 0x4000)) {
             node = (u8 *)entry - 0x20;
             *(u16 *)((u8 *)node + 0x1E) = (u16)(*(u16 *)((u8 *)node + 0x1E) | 0x1000);
-            func_8009A028(entry);
+            unlink_entity_node(entry);
         }
         entry = next_entry;
     } while (entry != D_800E3D7C);

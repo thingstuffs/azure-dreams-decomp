@@ -7,7 +7,7 @@ typedef struct S_800ADFBC_0 {
 } S_800ADFBC_0;
 
 /* Counts four-byte entries until an entry's second byte is zero. */
-s32 townCountEntriesUntilSecondByteZero(void *entries) {
+s32 count_entries_until_second_byte_zero(void *entries) {
     s32 count;
     void *entry;
 

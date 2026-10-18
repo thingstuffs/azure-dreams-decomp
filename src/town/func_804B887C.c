@@ -5,7 +5,7 @@
 
 
 /* Set the linked structure's two values to 1248 and 1184. */
-void townSetSceneLinkedStructureOffsets(void) {
+void set_scene_linked_structure_offsets(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 1248;
     ((TownPositionState *)D_80016000->unk_1C)->y = 1184;
 }

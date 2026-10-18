@@ -6,16 +6,16 @@ typedef struct ListLink {
     u16 next;
 } ListLink;
 
-s32 func_80003C70();                             /* extern */
+s32 test_indexed_flag_treating_indices();                             /* extern */
 extern ListLink D_00003F88[];
 extern s16 *D_00003F78[];
 
-/* Skips entries accepted by func_80003C70 and checks whether the next entry is zero. */
-s32 func_80003668(s32 list_index) {
+/* Skips entries accepted by test_indexed_flag_treating_indices and checks whether the next entry is zero. */
+s32 skip_entries_accepted_next_entry(s32 list_index) {
     s16 *entry;
 
     entry = D_00003F78[D_00003F88[list_index].next];
-    while (func_80003C70(*entry) != 0) {
+    while (test_indexed_flag_treating_indices(*entry) != 0) {
         entry += 1;
     }
     return *entry == 0;

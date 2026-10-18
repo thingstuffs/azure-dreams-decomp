@@ -1,6 +1,6 @@
-#define dungeonCheckActorFloorTrap func_800AC66C
-#define dungeonUpdateBankActorState func_80152514
-#define dungeonUpdateThrownActorTravel func_800AACC8
+#define check_actor_floor_trap func_800AC66C
+#define update_bank_actor_state func_80152514
+#define update_thrown_actor_travel func_800AACC8
 /* Relink of matched dungeon/func_80F8A600 at file 0xFAA600; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

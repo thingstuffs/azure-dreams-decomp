@@ -53,7 +53,7 @@ typedef struct S_819598B4_3 {
 } S_819598B4_3;   /* D_800E3D7C[0] in func_819598B4 */
 
 
-extern s32 func_80025604();
+extern s32 spawn_ring();
 extern s32 func_80026384();
 
 extern u16 D_800281F8[];
@@ -111,7 +111,7 @@ void func_819598B4(void *state, S_819598B4_2 *values, S_819598B4_1 *parameters) 
                 ((S_819598B4_0 *)state)->unk_20, D_800E3D7C->facing) == 0) {
                 break;
             }
-            func_80025604(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,
+            spawn_ring(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,
                 ((S_819598B4_0 *)state)->unk_20);
         }
         ((S_819598B4_0 *)state)->unk_30 = 0x10;
@@ -127,7 +127,7 @@ void func_819598B4(void *state, S_819598B4_2 *values, S_819598B4_1 *parameters) 
         ((S_819598B4_0 *)state)->unk_30 = timerNextSecond;
         if ((timerNextSecond << 0x10) <= 0) {
             ((S_819598B4_0_pre *)state)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

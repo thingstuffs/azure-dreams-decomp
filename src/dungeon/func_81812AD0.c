@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void dungeonDrawMenuProgressBar(void *context, s32 currentValue, s32 maxValue) {
+void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     ovl_1831cd8_81812AD0_RECT rect;
 
     rect = D_80025034[0];

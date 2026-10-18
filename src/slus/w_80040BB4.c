@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 
 /* D_80082E60: global state struct. field_8 is read as a byte (arg to
- * loadSceneResourceGroup / copied into field_B), then cleared as a halfword;
+ * load_scene_resource_group / copied into field_B), then cleared as a halfword;
  * field_E is cleared as a byte. */
 struct S_80082E60 {
     char pad0[8];
@@ -26,21 +26,21 @@ struct S_80082E60 {
  * cleared here (declared >8 bytes to force %hi/%lo addressing). */
 
 
-extern void loadSceneResourceGroup(s16 a0);
+extern void load_scene_resource_group(s16 a0);
 
 /* Saves and processes the state byte, then clears pending state and four shared table fields. */
-void activateSceneResourceAndClearViewCallbacks(void)
+void activate_scene_resource_and_clear_view_callbacks(void)
 {
     u8 state_byte = ((struct S_80082E60 *)&D_80082E60)->field_8.b;
 
     D_80082E60.field_B = state_byte;
-    loadSceneResourceGroup(state_byte);
+    load_scene_resource_group(state_byte);
 
     D_80082E60.unk_0E = 0;
     D_80082E60.unk_08 = 0;
 
-    gameWork.view.slot[2].callback = 0;
-    gameWork.view.slot[3].callback = 0;
-    gameWork.view.slot[0].callback = 0;
-    gameWork.view.slot[1].callback = 0;
+    g_game_work.view.slot[2].callback = 0;
+    g_game_work.view.slot[3].callback = 0;
+    g_game_work.view.slot[0].callback = 0;
+    g_game_work.view.slot[1].callback = 0;
 }

@@ -1,16 +1,16 @@
 #include "common.h"
 
-extern s32 func_80402268(void *callPtr);
-extern void func_80403234(void *callPtr);
-extern void func_80403374(void *callPtr);
+extern s32 get_table_entry_by_flag(void *callPtr);
+extern void forward_value_initcardmessageobject_arguments(void *callPtr);
+extern void forward_target_initcardmessageobject(void *callPtr);
 extern void func_80405ED4(void *base);
-extern void mainHandleObjectMenuInput(void);
+extern void handle_object_menu_input(void);
 extern void func_80405AB4(void);
 extern void func_80405A64(void);
 
 extern u8 D_8009DDD8[];
 
-void mainAdvanceIndexedObjectOperation(void *inputPtr)
+void advance_indexed_object_operation(void *inputPtr)
 {
     u8 *base;
     s32 index;
@@ -20,19 +20,19 @@ void mainAdvanceIndexedObjectOperation(void *inputPtr)
     index = *(s32 *)(base + 0x28);
     inputPtr = base - 0x20;
     if (*(s32 *)(D_8009DDD8 + (index << 7)) == 0) {
-        result = func_80402268(inputPtr);
+        result = get_table_entry_by_flag(inputPtr);
         inputPtr = 0;
         inputPtr = base - 0x20;
         if (result < 3) {
-            *(void (**)(void))(base + 0x34) = mainHandleObjectMenuInput;
-            func_80403234(inputPtr);
+            *(void (**)(void))(base + 0x34) = handle_object_menu_input;
+            forward_value_initcardmessageobject_arguments(inputPtr);
         } else {
             func_80405ED4(base);
             return;
         }
     } else {
         *(void (**)(void))(base + 0x34) = func_80405AB4;
-        func_80403374(inputPtr);
+        forward_target_initcardmessageobject(inputPtr);
     }
     *(void (**)(void))(base - 0x10) = func_80405A64;
 }

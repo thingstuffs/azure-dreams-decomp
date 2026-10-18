@@ -73,18 +73,18 @@ typedef struct ScratchPrefix {
 } ScratchPrefix;
 typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
-s32 townCheckScratchQuadHalfTurnGaps(Scratch *scratch);
+s32 check_scratch_quad_half_turn_gaps(Scratch *scratch);
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
 /* Find the highest surface at the given position within 20 units above the height. */
-s32 townFindHighestSurfaceWithinRange(s32 world_x, s32 world_y, s16 height) {
+s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
     u32 x_sum;
     u16 scan_x = world_x;
     s16 scan_y = world_y;
     ScratchArena *arena = (ScratchArena *)0x1F800000;
     Scratch *scratch = &arena->full;
-    GlobalState *global = ((GlobalState *)&gameWork);
+    GlobalState *global = ((GlobalState *)&g_game_work);
     MapInfo *map;
     u16 *grid;
     Vec8 *vertices;
@@ -188,7 +188,7 @@ s32 townFindHighestSurfaceWithinRange(s32 world_x, s32 world_y, s16 height) {
                             scratch->quad.words[3] = vertices[cell->v0].xy;
                             scratch->quad.vals[6] -= scratch->x;
                             scratch->quad.vals[7] -= scratch->y;
-                            result = townCheckScratchQuadHalfTurnGaps(scratch);
+                            result = check_scratch_quad_half_turn_gaps(scratch);
                             if (result != 0) {
                                 s32 term_x;
                                 s32 term_y;

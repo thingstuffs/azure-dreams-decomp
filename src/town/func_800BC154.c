@@ -3,11 +3,11 @@
 
 
 
-void setResidentBitmapBit();
-void clearResidentBitmapBit();
+void set_resident_bitmap_bit();
+void clear_resident_bitmap_bit();
 M2C_UNK Control_CD();
-M2C_UNK drainCdCommandQueue();
-void townApplyBuildingTileEntry();
+M2C_UNK drain_cd_command_queue();
+void apply_building_tile_entry();
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
@@ -32,7 +32,7 @@ typedef struct S_800B98B4_3 {
 } S_800B98B4_3;
 
 /* Processes enabled entries across 33 slots and handles entries of type 1. */
-void func_800B98B4(void) {
+void process_enabled_entries(void) {
     S_800B98B4_3 *state_base;
     u8 *slot_data;
     u8 *entry_table;
@@ -43,8 +43,8 @@ void func_800B98B4(void) {
 
     Control_CD(6, &D_800D1BF4, 0);
     slot_index = 0;
-    drainCdCommandQueue();
-    clearResidentBitmapBit(0x12C3);
+    drain_cd_command_queue();
+    clear_resident_bitmap_bit(0x12C3);
     entry_table = D_800D2644;
     slot_data = D_800D2EA4;
     state_base = (S_800B98B4_3 *)0x80010000;
@@ -53,12 +53,12 @@ void func_800B98B4(void) {
         if (entry_id != 0) {
             entry = (void *)((u32)(entry_id << 5) + (u32)entry_table);
             if (entry->unk_01 != 0) {
-                townApplyBuildingTileEntry(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
+                apply_building_tile_entry(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
             }
             reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
                 + (u32)entry_table);
             if (reloaded_entry->unk_00 == 1) {
-                setResidentBitmapBit(0x12C3);
+                set_resident_bitmap_bit(0x12C3);
             }
         }
         slot_data += 8;

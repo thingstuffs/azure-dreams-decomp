@@ -13,7 +13,7 @@ typedef struct {
 extern UnkCopy12 D_80026658;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
-void dungeonSpawnRandomizedSparkBurst(u8 *data, void *unused, u8 *context)
+void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
 {
     u8 *p = data;
     s16 old;
@@ -165,7 +165,7 @@ void dungeonSpawnRandomizedSparkBurst(u8 *data, void *unused, u8 *context)
             return;
         }
         *(u16 *)(p - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     default:
         return;

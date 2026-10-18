@@ -7,18 +7,18 @@
 #include "records/Rec_D_80082E80.h"
 
 void func_80048A44(void *, u8, s32, s32);
-s32 findFlaggedRecordById(s32, s32);
-void dungeonBeginDeferredPlayerItemEffect(void *, s32, void *, void *);
-s32 func_800990FC(void);
-s32 func_80099194(u8 *src, u8 *dst);
+s32 find_flagged_record_by_id(s32, s32);
+void begin_deferred_player_item_effect(void *, s32, void *, void *);
+s32 get_unused_text_buffer(void);
+s32 expand_text_control_codes(u8 *src, u8 *dst);
 void func_80099290(s8 *byte_ptr);
-s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-s32 dungeonAppendTypedFormattedValue(s32, s32);
-s32 dungeonProcessEligibleObjectValue(s32, s32);
-s32 func_80099734(void *record, u8 *out);
-void func_800A56E0(s32);
-void func_800A5720(s8 *text);
-void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+s32 write_text_byte_and_advance(s8 value, s8 *dest);
+s32 append_typed_formatted_value(s32, s32);
+s32 process_eligible_object_value(s32, s32);
+s32 append_entity_display_text(void *record, u8 *out);
+void play_sound_if_enabled(s32);
+void display_text_with_fullwidth_adjustment(s8 *text);
+void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 extern s32 D_80081484;
 extern s32 D_8008D470;
 extern u8 D_800DD100[];
@@ -29,13 +29,13 @@ extern u8 D_800E06EB[];
 typedef struct S_8009255C_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_8009255C_1;   /* base in dungeonUpdatePlayerEatingAction */
+} S_8009255C_1;   /* base in update_player_eating_action */
 
 
 typedef struct S_8009255C_3 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8009255C_3;   /* call_arg in dungeonUpdatePlayerEatingAction */
+} S_8009255C_3;   /* call_arg in update_player_eating_action */
 
 
 typedef struct S_8009255C_5 {
@@ -66,7 +66,7 @@ typedef struct S_8009255C_7 {
 } S_8009255C_7;
 
 /* Turn the actor, spawn the action object and message, and handle completion. */
-void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
+void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80 *actor, EntityRec *transform) {
     s32 text_start;
     s32 text_cursor;
     s32 state;
@@ -80,12 +80,12 @@ void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_8008
     state = ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8;
     switch (state) {
     case 0:
-        if ((((gameWork.view.viewAngle +
+        if ((((g_game_work.view.viewAngle +
                transform->facing + 0x100) >> 9) & 7) == 2) {
             animation_actor = actor;
             animation_table = D_800DD100;
             animation_actor->unk_2C = animation_table;
-            animation_entry = (u8 *)((s32)(((gameWork.view.viewAngle +
+            animation_entry = (u8 *)((s32)(((g_game_work.view.viewAngle +
                                     transform->facing + 0x100) >> 9) &
                                   7) +
                            (s32)animation_table);
@@ -101,14 +101,14 @@ void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_8008
             (u16)transform->facing + 0x200;
         break;
     case 1:
-        if (findFlaggedRecordById(actor->unk_08, 0) == 0) {
+        if (find_flagged_record_by_id(actor->unk_08, 0) == 0) {
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
             ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
             ((Rec_func_8008ACDC_arg0 *)controller)->unk_1C &= 0xFFEFFFFF;
         }
-        spawned = func_800A8608(
+        spawned = create_item_render_object(
             controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
             ((S_8009255C_5 *)spawned)->unk_10 = (s32)&D_8008D470;
@@ -125,19 +125,19 @@ void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_8008
             spawned_state->unk_90 = actor;
             spawned_state->unk_8C = action_id;
             spawned_state->unk_9C = controller + 0x108;
-            text_cursor = func_800990FC();
+            text_cursor = get_unused_text_buffer();
             text_start = text_cursor;
-            text_cursor = dungeonWriteTextByteAndAdvance(8, text_cursor);
-            text_cursor = func_80099734(transform, text_cursor);
-            text_cursor = func_80099194(D_800E06E3, text_cursor);
-            text_cursor = dungeonAppendTypedFormattedValue(
+            text_cursor = write_text_byte_and_advance(8, text_cursor);
+            text_cursor = append_entity_display_text(transform, text_cursor);
+            text_cursor = expand_text_control_codes(D_800E06E3, text_cursor);
+            text_cursor = append_typed_formatted_value(
                 ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
-            text_cursor = func_80099194(D_800E06EB, text_cursor);
-            text_cursor = dungeonProcessEligibleObjectValue(
+            text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
+            text_cursor = process_eligible_object_value(
                 ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
             func_80099290(text_cursor);
-            func_800A5720(text_start);
-            func_800A56E0(0x509);
+            display_text_with_fullwidth_adjustment(text_start);
+            play_sound_if_enabled(0x509);
         }
 
         ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
@@ -147,10 +147,10 @@ void dungeonUpdatePlayerEatingAction(void *controller, s32 action_id, Rec_D_8008
             return;
         }
         if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 != 0) {
-            dungeonBeginDeferredPlayerItemEffect(controller, action_id, actor, transform);
+            begin_deferred_player_item_effect(controller, action_id, actor, transform);
             return;
         }
-        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)dungeonHandlePlayerInput;
+        ((Rec_func_8008ACDC_arg0 *)controller)->unk_8C.as_s32 = (s32)handle_player_input;
         break;
     }
 }

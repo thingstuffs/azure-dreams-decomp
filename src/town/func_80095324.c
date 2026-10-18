@@ -5,24 +5,24 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 void func_80035208();
-void func_8008B158();
-M2C_UNK func_8009451C();
-void func_800945B8();
-M2C_UNK func_80094660();
-M2C_UNK func_800946A0();
-void townTriggerEventHex519IntervalMultiplesEnabled();
-void townCallTheHandlerSelectsNonzeroEntry();
-void townStoreTheValidSharedAngleInOffsetHex10();
-void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude();
-void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
-s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus();
-s32 townGetStatusActiveEntryMatchingDirection();
-s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
+void submit_object_resource_data();
+M2C_UNK initialize_actor_movement_interaction_action();
+void initialize_input_driven_scene_object();
+M2C_UNK initialize_action_callback_from_entry();
+M2C_UNK initialize_busy_checked_countdown_action();
+void trigger_event_hex_519_interval_multiples_enabled();
+void call_the_handler_selects_nonzero_entry();
+void store_the_valid_shared_angle_in_offset_hex_10();
+void handle_adjust_vector_toward_selected_angle_limit_magnitude();
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+s32 select_an_available_entry_matching_direction_returns_status();
+s32 get_status_active_entry_matching_direction();
+s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+void compute_and_clamps_vector_based_adjustment_updates_town();
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
 M2C_UNK func_800988C8();
-s32 townIsUnk18N12Unk1ABetweenN37N41();
-s32 func_800A9D74();
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
+s32 select_response_for_source_and_target();
 
 extern M2C_UNK D_80093B00;
 extern M2C_UNK D_8009B828;
@@ -38,21 +38,21 @@ typedef struct S_80092A84_1 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_80092A84_1;   /* state in townUpdateActorPositionAndInteraction */
+} S_80092A84_1;   /* state in update_actor_position_and_interaction */
 
 
 typedef struct S_80092A84_3 {
     u8 pad_00[0x50];
     void * unk_50;
-} S_80092A84_3;   /* entity in townUpdateActorPositionAndInteraction */
+} S_80092A84_3;   /* entity in update_actor_position_and_interaction */
 
 typedef struct S_80092A84_4 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80092A84_4;   /* base in townUpdateActorPositionAndInteraction */
+} S_80092A84_4;   /* base in update_actor_position_and_interaction */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void townUpdateActorPositionAndInteraction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
+void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
     GameWork *input_state;
     u8 *position_data;
     s32 *interaction_ctrl;
@@ -63,36 +63,36 @@ void townUpdateActorPositionAndInteraction(Rec_func_80094268_arg0 *actor, Entity
     void *handler;
     S_80092A84_4 *interaction_state;
 
-    input_state = &gameWork;
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(body);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(body);
+    input_state = &g_game_work;
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(body);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(body);
 
     position_data = ((u8 *)&D_800FE488);
-    position = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(body, position_data);
+    position = select_the_smaller_position_query_result_capped_n_64_writes_associated(body, position_data);
     if ((position - body->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
-            func_80094660(actor, body, context);
+            initialize_action_callback_from_entry(actor, body, context);
             return;
         }
     } else if (D_800CFCEF == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(body, position, position_data);
+        compute_and_clamps_vector_based_adjustment_updates_town(body, position, position_data);
     }
 
     input_flags = ((s32)input_state->unk_010);
     if (input_flags & 0x10) {
-        func_800945B8(actor, body, context);
+        initialize_input_driven_scene_object(actor, body, context);
         return;
     }
     if (input_flags & 0x40) {
-        func_800946A0(actor, body, context);
+        initialize_busy_checked_countdown_action(actor, body, context);
         return;
     }
 
     interaction_ctrl = &D_800CFCB4;
-    if ((townGetStatusActiveEntryMatchingDirection(interaction_ctrl) == -1) && (townIsUnk18N12Unk1ABetweenN37N41() == 0)) {
-        townSelectAnAvailableEntryMatchingDirectionReturnsStatus(interaction_ctrl);
-        townStoreTheValidSharedAngleInOffsetHex10(actor);
-        townCallTheHandlerSelectsNonzeroEntry(&D_800D0128, actor, context);
+    if ((get_status_active_entry_matching_direction(interaction_ctrl) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
+        select_an_available_entry_matching_direction_returns_status(interaction_ctrl);
+        store_the_valid_shared_angle_in_offset_hex_10(actor);
+        call_the_handler_selects_nonzero_entry(&D_800D0128, actor, context);
         func_800988C8(actor, body, context);
 
         entity = actor->unk_2C;
@@ -104,11 +104,11 @@ void townUpdateActorPositionAndInteraction(Rec_func_80094268_arg0 *actor, Entity
         }
 
         interaction_state = &D_800CFCB4;
-        action_result = func_800A9D74(interaction_state->unk_10, actor->unk_2C);
+        action_result = select_response_for_source_and_target(interaction_state->unk_10, actor->unk_2C);
         if (action_result != 0) {
             func_80035208(action_result);
         } else {
-            func_8008B158(interaction_state->unk_10);
+            submit_object_resource_data(interaction_state->unk_10);
         }
         D_800FE5D8 = (s32 *)&D_80093B00;
         return;
@@ -117,11 +117,11 @@ void townUpdateActorPositionAndInteraction(Rec_func_80094268_arg0 *actor, Entity
     if (input_state->buttons & 0xF000) {
         position = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = position;
-        townTriggerEventHex519IntervalMultiplesEnabled(position, 0xC);
-        townStoreTheValidSharedAngleInOffsetHex10(actor);
-        townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(body);
+        trigger_event_hex_519_interval_multiples_enabled(position, 0xC);
+        store_the_valid_shared_angle_in_offset_hex_10(actor);
+        handle_adjust_vector_toward_selected_angle_limit_magnitude(body);
         return;
     }
 
-    func_8009451C(actor, body, context);
+    initialize_actor_movement_interaction_action(actor, body, context);
 }

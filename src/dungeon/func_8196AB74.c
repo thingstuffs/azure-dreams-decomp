@@ -4,7 +4,7 @@
 
 
 /* Subtracts 8 from the object counter and sets flags when it reaches zero. */
-void dungeonAdvanceCounterAndPropagateTargetFlags(void *object)
+void advance_counter_and_propagate_target_flags(void *object)
 {
     u8 *object_bytes = object;
     u16 counter;
@@ -15,6 +15,6 @@ void dungeonAdvanceCounterAndPropagateTargetFlags(void *object)
     *(u16 *)(object_bytes + 50) = counter;
     if ((counter << 16) <= 0) {
         *(u16 *)(object_bytes - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

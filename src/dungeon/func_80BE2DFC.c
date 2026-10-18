@@ -4,7 +4,7 @@ extern void func_801539DC(void *, void *, void *, void *);
 
 void func_801565FC(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonPropagateActorActionFlag(state, motion, position, actor)) {
+    if (propagate_actor_action_flag(state, motion, position, actor)) {
         state->callback = func_801539DC;
     }
 }

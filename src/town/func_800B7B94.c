@@ -3,8 +3,8 @@
 #include "m2c_compat.h"
 
 M2C_UNK strcat(); /* extern */
-M2C_UNK *func_800A652C();                        /* extern */
-void townSetDisplayEntryTextAndPosition(); /* extern */
+M2C_UNK *select_object_state_value();                        /* extern */
+void set_display_entry_text_and_position(); /* extern */
 extern M2C_UNK D_800892C0;
 extern M2C_UNK D_800892C8;
 extern M2C_UNK D_800892CC;
@@ -19,10 +19,10 @@ typedef struct {
 typedef struct S_800B52F4_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800B52F4_1;   /* arg1 in townBuildDisplayEntryString */
+} S_800B52F4_1;   /* arg1 in build_display_entry_string */
 
-/* Builds a string from fixed fragments and selected text, then passes it to townSetDisplayEntryTextAndPosition. */
-void townBuildDisplayEntryString(s32 text_id, S_800B52F4_1 *context) {
+/* Builds a string from fixed fragments and selected text, then passes it to set_display_entry_text_and_position. */
+void build_display_entry_string(s32 text_id, S_800B52F4_1 *context) {
     StackData text_buffer;
     StackData *text;
 
@@ -32,8 +32,8 @@ void townBuildDisplayEntryString(s32 text_id, S_800B52F4_1 *context) {
     strcat(text, &D_800892C8);
     strcat(text, &D_800892CC);
     strcat(text, &D_800892D8);
-    strcat(text, func_800A652C(text_id));
-    townSetDisplayEntryTextAndPosition(context->unk_0C, text, 0, 0x47, 0x88);
+    strcat(text, select_object_state_value(text_id));
+    set_display_entry_text_and_position(context->unk_0C, text, 0, 0x47, 0x88);
 }
 
 /* MECHANISM: A 64-byte stack object forces the 0x68 frame; s1/s2 hold args and s0 holds its address.

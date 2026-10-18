@@ -7,7 +7,7 @@ typedef void (*Callback)();
 
 
 /* Invoke the callback and add two signed deltas to the current stats. */
-void townApplySignedStatDeltas(void *stat_deltas)
+void apply_signed_stat_deltas(void *stat_deltas)
 {
     void *first_stats;
     void *second_stats;

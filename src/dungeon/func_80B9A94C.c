@@ -60,7 +60,7 @@ extern u8 D_80174108[];
 extern Packed12 D_80174FC0;
 
 /* Fades the effect color, spawns four textured objects, and expires the effect when its lifetime ends. */
-void dungeonFadeEffectAndSpawnTexturedObjects(EffectState *state, s32 *position, EffectColor *color)
+void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, EffectColor *color)
 {
     EffectObject *object;
     u8 *effect_data;
@@ -169,7 +169,7 @@ void dungeonFadeEffectAndSpawnTexturedObjects(EffectState *state, s32 *position,
     state->lifetime--;
     if (state->lifetime <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

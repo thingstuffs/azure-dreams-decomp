@@ -10,16 +10,16 @@ typedef struct Func80039C44State {
     u8 byte_27;
 } Func80039C44State;
 
-extern void slusClearTwoStateFieldsB(void *state);
+extern void clear_two_state_fields_b(void *state);
 
-/* Read an event-script byte and select slusClearTwoStateFieldsB as the handler. */
-void handleVmOpcode42(Func80039C44State *state) {
+/* Read an event-script byte and select clear_two_state_fields_b as the handler. */
+void handle_vm_opcode_42(Func80039C44State *state) {
     u32 operand = (u32)state->read_ptr;
     u32 read_addr = operand;
 
     operand = *(u8 *)operand;
     state->read_ptr = (u8 *)(read_addr + 1);
     state->byte_27 = 0;
-    state->func_10 = slusClearTwoStateFieldsB;
+    state->func_10 = clear_two_state_fields_b;
     state->byte_26 = (u8)operand;
 }

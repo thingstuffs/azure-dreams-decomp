@@ -6,12 +6,12 @@
 /* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
 
 
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();
-void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();
-s32 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();
-M2C_UNK dungeonInitializeActionObject();
-void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();
-void townCallTheHandlerSelectsNonzeroEntry();
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
+s32 select_the_smaller_position_query_result_capped_n_64_writes_associated();
+M2C_UNK initialize_action_object();
+void compute_and_clamps_vector_based_adjustment_updates_town();
+void call_the_handler_selects_nonzero_entry();
 M2C_UNK func_800941D8();
 
 extern u8 D_800CFCEF;
@@ -19,23 +19,23 @@ extern M2C_UNK D_800D00E0;
 
 
 /* Update the entity, handle a large value change, and advance the state countdown. */
-void townUpdateThresholdTimedAction(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
+void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
     s16 sampled_value;
     s16 ticks_left;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(entity);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(entity);
-    sampled_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(entity, &D_800FE488);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
+    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, &D_800FE488);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
-            dungeonInitializeActionObject(state, entity, context);
+            initialize_action_object(state, entity, context);
             return;
         }
     } else if (D_800CFCEF == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(entity, sampled_value, &D_800FE488);
+        compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, &D_800FE488);
     }
     if (state->unk_0A.as_s16 == 0) {
-        townCallTheHandlerSelectsNonzeroEntry(&D_800D00E0, state, context);
+        call_the_handler_selects_nonzero_entry(&D_800D00E0, state, context);
     }
     ticks_left = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = ticks_left;

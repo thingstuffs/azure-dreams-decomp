@@ -71,12 +71,12 @@ s32 event_tori_in(void *source) {
     object = func_8003FD64(0x202, ((M2C_UNK *)&D_80083498.next));
     if (object != NULL) {
         child_slot = object + 0x20;
-        ((LinkedMotionObject *)object)->update.parent = townRandomizePairedObjectMotion;
+        ((LinkedMotionObject *)object)->update.parent = randomize_paired_object_motion;
         ((LinkedMotionObject *)object)->position = ((MotionSource *)source_data)->position;
         ((LinkedMotionObject *)object)->motion = ((MotionSource *)source_data)->motion;
     }
     child_index = 1;
-    child_handler = townAdvanceMotionAndFlagZeroVelocity;
+    child_handler = advance_motion_and_flag_zero_velocity;
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {

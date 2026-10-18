@@ -8,13 +8,13 @@
 typedef struct S_80019DE0_6 {
     u8 pad_00[0x1C];
     void * unk_1C;
-} S_80019DE0_6;   /* (*(void **)((u8 *)D_80016000 + 0)) in townApplyHalfStepPositionDeltas */
+} S_80019DE0_6;   /* (*(void **)((u8 *)D_80016000 + 0)) in apply_half_step_position_deltas */
 
 
 typedef struct S_80019DE0_0 {
     u16 unk_00;
     u16 unk_02;
-} S_80019DE0_0;   /* arg0 in townApplyHalfStepPositionDeltas */
+} S_80019DE0_0;   /* arg0 in apply_half_step_position_deltas */
 
 typedef struct S_80019DE0_1 {
     u8 pad_00[0x4];
@@ -22,7 +22,7 @@ typedef struct S_80019DE0_1 {
 } S_80019DE0_1;
 
 /* Calls the active callback and adds signed half-deltas, rounded toward zero, to two target fields. */
-void townApplyHalfStepPositionDeltas(S_80019DE0_0 *deltas) {
+void apply_half_step_position_deltas(S_80019DE0_0 *deltas) {
     u16 first_delta;
     u16 second_delta;
     u32 shifted_delta;

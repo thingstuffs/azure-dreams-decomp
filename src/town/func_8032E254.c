@@ -5,7 +5,7 @@ typedef s32 (*Callback)(s32);
 extern void *D_80016000[3];
 
 /* Stores status code 0x15 or 0x13 according to the callback low result bit. */
-s32 townSelectStatusCodeFromCallback(void) {
+s32 select_status_code_from_callback(void) {
     s32 *statusCodePtr;
     s32 statusCode;
 

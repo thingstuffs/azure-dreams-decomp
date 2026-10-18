@@ -9,11 +9,11 @@ typedef struct {
     Callback callback[4];
 } CallbackTable;
 
-extern s32 func_807018AC(s16 value);
+extern s32 test_indexed_flag_bit(s16 value);
 extern u8 D_80700000[];
 
 /* Call the indexed callback at the first failed value test or the end of the list. */
-void townCallDevkitCallbackAtFirstFailure(void)
+void call_devkit_callback_at_first_failure(void)
 {
     TestValues test_values;
     CallbackTable callbacks;
@@ -23,7 +23,7 @@ void townCallDevkitCallbackAtFirstFailure(void)
     callbacks = *(CallbackTable *)(D_80700000 + 0xBDC);
     choice_index = 0;
     while (test_values.value[choice_index] != 0) {
-        if (func_807018AC(test_values.value[choice_index]) == 0) {
+        if (test_indexed_flag_bit(test_values.value[choice_index]) == 0) {
             break;
         }
         choice_index++;

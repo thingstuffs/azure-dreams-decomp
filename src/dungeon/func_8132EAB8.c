@@ -3,7 +3,7 @@
 
 
 extern s16 D_801760D8;
-extern s16 func_800BCB04(u16, u16, s16);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
 typedef struct S_80165AB8_0 {
@@ -15,7 +15,7 @@ typedef struct S_80165AB8_0 {
     s32 unk_54;
     u8 pad_58[0x8];
     s32 unk_60;
-} S_80165AB8_0;   /* arg0 in dungeonUpdateLandingParticleFade */
+} S_80165AB8_0;   /* arg0 in update_landing_particle_fade */
 
 typedef struct S_80165AB8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -29,7 +29,7 @@ typedef struct S_80165AB8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80165AB8_1;   /* arg1 in dungeonUpdateLandingParticleFade */
+} S_80165AB8_1;   /* arg1 in update_landing_particle_fade */
 
 typedef struct S_80165AB8_2 {
     u8 pad_00[0xC];
@@ -43,10 +43,10 @@ typedef struct S_80165AB8_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80165AB8_2;   /* arg2 in dungeonUpdateLandingParticleFade */
+} S_80165AB8_2;   /* arg2 in update_landing_particle_fade */
 
 /* Updates object motion, landing, and fading before marking it finished. */
-void dungeonUpdateLandingParticleFade(u8 *object, u8 *motion, u8 *sprite)
+void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
 {
     s32 height;
     u32 state;
@@ -62,12 +62,12 @@ void dungeonUpdateLandingParticleFade(u8 *object, u8 *motion, u8 *sprite)
 
         height = ((S_80165AB8_1 *)motion)->unk_08.at02.v;
         ((S_80165AB8_1 *)motion)->unk_14 += ((S_80165AB8_0 *)object)->unk_60;
-        if ((func_800BCB04(((S_80165AB8_1 *)motion)->unk_00.at02.v,
+        if ((sample_terrain_surface_height(((S_80165AB8_1 *)motion)->unk_00.at02.v,
                            ((S_80165AB8_1 *)motion)->unk_04.at02.v,
                            (s16)(((S_80165AB8_1 *)motion)->unk_08.at02u.v - 4)) - 15) < height) {
             ((S_80165AB8_0 *)object)->unk_54 = 0;
             ((S_80165AB8_1 *)motion)->unk_08.at02.v =
-                func_800BCB04(((S_80165AB8_1 *)motion)->unk_00.at02.v,
+                sample_terrain_surface_height(((S_80165AB8_1 *)motion)->unk_00.at02.v,
                               ((S_80165AB8_1 *)motion)->unk_04.at02.v,
                               (s16)(((S_80165AB8_1 *)motion)->unk_08.at02u.v - 4)) - 2;
             ((S_80165AB8_1 *)motion)->unk_08.at00u.v = 0;
@@ -83,7 +83,7 @@ void dungeonUpdateLandingParticleFade(u8 *object, u8 *motion, u8 *sprite)
         }
 
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
 
     case 1:
@@ -131,7 +131,7 @@ void dungeonUpdateLandingParticleFade(u8 *object, u8 *motion, u8 *sprite)
         }
 
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     default:

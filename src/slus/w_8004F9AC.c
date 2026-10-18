@@ -29,7 +29,7 @@ typedef struct S_8004F9AC_Obj
 }
 S_8004F9AC_Obj;
 /* Assign evenly spaced list values and increase spacing, switching callbacks at the limit. */
-void animateSelectionMenuEntrySpacing(S_8004F9AC_Obj *obj)
+void animate_selection_menu_entry_spacing(S_8004F9AC_Obj *obj)
 {
     s32 spacing = obj->field_0x20;
     s32 value;

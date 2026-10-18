@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80D68D0C; every changed retail word is a paired relocation. */
-#define dungeonUpdateMonsterStagedMotion func_8015050C
+#define update_monster_staged_motion func_8015050C
 #define D_8017088C D_8014C88C
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -23,14 +23,14 @@ typedef struct {
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern s32 func_800A2FE0(void *);
-extern s32 func_800A32A4(void *);
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern void func_800A56E0(s32);
-extern void dungeonAnnounceFamiliarDefeat(void *);
-extern s16 func_800BCB04(u16, u16, s16);
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern s32 distribute_experience_and_report_gains(void *);
+extern s32 detach_record_and_update_slot_state(void *);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
+extern void play_sound_if_enabled(s32);
+extern void announce_familiar_defeat(void *);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 func_8014D65C(s32);
 
 extern u8 D_800E2368[];
@@ -129,7 +129,7 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
 
         facing_angle = 0;
         do {
-            if (((gameWork.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
+            if (((g_game_work.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
                 ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
             }
             facing_angle += 0x200;
@@ -138,7 +138,7 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
         {
             u8 *animation_table = D_800E2368;
             (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-            direction_index = (gameWork.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+            direction_index = (g_game_work.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
             func_80047784(monster, animation_table[direction_index], 0);
             ((S_8017450C_0 *)state)->unk_98 |= 8;
             ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
@@ -156,7 +156,7 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
             state_or_height += height_offset;
             ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
             *sound_flags |= 0x40;
-            func_800A56E0(0x807);
+            play_sound_if_enabled(0x807);
         }
 
     case 1:
@@ -285,10 +285,10 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
 
             actor = (u16)x;
             y = (u16)y;
-            if ((dungeonCheckLeftTileAndCenterHeight(actor, y, -0x200) << 16) != 0) {
+            if ((check_left_tile_and_center_height(actor, y, -0x200) << 16) != 0) {
                 continue;
             }
-            if (func_800BCB04(actor, y, -0x200) < 0x200) {
+            if (sample_terrain_surface_height(actor, y, -0x200) < 0x200) {
                 continue;
             }
 
@@ -321,7 +321,7 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
         }
         if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
             if (!(((S_8017450C_3 *)actor)->unk_14 & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat((void *)actor);
+                announce_familiar_defeat((void *)actor);
             }
         }
         break;
@@ -333,12 +333,12 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
         u32 tracked_actor;
         s32 tile_flags;
 
-        tracked_actor = ((u32)dungeonStatus.unk_10);
+        tracked_actor = ((u32)g_dungeon_status.unk_10);
         if (tracked_actor == actor - 0x20) {
-            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
         }
-        func_800A2FE0((void *)actor);
-        func_800A32A4((void *)actor);
+        distribute_experience_and_report_gains((void *)actor);
+        detach_record_and_update_slot_state((void *)actor);
         tile_x = ((S_8017450C_1 *)monster)->unk_24;
         tile_y = ((S_8017450C_1 *)monster)->unk_25;
         if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
@@ -346,9 +346,9 @@ void func_8015050C(void *state, void *motion, void *monster, void *actor_ptr)
         } else {
             tile_flags = 0x3000;
         }
-        func_8009A3D0(tile_x, tile_y, tile_flags);
-        func_8009A028((void *)actor);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
+        unlink_entity_node((void *)actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

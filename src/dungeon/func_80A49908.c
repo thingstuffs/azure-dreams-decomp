@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, void *entity)
+void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void *entity)
 {
     u8 state;
     u8 *sprite_group;
@@ -11,7 +11,7 @@ void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, vo
     sprite_group = 0;
     switch (state) {
     case 0:
-        if (S16(&dungeonStatus.unk_00, 0xA) != 0) {
+        if (S16(&g_dungeon_status.unk_00, 0xA) != 0) {
             break;
         }
         U8(actor, 0x9B) = 1;
@@ -27,10 +27,10 @@ void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, vo
         entity_flags = S32(entity, 0x14);
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat(entity);
+                announce_familiar_defeat(entity);
             }
         }
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
 
         group_index = 0;
         S16(sprite, 0x10) = 0x60;
@@ -84,7 +84,7 @@ void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, vo
         }
         if (U16(sprite_group, 0x1C) & 0x6000) {
             PTR(sprite, 0x2C) = ((u8 *)D_8017588C);
-            func_80047784(sprite,(u8)(((u8 *)D_8017588C)[((gameWork.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
+            func_80047784(sprite,(u8)(((u8 *)D_8017588C)[((g_game_work.view.viewAngle + S16(entity, 0x2A) + 0x100) >> 9) & 7]),
                 0);
             U16(actor, 0x96) = 0x80;
             U8(actor, 0x9B) = U8(actor, 0x9B) + 1;
@@ -109,22 +109,22 @@ void dungeonFadeSpritesAndRemoveEntity(void *actor, s32 unused, void *sprite, vo
         if (U8(sprite, 0xC) != 0) {
             break;
         }
-        dungeon_state = &dungeonStatus;
+        dungeon_state = &g_dungeon_status;
         if (U32(dungeon_state, 0x10) == (u32)((u8 *)entity - 0x20)) {
             U32(dungeon_state, 0x10) &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
         tile_x = U8(sprite, 0x24);
         tile_y = U8(sprite, 0x25);
         effect_id = 0x3000;
         if (U32(entity, 0x1C) & 0x2000) {
             effect_id = 0x300;
         }
-        func_8009A3D0((u8)(tile_x),(u8)(tile_y), effect_id);
-        func_8009A028(entity);
+        update_map_cell_flags_with_item_limit((u8)(tile_x),(u8)(tile_y), effect_id);
+        unlink_entity_node(entity);
         U16(entity, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
     }

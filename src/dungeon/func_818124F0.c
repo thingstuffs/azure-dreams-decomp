@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831cd8.h"
 
-void dungeonHandleMenuGridInput(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
+void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     GameWork *input;
     s32 held_buttons;
     s32 pressed_buttons;
@@ -12,32 +12,32 @@ void dungeonHandleMenuGridInput(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     s32 remaining_items;
     s32 repeat_buttons;
 
-    input = &gameWork;
+    input = &g_game_work;
     held_buttons = input->buttons;
     if (held_buttons == 0)
         return;
     pressed_buttons = ((s32)input->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, input);
-        func_800274A8(menu);
+        reset_menu_object_state_2(menu);
         return;
     }
     if (pressed_buttons & 0x10) {
         SD_Call(0x503, input);
-        func_800274A8(menu);
-        dungeonForwardStoredObjectValue(menu->unk44);
+        reset_menu_object_state_2(menu);
+        forward_stored_object_value(menu->unk44);
         return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(0x503, input);
-        dungeonDispatchMenuStateUpdate(&menu->unk38, menu->unk14,
+        dispatch_menu_state_update(&menu->unk38, menu->unk14,
                       (menu->unk8 / 72) * 72, menu->unk28);
-        func_800265B8(func_8002553C(menu->unk44),
+        write_text_and_advance_selection(func_8002553C(menu->unk44),
                       menu->unk40 + ((menu->unk8 % 72) * 2));
         if (menu->unk14 == 1 ||
-            dungeonHasAvailableObject(menu->unk48->unk28) != 0) {
-            func_800274A8(menu);
-            dungeonForwardStoredObjectValue(menu->unk44);
+            has_available_object(menu->unk48->unk28) != 0) {
+            reset_menu_object_state_2(menu);
+            forward_stored_object_value(menu->unk44);
         }
         return;
     }
@@ -86,11 +86,11 @@ void dungeonHandleMenuGridInput(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
         return;
     menu->unk8 = next_index;
     if ((next_index - index_step) / 72 == next_index / 72) {
-        dungeonPositionMenuGridEntries(menu->unk88, next_index);
+        position_menu_grid_entries(menu->unk88, next_index);
         return;
     }
-    dungeonClearMenuStateValues(menu->unk88);
-    *(void **)((u8 *)menu - 0x10) = (void *)dungeonRunMenuCountdownCallback;
+    clear_menu_state_values(menu->unk88);
+    *(void **)((u8 *)menu - 0x10) = (void *)run_menu_countdown_callback;
     menu->unk0 = menu->unk4;
 
     return;

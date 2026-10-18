@@ -4,12 +4,12 @@ typedef struct {
     s32 pad[3];
 } StateHandler;
 
-extern s32 townAdvancePersonLookupValue();
+extern s32 advance_person_lookup_value();
 extern StateHandler D_800AB4A8;
 extern StateHandler D_800AB708;
 
 /* Updates coordinates and selects the state handler based on the threshold and timer. */
-void townUpdatePersonCoordinates(void *state, void *coords) {
+void update_person_coordinates(void *state, void *coords) {
     u16 timer;
 
     if (*(s16 *)((s8 *)state + 0x90) < 100) {
@@ -17,7 +17,7 @@ void townUpdatePersonCoordinates(void *state, void *coords) {
     }
     *(u16 *)((s8 *)coords + 2) = *(u16 *)((s8 *)coords + 0xE);
     *(u16 *)((s8 *)coords + 6) = *(u16 *)((s8 *)coords + 0x12);
-    *(s16 *)((s8 *)coords + 0xA) = *(u16 *)((s8 *)coords + 0x16) + townAdvancePersonLookupValue(state);
+    *(s16 *)((s8 *)coords + 0xA) = *(u16 *)((s8 *)coords + 0x16) + advance_person_lookup_value(state);
     timer = *(u16 *)((s8 *)state + 0x6C) - 1;
     *(u16 *)((s8 *)state + 0x6C) = timer;
     if ((s16)timer < 0) {

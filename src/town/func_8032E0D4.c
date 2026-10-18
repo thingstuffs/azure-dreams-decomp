@@ -7,6 +7,6 @@
 
 
 /* Clears the byte at offset 0x114 in the linked record. */
-void townClearReferencedObjectActiveFlag(void) {
+void clear_referenced_object_active_flag(void) {
     ((TownProgressState *)D_80016000->unk_40)->unk_114 = 0;
 }

@@ -17,7 +17,7 @@ extern s32 func_800644B8(s32);
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Fades and pulses the effect, restoring the linked primitive when the fade ends. */
-void func_800A5828(void *effect, s32 unused, void *render_state)
+void update_pulsing_effect_brightness(void *effect, s32 unused, void *render_state)
 {
     s32 fade_step;
     s32 brightness;
@@ -25,7 +25,7 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
     s16 current_brightness;
     u16 tilt;
     void *linked_prim;
-    GameWork *global_state = &gameWork;
+    GameWork *global_state = &g_game_work;
 
     if (S16_AT(effect, 0x64) == 0) {
         if (global_state->unk_004 & 1) {
@@ -64,7 +64,7 @@ void func_800A5828(void *effect, s32 unused, void *render_state)
             U8_AT(linked_prim, 0xD) = 0x80;
             U8_AT(linked_prim, 0xE) = 0x80;
             U16_AT(effect, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
     }

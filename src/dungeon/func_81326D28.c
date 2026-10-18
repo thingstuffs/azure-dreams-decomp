@@ -2,16 +2,16 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-s32 dungeonCheckLeftTileAndCenterHeight();
-s32 func_800A7234();
-s32 func_800A7A7C();
-s16 func_800BCB04();
+s32 check_left_tile_and_center_height();
+s32 find_valid_floor_item_position();
+s32 place_item_at_valid_floor_position();
+s16 sample_terrain_surface_height();
 extern u8 D_80174708;
 
 
 typedef struct S_8016E528_0_pre {
     u16 unk_00;
-} S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateObjectMotionAndLanding, addressed as arg0[-1] */
+} S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in update_object_motion_and_landing, addressed as arg0[-1] */
 
 typedef struct S_8016E528_0 {
     u8 pad_00[0x12];
@@ -34,7 +34,7 @@ typedef struct S_8016E528_0 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_8016E528_0;   /* arg0 in dungeonUpdateObjectMotionAndLanding */
+} S_8016E528_0;   /* arg0 in update_object_motion_and_landing */
 
 typedef struct S_8016E528_1 {
     u8 pad_00[0x6];
@@ -45,7 +45,7 @@ typedef struct S_8016E528_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8016E528_1;   /* arg2 in dungeonUpdateObjectMotionAndLanding */
+} S_8016E528_1;   /* arg2 in update_object_motion_and_landing */
 
 typedef struct S_8016E528_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -62,7 +62,7 @@ typedef struct S_8016E528_2 {
     s16 unk_12;
     u8 pad_14[0x2];
     s16 unk_16;
-} S_8016E528_2;   /* arg1 in dungeonUpdateObjectMotionAndLanding */
+} S_8016E528_2;   /* arg1 in update_object_motion_and_landing */
 
 typedef struct S_8016E528_3 {
     s16 unk_00;
@@ -72,10 +72,10 @@ typedef struct S_8016E528_3 {
 typedef struct S_8016E528_4 {
     u8 pad_00[0x2];
     u8 unk_02;
-} S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in dungeonUpdateObjectMotionAndLanding */
+} S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in update_object_motion_and_landing */
 
 /* Updates object motion, landing interpolation, and removal. */
-void dungeonUpdateObjectMotionAndLanding(void *motion, void *position, void *object) {
+void update_object_motion_and_landing(void *motion, void *position, void *object) {
     u8 item_data[4];
     s32 fall_height;
     s16 move_height;
@@ -170,7 +170,7 @@ repeat_settling:
         item_data[1] = ((S_8016E528_0 *)motion)->unk_45;
         item_data[2] = ((S_8016E528_0 *)motion)->unk_46;
         item_data[3] = ((S_8016E528_0 *)motion)->unk_47;
-        func_800A7A7C(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12,
+        place_item_at_valid_floor_position(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12,
             ((S_8016E528_2 *)position)->unk_16, ((S_8016E528_1 *)object)->unk_08, item_data);
         goto mark_removed;
     }
@@ -190,17 +190,17 @@ check_falling:
         ((S_8016E528_1 *)object)->unk_1C = scale;
         probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
         fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-        if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
+        if ((sample_terrain_surface_height((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
             (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
             continue;
         }
-        ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
+        ((S_8016E528_2 *)position)->unk_08.at02.v = sample_terrain_surface_height((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
             (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
             - 0x20));
         ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
 mark_removed:
         ((S_8016E528_0_pre *)motion)[-1].unk_00 = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
     do {
@@ -221,9 +221,9 @@ mark_removed:
                 next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
                 world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
                 if (next_tile == (world_y / 64)) {
-                    if (((dungeonCheckLeftTileAndCenterHeight((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                    if (((check_left_tile_and_center_height((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
                         (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) != 0) ||
-                        func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                        sample_terrain_surface_height((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
                         (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) >= 0x200) {
                         ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
                             - ((S_8016E528_0 *)motion)->unk_4C);
@@ -246,9 +246,9 @@ mark_removed:
                 + ((S_8016E528_0 *)motion)->unk_54);
             ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
             move_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-            if ((func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0,
+            if ((sample_terrain_surface_height(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0,
                 ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
-                ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6)
+                ((S_8016E528_2 *)position)->unk_08.at02.v = sample_terrain_surface_height(((((S_8016E528_0 *)motion)->unk_48 << 6)
                     + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0,
                     ((S_8016E528_2 *)position)->unk_08.at02.v);
                 ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
@@ -257,7 +257,7 @@ mark_removed:
                 ((S_8016E528_0 *)motion)->unk_58 = 0;
                 ((S_8016E528_0 *)motion)->unk_4C = 0;
                 ((S_8016E528_0 *)motion)->unk_12 = (s16) ((u16) ((S_8016E528_0 *)motion)->unk_12 + 1);
-                if ((func_800A7234(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49,
+                if ((find_valid_floor_item_position(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49,
                     (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12,
                     position + 0x16) << 0x10) == 0) {
                     ((S_8016E528_0 *)motion)->unk_12 = 2;

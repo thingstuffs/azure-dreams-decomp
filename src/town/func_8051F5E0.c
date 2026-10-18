@@ -7,7 +7,7 @@
 
 
 /* Scale the linked record's value by 64 and add 0x220. */
-void func_80016DE0(void) {
+void scale_record_value_and_add_offset(void) {
     TownPositionState *record;
 
     record = D_80016000->unk_1C;

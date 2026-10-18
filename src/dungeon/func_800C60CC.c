@@ -31,7 +31,7 @@ typedef struct S_800CB82C_2 {
     u8 pad_04[0x2];
     u16 unk_06;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800CB82C_2;   /* arg0 in func_800CB82C */
+} S_800CB82C_2;   /* arg0 in create_owner_linked_pulsing_effect */
 
 typedef struct S_800CB82C_3 {
     u8 pad_00[0x8];
@@ -68,12 +68,12 @@ typedef struct S_800CB82C_4 {
 typedef struct S_800CB82C_5 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_800CB82C_5;   /* &D_800E3CC8 in func_800CB82C */
+} S_800CB82C_5;   /* &D_800E3CC8 in create_owner_linked_pulsing_effect */
 
 typedef struct S_800CB82C_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CB82C_6_pre;   /* the 0x14 bytes before arg2 in func_800CB82C, addressed as arg2[-1] */
+} S_800CB82C_6_pre;   /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
 
 typedef struct S_800CB82C_7 {
@@ -85,14 +85,14 @@ typedef struct S_800CB82C_7 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004491C();                /* extern */
-void dungeonClearEntryFlagAndLinkOwner();                      /* extern */
-s32 dungeonCreateActorSpellEffect(); /* extern */
+void clear_entry_flag_and_link_owner();                      /* extern */
+s32 create_actor_spell_effect(); /* extern */
 extern M2C_UNK D_800CB600;
 extern M2C_UNK D_800E03BC;
 extern u8 D_800E3CC8;
 
 /* Create and register an object using the spawn position, source state, and owner. */
-void *func_800CB82C(void *spawn_pos, EntityRec *source_state, void *owner) {
+void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_state, void *owner) {
     u16 object_flags;
     s32 global_flags;
     void *map_data;
@@ -129,17 +129,17 @@ void *func_800CB82C(void *spawn_pos, EntityRec *source_state, void *owner) {
         ((S_800CB82C_4 *)object_state)->unk_1C = (s32) source_state->flags1C;
         ((S_800CB82C_4 *)object_state)->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
         ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
-        if (dungeonCreateActorSpellEffect(object_state, object + 0x28, 0, object + 0xB8) == 0) {
+        if (create_actor_spell_effect(object_state, object + 0x28, 0, object + 0xB8) == 0) {
             object_flags = ((S_800CB82C_0 *)object)->unk_1E | 0x8000;
-            global_flags = objectFlagBlock.flags | 0x8000;
+            global_flags = object_flag_block.flags | 0x8000;
             ((S_800CB82C_0 *)object)->unk_1E = object_flags;
-            objectFlagBlock.flags = global_flags;
+            object_flag_block.flags = global_flags;
             return NULL;
         }
-        dungeonClearEntryFlagAndLinkOwner(object);
-        object_count = ((u16)dungeonStatus.unk_0A);
+        clear_entry_flag_and_link_owner(object);
+        object_count = ((u16)g_dungeon_status.unk_0A);
         object_count = (u16) (object_count + 1);
-        dungeonStatus.unk_0A = object_count;
+        g_dungeon_status.unk_0A = object_count;
     }
     return object;
 }

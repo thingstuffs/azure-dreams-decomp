@@ -54,10 +54,10 @@ extern u8 D_80162538[];
 
 extern void *func_8003FD64();
 extern s32 func_8004491C();
-extern s32 func_800A6D30();
-extern s16 func_800A48F0();
-extern void func_800A9C18();
-extern s32 func_800AA36C();
+extern s32 generate_random_value();
+extern s16 set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern s32 try_move_actor_to_valid_position();
 
-void * func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
+void * create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

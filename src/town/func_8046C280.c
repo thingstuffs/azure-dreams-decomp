@@ -24,7 +24,7 @@ extern s8 D_80019184[];
 extern s8 D_80019190[];
 
 /* Select a vertex relative to the list head, print its coordinates, and return its address. */
-void *townGetIndexedVertexAndTrace(s32 group, s32 n, s32 lookup_variant) {
+void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
     s32 lookup_flag;
     s32 head;
     Entry *ptr;

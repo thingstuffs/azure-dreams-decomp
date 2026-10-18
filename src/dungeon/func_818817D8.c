@@ -24,7 +24,7 @@ typedef struct S_80024FD8_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024FD8_2;   /* arg0 in dungeonCreateEffectRenderObject */
+} S_80024FD8_2;   /* arg0 in create_effect_render_object */
 
 typedef struct S_80024FD8_3 {
     u8 pad_00[0xC];
@@ -51,7 +51,7 @@ typedef struct S_80024FD8_4 {
 
 
 /* Creates a render object at the supplied position and initializes its effect state. */
-void *dungeonCreateEffectRenderObject(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
+void *create_effect_render_object(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
 {
     s32 signed_size;
     s32 render_code;
@@ -63,7 +63,7 @@ void *dungeonCreateEffectRenderObject(S_80024FD8_2 *source_pos, s16 effect_param
 
     object = func_8003FC64(0x202);
     if (object != 0) {
-        ((S_80024FD8_0 *)object)->unk_10 = dungeonMoveAndFadeEffect;
+        ((S_80024FD8_0 *)object)->unk_10 = move_and_fade_effect;
         func_8004491C(object, (s32)func_80045C34);
         position = ((S_80024FD8_0 *)object)->unk_08;
         position->unk_02 = source_pos->unk_02;

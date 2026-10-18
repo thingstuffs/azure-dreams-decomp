@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Clear the ten values referenced by the pointer table at offset 0x25C. */
-void cardBootClearTenDisplaySlots(void *object) {
+void card_boot_clear_ten_display_slots(void *object) {
     s32 slot;
     u8 *cursor;
     cursor = object;

@@ -8,12 +8,12 @@ typedef struct S_800C2824_0 {
     void * unk_00;
     s16 unk_04;
     s16 unk_06;
-} S_800C2824_0;   /* effect in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_0;   /* effect in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_1 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800C2824_1;   /* object_base in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_1;   /* object_base in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_2 {
     u8 pad_00[0x2];
@@ -22,7 +22,7 @@ typedef struct S_800C2824_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800C2824_2;   /* object_vertices in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_2;   /* object_vertices in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_3 {
     u8 pad_00[0x2];
@@ -37,7 +37,7 @@ typedef struct S_800C2824_3 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_800C2824_3;   /* vertices in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_3;   /* vertices in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_4 {
     u8 pad_00[0x8];
@@ -54,91 +54,91 @@ typedef struct S_800C2824_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800C2824_4;   /* sprite in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_4;   /* sprite in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_5 {
     u8 pad_00[0xA93];
     s8 unk_A93;
-} S_800C2824_5;   /* page_base + (object_slot * 0x54) in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_5;   /* page_base + (object_slot * 0x54) in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2824_6_pre;   /* the 0x14 bytes before c2_object in dungeonUpdateReturnMagicSacrifice, addressed as c2_object[-1] */
+} S_800C2824_6_pre;   /* the 0x14 bytes before c2_object in update_return_magic_sacrifice, addressed as c2_object[-1] */
 
 typedef struct S_800C2824_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C2824_6;   /* c2_object in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_6;   /* c2_object in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_7 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_7;   /* (void *)c2_coord in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_7;   /* (void *)c2_coord in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_8 {
     u8 pad_00[0x88];
     s16 unk_88;
-} S_800C2824_8;   /* effect_object in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_8;   /* effect_object in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_9_pre {
     u16 unk_00;
-} S_800C2824_9_pre;   /* the 0x2 bytes before c3_object in dungeonUpdateReturnMagicSacrifice, addressed as c3_object[-1] */
+} S_800C2824_9_pre;   /* the 0x2 bytes before c3_object in update_return_magic_sacrifice, addressed as c3_object[-1] */
 
 typedef struct S_800C2824_10 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800C2824_10;   /* c3_page in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_10;   /* c3_page in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_11 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_11;   /* object_coords in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_11;   /* object_coords in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_12_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800C2824_12_pre;   /* the 0x14 bytes before c17_object in dungeonUpdateReturnMagicSacrifice, addressed as c17_object[-1] */
+} S_800C2824_12_pre;   /* the 0x14 bytes before c17_object in update_return_magic_sacrifice, addressed as c17_object[-1] */
 
 typedef struct S_800C2824_12 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800C2824_12;   /* c17_object in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_12;   /* c17_object in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_13 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800C2824_13;   /* (void *)c17_coord in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_13;   /* (void *)c17_coord in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_14_pre {
     u16 unk_00;
-} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in dungeonUpdateReturnMagicSacrifice, addressed as finished_object[-1] */
+} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in update_return_magic_sacrifice, addressed as finished_object[-1] */
 
 typedef struct S_800C2824_15 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800C2824_15;   /* c17_final_ptr in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_15;   /* c17_final_ptr in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_16 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in dungeonUpdateReturnMagicSacrifice */
+} S_800C2824_16;   /* ((S_800C2824_0 *)effect)->unk_00 in update_return_magic_sacrifice */
 
 s32 func_80042900();
 s32 func_8004491C();
 void func_80044A50();
-void dungeonAdjustSourceValueAndFinalize();
-void func_8009A028();
-void func_8009A3D0();
-void *func_800A32A4();
-s32 func_800A56E0();
-s32 func_800A6620();
-void func_800B8FC8();
-s32 dungeonCreateFivePointEffect(u8, u8, s16, void *, s32, s32, void *);
-void dungeonRetireTrackedEffectById();
+void adjust_source_value_and_finalize();
+void unlink_entity_node();
+void update_map_cell_flags_with_item_limit();
+void *detach_record_and_update_slot_state();
+s32 play_sound_if_enabled();
+s32 release_entity_slot_and_update_flags();
+void draw_transformed_sprite_with_clip_rect();
+s32 create_five_point_effect(u8, u8, s16, void *, s32, s32, void *);
+void retire_tracked_effect_by_id();
 extern M2C_UNK D_800C0180;
 extern M2C_UNK D_800C27F0;
 extern M2C_UNK D_800CEF54;
@@ -156,7 +156,7 @@ typedef struct {
 } StackArgs;
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
-void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprite) {
+void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     StackArgs effect_args;
     s32 object_slot;
     s32 release_flags;
@@ -204,10 +204,10 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         effect_args.clip_extent_wh = 0x400040;
         effect_args.screen_x = 0x360;
         effect_args.screen_y = 0x1B8;
-        func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
+        draw_transformed_sprite_with_clip_rect(((S_800C2824_0 *)effect)->unk_00, &effect_args.clip_origin_xy, &effect_args.screen_x, 1, 2);
         object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
         func_80044A50(object_base);
-        dungeonRetireTrackedEffectById(object_base);
+        retire_tracked_effect_by_id(object_base);
         object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
         vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
         ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
@@ -226,7 +226,7 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;
         ((S_800C2824_4 *)sprite)->unk_14 = (u16) (((S_800C2824_4 *)sprite)->unk_14 | 0xC);
         ((S_800C2824_0 *)effect)->unk_06 = 0x10;
-        func_800A56E0(1);
+        play_sound_if_enabled(1);
         ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
     case 1:
         shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
@@ -242,9 +242,9 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
     case 2:
-        linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+        linked_object = detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
         if (linked_object != 0) {
-            object_slot = func_800A6620(linked_object, 0);
+            object_slot = release_entity_slot_and_update_flags(linked_object, 0);
             if (object_slot < 0x40) {
                 slots_page = (u8 *)0x80010000;
                 ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
@@ -262,10 +262,10 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
             if (release_status) {
                 release_flags = 0x300;
             }
-            func_8009A3D0(release_x, release_coord, release_flags);
+            update_map_cell_flags_with_item_limit(release_x, release_coord, release_flags);
         }
-        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-        dungeonAdjustSourceValueAndFinalize(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
+        unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
+        adjust_source_value_and_finalize(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
     case 3:
@@ -274,7 +274,7 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         object_coords = ((u8 *)(&D_80082E80));
         effect_object = D_800E3D7C;
         D_800DF55C = effect_object;
-        if (dungeonCreateFivePointEffect(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
+        if (create_five_point_effect(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
             ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
             return;
         }
@@ -295,7 +295,7 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         effect_object = source_object;
         effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
         D_800DF55C = effect_object;
-        if (dungeonCreateFivePointEffect(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
+        if (create_five_point_effect(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
             effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
             return;
         }
@@ -308,9 +308,9 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
         if ((wait_ticks << 0x10) > 0) {
             return;
         }
-        func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+        detach_record_and_update_slot_state(((S_800C2824_0 *)effect)->unk_00);
         if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
-            func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+            unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
             (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
             final_object = D_800DF560;
@@ -327,8 +327,8 @@ void dungeonUpdateReturnMagicSacrifice(void *effect, void *vertices, void *sprit
             if (expired_status) {
                 tile_flags = 0x300;
             }
-            func_8009A3D0(expired_x, expired_coord, tile_flags);
-            func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+            update_map_cell_flags_with_item_limit(expired_x, expired_coord, tile_flags);
+            unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
             (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
             final_object = D_800DF560;

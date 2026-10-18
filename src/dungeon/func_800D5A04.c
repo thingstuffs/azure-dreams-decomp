@@ -5,7 +5,7 @@
 
 typedef struct S_800DB164_0_pre {
     u16 unk_00;
-} S_800DB164_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateTimedEffectAnimation, addressed as arg0[-1] */
+} S_800DB164_0_pre;   /* the 0x2 bytes before arg0 in update_timed_effect_animation, addressed as arg0[-1] */
 
 typedef struct S_800DB164_0 {
     u8 pad_00[0x10];
@@ -14,7 +14,7 @@ typedef struct S_800DB164_0 {
     u16 unk_48;
     u8 pad_4A[0x2];
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
-} S_800DB164_0;   /* arg0 in dungeonUpdateTimedEffectAnimation */
+} S_800DB164_0;   /* arg0 in update_timed_effect_animation */
 
 
 typedef struct S_800DB164_2 {
@@ -22,14 +22,14 @@ typedef struct S_800DB164_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800DB164_2;   /* arg1 in dungeonUpdateTimedEffectAnimation */
+} S_800DB164_2;   /* arg1 in update_timed_effect_animation */
 
 
 extern void func_800478B8();
 s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
-void dungeonUpdateTimedEffectAnimation(void *effect, void *motion, void *visual) {
+void update_timed_effect_animation(void *effect, void *motion, void *visual) {
     s32 phase;
     s32 ticks_left;
     s32 next_phase;
@@ -66,7 +66,7 @@ void dungeonUpdateTimedEffectAnimation(void *effect, void *motion, void *visual)
     case 2:
         if ((ticks_left << 0x10) <= 0) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

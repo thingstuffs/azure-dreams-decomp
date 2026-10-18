@@ -1,13 +1,13 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 tryAddSecondTowerEntry(s16 entry_index) {
+s32 try_add_second_tower_entry(s16 entry_index) {
     u8 *entry;
     u8 *entries;
 
     if (D_80012090[0] == 0) {
         if (((s16 *)D_8008146C)[0] == 2) {
             if (func_80033BC0(0xA2) != 0) {
-                if ((func_800A6928(0xC, 8) << 0x10) != 0) {
+                if ((count_matching_packed_entity_keys(0xC, 8) << 0x10) != 0) {
                     entries = (u8 *)((s16 *)D_800E3CD8);
                     entry = entries;
                     entry += ((entry_index << 0x10) >> 0xD);
@@ -15,7 +15,7 @@ s32 tryAddSecondTowerEntry(s16 entry_index) {
                     *(s16 *)(entry + 2) = 8;
                     *(s16 *)(entry + 4) = 8;
                     *(s16 *)(entry + 6) = 0;
-                    func_8009A21C(8, 8, 0x20);
+                    cycle_map_cell_flags(8, 8, 0x20);
                     return 1;
                 }
             }

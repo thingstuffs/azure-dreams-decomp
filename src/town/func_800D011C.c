@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 townSelectObjectSetupPath(void *object, s32 request_data, s32 request_param, s32 check_param);
+extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
-extern s32 *townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(void *box_a, void *box_b);
-extern void townInitializeObjectFromContext(void *object, void *unusedArg, s32 initValue);
+extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
+extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
 
 extern u8 D_800CFCB4[];
 
@@ -13,13 +13,13 @@ extern u8 D_800CFCB4[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Updates turning motion, applies a position adjustment, and checks the timer. */
-void townUpdateTurningMotionAndTimer(void *actor, void *position, s32 update_param, s32 check_param) {
+void update_turning_motion_and_timer(void *actor, void *position, s32 update_param, s32 check_param) {
     s32 *adjustment;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (townSelectObjectSetupPath(actor, (s32)position, update_param, check_param) != 0) {
+    if (select_object_setup_path(actor, (s32)position, update_param, check_param) != 0) {
         return;
     }
 
@@ -33,7 +33,7 @@ void townUpdateTurningMotionAndTimer(void *actor, void *position, s32 update_par
         func_80064584(S16_AT(actor, 0x86)) / (0x1000 / S16_AT(actor, 0x84)) -
         U16_AT(actor, 0x84);
 
-    adjustment = townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(actor, D_800CFCB4);
+    adjustment = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(actor, D_800CFCB4);
     if (adjustment != 0) {
         axis = adjustment[0];
         if (axis != 2) {
@@ -42,7 +42,7 @@ void townUpdateTurningMotionAndTimer(void *actor, void *position, s32 update_par
             } else if (axis == 1) {
                 S32_AT(position, 4) -= adjustment[1];
             }
-            townInitializeObjectFromContext(actor, position, update_param);
+            initialize_object_from_context(actor, position, update_param);
             return;
         }
     }
@@ -50,6 +50,6 @@ void townUpdateTurningMotionAndTimer(void *actor, void *position, s32 update_par
     timer = U16_AT(actor, 0x6C) - 1;
     U16_AT(actor, 0x6C) = timer;
     if ((s32)(timer << 16) <= 0) {
-        townInitializeObjectFromContext(actor, position, update_param);
+        initialize_object_from_context(actor, position, update_param);
     }
 }

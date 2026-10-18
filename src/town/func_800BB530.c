@@ -17,7 +17,7 @@ extern u8 D_800133C8;
 extern u8 D_800133E6;
 
 /* Checks fixed value pairs and requires all four table values among five indexed pairs. */
-s32 func_800B8C90(void)
+s32 check_fixed_value_pairs(void)
 {
     TownFiveWords pair_indices = D_800894D0;
     TownFourWords required_values = D_800895F0;

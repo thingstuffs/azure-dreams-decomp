@@ -2,12 +2,12 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_80400E34();                            /* extern */
-M2C_UNK func_804083FC();                /* extern */
+M2C_UNK allocate_or_reuse_effect_and_install_callback();                /* extern */
 extern s8 D_8008CA34;
 
 /* Set the global flag, prepare state, and process the target in mode 0. */
-void townProcessMemoryTargetModeZero(s32 target) {
+void process_memory_target_mode_zero(s32 target) {
     D_8008CA34 = 1;
     func_80400E34();
-    func_804083FC(target, 0);
+    allocate_or_reuse_effect_and_install_callback(target, 0);
 }

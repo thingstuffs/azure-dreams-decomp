@@ -52,7 +52,7 @@ typedef struct S_800F6598_9 {
 } S_800F6598_9;
 
 /* Clear bit 15 in the 3x3 grid region when flag 0xA2 is set; otherwise reset the state bytes. */
-s32 func_800F6598(void) {
+s32 clear_center_tile_flags_when_enabled(void) {
     const s32 row_before = 0x1F;
     const s32 row_center = 0x20;
     const s32 row_after = 0x21;
@@ -72,7 +72,7 @@ s32 func_800F6598(void) {
     u8 *reset_state;
     s32 result;
 
-    grid_state = &gameWork.map;
+    grid_state = &g_game_work.map;
     grid_base = ((s32)grid_state->cells);
     if (func_80033BC0(0xA2) != 0) {
         row_shift = grid_state->shiftX;

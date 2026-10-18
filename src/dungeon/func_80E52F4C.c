@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80E3AF4C; every changed retail word is a paired relocation. */
-#define dungeonUpdateTerrainScaledActorEffect func_8015C74C
+#define update_terrain_scaled_actor_effect func_8015C74C
 #define D_8017398C D_8015B98C
 #include "common.h"
 #include "shared/object_flags.h"
@@ -92,7 +92,7 @@ typedef struct S_8017474C_8 {
 extern s32 func_80042900(void *, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s32 func_800BCB04(u16, u16, s16);
+extern s32 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_8015B98C[];
 
@@ -124,14 +124,14 @@ void func_8015C74C(void *effect, void *out_position, void *out_render)
             (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8015B98C) ||
             ((func_80042900(owner, 0xA) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
 
         if (((S_8017474C_1 *)owner)->unk_87 != -1) {
             void *sample_position = ((S_8017474C_0 *)effect)->unk_18;
 
-            sampled_height = func_800BCB04(((S_8017474C_3 *)sample_position)->unk_02,
+            sampled_height = sample_terrain_surface_height(((S_8017474C_3 *)sample_position)->unk_02,
                                 ((S_8017474C_3 *)sample_position)->unk_06,
                                 (s16)(((S_8017474C_3 *)sample_position)->unk_0A - 4));
         } else {
@@ -225,7 +225,7 @@ void func_8015C74C(void *effect, void *out_position, void *out_render)
         ((S_8017474C_6 *)out_render)->unk_1C = scale_value;
         if (scale_value > 0x2000U) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         ((S_8017474C_6 *)out_render)->unk_1E += 0x100;

@@ -38,14 +38,14 @@ extern s16 D_800DCED4[];
 extern u8 D_800C1EC4;
 
 extern s32 func_800429E4(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern s32 dungeonFindValidNearbyPosition(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
-extern u16 func_800BCB04(s32, s32, s16);
-extern void dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
+extern u16 sample_terrain_surface_height(s32, s32, s16);
+extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Creates a relocation task and updates the object's tile and height. */
-void *dungeonTeleportFamiliarNearPlayer(void *object, s16 action_arg) {
+void *teleport_familiar_near_player(void *object, s16 action_arg) {
     s16 tile_x;
     s16 tile_y;
     s32 tile_mask;
@@ -63,9 +63,9 @@ void *dungeonTeleportFamiliarNearPlayer(void *object, s16 action_arg) {
     task = func_8003FC64(2);
     if (task != NULL) {
         object_index = func_800429E4(object);
-        dungeonCreateOrbitingTeleportEffect(object, D_800DCED4[object_index], action_arg, 3);
+        create_orbiting_teleport_effect(object, D_800DCED4[object_index], action_arg, 3);
         tile_mask = 0x3000;
-        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
+        g_dungeon_status.unk_0A = (u16)(((u16)g_dungeon_status.unk_0A) + 1);
         position = *(u8 **)((u8 *)object - 0x14);
         task_data = (u8 *)task + 0x20;
         old_x = position[0x24];
@@ -73,20 +73,20 @@ void *dungeonTeleportFamiliarNearPlayer(void *object, s16 action_arg) {
         if (((Rec_D_80082E80 *)object)->unk_1C.at00_u32.v & 0x2000) {
             tile_mask = 0x300;
         }
-        func_8009A3D0(old_x, old_y, tile_mask);
-        if ((dungeonFindValidNearbyPosition(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
+        update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
+        if ((find_valid_nearby_position(0, D_80082E80.tileX, D_80082E80.tileY, &tile_x, &tile_y) << 16) == 0) {
             tile_x = ((Coord *)position)->coord0;
             source_height = ((ArgObj *)object)->value;
             source_y = ((Coord *)position)->coord1;
             tile_y = source_y;
             ((Entry *)task_data)->value = source_height;
         } else {
-            target_height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
+            target_height = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0,
                                           ((tile_y << 6) + 0x20) & 0xFFE0,
                                           (s16)(((Rec_D_80082E80 *)object)->unk_88.as_u16 - 0x20));
             *(u16 *)(task_data + 8) = target_height;
             if ((s16)target_height >= 0x201) {
-                *(u16 *)(task_data + 8) = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
+                *(u16 *)(task_data + 8) = sample_terrain_surface_height(((tile_x << 6) + 0x20) & 0xFFE0,
                                                         ((tile_y << 6) + 0x20) & 0xFFE0,
                                                         -0x400);
             }
@@ -100,7 +100,7 @@ void *dungeonTeleportFamiliarNearPlayer(void *object, s16 action_arg) {
         *(s16 *)(task_data + 4) = position[0x24];
         task_object = *(void **)(task_data + 0xC);
         *(s16 *)(task_data + 6) = position[0x25];
-        func_8009A21C(position[0x24], position[0x25],
+        cycle_map_cell_flags(position[0x24], position[0x25],
                       (task_object->unk_1C & 0x2000) ? 0x300 : 0x3000);
     }
     return task;

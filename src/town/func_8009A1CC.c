@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 #endif
 
 
-extern s32 scaleRandomToUnsignedHalfwordLimit();
+extern s32 scale_random_to_unsigned_halfword_limit();
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
 extern s32 rand();
@@ -46,7 +46,7 @@ typedef struct S_8009792C_2 {
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_8009792C_2;   /* arg0 in townCreateRandomizedOffsetEffect */
+} S_8009792C_2;   /* arg0 in create_randomized_offset_effect */
 
 typedef struct S_8009792C_3 {
     u8 pad_00[0xC];
@@ -63,7 +63,7 @@ typedef struct S_8009792C_3 {
 } S_8009792C_3;
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
-void *townCreateRandomizedOffsetEffect(S_8009792C_2 *source, u32 angle) {
+void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
     u32 direction;
     S_8009792C_3 *appearance;
     S_8009792C_1 *motion;
@@ -79,8 +79,8 @@ void *townCreateRandomizedOffsetEffect(S_8009792C_2 *source, u32 angle) {
         appearance = ((S_8009792C_0 *)effect)->unk_0C;
         ((S_8009792C_0 *)effect)->unk_10 = (M2C_UNK *)&D_800ABB20;
         func_8004491C(effect, func_80045340);
-        motion->unk_02 = source->unk_02 - dirStepX[direction] * 0x10;
-        motion->unk_06 = source->unk_06 - dirStepY[direction] * 0x10;
+        motion->unk_02 = source->unk_02 - dir_step_x[direction] * 0x10;
+        motion->unk_06 = source->unk_06 - dir_step_y[direction] * 0x10;
         motion->unk_0A = source->unk_0A;
         motion->unk_0C = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
         motion->unk_10 = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
@@ -93,7 +93,7 @@ void *townCreateRandomizedOffsetEffect(S_8009792C_2 *source, u32 angle) {
         appearance->unk_1C = 0x1000;
         appearance->unk_10 = 0x60;
         appearance->unk_14 |= 0xC;
-        effect_params[1] = scaleRandomToUnsignedHalfwordLimit(7) + scaleRandomToUnsignedHalfwordLimit(7);
+        effect_params[1] = scale_random_to_unsigned_halfword_limit(7) + scale_random_to_unsigned_halfword_limit(7);
     }
     return effect;
 }

@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 /* Call the scene object's 0x248 method, then copy the state's two coordinate pairs across with an offset. */
-void townCopyEventObjectCoordinates(void)
+void copy_event_object_coordinates(void)
 {
     void *state;
     void *state_2;

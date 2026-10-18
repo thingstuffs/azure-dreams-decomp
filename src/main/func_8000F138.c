@@ -5,7 +5,7 @@
 
 
 /* Returns the first or second word according to (*(s32 *)(&D_800287CC)). */
-s32 cardBootGetRemainingBlockSummary(void) {
+s32 card_boot_get_remaining_block_summary(void) {
     s32 *selected_word;
 
     selected_word = &(*(u8 *)(&D_80084120));

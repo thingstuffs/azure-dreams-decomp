@@ -9,7 +9,7 @@
 typedef struct S_800252E0_0 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800252E0_0;   /* global in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_0;   /* global in queue_projected_point_primitives */
 
 typedef struct S_800252E0_1 {
     u16 unk_00;
@@ -21,7 +21,7 @@ typedef struct S_800252E0_1 {
     void * unk_20;
     u8 pad_24[0x9C];
     u32 unk_C0;
-} S_800252E0_1;   /* scratch in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_1;   /* scratch in queue_projected_point_primitives */
 
 typedef struct S_800252E0_2 {
     u8 pad_00[0x2];
@@ -30,47 +30,47 @@ typedef struct S_800252E0_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800252E0_2;   /* input in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_2;   /* input in queue_projected_point_primitives */
 
 typedef struct S_800252E0_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800252E0_3;   /* arg2use in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_3;   /* arg2use in queue_projected_point_primitives */
 
 typedef struct S_800252E0_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_800252E0_4;   /* p in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_4;   /* p in queue_projected_point_primitives */
 
 typedef struct S_800252E0_5_pre {
     void * unk_00;
     u8 pad_04[0x4];
-} S_800252E0_5_pre;   /* the 0x8 bytes before arg0 in dungeonQueueProjectedPointPrimitives, addressed as arg0[-1] */
+} S_800252E0_5_pre;   /* the 0x8 bytes before arg0 in queue_projected_point_primitives, addressed as arg0[-1] */
 
 typedef struct S_800252E0_6 {
     void * unk_00;
-} S_800252E0_6;   /* global_slot in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_6;   /* global_slot in queue_projected_point_primitives */
 
 typedef struct S_800252E0_7 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800252E0_7;   /* next in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_7;   /* next in queue_projected_point_primitives */
 
 typedef struct S_800252E0_8 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in dungeonQueueProjectedPointPrimitives */
+} S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in queue_projected_point_primitives */
 
 
-extern s32 dungeonBuildAndEnqueueInterpolatedDepthSortedShadedLinesLinkedList();
+extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list();
 extern u32 func_80065420();
 extern s32 func_80066460();
 extern void func_80067F20();
 extern u8 D_80080000[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
-s32 dungeonQueueProjectedPointPrimitives(void *node_data, void *position_data, void *appearance_data) {
+s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
     void *position = position_data;
     void *appearance = appearance_data;
     u8 *scratch = (u8 *)0x1F800000;

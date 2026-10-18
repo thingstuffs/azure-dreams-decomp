@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80EB7D2C; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorAnimationTimersAndTransitions func_8016D52C
+#define update_actor_animation_timers_and_transitions func_8016D52C
 #define D_801711A4 D_8016B1A4
 #define D_80174184 D_8016E184
 #define D_801741CC D_8016E1CC
@@ -69,16 +69,16 @@ extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
 extern s32 rand(void);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s32 dungeonGetTileChebyshevDistance(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30(void);
+extern s32 check_entity_relation(void *, void *);
+extern s32 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_8016DD10(void *, s32, void *, void *);
 
 extern u8 D_8016B1A4[];
@@ -112,9 +112,9 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8016E1CC;
         func_80047784(sprite,
-            D_8016E1CC[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_8016E1CC[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        state_zero_counter_base = &dungeonStatus;
+        state_zero_counter_base = &g_dungeon_status;
         ((S_8017352C_0 *)entity)->unk_96 = 0;
         count = ((u16)state_zero_counter_base->unk_0A) - 1;
         state_zero_counter_base->unk_0A = count;
@@ -122,12 +122,12 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
         return;
     case 1:
         if ((func_80042900(actor, 1) << 16) != 0) {
-            global_base = &dungeonStatus;
+            global_base = &g_dungeon_status;
             if (global_base->flags & 0x1000) {
                 return;
             }
             if (((S_8017352C_2 *)actor)->unk_64 != 0) {
-                if (dungeonBeginReadyActorDirectionalAction(entity, motion, sprite, 0) != 0) {
+                if (begin_ready_actor_directional_action(entity, motion, sprite, 0) != 0) {
                     return;
                 }
             }
@@ -135,19 +135,19 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
                 if (global_base->flags & 0x2008) {
                     return;
                 }
-                dungeonAdvanceActorPendingAction(entity, motion, sprite, actor);
+                advance_actor_pending_action(entity, motion, sprite, actor);
                 return;
             }
-            if ((func_800A2C34(actor) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 return;
             }
             actor_flags = ((S_8017352C_2 *)actor)->unk_1C.s;
             if (actor_flags & 0x100) {
-                dungeonBeginPushedActorMove(entity, motion, sprite, actor);
+                begin_pushed_actor_move(entity, motion, sprite, actor);
                 return;
             }
             if (actor_flags & 0x80000) {
-                func_800AA888(entity, motion, sprite, actor);
+                begin_actor_move_to_target_facing(entity, motion, sprite, actor);
                 ((S_8017352C_0 *)entity)->unk_A8 = 0;
                 func_8016DD10(entity, motion, sprite, actor);
                 return;
@@ -166,23 +166,23 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
             if (((S_8017352C_2 *)actor)->unk_6D == 0) {
                 return;
             }
-            if ((func_800A2C34(actor) << 16) != 0) {
+            if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((dungeonCheckEntityRelation(actor,
+                if ((check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             func_800A9A04(actor);
             if ((func_80042900(actor, 1) << 16) != 0) {
                 TileObject *origin = &D_80082E80;
                 s8 tile = ((S_8017352C_1 *)sprite)->unk_26;
 
                 if (((tile == origin->unk_026) && (tile >= 0)) ||
-                    ((s16)dungeonGetTileChebyshevDistance(origin, sprite) < 2)) {
-                    if (!(func_800A6D30() & 7)) {
+                    ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
+                    if (!(generate_random_value() & 7)) {
                         func_80042B68(actor, 1);
                     }
                 }
@@ -192,7 +192,7 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
             }
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8016E184;
             func_80047784(sprite,
-                D_8016E184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_8016E184[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -200,7 +200,7 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-                animate_counter_base = (u8 *)&dungeonStatus.unk_00;
+                animate_counter_base = (u8 *)&g_dungeon_status.unk_00;
                 count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
                 ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
@@ -210,7 +210,7 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
         } else {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_8016E184;
             func_80047784(sprite,
-                D_8016E184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                D_8016E184[((g_game_work.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
@@ -218,7 +218,7 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-                animate_counter_base = (u8 *)&dungeonStatus.unk_00;
+                animate_counter_base = (u8 *)&g_dungeon_status.unk_00;
                 count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
                 ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
@@ -236,7 +236,7 @@ void func_8016D52C(void *entity, void *motion, void *sprite, void *actor)
         if (!(((S_8017352C_1 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
-        state_two_counter_base = (u8 *)&dungeonStatus.unk_00;
+        state_two_counter_base = (u8 *)&g_dungeon_status.unk_00;
         ((S_8017352C_9 *)motion)->unk_14 = 0;
         ((S_8017352C_0 *)entity)->unk_A8 = 0;
         ((S_8017352C_3 *)state_two_counter_base)->unk_0A--;

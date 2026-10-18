@@ -9,7 +9,7 @@ typedef struct S_800A5720_0 {
 } S_800A5720_0;
 
 /* When enabled, uppercase a fullwidth Latin letter after the ASCII prefix and process the text. */
-s32 func_800A5720(s8 *text) {
+s32 display_text_with_fullwidth_adjustment(s8 *text) {
     s8 *cursor;
     u8 trail_byte;
 

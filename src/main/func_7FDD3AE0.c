@@ -5,24 +5,24 @@
 typedef struct S_7FDD3AE0_1 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_7FDD3AE0_1;   /* arg0 in func_8008AA40 */
+} S_7FDD3AE0_1;   /* arg0 in propagate_record_high_bit */
 
 typedef struct S_7FDD3AE0_2 {
     u8 pad_00[0x16];
     s16 unk_16;
-} S_7FDD3AE0_2;   /* ((S_7FDD3AE0_1 *)arg0)->unk_04 in func_8008AA40 */
+} S_7FDD3AE0_2;   /* ((S_7FDD3AE0_1 *)arg0)->unk_04 in propagate_record_high_bit */
 
 
 typedef struct S_7FDD3AE0_0 {
     u16 unk_00;
-} S_7FDD3AE0_0;   /* arg0 in func_8008AA40; pointer addresses record offset 0x2 */
+} S_7FDD3AE0_0;   /* arg0 in propagate_record_high_bit; pointer addresses record offset 0x2 */
 
 
 /* Propagates the linked record high flag to the record and global flags. */
-void func_8008AA40(void *record) {
+void propagate_record_high_bit(void *record) {
     if (((S_7FDD3AE0_2 *)(((S_7FDD3AE0_1 *)record)->unk_04))->unk_16 & 0x8000) {
         ((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00
             | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

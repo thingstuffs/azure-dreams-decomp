@@ -10,7 +10,7 @@ extern M2C_UNK D_800D55D4;
 typedef struct S_800C5D38_0 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800C5D38_0;   /* arg2 in func_800C5D38 */
+} S_800C5D38_0;   /* arg2 in install_actor_response_tables */
 
 typedef struct S_800C5D38_1 {
     u8 pad_00[0x58];
@@ -19,17 +19,17 @@ typedef struct S_800C5D38_1 {
     u8 pad_60[0x1C];
     M2C_UNK * unk_7C;
     M2C_UNK * unk_80;
-} S_800C5D38_1;   /* arg0 in func_800C5D38 */
+} S_800C5D38_1;   /* arg0 in install_actor_response_tables */
 
 
-void townApplyObjectSetupAndUpdate(void *object, s32 update_context, s32 setup_context);
+void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
 /* Install the actor's response tables and process input when either masked flag is set. */
-void func_800C5D38(S_800C5D38_1 *actor, s32 context, S_800C5D38_0 *input) {
+void install_actor_response_tables(S_800C5D38_1 *actor, s32 context, S_800C5D38_0 *input) {
     if (input->unk_14 & 0x6000) {
         actor->unk_58 = &D_800D55D0;
         actor->unk_5C = &D_800D55D4;
         actor->unk_7C = &D_800D55A0;
         actor->unk_80 = &D_800D55A8;
-        townApplyObjectSetupAndUpdate(actor, context, input);
+        apply_object_setup_and_update(actor, context, input);
     }
 }

@@ -13,7 +13,7 @@ typedef struct BuildingIndexPage {
 } BuildingIndexPage;
 
 /* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
-void townMarkReferencedBuildingRecords(void) {
+void mark_referenced_building_records(void) {
     s32 entryIndex;
     u8 *recordCursor;
     u8 *indexPageCursor;

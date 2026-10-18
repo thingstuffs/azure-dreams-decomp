@@ -7,7 +7,7 @@ extern u8 D_8001BA8C[];
 extern u8 D_8001BA91[];
 
 // Selects a data pointer by kind, using the current index for table entries.
-void *func_80017D24(s32 unused0, s32 unused1, s32 dataKind) {
+void *select_scene_choice_by_mode(s32 unused0, s32 unused1, s32 dataKind) {
     if (dataKind == 5) {
         return D_8001BA91;
     }

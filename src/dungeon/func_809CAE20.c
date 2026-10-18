@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource03_slot0.h"
 
-void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor)
+void advance_actor_attack_and_resolve_damage(void *action, void *transform, void *sprite, EntityRec *actor)
 {
     s32 state;
     void *allocated_effect;
@@ -15,7 +15,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
         }
 
@@ -24,14 +24,14 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
             (*(s32 *)((u8 *)action + 0xA4)) = 0;
             func_80047784(sprite,
                 ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8
-                    [((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    [((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 3;
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CA4);
         func_80047784(sprite,
-            ((u8 *)D_80173CA4)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173CA4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
         return;
@@ -64,7 +64,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
                 ((R03_80172620_S_80172620_4 *)effect_sprite)->unk_2C = ((u8 *)D_80173CB4);
                 ((R03_80172620_S_80172620_4 *)effect_sprite)->unk_0C = sprite_data;
                 func_80047784(effect_sprite,
-                    ((u8 *)D_80173CB4)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    ((u8 *)D_80173CB4)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
             }
         }
@@ -74,7 +74,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CAC);
         func_80047784(sprite,
-            ((u8 *)D_80173CAC)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80173CAC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((R03_80172620_S_80172620_0 *)action)->unk_9B++;
         return;
@@ -85,7 +85,7 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
 
             (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80173CBC);
             func_80047784(sprite,
-                ((u8 *)D_80173CBC)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80173CBC)[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             active_effect = ((R03_80172620_S_80172620_0 *)action)->unk_A4.s;
             if (active_effect != 0) {
@@ -99,8 +99,8 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            func_800A56E0(0x808);
-            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            play_sound_if_enabled(0x808);
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             ((R03_80172620_S_80172620_0 *)action)->unk_9B = 0xFF;
         }
         return;
@@ -109,11 +109,11 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        dungeonSetRecordIntegerTileCenter(transform,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
-        dungeonReduceActorFoodMeter(actor, 0x180);
+        set_record_integer_tile_center(transform,(u8)(((Rec_D_80082E80 *)sprite)->unk_24),(u8)(((Rec_D_80082E80 *)sprite)->unk_25));
+        reduce_actor_food_meter(actor, 0x180);
         ((R03_80172620_S_80172620_0 *)action)->unk_8C = ((void *)func_80170E54);
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         if (actor->unk_6D == 0) {
             actor->unk_46 &= 0x7FFF;
         } else {

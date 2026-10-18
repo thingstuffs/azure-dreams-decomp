@@ -46,10 +46,10 @@ typedef struct S_80171780_4 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_800E2348[];
 extern u8 D_800E23A8[];
 extern u8 D_80171964[];
@@ -104,23 +104,23 @@ void *func_80171780(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         } else {
             if (((flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     if (left & 1) {
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = D_800E23A8;
                     }
                 }
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80171F1C;
         work->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

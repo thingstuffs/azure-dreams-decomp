@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townCreateTimedEffectObject(s32, s32, s32);                            /* extern */
-void townMovePositionTowardTarget();       /* extern */
+void create_timed_effect_object(s32, s32, s32);                            /* extern */
+void move_position_toward_target();       /* extern */
 
 /* Run both object handlers with the supplied state and context. */
-void func_800C885C(s32 object, s32 state, s32 context) {
-    townCreateTimedEffectObject(object, state, context);
-    townMovePositionTowardTarget(object, state, context);
+void run_object_handlers_supplied_state(s32 object, s32 state, s32 context) {
+    create_timed_effect_object(object, state, context);
+    move_position_toward_target(object, state, context);
 }

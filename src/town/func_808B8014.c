@@ -10,7 +10,7 @@ extern TownPair D_00003F58[];
 extern void func_80003C1C(u16 value);
 
 /* Process both values in table pairs one through three. */
-void func_80003814(void) {
+void process_table_pairs_one_three(void) {
     s32 pair_index;
 
     for (pair_index = 1; pair_index < 4; pair_index++) {

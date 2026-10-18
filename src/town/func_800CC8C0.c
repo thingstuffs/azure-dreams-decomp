@@ -1,27 +1,27 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void setResidentBitmapBit();                     /* extern */
-void townUnlinkSceneListNode();                      /* extern */
-void townClearObjectSlotAndMarkRemoved();                      /* extern */
+void set_resident_bitmap_bit();                     /* extern */
+void unlink_scene_list_node();                      /* extern */
+void clear_object_slot_and_mark_removed();                      /* extern */
 
 typedef struct S_800CA020_0 {
     s32 unk_00;
     s32 unk_04;
-} S_800CA020_0;   /* arg1 in townAdvanceReactionAccumulators */
+} S_800CA020_0;   /* arg1 in advance_reaction_accumulators */
 
 typedef struct S_800CA020_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800CA020_1;   /* arg2 in townAdvanceReactionAccumulators */
+} S_800CA020_1;   /* arg2 in advance_reaction_accumulators */
 
 /* Advance two accumulators and invoke handlers when flag 0x8000 is set. */
-void townAdvanceReactionAccumulators(void *context, S_800CA020_0 *accumulators, S_800CA020_1 *flagState) {
+void advance_reaction_accumulators(void *context, S_800CA020_0 *accumulators, S_800CA020_1 *flagState) {
     accumulators->unk_00 = (s32) (accumulators->unk_00 + 0x40000);
     accumulators->unk_04 = (s32) (accumulators->unk_04 + 0x15555);
     if (flagState->unk_14 & 0x8000) {
-        setResidentBitmapBit(0x49);
-        townUnlinkSceneListNode(context);
-        townClearObjectSlotAndMarkRemoved(context);
+        set_resident_bitmap_bit(0x49);
+        unlink_scene_list_node(context);
+        clear_object_slot_and_mark_removed(context);
     }
 }

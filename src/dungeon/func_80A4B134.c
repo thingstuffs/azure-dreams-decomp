@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
+void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
 {
     s16 phase;
     u16 phase_bits;
@@ -52,7 +52,7 @@ void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, 
             particle_strength = func_80069EF8() & 0xFF;
             particle_strength = particle_strength | 0x80;
             random_offset = func_80069EF8();
-            func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
                 (s16)(-0x70 - (random_offset & 0x1F)));
         } else {
@@ -60,7 +60,7 @@ void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, 
             particle_strength = func_80069EF8() & 0xFF;
             particle_strength = particle_strength | 0x80;
             random_offset = func_80069EF8();
-            func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+            advance_actor_action_and_update_status(effect - 0x20, particle_variant, 0xF0, particle_strength,
                 ((R06_80174934_S_80174934_0 *)effect)->unk_64, ((R06_80174934_S_80174934_0 *)effect)->unk_66,
                 (s16)(-0x40 - (random_offset & 0x1F)));
         }
@@ -81,7 +81,7 @@ void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, 
             strip_data = strip_obj + 0x20;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1A = 1;
             ((R06_80174934_S_80174934_1 *)strip_data)->unk_1C = 1;
-            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)dungeonAdvanceRecordCountdown);
+            ((R06_80174934_S_80174934_2 *)strip_obj)->unk_10 = ((u8 *)advance_record_countdown);
             func_8004491C(init_obj, callback);
 
             render_ctl = ((R06_80174934_S_80174934_2 *)strip_obj)->unk_0C;
@@ -153,7 +153,7 @@ void dungeonUpdateFadingFourStripEffect(u8 *effect, R06_80174934_Vec3w *origin, 
     ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s = frames_left;
     if (frames_left <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     return;
 }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonClearRegionGridRectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
+void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
 {
     s16 row;
     s16 cells_left;
@@ -13,7 +13,7 @@ void dungeonClearRegionGridRectangle(floor_generate_isolated_8028AC34_S_8001DC34
     s16 end_row;
     s16 remaining;
     s32 row_width;
-    grid_config = &gameWork.map;
+    grid_config = &g_game_work.map;
     region->unk_0A = 0;
     first_row = region->unk_02 - 1;
     row = first_row;

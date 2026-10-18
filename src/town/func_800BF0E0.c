@@ -8,23 +8,23 @@ typedef struct S_800BC840_0 {
     s32 unk_58;
     u8 pad_5C[0x4];
     s32 unk_60;
-} S_800BC840_0;   /* arg0 in townInitializeRecordResources; pointer addresses record offset 0x10 */
+} S_800BC840_0;   /* arg0 in initialize_record_resources; pointer addresses record offset 0x10 */
 
 
 M2C_UNK func_8003DB94(); /* extern */
 s32 func_8004491C();              /* extern */
-void townConfigureTheSetModeN1();  /* extern */
+void configure_the_set_mode_n_1();  /* extern */
 extern M2C_UNK D_800BC764;
 extern M2C_UNK D_800D20CC;
 extern s32 D_800D20E4;
 extern M2C_UNK D_800F15E4;
 
 /* Initializes the record and its associated resources. */
-void townInitializeRecordResources(void *record, M2C_UNK init_context, M2C_UNK resource_target) {
+void initialize_record_resources(void *record, M2C_UNK init_context, M2C_UNK resource_target) {
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_00 = &D_800BC764;
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_60 = 0;
     func_8004491C(record - 0x20, func_80045340);
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_58 = (s32) D_800D20E4;
     func_8003DB94(resource_target, &D_800F15E4, 0);
-    townConfigureTheSetModeN1(record, init_context, &D_800D20CC);
+    configure_the_set_mode_n_1(record, init_context, &D_800D20CC);
 }

@@ -11,15 +11,15 @@ typedef struct S_800A3508_1 {
     u8 pad_28[0x8];
     s32 unk_30;
     s32 unk_34;
-} S_800A3508_1;   /* obj in townInitializeRandomizedMotionVector */
+} S_800A3508_1;   /* obj in initialize_randomized_motion_vector */
 
 
-extern s32 scaleRandomToUnsignedHalfwordLimit(s32);
+extern s32 scale_random_to_unsigned_halfword_limit(s32);
 extern void func_8003DB94(void *, s32, s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void townAddMotionDeltasToPosition(void *);
+extern void add_motion_deltas_to_position(void *);
 
 extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
@@ -27,7 +27,7 @@ extern s32 D_800D0B20[];
 extern s32 D_800D0B50[];
 
 /* Initializes the object record and a randomized motion vector. */
-void townInitializeRandomizedMotionVector(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
+void initialize_randomized_motion_vector(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
 {
     s32 tilt_angle;
     s32 scale;
@@ -56,14 +56,14 @@ void townInitializeRandomizedMotionVector(u8 *obj, s32 *vec, Rec_D_80082E80 *rec
     func_8004491C(obj - 0x20, func_80045340);
 
     if (((S_800A3508_1 *)obj)->unk_22 < 4) {
-        init_value = scaleRandomToUnsignedHalfwordLimit(0x1000);
+        init_value = scale_random_to_unsigned_halfword_limit(0x1000);
         tilt_angle = 0x400;
         direction_angle = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (init_value & 0xFFFF);
     } else {
-        direction_angle = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
-        tilt_angle = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
+        direction_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+        tilt_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
     }
-    scale_sample = scaleRandomToUnsignedHalfwordLimit(0x1000) & 0xFFFF;
+    scale_sample = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
     scale_numerator = scale_sample + 0x1000;
     if (scale_numerator < 0) {
         scale_numerator = scale_sample + 0x101F;
@@ -90,6 +90,6 @@ void townInitializeRandomizedMotionVector(u8 *obj, s32 *vec, Rec_D_80082E80 *rec
     ((S_800A3508_1 *)obj)->unk_24 = 0x18;
     ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
 
-    townAddMotionDeltasToPosition(vec);
-    townAddMotionDeltasToPosition(vec);
+    add_motion_deltas_to_position(vec);
+    add_motion_deltas_to_position(vec);
 }

@@ -10,42 +10,42 @@ typedef struct S_8009402C_0 {
     u16 unk_2A;
     u8 pad_2C[0xF8];
     void * unk_124;
-} S_8009402C_0;   /* arg0 in dungeonCheckFamiliarDeploymentPlacement */
+} S_8009402C_0;   /* arg0 in check_familiar_deployment_placement */
 
 
 typedef struct S_8009402C_2 {
     u8 pad_00[0x13];
     s8 unk_13;
-} S_8009402C_2;   /* temp_v0_2 in dungeonCheckFamiliarDeploymentPlacement */
+} S_8009402C_2;   /* temp_v0_2 in check_familiar_deployment_placement */
 
 typedef struct S_8009402C_3 {
     u8 pad_00[0x8A];
     s16 unk_8A;
-} S_8009402C_3;   /* tail_base in dungeonCheckFamiliarDeploymentPlacement */
+} S_8009402C_3;   /* tail_base in check_familiar_deployment_placement */
 
 typedef struct S_8009402C_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_8009402C_4;   /* temp_v0_3 in dungeonCheckFamiliarDeploymentPlacement */
+} S_8009402C_4;   /* temp_v0_3 in check_familiar_deployment_placement */
 
 typedef struct S_8009402C_5 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8009402C_5;   /* ((((S_8009402C_3 *)tail_base)->unk_8A * 4) + arg0) in dungeonCheckFamiliarDeploymentPlacement */
+} S_8009402C_5;   /* ((((S_8009402C_3 *)tail_base)->unk_8A * 4) + arg0) in check_familiar_deployment_placement */
 
 typedef struct DungeonSlot {
     u8 pad_00[0x1C];
     u32 flags;
 } DungeonSlot;
 
-void dungeonClearPlayerLinkedActionFlags();
-void func_8009A21C();
-void func_8009A3D0();
-s32 dungeonFindValidNearbyPosition();
+void clear_player_linked_action_flags();
+void cycle_map_cell_flags();
+void update_map_cell_flags_with_item_limit();
+s32 find_valid_nearby_position();
 extern DungeonSlot *D_800E3DF0[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */
-s32 dungeonCheckFamiliarDeploymentPlacement(void *actor, void *unused, void *position, s16 *out_x, s16 *out_y, void *target) {
+s32 check_familiar_deployment_placement(void *actor, void *unused, void *position, s16 *out_x, s16 *out_y, void *target) {
     s32 shifted_result;
     s16 next_y;
     s16 saved_x;
@@ -67,16 +67,16 @@ s32 dungeonCheckFamiliarDeploymentPlacement(void *actor, void *unused, void *pos
             return blocked_result;
         }
         direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(((s8 *)dirStepX) + direction_offset);
-        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(((s8 *)dirStepY) + direction_offset);
-        if (((shifted_result = dungeonFindValidNearbyPosition(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
+        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(((s8 *)dir_step_x) + direction_offset);
+        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(((s8 *)dir_step_y) + direction_offset);
+        if (((shifted_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
             ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
              (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
              (((S_8009402C_2 *)status)->unk_13 > 0) &&
              (saved_x = *x_coord, saved_y = *out_y,
-              func_8009A21C(saved_x, saved_y, 0x8000),
-              probe_result = dungeonFindValidNearbyPosition(0, next_x, next_y, x_coord, out_y),
-              func_8009A3D0(saved_x, saved_y, 0x8000),
+              cycle_map_cell_flags(saved_x, saved_y, 0x8000),
+              probe_result = find_valid_nearby_position(0, next_x, next_y, x_coord, out_y),
+              update_map_cell_flags_with_item_limit(saved_x, saved_y, 0x8000),
               (shifted_result = probe_result << 0x10, shifted_result == 0)))) {
             return 1;
         }
@@ -85,6 +85,6 @@ s32 dungeonCheckFamiliarDeploymentPlacement(void *actor, void *unused, void *pos
     if ((selected_slot != NULL) && !(((S_8009402C_4 *)selected_slot)->unk_1C & 0x20000)) {
         return 2;
     }
-    dungeonClearPlayerLinkedActionFlags();
+    clear_player_linked_action_flags();
     return 0;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Returns the index of an address in a range of four-byte slots, or -1. */
-s32 townGetIndexAddressInRangeFourByteSlotsN1(s32 target_addr, s32 slot_addr, s32 slot_count) {
+s32 get_index_address_in_range_four_byte_slots_n_1(s32 target_addr, s32 slot_addr, s32 slot_count) {
     s32 slot_index;
 
     slot_index = 0;

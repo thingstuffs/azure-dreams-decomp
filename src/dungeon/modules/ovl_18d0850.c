@@ -1,5 +1,5 @@
 #include "modules/dungeon_ovl_18d0850.h"
-void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))dungeonUpdateMovementTowardChildTerrainTargetAnimatesAssociatedEffects;
+void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))update_movement_toward_child_terrain_target_animates_associated_effects;
 #include "../func_818B0850.c"
 #include "../func_818B08EC.c"
 #include "../func_818B097C.c"

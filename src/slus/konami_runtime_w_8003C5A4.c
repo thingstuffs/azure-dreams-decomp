@@ -5,7 +5,7 @@
 extern s8 D_8006B1EC[];
 
 /* Returns the index of a value in the sentinel-terminated table, or -1 if absent. */
-u32 runtimeFindSentinelTableValue(s32 value)
+u32 runtime_find_sentinel_table_value(s32 value)
 {
     s32 index;
 

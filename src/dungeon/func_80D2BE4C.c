@@ -54,20 +54,20 @@ typedef struct PlayerActionCounterView {
 
 typedef struct ActorSpriteSlot { u8 *sprite; } ActorSpriteSlot;
 
-s32 getCdCommandQueueDepth(void);
+s32 get_cd_command_queue_depth(void);
 extern void func_80047784();
 s32 func_80069EF8();
-void *dungeonScanMonsterAlongHeading();
-extern void dungeonSetRecordIntegerTileCenter();
-extern s32 dungeonAdvanceStatusTimers(void *);
-extern s32 func_800A56E0(s32);
-extern void *dungeonCreateActorSpellEffect();
+void *scan_monster_along_heading();
+extern void set_record_integer_tile_center();
+extern s32 advance_status_timers(void *);
+extern s32 play_sound_if_enabled(s32);
+extern void *create_actor_spell_effect();
 void func_80159020();
-extern void dungeonUpdateAbilityActorBehavior(void *, void *, void *, void *);
+extern void update_ability_actor_behavior(void *, void *, void *, void *);
 extern u8 D_8015CE88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
+void update_ability_actor_action(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
     s16 effect_count;
     s32 ability_id;
     s32 normal_ability;
@@ -154,7 +154,7 @@ void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion,
                         }
                     } else {
                         {
-                            s32 x = (s32)dungeonScanMonsterAlongHeading(actor, sprite->tile.bytes.x,
+                            s32 x = (s32)scan_monster_along_heading(actor, sprite->tile.bytes.x,
                                           sprite->tile.bytes.y,
                                           actor->facing, 0x10);
                             s32 y;
@@ -174,7 +174,7 @@ void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion,
                     }
                 }
             }
-            if (dungeonCreateActorSpellEffect(actor, ability, use_player, &action->flags) == 0) {
+            if (create_actor_spell_effect(actor, ability, use_player, &action->flags) == 0) {
                 return;
             }
             action->timer.raw = 0x13U;
@@ -184,26 +184,26 @@ void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion,
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
-            dungeonStatus.unk_0C = 0;
+            set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+            g_dungeon_status.unk_0C = 0;
             ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-            action->nextBehavior = &dungeonUpdateAbilityActorBehavior;
+            action->nextBehavior = &update_ability_actor_behavior;
             actor->unk_73 = 0;
             actor->unk_72 = 0;
             actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
             return;
         }
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             sprite->flags = (u16) (sprite->flags
                 | 0x800);
             return;
         }
         sprite->flags = (u16) (sprite->flags & 0xF7FF);
         action->phase = (u8) (action->phase + 1);
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         /* fallthrough */
     case 2:
         effect_ticks = action->timer.raw - 1;
@@ -223,7 +223,7 @@ void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion,
         }
         return;
     case 3:
-        if (((s32)dungeonStatus.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.unk_0C) == 0) {
             action->timer.raw = 0U;
         }
         finish_ticks = action->timer.raw - 1;
@@ -239,24 +239,24 @@ void dungeonUpdateAbilityActorAction(ActorActionView *action, EntityRec *motion,
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
+        set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8015CE88) {
             (sprite->frameTable) = D_8015CE88;
-            func_80047784(sprite, D_8015CE88[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_8015CE88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             sprite->flags =
                 (u16) (sprite->flags & 0xF7FF);
         }
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        action->nextBehavior = &dungeonUpdateAbilityActorBehavior;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
+        action->nextBehavior = &update_ability_actor_behavior;
+        advance_status_timers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
     }
 }

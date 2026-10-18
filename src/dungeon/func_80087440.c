@@ -7,11 +7,11 @@ typedef struct S_8008CBA0_0 {
     u8 unk_29;
     u8 pad_2A[0x3A];
     union { u8 u8; u16 u16; } unk_64;   /* accessed as both */
-} S_8008CBA0_0;   /* arg3 in dungeonApplyPendingByteIncrease */
+} S_8008CBA0_0;   /* arg3 in apply_pending_byte_increase */
 
 
 /* Apply the pending increase, clamp to the limit, and clear the pending value. */
-void dungeonApplyPendingByteIncrease(s32 unused_0, s32 unused_1, s32 unused_2, S_8008CBA0_0 *object) {
+void apply_pending_byte_increase(s32 unused_0, s32 unused_1, s32 unused_2, S_8008CBA0_0 *object) {
     u8 updated_value;
     u8 value_limit;
 

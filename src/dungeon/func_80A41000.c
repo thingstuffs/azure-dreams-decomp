@@ -10,7 +10,7 @@ typedef struct S_8014C884_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8014C884_0;   /* obj in func_8014C884 */
+} S_8014C884_0;   /* obj in queue_linked_point_packets */
 
 typedef struct S_8014C884_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8014C884_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8014C884_1;   /* work in func_8014C884 */
+} S_8014C884_1;   /* work in queue_linked_point_packets */
 
 typedef struct S_8014C884_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8014C884_2;   /* part_a in func_8014C884 */
+} S_8014C884_2;   /* part_a in queue_linked_point_packets */
 
 typedef struct S_8014C884_3 {
     u8 pad_00[0x24];
@@ -31,7 +31,7 @@ typedef struct S_8014C884_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8014C884_3;   /* part_b in func_8014C884 */
+} S_8014C884_3;   /* part_b in queue_linked_point_packets */
 
 typedef struct S_8014C884_4 {
     u8 pad_00[0x8C];
@@ -40,15 +40,15 @@ typedef struct S_8014C884_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_8014C884_4;   /* actor in func_8014C884 */
+} S_8014C884_4;   /* actor in queue_linked_point_packets */
 
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 extern u8 D_8014CA58[];
 extern u8 D_80150820[];
@@ -56,7 +56,7 @@ extern u8 D_80150860[];
 extern M2C_UNK D_8014CE84;
 
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
-extern void *func_8014C884(s16, s16, s16, s16);
+extern void *queue_linked_point_packets(s16, s16, s16, s16);
 extern u8 D_8014D24C[];
 extern u8 D_8014D278[];
 extern u8 D_8014D1F8[];
@@ -75,7 +75,7 @@ extern u8 D_8014E98C[];
 
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8014C884(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *obj;
@@ -125,23 +125,23 @@ void *func_8014C884(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             if (((flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     call_a1 = part_a;
-                    left = func_800A6D30();
+                    left = generate_random_value();
                     call_a1 = obj;
                     if (left & 1) {
                         work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_80150860;
                 }
             }
         }
         }
         call_a1 = obj;
-        func_800A9C18(call_a1, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(call_a1, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE84;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

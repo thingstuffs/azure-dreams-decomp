@@ -9,7 +9,7 @@ s32 func_8003C758(s32 key)
     if (D_80082E60.mode == 2 && *(s8 *)0x800DCF4D != -2) {
         index = -1;
     } else {
-        index = findRuntimeTableKeyIndex(key);
+        index = find_runtime_table_key_index(key);
     }
 
     if (index == -1) {

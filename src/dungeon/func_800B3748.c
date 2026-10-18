@@ -46,15 +46,15 @@ typedef struct {
     s16 unk22;
 } FuncObject;
 
-extern s32 dungeonProcessLinkedMeshStatesMode0();
+extern s32 process_linked_mesh_states_mode_0();
 struct Object_800B36B8;
 struct Effect;
-extern void func_800B8E18(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
+extern void attenuate_effect_scale_and_brightness(struct Object_800B36B8 *object, s32 unused, struct Effect *effect);
 extern void * func_8003FD64();
 extern s32 func_8004491C();
 
 /* Allocate and initialize a type-0x12 object with child and metadata values. */
-void dungeonCreateAttenuatingMovingEffect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
+void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
                    FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag) {
     FuncMeta *meta;
     FuncObject *object;
@@ -64,8 +64,8 @@ void dungeonCreateAttenuatingMovingEffect(s32 alloc_arg, s32 child_x, s32 child_
 
     object = func_8003FD64(0x12, alloc_arg);
     if (object != NULL) {
-        object->unk10 = func_800B8E18;
-        func_8004491C(object, dungeonProcessLinkedMeshStatesMode0);
+        object->unk10 = attenuate_effect_scale_and_brightness;
+        func_8004491C(object, process_linked_mesh_states_mode_0);
         child = object->child;
         child->unk2 = input->unk0;
         child->unk6 = input->unk2;

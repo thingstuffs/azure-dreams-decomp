@@ -6,7 +6,7 @@ M2C_UNK func_8006A094();                            /* extern */
 M2C_UNK func_8006A248();                     /* extern */
 
 /* Bracket command 0xF2000002 with setup and completion calls. */
-void cardBootStartHardwareCounter(void) {
+void card_boot_start_hardware_counter(void) {
     func_8006A084();
     func_8006A248(0xF2000002);
     func_8006A094();

@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos *start, floor_generate_isolated_8028906C_Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
+s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *start, floor_generate_isolated_8028906C_Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s16 count;
     s16 cx;
     s16 cy;
@@ -26,7 +26,7 @@ s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos 
     dir = (u16)start->dir;
     delta = __builtin_abs(delta);
     rangeX = delta - 4;
-    delta2 = (s32)&gameWork;
+    delta2 = (s32)&g_game_work;
     dirSlot = dir;
     dstY = dest->y;
     st = (floor_generate_isolated_8028906C_DungeonState *)((u8 *)delta2 + 476);
@@ -60,15 +60,15 @@ s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos 
     if (rnd != 0) {
         s16 rr;
 
-        rr = (u16)func_800A6D30() % rangeX;
+        rr = (u16)generate_random_value() % rangeX;
         *outX = rr;
-        wx = cx + rr * dirStepX[(s16)dir] + dirStepX[(s16)dir] * wx;
-        rr = (u16)func_800A6D30() % rangeY;
+        wx = cx + rr * dir_step_x[(s16)dir] + dir_step_x[(s16)dir] * wx;
+        rr = (u16)generate_random_value() % rangeY;
         *outY = rr;
-        wy = cy + rr * dirStepY[(s16)dir] + dirStepY[(s16)dir] * wy;
+        wy = cy + rr * dir_step_y[(s16)dir] + dir_step_y[(s16)dir] * wy;
     } else {
-        wx = cx + *outX * dirStepX[(s16)dir] + dirStepX[(s16)dir] * wx;
-        wy = cy + *outY * dirStepY[(s16)dir] + dirStepY[(s16)dir] * wy;
+        wx = cx + *outX * dir_step_x[(s16)dir] + dir_step_x[(s16)dir] * wx;
+        wy = cy + *outY * dir_step_y[(s16)dir] + dir_step_y[(s16)dir] * wy;
     }
 
     for (;;) {
@@ -83,17 +83,17 @@ s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos 
             break;
         }
         count++;
-        cx += dirStepX[(s16)dir];
-        cy += dirStepY[(s16)dir];
+        cx += dir_step_x[(s16)dir];
+        cy += dir_step_y[(s16)dir];
     }
 
     if (wx != dstX || wy != dstY) {
-        if (dirStepX[dirSlot] != 0) {
+        if (dir_step_x[dirSlot] != 0) {
             wy = dstY;
         } else {
             wx = dstX;
         }
-        delta = dungeonForwardMonsterCoordinateDelta(cx, cy, wx, wy);
+        delta = forward_monster_coordinate_delta(cx, cy, wx, wy);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -106,13 +106,13 @@ s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos 
                 break;
             }
             count++;
-            cx += dirStepX[((u32)delta >> 9) & 6];
-            cy += dirStepY[((u32)delta >> 9) & 6];
+            cx += dir_step_x[((u32)delta >> 9) & 6];
+            cy += dir_step_y[((u32)delta >> 9) & 6];
         }
     }
 
     if (wx != dstX || wy != dstY) {
-        delta = dungeonForwardMonsterCoordinateDelta(cx, cy, dstX, dstY);
+        delta = forward_monster_coordinate_delta(cx, cy, dstX, dstY);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -125,8 +125,8 @@ s32 dungeonChooseNextStepTowardDestination(floor_generate_isolated_8028906C_Pos 
                 break;
             }
             count++;
-            cx += dirStepX[((u32)delta >> 9) & 6];
-            cy += dirStepY[((u32)delta >> 9) & 6];
+            cx += dir_step_x[((u32)delta >> 9) & 6];
+            cy += dir_step_y[((u32)delta >> 9) & 6];
         }
     }
     return count;

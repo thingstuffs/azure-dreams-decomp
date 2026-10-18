@@ -27,7 +27,7 @@ void func_8004A464(ObjA464 *obj)
     if (obj != 0) {
         obj->flags |= 0x8000;
         inner = &obj->inner;
-        D_800814A0_store = objectFlagBlock.flags | 0x8000;
+        D_800814A0_store = object_flag_block.flags | 0x8000;
         func_8004B530(inner->field_8);
         func_8004B530(inner->field_18);
     }

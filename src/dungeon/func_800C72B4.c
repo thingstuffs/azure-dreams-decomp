@@ -20,7 +20,7 @@ typedef struct S_800CCA14_0 {
 typedef struct S_800CCA14_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800CCA14_1;   /* count_base in dungeonCreateFivePartTargetEffect */
+} S_800CCA14_1;   /* count_base in create_five_part_target_effect */
 
 typedef struct S_800CCA14_2 {
     u8 pad_00[0x10];
@@ -34,19 +34,19 @@ typedef struct S_800CCA14_2 {
 } S_800CCA14_2;
 
 
-void *initializeSceneObjectInBuffer();      /* extern */
-s32 dungeonFindObjectNearTileHeight();                   /* extern */
-void func_8009CE1C(); /* extern */
-extern void * dungeonCreateTileCenterQuadEffect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
+void *initialize_scene_object_in_buffer();      /* extern */
+s32 find_object_near_tile_height();                   /* extern */
+void apply_attack_power_and_element_effects(); /* extern */
+extern void * create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config);
 struct ObjectBlock;
-struct ObjectBlock *dungeonCreateGridEffectObject();     /* extern */
+struct ObjectBlock *create_grid_effect_object();     /* extern */
 extern u8 D_800CC370;
 extern u8 D_800CC9BC;
 extern u8 D_800E5908;
 extern u8 D_8014A000;
 
 /* Creates a five-part effect at the given position and applies its target effect. */
-void dungeonCreateFivePartTargetEffect(u16 x, u16 y, s16 z) {
+void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     s32 direction;
     s32 first_base_angle;
     s32 first_angle;
@@ -60,16 +60,16 @@ void dungeonCreateFivePartTargetEffect(u16 x, u16 y, s16 z) {
     S_800CCA14_0 *effect;
     S_800CCA14_2 *part;
 
-    effect = initializeSceneObjectInBuffer(0, (D_800E5908 * 0xC8) + (u8 *)&D_8014A000, 0xA);
+    effect = initialize_scene_object_in_buffer(0, (D_800E5908 * 0xC8) + (u8 *)&D_8014A000, 0xA);
     effect->unk_10 = &D_800CC9BC;
     effect->unk_20 = x;
     effect->unk_22 = y;
     effect->unk_24 = z;
     effect->unk_27 = 8;
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
+    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) + 1);
     part_index = 3;
     do {
-        part = initializeSceneObjectInBuffer(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&D_8014A000 + 0x28), 0xA);
+        part = initialize_scene_object_in_buffer(0, (((D_800E5908 * 5) + part_index) * 0x28) + ((u8 *)&D_8014A000 + 0x28), 0xA);
         part->unk_10 = &D_800CC370;
         part_x = (u16) effect->unk_20;
         direction = part_index * 2;
@@ -84,18 +84,18 @@ void dungeonCreateFivePartTargetEffect(u16 x, u16 y, s16 z) {
     } while (part_index >= 0);
     base_angle = (part_index << 0x1A) >> 0x10;
     first_base_angle = base_angle;
-    dungeonCreateGridEffectObject((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_base_angle, 0);
+    create_grid_effect_object((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_base_angle, 0);
     part_index = 3;
-    dungeonCreateGridEffectObject((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, base_angle, 1);
+    create_grid_effect_object((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, base_angle, 1);
     do {
         angle = (part_index << 0x1A) >> 0x10;
         first_angle = angle;
-        dungeonCreateTileCenterQuadEffect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_angle, 0, 0);
-        dungeonCreateTileCenterQuadEffect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, angle, 1, 1);
+        create_tile_center_quad_effect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_angle, 0, 0);
+        create_tile_center_quad_effect((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, angle, 1, 1);
         part_index -= 1;
     } while (part_index >= 0);
-    target = dungeonFindObjectNearTileHeight(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
+    target = find_object_near_tile_height(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
     if (target != 0) {
-        func_8009CE1C(target, 0xC, (*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1)), 9, 0x400, 0, 3);
+        apply_attack_power_and_element_effects(target, 0xC, (*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1)), 9, 0x400, 0, 3);
     }
 }

@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void townClearEntityRecordFields(void *record);
-extern void townInitializeRecordWithHandlerTable(void *record, void *setup_value, s32 init_value);
+extern void clear_entity_record_fields(void *record);
+extern void initialize_record_with_handler_table(void *record, void *setup_value, s32 init_value);
 
 /* Move the position toward its target until the countdown expires, then finish the move. */
-void townMovePositionTowardTargetAndFinish(u8 *motion, u8 *position, s32 callback_arg) {
+void move_position_toward_target_and_finish(u8 *motion, u8 *position, s32 callback_arg) {
     s16 steps_left;
     s16 y_steps_left;
 
@@ -17,6 +17,6 @@ void townMovePositionTowardTargetAndFinish(u8 *motion, u8 *position, s32 callbac
     }
     *(u16 *)(position + 2) = *(u16 *)(motion + 0x30);
     *(u16 *)(position + 6) = *(u16 *)(motion + 0x32);
-    townClearEntityRecordFields(position);
-    townInitializeRecordWithHandlerTable(motion, position, callback_arg);
+    clear_entity_record_fields(position);
+    initialize_record_with_handler_table(motion, position, callback_arg);
 }

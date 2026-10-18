@@ -14,11 +14,11 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         direction_anims = ((u8 *)D_8017425C);
         (*(void * *)((u8 *)animation + 0x2C)) = direction_anims;
         func_80047784(animation,
-            direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            direction_anims[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
         return;
@@ -31,31 +31,31 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
 
             (*(void * *)((u8 *)animation + 0x2C)) = ((u8 *)D_80174264);
             func_80047784(animation,
-                ((u8 *)D_80174264)[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_80174264)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             entity->flags1C |= 0x40000;
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
             ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
             return;
         }
 
-        if (dungeonStatus.flags & 0x1000) {
+        if (g_dungeon_status.flags & 0x1000) {
             return;
         }
 
         if (entity->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(actor, context, animation, 0) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, animation, 0) != 0) {
                 return;
             }
         }
 
-        if ((func_800A2C34(entity) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             return;
         }
 
         entity_flags = ((u32)entity->flags1C);
         if (entity_flags & 0x100) {
-            dungeonBeginPushedActorMove(actor, context, animation, entity);
+            begin_pushed_actor_move(actor, context, animation, entity);
             return;
         }
 
@@ -63,7 +63,7 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
             u16 stored_value;
             u16 pending_decrement;
 
-            func_800AA888(actor, context, animation, entity);
+            begin_actor_move_to_target_facing(actor, context, animation, entity);
             stored_value = ((Rec_func_8017360C_arg0 *)actor)->unk_92;
             pending_decrement = ((Rec_func_8017360C_arg0 *)actor)->unk_A2;
             ((Rec_func_8017360C_arg0 *)actor)->unk_A2 = 0;
@@ -76,14 +76,14 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
         if (entity->unk_6D == 0) {
             return;
         }
-        if ((func_800A2C34(entity) << 16) != 0) {
-            if ((dungeonCheckEntityRelation(entity,
+        if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
+            if ((check_entity_relation(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(entity);
+        update_actor_status_and_food(entity);
         func_800A9A04(entity);
         if (entity->tileY == 0) {
             return;
@@ -91,19 +91,19 @@ void func_80173114(void *actor, void *context, void *animation, EntityRec *entit
 
         (*(void * *)((u8 *)animation + 0x2C)) = ((u8 *)D_80174264);
         func_80047784(animation,
-            ((u8 *)D_80174264)[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174264)[((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         entity->flags1C |= 0x40000;
-        dungeonStatus.unk_0A++;
+        g_dungeon_status.unk_0A++;
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
     }
         break;
     case 2:
         if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
 
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             entity->flags1C &= ~8;
-            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = ((void *)func_80171014);
+            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = ((void *)update_actor_state_and_dispatch_transition);
         }
 
         return;

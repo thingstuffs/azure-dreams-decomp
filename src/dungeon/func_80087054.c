@@ -12,31 +12,31 @@ typedef struct S_8008C7B4_0 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_8008C7B4_0;   /* arg0 in dungeonBeginPlayerWaitTurn */
+} S_8008C7B4_0;   /* arg0 in begin_player_wait_turn */
 
 
 extern M2C_UNK func_80048A44();
-extern void dungeonAppendPackedActionRecord();
-extern s32 func_800A5C70(void);
+extern void append_packed_action_record();
+extern s32 check_action_available_without_nearby_actor(void);
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
 /* Reset state, update control flags, and select the entity's directional sprite. */
-void dungeonBeginPlayerWaitTurn(void *state, s32 mode, void *sprite, EntityRec *entity) {
+void begin_player_wait_turn(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
     GameWork *flags;
     s32 initial_state;
 
     initial_state = 0x1C;
     ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
-    flags = &gameWork;
+    flags = &g_game_work;
     ((S_8008C7B4_0 *)state)->unk_9B = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
-    if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && func_800A5C70() != 0)) {
-        dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
+    if ((((SysPage *)0x80010000)->flags & 2) || ((flags->buttons & 0x20) && check_action_available_without_nearby_actor() != 0)) {
+        g_dungeon_status.flags = (u16)(g_dungeon_status.flags | 0x80);
     }
     entity_arg = entity;
-    dungeonAppendPackedActionRecord(entity_arg, 0x10, 0, 0);
+    append_packed_action_record(entity_arg, 0x10, 0, 0);
     {
         u8 *direction_table;
 
@@ -51,7 +51,7 @@ void dungeonBeginPlayerWaitTurn(void *state, s32 mode, void *sprite, EntityRec *
         {
             u8 *direction_entry;
 
-            initial_state = ((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            initial_state = ((s32)(g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }

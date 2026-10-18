@@ -9,10 +9,10 @@ typedef struct {
 } Entry;
 
 
-extern void func_8009A3D0(u8, u8, s32);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 
 /* Clear active entries at the target coordinates and update their map tile. */
-void func_800A7030(s16 target_x, s16 target_y) {
+void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
     Entry *entry;
     s32 *entry_state;
     s32 entry_index;
@@ -33,7 +33,7 @@ void func_800A7030(s16 target_x, s16 target_y) {
                 entry_y = entry->unk1;
                 if (entry_y == y) {
                     *entry_state = 0;
-                    func_8009A3D0(entry_x, entry_y, 0x800);
+                    update_map_cell_flags_with_item_limit(entry_x, entry_y, 0x800);
                 }
             }
         }

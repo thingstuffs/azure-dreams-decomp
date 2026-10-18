@@ -9,7 +9,7 @@ typedef struct S_80022C8C_0 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_80022C8C_0;   /* (void *)state in townInitializeGymMinigame */
+} S_80022C8C_0;   /* (void *)state in initialize_gym_minigame */
 
 typedef struct S_80022C8C_1 {
     u8 pad_00[0x4];
@@ -21,13 +21,13 @@ typedef struct S_80022C8C_1 {
     u8 pad_10[0xC];
     s16 unk_1C;
     s16 unk_1E;
-} S_80022C8C_1;   /* record in townInitializeGymMinigame */
+} S_80022C8C_1;   /* record in initialize_gym_minigame */
 
 typedef struct S_80022C8C_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80022C8C_2;   /* ((S_80022C8C_0 *)((void *)state))->unk_08 in townInitializeGymMinigame */
+} S_80022C8C_2;   /* ((S_80022C8C_0 *)((void *)state))->unk_08 in initialize_gym_minigame */
 
 
 #define NULL ((void *)0)
@@ -39,12 +39,12 @@ extern s32 D_800240B0;
 extern s32 D_80026F0C;
 extern s32 D_800F9B40;
 
-extern void townCreateGymMeshObject(void *, s32, void *, void *);
+extern void create_gym_mesh_object(void *, s32, void *, void *);
 extern void func_8004491C(void *, void *);
-extern void townConfigureTheSetModeN3(void *, void *, void *);
+extern void configure_the_set_mode_n_3(void *, void *, void *);
 
 /* Creates linked town objects at fixed positions and initializes their display data. */
-s32 townInitializeGymMinigame(void)
+s32 initialize_gym_minigame(void)
 {
     s32 position[6];
     s32 object_or_slot;
@@ -80,7 +80,7 @@ s32 townInitializeGymMinigame(void)
     position[0] = 0x03800000;
     position[1] = 0x02600000;
     position[2] = (s32)0xFFA00000;
-    townCreateGymMeshObject(position, 0x34, &D_8002390C, parent_link);
+    create_gym_mesh_object(position, 0x34, &D_8002390C, parent_link);
 
     object_or_slot = 3;
     left_x = 0x02700000;
@@ -108,7 +108,7 @@ loop_0:
             spawn_table = (void *)0x80020000;
         }
         spawn_table = (u8 *)spawn_table + 0x3920;
-        townCreateGymMeshObject(spawn_position, spawn_kind, spawn_table, parent_link);
+        create_gym_mesh_object(spawn_position, spawn_kind, spawn_table, parent_link);
         object_or_slot--;
 
     }
@@ -130,7 +130,7 @@ loop_0:
         object_data = (u8 *)object_or_slot + 0x20;
         (*(void * volatile *)((u8 *)object_data + 0x4C)) = shared_data;
 
-        townConfigureTheSetModeN3((u8 *)object_or_slot + 0x24,
+        configure_the_set_mode_n_3((u8 *)object_or_slot + 0x24,
                       ((S_80022C8C_0 *)((void *)object_or_slot))->unk_08,
                       &D_80026F0C);
 

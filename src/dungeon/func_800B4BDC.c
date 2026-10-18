@@ -13,10 +13,10 @@ typedef struct S_800BA33C_0 {
     s32 unk_1C;
     u8 pad_20[0x95];
     u8 unk_B5;
-} S_800BA33C_0;   /* arg0 in dungeonIsSelectableMenuTarget */
+} S_800BA33C_0;   /* arg0 in is_selectable_menu_target */
 
 /* Test flag 0x20000 for a valid object outside the excluded state. */
-s32 dungeonIsSelectableMenuTarget(S_800BA33C_0 *object) {
+s32 is_selectable_menu_target(S_800BA33C_0 *object) {
     s32 code;
     if ((object == NULL) || ((object->unk_13 == 0x18) && (object->unk_B5 == 1))) {
         return 0;

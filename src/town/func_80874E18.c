@@ -24,10 +24,10 @@ extern CallbackOwner *D_80701984[4];
 
 extern s32 func_80700D84(void);
 extern s32 func_80701060(s32 *word, s32 old_value);
-extern s32 func_807018AC(s16 value);
+extern s32 test_indexed_flag_bit(s16 value);
 
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
-s32 townRecordDevkitInputAndAdvanceSlot(s32 slot) {
+s32 record_devkit_input_and_advance_slot(s32 slot) {
     s32 callback;
 
     if (func_80700D84() > 0) {
@@ -47,7 +47,7 @@ s32 townRecordDevkitInputAndAdvanceSlot(s32 slot) {
     } else {
         STATE_ROOT->flags &= ~0x40000000;
     }
-    if (func_807018AC(D_80700BB2[0]) == 0) {
+    if (test_indexed_flag_bit(D_80700BB2[0]) == 0) {
         callback = D_80701984[0]->callback(2);
         if (callback == 0) {
             return slot;

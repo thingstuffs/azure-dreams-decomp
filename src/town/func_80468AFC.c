@@ -6,7 +6,7 @@ extern u8 D_800178FC[8];
 extern u8 D_80017918[8];
 
 /* Selects a byte table, using the current state to offset selector 2's table. */
-u8 *townSelectEventDataTable(s32 unused, s32 selector)
+u8 *select_event_data_table(s32 unused, s32 selector)
 {
     u8 *table;
 

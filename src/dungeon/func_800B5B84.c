@@ -2,14 +2,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-   /* state in dungeonDrawContentOrRect */
+   /* state in draw_content_or_rect */
 
 typedef struct S_800BB2E4_1 {
     u16 unk_00;
     union { u16 u; s16 s; } unk_02;   /* accessed as both */
     u16 unk_04;
     u16 unk_06;
-} S_800BB2E4_1;   /* arg2_r in dungeonDrawContentOrRect */
+} S_800BB2E4_1;   /* arg2_r in draw_content_or_rect */
 
 typedef struct S_800BB2E4_2 {
     u8 pad_00[0x3];
@@ -26,7 +26,7 @@ typedef struct S_800BB2E4_2 {
         struct { u16 v; } at00u;
         struct { u8 pad[0x2]; u16 v; } at02;
     } unk_0C;   /* overlapping accesses */
-} S_800BB2E4_2;   /* packet in dungeonDrawContentOrRect */
+} S_800BB2E4_2;   /* packet in draw_content_or_rect */
 
 
 typedef struct {
@@ -39,13 +39,13 @@ extern void func_80067E2C(void *, void *);
 extern void func_80067EF4(void *, s32, s32, ...);
 struct Position;
 struct Position;
-extern void func_800B8FC8(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
+extern void draw_transformed_sprite_with_clip_rect(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
 extern u8 D_801C9E40[16];
 
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
-void dungeonDrawContentOrRect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
+void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s32 content_id)
 {
     CoordPair bottom_center;
     u8 **state_addr;
@@ -57,8 +57,8 @@ void dungeonDrawContentOrRect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
     s32 y;
     s16 odd;
 
-    state_addr = (u8 **)((u8 *)(&gameWork));
-    state = *(u8 **)((u8 *)(&gameWork));
+    state_addr = (u8 **)((u8 *)(&g_game_work));
+    state = *(u8 **)((u8 *)(&g_game_work));
     ordering_table = state + 0x8B0;
     odd = state != D_801C9E40;
 
@@ -70,8 +70,8 @@ void dungeonDrawContentOrRect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
 
         bottom_center.x = ((S_800BB2E4_1 *)rect)->unk_00 + (s16)((S_800BB2E4_1 *)rect)->unk_04 / 2;
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
-        func_800B8FC8(content_id, rect, &bottom_center, 0, 0);
-        buf = *(u8 **)((u8 *)(&gameWork));
+        draw_transformed_sprite_with_clip_rect(content_id, rect, &bottom_center, 0, 0);
+        buf = *(u8 **)((u8 *)(&g_game_work));
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 1, 0);
@@ -90,7 +90,7 @@ void dungeonDrawContentOrRect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
         func_8006658C(ordering_table, packet);
 
-        buf = *(u8 **)((u8 *)(&gameWork));
+        buf = *(u8 **)((u8 *)(&g_game_work));
         primitive = ((GpuContext *)buf)->packetCursor;
         ((GpuContext *)buf)->packetCursor = primitive + 0xC;
         func_80067EF4(primitive, 0, 0);

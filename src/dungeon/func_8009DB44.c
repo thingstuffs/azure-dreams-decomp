@@ -7,7 +7,7 @@
 typedef struct S_800A32A4_1 {
     u8 pad_00[0x14A8];
     s32 unk_14A8;
-} S_800A32A4_1;   /* page_base in func_800A32A4 */
+} S_800A32A4_1;   /* page_base in detach_record_and_update_slot_state */
 
 typedef struct S_800A32A4_2 {
     u8 pad_00[0xAC];
@@ -24,7 +24,7 @@ typedef struct S_800A32A4_3 {
 typedef struct S_800A32A4_4 {
     u8 pad_00[0xD0];
     s32 unk_D0;
-} S_800A32A4_4;   /* computed_dest in func_800A32A4 */
+} S_800A32A4_4;   /* computed_dest in detach_record_and_update_slot_state */
 
 typedef struct S_800A32A4_5 {
     s32 unk_00;
@@ -49,11 +49,11 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];
 extern s32 D_800E3DF0[];
 extern void func_80042B68(void *, s32);
-extern void dungeonDecrementMonsterEntryCount();
+extern void decrement_monster_entry_count();
 extern void func_800A31D0();
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
-s32 func_800A32A4(void *record) {
+s32 detach_record_and_update_slot_state(void *record) {
     s16 update_mode;
     DungeonGlobalStatus *counter_base;
     s32 slot_offset;
@@ -131,14 +131,14 @@ scan_slots:
         if (!(state_flags & 0x4000)) {
             status_page = (u8 *)(state_flags & 0x2000);
             if (status_page) {
-                counter_base = &dungeonStatus;
+                counter_base = &g_dungeon_status;
                 if (counter_base->unk_1C != 0) {
                     counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
                 }
                 update_mode = 2;
             } else {
                 DungeonGlobalStatus *counter_base;
-                counter_base = &dungeonStatus;
+                counter_base = &g_dungeon_status;
                 if (counter_base->unk_1C != 0) {
                     counter_base->unk_1C = (s16)(((u16)counter_base->unk_1C) - 1);
                 }
@@ -147,7 +147,7 @@ scan_slots:
         }
     }
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
-        dungeonDecrementMonsterEntryCount((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
+        decrement_monster_entry_count((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)), update_mode);
     }
     return (s32)entry;
 }

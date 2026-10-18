@@ -7,14 +7,14 @@ typedef struct {
     void *object;
 } ObjectSlot;
 
-extern void townApplyObjectSetupAndUpdate(void *object, s32 update_context, s32 setup_context);
+extern void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
 
 /* Store the object in its slot, mark the slot inactive, and call the next handler. */
-void townStoreObjectSlotAndDispatch(void *object, s32 callback_arg1, s32 callback_arg2) {
+void store_object_slot_and_dispatch(void *object, s32 callback_arg1, s32 callback_arg2) {
     s32 slot_index;
 
     slot_index = *(s32 *)((u8 *)object + 0x60);
     D_80082660[slot_index].object = (u8 *)object - 0x20;
     D_80082660[*(s32 *)((u8 *)object + 0x60)].unk_00 = 0;
-    townApplyObjectSetupAndUpdate(object, callback_arg1, callback_arg2);
+    apply_object_setup_and_update(object, callback_arg1, callback_arg2);
 }

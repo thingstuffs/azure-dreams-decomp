@@ -59,28 +59,28 @@ extern char D_800E1F41[];
 
 typedef S_80042BDC *(*Ctor_80042BDC)(int a0, int a1, int a2, int a3);
 
-extern void          *func_800990FC(void);
-extern int            func_80099734(S_80042BDC *ent, void *ctx);
-extern int            func_80099194(char *str, int arg);
+extern void          *get_unused_text_buffer(void);
+extern int            append_entity_display_text(S_80042BDC *ent, void *ctx);
+extern int            expand_text_control_codes(char *str, int arg);
 extern int            func_80099290(int arg);
-extern void           func_800A5720(void *ctx);
-extern void           func_800AA53C(S_80042BDC *ent);
-extern void           func_800D5460(void *p, int a1, int a2);
-extern void          *func_800A1618(int a0, s16 a1);
-extern void           func_8009A3D0(int a0, int a1, int a2);
-extern Ctor_80042BDC  func_800A0B94(int a0, void *a1, int a2);
-extern void           drainCdCommandQueue(void);
+extern void           display_text_with_fullwidth_adjustment(void *ctx);
+extern void           refresh_actor_proximity_state(S_80042BDC *ent);
+extern void           create_colored_effect_with_event(void *p, int a1, int a2);
+extern void          *find_or_retain_sprite_resource_slot(int a0, s16 a1);
+extern void           update_map_cell_flags_with_item_limit(int a0, int a1, int a2);
+extern Ctor_80042BDC  load_monster_resource_data(int a0, void *a1, int a2);
+extern void           drain_cd_command_queue(void);
 extern void           func_8004397C(S_80042BDC *ent);
 extern void           func_80042710(S_80042BDC *obj, S_80042BDC *ent);
 extern void           func_80042984(S_80042BDC *obj);
-extern void           func_800A9A0C(S_80042BDC *obj);
-extern int            func_800A1BD0(S_80042BDC *ent);
-extern void           func_800AA888(S_80042BDC *obj, int a1, int a2, S_80042BDC *a3);
-extern void           func_800AC82C(S_80042BDC *obj, int a1, int a2, S_80042BDC *a3);
-extern void           func_800A32A4(S_80042BDC *ent);
-extern void           func_8009A028(S_80042BDC *ent);
-extern void           func_8009A21C(int a0, int a1, int a2);
-extern void           func_800AA36C(S_80042BDC *ent, int a1, S_80042BDC_child *a2, S_80042BDC *a3);
+extern void           update_actor_status_and_food(S_80042BDC *obj);
+extern int            find_entity_slot_by_field_ac(S_80042BDC *ent);
+extern void           begin_actor_move_to_target_facing(S_80042BDC *obj, int a1, int a2, S_80042BDC *a3);
+extern void           update_actor_transform_from_parent(S_80042BDC *obj, int a1, int a2, S_80042BDC *a3);
+extern void           detach_record_and_update_slot_state(S_80042BDC *ent);
+extern void           unlink_entity_node(S_80042BDC *ent);
+extern void           cycle_map_cell_flags(int a0, int a1, int a2);
+extern void           try_move_actor_to_valid_position(S_80042BDC *ent, int a1, S_80042BDC_child *a2, S_80042BDC *a3);
 extern void           func_80041E70(S_80042BDC *ent);
 
 /* Dispatch entity actions, update flags, and create a replacement entity when requested. */

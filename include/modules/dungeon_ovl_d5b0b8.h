@@ -79,7 +79,7 @@ typedef struct { Copy16 block[3]; } Copy48;
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-extern void dungeonCreateTrackedEffect(void *, s32, void *, void *);
+extern void create_tracked_effect(void *, s32, void *, void *);
 
 extern u8 D_800D5594[];
 extern s8 D_800DCECC[];

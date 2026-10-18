@@ -13,7 +13,7 @@ typedef struct {
 } Blk16;
 
 /* Initializes a record with a value and 48 bytes of data, then submits it. */
-void mainInitializeAndSubmitRecord(s32 value, void *data) {
+void initialize_and_submit_record(s32 value, void *data) {
     s32 *record;
     Blk16 *dst;
     Blk16 *src;

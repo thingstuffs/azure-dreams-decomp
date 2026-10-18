@@ -3,14 +3,14 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 
-void townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis();           /* extern */
-void townProcessSceneRecordUpdate();     /* extern */
-void townAddMotionDeltasToPosition();                      /* extern */
-void townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive();                      /* extern */
-void func_80095460();                      /* extern */
-void townUpdateTheSField10UsingCallee8008FE90();                   /* extern */
-s32 townUpdateObjectAndClearStatusFields();                      /* extern */
-void townTurnEntityTowardTarget();     /* extern */
+void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis();           /* extern */
+void process_scene_record_update();     /* extern */
+void add_motion_deltas_to_position();                      /* extern */
+void apply_the_enabled_movement_offsets_adding_z_offset_only_positive();                      /* extern */
+void store_position_and_compute_delta();                      /* extern */
+void update_the_s_field_10_using_callee_8008_fe_90();                   /* extern */
+s32 update_object_and_clear_status_fields();                      /* extern */
+void turn_entity_toward_target();     /* extern */
 extern s32 D_800903FC[];
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800FE490;
@@ -20,17 +20,17 @@ typedef struct S_800A5638_0_pre {
     s32 unk_00;
     u8 pad_04[0xA];
     u16 unk_0E;
-} S_800A5638_0_pre;   /* the 0x10 bytes before arg0 in townUpdateEffectRecordAndDispatch, addressed as arg0[-1] */
+} S_800A5638_0_pre;   /* the 0x10 bytes before arg0 in update_effect_record_and_dispatch, addressed as arg0[-1] */
 
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void townUpdateEffectRecordAndDispatch(void *handler, EntityRec *record, s32 context) {
-    townApplyTheEnabledMovementOffsetsAddingZOffsetOnlyPositive(record);
-    townUpdateTheSField10UsingCallee8008FE90(&D_800FE490);
-    townAddMotionDeltasToPosition(record);
-    townUpdateObjectAndClearStatusFields(record);
-    func_80095460(record);
-    townHandleResolveBoundingBoxOverlapsLinkedCollidersAlongLeastPenetratingAxis(&D_800CFCB4, record);
+void update_effect_record_and_dispatch(void *handler, EntityRec *record, s32 context) {
+    apply_the_enabled_movement_offsets_adding_z_offset_only_positive(record);
+    update_the_s_field_10_using_callee_8008_fe_90(&D_800FE490);
+    add_motion_deltas_to_position(record);
+    update_object_and_clear_status_fields(record);
+    store_position_and_compute_delta(record);
+    handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&D_800CFCB4, record);
     ((Rec_func_8009431C_arg0 *)handler)->unk_00.as_x78b360(handler, record, context);
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
         if (record->y.v <= 0x06500000) {
@@ -41,9 +41,9 @@ void townUpdateEffectRecordAndDispatch(void *handler, EntityRec *record, s32 con
             }
         }
         if (((S_800A5638_0_pre *)handler)[-1].unk_00 == &D_800903FC) {
-            townProcessSceneRecordUpdate(handler, record, context);
+            process_scene_record_update(handler, record, context);
             return;
         }
-        townTurnEntityTowardTarget(handler, record, context);
+        turn_entity_toward_target(handler, record, context);
     }
 }

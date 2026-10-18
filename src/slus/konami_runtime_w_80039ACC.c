@@ -8,13 +8,13 @@ typedef struct S_80039ACC_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
-} S_80039ACC_0;   /* arg0 in vmOp87InstallTerminatorAction */
+} S_80039ACC_0;   /* arg0 in vm_op_87_install_terminator_action */
 
 
 void func_80039AE8();
 
 /* Set the event-script continuation and decrement its counter. */
-void vmOp87InstallTerminatorAction(S_80039ACC_0 *script) {
+void vm_op_87_install_terminator_action(S_80039ACC_0 *script) {
     script->unk_10 = &func_80039AE8;
     script->unk_1C = (s32) (script->unk_1C - 1);
 }

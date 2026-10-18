@@ -2,9 +2,9 @@
 
 void func_80173530(Resource16CallbackState *state, void *entity, void *position, void *graphic)
 {
-    if (dungeonUpdateThrownActorTravel(state, entity, position, graphic)) {
-        if ((s16)dungeonCheckActorFloorTrap(position, graphic) > 0) {
-            state->callback = func_80171014;
+    if (update_thrown_actor_travel(state, entity, position, graphic)) {
+        if ((s16)check_actor_floor_trap(position, graphic) > 0) {
+            state->callback = update_actor_state_and_dispatch_transition;
         }
     }
 }

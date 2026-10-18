@@ -47,10 +47,10 @@ typedef struct S_8015E854_4 {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern s32 func_800A6D30();
-extern void func_800A48F0();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 extern u8 D_8015EA28[];
 extern u8 D_8015EE54;
 extern u8 D_80161C7C[];
@@ -58,5 +58,5 @@ extern u8 D_80161CDC[];
 
 /* Creates an actor, configures its parts and flags, and returns its work data. */
 
-void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id);
+void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id);
 #endif

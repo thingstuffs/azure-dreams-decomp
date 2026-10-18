@@ -10,16 +10,16 @@ typedef struct S_80173D40_0 {
     u8 pad_98[0x2];
     s8 unk_9A;
     s8 unk_9B;
-} S_80173D40_0;   /* arg0 in dungeonResetLinkedEntityState */
+} S_80173D40_0;   /* arg0 in reset_linked_entity_state */
 
 typedef struct S_80173D40_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_80173D40_1;   /* arg2 in dungeonResetLinkedEntityState */
+} S_80173D40_1;   /* arg2 in reset_linked_entity_state */
 
 
 /* Resets state to code 0x19 and updates the associated record flags. */
-void dungeonResetLinkedEntityState(S_80173D40_0 *state, M2C_UNK unused, S_80173D40_1 *flag_record, EntityRec *record) {
+void reset_linked_entity_state(S_80173D40_0 *state, M2C_UNK unused, S_80173D40_1 *flag_record, EntityRec *record) {
     state->unk_9A = 0x19;
     state->unk_9B = 0;
     state->unk_8C = 0;

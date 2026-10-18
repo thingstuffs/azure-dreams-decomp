@@ -18,7 +18,7 @@ extern void func_80038A10(void *state);
 
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void func_80038128(Func80038128State *state) {
-    GameWork *global = &gameWork;
+    GameWork *global = &g_game_work;
 
     if (state->field87 == 0) {
         if ((((u32)global->buttons) & 0x20) != 0) {

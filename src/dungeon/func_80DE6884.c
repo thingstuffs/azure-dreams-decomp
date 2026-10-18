@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void dungeonCreateFourDirectionalEffects(void *owner_arg, void *motion_arg, void *origin_arg) {
+void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
     E_80174084_S_80DE6884_5 *owner;
@@ -16,9 +16,9 @@ void dungeonCreateFourDirectionalEffects(void *owner_arg, void *motion_arg, void
     offsets[1] = 0;
     offsets[0] = 0;
     owner = owner_arg;
-    resolveRecordOrientationOrFallback(origin->unk_08, origin, (s16 *)offsets, 0);
+    resolve_record_orientation_or_fallback(origin->unk_08, origin, (s16 *)offsets, 0);
     effect_index = 0;
-    effect_data = (E_80174084_M2C_UNK *)((u32)func_80173F8C);
+    effect_data = (E_80174084_M2C_UNK *)((u32)dampen_actor_motion);
     do {
         effect = func_8003FC64(0x212);
         if (effect != NULL) {

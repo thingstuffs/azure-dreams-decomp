@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p04.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
+void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *actor)
 {
     s32 state;
     s32 arc_ticks;
@@ -67,7 +67,7 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
+            set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
             animation->unk_9B++;
         }
         break;
@@ -84,11 +84,11 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, tile->unk_24, tile->unk_25);
-    dungeonReduceActorFoodMeter(actor, 4);
-    dungeonAdvanceStatusTimers(actor);
+    set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
+    reduce_actor_food_meter(actor, 4);
+    advance_status_timers(actor);
 
-    global_base = &dungeonStatus;
+    global_base = &g_dungeon_status;
     if (global_base->unk_08 != 0) {
         (*(u16 *)&global_base->unk_08)--;
     }
@@ -100,7 +100,7 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+            actor->facing = get_rounded_facing_and_rounding_flag(
                 tile->unk_24,
                 tile->unk_25,
                 D_80082E80.tileX,
@@ -108,8 +108,8 @@ void func_8017406C(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, Rec_D_
                 &coord_result);
         }
     }
-    if ((dungeonCheckActorFloorTrap(tile, actor) << 16) > 0) {
-        animation->unk_8C = dungeonUpdateActorBehavior;
+    if ((check_actor_floor_trap(tile, actor) << 16) > 0) {
+        animation->unk_8C = update_actor_behavior;
         func_800A9A04(actor);
     }
 }

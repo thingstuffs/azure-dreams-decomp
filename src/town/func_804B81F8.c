@@ -13,7 +13,7 @@ typedef struct S_800169F8_1 {
 s32 func_8001894C();                         /* extern */
 
 /* Decrement the current entry counter when condition 0x514 is active. */
-void func_800169F8(void) {
+void decrement_current_entry_counter_condition(void) {
     u8 counter;
     S_800169F8_1 *entry;
 

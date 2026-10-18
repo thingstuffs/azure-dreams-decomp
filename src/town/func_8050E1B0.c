@@ -5,7 +5,7 @@ extern s16 D_80017614;
 extern void func_80017380(s32);
 extern void func_800173F8(s32);
 
-void func_800161B0(void)
+void advance_counter_and_dispatch_event(void)
 {
     s16 temp;
 

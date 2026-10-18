@@ -20,7 +20,7 @@ extern s32 func_800644B8(s32, s32);
 
 
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
-void dungeonUpdatePositionHistoryAndShading(u8 *obj, u8 *coords_out, u8 *rgb)
+void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
 {
     u8 *linked_obj;
     u8 *linked_data;
@@ -70,9 +70,9 @@ copy_history:
     if (linked_obj == 0) {
         switch (S16_AT(obj, 0x64)) {
         case 0:
-            direction_offset = ((-S16_AT(((u8 *)(&gameWork.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
+            direction_offset = ((-S16_AT(((u8 *)(&g_game_work.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
             room = &D_80082E80;
-            x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
+            x_adjust = (s16 *)(((u8 *)dir_step_x) + direction_offset);
             {
                 s32 x_target;
                 s32 x_current;
@@ -81,7 +81,7 @@ copy_history:
                 x_current = S16_AT(obj, 0x0E) - 0x20;
                 U16_AT(obj, 0x0E) += (x_target - x_current) / S16_AT(obj, 0x66);
             }
-            y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
+            y_adjust = (s16 *)(((u8 *)dir_step_y) + direction_offset);
             {
                 s32 y_target;
                 s32 y_current;
@@ -121,7 +121,7 @@ copy_history:
                 current_z = S16_AT(obj, 0x16);
                 if (previous_z == current_z) {
                     U16_AT(obj, -2) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
+                    object_flag_block.flags |= 0x8000;
                     return;
                 }
             }
@@ -154,7 +154,7 @@ copy_history:
             current_z = (s16)z;
             if (previous_z == current_z) {
                 U16_AT(obj, -2) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
         }

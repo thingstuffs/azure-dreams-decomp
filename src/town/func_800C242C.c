@@ -29,7 +29,7 @@ typedef struct S_800BFB8C_1 {
 typedef struct S_800BFB8C_2 {
     u8 pad_00[0xBC];
     s16 unk_BC;
-} S_800BFB8C_2;   /* town in townSpawnRandomizedTimedObjects */
+} S_800BFB8C_2;   /* town in spawn_randomized_timed_objects */
 
 typedef struct S_800BFB8C_3 {
     u8 pad_00[0xC];
@@ -53,7 +53,7 @@ extern M2C_UNK D_800BFD14;
 extern M2C_UNK D_800BFFF4;
 
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
-void townSpawnRandomizedTimedObjects(void *source)
+void spawn_randomized_timed_objects(void *source)
 {
     s16 fixed_coord = 0;
     s16 state;
@@ -76,7 +76,7 @@ void townSpawnRandomizedTimedObjects(void *source)
     count_bits = ((S_800BFB8C_0 *)source)->unk_0E;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
-    town = &gameWork;
+    town = &g_game_work;
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
@@ -122,7 +122,7 @@ void townSpawnRandomizedTimedObjects(void *source)
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
             (u16)(((S_800BFB8C_0_pre *)source)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 
     return;

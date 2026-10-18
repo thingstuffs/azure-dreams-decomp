@@ -41,5 +41,5 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-s32 func_80158884(u8 *object_data, u16 *position);
+s32 queue_linked_object_draw_packets(u8 *object_data, u16 *position);
 #endif

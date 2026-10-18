@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void createRandomizedGrayscaleEffect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
+void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
     ovl_188898c_81868A64_S_81868A64_1 *render_state;
     ovl_188898c_81868A64_S_81868A64_2 *effect_pos;
     ovl_188898c_81868A64_S_81868A64_0 *effect;
@@ -8,7 +8,7 @@ void createRandomizedGrayscaleEffect(s32 user_data, ovl_188898c_81868A64_S_81868
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         render_state = effect->unk_0C;
-        effect->unk_10 = (void *)advanceFadingEffect;
+        effect->unk_10 = (void *)advance_fading_effect;
         effect->unk_20 = user_data;
         render_state->unk_0E = intensity;
         render_state->unk_0D = intensity;

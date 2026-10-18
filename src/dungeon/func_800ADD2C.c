@@ -8,14 +8,14 @@
 #include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_80048A44(); /* extern */
-void dungeonProcessUnflaggedLinkedEntries();                         /* extern */
-s32 dungeonResolveAttackDamageAndEffects();    /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s32 func_800A56E0();                     /* extern */
-void dungeonAllocatePayloadObject();        /* extern */
-void dungeonApplyEffectBonuses();          /* extern */
-s32 dungeonUpdateAttachedEffectState();             /* extern */
-s32 dungeonSelectNearbyTargetAndInitializeSlot(); /* extern */
+void process_unflagged_linked_entries();                         /* extern */
+s32 resolve_attack_damage_and_effects();    /* extern */
+void set_record_integer_tile_center();              /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+void allocate_payload_object();        /* extern */
+void apply_effect_bonuses();          /* extern */
+s32 update_attached_effect_state();             /* extern */
+s32 select_nearby_target_and_initialize_slot(); /* extern */
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
@@ -50,33 +50,33 @@ typedef struct S_800B348C_0 {
     s32 unk_F4;
     u8 pad_F8[0xA];
     u8 unk_102;
-} S_800B348C_0;   /* action_state in advanceActorAttackSequence */
+} S_800B348C_0;   /* action_state in advance_actor_attack_sequence */
 
 
 typedef struct S_800B348C_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800B348C_4_pre;   /* the 0x14 bytes before attack_target in advanceActorAttackSequence, addressed as attack_target[-1] */
+} S_800B348C_4_pre;   /* the 0x14 bytes before attack_target in advance_actor_attack_sequence, addressed as attack_target[-1] */
 
 typedef struct S_800B348C_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800B348C_4;   /* attack_target in advanceActorAttackSequence */
+} S_800B348C_4;   /* attack_target in advance_actor_attack_sequence */
 
 typedef struct S_800B348C_6 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800B348C_6;   /* end_base in advanceActorAttackSequence */
+} S_800B348C_6;   /* end_base in advance_actor_attack_sequence */
 
 typedef struct S_800B348C_7 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800B348C_7;   /* ((S_800B348C_4_pre *)attack_target)[-1].unk_00 in advanceActorAttackSequence */
+} S_800B348C_7;   /* ((S_800B348C_4_pre *)attack_target)[-1].unk_00 in advance_actor_attack_sequence */
 
 /* Advances the attack and mixing sequence, resetting element flags at its start and finish. */
-void advanceActorAttackSequence(void *action_state, void *motion, void *animation, EntityRec *actor) {
+void advance_actor_attack_sequence(void *action_state, void *motion, void *animation, EntityRec *actor) {
     u8 *windup_animations;
     u8 *attack_animations;
     u8 *mix_animations;
@@ -102,7 +102,7 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
     case 1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
-            func_80048A44(animation, D_800DD030[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            func_80048A44(animation, D_800DD030[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             if ((u16) ((S_800B348C_0 *)action_state)->unk_A6 >= 2U) {
@@ -115,9 +115,9 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
     case 2:
         if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
-            dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, motion, 8, 0x300);
+            select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-            func_80048A44(animation, D_800DD068[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            func_80048A44(animation, D_800DD068[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
@@ -127,11 +127,11 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
     case 3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             launch_direction_offset = ((u16) actor->facing >> 8) & 0xE;
-            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + launch_direction_offset) << 0x11);
-            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + launch_direction_offset) << 0x11);
+            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + launch_direction_offset) << 0x11);
+            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + launch_direction_offset) << 0x11);
             ((EntityRec *)motion)->flags14 = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
-            func_80048A44(animation, D_800DD070[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            func_80048A44(animation, D_800DD070[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             {
                 u8 *next_animations;
@@ -152,7 +152,7 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
-            func_80048A44(animation, *(windup_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+            func_80048A44(animation, *(windup_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             {
                 u8 *next_v1;
@@ -188,10 +188,10 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
             if (((s32)actor->unk_4C) != 0) {
                 sound_id = 0x605;
             }
-            func_800A56E0(sound_id);
+            play_sound_if_enabled(sound_id);
             attack_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = attack_animations;
-            func_80048A44(animation, *(attack_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+            func_80048A44(animation, *(attack_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
@@ -212,21 +212,21 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
             resume_direction_offset = ((u16) actor->facing >> 8) & 0xE;
-            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + resume_direction_offset) << 0x11);
-            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dirStepY) + resume_direction_offset) << 0x11);
+            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + resume_direction_offset) << 0x11);
+            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + resume_direction_offset) << 0x11);
             ((EntityRec *)motion)->flags14 = vertical_velocity;
             ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xF7FF);
             ((S_800B348C_0 *)action_state)->unk_96.u = 4U;
             ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xFFF7);
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
-            dungeonAllocatePayloadObject(action_state - 0x20, ((S_800B348C_0 *)action_state)->unk_F4, 0x40);
+            allocate_payload_object(action_state - 0x20, ((S_800B348C_0 *)action_state)->unk_F4, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
-            func_80048A44(animation, *(mix_animations + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+            func_80048A44(animation, *(mix_animations + (((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                 >> 9) & 7)), 0, 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD088;
-            dungeonApplyEffectBonuses(((S_800B348C_0 *)action_state)->unk_A8, actor->target, actor);
+            apply_effect_bonuses(((S_800B348C_0 *)action_state)->unk_A8, actor->target, actor);
             return;
         }
         break;
@@ -240,9 +240,9 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
                 s32 attack_target;
 
-                attack_target = dungeonResolveAttackDamageAndEffects(actor, animation, actor->facing, 1);
+                attack_target = resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
                 if (attack_target != 0) {
-                    dungeonUpdateAttachedEffectState(((S_800B348C_0 *)action_state)->unk_A8, attack_target, actor);
+                    update_attached_effect_state(((S_800B348C_0 *)action_state)->unk_A8, attack_target, actor);
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                 } else {
                     attack_target = (s32)actor->target;
@@ -264,7 +264,7 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0)
             && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
-            func_80048A44(animation, D_800DD088[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            func_80048A44(animation, D_800DD088[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = D_800DD090;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
@@ -280,7 +280,7 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
             }
             if ((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0) {
                 (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD090;
-                func_80048A44(animation, D_800DD090[((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+                func_80048A44(animation, D_800DD090[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
                 ((S_800B348C_0 *)action_state)->unk_CC = D_800DD098;
                 ((S_800B348C_0 *)action_state)->unk_9B = 9U;
@@ -296,7 +296,7 @@ void advanceActorAttackSequence(void *action_state, void *motion, void *animatio
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             ((EntityRec *)motion)->flags14 = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
-            func_80048A44(animation, D_800DD098[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            func_80048A44(animation, D_800DD098[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
@@ -325,19 +325,19 @@ bump_state_9b:
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
                 void *case10_animation;
                 case10_animation = animation;
                 (*(u8 **)((u8 *)case10_animation + 0x2C)) = D_800DD0A0;
-                func_80048A44(case10_animation, D_800DD0A0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100)
+                func_80048A44(case10_animation, D_800DD0A0[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }
-            dungeonProcessUnflaggedLinkedEntries(actor->unk_5C);
-            end_base = (s32 *)((u32)&dungeonStatus.unk_00);
+            process_unflagged_linked_entries(actor->unk_5C);
+            end_base = (s32 *)((u32)&g_dungeon_status.unk_00);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
-            ((S_800B348C_0 *)action_state)->unk_8C = dungeonHandlePlayerInput;
+            ((S_800B348C_0 *)action_state)->unk_8C = handle_player_input;
             end_timer_state = D_800DF248[0];
             actor->flags14 &= end_mask;
             if (end_timer_state == 0) {

@@ -2,7 +2,7 @@
 
 void func_8004D614(void)
 {
-    u8 *state = (u8 *)(&gameWork.view);
+    u8 *state = (u8 *)(&g_game_work.view);
 
     bzero(state + 0x9C, 8);
     *(s32 *)(state + 0x94) = D_80080B60;

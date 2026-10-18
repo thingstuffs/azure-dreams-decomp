@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 townSelectObjectSetupPath(void *object, s32 request_data, s32 request_param, s32 check_param);
+extern s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
-extern s32 *townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(void *box_a, void *box_b);
-extern void townInitializeObjectFromContext(void *object, void *unusedArg, s32 initValue);
+extern s32 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(void *box_a, void *box_b);
+extern void initialize_object_from_context(void *object, void *unusedArg, s32 initValue);
 
 extern u8 D_800CFCB4[];
 
@@ -13,13 +13,13 @@ extern u8 D_800CFCB4[];
 #define S32_AT(p, off) (*(s32 *)((u8 *)(p) + (off)))
 
 /* Update the object's orbit, apply a movement offset, and advance its timed state. */
-void townUpdateObjectOrbitAndTimer(void *object, void *position, s32 update_arg, s32 check_param) {
+void update_object_orbit_and_timer(void *object, void *position, s32 update_arg, s32 check_param) {
     s32 *motion_entry;
     s32 axis;
     u16 angle;
     u16 timer;
 
-    if (townSelectObjectSetupPath(object, (s32)position, update_arg, check_param) != 0) {
+    if (select_object_setup_path(object, (s32)position, update_arg, check_param) != 0) {
         return;
     }
 
@@ -33,7 +33,7 @@ void townUpdateObjectOrbitAndTimer(void *object, void *position, s32 update_arg,
         func_80064584(S16_AT(object, 0x86)) / (0x1000 / S16_AT(object, 0x84)) -
         U16_AT(object, 0x84);
 
-    motion_entry = townGetSmallestSignedOverlapAxisAmountTwoIntersectingBoxes(object, D_800CFCB4);
+    motion_entry = get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(object, D_800CFCB4);
     if (motion_entry != 0 && (axis = motion_entry[0]) != 2) {
         if (axis == 0) {
             S32_AT(position, 0) -= motion_entry[1];
@@ -47,5 +47,5 @@ void townUpdateObjectOrbitAndTimer(void *object, void *position, s32 update_arg,
             return;
         }
     }
-    townInitializeObjectFromContext(object, position, update_arg);
+    initialize_object_from_context(object, position, update_arg);
 }

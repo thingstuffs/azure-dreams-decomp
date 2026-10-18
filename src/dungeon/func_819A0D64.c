@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-s32 func_80024564(void *state, void *position, void *appearance) {
+s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     Row_819A0D64_GapNode *node;
     for (;;) {
         func_8002408C(state, position, appearance, 0);

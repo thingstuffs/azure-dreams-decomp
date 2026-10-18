@@ -33,16 +33,16 @@ struct Position;
 struct ProjectileSelf;
 
 void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control);
-void func_80024CD4(s32 draw_param_a, s32 draw_param_b, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
-s32 dungeonDrawLinkedBrightnessPoints(struct PointRecord *start_node, EntityRec *start_coords);
-s32 func_8002512C(void);
-void dungeonRaiseEntityToGround(struct PointRecord *state, EntityRec *position);
-void dungeonCreateRandomJitterChild( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void dungeonAdvanceRecordCounter(struct CountdownRecord *record);
-void func_80025398(void *effect, void *unused, void *primitive);
-void dungeonAdvanceGrayscaleFade(struct Func818F9D8CState *state, s32 unused, u8 *out);
-void func_80025648(void *state, void *position_out, void *effect_arg);
-void func_8002592C(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data);
-s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, struct Position *restore_area, struct Position *draw_pos, u32 clear_area, s32 draw_option);
+s32 draw_linked_brightness_points(struct PointRecord *start_node, EntityRec *start_coords);
+s32 advance_effect_sequence(void);
+void raise_entity_to_ground(struct PointRecord *state, EntityRec *position);
+void create_random_jitter_child( ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
+void advance_record_counter(struct CountdownRecord *record);
+void process_five_context_entries_or_fallback(void *effect, void *unused, void *primitive);
+void advance_grayscale_fade(struct Func818F9D8CState *state, s32 unused, u8 *out);
+void update_timed(void *state, void *position_out, void *effect_arg);
+void set_record_pair_to_one(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data);
+s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 rand(void);
 #endif

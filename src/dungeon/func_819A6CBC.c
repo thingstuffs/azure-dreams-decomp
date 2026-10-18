@@ -65,11 +65,11 @@ typedef struct {
 } CopyDestination __attribute__((packed));
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 resolveRecordOrientationOrFallback();       /* extern */
+s32 resolve_record_orientation_or_fallback();       /* extern */
 s32 func_800644B8(s32, s16 *); /* extern */
 extern u16 func_80066460(s32, s32, s32, s32); /* extern */
 s32 rand();                                /* extern */
-void dungeonUpdateRandomizedIntermediatePoints(void *);
+void update_randomized_intermediate_points(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
 void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
@@ -90,7 +90,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
                         /* fall through */
     case 1:
-        if (resolveRecordOrientationOrFallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
                 - position->unk_00.at02.v) << 0xE));
@@ -105,7 +105,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
                 effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
                 effect_data = effect + 0x20;
                 if (effect != NULL) {
-                    ((S_800244BC_3 *)effect)->unk_10 = dungeonUpdateRandomizedIntermediatePoints;
+                    ((S_800244BC_3 *)effect)->unk_10 = update_randomized_intermediate_points;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
@@ -127,7 +127,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
         }
         break;
     case 2:
-        if (resolveRecordOrientationOrFallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
                 - position->unk_00.at02.v) << 0xF));
@@ -138,7 +138,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
         }
         if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
             ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }
         break;
     }

@@ -14,14 +14,14 @@ typedef struct S_8185C860_1 {
     u8 unk_25;
 } S_8185C860_1;
 
-s32 func_800A2CB8();
-s32 dungeonCheckEntityEligibility();
-s32 func_800A6D30();
-s32 dungeonTryApplyStatusEffect();
+s32 check_entity_interaction_compatibility();
+s32 check_entity_eligibility();
+s32 generate_random_value();
+s32 try_apply_status_effect();
 extern u8 D_800E3D68;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
-void dungeonApplyRandomizedEffectNearCenter(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
+void apply_randomized_effect_near_center(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
     M2C_UNK effect_code;
     s16 base_value;
     s32 effect_value;
@@ -33,7 +33,7 @@ void dungeonApplyRandomizedEffectNearCenter(s16 center_x, s16 center_y, M2C_UNK 
     target = ((u8 *)D_800E3D7C);
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
-        if ((func_800A2CB8(source, target) << 0x10) != 0) {
+        if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
             position = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_00;
             distance_x = position->unk_24 - center_x;
             if (distance_x < 0) {
@@ -45,13 +45,13 @@ void dungeonApplyRandomizedEffectNearCenter(s16 center_x, s16 center_y, M2C_UNK 
                     distance_y = 0 - distance_y;
                 }
                 if (distance_y < 3) {
-                    if ((dungeonCheckEntityEligibility(target) << 0x10) != 0) {
-                        effect_value = base_value + (func_800A6D30() & 3);
+                    if ((check_entity_eligibility(target) << 0x10) != 0) {
+                        effect_value = base_value + (generate_random_value() & 3);
                         effect_code = 0x20;
                         if (D_800E3D68 == 0xFF) {
                             effect_code = 0xFF;
                         }
-                        dungeonTryApplyStatusEffect(target, effect_code, effect_value);
+                        try_apply_status_effect(target, effect_code, effect_value);
                     }
                 }
             }

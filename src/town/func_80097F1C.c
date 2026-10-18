@@ -22,10 +22,10 @@ typedef struct S_8009567C_3 {
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 
-extern s16 townInputAngleWithOffset(s32, s16);
+extern s16 input_angle_with_offset(s32, s16);
 
 /* Selects an available entry matching the current direction and returns its status. */
-s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus(void *record)
+s32 select_an_available_entry_matching_direction_returns_status(void *record)
 {
     s16 *direction_ptr;
     s16 angle;
@@ -37,7 +37,7 @@ s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus(void *record)
     s32 direction_index;
     S_8009567C_3 *entry;
 
-    angle = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
+    angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
     if (angle != -1) {
         direction_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

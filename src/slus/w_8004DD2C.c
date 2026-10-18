@@ -18,7 +18,7 @@ void func_8004DD2C(void *context)
     entry_value = buffer_value;
     D_80083D98[write_index] = entry_value;
     D_80081554 = header_index + 1;
-    runtimeRegisterObjectOrFallbackSlot(context);
+    runtime_register_object_or_fallback_slot(context);
 
     buffer_value = D_80081554;
     write_index = buffer_value;

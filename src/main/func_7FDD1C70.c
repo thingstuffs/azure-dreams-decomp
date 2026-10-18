@@ -91,17 +91,17 @@ extern s32 D_80053A88;
 extern s8 D_80080A84;
 extern M2C_UNK D_80088760;
 void func_80088B48();  /* extern */
-void mainUpdateSettingsEffectObject();  /* extern */
-void mainUpdateSettingsMenuAnimation();  /* extern */
-void mainUpdateSettingsEffect();  /* extern */
-void mainUpdateSettingsPhaseMotion();  /* extern */
+void update_settings_effect_object();  /* extern */
+void update_settings_menu_animation();  /* extern */
+void update_settings_effect();  /* extern */
+void update_settings_phase_motion();  /* extern */
 extern M2C_UNK D_8008B230;
 extern M2C_UNK D_8008B270;
 
 typedef struct { s32 a, b, c; } Desc3;
 
 /* Creates a controller and its linked sprites and effect objects. */
-void mainCreateSettingsController(void) {
+void create_settings_controller(void) {
     s32 sprite_ids[3];
     s32 child_index;
     s32 sprite_y;
@@ -122,8 +122,8 @@ void mainCreateSettingsController(void) {
     object = func_8003FC64(0x11);
     if (object != NULL) {
         parent_state = object + 0x20;
-        ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsMenuAnimation;
-        func_8004491C(object, mainQueueSettingsSpriteGrid);
+        ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_menu_animation;
+        func_8004491C(object, queue_settings_sprite_grid);
         ((S_80088BD0_1 *)parent_state)->unk_22 = 0x708;
         ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xF0;
         ((S_80088BD0_1 *)parent_state)->unk_1A = 0;
@@ -141,7 +141,7 @@ void mainCreateSettingsController(void) {
         if (object != NULL) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
-            ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsEffectObject;
+            ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_effect_object;
             func_8004491C(object, &D_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x40;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = sprite_y;
@@ -184,7 +184,7 @@ void mainCreateSettingsController(void) {
         if (object != NULL) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
-            ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsPhaseMotion;
+            ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_phase_motion;
             func_8004491C(object, &D_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xE9;
             if (child_index != 0) {
@@ -207,7 +207,7 @@ void mainCreateSettingsController(void) {
     } while (child_index >= 0);
     object = func_8003FC64(1);
     if (object != NULL) {
-        ((S_80088BD0_0 *)object)->unk_10 = (void *)mainUpdateSettingsEffect;
+        ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_effect;
         ((S_80088BD0_0 *)object)->unk_20.p32 = parent_state;
         ((S_80088BD0_0 *)object)->unk_2E = 0xE00;
     }

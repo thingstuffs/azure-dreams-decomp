@@ -5,12 +5,12 @@
 extern s32 func_8004491C();
 s32 rand();                                /* extern */
 struct DungeonObject;
-extern s32 dungeonDrawParticleEffectPrimitives(struct DungeonObject *object, u16 *position);
+extern s32 draw_particle_effect_primitives(struct DungeonObject *object, u16 *position);
 
 
 typedef struct S_800BAF04_0_pre {
     u16 unk_00;
-} S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceParticleEffectState, addressed as arg0[-1] */
+} S_800BAF04_0_pre;   /* the 0x2 bytes before arg0 in advance_particle_effect_state, addressed as arg0[-1] */
 
 typedef struct S_800BAF04_0 {
     u8 pad_00[0xA];
@@ -21,7 +21,7 @@ typedef struct S_800BAF04_0 {
     u8 unk_11;
     u8 pad_12[0x20];
     u8 unk_32;
-} S_800BAF04_0;   /* arg0 in dungeonAdvanceParticleEffectState */
+} S_800BAF04_0;   /* arg0 in advance_particle_effect_state */
 
 typedef struct S_800BAF04_1 {
     u8 pad_00[0x12];
@@ -29,7 +29,7 @@ typedef struct S_800BAF04_1 {
 } S_800BAF04_1;
 
 /* Initializes random values, advances counters, and flags the object when inactive. */
-void dungeonAdvanceParticleEffectState(void *object) {
+void advance_particle_effect_state(void *object) {
     s16 next_index;
     s16 state;
     s16 sample_index;
@@ -52,7 +52,7 @@ void dungeonAdvanceParticleEffectState(void *object) {
         ((S_800BAF04_0 *)object)->unk_10 = 0;
         ((S_800BAF04_0 *)object)->unk_32 = 0U;
         ((S_800BAF04_0 *)object)->unk_11 = 1U;
-        func_8004491C(object - 0x20, dungeonDrawParticleEffectPrimitives);
+        func_8004491C(object - 0x20, draw_particle_effect_primitives);
         ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
     }
     cycle_tick = ((S_800BAF04_0 *)object)->unk_0E + 1;
@@ -68,6 +68,6 @@ void dungeonAdvanceParticleEffectState(void *object) {
     }
     if (((S_800BAF04_0 *)object)->unk_11 == 0) {
         ((S_800BAF04_0_pre *)object)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)object)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

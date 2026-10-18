@@ -92,7 +92,7 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
         state->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
         state->unk_10 = extent;
         state->unk_12 = extent;
-        func_8004491C(effect, projectShadedPointsToOrderingTable);
+        func_8004491C(effect, project_shaded_points_to_ordering_table);
         state->unk_00 = initial_value;
     }
 }

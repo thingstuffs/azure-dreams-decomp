@@ -6,7 +6,7 @@ extern struct S_80082EA8 {
 } D_80082EA8;
 
 /* Looks up a table value using the signed low 16 bits of the index. */
-s32 townLookupSignedIndexValue(s32 index) {
+s32 lookup_signed_index_value(s32 index) {
     s32 *table = **D_80082EA8.p;
     index = (index << 0x10) >> 0xE;
     index += (s32)table;

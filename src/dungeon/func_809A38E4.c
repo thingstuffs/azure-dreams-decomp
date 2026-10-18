@@ -6,7 +6,7 @@ static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)
 }
 
 /* Emit colored quads between two concentric elliptical arcs. */
-void dungeonEmitConcentricEllipseQuads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
+void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment)
 {
@@ -44,7 +44,7 @@ void dungeonEmitConcentricEllipseQuads(u16 radius_a_x, u16 radius_a_y, u16 radiu
     vertex_data = (u8 *)((s16)start_segment);
     angle = (s32)vertex_data << 7;
     radii.inner_x = radius_a_x;
-    graphics_ptr = &gameWork.unk_000;
+    graphics_ptr = &g_game_work.unk_000;
     graphics = *graphics_ptr;
     graphics = (ovl_9c32d4_809A38E4_GraphicsState *)((u8 *)graphics + 0x8D0);
     prim = *(u8 **)graphics;

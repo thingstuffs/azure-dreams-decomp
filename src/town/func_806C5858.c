@@ -12,7 +12,7 @@ extern void func_80018CEC(s32);
 extern s32 func_80018D6C(s32);
 
 /* Selects event data when flag conditions match, otherwise clears two event flags. */
-s32 townSelectEventDataOrClearFlags(void) {
+s32 select_event_data_or_clear_flags(void) {
     if ((func_80018D6C(0x7D1) != 0) &&
         (func_80018D6C(0x7D2) == 0) &&
         (func_80018D6C(0xFDC) != 0)) {

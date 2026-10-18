@@ -12,7 +12,7 @@ typedef struct S_8016F304_0 {
 } S_8016F304_0;
 
 /* Sets the state ID and clears the associated byte and halfword. */
-void dungeonSetMultiFormActorAction(s8 state_id) {
+void set_multi_form_actor_action(s8 state_id) {
     S_8016F304_0 *state;
 
     state = D_80175D50 + 0x20;

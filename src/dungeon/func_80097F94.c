@@ -6,7 +6,7 @@
 typedef struct S_8009D6F4_1 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_8009D6F4_1;   /* ((((row << shift) + col) * 6) + table) in dungeonRefreshPackedGridNibbles */
+} S_8009D6F4_1;   /* ((((row << shift) + col) * 6) + table) in refresh_packed_grid_nibbles */
 
 
 
@@ -18,7 +18,7 @@ typedef struct S_8009D6F4_0 {
 } S_8009D6F4_0;
 
 /* Refresh nonzero packed grid nibbles from clamped table values, then pass on the saved data. */
-void dungeonRefreshPackedGridNibbles(void) {
+void refresh_packed_grid_nibbles(void) {
     TransitionWords saved_data;
     TransitionWords *data_source;
     register u8 *base;
@@ -40,7 +40,7 @@ void dungeonRefreshPackedGridNibbles(void) {
     base = D_800E50A8;
     cursor = base;
     row_index = 0;
-    state = ((u8 *)(&gameWork));
+    state = ((u8 *)(&g_game_work));
     grid_dims = state + 0x1DC;
     if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
         s32 col_index;

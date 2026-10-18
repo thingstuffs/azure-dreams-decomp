@@ -4,7 +4,7 @@
 
 extern void func_80035208();
 extern void func_800478B8();
-extern void func_8008B620();
+extern void send_resource_command_23();
 
 extern u8 D_80072210[];
 extern u8 D_80072214[];
@@ -14,8 +14,8 @@ extern u8 D_800FC418;
 extern u8 D_800D2EA4;
 
 /* Handle input and update the object display position for its current state. */
-void func_8008BC58(u8 *object, void *transform, void *context) {
-    GameWork *input = &gameWork;
+void handle_town_map_input(u8 *object, void *transform, void *context) {
+    GameWork *input = &g_game_work;
     u8 *entries = *(u8 **)(object + 0x7C);
     s16 state;
 
@@ -70,12 +70,12 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
             if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {
                 *(s32 *)(object + 0x74) = 0;
             }
-            func_8008B620(entries[*(s32 *)(object + 0x74)]);
+            send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
         } else if (buttons & 0x9000) {
             if (--*(s32 *)(object + 0x74) < 0) {
                 *(s32 *)(object + 0x74) = *(s32 *)(object + 0x78) - 1;
             }
-            func_8008B620(entries[*(s32 *)(object + 0x74)]);
+            send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
         }
         entry_index = *(s32 *)(object + 0x74);
         positions = (u8 *)&D_800D2EA4;

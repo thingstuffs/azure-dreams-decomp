@@ -26,9 +26,9 @@ typedef struct Scratch80024EDC {
     u32 index;          /* ordering table slot */
 } Scratch80024EDC;
 
-/* Retail 818F96DC (dungeonDrawLinkedBrightnessPoints): projects each linked point and queues a brightness-scaled shaded point
+/* Retail 818F96DC (draw_linked_brightness_points): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 dungeonDrawLinkedBrightnessPoints(PointRecord *start_node, EntityRec *start_coords)
+s32 draw_linked_brightness_points(PointRecord *start_node, EntityRec *start_coords)
 {
     GpuContext **state_ptr;
     Scratch80024EDC *scratch;
@@ -43,7 +43,7 @@ s32 dungeonDrawLinkedBrightnessPoints(PointRecord *start_node, EntityRec *start_
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (GpuContext **)&gameWork;
+    state_ptr = (GpuContext **)&g_game_work;
     render_state = *state_ptr;
     scratch = (Scratch80024EDC *)0x1F800000;
 

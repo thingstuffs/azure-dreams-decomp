@@ -33,10 +33,10 @@ typedef struct {
 
 extern u8 D_80044BB0[];
 extern void func_8004491C(void *, u8 *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 /* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
-void dungeonInterpolateDelayedTargetValues(InterpState *state, void *unused, InterpTarget *target) {
+void interpolate_delayed_target_values(InterpState *state, void *unused, InterpTarget *target) {
     u16 ticks_left;
     u16 target_counter;
     E296C *global_state;
@@ -53,7 +53,7 @@ void dungeonInterpolateDelayedTargetValues(InterpState *state, void *unused, Int
             func_8004491C((u8 *)state - 0x20, D_80044BB0);
             state->counter = 8;
             state->state++;
-            func_800A56E0(0x80F);
+            play_sound_if_enabled(0x80F);
         }
     } else if (state->state == 1) {
         target->value0 += (state->value0 - target->value0) / (s16)state->counter;
@@ -81,7 +81,7 @@ void dungeonInterpolateDelayedTargetValues(InterpState *state, void *unused, Int
             merged_flags = prior_flags | state_flags;
             global_state->first = merged_flags;
             *(u16 *)((u8 *)state - 2) |= 0x8000;
-            status_flags = ((s32 *)(&objectFlagBlock));
+            status_flags = ((s32 *)(&object_flag_block));
             status_flags[0] |= 0x8000;
             if (state->mode == 0) {
                 cleared_flags = merged_flags & 0xFFFBFFFF;

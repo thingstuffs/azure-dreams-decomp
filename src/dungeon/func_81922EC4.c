@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6e1800.h"
 
-void dungeonFadeFourColorsToBlack(Row_81922EC4_DungeonColorWork *work)
+void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
 {
     s16 color_index;
     Row_81922EC4_DungeonColor *color;
@@ -17,6 +17,6 @@ void dungeonFadeFourColorsToBlack(Row_81922EC4_DungeonColorWork *work)
 
     if (work->remaining <= 0) {
         *(u16 *)((u8 *)work - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -14,7 +14,7 @@ typedef struct CallbackTable {
 extern CallbackTable D_800200A8;
 
 // Copy the callback table locally and invoke the callback selected by the object.
-void cardBootDispatchSelectedMenuAction(Object_800128C8 *object)
+void card_boot_dispatch_selected_menu_action(Object_800128C8 *object)
 {
     CallbackTable callbacks;
 

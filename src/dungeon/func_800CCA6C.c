@@ -40,20 +40,20 @@ typedef struct {
 
 extern u8 D_800D20D8[];
 
-extern void dungeonSetRecordIntegerTileCenter(CcaMotion *, u8, u8);
-extern void dungeonBeginActorDisplayAction(void *actor, void *unused, void *display, u8 *facing_variants);
-extern void dungeonApplyClampedActorValueDelta(CcaAnim *);
+extern void set_record_integer_tile_center(CcaMotion *, u8, u8);
+extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void apply_clamped_actor_value_delta(CcaAnim *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */
-void dungeonDecelerateActorToTile(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
+void decelerate_actor_to_tile(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
     s32 phase;
 
     phase = state->status;
     switch (phase) {
     case 0:
-        dungeonApplyClampedActorValueDelta(anim);
-        motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
-        motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
+        apply_clamped_actor_value_delta(anim);
+        motion->dx = (s32)(*(s16 *)((u8 *)dir_step_x + ((anim->code >> 8) & 0xE)) << 15);
+        motion->dy = (s32)(*(s16 *)((u8 *)dir_step_y + ((anim->code >> 8) & 0xE)) << 15);
         state->status = state->status + 1;
         if (anim->active != 0) {
             if (info->flags & 0x8000) {
@@ -66,7 +66,7 @@ void dungeonDecelerateActorToTile(CcaState *state, CcaMotion *motion, CcaInfo *i
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            dungeonBeginActorDisplayAction(state, motion, info, 0);
+            begin_actor_display_action(state, motion, info, 0);
             return;
         }
                 /* fall through */
@@ -93,7 +93,7 @@ void dungeonDecelerateActorToTile(CcaState *state, CcaMotion *motion, CcaInfo *i
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
-            dungeonBeginActorDisplayAction(state, motion, info, 0);
+            begin_actor_display_action(state, motion, info, 0);
             return;
         }
         state->count = 8;
@@ -123,9 +123,9 @@ void dungeonDecelerateActorToTile(CcaState *state, CcaMotion *motion, CcaInfo *i
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        dungeonSetRecordIntegerTileCenter(motion, info->x, info->y);
-        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)anim - 0x20)) {
-            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        set_record_integer_tile_center(motion, info->x, info->y);
+        if (((s32)g_dungeon_status.unk_10) == (s32)((u8 *)anim - 0x20)) {
+            *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
         }
         state->next = D_800D20D8;
         state->kind = 0xE;

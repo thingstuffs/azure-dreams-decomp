@@ -6,25 +6,25 @@ typedef struct S_800220A8_0 {
     s16 unk_00;
     u16 unk_02;
     void * unk_04;
-} S_800220A8_0;   /* arg0 in townUpdateMinigameApproachMotion */
+} S_800220A8_0;   /* arg0 in update_minigame_approach_motion */
 
 typedef struct S_800220A8_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800220A8_1;   /* arg1 in townUpdateMinigameApproachMotion */
+} S_800220A8_1;   /* arg1 in update_minigame_approach_motion */
 
 typedef struct S_800220A8_2 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_800220A8_2;   /* ((S_800220A8_0 *)arg0)->unk_04 in townUpdateMinigameApproachMotion */
+} S_800220A8_2;   /* ((S_800220A8_0 *)arg0)->unk_04 in update_minigame_approach_motion */
 
 
 M2C_UNK func_800644B8();
 
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
-void townUpdateMinigameApproachMotion(void *motion_state, void *motion) {
+void update_minigame_approach_motion(void *motion_state, void *motion) {
     s16 state;
 
     if (((S_800220A8_2 *)(((S_800220A8_0 *)motion_state)->unk_04))->unk_18 == 2) {
@@ -73,7 +73,7 @@ void townUpdateMinigameApproachMotion(void *motion_state, void *motion) {
             return;
         }
         (*(u16 *)((u8 *)motion_state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
     }

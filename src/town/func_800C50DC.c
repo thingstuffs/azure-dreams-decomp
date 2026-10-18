@@ -9,10 +9,10 @@ typedef struct S_800C283C_0 {
     s8 unk_14;
     u8 pad_15[0x3B];
     M2C_UNK * unk_50;
-} S_800C283C_0;   /* v1 in townResetMatchingTransformObject */
+} S_800C283C_0;   /* v1 in reset_matching_transform_object */
 
 /* Reset the current object's state and data pointer when its address matches. */
-void townResetMatchingTransformObject(s32 object_addr) {
+void reset_matching_transform_object(s32 object_addr) {
     S_800C283C_0 *current_object = D_800FE4A0;
     if (current_object == (void *)object_addr) {
         current_object->unk_14 = 0;

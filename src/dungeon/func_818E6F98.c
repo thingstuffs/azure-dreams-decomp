@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1906f98.h"
 
-s32 dungeonHandleSpawnInitializeRandomizedOffsetParent(void *sprite_data, void *position)
+s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position)
 {
     u16 world_pos[4];
     s16 screen_points[4];
@@ -24,7 +24,7 @@ s32 dungeonHandleSpawnInitializeRandomizedOffsetParent(void *sprite_data, void *
     u16 center_x;
     u32 table_offset;
 
-    state_address = (Row_818E6F98_DungeonState **)((u8 *)(&gameWork));
+    state_address = (Row_818E6F98_DungeonState **)((u8 *)(&g_game_work));
     screen_base = screen_points;
     scratch_base = &scratch;
 loop:

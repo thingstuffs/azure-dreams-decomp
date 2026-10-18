@@ -11,7 +11,7 @@ extern s32 D_80018EC4;
 extern s32 D_8001925C;
 
 /* Update flag 0x681 when triggered and dispatch the corresponding record. */
-void func_800166A4(s32 dispatch_context, s32 unused, s32 dispatch_arg)
+void pass_2(s32 dispatch_context, s32 unused, s32 dispatch_arg)
 {
     s8 *callback_table;
 

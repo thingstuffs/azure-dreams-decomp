@@ -39,7 +39,7 @@ typedef struct {
 } S_80010A78_a0;
 
 /* Initialize and link two template blocks, applying defaults and a slot-based offset. */
-void cardBootInitializeSlotWindowFrame(S_80010A78_a0 *entity, S_8002E5D8 *primary, S_80010A78_a2 *secondary, s32 slot_index) {
+void card_boot_initialize_slot_window_frame(S_80010A78_a0 *entity, S_8002E5D8 *primary, S_80010A78_a2 *secondary, s32 slot_index) {
     S_8002E5D8 *primary_template = &D_8002E5D8;
     S_8002E5E8 *secondary_template = &D_8002E5E8;
     s32 *secondary_head;

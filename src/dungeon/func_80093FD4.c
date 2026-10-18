@@ -6,18 +6,18 @@
 typedef struct S_80099734_2 {
     u8 pad_00[0x359C];
     s32 unk_359C;
-} S_80099734_2;   /* table_page in func_80099734 */
+} S_80099734_2;   /* table_page in append_entity_display_text */
 
 typedef struct S_80099734_3 {
     u8 pad_00[0x4];
     u8 * unk_04;
-} S_80099734_3;   /* (u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4 in func_80099734 */
+} S_80099734_3;   /* (u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4 in append_entity_display_text */
 
 
 extern s32 D_800DD728;
 
 /* Copies the selected record text without its terminator and returns the output end. */
-u8 *func_80099734(void *record, u8 *out)
+u8 *append_entity_display_text(void *record, u8 *out)
 {
     u8 *src;
     s32 text_index;

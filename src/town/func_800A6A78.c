@@ -5,7 +5,7 @@ typedef struct S_800A41D8_0 {
     u16 unk_08;
     u8 pad_0A[0xC];
     u16 unk_16;
-} S_800A41D8_0;   /* arg0 in townProjectVisibleTexturedStrips */
+} S_800A41D8_0;   /* arg0 in project_visible_textured_strips */
 
 typedef struct S_800A41D8_1 {
     u8 pad_00[0x8];
@@ -48,7 +48,7 @@ typedef struct S_800A41D8_1 {
     } unk_FC;   /* overlapping accesses */
     u8 pad_100[0x18];
     s32 unk_118;
-} S_800A41D8_1;   /* state in townProjectVisibleTexturedStrips */
+} S_800A41D8_1;   /* state in project_visible_textured_strips */
 
 typedef struct S_800A41D8_2 {
     u8 pad_00[0x4];
@@ -100,12 +100,12 @@ typedef struct S_800A41D8_5 {
     u8 pad_1E[0x6];
     u8 unk_24;
     u8 unk_25;
-} S_800A41D8_5;   /* prim_buffer bytes in townProjectVisibleTexturedStrips */
+} S_800A41D8_5;   /* prim_buffer bytes in project_visible_textured_strips */
 
 typedef struct S_800A41D8_6 {
     u8 pad_00[0xF];
     u8 unk_0F;
-} S_800A41D8_6;   /* arg1 in townProjectVisibleTexturedStrips */
+} S_800A41D8_6;   /* arg1 in project_visible_textured_strips */
 
 typedef struct S_800A41D8_7 {
     u8 pad_00[0x4];
@@ -115,7 +115,7 @@ typedef struct S_800A41D8_7 {
     u8 unk_09;
     u8 unk_0A;
     u8 unk_0B;
-} S_800A41D8_7;   /* texture_entry in townProjectVisibleTexturedStrips */
+} S_800A41D8_7;   /* texture_entry in project_visible_textured_strips */
 
 
 
@@ -126,7 +126,7 @@ extern void func_800666F4();
 extern void func_80067F20();
 
 /* Projects and draws visible textured strips, returning the next free primitive. */
-void *townProjectVisibleTexturedStrips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index) {
+void *project_visible_textured_strips(void *origin, void *render_flags, void *draw_state, void *prim_buffer, u16 texture_index) {
     s32 buckets[2];
     u16 texture_id;
     u16 base_shade;

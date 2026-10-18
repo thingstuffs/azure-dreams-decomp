@@ -6,14 +6,14 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void selectIndirectTableEntry(void *, u8, s8);
+extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
-extern void dungeonApplyMonsterKoyawData(s32, void *);
-extern s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *);
-extern void func_800AA36C(void *, void *, void *, void *);
-extern s16 func_800BCB04(u16, u16, s16);
+extern void apply_monster_koyaw_data(s32, void *);
+extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 
 extern void D_8014D4D4(void);
@@ -30,7 +30,7 @@ typedef struct S_8014CDA8_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8014CDA8_0;   /* arg1 in dungeonUpdateActorMovementFacing */
+} S_8014CDA8_0;   /* arg1 in update_actor_movement_facing */
 
 typedef struct S_8014CDA8_1 {
     u8 pad_00[0x4];
@@ -42,7 +42,7 @@ typedef struct S_8014CDA8_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8014CDA8_1;   /* arg2 in dungeonUpdateActorMovementFacing */
+} S_8014CDA8_1;   /* arg2 in update_actor_movement_facing */
 
 typedef struct S_8014CDA8_2 {
     u8 pad_00[0x1C];
@@ -51,10 +51,10 @@ typedef struct S_8014CDA8_2 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_8014CDA8_2;   /* state in dungeonUpdateActorMovementFacing */
+} S_8014CDA8_2;   /* state in update_actor_movement_facing */
 
 /* Updates entity callbacks, movement, directional animation, and ground height. */
-void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
+void update_actor_movement_facing(void *entity, void *motion, void *sprite)
 {
     void *entity_state = entity;
     s16 prev_state;
@@ -72,7 +72,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
     Callback paused_callback;
     Callback update_callback;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (paused_callback == (Callback)D_8014D4D4) {
             paused_callback(entity, motion, sprite, entity);
@@ -84,7 +84,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
 
 
     prev_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -94,7 +94,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
     }
     D_80150168[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     if ((s16)prev_state != (*(s8 *)((u8 *)entity + 0x6D))) {
-        func_800AA36C(entity, motion, sprite, entity);
+        try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }
 
     ((S_8014CDA8_0 *)motion)->unk_00.at00.v += ((S_8014CDA8_0 *)motion)->unk_0C;
@@ -111,24 +111,24 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
     sprite_flags = ((S_8014CDA8_1 *)sprite)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
-        direction = ((gameWork.view.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
-            selectIndirectTableEntry(sprite,
+            select_indirect_table_entry(sprite,
                 (*(u8 *)((u8 *)(((S_8014CDA8_1 *)sprite)->unk_2C) + direction_index)),
                 ((S_8014CDA8_1 *)sprite)->unk_04.s8);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
         {
             u32 flip_flags;
-            if (dirSpriteFlag[direction_index] != 0) {
+            if (dir_sprite_flag[direction_index] != 0) {
                 flip_flags = ((S_8014CDA8_1 *)sprite)->unk_14 | 1;
             } else {
                 flip_flags = ((S_8014CDA8_1 *)sprite)->unk_14 & 0xFFFE;
             }
             ((S_8014CDA8_1 *)sprite)->unk_14 = flip_flags;
         }
-        dungeonApplyMonsterKoyawData(((S_8014CDA8_2 *)entity_state)->unk_1C.s, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(((S_8014CDA8_2 *)entity_state)->unk_1C.s, (u8 *)sprite + 0xC);
         if (!(((S_8014CDA8_2 *)entity_state)->unk_1C.u & 0x20)) {
             if (!(((S_8014CDA8_1 *)sprite)->unk_14 & 0x40)) {
                 func_800478B8(sprite);
@@ -149,7 +149,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
                 (*(s32 *)((u8 *)entity + 0xA0)) = 0;
                 (*(s32 *)((u8 *)entity + 0x90)) -= offset;
                 if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                    ground_height = func_800BCB04(((S_8014CDA8_0 *)motion)->unk_00.at02.v,
+                    ground_height = sample_terrain_surface_height(((S_8014CDA8_0 *)motion)->unk_00.at02.v,
                         ((S_8014CDA8_0 *)motion)->unk_04.at02.v,
                         (s16)(((S_8014CDA8_2 *)entity_state)->unk_88 - 0x20));
                     ground_delta = ground_height - ((S_8014CDA8_2 *)entity_state)->unk_88;
@@ -172,7 +172,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
                         (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                         if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
-                            func_80047784(sprite, D_801500E8[((gameWork.view.viewAngle
+                            func_80047784(sprite, D_801500E8[((g_game_work.view.viewAngle
                                 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
                     } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
@@ -182,7 +182,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
                         (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                         if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;
-                            func_80047784(sprite, D_801500E0[((gameWork.view.viewAngle
+                            func_80047784(sprite, D_801500E0[((g_game_work.view.viewAngle
                                 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
                     }
@@ -217,7 +217,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = 0;
             (*(s32 *)((u8 *)entity + 0x90)) -= prev_bob_offset;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                ground_height = func_800BCB04(((S_8014CDA8_0 *)motion)->unk_00.at02.v,
+                ground_height = sample_terrain_surface_height(((S_8014CDA8_0 *)motion)->unk_00.at02.v,
                     ((S_8014CDA8_0 *)motion)->unk_04.at02.v,
                     (s16)(((S_8014CDA8_2 *)entity_state)->unk_88 - 0x20));
                 ground_delta = ground_height - ((S_8014CDA8_2 *)entity_state)->unk_88;
@@ -240,7 +240,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
                     (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                     if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
-                        func_80047784(sprite, D_801500E8[((gameWork.view.viewAngle
+                        func_80047784(sprite, D_801500E8[((g_game_work.view.viewAngle
                             + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
                 } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
@@ -250,7 +250,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
                     (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                     if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;
-                        func_80047784(sprite, D_801500E0[((gameWork.view.viewAngle
+                        func_80047784(sprite, D_801500E0[((g_game_work.view.viewAngle
                             + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
                 }
@@ -277,7 +277,7 @@ void dungeonUpdateActorMovementFacing(void *entity, void *motion, void *sprite)
     entity_flags = ((S_8014CDA8_2 *)entity_state)->unk_1C.u;
     if (entity_flags & 0x40000000) {
         ((S_8014CDA8_2 *)entity_state)->unk_1C.u = entity_flags & 0xBFFFFFFF;
-        ground_height = func_800BCB04(
+        ground_height = sample_terrain_surface_height(
             (((S_8014CDA8_1 *)sprite)->unk_24 << 6) | 0x20,
             (((S_8014CDA8_1 *)sprite)->unk_25 << 6) | 0x20,
             (s16)(((S_8014CDA8_2 *)entity_state)->unk_88 - 0x20));

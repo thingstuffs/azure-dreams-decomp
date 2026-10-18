@@ -14,14 +14,14 @@ typedef struct Func800398BCOwner {
 } Func800398BCOwner;
 
 extern s32 func_80053EF0(s32 mode);
-extern s32 slusCheckStateOrGlobalFlags(Func800398BCOwner *state);
-extern void soundSetCdCueParameters(s32 value_0, s32 value_1, u32 value_2, u32 value_3);
+extern s32 check_state_or_global_flags(Func800398BCOwner *state);
+extern void sound_set_cd_cue_parameters(s32 value_0, s32 value_1, u32 value_2, u32 value_3);
 extern s16 SD_Call(s32 flags);
 extern s32 D_800721C0[32];
 extern s32 D_8006CD50[];
 
 /* Dispatch an eight-byte script command, or rewind the opcode when runtime state blocks it. */
-void handleVmOpcode29(Func800398BCOwner *owner)
+void handle_vm_opcode_29(Func800398BCOwner *owner)
 {
     s32 runtime_state;
     s32 owner_gate;
@@ -32,7 +32,7 @@ void handleVmOpcode29(Func800398BCOwner *owner)
     u32 table_index;
 
     runtime_state = func_80053EF0(4);
-    owner_gate = slusCheckStateOrGlobalFlags(owner);
+    owner_gate = check_state_or_global_flags(owner);
     if (owner_gate != 0) {
         if (runtime_state != 0) {
             owner->field_10 = 0;
@@ -56,7 +56,7 @@ void handleVmOpcode29(Func800398BCOwner *owner)
     table_index = (command_word >> 19) & 0x1F;
     command_word &= 0xFF07FFFF;
 
-    soundSetCdCueParameters(owner->object_80[0x3C],
+    sound_set_cd_cue_parameters(owner->object_80[0x3C],
                   D_8006CD50[D_800721C0[table_index]],
                   command_word,
                   payload_word);

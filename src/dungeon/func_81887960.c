@@ -5,7 +5,7 @@
 
 typedef struct S_80025160_0_pre {
     u16 unk_00;
-} S_80025160_0_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor, addressed as arg0[-1] */
+} S_80025160_0_pre;   /* the 0x2 bytes before arg0 in advance_the_effect_state_updates_motion_sets_display_color, addressed as arg0[-1] */
 
 typedef struct S_80025160_0 {
     u8 pad_00[0xA];
@@ -17,7 +17,7 @@ typedef struct S_80025160_0 {
     union { u16 s; u16 u; } unk_1C;   /* accessed as both */
     u8 pad_1E[0x4];
     s16 unk_22;
-} S_80025160_0;   /* arg0 in dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor */
+} S_80025160_0;   /* arg0 in advance_the_effect_state_updates_motion_sets_display_color */
 
 typedef struct S_80025160_1 {
     u8 pad_00[0x6];
@@ -26,17 +26,17 @@ typedef struct S_80025160_1 {
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80025160_1;   /* arg2 in dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor */
+} S_80025160_1;   /* arg2 in advance_the_effect_state_updates_motion_sets_display_color */
 
 typedef struct S_80025160_2 {
     u8 pad_00[0x6328];
     s16 unk_6328;
-} S_80025160_2;   /* flag_page in dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor */
+} S_80025160_2;   /* flag_page in advance_the_effect_state_updates_motion_sets_display_color */
 
 typedef struct S_80025160_3 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80025160_3;   /* flags_page in dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor */
+} S_80025160_3;   /* flags_page in advance_the_effect_state_updates_motion_sets_display_color */
 
 
 #define COUNTER D_80026326
@@ -59,7 +59,7 @@ typedef struct Global814A0 {
 
 
 /* Advances the effect state, updates its motion, and sets its display color. */
-void dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor(void *effect, s32 context, S_80025160_1 *visual) {
+void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s32 context, S_80025160_1 *visual) {
     s16 state;
     u16 value;
     u16 angle;
@@ -89,7 +89,7 @@ void dungeonAdvanceTheEffectStateUpdatesMotionSetsDisplayColor(void *effect, s32
                 owner = (u8 *)effect - 0x20;
                 ((S_80025160_0 *)effect)->unk_1C.u = angle;
                 angle_shifted = angle << 16;
-                func_8002569C(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
+                create_object_offset(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
                               angle_shifted >> 16, owner);
             }
             ((S_80025160_0 *)effect)->unk_0A.u++;

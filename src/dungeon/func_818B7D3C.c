@@ -25,6 +25,6 @@ void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B
 
     if ((s16)owner->counter > owner->limit) {
         ((u16 *)owner)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

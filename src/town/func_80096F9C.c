@@ -7,10 +7,10 @@ typedef struct S_800946FC_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
-} S_800946FC_0;   /* arg0 in func_800946FC */
+} S_800946FC_0;   /* arg0 in initialize_actor_interaction_state_19 */
 
 /* Initializes the object's data pointer and sets its initial value to 0x13. */
-void func_800946FC(S_800946FC_0 *object) {
+void initialize_actor_interaction_state_19(S_800946FC_0 *object) {
     object->unk_00 = &D_800930E4;
     object->unk_0A = 0x13;
 }

@@ -18,12 +18,12 @@ typedef struct S_800AF36C_3 {
 typedef struct S_800AF36C_4 {
     u8 pad_00[0x18];
     s32 unk_18;
-} S_800AF36C_4;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_4;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in set_item_menu_entry_coordinates */
 
 typedef struct S_800AF36C_5 {
     u8 pad_00[0x10];
     void * unk_10;
-} S_800AF36C_5;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv in townSetItemMenuEntryCoordinates */
+} S_800AF36C_5;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv in set_item_menu_entry_coordinates */
 
 typedef struct S_800AF36C_6 {
     u8 pad_00[0x4];
@@ -48,7 +48,7 @@ typedef struct S_800AF36C_9 {
 typedef struct S_800AF36C_10 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800AF36C_10;   /* ((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_10;   /* ((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10 in set_item_menu_entry_coordinates */
 
 typedef struct S_800AF36C_11 {
     u8 pad_00[0x8];
@@ -74,11 +74,11 @@ typedef struct S_800AF36C_15 {
     u8 pad_00[0x8];
     s16 unk_08;
     s16 unk_0A;
-} S_800AF36C_15;   /* ((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10))->unk_04 in townSetItemMenuEntryCoordinates */
+} S_800AF36C_15;   /* ((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10))->unk_04 in set_item_menu_entry_coordinates */
 
 
 /* Set paired coordinates from the object's last decimal digit. */
-void townSetItemMenuEntryCoordinates(Rec_func_800AF254_arg1 *object) {
+void set_item_menu_entry_coordinates(Rec_func_800AF254_arg1 *object) {
     s32 digit;
     s32 row;
     S_800AF36C_2 *x_parts;

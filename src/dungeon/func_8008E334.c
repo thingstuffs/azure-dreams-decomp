@@ -8,7 +8,7 @@ extern M2C_UNK D_800DD140;
 extern void func_80048AC8(void *, s32);
 
 /* Updates an object's scale and brightness through its transition modes. */
-void dungeonUpdateFamiliarDeploymentOverlay(void *object_data, void *unused, void *state_data) {
+void update_familiar_deployment_overlay(void *object_data, void *unused, void *state_data) {
     u8 *obj = (u8 *)object_data;
     u8 *state = (u8 *)state_data;
     s16 mode;
@@ -62,7 +62,7 @@ void dungeonUpdateFamiliarDeploymentOverlay(void *object_data, void *unused, voi
             return;
         }
         *(u16 *)(obj - 2) |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     case 2:
         scale_or_ticks = *(u16 *)(state + 0x1C);
@@ -78,7 +78,7 @@ void dungeonUpdateFamiliarDeploymentOverlay(void *object_data, void *unused, voi
         return;
     case 3:
         *(u16 *)(obj - 2) |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
         return;
     }
 }

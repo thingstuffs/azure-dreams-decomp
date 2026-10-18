@@ -14,7 +14,7 @@ extern u8 D_80702C00[];
 extern RuntimeMethods *D_807030B8;
 
 /* Invoke runtime operation 6 for the scene entry mapped from the index. */
-void townInvokeIndexedRuntimeOperation(s32 scene_index)
+void invoke_indexed_runtime_operation(s32 scene_index)
 {
     D_807030B8->invoke(6, &D_80702BA8[D_80702C00[scene_index]], 0);
 }

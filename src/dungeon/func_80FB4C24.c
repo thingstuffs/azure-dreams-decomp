@@ -9,7 +9,7 @@ typedef struct {
 
 typedef struct S_80174424_0_pre {
     u16 unk_00;
-} S_80174424_0_pre;   /* the 0x2 bytes before arg0 in dungeonBlendAnimationPaletteAndComplete, addressed as arg0[-1] */
+} S_80174424_0_pre;   /* the 0x2 bytes before arg0 in blend_animation_palette_and_complete, addressed as arg0[-1] */
 
 typedef struct S_80174424_0 {
     u8 pad_00[0x96];
@@ -18,7 +18,7 @@ typedef struct S_80174424_0 {
     s16 unk_9E;
     u8 pad_A0[0x8];
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-} S_80174424_0;   /* arg0 in dungeonBlendAnimationPaletteAndComplete */
+} S_80174424_0;   /* arg0 in blend_animation_palette_and_complete */
 
 typedef struct S_80174424_1 {
     u8 pad_00[0x208];
@@ -27,7 +27,7 @@ typedef struct S_80174424_1 {
     s16 unk_210;
     u8 pad_212[0x6];
     s16 unk_218;
-} S_80174424_1;   /* out in dungeonBlendAnimationPaletteAndComplete */
+} S_80174424_1;   /* out in blend_animation_palette_and_complete */
 
 
 extern void func_80067014(s32);
@@ -36,7 +36,7 @@ extern void func_8006733C(void *, void *);
 
 
 /* Blend palette colors for the current animation frame and flag completion. */
-void dungeonBlendAnimationPaletteAndComplete(void *effect)
+void blend_animation_palette_and_complete(void *effect)
 {
     s16 buffer[270];
     s16 *buffer_base;

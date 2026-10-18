@@ -6,10 +6,10 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-void dungeonQueueBlackDrawBufferRectangle();
-s32 func_800A2C34();
-void *func_800A634C();
-void func_800A67F4();
+void queue_black_draw_buffer_rectangle();
+s32 has_pending_actor_or_turn_action();
+void *create_fullscreen_quad_updater();
+void clear_pending_item_action_state();
 
 typedef struct S_func_8009E038_0 {
     u8 pad_00[4];
@@ -79,7 +79,7 @@ typedef struct S_func_8009E038_8 {
 } S_func_8009E038_8;
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
-void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
+void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
     M2C_UNK *context) {
     s32 top_step;
     GameWork *input;
@@ -118,7 +118,7 @@ void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E
     s32 shared_flags;
 
     render = render_params;
-    input = &gameWork;
+    input = &g_game_work;
     if (((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000) {
         if (transition->unk_1A < 0x20) {
             transition->unk_1A = 0x20;
@@ -152,7 +152,7 @@ void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E
             transition->unk_2C = idle_frames;
             if ((s16) idle_frames == 0x1F) {
                 (*(s32 *)&D_800E296C) = (s32) (((S_func_8009E038_3 *)&D_800E296C)->unk_00 | 0x01000000);
-                func_800A634C(0);
+                create_fullscreen_quad_updater(0);
             } else if ((s16) idle_frames >= 0x20) {
                 transition->unk_2C = 0x20U;
             }
@@ -292,10 +292,10 @@ void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E
         if (!(input->buttons & 0x100)) {
             break;
         }
-        if ((func_800A2C34(0) << 0x10) != 0) {
+        if ((has_pending_actor_or_turn_action(0) << 0x10) != 0) {
             break;
         }
-        func_800A67F4();
+        clear_pending_item_action_state();
         flags_mask = 0xFEFFFFFF;
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         shared_flags = flags_page->unk_296C;
@@ -319,6 +319,6 @@ void dungeonUpdateViewportTransition(S_func_8009E038_0 *transition, S_func_8009E
         transition->unk_1C = 4;
         break;
     }
-    dungeonQueueBlackDrawBufferRectangle(transition);
+    queue_black_draw_buffer_rectangle(transition);
     return;
 }

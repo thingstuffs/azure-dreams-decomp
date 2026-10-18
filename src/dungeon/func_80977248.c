@@ -6,14 +6,14 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-extern s32 getCdCommandQueueDepth(void);
+extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784(void *, s32, s32);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void createDirectionalTemplateEffect(void *, void *, void *, void *);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void create_directional_template_effect(void *, void *, void *, void *);
 
 extern s32 D_801714D4[];
 extern u8 D_801740E0[];
@@ -34,18 +34,18 @@ typedef struct S_80172A48_0 {
     u16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_80172A48_0;   /* arg0 in dungeonAdvanceItemUseAndCleanup */
+} S_80172A48_0;   /* arg0 in advance_item_use_and_cleanup */
 
 typedef struct S_80172A48_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172A48_1_pre;   /* the 0x14 bytes before active in dungeonAdvanceItemUseAndCleanup, addressed as active[-1] */
+} S_80172A48_1_pre;   /* the 0x14 bytes before active in advance_item_use_and_cleanup, addressed as active[-1] */
 
 typedef struct S_80172A48_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172A48_2;   /* linked in dungeonAdvanceItemUseAndCleanup */
+} S_80172A48_2;   /* linked in advance_item_use_and_cleanup */
 
 typedef struct S_80172A48_3 {
     u8 pad_00[0x14];
@@ -55,10 +55,10 @@ typedef struct S_80172A48_3 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172A48_3;   /* arg2 in dungeonAdvanceItemUseAndCleanup */
+} S_80172A48_3;   /* arg2 in advance_item_use_and_cleanup */
 
 /* Advance item use through effect activation, actor animation, and cleanup. */
-void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *actor, void *item)
+void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, void *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -143,7 +143,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
                         s32 dx;
                         s32 dy;
 
-                        target = dungeonScanMonsterAlongHeading(
+                        target = scan_monster_along_heading(
                             item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
                             (*(s16 *)((u8 *)item + 0x2A)), 0x10);
                         (*(void * *)((u8 *)item + 0x60)) = target;
@@ -156,7 +156,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
             }
 
             effect_special = is_special;
-            if (dungeonCreateActorSpellEffect(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
+            if (create_actor_spell_effect(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
                 return;
             }
             ((S_80172A48_0 *)action)->unk_96.u = 0;
@@ -177,10 +177,10 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        dungeonAdvanceStatusTimers(item);
+        advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
         (*(u8 *)((u8 *)item + 0x73)) = 0;
@@ -189,7 +189,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
         return;
 
     case 1:
-        if (getCdCommandQueueDepth()) {
+        if (get_cd_command_queue_depth()) {
             ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
             return;
         }
@@ -228,15 +228,15 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
         }
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
         func_80047784(actor,
-            *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+            *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
             0);
         return;
 
     case 4:
-        createDirectionalTemplateEffect(action, motion, actor, item);
+        create_directional_template_effect(action, motion, actor, item);
         {
             s16 timer;
 
@@ -283,7 +283,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         ((S_80172A48_0 *)action)->unk_9B++;
         if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {
             return;
@@ -293,7 +293,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
 
             (*(void * *)((u8 *)actor + 0x2C)) = model;
             func_80047784(actor,
-                model[((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
+                model[((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
         ((S_80172A48_0 *)action)->unk_9E = 0;
@@ -303,22 +303,22 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
     case 8:
     {
 
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
-        dungeonAdvanceStatusTimers(item);
+        advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x73)) = 0;
         (*(u8 *)((u8 *)item + 0x72)) = 0;
         (*(u8 *)((u8 *)item + 0x6D))--;
         (*(u16 *)((u8 *)item + 0x46)) &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
     }
         return;
 
     case 16:
-        if (getCdCommandQueueDepth()) {
+        if (get_cd_command_queue_depth()) {
             ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
             return;
         }
@@ -355,17 +355,17 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
         }
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
         (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
         func_80047784(actor,
-            *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+            *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                 + (u32)(u8 *)((u32)D_80174118 - 8))),
             0);
         return;
 
     case 19:
-        createDirectionalTemplateEffect(action, motion, actor, item);
+        create_directional_template_effect(action, motion, actor, item);
         {
             s16 timer;
 
@@ -385,7 +385,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
     case 20:
         ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
         if (((S_80172A48_0 *)action)->unk_96.s < 5) {
-            createDirectionalTemplateEffect(action, motion, actor, item);
+            create_directional_template_effect(action, motion, actor, item);
         }
         {
             s16 timer;
@@ -413,7 +413,7 @@ void dungeonAdvanceItemUseAndCleanup(void *action, EntityRec *motion, void *acto
 
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
             func_80047784(actor,
-                *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
+                *((u8 *)((((g_game_work.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                     + (u32)D_80174118)),
                 0);
         }

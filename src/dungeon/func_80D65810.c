@@ -47,7 +47,7 @@ typedef struct S_80D65810_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D65810_4;   /* input in dungeonCreateOriginMotionEffect */
+} S_80D65810_4;   /* input in create_origin_motion_effect */
 
 typedef struct S_80D65810_5 {
     u8 pad_00[0xC];
@@ -68,10 +68,10 @@ s32 func_8004491C();
 s32 rand();
 extern u8 D_800DE870[];
 extern void func_80045340(void);
-extern void dungeonUpdateEffectCollisionAndLifetime(void);
+extern void update_effect_collision_and_lifetime(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void dungeonCreateOriginMotionEffect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     void *origin_ptr;
     u16 render_flags;
     S_80D65810_4 *origin;
@@ -95,7 +95,7 @@ void dungeonCreateOriginMotionEffect(s32 unused_0, void *origin_ptr_in, s32 unus
         motion = effect + 0x20;
         motion->unk_0C = 0x1E;
         motion->unk_0E = 0x1E;
-        ((S_80D65810_1 *)effect)->unk_10 = dungeonUpdateEffectCollisionAndLifetime;
+        ((S_80D65810_1 *)effect)->unk_10 = update_effect_collision_and_lifetime;
         func_8004491C(effect, func_80045340);
         render = ((S_80D65810_1 *)effect)->unk_0C;
         render->unk_14 |= 0xC;

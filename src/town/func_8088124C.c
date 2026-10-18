@@ -16,7 +16,7 @@ extern s32 func_807008FC(s32);
 extern void func_80700D20(s32);
 extern void func_80700CD0(s32);
 extern void func_8070096C(s32, s32);
-extern s32 func_80700B4C();
+extern s32 scan_table_entry_query_rejects();
 
 /* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 func_8088124C(s32 index) {
@@ -30,13 +30,13 @@ s32 func_8088124C(s32 index) {
             func_80700D20(0x281);
             func_80700D20(0x280);
             func_80700D20(0x278);
-            return func_80700B4C();
+            return scan_table_entry_query_rejects();
         }
 
         if (func_80700D74(0x288) != 0) {
             func_80700CD0(D_80700650[index].value);
             func_80700D20(0x278);
-            return func_80700B4C();
+            return scan_table_entry_query_rejects();
         }
     }
 

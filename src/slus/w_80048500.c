@@ -26,18 +26,18 @@ typedef struct {
 extern S_80081480 D_80081480;
 
 extern void file_load_com(void *arg);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 extern void DrawSync(s32 a0);
-extern s32 copyProcessedVramTileBackward(s32 a0);
+extern s32 copy_processed_vram_tile_backward(s32 a0);
 
 /* Processes the selected element, waits for drawing, and redraws the target VRAM tile. */
-s32 loadResourceAndMirrorPalette(s32 elem_index, s32 array_index)
+s32 load_resource_and_mirror_palette(s32 elem_index, s32 array_index)
 {
     s32 tile_index;
 
     file_load_com(&D_800710E4[array_index][elem_index]);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
     tile_index = D_80081480.field_0->unk18;
     DrawSync(0);
-    return copyProcessedVramTileBackward(tile_index);
+    return copy_processed_vram_tile_backward(tile_index);
 }

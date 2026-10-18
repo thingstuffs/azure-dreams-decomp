@@ -22,7 +22,7 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8016F2AC;
         func_80047784(
             entity,
-            D_8016F2AC[((gameWork.view.viewAngle + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+            D_8016F2AC[((g_game_work.view.viewAngle + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -32,15 +32,15 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
     if (((CL_CB9000_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, tile_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-    heading = dungeonGetRoundedFacingAndRoundingFlag(
+    heading = get_rounded_facing_and_rounding_flag(
         old_x,
         old_y,
         ((CL_CB9000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74,
         ((CL_CB9000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_7C,
         (u8 *)motion + 0x98);
-    move_result = dungeonCheckMovementClearanceAndHeight(heading, entity, state, 0x20);
+    move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
     ((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_24 =
         ((CL_CB9000_80171590_S_80171590_3 *)((u8 *)state + ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_8A.s))->unk_74;
@@ -54,13 +54,13 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
     if (((CL_CB9000_80171590_S_80171590_0 *)state)->unk_1C & 0x2000) {
         tile_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, tile_mask);
+    cycle_map_cell_flags(new_x, new_y, tile_mask);
     ((CL_CB9000_80171590_S_80171590_0 *)state)->unk_2A = heading;
 
     stored_result = move_result;
     result_code = move_result;
     if (result_code == 2) {
-        if (!(dungeonStatus.flags & 0x80)) {
+        if (!(g_dungeon_status.flags & 0x80)) {
             if (!(((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
                 func_8016BF58(motion, update_param, entity, state);
                 ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
@@ -71,7 +71,7 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
             ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_9A = 15;
         }
     } else {
-        if (result_code == 3 && !(dungeonStatus.flags & 0x80) && !(((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+        if (result_code == 3 && !(g_dungeon_status.flags & 0x80) && !(((CL_CB9000_80171590_S_80171590_1 *)entity)->unk_14 & 0x8000)) {
             func_8016BF58(motion, update_param, entity, state);
             ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_A4 = stored_result;
         } else {
@@ -81,7 +81,7 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
 
     ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)state + 0x1C)) |= 0x40000000;
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((CL_CB9000_80171590_S_80171590_2 *)motion)->unk_96 = 0;
         return;
     }

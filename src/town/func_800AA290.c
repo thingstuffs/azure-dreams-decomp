@@ -6,20 +6,20 @@ s32 func_800644B8();                             /* extern */
 typedef struct S_800A79F0_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
-} S_800A79F0_0;   /* arg0 in townUpdateOpposingScaleEffect */
+} S_800A79F0_0;   /* arg0 in update_opposing_scale_effect */
 
 typedef struct S_800A79F0_1 {
     u8 pad_00[0x1C];
     s16 unk_1C;
     s16 unk_1E;
-} S_800A79F0_1;   /* arg2 in townUpdateOpposingScaleEffect */
+} S_800A79F0_1;   /* arg2 in update_opposing_scale_effect */
 
 /* extern */
 
 
-void townInitializeRandomizedScaleTimer(S_800A79F0_0 *);
+void initialize_randomized_scale_timer(S_800A79F0_0 *);
 /* Update opposing scale offsets until the countdown ends, then restore unit scale. */
-void townUpdateOpposingScaleEffect(S_800A79F0_0 *state, s32 finish_arg1, S_800A79F0_1 *scale, s32 finish_arg3) {
+void update_opposing_scale_effect(S_800A79F0_0 *state, s32 finish_arg1, S_800A79F0_1 *scale, s32 finish_arg3) {
     u16 ticks_left;
     s32 scale_wave;
     s32 scale_offset;
@@ -30,7 +30,7 @@ void townUpdateOpposingScaleEffect(S_800A79F0_0 *state, s32 finish_arg1, S_800A7
     if ((s16) ticks_left <= 0) {
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
-        townInitializeRandomizedScaleTimer(state);
+        initialize_randomized_scale_timer(state);
         return;
     }
     scale_wave = func_800644B8((s16) ticks_left * 0xBA);

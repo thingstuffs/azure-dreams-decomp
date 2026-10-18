@@ -6,17 +6,17 @@ typedef struct S_80173C40_0 {
     s32 unk_A8;
     s32 unk_AC;
     s32 unk_B0;
-} S_80173C40_0;   /* arg0 in func_80173C40 */
+} S_80173C40_0;   /* arg0 in initialize_object_and_clear_state */
 
 
-extern void dungeonUpdateActorHopAndShrink(S_80173C40_0 *, void *, void *);
+extern void update_actor_hop_and_shrink(S_80173C40_0 *, void *, void *);
 
 
 /* Initialize the object, save its A4 value, and clear its trailing state. */
-void func_80173C40(S_80173C40_0 *object, void *init_data, void *init_context) {
+void initialize_object_and_clear_state(S_80173C40_0 *object, void *init_data, void *init_context) {
     s32 saved_a4;
 
-    dungeonUpdateActorHopAndShrink(object, init_data, init_context);
+    update_actor_hop_and_shrink(object, init_data, init_context);
     saved_a4 = object->unk_A4.at00.v;
     object->unk_A4.at02.v = 0;
     object->unk_AC = 0;

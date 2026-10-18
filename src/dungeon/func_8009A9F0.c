@@ -9,7 +9,7 @@ void itm_mon_koyaw_set(u8 *src, s8 *dst)
     s32 delta_0;
     s32 delta_1;
     s32 delta_2;
-    weight = gameWork.unk_004;
+    weight = g_game_work.unk_004;
     weight &= 0x1F;
     if (weight & 0x10) {
         weight = (-weight) & 0x1F;

@@ -7,7 +7,7 @@ typedef struct S_800A4A9C_0 {
 } S_800A4A9C_0;
 
 /* Return whether any of the four spaced status bytes is zero. */
-s32 dungeonHasEmptyStatusSlot(s32 record_addr) {
+s32 has_empty_status_slot(s32 record_addr) {
     s32 status_index;
     void *status_cursor;
 

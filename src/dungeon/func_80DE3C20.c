@@ -1,8 +1,8 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
+void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *tile, u8 *actor)
 {
-    DungeonGlobalStatus *state = &dungeonStatus;
+    DungeonGlobalStatus *state = &g_dungeon_status;
     s32 actor_flags;
     s32 base_angle;
     s32 random_turn;
@@ -15,8 +15,8 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
     state_flags = state->flags;
     limit_turn = 0;
     if ((state_flags & 0x4000) || (*(s8 *)(actor + 0x71)) >= 0) {
-        if ((*(u8 *)(actor + 0x12)) >= 2 || (func_80171E10(object, entry_context, tile, actor) << 16) == 0) {
-            func_800A9A0C(actor);
+        if ((*(u8 *)(actor + 0x12)) >= 2 || (begin_actor_directional_attack(object, entry_context, tile, actor) << 16) == 0) {
+            update_actor_status_and_food(actor);
 
             return;
         }
@@ -30,14 +30,14 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
         return;
     }
 
-    dungeonUpdateActorProximityFlag(tile, actor, 3, 6, object + 0x9C);
+    update_actor_proximity_flag(tile, actor, 3, 6, object + 0x9C);
     actor_flags = *(s32 *)(actor + 0x1C);
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_record = dungeonFindValidMonsterNeighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
+            target_record = find_valid_monster_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
-                *(u16 *)(actor + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile
+                *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile
                     + 0x24), *(u8 *)(target_tile + 0x25), object + 0x98);
                 {
                     u8 path_length = (*(u8 *)(actor + 0x71)) & 0x7F;
@@ -52,13 +52,13 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                     actor_state = base_angle | actor_state;
                     *(s32 *)(actor + 0x14) = actor_state;
 
-                    random_turn = func_800A6D30();
+                    random_turn = generate_random_value();
                     *(u16 *)(actor + 0x2A) += (random_turn & 7) << 9;
                 }
             }
         }
         else {
-            if (dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0) {
+            if (place_actor_at_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0) {
                 *(u8 *)(actor + 0x71) &= 0x7F;
                 return;
             }
@@ -67,7 +67,7 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
     else if (actor_flags & 0x2000) {
         if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                dungeonRebuildMonsterReachableTiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 {
@@ -78,26 +78,26 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                     s32 target_y;
                     direction += base_angle >> 9;
                     direction_offset = (direction & 7) * 2;
-                    target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
-                    target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
+                    target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dir_step_x))) + direction_offset)));
+                    target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dir_step_y))) + direction_offset)));
                     if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y))) {
                         *(u8 *)(actor + 0x71) &= 0x7F;
                         return;
                     }
                     {
-                        u16 next_angle = dungeonGetRoundedFacingAndRoundingFlag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) target_x,
+                        u16 next_angle = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) target_x,
                             (s16) target_y, object + 0x98);
                         *(u16 *)(actor + 0x2A) = next_angle;
-                        if ((dungeonCheckMovementClearanceAndHeight((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
+                        if ((check_movement_clearance_and_height((s16) next_angle, tile, actor, 0x20) << 16) <= 0) {
                             u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
-                            *(u16 *)(actor + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
+                            *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
                                 *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
                         }
                     }
                 }
                 {
                     u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
-                    if ((dungeonCompareMonsterNeighborValues(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
+                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
                         *(u8 *)(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
                     }
@@ -109,16 +109,16 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
         {
             s8 tile_kind = *(s8 *)(tile + 0x26);
             if ((tile_kind >= 0) && (D_800E2970[tile_kind].flags & 2)) {
-                dungeonRebuildMonsterReachableTiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
-                    target_record = dungeonPlaceActorAtDirectionalNeighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor
+                    target_record = place_actor_at_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor
                         + 0x2A));
                     if (target_record != 0) {
                         if ((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000) {
-                            if ((s16)dungeonGetActorHeightDifference(target_record, actor) < 0x81) {
-                                if ((dungeonCheckDiagonalSideHeight(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
+                            if ((s16)get_actor_height_difference(target_record, actor) < 0x81) {
+                                if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
                                     *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0) {
                                     *(u8 *)(actor + 0x71) &= 0x7F;
                                     return;
@@ -128,16 +128,16 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                     }
                 }
                 if (!((*(s32 *)(actor + 0x1C)) & 0x20000)) {
-                    dungeonRebuildMonsterReachableTiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                    rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
                 }
                 else {
                     u8 *angle_flags = object + 0x98;
-                    *(u16 *)(actor + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
+                    *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
                         D_80082E80.tileX, D_80082E80.tileY, angle_flags);
-                    if ((dungeonCompareMonsterNeighborValues(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY)
+                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY)
                          << 16) != 0) {
-                        if ((s16)dungeonGetActorHeightDifference(D_800814A8, actor) < 0x81) {
-                            if ((dungeonCheckDiagonalSideHeight(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
+                        if ((s16)get_actor_height_difference(D_800814A8, actor) < 0x81) {
+                            if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
                                 *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0) {
                                 *(u8 *)(actor + 0x71) &= 0x7F;
                                 return;
@@ -162,7 +162,7 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                 base_angle += D_8006CD00[turn_index];
                 angle = base_angle;
             }
-            if ((dungeonCheckMovementClearanceAndHeight((s16) angle, tile, actor, 0x20) << 16) > 0) {
+            if ((check_movement_clearance_and_height((s16) angle, tile, actor, 0x20) << 16) > 0) {
                 if (turn_index >= 3) {
                     s32 turn_limited = limit_turn;
                     if (turn_limited) {
@@ -174,22 +174,22 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                 *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
                 *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
                 (*(u8 *)(actor + 0x71))++;
-                func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
+                update_map_cell_flags_with_item_limit(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
                     ? (0x300) : (0x3000));
                 {
                     s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-                    u8 *step_x = (u8 *)dirStepX;
+                    u8 *step_x = (u8 *)dir_step_x;
                     step_x += direction;
                     *(u8 *)(tile + 0x24) += *step_x;
-                    *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
+                    *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dir_step_y))) + direction));
                 }
-                func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
+                cycle_map_cell_flags(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
                     ? (0x300) : (0x3000));
                 break;
             }
             if (turn_index == 0) {
                 if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24))) {
-                    if ((dungeonCheckEntityRelation(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0) {
+                    if ((check_entity_relation(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0) {
                         return;
                     }
                 }
@@ -199,7 +199,7 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
         if (turn_index >= 8) {
             *(u8 *)(actor + 0x71) &= 0x7F;
             *(u16 *)(actor + 0x46) &= 0x7FFF;
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             return;
         }
 
@@ -209,7 +209,7 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
     *(u8 *)(object + 0x9C) = *(u8 *)(tile + 0x26);
     (*(u8 *)(actor + 0x6D))--;
     {
-        DungeonGlobalStatus *move_state = &dungeonStatus;
+        DungeonGlobalStatus *move_state = &g_dungeon_status;
         (((u16)move_state->unk_08))++;
     }
     if ((*(s8 *)(actor + 0x6D)) == 0) {
@@ -218,7 +218,7 @@ void func_80171420(u8 *object, void *entry_context, u8 *tile, u8 *actor)
         return;
     }
     {
-        turn_index = func_800BCB04(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile
+        turn_index = sample_terrain_surface_height(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile
             + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));
         if (turn_index < 0x200) {
             *(u16 *)(actor + 0x88) = turn_index;

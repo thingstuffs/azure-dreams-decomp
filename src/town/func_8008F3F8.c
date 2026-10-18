@@ -2,9 +2,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s16 dungeonEvaluateSummedPositionMinusYOffset();               
+s16 evaluate_summed_position_minus_y_offset();               
 
-s16 func_8008CB58(s32 context, s32 data, s32 count) {
+s16 find_minimum_sampled_position(s32 context, s32 data, s32 count) {
     s16 value;
     s16 minimum;
     s32 index;
@@ -13,7 +13,7 @@ s16 func_8008CB58(s32 context, s32 data, s32 count) {
     index = 0;
     if (count > 0) {
         do {
-            value = dungeonEvaluateSummedPositionMinusYOffset(context, data, index);
+            value = evaluate_summed_position_minus_y_offset(context, data, index);
             if ((value << 0x10) < (minimum << 0x10)) {
                 minimum = value;
             }

@@ -8,26 +8,26 @@ typedef struct S_8187B1F4_0 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8187B1F4_0;   /* arg1 in projectShadedPointsToOrderingTable */
+} S_8187B1F4_0;   /* arg1 in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_1 {
     u8 pad_00[0x90];
     s32 unk_90;
     u8 pad_94[0x12];
     u16 unk_A6;
-} S_8187B1F4_1;   /* scratch in projectShadedPointsToOrderingTable */
+} S_8187B1F4_1;   /* scratch in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_2 {
     u8 pad_00[0x16];
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_8187B1F4_2;   /* arg2 in projectShadedPointsToOrderingTable */
+} S_8187B1F4_2;   /* arg2 in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_3_pre {
     u8 * unk_00;
     u8 pad_04[0x4];
-} S_8187B1F4_3_pre;   /* the 0x8 bytes before arg0 in projectShadedPointsToOrderingTable, addressed as arg0[-1] */
+} S_8187B1F4_3_pre;   /* the 0x8 bytes before arg0 in project_shaded_points_to_ordering_table, addressed as arg0[-1] */
 
 typedef struct S_8187B1F4_3 {
     s32 unk_00;
@@ -35,7 +35,7 @@ typedef struct S_8187B1F4_3 {
     s16 unk_10;
     s16 unk_12;
     s16 unk_14;
-} S_8187B1F4_3;   /* arg0 in projectShadedPointsToOrderingTable */
+} S_8187B1F4_3;   /* arg0 in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -52,14 +52,14 @@ typedef struct S_8187B1F4_4 {
 typedef struct S_8187B1F4_5 {
     u32 unk_00;
 } S_8187B1F4_5;   /* (u8 *)VFIELD(scratch, void *, 0x24) +
-                           VFIELD(scratch, u32, 0x100) * 4 in projectShadedPointsToOrderingTable */
+                           VFIELD(scratch, u32, 0x100) * 4 in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_6 {
     u32 unk_00;
     u8 pad_04[0x4];
     u8 * unk_08;
     u8 * unk_0C;
-} S_8187B1F4_6;   /* tail in projectShadedPointsToOrderingTable */
+} S_8187B1F4_6;   /* tail in project_shaded_points_to_ordering_table */
 
 typedef struct S_8187B1F4_7 {
     u32 unk_00;
@@ -67,7 +67,7 @@ typedef struct S_8187B1F4_7 {
 
 typedef struct S_8187B1F4_8 {
     u32 unk_00;
-} S_8187B1F4_8;   /* state in projectShadedPointsToOrderingTable */
+} S_8187B1F4_8;   /* state in project_shaded_points_to_ordering_table */
 
 
 #define VFIELD(base, type, offset) (((struct { u8 _pad_[offset]; type v; } *)(base))->v)
@@ -96,7 +96,7 @@ typedef struct GlobalRef {
 typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveTag;
 
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
-s32 projectShadedPointsToOrderingTable(u8 *points, u8 *position, u8 *orientation) {
+s32 project_shaded_points_to_ordering_table(u8 *points, u8 *position, u8 *orientation) {
     s32 view_matrix[8];
     void *model_matrix;
     u8 *scratch;
@@ -121,7 +121,7 @@ s32 projectShadedPointsToOrderingTable(u8 *points, u8 *position, u8 *orientation
     u8 *tail;
     u8 *tail_2;
 
-    global = (GlobalRef *)((GlobalState * *)(&gameWork));
+    global = (GlobalRef *)((GlobalState * *)(&g_game_work));
     scratch = (u8 *)0x1F800000;
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);

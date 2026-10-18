@@ -47,7 +47,7 @@ extern s32 D_80086AD8;
 extern u16 D_80094422;
 
 /* Emit scattered particles and mark the entity for removal when its timer expires. */
-void dungeonEmitScatteredParticlesUntilExpired(Entity *self, Position *origin, s32 spawn_arg) {
+void emit_scattered_particles_until_expired(Entity *self, Position *origin, s32 spawn_arg) {
     s32 particle_index;
     u16 tick_count;
     Header *header;

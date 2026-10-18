@@ -6,14 +6,14 @@
 #endif
 
 extern void func_80048A44(void *a0, s16 a1, s16 a2, s32 a3);
-extern void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
-extern void func_800A56E0(s32 a0);
+extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
+extern void play_sound_if_enabled(s32 a0);
 
 extern u8 D_800DD0B8[8];
 extern s32 D_8008D470;
 
 /* Create an effect at the target and initialize its state and sound. */
-void dungeonBeginPlayerPickupAnimation(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
+void begin_player_pickup_animation(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
     u16 flags;
     s32 direction;
     u8 *effect;
@@ -30,10 +30,10 @@ void dungeonBeginPlayerPickupAnimation(u8 *actor, s32 effect_arg, u8 *target, u8
 
     *(u8 **)(target + 0x2C) = &D_800DD0B8[0];
 
-    direction = ((gameWork.view.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
+    direction = ((g_game_work.view.viewAngle + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
     func_80048A44(target, D_800DD0B8[direction], 0, 1);
 
-    effect = func_800A8608(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);
+    effect = create_item_render_object(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);
     *(void **)(actor + 0x124) = effect;
     if (effect != NULL) {
         *(void **)(effect + 0x10) = &D_8008D470;
@@ -52,11 +52,11 @@ void dungeonBeginPlayerPickupAnimation(u8 *actor, s32 effect_arg, u8 *target, u8
         if (*(u8 *)(*(u8 **)(actor + 0xBC) + 1) == 0xE) {
             sound_id = 0x516;
         }
-        func_800A56E0(sound_id);
+        play_sound_if_enabled(sound_id);
 
         *(s16 *)(effect_state + 0xAE) = (s16)(*(u16 *)(source + 0x46) == 1);
         *(u16 *)(actor + 0x46) = 0;
         return;
     }
-    *(void **)(actor + 0x8C) = dungeonHandlePlayerInput;
+    *(void **)(actor + 0x8C) = handle_player_input;
 }

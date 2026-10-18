@@ -70,14 +70,14 @@ typedef struct StackLocals {
 } StackLocals;
 
 
-extern s32 resolveRecordOrientationOrFallback(void *, Lookup *, s16 *, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, Lookup *, s16 *, s32);
 extern void func_80024F0C(State *, Motion *);
-extern s32 dungeonCheckLayerOffsetHeight(s32, s32, s16, s32);
-extern s32 func_800BCB04(s32, s32, s16);
+extern s32 check_layer_offset_height(s32, s32, s16, s32);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern void func_8002523C(State *, Motion *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 extern void func_80024640(State *, Motion *);
-extern void func_80024024(void *, u8, Owner *);
+extern void interpolate_view_parameters(void *, u8, Owner *);
 
 
 /* Updates an owner-directed movement sequence and its timed action states. */
@@ -104,7 +104,7 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
 
     case 1:
         prefix = (OwnerPrefix *)((u8 *)owner - 0x20);
-        if (resolveRecordOrientationOrFallback(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
+        if (resolve_record_orientation_or_fallback(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
             !(prefix->lookup->flags & 0x8000)) {
             break;
         }
@@ -185,33 +185,33 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
                 while (index < 8) {
                     grid_x = (s16)path_x;
                     grid_y = (s16)path_y;
-                    if ((s16)dungeonCheckLayerOffsetHeight((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->z,
+                    if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->z,
                             (s16)(action->angle << 9)) != 0) {
                         break;
                     }
-                    position = (Motion *)&dirStepX[action->angle];
+                    position = (Motion *)&dir_step_x[action->angle];
                     probe_z = (u16)owner->z;
                     probe_z -= 32;
                     probe_z = (u32)probe_z << 16;
                     probe_z >>= 16;
-                    step_y = &dirStepY[action->angle];
-                    floor_height = func_800BCB04(((grid_x + *(s16 *)position) << 6) + 32 & 0xFFE0,
+                    step_y = &dir_step_y[action->angle];
+                    floor_height = sample_terrain_surface_height(((grid_x + *(s16 *)position) << 6) + 32 & 0xFFE0,
                         ((grid_y + *step_y) << 6) + 32 & 0xFFE0, probe_z);
                     if ((s16)floor_height >= 513 || (s16)(floor_height - owner->z) < -63) {
                         break;
                     }
                     index++;
-                    path_x += dirStepX[action->angle];
-                    path_y += dirStepY[action->angle];
+                    path_x += dir_step_x[action->angle];
+                    path_y += dir_step_y[action->angle];
                     saved_y = path_y;
                     last_x = path_x;
                 }
 
                 target = &stack.local;
                 index = 1;
-                dest_x = ((last_x << 16) >> 10) + ((dirStepX[action->angle] + 1) << 5);
+                dest_x = ((last_x << 16) >> 10) + ((dir_step_x[action->angle] + 1) << 5);
                 target->x.h.hi = dest_x;
-                dest_y = ((saved_y << 16) >> 10) + ((dirStepY[action->angle] + 1) << 5);
+                dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[action->angle] + 1) << 5);
                 target->y.h.hi = dest_y;
                 target->z.h.hi = motion->z.h.hi + 32;
                 stack.diffs[0] = abs(target->x.h.hi - motion->x.h.hi);
@@ -253,7 +253,7 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
         if (action->timer >= action->duration) {
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             action->timer = 0;
             action->state++;
         }
@@ -269,7 +269,7 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
 
     case 4:
         if (action->timer >= 49) {
-            func_80024024(owner->target, action->byte9, owner);
+            interpolate_view_parameters(owner->target, action->byte9, owner);
             action->timer = 0;
             action->state++;
         }
@@ -277,9 +277,9 @@ void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
 
     case 5:
         if (action->fieldC == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             *(u16 *)((u8 *)action - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
 

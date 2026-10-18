@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void dungeonExpandThenShrinkEffect(void *effect, void *unused, void *visual)
+void expand_then_shrink_effect(void *effect, void *unused, void *visual)
 {
     s16 state;
     s32 fade_brightness;
@@ -43,6 +43,6 @@ void dungeonExpandThenShrinkEffect(void *effect, void *unused, void *visual)
     ((CB_80170920_S_80170920_1 *)visual)->unk_1A += 0x190;
     if (((CB_80170920_S_80170920_0 *)effect)->unk_24.u <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

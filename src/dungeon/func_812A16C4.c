@@ -1,27 +1,27 @@
-#define func_800A2C34 func_800A1904
+#define has_pending_actor_or_turn_action func_800A1904
 #define func_8014F6B8 func_8014E6B8
 #define func_80042B68 func_8004272C
-#define dungeonAdvanceActorPendingAction func_800A9454
-#define func_800AA888 func_800A9540
-#define func_800A9A04 townUpdateFadingEffectMotion
+#define advance_actor_pending_action func_800A9454
+#define begin_actor_move_to_target_facing func_800A9540
+#define func_800A9A04 update_fading_effect_motion
 #define D_8014FE94 D_8014EE94
-#define dungeonCheckEntityRelation func_80098F70
+#define check_entity_relation func_80098F70
 #define D_8014D514 D_8014C514
 #define D_8014FEC4 D_8014EEC4
 #define D_8014FEBC D_8014EEBC
-#define func_800A9A0C func_800A86C4
-#define dungeonBeginReadyActorDirectionalAction func_800A936C
+#define update_actor_status_and_food func_800A86C4
+#define begin_ready_actor_directional_action func_800A936C
 #define func_80047784 func_80047320
-#define func_800A6D30 func_800A59E8
+#define generate_random_value func_800A59E8
 #define D_800814A8 D_800803DC
-#define dungeonBeginPushedActorMove func_800A8F10
+#define begin_pushed_actor_move func_800A8F10
 #define func_80042900 func_800424C4
 #define D_80082E80 D_80081490
-#define dungeonGetTileChebyshevDistance func_8009EB30
+#define get_tile_chebyshev_distance func_8009EB30
 #define D_8014FECC D_8014EECC
 /* Relink of matched dungeon/func_812776C4 at file 0x12976C4; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -53,7 +53,7 @@ extern s32 func_80098F70(void *, void *);
 extern s32 func_8009EB30(void *, void *);
 extern s32 func_800A1904(void *);
 extern s32 func_800A59E8();
-extern void townUpdateFadingEffectMotion(void *);
+extern void update_fading_effect_motion(void *);
 extern void func_800A86C4(void *);
 extern void func_800A8F10(void *, void *, void *, void *);
 extern s32 func_800A936C(void *, void *, void *, s32);
@@ -89,11 +89,11 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
             entryFrames = D_8014EE94;
 
             entity->unk_2C.as_pv = entryFrames;
-            direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
             func_80047320(entity, *directionFrame, 0);
-            dungeon_state = &dungeonStatus;
+            dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;
             next_state = action->phase + 1;
             action->phase = next_state;
@@ -111,7 +111,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         waitFrames = D_8014EEBC;
 
         entity->unk_2C.as_pv = waitFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -131,7 +131,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         startFrames = D_8014EEC4;
 
         entity->unk_2C.as_pv = startFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -146,7 +146,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
     {
         u8 *finishFrames;
         if ((func_800424C4(actor, 1) << 16) != 0) {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
             if ((dungeon_state->flags & 0x1000) != 0) {
@@ -206,7 +206,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
             }
 
             func_800A86C4(actor);
-            townUpdateFadingEffectMotion(actor);
+            update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80081490;
                 s8 room_id = entity->unk_26.as_s8;
@@ -225,7 +225,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         finishFrames = D_8014EECC;
 
         entity->unk_2C.as_pv = finishFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -234,7 +234,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         }
         action->phase++;
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A++;
         }
         return;
@@ -257,7 +257,7 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         entity->unk_2C.as_pv = restoreFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
         func_80047320(entity, *directionFrame, 0);
@@ -277,12 +277,12 @@ void func_8014DEC4(ActorActionWork *action, void *context, Rec_D_80082E80 *entit
         idleFrames = D_8014EE94;
 
         entity->unk_2C.as_pv = idleFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;
         func_80047320(entity, *directionFrame, 0);
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;
         }
         break;

@@ -16,12 +16,12 @@ typedef struct S_80084904 {
 
 extern S_80084904 D_80084904;
 
-extern void submitTaggedDriverByte(u8 a0, u8 a1, u8 a2);
-extern void submitScaledDriverHalfwordPair(s32 a0, s32 a1, s32 a2);
+extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
+extern void submit_scaled_driver_halfword_pair(s32 a0, s32 a1, s32 a2);
 extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* Enters mode 2, activates pending status fields, resets subsystems, and registers status callbacks. */
-void soundBeginCdPlaybackSetup(void) {
+void sound_begin_cd_playback_setup(void) {
     SoundPlaybackState *status;
     u8 pending_2c;
     u8 pending_2d;
@@ -36,8 +36,8 @@ void soundBeginCdPlaybackSetup(void) {
     status->unk_2D = pending_2d;
     status->flags04 |= 0x200;
 
-    submitTaggedDriverByte(0, 0, 0);
-    submitScaledDriverHalfwordPair(0, 0, 0);
+    submit_tagged_driver_byte(0, 0, 0);
+    submit_scaled_driver_halfword_pair(0, 0, 0);
     Control_CD(0xE, 0, &status->unk_28);
     Control_CD(0xD, (void *)(s32) status->unk_08, &status->unk_2C);
 }

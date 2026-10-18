@@ -4,7 +4,7 @@
 extern s32 *D_000045FC[];
 
 /* Tests an indexed flag, treating indices zero and one as constant results. */
-s32 func_80003C70(s32 flag_index)
+s32 test_indexed_flag_treating_indices(s32 flag_index)
 {
     s32 unit_bit;
     s32 value;

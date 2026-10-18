@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void dungeonCreateRandomizedRotatedEffect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
+void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
 {
     void *effect;
     CB_80173CFC_S_80173CFC_0 *effect_part;
@@ -11,7 +11,7 @@ void dungeonCreateRandomizedRotatedEffect(void *unused_context, Rec_func_80173CF
     if (effect != 0) {
         effect_part = (u8 *)effect + 0x20;
         effect_part->unk_24 = 5;
-        (*(void * *)((u8 *)effect + 0x10)) = dungeonFadeTimedPrimitiveEffect;
+        (*(void * *)((u8 *)effect + 0x10)) = fade_timed_primitive_effect;
         func_8004491C(effect, func_80045340);
         effect_data = (*(void * *)((u8 *)effect + 0xC));
         effect_data->unk_10 = 0x60;

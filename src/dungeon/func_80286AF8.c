@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-s32 dungeonGenerateFloorLayout(void)
+s32 generate_floor_layout(void)
 {
     s8 flags[16];
     s32 conn[16];
@@ -30,10 +30,10 @@ s32 dungeonGenerateFloorLayout(void)
     s32 y0;
     s32 x1;
     s32 y1;
-    dc = (floor_generate_isolated_80286AF8_Room *) ((floor_generate_isolated_80286AF8_DungeonCfg *)((u8 *)&gameWork + 476));
+    dc = (floor_generate_isolated_80286AF8_Room *) ((floor_generate_isolated_80286AF8_DungeonCfg *)((u8 *)&g_game_work + 476));
     j = 0;
     tries = 1024;
-    rnd = func_800A6D30();
+    rnd = generate_random_value();
     if ((rnd & 0x7F) == 0) {
         D_8001F660 = 2;
     }
@@ -44,7 +44,7 @@ s32 dungeonGenerateFloorLayout(void)
     else {
         D_8001F660 = 4;
     }
-    rnd = func_800A6D30();
+    rnd = generate_random_value();
     if ((rnd & 0x7F) == 0) {
         D_8001F664 = 2;
     }
@@ -61,14 +61,14 @@ s32 dungeonGenerateFloorLayout(void)
     }
 
     (*(s16 *)D_8001F668) = 0;
-    if (((s16) randomDungeonRange16(0, 512)) < 2) {
+    if (((s16) random_dungeon_range_16(0, 512)) < 2) {
         j = 1;
     }
     else {
         oy = (D_8001F664 * D_8001F660) - 1;
         k = 0;
         while (oy >= 0) {
-            flags[k] = (func_800A6D30() & 3) != 0;
+            flags[k] = (generate_random_value() & 3) != 0;
             oy--;
             conn[k] = 0;
             k++;
@@ -80,10 +80,10 @@ s32 dungeonGenerateFloorLayout(void)
                 if (flags[k] > 0) {
                     s32 rx;
                     s32 ry;
-                    rx = randomDungeonRange16(0, ((64 / D_8001F660) / 2) - 1) + (ox * (64 / D_8001F660));
-                    ry = randomDungeonRange16(0, ((64 / D_8001F664) / 2) - 1) + (oy * (64 / D_8001F664));
-                    dw = randomDungeonRange16(0, ((64 / D_8001F660) / 2) - 1);
-                    jr = randomDungeonRange16(0, ((64 / D_8001F664) / 2) - 1) + 5;
+                    rx = random_dungeon_range_16(0, ((64 / D_8001F660) / 2) - 1) + (ox * (64 / D_8001F660));
+                    ry = random_dungeon_range_16(0, ((64 / D_8001F664) / 2) - 1) + (oy * (64 / D_8001F664));
+                    dw = random_dungeon_range_16(0, ((64 / D_8001F660) / 2) - 1);
+                    jr = random_dungeon_range_16(0, ((64 / D_8001F664) / 2) - 1) + 5;
                     rh = jr;
                     do {
                     } while (0);
@@ -94,14 +94,14 @@ s32 dungeonGenerateFloorLayout(void)
                     y0 = (s16) (ry - 2);
                     x1 = (s16) (dw + 9);
                     y1 = (s16) (rh + 4);
-                    if (dungeonFindFirstNonzeroRectangleField(x0, y0, x1, y1) == 0) {
+                    if (find_first_nonzero_rectangle_field(x0, y0, x1, y1) == 0) {
                         D_800E2970[k].unk_0A = 1;
-                        dungeonFillGenerationCellMarks(x0, y0, x1, y1, k + 1);
+                        fill_generation_cell_marks(x0, y0, x1, y1, k + 1);
                         D_800E2970[k].x = rx + 1;
                         D_800E2970[k].y = ry + 1;
                         D_800E2970[k].w = dw + 3;
                         D_800E2970[k].h = rh - 2;
-                        D_800E2970[k].unk_08 = func_800A6D30() & 0x60;
+                        D_800E2970[k].unk_08 = generate_random_value() & 0x60;
                         j++;
                         flags[k] = 2;
                         conn[k] += 0x01010101;
@@ -110,32 +110,32 @@ s32 dungeonGenerateFloorLayout(void)
                         s32 sy;
                         s32 sx;
                         flags[k] = 0;
-                        sx = ((ox * (64 / D_8001F660)) + (func_800A6D30() & 7)) + 6;
-                        sy = (oy * (64 / D_8001F664)) + (func_800A6D30() & 7);
+                        sx = ((ox * (64 / D_8001F660)) + (generate_random_value() & 7)) + 6;
+                        sy = (oy * (64 / D_8001F664)) + (generate_random_value() & 7);
                         sy = sy + 6;
                         D_800E2970[k].x = sx;
                         D_800E2970[k].y = sy;
                         D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
-                            func_800A6D30() & 0x60;
+                            generate_random_value() & 0x60;
                     }
                 }
                 else {
                     s32 sy;
                     s32 sx;
-                    sx = ((ox * (64 / D_8001F660)) + (func_800A6D30() & 7)) + 6;
-                    sy = (oy * (64 / D_8001F664)) + (func_800A6D30() & 7);
+                    sx = ((ox * (64 / D_8001F660)) + (generate_random_value() & 7)) + 6;
+                    sy = (oy * (64 / D_8001F664)) + (generate_random_value() & 7);
                     sy = sy + 6;
                     D_800E2970[k].x = sx;
                     D_800E2970[k].y = sy;
                     D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
-                        func_800A6D30() & 0x60;
+                        generate_random_value() & 0x60;
                 }
             }
 
         }
 
     }
-    dungeonClearThirtySixTableFields();
+    clear_thirty_six_table_fields();
     hdr = ((s16 *)D_80081468);
     hdr[3] = j;
     if (((s16) j) < 2) {
@@ -146,8 +146,8 @@ s32 dungeonGenerateFloorLayout(void)
         D_800E2970[0].unk_0A = 1;
         D_800E2970[0].w = (1 << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) - 4;
         D_800E2970[0].h = full_height - 4;
-        D_800E2970[0].unk_08 = func_800A6D30() & 0x60;
-        dungeonUpdateRegionUntilComplete(&D_800E2970[0], 0);
+        D_800E2970[0].unk_08 = generate_random_value() & 0x60;
+        update_region_until_complete(&D_800E2970[0], 0);
     }
     else {
         floor_generate_isolated_80286AF8_Room *room;
@@ -156,15 +156,15 @@ s32 dungeonGenerateFloorLayout(void)
             for (ox = 0; ox < D_8001F660; ox++) {
                 k = (oy * D_8001F660) + ox;
                 if (D_800E2970[k].unk_0A != 0) {
-                    dungeonUpdateRegionUntilComplete(&D_800E2970[k], k);
+                    update_region_until_complete(&D_800E2970[k], k);
                 }
             }
 
         }
 
-        dungeonFillInactiveInteriorCells(16384);
-        k = (func_800A6D30() & 0xFFFF) % (D_8001F664 * D_8001F660);
-        dir = func_800A6D30() & 6;
+        fill_inactive_interior_cells(16384);
+        k = (generate_random_value() & 0xFFFF) % (D_8001F664 * D_8001F660);
+        dir = generate_random_value() & 6;
         rp = D_800E2970;
         while (1) {
             n = D_8001F664 * D_8001F660;
@@ -200,12 +200,12 @@ s32 dungeonGenerateFloorLayout(void)
                 bp = (u8 *) (j + (((u32) (dir << 16)) >> 17));
                 if ((*bp) != 0) {
                     dirv = dir;
-                    dungeonResetGenerationLinkScratch();
-                    next = dungeonSearchOutwardForEligibleTile(&dirv, ox, oy, flags, cn, 1, ks);
+                    reset_generation_link_scratch();
+                    next = search_outward_for_eligible_tile(&dirv, ox, oy, flags, cn, 1, ks);
                     if (next >= 0) {
                         u8 *bq;
                         s32 idx;
-                        if (dungeonConnectRoomsWithCorridor(rh, dirv, ks, next, flags) != 0) {
+                        if (connect_rooms_with_corridor(rh, dirv, ks, next, flags) != 0) {
                             return 1;
                         }
                         bq = (u8 *) (&cn[next]);
@@ -256,7 +256,7 @@ s32 dungeonGenerateFloorLayout(void)
                 i = (D_8001F664 * D_8001F660) - 1;
                 for (; i >= 0; i--) {
                     if ((rp[i].link == 0) && (rp[i].active != 0)) {
-                        dungeonClearRegionGridRectangle(&rp[i]);
+                        clear_region_grid_rectangle(&rp[i]);
                     }
                 }
                 break;
@@ -273,8 +273,8 @@ s32 dungeonGenerateFloorLayout(void)
 
     }
     rnd = jr;
-    dungeonCompactGenerationRegions();
-    func_80017530();
-    dungeonUpdateActiveAreaTiles();
+    compact_generation_regions();
+    clear_generation_cell_masks();
+    update_active_area_tiles();
     return 0;
 }

@@ -34,14 +34,14 @@ typedef struct {
 extern s32 func_800644B8(s32);
 
 /* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
-void dungeonAdvanceEffectFadeScaleAndPulse(Effect *effect, void *unused, Output *output) {
+void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *output) {
     u16 tick;
     u16 brightness;
     u16 state;
     u16 duration;
     s16 scale;
     Output *linked_output;
-    GameWork *dungeon = &gameWork;
+    GameWork *dungeon = &g_game_work;
 
     if (effect->state == 0) {
         tick = effect->count - 1;
@@ -88,7 +88,7 @@ void dungeonAdvanceEffectFadeScaleAndPulse(Effect *effect, void *unused, Output 
         effect->count = tick;
         if ((tick << 0x10) <= 0) {
             ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
     }
 

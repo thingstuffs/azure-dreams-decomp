@@ -4,7 +4,7 @@
 
 typedef struct S_80023C80_0_pre {
     u16 unk_00;
-} S_80023C80_0_pre;   /* the 0x2 bytes before obj in townUpdateObjectStateAndSize, addressed as obj[-1] */
+} S_80023C80_0_pre;   /* the 0x2 bytes before obj in update_object_state_and_size, addressed as obj[-1] */
 
 typedef struct S_80023C80_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -15,7 +15,7 @@ typedef struct S_80023C80_0 {
     union { u16 s; u16 u; } unk_0E;   /* accessed as both */
     s16 unk_10;
     s16 unk_12;
-} S_80023C80_0;   /* obj in townUpdateObjectStateAndSize */
+} S_80023C80_0;   /* obj in update_object_state_and_size */
 
 typedef struct S_80023C80_1 {
     u8 pad_00[0x2];
@@ -24,11 +24,11 @@ typedef struct S_80023C80_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80023C80_1;   /* (void *)work in townUpdateObjectStateAndSize */
+} S_80023C80_1;   /* (void *)work in update_object_state_and_size */
 
 
 /* Advances object state, updates coordinates and size, or sets status flags. */
-void townUpdateObjectStateAndSize(void *object) {
+void update_object_state_and_size(void *object) {
     void *obj;
     s32 state;
     s32 size;
@@ -84,7 +84,7 @@ void townUpdateObjectStateAndSize(void *object) {
     case 2:
         (*(u16 *)((u8 *)obj + -2)) =
             (u16) (((S_80023C80_0_pre *)obj)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

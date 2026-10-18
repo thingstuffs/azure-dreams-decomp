@@ -77,7 +77,7 @@ extern Cell D_80026648[];
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
 
 /* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
-void dungeonSpawnRandomizedQuadEffects(void) {
+void spawn_randomized_quad_effects(void) {
     Cell *vertices;
     Cell *diagonal;
     Cell *below;

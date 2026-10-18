@@ -203,7 +203,7 @@ typedef struct {
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
-void transformAndQueueMeshPrimitives(S_func_800241A8_4 *mesh, S_func_800241A8_2 *transform, S_func_800241A8_3 *object, s32 depth_bias)
+void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, S_func_800241A8_2 *transform, S_func_800241A8_3 *object, s32 depth_bias)
 {
     S_func_800241A8_1 *scratch = (S_func_800241A8_1 *)0x1F800000;
     MeshTexture *texture;
@@ -212,7 +212,7 @@ void transformAndQueueMeshPrimitives(S_func_800241A8_4 *mesh, S_func_800241A8_2 
     u32 render_flags;
     GameWork *game_work;
 
-    game_work = &gameWork;
+    game_work = &g_game_work;
     scratch->unk_24 = (u8 *)game_work->unk_000 + 0xB0;
     scratch->unk_88 = transform->unk_02;
     scratch->unk_8C = transform->unk_06;

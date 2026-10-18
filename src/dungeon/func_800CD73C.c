@@ -6,7 +6,7 @@ typedef void (*DungeonCallback)(void *, void *, void *, void *);
 
 extern DungeonCallback D_800E2284[];
 
-extern s16 func_800BCB04(u16, u16, s16);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void func_800478B8(void *);
 
 
@@ -57,7 +57,7 @@ void func_800D2E9C(void *object, void *motion, void *entity) {
     s16 base_height;
     s32 base_height_u;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         (*(u8 *)((u8 *)update_obj + (0x71))) &= 0x7F;
         return;
     }
@@ -96,7 +96,7 @@ void func_800D2E9C(void *object, void *motion, void *entity) {
     fall_flags = ((S_800D2E9C_1 *)object)->unk_98;
     ((S_800D2E9C_1 *)object)->unk_90.at00.v = fall_offset + fall_speed;
 
-    if (!(fall_flags & 4) && (ground_height = func_800BCB04(
+    if (!(fall_flags & 4) && (ground_height = sample_terrain_surface_height(
             ((S_800D2E9C_0 *)motion)->unk_00.at02.v,
             ((S_800D2E9C_0 *)motion)->unk_04.at02.v,
             (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
@@ -122,7 +122,7 @@ void func_800D2E9C(void *object, void *motion, void *entity) {
                 (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
                 tile_x = (((S_800D2E9C_2 *)ent)->unk_24 << 6) | 0x20;
                 tile_y = (((S_800D2E9C_2 *)ent)->unk_25 << 6) | 0x20;
-                ground_height = func_800BCB04(
+                ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 ((S_800D2E9C_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
                 (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;

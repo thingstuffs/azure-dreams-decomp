@@ -5,14 +5,14 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-void selectIndirectTableEntry(void *, u8, s8);              /* extern */
+void select_indirect_table_entry(void *, u8, s8);              /* extern */
 void func_80047784(void *, u8, s32);             /* extern */
 void func_800478B8(void *);                       /* extern */
 s32 func_800644B8(s32);                            /* extern */
-void dungeonApplyMonsterKoyawData(s32, void *);               /* extern */
-s32 dungeonRefreshActorFacingAndLifecycle(void *, void *, void *, void *); /* extern */
-s32 func_800AA36C(void *, void *, void *, void *); /* extern */
-s16 func_800BCB04(s32, s32, s16);                 /* extern */
+void apply_monster_koyaw_data(s32, void *);               /* extern */
+s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *); /* extern */
+s32 try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern */
+s16 sample_terrain_surface_height(s32, s32, s16);                 /* extern */
 extern M2C_UNK D_80171400[3];
 extern u8 D_80175140[12];
 extern u8 D_80175148[12];
@@ -39,7 +39,7 @@ typedef struct S_80170BF8_0 {
     union { s8 s; u8 u; } unk_9D;   /* accessed as both */
     u8 pad_9E[0xA];
     s16 unk_A8;
-} S_80170BF8_0;   /* arg0 in dungeonUpdateActorCallbacksAndTerrain */
+} S_80170BF8_0;   /* arg0 in update_actor_callbacks_and_terrain */
 
 typedef struct S_80170BF8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -49,7 +49,7 @@ typedef struct S_80170BF8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80170BF8_1;   /* arg1 in dungeonUpdateActorCallbacksAndTerrain */
+} S_80170BF8_1;   /* arg1 in update_actor_callbacks_and_terrain */
 
 typedef struct S_80170BF8_2 {
     u8 pad_00[0x4];
@@ -61,7 +61,7 @@ typedef struct S_80170BF8_2 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80170BF8_2;   /* arg2 in dungeonUpdateActorCallbacksAndTerrain */
+} S_80170BF8_2;   /* arg2 in update_actor_callbacks_and_terrain */
 
 typedef struct S_80170BF8_3 {
     u8 pad_00[0x1C];
@@ -70,11 +70,11 @@ typedef struct S_80170BF8_3 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_80170BF8_3;   /* actor2 in dungeonUpdateActorCallbacksAndTerrain */
+} S_80170BF8_3;   /* actor2 in update_actor_callbacks_and_terrain */
 
 /* Updates actor callbacks, movement, animation, and terrain-relative height. */
-void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, void *object_arg) {
-    u16 initial_flags = dungeonStatus.flags;
+void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void *object_arg) {
+    u16 initial_flags = g_dungeon_status.flags;
     s32 bob_offset = 0;
     void *actor_base = actor_arg;
 
@@ -116,7 +116,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
         return;
     }
     state_or_facing = (s8) ((S_80170BF8_0 *)actor_arg)->unk_6D;
-    if (dungeonRefreshActorFacingAndLifecycle(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg) == 0) {
+    if (refresh_actor_facing_and_lifecycle(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg) == 0) {
         update_callback = ((S_80170BF8_0 *)actor_arg)->unk_8C;
         if (update_callback != NULL) {
             update_callback(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
@@ -124,7 +124,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
         ((void (*)(void *, void *, void *, void *))D_80175198[((S_80170BF8_0 *)actor_arg)->unk_9A])(actor_arg,
             ((void *)(motion_arg)), object_arg, actor_arg);
         if ((s16) state_or_facing != (s8) ((S_80170BF8_0 *)actor_arg)->unk_6D) {
-            func_800AA36C(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
+            try_move_actor_to_valid_position(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
         }
         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v =
             (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v
@@ -143,14 +143,14 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
             + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
         object_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
         if (!(object_flags & 0x8000)) {
-            facing = ((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
+            facing = ((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
-                selectIndirectTableEntry(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing),
+                select_indirect_table_entry(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing),
                     ((S_80170BF8_2 *)object_arg)->unk_04);
                 ((S_80170BF8_0 *)actor_arg)->unk_94 = facing;
             }
-            if (dirSpriteFlag[state_or_facing] != 0) {
+            if (dir_sprite_flag[state_or_facing] != 0) {
                 facing_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
                 facing_flags |= 1;
             } else {
@@ -158,7 +158,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
             }
             ((S_80170BF8_2 *)object_arg)->unk_14 = (u16) facing_flags;
             if (((S_80170BF8_0 *)actor_arg)->unk_9A != 8) {
-                dungeonApplyMonsterKoyawData(((S_80170BF8_3 *)actor_base)->unk_1C, object_arg + 0xC);
+                apply_monster_koyaw_data(((S_80170BF8_3 *)actor_base)->unk_1C, object_arg + 0xC);
             }
             if (!(((S_80170BF8_3 *)actor_base)->unk_1C & 0x20)) {
                 if (!(((S_80170BF8_2 *)object_arg)->unk_14 & 0x40)) {
@@ -178,25 +178,25 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                         anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
                         if (anim_table == D_80175148) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175140;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175140;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175140) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175148;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175148;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175170) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175178;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175178;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (anim_table == D_80175178) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175170;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175170;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
@@ -212,7 +212,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    hover_ground_offset = (s16) (func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                    hover_ground_offset = (s16) (sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
                         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
                         (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20))
                         - ((S_80170BF8_3 *)actor_base)->unk_88.u);
@@ -229,7 +229,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                 ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                 ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (motion_flags & 0x7FFF);
                 if (!(motion_flags & 8)) {
-                    ground_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                    ground_offset = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
                         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
                         (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
                     ground_height = (s16) ground_offset;
@@ -254,7 +254,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                     - bob_offset);
                 bob_offset = 0;
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    ground_offset_3 = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                    ground_offset_3 = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
                         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
                         (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
                     hidden_ground_height = (s16) ground_offset_3;
@@ -275,25 +275,25 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                         hidden_anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
                         if (hidden_anim_table == D_80175148) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175140;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175140;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175140) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175148;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175148;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175170) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175178;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175178;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
                         } else if (hidden_anim_table == D_80175178) {
                             ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175170;
-                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            frame_addr = (u32) ((((s32) (g_game_work.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
                                 + 0x100) >> 9) & 7));
                             frame_addr += (u32) D_80175170;
                             func_80047784(object_arg, *(u8 *) frame_addr, 0);
@@ -309,7 +309,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    hidden_hover_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                    hidden_hover_offset = sample_terrain_surface_height(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
                         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
                         (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u;
                     height_offset = ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v;
@@ -328,7 +328,7 @@ void dungeonUpdateActorCallbacksAndTerrain(void *actor_arg, void *motion_arg, vo
         height_flags = ((S_80170BF8_3 *)actor_base)->unk_1C;
         if (height_flags & 0x40000000) {
             ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (height_flags & 0xBFFFFFFF);
-            tile_height = func_800BCB04((((S_80170BF8_2 *)object_arg)->unk_24 << 6) | 0x20,
+            tile_height = sample_terrain_surface_height((((S_80170BF8_2 *)object_arg)->unk_24 << 6) | 0x20,
                 (((S_80170BF8_2 *)object_arg)->unk_25 << 6) | 0x20,
                 (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
             if (tile_height < 0x200) {

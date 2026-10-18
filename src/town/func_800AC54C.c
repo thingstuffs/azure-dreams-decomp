@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Singly-linked list node headed by D_80081498 (shared shape with
-   func_80040418/removeMarkedActiveNodes/findActiveListNode/markActiveNodesByCallback): next ptr @0x0,
+   func_80040418/remove_marked_active_nodes/find_active_list_node/mark_active_nodes_by_callback): next ptr @0x0,
    a 32-bit id/value field @0x10, and a 16-bit flags field @0x1E. */
 typedef struct S_80081498 {
     struct S_80081498 *next; /* 0x00 */
@@ -17,7 +17,7 @@ extern struct {
 } D_80081498;
 
 /* Returns the node matching a negative key with flag 0x400 clear, or NULL. */
-void *func_800A9CAC(s32 target_key)
+void *find_unflagged_node_by_key(s32 target_key)
 {
     S_80081498 *node;
     S_80081498 *next;

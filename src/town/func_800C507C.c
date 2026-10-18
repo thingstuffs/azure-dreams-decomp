@@ -1,5 +1,5 @@
 #include "common.h"
 
 /* Returns without performing any work. */
-void townNoOpTransformCallback(void) {
+void no_op_transform_callback(void) {
 }

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townSetReferencedObjectActiveFlag();                            /* extern */
-void townSetScriptFlagBit();                     /* extern */
+void set_referenced_object_active_flag();                            /* extern */
+void set_script_flag_bit();                     /* extern */
 
-/* Runs townSetScriptFlagBit with code 0x1452 and its townSetReferencedObjectActiveFlag follow-up. */
-void townProcessEvent1452AndRefresh(void) {
-    townSetScriptFlagBit(0x1452);
-    townSetReferencedObjectActiveFlag();
+/* Runs set_script_flag_bit with code 0x1452 and its set_referenced_object_active_flag follow-up. */
+void process_event_1452_and_refresh(void) {
+    set_script_flag_bit(0x1452);
+    set_referenced_object_active_flag();
 }

@@ -10,12 +10,12 @@
 
 
 extern void func_80047784(void *, u8, s32);
-extern void dungeonPrepareDirectionalAttack(void *, void *, s16, s32, s32);
-extern s32 dungeonGetActorHeightDifference(s32, void *);
-extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-extern s32 func_800A2B5C(void *);
-extern s32 func_800A2CB8(void *, s32);
-extern void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
+extern void prepare_directional_attack(void *, void *, s16, s32, s32);
+extern s32 get_actor_height_difference(s32, void *);
+extern s32 place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern s32 check_entity_interaction_compatibility(void *, s32);
+extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
 extern u8 D_80173FB8[];
-s32 dungeonCheckActionEligibilityUpdatesActorStateDirectionalAnimationSuccess(void *action_state, s32 action_id, void *sprite, EntityRec *actor);
+s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, EntityRec *actor);
 #endif

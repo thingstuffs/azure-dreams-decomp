@@ -116,24 +116,24 @@ typedef struct S_func_819A6800_10 {
 extern u8 D_800814A8[16];
 struct S_800244BC_2;
 void func_800244BC(void *, struct S_800244BC_2 *, s32);
-void dungeonUpdateJitteredEffectPoints(void *);
-s32 func_80024B20(void *);
+void update_jittered_effect_points(void *);
+s32 update_segment(void *);
 extern u8 D_800DEE38[];
 extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)D_800814A8)
 
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern s32 resolveRecordOrientationOrFallback(void *, void *, void *, s32);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 func_80053EF0(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
-extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
+extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 
 void func_80024020(void *sequence, void *out_position);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 
 void (*const dungeon_19c6800_entry)(void *, void *) = func_80024020;
@@ -172,7 +172,7 @@ void func_80024020(void *sequence, void *out_position)
         ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
-        new_object = dungeonScanMonsterAlongHeading(reloaded_object,
+        new_object = scan_monster_along_heading(reloaded_object,
                                    D_80082E80.tileX,
                                    D_80082E80.tileY,
                                    reloaded_object->unk_2A,
@@ -200,7 +200,7 @@ void func_80024020(void *sequence, void *out_position)
         new_object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         record = new_object;
         if (record != 0) {
-            if (resolveRecordOrientationOrFallback(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
+            if (resolve_record_orientation_or_fallback(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
                               owner_object->unk_0C, position_offset, 0) == 0) {
                 position_offset[2] = 0;
                 position_offset[1] = 0;
@@ -248,7 +248,7 @@ void func_80024020(void *sequence, void *out_position)
             } else {
                 mode = 0x4300;
             }
-            func_800A56E0(mode);
+            play_sound_if_enabled(mode);
         }
         {
             u16 next_state = SELF->unk_0A.u;
@@ -268,8 +268,8 @@ void func_80024020(void *sequence, void *out_position)
                 if (record != 0) {
                     S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
-                    record->unk_10 = dungeonUpdateJitteredEffectPoints;
-                    func_8004491C(record, func_80024B20);
+                    record->unk_10 = update_jittered_effect_points;
+                    func_8004491C(record, update_segment);
                     target_object = owner->unk_60.u;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = 0;
@@ -285,7 +285,7 @@ void func_80024020(void *sequence, void *out_position)
         }
     }
         if (SELF->unk_50.s == 4) {
-            func_8009CE1C(owner->unk_60.p,
+            apply_attack_power_and_element_effects(owner->unk_60.p,
                           10,
                           SELF->unk_09,
                           12,
@@ -323,8 +323,8 @@ void func_80024020(void *sequence, void *out_position)
         }
     }
         {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.unk_0A--;
         }
         ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;

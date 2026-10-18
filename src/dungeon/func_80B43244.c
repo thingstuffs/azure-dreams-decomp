@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource12_slot0.h"
 
-void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
+void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
 {
     void *entity_base = entity;
     s16 old_state;
@@ -21,9 +21,9 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
     u16 new_part_flags;
     u8 direction_flag;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         callback = (*(R12_80170A44_EntityCallback *)((u8 *)entity + 0x8C));
-        if (callback == (R12_80170A44_EntityCallback)((void *)func_80170E70)) {
+        if (callback == (R12_80170A44_EntityCallback)((void *)update_actor_state_and_select_target)) {
             {
                 call_self = entity;
                 callback(call_self, motion, part, call_self);
@@ -39,7 +39,7 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
     call_part = part;
     old_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     call_self = entity;
-    if (dungeonRefreshActorFacingAndLifecycle(call_entity, call_motion, call_part, call_self) != 0) {
+    if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
 
@@ -53,25 +53,25 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
     ((R12_80170A44_EntityCallback *)D_80175AAC)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);
 
     if ((s16)old_state != (*(s8 *)((u8 *)entity + 0x6D))) {
-        func_800AA36C(entity, motion, part, entity);
+        try_move_actor_to_valid_position(entity, motion, part, entity);
     }
 
     part_flags = ((R12_80170A44_S_80170A28_0 *)part)->unk_14;
     if (!(part_flags & 0x8000)) {
-        rounded_angle = gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
+        rounded_angle = g_game_work.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
         direction_index = state_or_direction;
         direction_copy = state_or_direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
             if (((R12_80170A44_S_80170A28_0 *)part)->unk_2C != 0) {
-                selectIndirectTableEntry(part,
+                select_indirect_table_entry(part,
                               ((R12_80170A44_S_80170A28_0 *)part)->unk_2C[direction_copy],
                               ((R12_80170A44_S_80170A28_0 *)part)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
         }
 
-        direction_flag = dirSpriteFlag[direction_index];
+        direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
             ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 1;
         } else {
@@ -84,7 +84,7 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
         } else {
             ((R12_80170A44_S_80170A28_0 *)part)->unk_14 |= 0x7000;
         }
-        dungeonApplyMonsterKoyawData(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
+        apply_monster_koyaw_data(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C, (u8 *)part + 0xC);
     } else {
         if (part_flags & 0x800) {
             new_part_flags = part_flags & 0x8FFF;
@@ -106,7 +106,7 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        ground_height = ((s16)func_800BCB04(motion->unk_00.at02.v,
+        ground_height = ((s16)sample_terrain_surface_height(motion->unk_00.at02.v,
                                motion->unk_04.at02.v,
                                (s16)(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 - 0x20)));
         if (ground_height < 0x200) {
@@ -128,7 +128,7 @@ void createDirectionalTemplateEffect(void *entity, R12_80170A44_S_80170A28_2 *mo
             entity_flags = ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((R12_80170A44_S_80170A28_1 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
-                ground_height = ((s16)func_800BCB04(
+                ground_height = ((s16)sample_terrain_surface_height(
                     (((R12_80170A44_S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
                     (((R12_80170A44_S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
                     (s16)(((R12_80170A44_S_80170A28_1 *)entity_base)->unk_88 - 0x20)));

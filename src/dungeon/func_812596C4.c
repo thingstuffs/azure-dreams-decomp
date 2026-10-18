@@ -25,16 +25,16 @@ typedef struct ActorActionWork {
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s32 dungeonGetTileChebyshevDistance(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30();
+extern s32 check_entity_relation(void *, void *);
+extern s32 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value();
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_8016D6B8(void *, void *, void *, void *);
 
 extern u8 D_8016B514[];
@@ -44,7 +44,7 @@ extern u8 D_8016DEC4[];
 extern u8 D_8016DECC[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
+void advance_actor_facing_effect_sequence(ActorActionWork *action, void *context, Rec_D_80082E80 *entity, EntityRec *actor)
 {
     s32 direction;
     u8 *directionFrame;
@@ -65,11 +65,11 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
             entryFrames = D_8016DE94;
 
             entity->unk_2C.as_pv = entryFrames;
-            direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             direction &= 7;
             directionFrame = direction + entryFrames;
             func_80047784(entity, *directionFrame, 0);
-            dungeon_state = &dungeonStatus;
+            dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;
             next_state = action->phase + 1;
             action->phase = next_state;
@@ -87,7 +87,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         waitFrames = D_8016DEBC;
 
         entity->unk_2C.as_pv = waitFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + waitFrames;
         func_80047784(entity, *directionFrame, 0);
@@ -107,7 +107,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         startFrames = D_8016DEC4;
 
         entity->unk_2C.as_pv = startFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + startFrames;
         func_80047784(entity, *directionFrame, 0);
@@ -122,7 +122,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
     {
         u8 *finishFrames;
         if ((func_80042900(actor, 1) << 16) != 0) {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
             if ((dungeon_state->flags & 0x1000) != 0) {
@@ -130,7 +130,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
             }
 
             if ((actor->unk_64 != 0) &&
-                dungeonBeginReadyActorDirectionalAction(action, context, entity, 0)) {
+                begin_ready_actor_directional_action(action, context, entity, 0)) {
                 return;
             }
 
@@ -138,17 +138,17 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
-                dungeonAdvanceActorPendingAction(action, context, entity, actor);
+                advance_actor_pending_action(action, context, entity, actor);
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 return;
             }
 
             actor_flags = actor->flags1C;
             if ((actor_flags & 0x100) != 0) {
-                dungeonBeginPushedActorMove(action, context, entity, actor);
+                begin_pushed_actor_move(action, context, entity, actor);
                 return;
             }
 
@@ -157,7 +157,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
                 if ((actor_flags & adjustment_flag) != 0) {
                     u16 remaining_amount;
 
-                    func_800AA888(action, context, entity, actor);
+                    begin_actor_move_to_target_facing(action, context, entity, actor);
                     remaining_amount = action->remainingAmount.value;
                     remaining_amount -= action->pendingAmount.value;
                     action->pendingAmount.value = 0;
@@ -172,23 +172,23 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((s16)dungeonCheckEntityRelation(actor,
+                if ((s16)check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             func_800A9A04(actor);
             if ((func_80042900(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = entity->unk_26.as_s8;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)dungeonGetTileChebyshevDistance(room_base, entity) < 2) {
-                    if ((func_800A6D30() & 7) == 0) {
+                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
+                    if ((generate_random_value() & 7) == 0) {
                         func_80042B68(actor, 1);
                     }
                 }
@@ -201,7 +201,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         finishFrames = D_8016DECC;
 
         entity->unk_2C.as_pv = finishFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + finishFrames;
         func_80047784(entity, *directionFrame, 0);
@@ -210,7 +210,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         }
         action->phase++;
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A++;
         }
         return;
@@ -233,7 +233,7 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         entity->unk_2C.as_pv = restoreFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + restoreFrames;
         func_80047784(entity, *directionFrame, 0);
@@ -253,12 +253,12 @@ void advanceActorFacingEffectSequence(ActorActionWork *action, void *context, Re
         idleFrames = D_8016DE94;
 
         entity->unk_2C.as_pv = idleFrames;
-        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        direction = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         direction &= 7;
         directionFrame = direction + idleFrames;
         func_80047784(entity, *directionFrame, 0);
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             dungeon_state->unk_0A--;
         }
         break;

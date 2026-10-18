@@ -28,12 +28,12 @@ void *func_8002453C(S_8195ED3C_2 *source, s32 offset)
         rect[0] = 0x01000340;
         rect_size = 0x200020;
         rect[1] = rect_size;
-        dungeonDrawTexturedEllipse(&D_800DF334, rect, 1, 0);
+        draw_textured_ellipse(&D_800DF334, rect, 1, 0);
         rect[0] = 0x01000360;
         rect[1] = rect_size;
-        dungeonDrawTexturedEllipse(&D_80027380, rect, 1, 0);
+        draw_textured_ellipse(&D_80027380, rect, 1, 0);
         part = ((S_8195ED3C_0 *)obj)->unk_08;
-        ((S_8195ED3C_0 *)obj)->unk_10 = dungeonUpdateBrighteningFadingEffect;
+        ((S_8195ED3C_0 *)obj)->unk_10 = update_brightening_fading_effect;
         part->unk_02 = source->unk_02;
         part->unk_06 = source->unk_06;
         part->unk_08.at02.v = source->unk_0A;

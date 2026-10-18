@@ -8,28 +8,28 @@ typedef struct {
 
 extern u8 D_800CFCEE[];
 
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(TownObject *);
-extern void townStoreTheValidSharedAngleInOffsetHex10(void *);
-extern void townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(TownObject *);
-extern void townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(TownObject *);
-extern void townAddHex20000SSignedOffsetHex14(TownObject *);
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(TownObject *);
+extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
+extern void handle_adjust_vector_toward_selected_angle_limit_magnitude(TownObject *);
+extern void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(TownObject *);
+extern void add_hex_20000_s_signed_offset_hex_14(TownObject *);
 extern void func_80094714(void *, TownObject *, void *);
-extern void func_80094620(void *, TownObject *, void *);
+extern void initialize_threshold_interaction_object(void *, TownObject *, void *);
 
 /* Updates the town object and dispatches its action based on input and state. */
-void townUpdateTownObjectFromInput(void *context, TownObject *object, void *action_data)
+void update_town_object_from_input(void *context, TownObject *object, void *action_data)
 {
-    GameWork *input = &gameWork;
+    GameWork *input = &g_game_work;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(object);
-    townStoreTheValidSharedAngleInOffsetHex10(context);
-    townHandleAdjustVectorTowardSelectedAngleLimitMagnitude(object);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
+    store_the_valid_shared_angle_in_offset_hex_10(context);
+    handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
 
     if (D_800CFCEE[0] != 0) {
         object->field14 = 0;
-        townClearGlobalSlotN5CopySourceSlotN2GlobalSlotN2(object);
+        clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
     } else {
-        townAddHex20000SSignedOffsetHex14(object);
+        add_hex_20000_s_signed_offset_hex_14(object);
     }
 
     if (((u32)input->unk_010) & 0x40) {
@@ -38,6 +38,6 @@ void townUpdateTownObjectFromInput(void *context, TownObject *object, void *acti
     }
 
     if (object->field14 >= 0) {
-        func_80094620(context, object, action_data);
+        initialize_threshold_interaction_object(context, object, action_data);
     }
 }

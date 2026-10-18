@@ -11,7 +11,7 @@ extern s32 func_80408644(s32 slot_selector);
 extern s32 func_80408684(s32 slot_selector);
 
 /* Processes the selection selection_state and clears the selected slot on completion. */
-s32 func_804012B0(void)
+s32 process_selection(void)
 {
     s32 selection_state;
     s32 return_code;

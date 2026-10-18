@@ -11,7 +11,7 @@ typedef struct S_800D50FC_0 {
     u8 pad_11[0xF];
     u16 unk_20;
     s16 unk_22;
-} S_800D50FC_0;   /* arg0 in dungeonUpdateEffectMotionAndColor; pointer addresses record offset 0x2 */
+} S_800D50FC_0;   /* arg0 in update_effect_motion_and_color; pointer addresses record offset 0x2 */
 
 typedef struct S_800D50FC_1 {
     s32 unk_00;
@@ -20,25 +20,25 @@ typedef struct S_800D50FC_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800D50FC_1;   /* arg1 in dungeonUpdateEffectMotionAndColor */
+} S_800D50FC_1;   /* arg1 in update_effect_motion_and_color */
 
 typedef struct S_800D50FC_2 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_800D50FC_2;   /* arg2 in dungeonUpdateEffectMotionAndColor */
+} S_800D50FC_2;   /* arg2 in update_effect_motion_and_color */
 
 typedef struct S_800D50FC_3 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800D50FC_3;   /* page in dungeonUpdateEffectMotionAndColor */
+} S_800D50FC_3;   /* page in update_effect_motion_and_color */
 
 
 s32 rand();                                /* extern */
 
 /* Updates effect motion and color, then marks it inactive when its lifetime expires. */
-void dungeonUpdateEffectMotionAndColor(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {
+void update_effect_motion_and_color(void *effect, S_800D50FC_1 *motion, S_800D50FC_2 *color) {
     s32 y_speed;
     u16 life_left;
     u32 phase;

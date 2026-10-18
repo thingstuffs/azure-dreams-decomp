@@ -3,14 +3,14 @@
 
 typedef struct S_800D4954_0_pre {
     u16 unk_00;
-} S_800D4954_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateAttachedEffect, addressed as arg0[-1] */
+} S_800D4954_0_pre;   /* the 0x2 bytes before arg0 in update_attached_effect, addressed as arg0[-1] */
 
 typedef struct S_800D4954_0 {
     u8 pad_00[0x5A];
     u16 unk_5A;
     u8 pad_5C[0x2C];
     void * unk_88;
-} S_800D4954_0;   /* arg0 in dungeonUpdateAttachedEffect */
+} S_800D4954_0;   /* arg0 in update_attached_effect */
 
 typedef struct S_800D4954_1_pre {
     void * unk_00;
@@ -24,7 +24,7 @@ typedef struct S_800D4954_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800D4954_2;   /* arg1 in dungeonUpdateAttachedEffect */
+} S_800D4954_2;   /* arg1 in update_attached_effect */
 
 typedef struct S_800D4954_3 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_800D4954_4 {
     u16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_800D4954_4;   /* arg2 in dungeonUpdateAttachedEffect */
+} S_800D4954_4;   /* arg2 in update_attached_effect */
 
 typedef struct S_800D4954_5 {
     u8 pad_00[0x1E];
@@ -55,7 +55,7 @@ typedef struct S_800D4954_5 {
 extern s32 func_80042900(void *, s32);
 
 /* Updates an attached effect's position, color, growth, and removal flags. */
-void dungeonUpdateAttachedEffect(void *effect, S_800D4954_2 *position, S_800D4954_4 *appearance) {
+void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *appearance) {
     u16 next_scale;
     void *source;
     S_800D4954_5 *source_header;
@@ -87,10 +87,10 @@ void dungeonUpdateAttachedEffect(void *effect, S_800D4954_2 *position, S_800D495
     }
     if ((func_80042900(source, 0x1D) << 0x10) == 0) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (source_header->unk_1E & 0x8000) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

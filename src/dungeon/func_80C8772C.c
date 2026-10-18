@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80BC172C; every changed retail word is a paired relocation. */
-#define dungeonSpawnParentOffsetRandomMotionEffect func_80152F2C
-#define func_80170884 func_80152884
+#define spawn_parent_offset_random_motion_effect func_80152F2C
+#define build_projected_tile_packets func_80152884
 #include "modules/dungeon_ovl_be1084.h"
 extern void func_80152BFC(void *, void *);
 extern s32 rand(void);

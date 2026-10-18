@@ -6,5 +6,5 @@
 typedef s32 M2C_UNK;
 extern M2C_UNK D_80017A34;
 extern M2C_UNK *D_80017B3C;
-void func_80016308(void);
+void call_helper_with_fixed_id_0xbdb(void);
 #endif

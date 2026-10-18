@@ -4,13 +4,13 @@ typedef struct {
     u8 bytes[4];
 } __attribute__((packed)) Copy4;
 
-extern s32 func_80017EB8(void *position);
+extern s32 check_selected_entry_8(void *position);
 extern s32 func_8001A510(s32 flag_id);
 extern u8 D_8001B1C0[];
 extern u8 D_8001B218[];
 
 /* Builds a terminated record list with an optional entry and flags checked records. */
-u8 *func_80017F3C(void *unused)
+u8 *record_check_returned(void *unused)
 {
     s32 record_count;
     s32 record_id;
@@ -51,7 +51,7 @@ u8 *func_80017F3C(void *unused)
             checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (u32)checked_base);
             checked_record[1] = checked_tag;
             checked_record[0] = record_id;
-            if (func_80017EB8(checked_record) != 0) {
+            if (check_selected_entry_8(checked_record) != 0) {
                 checked_record[3] |= 0x80;
             }
             record_id++;

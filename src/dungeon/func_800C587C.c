@@ -11,7 +11,7 @@ typedef struct S_800CAFDC_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800CAFDC_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawnSalamParticles */
+} S_800CAFDC_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
 
 void *func_8003FD64();               /* extern */
@@ -60,7 +60,7 @@ typedef struct S_800CAFDC_3 {
 } S_800CAFDC_3;
 
 /* Spawns two salam particles near the source with randomized positions and velocities. */
-void spawnSalamParticles(EntityRec *source, s16 effect_param, s32 render_param) {
+void spawn_salam_particles(EntityRec *source, s16 effect_param, s32 render_param) {
     s16 angle;
     s32 remaining;
     S_800CAFDC_3 *effect_state;

@@ -4,7 +4,7 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 
-s32 scaleRandomToUnsignedHalfwordLimit();                         /* extern */
+s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
 M2C_UNK func_8003DB94();  /* extern */
 s32 func_8004491C();           /* extern */
 s32 rand();                           /* extern */
@@ -39,7 +39,7 @@ typedef struct S_800A878C_2 {
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800A878C_2;   /* arg0 in townCreateReverseMotionEffect */
+} S_800A878C_2;   /* arg0 in create_reverse_motion_effect */
 
 typedef struct S_800A878C_3 {
     u8 pad_00[0xC];
@@ -62,7 +62,7 @@ typedef struct S_800A878C_4 {
 } S_800A878C_4;
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
-void *townCreateReverseMotionEffect(S_800A878C_2 *source_motion, u32 flags) {
+void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     s16 *direction_y;
     s16 launch_speed;
     s16 stored_speed;
@@ -84,8 +84,8 @@ void *townCreateReverseMotionEffect(S_800A878C_2 *source_motion, u32 flags) {
         ((S_800A878C_0 *)effect)->unk_10 = &D_800A86BC;
         func_8004491C(effect, func_80045340);
         direction_index = direction;
-        motion->unk_02 = (s16) (source_motion->unk_02 - (dirStepX[direction_index] * 0x10));
-        direction_y = &dirStepY[direction_index];
+        motion->unk_02 = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));
+        direction_y = &dir_step_y[direction_index];
         motion->unk_06 = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
         motion->unk_0A = (u16) source_motion->unk_0A;
         velocity_x = 0 - (source_motion->unk_0C * ((rand() & 1) + 2));
@@ -102,8 +102,8 @@ void *townCreateReverseMotionEffect(S_800A878C_2 *source_motion, u32 flags) {
         sprite->unk_1C = 0x1000;
         sprite->unk_10 = 0x60;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        speed_roll = scaleRandomToUnsignedHalfwordLimit(7);
-        launch_speed = speed_roll + scaleRandomToUnsignedHalfwordLimit(7);
+        speed_roll = scale_random_to_unsigned_halfword_limit(7);
+        launch_speed = speed_roll + scale_random_to_unsigned_halfword_limit(7);
         launch->unk_02 = launch_speed;
         motion->unk_14 = (s32) (0 - (launch_speed << 0x10));
         stored_speed = launch->unk_02;

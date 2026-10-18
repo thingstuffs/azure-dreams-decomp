@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern void dungeonAdjustSourceValueAndFinalize(s32, void *);
+extern void adjust_source_value_and_finalize(s32, void *);
 extern u8 D_800E0600[];
 
-/* Passes a nonzero table entry to dungeonAdjustSourceValueAndFinalize when the global state is 1. */
-s32 dungeonRejectForbiddenFamiliarRecall(s32 entry_index) {
+/* Passes a nonzero table entry to adjust_source_value_and_finalize when the global state is 1. */
+s32 reject_forbidden_familiar_recall(s32 entry_index) {
     s32 entry;
 
     {
@@ -17,7 +17,7 @@ s32 dungeonRejectForbiddenFamiliarRecall(s32 entry_index) {
         s32 active_state = 1;
 
         if (*(s32 *)0x80012090 == active_state) {
-            dungeonAdjustSourceValueAndFinalize(entry, D_800E0600);
+            adjust_source_value_and_finalize(entry, D_800E0600);
             return 1;
         }
     }

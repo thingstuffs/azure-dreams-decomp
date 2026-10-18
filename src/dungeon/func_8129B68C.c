@@ -1,5 +1,5 @@
-#define dungeonUpdateBankActorState func_80152514
-#define dungeonUpdateActorHopAndGrow func_800AAA74
+#define update_bank_actor_state func_80152514
+#define update_actor_hop_and_grow func_800AAA74
 /* Relink of matched dungeon/func_80F89D44 at file 0xFA9D44; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

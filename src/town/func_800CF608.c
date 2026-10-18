@@ -7,11 +7,11 @@ typedef struct S_800CCD68_0 {
     u16 unk_6C;
     u8 pad_6E[0x4];
     u16 unk_72;
-} S_800CCD68_0;   /* arg0 in townAdvanceFourPhaseFlagSequence */
+} S_800CCD68_0;   /* arg0 in advance_four_phase_flag_sequence */
 
 
 /* Steps a timed four-phase value sequence and counts completed cycles. */
-void townAdvanceFourPhaseFlagSequence(S_800CCD68_0 *sequence)
+void advance_four_phase_flag_sequence(S_800CCD68_0 *sequence)
 {
     s32 value;
     s32 value_2;

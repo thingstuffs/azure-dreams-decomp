@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource06_slot0.h"
 
-void dungeonProjectAndQueueTexturedQuad(void *quad, void *position, void *draw_state, s16 depth_bias)
+void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -10,7 +10,7 @@ void dungeonProjectAndQueueTexturedQuad(void *quad, void *position, void *draw_s
     u8 tex_flags;
     R06_80174334_MATRIX matrix;
 
-    ((R06_80174334_S_80174334_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    ((R06_80174334_S_80174334_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_88 = ((R06_80174334_S_80174334_1 *)position)->unk_02;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_8C = ((R06_80174334_S_80174334_1 *)position)->unk_06;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_90 = ((R06_80174334_S_80174334_1 *)position)->unk_0A;
@@ -37,8 +37,8 @@ void dungeonProjectAndQueueTexturedQuad(void *quad, void *position, void *draw_s
     ((R06_80174334_S_80174334_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((R06_80174334_S_80174334_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
-    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor = packet + 0x34;
 
     ((R06_80174334_S_80174334_0 *)scratch)->unk_B0 = ((R06_80174334_S_80174334_4 *)quad)->unk_64;
     ((R06_80174334_S_80174334_0 *)scratch)->unk_B8 = ((R06_80174334_S_80174334_4 *)quad)->unk_6A;

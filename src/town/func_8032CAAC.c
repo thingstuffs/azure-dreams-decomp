@@ -8,13 +8,13 @@ typedef struct {
 } TownSystemScratch;
 
 extern TownSystemScratch D_80016000;
-extern void townAppendShopEntry(void *);
+extern void append_shop_entry(void *);
 
-/* Pass a four-byte copy of the system scratch data to townAppendShopEntry. */
-void townCopyScratchBytesAndDispatch(void)
+/* Pass a four-byte copy of the system scratch data to append_shop_entry. */
+void copy_scratch_bytes_and_dispatch(void)
 {
     s8 copied_bytes[4];
 
     memcpy(copied_bytes, D_80016000.copy_source, sizeof(copied_bytes));
-    townAppendShopEntry(copied_bytes);
+    append_shop_entry(copied_bytes);
 }

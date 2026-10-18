@@ -6,7 +6,7 @@
 
 typedef struct S_800B7C14_1_pre {
     u16 unk_00;
-} S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in dungeonAdvanceEffectFadeAndRemove, addressed as arg0[-1] */
+} S_800B7C14_1_pre;   /* the 0x2 bytes before arg0 in advance_effect_fade_and_remove, addressed as arg0[-1] */
 
 typedef struct S_800B7C14_1 {
     u8 pad_00[0x8];
@@ -16,7 +16,7 @@ typedef struct S_800B7C14_1 {
     s16 unk_12;
     u16 unk_14;
     u16 unk_16;
-} S_800B7C14_1;   /* arg0 in dungeonAdvanceEffectFadeAndRemove */
+} S_800B7C14_1;   /* arg0 in advance_effect_fade_and_remove */
 
 typedef struct S_800B7C14_2 {
     s32 unk_00;
@@ -25,14 +25,14 @@ typedef struct S_800B7C14_2 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_800B7C14_2;   /* arg1 in dungeonAdvanceEffectFadeAndRemove */
+} S_800B7C14_2;   /* arg1 in advance_effect_fade_and_remove */
 
 
 M2C_UNK func_8003DB94();        /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
-void dungeonAdvanceEffectFadeAndRemove(void *effect, void *motion, void *primitive) {
+void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive) {
     s32 velocity_x;
     u16 life_left;
     u8 brightness;
@@ -68,6 +68,6 @@ void dungeonAdvanceEffectFadeAndRemove(void *effect, void *motion, void *primiti
     ((S_800B7C14_1 *)effect)->unk_10 = life_left;
     if ((life_left << 0x10) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B7C14_1_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

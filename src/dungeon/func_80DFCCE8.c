@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80DE4CE8; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorHopToTile func_8015A4E8
+#define update_actor_hop_to_tile func_8015A4E8
 #define D_80174520 D_8015C520
 #include "modules/dungeon_ovl_e0365c.h"
 extern void func_80158E5C(void *, void *, void *, void *);
@@ -58,11 +58,11 @@ void func_8015A4E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
             (*(void * *)((u8 *)actor + 0x2C)) = D_8015C520;
             func_80047784(
                 actor,
-                D_8015C520[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                D_8015C520[((g_game_work.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);
             ((E_801724E8_S_801724E8_0 *)anim)->unk_9B++;
         }
@@ -77,12 +77,12 @@ void func_8015A4E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
-        dungeonReduceActorFoodMeter(actor_state, 4);
-        dungeonAdvanceStatusTimers(actor_state);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+        reduce_actor_food_meter(actor_state, 4);
+        advance_status_timers(actor_state);
 
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08--;
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08--;
         }
 
         actor_flags = actor_state->flags1C;
@@ -93,14 +93,14 @@ void func_8015A4E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
         } else {
             if (!(actor_flags & 0x410)) {
                 if (actor_flags & 0x20000) {
-                    actor_state->facing = dungeonGetRoundedFacingAndRoundingFlag(
+                    actor_state->facing = get_rounded_facing_and_rounding_flag(
                         ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
                 }
             }
         }
 
-        if ((dungeonCheckActorFloorTrap(actor, actor_state) << 16) > 0) {
+        if ((check_actor_floor_trap(actor, actor_state) << 16) > 0) {
             ((E_801724E8_S_801724E8_0 *)anim)->unk_8C = func_80158E5C;
             func_800A9A04(actor_state);
         }

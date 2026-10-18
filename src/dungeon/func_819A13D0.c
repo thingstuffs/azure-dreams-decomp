@@ -18,5 +18,5 @@ void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
         return;
     }
     *(u16 *)((u8 *)work - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

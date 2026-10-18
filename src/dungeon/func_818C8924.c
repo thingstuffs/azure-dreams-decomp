@@ -38,10 +38,10 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
     effect->life = life;
     if ((life << 16) <= 0) {
         ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (object->flags & 0x8000) {
         ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -23,7 +23,7 @@ typedef struct {
 /* Detail: copies the first 0x14 bytes of the record, ORs the record's flag word into the
  * object's existing flags, tags the object with its monster id, seeds a few fixed/derived
  * byte fields and the per-id word from D_8006D6D8 at obj+0x54, then runs func_80041E70. */
-void initMonsterFromStats(void *obj, s16 monsterId)
+void init_monster_from_stats(void *obj, s16 monsterId)
 {
     u8 *dst = (u8 *)obj;
     u8 *rec = initialStatsTable + (s32)monsterId * 24;

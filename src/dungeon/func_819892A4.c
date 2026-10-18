@@ -3,7 +3,7 @@
 
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
-void dungeonMarkReferencedObjectAndUpdateFlags(void *entry, void *unused, void *target) {
+void mark_referenced_object_and_update_flags(void *entry, void *unused, void *target) {
     void *object;
 
     object = *(void **)entry;
@@ -13,6 +13,6 @@ void dungeonMarkReferencedObjectAndUpdateFlags(void *entry, void *unused, void *
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) =
             (u16)(*(u16 *)((u8 *)entry - 2) | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

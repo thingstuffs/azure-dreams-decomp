@@ -44,7 +44,7 @@ typedef struct {
 } S_8004EEFC_a0;
 
 /* Copy two templates into entity buffers, link them to the header, and apply defaults. */
-void initializeTextEntityTemplates(S_8004EEFC_a0 *entity, S_8002E5D8 *main_data, S_8004EEFC_a2 *aux_data) {
+void initialize_text_entity_templates(S_8004EEFC_a0 *entity, S_8002E5D8 *main_data, S_8004EEFC_a2 *aux_data) {
     S_8002E5D8 *main_template = &D_8002E5D8;
     S_8002E5E8 *aux_template = &D_8002E5E8;
     s32 *aux_first_word;

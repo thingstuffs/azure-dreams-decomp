@@ -5,6 +5,6 @@
 M2C_UNK func_800176B8(s32, s32, s32, s32);                            /* extern */
 
 /* Forward the inputs to func_800176B8. */
-void townForwardSceneInputs(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
+void forward_scene_inputs(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
     func_800176B8(input_a, input_b, input_c, input_d);
 }

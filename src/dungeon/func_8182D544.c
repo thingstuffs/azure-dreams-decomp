@@ -2,7 +2,7 @@
 
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void dungeonMoveTheEffectCountDownTimerFadeSpriteBlack(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
+void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
 {
     s16 state;
     s32 delta_y;
@@ -43,7 +43,7 @@ void dungeonMoveTheEffectCountDownTimerFadeSpriteBlack(void *effect, S_8182D544_
         if (fade_step >= sprite->unk_0C.at00.v) {
             sprite->unk_0C.at00u.v = 0;
             ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
 

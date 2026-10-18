@@ -3,7 +3,7 @@
 extern s32 get_player_homerank();
 extern u8 D_8008910C[];
 
-u8 *func_8009F77C(s32 first_key, s32 second_key) {
+u8 *find_item_by_key_pair(s32 first_key, s32 second_key) {
     u8 last_indices[4];
     u8 *entry;
     u8 *scan_base;

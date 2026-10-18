@@ -4,5 +4,5 @@
 #include "shared/dungeon_floor.h"
 typedef struct EntityLinkNode { char pad0[0x58]; struct EntityLinkNode *prev; struct EntityLinkNode *next; char pad60[0x18]; struct EntityLinkNode *unk78; struct EntityLinkNode *unk7C; } EntityLinkNode;
 typedef struct ActiveNode { struct ActiveNode *next; u8 pad[0x1E - 4]; u16 field_1E; } ActiveNode;
-void func_8009A028(EntityLinkNode *node);
+void unlink_entity_node(EntityLinkNode *node);
 #endif

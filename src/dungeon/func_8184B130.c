@@ -32,7 +32,7 @@ typedef struct S_80024930_0 {
     u16 unk_E2;
     u16 unk_E4;
     u16 unk_E6;
-} S_80024930_0;   /* scratch in drawShadedTexturedCylinder */
+} S_80024930_0;   /* scratch in draw_shaded_textured_cylinder */
 
 typedef struct S_80024930_1 {
     u8 pad_00[0x2];
@@ -41,9 +41,9 @@ typedef struct S_80024930_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024930_1;   /* arg1 in drawShadedTexturedCylinder */
+} S_80024930_1;   /* arg1 in draw_shaded_textured_cylinder */
 
-   /* *global_page in drawShadedTexturedCylinder */
+   /* *global_page in draw_shaded_textured_cylinder */
 
 typedef struct S_80024930_3 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
@@ -82,11 +82,11 @@ typedef struct S_80024930_3 {
     u16 unk_2E;
     u8 unk_30;
     u8 unk_31;
-} S_80024930_3;   /* prim in drawShadedTexturedCylinder */
+} S_80024930_3;   /* prim in draw_shaded_textured_cylinder */
 
 typedef struct S_80024930_4 {
     u32 unk_00;
-} S_80024930_4;   /* (void *)offset in drawShadedTexturedCylinder */
+} S_80024930_4;   /* (void *)offset in draw_shaded_textured_cylinder */
 
 
 typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
@@ -97,13 +97,13 @@ extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern s32 func_80066460(s32, s32, s32, s32);
 
 /* Draws a shaded, textured cylindrical wall using 16 quads. */
-s32 drawShadedTexturedCylinder(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation,
+s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 unused_value, s16 rotation,
                   s32 height, s16 radius, u8 blend_mode, u8 brightness)
 {
     u8 *scratch = (u8 *)0x1F800000;
     s32 edge_z;
     s16 segment;
-    void **global_page = (void **)((u8 *)(&gameWork));
+    void **global_page = (void **)((u8 *)(&g_game_work));
 
     ((S_80024930_0 *)scratch)->unk_18.p = (u8 *)(*global_page) + 0xB0;
     edge_z = center->unk_0A - height + 1;

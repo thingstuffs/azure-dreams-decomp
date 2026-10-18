@@ -28,7 +28,7 @@ typedef struct S_80170B50_2 {
     void * unk_00;
     u8 pad_04[0x3A];
     u16 unk_3E;
-} S_80170B50_2;   /* arg0 in dungeonCreateAttachedSpriteWithOffset; pointer addresses record offset 0x14 */
+} S_80170B50_2;   /* arg0 in create_attached_sprite_with_offset; pointer addresses record offset 0x14 */
 
 typedef struct S_80170B50_3 {
     u8 pad_00[0xC];
@@ -62,7 +62,7 @@ typedef struct S_80170B50_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80170B50_5;   /* arg1 in dungeonCreateAttachedSpriteWithOffset */
+} S_80170B50_5;   /* arg1 in create_attached_sprite_with_offset */
 
 typedef struct S_80170B50_6 {
     u8 pad_00[0x8];
@@ -73,7 +73,7 @@ typedef struct S_80170B50_7 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_80170B50_7;   /* arg2 in dungeonCreateAttachedSpriteWithOffset */
+} S_80170B50_7;   /* arg2 in create_attached_sprite_with_offset */
 
 
 typedef struct {
@@ -85,13 +85,13 @@ typedef struct {
 
 extern void *D_80170898[];
 extern M2C_UNK D_80173EB4;
-extern s32 resolveRecordOrientationOrFallback();
+extern s32 resolve_record_orientation_or_fallback();
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern M2C_UNK func_80047784();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
-void dungeonCreateAttachedSpriteWithOffset(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
+void create_attached_sprite_with_offset(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
     u32 sprite_flags;
     u16 sprite_height;
     s16 saved_offset_id;
@@ -122,7 +122,7 @@ void dungeonCreateAttachedSpriteWithOffset(void *owner_data, S_80170B50_5 *base_
         } while (copy_src != (sprite_template + 0x30));
         func_8004491C(object, func_80045340, copy_dst, copy_src);
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
-        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (gameWork.view.viewAngle
+        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;
@@ -133,7 +133,7 @@ void dungeonCreateAttachedSpriteWithOffset(void *owner_data, S_80170B50_5 *base_
         position->unk_06 = (u16) base_position->unk_06;
         position->unk_0A = (u16) base_position->unk_0A;
         owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
-        if (resolveRecordOrientationOrFallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
+        if (resolve_record_orientation_or_fallback(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
             position->unk_02 = (u16) (position->unk_02 + ((S_80170B50_1 *)object_data)->unk_B0);
             position->unk_06 = (u16) (position->unk_06 + ((S_80170B50_1 *)object_data)->unk_B2);
             position->unk_0A = (u16) (position->unk_0A + ((S_80170B50_1 *)object_data)->unk_B4);

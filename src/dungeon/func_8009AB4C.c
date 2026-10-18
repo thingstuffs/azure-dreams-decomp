@@ -1,7 +1,7 @@
 /* row func_8009AB4C, true base 0x800A02AC -- exemplar-seeded from landed
  * func_8009AC64 [true base 0x800A03C4] (MATCH @2.8.1-G0, gate_verified).
  * Opcode-sequence similarity 0.9655. Sole adaptation measured off the retail
- * stream: the func_800A2CB8 guard in the loop body is absent here (retail
+ * stream: the check_entity_interaction_compatibility guard in the loop body is absent here (retail
  * drops the jal + its sll/beq test); register roles follow.
  * Ordinary code: no alias, no section attribute, no literal word arrays.
  */
@@ -9,11 +9,11 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-s32 dungeonCheckDiagonalSideHeight(s32, u8, u8, s16);
-s32 findEligibleActorAtTileAndHeight(void *, u16, u16, s16);
+s32 check_diagonal_side_height(s32, u8, u8, s16);
+s32 find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 
 /* Check eight neighboring positions in cyclic order and return the first result that passes the direction check. */
-s32 dungeonFindValidMonsterNeighbor(void *entity, u16 x, u16 y) {
+s32 find_valid_monster_neighbor(void *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;
@@ -25,15 +25,15 @@ s32 dungeonFindValidMonsterNeighbor(void *entity, u16 x, u16 y) {
 
     base_x = x;
     base_y = y;
-    x_offsets = dirStepX;
-    y_offsets = dirStepY;
+    x_offsets = dir_step_x;
+    y_offsets = dir_step_y;
     entity_data = *(void **)((s8 *)entity - 0x14);
-    direction = dungeonStatus.unk_1E & 7;
+    direction = g_dungeon_status.unk_1E & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
-        result = findEligibleActorAtTileAndHeight(entity, (base_x + x_offsets[direction]) & 0xFFFF,
+        result = find_eligible_actor_at_tile_and_height(entity, (base_x + x_offsets[direction]) & 0xFFFF,
             (base_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity + 0x88));
         if (result != 0) {
-            if (((dungeonCheckDiagonalSideHeight(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
+            if (((check_diagonal_side_height(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
                 (s16)((u16)*(s16 *)((s8 *)entity + 0x88) - 0x20)) << 16) == 0)) {
                 continue;
             }

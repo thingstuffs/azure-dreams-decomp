@@ -21,14 +21,14 @@ typedef struct S_8016E4E8_0 {
     u16 unk_1A;
     s16 unk_1C;
     u16 unk_1E;
-} S_8016E4E8_0;   /* arg0 in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_0;   /* arg0 in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_8016E4E8_1;   /* arg2 in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_1;   /* arg2 in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_2 {
     u8 pad_00[0x18];
@@ -42,14 +42,14 @@ typedef struct S_8016E4E8_2 {
     s16 unk_84;
     u8 pad_86[0x4];
     s16 unk_8A;
-} S_8016E4E8_2;   /* part in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_2;   /* part in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_3 {
     u8 pad_00[0x8];
     s32 * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_8016E4E8_3;   /* object in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_3;   /* object in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_4 {
     u8 pad_00[0x6];
@@ -65,15 +65,15 @@ typedef struct S_8016E4E8_4 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8016E4E8_4;   /* effect in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_4;   /* effect in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_5 {
     u16 unk_00;
-} S_8016E4E8_5;   /* dst_word in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_5;   /* dst_word in emit_multi_form_ring_geometry */
 
 typedef struct S_8016E4E8_6 {
     u16 unk_00;
-} S_8016E4E8_6;   /* src_word in dungeonEmitMultiFormRingGeometry */
+} S_8016E4E8_6;   /* src_word in emit_multi_form_ring_geometry */
 
 
 typedef struct {
@@ -81,7 +81,7 @@ typedef struct {
 } Data12;
 
 extern void func_8004491C(void *, void *);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 extern void *memcpy(void *, const void *, u32);
 
 extern u8 D_8016E450[];
@@ -89,7 +89,7 @@ extern u8 D_8016E4A4[];
 extern Data12 D_80173B4C;
 
 /* Advances the color fade and creates two rows of animated textured geometry. */
-void dungeonEmitMultiFormRingGeometry(void *animation, s32 *origin, void *color)
+void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
 {
     s32 bottom_y;
     u16 tick_count;
@@ -158,7 +158,7 @@ void dungeonEmitMultiFormRingGeometry(void *animation, s32 *origin, void *color)
 
     case 5:
         (((AnimationFieldView_813374E8Prefix *)animation)[-1].flags) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 
@@ -259,7 +259,7 @@ loop_0:
         tick_count = ((S_8016E4E8_0 *)animation)->unk_1A;
         ((S_8016E4E8_0 *)animation)->unk_1A = tick_count + 1;
         if ((tick_count & 0xF) == 1) {
-            func_800A56E0(0x60E);
+            play_sound_if_enabled(0x60E);
         }
     }
 }

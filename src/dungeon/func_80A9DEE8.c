@@ -2,7 +2,7 @@
 
 void func_801736E8(Resource08CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonUpdateActorHopAndGrow(state, motion, position, actor)) {
-        state->callback = dungeonUpdateActorBehaviorAndEffect;
+    if (update_actor_hop_and_grow(state, motion, position, actor)) {
+        state->callback = update_actor_behavior_and_effect;
     }
 }

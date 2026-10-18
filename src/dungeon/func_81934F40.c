@@ -1,6 +1,6 @@
 /* Selector 49 bank (DUNGEON file 0x1954800 loaded at 0x80024000), retail
  * file [0x1954F40, 0x1955128).  The 488 retail bytes are identical, word for
- * word, to TOWN file 0x42894 (town row townDrawDepthSortedGradientLines, src/town/func_800C2894.c):
+ * word, to TOWN file 0x42894 (town row draw_depth_sorted_gradient_lines, src/town/func_800C2894.c):
  * the same source linked into a dungeon bank.  Evidence:
  * docs/evidence/r121_rem_opus.md. */
 #include "shared/gpu_packets.h"
@@ -54,7 +54,7 @@ s32 func_80024740(u8 *node)
     s32 ot_offset;
     s32 zero;
 
-    town = &gameWork;
+    town = &g_game_work;
     do {
         line = (LineG2 *)((GpuContext *)town->unk_000)->packetCursor;
         ((GpuContext *)town->unk_000)->packetCursor = (u8 *)line + 0x14;

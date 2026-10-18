@@ -22,10 +22,10 @@ extern s32 D_80700B04[];
 extern s32 *D_807013B0[];
 extern CallbackTable *D_807013B4[];
 extern GlobalState *D_807013A8[];
-extern void func_80701274(void);
+extern void advance_table_index_by_eight_byte_stride(void);
 
 /* Selects a record list and resolves its indices through the global lookup table. */
-void townGridResolveIndexedRecords(s32 list_index) {
+void grid_resolve_indexed_records(s32 list_index) {
     void *records;
 
     if (D_80700B0C != 0) {
@@ -33,7 +33,7 @@ void townGridResolveIndexedRecords(s32 list_index) {
         D_807013B4[0]->callback74(1);
     }
     D_80700B0C = 1;
-    func_80701274();
+    advance_table_index_by_eight_byte_stride();
     D_807013A8[0]->field10 = (void *)D_80700B04[list_index];
     records = D_807013A8[0]->field10;
     if (((u8 *)records)[1] != 0x80) {

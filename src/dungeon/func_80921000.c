@@ -16,18 +16,18 @@ typedef struct {
 } CoordBuf;
 
 s32 func_80033BC0(s32);
-void uploadVramRowAndCache(void *, s32, s32, s32);
-s32 selectDungeonSpawnTile(u8 *, u8 *);
-s32 func_800A7A38(u8 *item);
-void func_800A7A7C(u8, u8, s16, s32, void *);
-s16 func_800BCB04(s32, s32, s16);
-s32 func_800F61BC(s32, s32);
-s32 func_800F6208(s32, s32);
+void upload_vram_row_and_cache(void *, s32, s32, s32);
+s32 select_dungeon_spawn_tile(u8 *, u8 *);
+s32 get_item_category_value(u8 *item);
+void place_item_at_valid_floor_position(u8, u8, s16, s32, void *);
+s16 sample_terrain_surface_height(s32, s32, s16);
+s32 has_saved_entry_key(s32, s32);
+s32 has_active_dungeon_cell_key(s32, s32);
 extern u8 D_80081484[];
 extern u8 D_800F6D48[];
 
 /* Advance the animation and handle delayed object spawning. */
-void func_80921020(EntityRec *state) {
+void animate_and_schedule_dungeon_spawn(EntityRec *state) {
     ByteBuf spawn_data;
     CoordBuf spawn_tile;
     s16 spawn_height;
@@ -45,9 +45,9 @@ void func_80921020(EntityRec *state) {
         if ((s16) anim_offset >= 0x70) {
             state->y.w.i = 0U;
         }
-        uploadVramRowAndCache(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
+        upload_vram_row_and_cache(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
     }
-    if ((func_80033BC0(0xA2) != 0) && ((func_800F61BC(6, 3) << 0x10) == 0) && ((func_800F6208(6, 3) << 0x10) == 0)) {
+    if ((func_80033BC0(0xA2) != 0) && ((has_saved_entry_key(6, 3) << 0x10) == 0) && ((has_active_dungeon_cell_key(6, 3) << 0x10) == 0)) {
         u8 *mode;
         mode = D_80081484;
         if ((mode[0] != 3) || (mode[1] != 6)) {
@@ -66,10 +66,10 @@ void func_80921020(EntityRec *state) {
             spawn_data.d = 0;
             do {
 
-            } while ((selectDungeonSpawnTile(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
-            height_result = func_800BCB04((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
+            } while ((select_dungeon_spawn_tile(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
+            height_result = sample_terrain_surface_height((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
             spawn_height = height_result;
-            func_800A7A7C(spawn_tile.x, spawn_tile.y, spawn_height, func_800A7A38(&spawn_data), &spawn_data);
+            place_item_at_valid_floor_position(spawn_tile.x, spawn_tile.y, spawn_height, get_item_category_value(&spawn_data), &spawn_data);
         }
     }
 }

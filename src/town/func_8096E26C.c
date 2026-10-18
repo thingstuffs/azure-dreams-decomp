@@ -11,14 +11,14 @@ typedef struct S_80126704_0 {
     u8 unk_11;
     u8 pad_12[0x1];
     union { s8 s; s8 u; } unk_13;   /* accessed as both */
-} S_80126704_0;   /* arg0 in townUpdateCatalog */
+} S_80126704_0;   /* arg0 in update_catalog */
 
 
 extern void (*D_80126B34[])(void *);
 extern void (*D_80126B74[])(void *);
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
-void townUpdateCatalog(S_80126704_0 *state) {
+void update_catalog(S_80126704_0 *state) {
     s8 middle_bits;
     u8 packed_code;
     u8 code_bits;

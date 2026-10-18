@@ -8,7 +8,7 @@ typedef struct S_80098CF8_0 {
     void * unk_08;
     u8 pad_0C[0x4];
     void * unk_10;
-} S_80098CF8_0;   /* s0 in dungeonBeginHoldingItem */
+} S_80098CF8_0;   /* s0 in begin_holding_item */
 
 typedef struct S_80098CF8_1 {
     union {
@@ -16,7 +16,7 @@ typedef struct S_80098CF8_1 {
         struct { u8 pad[0x1]; u8 v; } at01;
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_00;   /* overlapping accesses */
-} S_80098CF8_1;   /* s2 in dungeonBeginHoldingItem */
+} S_80098CF8_1;   /* s2 in begin_holding_item */
 
 typedef struct S_80098CF8_2 {
     u8 pad_00[0x2];
@@ -25,13 +25,13 @@ typedef struct S_80098CF8_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_80098CF8_2;   /* primitive in dungeonBeginHoldingItem */
+} S_80098CF8_2;   /* primitive in begin_holding_item */
 
 typedef struct S_80098CF8_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80098CF8_3;   /* s5 in dungeonBeginHoldingItem */
+} S_80098CF8_3;   /* s5 in begin_holding_item */
 
 typedef struct S_80098CF8_4 {
     u8 pad_00[0x1C];
@@ -40,7 +40,7 @@ typedef struct S_80098CF8_4 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80098CF8_4;   /* s4 in dungeonBeginHoldingItem */
+} S_80098CF8_4;   /* s4 in begin_holding_item */
 
 typedef struct S_80098CF8_5 {
     u8 pad_00[0x8C];
@@ -53,7 +53,7 @@ typedef struct S_80098CF8_5 {
     s16 unk_A8;
     u8 pad_AA[0x2];
     s16 unk_AC;
-} S_80098CF8_5;   /* state in dungeonBeginHoldingItem */
+} S_80098CF8_5;   /* state in begin_holding_item */
 
 typedef struct S_80098CF8_6 {
     u8 pad_00[0x8C];
@@ -65,26 +65,26 @@ typedef struct S_80098CF8_6 {
     void * unk_BC;
     u8 pad_C0[0x64];
     s32 unk_124;
-} S_80098CF8_6;   /* s3 in dungeonBeginHoldingItem */
+} S_80098CF8_6;   /* s3 in begin_holding_item */
 
 typedef struct S_80098CF8_7 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_80098CF8_7;   /* (void *)a1 in dungeonBeginHoldingItem */
+} S_80098CF8_7;   /* (void *)a1 in begin_holding_item */
 
 
 extern void func_80048A44();
-extern void dungeonEquipItemAndUpdateStatus();
-extern void dungeonChangeEquippedItemAndNotify();
-extern void dungeonClearSlotAndUpdateLinkedState();
-extern s32 func_800990FC(void);
-extern s32 func_80099194();
+extern void equip_item_and_update_status();
+extern void change_equipped_item_and_notify();
+extern void clear_slot_and_update_linked_state();
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes();
 extern void func_80099290();
-extern s32 dungeonWriteTextByteAndAdvance();
-extern s32 dungeonAppendTypedFormattedValue();
-extern void func_800A56E0();
-extern void func_800A5720();
-extern void *func_800A8608();
+extern s32 write_text_byte_and_advance();
+extern s32 append_typed_formatted_value();
+extern void play_sound_if_enabled();
+extern void display_text_with_fullwidth_adjustment();
+extern void *create_item_render_object();
 
 extern u8 D_80081484[];
 extern u8 D_8008D470[];
@@ -95,7 +95,7 @@ extern u8 D_800E08F1[];
 extern u8 D_800E0919[];
 
 /* Check the item, report restrictions, and create an action object for the actor and target. */
-void *dungeonBeginHoldingItem(void *actor, s32 action, void *target, void *item)
+void *begin_holding_item(void *actor, s32 action, void *target, void *item)
 {
     void *message;
 
@@ -109,46 +109,46 @@ void *dungeonBeginHoldingItem(void *actor, s32 action, void *target, void *item)
 
     actor_state = actor;
     if ((item != ((void *)(D_80081484))) && (((S_80098CF8_0 *)((void *)(D_80081484)))->unk_01 != 0)) {
-        message_id = func_800990FC();
-        text_cursor = dungeonWriteTextByteAndAdvance(8, message_id);
-        text_cursor = dungeonAppendTypedFormattedValue(item, text_cursor);
-        text_cursor = func_80099194(D_800E08CC, text_cursor);
-        text_cursor = dungeonAppendTypedFormattedValue(((void *)(D_80081484)), text_cursor);
+        message_id = get_unused_text_buffer();
+        text_cursor = write_text_byte_and_advance(8, message_id);
+        text_cursor = append_typed_formatted_value(item, text_cursor);
+        text_cursor = expand_text_control_codes(D_800E08CC, text_cursor);
+        text_cursor = append_typed_formatted_value(((void *)(D_80081484)), text_cursor);
         message = D_800E08E5;
 print_message:
-        text_cursor = func_80099194(message, text_cursor);
+        text_cursor = expand_text_control_codes(message, text_cursor);
         func_80099290(text_cursor);
-        func_800A5720(message_id);
+        display_text_with_fullwidth_adjustment(message_id);
 
         return 0;
     }
 
     if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
-        message_id = func_800990FC();
-        result = (void *)dungeonWriteTextByteAndAdvance(8, message_id);
+        message_id = get_unused_text_buffer();
+        result = (void *)write_text_byte_and_advance(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
-            func_800A56E0(0x70A);
-            text_cursor = dungeonAppendTypedFormattedValue(item, result);
+            play_sound_if_enabled(0x70A);
+            text_cursor = append_typed_formatted_value(item, result);
             message = D_800E08F1;
-            text_cursor = func_80099194(message, text_cursor);
+            text_cursor = expand_text_control_codes(message, text_cursor);
             func_80099290(text_cursor);
-            func_800A5720(message_id);
+            display_text_with_fullwidth_adjustment(message_id);
 
             return 0;
         }
 
-        text_cursor = dungeonAppendTypedFormattedValue(item, result);
-        text_cursor = func_80099194(D_800E0919, text_cursor);
+        text_cursor = append_typed_formatted_value(item, result);
+        text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
         func_80099290(text_cursor);
-        func_800A5720(message_id);
+        display_text_with_fullwidth_adjustment(message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at01.v == 0x11) {
-            dungeonChangeEquippedItemAndNotify(actor_state, item);
+            change_equipped_item_and_notify(actor_state, item);
         } else {
-            dungeonEquipItemAndUpdateStatus(actor_state, item);
+            equip_item_and_update_status(actor_state, item);
         }
     }
 
-    result = func_800A8608((u8 *)actor - 0x20, item, 0, 0, 0);
+    result = create_item_render_object((u8 *)actor - 0x20, item, 0, 0, 0);
     if (result == 0) {
         return 0;
     }
@@ -187,12 +187,12 @@ print_message:
 
             func_80048A44(
                 message,
-                sound_table[((gameWork.view.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((g_game_work.view.viewAngle + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                 0,
                 1);
-            func_800A56E0(0x511);
+            play_sound_if_enabled(0x511);
             ((S_80098CF8_4 *)actor_state)->unk_1C |= 0x100000;
-            dungeonClearSlotAndUpdateLinkedState(item);
+            clear_slot_and_update_linked_state(item);
         }
     }
     return result;

@@ -28,6 +28,6 @@ void func_80024D40(void *object, s32 unused, void *target) {
     ((S_8187B540_1 *)object_data)->unk_10 = remaining;
     if ((s16)remaining <= 0) {
         (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

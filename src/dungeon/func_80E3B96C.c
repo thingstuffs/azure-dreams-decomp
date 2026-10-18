@@ -83,15 +83,15 @@ typedef struct {
 extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
 
-extern s32 func_800A1618(s32, s32);
-extern s32 dungeonCheckAdjacentTileHeight(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
+extern s32 find_or_retain_sprite_resource_slot(s32, s32);
+extern s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
 extern Object *func_8003FD64(s32, void *);
-extern void projectVectorByViewAngle(Vec3s *, Vec3s *);
+extern void project_vector_by_view_angle(Vec3s *, Vec3s *);
 extern void func_80047784(void *, s32, s32);
 extern void func_8004491C(Object *, void *);
 
 /* Find a reachable target tile and create an object with the source display and context. */
-void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
+void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
     Vec3s world_offset;
     Vec3s local_offset;
     u16 hit;
@@ -118,22 +118,22 @@ void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, 
         }
     }
 
-    if (dungeonStatus.unk_1C >= 32) {
+    if (g_dungeon_status.unk_1C >= 32) {
         return;
     }
-    if (!func_800A1618(context_arg->f13, 1) && !func_800A1618(context_arg->f13, 3)) {
+    if (!find_or_retain_sprite_resource_slot(context_arg->f13, 1) && !find_or_retain_sprite_resource_slot(context_arg->f13, 3)) {
         return;
     }
 
     direction = (((s16)context_arg->f2A >> 9) + 4) & 7;
-    initial_result = (u16)dungeonCheckAdjacentTileHeight(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
+    initial_result = (u16)check_adjacent_tile_height(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
     if (initial_result == 0) {
         for (trial_dir = 0; trial_dir < 8; trial_dir++) {
-            if ((s16)dungeonCheckAdjacentTileHeight((s16)(source_arg->x + dirStepX[direction]),
-                                   (s16)(source_arg->y + dirStepY[direction]),
+            if ((s16)check_adjacent_tile_height((s16)(source_arg->x + dir_step_x[direction]),
+                                   (s16)(source_arg->y + dir_step_y[direction]),
                                    position_arg->z, (s16)trial_dir, &hit) != 0) {
-                target_x = ((u16 *)dirStepX)[trial_dir] + (source_arg->x + ((u16 *)dirStepX)[direction]);
-                target_y = ((u16 *)dirStepY)[trial_dir] + (source_arg->y + ((u16 *)dirStepY)[direction]);
+                target_x = ((u16 *)dir_step_x)[trial_dir] + (source_arg->x + ((u16 *)dir_step_x)[direction]);
+                target_y = ((u16 *)dir_step_y)[trial_dir] + (source_arg->y + ((u16 *)dir_step_y)[direction]);
                 break;
             }
         }
@@ -141,8 +141,8 @@ void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, 
             return;
         }
     } else {
-        target_x = source_arg->x + ((u16 *)dirStepX)[direction];
-        target_y = source_arg->y + ((u16 *)dirStepY)[direction];
+        target_x = source_arg->x + ((u16 *)dir_step_x)[direction];
+        target_y = source_arg->y + ((u16 *)dir_step_y)[direction];
     }
 
     object = func_8003FD64(0x100, owner_data - 0x20);
@@ -162,12 +162,12 @@ void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, 
     display->f28 = source_arg->f28;
     display->f12 = source_arg->f12;
 
-    offset_x_index = ((gameWork.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((g_game_work.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((gameWork.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((g_game_work.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
-    projectVectorByViewAngle(&local_offset, &world_offset);
+    project_vector_by_view_angle(&local_offset, &world_offset);
 
     object->position->x = position_arg->x + world_offset.x;
     object->position->y = position_arg->y + world_offset.y;
@@ -187,7 +187,7 @@ void dungeonCreateKnockbackTravelObject(u8 *owner_data, Position *position_arg, 
     work->context = context_arg;
     work->owner_byte = owner_byte;
 
-    dungeonStatus.unk_0A++;
+    g_dungeon_status.unk_0A++;
 
     return;
 }

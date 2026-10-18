@@ -55,19 +55,19 @@ extern s32 D_8001857C;
 extern s32 D_8001601C;
 extern s32 D_80017870;
 s32 func_800175E0();
-s32 dispatchTownCallbackOrFallback(void);
-void dispatchTownCallbackOrDefault(s32 value0, s32 value1);
-void func_80016130(s32 unused_a, s32 unused_b);
-void func_80016178(void);
-void townAdvanceFloorEventCounter(void);
-void func_8001624C(void);
+s32 dispatch_town_callback_or_fallback(void);
+void dispatch_town_callback_or_default(s32 value0, s32 value1);
+void initialize_context_entry_tables_variant_1(s32 unused_a, s32 unused_b);
+void initialize_context_entry_tables_variant_2(void);
+void advance_floor_event_counter(void);
+void set_active_position_state_record(void);
 void func_80016278(void);
 void func_800162B8(void);
-void func_800162F0(void);
+void call_first_handler_if_flag_0x3ec_set(void);
 void func_80016328(void);
 void func_80016360(void);
-void func_80016398(void);
-void townSelectTableResultWithOverride(void);
+void configure_active_object_two_16(void);
+void select_table_result_with_override(void);
 void func_80016408(void);
 
 #endif

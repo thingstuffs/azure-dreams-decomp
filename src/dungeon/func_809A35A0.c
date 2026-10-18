@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9c32d4.h"
 
-void dungeonCreateParentPositionEffect(EntityRec *parent, s32 effect_param, u8 *effect_data)
+void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
     void *effect;
     ovl_9c32d4_809A35A0_S_80174DA0_2 *position;
@@ -11,7 +11,7 @@ void dungeonCreateParentPositionEffect(EntityRec *parent, s32 effect_param, u8 *
 
     effect = func_8003FD64(0x12, parent);
     if (effect != 0) {
-        ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_10 = dungeonUpdateActorRenderEffectAndPosition;
+        ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_10 = update_actor_render_effect_and_position;
         position = ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_08;
 
         coordinate = ((ovl_9c32d4_809A35A0_S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_02;

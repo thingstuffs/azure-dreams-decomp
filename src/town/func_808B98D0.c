@@ -26,7 +26,7 @@ extern GlobalState *D_A0700B44[];
 extern void func_A07008AC(void);
 
 /* Selects a record list and resolves its indices through the global lookup table. */
-void func_A07008D0(s32 list_index) {
+void select_record_list_resolves_indices(s32 list_index) {
     void *records;
 
     if (D_A0700B30 != 0) {

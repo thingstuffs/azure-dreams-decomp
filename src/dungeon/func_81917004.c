@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void *func_80024804(void *source, Row_81917004_Copy24 *origin, s16 size_step)
+void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
 {
     s16 saved_step = size_step;
     void *effect;

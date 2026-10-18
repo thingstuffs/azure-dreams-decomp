@@ -31,7 +31,7 @@ typedef struct S_800BF654_2 {
 
 
 extern void func_8004491C(void *entry, void *registration_id);
-extern void townConfigureTheSetModeN1(void *record, void *setup_value, void *setup_param);
+extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
 
 extern u8 D_80046398[];
 extern u8 D_800BF4CC[];
@@ -63,8 +63,8 @@ void func_800BF654(void *caller_data)
         packet[1] = 0x02300000;
         packet[2] = 0;
         ((S_800BF654_2 *)setup)->unk_48 = D_800D2360;
-        townConfigureTheSetModeN1(setup, packet, D_800D2348);
+        configure_the_set_mode_n_1(setup, packet, D_800D2348);
     }
     (*(u16 *)((u8 *)caller_data + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

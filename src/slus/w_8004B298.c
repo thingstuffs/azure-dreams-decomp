@@ -8,7 +8,7 @@ typedef struct S_8004B298_a1 {
 extern int D_800814A0;
 
 /* Set the preceding and global flag bits to 0x8000 when the referenced value is zero. */
-void markRecordIfIndirectValueZero(u16 *record_data, S_8004B298_a1 *value_ref) {
+void mark_record_if_indirect_value_zero(u16 *record_data, S_8004B298_a1 *value_ref) {
     u16 *flags = record_data - 1;
 
     if (*value_ref->unk04 == 0) {

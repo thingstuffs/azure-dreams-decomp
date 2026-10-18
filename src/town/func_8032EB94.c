@@ -11,10 +11,10 @@ struct Entry {
     u8 pad10[4];
 };
 
-extern void townPrepareSharedTextBuffer(s32);
+extern void prepare_shared_text_buffer(s32);
 
 /* Look up a value by group and entry index and pass it to the handler. */
-void townLookupLshopValue(s32 group_index, s32 entry_index) {
+void lookup_lshop_value(s32 group_index, s32 entry_index) {
     Rec_D_80016000 *root;
     TownResourceLinks *level;
     Entry *groups;
@@ -24,5 +24,5 @@ void townLookupLshopValue(s32 group_index, s32 entry_index) {
     level = (TownResourceLinks *)root->unk_24;
     groups = level->gridRows;
     entries = groups[group_index].next;
-    townPrepareSharedTextBuffer(entries[entry_index].value);
+    prepare_shared_text_buffer(entries[entry_index].value);
 }

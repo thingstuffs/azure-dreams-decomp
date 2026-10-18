@@ -2,12 +2,12 @@
 
 #include "common.h"
 
-extern s32 runtimeFindSentinelTableValue(s32 value);
+extern s32 runtime_find_sentinel_table_value(s32 value);
 extern s32 D_8006B1A8[];
 
 /* Returns the table value for the lookup key, or zero if no entry is found. */
 s32 func_8003C5F0(s32 lookup_key) {
-    s32 index = runtimeFindSentinelTableValue(lookup_key);
+    s32 index = runtime_find_sentinel_table_value(lookup_key);
 
     if (index < 0) {
         return 0;

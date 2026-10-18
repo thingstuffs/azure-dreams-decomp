@@ -9,11 +9,11 @@ typedef struct {
 } S_80094274;
 
 /* Advance the counter and set completion flags when the countdown expires. */
-void dungeonAdvanceCountdownAndComplete(S_80094274 *state)
+void advance_countdown_and_complete(S_80094274 *state)
 {
     state->field_8++;
     if (--state->field_10 <= 0) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

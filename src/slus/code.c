@@ -8,7 +8,7 @@ extern short D_80084778[5];
 extern int   D_80086D4C[3];
 
 /* Initialize memory card services and disable automatic pad interrupt clearing. */
-void initializeMemoryCardServices(void) {
+void initialize_memory_card_services(void) {
     InitCARD();
     StartCARD();
     _bu_init();
@@ -16,7 +16,7 @@ void initializeMemoryCardServices(void) {
 }
 
 /* Clear count words starting at dst. */
-void zeroWords(int *dst, int count) {
+void zero_words(int *dst, int count) {
     while (count != 0) {
         *dst = 0;
         count--;
@@ -25,7 +25,7 @@ void zeroWords(int *dst, int count) {
 }
 
 /* Copy count words from src to dst. */
-void copyWordsForward(int *dst, int *src, int count) {
+void copy_words_forward(int *dst, int *src, int count) {
     while (count != 0) {
         *dst = *src;
         src++;
@@ -64,7 +64,7 @@ void func_8003DB94(struct Dst *state, struct Elem *entries, short index) {
 }
 
 /* Swap two words. */
-void swapIntValues(int *left, int *right)
+void swap_int_values(int *left, int *right)
 {
     int saved = *left;
     *left = *right;
@@ -72,13 +72,13 @@ void swapIntValues(int *left, int *right)
 }
 
 /* Set the pointed-to flag. */
-void setByteOne(unsigned char *flag)
+void set_byte_one(unsigned char *flag)
 {
     *flag = 1;
 }
 
 /* Return the supplied value. */
-int identityInt(int value)
+int identity_int(int value)
 {
     return value;
 }
@@ -103,7 +103,7 @@ void func_8003F5E0(int value)
 }
 
 /* Wait for 512 vertical synchronization intervals. */
-void wait512VerticalSyncs(void) {
+void wait_512_vertical_syncs(void) {
     int frames_left;
     for (frames_left = 0x200; frames_left > 0; frames_left--) {
         VSync(0);
@@ -111,7 +111,7 @@ void wait512VerticalSyncs(void) {
 }
 
 /* Pack a tag and 23-bit ID into a record and store its accompanying value. */
-void packTaggedResourceDescriptor(int tag, int id, int *record, int value)
+void pack_tagged_resource_descriptor(int tag, int id, int *record, int value)
 {
     id &= 0x7FFFFF;
     tag <<= 23;
@@ -123,7 +123,7 @@ void packTaggedResourceDescriptor(int tag, int id, int *record, int value)
 extern void *D_80081490;
 
 /* Push a node onto the free list and clear its second word. */
-void pushNodeOntoFreeList(void *node)
+void push_node_onto_free_list(void *node)
 {
     void *old_head;
     old_head = D_80081490;
@@ -154,7 +154,7 @@ void func_80040418(void)
 }
 
 /* Count entries in a NULL-terminated pointer array. */
-int countNullTerminatedPointers(void **entries)
+int count_null_terminated_pointers(void **entries)
 {
     int count;
 
@@ -171,7 +171,7 @@ int countNullTerminatedPointers(void **entries)
 extern int *D_800814E0;
 
 /* Append a value to the global word list and restore its zero terminator. */
-void appendTerminatedRuntimeWord(int value)
+void append_terminated_runtime_word(int value)
 {
     *D_800814E0 = value;
     D_800814E0++;
@@ -179,7 +179,7 @@ void appendTerminatedRuntimeWord(int value)
 }
 
 /* Return the stride index relative to base, or -1 when it reaches the limit. */
-short getBoundedStrideIndex(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit)
+short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit)
 {
     unsigned int index = (value - base) / stride;
     if (index >= limit) {
@@ -204,13 +204,13 @@ s32 func_80043FB8(s32 unused, ...)
     return 0;
 }
 
-extern void soundSetCdCueParameters(int a0, int a1, int a2, int a3);
+extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
 extern short SD_Call(int a0);
 
 /* Forward four values and trigger status event 0x300. */
 void func_80044234(int first, int second, int third, int fourth)
 {
-    soundSetCdCueParameters(first, second, third, fourth);
+    sound_set_cd_cue_parameters(first, second, third, fourth);
     SD_Call(0x300);
 }
 
@@ -289,7 +289,7 @@ typedef struct {
 extern Struct_800FC000 D_800FC000[];
 
 /* Return the indexed 0xD000-byte global block. */
-void *getSpriteResourceSlotBuffer(s32 index)
+void *get_sprite_resource_slot_buffer(s32 index)
 {
     return &D_800FC000[index];
 }
@@ -303,7 +303,7 @@ int func_80047AA4(int value)
 extern Struct_800FC000 D_800FC000[];
 
 /* Compute a block index from a raw address using signed division by 0xD000. */
-s32 getResourceBlockIndexFromAddress(void *address)
+s32 get_resource_block_index_from_address(void *address)
 {
     return ((s32)address - (s32)D_800FC000) / 0xD000;
 }
@@ -321,52 +321,52 @@ void func_80048374(Struct_80048374 *entity, short index, short offset) {
     func_80047784(entity, index, offset);
 }
 
-extern int loadResourceAndMirrorPalette(short a0, int a1);
+extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table zero. */
 void func_80048568(short index)
 {
-    loadResourceAndMirrorPalette(index, 0);
+    load_resource_and_mirror_palette(index, 0);
 }
 
-extern int loadResourceAndMirrorPalette(short a0, int a1);
+extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table one and return the result. */
 int func_80048590(short index)
 {
-    return loadResourceAndMirrorPalette(index, 1);
+    return load_resource_and_mirror_palette(index, 1);
 }
 
-extern int loadResourceAndMirrorPalette(short a0, int a1);
+extern int load_resource_and_mirror_palette(short a0, int a1);
 
 /* Load the indexed entry from table two. */
 void func_800485B8(short index)
 {
-    loadResourceAndMirrorPalette(index, 2);
+    load_resource_and_mirror_palette(index, 2);
 }
 
-extern int resourceLoadIndexedSpriteBundle(int a0);
+extern int resource_load_indexed_sprite_bundle(int a0);
 
 /* Return the result of query zero. */
 int func_80048D00(void)
 {
-    return resourceLoadIndexedSpriteBundle(0);
+    return resource_load_indexed_sprite_bundle(0);
 }
 
-extern int resourceLoadIndexedSpriteBundle(int a0);
+extern int resource_load_indexed_sprite_bundle(int a0);
 
 /* Return the result of query one. */
 int func_80048D20(void)
 {
-    return resourceLoadIndexedSpriteBundle(1);
+    return resource_load_indexed_sprite_bundle(1);
 }
 
-extern int resourceLoadIndexedSpriteBundle(int);
+extern int resource_load_indexed_sprite_bundle(int);
 
 /* Return the result of query two. */
 int func_80048D40(void)
 {
-    return resourceLoadIndexedSpriteBundle(2);
+    return resource_load_indexed_sprite_bundle(2);
 }
 
 /* Return the indexed global table value. */
@@ -382,7 +382,7 @@ unsigned char func_80048DE8(int index) {
 }
 
 /* Count nonzero entries up to the supplied limit. */
-s32 countNonzeroWordPrefix(s32 *entries, s32 limit)
+s32 count_nonzero_word_prefix(s32 *entries, s32 limit)
 {
     s32 count = 0;
 
@@ -405,7 +405,7 @@ struct Struct_C_next {
 };
 
 /* Append a node to the end of a linked list. */
-void appendLinkedChain(Struct_C_next *tail, Struct_C_next *node) {
+void append_linked_chain(Struct_C_next *tail, Struct_C_next *node) {
     while (tail->next != 0) {
         tail = tail->next;
     }
@@ -450,7 +450,7 @@ int func_800494FC(void) {
 }
 
 /* Map the first set low flag bit to priority 0, 1, or 2, defaulting to 3. */
-int getLowFlagPriority(int flags) {
+int get_low_flag_priority(int flags) {
     int priority = 3;
 
     if (flags & 1) {
@@ -464,7 +464,7 @@ int getLowFlagPriority(int flags) {
     return priority;
 }
 
-extern int getLowFlagPriority(int a0);
+extern int get_low_flag_priority(int a0);
 
 typedef struct {
     unsigned char pad[0x13];
@@ -473,12 +473,12 @@ typedef struct {
 } Struct80049984;
 
 /* Return the record's flag priority, or 3 when its enabling byte is clear. */
-int getEnabledRecordFlagPriority(Struct80049984 *record)
+int get_enabled_record_flag_priority(Struct80049984 *record)
 {
     int priority = 3;
 
     if (record->unk13 != 0) {
-        priority = getLowFlagPriority(record->unk14);
+        priority = get_low_flag_priority(record->unk14);
     }
 
     return priority;
@@ -491,16 +491,16 @@ int func_800499DC(int *flag)
     return 1;
 }
 
-extern void initPairedPacketRecords(void *packets, void *record);
+extern void init_paired_packet_records(void *packets, void *record);
 
 /* Initialize a pair of packets from a source record. */
 void func_80049DC8(void *packets, void *record)
 {
-    initPairedPacketRecords(packets, record);
+    init_paired_packet_records(packets, record);
 }
 
 /* Advance an index by delta and correct a single wrap in either direction. */
-int advanceIndexWithSingleWrap(int index, int delta, int limit) {
+int advance_index_with_single_wrap(int index, int delta, int limit) {
     index = index + delta;
     if (delta > 0) {
         if (index < limit) {
@@ -549,7 +549,7 @@ void func_8004A918(void) {
 }
 
 /* Compare two signed words by subtraction. */
-int subtractPointedIntValues(int *left, int *right)
+int subtract_pointed_int_values(int *left, int *right)
 {
     return *left - *right;
 }
@@ -574,7 +574,7 @@ s32 func_8004AE3C(void **entries)
 extern unsigned char *D_80081540;
 
 /* Compare strings by their first characters' translated ordering values. */
-int compareMappedLeadingBytes(unsigned char **left, unsigned char **right)
+int compare_mapped_leading_bytes(unsigned char **left, unsigned char **right)
 {
     unsigned char *left_text = *left;
     unsigned char *right_text = *right;
@@ -590,15 +590,15 @@ void func_8004AFC8(void)
     func_8004AEC4();
 }
 
-extern void createCallbackPairPayload(int a0, int a1, void *a2);
+extern void create_callback_pair_payload(int a0, int a1, void *a2);
 
 /* Forward an object with fixed leading arguments zero and one. */
 void func_8004B3DC(void *object) {
-    createCallbackPairPayload(0, 1, object);
+    create_callback_pair_payload(0, 1, object);
 }
 
 /* Find the target node in the global linked list. */
-Node *findActiveListNode(Node *target)
+Node *find_active_list_node(Node *target)
 {
     Node *node = D_80081498;
 
@@ -618,7 +618,7 @@ typedef struct {
 } Unk8004B4DC; /* size 0xC */
 
 /* Count 12-byte records through the first record with bit 0x80 set. */
-int countTaggedRecords(Unk8004B4DC *record) {
+int count_tagged_records(Unk8004B4DC *record) {
     int count = 0;
 
     do {
@@ -692,7 +692,7 @@ void *func_8004D064(void *object) {
 }
 
 /* Encode the value's nibbles and fixed dimensions into a four-byte record. */
-void decodeGlyphIdToByteRectangle(u32 value, u8 *record) {
+void decode_glyph_id_to_byte_rectangle(u32 value, u8 *record) {
     record[0] = (value & 0xF) << 3;
     record[1] = (value & 0xF0) - 0x20;
     record[2] = 8;
@@ -700,7 +700,7 @@ void decodeGlyphIdToByteRectangle(u32 value, u8 *record) {
 }
 
 /* Compute and store byte coordinates from dimensions and grid position. */
-void setDescriptorGridByteCoordinates(signed char *record, int width, int height, int column, int row)
+void set_descriptor_grid_byte_coordinates(signed char *record, int width, int height, int column, int row)
 {
     int x_offset = (width * column) / 2 - 0x80;
     record[2] = width * 4 + x_offset;
@@ -720,15 +720,15 @@ void func_8004DDB4(void)
     D_80081558 = 0;
 }
 
-extern void clearResidentBitmapBit(int);
+extern void clear_resident_bitmap_bit(int);
 
-/* Invoke clearResidentBitmapBit with mode two. */
+/* Invoke clear_resident_bitmap_bit with mode two. */
 void func_8004DDC4(void) {
-    clearResidentBitmapBit(2);
+    clear_resident_bitmap_bit(2);
 }
 
 /* Encode the low five index bits into the record's halfword at offset six. */
-void setGlyphStyleIndex(void *record, int index)
+void set_glyph_style_index(void *record, int index)
 {
     short packed = (index & 0xF) + 0x7C80;
     packed = packed + ((index & 0x10) << 3);
@@ -736,17 +736,17 @@ void setGlyphStyleIndex(void *record, int index)
 }
 
 /* Decode one decimal character and advance the text pointer. */
-unsigned char *readDecimalDigitValue(unsigned char *text, int *digit) {
+unsigned char *read_decimal_digit_value(unsigned char *text, int *digit) {
     *digit = *text - 0x30;
     return text + 1;
 }
 
-extern void formatReversedUnsignedDecimal(int value, unsigned short width, char *buf, int pad);
+extern void format_reversed_unsigned_decimal(int value, unsigned short width, char *buf, int pad);
 
 /* Format a value right-justified with space padding. */
-void formatReversedDecimalSpacePadded(int value, unsigned short width, char *buf)
+void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf)
 {
-    formatReversedUnsignedDecimal(value, width, buf, ' ');
+    format_reversed_unsigned_decimal(value, width, buf, ' ');
 }
 
 /* Return without performing any work. */
@@ -781,53 +781,53 @@ void func_8004EB30(void) {
     D_80084130[0] = 0;
 }
 
-extern void *sceneCreateResourceTransition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode zero. */
 void func_8004EE30(void *object)
 {
-    sceneCreateResourceTransition(object, 0);
+    scene_create_resource_transition(object, 0);
 }
 
-extern void *sceneCreateResourceTransition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode one. */
 void func_8004EE50(int object) {
-    sceneCreateResourceTransition(object, 1);
+    scene_create_resource_transition(object, 1);
 }
 
-extern void *sceneCreateResourceTransition(void *owner, int task_context);
+extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode two and return it. */
 void *func_8004EE70(void *object)
 {
-    return sceneCreateResourceTransition(object, 2);
+    return scene_create_resource_transition(object, 2);
 }
 
 extern void func_8004EF90(void *a0);
 extern void func_8004EFF4(void *a0);
 extern void func_8004F068(void *a0);
 extern void func_8004F1E8(void *a0);
-extern void layoutMenuBackdropDisplayEntries(void *a0);
+extern void layout_menu_backdrop_display_entries(void *a0);
 
 /* Initialize four embedded records and then the containing object. */
-void buildMenuBackdropDisplayBuffers(void *object)
+void build_menu_backdrop_display_buffers(void *object)
 {
     func_8004EF90((char *)object + 0x8);
     func_8004EFF4((char *)object + 0x80);
     func_8004F068((char *)object + 0xF8);
     func_8004F1E8((char *)object + 0x170);
-    layoutMenuBackdropDisplayEntries(object);
+    layout_menu_backdrop_display_entries(object);
 }
 
 extern unsigned char D_80071684[16];
 
-extern void buildReverseIndexedChain(void *a0, void *a1, int a2);
+extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit seven. */
-void linkMenuBackdropDisplayNodes(void *entries)
+void link_menu_backdrop_display_nodes(void *entries)
 {
-    buildReverseIndexedChain(entries, D_80071684, 7);
+    build_reverse_indexed_chain(entries, D_80071684, 7);
 }
 
 /* Store a word through the supplied pointer. */
@@ -860,7 +860,7 @@ typedef struct {
 } Level0;
 
 /* Compare the signed halfwords reached through two pointer chains. */
-int compareSelectionMenuEntryOrder(Level0 *left, Level0 *right) {
+int compare_selection_menu_entry_order(Level0 *left, Level0 *right) {
     return left->l1->l2->l3->val - right->l1->l2->l3->val;
 }
 
@@ -915,12 +915,12 @@ void func_80050694(struct VtableObj *object)
 
 extern unsigned char D_800717BC[16];
 
-extern void buildReverseIndexedChain(void *a0, void *a1, int a2);
+extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit 0x11. */
 void func_80050B7C(void *entries)
 {
-    buildReverseIndexedChain(entries, D_800717BC, 0x11);
+    build_reverse_indexed_chain(entries, D_800717BC, 0x11);
 }
 
 extern int D_80080B94;
@@ -1049,13 +1049,13 @@ void func_800530A4(Entity1 *entity) {
 }
 
 extern int Control_CD(int a0, void *a1, int a2);
-extern void drainCdCommandQueue(void);
+extern void drain_cd_command_queue(void);
 
 /* Process a record with command six and finish the update. */
 void func_80053C3C(void *record)
 {
     Control_CD(6, record, 0);
-    drainCdCommandQueue();
+    drain_cd_command_queue();
 }
 
 extern int func_80055778(unsigned short a0);
@@ -1069,16 +1069,16 @@ short SD_Call(int flags)
 extern void func_80054D64(void);
 
 /* Sets volume scale [2] and re-applies it through func_80054D64. */
-void soundSetCdPlaybackVolumeScale(short value)
+void sound_set_cd_playback_volume_scale(short value)
 {
-    volumeScale[2] = value;
+    g_volume_scale[2] = value;
     func_80054D64();
 }
 
 /* Sets volume scale [0]. */
-void soundSetVoiceGainScale(short value)
+void sound_set_voice_gain_scale(short value)
 {
-    volumeScale[0] = value;
+    g_volume_scale[0] = value;
 }
 
 /* Return zero. */
@@ -1104,12 +1104,12 @@ void func_800555FC(void) {
 void func_80055604(void) {
 }
 
-extern void audioStopMatchingEffectVoices(void);
+extern void audio_stop_matching_effect_voices(void);
 
-/* Invoke audioStopMatchingEffectVoices. */
+/* Invoke audio_stop_matching_effect_voices. */
 void func_80055730(void)
 {
-    audioStopMatchingEffectVoices();
+    audio_stop_matching_effect_voices();
 }
 
 /* Clear the global halfword. */
@@ -1156,12 +1156,12 @@ void func_8005848C(void) {
 }
 
 extern int D_800737A4[4];
-extern void audioTickSequenceTracks(void);
+extern void audio_tick_sequence_tracks(void);
 
-/* Invoke audioTickSequenceTracks when the global flag is set. */
+/* Invoke audio_tick_sequence_tracks when the global flag is set. */
 void func_800584E4(void) {
     if (D_800737A4[0]) {
-        audioTickSequenceTracks();
+        audio_tick_sequence_tracks();
     }
 }
 
@@ -1170,7 +1170,7 @@ void func_800587F8(void) {
 }
 
 /* Pack the low bytes of four values into a word, most significant byte first. */
-unsigned int packBigEndianWord(int byte_3, int byte_2, int byte_1, int byte_0)
+unsigned int pack_big_endian_word(int byte_3, int byte_2, int byte_1, int byte_0)
 {
     unsigned int packed;
 
@@ -1185,7 +1185,7 @@ unsigned int packBigEndianWord(int byte_3, int byte_2, int byte_1, int byte_0)
 }
 
 /* Pack two low bytes into a halfword value. */
-int packBigEndianHalfword(int high, int low)
+int pack_big_endian_halfword(int high, int low)
 {
     return ((high & 0xFF) << 8) | (low & 0xFF);
 }
@@ -1216,13 +1216,13 @@ void func_8005A39C(int value) {
 
 extern s32 D_80073824[4];
 
-extern void soundRunGuardedSequenceUpdate(void);
+extern void sound_run_guarded_sequence_update(void);
 
-/* Invoke soundRunGuardedSequenceUpdate when the global value is nonzero. */
+/* Invoke sound_run_guarded_sequence_update when the global value is nonzero. */
 void func_8005A3A8(void)
 {
     if (D_80073824[0]) {
-        soundRunGuardedSequenceUpdate();
+        sound_run_guarded_sequence_update();
     }
 }
 
@@ -1237,14 +1237,14 @@ void func_8005A3D4(void) {
 void func_8005A420(void) {
 }
 
-extern void audioResetAllVoices(void);
+extern void audio_reset_all_voices(void);
 extern void func_8005A26C(void);
 extern void func_8005D7BC(void);
 
 /* Run the three initialization routines in order. */
 void func_8005A4B8(void)
 {
-    audioResetAllVoices();
+    audio_reset_all_voices();
     func_8005A26C();
     func_8005D7BC();
 }
@@ -1304,20 +1304,20 @@ int func_8005C808(void) {
     return D_80085FCC[0];
 }
 
-extern void audioApplyChannelControl(short a0, int a1, int a2);
+extern void audio_apply_channel_control(short a0, int a1, int a2);
 
 /* Send command seven for the indexed entity with a seven-bit value. */
 void func_8005C88C(int unused, short index, int value)
 {
-    audioApplyChannelControl(index, 7, value & 0x7F);
+    audio_apply_channel_control(index, 7, value & 0x7F);
 }
 
-extern void audioApplyChannelControl(short a0, int a1, int a2);
+extern void audio_apply_channel_control(short a0, int a1, int a2);
 
 /* Send command ten for the indexed entity with a seven-bit value. */
 void func_8005C8EC(int unused, short index, int value)
 {
-    audioApplyChannelControl(index, 10, value & 0x7F);
+    audio_apply_channel_control(index, 10, value & 0x7F);
 }
 
 /* Return without performing any work. */
@@ -1340,43 +1340,43 @@ void func_8005C998(void) {
 void func_8005C9A0(void) {
 }
 
-extern void soundSetSpuMasterVolume(s16 left_volume, s16 right_volume);
+extern void sound_set_spu_master_volume(s16 left_volume, s16 right_volume);
 
-/* Forward two signed halfword values to soundSetSpuMasterVolume. */
+/* Forward two signed halfword values to sound_set_spu_master_volume. */
 void func_8005C9A8(s16 first, s16 second) {
-    soundSetSpuMasterVolume(first, second);
+    sound_set_spu_master_volume(first, second);
 }
 
-extern void audioResetAndReleaseSequenceBanks(void);
+extern void audio_reset_and_release_sequence_banks(void);
 
-/* Invoke audioResetAndReleaseSequenceBanks. */
+/* Invoke audio_reset_and_release_sequence_banks. */
 void func_8005C9D4(void)
 {
-    audioResetAndReleaseSequenceBanks();
+    audio_reset_and_release_sequence_banks();
 }
 
-extern void submitTaggedDriverByte(u8 a0, u8 a1, u8 a2);
+extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 
-/* Forward the low bytes of three values to submitTaggedDriverByte. */
+/* Forward the low bytes of three values to submit_tagged_driver_byte. */
 void func_8005C9F4(s32 first, s32 second, s32 third)
 {
-    submitTaggedDriverByte(first, second, third);
+    submit_tagged_driver_byte(first, second, third);
 }
 
-extern void submitScaledDriverHalfwordPair(unsigned char a0, short a1, short a2);
+extern void submit_scaled_driver_halfword_pair(unsigned char a0, short a1, short a2);
 
-/* Forward a byte code and two signed halfword values to submitScaledDriverHalfwordPair. */
+/* Forward a byte code and two signed halfword values to submit_scaled_driver_halfword_pair. */
 void func_8005CA1C(unsigned char code, short first, short second)
 {
-    submitScaledDriverHalfwordPair(code, first, second);
+    submit_scaled_driver_halfword_pair(code, first, second);
 }
 
-extern void dispatchCombinedDriverFlags(s16 arg0);
+extern void dispatch_combined_driver_flags(s16 arg0);
 
-/* Forward the value as a signed halfword to dispatchCombinedDriverFlags. */
+/* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
 void func_8005CA4C(s32 value)
 {
-    dispatchCombinedDriverFlags((s16)value);
+    dispatch_combined_driver_flags((s16)value);
 }
 
 extern void func_8005CA90(int channel);
@@ -1410,7 +1410,7 @@ void func_8005D704(void)
 extern void DMACallback(int a0, int a1);
 
 /* Install the callback for DMA channel four. */
-void setDmaChannel4Callback(int callback)
+void set_dma_channel_4_callback(int callback)
 {
     DMACallback(4, callback);
 }

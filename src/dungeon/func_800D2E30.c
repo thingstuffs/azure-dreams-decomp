@@ -44,14 +44,14 @@ typedef struct S_800D8590_3 {
 extern void func_8003DB94();
 extern void func_80042B68();
 extern void bzero();
-extern void dungeonClearPlayerLinkedActionFlags();
+extern void clear_player_linked_action_flags();
 
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];
 extern void *D_800E262C[];
 
 /* Reset the entity state and animation, then update its child flags. */
-void *dungeonResetActorAnimationState(void *entity)
+void *reset_actor_animation_state(void *entity)
 {
     u8 *child;
     u8 *map;
@@ -63,13 +63,13 @@ void *dungeonResetActorAnimationState(void *entity)
 
     entity_arg = entity;
     parent = entity - 0x20;
-    if ((u8 *)((s32)dungeonStatus.unk_10) == parent) {
-        dungeonStatus.unk_10 = (s32)parent & 0x7FFFFFFF;
+    if ((u8 *)((s32)g_dungeon_status.unk_10) == parent) {
+        g_dungeon_status.unk_10 = (s32)parent & 0x7FFFFFFF;
     }
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (((S_800D8590_1 *)entity)->unk_13 == 0) {
-        dungeonClearPlayerLinkedActionFlags();
+        clear_player_linked_action_flags();
         ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
@@ -99,7 +99,7 @@ void *dungeonResetActorAnimationState(void *entity)
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
         (*(void ** *)((u8 *)child + 0x2C)) = D_800E262C;
 
-        frame_index = (gameWork.view.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
+        frame_index = (g_game_work.view.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;

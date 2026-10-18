@@ -6,11 +6,11 @@
 extern u8 D_800CEA44[];
 
 
-extern s32 hasEnoughAvailableRuntimeNodes(s32 limit);
+extern s32 has_enough_available_runtime_nodes(s32 limit);
 extern void SD_Call(s32 flags);
 
 /* Clamp an indexed entry and create its node if processing succeeds. */
-unsigned int dungeonClampEntryAndCreateEffectNode(void *object, s16 entry_index)
+unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
 {
     s32 result;
     u8 *state_page;
@@ -24,14 +24,14 @@ unsigned int dungeonClampEntryAndCreateEffectNode(void *object, s16 entry_index)
         return 1;
         result = 1;
     } else {
-        state = &dungeonStatus;
+        state = &g_dungeon_status;
         entries = (u8 *)D_800E3648;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
         if ((s16)(((u16)state->unk_1C) + *(s8 *)(entry + 2)) >= 0x21) {
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->unk_1C);
         }
 
-        result = hasEnoughAvailableRuntimeNodes(*(s8 *)(entry + 2) + 1);
+        result = has_enough_available_runtime_nodes(*(s8 *)(entry + 2) + 1);
         entry_ready = result != 0;
         if (entry_ready) {
             node = func_8003FC64(2);

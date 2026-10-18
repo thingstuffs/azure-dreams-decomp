@@ -1,9 +1,9 @@
 #include "modules/dungeon_ovl_9c32d4.h"
 
-void func_80174E98(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position) {
+void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position) {
     s16 height;
     s16 speed;
-    height = func_800BCB04(position->x.ovl_9c32d4_809A3698_half.high, position->y.ovl_9c32d4_809A3698_half.high, (s16)(position->z.ovl_9c32d4_809A3698_half.high + 2));
+    height = sample_terrain_surface_height(position->x.ovl_9c32d4_809A3698_half.high, position->y.ovl_9c32d4_809A3698_half.high, (s16)(position->z.ovl_9c32d4_809A3698_half.high + 2));
     if ((s16)position->z.ovl_9c32d4_809A3698_half.high < height) {
         position->x.word -= (D_8006CCD8[state->direction] * state->speed) << 11;
         position->y.word -= (D_8006CCE8[state->direction] * state->speed) << 11;

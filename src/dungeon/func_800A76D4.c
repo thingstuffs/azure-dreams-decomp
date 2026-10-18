@@ -23,7 +23,7 @@ void func_80044A50(void *);
 void func_8004491C(void *, void *);
 
 /* Restores neutral color, then counts down and finalizes the effect. */
-s32 dungeonUpdateActorFadeIn(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
+s32 update_actor_fade_in(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
     StructArg0 *object = object_arg;
     StructArg2 *effect = effect_arg;
     u8 phase = object->unk9B;
@@ -53,9 +53,9 @@ s32 dungeonUpdateActorFadeIn(StructArg0 *object_arg, s32 unused, StructArg2 *eff
         effect->unk12 += 0x80;
         effect->unk14 &= 0xFFF3;
         func_8004491C(owner, func_80045340);
-        effect_count = ((u16)dungeonStatus.unk_0A);
+        effect_count = ((u16)g_dungeon_status.unk_0A);
         effect_count--;
-        dungeonStatus.unk_0A = effect_count;
+        g_dungeon_status.unk_0A = effect_count;
         return 1;
     default:
         return 0;

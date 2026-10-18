@@ -11,7 +11,7 @@ extern M2C_UNK D_80080E28;
 extern M2C_UNK D_800D1D54;
 
 /* Sets the global flag, runs the setup sequence, and processes both global data blocks. */
-void func_800C1954(void) {
+void set_global_flag_runs_setup(void) {
     D_80080A88 = 1;
     SD_Call(0x7F);
     func_800542BC();

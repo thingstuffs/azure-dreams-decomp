@@ -3,7 +3,7 @@
 
 /* Sets the flags bit 0x8000 on four 6-byte table entries per party-slot index
  * i in [10, 12): entries at byte offsets (i << D_8008333C.field14) * 6 +
- * {0x78, 0x7E, 0xFC, 0x102} from D_8008333C.field0. Sibling clearScaledCellFlags8000
+ * {0x78, 0x7E, 0xFC, 0x102} from D_8008333C.field0. Sibling clear_scaled_cell_flags_8000
  * clears the same bit (&= 0x7FFF) on the identical index set. */
 typedef struct S_80043B4C_entry {
     /* 0x00 */ s32 unk0;
@@ -12,9 +12,9 @@ typedef struct S_80043B4C_entry {
 
 
 /* Sets flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
-void setScaledCellFlags8000(void)
+void set_scaled_cell_flags_8000(void)
 {
-    MapGrid *table = &gameWork.map;
+    MapGrid *table = &g_game_work.map;
     u8 *entries = ((u8 *)table->cells);
     s32 slot;
 

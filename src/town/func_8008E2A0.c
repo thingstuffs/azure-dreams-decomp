@@ -7,11 +7,11 @@ typedef struct S_8008BA00_0 {
     u8 pad_66[0x2];
     s32 (*unk_68)(struct S_8008BA00_0 *);
     s32 (*unk_6C)(struct S_8008BA00_0 *);
-} S_8008BA00_0;   /* arg0 in func_8008BA00 */
+} S_8008BA00_0;   /* arg0 in advance_town_map_countdown_callback */
 
 
 /* Decrement the countdown and activate the next callback when it becomes negative. */
-void func_8008BA00(S_8008BA00_0 *state) {
+void advance_town_map_countdown_callback(S_8008BA00_0 *state) {
     s32 (*next_callback)(S_8008BA00_0 *);
     u16 countdown;
 

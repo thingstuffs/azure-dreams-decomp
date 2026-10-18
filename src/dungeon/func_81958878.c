@@ -9,17 +9,17 @@
 typedef struct S_80024078_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_80024078_2_pre;   /* the 0x18 bytes before parent in dungeonAdvanceScreenTransition, addressed as parent[-1] */
+} S_80024078_2_pre;   /* the 0x18 bytes before parent in advance_screen_transition, addressed as parent[-1] */
 
 typedef struct S_80024078_3 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80024078_3;   /* arg0 in dungeonAdvanceScreenTransition */
+} S_80024078_3;   /* arg0 in advance_screen_transition */
 
 typedef struct S_80024078_4 {
     u8 pad_00[0x2C];
     s16 unk_2C;
-} S_80024078_4;   /* arg0->child in dungeonAdvanceScreenTransition */
+} S_80024078_4;   /* arg0->child in advance_screen_transition */
 
 
 typedef struct {
@@ -44,11 +44,11 @@ typedef struct {
     s16 timer_22;
 } State;
 
-extern s32 decodeAndUploadImage(u8 *, Rect *);
-extern s32 uploadVramRowAndCache();
-extern void *func_80024578(void *, s32);
+extern s32 decode_and_upload_image(u8 *, Rect *);
+extern s32 upload_vram_row_and_cache();
+extern void *update_actor_effect_sequence(void *, s32);
 extern s32 func_80053EF0(s32);
-extern void func_800A56E0(s32);
+extern void play_sound_if_enabled(s32);
 
 extern u8 D_80028F68[];
 extern u8 D_8002964C[];
@@ -59,9 +59,9 @@ extern u16 D_800281F8[];
 extern u8 D_800281FC[12];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
-void dungeonAdvanceScreenTransition(State *ctx)
+void advance_screen_transition(State *ctx)
 {
-    GameWork *screen = &gameWork;
+    GameWork *screen = &g_game_work;
     s32 rect_words[2];
     s32 phase;
     s32 fade_duration;
@@ -74,8 +74,8 @@ void dungeonAdvanceScreenTransition(State *ctx)
 
     rect_words[0] = 0x010003A0;
     rect_words[1] = 0x00400020;
-    decodeAndUploadImage(D_80028F68, (Rect *)rect_words);
-    uploadVramRowAndCache(D_8002964C, 0x7AC0, 1, 2);
+    decode_and_upload_image(D_80028F68, (Rect *)rect_words);
+    upload_vram_row_and_cache(D_8002964C, 0x7AC0, 1, 2);
     D_8002966C[0] = 1;
     D_8002966E[0] = ctx->field_9;
     D_80029670[0] = (s32)ctx->field_0;
@@ -93,7 +93,7 @@ case 1:
     }
 
     parent = ctx->field_0;
-    child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
+    child = update_actor_effect_sequence(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
     ctx->child = child;
     if (child == 0) {
         break;
@@ -122,7 +122,7 @@ case 1:
             break;
         }
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2))--;
-        func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
+        play_sound_if_enabled(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
         ctx->state++;
         break;
 
@@ -151,11 +151,11 @@ case 1:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.unk_0A--;
         }
         (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     default:

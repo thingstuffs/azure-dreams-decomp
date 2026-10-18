@@ -29,7 +29,7 @@ typedef struct S_8009BF7C_1 {
 } S_8009BF7C_1;
 
 /* Creates a type 0x212 object and initializes its flag and value. */
-void dungeonCreateType212Object(s32 flag, s8 value) {
+void create_type_212_object(s32 flag, s8 value) {
     S_8009BF7C_1 *state;
     S_8009BF7C_0 *object;
 

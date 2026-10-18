@@ -15,7 +15,7 @@ extern s32 func_8004DA74(void *, s32, s32);
 extern s32 D_800280B4[][6];
 
 /* Positions five entries in a vertical list and initializes their values from the selected table. */
-void cardBootLayoutFiveEntryList(void *context)
+void card_boot_layout_five_entry_list(void *context)
 {
     s32 entry_index;
     MainEntry *entry;

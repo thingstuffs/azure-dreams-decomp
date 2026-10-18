@@ -6,13 +6,13 @@
 typedef struct S_800A7E7C_0_pre {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
-} S_800A7E7C_0_pre;   /* the 0x10 bytes before arg0 in townInitializeIndexedResourceObject, addressed as arg0[-1] */
+} S_800A7E7C_0_pre;   /* the 0x10 bytes before arg0 in initialize_indexed_resource_object, addressed as arg0[-1] */
 
 
 typedef struct S_800A7E7C_1 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
-} S_800A7E7C_1;   /* arg2 in townInitializeIndexedResourceObject */
+} S_800A7E7C_1;   /* arg2 in initialize_indexed_resource_object */
 
 
 
@@ -21,7 +21,7 @@ extern M2C_UNK D_8006E240;
 extern M2C_UNK D_800A7EC0;
 
 /* Initialize the object state from its byte value and set the context resource and callback. */
-void townInitializeIndexedResourceObject(void *object, M2C_UNK unused, S_800A7E7C_1 *context) {
+void initialize_indexed_resource_object(void *object, M2C_UNK unused, S_800A7E7C_1 *context) {
     ((S_800A7E7C_0_pre *)object)[-1].unk_00 = &D_800A7EC0;
     ((Rec_func_80094268_arg0 *)object)->unk_60 = (s32) ((Rec_func_80094268_arg0 *)object)->unk_96.as_u8;
     context->unk_08 = &D_8006E240;

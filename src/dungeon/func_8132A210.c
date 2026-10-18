@@ -14,7 +14,7 @@ extern DungeonTable D_8016A894;
 extern M2C_UNK D_801718E4;
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
-void dungeonCreateBossDirectionalEffect(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode)
+void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode)
 {
     u16 saved_angle = angle;
     void *effect_obj;

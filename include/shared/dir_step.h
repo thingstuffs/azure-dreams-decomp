@@ -10,8 +10,8 @@
  * The readable names are config/names.tsv aliases of D_8006CCD8 / D_8006CCE8: tools/build/ccproc.py
  * (gate, SLUS) and tools/gate/match.py (scorer) spell them back before the assembler, so every binary
  * links the same address (docs/TYPE_CONSOLIDATION.md). */
-extern short dirStepX[8];   /* s16; plain C types so the header needs no include order */
-extern short dirStepY[8];
+extern short dir_step_x[8];   /* s16; plain C types so the header needs no include order */
+extern short dir_step_y[8];
 
 /* dirSpriteFlag: the per-direction table right after dirStepY, SLUS .data 0x8006CCF8 (r78 phase 10), retail bytes
  *     { 1, 1, 0, 0, 0, 0, 0, 1 }   - set for directions 7, 0, 1 (the three whose dirStepX is +1).
@@ -20,6 +20,6 @@ extern short dirStepY[8];
  * clear it otherwise (plausibly a horizontal mirror of the shared side views - unproven, so the name says only
  * what it does).  Declared unsized: a -G8 row (func_812A524C) needs a declared size above 8 bytes (small data
  * otherwise) and the extent past the eight direction bytes is unknown (0x8006CD00 holds s16 angle steps). */
-extern unsigned char dirSpriteFlag[];
+extern unsigned char dir_sprite_flag[];
 
 #endif

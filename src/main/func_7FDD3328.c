@@ -40,15 +40,15 @@ extern s32 D_80080A98;
 extern s32 D_80080A9C;
 extern s32 D_8008B2F0[3];
 extern s32 D_80081494;
-extern s32 renderScreenFadeDecreasingIntensity();
-extern s32 renderScreenFadeIncreasingIntensity();
+extern s32 render_screen_fade_decreasing_intensity();
+extern s32 render_screen_fade_increasing_intensity();
 extern void SD_Call();
-extern void soundSetCdPlaybackVolumeScale();
-extern void soundSetSequenceVolumeScale();
-extern void soundSetVoiceGainScale();
-extern void mainCreateSettingsController();
+extern void sound_set_cd_playback_volume_scale();
+extern void sound_set_sequence_volume_scale();
+extern void sound_set_voice_gain_scale();
+extern void create_settings_controller();
 /* Handles the options menu, adjusting audio levels and applying display settings. */
-void mainHandleSettingsMenuInput(Menu *menu)
+void handle_settings_menu_input(Menu *menu)
 {
     GameWork *pad;
     s32 buttons;
@@ -75,13 +75,13 @@ void mainHandleSettingsMenuInput(Menu *menu)
     s32 blue;
     s32 scaled_b;
     D_80080A84 = 1;
-    pad = &gameWork;
+    pad = &g_game_work;
     switch (menu->state) {
     case 0:
         menu->state = ((u16) menu->state) + 1;
 
     case 1:
-        if ((renderScreenFadeDecreasingIntensity(menu) << 16) == 0) {
+        if ((render_screen_fade_decreasing_intensity(menu) << 16) == 0) {
             return;
         }
         menu->timer = 300;
@@ -161,9 +161,9 @@ void mainHandleSettingsMenuInput(Menu *menu)
                     volume_or_red = level << 7;
                 }
                 *volume_c = volume_or_red;
-                soundSetSequenceVolumeScale(*((s16 *) volume_a));
-                soundSetVoiceGainScale(*((s16 *) volume_b));
-                soundSetCdPlaybackVolumeScale(*((s16 *) (&D_80080A94)));
+                sound_set_sequence_volume_scale(*((s16 *) volume_a));
+                sound_set_voice_gain_scale(*((s16 *) volume_b));
+                sound_set_cd_playback_volume_scale(*((s16 *) (&D_80080A94)));
                 break;
             case 4:
             case 5:
@@ -236,7 +236,7 @@ void mainHandleSettingsMenuInput(Menu *menu)
         }
         if (D_80080A8A == 1) {
             ((Gfx *) 0x80010000)->shade = delta;
-            objectFlagBlock.unk_0C = delta;
+            object_flag_block.unk_0C = delta;
             ((Gfx *) 0x80010000)->color = channel_or_color;
             D_80081494 = channel_or_color;
             if (menu->flags & 2) {
@@ -245,7 +245,7 @@ void mainHandleSettingsMenuInput(Menu *menu)
             else {
                 ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags | 1;
             }
-            objectFlagBlock.unk_04 = ((Gfx *) 0x80010000)->flags;
+            object_flag_block.unk_04 = ((Gfx *) 0x80010000)->flags;
         }
         menu->flags = menu->flags | 0x8000;
         menu->state = ((u16) menu->state) + 1;
@@ -258,11 +258,11 @@ void mainHandleSettingsMenuInput(Menu *menu)
         menu->state = ((u16) menu->state) + 1;
 
     case 4:
-        if ((renderScreenFadeIncreasingIntensity(menu) << 16) == 0) {
+        if ((render_screen_fade_increasing_intensity(menu) << 16) == 0) {
             return;
         }
-        mainCreateSettingsController();
-        settings_flags = &objectFlagBlock;
+        create_settings_controller();
+        settings_flags = &object_flag_block;
         ((u16 *) menu)[-1] |= 0x8000;
         settings_flags->flags |= 0x8000;
         return;

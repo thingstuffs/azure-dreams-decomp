@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80C429A0; every changed retail word is a paired relocation. */
-#define updateOrbitHeightAndFadeEffect func_8016E1A0
+#define update_orbit_height_and_fade_effect func_8016E1A0
 #include "modules/dungeon_ovl_7f511800_p04.h"
 extern void func_8016E06C(void *, void *, void *);
 extern s32 rand(void);
@@ -31,6 +31,6 @@ void func_8016E1A0(void *effect, EntityRec *position, Rec_D_80082E80 *primitive)
     ((T_801741A0_S_801741A0_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

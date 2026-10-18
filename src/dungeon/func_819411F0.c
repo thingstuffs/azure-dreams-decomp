@@ -26,7 +26,7 @@ typedef struct S_800249F0_1 {
 typedef struct S_800249F0_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800249F0_2_pre;   /* the 0x18 bytes before arg0 in dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState, addressed as arg0[-1] */
+} S_800249F0_2_pre;   /* the 0x18 bytes before arg0 in create_an_copied_position_packed_data_initialize_rendering_state, addressed as arg0[-1] */
 
 typedef struct S_800249F0_3 {
     s32 unk_00;
@@ -52,7 +52,7 @@ typedef struct S_800249F0_5 {
 } S_800249F0_5;
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
-void *dungeonCreateAnCopiedPositionPackedDataInitializeRenderingState(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x,
+void *create_an_copied_position_packed_data_initialize_rendering_state(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x,
     s32 render_y, s32 render_mode) {
     s16 render_param_copy;
     S_800249F0_3 *position;

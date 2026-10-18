@@ -3,7 +3,7 @@
 
 
 /* Sets the indexed bit in the global bitfield, ignoring index zero. */
-void townSetScriptFlagBit(s32 bit_index)
+void set_script_flag_bit(s32 bit_index)
 {
     s32 value;
     s32 *dst_word;

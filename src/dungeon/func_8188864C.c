@@ -22,12 +22,12 @@ typedef struct S_80025E4C_0 {
     u16 unk_8C;
     u8 pad_8E[0x32];
     u32 unk_C0;
-} S_80025E4C_0;   /* scratch in dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth */
+} S_80025E4C_0;   /* scratch in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
 
 typedef struct S_80025E4C_1_pre {
     s32 unk_00;
     u8 pad_04[0x4];
-} S_80025E4C_1_pre;   /* the 0x8 bytes before arg0 in dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth, addressed as arg0[-1] */
+} S_80025E4C_1_pre;   /* the 0x8 bytes before arg0 in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth, addressed as arg0[-1] */
 
 typedef struct S_80025E4C_1 {
     u8 pad_00[0x30];
@@ -45,7 +45,7 @@ typedef struct S_80025E4C_1 {
     u8 pad_4E[0x2];
     s32 unk_50;
     s32 unk_54;
-} S_80025E4C_1;   /* arg0 in dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth */
+} S_80025E4C_1;   /* arg0 in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
 
 typedef struct S_80025E4C_2 {
     u8 pad_00[0x4];
@@ -56,7 +56,7 @@ typedef struct S_80025E4C_2 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80025E4C_2;   /* obj in dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth */
+} S_80025E4C_2;   /* obj in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
 
 
 
@@ -72,8 +72,8 @@ typedef struct GlobalState {
 
 
 /* Project linked quads and queue their shaded primitives and draw modes by depth. */
-s32 dungeonHandleProjectLinkedQuadsQueueShadedPrimitivesDrawModesDepth(void *quad) {
-    GlobalState **render_states = ((GlobalState * *)(&gameWork));
+s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *quad) {
+    GlobalState **render_states = ((GlobalState * *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     void *packet;
     u32 depth_bucket;

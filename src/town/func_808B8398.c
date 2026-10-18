@@ -6,6 +6,6 @@ extern s32 D_0000414C[];
 extern s32 D_000045F8[];
 
 /* Return the base value plus the unsigned-index table adjustment. */
-s32 townGetUnsignedIndexedAdjustment(void) {
+s32 get_unsigned_indexed_adjustment(void) {
     return D_000045F8[0] + D_0000414C[D_00004154[D_00003F54[0]]];
 }

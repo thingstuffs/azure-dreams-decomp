@@ -2,11 +2,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void townRefreshPagedSelectionState();                      /* extern */
-void townCopyGlobalStateAndRecordBlock();                      /* extern */
-void townProcessRecordAndApplyFlags();                      /* extern */
-s32 townAllocatePagedShopItemList(); /* extern */
-s32 townCreateDualBufferObject();        /* extern */
+void refresh_paged_selection_state();                      /* extern */
+void copy_global_state_and_record_block();                      /* extern */
+void process_record_and_apply_flags();                      /* extern */
+s32 allocate_paged_shop_item_list(); /* extern */
+s32 create_dual_buffer_object();        /* extern */
 extern M2C_UNK D_800AE090;
 
 typedef struct S_800AE1AC_0 {
@@ -42,17 +42,17 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
         shop_state->unk_18 = primary_param;
         shop_state->unk_1C = secondary_param;
         shop_state->unk_14 = 6;
-        townRefreshPagedSelectionState(shop_state);
+        refresh_paged_selection_state(shop_state);
         ((S_800AE1AC_1 *)shop)->unk_10 = &D_800AE090;
-        shop_state->unk_28 = townAllocatePagedShopItemList(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C,
+        shop_state->unk_28 = allocate_paged_shop_item_list(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C,
             shop_state->unk_10, shop_state->unk_20, primary_param);
-        second_resource = townCreateDualBufferObject(shop, 0x48, -0xC);
+        second_resource = create_dual_buffer_object(shop, 0x48, -0xC);
         shop_state->unk_2C = second_resource;
         if ((shop_state->unk_28 == 0) || (second_resource == 0)) {
-            townProcessRecordAndApplyFlags(shop_state);
+            process_record_and_apply_flags(shop_state);
             shop = NULL;
         }
-        townCopyGlobalStateAndRecordBlock(shop_state);
+        copy_global_state_and_record_block(shop_state);
     }
     return shop;
 }

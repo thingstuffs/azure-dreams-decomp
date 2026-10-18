@@ -12,7 +12,7 @@ extern s32 D_80081480; /* running write pointer into the ring buffer */
 extern void DrawSync(s32 a0);
 
 /* Allocates ring buffer space, wrapping and syncing the GPU when the request reaches the buffer end. */
-void *allocGpuScratchRing(s32 size)
+void *alloc_gpu_scratch_ring(s32 size)
 {
     s32 buffer_base = D_8008148C;
 

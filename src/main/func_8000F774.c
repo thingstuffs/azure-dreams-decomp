@@ -14,10 +14,10 @@ typedef struct S_80022774_0 {
     u8 pad_0C[0xC];
     s32 unk_18;
     s32 unk_1C;
-} S_80022774_0;   /* arg1 in cardBootBuildMessageWindowPackets */
+} S_80022774_0;   /* arg1 in card_boot_build_message_window_packets */
 
 /* Builds four groups of display records and stores the padded layout dimensions. */
-void *cardBootBuildMessageWindowPackets(void *buffer, void *layout)
+void *card_boot_build_message_window_packets(void *buffer, void *layout)
 {
     Bytes4 record_flags;
     s32 group_index;

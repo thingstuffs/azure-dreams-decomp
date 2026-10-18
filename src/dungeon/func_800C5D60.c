@@ -5,7 +5,7 @@
 typedef struct S_800CB4C0_6 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_800CB4C0_6;   /* arg0 in func_800CB4C0 */
+} S_800CB4C0_6;   /* arg0 in create_source_linked_fading_effect */
 
 typedef struct S_800CB4C0_7 {
     u8 pad_00[0x2];
@@ -14,7 +14,7 @@ typedef struct S_800CB4C0_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800CB4C0_7;   /* ((S_800CB4C0_6 *)arg0)->unk_08 in func_800CB4C0 */
+} S_800CB4C0_7;   /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
 
 M2C_UNK func_8003DB94();  /* extern */
@@ -47,7 +47,7 @@ typedef struct S_800CB4C0_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800CB4C0_2;   /* arg0 in func_800CB4C0 */
+} S_800CB4C0_2;   /* arg0 in create_source_linked_fading_effect */
 
 typedef struct S_800CB4C0_3 {
     u8 pad_00[0x2];
@@ -73,7 +73,7 @@ typedef struct S_800CB4C0_5 {
 } S_800CB4C0_5;
 
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
-void *func_800CB4C0(void *source, s16 copy_position) {
+void *create_source_linked_fading_effect(void *source, s16 copy_position) {
     s32 display_value;
     S_800CB4C0_1 *display;
     void *object;

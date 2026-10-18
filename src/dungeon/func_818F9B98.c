@@ -13,7 +13,7 @@ typedef struct S_80025398_0 {
     u8 pad_38[0x60];
     u16 unk_98;
     s16 unk_9A;
-} S_80025398_0;   /* arg0 in func_80025398 */
+} S_80025398_0;   /* arg0 in process_five_context_entries_or_fallback */
 
 typedef struct S_80025398_1 {
     u8 pad_00[0xC];
@@ -25,12 +25,12 @@ typedef struct S_80025398_1 {
     u8 pad_16[0x6];
     union { u16 s; u16 u; } unk_1C;   /* accessed as both */
     union { u16 s; u16 u; } unk_1E;   /* accessed as both */
-} S_80025398_1;   /* out in func_80025398 */
+} S_80025398_1;   /* out in process_five_context_entries_or_fallback */
 
 typedef struct S_80025398_2 {
     u8 pad_00[0x38];
     s8 unk_38;
-} S_80025398_2;   /* cursor in func_80025398 */
+} S_80025398_2;   /* cursor in process_five_context_entries_or_fallback */
 
 
 
@@ -40,7 +40,7 @@ typedef struct S_80025398_2 {
 
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
-void func_80025398(void *effect, void *unused, void *primitive)
+void process_five_context_entries_or_fallback(void *effect, void *unused, void *primitive)
 {
     PackedVector source;
     PackedVector *source_ptr;
@@ -131,13 +131,13 @@ void func_80025398(void *effect, void *unused, void *primitive)
     derived.x = source.x + ((s16)source.z >> 1);
     one = 1;
     derived.y = source.y + 0x3C;
-    func_80024CD4(effect, ((S_80025398_0 *)effect)->unk_34, render_source, derived_ptr, one, one);
+    move_linked_effect_along_path(effect, ((S_80025398_0 *)effect)->unk_34, render_source, derived_ptr, one, one);
 
     next_frame = ((S_80025398_0 *)effect)->unk_04.u + 1;
     ((S_80025398_0 *)effect)->unk_04.u = next_frame;
     if (next_frame == ((S_80025398_0 *)effect)->unk_02) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

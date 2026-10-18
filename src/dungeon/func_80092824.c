@@ -2,25 +2,25 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s32 getBoundedStrideIndex(void *, void *, s32, s32);
-extern s32 dungeonFindLastZeroEntryRunStart(void);
-extern s32 func_80098FF8(void);
-extern void *func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_bounded_stride_index(void *, void *, s32, s32);
+extern s32 find_last_zero_entry_run_start(void);
+extern s32 find_and_clear_empty_item_slot(void);
+extern void *get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 dungeonAppendTypedFormattedValue(void *, s32);
-extern s32 dungeonApplyTypeBasedEntryAdjustments(void *, s32);
-extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A56E0(s32);
-extern void func_800A5720(s8 *text);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_typed_formatted_value(void *, s32);
+extern s32 apply_type_based_entry_adjustments(void *, s32);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void play_sound_if_enabled(s32);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80081470[];
 extern void *D_80081484;
 extern u8 D_800E07EF[];
 extern u8 D_800E36C8[];
 
-void *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, s16 flag)
+void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag)
 {
     s16 held_flag = flag;
     s32 first;
@@ -40,26 +40,26 @@ void *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, 
     if (target == (void *)&D_80081484 ||
         target == (void *)D_80081470 ||
         target == *(void **)((u8 *)D_800814A8 + 0xF0)) {
-    first = dungeonFindLastZeroEntryRunStart();
-    second = func_80098FF8();
+    first = find_last_zero_entry_run_start();
+    second = find_and_clear_empty_item_slot();
     index = (s16)first;
 
     if (index < 0 || (s16)second < 0) {
-        object = func_800990FC();
-        func_80099290(func_80099194(ptr2,
-            dungeonApplyTypeBasedEntryAdjustments(target,
-                func_80099194(ptr1, dungeonWriteTextByteAndAdvance(8, object)))));
-        func_800A5720(object);
+        object = get_unused_text_buffer();
+        func_80099290(expand_text_control_codes(ptr2,
+            apply_type_based_entry_adjustments(target,
+                expand_text_control_codes(ptr1, write_text_byte_and_advance(8, object)))));
+        display_text_with_fullwidth_adjustment(object);
         return 0;
     }
 
-    object = func_800990FC();
-    func_80099290(func_80099194(D_800E07EF,
-        dungeonAppendTypedFormattedValue(target, object)));
+    object = get_unused_text_buffer();
+    func_80099290(expand_text_control_codes(D_800E07EF,
+        append_typed_formatted_value(target, object)));
     if (held_flag != 0) {
-        func_800A5720(object);
+        display_text_with_fullwidth_adjustment(object);
     }
-    func_800A56E0(0x508);
+    play_sound_if_enabled(0x508);
 
     if (target == (void *)&D_80081484) {
         slot = &((void **)0x80010248)[index];
@@ -71,13 +71,13 @@ void *dungeonRegisterItemObjectInFreeSlot(void *target, void *ptr1, void *ptr2, 
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
     } else {
 
-        found = (s16)getBoundedStrideIndex(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
+        found = (s16)get_bounded_stride_index(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
                                  ((u8 *)D_800E3548), 4, 0x40);
         if (found >= 0) {
             entry_base_s = (s32)D_800E36C8;
             entry = (u8 *)(found * 12);
             entry += entry_base_s;
-            func_8009A3D0(entry[0], entry[1], 0x800);
+            update_map_cell_flags_with_item_limit(entry[0], entry[1], 0x800);
             ((void **)0x80010248)[index] = *(void **)D_80081470;
         } else {
             ((void **)0x80010248)[index] = *(void **)D_80081470;

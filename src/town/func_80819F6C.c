@@ -6,15 +6,15 @@ typedef struct S_80023F6C_0 {
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80023F6C_0;   /* arg0 in townFadeSceneTileWhenLinkedStateClears */
+} S_80023F6C_0;   /* arg0 in fade_scene_tile_when_linked_state_clears */
 
 typedef struct S_80023F6C_1 {
     s16 unk_00;
-} S_80023F6C_1;   /* object in townFadeSceneTileWhenLinkedStateClears */
+} S_80023F6C_1;   /* object in fade_scene_tile_when_linked_state_clears */
 
 
 /* Wait for the linked object to clear, then reduce the level and set completion flags. */
-void townFadeSceneTileWhenLinkedStateClears(void *entry) {
+void fade_scene_tile_when_linked_state_clears(void *entry) {
     void *object;
     s32 state;
     u16 prev_state;
@@ -36,7 +36,7 @@ void townFadeSceneTileWhenLinkedStateClears(void *entry) {
         ((S_80023F6C_0 *)entry)->unk_08 = level;
         if (level <= 0x80808) {
             (*(u16 *)((u8 *)entry + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
 

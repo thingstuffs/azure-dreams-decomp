@@ -50,15 +50,15 @@ extern u8 D_800F93AA[];
 
 extern void func_800353F4(void *);
 extern void func_80047784(Arg2 *, u8, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(Arg3 *);
-extern void func_800A56E0(s32);
-extern void dungeonClearActorActionMarkers(u8 *state);
-extern void dungeonAllocateType12Object(void);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(Arg3 *);
+extern void play_sound_if_enabled(s32);
+extern void clear_actor_action_markers(u8 *state);
+extern void allocate_type_12_object(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 
 /* Advances the dungeon transition animation and resets entry resources when it completes. */
-void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
+void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
     s32 stage;
 
     stage = state->unk9b;
@@ -76,16 +76,16 @@ void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *
         state->unk96 = 0;
         state->unk9b = state->unk9b + 1;
         animation->unk2c = D_801746B4;
-        func_80047784(animation, D_801746B4[(((s32)gameWork.view.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
+        func_80047784(animation, D_801746B4[(((s32)g_game_work.view.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
     case 2:
         state->unk96 = state->unk96 + 1;
         if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, animation, actor->unk2a, 1);
+            resolve_attack_damage_and_effects(actor, animation, actor->unk2a, 1);
             state->unk96 = 0;
             state->unk9b = state->unk9b + 1;
         }
         if ((s16)state->unk96 == 8) {
-            func_800A56E0(0x804);
+            play_sound_if_enabled(0x804);
         }
         break;
     case 3:
@@ -95,11 +95,11 @@ void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *
                 s32 resource_flag;
                 void *effect;
 
-                dungeonAllocateType12Object();
+                allocate_type_12_object();
                 effect = D_800F93AA;
                 state->unk8c = D_8016B778;
-                dungeonStatus.unk_0C = 0;
-                dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
+                g_dungeon_status.unk_0C = 0;
+                g_dungeon_status.unk_0A = ((u16)g_dungeon_status.unk_0A) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
                 *(u16 *)&D_80013714 = D_80013714 | 8;
                 func_800353F4(effect);
@@ -116,7 +116,7 @@ void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *
                     if (entry->unkac != 0) {
                         u32 *resource_header;
 
-                        dungeonClearActorActionMarkers(entry->unkac);
+                        clear_actor_action_markers(entry->unkac);
                         entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
                         resource_header = (u32 *)(entry->unkac - 0x20);
                         resource_header[4] = resource_header[4] | resource_flag;
@@ -128,8 +128,8 @@ void dungeonAdvanceTransitionAnimation(DungeonState *state, Arg1 *motion, Arg2 *
                 }
             } else {
                 state->unk8c = D_8016B778;
-                dungeonStatus.unk_0C = 0;
-                dungeonAdvanceStatusTimers(actor);
+                g_dungeon_status.unk_0C = 0;
+                advance_status_timers(actor);
                 actor->flags46 = actor->flags46 & 0x7FFF;
             }
         }

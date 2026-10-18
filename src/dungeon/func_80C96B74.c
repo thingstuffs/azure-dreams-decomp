@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_cb3000.h"
 
-void func_80174374(u8 *effect, s32 *position, s32 effect_param)
+void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param)
 {
     s16 state;
     s16 life_left;
@@ -85,7 +85,7 @@ void func_80174374(u8 *effect, s32 *position, s32 effect_param)
             if (F16(effect, 0x2A) == 0) {
                 burst_index = 1;
                 do {
-                    dungeonCreateRandomizedRotatedEffect(effect, position, effect_param, (burst_index << 26) >> 16);
+                    create_randomized_rotated_effect(effect, position, effect_param, (burst_index << 26) >> 16);
                     burst_index++;
                 } while (burst_index < 8);
             }
@@ -115,6 +115,6 @@ void func_80174374(u8 *effect, s32 *position, s32 effect_param)
     F16(effect, 0x24) = life_left;
     if ((life_left << 16) <= 0) {
         FU16(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

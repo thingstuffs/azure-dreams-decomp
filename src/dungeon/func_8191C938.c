@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_193c848.h"
 
-void *func_80024138(Row_8191C938_S_8191C938_3 *source)
+void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 {
     s32 random_value;
     Row_8191C938_CopyBlock *object_block;

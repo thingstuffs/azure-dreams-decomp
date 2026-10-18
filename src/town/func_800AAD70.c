@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 #endif
 
 
-extern s32 scaleRandomToUnsignedHalfwordLimit();
+extern s32 scale_random_to_unsigned_halfword_limit();
 extern M2C_UNK func_8003DB94();
 extern s32 func_8004491C();
 extern M2C_UNK D_800A8440;
@@ -39,7 +39,7 @@ typedef struct S_800A84D0_2 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800A84D0_2;   /* arg0 in townCreateRandomizedPositionEffect */
+} S_800A84D0_2;   /* arg0 in create_randomized_position_effect */
 
 typedef struct S_800A84D0_3 {
     u8 pad_00[0xC];
@@ -61,7 +61,7 @@ typedef struct S_800A84D0_4 {
 } S_800A84D0_4;
 
 /* Creates an effect at the supplied position and initializes its sprite and random state. */
-void *townCreateRandomizedPositionEffect(S_800A84D0_2 *source_position) {
+void *create_randomized_position_effect(S_800A84D0_2 *source_position) {
     s32 random_offset;
     S_800A84D0_3 *sprite;
     S_800A84D0_1 *position;
@@ -85,9 +85,9 @@ void *townCreateRandomizedPositionEffect(S_800A84D0_2 *source_position) {
         sprite->unk_1C = 0x1000;
         sprite->unk_10 = 0x60;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        random_offset = scaleRandomToUnsignedHalfwordLimit(7);
+        random_offset = scale_random_to_unsigned_halfword_limit(7);
         effect_state = object + 0x20;
-        effect_state->unk_02 = (s16) (random_offset + scaleRandomToUnsignedHalfwordLimit(7));
+        effect_state->unk_02 = (s16) (random_offset + scale_random_to_unsigned_halfword_limit(7));
     }
     return object;
 }

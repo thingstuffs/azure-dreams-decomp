@@ -10,7 +10,7 @@ extern u8 D_800E2954;
 extern u8 D_800E2960[];
 
 /* Link entries to their predecessors in the selected index order and return the last entry. */
-s32 dungeonLinkIndexedEntryChain(s32 entries_base, s32 use_alt_order) {
+s32 link_indexed_entry_chain(s32 entries_base, s32 use_alt_order) {
     s32 prev_entry;
     u8 *index_ptr;
     u8 *index_order;

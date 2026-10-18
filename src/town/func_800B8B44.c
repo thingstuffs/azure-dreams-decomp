@@ -9,9 +9,9 @@ typedef struct S_800B62A4_0 {
 
 
 M2C_UNK bzero();            /* extern */
-void townCollectSelectedRecordValues();             /* extern */
-void townPopulateDisplayRowWithIcon();            /* extern */
-void townPopulateDisplayRow();            /* extern */
+void collect_selected_record_values();             /* extern */
+void populate_display_row_with_icon();            /* extern */
+void populate_display_row();            /* extern */
 
 typedef struct DisplaySlot {
     u8 pad_00[0x38];
@@ -19,7 +19,7 @@ typedef struct DisplaySlot {
 } DisplaySlot;
 
 /* Fill up to three output slots from source entries and clear unused slots. */
-void townFillDisplaySlots(EntityRec *source, s32 output) {
+void fill_display_slots(EntityRec *source, s32 output) {
     void *entries[3];
     s32 index;
     s32 slot_count;
@@ -36,7 +36,7 @@ void townFillDisplaySlots(EntityRec *source, s32 output) {
     source_cursor = source;
     do {
         if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
-            townPopulateDisplayRowWithIcon((u8 *)source + scan_base, output, slot_count);
+            populate_display_row_with_icon((u8 *)source + scan_base, output, slot_count);
             slot_count += 1;
         }
         scan_base += 3;
@@ -44,7 +44,7 @@ void townFillDisplaySlots(EntityRec *source, s32 output) {
         source_cursor += 3;
     } while (index < 3);
     bzero(entries, 0xC);
-    townCollectSelectedRecordValues(entries, source);
+    collect_selected_record_values(entries, source);
     index = 0;
     has_room = slot_count < 3;
     scan_base = slot_count;
@@ -53,7 +53,7 @@ void townFillDisplaySlots(EntityRec *source, s32 output) {
         do {
             entry = *(void **)source_cursor;
             if (entry != NULL) {
-                townPopulateDisplayRow(entry, output, slot_count);
+                populate_display_row(entry, output, slot_count);
                 slot_count += 1;
             }
             index += 1;
@@ -61,7 +61,7 @@ void townFillDisplaySlots(EntityRec *source, s32 output) {
         } while ((index + scan_base) < 3);
     }
     if ((slot_count < 3) && (source->unk_49 != 0)) {
-        townPopulateDisplayRow((u8 *)source + 0x48, output, slot_count);
+        populate_display_row((u8 *)source + 0x48, output, slot_count);
         slot_count += 1;
     }
     index = slot_count;

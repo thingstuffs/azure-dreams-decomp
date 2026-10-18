@@ -11,7 +11,7 @@ extern u16 D_80111F68[];
 extern u16 D_80111F88[];
 
 /* Advance the animation tick and upload the selected texture and palette frames. */
-void townAdvanceBuildingTextureFrame(u16 *anim_tick)
+void advance_building_texture_frame(u16 *anim_tick)
 {
     void *rect;
     void *upload_data;

@@ -8,16 +8,16 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_80042B68();             /* extern */
-void dungeonBeginDeferredItemAction(); /* extern */
-void dungeonClearSlotAndUpdateLinkedState();                         /* extern */
-s32 func_800990FC(void);                          /* extern */
-s32 func_80099194();                  /* extern */
+void begin_deferred_item_action(); /* extern */
+void clear_slot_and_update_linked_state();                         /* extern */
+s32 get_unused_text_buffer(void);                          /* extern */
+s32 expand_text_control_codes();                  /* extern */
 void *func_80099290();                         /* extern */
-s32 func_800A5720();                         /* extern */
-void func_800A5F38();                 /* extern */
-void func_800A63B8();            /* extern */
-s32 dungeonApplyActorFoodPreference();            /* extern */
-void dungeonCreateTimedPairedParticleEmitter();            /* extern */
+s32 display_text_with_fullwidth_adjustment();                         /* extern */
+void apply_item_effect_at_entity_position();                 /* extern */
+void display_item_status_message();            /* extern */
+s32 apply_actor_food_preference();            /* extern */
+void create_timed_paired_particle_emitter();            /* extern */
 typedef struct {
     u8 pad[0xA];
     u16 fieldA;
@@ -28,11 +28,11 @@ extern M2C_UNK D_800E0E82;
 typedef struct S_800BD5C4_0_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_800BD5C4_0_pre;   /* the 0x18 bytes before arg0 in dungeonUseItemToCureConfusion, addressed as arg0[-1] */
+} S_800BD5C4_0_pre;   /* the 0x18 bytes before arg0 in use_item_to_cure_confusion, addressed as arg0[-1] */
 
 
 /* Applies an entity update and handles its follow-up effects and state count. */
-s32 dungeonUseItemToCureConfusion(void *entity, s32 update_value, s16 mode) {
+s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     u16 *type_flags;
     void *call_arg;
     s32 context_arg;
@@ -42,31 +42,31 @@ s32 dungeonUseItemToCureConfusion(void *entity, s32 update_value, s16 mode) {
 
     if (entity == D_800E3D7C) {
         ((EntityRec *)entity)->unk_110 = update_value;
-        dungeonBeginDeferredItemAction(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
-        func_800A63B8(entity, update_value, mode);
+        display_item_status_message(entity, update_value, mode);
         call_arg = entity;
         type_index = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         type_flags = (u16 *)&D_800DDE84;
-        if (dungeonApplyActorFoodPreference(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
-            func_800A5F38(entity, update_value);
+        if (apply_actor_food_preference(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
+            apply_item_effect_at_entity_position(entity, update_value);
             return 1;
         }
     }
-    dungeonCreateTimedPairedParticleEmitter(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
+    create_timed_paired_particle_emitter(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
     if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x400)) {
-        effect_result = func_800990FC();
+        effect_result = get_unused_text_buffer();
         call_arg = &D_800E0E82;
         context_arg = effect_result;
         saved_context = context_arg;
-        effect_result = func_80099194(call_arg, context_arg);
+        effect_result = expand_text_control_codes(call_arg, context_arg);
         func_80099290(effect_result);
-        func_800A5720(saved_context);
+        display_text_with_fullwidth_adjustment(saved_context);
     }
     func_80042B68(entity, 2);
-    dungeonClearSlotAndUpdateLinkedState(update_value);
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+    clear_slot_and_update_linked_state(update_value);
+    g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
     return 1;
 }

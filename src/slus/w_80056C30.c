@@ -48,17 +48,17 @@ extern s32 D_80073740[64];
 extern S_80056C30_85458 D_80085458[64];
 extern S_80056C30_85014 D_80085014;
 
-extern void audioResetSequenceTracksAndChannels(void);
-extern s32 soundResetIndexedVoiceEnvelope(s32 request_index);
+extern void audio_reset_sequence_tracks_and_channels(void);
+extern s32 sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state, re-registers active slots, and initializes the shared request with their combined flags. */
-void audioResetAllVoices(void) {
+void audio_reset_all_voices(void) {
     s32 slot;
     s32 all_flags;
     s32 slot_flags;
 
-    audioResetSequenceTracksAndChannels();
+    audio_reset_sequence_tracks_and_channels();
 
     all_flags = 0;
     for (slot = 0; slot < D_80073734[0]; slot++) {
@@ -68,7 +68,7 @@ void audioResetAllVoices(void) {
         D_80085458[slot].f70 = 0x40;
         D_80085458[slot].f74 = 0x40;
         slot_flags = D_80073740[slot];
-        soundResetIndexedVoiceEnvelope(slot);
+        sound_reset_indexed_voice_envelope(slot);
         all_flags |= slot_flags;
         func_8005E97C(0, slot_flags);
     }

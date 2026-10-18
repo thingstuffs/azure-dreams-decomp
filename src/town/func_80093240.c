@@ -2,7 +2,7 @@
 
 /* func_800909A0: Moves the camera offset toward zero in steps of 16. */
 s32 func_800909A0() {
-    GameWork *camera_state = &gameWork;
+    GameWork *camera_state = &g_game_work;
     s16 camera_offset = camera_state->view.viewAngle;
     u16 next_offset = ((u16)camera_state->view.viewAngle);
 

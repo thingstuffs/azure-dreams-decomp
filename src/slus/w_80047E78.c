@@ -2,8 +2,8 @@
 
 void *func_80047E78(int resource_id)
 {
-    queueEntityResourceDescriptorPair(&D_80119000, &D_80126000, (unsigned short)resource_id);
-    drainCdCommandQueue();
+    queue_entity_resource_descriptor_pair(&D_80119000, &D_80126000, (unsigned short)resource_id);
+    drain_cd_command_queue();
     D_80081528 = func_80047AB0(&D_80119000, 5, 0x7F80, 0xF, &D_80126000);
     return &D_80081528;
 }

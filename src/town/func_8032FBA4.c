@@ -6,7 +6,7 @@ typedef struct {
 } Struct8032FBA4Entry;
 
 /* Set flag 0x8000 on each entry listed before the 0xFF terminator. */
-void townMarkIndexedRecords8000(Struct8032FBA4Entry *entries, u8 *entry_indices) {
+void mark_indexed_records_8000(Struct8032FBA4Entry *entries, u8 *entry_indices) {
     u8 *index_cursor = entry_indices;
 
     if (*index_cursor != 0xFF) {

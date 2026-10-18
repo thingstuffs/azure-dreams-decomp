@@ -4,7 +4,7 @@ extern void bzero(void *dst, s32 size);
 extern s32 D_800D1648[];
 
 /* Returns the first unused four-byte slot address in the selected pool. */
-u32 func_800B2280(s32 *used_addrs, s32 pool_index, s32 slot_count) {
+u32 find_unused_pool_slot(s32 *used_addrs, s32 pool_index, s32 slot_count) {
     u8 used[256];
     s32 base;
     s32 slot;

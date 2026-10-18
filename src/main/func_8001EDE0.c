@@ -18,25 +18,25 @@ typedef struct S_8001EDE0_1 {
 
 
 extern s32 func_80400908(void);
-extern s32 func_80402084(s32, s32);
-extern s32 func_80402154(s32, s32);
+extern s32 process_entry_with_table_value(s32, s32);
+extern s32 read_and_update_indexed_record(s32, s32);
 extern void func_80402214(void);
-extern void func_8040334C(void *);
+extern void initialize_card_message_object_with_code_0x10(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);
 extern void func_80405C44(s32);
-extern void mainHandleObjectMenuInput(void);
+extern void handle_object_menu_input(void);
 extern void func_80405A3C(void);
 
-void mainProcessObjectEntryBatch(void *ptr) {
+void process_object_entry_batch(void *ptr) {
     s32 value;
     s32 index;
     void *offset_ptr;
     void *entry_ptr;
 
-    if (func_80402154(((S_8001EDE0_0 *)ptr)->unk_2C, 0x80010000) != 0) {
+    if (read_and_update_indexed_record(((S_8001EDE0_0 *)ptr)->unk_2C, 0x80010000) != 0) {
         *(s32 *)0x80010208 = 0;
-        if (func_80402084((*(s32 *)((u8 *)ptr + 0x28)), 0x80010000) != 0) {
+        if (process_entry_with_table_value((*(s32 *)((u8 *)ptr + 0x28)), 0x80010000) != 0) {
             func_80405C44(0x80010000);
             index = 0;
             func_80402214();
@@ -54,8 +54,8 @@ void mainProcessObjectEntryBatch(void *ptr) {
         }
     }
     offset_ptr = (u8 *)ptr - 0x20;
-    ((S_8001EDE0_0 *)ptr)->menu_update = mainHandleObjectMenuInput;
-    func_8040334C(offset_ptr);
+    ((S_8001EDE0_0 *)ptr)->menu_update = handle_object_menu_input;
+    initialize_card_message_object_with_code_0x10(offset_ptr);
     ((ObjectNodeHeader *)ptr)[-1].unk_10 = (void *)func_80405A3C;
     func_80400908();
     ((S_8001EDE0_0 *)ptr)->unk_40 = 0;

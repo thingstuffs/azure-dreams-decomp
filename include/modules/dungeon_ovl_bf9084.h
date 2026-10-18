@@ -43,5 +43,5 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Queues projected point primitives and draw modes for a linked list. */
 
-s32 func_80158884(u8 *item, u16 *coords);
+s32 queue_linked_object_draw_packets(u8 *item, u16 *coords);
 #endif

@@ -13,7 +13,7 @@ extern CallbackOwner *D_80701984[4];
 extern ByteTable D_80700BC4;
 
 /* Return the index of the callback value in the byte table, or its terminator. */
-s32 townFindDevkitCallbackValueIndex(void)
+s32 find_devkit_callback_value_index(void)
 {
     ByteTable byte_table;
     s32 callback_value;

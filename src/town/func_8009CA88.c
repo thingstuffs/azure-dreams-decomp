@@ -10,12 +10,12 @@ extern int D_80081554;
 extern unsigned char D_80071298[];
 extern int D_800712B4[];
 extern int D_80084130[3];
-s32 runtimeEstimateVectorLength();
-void townInitializeRecordWithHandlerTable();
-u16 townQueryLoweredTransformPosition();
+s32 runtime_estimate_vector_length();
+void initialize_record_with_handler_table();
+u16 query_lowered_transform_position();
 extern M2C_UNK D_80099C18;
 /* Set travel timing from distance and speed, or snap motion to the destination. */
-void townSetPlayerTravelTiming(void *actor, void *motion, M2C_UNK context)
+void set_player_travel_timing(void *actor, void *motion, M2C_UNK context)
 {
     s32 base_ticks;
     s32 scaled_ticks;
@@ -25,7 +25,7 @@ void townSetPlayerTravelTiming(void *actor, void *motion, M2C_UNK context)
     s8 *movement_state;
     *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)D_80082660)) = 0;
     *((M2C_UNK **) (((s8 *) actor) + 4)) = &D_80099C18;
-    distance = runtimeEstimateVectorLength(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) motion) + 0))),
+    distance = runtime_estimate_vector_length(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) motion) + 0))),
         ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10) - (*((s32 *) (((s8 *) motion) + 4))));
     if (distance < 0) {
         distance += 0x1FFFF;
@@ -38,8 +38,8 @@ void townSetPlayerTravelTiming(void *actor, void *motion, M2C_UNK context)
         *((s32 *) (((s8 *) motion) + 0)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10);
         *((s32 *) (((s8 *) motion) + 4)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10);
         *((u16 *) (((s8 *) motion) + 0xA)) = (u16) ((*((u16 *) (((s8 *) motion) + 0xA))) - 0x80);
-        *((u16 *) (((s8 *) motion) + 0xA)) = townQueryLoweredTransformPosition(motion);
-        townInitializeRecordWithHandlerTable(actor, motion, context);
+        *((u16 *) (((s8 *) motion) + 0xA)) = query_lowered_transform_position(motion);
+        initialize_record_with_handler_table(actor, motion, context);
         return;
     }
     if (speed_modifier > 0) {

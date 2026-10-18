@@ -8,10 +8,10 @@ extern int abs(int);
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
-extern void func_8009CE1C();
-extern s32 dungeonCheckEnabledNeighborHeight();
-extern s32 func_800A56E0(s32);
-extern s32 func_800BCB04(s32 x, s32 y, s16 min_height);
+extern void apply_attack_power_and_element_effects();
+extern s32 check_enabled_neighbor_height();
+extern s32 play_sound_if_enabled(s32);
+extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 extern u8 D_800DE9D0[];
 extern u8 D_800DEC28[];
@@ -188,11 +188,11 @@ typedef struct S_81850800_11 {
     s16 unk_4E;
 } S_81850800_11;
 
-void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
-void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = decrementFlaggedItemParameters;
+void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite);
+void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, S_81850800_6 *) = decrement_flagged_item_parameters;
 
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
-void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
+void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, S_81850800_6 *sprite)
 {
     s32 step_x;
     s32 step_y;
@@ -233,14 +233,14 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
     u8 origin_x;
     s32 pix_y;
     caster_data = owner->unk_00;
-    step_x_table = (u8 *)((s8 *)dirStepX);
+    step_x_table = (u8 *)((s8 *)dir_step_x);
     magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
     facing_shift = magnitude >> 8;
     caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
     base_y = facing_shift & 0xE;
     step_x_table = (u8 *)(base_y + (s32)step_x_table);
     step_x = *(s16 *)step_x_table;
-    step_y_table = (u8 *)((s8 *)dirStepY);
+    step_y_table = (u8 *)((s8 *)dir_step_y);
     base_y = (s32)step_y_table + base_y;
     timer = owner->unk_50.unk_50_u16 - 1;
     base_y = *(s16 *)base_y;
@@ -268,8 +268,8 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
                 facing_shift = ((caster_sprite->unk_25 + off_y) << 6) + 0x20;
                 obj = (S_81850800_9 *)((u16)dx);
                 probe_y = (u16)facing_shift;
-                ground_height = func_800BCB04((s32)obj, probe_y, min_height);
-                if ((s16)dungeonCheckEnabledNeighborHeight((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                ground_height = sample_terrain_surface_height((s32)obj, probe_y, min_height);
+                if ((s16)check_enabled_neighbor_height((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
                                        caster_data->unk_60) != 0) {
                     break;
                 }
@@ -342,12 +342,12 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
         state = tile_step_x + 0x20;
         pix_y += state;
         motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         owner->unk_0A.unk_0A_u16++;
         return;
 
     case 1:
-        ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
+        ground_height = sample_terrain_surface_height(motion->unk_00.unk_02_view_u16.unk_02_u16,
                             motion->unk_04.unk_06_view_u16.unk_06_u16,
                             (s16)(((S_81850800_7 *)work->unk_08.unk_08_ptr)->unk_08.unk_0A_view_u16.unk_0A_u16 -
                                   0x30));
@@ -359,7 +359,7 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
         spawn_cb = &D_80083498;
         obj = func_8003FD64(0x112, spawn_cb);
         if (obj != 0) {
-            obj->unk_10 = dungeonDelayAndFadeParticle;
+            obj->unk_10 = delay_and_fade_particle;
             position = obj->unk_08;
             work = obj->unk_0C;
             copy_value = motion->unk_00.unk_00_s32;
@@ -401,7 +401,7 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
                 motion->unk_04.unk_06_view_u16.unk_06_u16 = (tile_y << 6) + 0x20;
                 obj = func_8003FD64(0x112, spawn_cb);
                 if (obj != 0) {
-                    obj->unk_10 = dungeonDelayAndFadeParticle;
+                    obj->unk_10 = delay_and_fade_particle;
                     position = obj->unk_08;
                     work = obj->unk_0C;
                     copy_value = motion->unk_00.unk_00_s32;
@@ -433,7 +433,7 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
                     effect_data.pointer->unk_48.unk_48_u16 = timer;
                 }
                 dx = 0x3C;
-                effect_flags = dungeonDelayAndFadeParticle;
+                effect_flags = delay_and_fade_particle;
                 particle_anim = (S_81850800_10 *)D_800DEC28;
                 do {
                     obj = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
@@ -487,7 +487,7 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
             return;
         }
         if (caster_data->unk_60 != 0) {
-            func_8009CE1C(caster_data->unk_60, 0x13,
+            apply_attack_power_and_element_effects(caster_data->unk_60, 0x13,
                           owner->unk_09, 2,
                           caster_data->unk_2A.unk_2A_s16, caster_data, mode);
         }
@@ -504,9 +504,9 @@ void decrementFlaggedItemParameters(S_81850800_0 *owner, S_81850800_7 *motion, S
         if ((s16)timer > 0) {
             return;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     default:
         return;
     }

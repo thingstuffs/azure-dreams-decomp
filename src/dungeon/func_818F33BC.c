@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e711800.h"
 
-void createRandomOffsetEffectObject(
+void create_random_offset_effect_object(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset)
 {
@@ -22,7 +22,7 @@ void createRandomOffsetEffectObject(
         Row_818F33BC_S_80024BBC_3 *y_dest;
         Row_818F33BC_S_80024BBC_4 *z_dest;
 
-        ((Row_818F33BC_S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
+        ((Row_818F33BC_S_80024BBC_0 *)object)->unk_10 = decrement_effect_counter_by_twelve;
 
         x_jitter = rand() & 0x1F;
         x_pos = ((Row_818F33BC_S_80024BBC_6 *)((*(void * *)&source->z)))->unk_02;
@@ -43,7 +43,7 @@ void createRandomOffsetEffectObject(
         z_dest->unk_0A = (s16)z_pos + (s16)(held_z_offset - 0x10);
         state->unk_14 = field_14_value;
         state->unk_32 = field_32_value;
-        func_8004491C(object, dungeonDrawLinkedShadedTiles);
+        func_8004491C(object, draw_linked_shaded_tiles);
         state->unk_50 = -0x2000;
         state->unk_08 = payload;
     }

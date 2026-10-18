@@ -1,5 +1,5 @@
 #include "common.h"
 
 /* Return without performing any work. */
-void townItemMenuNoOp(void) {
+void item_menu_no_op(void) {
 }

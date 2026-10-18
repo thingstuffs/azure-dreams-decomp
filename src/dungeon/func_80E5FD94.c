@@ -172,7 +172,7 @@ typedef struct {
 void func_80151594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
-    u8 **render_globals = (u8 **)((u8 *)(&gameWork));
+    u8 **render_globals = (u8 **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     u8 *matrix;

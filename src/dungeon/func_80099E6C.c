@@ -4,7 +4,7 @@
 extern u16 D_80013716;
 
 /* Sets flag 0x400000 once when the blocking flag is clear and either threshold is met. */
-s32 dungeonSetMonsterReachabilityFlag(void) {
+s32 set_monster_reachability_flag(void) {
     u8 *flag_page = (u8 *)0x800E0000;
     s32 flags = *(s32 *)(flag_page + 0x296C);
     s32 changed;

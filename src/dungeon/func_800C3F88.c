@@ -33,7 +33,7 @@ extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 extern void func_8006658C(void *, void *);
 
 /* Queue a rectangle copy when both source and destination fit on screen. */
-void dungeonQueueVisibleRectangleCopy(S_Rect *copy_rect, S_Arg1 *source) {
+void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
     S_Stack source_rect;
     s16 source_y, width, source_x, height;
     s32 dest_y, second_buffer, dest_x, buffer_y;

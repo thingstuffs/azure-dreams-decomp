@@ -11,7 +11,7 @@
 
 
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
-void func_80025648(void *effect_data, s32 unused, void *sprite) {
+void update_timed(void *effect_data, s32 unused, void *sprite) {
     u8 *effect = effect_data;
     u8 *global_page = (u8 *)&D_800269B4 - 0x69B4;
     u16 frame_ticks;
@@ -39,6 +39,6 @@ void func_80025648(void *effect_data, s32 unused, void *sprite) {
     }
     if ((s16)((S_8196BE48_0 *)effect)->unk_2C <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_8196BE48_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

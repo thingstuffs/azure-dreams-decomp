@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80A9B67C; every changed retail word is a paired relocation. */
-#define dungeonUpdateActorBehaviorAndEffect func_8016AE7C
+#define update_actor_behavior_and_effect func_8016AE7C
 #define D_80174C34 D_8016EC34
 #define D_80174C3C D_8016EC3C
 #define D_80174C44 D_8016EC44
@@ -23,20 +23,20 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
     u16 action_state;
     u8 *anim_table;
 
-    if (dungeonStatus.flags & 0x1000) {
+    if (g_dungeon_status.flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         func_8016B5B4(actor, position, object, actor_data);
         return;
     }
 
     if (actor_data->tileY == 0) {
-        dungeonAdvanceActorPendingAction(actor, position, object, actor_data);
+        advance_actor_pending_action(actor, position, object, actor_data);
         if (object->frameTable == ((u8 *)D_8016EC8C)) {
             return;
         }
         object->frameTable = ((u8 *)D_8016EC84);
         func_80047784(object,
-            ((u8 *)D_8016EC84)[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_8016EC84)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         return;
     }
@@ -49,14 +49,14 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             actor_data->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (dungeonResetActorActionState(actor, position, object, ((u8 *)D_8016EC84)) != 0) {
+        if (reset_actor_action_state(actor, position, object, ((u8 *)D_8016EC84)) != 0) {
             return;
         }
     }
 
-    if (!(dungeonStatus.flags & 0x2000)) {
+    if (!(g_dungeon_status.flags & 0x2000)) {
         if (((u32)actor_data->flags1C) & 0x100) {
-            dungeonBeginPushedActorMove(actor, position, object, actor_data);
+            begin_pushed_actor_move(actor, position, object, actor_data);
             return;
         }
 
@@ -70,7 +70,7 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
                 if (object->frameTable != anim_table) {
                     object->frameTable = anim_table;
                     func_80047784(object,
-                        anim_table[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                        anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = idle_state;
@@ -79,35 +79,35 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
 
         ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
         if (actor_data->unk_64 != 0) {
-            if (dungeonBeginReadyActorDirectionalAction(actor, position, object, ((u8 *)D_8016EC44)) != 0) {
+            if (begin_ready_actor_directional_action(actor, position, object, ((u8 *)D_8016EC44)) != 0) {
                 return;
             }
         }
 
         if (((u32)actor_data->flags1C) & 0x80000) {
 
-            func_800AA888(actor, position, object, actor_data);
+            begin_actor_move_to_target_facing(actor, position, object, actor_data);
             func_8016DF20(actor, position, object, actor_data);
             object->frameTable = ((u8 *)D_8016EC34);
             func_80047784(object,
-                ((u8 *)D_8016EC34)[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                ((u8 *)D_8016EC34)[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }
 
-        if ((func_800A1C58(actor_data) << 16) != 0) {
-            if ((dungeonProcessSelectedActorRecord(actor, position, object, actor_data) << 16) != 0) {
+        if ((can_entity_gain_level(actor_data) << 16) != 0) {
+            if ((process_selected_actor_record(actor, position, object, actor_data) << 16) != 0) {
                 func_8016E470(actor, position, object, actor_data);
             }
         }
     }
 
-    room_id = ((s8)func_8009FB34(object->unk_24, object->unk_25));
+    room_id = ((s8)find_active_rect_containing_point(object->unk_24, object->unk_25));
     object->unk_26 = room_id;
 
     if (actor_data->unk_6D > 0) {
         if (((u32)actor_data->flags1C) & 0x20) {
-            func_800A9A0C(actor_data);
+            update_actor_status_and_food(actor_data);
             return;
         }
         if (*(u16 *)&object->unk_24 == *(u16 *)(&D_80082E80.tileX)) {
@@ -115,8 +115,8 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
             return;
         }
         if (!(actor_data->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((dungeonCheckEntityRelation(actor_data,
+            if (g_dungeon_status.flags & 0x2000) {
+                if ((check_entity_relation(actor_data,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
@@ -152,24 +152,24 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
                 EntityRec *player;
                 s16 facing;
 
-                facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                     &distance));
                 player = D_800814A8;
                 actor_data->facing = facing;
                 if (player->unk_9A == 0x11) {
-                    dungeonBeginActorSpellAction(actor, position, object, ((u8 *)D_8016EC34), ((void *)func_8016AE7C));
+                    begin_actor_spell_action(actor, position, object, ((u8 *)D_8016EC34), ((void *)func_8016AE7C));
                     return;
                 }
             }
 
             case 11:
-                func_800A9A0C(actor_data);
+                update_actor_status_and_food(actor_data);
                 return;
 
             case 0:
             case 1:
             case 2:
-                dungeonBeginActorSpellAction(actor, position, object, ((u8 *)D_8016EC34), ((void *)func_8016AE7C));
+                begin_actor_spell_action(actor, position, object, ((u8 *)D_8016EC34), ((void *)func_8016AE7C));
                 return;
 
             default:
@@ -185,17 +185,17 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
             if (!(((u32)actor_data->flags1C) & 0x430)) {
 
-                if ((dungeonCompareMonsterNeighborValues(
+                if ((compare_monster_neighbor_values(
                         object->unk_24, object->unk_25,
                         D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    actor_data->facing = ((s16)dungeonGetRoundedFacingAndRoundingFlag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
+                    actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tileX),(s16)(D_80082E80.tileY),
                         &distance));
                 }
             }
         }
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return;
     }
     if (object->flags & 0x40) {
@@ -207,7 +207,7 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         (object->frameTable != ((u8 *)D_8016EC34))) {
         object->frameTable = anim_table;
         func_80047784(object,
-            anim_table[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+            anim_table[((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
         ((Rec_func_800A9E70_arg0 *)actor)->unk_AA = 1;
     } else if (object->flags & 0x6000) {
@@ -224,11 +224,11 @@ void func_8016AE7C(void *actor, EntityRec *position, SpriteFrameState *object, E
         }
         func_80047784(object,
             ((u8 *)object->frameTable)[
-                ((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
             0);
     }
 
-    if (!resolveRecordOrientationOrFallback(object->source, object, effect_offset, 1)) {
+    if (!resolve_record_orientation_or_fallback(object->source, object, effect_offset, 1)) {
         return;
     }
     if (object->frameTable != ((u8 *)D_8016EC3C)) {

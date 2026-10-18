@@ -27,8 +27,8 @@ extern int  CdReset(int mode);
 extern void StUnSetRing(void);
 
 extern void func_8003E70C(void);
-extern void wait512VerticalSyncs(void);
-extern void cdSetModeWithRetry(void);
+extern void wait_512_vertical_syncs(void);
+extern void cd_set_mode_with_retry(void);
 extern void CdIntToPos(u32 lba, u8 *loc);
 extern u8  D_800814D3[2];   /* CD driver state byte (+0); +1 is the byte at D_800814D4 */
 extern u8  D_800814D2[1];
@@ -377,7 +377,7 @@ process_queue:
                         D_80080AD2 = D_80080AD2 + 1;
                         if ((D_80080AD2 & 3) == 3) {
                             CdReset(0);
-                            wait512VerticalSyncs();
+                            wait_512_vertical_syncs();
                         }
                         D_800814D3[0] = 0xFF;
                         break;
@@ -476,13 +476,13 @@ process_queue:
         }
     } else {
         if (CdSync(1, 0) == 5) {
-            if ((getPreviousCdCommandByte() & 0xFF) == 0x1B) {
+            if ((get_previous_cd_command_byte() & 0xFF) == 0x1B) {
                 D_800814D3[0] = 0xFF;
                 if (D_800814D0 != 0)
                     D_800814D0 = D_800814D0 - 1;
                 else
                     D_800814D0 = 0x1F;
-                cdSetModeWithRetry();
+                cd_set_mode_with_retry();
             } else {
                 CdControl(1, 0, 0);
             }

@@ -17,7 +17,7 @@ typedef struct S_80023600_2 {
 typedef struct S_80023600_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in card_boot_layout_three_row_command_panel */
 
 typedef struct S_80023600_4 {
     u8 pad_00[0x4];
@@ -42,7 +42,7 @@ typedef struct S_80023600_7 {
 typedef struct S_80023600_8 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80023600_8;   /* ((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04 in cardBootLayoutThreeRowCommandPanel */
+} S_80023600_8;   /* ((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04 in card_boot_layout_three_row_command_panel */
 
 typedef struct S_80023600_9 {
     u8 pad_00[0x8];
@@ -69,14 +69,14 @@ typedef struct S_80023600_12 {
 } S_80023600_12;
 
 
-void cardBootBindCommandPanelResources();                      /* extern */
-void cardBootResetThreeRowHighlight();       /* extern */
-void cardBootFormatCommandPanelLabels(void *);                            /* extern */
-s32 cardBootSetCenteredRectangle();    /* extern */
+void card_boot_bind_command_panel_resources();                      /* extern */
+void card_boot_reset_three_row_highlight();       /* extern */
+void card_boot_format_command_panel_labels(void *);                            /* extern */
+s32 card_boot_set_centered_rectangle();    /* extern */
 
 
 /* Initialize the panel and position its elements in three rows. */
-void cardBootLayoutThreeRowCommandPanel(void *panel) {
+void card_boot_layout_three_row_command_panel(void *panel) {
     s32 lower_x;
     s32 left_x;
     s32 right_x;
@@ -87,9 +87,9 @@ void cardBootLayoutThreeRowCommandPanel(void *panel) {
 
     ((Rec_func_800233D0_arg0 *)panel)->unk_80 = 1;
     ((Rec_func_800233D0_arg0 *)panel)->unk_84 = 1;
-    cardBootFormatCommandPanelLabels(panel);
-    cardBootSetCenteredRectangle(panel + 4, 0x36, 0x10);
-    cardBootBindCommandPanelResources(panel);
+    card_boot_format_command_panel_labels(panel);
+    card_boot_set_centered_rectangle(panel + 4, 0x36, 0x10);
+    card_boot_bind_command_panel_resources(panel);
     row_index = 0;
     lower_x = 0x8E;
     left_x = 9;
@@ -111,5 +111,5 @@ void cardBootLayoutThreeRowCommandPanel(void *panel) {
         row_y += 0x10;
         row_index += 1;
     } while (row_index < 3);
-    cardBootResetThreeRowHighlight(panel);
+    card_boot_reset_three_row_highlight(panel);
 }

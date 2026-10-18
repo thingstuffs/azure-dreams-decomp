@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Devkit debug code (sn_main.c line 47 trace) in the link-at-0 scene-test image A; the same routine as
- * func_80701194 (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
+ * copy_and_trace_overlay_work_record (src/town/func_80880194.c, line 48) in the 0x80700000-linked image. */
 
 typedef struct OvWork {
     s32 unk_00;
@@ -26,7 +26,7 @@ extern char D_000034F4[];            /* "mark: %s line %d\n" */
 extern char D_00003508[];            /* "sn_main.c" */
 
 /* Copy the overlay work record, trace both kind fields, mark sn_main.c line 47 and flush. */
-void func_80003CD0(OvWork *p) {
+void copy_overlay_work_record_trace(OvWork *p) {
     D_000045F8 = *p;
     D_00004610->print(D_000034D0, D_000034DC, p->kind);
     D_00004610->print(D_000034D0, D_000034E4, D_000045F8.kind);

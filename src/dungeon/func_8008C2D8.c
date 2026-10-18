@@ -4,14 +4,14 @@
 
 #define M2C_BREAK() 0
 
-extern void dungeonRestorePlayerControlCallback(void *, void *);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
+extern void restore_player_control_callback(void *, void *);
+extern void process_unflagged_linked_entries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
 extern void func_800BCFBC(s32);
 extern s32 *D_800DD6B8[];
 
 /* Runs a banked callback and advances the object state when it completes. */
-void advanceBankedCategoryAction(void *object, void *unused_1, void *unused_2, void *context) {
+void advance_banked_category_action(void *object, void *unused_1, void *unused_2, void *context) {
     u8 *callback_data;
     u8 state;
     s32 **callback_table;
@@ -43,9 +43,9 @@ void advanceBankedCategoryAction(void *object, void *unused_1, void *unused_2, v
         return;
     }
     if (state == 1) {
-        dungeonProcessUnflaggedLinkedEntriesAlt(*(s32 *)((u8 *)context + 0x5C));
-        dungeonProcessUnflaggedLinkedEntries(*(s32 *)((u8 *)context + 0x5C));
-        dungeonStatus.flags |= 0x812;
-        dungeonRestorePlayerControlCallback(object, context);
+        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)context + 0x5C));
+        process_unflagged_linked_entries(*(s32 *)((u8 *)context + 0x5C));
+        g_dungeon_status.flags |= 0x812;
+        restore_player_control_callback(object, context);
     }
 }

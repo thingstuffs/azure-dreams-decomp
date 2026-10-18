@@ -4,21 +4,21 @@
 typedef struct S_800B260C_1 {
     u8 pad_00[0x10];
     union { s32 s; s32 u; } unk_10;   /* accessed as both */
-} S_800B260C_1;   /* arg0 in func_800B260C */
+} S_800B260C_1;   /* arg0 in handle_item_menu_input_2 */
 
 
 extern void SD_Call(s32);
-extern void func_800B1DCC(void *);
-extern void func_800B1F80(s8 *state, s32 input);
-extern void func_800B2068(void *);
-extern void func_800B2394(void *, s32);
+extern void interpolate_paired_object_positions_and_shades(void *);
+extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
+extern void decrement_entry_and_notify_handlers(void *);
+extern void store_table_index_and_entry_bytes(void *, s32);
 extern s32 func_800B2400(void *);
 extern void func_800B25D8(void *);
-extern void func_800B2CE8(void *);
+extern void set_object_data_pointer_if_present(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
-void func_800B260C(u8 *menu) {
-    GameWork *pad_state = &gameWork;
+void handle_item_menu_input_2(u8 *menu) {
+    GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;
     s32 pressed_buttons;
     s32 cursor_step = 0;
@@ -30,12 +30,12 @@ void func_800B260C(u8 *menu) {
         pressed_buttons = ((s32)pad_state->unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
-            func_800B2CE8(menu - 0x20);
+            set_object_data_pointer_if_present(menu - 0x20);
         } else if (pressed_buttons & 0x40) {
             select_result = func_800B2400(menu);
             if (select_result == 0) {
                 SD_Call(0x503);
-                func_800B2068(menu);
+                decrement_entry_and_notify_handlers(menu);
             } else if (select_result == 3) {
                 SD_Call(0x506);
             }
@@ -44,11 +44,11 @@ void func_800B260C(u8 *menu) {
         } else if (pressed_buttons & 0x10) {
             SD_Call(0x503);
             func_800B25D8(menu);
-            func_800B2068(menu);
+            decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
-            func_800B2394(menu, 0);
+            store_table_index_and_entry_bytes(menu, 0);
         } else if (pressed_buttons & 1) {
-            func_800B2394(menu, 1);
+            store_table_index_and_entry_bytes(menu, 1);
         } else if ((held_buttons & 0xF000) != 0) {
             if (pressed_buttons & 0xF000) {
                 ((S_800B260C_1 *)menu)->unk_10.s = 0;
@@ -84,10 +84,10 @@ void func_800B260C(u8 *menu) {
             }
             if (cursor_step != 0) {
                 SD_Call(0x502);
-                func_800B1F80(menu, cursor_step);
+                update_active_entry_and_notify_handlers(menu, cursor_step);
             }
         }
     }
 
-    func_800B1DCC(menu);
+    interpolate_paired_object_positions_and_shades(menu);
 }

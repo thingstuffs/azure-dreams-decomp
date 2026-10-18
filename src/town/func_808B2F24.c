@@ -6,7 +6,7 @@ void func_80700590();                            /* extern */
 void func_80700674();                            /* extern */
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */
-s32 func_80700724(void) {
+s32 select_flag_test_page_and_redraw_grid(void) {
     func_80700188(0);
     func_80700674();
     func_80700590();

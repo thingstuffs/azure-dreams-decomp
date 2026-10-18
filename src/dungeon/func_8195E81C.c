@@ -8,14 +8,14 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
-   /* obj in func_8002401C */
+   /* obj in update_directional_actor_effect */
 
 
-   /* the 0x18 bytes before source in func_8002401C, addressed as source[-1] */
+   /* the 0x18 bytes before source in update_directional_actor_effect, addressed as source[-1] */
 
-   /* display in func_8002401C */
+   /* display in update_directional_actor_effect */
 
-   /* ((S_8002401C_0 *)obj)->unk_04 in func_8002401C */
+   /* ((S_8002401C_0 *)obj)->unk_04 in update_directional_actor_effect */
 
 
 
@@ -25,15 +25,15 @@ extern u8 D_800273BE;
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The switch table follows it at 0x80024008
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The switch table follows it at 0x80024008
  * (gcc's .align 3 for jump tables), and the code starts after the table. */
-void (*const dungeon_197e800_entry)(void *) = func_8002401C;
+void (*const dungeon_197e800_entry)(void *) = update_directional_actor_effect;
 
 /* Advances the object's state and draws its 7-by-7 grid. */
-void func_8002401C(void *object)
+void update_directional_actor_effect(void *object)
 {
     u8 *object_bytes = object;
-    GameWork *palette = &gameWork;
+    GameWork *palette = &g_game_work;
     u8 *source;
     s32 *row;
     s32 *clear_row;
@@ -88,11 +88,11 @@ void func_8002401C(void *object)
         D_800273A8 = 0;
         map_data = (u8 *)D_800E3D7C;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
-        dungeonFlagNearbySevenBySevenTiles(
+        flag_nearby_seven_by_seven_tiles(
             (s16)(D_80082E80.tileX +
-                  (dirStepX[direction_offset >> 1] * 4)),
+                  (dir_step_x[direction_offset >> 1] * 4)),
             (s16)(D_80082E80.tileY +
-                  (dirStepY[direction_offset >> 1] * 4)));
+                  (dir_step_y[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
                         /* fallthrough */
 
@@ -115,7 +115,7 @@ void func_8002401C(void *object)
         if (((S_8002401C_0 *)object_bytes)->unk_1C.s >= 0) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
                             /* fallthrough */
 
@@ -128,10 +128,10 @@ void func_8002401C(void *object)
 
     case 4:
         if ((s16)D_80027330 == 0) {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0C = 0;
+            g_dungeon_status.unk_0A--;
             (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }
@@ -140,7 +140,7 @@ void func_8002401C(void *object)
     rect[1] = 0x180;
     rect[2] = 0x70;
     rect[3] = 0x70;
-    dungeonDrawTexturedEllipse(D_80027398, rect, 0, 2);
+    draw_textured_ellipse(D_80027398, rect, 0, 2);
 
     for (row_index = 0, cell_size = 0x10, row = D_800274DC[0], y = 0x180;
          row_index < 7; row_index++) {

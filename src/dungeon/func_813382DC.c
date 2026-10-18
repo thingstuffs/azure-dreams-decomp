@@ -12,7 +12,7 @@ typedef struct S_8016F2DC_0 {
 } S_8016F2DC_0;
 
 /* Clear two state fields and advance the byte counter. */
-void dungeonAdvanceMultiFormActorAction(void) {
+void advance_multi_form_actor_action(void) {
     S_8016F2DC_0 *state;
 
     state = D_80175D50 + 0x20;

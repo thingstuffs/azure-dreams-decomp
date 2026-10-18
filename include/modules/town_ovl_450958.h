@@ -5,5 +5,5 @@
 #include "shared/town_root.h"
 extern char D_800174BC[];
 extern char *D_8001758C;
-void func_80016158(void);
+void invoke_state_callback_with_zero(void);
 #endif

@@ -4,7 +4,7 @@
 void door_atari_on_off(s32 door_id, s16 collision_enabled) {
     S_800A0A54_0 *door;
 
-    door = townFindDoorKeyedNode(door_id);
+    door = find_door_keyed_node(door_id);
     if (door != NULL) {
         door->unk_88 = collision_enabled;
     }

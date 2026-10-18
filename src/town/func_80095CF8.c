@@ -25,7 +25,7 @@ extern TownState D_800CFCB4;
 extern void func_80094834(TownObject *, Vec3i *, void *);
 
 /* Move halfway toward the linked position and call func_80094834 when the timer expires. */
-void townApproachLinkedPositionUntilTimeout(TownObject *object, Vec3i *position, void *context)
+void approach_linked_position_until_timeout(TownObject *object, Vec3i *position, void *context)
 {
     position->x = (D_800CFCB4.link->position->x + position->x) / 2;
     position->y = (D_800CFCB4.link->position->y + position->y) / 2;

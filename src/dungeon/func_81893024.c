@@ -32,7 +32,7 @@ void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 fi
         data = object->data;
         *data = *src;
         ((B22_81893024_S_81893024_0 *)data)->unk_0A = (s16) (((B22_81893024_S_81893024_0 *)data)->unk_0A + field_delta);
-        func_8004491C(object, func_8002445C);
+        func_8004491C(object, draw_red);
     } else {
         return NULL;
     }

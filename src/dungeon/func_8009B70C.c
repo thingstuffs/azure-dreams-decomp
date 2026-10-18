@@ -8,10 +8,10 @@ extern s16 D_8006CD00[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-extern Elem *dungeonGetConditionalMonsterEntry(s16);
-extern s32 func_800A6D30(void);
-extern s32 dungeonGetRoundedFacingAndRoundingFlag(s16, s16, s16, s16, u16 *);
-extern s32 func_800BCB04(s32, s32, s16);
+extern Elem *get_conditional_monster_entry(s16);
+extern s32 generate_random_value(void);
+extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
+extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
     u8 match = 0;
@@ -30,7 +30,7 @@ static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
 }
 
 /* Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step. */
-s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
+s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
     Elem *s1;
     Elem *scan_entry;
     Elem *entry;
@@ -52,7 +52,7 @@ s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u1
             work_p[0x72] = 0;
             work_p[0x67] = 0;
             actor_held[0x27] = 0xFF;
-            s1 = dungeonGetConditionalMonsterEntry(*(s8 *)(actor_held + 0x26));
+            s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 count = D_800E2970[(s8)actor_held[0x26]].unk_0E;
                 for (i = 0; i < count; i++) {
@@ -64,7 +64,7 @@ s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u1
                     }
                 }
                 i = 0;
-                s0 = func_800A6D30();
+                s0 = generate_random_value();
                 if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
                     do {
                         Elem *cand_entry;
@@ -89,9 +89,9 @@ s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u1
         }
 
         if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
-            s1 = dungeonGetConditionalMonsterEntry(*(s8 *)(actor_held + 0x26));
+            s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
-                s0 = dungeonStatus.unk_1E;
+                s0 = g_dungeon_status.unk_1E;
                 if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
                     i = 0;
                     do {
@@ -125,7 +125,7 @@ s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u1
             bitmap[d] = 1;
             bitmap[(d + 1) & 7] = 1;
             bitmap[(d - 1) & 7] = 1;
-            angle = dungeonGetRoundedFacingAndRoundingFlag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73),
+            angle = get_rounded_facing_and_rounding_flag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73),
                 out) & 0xFFF;
             d = ((angle >> 9) - 4) & 7;
             bitmap[d] = 1;
@@ -140,7 +140,7 @@ s32 dungeonRebuildMonsterReachableTiles(u8 *actor_held, s32 kind, u8 *work_p, u1
                     n = d;
                 }
                 if (bitmap[n] == 0) {
-                    if ((s16)func_800BCB04((u16)(D_800DCEAC[n] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[n] + (actor_held[0x25] << 6)), *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
+                    if ((s16)sample_terrain_surface_height((u16)(D_800DCEAC[n] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[n] + (actor_held[0x25] << 6)), *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
                         *(u16 *)(work_p + 0x2A) = d << 9;
                         return 0;
                     }
@@ -153,14 +153,14 @@ L_BCB8:
         work_p[0x72] = s1[s0].b0;
         work_p[0x73] = s1[s0].b1;
         work_p[0x67] = s1[s0].b2;
-        *(u16 *)(work_p + 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out);
+        *(u16 *)(work_p + 0x2A) = get_rounded_facing_and_rounding_flag(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out);
         actor_held[0x27] = s0;
     } else {
         s32 dir;
 
         actor_held[0x27] = 0xFF;
         dir = ((*(s16 *)(work_p + 0x2A) - D_8006CD00[1]) >> 9) & 7;
-        if ((s16)func_800BCB04((u16)(D_800DCEAC[dir] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[dir] + (actor_held[0x25] << 6)),
+        if ((s16)sample_terrain_surface_height((u16)(D_800DCEAC[dir] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[dir] + (actor_held[0x25] << 6)),
                 *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
             *(u16 *)(work_p + 0x2A) = dir << 9;
         }

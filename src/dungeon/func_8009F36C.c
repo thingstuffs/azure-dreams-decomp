@@ -8,15 +8,15 @@ typedef struct S_800A4ACC_0 {
 
 typedef struct S_800A4ACC_1 {
     s32 unk_00;
-} S_800A4ACC_1;   /* arg0 in dungeonAdvanceStatusTimers; pointer addresses record offset 0x18 */
+} S_800A4ACC_1;   /* arg0 in advance_status_timers; pointer addresses record offset 0x18 */
 
 
 extern void func_80042BDC();
-extern void func_800A5DFC();
+extern void apply_capped_damage_and_hit_effect();
 
 
 /* Advance four status timers toward zero and clear expired statuses. */
-s32 dungeonAdvanceStatusTimers(void *record) {
+s32 advance_status_timers(void *record) {
     s32 slot_index;
     s8 status;
     s8 duration;
@@ -29,7 +29,7 @@ next_status:
     status = ((S_800A4ACC_0 *)status_slot)->unk_2C;
     if (status != 0) {
         if (status == 5) {
-            func_800A5DFC(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
+            apply_capped_damage_and_hit_effect(record, ((S_800A4ACC_1 *)((u8 *)record - 0x18))->unk_00);
         }
         duration = ((S_800A4ACC_0 *)status_slot)->unk_2D;
         if (duration != 0) {

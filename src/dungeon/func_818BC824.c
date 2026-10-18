@@ -3,18 +3,18 @@
 #include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 dungeonTryTriggerTargetRecordEffect(s32, s32);                 /* extern */
-void dungeonApplyClampedActorValueDelta();                      /* extern */
-s16 dungeonCapPendingActorValueDelta();                      /* extern */
-void *createActorValuePopup(); /* extern */
+s32 try_trigger_target_record_effect(s32, s32);                 /* extern */
+void apply_clamped_actor_value_delta();                      /* extern */
+s16 cap_pending_actor_value_delta();                      /* extern */
+void *create_actor_value_popup(); /* extern */
 
 
 /* Adds 0x200 to the object's unk_64 and runs callbacks when its mode-2 check returns zero. */
-void dungeonAddHex200SField64RunsCallbacksModeN2CheckReturnsZero(EntityRec *object) {
-    if (dungeonTryTriggerTargetRecordEffect((s32)object, 2) == 0) {
+void add_hex_200_s_field_64_runs_callbacks_mode_n_2_check_returns_zero(EntityRec *object) {
+    if (try_trigger_target_record_effect((s32)object, 2) == 0) {
         object->unk_64 = (u16) (((u16)object->unk_64) + 0x200);
-        dungeonCapPendingActorValueDelta(object);
-        createActorValuePopup(0x8004, object, (s16) ((u16)object->unk_64), 1);
-        dungeonApplyClampedActorValueDelta(object);
+        cap_pending_actor_value_delta(object);
+        create_actor_value_popup(0x8004, object, (s16) ((u16)object->unk_64), 1);
+        apply_clamped_actor_value_delta(object);
     }
 }

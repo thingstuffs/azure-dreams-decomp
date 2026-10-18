@@ -4,14 +4,14 @@
 
 typedef struct S_80021028_0_pre {
     u16 unk_00;
-} S_80021028_0_pre;   /* the 0x2 bytes before arg0 in townUpdateDerivedValueAndFlag, addressed as arg0[-1] */
+} S_80021028_0_pre;   /* the 0x2 bytes before arg0 in update_derived_value_and_flag, addressed as arg0[-1] */
 
 typedef struct S_80021028_0 {
     u8 pad_00[0x4];
     void * unk_04;
     u8 pad_08[0x6];
     s16 unk_0E;
-} S_80021028_0;   /* arg0 in townUpdateDerivedValueAndFlag */
+} S_80021028_0;   /* arg0 in update_derived_value_and_flag */
 
 typedef struct S_80021028_1 {
     u8 pad_00[0x4];
@@ -21,13 +21,13 @@ typedef struct S_80021028_1 {
 
 
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
-void townUpdateDerivedValueAndFlag(void *object) {
+void update_derived_value_and_flag(void *object) {
     S_80021028_1 *objectData;
 
     objectData = ((S_80021028_0 *)object)->unk_04;
     ((S_80021028_0 *)object)->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
     if (objectData->unk_04 & 0x8000) {
         ((S_80021028_0_pre *)object)[-1].unk_00 = (u16) (((S_80021028_0_pre *)object)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

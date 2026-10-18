@@ -5,7 +5,7 @@
 
 
 /* Set the current inner object's unk4 and unk8 values to 1696 and 864. */
-void func_80016FB4(void) {
+void set_current_inner_object_unk(void) {
     ((TownPositionState *)D_80016000->unk_1C)->x = 1696;
     ((TownPositionState *)D_80016000->unk_1C)->y = 864;
 }

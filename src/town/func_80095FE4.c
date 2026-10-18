@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-extern u32 townGetLinkedCarryItemData(void *record, s32 first_value, s32 second_value);
-extern void townInitializeRecordAndSelectActiveData(void *record, s32 setup_value, s32 init_value);
+extern u32 get_linked_carry_item_data(void *record, s32 first_value, s32 second_value);
+extern void initialize_record_and_select_active_data(void *record, s32 setup_value, s32 init_value);
 
 extern s32 D_800834B8;
 extern s32 D_8009C340;
@@ -37,10 +37,10 @@ void plt_carry_item_del_ext(void) {
     second_value = (s32)((ObjectNodeHeader *)input_values)->unk_0C;
     saved_object = ((CarryRecord *)base)->linked_object;
 
-    if (townGetLinkedCarryItemData(context, first_value, second_value) != 0) {
+    if (get_linked_carry_item_data(context, first_value, second_value) != 0) {
         u8 *linked_object;
 
-        townInitializeRecordAndSelectActiveData(base, first_value, second_value);
+        initialize_record_and_select_active_data(base, first_value, second_value);
         do {
             linked_object = ((CarryRecord *)base)->linked_object;
         } while (0);

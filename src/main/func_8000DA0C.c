@@ -4,8 +4,8 @@
 
 
 
-/* Clears (*(s32 *)(&D_800287C8)) and runs cardBootDrainSoftwareEvents. */
-void cardBootResetOperationAndDrainEvents(void) {
+/* Clears (*(s32 *)(&D_800287C8)) and runs card_boot_drain_software_events. */
+void card_boot_reset_operation_and_drain_events(void) {
     (*(s32 *)(&D_800287C8)) = 0;
-    cardBootDrainSoftwareEvents();
+    card_boot_drain_software_events();
 }

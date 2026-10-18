@@ -9,7 +9,7 @@ extern s32 D_80028294[];
 extern s32 D_800282A0;
 
 /* Build text from a one-based index, global state, and a trailing value. */
-void cardBootBuildSaveDescription(s32 record, s32 index) {
+void card_boot_build_save_description(s32 record, s32 index) {
     s32 number_buffer[4];
     s32 *text_fragments;
     s32 output_text_target;

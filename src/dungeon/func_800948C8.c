@@ -9,7 +9,7 @@
 extern EntityLinkNode *D_800E3DE8;
 
 /* Unlink a node and advance the global cursor if it references that node. */
-void func_8009A028(EntityLinkNode *node) {
+void unlink_entity_node(EntityLinkNode *node) {
     EntityLinkNode *prev;
     EntityLinkNode *next;
 

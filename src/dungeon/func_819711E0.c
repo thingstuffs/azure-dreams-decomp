@@ -68,7 +68,7 @@ void func_800249E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
 
     if (((S_819711E0_0 *)state)->unk_38.u <= 0) {
         ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }
 

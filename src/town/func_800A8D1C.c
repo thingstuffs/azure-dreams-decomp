@@ -8,16 +8,16 @@ typedef struct {
     u32 data;
 } TownRecord;
 
-void townSetFlaggedRecordValues(TownRecord *record, s32 entryValue);                         /* extern */
+void set_flagged_record_values(TownRecord *record, s32 entryValue);                         /* extern */
 extern s8 ***D_80081458;
 extern s32 D_80100E2C[3];
 
 /* Apply the table entry selected by the signed low-halfword index and clear pending state. */
-void townApplyPendingTableEntry(s32 index, s32 entryValue) {
+void apply_pending_table_entry(s32 index, s32 entryValue) {
     s32 shifted_index = index << 0x10;
     s32 entry_address;
     entry_address = (shifted_index >> 0xE) + (s32)**D_80081458;
 
-    townSetFlaggedRecordValues(*(TownRecord **)entry_address, entryValue);
+    set_flagged_record_values(*(TownRecord **)entry_address, entryValue);
     D_80100E2C[0] = 0;
 }

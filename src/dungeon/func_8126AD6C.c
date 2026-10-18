@@ -6,13 +6,13 @@
 #include "shared/dungeon_status.h"
 extern int abs(int);
 
-extern s32 getCdCommandQueueDepth(void);
+extern s32 get_cd_command_queue_depth(void);
 extern s32 func_80047784();
-extern void *dungeonScanMonsterAlongHeading();
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonAdvanceStatusTimers();
-extern void func_800A56E0();
-extern s32 dungeonCreateActorSpellEffect();
+extern void *scan_monster_along_heading();
+extern void set_record_integer_tile_center();
+extern void advance_status_timers();
+extern void play_sound_if_enabled();
+extern s32 create_actor_spell_effect();
 extern void func_80158E18();
 
 extern s32 D_80159514;
@@ -76,7 +76,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Advances an actor's action phase, updating its target, animation, and completion. */
-void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_variant_actor_action(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
 {
     s32 usePlayerTarget = 0;
     u8 *actionEntry;
@@ -160,7 +160,7 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
                     s32 abs_x;
                     s32 abs_y;
 
-                    actor->target = dungeonScanMonsterAlongHeading(
+                    actor->target = scan_monster_along_heading(
                         actor,
                         sprite->position.tile.x,
                         sprite->position.tile.y,
@@ -172,7 +172,7 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
                     actor->unk_73 = abs_y;
                 }
             }
-            if (dungeonCreateActorSpellEffect(actor, actionEntry, usePlayerTarget, &action->actionFlags) == 0) {
+            if (create_actor_spell_effect(actor, actionEntry, usePlayerTarget, &action->actionFlags) == 0) {
                 return;
             }
             action->phaseTicks = 0;
@@ -185,10 +185,10 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
+        g_dungeon_status.unk_0C = 0;
         ((ActorCounterView *)D_800814A8)->pendingCount--;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_6D--;
         action->handler = &D_80159514;
         actor->unk_73 = 0;
@@ -197,13 +197,13 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             sprite->animationFlags |= 0x800;
             return;
         }
         sprite->animationFlags &= 0xF7FF;
         action->phase++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         /* fall through */
     case 2:
         ticks = action->phaseTicks;
@@ -229,11 +229,11 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
         }
         action->phaseTicks = 0;
         action->phase++;
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
         sprite->directionFrames = D_8015BEDC;
         func_80047784(
             sprite,
-            D_8015BEDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8015BEDC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         return;
 
@@ -276,7 +276,7 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, sprite->position.tile.x, sprite->position.tile.y);
+        set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         action->phase++;
         if (sprite->directionFrames == D_8015BE8C) {
             return;
@@ -284,7 +284,7 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
         sprite->directionFrames = D_8015BE8C;
         func_80047784(
             sprite,
-            D_8015BE8C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_8015BE8C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->adjustment = 0;
         action->remainingAmount.signedValue = -0x20;
@@ -293,17 +293,17 @@ void dungeonAdvanceVariantActorAction(ActorActionWork *action, EntityRec *motion
     case 8:
         {
 
-            if (((s32)dungeonStatus.unk_0C) != 0) {
+            if (((s32)g_dungeon_status.unk_0C) != 0) {
                 return;
             }
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
             action->handler = &D_80159514;
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D--;
             actor->unk_73 = 0;
             actor->unk_72 = 0;
             actor->unk_46 &= 0x7FFF;
-            func_800A56E0(0xB4);
+            play_sound_if_enabled(0xB4);
         }
         return;
     default:

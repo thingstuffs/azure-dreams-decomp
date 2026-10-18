@@ -7,26 +7,26 @@
 typedef struct S_800A3F28_0_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_800A3F28_0_pre;   /* the 0x14 bytes before current in dungeonFindEligibleNearbyEntry, addressed as current[-1] */
+} S_800A3F28_0_pre;   /* the 0x14 bytes before current in find_eligible_nearby_entry, addressed as current[-1] */
 
 typedef struct S_800A3F28_0 {
     u8 pad_00[0x5C];
     s32 unk_5C;
-} S_800A3F28_0;   /* current in dungeonFindEligibleNearbyEntry */
+} S_800A3F28_0;   /* current in find_eligible_nearby_entry */
 
 typedef struct S_800A3F28_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
     s8 unk_26;
-} S_800A3F28_1;   /* data in dungeonFindEligibleNearbyEntry */
+} S_800A3F28_1;   /* data in find_eligible_nearby_entry */
 
 
-extern s32 func_8009FB34(u16, u16);
-extern s32 dungeonCheckEntityEligibility(void *);
+extern s32 find_active_rect_containing_point(u16, u16);
+extern s32 check_entity_eligibility(void *);
 
 /* Finds the first eligible entry with a matching nonnegative lookup ID or within one tile of (x, y). */
-void *dungeonFindEligibleNearbyEntry(s32 x, s32 y, void *end, void *owner)
+void *find_eligible_nearby_entry(s32 x, s32 y, void *end, void *owner)
 {
     s32 lookup_id;
     s32 found_id;
@@ -37,7 +37,7 @@ void *dungeonFindEligibleNearbyEntry(s32 x, s32 y, void *end, void *owner)
     s32 radius;
     s32 target_y;
 
-    found_id = func_8009FB34((u16)x, (u16)y);
+    found_id = find_active_rect_containing_point((u16)x, (u16)y);
     current = (u8 *)((S_800A3F28_0 *)owner)->unk_5C + 0x20;
     if (current != end) {
         lookup_id = (s16)found_id;
@@ -45,7 +45,7 @@ void *dungeonFindEligibleNearbyEntry(s32 x, s32 y, void *end, void *owner)
         radius = 1;
         target_y = (s16)y;
         do {
-            if ((dungeonCheckEntityEligibility(current) << 16) != 0) {
+            if ((check_entity_eligibility(current) << 16) != 0) {
                 entry_data = ((S_800A3F28_0_pre *)current)[-1].unk_00;
                 if (lookup_id == ((S_800A3F28_1 *)entry_data)->unk_26 && lookup_id >= 0) {
                     return current;

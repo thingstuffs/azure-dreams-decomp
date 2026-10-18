@@ -9,7 +9,7 @@ typedef struct S_80FF9000_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_80FF9000_0;   /* obj in dungeonAllocateActorAndInitializeParts */
+} S_80FF9000_0;   /* obj in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_1 {
     u8 pad_00[0x13];
@@ -17,12 +17,12 @@ typedef struct S_80FF9000_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80FF9000_1;   /* work in dungeonAllocateActorAndInitializeParts */
+} S_80FF9000_1;   /* work in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80FF9000_2;   /* part_a in dungeonAllocateActorAndInitializeParts */
+} S_80FF9000_2;   /* part_a in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_3 {
     u8 pad_00[0x24];
@@ -30,7 +30,7 @@ typedef struct S_80FF9000_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     M2C_UNK * unk_2C;
-} S_80FF9000_3;   /* part_b in dungeonAllocateActorAndInitializeParts */
+} S_80FF9000_3;   /* part_b in allocate_actor_and_initialize_parts */
 
 typedef struct S_80FF9000_4 {
     u8 pad_00[0x8C];
@@ -39,7 +39,7 @@ typedef struct S_80FF9000_4 {
     u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
-} S_80FF9000_4;   /* actor in dungeonAllocateActorAndInitializeParts */
+} S_80FF9000_4;   /* actor in allocate_actor_and_initialize_parts */
 
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
 seen by the real compiler;
@@ -50,10 +50,10 @@ check for the proven-region rename of func_80152800. */
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 void *func_80152988();
 void *func_80152A00();
 extern u8 D_80152A7C[];
@@ -63,10 +63,10 @@ extern M2C_UNK D_80156088;
 
 
 
-void *dungeonAllocateActorAndInitializeParts(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
+void *allocate_actor_and_initialize_parts(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
-void *dungeonAllocateActorAndInitializeParts(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
+void *allocate_actor_and_initialize_parts(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
     s16 saved_x;
     s16 saved_y;
     s16 init_flags;
@@ -119,21 +119,21 @@ void *dungeonAllocateActorAndInitializeParts(s16 spawn_flags, s32 grid_x, s32 gr
             extra_flags = (spawn_flags & ~3) << 0x10;
             if (extra_flags == 0) {
                 if (!(work->unk_14 & 0x200)) {
-                    random_bits = func_800A6D30();
+                    random_bits = generate_random_value();
                     if (random_bits & 1) {
                         work->unk_1C = (s32) (work->unk_1C | 0x200);
-                        func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(work, 1, (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = &D_80156088;
                     }
                 }
             }
         }
 
-        func_800A9C18((s32)obj, part_a, part_b, init_flags);
+        initialize_actor_sprite_and_animation((s32)obj, part_a, part_b, init_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80152EA8;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

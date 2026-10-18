@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 cardDevkitDispatchPolledEvent(void);
+extern s32 card_devkit_dispatch_polled_event(void);
 extern s32 func_804019A4(void);
 extern void func_804008A0(s32 index);
 
@@ -9,7 +9,7 @@ extern s32 D_80409258[];
 extern s32 D_804094F0[];
 
 /* Tracks repeated states and updates the selected slot after state-specific delays. */
-s32 cardDevkitPollStableSlotState(void)
+s32 card_devkit_poll_stable_slot_state(void)
 {
     s32 state;
     s32 slot_index;
@@ -17,7 +17,7 @@ s32 cardDevkitPollStableSlotState(void)
     s32 state_offset;
     s32 *saved_state;
 
-    state = cardDevkitDispatchPolledEvent();
+    state = card_devkit_dispatch_polled_event();
     slot_index = func_804019A4();
     if (state != 0) {
         if (D_80409258[slot_index] == state) {

@@ -1,5 +1,5 @@
 #include "../../../include/modules/dungeon_ovl_18a0800.h"
-void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = func_80024050;
+void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = follow_brighten;
 #include "../func_81880800.c"
 #include "../func_81880F28.c"
 #include "../func_81881168.c"

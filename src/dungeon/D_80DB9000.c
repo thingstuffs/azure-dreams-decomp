@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void dungeonSpawnDualPartOverlayEffect(void);
+extern void spawn_dual_part_overlay_effect(void);
 
 /* Exact pointer span; owner-unresolved. */
 const u32 D_80170800[1] __attribute__((aligned(4))) = {
-    (u32)dungeonSpawnDualPartOverlayEffect
+    (u32)spawn_dual_part_overlay_effect
 };

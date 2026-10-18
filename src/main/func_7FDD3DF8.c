@@ -17,7 +17,7 @@ typedef struct ColorRampEffect {
 
 
 /* Ramp the effect color using owner flags and active state, then propagate the owner high bit. */
-void mainUpdateSettingsEffectColor(ColorRampEffect *effect)
+void update_settings_effect_color(ColorRampEffect *effect)
 {
     u16 flag_masks[2];
     EffectOwner *owner;
@@ -64,6 +64,6 @@ void mainUpdateSettingsEffectColor(ColorRampEffect *effect)
     state_bits = (s16)owner->flags;
     if ((state_bits & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

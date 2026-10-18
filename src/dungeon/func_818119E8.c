@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-s32 dungeonGetAndPositionObjectHandle(void *object)
+s32 get_and_position_object_handle(void *object)
 {
     ovl_1831370_818119E8_Vec3 *initial_pos;
     s32 success = 0;
@@ -10,7 +10,7 @@ s32 dungeonGetAndPositionObjectHandle(void *object)
         *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
         *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
         *(s32 *)((s8 *)object + 0x5C) = initial_pos->z;
-        textureSetTheFieldOffsetHex8InEachEntryPointerArray(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
+        texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
         success = 1;
     }
     return success;

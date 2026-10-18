@@ -31,7 +31,7 @@ typedef struct S_801652FC_0 {
     s32 unk_58;
     s32 unk_5C;
     s32 unk_60;
-} S_801652FC_0;   /* tail in dungeonCreateConvergingFadingParticle */
+} S_801652FC_0;   /* tail in create_converging_fading_particle */
 
 typedef struct S_801652FC_1 {
     u8 pad_00[0x8];
@@ -40,12 +40,12 @@ typedef struct S_801652FC_1 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_801652FC_1;   /* obj in dungeonCreateConvergingFadingParticle */
+} S_801652FC_1;   /* obj in create_converging_fading_particle */
 
 typedef struct S_801652FC_2 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_801652FC_2;   /* saved_arg0 in dungeonCreateConvergingFadingParticle */
+} S_801652FC_2;   /* saved_arg0 in create_converging_fading_particle */
 
 typedef struct S_801652FC_3 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_801652FC_3 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_801652FC_3;   /* ((S_801652FC_1 *)obj)->unk_08 in dungeonCreateConvergingFadingParticle */
+} S_801652FC_3;   /* ((S_801652FC_1 *)obj)->unk_08 in create_converging_fading_particle */
 
 typedef struct S_801652FC_4 {
     u8 pad_00[0x2];
@@ -63,7 +63,7 @@ typedef struct S_801652FC_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801652FC_4;   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in dungeonCreateConvergingFadingParticle */
+} S_801652FC_4;   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
 
 
 extern void *func_8003FD64(s32, void *);
@@ -72,7 +72,7 @@ extern u8 D_80164BC4[];
 extern u8 D_80165164[];
 
 /* Creates an offset object and initializes its source position and motion parameters. */
-void dungeonCreateConvergingFadingParticle(
+void create_converging_fading_particle(
     void *source, s32 initial_value, s32 duration, s32 offset_x,
     s32 offset_y, s32 offset_z)
 {

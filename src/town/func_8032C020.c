@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern s32 townGetLinkedRecordField2D60(void);
-extern s32 townSetCurrentEntryScriptFlag();
-extern s32 townApplySelectedEntryValues();
+extern s32 get_linked_record_field_2_d_60(void);
+extern s32 set_current_entry_script_flag();
+extern s32 apply_selected_entry_values();
 
 /* Run the preliminary callback at a count of ten or more, then dispatch the argument pair. */
-void func_80016820(s32 dispatch_value, s32 dispatch_option) {
-    if (townGetLinkedRecordField2D60() >= 10) {
-        townSetCurrentEntryScriptFlag();
+void run_preliminary_callback_count_ten(s32 dispatch_value, s32 dispatch_option) {
+    if (get_linked_record_field_2_d_60() >= 10) {
+        set_current_entry_script_flag();
     }
-    townApplySelectedEntryValues(dispatch_value, dispatch_option);
+    apply_selected_entry_values(dispatch_value, dispatch_option);
 }

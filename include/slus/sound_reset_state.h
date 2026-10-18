@@ -22,7 +22,7 @@ extern s32 D_80079950;
 void ResetCallback(s32 channel);
 s32 func_8005CC04(s32 warm);
 void func_8005CB88(void);
-void storeU16TableEntry(s32 index, u32 value, s32 apply_shift);
+void store_u16_table_entry(s32 index, u32 value, s32 apply_shift);
 
 void func_8005CA90(s32 channel);
 s32 func_8005E450(s32 enabled);

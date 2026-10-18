@@ -7,30 +7,30 @@
 
 
 extern s32 func_80047784();
-extern s32 dungeonPrepareDirectionalAttack();
-extern s32 dungeonGetActorHeightDifference();
-extern s32 dungeonPlaceActorAtDirectionalNeighbor();
-extern s32 func_800A2B5C();
-extern s32 func_800A2CB8();
-extern s32 dungeonApplyCameraOffsetAndSelectTarget();
+extern s32 prepare_directional_attack();
+extern s32 get_actor_height_difference();
+extern s32 place_actor_at_directional_neighbor();
+extern s32 try_claim_dungeon_action_slot();
+extern s32 check_entity_interaction_compatibility();
+extern s32 apply_camera_offset_and_select_target();
 extern u8 D_8017386C[];
 
 /* Attempt an actor transition and update its state and sprite on success. */
-s32 dungeonAttemptActorTransition(void *state, s32 action_id, void *sprite, EntityRec *actor)
+s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec *actor)
 {
     u16 *status;
     s32 transitioned;
     s32 target;
 
     actor->unk_71 &= 0x7F;
-    status = ((u16 *)(&dungeonStatus));
+    status = ((u16 *)(&g_dungeon_status));
     transitioned = 0;
     if (((u16 *)status)[1] & 0x2000) {
         return -1;
     }
-    target = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    target = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                            ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
-    if ((func_800A2CB8(actor, target) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
         return transitioned;
     }
     {
@@ -43,16 +43,16 @@ s32 dungeonAttemptActorTransition(void *state, s32 action_id, void *sprite, Enti
             return -1;
         }
     }
-    if ((s16)(-dungeonGetActorHeightDifference(target, actor) + 0x40) >= 0x81U) {
+    if ((s16)(-get_actor_height_difference(target, actor) + 0x40) >= 0x81U) {
         return transitioned;
     }
 
     transitioned = 1;
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, action_id, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_id, 8, 0x300);
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
@@ -75,13 +75,13 @@ s32 dungeonAttemptActorTransition(void *state, s32 action_id, void *sprite, Enti
 
     (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8) = D_8017386C;
     func_80047784(sprite,
-                  D_8017386C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  D_8017386C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->unk_6D--;
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {
         return transitioned;
     }
-    dungeonPrepareDirectionalAttack(actor, sprite, actor->facing, 1, 0);
+    prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 
 }

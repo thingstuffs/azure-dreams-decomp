@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource07_slot0.h"
 
-void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void *sprite, void *entity)
+void settle_directional_motion_at_tile(void *motion_state, void *motion, void *sprite, void *entity)
 {
     s32 direction;
     s16 timer;
@@ -9,9 +9,9 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
     direction = (((EntityRec *)entity)->unk_6A >> 9) & 7;
     switch (((R07_80173238_S_80173238_1 *)motion_state)->unk_9B) {
     case 0:
-        dungeonApplyClampedActorValueDelta(entity);
-        ((R07_80173238_S_80173238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
-        ((R07_80173238_S_80173238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
+        apply_clamped_actor_value_delta(entity);
+        ((R07_80173238_S_80173238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 18;
+        ((R07_80173238_S_80173238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 18;
         ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
 
 
@@ -19,7 +19,7 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
             ((R07_80173238_S_80173238_2 *)motion)->unk_14 = 0;
             ((R07_80173238_S_80173238_2 *)motion)->unk_10 = 0;
             ((R07_80173238_S_80173238_2 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(motion_state, motion, sprite, ((u8 *)D_80174178));
+            begin_actor_display_action(motion_state, motion, sprite, ((u8 *)D_80174178));
             return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
@@ -39,8 +39,8 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
         ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((R07_80173238_S_80173238_2 *)motion)->unk_10 / 4;
 
     case 1:
-        ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-        ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
 
         if (((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s > 0) {
             ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.u - 1;
@@ -55,20 +55,20 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
             ((R07_80173238_S_80173238_2 *)motion)->unk_14 = 0;
             ((R07_80173238_S_80173238_2 *)motion)->unk_10 = 0;
             ((R07_80173238_S_80173238_2 *)motion)->unk_0C = 0;
-            dungeonBeginActorDisplayAction(motion_state, motion, sprite, ((u8 *)D_80174178));
+            begin_actor_display_action(motion_state, motion, sprite, ((u8 *)D_80174178));
             return;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174150);
         func_80047784(
             sprite,
-            ((u8 *)D_80174150)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174150)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
         return;
 
     case 2:
-        ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-        ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        ((R07_80173238_S_80173238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        ((R07_80173238_S_80173238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
             return;
         }
@@ -76,7 +76,7 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
         (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174150);
         func_80047784(
             sprite,
-            ((u8 *)D_80174150)[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+            ((u8 *)D_80174150)[((g_game_work.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
             0);
         ((R07_80173238_S_80173238_1 *)motion_state)->unk_96.s = 8;
         ((R07_80173238_S_80173238_1 *)motion_state)->unk_9B++;
@@ -109,11 +109,11 @@ void dungeonSettleDirectionalMotionAtTile(void *motion_state, void *motion, void
         ((R07_80173238_S_80173238_2 *)motion)->unk_0C = 0;
         ((R07_80173238_S_80173238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
         ((R07_80173238_S_80173238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-        tracked_entity = ((s32)dungeonStatus.unk_10);
+        tracked_entity = ((s32)g_dungeon_status.unk_10);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
-            dungeonStatus.unk_10 = tracked_entity & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_entity & 0x7FFFFFFF;
         }
         ((R07_80173238_S_80173238_1 *)motion_state)->unk_8C = ((void *)func_80170E54);
 

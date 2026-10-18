@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void linkTypedListNode();
+extern void link_typed_list_node();
 extern u8 D_800D162C[];
 extern u8 D_800D1630[];
 
 /* Ease two objects toward preset coordinates and shades, then pass them in coordinate order. */
-void func_800B1DCC(void **pair_state)
+void interpolate_paired_object_positions_and_shades(void **pair_state)
 {
     s32 coords[2];
     s32 item_index;
@@ -64,8 +64,8 @@ void func_800B1DCC(void **pair_state)
         item_index++;
     } while (item_index < 2);
     if (coords[0] > coords[second_index]) {
-        linkTypedListNode(pair_state[second_index], pair_state[0]);
+        link_typed_list_node(pair_state[second_index], pair_state[0]);
     } else {
-        linkTypedListNode(pair_state[0], pair_state[second_index]);
+        link_typed_list_node(pair_state[0], pair_state[second_index]);
     }
 }

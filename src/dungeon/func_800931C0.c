@@ -1,4 +1,4 @@
-/* dispatchDungeonCategoryAction (dungeon overlay) -- MATCHES at gcc 2.8.1 (words_off=0).
+/* dispatch_dungeon_category_action (dungeon overlay) -- MATCHES at gcc 2.8.1 (words_off=0).
  * s32-returning; the r<0 path does `func_80098B10(); return -1;`. gcc emits a
  * dead `j $Lepi` with the `li v0,-1` return-value setup in ITS delay slot; the
  * sibcall `jal func_80098B10` (member of config/sibcall_syms.dungeon.txt) is
@@ -15,17 +15,17 @@
 extern u32 *D_800DD6B8[];
 extern u8 D_800E3648[];
 
-extern void dungeonClearPlayerLinkedActionFlags(void);
-extern s16 dungeonGetSpecialTableDataIndex(void *);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
-extern s16 dungeonFindEntryAtTileCoordinates(s16 x, s16 y, s16 z);
-extern void dungeonCallSlotHandlerAndUpdateStatus(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
-extern void dungeonAllocateObjectAtCoordinates(void *, void *, s16);
+extern void clear_player_linked_action_flags(void);
+extern s16 get_special_table_data_index(void *);
+extern void process_unflagged_linked_entries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
+extern s16 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
+extern void call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
+extern void allocate_object_at_coordinates(void *, void *, s16);
 extern void func_800BCFBC(s32, u32, s32);
 
 /* Dispatches an action handler after processing special cases and updating dungeon state. */
-s32 dispatchDungeonCategoryAction(void *actor, void *action, s16 dispatch_mode, s32 handler_param) {
+s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mode, s32 handler_param) {
     s32 action_index;
     s32 type_index;
     u32 handler_entry;
@@ -36,7 +36,7 @@ s32 dispatchDungeonCategoryAction(void *actor, void *action, s16 dispatch_mode, 
 
     if (*((u8 *)action + 1) == 0x12) {
         if ((s16)dispatch_mode != 0x15) {
-            dungeonAllocateObjectAtCoordinates(actor, action, dispatch_mode);
+            allocate_object_at_coordinates(actor, action, dispatch_mode);
             return;
         }
     }
@@ -44,15 +44,15 @@ s32 dispatchDungeonCategoryAction(void *actor, void *action, s16 dispatch_mode, 
     action_index = *((u8 *)action + 0) - 1;
     if (*((u8 *)action + 1) == 0x15) {
         linked_entity = *(void **)((u8 *)actor - 0x14);
-        result = dungeonFindEntryAtTileCoordinates(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25),
+        result = find_entry_at_tile_coordinates(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25),
             *((s16 *)((u8 *)actor + 0x88)));
         if (result < 0) {
             return -1;
         }
-        dungeonCallSlotHandlerAndUpdateStatus(D_800E3648[result * 4], actor, result, 1);
+        call_slot_handler_and_update_status(D_800E3648[result * 4], actor, result, 1);
         return;
     }
-    dungeonStatus.unk_0A += 1;
+    g_dungeon_status.unk_0A += 1;
     handler_entry = D_800DD6B8[type_index][action_index];
     handler_tag = handler_entry >> 0x18;
     handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
@@ -61,20 +61,20 @@ s32 dispatchDungeonCategoryAction(void *actor, void *action, s16 dispatch_mode, 
     }
     if ((s16)dispatch_mode != 0x15) {
         if (D_80082E80.unk_034 == 0) {
-            result = dungeonGetSpecialTableDataIndex(action);
+            result = get_special_table_data_index(action);
             if (result != 0x15) {
                 if (result == 0x16) {
                     *(*(s32 **)((u8 *)D_800E3D7C + 0xF0)) = 0;
                 } else {
-                    dungeonClearPlayerLinkedActionFlags();
+                    clear_player_linked_action_flags();
                 }
             }
         }
     }
     if ((s16)dispatch_mode == 0x15) {
-        dungeonProcessUnflaggedLinkedEntriesAlt(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
-        dungeonProcessUnflaggedLinkedEntries(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
-        dungeonStatus.flags |= 0x812;
+        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+        process_unflagged_linked_entries(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+        g_dungeon_status.flags |= 0x812;
     }
     handler(actor, action, dispatch_mode, handler_param);
 }

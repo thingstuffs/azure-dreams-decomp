@@ -11,18 +11,18 @@ typedef struct S_800C5A64_1 {
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
     u8 pad_12[0xA];
     s16 unk_1C;
-} S_800C5A64_1;   /* arg0 in dungeonDampEffectMotionAndFade */
+} S_800C5A64_1;   /* arg0 in damp_effect_motion_and_fade */
 
 typedef struct S_800C5A64_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_800C5A64_2;   /* counter_base in dungeonDampEffectMotionAndFade */
+} S_800C5A64_2;   /* counter_base in damp_effect_motion_and_fade */
 
 
 extern void func_800478B8();
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
-void dungeonDampEffectMotionAndFade(void *effect, s32 *motion, void *primitive)
+void damp_effect_motion_and_fade(void *effect, s32 *motion, void *primitive)
 {
     s16 remaining;
 
@@ -43,9 +43,9 @@ void dungeonDampEffectMotionAndFade(void *effect, s32 *motion, void *primitive)
     if ((remaining << 16) <= 0) {
         if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
             (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
-            dungeonStatus.unk_0A--;
+            g_dungeon_status.unk_0A--;
         }
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

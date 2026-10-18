@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80A1FBBC; every changed retail word is a paired relocation. */
-#define dungeonUpdateParticlesProjectileAndFade func_8016D3BC
+#define update_particles_projectile_and_fade func_8016D3BC
 #define D_80170874 D_8016A874
 #define D_801740FC D_8016E0FC
 #define D_801741A4 D_8016E1A4
@@ -116,13 +116,13 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s16, s16);
 extern s32 func_80069EF8(void);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern void func_800A2FE0(void *);
-extern void func_800A32A4(void *);
-extern void func_800A56E0(s32);
-extern void dungeonAnnounceFamiliarDefeat(void *);
-extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern void distribute_experience_and_report_gains(void *);
+extern void detach_record_and_update_slot_state(void *);
+extern void play_sound_if_enabled(s32);
+extern void announce_familiar_defeat(void *);
+extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
 void func_8016D3BC(void *effect_state, void *position, void *render_part, void *entity)
@@ -206,12 +206,12 @@ void func_8016D3BC(void *effect_state, void *position, void *render_part, void *
 
     switch (((S_801733BC_1 *)effect_state)->unk_9B) {
     case 0:
-        if (((Rec_D_80083460 *)((u8 *)(&dungeonStatus)))->unk_0A != 0) {
+        if (((Rec_D_80083460 *)((u8 *)(&g_dungeon_status)))->unk_0A != 0) {
             break;
         }
         if (((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x4000) {
             if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat(entity);
+                announce_familiar_defeat(entity);
             }
         }
         ((S_801733BC_1 *)effect_state)->unk_9B++;
@@ -233,7 +233,7 @@ void func_8016D3BC(void *effect_state, void *position, void *render_part, void *
             center.x = rect.x + ((s16)rect.w >> 1);
             center_y = rect.y + ((s16)rect.h >> 1);
             center.y = center_y;
-            func_800B8FC8(center_object, rect_ptr, center_ptr, 1, 0);
+            draw_transformed_sprite_with_clip_rect(center_object, rect_ptr, center_ptr, 1, 0);
         }
 
         ((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v |= 0x10000000;
@@ -242,7 +242,7 @@ void func_8016D3BC(void *effect_state, void *position, void *render_part, void *
         ((S_801733BC_0 *)render_part)->unk_14 |= 0xC;
         ((S_801733BC_0 *)render_part)->unk_12 -= 0x80;
         ((S_801733BC_1 *)effect_state)->unk_9B++;
-        func_800A56E0(0x806);
+        play_sound_if_enabled(0x806);
 
         spawned_object = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
         if (spawned_object == 0) {
@@ -279,17 +279,17 @@ void func_8016D3BC(void *effect_state, void *position, void *render_part, void *
         if ((s16)frames_left > 0) {
             break;
         }
-        effect_list = &dungeonStatus;
+        effect_list = &g_dungeon_status;
         if (effect_list->unk_10 == (u8 *)entity - 0x20) {
             (*(u32 *)&effect_list->unk_10) &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
-        func_8009A3D0(((S_801733BC_0 *)render_part)->unk_24, ((S_801733BC_0 *)render_part)->unk_25,
+        distribute_experience_and_report_gains(entity);
+        detach_record_and_update_slot_state(entity);
+        update_map_cell_flags_with_item_limit(((S_801733BC_0 *)render_part)->unk_24, ((S_801733BC_0 *)render_part)->unk_25,
             (((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v & 0x2000) ? 0x300 : 0x3000);
-        func_8009A028(entity);
+        unlink_entity_node(entity);
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
     }
 }

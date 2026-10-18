@@ -8,7 +8,7 @@ extern void func_80066640();
 extern void func_800667D0();
 extern void func_80067F20();
 extern s32 rand();
-extern void townCopyOddHalfwords3();
+extern void copy_odd_halfwords_3();
 
 typedef struct
 {
@@ -30,7 +30,7 @@ typedef struct
 } LineWork;
 
 /* Queues a randomly colored line between two projected points with draw mode commands. */
-void townDrawRandomColoredLine(s32 end_point, s32 start_point)
+void draw_random_colored_line(s32 end_point, s32 start_point)
 {
     s32 end_pos = end_point;
     s32 start_pos = start_point;
@@ -47,7 +47,7 @@ void townDrawRandomColoredLine(s32 end_point, s32 start_point)
     s32 texture_depth;
     s32 texture_y;
 
-    draw_ctx = (u8 *)gameWork.unk_000;
+    draw_ctx = (u8 *)g_game_work.unk_000;
     scratch->ot = (u32 *)(draw_ctx + 0xB0);
     line = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)line + 0x14;
@@ -60,8 +60,8 @@ void townDrawRandomColoredLine(s32 end_point, s32 start_point)
     func_800667D0(line);
     func_80066640(line, 1);
 
-    townCopyOddHalfwords3(scratch->start, start_pos);
-    townCopyOddHalfwords3(scratch->end, end_pos);
+    copy_odd_halfwords_3(scratch->start, start_pos);
+    copy_odd_halfwords_3(scratch->end, end_pos);
     scratch->depth = func_80065420(
         scratch->start, &scratch->start_x, &scratch->interp, &scratch->flag);
     func_80065420(
@@ -86,7 +86,7 @@ void townDrawRandomColoredLine(s32 end_point, s32 start_point)
         scratch->depth = 0;
     }
 
-    draw_ctx = (u8 *)gameWork.unk_000;
+    draw_ctx = (u8 *)g_game_work.unk_000;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(0, 0, 0x140, 0);
@@ -120,7 +120,7 @@ void townDrawRandomColoredLine(s32 end_point, s32 start_point)
             (ot_tag & length_mask) | ((u32)line & low_mask);
     }
 
-    draw_ctx = (u8 *)gameWork.unk_000;
+    draw_ctx = (u8 *)g_game_work.unk_000;
     draw_mode = *(u32 **)(draw_ctx + 0x8D0);
     *(u8 **)(draw_ctx + 0x8D0) = (u8 *)draw_mode + 0xC;
     depth_or_tpage = func_80066460(texture_depth, 1, 0x140, texture_y);

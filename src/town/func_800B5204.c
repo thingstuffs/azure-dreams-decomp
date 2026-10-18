@@ -7,7 +7,7 @@ typedef struct S_800B2964_0 {
 } S_800B2964_0;
 
 /* Collect pointers to enabled entries and terminate the list with NULL. */
-void func_800B2964(M2C_UNK *entries, s32 entry_count) {
+void collect_enabled_entry_pointers(M2C_UNK *entries, s32 entry_count) {
     M2C_UNK *output;
     s8 *entry;
     s32 entry_index;

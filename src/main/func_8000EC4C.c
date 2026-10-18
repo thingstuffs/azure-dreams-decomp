@@ -6,7 +6,7 @@ extern s32 lseek();
 extern s32 write();
 
 /* Writes 128-byte units at a file offset, optionally creating the file first. */
-s32 cardBootWriteFileUnits128(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create) {
+s32 card_boot_write_file_units_128(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create) {
     s32 fd;
     s32 ok;
 

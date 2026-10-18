@@ -9,7 +9,7 @@ typedef struct S_80098864_0 {
     s16 unk_3E;
     u8 pad_40[0x34];
     void * unk_74;
-} S_80098864_0;   /* arg1 in dungeonProcessRecordAndUpdateLinkedState; pointer addresses record offset 0x14 */
+} S_80098864_0;   /* arg1 in process_record_and_update_linked_state; pointer addresses record offset 0x14 */
 
 typedef struct S_80098864_1 {
     u8 pad_00[0x60];
@@ -19,27 +19,27 @@ typedef struct S_80098864_1 {
 
 
 
-void dungeonClearSlotAndUpdateLinkedState();
-void copyItemCategoryDamage();
-s32 dungeonResolveAttackDamageAndEffects();
-Ent *dungeonPrepareDirectionalAttack();
+void clear_slot_and_update_linked_state();
+void copy_item_category_damage();
+s32 resolve_attack_damage_and_effects();
+Ent *prepare_directional_attack();
 
 /* Processes a record and updates its linked state on success. */
-s32 dungeonProcessRecordAndUpdateLinkedState(s32 request, void *record_data) {
+s32 process_record_and_update_linked_state(s32 request, void *record_data) {
     s32 record_id;
     S_80098864_1 *linked_record;
 
-    dungeonStatus.unk_0A--;
+    g_dungeon_status.unk_0A--;
     record_id = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_00;
-    copyItemCategoryDamage(record_data, request);
-    dungeonPrepareDirectionalAttack(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0, 0);
-    if (dungeonResolveAttackDamageAndEffects(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0) == 0) {
+    copy_item_category_damage(record_data, request);
+    prepare_directional_attack(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0, 0);
+    if (resolve_attack_damage_and_effects(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0) == 0) {
         return 0;
     }
     linked_record = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_74;
     if (linked_record != 0) {
         linked_record->unk_60 = (s32) ((s32)D_800E3D7C);
     }
-    dungeonClearSlotAndUpdateLinkedState(request);
+    clear_slot_and_update_linked_state(request);
     return 1;
 }

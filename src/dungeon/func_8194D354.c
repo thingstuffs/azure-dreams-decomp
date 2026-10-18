@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e6b7800.h"
 
-void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
+void update_three_way_target_effect(void *effect_arg, void *position) {
     M2C_UNK fallback_pos[6];
     Row_8194D1E4_Packed8 direction;
     Row_8194D1E4_FourWords transform[2];
@@ -47,7 +47,7 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = 0U;
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
         D_800814A8->unk_F4 = 0;
-        dungeonAllocateEffectAndInitializeSprite(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
+        allocate_effect_and_initialize_sprite(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
     case 1:
         if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
@@ -57,11 +57,11 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
             if (func_80053EF0(4) != 2) {
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
                 ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
                 return;
             }
-            func_800A56E0(0x4300);
+            play_sound_if_enabled(0x4300);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
             return;
         }
@@ -87,7 +87,7 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
         shifted_height = ((actor_value->unk_88) - 0x50) << 0x10;
         effect_data = offset;
         (*(s32 *)((u8 *)position + 8)) = shifted_height;
-        view_heading = gameWork.view.viewAngle;
+        view_heading = g_game_work.view.viewAngle;
         state_or_heading = actor_value->facing;
         offset_mode = 0;
         view_heading += state_or_heading;
@@ -96,13 +96,13 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
         view_heading &= 0x1C;
         state_or_heading = (*(s32 *)D_800E3D18);
         actor_or_frame = (void *)(s32)*(M2C_UNK *)(view_heading + state_or_heading);
-        if (resolveRecordOrientationOrFallback(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
+        if (resolve_record_orientation_or_fallback(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
             (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
             (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
         actor_or_frame = D_800814A8;
-        target = dungeonScanMonsterAlongHeading(actor_or_frame, tile_or_y_steps->tileX,
+        target = scan_monster_along_heading(actor_or_frame, tile_or_y_steps->tileX,
             tile_or_y_steps->tileY, (s16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
@@ -115,29 +115,29 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
             ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
                 actor_or_frame = D_800814A8;
-                forward_dx = dirStepX[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                forward_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u + (forward_dx << 6));
-                forward_dy = dirStepY[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                forward_dy = dir_step_y[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u + (forward_dy << 6));
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_88;
-                ground_height = dungeonGetSurfaceHeightAtRecord(target_pos);
+                ground_height = get_surface_height_at_record(target_pos);
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
                         (u16)((u16)D_800814A8->unk_88);
                 }
-                position_valid = dungeonCheckLeftTileAndCenterHeight(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
+                position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u);
                 if ((position_valid << 0x10) != 0) {
                     actor_or_frame = D_800814A8;
-                    backtrack_dx = dirStepX[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    backtrack_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u - (backtrack_dx
                         << 5));
-                    backtrack_dy = dirStepY[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    backtrack_dy = dir_step_y[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u - (backtrack_dy
                         << 5));
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_88;
-                    near_height = dungeonGetSurfaceHeightAtRecord(target_pos);
+                    near_height = get_surface_height_at_record(target_pos);
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
                         ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
@@ -148,13 +148,13 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
                 step_count += 1;
             } while (step_count < 8);
         }
-        func_8002401C(((Row_8194D354_S_80024B54_8 *)position)->unk_02, ((Row_8194D354_S_80024B54_8 *)position)->unk_06,
+        update_directional_actor_effect(((Row_8194D354_S_80024B54_8 *)position)->unk_02, ((Row_8194D354_S_80024B54_8 *)position)->unk_06,
             ((Row_8194D354_S_80024B54_8 *)position)->unk_0A, ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.s,
             (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.s, (s32)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.s, &direction);
         func_80065820(&direction, transform);
-        dungeonAllocateEffectWithEndpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
-        dungeonAllocateEffectWithEndpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
-        dungeonAllocateEffectWithEndpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
+        allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
+        allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
+        allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
         next_state_c2 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.u;
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0x18U;
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c2 + 1);
@@ -205,7 +205,7 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
             }
         }
         if (((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 != NULL) {
-            func_8009CE1C(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14, 0xA, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_09, 9,
+            apply_attack_power_and_element_effects(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14, 0xA, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_09, 9,
                 (s32)(s16)((((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E << 9) + 0x800), ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00, 1);
             clear_tint_mask = 0xEFFFFFFF;
             neutral_color = 0x00808080;
@@ -229,7 +229,7 @@ void dungeonUpdateThreeWayTargetEffect(void *effect_arg, void *position) {
         (*(s32 *)((u8 *)effect_pool + 0xC)) = 0;
         ((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A = (u16)(((Row_8194D354_S_80024B54_11 *)effect_pool)->unk_0A - 1);
         (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((Row_8194D354_S_80024B54_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        (*(s32 *)&objectFlagBlock.flags) = (s32)((*(s32 *)((u8 *)(&objectFlagBlock.flags) + 0)) | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32)((*(s32 *)((u8 *)(&object_flag_block.flags) + 0)) | 0x8000);
         return;
     default:
         break;

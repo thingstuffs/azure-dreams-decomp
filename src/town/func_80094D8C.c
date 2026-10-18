@@ -6,73 +6,73 @@
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
-extern s32 testResidentBitmapBit(s32);
+extern s32 test_resident_bitmap_bit(s32);
 extern void func_80094088(void *, void *, s32);
-extern void func_800942B0(void *, void *, s32);
-extern void dungeonInitializeActionObject(void *, void *, s32);
-extern void func_80094474(void *, void *, s32);
-extern void dungeonInitializeActionObjectWithCounter(void *, void *, s32);
-extern void func_8009451C(void *, void *, s32);
-extern void townStoreTheValidSharedAngleInOffsetHex10(void *);
-extern void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(void *);
-extern s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus(void *);
-extern s32 townSelectAnEligibleSourceEntryStoresPointerInDestination(void *, void *);
-extern s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(void *, void *);
-extern void townComputeAndClampsVectorBasedAdjustmentUpdatesTown(void *, s16, void *);
-extern void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(void *);
+extern void initialize_actor_action_state(void *, void *, s32);
+extern void initialize_action_object(void *, void *, s32);
+extern void initialize_action_handler_with_count_six(void *, void *, s32);
+extern void initialize_action_object_with_counter(void *, void *, s32);
+extern void initialize_actor_movement_interaction_action(void *, void *, s32);
+extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
+extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero(void *);
+extern s32 select_an_available_entry_matching_direction_returns_status(void *);
+extern s32 select_an_eligible_source_entry_stores_pointer_in_destination(void *, void *);
+extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated(void *, void *);
+extern void compute_and_clamps_vector_based_adjustment_updates_town(void *, s16, void *);
+extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 
 /* Update the entity and dispatch its handler according to state flags and checks. */
-void townUpdateActorInputActions(void *context, EntityRec *entity, s32 update_arg)
+void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg)
 {
-    GameWork *state = &gameWork;
+    GameWork *state = &g_game_work;
     s16 reference_value;
     s32 state_flags;
     s32 check_result;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(entity);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(entity);
-    reference_value = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(entity, ((u8 *)&D_800FE488));
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
+    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, ((u8 *)&D_800FE488));
     if ((reference_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF == 0) {
-            dungeonInitializeActionObject(context, entity, update_arg);
+            initialize_action_object(context, entity, update_arg);
             return;
         }
     }
     else if (D_800CFCEF == 0) {
-        townComputeAndClampsVectorBasedAdjustmentUpdatesTown(entity, reference_value, ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&D_800FE488));
     }
 
     state_flags = ((s32)state->unk_010);
     if (state_flags & 0x10) {
-        func_800942B0(context, entity, update_arg);
+        initialize_actor_action_state(context, entity, update_arg);
         return;
     }
     if (state_flags & 0x40) {
-        check_result = townSelectAnEligibleSourceEntryStoresPointerInDestination(context, &D_800CFCB4);
+        check_result = select_an_eligible_source_entry_stores_pointer_in_destination(context, &D_800CFCB4);
         if (check_result != 0) {
             if (check_result == 2) {
-                func_8009451C(context, entity, update_arg);
+                initialize_actor_movement_interaction_action(context, entity, update_arg);
                 return;
             }
-            dungeonInitializeActionObjectWithCounter(context, entity, update_arg);
+            initialize_action_object_with_counter(context, entity, update_arg);
             return;
         }
-        if (testResidentBitmapBit(0xA4) != 0) {
+        if (test_resident_bitmap_bit(0xA4) != 0) {
             func_80094088(context, entity, update_arg);
             return;
         }
     }
     else {
         if (state->buttons & 0xF000) {
-            townStoreTheValidSharedAngleInOffsetHex10(context);
-            if (townSelectAnAvailableEntryMatchingDirectionReturnsStatus(&D_800CFCB4) > 0) {
+            store_the_valid_shared_angle_in_offset_hex_10(context);
+            if (select_an_available_entry_matching_direction_returns_status(&D_800CFCB4) > 0) {
                 return;
             }
         }
-        func_80094474(context, entity, update_arg);
+        initialize_action_handler_with_count_six(context, entity, update_arg);
     }
 
     return;

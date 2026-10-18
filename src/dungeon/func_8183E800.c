@@ -11,7 +11,7 @@
 
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
- * (retail 0x80024000, the row symbol dungeonAddFlagAdjustedTargetValue).  The state table of the switch below follows
+ * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
 void (*const dungeon_185e800_entry)(u8 *, u8 *) = func_80024020;
 
@@ -47,7 +47,7 @@ void func_80024020(u8 *self, u8 *motion)
             if (particle != 0) {
                 particle_data = particle + 32;
                 child_data = F(particle, u8 *, 12);
-                F(particle, void *, 16) = dungeonAdvanceDelayedFadingSprite;
+                F(particle, void *, 16) = advance_delayed_fading_sprite;
 
                 F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
                     (((func_80069EF8() & 0x1ff) - 255) << 13);
@@ -83,8 +83,8 @@ void func_80024020(u8 *self, u8 *motion)
         animation = F(self, u8 *, 4);
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
-        if ((F(owner, u8 *, 96) = dungeonScanMonsterAlongHeading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
-            F(owner, s16, 42), (s16)dungeonGetDefinitionEntryByte13(8))) == 0) {
+        if ((F(owner, u8 *, 96) = scan_monster_along_heading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
+            F(owner, s16, 42), (s16)get_definition_entry_byte_13(8))) == 0) {
             F(owner, u8, 114) = F(owner_record, u8, 36);
             F(owner, u8, 115) = F(owner_record, u8, 37);
         } else {
@@ -92,7 +92,7 @@ void func_80024020(u8 *self, u8 *motion)
             F(owner, u8, 114) = F(child_data, u8, 36);
             F(owner, u8, 115) = F(child_data, u8, 37);
         }
-        if (resolveRecordOrientationOrFallback(F(F(owner_object, u8 *, 12), u8 *, 8),
+        if (resolve_record_orientation_or_fallback(F(F(owner_object, u8 *, 12), u8 *, 8),
                           F(owner_object, u8 *, 12), origin_offset, 0) == 0) {
             origin_offset[2] = 0;
             origin_offset[1] = 0;
@@ -114,12 +114,12 @@ void func_80024020(u8 *self, u8 *motion)
             F(motion, u16, 18) = target_y - origin_y;
         }
         F(motion, s32, 16) /= F(self, s16, 80);
-        F(motion, s16, 22) = func_800BCB04(
+        F(motion, s16, 22) = sample_terrain_surface_height(
             F(motion, u16, 2), F(motion, u16, 6),
             (s16)(F(F(owner_object, u8 *, 8), u16, 10) - 48)) -
             (F(motion, u16, 10) + 176);
         F(motion, s32, 20) /= F(self, s16, 80);
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         state = F(self, s16, 10) + 1;
         F(self, s16, 10) = state;
         return;
@@ -157,7 +157,7 @@ void func_80024020(u8 *self, u8 *motion)
         if (timer % 3 == 0) {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
-                F(particle, void *, 16) = dungeonBrightenAccelerateAndFadeEffect;
+                F(particle, void *, 16) = brighten_accelerate_and_fade_effect;
                 func_8004491C(particle, func_80045340);
                 child_data = F(particle, u8 *, 12);
 
@@ -214,7 +214,7 @@ void func_80024020(u8 *self, u8 *motion)
         if (timer > 0)
             return;
         if (F(owner, s32, 96) != 0) {
-            func_8009CE1C(F(owner, void *, 96), 10, F(self, u8, 9), 2,
+            apply_attack_power_and_element_effects(F(owner, void *, 96), 10, F(self, u8, 9), 2,
                           F(owner, s16, 42), owner, 2);
         }
         F(self, u16, 80) = 16;
@@ -231,9 +231,9 @@ void func_80024020(u8 *self, u8 *motion)
         }
         if (timer > 0)
             return;
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         F(self, u16, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
 
         return;
     }

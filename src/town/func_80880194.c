@@ -23,7 +23,7 @@ extern char D_80700B74[];            /* "mark: %s line %d\n" */
 extern char D_80700B88[];            /* "sn_main.c" */
 
 /* Copy the overlay work record, trace both kind fields and mark sn_main.c line 48. */
-void func_80701194(OvWork *p) {
+void copy_and_trace_overlay_work_record(OvWork *p) {
     D_8070139C = *p;
     D_807013B4->print(D_80700B50, D_80700B5C, p->kind);
     D_807013B4->print(D_80700B50, D_80700B64, D_8070139C.kind);

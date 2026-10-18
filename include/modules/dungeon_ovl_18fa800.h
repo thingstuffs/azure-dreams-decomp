@@ -3,8 +3,8 @@
 #include "modules/dungeon_native_abi.h"
 struct Unk818DAD38Owner;
 struct Unk818DAD38Target;
-void dungeonAdvanceTargetGrowthAndFade(struct Unk818DAD38Owner *, s32, struct Unk818DAD38Target *);
-void createCoordinateSpriteObject(void *);
+void advance_target_growth_and_fade(struct Unk818DAD38Owner *, s32, struct Unk818DAD38Target *);
+void create_coordinate_sprite_object(void *);
 /* Retail callback 80024714 receives its entry in a0; a1/a2/a3 are overwritten before use. */
 void func_80024714(void *entry);
 #endif

@@ -79,7 +79,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Project three vertices and queue a textured, shaded triangle by depth. */
-s32 dungeonHandleProjectThreeVerticesQueueTexturedShadedTriangleDepth(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
+s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976F70 *state;
     Packet81976F70 *packet;
@@ -93,7 +93,7 @@ s32 dungeonHandleProjectThreeVerticesQueueTexturedShadedTriangleDepth(s32 vertex
     void *scratch_base;
     u32 ordering_link;
 
-    state = *(State81976F70 **)((u8 *)(&gameWork));
+    state = *(State81976F70 **)((u8 *)(&g_game_work));
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
     packet = state->next;
     state->next = packet + 1;

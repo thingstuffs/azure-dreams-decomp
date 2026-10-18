@@ -10,7 +10,7 @@ extern M2C_UNK D_800247AC[3];
 extern M2C_UNK D_80024A68[3];
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
-void *func_80024804(s32 type_code, void *source, s32 unused, s32 object_value)
+void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, s32 object_value)
 {
     register u32 stored_value;
     s32 type_id;

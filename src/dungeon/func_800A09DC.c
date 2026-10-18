@@ -13,7 +13,7 @@ typedef struct S_800A613C_0 {
 } S_800A613C_0;
 
 /* Create an object, attach its descriptor, and initialize its data fields. */
-s32 func_800A613C(void) {
+s32 create_expanding_screen_rectangle(void) {
     s32 object;
     S_800A613C_0 *object_data;
 

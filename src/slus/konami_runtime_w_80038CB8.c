@@ -3,7 +3,7 @@
 #include "common.h"
 
 extern void func_80038F48(void *);
-extern void handleVmOpcode10(void *);
+extern void handle_vm_opcode_10(void *);
 extern void func_8003AB44(u8 *, s16, s16, u8, s32, s32, s32);
 extern void func_80038128(void);
 
@@ -78,7 +78,7 @@ void func_80038CB8(S_func_80038CB8_0 *text)
                         }
                     }
                 } else {
-                    handleVmOpcode10(text);
+                    handle_vm_opcode_10(text);
                     return;
                 }
                 break;
@@ -91,7 +91,7 @@ void func_80038CB8(S_func_80038CB8_0 *text)
             do {
                 if ((*batch_cursor != 0) &&
                     (text->unk_20.s >= (s32)text->unk_24)) {
-                    handleVmOpcode10(text);
+                    handle_vm_opcode_10(text);
                     return;
                 }
                 func_80038F48(text);

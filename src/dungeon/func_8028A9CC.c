@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_generate.h"
 
-void dungeonWriteRectangularBorder(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
+void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
     s16 *tile;
     s16 *opposite_tile;
     u8 *info_page;
@@ -10,7 +10,7 @@ void dungeonWriteRectangularBorder(s16 left_x, s16 top_y, s16 right_x, s16 botto
     s16 x;
     s16 y;
     info_page = (u8 *)0x80080000;
-    info = &gameWork.map;
+    info = &g_game_work.map;
     bottom_row = bottom_y;
     tile = (s16 *)(D_800E9FFA + (((((s16)top_y - 1) << info->shiftX) + left_x) * 6));
     tile[0] = 0xE;

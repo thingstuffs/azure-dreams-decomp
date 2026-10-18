@@ -21,7 +21,7 @@ typedef struct ScratchQuad {
 extern s32 func_80065F90(s16, s16);
 
 /* Checks the quad's angular gaps against a half-turn limit. */
-s32 townCheckScratchQuadHalfTurnGaps(ScratchQuad *scratch) {
+s32 check_scratch_quad_half_turn_gaps(ScratchQuad *scratch) {
     if (scratch->quad.words[0] == 0) {
         return 1;
     }

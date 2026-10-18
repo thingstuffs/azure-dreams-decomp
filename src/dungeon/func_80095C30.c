@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 dungeonCheckEntityEligibility(void *entity);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 check_entity_eligibility(void *entity);
 
 /* Find an eligible object at the tile within 64 units of the target height. */
-void *dungeonFindObjectNearTileHeight(s16 tile_x, s16 tile_y, s16 target_height)
+void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
 {
     u16 flags;
     s32 height_delta;
@@ -13,7 +13,7 @@ void *dungeonFindObjectNearTileHeight(s16 tile_x, s16 tile_y, s16 target_height)
     void *object;
     void *tile;
 
-    if ((getOffsetMapCellValueAndFlags((u16)(tile_x - 1), tile_y, 0, &flags) << 16) == 0) {
+    if ((get_offset_map_cell_value_and_flags((u16)(tile_x - 1), tile_y, 0, &flags) << 16) == 0) {
         return 0;
     }
     if (!(flags & 0x3300)) {
@@ -31,7 +31,7 @@ void *dungeonFindObjectNearTileHeight(s16 tile_x, s16 tile_y, s16 target_height)
                 height_delta = -height_delta;
             }
             if (height_delta < 0x40 &&
-                (dungeonCheckEntityEligibility(object) << 16) != 0) {
+                (check_entity_eligibility(object) << 16) != 0) {
                 return object;
             }
         }

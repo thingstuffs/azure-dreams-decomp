@@ -12,7 +12,7 @@ typedef struct FrameState {
 } FrameState;
 
 /* Copies the animation entry, sign-extending its three byte fields into destination words. */
-void func_800257D0(FrameState *dst, AnimEntry *src)
+void update_traveling(FrameState *dst, AnimEntry *src)
 {
     s32 halfword;
 

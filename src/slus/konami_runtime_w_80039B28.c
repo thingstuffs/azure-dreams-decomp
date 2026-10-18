@@ -10,7 +10,7 @@ typedef struct {
 extern s16 SD_Call(s32 a0);
 
 /* Reads a little-endian 16-bit script operand and passes it to SD_Call. */
-void vmOp30CallSoundCommand(Func80039B28State *state)
+void vm_op_30_call_sound_command(Func80039B28State *state)
 {
     u8 *cursor = state->cursor;
     u8 low = cursor[0];

@@ -12,16 +12,16 @@ extern u8 D_800246C0[];
 
 typedef struct S_80023BCC_0_pre {
     u16 unk_00;
-} S_80023BCC_0_pre;   /* the 0x2 bytes before arg0 in townUpdateMinigameImageAnimation, addressed as arg0[-1] */
+} S_80023BCC_0_pre;   /* the 0x2 bytes before arg0 in update_minigame_image_animation, addressed as arg0[-1] */
 
 typedef struct S_80023BCC_0 {
     u8 pad_00[0x5C];
     union { s16 s; u16 u; } unk_5C;   /* accessed as both */
     u16 unk_5E;
-} S_80023BCC_0;   /* arg0 in townUpdateMinigameImageAnimation */
+} S_80023BCC_0;   /* arg0 in update_minigame_image_animation */
 
 /* Updates image-strip animation and sets completion flags when its timer expires. */
-void townUpdateMinigameImageAnimation(void *anim)
+void update_minigame_image_animation(void *anim)
 {
     s16 rect[4];
     s16 phase;
@@ -96,6 +96,6 @@ void townUpdateMinigameImageAnimation(void *anim)
     ((S_80023BCC_0 *)anim)->unk_5E = timer;
     if ((s16)timer <= 0) {
         ((S_80023BCC_0_pre *)anim)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

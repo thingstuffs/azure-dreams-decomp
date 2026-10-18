@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK *func_80016E00();                        /* extern */
+M2C_UNK *get_special_data_by_id();                        /* extern */
 s32 func_800178A8();             /* extern */
 M2C_UNK *func_80017960(); /* extern */
 s32 func_8001868C();                         /* extern */
@@ -12,11 +12,11 @@ extern M2C_UNK D_80018B94;
 extern M2C_UNK D_8001A04A;
 
 /* Selects a request result and conditionally advances a three-state cursor. */
-M2C_UNK *func_80016430(s32 entry_id, s32 unused, s32 request_id) {
+M2C_UNK *select_request_conditionally_three_state(s32 entry_id, s32 unused, s32 request_id) {
     M2C_UNK *result;
     s32 cursor;
 
-    result = func_80016E00(request_id);
+    result = get_special_data_by_id(request_id);
     if (result != NULL) {
         return result;
     }

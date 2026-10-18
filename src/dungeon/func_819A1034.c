@@ -24,6 +24,6 @@ void func_80024834(void *fade_data)
     }
     if (((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

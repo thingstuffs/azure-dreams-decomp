@@ -15,7 +15,7 @@ extern void func_8004D4AC(void);
 /* Processes two dispatch-slot pairs, then rebuilds matrices. */
 void func_8004D70C(void)
 {
-    struct S_8004D70C_D80083160 *dispatch_table = ((struct S_8004D70C_D80083160 *)&gameWork);
+    struct S_8004D70C_D80083160 *dispatch_table = ((struct S_8004D70C_D80083160 *)&g_game_work);
     func_8004D690(&dispatch_table->f_CC, &dispatch_table->f_110, 0);
     func_8004D690(&dispatch_table->f_154, &dispatch_table->f_198, 1);
     func_8004D4AC();

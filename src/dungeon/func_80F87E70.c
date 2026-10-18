@@ -11,7 +11,7 @@ typedef struct S_80171670_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_80171670_0;   /* arg3 in dungeonAdvanceBankActorPath */
+} S_80171670_0;   /* arg3 in advance_bank_actor_path */
 
 typedef struct S_80171670_1 {
     u8 pad_00[0x24];
@@ -19,7 +19,7 @@ typedef struct S_80171670_1 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80171670_1;   /* arg2 in dungeonAdvanceBankActorPath */
+} S_80171670_1;   /* arg2 in advance_bank_actor_path */
 
 typedef struct S_80171670_2 {
     u8 pad_00[0x96];
@@ -28,19 +28,19 @@ typedef struct S_80171670_2 {
     u8 unk_9A;
     u8 pad_9B[0x5];
     s16 unk_A0;
-} S_80171670_2;   /* arg0 in dungeonAdvanceBankActorPath */
+} S_80171670_2;   /* arg0 in advance_bank_actor_path */
 
 typedef struct S_80171670_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_80171670_3;   /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in dungeonAdvanceBankActorPath */
+} S_80171670_3;   /* (u8 *)arg3 + ((S_80171670_0 *)arg3)->unk_8A.s in advance_bank_actor_path */
 
 
 
 /* Advance the entity along its stored path and update its movement state. */
-void dungeonAdvanceBankActorPath(void *motion, s32 unused, void *entity, void *path_state)
+void advance_bank_actor_path(void *motion, s32 unused, void *entity, void *path_state)
 {
     u8 *anim_table;
     s32 old_x;
@@ -61,7 +61,7 @@ void dungeonAdvanceBankActorPath(void *motion, s32 unused, void *entity, void *p
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174AD4;
         func_80047784(
             entity,
-            D_80174AD4[((gameWork.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_80174AD4[((g_game_work.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80171670_2 *)motion)->unk_A0 = 0;
     }
@@ -72,7 +72,7 @@ void dungeonAdvanceBankActorPath(void *motion, s32 unused, void *entity, void *p
     if (((S_80171670_0 *)path_state)->unk_1C.s & 0x2000) {
         cell_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, cell_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, cell_mask);
 
     ((S_80171670_1 *)entity)->unk_24 =
         ((S_80171670_3 *)((u8 *)path_state + ((S_80171670_0 *)path_state)->unk_8A.s))->unk_74;
@@ -86,16 +86,16 @@ void dungeonAdvanceBankActorPath(void *motion, s32 unused, void *entity, void *p
     if (((S_80171670_0 *)path_state)->unk_1C.s & 0x2000) {
         cell_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, cell_mask);
+    cycle_map_cell_flags(new_x, new_y, cell_mask);
 
-    ((S_80171670_0 *)path_state)->unk_2A = (s16)dungeonGetRoundedFacingAndRoundingFlag(
+    ((S_80171670_0 *)path_state)->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
         old_x, old_y, ((S_80171670_1 *)entity)->unk_24, ((S_80171670_1 *)entity)->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171670_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((S_80171670_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_80171670_2 *)motion)->unk_96 = 0;
         return;
     }

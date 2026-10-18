@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_80033CD8();           /* extern */
-s32 lookupItemCategoryMappedValue();                          /* extern */
-void *townCreateTownEffectObject(); /* extern */
-void townCopyAdjustedVectorOrFlagObject();         /* extern */
+s32 lookup_item_category_mapped_value();                          /* extern */
+void *create_town_effect_object(); /* extern */
+void copy_adjusted_vector_or_flag_object();         /* extern */
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_800A8248;
 
@@ -27,14 +27,14 @@ typedef struct S_800A8184_2 {
 } S_800A8184_2;
 
 /* Creates an object, selects its data, and initializes its state. */
-void townCreateIndexedEffectObject(s32 index, s32 kind) {
+void create_indexed_effect_object(s32 index, s32 kind) {
     s32 object_id;
     S_800A8184_1 *state;
     S_800A8184_2 *data;
     void *object;
     s32 saved_kind = kind;
 
-    object = townCreateTownEffectObject(0, 0, &D_800A8248, 0);
+    object = create_town_effect_object(0, 0, &D_800A8248, 0);
     state = object + 0x20;
     if (object != NULL) {
         object_id = ((S_800A8184_0 *)object)->unk_08;
@@ -47,11 +47,11 @@ void townCreateIndexedEffectObject(s32 index, s32 kind) {
             if ((saved_kind & 0xFF) == 0x12) {
                 dispatch_result = (s32)&D_8006E240;
             } else {
-                dispatch_result = lookupItemCategoryMappedValue(state->unk_4D, state->unk_4C);
+                dispatch_result = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
             }
             data->unk_08 = dispatch_result;
         }
         func_80033CD8(state, func_80045340);
-        townCopyAdjustedVectorOrFlagObject(state, object_id, data);
+        copy_adjusted_vector_or_flag_object(state, object_id, data);
     }
 }

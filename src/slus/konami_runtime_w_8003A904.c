@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A904State;
 
 /* Handle an event-script table read by loading a little-endian word into the destination value slot. */
-void vmOp71LoadValueIndexedWord(Func8003A904State *state) {
+void vm_op_71_load_value_indexed_word(Func8003A904State *state) {
     u8 *operands;
     u8 *address_bytes;
     u8 *entry;

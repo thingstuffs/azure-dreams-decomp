@@ -10,12 +10,12 @@ typedef struct S_80124F20_0 {
     u8 pad_08[0x2];
     s8 unk_0A;
     s8 unk_0B;
-} S_80124F20_0;   /* arg0 in townFinishCatalogDetailOpening */
+} S_80124F20_0;   /* arg0 in finish_catalog_detail_opening */
 
 
-void townResetCatalogScrollIndicators(S_80124F20_0 *);
+void reset_catalog_scroll_indicators(S_80124F20_0 *);
 /* Advance the counter and initialize state eight when the limit is reached. */
-void townFinishCatalogDetailOpening(S_80124F20_0 *controller) {
+void finish_catalog_detail_opening(S_80124F20_0 *controller) {
     u16 next_count;
 
     next_count = controller->unk_04 + 1;
@@ -25,6 +25,6 @@ void townFinishCatalogDetailOpening(S_80124F20_0 *controller) {
         controller->unk_0A = 8;
         controller->unk_06 = 0;
         controller->unk_04 = 0U;
-        townResetCatalogScrollIndicators(controller);
+        reset_catalog_scroll_indicators(controller);
     }
 }

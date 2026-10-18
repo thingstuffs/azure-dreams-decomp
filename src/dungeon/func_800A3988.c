@@ -8,11 +8,11 @@ typedef struct {
 
 
 
-extern void itemClearRecordedCategoryPair(u8, u8);
+extern void item_clear_recorded_category_pair(u8, u8);
 
-/* Updates the selected item through itemClearRecordedCategoryPair and clears its flag 0x400 in the item category table. */
-void clearSelectedItemFlag400(DungeonArg *selection)
+/* Updates the selected item through item_clear_recorded_category_pair and clears its flag 0x400 in the item category table. */
+void clear_selected_item_flag_400(DungeonArg *selection)
 {
-    itemClearRecordedCategoryPair(selection->group, selection->index);
+    item_clear_recorded_category_pair(selection->group, selection->index);
     D_80073414[selection->group].entries[selection->index].flags &= 0xFBFF;
 }

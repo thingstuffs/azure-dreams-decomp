@@ -14,7 +14,7 @@ extern S_80083958 D_80083958;
 extern void CdInit(void);
 
 /* Increment both retry counters, resetting counter1 and initializing the CD when counter1 reaches 0x401. */
-void cdIncRetryCounters(void)
+void cd_inc_retry_counters(void)
 {
     D_80083958.counter2++;
     D_80083958.counter1++;

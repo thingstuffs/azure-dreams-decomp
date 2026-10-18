@@ -19,7 +19,7 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     func_800478B8(update_id);
     ((S_8196B074_1 *)position)->unk_00.at00.v += ((S_8196B074_0 *)motion)->unk_8C;
     ((S_8196B074_0 *)motion)->unk_8C += ((S_8196B074_0 *)motion)->unk_98;
-    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
         ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
         ((S_8196B074_1 *)position)->unk_00.at00.v -= ((S_8196B074_0 *)motion)->unk_8C;
         ((S_8196B074_0 *)motion)->unk_8C = 0;
@@ -27,7 +27,7 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     }
     ((S_8196B074_1 *)position)->unk_04.at00.v += ((S_8196B074_0 *)motion)->unk_90;
     ((S_8196B074_0 *)motion)->unk_90 += ((S_8196B074_0 *)motion)->unk_9C;
-    if ((dungeonCheckLeftTileAndCenterHeight(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
         ((S_8196B074_1 *)position)->unk_08.at02.v) << 16) != 0) {
         ((S_8196B074_1 *)position)->unk_04.at00.v -= ((S_8196B074_0 *)motion)->unk_90;
         ((S_8196B074_0 *)motion)->unk_90 = 0;
@@ -36,12 +36,12 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     ((S_8196B074_1 *)position)->unk_08.at00.v += ((S_8196B074_0 *)motion)->unk_94;
     ((S_8196B074_0 *)motion)->unk_94 += ((S_8196B074_0 *)motion)->unk_A0;
     height = ((S_8196B074_1 *)position)->unk_08.at02.v;
-    if (((s16)func_800BCB04(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
+    if (((s16)sample_terrain_surface_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
                        (s16)((u16)((S_8196B074_1 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
         ((S_8196B074_0 *)motion)->unk_94 = 0;
         ((S_8196B074_0 *)motion)->unk_90 = 0;
         ((S_8196B074_0 *)motion)->unk_8C = 0;
-        ((S_8196B074_1 *)position)->unk_08.at02.v = (s16)func_800BCB04(((S_8196B074_1 *)position)->unk_00.at02.v,
+        ((S_8196B074_1 *)position)->unk_08.at02.v = (s16)sample_terrain_surface_height(((S_8196B074_1 *)position)->unk_00.at02.v,
             ((S_8196B074_1 *)position)->unk_04.at02.v,
                                                (s16)((u16)((S_8196B074_1 *)position)->unk_08.at02.v - 4)) - 0x11;
         ((S_8196B074_1 *)position)->unk_08.at00u.v = 0;
@@ -49,6 +49,6 @@ void func_80024874(void *motion, void *position, s32 update_id) {
     }
     if ((s16)((S_8196B074_0 *)motion)->unk_2C <= 0) {
         (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

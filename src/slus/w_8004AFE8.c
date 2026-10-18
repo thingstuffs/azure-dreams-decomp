@@ -6,7 +6,7 @@ typedef struct {
 } S_8004AFE8;
 
 /* Counts consecutive pointer entries whose target byte matches the first target byte. */
-s32 tableCountConsecutivePointerEntriesWhoseTargetByteMatchesFirstTargetByte(S_8004AFE8 **entries)
+s32 table_count_consecutive_pointer_entries_whose_target_byte_matches_first_target_byte(S_8004AFE8 **entries)
 {
     s32 count;
     u8 first_value;

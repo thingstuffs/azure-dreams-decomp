@@ -12,12 +12,12 @@ typedef struct MainTitleValueEntry {
 } EntA;
 
 /* Load a table value divided by four and propagate the source flag. */
-void func_8008AAE4(EntA *entry)
+void load_table(EntA *entry)
 {
     unsigned short *scaled_value = (unsigned short *)((char *)entry + 0x10);
     *(short *)scaled_value = (s16)(D_8008B2F0[entry->unk18] >> 2);
     if (*(short *)((char *)entry->unk04 + 0x16) & 0x8000) {
         *(unsigned short *)((char *)entry - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

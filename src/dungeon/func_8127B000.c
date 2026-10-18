@@ -2,7 +2,7 @@
 
 typedef struct S_8127B000_0_pre {
     u16 unk_00;
-} S_8127B000_0_pre;   /* the 0x2 bytes before root in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading, addressed as root[-1] */
+} S_8127B000_0_pre;   /* the 0x2 bytes before root in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading, addressed as root[-1] */
 
 typedef struct S_8127B000_0 {
     u8 pad_00[0xAC];
@@ -11,7 +11,7 @@ typedef struct S_8127B000_0 {
     s16 unk_B2;
     s16 unk_B4;
     s16 unk_B6;
-} S_8127B000_0;   /* root in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_0;   /* root in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_1 {
     u8 pad_00[0x8];
@@ -19,7 +19,7 @@ typedef struct S_8127B000_1 {
     void * unk_0C;
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_8127B000_1;   /* owner in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_1;   /* owner in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_2 {
     u8 pad_00[0x4];
@@ -29,7 +29,7 @@ typedef struct S_8127B000_2 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8127B000_2;   /* part in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_2;   /* part in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_3 {
     u8 pad_00[0x8];
@@ -42,7 +42,7 @@ typedef struct S_8127B000_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8127B000_3;   /* dst in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_3;   /* dst in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_4 {
     u8 pad_00[0x2];
@@ -51,7 +51,7 @@ typedef struct S_8127B000_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8127B000_4;   /* out in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_4;   /* out in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_5 {
     u8 pad_00[0x1];
@@ -61,12 +61,12 @@ typedef struct S_8127B000_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8127B000_5;   /* copy in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_5;   /* copy in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 typedef struct S_8127B000_6 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8127B000_6;   /* callee_part in dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading */
+} S_8127B000_6;   /* callee_part in copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading */
 
 extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
@@ -76,10 +76,10 @@ extern s32 D_800803D4[3];
 
 
 
-void dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading(void *root_arg, void *output_transform, void *target_part)
+void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(void *root_arg, void *output_transform, void *target_part)
 ;
 /* Copies part state and applies smoothed position offsets and phase-dependent shading. */
-void dungeonCopyPartStateAppliesSmoothedPositionOffsetsPhaseDependentShading(void *root_arg, void *output_transform, void *target_part)
+void copy_part_state_applies_smoothed_position_offsets_phase_dependent_shading(void *root_arg, void *output_transform, void *target_part)
 {
     s16 offset[3];
     void *root = root_arg;

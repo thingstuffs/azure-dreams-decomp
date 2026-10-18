@@ -11,7 +11,7 @@ typedef struct S_8009F4C0_3 {
 typedef struct S_8009F4C0_4 {
     u8 pad_00[0x983];
     u8 unk_983;
-} S_8009F4C0_4;   /* ((arg0->unk_95 * 4) + (u8 *)baseD) in townInitializeTheTownEntitySynchronizeSlotState */
+} S_8009F4C0_4;   /* ((arg0->unk_95 * 4) + (u8 *)baseD) in initialize_the_town_entity_synchronize_slot_state */
 
 typedef struct S_8009F4C0_5 {
     u8 pad_00[0xA94];
@@ -31,13 +31,13 @@ struct TownCopy84 {
 };
 
 void func_80033CD8();                   /* extern */
-void *runtimeGetModeIndexedValue();               /* extern */
+void *runtime_get_mode_indexed_value();               /* extern */
 M2C_UNK func_8003E188();        /* extern */
-M2C_UNK buildEntitySlotSnapshot();            /* extern */
+M2C_UNK build_entity_slot_snapshot();            /* extern */
 M2C_UNK func_800423C0();      /* extern */
 M2C_UNK func_80042640();               /* extern */
 void *memset(); /* extern */
-void townSetObjectStateForMode();    /* extern */
+void set_object_state_for_mode();    /* extern */
 extern M2C_UNK D_8009F374;
 extern M2C_UNK D_80100A10;
 extern struct TownCopy84 D_80100AF8;
@@ -56,7 +56,7 @@ typedef struct S_8009F4C0_2 {
 } S_8009F4C0_2;
 
 /* Initialize the town entity record and synchronize its slot state. */
-void townInitializeTheTownEntitySynchronizeSlotState(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
+void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
     void *stored_entry;
     s32 unused_value;
     s32 record_offset;
@@ -76,12 +76,12 @@ void townInitializeTheTownEntitySynchronizeSlotState(Rec_func_80094268_arg0 *ent
     func_80042640(&D_80100A10, entity->unk_4C);
     record_index = slot_index;
     func_800423C0(&D_80100A10, entity->unk_4C, 0);
-    buildEntitySlotSnapshot(&D_80100AF8, &D_80100A10);
+    build_entity_slot_snapshot(&D_80100AF8, &D_80100A10);
     *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = D_80100AF8;
     stored_entry = (void *) 0x80010AB4;
     record_offset = record_index * 0x54;
     stored_entry = (u8 *)stored_entry + record_offset;
-    source_entry = runtimeGetModeIndexedValue(entity->unk_4C);
+    source_entry = runtime_get_mode_indexed_value(entity->unk_4C);
     *(struct PackedTownEntry *)stored_entry = *(struct PackedTownEntry *)source_entry;
     data_base = (void *) 0x80010000;
     slot_flags = (slot_index * 4) + (u8 *)data_base;
@@ -92,7 +92,7 @@ void townInitializeTheTownEntitySynchronizeSlotState(Rec_func_80094268_arg0 *ent
     record_index = (u8) (((S_8009F4C0_4 *)(((entity->unk_95 * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
     func_8003E188(entity->unk_4C, 1);
-    townSetObjectStateForMode(entity, context, entity->unk_4C, record_value);
+    set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
     entity->unk_50.as_pm = &D_8009F374;
     entity->unk_6C.as_s16 = 0xA;
 }

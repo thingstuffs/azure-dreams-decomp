@@ -1,19 +1,19 @@
 #include "common.h"
 
-extern void updateCreatureBehaviorAndAnimation(void);
+extern void update_creature_behavior_and_animation(void);
 
 /* jump_table; owner: dungeon/func_80ADDF28. */
 const u32 D_80158808[12] __attribute__((aligned(4))) = {
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x42C),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x42C),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x42C),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x458),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x3D8),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x3D8),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x3D8),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x384),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x3BC),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x458),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x458),
-    (u32)((u8 *)updateCreatureBehaviorAndAnimation + 0x41C)
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x42C),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x458),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x3D8),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x3D8),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x3D8),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x384),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x3BC),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x458),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x458),
+    (u32)((u8 *)update_creature_behavior_and_animation + 0x41C)
 };

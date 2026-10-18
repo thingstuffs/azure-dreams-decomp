@@ -32,7 +32,7 @@ typedef struct {
 extern s32 func_800644B8(s32);
 
 /* Updates a two-phase visual effect's size, brightness, and motion. */
-void func_800A7548(FuncState *effect, FuncArg1 *motion, FuncArg2 *visual) {
+void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2 *visual) {
     s16 phase;
     u16 updated_value;
     u16 min_counter;
@@ -71,7 +71,7 @@ void func_800A7548(FuncState *effect, FuncArg1 *motion, FuncArg2 *visual) {
         visual->value_c = updated_value;
         if ((s16)visual->value_1c <= 0) {
             ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
         break;
     }

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_e0365c.h"
 
-void *dungeonSpawnModeDependent112Object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
+void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
  E_80170854_SpawnActor *actor=0;
  E_80170854_SpawnObject *object;
  E_80170854_SpawnMotion *motion;
@@ -25,30 +25,30 @@ void *dungeonSpawnModeDependent112Object(s16 flags,s16 attr_x,s16 attr_y,s16 att
   sprite->tile_y=tile_y;
   state=(E_80170854_SpawnState *)actor;
   if(kind==1) {
-   actor->handler=func_80170E5C;
+   actor->handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=0x6000;
    actor->flags1C|=0x6000;
    sprite->frames=D_80174510;
   } else if(kind>=2) {
-   actor->handler=func_80170E5C;
+   actor->handler=update_actor_behavior_facing_and_animation_2;
    actor->flags14|=0x2000;
    actor->flags1C|=0x2000;
    sprite->frames=D_80174510;
   } else if((s16)(flags&~3)==0) {
-   if(!(actor->flags14&0x200) && (func_800A6D30()&1)) {
-    func_800A48F0(actor,1,(func_800A6D30()&0x3F)|0x20);
+   if(!(actor->flags14&0x200) && (generate_random_value()&1)) {
+    set_or_clear_actor_status_slot(actor,1,(generate_random_value()&0x3F)|0x20);
     sprite->frames=D_80174538;
    }
-   state->handler=func_80170E5C;
+   state->handler=update_actor_behavior_facing_and_animation_2;
    sprite->frames=D_80174510;
-  } else { actor->handler=func_80170E5C;
+  } else { actor->handler=update_actor_behavior_facing_and_animation_2;
    sprite->frames=D_80174510;
   }
-  object->update=dungeonUpdateEntityFacingAndGround;
-  func_800A9C18(object,motion,sprite,saved_flags);
+  object->update=update_entity_facing_and_ground;
+  initialize_actor_sprite_and_animation(object,motion,sprite,saved_flags);
   state->action_id=0xFF;
   state->direction=-1;
-  func_800AA36C(state,motion,sprite,actor);
+  try_move_actor_to_valid_position(state,motion,sprite,actor);
  }
  }
  return actor;

@@ -38,7 +38,7 @@ typedef struct {
 } Output;
 
 /* Copies the selected source position and updates the output flag and color. */
-void townCopyScenePositionAndDisplayFlags(Control *control, Position *position, Output *output) {
+void copy_scene_position_and_display_flags(Control *control, Position *position, Output *output) {
     Source *source = control->source;
 
     if (source->flags & 1) {

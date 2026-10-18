@@ -2,7 +2,7 @@
 
 void func_80172D18(Resource16CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonUpdateActorHopAndGrow(state, motion, position, actor)) {
-        state->callback = func_80171014;
+    if (update_actor_hop_and_grow(state, motion, position, actor)) {
+        state->callback = update_actor_state_and_dispatch_transition;
     }
 }

@@ -20,7 +20,7 @@ typedef struct S_8017474C_0 {
     s16 unk_2C;
     s16 unk_2E;
     s16 unk_30;
-} S_8017474C_0;   /* arg0 in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_0;   /* arg0 in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_1 {
     u8 pad_00[0x1C];
@@ -29,12 +29,12 @@ typedef struct S_8017474C_1 {
     s8 unk_87;
     u8 pad_88[0x4];
     void * unk_8C;
-} S_8017474C_1;   /* object in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_1;   /* object in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_2 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_8017474C_2;   /* base in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_2;   /* base in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_3 {
     u8 pad_00[0x2];
@@ -43,14 +43,14 @@ typedef struct S_8017474C_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_3;   /* sample in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_3;   /* sample in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_4 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x6];
     u16 unk_0A;
-} S_8017474C_4;   /* position in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_4;   /* position in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_5 {
     u8 pad_00[0x2];
@@ -59,7 +59,7 @@ typedef struct S_8017474C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_5;   /* arg1 in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_5;   /* arg1 in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_6 {
     u8 pad_00[0xC];
@@ -69,32 +69,32 @@ typedef struct S_8017474C_6 {
     u8 pad_14[0x8];
     u16 unk_1C;
     u16 unk_1E;
-} S_8017474C_6;   /* arg2 in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_6;   /* arg2 in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_7 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8017474C_7;   /* ((S_8017474C_0 *)arg0)->unk_18 in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_7;   /* ((S_8017474C_0 *)arg0)->unk_18 in update_terrain_scaled_actor_effect */
 
 typedef struct S_8017474C_8 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u8 pad_10[0x2];
     u16 unk_12;
-} S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in dungeonUpdateTerrainScaledActorEffect */
+} S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in update_terrain_scaled_actor_effect */
 
 
 extern s32 func_80042900(void *, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s32 func_800BCB04(u16, u16, s16);
+extern s32 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_8017398C[];
 
 /* Updates effect position and animated scales, flagging invalid or fully expanded effects. */
-void dungeonUpdateTerrainScaledActorEffect(void *effect, void *out_position, void *out_render)
+void update_terrain_scaled_actor_effect(void *effect, void *out_position, void *out_render)
 {
     void *owner_base;
     void *owner;
@@ -121,14 +121,14 @@ void dungeonUpdateTerrainScaledActorEffect(void *effect, void *out_position, voi
             (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) ||
             ((func_80042900(owner, 0xA) << 16) != 0)) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
 
         if (((S_8017474C_1 *)owner)->unk_87 != -1) {
             void *sample_position = ((S_8017474C_0 *)effect)->unk_18;
 
-            sampled_height = func_800BCB04(((S_8017474C_3 *)sample_position)->unk_02,
+            sampled_height = sample_terrain_surface_height(((S_8017474C_3 *)sample_position)->unk_02,
                                 ((S_8017474C_3 *)sample_position)->unk_06,
                                 (s16)(((S_8017474C_3 *)sample_position)->unk_0A - 4));
         } else {
@@ -222,7 +222,7 @@ void dungeonUpdateTerrainScaledActorEffect(void *effect, void *out_position, voi
         ((S_8017474C_6 *)out_render)->unk_1C = scale_value;
         if (scale_value > 0x2000U) {
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
         ((S_8017474C_6 *)out_render)->unk_1E += 0x100;

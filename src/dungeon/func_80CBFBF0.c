@@ -12,18 +12,18 @@ typedef struct S_801733F0_0 {
     u8 unk_9B;
     u8 pad_9C[0xB];
     u8 unk_A7;
-} S_801733F0_0;   /* arg0 in dungeonAdvanceActorStateAndDispatch */
+} S_801733F0_0;   /* arg0 in advance_actor_state_and_dispatch */
 
 
 extern void func_80047784(void *, u8, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s32 func_800A2C34(void *);
+extern s32 check_entity_relation(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void dungeonUpdateObjectOrSelectDirectionalData(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void update_object_or_select_directional_data(void *, void *, void *, void *);
 
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
@@ -33,7 +33,7 @@ extern u8 D_80176360[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */
-void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, EntityRec *entity)
+void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, EntityRec *entity)
 {
     u8 state;
 
@@ -46,7 +46,7 @@ void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         if (actor->unk_A7 != 0) {
             sprite->unk_2C.as_pv = D_80176360;
         } else {
@@ -55,7 +55,7 @@ void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
@@ -68,27 +68,27 @@ void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec
                 sprite->unk_2C.as_pv = D_80176308;
             }
         } else {
-            if (dungeonStatus.flags & 0x1000) {
+            if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
 
             if ((entity->unk_64 != 0) &&
-                dungeonBeginReadyActorDirectionalAction(actor, context, sprite, 0)) {
+                begin_ready_actor_directional_action(actor, context, sprite, 0)) {
                 return;
             }
 
-            if ((s16)func_800A2C34(entity) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(entity) != 0) {
                 return;
             }
 
             if (((u32)entity->flags1C) & 0x100) {
-                dungeonBeginPushedActorMove(actor, context, sprite, entity);
+                begin_pushed_actor_move(actor, context, sprite, entity);
                 return;
             }
 
             if (((u32)entity->flags1C) & 0x80000) {
-                func_800AA888(actor, context, sprite, entity);
-                dungeonUpdateObjectOrSelectDirectionalData(actor, context, sprite, entity);
+                begin_actor_move_to_target_facing(actor, context, sprite, entity);
+                update_object_or_select_directional_data(actor, context, sprite, entity);
                 return;
             }
 
@@ -96,17 +96,17 @@ void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec
                 return;
             }
 
-            if ((s16)func_800A2C34(entity) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(entity) != 0) {
                 EntityRec *owner;
 
                 owner = D_800814A8;
-                if ((s16)dungeonCheckEntityRelation(
+                if ((s16)check_entity_relation(
                         entity, (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            func_800A9A0C(entity);
+            update_actor_status_and_food(entity);
             func_800A9A04(entity);
             if (entity->tileY == 0) {
                 return;
@@ -121,11 +121,11 @@ void dungeonAdvanceActorStateAndDispatch(S_801733F0_0 *actor, void *context, Rec
         func_80047784(
             sprite,
             ((u8 *)sprite->unk_2C.as_pv)[
-                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
 
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
         }
 
 increment_state:
@@ -139,7 +139,7 @@ increment_state:
             return;
         }
 
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         entity->flags1C &= ~0x200;
         if (actor->unk_A7 != 0) {
             actor->unk_8C = D_80173B98;

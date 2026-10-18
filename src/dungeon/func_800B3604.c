@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 extern s32 func_8004491C();
-extern void dungeonUpdateBlinkingSpriteFlash(void *state, s32 unused, void *primitive);
+extern void update_blinking_sprite_flash(void *state, s32 unused, void *primitive);
 extern M2C_UNK D_800DF358;
 
 typedef struct S_800B8D64_0 {
@@ -36,14 +36,14 @@ typedef struct S_800B8D64_2 {
 } S_800B8D64_2;
 
 /* Create and initialize an effect at the given position. */
-void dungeonSpawnBlinkingSpriteFlash(s16 x, s16 y, s16 z) {
+void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
     S_800B8D64_0 *effect;
     S_800B8D64_1 *position;
     S_800B8D64_2 *sprite;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
-        effect->unk_10 = dungeonUpdateBlinkingSpriteFlash;
+        effect->unk_10 = update_blinking_sprite_flash;
         func_8004491C(effect, func_80045340);
         position = effect->unk_08;
         position->unk_02 = x;

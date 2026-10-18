@@ -7,7 +7,7 @@ extern void *D_800DCF64;
 typedef struct S_800A6104_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_800A6104_0;   /* D_800DCF64 in func_800A6104 */
+} S_800A6104_0;   /* D_800DCF64 in configure_shared_fade_primitive */
 
 typedef struct S_800A6104_1 {
     u8 pad_00[0x4];
@@ -17,7 +17,7 @@ typedef struct S_800A6104_1 {
 } S_800A6104_1;
 
 /* Initialize the optional object settings to their default values. */
-void func_800A6104(void) {
+void configure_shared_fade_primitive(void) {
     S_800A6104_1 *settings;
 
     if (D_800DCF64 != NULL) {

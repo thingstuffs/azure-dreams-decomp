@@ -1,10 +1,10 @@
 #include "common.h"
 
 extern s32 D_8009DDD8[];
-extern void func_804031E4(void *, void *);
-extern void func_804032FC(void *);
+extern void dispatch_operation_mode_context(void *, void *);
+extern void initialize_card_message_object_with_code_7(void *);
 extern void func_80405D2C(void);
-extern void mainHandleObjectMenuInput(void);
+extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 
 /* Arm the task's next callback: ready slot -> attach the sub-object, otherwise detach it. */
@@ -20,12 +20,12 @@ void func_8001ED54(void *task)
     if (D_8009DDD8[index * 0x20] != 0) {
         one = 1;
         *(s32 *)((u8 *)task + 0x3C) = one;
-        func_804031E4(owner, (u8 *)task + 0x40);
+        dispatch_operation_mode_context(owner, (u8 *)task + 0x40);
         callback = func_80405D2C;
         *(s32 *)((u8 *)task + 0x40) = one;
     } else {
-        *(void (**)(void))((u8 *)task + 0x34) = mainHandleObjectMenuInput;
-        func_804032FC(owner);
+        *(void (**)(void))((u8 *)task + 0x34) = handle_object_menu_input;
+        initialize_card_message_object_with_code_7(owner);
         callback = func_80405A64;
     }
     *(void (**)(void))((u8 *)task - 0x10) = callback;

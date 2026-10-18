@@ -7,10 +7,10 @@ extern u8 D_80175392[];
 
 extern void func_800353F4(void *);
 extern void func_80164BA4(void *);
-extern void dungeonUpdateMultiFormActorControl(void);
+extern void update_multi_form_actor_control(void);
 
 /* Update shared state and the controller callback, then process and mark linked objects. */
-void dungeonResumeMultiFormActorControl(void *controller, void *unused_1, void *unused_2, u8 *active_object)
+void resume_multi_form_actor_control(void *controller, void *unused_1, void *unused_2, u8 *active_object)
 {
     s32 object_index;
     u16 update_count;
@@ -21,7 +21,7 @@ void dungeonResumeMultiFormActorControl(void *controller, void *unused_1, void *
     DungeonGlobalStatus *state;
 
     flags_page = (u8 *)0x80010000;
-    state = &dungeonStatus;
+    state = &g_dungeon_status;
 
     state_flags = *(u16 *)(flags_page + 0x3714);
     update_count = ((u16)state->unk_0A);
@@ -35,7 +35,7 @@ void dungeonResumeMultiFormActorControl(void *controller, void *unused_1, void *
     object_index = 0;
     active_object[0x6D] = 0;
     ((u8 *)controller)[0x9B] = 0;
-    *(void **)((u8 *)controller + 0x8C) = (void *)dungeonUpdateMultiFormActorControl;
+    *(void **)((u8 *)controller + 0x8C) = (void *)update_multi_form_actor_control;
 
     do {
         object = *(u8 **)(((u8 *)D_800E3D7C) + (object_index * 4) + 0xAC);

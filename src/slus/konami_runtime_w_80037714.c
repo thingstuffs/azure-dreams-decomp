@@ -140,7 +140,7 @@ void func_80037714(DRAW_DESC *desc) {
     owner = desc->owner;
     textured = &desc->textured;
     solid = &desc->solid;
-    displays = ((u8 * *)(&gameWork));
+    displays = ((u8 * *)(&g_game_work));
 
     vertices[0].xy.half.x = vertices[2].xy.half.x = textured->x;
     vertices[1].xy.half.x = vertices[3].xy.half.x = textured->x + textured->width;
@@ -154,7 +154,7 @@ void func_80037714(DRAW_DESC *desc) {
 
     if (ON_SCREEN(projected[0]) | ON_SCREEN(projected[1]) |
         ON_SCREEN(projected[2]) | ON_SCREEN(projected[3])) {
-        display = gameWork.unk_000;
+        display = g_game_work.unk_000;
         tex_quad = *(POLY_FT4 **)(display + 0x8D0);
         *(u8 **)(display + 0x8D0) = (u8 *)tex_quad + sizeof(POLY_FT4);
         SetPolyFT4(tex_quad);
@@ -179,7 +179,7 @@ void func_80037714(DRAW_DESC *desc) {
         tex_quad->xy1 = projected[1].xy.word;
         tex_quad->xy2 = projected[2].xy.word;
         tex_quad->xy3 = projected[3].xy.word;
-        AddPrim(gameWork.unk_000 + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), tex_quad);
+        AddPrim(g_game_work.unk_000 + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), tex_quad);
     }
 
     vertices[0].xy.half.x = vertices[2].xy.half.x = solid->x;

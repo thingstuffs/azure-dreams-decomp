@@ -1,17 +1,17 @@
 #define func_800353F4 func_8003500C
-#define func_800AA36C markCategoryItemsFlag400
-#define func_800BCB04 func_800BB784
-#define selectIndirectTableEntry func_800472D4
+#define try_move_actor_to_valid_position mark_category_items_flag_400
+#define sample_terrain_surface_height func_800BB784
+#define select_indirect_table_entry func_800472D4
 #define D_80173FC8 D_80166FC8
-#define dungeonApplyMonsterKoyawData func_8009EFFC
+#define apply_monster_koyaw_data func_8009EFFC
 #define D_800E3D7C D_800E397C
-#define dungeonRefreshActorFacingAndLifecycle func_800A8B28
+#define refresh_actor_facing_and_lifecycle func_800A8B28
 #define D_80171514 D_80164514
 #define D_80173EF4 D_80166EF4
 #define func_800478B8 func_80047454
 /* Relink of matched dungeon/func_8125192C at file 0x127192C; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
@@ -33,7 +33,7 @@ extern void func_800472D4();
 extern void func_80047454();
 extern void func_8009EFFC();
 extern s32 func_800A8B28();
-extern void markCategoryItemsFlag400();
+extern void mark_category_items_flag_400();
 extern s16 func_800BB784();
 
 extern M2C_UNK D_80164514;
@@ -126,7 +126,7 @@ void func_8016412C(void *entity_arg, void *motion_arg, void *monster_arg)
     void *node;
     void *record;
 
-    if (((S_8017112C_0 *)actor)->unk_BB == 0 && dungeonStatus.unk_0A == 0) {
+    if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.unk_0A == 0) {
         ((S_8017112C_0 *)actor)->unk_BB = 1;
         func_8003500C(D_80166FC8);
         ((S_8017112C_0 *)actor)->unk_6D.n = 0;
@@ -149,7 +149,7 @@ void func_8016412C(void *entity_arg, void *motion_arg, void *monster_arg)
         } while (slot_index >= 0);
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
         if (callback == (Callback)&D_80164514) {
             callback(entity_arg, motion_arg, monster_arg, actor);
@@ -177,13 +177,13 @@ void func_8016412C(void *entity_arg, void *motion_arg, void *monster_arg)
     current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;
     saved_state >>= 16;
     if (saved_state != current_state) {
-        markCategoryItemsFlag400(entity_arg, motion_arg, monster_arg, actor);
+        mark_category_items_flag_400(entity_arg, motion_arg, monster_arg, actor);
     }
 
     ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
     (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
 
-    view_angle = gameWork.view.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
+    view_angle = g_game_work.view.viewAngle + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         func_800472D4(monster_arg,

@@ -46,7 +46,7 @@ extern void SetDrawMode(S_80053858_prim *, s32, s32, s32, s32);
 s32 func_80053858(S_80053858_rec *first_text)
 {
     S_80053858_rec *text_record = first_text;
-    S_80083160_t *render_state = ((S_80083160_t *)&gameWork);
+    S_80083160_t *render_state = ((S_80083160_t *)&g_game_work);
     S_80053858_rec *text;
     int texture_page;
     S_80053858_rec *next_node;

@@ -38,7 +38,7 @@ typedef struct {
 extern OffsetGlobal D_80026208;
 
 /* Builds and projects a textured, vertex-colored quad and links it into the ordering table. */
-s32 dungeonBuildAndProjectsTexturedVertexColoredQuadLinksOrderingTable(s32 color0, s32 color1, s32 color2, s32 color3) {
+s32 build_and_projects_textured_vertex_colored_quad_links_ordering_table(s32 color0, s32 color1, s32 color2, s32 color3) {
     Poly *quad;
     Context *u_right;
     s16 texture_page;
@@ -58,7 +58,7 @@ s32 dungeonBuildAndProjectsTexturedVertexColoredQuadLinksOrderingTable(s32 color
 
     vertex0 = (void *)0;
     vertex1 = (void *)3;
-    u_right = gameWork.unk_000;
+    u_right = g_game_work.unk_000;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
     scratch->ordering_table = (u8 *)u_right + 0xB0;

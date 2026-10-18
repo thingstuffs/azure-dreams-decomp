@@ -22,7 +22,7 @@ typedef struct S_800C4AEC_2 {
     u8 pad_00[0x10];
     s16 unk_10;
     s16 unk_12;
-} S_800C4AEC_2;   /* store_ptr in townUpdateSpriteOffsetAndPosition */
+} S_800C4AEC_2;   /* store_ptr in update_sprite_offset_and_position */
 
 
 #define NULL 0
@@ -30,11 +30,11 @@ typedef struct S_800C4AEC_2 {
 extern u16 D_800D2650[];
 extern u16 D_800D2FC0[];
 
-extern void townInstallObjectHandlerAndClearSlotFlag(void *, s32, s32);
+extern void install_object_handler_and_clear_slot_flag(void *, s32, s32);
 
 
 /* Update the sprite position using frame offsets, save the object position, and apply the update. */
-void townUpdateSpriteOffsetAndPosition(void *object_arg, s32 update_arg, s32 setup_context)
+void update_sprite_offset_and_position(void *object_arg, s32 update_arg, s32 setup_context)
 {
     S_800C4AEC_0 *object = object_arg;
     S_800C4AEC_1 *sprite;
@@ -75,5 +75,5 @@ void townUpdateSpriteOffsetAndPosition(void *object_arg, s32 update_arg, s32 set
     }
     object->unk_84 = object->unk_88;
     object->unk_86 = object->unk_8A;
-    townInstallObjectHandlerAndClearSlotFlag(object, update_arg, setup_context);
+    install_object_handler_and_clear_slot_flag(object, update_arg, setup_context);
 }

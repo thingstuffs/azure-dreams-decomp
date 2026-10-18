@@ -6,12 +6,12 @@
 typedef struct S_80039B84_0 {
     u8 pad_00[0x10];
     M2C_UNK * unk_10;
-} S_80039B84_0;   /* arg0 in vmOp35InstallAction */
+} S_80039B84_0;   /* arg0 in vm_op_35_install_action */
 
 
 extern M2C_UNK func_80038A08;
 
 /* Set the event-script context's callback to func_80038A08. */
-void vmOp35InstallAction(S_80039B84_0 *script) {
+void vm_op_35_install_action(S_80039B84_0 *script) {
     script->unk_10 = &func_80038A08;
 }

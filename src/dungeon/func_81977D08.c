@@ -40,17 +40,17 @@ typedef struct S_81977D08_3 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81977D08_3;   /* arg1 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_3;   /* arg1 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 typedef struct S_81977D08_4 {
     u8 pad_00[0x14];
     void * unk_14;
-} S_81977D08_4;   /* arg0 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_4;   /* arg0 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 typedef struct S_81977D08_5 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset */
+} S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
 
 extern s32 func_8003DB94();
@@ -61,7 +61,7 @@ extern s32 D_8002548C;
 extern s32 D_800DEB70;
 
 /* Create an owner-linked sprite effect at the supplied position with a vertical offset. */
-void dungeonCreateAnOwnerLinkedSpriteEffectPositionVerticalOffset(S_81977D08_4 *owner, S_81977D08_3 *position)
+void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 *owner, S_81977D08_3 *position)
 {
     S_81977D08_2 *effect_pos;
     S_81977D08_1 *sprite;

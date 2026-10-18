@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern void *reverseTownMovieBufferBytes(u8 *buf, u16 len);
+extern void *reverse_town_movie_buffer_bytes(u8 *buf, u16 len);
 
 /* Writes value as fullwidth decimal digits and returns a pointer to the null terminator. */
 u8 *func_8003AD08(u32 value, u8 *out)
@@ -18,7 +18,7 @@ u8 *func_8003AD08(u32 value, u8 *out)
         digit++;
     } while (value != 0);
 
-    digit = reverseTownMovieBufferBytes(digits, digit_count);
+    digit = reverse_town_movie_buffer_bytes(digits, digit_count);
     do {
         *out++ = 0x82;
         *out++ = *digit++ + 0x4F;

@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Return the first matching value index, or the number of entries searched. */
-s32 func_800B2214(s32 *values, s32 target_value, s32 count) {
+s32 find_value_index_or_count(s32 *values, s32 target_value, s32 count) {
     s32 *current_value;
     s32 index;
 

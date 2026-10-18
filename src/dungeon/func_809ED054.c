@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_a0d054.h"
 
-void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
+void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
@@ -46,19 +46,19 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
             work->unk_1C = extra_flags;
         } else if (((spawn_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
+                if (generate_random_value() & 1) {
                     work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_8014FCDC;
                 }
             }
         }
-        func_800A9C18(obj, part_a, part_b, spawn_flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE54;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

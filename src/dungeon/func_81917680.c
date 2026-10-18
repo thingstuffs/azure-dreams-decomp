@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void *dungeonCreateAnOrientedEffectBetweenPositionOwner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
+void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
     Row_81917680_S_80024E80_2 *state;
     Row_81917680_S_80024E80_3 *render;
@@ -57,7 +57,7 @@ void *dungeonCreateAnOrientedEffectBetweenPositionOwner(void *owner, Rec_func_80
         slot_index = 0;
         slot_ptr = state;
         do {
-            ((Row_81917680_S_80024E80_6 *)slot_ptr)->unk_14 = func_80024804(state, endpoints, (s16)slot_index);
+            ((Row_81917680_S_80024E80_6 *)slot_ptr)->unk_14 = create_radial_effect_from_source(state, endpoints, (s16)slot_index);
             slot_index++;
             slot_ptr += 4;
         } while (slot_index < 3);

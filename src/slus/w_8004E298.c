@@ -1,11 +1,11 @@
 #include "common.h"
 
-extern void setGlyphStyleIndex(void *a0, s32 a1);
-extern u8 *readDecimalDigitValue(u8 *a0, s32 *a1);
-extern void *decodeGlyphFields(void *a0, s32 a1);
+extern void set_glyph_style_index(void *a0, s32 a1);
+extern u8 *read_decimal_digit_value(u8 *a0, s32 *a1);
+extern void *decode_glyph_fields(void *a0, s32 a1);
 
 /* Builds positioned glyph records from text and embedded formatting commands. */
-void *buildPositionedTextGlyphs(u8 *glyph_buf, u8 *text, s32 style)
+void *build_positioned_text_glyphs(u8 *glyph_buf, u8 *text, s32 style)
 {
     u8 *first_glyph;
     s32 x;
@@ -46,11 +46,11 @@ void *buildPositionedTextGlyphs(u8 *glyph_buf, u8 *text, s32 style)
                 text += 1;
             }
             else if (char_code == 0x8) {
-                text = readDecimalDigitValue(text + 1, &style);
+                text = read_decimal_digit_value(text + 1, &style);
             }
             else if (char_code == 0xC) {
                 u8 *next_text;
-                next_text = readDecimalDigitValue(text + 1, &x_offset);
+                next_text = read_decimal_digit_value(text + 1, &x_offset);
                 x += x_offset;
                 text = next_text;
             }
@@ -66,8 +66,8 @@ void *buildPositionedTextGlyphs(u8 *glyph_buf, u8 *text, s32 style)
                 glyph_buf[1] = (u8) draw_code;
                 glyph_buf[3] = (u8) (y - 0x80);
                 *((s16 *) (glyph_buf + 4)) = (s16) (((style & 0x300) >> 3) | 0xF);
-                setGlyphStyleIndex(glyph_buf, style);
-                decodeGlyphFields(glyph_buf, *text);
+                set_glyph_style_index(glyph_buf, style);
+                decode_glyph_fields(glyph_buf, *text);
                 text += 1;
                 glyph_width = glyph_buf[10];
                 glyph_buf += 0xC;

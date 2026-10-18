@@ -47,20 +47,20 @@ void *func_8014C894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             work->unk_1C = right;
         } else {
             if (((flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
-                left = func_800A6D30();
+                left = generate_random_value();
                 if (left & 1) {
                     work->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value() & 0x3F) | 0x20);
                     part_b->unk_2C = D_80150AD4;
                 }
             }
         }
-        func_800A9C18(obj, part_a, part_b, flags);
+        initialize_actor_sprite_and_animation(obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &func_8014CE94;
-        func_800AA36C(actor, part_a, part_b, work);
+        try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;
 }

@@ -1,15 +1,15 @@
 #include "common.h"
 
 extern void func_800A08A0(s32 spawn_mode);
-extern s32 randomDungeonRange16(u32 bound_a, u32 bound_b);
+extern s32 random_dungeon_range_16(u32 bound_a, u32 bound_b);
 
 /* Initializes monster spawn rates with values 2 through 17 and a random number of value 1 entries. */
-void spawnInitialFloorMonsters(void) {
+void spawn_initial_floor_monsters(void) {
     s32 repeat_count;
     s32 call_index;
     s32 scaled_value;
 
-    repeat_count = randomDungeonRange16(4, 8) & 0xFFFF;
+    repeat_count = random_dungeon_range_16(4, 8) & 0xFFFF;
     call_index = 0;
     scaled_value = 0x20000;
 sequence_loop:

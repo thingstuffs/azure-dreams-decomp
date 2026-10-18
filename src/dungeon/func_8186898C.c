@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_188898c.h"
 
-void advanceFadingEffect(void *effect, void *position, void *render_data)
+void advance_fading_effect(void *effect, void *position, void *render_data)
 {
     u8 *effect_state = *(u8 **)effect;
     u16 coordinate;
@@ -18,12 +18,12 @@ void advanceFadingEffect(void *effect, void *position, void *render_data)
     *(u8 *)((u8 *)render_data + 0xC) = intensity;
     if (intensity == 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     *(u16 *)((u8 *)position + 0xA) -= 8;
     func_800478B8(render_data);
     if (*(u16 *)((u8 *)render_data + 0x14) & 0x6000) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

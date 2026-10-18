@@ -15,7 +15,7 @@ extern s32 func_80018640(s32);
 extern void func_80018548(s32);
 
 /* Selects an available option and triggers its associated action, or returns -1. */
-s32 func_80016C7C(void)
+s32 select_available_option_triggers_associated(void)
 {
     s32 available[4];
     s32 choice;

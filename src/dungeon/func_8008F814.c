@@ -53,25 +53,25 @@ extern char D_800E0AD8[];
 extern char D_800E0AFA[];
 extern char D_800E0B07[];
 
-s32 func_800A70E4(s32, s32, s32);
-void dungeonBeginPlayerTrapTrigger(Ctx *, char *, Item *, Unit *);
-s32 func_800990FC(void);
-char *dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-char *func_80099194(char *, char *);
-char *dungeonAppendTypedFormattedValue(DungeonItemEntry *, char *);
+s32 find_floor_item_at_world_position(s32, s32, s32);
+void begin_player_trap_trigger(Ctx *, char *, Item *, Unit *);
+s32 get_unused_text_buffer(void);
+char *write_text_byte_and_advance(s8 value, s8 *dest);
+char *expand_text_control_codes(char *, char *);
+char *append_typed_formatted_value(DungeonItemEntry *, char *);
 void func_80099290(char *);
-void func_800A5720(s8 *text);
-s32 dungeonFindLastZeroEntryRunStart(void);
-s32 func_80098FF8(void);
-void dungeonAppendPackedActionRecord(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-u8 *dungeonAdvanceMonsterTimedSequence(void);
-void dungeonReadMonsterScriptEntry(void);
+void display_text_with_fullwidth_adjustment(s8 *text);
+s32 find_last_zero_entry_run_start(void);
+s32 find_and_clear_empty_item_slot(void);
+void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
+u8 *advance_monster_timed_sequence(void);
+void read_monster_script_entry(void);
 s32 func_800438E4(DungeonItemEntry *);
-void createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-void func_8009A3D0(s32, s32, s32);
+void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+void update_map_cell_flags_with_item_limit(s32, s32, s32);
 
 /* Picks up an item, applying special effects or moving it into inventory. */
-s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
+s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     GameWork *sys;
     s32 item_lookup;
     s16 item_id;
@@ -100,41 +100,41 @@ s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
     u8 *inventory_page;
     s32 item_kind;
 
-    sys = &gameWork;
-    item_lookup = func_800A70E4(item->kind, item->sub, unit->id);
+    sys = &g_game_work;
+    item_lookup = find_floor_item_at_world_position(item->kind, item->sub, unit->id);
     item_id = item_lookup;
     if (item_id < 0) {
         if (ctx->mode < 0) {
             return 1;
         }
-        dungeonBeginPlayerTrapTrigger(ctx, text, item, unit);
+        begin_player_trap_trigger(ctx, text, item, unit);
         return 0;
     }
-    message_handle = func_800990FC();
-    message = dungeonWriteTextByteAndAdvance(8, message_handle);
+    message_handle = get_unused_text_buffer();
+    message = write_text_byte_and_advance(8, message_handle);
     if (D_80081485[0] != 0) {
-        func_80099290(func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[item_id], func_80099194(D_800E0A76,
+        func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[item_id], expand_text_control_codes(D_800E0A76,
             message))));
-        func_800A5720(message_handle);
+        display_text_with_fullwidth_adjustment(message_handle);
         return 1;
     }
-    free_slot = dungeonFindLastZeroEntryRunStart();
-    free_entry = func_80098FF8();
+    free_slot = find_last_zero_entry_run_start();
+    free_entry = find_and_clear_empty_item_slot();
     if ((D_80013714 & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
-            dungeonAppendPackedActionRecord(unit, 64, 0, 0);
-            func_80099290(func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[item_id], func_80099194(D_800E0A83,
+            append_packed_action_record(unit, 64, 0, 0);
+            func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[item_id], expand_text_control_codes(D_800E0A83,
                 message))));
-            func_800A5720(message_handle);
+            display_text_with_fullwidth_adjustment(message_handle);
             return 1;
         }
     } else {
-        active_effect = dungeonAdvanceMonsterTimedSequence();
+        active_effect = advance_monster_timed_sequence();
         if (active_effect != 0) {
             if ((active_effect[1] & 0xF8) == 0x40) {
                 return 1;
             }
-            dungeonReadMonsterScriptEntry();
+            read_monster_script_entry();
         }
     }
     ground_items = D_800E3548;
@@ -142,18 +142,18 @@ s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
     if ((ground_item->kind == 14) || ((ground_item->kind == 12) && (ground_item->unk_00 == 4))
         || ((ground_item->kind == 18) && (ground_item->unk_00 == 1))) {
         named_item = &D_800E3548[(s16) item_lookup];
-        message = dungeonAppendTypedFormattedValue(named_item, message);
+        message = append_typed_formatted_value(named_item, message);
         if (named_item->kind == 14) {
-            message = func_80099194(D_80088A84, message);
+            message = expand_text_control_codes(D_80088A84, message);
         } else {
-            message = func_80099194(D_800E0A90, message);
+            message = expand_text_control_codes(D_800E0A90, message);
         }
         special_items = D_800E3548;
         ctx->flags |= 0x80;
         special_item = &special_items[(s16) item_lookup];
         item_kind = special_item->kind;
         if (item_kind == 12) {
-            message = func_80099194(D_800E0ABC, dungeonWriteTextByteAndAdvance(10, func_80099194(D_800E0AA1, dungeonWriteTextByteAndAdvance(10,
+            message = expand_text_control_codes(D_800E0ABC, write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AA1, write_text_byte_and_advance(10,
                 message))));
             ctx->done = 1;
             state_page = (u16 *) 0x80010000;
@@ -166,7 +166,7 @@ s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
         } else if (item_kind == 14) {
             pickup_value = func_800438E4(special_item);
             ctx->total += pickup_value;
-            createActorValuePopup(151, unit, (s16) pickup_value, 1);
+            create_actor_value_popup(151, unit, (s16) pickup_value, 1);
         }
         consumed_id = (s16) item_lookup;
         pickup_slot = (u32 *) 0x80010298;
@@ -175,18 +175,18 @@ s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
         *pickup_slot = *(u32 *) consumed_item;
         consumed_item->unk_00 = 0;
         consumed_item->kind = 0;
-        func_8009A3D0(D_800E36C8[consumed_id].a, D_800E36C8[consumed_id].b, 0x800);
+        update_map_cell_flags_with_item_limit(D_800E36C8[consumed_id].a, D_800E36C8[consumed_id].b, 0x800);
         ctx->link = pickup_slot;
     } else {
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = func_80099194(D_80088A80, dungeonAppendTypedFormattedValue(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA,
-                dungeonWriteTextByteAndAdvance(10, func_80099194(D_800E0AD8, message)))));
+            message = expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
+                write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AD8, message)))));
         } else {
             stored_id = item_lookup;
             stored_item = &D_800E3548[stored_id];
-            message = func_80099194(D_800E0B07, dungeonAppendTypedFormattedValue(stored_item, message));
+            message = expand_text_control_codes(D_800E0B07, append_typed_formatted_value(stored_item, message));
             inventory_slot = (void **) 0x80010248 + slot_index;
             *inventory_slot = *(void **) stored_item;
             inventory_page = (u8 *) 0x80010000;
@@ -194,11 +194,11 @@ s32 dungeonCollectGroundItem(Ctx *ctx, char *text, Item *item, Unit *unit) {
             ctx->flags |= 0x80;
             stored_item->unk_00 = 0;
             stored_item->kind = 0;
-            func_8009A3D0(D_800E36C8[stored_id].a, D_800E36C8[stored_id].b, 0x800);
+            update_map_cell_flags_with_item_limit(D_800E36C8[stored_id].a, D_800E36C8[stored_id].b, 0x800);
             ctx->link = inventory_slot;
         }
     }
     func_80099290(message);
-    func_800A5720(message_handle);
+    display_text_with_fullwidth_adjustment(message_handle);
     return 1;
 }

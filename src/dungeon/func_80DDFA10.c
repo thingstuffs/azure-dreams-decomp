@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80DBBA10; every changed retail word is a paired relocation. */
-#define dungeonUpdateTimedTileApproach func_8014F210
+#define update_timed_tile_approach func_8014F210
 #define D_80171E20 D_8014DE20
 #define D_801753D4 D_801513D4
 #define D_801753DC D_801513DC
@@ -58,12 +58,12 @@ extern u8 D_801513DC[];
 
 extern void func_80047784(Actor *, u8, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(Motion *, u8, u8);
-extern void dungeonAdvanceStatusTimers(Entity *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(Motion *, u8, u8);
+extern void advance_status_timers(Entity *);
 extern void func_800A9A04(Entity *);
-extern void dungeonReduceActorFoodMeter(Entity *, s32);
-extern s32 dungeonCheckActorFloorTrap(Actor *, Entity *);
+extern void reduce_actor_food_meter(Entity *, s32);
+extern s32 check_actor_floor_trap(Actor *, Entity *);
 
 /* Updates timed movement toward the actor's tile and finishes the action when its countdown expires. */
 void func_8014F210(State *action, Motion *motion, Actor *actor, Entity *entity)
@@ -80,7 +80,7 @@ void func_8014F210(State *action, Motion *motion, Actor *actor, Entity *entity)
             break;
         }
         *(u32 * )((u8 *)actor + 0x2C) = (u32)D_801513D4;
-        facing_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
+        facing_index = (g_game_work.view.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_801513D4[facing_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -123,9 +123,9 @@ void func_8014F210(State *action, Motion *motion, Actor *actor, Entity *entity)
         motion->dz14 = 0;
         motion->dy10 = 0;
         motion->dxC = 0;
-        dungeonSetRecordIntegerTileCenter(motion, actor->x24, actor->y25);
+        set_record_integer_tile_center(motion, actor->x24, actor->y25);
         *(u32 * )((u8 *)actor + 0x2C) = (u32)D_801513DC;
-        facing_index = (gameWork.view.viewAngle + entity->direction2A + 0x100) >> 9;
+        facing_index = (g_game_work.view.viewAngle + entity->direction2A + 0x100) >> 9;
         func_80047784(actor, D_801513DC[facing_index & 7], 0);
         action->state9B = 3;
         break;
@@ -142,14 +142,14 @@ end_state:
     motion->dz14 = 0;
     motion->dy10 = 0;
     motion->dxC = 0;
-    dungeonSetRecordIntegerTileCenter(motion, actor->x24, actor->y25);
-    dungeonReduceActorFoodMeter(entity, 4);
-    dungeonAdvanceStatusTimers(entity);
+    set_record_integer_tile_center(motion, actor->x24, actor->y25);
+    reduce_actor_food_meter(entity, 4);
+    advance_status_timers(entity);
 
     {
 
-        if (dungeonStatus.unk_08 != 0) {
-            dungeonStatus.unk_08 -= 1;
+        if (g_dungeon_status.unk_08 != 0) {
+            g_dungeon_status.unk_08 -= 1;
         }
     }
 
@@ -160,13 +160,13 @@ end_state:
         }
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
-            entity->direction2A = dungeonGetRoundedFacingAndRoundingFlag(
+            entity->direction2A = get_rounded_facing_and_rounding_flag(
                 actor->x24, actor->y25, D_80082E80.tileX,
                 D_80082E80.tileY, direction_work);
         }
     }
 
-    if ((dungeonCheckActorFloorTrap(actor, entity) << 16) > 0) {
+    if ((check_actor_floor_trap(actor, entity) << 16) > 0) {
         action->field8C = D_8014DE20;
         func_800A9A04(entity);
     }

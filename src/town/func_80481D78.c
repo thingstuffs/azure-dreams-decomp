@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -24,7 +24,7 @@ extern s32 func_80018668(s32 flag);
 extern s32 D_80019550;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80019550 is set. */
-s32 func_80017D78(ScriptContext *context) {
+s32 get_first_entry_whose_flag(ScriptContext *context) {
     s32 entry_index;
 
     func_80017C8C(context->unk_14, context->unk_1A);

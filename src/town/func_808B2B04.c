@@ -13,7 +13,7 @@ extern CallbackOwner *D_A0700F58[4];
 extern ValueList D_A0700100[4];
 
 /* Returns the index of the callback value or the table's zero terminator. */
-s32 townFindCallbackValueIndex(void)
+s32 find_callback_value_index(void)
 {
     ValueList values;
     s32 callback_value;

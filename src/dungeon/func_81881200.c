@@ -18,7 +18,7 @@ void func_80024A00(void *record, s32 unused, void *target)
         func_800478B8(target);
         if (*(u16 *)((u8 *)target + 0x14) & 0x4000) {
             *(u16 *)((u8 *)record - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
     *(u16 *)((u8 *)record + 0x1C) += 1;

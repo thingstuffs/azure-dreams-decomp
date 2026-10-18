@@ -30,7 +30,7 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
     u32 buttons;
     GameWork *input_state;
 
-    input_state = &gameWork;
+    input_state = &g_game_work;
     cursor = menu->unk4D;
     buttons = ((u32)input_state->unk_010);
     if ((buttons & 0x2000) ? 1 : (buttons & 0x8000) != 0) {

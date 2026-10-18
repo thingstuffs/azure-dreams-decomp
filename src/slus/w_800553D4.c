@@ -7,8 +7,8 @@
 
 
 extern void func_800552C8(void);
-extern void soundResetSequenceSlotToIdle(s16 a0);
-extern void soundFreeSequenceSlot(s16 a0);
+extern void sound_reset_sequence_slot_to_idle(s16 a0);
+extern void sound_free_sequence_slot(s16 a0);
 extern void func_800550E8(void);
 extern void func_8005B070(s16 a0);
 extern void func_8005B16C(s16 a0);
@@ -20,8 +20,8 @@ void func_800553D4(u8 code) {
         if (D_800847D0.flags00 & 0x1100) {
             D_800848F8.unk_08 = 0;
             func_800552C8();
-            soundResetSequenceSlotToIdle(D_800847D0.unk_22);
-            soundFreeSequenceSlot(D_800847D0.unk_22);
+            sound_reset_sequence_slot_to_idle(D_800847D0.unk_22);
+            sound_free_sequence_slot(D_800847D0.unk_22);
         }
         D_800848F8.unk_04 = 0;
         D_800847D0.flags00 &= ~0x100;

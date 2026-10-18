@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_80033CD8();           /* extern */
-void *townCreateTownEffectObject();       /* extern */
+void *create_town_effect_object();       /* extern */
 extern M2C_UNK D_800A7C0C;
 
 typedef struct S_800A7B98_0 {
@@ -23,7 +23,7 @@ typedef struct S_800A7B98_2 {
     s32 unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_800A7B98_2;   /* arg2 in townCreateTimedEffectObject */
+} S_800A7B98_2;   /* arg2 in create_timed_effect_object */
 
 typedef struct S_800A7B98_3 {
     u8 pad_00[0x6C];
@@ -31,12 +31,12 @@ typedef struct S_800A7B98_3 {
 } S_800A7B98_3;
 
 /* Creates an object, copies its source data fields, and initializes its state. */
-void townCreateTimedEffectObject(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *sourceData) {
+void create_timed_effect_object(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *sourceData) {
     S_800A7B98_3 *objectState;
     void *createdObject;
     S_800A7B98_1 *objectData;
 
-    createdObject = townCreateTownEffectObject(ownerDataAddress - 0x20, creationParam, &D_800A7C0C, 0);
+    createdObject = create_town_effect_object(ownerDataAddress - 0x20, creationParam, &D_800A7C0C, 0);
     objectState = createdObject + 0x20;
     if (createdObject != NULL) {
         objectData = ((S_800A7B98_0 *)createdObject)->unk_0C;

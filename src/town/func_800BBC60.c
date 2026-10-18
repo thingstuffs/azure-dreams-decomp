@@ -11,7 +11,7 @@ typedef struct S_800B93C0_0 {
 } S_800B93C0_0;
 
 /* Allocate an object and set its data pointer. */
-void townAllocateSecondObjectVariant(void) {
+void allocate_second_object_variant(void) {
     S_800B93C0_0 *object;
 
     object = func_8003FC64(0);

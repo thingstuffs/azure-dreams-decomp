@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80AF3B98; every changed retail word is a paired relocation. */
-#define dungeonAdvanceActorTransitionAndRestoreFacing func_8015D398
+#define advance_actor_transition_and_restore_facing func_8015D398
 #define D_801759F8 D_8015D9F8
 #define D_80175A00 D_8015DA00
 #define D_80175A18 D_8015DA18
@@ -13,7 +13,7 @@ extern void func_8015CF24(s32, void *, void *, void *);
 extern s32 func_80069EF8(void);
 
 void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
-    u8 *object_data = ((u8 *)(&gameWork));
+    u8 *object_data = ((u8 *)(&g_game_work));
     u8 state;
     u32 next_state;
 
@@ -36,7 +36,7 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
         s32 direction;
         u16 angle;
 
-        direction = ((gameWork.view.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((R10_80175398_S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((R10_80175398_S_80175398_1 *)actor)->unk_2A.u;
         if (((u8 *)D_8015DA80)[0] == 0 || direction != 2) {
             if (direction == 2) {
@@ -46,11 +46,11 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
             return;
         }
         func_80041588(((u8 *)D_8015D9F8), ((u8 *)D_8015DA80), 1);
-        soundSetCdCueParameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         (*(u8 *)D_8015DA81) = 0;
         Control_CD(0xFF, ((s32 *)D_8003E140), ((u8 *)D_8015DA81));
-        dungeonSelectNearbyTargetAndInitializeSlot((u8 *)actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
     }
@@ -69,11 +69,11 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
                 return;
             }
             ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             return;
         }
 
-        target_color = ((u8 * *)D_800DCEEC)[lookupMaskedByteTable(actor)];
+        target_color = ((u8 * *)D_800DCEEC)[lookup_masked_byte_table(actor)];
         ((R10_80175398_S_80175398_2 *)object_data)->unk_A8 +=
             (((R10_80175398_S_80175398_3 *)target_color)->unk_00 - ((R10_80175398_S_80175398_2 *)object_data)->unk_A8) /
             ((R10_80175398_S_80175398_0 *)transition)->unk_96.s;
@@ -107,7 +107,7 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
             ((R10_80175398_DungeonTail *)object_data)->color = 0x00808080;
         }
         {
-            s16 resource_index = lookupMaskedByteTable(actor) - 1;
+            s16 resource_index = lookup_masked_byte_table(actor) - 1;
 
             if (resource_index < 0) {
                 s32 random_value = func_80069EF8();
@@ -144,21 +144,21 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
         if (((R10_80175398_S_80175398_0 *)transition)->unk_9B != 6) {
             return;
         }
-        if (dungeonCreateStatusLinkedRenderEffect(position, (*(void * *)D_8015DA84), (*(s16 *)D_8015DA18), ((u8 *)D_800DCF5C)) == 0) {
+        if (create_status_linked_render_effect(position, (*(void * *)D_8015DA84), (*(s16 *)D_8015DA18), ((u8 *)D_800DCF5C)) == 0) {
             return;
         }
         ((R10_80175398_S_80175398_0 *)transition)->unk_96.u = 0x10;
         ((R10_80175398_S_80175398_0 *)transition)->unk_9B++;
-        dungeonDecrementMonsterEntryCount(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
-        func_8009A3D0(record->unk_24, record->unk_25, 0x300);
-        func_8009A028(actor);
+        decrement_monster_entry_count(((R10_80175398_S_80175398_1 *)actor)->unk_13, 3);
+        update_map_cell_flags_with_item_limit(record->unk_24, record->unk_25, 0x300);
+        unlink_entity_node(actor);
         object_data = (u8 *)actor - 0x20;
         ((R10_80175398_S_80175398_2 *)object_data)->unk_10 |= 0x80000000;
         return;
 
     case 7:
     {
-        u8 *linked_actor = dungeonAdvanceStagedEntityLoad(record, actor);
+        u8 *linked_actor = advance_staged_entity_load(record, actor);
         ((R10_80175398_S_80175398_1 *)actor)->unk_60 = linked_actor;
         if (linked_actor == NULL) {
             return;
@@ -172,9 +172,9 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
             u8 *direction_frames;
 
             object_data = ((R10_80175398_S_80175398_5_pre *)linked_state)[-1].unk_00;
-            direction = ((gameWork.view.viewAngle + ((R10_80175398_S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
+            direction = ((g_game_work.view.viewAngle + ((R10_80175398_S_80175398_5 *)linked_state)->unk_2A + 0x100) >> 9) & 7;
             direction_frames = ((R10_80175398_S_80175398_2 *)object_data)->unk_2C;
-            selectIndirectTableEntry(object_data, direction_frames[direction], ((R10_80175398_S_80175398_2 *)object_data)->unk_04);
+            select_indirect_table_entry(object_data, direction_frames[direction], ((R10_80175398_S_80175398_2 *)object_data)->unk_04);
         }
         ((R10_80175398_S_80175398_2 *)object_data)->unk_14 &= 0xFFFE;
     }
@@ -190,8 +190,8 @@ void func_8015D398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
             ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_8A;
             ((R10_80175398_S_80175398_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-            dungeonStatus.unk_0A--;
+            object_flag_block.flags |= 0x8000;
+            g_dungeon_status.unk_0A--;
         }
     }
         ((R10_80175398_S_80175398_1 *)actor)->unk_6D = 0;

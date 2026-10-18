@@ -4,7 +4,7 @@
 
 typedef struct S_80172874_0_pre {
     u16 unk_00;
-} S_80172874_0_pre;   /* the 0x2 bytes before base in dungeonUpdateBossEffectGrowth, addressed as base[-1] */
+} S_80172874_0_pre;   /* the 0x2 bytes before base in update_boss_effect_growth, addressed as base[-1] */
 
 typedef struct S_80172874_0 {
     u8 pad_00[0x12];
@@ -15,12 +15,12 @@ typedef struct S_80172874_0 {
     u8 pad_1A[0x6];
     void * unk_20;
     void * unk_24;
-} S_80172874_0;   /* base in dungeonUpdateBossEffectGrowth */
+} S_80172874_0;   /* base in update_boss_effect_growth */
 
 typedef struct S_80172874_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172874_1_pre;   /* the 0x14 bytes before parent in dungeonUpdateBossEffectGrowth, addressed as parent[-1] */
+} S_80172874_1_pre;   /* the 0x14 bytes before parent in update_boss_effect_growth, addressed as parent[-1] */
 
 typedef struct S_80172874_2 {
     u8 pad_00[0x6];
@@ -31,37 +31,37 @@ typedef struct S_80172874_2 {
     s8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_80172874_2;   /* arg2 in dungeonUpdateBossEffectGrowth */
+} S_80172874_2;   /* arg2 in update_boss_effect_growth */
 
 typedef struct S_80172874_3 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x24];
     void * unk_2C;
-} S_80172874_3;   /* owner in dungeonUpdateBossEffectGrowth */
+} S_80172874_3;   /* owner in update_boss_effect_growth */
 
 typedef struct S_80172874_4 {
     u8 pad_00[0x4CE0];
     s32 unk_4CE0;
-} S_80172874_4;   /* flag_base in dungeonUpdateBossEffectGrowth */
+} S_80172874_4;   /* flag_base in update_boss_effect_growth */
 
 
 typedef struct S_80172874_6 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172874_6;   /* source in dungeonUpdateBossEffectGrowth */
+} S_80172874_6;   /* source in update_boss_effect_growth */
 
 typedef struct S_80172874_7 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_80172874_7;   /* global_base in dungeonUpdateBossEffectGrowth */
+} S_80172874_7;   /* global_base in update_boss_effect_growth */
 
 
 extern u8 D_80174C8C[];
 
 /* Advances the effect through growth, position tracking, and shrinkage. */
-void dungeonUpdateBossEffectGrowth(void *effect, EntityRec *position, S_80172874_2 *transform)
+void update_boss_effect_growth(void *effect, EntityRec *position, S_80172874_2 *transform)
 {
     void *base = effect;
     S_80172874_6 *source;

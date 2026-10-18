@@ -5,10 +5,10 @@
 typedef struct func_8000EEB8_S_80021EB8_0 {
     u8 pad_00[0x204];
     s32 unk_204;
-} func_8000EEB8_S_80021EB8_0;   /* arg0 in cardBootStoreSaveXorChecksum */
+} func_8000EEB8_S_80021EB8_0;   /* arg0 in card_boot_store_save_xor_checksum */
 
 /* Compute and store the XOR checksum of the buffer's data words. */
-void cardBootStoreSaveXorChecksum(void *buffer) {
+void card_boot_store_save_xor_checksum(void *buffer) {
     s32 *word_ptr;
     s32 word;
     s32 checksum;

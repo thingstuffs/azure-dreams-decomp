@@ -7,19 +7,19 @@
 #include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 dungeonCheckNeighborTileBlocking();             /* extern */
-s32 dungeonFindValidNearbyPosition();      /* extern */
-void *dungeonPrepareDirectionalAttack(); /* extern */
-void func_8009CE1C(); /* extern */
-u8 func_8009FB34();                           /* extern */
-s32 dungeonUpdateActorProximityFlag(); /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-void dungeonBeginActorRandomWarp(); /* extern */
-s16 func_800BCB04();                   /* extern */
+s32 check_neighbor_tile_blocking();             /* extern */
+s32 find_valid_nearby_position();      /* extern */
+void *prepare_directional_attack(); /* extern */
+void apply_attack_power_and_element_effects(); /* extern */
+u8 find_active_rect_containing_point();                           /* extern */
+s32 update_actor_proximity_flag(); /* extern */
+void set_record_integer_tile_center();              /* extern */
+void begin_actor_random_warp(); /* extern */
+s16 sample_terrain_surface_height();                   /* extern */
 
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
-s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor) {
+s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor) {
     u16 resolved_x;
     u16 resolved_y;
     s32 contact_tile_mask;
@@ -51,10 +51,10 @@ s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80
     ticks_left = (u16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 - 1;
     ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        hit_object = dungeonPrepareDirectionalAttack(actor, tile_pos, ((s16)actor->unk_6A), 0, 0);
+        hit_object = prepare_directional_attack(actor, tile_pos, ((s16)actor->unk_6A), 0, 0);
         if (hit_object != NULL) {
-            func_8009CE1C(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->unk_6A) + 0x800), 0, 1);
-            func_8009CE1C(hit_object, 8, 1, 8, (s32) ((s16)actor->unk_6A), 0, 1);
+            apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->unk_6A) + 0x800), 0, 1);
+            apply_attack_power_and_element_effects(hit_object, 8, 1, 8, (s32) ((s16)actor->unk_6A), 0, 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
             motion->flags14 = 0;
@@ -62,16 +62,16 @@ s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80
             motion->unk_0C = 0;
             actor->flags1C = (s32) (actor->flags1C | 0x40000000);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
-            tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
-            dungeonUpdateActorProximityFlag(tile_pos, actor, 3, 6, move_state + 0x9C);
-            if ((dungeonFindValidNearbyPosition(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
-                dungeonSetRecordIntegerTileCenter(motion, tile_pos->unk_24, tile_pos->unk_25);
-                dungeonBeginActorRandomWarp(move_state, motion, tile_pos, actor);
+            tile_pos->unk_26.as_u8 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
+            if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
+                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+                begin_actor_random_warp(move_state, motion, tile_pos, actor);
                 return 0;
             } else {
                 tile_pos->unk_24 = resolved_x;
                 tile_pos->unk_25 = resolved_y;
-                dungeonSetRecordIntegerTileCenter(motion, tile_pos->unk_24, tile_pos->unk_25);
+                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
                 contact_flags = actor->flags1C;
                 contact_x = tile_pos->unk_24;
                 contact_y = tile_pos->unk_25;
@@ -79,17 +79,17 @@ s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80
                 if (contact_flags & 0x2000) {
                     contact_tile_mask = 0x300;
                 }
-                func_8009A21C(contact_x, contact_y, contact_tile_mask);
+                cycle_map_cell_flags(contact_x, contact_y, contact_tile_mask);
                 actor->flags1C = (s32) (actor->flags1C & 0xFFDFFFFF);
-                dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+                g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
                 actor->unk_71 = 0;
                 return 1;
             }
         }
-        if ((dungeonCheckNeighborTileBlocking(((s16)actor->unk_6A), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
-            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepX));
-            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepY));
+        if ((check_neighbor_tile_blocking(((s16)actor->unk_6A), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
+            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dir_step_x));
+            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dir_step_y));
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
         } else {
             motion->flags14 = 0;
@@ -98,25 +98,25 @@ s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
-            tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
-            dungeonUpdateActorProximityFlag(tile_pos, actor, 3, 6, move_state + 0x9C);
-            ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20,
+            tile_pos->unk_26.as_u8 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
+            update_actor_proximity_flag(tile_pos, actor, 3, 6, move_state + 0x9C);
+            ground_height = sample_terrain_surface_height((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20,
                 (s16) (((u16)motion->z.w.i) - 0x20));
             if (ground_height < 0x200) {
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
                 actor->unk_88 = ground_height;
             }
-            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
             actor->flags1C = (s32) ((actor->flags1C | 0x40000000) & 0xFFDFFFFF);
-            if ((dungeonFindValidNearbyPosition(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
-                dungeonSetRecordIntegerTileCenter(motion, tile_pos->unk_24, tile_pos->unk_25);
-                dungeonBeginActorRandomWarp(move_state, motion, tile_pos, actor);
+            if ((find_valid_nearby_position(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) == 0) {
+                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
+                begin_actor_random_warp(move_state, motion, tile_pos, actor);
                 return 0;
             } else {
                 tile_pos->unk_24 = resolved_x;
                 tile_pos->unk_25 = resolved_y;
-                dungeonSetRecordIntegerTileCenter(motion, tile_pos->unk_24, tile_pos->unk_25);
+                set_record_integer_tile_center(motion, tile_pos->unk_24, tile_pos->unk_25);
                 stop_flags = actor->flags1C;
                 stop_x = tile_pos->unk_24;
                 stop_y = tile_pos->unk_25;
@@ -124,7 +124,7 @@ s32 dungeonUpdateThrownActorTravel(void *move_state, EntityRec *motion, Rec_D_80
                 if (stop_flags & 0x2000) {
                     stop_tile_mask = 0x300;
                 }
-                func_8009A21C(stop_x, stop_y, stop_tile_mask);
+                cycle_map_cell_flags(stop_x, stop_y, stop_tile_mask);
                 actor->unk_71 = 0;
                 return 1;
             }

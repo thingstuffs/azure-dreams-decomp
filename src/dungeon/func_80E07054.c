@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_e27054.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
+void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     u8 *work = 0;
     long part_b;
@@ -47,9 +47,9 @@ void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             spawn_flags = (s16)(spawn_flags & -4);
             if (spawn_flags == 0) {
                 if ((*(u32 *)(work + 0x14) & 0x200) == 0) {
-                    if ((func_800A6D30() & 1) != 0) {
-                        random = func_800A6D30();
-                        func_800A48F0(work, 1, (random & 0x3F) | 0x20);
+                    if ((generate_random_value() & 1) != 0) {
+                        random = generate_random_value();
+                        set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
                         *(u8 **)((u8 *)part_b + 0x2C) = D_80150538;
                     }
                 }
@@ -62,11 +62,11 @@ void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         }
 
         *(Callback *)(object + 0x10) = func_8014CA58;
-        func_800A9C18(object, part_a, (u8 *)part_b, (s16)flags_s16);
+        initialize_actor_sprite_and_animation(object, part_a, (u8 *)part_b, (s16)flags_s16);
 
         *(u8 *)((u8 *)work_copy + 0x9A) = 0xFF;
         *(s8 *)((u8 *)work_copy + 0x9C) = -1;
-        func_800AA36C((u8 *)work_copy, part_a, (u8 *)part_b, work);
+        try_move_actor_to_valid_position((u8 *)work_copy, part_a, (u8 *)part_b, work);
     }
     return work;
 }

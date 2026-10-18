@@ -25,11 +25,11 @@ extern u8 D_801739B8[];
 extern u8 D_8016A36C[];
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_800AC82C(void *, s32, void *, void *);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern s32 update_actor_transform_from_parent(void *, s32, void *, void *);
+extern s32 check_actor_floor_trap(void *, void *);
 
 /* Selects the mode table and updates the dungeon object state. */
-void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
+void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
     s32 mode;
     u8 *mode_table;
     u8 *current_table;
@@ -53,8 +53,8 @@ void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param
         mode_table = D_801739B8;
         break;
     default:
-        if (func_800AC82C(object, update_param, state, input) != 0) {
-            if ((dungeonCheckActorFloorTrap(state, input) << 0x10) > 0) {
+        if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
+            if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
                 object->field_8C = D_8016A36C;
             }
         }
@@ -63,12 +63,12 @@ void dungeonUpdateMultiFormActorMovement(DungeonObject *object, s32 update_param
     }
     if (current_table != mode_table) {
         state->field_2C = mode_table;
-        func_80047784(state, *(u8 *)((((s32) (gameWork.view.viewAngle + input->field_2A + 0x100) >> 9) & 7)
+        func_80047784(state, *(u8 *)((((s32) (g_game_work.view.viewAngle + input->field_2A + 0x100) >> 9) & 7)
             + (u32) mode_table), 0);
     }
 
-    if (func_800AC82C(object, update_param, state, input) != 0) {
-        if ((dungeonCheckActorFloorTrap(state, input) << 0x10) > 0) {
+    if (update_actor_transform_from_parent(object, update_param, state, input) != 0) {
+        if ((check_actor_floor_trap(state, input) << 0x10) > 0) {
             object->field_8C = D_8016A36C;
         }
     }

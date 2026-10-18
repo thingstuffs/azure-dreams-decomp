@@ -4,25 +4,25 @@
 
 typedef struct S_818DAE84_0_pre {
     u16 unk_00;
-} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in createCoordinateSpriteObject, addressed as arg0[-1] */
+} S_818DAE84_0_pre;   /* the 0x2 bytes before arg0 in create_coordinate_sprite_object, addressed as arg0[-1] */
 
 typedef struct S_818DAE84_0 {
     void * unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
     s16 unk_10;
-} S_818DAE84_0;   /* arg0 in createCoordinateSpriteObject */
+} S_818DAE84_0;   /* arg0 in create_coordinate_sprite_object */
 
 typedef struct S_818DAE84_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_818DAE84_1;   /* inner in createCoordinateSpriteObject */
+} S_818DAE84_1;   /* inner in create_coordinate_sprite_object */
 
 
 
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
-void createCoordinateSpriteObject(void *state) {
+void create_coordinate_sprite_object(void *state) {
     s32 remaining;
     s16 next_remaining;
     s32 progress;
@@ -46,6 +46,6 @@ void createCoordinateSpriteObject(void *state) {
     ((S_818DAE84_0 *)state)->unk_10 = next_remaining;
     if ((next_remaining << 16) <= 0) {
         ((S_818DAE84_0_pre *)state)[-1].unk_00 = (u16)(((S_818DAE84_0_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

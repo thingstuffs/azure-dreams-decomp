@@ -8,6 +8,6 @@
 
 
 /* Returns whether the referenced record's unk_38 value differs from 1. */
-s32 townCheckInputsAfterThresholdTwenty(void) {
+s32 check_inputs_after_threshold_twenty(void) {
     return ((TownPositionState *)D_80016000->unk_1C)->unk_38 != 1;
 }

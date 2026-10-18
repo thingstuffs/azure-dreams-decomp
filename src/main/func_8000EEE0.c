@@ -2,7 +2,7 @@
 #include "common.h"
 
 /* Checks the stored checksum against the XOR of 6014 data words. */
-s32 cardBootVerifySaveXorChecksum(void *save_data) {
+s32 card_boot_verify_save_xor_checksum(void *save_data) {
     s32 *data_word;
     s32 checksum;
     s32 word_index;

@@ -9,7 +9,7 @@ extern s32 func_8001A8EC(s32);
 typedef void (*TownCallback)(s32, s32);
 
 /* Checks town event conditions and invokes the town callback if they allow it. */
-s32 func_8001802C(void) {
+s32 check_town_event_town_callback(void) {
     s8 *callback_object;
 
     func_80016CC4();

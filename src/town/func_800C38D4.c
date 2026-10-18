@@ -15,11 +15,11 @@ extern s16 D_800D4268[];
 extern u8 D_80110004[];
 extern s16 D_80113200[];
 
-extern s32 townFindSoundEntryOrTerminatorIndex(s32 target_value);
-extern void townCopySelectedSoundPair(s16 *output);
+extern s32 find_sound_entry_or_terminator_index(s32 target_value);
+extern void copy_selected_sound_pair(s16 *output);
 
 /* Builds a four-value town entry result using table data or a fallback lookup. */
-s16 *func_800C1034(s32 unused, s32 index) {
+s16 *build_four_value_entry_result(s32 unused, s32 index) {
     s32 entry_index;
     s16 entry_code;
     s16 *output;
@@ -38,7 +38,7 @@ s16 *func_800C1034(s32 unused, s32 index) {
         TownEntry *entries;
         TownEntry *entry;
 
-        entry_index = townFindSoundEntryOrTerminatorIndex(index);
+        entry_index = find_sound_entry_or_terminator_index(index);
         entries = (TownEntry *)&D_800D4094;
 
         entry = (TownEntry *)((u32)(entry_index * 10) + (u32)entries);
@@ -52,7 +52,7 @@ s16 *func_800C1034(s32 unused, s32 index) {
                 output[3] = D_800D4268[3];
                 break;
             case -2:
-                townCopySelectedSoundPair(output);
+                copy_selected_sound_pair(output);
                 break;
             default:
             {
@@ -69,6 +69,6 @@ s16 *func_800C1034(s32 unused, s32 index) {
             return D_80113200;
         }
     }
-    townCopySelectedSoundPair(output);
+    copy_selected_sound_pair(output);
     return D_80113200;
 }

@@ -1,10 +1,10 @@
 #include "modules/dungeon_ovl_c89084.h"
 
 /* Builds and links tile and draw-mode packets for a chain of projected positions. */
-s32 func_80170884(u8 *node_data, u16 *position)
+s32 build_projected_tile_packets(u8 *node_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
-    void **globals = ((void * *)(&gameWork));
+    void **globals = ((void * *)(&g_game_work));
     GpuContext *render_state = (GpuContext *)globals[0];
     Packet *first_packet = (Packet *)render_state->packetCursor;
     Packet *packet;

@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-s32 testResidentBitmapBit();                         /* extern */
+s32 test_resident_bitmap_bit();                         /* extern */
 
-// Forwards a signed 16-bit value to testResidentBitmapBit.
+// Forwards a signed 16-bit value to test_resident_bitmap_bit.
 void func_80033BC0(s16 value) {
-    testResidentBitmapBit(value);
+    test_resident_bitmap_bit(value);
 }

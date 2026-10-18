@@ -3,7 +3,7 @@
 
 
 /* Set the indexed object value and its mirrored table entry. */
-void dungeonSetLinkedActorCodeAndMirror(s16 object_index, s8 value) {
+void set_linked_actor_code_and_mirror(s16 object_index, s8 value) {
     u8 *table_address;
     s32 object_offset = object_index * 4;
     void *object = *(void **)(object_offset + 0xAC + (u8 *)D_800E3D7C);

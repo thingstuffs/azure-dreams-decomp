@@ -3,7 +3,7 @@
 extern u8 D_800A79F0[12];
 
 /* Initialize object data and mode, and set the primitive color to neutral gray. */
-void townInitializeNeutralPrimitive(void *object, void *unused, void *primitive) {
+void initialize_neutral_primitive(void *object, void *unused, void *primitive) {
     *(void **)((s8 *)object + 0x50) = D_800A79F0;
     *(s16 *)((s8 *)object + 0x6C) = 0x16;
     *(u8 *)((s8 *)primitive + 0x0E) = 0x80;

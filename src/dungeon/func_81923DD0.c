@@ -11,13 +11,13 @@ extern void func_8003DB94(void *, void *, short);
 extern void * func_8003FD64(s32, void *);
 extern s32 func_8004491C(void *, s32);
 extern void func_80047784(void *, s16, s16);
-extern void * func_800990FC(void);
-extern void * func_80099194(void *, void *);
+extern void * get_unused_text_buffer(void);
+extern void * expand_text_control_codes(void *, void *);
 extern void * func_80099290(void *);
-extern u8 *func_80099734(void *, u8 *);
-extern s16 func_800A48F0(void *, s8, s8);
-extern s32 func_800A5720(s8 *);
-extern s32 func_800A6D30(void);
+extern u8 *append_entity_display_text(void *, u8 *);
+extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
+extern s32 display_text_with_fullwidth_adjustment(s8 *);
+extern s32 generate_random_value(void);
 typedef struct { s32 w[12]; } Packet48;
 typedef struct { s16 x; u16 y; } DirectionPair;
 typedef struct { DirectionPair v[8]; } DirectionTable;
@@ -110,7 +110,7 @@ typedef union {
 } ResolvedCoordinate;
 typedef struct { ResolvedCoordinate axes[3]; } ResolvedMotion;
 
-void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *sprite) {
+void process_resolved_item_value(void *effect_state, void *motion, void *sprite) {
     DirectionTable directions;
     s16 phase;
     s32 done_flag;
@@ -181,7 +181,7 @@ void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *spr
                 (((ResolvedSpawn *)spawn_state)->origin_y) = (s16) (((ResolvedSprite *)owner_sprite)->tile_y);
                 (((ResolvedSpawn *)spawn_state)->has_target) = 1;
                 (((ResolvedSpawn *)spawn_state)->timer) = 0;
-                func_800A48F0((((ResolvedActor *)owner)->target), 0x1D, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (func_800A6D30() & 3)));
+                set_or_clear_actor_status_slot((((ResolvedActor *)owner)->target), 0x1D, (s8) (((u8) (((ResolvedEffect *)effect_state)->kind) >> 2) + 3 + (generate_random_value() & 3)));
                 packet_source = source_sprite;
             } else {
                 (((ResolvedSpawn *)spawn_state)->range) = 0x20;
@@ -204,7 +204,7 @@ void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *spr
             (((ObjectNodeHeader *)spawned)->unk_10) = ((u32)D_80024E5C);
             func_8004491C(spawned, ((u32)D_80045340));
             (((ResolvedSprite *)spawn_sprite)->script) = ((u32)D_80025B40);
-            func_80047784(spawn_sprite, D_80025B40[(((s32) (gameWork.view.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
+            func_80047784(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (((ObjectNodeHeader *)spawned)->unk_08);
             (((ResolvedMotion *)spawn_motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
             (((ResolvedMotion *)spawn_motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
@@ -235,12 +235,12 @@ void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *spr
                     u8 *message_end;
                     u8 *message_start;
 
-                    message_end = func_800990FC();
+                    message_end = get_unused_text_buffer();
                     message_start = message_end;
-                    message_end = func_80099734((((ResolvedActor *)owner)->target), message_end);
-                    message_end = func_80099194(((u32)D_80024024), message_end);
+                    message_end = append_entity_display_text((((ResolvedActor *)owner)->target), message_end);
+                    message_end = expand_text_control_codes(((u32)D_80024024), message_end);
                     func_80099290(message_end);
-                    func_800A5720((s8 *)message_start);
+                    display_text_with_fullwidth_adjustment((s8 *)message_start);
                 }
                 return;
             }
@@ -254,9 +254,9 @@ void dungeonProcessResolvedItemValue(void *effect_state, void *motion, void *spr
             done_flag = D_80025B60;
             (((ResolvedEffect *)effect_state)->frame) = frame;
             if (done_flag == 0) {
-                dungeonStatus.unk_0C = 0;
+                g_dungeon_status.unk_0C = 0;
                 (((ObjectNodeHeader *)(effect_state))[-1].flags) = (u16) ((((ObjectNodeHeader *)(effect_state))[-1].flags) | 0x8000);
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
                 return;
             }
             D_80025B60 = 0;

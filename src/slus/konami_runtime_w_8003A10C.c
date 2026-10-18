@@ -10,7 +10,7 @@ typedef struct {
 } Func8003A10CState;
 
 /* Load a 32-bit value through an indexed pointer table into the selected event-script slot. */
-void vmOp77LoadImmediateIndexedPointer(Func8003A10CState *state) {
+void vm_op_77_load_immediate_indexed_pointer(Func8003A10CState *state) {
     u8 *table_entry;
     u8 *address_bytes;
     u8 *cursor;

@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_809A41CC; every changed retail word is a paired relocation. */
 #define D_80175F9C D_80151F9C
-/* Relink of matched dungeon/func_807AFC9C; every changed retail word is a paired relocation. */
+/* Relink of matched dungeon/spawn_randomized_position_color_transition_effect; every changed retail word is a paired relocation. */
 #define D_800FBE24 D_80151F9C
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"

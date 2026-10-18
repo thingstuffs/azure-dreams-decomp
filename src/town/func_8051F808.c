@@ -5,7 +5,7 @@ typedef s32 (*Callback)(s32);
 
 
 /* Run both callbacks and advance the object value when its status is zero. */
-s32 townAdvanceSceneValueWhenClear(void) {
+s32 advance_scene_value_when_clear(void) {
     s8 *context_ref;
     void *object_state;
 

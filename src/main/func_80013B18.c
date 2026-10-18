@@ -11,14 +11,14 @@ typedef struct Object13B18 {
     Record13B18 records[2];
     u8 pad_1C[0x4C];
     s32 *slots[2];
-} Object13B18;   /* object in cardBootSetPairedChoiceAnimations */
+} Object13B18;   /* object in card_boot_set_paired_choice_animations */
 
-extern void cardBootRefreshPairedChoiceLabels(u8 *state);
+extern void card_boot_refresh_paired_choice_labels(u8 *state);
 extern void func_8004CBFC(void *, s32, s32 *);
 extern u8 D_80027E68[];
 
 /* Updates or clears active records, then refreshes the object if any were active. */
-void cardBootSetPairedChoiceAnimations(Object13B18 *object, s32 *enable_flags, s32 *active_flags)
+void card_boot_set_paired_choice_animations(Object13B18 *object, s32 *enable_flags, s32 *active_flags)
 {
     s32 *slot_value;
     s32 slot_index;
@@ -38,6 +38,6 @@ void cardBootSetPairedChoiceAnimations(Object13B18 *object, s32 *enable_flags, s
         }
     }
     if (updated != 0) {
-        cardBootRefreshPairedChoiceLabels(object);
+        card_boot_refresh_paired_choice_labels(object);
     }
 }

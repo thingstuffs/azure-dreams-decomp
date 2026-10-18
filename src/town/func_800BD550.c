@@ -8,12 +8,12 @@
 typedef struct S_800BACB0_0_pre {
     void * unk_00;
     u8 pad_04[0xC];
-} S_800BACB0_0_pre;   /* the 0x10 bytes before arg0 in func_800BACB0, addressed as arg0[-1] */
+} S_800BACB0_0_pre;   /* the 0x10 bytes before arg0 in initialize_random_particle_effect, addressed as arg0[-1] */
 
 typedef struct S_800BACB0_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_800BACB0_1;   /* particlePrim in func_800BACB0 */
+} S_800BACB0_1;   /* particlePrim in initialize_random_particle_effect */
 
 
 typedef struct Position {
@@ -59,7 +59,7 @@ typedef struct Object {
 extern Object *func_8003FD64();
 extern void func_8004491C();
 extern s32 rand(void);
-extern void townConfigureTheSetModeN3(Core *, Position *, void *);
+extern void configure_the_set_mode_n_3(Core *, Position *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
@@ -72,7 +72,7 @@ extern u8 D_800F8A1C[];
 extern u8 D_800F8A28[];
 
 /* Initialize a random effect angle and spawn its particle and textured children. */
-void func_800BACB0(Core *parent_core, Position *origin)
+void initialize_random_particle_effect(Core *parent_core, Position *origin)
 {
     s32 random_value;
     s32 quotient;
@@ -120,9 +120,9 @@ void func_800BACB0(Core *parent_core, Position *origin)
             particle_prim->scaleX = 0x1000;
             particle_prim->scaleY = 0x1000;
             particle_prim->scaleZ = 0xAAA;
-            particle_prim->red = gameWork.view.unk_090;
-            particle_prim->green = gameWork.view.unk_091;
-            particle_blue = gameWork.view.unk_092;
+            particle_prim->red = g_game_work.view.unk_090;
+            particle_prim->green = g_game_work.view.unk_091;
+            particle_blue = g_game_work.view.unk_092;
             ((S_800BACB0_1 *)particle_prim)->unk_08 = child_index + 0xA;
             particle_prim->blue = particle_blue;
             child_pos = child_obj->position;
@@ -130,7 +130,7 @@ void func_800BACB0(Core *parent_core, Position *origin)
             particle_y = origin->y;
             child_pos->z = 0;
             child_pos->y = particle_y;
-            townConfigureTheSetModeN3(child_core, child_pos, D_800D1BCC[child_index]);
+            configure_the_set_mode_n_3(child_core, child_pos, D_800D1BCC[child_index]);
         }
         child_index += 1;
     } while (child_index < 4);
@@ -206,9 +206,9 @@ void func_800BACB0(Core *parent_core, Position *origin)
         particle_prim->scaleY = 0x1000;
         particle_prim->scaleZ = 0x1000;
         particle_prim->angle = parent_core->angle;
-        particle_prim->red = gameWork.view.unk_090;
-        particle_prim->green = gameWork.view.unk_091;
-        particle_prim->blue = gameWork.view.unk_092;
+        particle_prim->red = g_game_work.view.unk_090;
+        particle_prim->green = g_game_work.view.unk_091;
+        particle_prim->blue = g_game_work.view.unk_092;
         child_pos = child_obj->position;
         ((S_800BACB0_1 *)particle_prim)->unk_08 = 9;
         child_pos->x = origin->x;

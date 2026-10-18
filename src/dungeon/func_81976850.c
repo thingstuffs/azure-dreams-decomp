@@ -82,7 +82,7 @@ typedef struct Vec16 {
 
 extern u8 *D_800E3D18;
 
-extern s32 resolveRecordOrientationOrFallback(void *, void *, Vec16 *, s16);
+extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec16 *, s16);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 
@@ -113,7 +113,7 @@ void func_81976850(void *effect, void *motion, void *visual)
     case 1:
         source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
         if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
-            resolveRecordOrientationOrFallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
+            resolve_record_orientation_or_fallback(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
             source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
             ((S_81976850_2 *)motion)->unk_00.at02.v = ((S_81976850_3 *)source_pos)->unk_02;
             ((S_81976850_2 *)motion)->unk_04.at02.v = ((S_81976850_3 *)source_pos)->unk_06;
@@ -149,9 +149,9 @@ void func_81976850(void *effect, void *motion, void *visual)
         ((S_81976850_2 *)motion)->unk_14 =
             (scene->unk_88 - 0x50) << 16;
 
-        table_entry = ((gameWork.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
+        table_entry = ((g_game_work.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
         table_entry += (s32)D_800E3D18;
-        if (resolveRecordOrientationOrFallback(
+        if (resolve_record_orientation_or_fallback(
                 ((S_81976850_7 *)((void *)table_entry))->unk_00,
                 &D_80082E80,
                 &delta,
@@ -181,7 +181,7 @@ void func_81976850(void *effect, void *motion, void *visual)
             ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
             ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
             (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
             return;
         }
 

@@ -2,7 +2,7 @@
 
 void func_8017437C(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
-    if (dungeonInterpolateActorToTerrainTile(state, motion, position, actor)) {
-        state->callback = func_801713A8;
+    if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
+        state->callback = update_entity_movement_and_ground_height;
     }
 }

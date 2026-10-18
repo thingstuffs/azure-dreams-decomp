@@ -191,7 +191,7 @@ typedef struct S_func_800CDFD8_9 {
 } S_func_800CDFD8_9;
 
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
-void dungeonRenderActorSpriteParts(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
+void render_actor_sprite_parts(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
     s32 screen_y3;
     s16 left_x;
     s32 first_three_visible;
@@ -250,8 +250,8 @@ void dungeonRenderActorSpriteParts(void *unused, S_func_800CDFD8_2 *position, S_
     u16 pivot_y;
 
     scratch = (S_func_800CDFD8_1 *)0x1F800000;
-    render_state = &gameWork;
-    render_root = gameWork.unk_000;
+    render_state = &g_game_work;
+    render_root = g_game_work.unk_000;
     scratch->unk_EC = 0;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;

@@ -16,7 +16,7 @@ typedef struct S_800B7B60_0 {
 typedef struct S_800B7B60_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in dungeonAllocateObjectAtCoordinates, addressed as arg0[-1] */
+} S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in allocate_object_at_coordinates, addressed as arg0[-1] */
 
 typedef struct S_800B7B60_2 {
     u8 pad_00[0x2];
@@ -42,11 +42,11 @@ typedef struct S_800B7B60_3 {
 #endif
 
 
-extern void dungeonSpawnDirectedAndScatteredParticles();
+extern void spawn_directed_and_scattered_particles();
 extern M2C_UNK D_800B7774;
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */
-void *dungeonAllocateObjectAtCoordinates(void *source, s32 *init_value) {
+void *allocate_object_at_coordinates(void *source, s32 *init_value) {
     u16 coord_z;
     S_800B7B60_3 *src_coords;
     S_800B7B60_0 *object;
@@ -62,8 +62,8 @@ void *dungeonAllocateObjectAtCoordinates(void *source, s32 *init_value) {
         dst_coords->unk_06 = src_coords->unk_06;
         coord_z = src_coords->unk_0A;
         dst_coords->unk_0A = coord_z;
-        dungeonSpawnDirectedAndScatteredParticles((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
-        dungeonStatus.unk_0A++;
+        spawn_directed_and_scattered_particles((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
+        g_dungeon_status.unk_0A++;
     }
     return object;
 }

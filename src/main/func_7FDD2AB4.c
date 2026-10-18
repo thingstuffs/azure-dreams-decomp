@@ -5,5 +5,5 @@
 void func_80089A14(unsigned short *data)
 {
     data[-1] |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

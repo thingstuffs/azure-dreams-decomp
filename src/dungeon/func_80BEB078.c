@@ -23,7 +23,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     if (created != 0) {
 
         result = (u8 *)created + 0x20;
-        ((R16_80170878_S_80170878_0 *)created)->unk_10 = dungeonUpdateEntityFacingAndGround;
+        ((R16_80170878_S_80170878_0 *)created)->unk_10 = update_entity_facing_and_ground;
         ((R16_80170878_S_80170878_1 *)result)->unk_13 = 0x10;
         func_8004491C(created, func_80045340);
 
@@ -47,22 +47,22 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
             if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(((R16_80170878_S_80170878_1 *)result)->unk_14 & 0x200)) {
                     call_a1 = position;
-                    if (func_800A6D30() & 1) {
-                        func_800A48F0(result, 1,
-                            (func_800A6D30() & 0x3F) | 0x20);
+                    if (generate_random_value() & 1) {
+                        set_or_clear_actor_status_slot(result, 1,
+                            (generate_random_value() & 0x3F) | 0x20);
                         part_b->unk_2C = ((u8 *)D_8017425C);
                     }
                 }
             }
         }
 
-        func_800A9C18(created, position, part_b, (s16)flags_copy);
+        initialize_actor_sprite_and_animation(created, position, part_b, (s16)flags_copy);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = ((u8 *)func_80171014);
+        actor->unk_8C = ((u8 *)update_actor_state_and_dispatch_transition);
         ((R16_80170878_S_80170878_1 *)result)->unk_1C |= 0x40000;
         actor->unk_92 = -0x20;
-        func_800AA36C(actor, position, part_b, result);
+        try_move_actor_to_valid_position(actor, position, part_b, result);
     }
     return result;
 }

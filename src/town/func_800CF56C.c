@@ -4,9 +4,9 @@
 typedef struct S_800CCCCC_0 {
     u8 pad_00[0x68];
     u16 unk_68;
-} S_800CCCCC_0;   /* arg0 in townIncrementFlagObjectCounter */
+} S_800CCCCC_0;   /* arg0 in increment_flag_object_counter */
 
 /* Increment the object's 16-bit counter at offset 0x68. */
-void townIncrementFlagObjectCounter(S_800CCCCC_0 *object) {
+void increment_flag_object_counter(S_800CCCCC_0 *object) {
     object->unk_68 = (u16) (object->unk_68 + 1);
 }

@@ -16,7 +16,7 @@ extern State *D_80701968[3];
 
 extern s32 func_80700C9C(s32 entry);
 extern void func_80700D24(s32 entry);
-extern void func_80700D54(s32 entry);
+extern void pass_indexed_table(s32 entry);
 extern s32 func_80701404();
 
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
@@ -27,6 +27,6 @@ s32 func_80875364(s32 entry) {
         D_80701968[0]->flags |= 4;
         return func_80701404();
     }
-    func_80700D54(1);
+    pass_indexed_table(1);
     return entry;
 }

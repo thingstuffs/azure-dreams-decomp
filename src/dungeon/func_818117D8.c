@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-void dungeonInitializeOwnerDefaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
+void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data) {
     ovl_1831370_818117D8_S_8002E5D8 *patch_defaults = &D_8002E5D8;
     ovl_1831370_818117D8_S_8002E5E8 *aux_defaults = &D_8002E5E8;

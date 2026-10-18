@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1930844.h"
 
-void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *state, void *motion, void *appearance) {
+void update_movement_toward_target_along_direction_advances_action_phases(void *state, void *motion, void *appearance) {
     ovl_1930844_81912154_LocalStack stack;
     s16 floor_height;
     s32 phase;
@@ -52,7 +52,7 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
     case 1:
         owner_links = owner - 0x20;
         model = (s32)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C);
-        if (resolveRecordOrientationOrFallback(((ovl_1930844_81912154_S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) == 0
+        if (resolve_record_orientation_or_fallback(((ovl_1930844_81912154_S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) == 0
             && !(((ovl_1930844_81912154_S_80025954_14 *)(((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
             break;
         }
@@ -112,10 +112,10 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
             z_base2 = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v + 0x300000;
             z_velocity -= z_base2;
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_14 = z_velocity / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
-            dungeonCreateAnEffectPositionRandomizedSpriteAngle(state, motion);
+            create_an_effect_position_randomized_sprite_angle(state, motion);
             next_state = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
-            table_origin = dirStepX;
+            table_origin = dir_step_x;
             step_count = 0;
             grid_source = ((ovl_1930844_81912154_S_80025954_3 *)owner_links)->unk_0C;
             tile_x = ((ovl_1930844_81912154_S_80025954_9 *)grid_source)->unk_24;
@@ -123,7 +123,7 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {
-                if ((dungeonCheckLayerOffsetHeight(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
+                if ((check_layer_offset_height(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
                     ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10)
                     != 0) {
                     goto grid_hit;
@@ -131,11 +131,11 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
                 {
                     direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
                     height = (u16) ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_88;
-                    entity = (void *)&dirStepX[direction];
+                    entity = (void *)&dir_step_x[direction];
                 }
                 height = (s16) (height - 0x20);
-                y_lookup_first = &dirStepY[direction];
-                floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0,
+                y_lookup_first = &dir_step_y[direction];
+                floor_height = sample_terrain_surface_height(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0,
                     ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
                 if (floor_height >= 0x201) {
                     break;
@@ -145,9 +145,9 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
                 }
                 step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
                 step_count += 1;
-                source_coord = tile_x + (u16) dirStepX[step_direction];
+                source_coord = tile_x + (u16) dir_step_x[step_direction];
                 tile_x = source_coord;
-                motion_value = tile_y + (u16) dirStepY[step_direction];
+                motion_value = tile_y + (u16) dir_step_y[step_direction];
                 tile_y = motion_value;
                 end_tile_y = motion_value;
                 end_tile_x = source_coord;
@@ -168,7 +168,7 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
             axis_delta += direction;
             ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;
-            model = ((s16) end_tile_y << 6) + ((dirStepY[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
+            model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) ((Rec_func_80024170_arg0 *)state)->unk_0E] + 1) << 5);
             ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at02.v = model;
             axis_delta >>= 0x10;
             ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at02u.v = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02.v;
@@ -195,7 +195,7 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_14 = 0;
             ((ovl_1930844_81912154_S_80025954_11 *)motion)->unk_10 = y_velocity;
-            dungeonCreateAnEffectPositionRandomizedSpriteAngle(state, motion);
+            create_an_effect_position_randomized_sprite_angle(state, motion);
             next_state = 6;
         }
         goto set_state;
@@ -209,8 +209,8 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
         if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
             break;
         }
-        dungeonCreateAndInitializesCopyingN24BytesSourceData(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
-        func_800A56E0(0x300);
+        create_and_initializes_copying_n_24_bytes_source_data(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60))->unk_88);
+        play_sound_if_enabled(0x300);
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
         ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
         break;
@@ -226,16 +226,16 @@ void dungeonUpdateMovementTowardTargetAlongDirectionAdvancesActionPhases(void *s
         if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < 0x44) {
             break;
         }
-        func_8009CE1C(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, ((Rec_func_80024170_arg0 *)state)->unk_09, 1,
+        apply_attack_power_and_element_effects(((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60, 0x18, ((Rec_func_80024170_arg0 *)state)->unk_09, 1,
             (s32) (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9), owner, 1);
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
         ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
         break;
     case 5:
         if (((Rec_func_80024170_arg0 *)state)->unk_14 == 0) {
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-            (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         }
         break;
     case 6:

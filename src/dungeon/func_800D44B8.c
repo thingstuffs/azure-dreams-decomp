@@ -1,14 +1,14 @@
 #include "common.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
-extern s32 dungeonUpdateLinkedActorMotion(void *, void *, void *, void *);
-extern s32 dungeonCheckActorFloorTrap();
-extern void dungeonUpdateActorFacingAnimation();
+extern s32 update_linked_actor_motion(void *, void *, void *, void *);
+extern s32 check_actor_floor_trap();
+extern void update_actor_facing_animation();
 
-void func_800D9C18(void *actor, void *motion, void *render, void *context)
+void update_linked_actor_motion_and_check_floor_trap(void *actor, void *motion, void *render, void *context)
 {
-    if (dungeonUpdateLinkedActorMotion(actor, motion, render, context) &&
-        ((s16)dungeonCheckActorFloorTrap(render, context) > 0)) {
-        *(void (**)(void *, void *, void *, void *))((u8 *)actor + 0x8C) = dungeonUpdateActorFacingAnimation;
+    if (update_linked_actor_motion(actor, motion, render, context) &&
+        ((s16)check_actor_floor_trap(render, context) > 0)) {
+        *(void (**)(void *, void *, void *, void *))((u8 *)actor + 0x8C) = update_actor_facing_animation;
     }
 }

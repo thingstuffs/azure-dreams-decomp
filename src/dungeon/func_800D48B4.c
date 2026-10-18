@@ -11,29 +11,29 @@ typedef struct S_800DA014_0 {
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
-} S_800DA014_0;   /* in_arg0 in func_800DA014 */
+} S_800DA014_0;   /* in_arg0 in advance_actor_action_controller */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_8003DB94(void *, s32, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s16 dungeonGetTileChebyshevDistance(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30(void);
+extern s32 check_entity_relation(void *, void *);
+extern s16 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, void *);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void func_800DA660(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
 
 extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
 /* Advances the actor action state and updates its directional animation. */
-void func_800DA014(void *controller, void *action_context, void *sprite, EntityRec *actor)
+void advance_actor_action_controller(void *controller, void *action_context, void *sprite, EntityRec *actor)
 {
     s32 state;
 
@@ -47,9 +47,9 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
-            system_base = &dungeonStatus;
+            system_base = &g_dungeon_status;
             (*(u16 *)&system_base->unk_0A)--;
             ((S_800DA014_0 *)controller)->unk_9B++;
         }
@@ -59,13 +59,13 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
         s32 actor_flags;
         DungeonGlobalStatus *system_base;
 
-        system_base = &dungeonStatus;
+        system_base = &g_dungeon_status;
         if (system_base->flags & 0x1000) {
             return;
         }
 
         if ((actor->unk_64 != 0) &&
-            (dungeonBeginReadyActorDirectionalAction(controller, action_context, sprite, 0) != 0)) {
+            (begin_ready_actor_directional_action(controller, action_context, sprite, 0) != 0)) {
             return;
         }
 
@@ -73,23 +73,23 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             if (system_base->flags & 0x2008) {
                 return;
             }
-            dungeonAdvanceActorPendingAction(controller, action_context, sprite, actor);
+            advance_actor_pending_action(controller, action_context, sprite, actor);
             return;
         }
 
-        if ((func_800A2C34(actor) << 16) != 0) {
+        if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             return;
         }
 
         actor_flags = actor->flags1C;
         if (actor_flags & 0x100) {
-            dungeonBeginPushedActorMove(controller, action_context, sprite, actor);
+            begin_pushed_actor_move(controller, action_context, sprite, actor);
             return;
         }
 
         if (actor_flags & 0x80000) {
-            func_800AA888(controller, action_context, sprite, actor);
-            func_800DA660(controller, action_context, sprite, actor);
+            begin_actor_move_to_target_facing(controller, action_context, sprite, actor);
+            install_actor_action_handler_after_floor_trap_check(controller, action_context, sprite, actor);
             return;
         }
 
@@ -97,14 +97,14 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             return;
         }
 
-        if ((func_800A2C34(actor) << 16) != 0) {
-            if ((dungeonCheckEntityRelation(actor,
+        if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
+            if ((check_entity_relation(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(actor);
+        update_actor_status_and_food(actor);
         func_800A9A04(actor);
 
         if ((func_80042900(actor, 1) << 16) != 0) {
@@ -115,8 +115,8 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
             if ((((coordinate == reference_sprite->unk_026) &&
                         (coordinate >= 0)) ||
-                 (dungeonGetTileChebyshevDistance(reference_sprite, sprite) < 2)) &&
-                ((func_800A6D30() & 7) == 0)) {
+                 (get_tile_chebyshev_distance(reference_sprite, sprite) < 2)) &&
+                ((generate_random_value() & 7) == 0)) {
                 func_80042B68(actor, 1);
             }
         }
@@ -127,7 +127,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             direction_table = D_800E262C;
             (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
             func_8003DB94(sprite,
-                *(void **)(direction_table + (((gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
+                *(void **)(direction_table + (((g_game_work.view.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
         } else {
             return;
@@ -135,7 +135,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
     }
 
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            DungeonGlobalStatus *system_base = &dungeonStatus;
+            DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->unk_0A)++;
             ((S_800DA014_0 *)controller)->unk_9B++;
@@ -147,7 +147,7 @@ void func_800DA014(void *controller, void *action_context, void *sprite, EntityR
             return;
         }
         {
-            DungeonGlobalStatus *system_base = &dungeonStatus;
+            DungeonGlobalStatus *system_base = &g_dungeon_status;
             (*(u16 *)&system_base->unk_0A)--;
         }
         break;

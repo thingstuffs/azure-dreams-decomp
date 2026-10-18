@@ -5,10 +5,10 @@
 
 
 extern void func_80047784(void *, s32, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
@@ -25,7 +25,7 @@ typedef struct S_80172864_0 {
     s16 unk_9E;
     u8 pad_A0[0x2];
     s16 unk_A2;
-} S_80172864_0;   /* s0 in dungeonAdvanceTimedActionAndCleanup */
+} S_80172864_0;   /* s0 in advance_timed_action_and_cleanup */
 
 
 typedef struct S_80172864_2 {
@@ -33,10 +33,10 @@ typedef struct S_80172864_2 {
     s16 unk_2A;
     u8 pad_2C[0x1A];
     u16 unk_46;
-} S_80172864_2;   /* s1 in dungeonAdvanceTimedActionAndCleanup */
+} S_80172864_2;   /* s1 in advance_timed_action_and_cleanup */
 
 /* Advances a timed action through animation setup, execution, and cleanup. */
-void dungeonAdvanceTimedActionAndCleanup(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
+void advance_timed_action_and_cleanup(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
 {
     register void *action = action_data;
     register void *actor = actor_data;
@@ -67,7 +67,7 @@ void dungeonAdvanceTimedActionAndCleanup(void *action_data, void *unused, Rec_D_
         sprite->unk_2C.as_pu8 = D_80174108;
         func_80047784(
             sprite,
-            D_80174108[((gameWork.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_80174108[((g_game_work.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         state = ((S_80172864_0 *)action)->unk_9B.n;
         ((S_80172864_0 *)action)->unk_96.u = 0;
@@ -80,14 +80,14 @@ void dungeonAdvanceTimedActionAndCleanup(void *action_data, void *unused, Rec_D_
         timer = ((S_80172864_0 *)action)->unk_96.u + 1;
         ((S_80172864_0 *)action)->unk_96.u = timer;
         if ((s16)timer == 9 || (sprite->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
             ((S_80172864_0 *)action)->unk_96.u = 0;
             ((S_80172864_0 *)action)->unk_9B.n++;
         }
         if (((S_80172864_0 *)action)->unk_96.s != 6) {
             return;
         }
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         return;
 
     case 3:
@@ -98,10 +98,10 @@ void dungeonAdvanceTimedActionAndCleanup(void *action_data, void *unused, Rec_D_
         if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        reduce_actor_food_meter(actor, 0x100);
         ((S_80172864_0 *)action)->unk_8C = D_801714D4;
-        dungeonStatus.unk_0C = 0;
-        dungeonAdvanceStatusTimers(actor);
+        g_dungeon_status.unk_0C = 0;
+        advance_status_timers(actor);
         ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
 
         return;

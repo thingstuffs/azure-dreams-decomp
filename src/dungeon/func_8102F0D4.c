@@ -11,11 +11,11 @@ typedef struct S_8102F0D4_0 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8102F0D4_0;   /* arg1 in dungeonUpdateRelativeDepthAndExpire */
+} S_8102F0D4_0;   /* arg1 in update_relative_depth_and_expire */
 
 typedef struct S_8102F0D4_1_pre {
     u16 unk_00;
-} S_8102F0D4_1_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateRelativeDepthAndExpire, addressed as arg0[-1] */
+} S_8102F0D4_1_pre;   /* the 0x2 bytes before arg0 in update_relative_depth_and_expire, addressed as arg0[-1] */
 
 typedef struct S_8102F0D4_1 {
     u8 pad_00[0x94];
@@ -23,7 +23,7 @@ typedef struct S_8102F0D4_1 {
     u16 unk_96;
     u8 pad_98[0x10];
     void * unk_A8;
-} S_8102F0D4_1;   /* arg0 in dungeonUpdateRelativeDepthAndExpire */
+} S_8102F0D4_1;   /* arg0 in update_relative_depth_and_expire */
 
 typedef struct S_8102F0D4_2 {
     u8 pad_00[0x2];
@@ -41,7 +41,7 @@ s32 func_80065420();
 extern s32 func_800478B8();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
-void dungeonUpdateRelativeDepthAndExpire(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
+void update_relative_depth_and_expire(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
     u16 coords[3];
     M2C_S64 transform_result;
     s16 transform_aux;
@@ -61,7 +61,7 @@ void dungeonUpdateRelativeDepthAndExpire(void *state, S_8102F0D4_0 *position, Re
     coords[1] = reference_pos->unk_06;
     coords[2] = reference_pos->unk_0A;
     reference_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
-    direction_offset = &D_800DCECC[((s32) (gameWork.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
+    direction_offset = &D_800DCECC[((s32) (g_game_work.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
     entity->unk_06.as_s16 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     func_800478B8(entity);
@@ -69,6 +69,6 @@ void dungeonUpdateRelativeDepthAndExpire(void *state, S_8102F0D4_0 *position, Re
     ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

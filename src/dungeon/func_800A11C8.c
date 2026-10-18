@@ -2,7 +2,7 @@
 #include "common.h"
 
 /* Count the 20 table entries whose first halfword matches the packed input bytes. */
-s16 func_800A6928(s32 high_byte, s32 low_byte) {
+s16 count_matching_packed_entity_keys(s32 high_byte, s32 low_byte) {
     u8 *entry_cursor;
     u32 table_page;
     s32 match_count;

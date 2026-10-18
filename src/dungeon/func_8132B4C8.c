@@ -14,7 +14,7 @@ typedef struct S_80172CC8_1 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80172CC8_1;   /* arg0 in dungeonCreateBossDisplayVariant */
+} S_80172CC8_1;   /* arg0 in create_boss_display_variant */
 
 
 
@@ -49,7 +49,7 @@ extern M2C_UNK D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */
-void dungeonCreateBossDisplayVariant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
+void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
     Sub *setup_sub;
     Sub *display_sub;
     Node *node;

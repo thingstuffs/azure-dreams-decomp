@@ -32,18 +32,18 @@ typedef struct {
 typedef struct S_81958F28_0 {
     u8 pad_00[0x8];
     void *unk_08;
-} S_81958F28_0;   /* state in dungeonTintEffectAndAdvanceMotion */
+} S_81958F28_0;   /* state in tint_effect_and_advance_motion */
 
 typedef struct S_81958F28_1 {
     u8 pad_00[0x8];
     void *unk_08;
     void *unk_0C;
-} S_81958F28_1;   /* node in dungeonTintEffectAndAdvanceMotion */
+} S_81958F28_1;   /* node in tint_effect_and_advance_motion */
 
-extern void func_80024024(void *, s16, Vec3i *);
-extern void func_80024654(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
+extern void interpolate_view_parameters(void *, s16, Vec3i *);
+extern void spawn_spiraling(s16 from_x, s16 from_y, s16 from_z, s16 to_x, s16 to_y, s16 to_z, s16 *angles);
 extern s32 func_80025344(s16, s16, s16, s16);
-extern void resolveRecordOrientationOrFallback(s32, u8 *, Vec3s *, s32);
+extern void resolve_record_orientation_or_fallback(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);
 
 extern u16 D_800281F8;
@@ -78,7 +78,7 @@ void func_81958F28(AnimState *state, void *pos, void *tint) {
         if (node == 0) {
             phase = S16(state, 0x2E);
             if (phase == 0) {
-                func_80024654(
+                spawn_spiraling(
                     S16(pos, 2),
                     S16(pos, 6),
                     S16(pos, 0xA),
@@ -177,7 +177,7 @@ void func_81958F28(AnimState *state, void *pos, void *tint) {
                 U16(state, 0xE) += (color.y - S16(state, 0xE)) >> 2;
                 U16(state, 0x10) += (color.z - S16(state, 0x10)) >> 2;
 
-                func_80024024((u8 *)state + 0xC, S16(state, 0x3A), &delta);
+                interpolate_view_parameters((u8 *)state + 0xC, S16(state, 0x3A), &delta);
                 S32(pos, 0) += delta.x;
                 S32(pos, 4) += delta.y;
                 S32(pos, 8) += delta.z;
@@ -191,9 +191,9 @@ void func_81958F28(AnimState *state, void *pos, void *tint) {
                     color.y = U16(base, 6);
                     color.z = U16(((u8 *)D_800E3D7C), 0x88) - 0x50;
                     tableAddress =
-                        ((gameWork.view.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
+                        ((g_game_work.view.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
                     tableAddress += (s32)D_800E3D18;
-                    resolveRecordOrientationOrFallback(
+                    resolve_record_orientation_or_fallback(
                         *(s32 *)tableAddress,
                         ((u8 *)(&D_80082E80)),
                         &effect,
@@ -298,7 +298,7 @@ void func_81958F28(AnimState *state, void *pos, void *tint) {
         U16(state, 0x30)--;
         if (S16(state, 0x30) <= 0) {
             U16(state, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
     }
 }

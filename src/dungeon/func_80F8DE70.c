@@ -64,7 +64,7 @@ void func_8016B670(void *motion, s32 unused, void *entity, void *path_state)
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_8016EAD4;
         func_80047784(
             entity,
-            D_8016EAD4[((gameWork.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+            D_8016EAD4[((g_game_work.view.viewAngle + ((S_80171670_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80171670_2 *)motion)->unk_A0 = 0;
     }
@@ -75,7 +75,7 @@ void func_8016B670(void *motion, s32 unused, void *entity, void *path_state)
     if (((S_80171670_0 *)path_state)->unk_1C.s & 0x2000) {
         cell_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, cell_mask);
+    update_map_cell_flags_with_item_limit(old_x, old_y, cell_mask);
 
     ((S_80171670_1 *)entity)->unk_24 =
         ((S_80171670_3 *)((u8 *)path_state + ((S_80171670_0 *)path_state)->unk_8A.s))->unk_74;
@@ -89,7 +89,7 @@ void func_8016B670(void *motion, s32 unused, void *entity, void *path_state)
     if (((S_80171670_0 *)path_state)->unk_1C.s & 0x2000) {
         cell_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, cell_mask);
+    cycle_map_cell_flags(new_x, new_y, cell_mask);
 
     ((S_80171670_0 *)path_state)->unk_2A = (s16)func_800A0818(
         old_x, old_y, ((S_80171670_1 *)entity)->unk_24, ((S_80171670_1 *)entity)->unk_25,
@@ -98,7 +98,7 @@ void func_8016B670(void *motion, s32 unused, void *entity, void *path_state)
     ((S_80171670_2 *)motion)->unk_9A = 0xF;
     (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_80171670_2 *)motion)->unk_96 = 0;
         return;
     }

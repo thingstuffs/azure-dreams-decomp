@@ -14,18 +14,18 @@ typedef struct S_800251F0_0 {
     u8 unk_29;
     u8 pad_2A[0x62];
     u16 unk_8C;
-} S_800251F0_0;   /* arg1 in dungeonAdvanceObjectCountersAnimationValuesFlagExpiration */
+} S_800251F0_0;   /* arg1 in advance_object_counters_animation_values_flag_expiration */
 
 typedef struct S_800251F0_1 {
     u8 pad_00[0x6428];
     s16 unk_6428;
-} S_800251F0_1;   /* page in dungeonAdvanceObjectCountersAnimationValuesFlagExpiration */
+} S_800251F0_1;   /* page in advance_object_counters_animation_values_flag_expiration */
 
 
 extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */
-void dungeonAdvanceObjectCountersAnimationValuesFlagExpiration(void *object_ptr)
+void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
 {
     u8 *object_bytes;
     u16 remaining_ticks;
@@ -83,6 +83,6 @@ void dungeonAdvanceObjectCountersAnimationValuesFlagExpiration(void *object_ptr)
 
     if (((S_800251F0_0 *)object_bytes)->unk_02.u <= 0) {
         (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void setResidentBitmapBit(s32);
+extern void set_resident_bitmap_bit(s32);
 extern u8 D_800CC524;
 
 typedef struct {
@@ -18,9 +18,9 @@ typedef struct {
 } Struct800CED50Arg2;
 
 // Decrements the countdown and resets the state and color when it expires.
-void townAdvanceFadeAndSetGrayColor(Struct800CED50Arg0 *state, s32 unusedArg, Struct800CED50Arg2 *color) {
+void advance_fade_and_set_gray_color(Struct800CED50Arg0 *state, s32 unusedArg, Struct800CED50Arg2 *color) {
     if ((s16)(--state->unk6C) <= 0) {
-        setResidentBitmapBit(0x97);
+        set_resident_bitmap_bit(0x97);
         state->unk54 = &D_800CC524;
         state->unk6C = 0xA;
         color->unkE = 0x80;

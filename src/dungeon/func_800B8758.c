@@ -7,18 +7,18 @@
 
 
 
-void dungeonBeginDeferredItemAction();
-void dungeonClearSlotAndUpdateLinkedState();
-s32 func_800990FC();
-s32 func_80099194();
+void begin_deferred_item_action();
+void clear_slot_and_update_linked_state();
+s32 get_unused_text_buffer();
+s32 expand_text_control_codes();
 void *func_80099290();
-s32 func_80099734();
-s32 func_800A48F0();
-s32 func_800A5720();
-void func_800A5F38();
-void func_800A63B8();
-s32 dungeonApplyActorFoodPreference();
-void func_800D5460();
+s32 append_entity_display_text();
+s32 set_or_clear_actor_status_slot();
+s32 display_text_with_fullwidth_adjustment();
+void apply_item_effect_at_entity_position();
+void display_item_status_message();
+s32 apply_actor_food_preference();
+void create_colored_effect_with_event();
 
 extern u8 D_80089358[];
 extern u8 D_800E0FA4[];
@@ -50,7 +50,7 @@ typedef struct S_800BDEB8_1 {
 } S_800BDEB8_1;
 
 /* Applies an interaction to an entity and displays the outcome. */
-s32 dungeonApplyFrogTransformationItem(void *entity, s32 action_id, s16 mode) {
+s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     void *current_entity = ((u8 *)D_800E3D7C);
     void *target = entity;
     s32 special_case = 0;
@@ -64,12 +64,12 @@ s32 dungeonApplyFrogTransformationItem(void *entity, s32 action_id, s16 mode) {
 
     if (entity == current_entity) {
         ((S_800BDEB8_0 *)entity)->unk_110 = action_id;
-        dungeonBeginDeferredItemAction(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {
-            func_800A63B8(entity, action_id, mode);
-            if (dungeonApplyActorFoodPreference(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
-                func_800A5F38(entity, action_id);
+            display_item_status_message(entity, action_id, mode);
+            if (apply_actor_food_preference(entity, (D_800DDE84[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+                apply_item_effect_at_entity_position(entity, action_id);
                 return 1;
             }
         }
@@ -95,48 +95,48 @@ s32 dungeonApplyFrogTransformationItem(void *entity, s32 action_id, s16 mode) {
             }
             {
                 u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
-                result = func_800A48F0(entity, 10, 0x20);
+                result = set_or_clear_actor_status_slot(entity, 10, 0x20);
                 if ((s16)result >= 0) {
                     saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
-                    message_handle = func_800990FC();
+                    message_handle = get_unused_text_buffer();
                     ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
-                    result = func_80099734(entity, message_handle);
+                    result = append_entity_display_text(entity, message_handle);
                     ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
                     message = D_800E0FA4;
-                    result = func_80099194(message, result);
+                    result = expand_text_control_codes(message, result);
                 } else {
-                    message_handle = func_800990FC();
+                    message_handle = get_unused_text_buffer();
                     message = D_800E0FB9;
-                    result = func_80099194(message, message_handle);
+                    result = expand_text_control_codes(message, message_handle);
                 }
             }
             func_80099290(result);
-            func_800A5720(message_handle);
-            func_800D5460((u8 *)entity - 0x20, 0x20A0A0, 0x613);
+            display_text_with_fullwidth_adjustment(message_handle);
+            create_colored_effect_with_event((u8 *)entity - 0x20, 0x20A0A0, 0x613);
         } else {
             special_case = 1;
         }
         result = special_case;
         if (result == 0) {
-            dungeonClearSlotAndUpdateLinkedState(action_id);
-            dungeonStatus.unk_0A--;
+            clear_slot_and_update_linked_state(action_id);
+            g_dungeon_status.unk_0A--;
             return 1;
         }
 show_special:
-        result = func_800990FC();
+        result = get_unused_text_buffer();
         {
             u8 *message = D_800E0FD7;
             u32 message_arg = result;
             saved_id = message_arg;
-            result = func_80099194(message, message_arg);
+            result = expand_text_control_codes(message, message_arg);
         }
-        result = func_80099734(entity, result);
-        result = func_80099194(D_80089358, result);
+        result = append_entity_display_text(entity, result);
+        result = expand_text_control_codes(D_80089358, result);
         func_80099290(result);
-        func_800A5720(saved_id);
+        display_text_with_fullwidth_adjustment(saved_id);
 
-        dungeonClearSlotAndUpdateLinkedState(action_id);
-        dungeonStatus.unk_0A--;
+        clear_slot_and_update_linked_state(action_id);
+        g_dungeon_status.unk_0A--;
         return 1;
     }
     return 0;

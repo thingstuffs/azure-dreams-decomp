@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-void buildCumulativeItemWeights(void)
+void build_cumulative_item_weights(void)
 {
     s32 total_weight;
     s32 category_index;

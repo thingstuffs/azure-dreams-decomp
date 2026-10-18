@@ -4,7 +4,7 @@
 
 
 /* Increment the object and global counters and flag the object after 256 counts. */
-void advanceObjectAndGlobalCounters(u16 *object)
+void advance_object_and_global_counters(u16 *object)
 {
     u16 object_count;
     s32 counter;
@@ -16,6 +16,6 @@ void advanceObjectAndGlobalCounters(u16 *object)
     D_80026472.value.u = counter;
     if ((s16)object_count >= 0x101) {
         object[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

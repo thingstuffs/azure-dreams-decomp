@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80DE6884; every changed retail word is a paired relocation. */
-#define dungeonCreateFourDirectionalEffects func_8015C084
+#define create_four_directional_effects func_8015C084
 #include "modules/dungeon_ovl_e0365c.h"
 extern void func_8015BF8C(void *, void *, void *);
 extern s32 func_800644B8(s32);
@@ -21,7 +21,7 @@ void func_8015C084(void *owner_arg, void *motion_arg, void *origin_arg) {
     offsets[1] = 0;
     offsets[0] = 0;
     owner = owner_arg;
-    resolveRecordOrientationOrFallback(origin->unk_08, origin, (s16 *)offsets, 0);
+    resolve_record_orientation_or_fallback(origin->unk_08, origin, (s16 *)offsets, 0);
     effect_index = 0;
     effect_data = (E_80174084_M2C_UNK *)((u32)func_8015BF8C);
     do {

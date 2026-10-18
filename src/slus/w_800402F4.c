@@ -12,11 +12,11 @@ typedef struct Entry {
     u8 data[1];
 } Entry;
 
-extern s32 isFramePacketArenaOverflowed(s32);
+extern s32 is_frame_packet_arena_overflowed(s32);
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 
-void dispatchRegisteredDrawCallbacks(void)
+void dispatch_registered_draw_callbacks(void)
 {
     s32 i;
 
@@ -27,7 +27,7 @@ void dispatchRegisteredDrawCallbacks(void)
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
                     callback(entry->data, entry->callback_arg1, entry->callback_arg2);
-                    if (isFramePacketArenaOverflowed(*(s32 *)((u8 *)gameWork.unk_000 + 0x8D0))) {
+                    if (is_frame_packet_arena_overflowed(*(s32 *)((u8 *)g_game_work.unk_000 + 0x8D0))) {
                         break;
                     }
                 }

@@ -75,7 +75,7 @@ void func_80164AD0(void *state, void *position, void *effect_arg)
         coord_work.xyz[2] = ((T_80170AD0_S_80170AD0_4 *)reference_coords)->unk_0A;
         reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
         ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
-            (D_800DCECC[((gameWork.view.viewAngle + ((T_80170AD0_S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
+            (D_800DCECC[((g_game_work.view.viewAngle + ((T_80170AD0_S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
     } else {
         ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = 4;
     }
@@ -84,6 +84,6 @@ void func_80164AD0(void *state, void *position, void *effect_arg)
     ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

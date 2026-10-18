@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19a332c.h"
 
-void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
+void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
     ovl_19a332c_819835AC_M2C_VEC3S emit_offset;
     s32 aim_angle;
     s32 angle_mask;
@@ -118,7 +118,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
         state = effect->unk_30;
         switch (state) {
         case 0:
-            resolveRecordOrientationOrFallback(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle
+            resolve_record_orientation_or_fallback(*(M2C_UNK *)((((s32) (g_game_work.view.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             sin_x = func_80064584(((ovl_19a332c_819835AC_S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
@@ -154,7 +154,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             motion->unk_14.word = height_numerator_2 / height_frames;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
         case 1:
-            aim_angle = (s16)dungeonForwardMonsterCoordinateDelta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             approach_heading = effect->unk_38;
             if (approach_heading & 0x800) {
@@ -233,7 +233,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             if (__builtin_abs(approach_gap_z) >= 0x40) {
                 break;
             }
-            resolveRecordOrientationOrFallback(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle
+            resolve_record_orientation_or_fallback(*(M2C_UNK *)((((s32) (g_game_work.view.viewAngle
                 + ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             state1_move = &D_80083780;
@@ -249,7 +249,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
             break;
         case 2:
-            aim_angle = (s16)dungeonForwardMonsterCoordinateDelta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             travel_heading = effect->unk_38;
             if (travel_heading & 0x800) {
@@ -340,15 +340,15 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
         case 3:
         case 4:
             state34_base = &D_80082E80;
-            if (resolveRecordOrientationOrFallback(state34_base->unk_008, state34_base, &emit_offset, 0) != 0) {
+            if (resolve_record_orientation_or_fallback(state34_base->unk_008, state34_base, &emit_offset, 0) != 0) {
                 if (effect->unk_30 == 3) {
                     state34_move = &D_80083780;
-                    dungeonSpawnBlinkingSpriteFlash(state34_move->x.w.i + emit_offset.x, state34_move->y.w.i + emit_offset.y,
+                    spawn_blinking_sprite_flash(state34_move->x.w.i + emit_offset.x, state34_move->y.w.i + emit_offset.y,
                         state34_move->z.w.i + emit_offset.z);
                     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
                 }
                 state34_emit = &D_80083780;
-                dungeonSpawnEffectActorOrCurvedTrail((s16) (((u16)state34_emit->x.w.i) + (u16) emit_offset.x),
+                spawn_effect_actor_or_curved_trail((s16) (((u16)state34_emit->x.w.i) + (u16) emit_offset.x),
                     (s16) (((u16)state34_emit->y.w.i) + (u16) emit_offset.y),
                     (s16) (((u16)state34_emit->z.w.i) + (u16) emit_offset.z),
                     ((ovl_19a332c_819835AC_S_819835AC_5 *) ((ovl_19a332c_819835AC_S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16, 0);
@@ -381,7 +381,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             effect->unk_34.u16 = 0U;
             effect->unk_42 = (s16) tile_coord;
             effect->unk_99 = (u8) tile_coord;
-            func_800A56E0(tile_call_arg, rise_speed);
+            play_sound_if_enabled(tile_call_arg, rise_speed);
             break;
         case 5:
             motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
@@ -421,10 +421,10 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
                         }
                         actor_data = (u8 *) hit_actor - 0x20;
                         if ((hit_height_gap < 0x80) && !(actor_data->unk_1E & 0x2000)) {
-                            func_8009CE1C(hit_actor, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                            apply_attack_power_and_element_effects(hit_actor, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
                                 D_80027C98, 2);
                             related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_08;
-                            dungeonSpawnThirtyTwoAngledParticles(related_motion->unk_00.half.unk_02.s16,
+                            spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16,
                                 related_motion->unk_04.half.unk_06.s16, related_motion->unk_08.half.unk_0A.s16,
                                 (s16) effect->unk_38, (func_80069EF8() & 3) | 4);
                             actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
@@ -452,7 +452,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             target = effect->unk_9C;
             if (target != NULL) {
                 related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
-                aim_angle = (s16)dungeonForwardMonsterCoordinateDelta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+                aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                     related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
                 homing_heading = effect->unk_38;
                 if (homing_heading & 0x800) {
@@ -532,10 +532,10 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
                     }
                     if (target_gap_y < 0x20) {
                         actor_data = effect->unk_9C - 0x20;
-                        func_8009CE1C(effect->unk_9C, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                        apply_attack_power_and_element_effects(effect->unk_9C, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
                             D_80027C98, 2);
-                        func_800A56E0(0x300);
-                        dungeonSpawnThirtyTwoAngledParticles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
+                        play_sound_if_enabled(0x300);
+                        spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
                             (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
                             (func_80069EF8() & 3) | 4);
                         actor_data->unk_1E = (u16) (actor_data->unk_1E | 0x2000);
@@ -555,7 +555,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
                 search_ticks = effect->unk_8A - 1;
                 effect->unk_8A = search_ticks;
                 if ((search_ticks << 0x10) <= 0) {
-                    new_target = func_80026444(&D_80082E80.unk_000);
+                    new_target = find_eligible_nearby_entity(&D_80082E80.unk_000);
                     effect->unk_9C = new_target;
                     if (new_target == NULL) {
                         effect->unk_30 = 0x10;
@@ -606,7 +606,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             D_80027C94 = 0;
             goto block_139;
         }
-        visual->unk_1A = (u16) ((s16)dungeonForwardMonsterCoordinateDelta(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
+        visual->unk_1A = (u16) ((s16)forward_monster_coordinate_delta(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
         boost_speed_x = motion->unk_14.half.unk_16;
         step_y = (*(u16 *)((u8 *)visual + 0x1C));
         coord_delta = visual->unk_0C.half.unk_0C;
@@ -630,9 +630,9 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             visual->unk_0C.half.unk_0D = (u8) (visual->unk_0C.half.unk_0D + 8);
             visual->unk_0C.half.unk_0E = (u8) (visual->unk_0C.half.unk_0E + 8);
         }
-        inventoryResetSharedStateMode13((u8 *) effect - 0x20, motion, 8, 0x300);
-        func_800262F4(visual, (u8 *) effect + 0x36, effect->unk_3C, effect->unk_3A);
-        inventoryCopyAndSignExtendRecordFields(effect, visual->unk_00);
+        inventory_reset_shared_state_mode_13((u8 *) effect - 0x20, motion, 8, 0x300);
+        step_and_clamp_entry_index(visual, (u8 *) effect + 0x36, effect->unk_3C, effect->unk_3A);
+        inventory_copy_and_sign_extend_record_fields(effect, visual->unk_00);
         frame = visual->unk_04;
         if ((s8) frame == effect->unk_3A) {
             frame_step = -1;
@@ -641,7 +641,7 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
             frame_step = 1;
             effect->unk_36 = frame_step;
         }
-        dungeonSpawnRandomMotionParticles((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+        spawn_random_motion_particles((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
             (s16) motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38, D_80026BD4[(s8) visual->unk_04]);
         effect->unk_94 = (u16) (effect->unk_94 + 1);
         return;
@@ -653,14 +653,14 @@ void dungeonUpdateHomingEffectAndAttachedCopies(ovl_19a332c_819835AC_S_819835AC_
 block_139:
     ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
         | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+    (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
     return;
 block_140:
     actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_0C;
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->unk_1A = (u16) ((s16)dungeonForwardMonsterCoordinateDelta((s16) motion->unk_00.half.unk_02.u16,
+        visual->unk_1A = (u16) ((s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16,
             (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
             related_motion->unk_04.half.unk_06.s16) - 0x400);
         alternate_delta = related_motion->unk_08.half.unk_0A.s16;
@@ -689,8 +689,8 @@ block_140:
     visual->unk_20 = (u16) actor_data->unk_20;
     visual->unk_0C.word = actor_data->unk_0C;
     if (D_80026BC8[effect->unk_88] != 0) {
-        inventorySetObjectEntryAddress(visual, actor_data->unk_04);
-        inventoryCopyAndSignExtendRecordFields(effect, visual->unk_00);
+        inventory_set_object_entry_address(visual, actor_data->unk_04);
+        inventory_copy_and_sign_extend_record_fields(effect, visual->unk_00);
     }
     effect->unk_94 = (u16) (effect->unk_94 + 1);
     return;

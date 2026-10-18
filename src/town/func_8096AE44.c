@@ -8,7 +8,7 @@ typedef struct S_801232DC_1 {
     void * unk_00;
     void * unk_04;
     union { struct { void * v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_801232DC_1;   /* object in townLayoutCatalogEntryGrid */
+} S_801232DC_1;   /* object in layout_catalog_entry_grid */
 
 typedef struct S_801232DC_2 {
     u8 pad_00[0x4];
@@ -22,7 +22,7 @@ typedef struct S_801232DC_3 {
 
 typedef struct S_801232DC_4 {
     void * unk_00;
-} S_801232DC_4;   /* object_base[0x61] in townLayoutCatalogEntryGrid */
+} S_801232DC_4;   /* object_base[0x61] in layout_catalog_entry_grid */
 
 typedef struct S_801232DC_5 {
     u8 pad_00[0x8];
@@ -33,7 +33,7 @@ typedef struct S_801232DC_6 {
     u8 pad_00[0x8];
     union { u16 s; s16 u; } unk_08;   /* accessed as both */
     u16 unk_0A;
-} S_801232DC_6;   /* ((S_801232DC_1 *)object)->unk_04 in townLayoutCatalogEntryGrid */
+} S_801232DC_6;   /* ((S_801232DC_1 *)object)->unk_04 in layout_catalog_entry_grid */
 
 typedef struct S_801232DC_7 {
     u8 pad_00[0x8];
@@ -55,7 +55,7 @@ typedef struct S_801232DC_9 {
 typedef struct S_801232DC_10 {
     u8 pad_00[0x8];
     s16 unk_08;
-} S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in townLayoutCatalogEntryGrid */
+} S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in layout_catalog_entry_grid */
 
 
 typedef struct TownInitialPosition {
@@ -64,14 +64,14 @@ typedef struct TownInitialPosition {
     u16 y;
 } TownInitialPosition;
 
-extern void townInitializeCatalogEntryPackets(void);
+extern void initialize_catalog_entry_packets(void);
 extern TownInitialPosition D_80126AF8[5];
 extern s8 D_80128614[];
 extern void *D_80129728[];
 extern s8 D_801331D0[];
 
 /* Initialize town object data, grid positions, and display dimensions. */
-void townLayoutCatalogEntryGrid(void)
+void layout_catalog_entry_grid(void)
 {
     s32 object_index;
     TownInitialPosition *initial_pos;
@@ -94,7 +94,7 @@ void townLayoutCatalogEntryGrid(void)
     void **group_slot;
 
     object_index = 0x1C;
-    townInitializeCatalogEntryPackets();
+    initialize_catalog_entry_packets();
     initial_index = 0;
     {
         void **object_base;

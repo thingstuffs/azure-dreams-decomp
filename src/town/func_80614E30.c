@@ -26,7 +26,7 @@ extern s32 func_80018C50(s32);
 extern s32 D_8001A3B5;
 
 // Processes IDs 0xFB7 and 0xFB8, conditionally sets a data pointer, and invokes the context callback.
-s32 func_80016630(void) {
+s32 process_ids_conditionally_pointer(void) {
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);
     if (func_80018C50(0xFC0) != 0) {

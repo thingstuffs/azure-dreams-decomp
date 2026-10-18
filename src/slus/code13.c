@@ -1,5 +1,5 @@
 #include "shared/game_work.h"
-/* gcc 2.8.1 -O2 — own TU (copyViewHalfwordTriplet: callback fwd-decl conflict) */
+/* gcc 2.8.1 -O2 — own TU (copy_view_halfword_triplet: callback fwd-decl conflict) */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,11 +22,11 @@ typedef struct {
 
 /* Destination global struct; only offsets 0xBC/0xBE/0xC0 are written. Size forces hi/lo access. */
 /* Copies three nested 16-bit fields into the global state. */
-void copyViewHalfwordTriplet(InStruct *object)
+void copy_view_halfword_triplet(InStruct *object)
 {
     SrcStruct *source = object->unk20;
 
-    gameWork.view.unk_0A4 = source->unk2;
-    gameWork.view.unk_0A6 = source->unk6;
-    gameWork.view.unk_0A8 = source->unkA;
+    g_game_work.view.unk_0A4 = source->unk2;
+    g_game_work.view.unk_0A6 = source->unk6;
+    g_game_work.view.unk_0A8 = source->unkA;
 }

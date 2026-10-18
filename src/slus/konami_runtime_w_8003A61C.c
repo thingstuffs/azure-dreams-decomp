@@ -13,7 +13,7 @@ typedef struct Func8003A61CState {
 } Func8003A61CState;
 
 /* Jump to the encoded address if the selected table value is nonpositive; otherwise skip it. */
-void vmOp64JumpIfNonpositive(Func8003A61CState *state) {
+void vm_op_64_jump_if_nonpositive(Func8003A61CState *state) {
     u8 *operand_ptr = state->read_ptr;
     u8 table_index = *operand_ptr;
     operand_ptr++;

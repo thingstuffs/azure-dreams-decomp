@@ -16,7 +16,7 @@ extern void func_80065320(void *, void *, void *);
 extern void func_80065820(void *, void *);
 
 /* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
-void dungeonHandleRotateMoveEffectQuadFadeColorsFlagLifetimeEnds(void *effect, void *motion_data, void *rotation_data)
+void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect, void *motion_data, void *rotation_data)
 {
     u16 angles[3];
     s32 matrix[8];
@@ -101,6 +101,6 @@ void dungeonHandleRotateMoveEffectQuadFadeColorsFlagLifetimeEnds(void *effect, v
 
     if (ticks_test <= 0) {
         U16_AT(effect, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

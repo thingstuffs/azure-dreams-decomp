@@ -1,12 +1,12 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-void func_80017D24(void)
+void select_scene_choice_by_mode(void)
 {
     void *choices[2] = { &D_8001AB94, &D_8001ABE8 };
     void *town = *(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x40);
 
-    townInvokeAlternateHandlerWithCode780();
-    townInvokeHandlerWithCode79E();
+    invoke_alternate_handler_with_code_780();
+    invoke_handler_with_code_79_e();
     if (func_8001A510(D_8001A91E) == 0) {
         func_8001A490(0x7A3);
     }

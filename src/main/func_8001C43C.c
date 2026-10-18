@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80047FD8(void *node);
-extern void func_804033EC(void *object);
+extern void process_four_referenced_values(void *object);
 extern s32 D_8008DAB4[3];
 extern s32 D_8008DAB4_2[3];
 extern u8 D_80409508[];
@@ -16,7 +16,7 @@ s32 func_8001C43C(s32 flag_linked_object) {
             linked_object = *(void **)(state_data + 0x14);
             *(u16 *)((u8 *)linked_object + 0x1E) = (u16) (*(u16 *)((u8 *)linked_object + 0x1E) | 0x2000);
         }
-        func_804033EC(state_data);
+        process_four_referenced_values(state_data);
         *(u16 *)(state_data - 2) = (u16) (*(u16 *)(state_data - 2) | 0x8000);
         D_8008DAB4_2[0] = D_8008DAB4[0] | 0x8000;
     }

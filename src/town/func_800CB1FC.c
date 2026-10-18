@@ -14,15 +14,15 @@ typedef struct S_800C895C_0 {
     u8 pad_60[0x1C];
     void * unk_7C;
     void * unk_80;
-} S_800C895C_0;   /* arg0 in func_800C895C */
+} S_800C895C_0;   /* arg0 in assign_object_data_pointers_2 */
 
 typedef struct S_800C895C_1 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_800C895C_1;   /* &D_800D62E0 in func_800C895C */
+} S_800C895C_1;   /* &D_800D62E0 in assign_object_data_pointers_2 */
 
 /* Assign the object data pointers and link the shared data entry. */
-void func_800C895C(S_800C895C_0 *object) {
+void assign_object_data_pointers_2(S_800C895C_0 *object) {
     object->unk_58 = &D_800D6308;
     object->unk_5C = &D_800D630C;
     object->unk_7C = &D_800D62D8;

@@ -87,12 +87,12 @@ typedef struct S_8015E89C_9 {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30();
-extern void func_800A48F0(void *, s32, s32);
-extern void func_800A9C18(void *, void *, void *, s16);
-extern void func_800AA36C(void *, void *, void *, void *);
+extern s32 generate_random_value();
+extern void set_or_clear_actor_status_slot(void *, s32, s32);
+extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
+extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
-extern void textureSetTheActiveEntriesMatchingIDInTypeN2TableSlots(void *, void *, s32);
+extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
 extern s16 D_80083228;
 extern u8 D_800D71A8[];
@@ -104,5 +104,5 @@ extern u8 D_801624FC[];
 
 /* Allocates and initializes an object and its child display items. */
 
-void *dungeonCreateActorChildDisplayB(s32 kind, s32 part_x, s32 part_y, s32 initial_value);
+void *create_actor_child_display_b(s32 kind, s32 part_x, s32 part_y, s32 initial_value);
 #endif

@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_7e71d800.h"
 
-void advanceEffectStateAndFrame(void *effect)
+void advance_effect_state_and_frame(void *effect)
 {
     s32 state;
     u16 timer;
@@ -34,7 +34,7 @@ void advanceEffectStateAndFrame(void *effect)
     case 2:
         if ((s16)timer >= 0xF) {
             U16_AT(effect, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

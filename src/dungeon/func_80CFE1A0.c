@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_d1cbc4_p02.h"
 
 /* Updates directional tables for kinds 13-15 and handles the owner state transition. */
-void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
+void update_kind_13_to_15_direction_tables(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
 {
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
@@ -22,7 +22,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -37,7 +37,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -52,7 +52,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
         }
         if (current_table != selected_table) {
             display->table2c = (u8 *)selected_table;
-            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
             func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
@@ -62,8 +62,8 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
     }
 
 
-    if (func_800AC82C(owner, context, display, state) != 0) {
-        if ((dungeonCheckActorFloorTrap(display, state) << 16) > 0) {
+    if (update_actor_transform_from_parent(owner, context, display, state) != 0) {
+        if ((check_actor_floor_trap(display, state) << 16) > 0) {
             owner->field8c = func_801604BC;
         }
         return;
@@ -76,7 +76,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
             return;
         }
         display->table2c = (u8 *)&D_80163DC4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DC4), 0);
         return;
     case 14:
@@ -85,7 +85,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
             return;
         }
         display->table2c = (u8 *)&D_80163DCC;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DCC), 0);
         return;
     case 15:
@@ -94,7 +94,7 @@ void dungeonUpdateKind13To15DirectionTables(Obj0 *owner, void *context, Obj2 *di
             return;
         }
         display->table2c = (u8 *)&D_80163DD4;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+        direction_index = (g_game_work.view.viewAngle + state->value2a + 0x100) >> 9;
         func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80163DD4), 0);
         return;
     default:

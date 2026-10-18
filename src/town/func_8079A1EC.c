@@ -1,7 +1,7 @@
 #include "modules/town_ovl_71a1ec.h"
 
 /* Attach the global data pointers and invoke the state callback with mode 2. */
-void func_800161EC(void)
+void attach_global_data_and_invoke_callback(void)
 {
     Rec_D_80016000 *state = D_80016000;
     void *callback_base;

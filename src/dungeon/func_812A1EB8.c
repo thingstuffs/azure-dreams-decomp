@@ -1,8 +1,8 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
-#define dungeonUpdateBankActorState func_8014C514
-#define dungeonUpdateLinkedActorMotion func_800AB4E4
-#define dungeonCheckActorFloorTrap func_800AC66C
+#define update_bank_actor_state func_8014C514
+#define update_linked_actor_motion func_800AB4E4
+#define check_actor_floor_trap func_800AC66C
 /* Relink of matched dungeon/func_80F88C30 at file 0xFA8C30; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

@@ -7,7 +7,7 @@ extern s32 D_80079954;
 extern s32 D_800794EC;
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
-void setDmaChannel4Callback(s32 callback);
+void set_dma_channel_4_callback(s32 callback);
 s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*callback)(void));
 s32 EnableEvent(s32 event);
 s32 CloseEvent(s32 event);

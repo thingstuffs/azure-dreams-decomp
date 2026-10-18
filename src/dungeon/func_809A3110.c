@@ -6,7 +6,7 @@ typedef struct S_80174910_6 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80174910_6;   /* arg0 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_6;   /* arg0 in create_three_linked_palette_objects */
 
 typedef struct S_80174910_7 {
     u8 pad_00[0xC];
@@ -20,12 +20,12 @@ typedef struct S_80174910_8 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80174910_8;   /* ((S_80174910_6 *)arg0)->unk_08 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_8;   /* ((S_80174910_6 *)arg0)->unk_08 in create_three_linked_palette_objects */
 
 typedef struct S_80174910_9 {
     u8 pad_00[0x8];
     u8 * unk_08;
-} S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_9;   /* ((S_80174910_6 *)arg0)->unk_0C in create_three_linked_palette_objects */
 
 typedef struct S_80174910_10 {
     u8 pad_00[0x10];
@@ -68,7 +68,7 @@ typedef struct S_80174910_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_80174910_2;   /* arg0 in dungeonCreateThreeLinkedPaletteObjects */
+} S_80174910_2;   /* arg0 in create_three_linked_palette_objects */
 
 typedef struct S_80174910_3 {
     u8 pad_00[0x1C];
@@ -87,7 +87,7 @@ typedef struct S_80174910_5 {
 } S_80174910_5;
 
 /* Creates three linked objects and initializes their shared palette data. */
-void dungeonCreateThreeLinkedPaletteObjects(S_80174910_2 *source, s32 effect_param) {
+void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param) {
     u16 palette_rect[4];                                    /* compiler-managed */
     s16 next_palette_x;
     s32 object_index;

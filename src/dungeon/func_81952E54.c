@@ -57,7 +57,7 @@ typedef struct OriginHeight {
  * The third ABI argument is unused in retail. The final argument mirrors
  * the direction and is retained in the spawned state.
  */
-void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirrored)
+void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirrored)
 {
     SpawnNode *node;
     SpiralState *state;
@@ -73,7 +73,7 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     if (D_800249A4 != 0) return;
     node = (SpawnNode *)func_8003FD64(0x212, (ObjectNodeHeader **)anchor);
     if (node == 0) return;
-    node->header.callback = updateSpiralingEffectGrowthAndFade;
+    node->header.callback = update_spiraling_effect_growth_and_fade;
     func_8004491C(node, (s32)D_800CEEFC);
     position = node->header.position;
     sprite = node->header.sprite;
@@ -87,10 +87,10 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
     if (target == 0) {
         origin = &D_80082E80;
         offset = ((u32)angle >> 9) & 7;
-        coordinate = ((origin->tileX + dirStepX[offset]) << 6) + 0x20;
+        coordinate = ((origin->tileX + dir_step_x[offset]) << 6) + 0x20;
         position->x = coordinate;
         state->x = coordinate;
-        coordinate_y = ((origin->tileY + dirStepY[offset]) << 6) + 0x20;
+        coordinate_y = ((origin->tileY + dir_step_y[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
         state->z = position->z.bits = (u16)D_800814A8->unk_88;
@@ -99,7 +99,7 @@ void func_80024654(void *anchor, s16 angle, s16 unused, void *target, s32 mirror
         state->x = position->x = target_position->x;
         state->y = position->y = target_position->y;
         state->z = target_position->z.bits;
-        height = func_800BCB04(position->x, position->y, target_position->z.signed_value);
+        height = sample_terrain_surface_height(position->x, position->y, target_position->z.signed_value);
         if ((s16)height > 0x200) height = target_position->z.bits;
         position->z.bits = height;
     }

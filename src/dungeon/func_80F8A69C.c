@@ -3,11 +3,11 @@
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
-extern s32 dungeonUpdateSpinningActorFall();
+extern s32 update_spinning_actor_fall();
 /* Restore the bank actor callback after the resident state check succeeds. */
-void dungeonRestoreBankActorCallbackC(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
-    if (dungeonUpdateSpinningActorFall(state, action, source, target) != 0) {
-        state->callback = dungeonUpdateBankActorState;
+void restore_bank_actor_callback_c(BankActorState *state, s32 action, SpriteFrameState *source, EntityRec *target) {
+    if (update_spinning_actor_fall(state, action, source, target) != 0) {
+        state->callback = update_bank_actor_state;
     }
 }
 

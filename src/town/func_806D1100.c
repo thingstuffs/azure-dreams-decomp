@@ -3,4 +3,4 @@
 
 extern u8 D_800173CC[];
 extern void *D_80017480;
-void townInvokeCallbackAndSetSharedPointer(void) { D_80017480 = D_800173CC; }
+void invoke_callback_and_set_shared_pointer(void) { D_80017480 = D_800173CC; }

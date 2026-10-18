@@ -4,7 +4,7 @@
 
 
 /* Fade and enlarge the effect, marking it finished when its intensity falls below zero. */
-void townFadeAndGrowEffect(void *record, s32 unused, void *effect) {
+void fade_and_grow_effect(void *record, s32 unused, void *effect) {
     s32 intensity;
     u16 size;
 
@@ -12,7 +12,7 @@ void townFadeAndGrowEffect(void *record, s32 unused, void *effect) {
     intensity -= 0x10;
     if (intensity < 0) {
         *(u16 *)((u8 *)record - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

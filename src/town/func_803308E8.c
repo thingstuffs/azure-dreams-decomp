@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern s32 townGetScriptFlagMask(s32);
+extern s32 get_script_flag_mask(s32);
 
 /* Builds a bitmask of nonzero query results for consecutive indices. */
-s32 townReadScriptFlagRange(s32 start_index, s32 count) {
+s32 read_script_flag_range(s32 start_index, s32 count) {
     s32 offset;
     s32 mask;
 
@@ -11,7 +11,7 @@ s32 townReadScriptFlagRange(s32 start_index, s32 count) {
     mask = 0;
     if (count > 0) {
         do {
-            if (townGetScriptFlagMask(start_index + offset) != 0) {
+            if (get_script_flag_mask(start_index + offset) != 0) {
                 mask += 1 << offset;
             }
             offset++;

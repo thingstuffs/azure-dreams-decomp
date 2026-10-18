@@ -9,12 +9,12 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 
 extern void func_800353F4();
-extern void selectIndirectTableEntry();
+extern void select_indirect_table_entry();
 extern void func_800478B8();
-extern void dungeonApplyMonsterKoyawData();
-extern s32 dungeonRefreshActorFacingAndLifecycle();
-extern void func_800AA36C();
-extern s32 func_800BCB04();
+extern void apply_monster_koyaw_data();
+extern s32 refresh_actor_facing_and_lifecycle();
+extern void try_move_actor_to_valid_position();
+extern s32 sample_terrain_surface_height();
 
 extern u8 D_800F8BBC[9];
 extern u8 D_8016F78C[9];
@@ -24,17 +24,17 @@ extern Callback D_80174AD4[];
 typedef struct S_8016F2E0_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_8016F2E0_0;   /* slot in dungeonUpdateBossActorMovement */
+} S_8016F2E0_0;   /* slot in update_boss_actor_movement */
 
 typedef struct S_8016F2E0_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8016F2E0_1_pre;   /* the 0x14 bytes before node in dungeonUpdateBossActorMovement, addressed as node[-1] */
+} S_8016F2E0_1_pre;   /* the 0x14 bytes before node in update_boss_actor_movement, addressed as node[-1] */
 
 typedef struct S_8016F2E0_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_8016F2E0_2;   /* record in dungeonUpdateBossActorMovement */
+} S_8016F2E0_2;   /* record in update_boss_actor_movement */
 
 typedef struct S_8016F2E0_3 {
     u8 pad_00[0x1C];
@@ -47,7 +47,7 @@ typedef struct S_8016F2E0_3 {
     u8 unk_71;
     u8 pad_72[0x16];
     union { u16 u; s16 s; } unk_88;   /* accessed as both */
-} S_8016F2E0_3;   /* actor in dungeonUpdateBossActorMovement */
+} S_8016F2E0_3;   /* actor in update_boss_actor_movement */
 
 typedef struct S_8016F2E0_4 {
     u8 pad_00[0x4];
@@ -59,7 +59,7 @@ typedef struct S_8016F2E0_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     s32 unk_2C;
-} S_8016F2E0_4;   /* arg2 in dungeonUpdateBossActorMovement */
+} S_8016F2E0_4;   /* arg2 in update_boss_actor_movement */
 
 typedef struct S_8016F2E0_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -69,10 +69,10 @@ typedef struct S_8016F2E0_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8016F2E0_5;   /* arg1 in dungeonUpdateBossActorMovement */
+} S_8016F2E0_5;   /* arg1 in update_boss_actor_movement */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *sprite)
+void update_boss_actor_movement(void *entity, void *motion, register void *sprite)
 {
     void *actor = entity;
     s16 old_direction;
@@ -113,7 +113,7 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
         } while (slot_index >= 0);
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (paused_callback == (Callback)&D_8016F78C) {
             paused_callback(entity, motion, sprite, actor);
@@ -124,7 +124,7 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
     }
 
     old_direction = ((S_8016F2E0_3 *)actor)->unk_6D;
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, actor) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, actor) != 0) {
         return;
     }
 
@@ -137,13 +137,13 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
     D_80174AD4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
     if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D) {
-        func_800AA36C(entity, motion, sprite, actor);
+        try_move_actor_to_valid_position(entity, motion, sprite, actor);
     }
 
     sprite_flags = ((S_8016F2E0_4 *)sprite)->unk_14.n;
     updated_flags = sprite_flags & 0x8000;
     if (updated_flags == 0) {
-        old_direction = ((gameWork.view.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        old_direction = ((g_game_work.view.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
         direction_value = old_direction;
         direction_copy = old_direction;
@@ -151,14 +151,14 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
             direction_tiles = ((S_8016F2E0_4 *)sprite)->unk_2C;
             if (direction_tiles != 0) {
                 tile_slot = (u8 *)direction_tiles + direction_value;
-                selectIndirectTableEntry(sprite,
+                select_indirect_table_entry(sprite,
                     *tile_slot,
                     ((S_8016F2E0_4 *)sprite)->unk_04);
             }
             (*(s16 *)((u8 *)entity + (0x94))) = old_direction;
         }
 
-        tile_slot = dirSpriteFlag + direction_copy;
+        tile_slot = dir_sprite_flag + direction_copy;
         if (*tile_slot != 0) {
             ((S_8016F2E0_4 *)sprite)->unk_14.n |= 1;
         } else {
@@ -172,7 +172,7 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
             ((S_8016F2E0_4 *)sprite)->unk_14.v |= 0x7000;
         }
 
-        dungeonApplyMonsterKoyawData(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(((S_8016F2E0_3 *)actor)->unk_1C, (u8 *)sprite + 0xC);
     } else {
         updated_flags = sprite_flags & 0x0800;
         if (updated_flags != 0) {
@@ -195,7 +195,7 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
     (*(s32 *)((u8 *)entity + (0x90))) += ((S_8016F2E0_5 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)entity + (0x98))) & 4)) {
-        floor_height = func_800BCB04(((S_8016F2E0_5 *)motion)->unk_00.at02.v,
+        floor_height = sample_terrain_surface_height(((S_8016F2E0_5 *)motion)->unk_00.at02.v,
                               ((S_8016F2E0_5 *)motion)->unk_04.at02.v,
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
         if ((s16)floor_height < 0x200) {
@@ -215,7 +215,7 @@ void dungeonUpdateBossActorMovement(void *entity, void *motion, register void *s
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = func_800BCB04((((S_8016F2E0_4 *)sprite)->unk_24 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((((S_8016F2E0_4 *)sprite)->unk_24 << 6) | 0x20,
                                       (((S_8016F2E0_4 *)sprite)->unk_25 << 6) | 0x20,
                                       (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor_height;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *func_800A9B2C(s32 group_id, void *record);
+extern void *get_group_record_table_entry(s32 group_id, void *record);
 
 extern u8 D_8006C894[];
 extern u8 D_8006C8F7[];
@@ -12,7 +12,7 @@ extern u8 D_800C321C[];
 extern void *D_80100E38[];
 
 /* Selects a response for the source and target, storing any associated text. */
-void *func_800A9D74(void *source, void *target) {
+void *select_response_for_source_and_target(void *source, void *target) {
     s32 response_kind;
     void *data_base;
 
@@ -40,7 +40,7 @@ void *func_800A9D74(void *source, void *target) {
                 *(void **)((u8 *)data_base + 0xE38) = text5;
             } else {
                 void *text_call;
-                text_call = func_800A9B2C(response_kind, (u8 *)target + 0x4C);
+                text_call = get_group_record_table_entry(response_kind, (u8 *)target + 0x4C);
                 D_80100E38[0] = text_call;
                 if (text_call == 0) {
                     return 0;

@@ -5,13 +5,13 @@
  * Same struct family as src/code2.c / src/w_80041818.c's D_80082E60. */
 
 
-extern void cardBootDestroySlotSelectionMenu();
-extern void cardBootCloseEventsAndResumeTimer(void);
+extern void card_boot_destroy_slot_selection_menu();
+extern void card_boot_close_events_and_resume_timer(void);
 extern void func_80040AA0();
-extern void runtimeSaveOrRestoreState(void);
+extern void runtime_save_or_restore_state(void);
 
 /* Selects object and global modes, sets the shared state flag, and runs updates. */
-void cardBootFinishSlotLoadAndChangeScene(void *object) {
+void card_boot_finish_slot_load_and_change_scene(void *object) {
     s16 object_mode;
     s32 global_mode;
     u16 state_flags;
@@ -21,7 +21,7 @@ void cardBootFinishSlotLoadAndChangeScene(void *object) {
      * register so it survives the calls instead of being rematerialized. */
     u8 *global_page = (u8 *)0x80010000;
 
-    cardBootCloseEventsAndResumeTimer();
+    card_boot_close_events_and_resume_timer();
     object_mode = 1;
     if (*(s32 *)((char *)object + 0x44) == 0) {
         object_mode = 3;
@@ -29,8 +29,8 @@ void cardBootFinishSlotLoadAndChangeScene(void *object) {
     state_flags = D_80082E60.flags16;
     *(s16 *)(global_page + 0x3714) = object_mode;
     D_80082E60.flags16 = state_flags | 2;
-    cardBootDestroySlotSelectionMenu(object - 0x20);
-    runtimeSaveOrRestoreState();
+    card_boot_destroy_slot_selection_menu(object - 0x20);
+    runtime_save_or_restore_state();
     global_mode = 6;
     if (*(u16 *)(global_page + 0x208) != 0) {
         global_mode = 5;

@@ -7,26 +7,26 @@
 #include "records/Rec_D_800CFCC4.h"
 
 void func_80035208();                         /* extern */
-void func_8008B158();                         /* extern */
-void townSetDefaultSceneDataPointer();     /* extern */
-void func_8009455C();     /* extern */
-void func_800945B8();     /* extern */
-M2C_UNK func_80094660();     /* extern */
-M2C_UNK func_800946A0();     /* extern */
+void submit_object_resource_data();                         /* extern */
+void set_default_scene_data_pointer();     /* extern */
+void initialize_actor_position_interaction_action();     /* extern */
+void initialize_input_driven_scene_object();     /* extern */
+M2C_UNK initialize_action_callback_from_entry();     /* extern */
+M2C_UNK initialize_busy_checked_countdown_action();     /* extern */
 M2C_UNK func_80094774();     /* extern */
-s32 townRunTheActionSequenceContextUnlessFlagHexA5Set();                          /* extern */
-void townStoreTheValidSharedAngleInOffsetHex10();                      /* extern */
-void townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero();                      /* extern */
-void townRunTheThreeUpdateRoutinesContext();                      /* extern */
-s32 townSelectAnAvailableEntryMatchingDirectionReturnsStatus();                   /* extern */
-s32 townGetStatusActiveEntryMatchingDirection();                       /* extern */
-s16 townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated();               /* extern */
-void townComputeAndClampsVectorBasedAdjustmentUpdatesTown();      /* extern */
-void townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile();                      /* extern */
+s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();                          /* extern */
+void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
+void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
+void run_the_three_update_routines_context();                      /* extern */
+s32 select_an_available_entry_matching_direction_returns_status();                   /* extern */
+s32 get_status_active_entry_matching_direction();                       /* extern */
+s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
+void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
+void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
 M2C_UNK func_800988C8();     /* extern */
-void townClearEntityRecordFields();                      /* extern */
-s32 townIsUnk18N12Unk1ABetweenN37N41();                                /* extern */
-s32 func_800A9D74();                     /* extern */
+void clear_entity_record_fields();                      /* extern */
+s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
+s32 select_response_for_source_and_target();                     /* extern */
 extern M2C_UNK D_80093B00;
 extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
@@ -43,7 +43,7 @@ typedef struct S_800927EC_1 {
     s32 unk_08;
     u8 pad_0C[0x4];
     s32 unk_10;
-} S_800927EC_1;   /* state in townUpdateActorMovementAndInteraction */
+} S_800927EC_1;   /* state in update_actor_movement_and_interaction */
 
 
 typedef struct S_800927EC_4 {
@@ -54,56 +54,56 @@ typedef struct S_800927EC_4 {
 typedef struct S_800927EC_5 {
     u8 pad_00[0x50];
     s32 unk_50;
-} S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in townUpdateActorMovementAndInteraction */
+} S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in update_actor_movement_and_interaction */
 
 /* Update the actor and dispatch town movement and interaction input. */
-void townUpdateActorMovementAndInteraction(void *actor, EntityRec *position, s32 context) {
-    GameWork *input = &gameWork;
+void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32 context) {
+    GameWork *input = &g_game_work;
     void *interaction;
     s16 ground_height;
     s32 interaction_result;
     s32 target_handler;
 
-    townHandleResolvesMovementCollisionsAlongOneAxisUsingBoundaryProbesTile(position);
-    townStoreTheValidSharedAngleInOffsetHex10(actor);
-    townMoveBothComponentsTowardZeroDirectionDependentStepsClampingZero(position);
-    ground_height = townSelectTheSmallerPositionQueryResultCappedN64WritesAssociated(position, &D_800FE488);
+    handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
+    store_the_valid_shared_angle_in_offset_hex_10(actor);
+    move_both_components_toward_zero_direction_dependent_steps_clamping_zero(position);
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &D_800FE488);
     if ((ground_height - position->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094660(actor, position, context);
+            initialize_action_callback_from_entry(actor, position, context);
             return;
         }
     } else {
         if (D_800CFCEF[0] == 0) {
-            townComputeAndClampsVectorBasedAdjustmentUpdatesTown(position, ground_height, &D_800FE488);
+            compute_and_clamps_vector_based_adjustment_updates_town(position, ground_height, &D_800FE488);
         }
     }
     if (((s32)input->unk_010) & 0x10) {
-        func_800945B8(actor, position, context);
+        initialize_input_driven_scene_object(actor, position, context);
         return;
     }
     if (((s32)input->unk_010) & 0x80) {
         if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
-            townRunTheThreeUpdateRoutinesContext(position);
+            run_the_three_update_routines_context(position);
             func_80094774(actor, position, context);
             D_800FE518[0] = 1;
             return;
         }
-        townClearEntityRecordFields(position);
-        townRunTheThreeUpdateRoutinesContext(position);
-        if (townRunTheActionSequenceContextUnlessFlagHexA5Set(actor - 0x20) != 0) {
-            townSetDefaultSceneDataPointer(actor, position, context);
+        clear_entity_record_fields(position);
+        run_the_three_update_routines_context(position);
+        if (run_the_action_sequence_context_unless_flag_hex_a_5_set(actor - 0x20) != 0) {
+            set_default_scene_data_pointer(actor, position, context);
             D_800FE5D8 = &D_80093B00;
             return;
         }
     } else {
         if (((s32)input->unk_010) & 0x40) {
-            func_800946A0(actor, position, context);
+            initialize_busy_checked_countdown_action(actor, position, context);
             return;
         }
-        if ((townGetStatusActiveEntryMatchingDirection(&D_800CFCB4) == -1) && (townIsUnk18N12Unk1ABetweenN37N41() == 0)) {
-            townSelectAnAvailableEntryMatchingDirectionReturnsStatus(&D_800CFCB4);
-            townStoreTheValidSharedAngleInOffsetHex10(actor);
+        if ((get_status_active_entry_matching_direction(&D_800CFCB4) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
+            select_an_available_entry_matching_direction_returns_status(&D_800CFCB4);
+            store_the_valid_shared_angle_in_offset_hex_10(actor);
             func_800988C8(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
             if ((target_handler != &D_8009B828) && (target_handler != &D_8009B8E8)) {
@@ -112,18 +112,18 @@ void townUpdateActorMovementAndInteraction(void *actor, EntityRec *position, s32
                 }
             }
             interaction = &D_800CFCB4;
-            interaction_result = func_800A9D74(((S_800927EC_4 *)interaction)->unk_10,
+            interaction_result = select_response_for_source_and_target(((S_800927EC_4 *)interaction)->unk_10,
                 ((Rec_func_80094268_arg0 *)actor)->unk_2C);
             if (interaction_result != 0) {
                 func_80035208(interaction_result);
             } else {
-                func_8008B158(((S_800927EC_4 *)interaction)->unk_10);
+                submit_object_resource_data(((S_800927EC_4 *)interaction)->unk_10);
             }
             D_800FE5D8 = &D_80093B00;
             return;
         }
         if (input->buttons & 0xF000) {
-            func_8009455C(actor, position, context);
+            initialize_actor_position_interaction_action(actor, position, context);
         }
     }
 }

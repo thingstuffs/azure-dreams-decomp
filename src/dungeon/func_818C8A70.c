@@ -5,23 +5,23 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-   /* the 0x2 bytes before arg0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as arg0[-1] */
 
-   /* arg0 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
-
-
+   /* arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases */
 
 
 
 
 
-   /* arg1 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases */
+
+
+   /* arg1 in update_a_moving_effect_spawns_particles_advances_timed_phases */
 
 
 
 
 
-   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
+   /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -30,7 +30,7 @@ extern u8 D_800DEC00[];
 extern u8 D_800E3D68;
 
 /* Updates a moving effect, spawns particles, and advances its timed phases. */
-void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
+void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position) {
     M2C_UNK effect_mode;
     s16 coord;
     s16 coord_2;
@@ -91,19 +91,19 @@ void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, 
             if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_08 != 0) {
                 ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 1;
                 ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
-                func_800A56E0(0x300);
+                play_sound_if_enabled(0x300);
             } else {
                 ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+                object_flag_block.flags = object_flag_block.flags | 0x8000;
             }
         }
-        if ((func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
+        if ((check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_58);
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_5C);
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_60);
         } else {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
             return;
         }
     }
@@ -161,7 +161,7 @@ void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, 
             if (particle != NULL) {
                 s16 particle_z;
                 particle_state->unk_02 = 0x14;
-                ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_10 = func_80024024;
+                ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_10 = interpolate_view_parameters;
                 func_8004491C(particle, func_80045340);
                 sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
                 sprite->unk_10 = 0;
@@ -199,10 +199,10 @@ void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, 
         if ((s16) ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
             ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 = 2;
             ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = 0U;
-            if (dungeonTryTriggerTargetRecordEffect(source->unk_60, 1, source) == 0) {
+            if (try_trigger_target_record_effect(source->unk_60, 1, source) == 0) {
                 s16 random_bonus;
                 u32 effect_scale;
-                random_bonus = func_800A6D30();
+                random_bonus = generate_random_value();
                 random_bonus &= 3;
                 effect_scale = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_15;
                 random_bonus += 2;
@@ -212,7 +212,7 @@ void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, 
                 if (D_800E3D68 == 0xFF) {
                     effect_mode = 0xFF;
                 }
-                dungeonTryApplyConfusionStatus(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
+                try_apply_confusion_status(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
             }
         }
     }
@@ -221,7 +221,7 @@ void dungeonUpdateAMovingEffectSpawnsParticlesAdvancesTimedPhases(void *effect, 
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | 0x8000;
         }
     }
 }

@@ -16,7 +16,7 @@ typedef struct S_80174B20_13 {
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_80174B20_14;   /* arg3 in func_80174B20 */
+} S_80174B20_14;   /* arg3 in advance_actor_replacement_sequence */
 
 typedef struct S_80174B20_15 {
     s32 unk_00;
@@ -26,12 +26,12 @@ typedef struct S_80174B20_15 {
 typedef struct S_80174B20_16 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80174B20_16;   /* ((S_80174B20_14 *)arg3)->unk_60 in func_80174B20 */
+} S_80174B20_16;   /* ((S_80174B20_14 *)arg3)->unk_60 in advance_actor_replacement_sequence */
 
 
 typedef struct S_80174B20_0_pre {
     u16 unk_00;
-} S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in func_80174B20, addressed as arg0[-1] */
+} S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in advance_actor_replacement_sequence, addressed as arg0[-1] */
 
 
 typedef struct S_80174B20_1 {
@@ -47,11 +47,11 @@ typedef struct S_80174B20_1 {
     s8 unk_6D;
     u8 pad_6E[0x1C];
     u16 unk_8A;
-} S_80174B20_1;   /* arg3 in func_80174B20 */
+} S_80174B20_1;   /* arg3 in advance_actor_replacement_sequence */
 
 typedef struct S_80174B20_2 {
     u8 unk_00;
-} S_80174B20_2;   /* &D_8017521D in func_80174B20 */
+} S_80174B20_2;   /* &D_8017521D in advance_actor_replacement_sequence */
 
 typedef struct S_80174B20_3 {
     u8 pad_00[0xA8];
@@ -120,21 +120,21 @@ typedef struct S_80174B20_12 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_8003DB94();     /* extern */
 s32 Control_CD(); /* extern */
-void soundSetCdCueParameters(); /* extern */
+void sound_set_cd_cue_parameters(); /* extern */
 void func_80041588(); /* extern */
 int func_800445E0();                           /* extern */
 s32 func_8004491C();           /* extern */
-void selectIndirectTableEntry();              /* extern */
-s32 lookupMaskedByteTable();  /* extern */
+void select_indirect_table_entry();              /* extern */
+s32 lookup_masked_byte_table();  /* extern */
 s32 func_80069EF8();                          /* extern */
-void func_8009A028();                      /* extern */
-void func_8009A3D0();             /* extern */
-void dungeonDecrementMonsterEntryCount();                 /* extern */
-s32 dungeonAdvanceStagedEntityLoad();                /* extern */
-s32 func_800A56E0();                     /* extern */
-s32 dungeonCreateStatusLinkedRenderEffect();     /* extern */
-s32 dungeonSelectNearbyTargetAndInitializeSlot(); /* extern */
-void func_80174800(); /* extern */
+void unlink_entity_node();                      /* extern */
+void update_map_cell_flags_with_item_limit();             /* extern */
+void decrement_monster_entry_count();                 /* extern */
+s32 advance_staged_entity_load();                /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+s32 create_status_linked_render_effect();     /* extern */
+s32 select_nearby_target_and_initialize_slot(); /* extern */
+void create_randomly_rotated_offset_effect(); /* extern */
 extern M2C_UNK D_8003E140;
 extern s32 D_8006CD58;
 extern void *D_800DCEEC[];
@@ -150,7 +150,7 @@ extern M2C_UNK D_8017521D;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
-void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
+void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
     s32 tint;
     S_80174B20_7 *globals_base;
     s32 global_flags;
@@ -176,7 +176,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     void *new_actor;
     void *replacement;
 
-    scene_color = &gameWork;
+    scene_color = &g_game_work;
     phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
     switch (phase) {
     case 0:
@@ -189,7 +189,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
     case 2:
-        direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((s32) (g_game_work.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
         if ((*(u8 *)&D_8017521C) == 0 || direction != 2) {
             if (direction == 2) {
                 return;
@@ -198,11 +198,11 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
             return;
         }
         func_80041588(&D_801751F8, &D_8017521C, 1);
-        soundSetCdCueParameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)&D_8017521D) = 0;
         Control_CD(0xFF, &D_8003E140, &D_8017521D);
-        dungeonSelectNearbyTargetAndInitializeSlot(actor - 0x20, position, 8, 0x300);
+        select_nearby_target_and_initialize_slot(actor - 0x20, position, 8, 0x300);
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     case 3:
@@ -216,10 +216,10 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
                 return;
             }
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-            func_800A56E0(0x300);
+            play_sound_if_enabled(0x300);
             return;
         }
-        color_index = lookupMaskedByteTable(actor);
+        color_index = lookup_masked_byte_table(actor);
         target_color = D_800DCEEC[color_index];
         scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
             - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
@@ -247,7 +247,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.s = tint;
-        style_index = lookupMaskedByteTable(actor) - 1;
+        style_index = lookup_masked_byte_table(actor) - 1;
         style = style_index;
         if ((style_index << 0x10) < 0) {
             random_value = func_80069EF8();
@@ -259,7 +259,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         do {
-            func_80174800(state, position, entity, (s16) (ray_index << 0xA));
+            create_randomly_rotated_offset_effect(state, position, entity, (s16) (ray_index << 0xA));
             next_ray = ray_index + 1;
             ray_index = next_ray;
         } while (next_ray < 8);
@@ -270,9 +270,9 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         if (sprite->unk_14 & 0xE000) {
             ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-            dungeonDecrementMonsterEntryCount(((S_80174B20_1 *)actor)->unk_13, 3);
-            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-            func_8009A028(actor);
+            decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
+            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+            unlink_entity_node(actor);
             sprite = actor - 0x20;
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         }
@@ -280,19 +280,19 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
             return;
         }
-        if (dungeonCreateStatusLinkedRenderEffect(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
+        if (create_status_linked_render_effect(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
             return;
         }
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-        dungeonDecrementMonsterEntryCount(((S_80174B20_1 *)actor)->unk_13, 3);
-        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-        func_8009A028(actor);
+        decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
+        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
+        unlink_entity_node(actor);
         sprite = actor - 0x20;
         sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         return;
     case 7:
-        new_actor = dungeonAdvanceStagedEntityLoad(entity, actor);
+        new_actor = advance_staged_entity_load(entity, actor);
         ((S_80174B20_1 *)actor)->unk_60 = new_actor;
         if (new_actor == NULL) {
             return;
@@ -302,7 +302,7 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
         replacement = ((S_80174B20_1 *)actor)->unk_60;
         sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-        selectIndirectTableEntry(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle
+        select_indirect_table_entry(sprite, sprite->unk_2C[((s32) (g_game_work.view.viewAngle
             + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
@@ -315,9 +315,9 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
         ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
         global_flags = globals_base->unk_14A0;
-        active_count = ((u16)dungeonStatus.unk_0A);
+        active_count = ((u16)g_dungeon_status.unk_0A);
         globals_base->unk_14A0 = global_flags | 0x8000;
-        dungeonStatus.unk_0A = active_count - 1;
+        g_dungeon_status.unk_0A = active_count - 1;
         ((S_80174B20_1 *)actor)->unk_6D = 0;
         return;
     default:

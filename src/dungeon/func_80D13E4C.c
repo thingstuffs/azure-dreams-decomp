@@ -15,7 +15,7 @@ typedef struct S_8017364C_0 {
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
-} S_8017364C_0;   /* arg0 in dungeonUpdateAbilityActionAndCompletion */
+} S_8017364C_0;   /* arg0 in update_ability_action_and_completion */
 
 typedef struct S_8017364C_2 {
     u8 * unk_00;
@@ -23,20 +23,20 @@ typedef struct S_8017364C_2 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 getCdCommandQueueDepth(void);                 /* extern */
+s32 get_cd_command_queue_depth(void);                 /* extern */
 void func_80047784();         /* extern */
 s32 func_80069EF8();                                /* extern */
-void *dungeonScanMonsterAlongHeading();      /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s32 dungeonAdvanceStatusTimers();                      /* extern */
-s32 func_800A56E0();                     /* extern */
-s32 dungeonCreateActorSpellEffect();       /* extern */
-void dungeonSpawnRandomVelocityOffsetEffect(); /* extern */
+void *scan_monster_along_heading();      /* extern */
+void set_record_integer_tile_center();              /* extern */
+s32 advance_status_timers();                      /* extern */
+s32 play_sound_if_enabled();                     /* extern */
+s32 create_actor_spell_effect();       /* extern */
+void spawn_random_velocity_offset_effect(); /* extern */
 extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void update_ability_action_and_completion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
     s16 next_effect;
     s16 effect_count;
     s32 ability_id;
@@ -126,7 +126,7 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
                         }
                     } else {
                         {
-                            s32 x = (s32)dungeonScanMonsterAlongHeading(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+                            s32 x = (s32)scan_monster_along_heading(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                                           ((Rec_D_80082E80 *)sprite)->unk_25,
                                           actor->facing, 0x10);
                             s32 y;
@@ -146,7 +146,7 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
                     }
                 }
             }
-            if (dungeonCreateActorSpellEffect(actor, ability, use_player, action + 0x98) == 0) {
+            if (create_actor_spell_effect(actor, ability, use_player, action + 0x98) == 0) {
                 return;
             }
             ((S_8017364C_0 *)action)->unk_96 = 0x13U;
@@ -156,10 +156,10 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-            dungeonStatus.unk_0C = 0;
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
-            dungeonAdvanceStatusTimers(actor);
+            advance_status_timers(actor);
             actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
             ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
             actor->unk_73 = 0;
@@ -168,14 +168,14 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
             return;
         }
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v
                 | 0x800);
             return;
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
         ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
-        func_800A56E0(0x703);
+        play_sound_if_enabled(0x703);
     case 2:
         effect_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
         ((S_8017364C_0 *)action)->unk_96 = effect_ticks;
@@ -191,13 +191,13 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
         }
         effect_count = 0;
         do {
-            dungeonSpawnRandomVelocityOffsetEffect(action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
+            spawn_random_velocity_offset_effect(action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
             next_effect = effect_count + 1;
             effect_count = next_effect;
         } while (next_effect < 0xA);
         return;
     case 3:
-        if (((s32)dungeonStatus.unk_0C) == 0) {
+        if (((s32)g_dungeon_status.unk_0C) == 0) {
             ((S_8017364C_0 *)action)->unk_96 = 0U;
         }
         finish_ticks = ((S_8017364C_0 *)action)->unk_96 - 1;
@@ -213,24 +213,24 @@ void dungeonUpdateAbilityActionAndCompletion(void *action, EntityRec *motion, vo
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pm != D_80174E88) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174E88;
-            func_80047784(sprite, D_80174E88[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_80174E88[((s32) (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
         }
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        g_dungeon_status.unk_0A = (u16) (((u16)g_dungeon_status.unk_0A) - 1);
         ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
         actor->unk_73 = 0;
         actor->unk_72 = 0;
         actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
         actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         return;
     }
 }

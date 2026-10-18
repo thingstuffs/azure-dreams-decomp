@@ -1,6 +1,6 @@
 #include "modules/dungeon_resource10_slot0.h"
 
-void func_80173080(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_timed_attack_animation_and_damage(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u16 timer;
     s32 state;
@@ -11,7 +11,7 @@ void func_80173080(void *action, void *motion, void *sprite, EntityRec *actor)
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((R10_80173080_S_80173080_0 *)action)->unk_9B = 3;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             return;
         }
         ((R10_80173080_S_80173080_3 *)motion)->unk_14 = 0;
@@ -28,7 +28,7 @@ void func_80173080(void *action, void *motion, void *sprite, EntityRec *actor)
 
             (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
             func_80047784(sprite,
-                          direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                          direction_table[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                           0);
             ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
             ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
@@ -39,21 +39,21 @@ void func_80173080(void *action, void *motion, void *sprite, EntityRec *actor)
         timer = ((R10_80173080_S_80173080_0 *)action)->unk_96.u + 1;
         ((R10_80173080_S_80173080_0 *)action)->unk_96.u = timer;
         if (((s16)timer == 7) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite,(s16)(actor->facing),(s16)(1));
+            resolve_attack_damage_and_effects(actor, sprite,(s16)(actor->facing),(s16)(1));
             ((R10_80173080_S_80173080_0 *)action)->unk_96.u = 0;
             ((R10_80173080_S_80173080_0 *)action)->unk_9B++;
         }
         if (((R10_80173080_S_80173080_0 *)action)->unk_96.s == 5) {
-            func_800A56E0(0x808);
+            play_sound_if_enabled(0x808);
             return;
         }
         return;
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-            dungeonReduceActorFoodMeter(actor, 0x100);
+            reduce_actor_food_meter(actor, 0x100);
             ((R10_80173080_S_80173080_0 *)action)->unk_8C = ((u8 *)func_801717F4);
-            dungeonStatus.unk_0C = 0;
-            dungeonAdvanceStatusTimers(actor);
+            g_dungeon_status.unk_0C = 0;
+            advance_status_timers(actor);
             actor->unk_46 &= 0x7FFF;
         }
         return;

@@ -4,10 +4,10 @@
    only the size arg is set explicitly by callers of this shape. */
 extern void *func_8004B404(s32 a0);
 
-extern void applyBlock16TemplateToNodes(void **a0, s32 a1);
+extern void apply_block_16_template_to_nodes(void **a0, s32 a1);
 
 /* Allocates and initializes a fixed-size pool of pointers to paired 16-byte records. */
-void *allocPointerPool(void **pool, s32 record_count)
+void *alloc_pointer_pool(void **pool, s32 record_count)
 {
     void *next_record;
     s32 record_index;
@@ -23,7 +23,7 @@ void *allocPointerPool(void **pool, s32 record_count)
             *(void **)((char *)pool[record_index] + 4) = next_record;
             next_record = (void *)((char *)next_record + 0x10);
         }
-        applyBlock16TemplateToNodes(pool, record_count);
+        apply_block_16_template_to_nodes(pool, record_count);
     }
     return pool;
 }

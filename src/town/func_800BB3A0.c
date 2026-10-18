@@ -19,7 +19,7 @@ typedef struct S_800B8B00_1 {
 } S_800B8B00_1;
 
 /* Stores a normalized code in its designated slot, avoiding duplicate code 9 entries. */
-void townStoreNormalizedBuildingCode(s32 code) {
+void store_normalized_building_code(s32 code) {
     s8 stored_code;
     TownFiveWords slot_ids;
     s16 code_index;

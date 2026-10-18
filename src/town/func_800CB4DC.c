@@ -4,9 +4,9 @@
 
 
 extern void func_80033D08(void *);
-extern void townAddHex20000SSignedOffsetHex14(void *);
-extern s16 townQueryLoweredTransformPosition(void *);
-extern void func_800C8B5C(void *, void *, s32);
+extern void add_hex_20000_s_signed_offset_hex_14(void *);
+extern s16 query_lowered_transform_position(void *);
+extern void load_indexed_state_value(void *, void *, s32);
 extern void func_800C8D34(void *, void *, s32);
 extern s32 D_800D636C[2];
 
@@ -21,8 +21,8 @@ void func_800C8C3C(Rec_D_80082D58 *entity, EntityRec *motion, s32 context)
     motion->x.v += velocity[0];
     motion->y.v += velocity[1];
     motion->z.v += motion->flags14;
-    if (townQueryLoweredTransformPosition(motion) < motion->z.w.i) {
-        motion->z.w.i = townQueryLoweredTransformPosition(motion);
+    if (query_lowered_transform_position(motion) < motion->z.w.i) {
+        motion->z.w.i = query_lowered_transform_position(motion);
         contacts_left = entity->unk_90.as_u16 - 1;
         entity->unk_90.as_u16 = contacts_left;
         if ((s16)contacts_left < 0) {
@@ -30,8 +30,8 @@ void func_800C8C3C(Rec_D_80082D58 *entity, EntityRec *motion, s32 context)
             func_800C8D34(entity, motion, context);
             return;
         }
-        func_800C8B5C(entity, motion, context);
+        load_indexed_state_value(entity, motion, context);
         return;
     }
-    townAddHex20000SSignedOffsetHex14(motion);
+    add_hex_20000_s_signed_offset_hex_14(motion);
 }

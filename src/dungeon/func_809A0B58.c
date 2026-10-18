@@ -45,7 +45,7 @@ typedef struct S_func_809A0B58_3 {
 } S_func_809A0B58_3;
 
 extern M2C_UNK func_80047784();
-extern s16 getOffsetMapCellValueAndFlags();
+extern s16 get_offset_map_cell_value_and_flags();
 extern u8 D_80175EA8[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */
@@ -54,22 +54,22 @@ void func_809A0B58(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58
     u16 counter_value;
     u8 *direction_frames;
 
-    getOffsetMapCellValueAndFlags(sprite->unk_24 - 1, sprite->unk_25,
+    get_offset_map_cell_value_and_flags(sprite->unk_24 - 1, sprite->unk_25,
                   ((u16)entity->unk_2A.unk_00 >> 9) & 7, &tile_flags);
     if (!(tile_flags & 0x8400)) {
         counter_value = actor_state->unk_B2 + 1;
         actor_state->unk_B2 = counter_value;
         if ((u32)(counter_value & 0xFFFF) >= 0x3D) {
             actor_state->unk_B2 = 0x3C;
-            dungeonStatus.unk_0A =
-                (u16)(((u16)dungeonStatus.unk_0A) + 1);
+            g_dungeon_status.unk_0A =
+                (u16)(((u16)g_dungeon_status.unk_0A) + 1);
             actor_state->unk_9A = 0x19;
             actor_state->unk_8C = 0;
             actor_state->unk_9B = 0;
             direction_frames = D_80175EA8;
             *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
             func_80047784(sprite,
-                          direction_frames[((s32)(gameWork.view.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
+                          direction_frames[((s32)(g_game_work.view.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
                           0);
             actor_state->unk_B0 = (u16)entity->unk_2A.unk_00;
             entity->unk_1C = (s32)(entity->unk_1C & 0xFFFBFFFF);

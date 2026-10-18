@@ -32,9 +32,9 @@ typedef struct S_80083160_View {
 
 
 /* Sets four list pointers from type offsets and relocates the first list entries. */
-void runtimeSetListPointersFromTypeOffsets(s32 data_base, s16 type_index)
+void runtime_set_list_pointers_from_type_offsets(s32 data_base, s16 type_index)
 {
-    S_80083160_View *state = ((S_80083160_View *)&gameWork);
+    S_80083160_View *state = ((S_80083160_View *)&g_game_work);
     S_80046D64_Dst *lists = &state->sub;
     s32 *first_list;
     s32 *entry;

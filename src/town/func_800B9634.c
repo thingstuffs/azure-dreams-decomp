@@ -1,16 +1,16 @@
 #include "common.h"
 
-extern void *allocGpuScratchRing(s32 size);
+extern void *alloc_gpu_scratch_ring(s32 size);
 extern void bzero(void *dst, s32 size);
 extern void func_80067014(s32 sync_mode);
 extern void func_800672D8(s16 *rect, void *data);
 
 /* Clear the texture's rectangle with zeroed image data. */
-void townClearMonsterStatusTexture(void *texture) {
+void clear_monster_status_texture(void *texture) {
     s16 rect[4];
     void *clear_data;
 
-    clear_data = allocGpuScratchRing(0x200);
+    clear_data = alloc_gpu_scratch_ring(0x200);
     bzero(clear_data, 0x200);
     func_80067014(0);
 

@@ -18,8 +18,8 @@ typedef struct {
     s16 unk_2A;
 } MapObject;
 
-extern s32 func_800AC82C(Actor *, s32, Entity *, MapObject *);
-extern s32 dungeonCheckActorFloorTrap(Entity *, MapObject *);
+extern s32 update_actor_transform_from_parent(Actor *, s32, Entity *, MapObject *);
+extern s32 check_actor_floor_trap(Entity *, MapObject *);
 extern void func_80047784(Entity *, s16, s16);
 
 extern u8 D_801710EC[9];
@@ -27,10 +27,10 @@ extern u8 D_80175E40[9];
 extern u8 D_80175EA0[9];
 
 /* Update actor and entity state after checking the map object. */
-void func_80174574(Actor *actor, s32 action, Entity *entity, MapObject *map_object)
+void update_actor_state_after_map_check(Actor *actor, s32 action, Entity *entity, MapObject *map_object)
 {
-    if (func_800AC82C(actor, action, entity, map_object) != 0) {
-        if ((dungeonCheckActorFloorTrap(entity, map_object) << 16) > 0) {
+    if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
+        if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
             actor->unk_8C = D_801710EC;
             return;
         }
@@ -38,7 +38,7 @@ void func_80174574(Actor *actor, s32 action, Entity *entity, MapObject *map_obje
                !(map_object->unk_1C & 0x208)) {
         entity->unk_2C = D_80175E40;
         func_80047784(entity,
-                      D_80175E40[((gameWork.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
+                      D_80175E40[((g_game_work.view.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 }

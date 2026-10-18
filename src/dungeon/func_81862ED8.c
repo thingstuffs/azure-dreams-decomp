@@ -6,7 +6,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolates and projects a shaded line, then links it into the depth ordering table. */
-s32 dungeonProjectAndQueueShadedLine(void *line, void *unused_render_context)
+s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
 {
     u8 *line_or_red;
     u8 *scratch = (u8 *)0x1F800000;
@@ -24,7 +24,7 @@ s32 dungeonProjectAndQueueShadedLine(void *line, void *unused_render_context)
     s32 depth_or_tag;
     s32 depth_sum;
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
+    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
 
     ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;

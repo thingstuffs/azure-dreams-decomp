@@ -1,6 +1,6 @@
 #include "modules/dungeon_floor_spawns.h"
 
-s32 selectWeightedFloorItem(s8 *category_out, s8 *item_out) {
+s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     s32 category_index;
     s32 selected_category;
     s32 rarity;
@@ -20,7 +20,7 @@ s32 selectWeightedFloorItem(s8 *category_out, s8 *item_out) {
     u8 *category_entry;
     u8 *item_offset;
 
-    rng_result = func_800A6D30();
+    rng_result = generate_random_value();
     thresholds = (u16 *)D_8001F6F8;
     random_weight = thresholds[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;

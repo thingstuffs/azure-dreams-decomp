@@ -3,7 +3,7 @@
 typedef struct S_80172A14_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
-} S_80172A14_0;   /* arg0 in dungeonCreateBossLinkedEffect */
+} S_80172A14_0;   /* arg0 in create_boss_linked_effect */
 
 typedef struct S_80172A14_1 {
     u8 pad_00[0x8];
@@ -43,7 +43,7 @@ typedef struct S_80172A14_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80172A14_5;   /* arg1 in dungeonCreateBossLinkedEffect */
+} S_80172A14_5;   /* arg1 in create_boss_linked_effect */
 
 typedef struct S_80172A14_6 {
     u8 pad_00[0x8];
@@ -64,7 +64,7 @@ extern u8 D_80172874[];
 extern u8 D_80174ABC[];
 
 /* Create an effect linked to its owner and initialize its position and rendering. */
-void dungeonCreateBossLinkedEffect(void *owner, S_80172A14_5 *source_pos) {
+void create_boss_linked_effect(void *owner, S_80172A14_5 *source_pos) {
     S_80172A14_3 *render_flags;
     void *effect;
     S_80172A14_2 *effect_state;

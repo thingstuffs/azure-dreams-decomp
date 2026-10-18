@@ -5,7 +5,7 @@ typedef s32 (*Callback)(void *);
 
 
 /* Sum callback results for flagged entries in a terminated four-byte entry list. */
-s32 townSumFlaggedTerminatedEntries(void *entry, s32 callback_mode) {
+s32 sum_flagged_terminated_entries(void *entry, s32 callback_mode) {
     s32 total;
     Callback callback;
 

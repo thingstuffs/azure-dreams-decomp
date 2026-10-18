@@ -16,7 +16,7 @@ extern s32 D_80073740[128];
 extern void func_8005F134(void *a0);
 
 /* Dispatches an effect request with table flags, count 3, and two scaled 7-bit values. */
-s32 submitDriverSevenBitPair(s32 flag_index, s32 first_value, s32 second_value)
+s32 submit_driver_seven_bit_pair(s32 flag_index, s32 first_value, s32 second_value)
 {
     S_8005C6B4 request;
     s32 flags;

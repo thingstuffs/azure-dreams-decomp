@@ -1,7 +1,7 @@
 #include "modules/town_town_windows.h"
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
-void townBuildEntryListAndProcessItems(void) {
+void build_entry_list_and_process_items(void) {
     s32 setup_a[2];
     s32 setup_b[2];
     s32 *item_cursor;
@@ -12,8 +12,8 @@ void townBuildEntryListAndProcessItems(void) {
     u16 *base;
 
     base = D_80082D08;
-    townComputeFourPointCoordinateBounds(base, setup_a, setup_b);
-    townCollectOverlappingRectangles(setup_a, setup_b, D_80100900, D_801007F8);
+    compute_four_point_coordinate_bounds(base, setup_a, setup_b);
+    collect_overlapping_rectangles(setup_a, setup_b, D_80100900, D_801007F8);
     entry_cursor = (void **)D_801007F8;
     if (D_801007F8[0] != 0) {
         do {
@@ -23,7 +23,7 @@ void townBuildEntryListAndProcessItems(void) {
                 coord_x = entry->unk_00;
                 coord_y = entry->unk_02;
                 while (*item_cursor != 0) {
-                    townProcessEligibleEntries(*item_cursor, base, (s16)coord_x, (s16)coord_y);
+                    process_eligible_entries(*item_cursor, base, (s16)coord_x, (s16)coord_y);
                     item_cursor++;
                 }
             }

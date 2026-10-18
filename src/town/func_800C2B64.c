@@ -9,7 +9,7 @@ typedef struct S_800C02C4_0 {
     s16 unk_22;
     u8 pad_24[0x4];
     s16 unk_28;
-} S_800C02C4_0;   /* arg0 in townInitializeObjectRenderingResources; pointer addresses record offset 0x10 */
+} S_800C02C4_0;   /* arg0 in initialize_object_rendering_resources; pointer addresses record offset 0x10 */
 
 typedef struct S_800C02C4_1 {
     u8 pad_00[0xC];
@@ -19,19 +19,19 @@ typedef struct S_800C02C4_1 {
     s16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_800C02C4_1;   /* arg2 in townInitializeObjectRenderingResources */
+} S_800C02C4_1;   /* arg2 in initialize_object_rendering_resources */
 
 
 void func_80033D08(void *);                      /* extern */
-void townApplyPendingIndexedValue();          /* extern */
-void townApplyPendingTableEntry();          /* extern */
+void apply_pending_indexed_value();          /* extern */
+void apply_pending_table_entry();          /* extern */
 extern char D_800A62E8[];
 extern char D_800A630C[];
 extern M2C_UNK D_800C035C;
 extern M2C_UNK D_800D0C58;
 
 /* Initializes object and rendering data and registers its resources. */
-void townInitializeObjectRenderingResources(void *object_data, void *unused, S_800C02C4_1 *render_data) {
+void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data) {
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_00 = &D_800C035C;
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_22 = -1;
     ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_20 = 0xC00;
@@ -40,8 +40,8 @@ void townInitializeObjectRenderingResources(void *object_data, void *unused, S_8
     render_data->unk_1C = 0x1000;
     render_data->unk_0C = 0x808080;
     render_data->unk_2C = &D_800D0C58;
-    townStoreTheInForwardsField10Callee800949C4((s32) &D_800D0C58, object_data, render_data);
+    store_the_in_forwards_field_10_callee_800949_c_4((s32) &D_800D0C58, object_data, render_data);
     func_80033D08(object_data);
-    townApplyPendingTableEntry(0x24, &D_800A62E8);
-    townApplyPendingIndexedValue(0xE4, &D_800A630C);
+    apply_pending_table_entry(0x24, &D_800A62E8);
+    apply_pending_indexed_value(0xE4, &D_800A630C);
 }

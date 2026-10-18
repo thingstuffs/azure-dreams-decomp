@@ -46,7 +46,7 @@ typedef struct S_80024550_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024550_4;   /* arg0 in func_80024550 */
+} S_80024550_4;   /* arg0 in mark_owner_on_target_completion */
 
 
 extern s32 rand(void);
@@ -59,7 +59,7 @@ extern u8 D_800244A4[];
 extern u8 D_800DE870[];
 
 /* Spawn an effect at a random radial offset from the given position. */
-void func_80024550(S_80024550_4 *origin)
+void mark_owner_on_target_completion(S_80024550_4 *origin)
 {
     GameWork *scene_state;
     s32 random_value;
@@ -69,7 +69,7 @@ void func_80024550(S_80024550_4 *origin)
     S_80024550_1 *effect_state;
     void *effect;
 
-    scene_state = &gameWork;
+    scene_state = &g_game_work;
     effect = func_8003FC64(0x212);
     if (effect != 0) {
         ((S_80024550_0 *)effect)->unk_10 = D_800244A4;

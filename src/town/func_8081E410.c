@@ -22,7 +22,7 @@ extern void SD_Call(s32);
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
-void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
+void update_effect_position_spin_phases(void *state_arg, void *target_arg, void *effect_arg)
 {
     EntityRec *world_pos = &D_80083780;
     EntityRec *close_pos;

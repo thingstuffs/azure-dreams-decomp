@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -19,7 +19,7 @@ struct ScriptContext {
     s16 unk_1A;
 };
 
-extern void func_80016C7C(s32 records, s32 count);
+extern void select_available_option_triggers_associated(s32 records, s32 count);
 extern s32 func_800174D8(s32 flag);
 extern s32 D_80017794;
 
@@ -27,7 +27,7 @@ extern s32 D_80017794;
 s32 func_80016D68(ScriptContext *context) {
     s32 entry_index;
 
-    func_80016C7C(context->unk_14, context->unk_1A);
+    select_available_option_triggers_associated(context->unk_14, context->unk_1A);
     do {
         D_80017794 = 0;
         entry_index = 0;

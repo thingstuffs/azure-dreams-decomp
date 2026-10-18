@@ -8,13 +8,13 @@ typedef struct S_800D4BD4_0 {
     s32 unk_0C;
     u8 pad_10[0x14];
     void * unk_24;
-} S_800D4BD4_0;   /* state in dungeonInitializeEffectObjectState */
+} S_800D4BD4_0;   /* state in initialize_effect_object_state */
 
 typedef struct S_800D4BD4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800D4BD4_1;   /* arg0 in dungeonInitializeEffectObjectState */
+} S_800D4BD4_1;   /* arg0 in initialize_effect_object_state */
 
 typedef struct S_800D4BD4_2 {
     u8 pad_00[0x10];
@@ -50,7 +50,7 @@ extern void func_8003DB94(void *, void *, s32);
 extern s32 D_800DECF8;
 
 /* Initialize object state and rendering data from the source and position. */
-void dungeonInitializeEffectObjectState(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
+void initialize_effect_object_state(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
 {
     S_800D4BD4_2 *render_config;
     S_800D4BD4_5 *render_data;

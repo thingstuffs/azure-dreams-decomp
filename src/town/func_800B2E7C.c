@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 
 M2C_UNK bzero();             /* extern */
-s32 townSetItemMenuFlagAndReturnOne();                     /* extern */
-s32 townCreateItemMenuChildAtPosition(); /* extern */
-void townFinishItemMenuChildAndReleaseList();                      /* extern */
+s32 set_item_menu_flag_and_return_one();                     /* extern */
+s32 create_item_menu_child_at_position(); /* extern */
+void finish_item_menu_child_and_release_list();                      /* extern */
 extern M2C_UNK D_800B0490;
 
 typedef struct S_800B05DC_0 {
@@ -24,7 +24,7 @@ typedef struct S_800B05DC_1 {
 } S_800B05DC_1;
 
 /* Create a display controller and its child display object. */
-void *townCreateItemMenuDisplayController(s32 owner, s32 display_config, M2C_UNK x, M2C_UNK y, s32 init_config) {
+void *create_item_menu_display_controller(s32 owner, s32 display_config, M2C_UNK x, M2C_UNK y, s32 init_config) {
     s32 init_result;
     s32 display_object;
     S_800B05DC_0 *state;
@@ -37,14 +37,14 @@ void *townCreateItemMenuDisplayController(s32 owner, s32 display_config, M2C_UNK
         state->unk_0C = init_config;
         state->unk_14 = display_config;
         bzero(state, 4);
-        init_result = townSetItemMenuFlagAndReturnOne(state, init_config);
+        init_result = set_item_menu_flag_and_return_one(state, init_config);
         state->unk_18 = init_result;
         if (init_result != 0) {
             ((S_800B05DC_1 *)object)->unk_10 = &D_800B0490;
-            display_object = townCreateItemMenuChildAtPosition(object, x, y, display_config, state->unk_18, state);
+            display_object = create_item_menu_child_at_position(object, x, y, display_config, state->unk_18, state);
             state->unk_04 = display_object;
             if (display_object == 0) {
-                townFinishItemMenuChildAndReleaseList(state);
+                finish_item_menu_child_and_release_list(state);
                 object = NULL;
             }
         }

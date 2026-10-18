@@ -20,15 +20,15 @@ typedef struct {
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8009A028(void *);
-extern void func_8009A3D0(u8, u8, s32);
-extern s32 func_800A2FE0(void *);
-extern s32 func_800A32A4(void *);
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern void func_800A56E0(s32);
-extern void dungeonAnnounceFamiliarDefeat(void *);
-extern s16 func_800BCB04(u16, u16, s16);
-extern s32 dungeonRandomBelowLimit(s32);
+extern void unlink_entity_node(void *);
+extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
+extern s32 distribute_experience_and_report_gains(void *);
+extern s32 detach_record_and_update_slot_state(void *);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
+extern void play_sound_if_enabled(s32);
+extern void announce_familiar_defeat(void *);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
+extern s32 random_below_limit(s32);
 
 extern u8 D_800E2368[];
 extern LocalTable D_8017088C;
@@ -48,7 +48,7 @@ typedef struct S_8017450C_0 {
     s16 unk_AE;
     u8 pad_B0[0x6];
     u16 unk_B6;
-} S_8017450C_0;   /* arg0 in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_0;   /* arg0 in update_monster_staged_motion */
 
 typedef struct S_8017450C_1 {
     u8 pad_00[0x14];
@@ -60,12 +60,12 @@ typedef struct S_8017450C_1 {
     u16 unk_22;
     u8 unk_24;
     u8 unk_25;
-} S_8017450C_1;   /* monster in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_1;   /* monster in update_monster_staged_motion */
 
 typedef struct S_8017450C_2 {
     u8 pad_00[0xC8];
     s16 unk_C8;
-} S_8017450C_2;   /* globals in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_2;   /* globals in update_monster_staged_motion */
 
 typedef struct S_8017450C_3 {
     u8 pad_00[0x14];
@@ -76,7 +76,7 @@ typedef struct S_8017450C_3 {
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_8017450C_3;   /* actor in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_3;   /* actor in update_monster_staged_motion */
 
 typedef struct S_8017450C_4 {
     u8 pad_00[0x2];
@@ -88,15 +88,15 @@ typedef struct S_8017450C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8017450C_4;   /* motion in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_4;   /* motion in update_monster_staged_motion */
 
 typedef struct S_8017450C_5 {
     u8 pad_00[0x10];
     u32 unk_10;
-} S_8017450C_5;   /* cleanup_base in dungeonUpdateMonsterStagedMotion */
+} S_8017450C_5;   /* cleanup_base in update_monster_staged_motion */
 
 /* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
-void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, void *actor_ptr)
+void update_monster_staged_motion(void *state, void *motion, void *monster, void *actor_ptr)
 {
     LocalVector direction;
     LocalTable direction_table;
@@ -126,7 +126,7 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
 
         facing_angle = 0;
         do {
-            if (((gameWork.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
+            if (((g_game_work.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
                 ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
             }
             facing_angle += 0x200;
@@ -135,7 +135,7 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
         {
             u8 *animation_table = D_800E2368;
             (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-            direction_index = (gameWork.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+            direction_index = (g_game_work.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
             func_80047784(monster, animation_table[direction_index], 0);
             ((S_8017450C_0 *)state)->unk_98 |= 8;
             ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
@@ -153,7 +153,7 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
             state_or_height += height_offset;
             ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
             *sound_flags |= 0x40;
-            func_800A56E0(0x807);
+            play_sound_if_enabled(0x807);
         }
 
     case 1:
@@ -260,8 +260,8 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
         ((S_8017450C_1 *)monster)->unk_1C = 0x600;
 
         for (attempt = 0; attempt < 0xA; attempt++) {
-            random_x = dungeonRandomBelowLimit(7) - 3;
-            random_y = dungeonRandomBelowLimit(6) - 2;
+            random_x = random_below_limit(7) - 3;
+            random_y = random_below_limit(6) - 2;
             x_offset = random_x << 6;
             x = ((S_8017450C_4 *)motion)->unk_02.s + x_offset;
             if (x >= 0x1020) {
@@ -282,10 +282,10 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
 
             actor = (u16)x;
             y = (u16)y;
-            if ((dungeonCheckLeftTileAndCenterHeight(actor, y, -0x200) << 16) != 0) {
+            if ((check_left_tile_and_center_height(actor, y, -0x200) << 16) != 0) {
                 continue;
             }
-            if (func_800BCB04(actor, y, -0x200) < 0x200) {
+            if (sample_terrain_surface_height(actor, y, -0x200) < 0x200) {
                 continue;
             }
 
@@ -318,7 +318,7 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
         }
         if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
             if (!(((S_8017450C_3 *)actor)->unk_14 & 0x20000000)) {
-                dungeonAnnounceFamiliarDefeat((void *)actor);
+                announce_familiar_defeat((void *)actor);
             }
         }
         break;
@@ -330,12 +330,12 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
         u32 tracked_actor;
         s32 tile_flags;
 
-        tracked_actor = ((u32)dungeonStatus.unk_10);
+        tracked_actor = ((u32)g_dungeon_status.unk_10);
         if (tracked_actor == actor - 0x20) {
-            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+            g_dungeon_status.unk_10 = tracked_actor & 0x7FFFFFFF;
         }
-        func_800A2FE0((void *)actor);
-        func_800A32A4((void *)actor);
+        distribute_experience_and_report_gains((void *)actor);
+        detach_record_and_update_slot_state((void *)actor);
         tile_x = ((S_8017450C_1 *)monster)->unk_24;
         tile_y = ((S_8017450C_1 *)monster)->unk_25;
         if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
@@ -343,9 +343,9 @@ void dungeonUpdateMonsterStagedMotion(void *state, void *motion, void *monster, 
         } else {
             tile_flags = 0x3000;
         }
-        func_8009A3D0(tile_x, tile_y, tile_flags);
-        func_8009A028((void *)actor);
+        update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
+        unlink_entity_node((void *)actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

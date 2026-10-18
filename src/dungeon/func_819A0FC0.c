@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_19c088c.h"
 
-void dungeonShrinkEffectAndSpawnParticles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
+void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
 {
     s32 brightness;
     u16 remainingTicks;
@@ -16,6 +16,6 @@ void dungeonShrinkEffectAndSpawnParticles(Row_819A0FC0_S_func_819A0FC0_0 *fadeSt
     if ((s16)fadeState->unk_3A <= 0) {
         *(u16 *)((u8 *)fadeState - 2) =
             (u16)(((Row_819A0FC0_S_func_819A0FC0_2 *)((u8 *)fadeState - 2))->unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

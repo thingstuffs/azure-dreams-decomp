@@ -11,7 +11,7 @@ typedef struct S_8003FFF0 {
 extern S_8003FFF0 *D_80081498;
 
 /* Unlinks a node from its doubly-linked list, clears flag 0x4000, and resets its links. */
-void unlinkActiveNode(S_8003FFF0 *node) {
+void unlink_active_node(S_8003FFF0 *node) {
     S_8003FFF0 *prev = node->prev;
     S_8003FFF0 *next;
 

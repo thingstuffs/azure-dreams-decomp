@@ -6,9 +6,9 @@
 
 void *func_8003FD64();
 s32 func_8004491C();
-void func_800A9C18();
-s32 func_800AA36C();
-void dungeonCreateAttachedSpriteWithOffset();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
+void create_attached_sprite_with_offset();
 M2C_UNK func_80173C30();
 extern M2C_UNK D_8017112C;
 extern M2C_UNK D_80171514;
@@ -60,7 +60,7 @@ typedef struct S_80170F84_3 {
 } S_80170F84_3;
 
 /* Create a dungeon entity and initialize its state and placement. */
-void *dungeonCreateEntityAndInitializePlacement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
+void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
     S_80170F84_1 *entity_state = NULL;
     s16 saved_tile_x;
     s16 saved_height;
@@ -88,14 +88,14 @@ void *dungeonCreateEntityAndInitializePlacement(s16 entity_id, s32 tile_x, s16 t
         tile_state->unk_25 = saved_tile_y;
         tile_state->unk_2C = &D_80173E8C;
         entity_state->unk_9E = 0;
-        func_800A9C18(entity, world_state, tile_state, entity_id);
+        initialize_actor_sprite_and_animation(entity, world_state, tile_state, entity_id);
         entity_state->unk_9A = 0xFF;
         entity_state->unk_9C = -1;
         entity_state->unk_8C = &D_80171514;
         entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
         tile_state->unk_10 = 0x20;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);
-        func_800AA36C(entity_state, world_state, tile_state, entity_state);
+        try_move_actor_to_valid_position(entity_state, world_state, tile_state, entity_state);
         world_state->unk_0A = (u16) ((u16)D_80083780.z.w.i);
         world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
         world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);
@@ -104,8 +104,8 @@ void *dungeonCreateEntityAndInitializePlacement(s16 entity_id, s32 tile_x, s16 t
         tile_state->unk_1C = 0U;
         tile_state->unk_1E = 0U;
         tile_state->unk_14 = (u16) (tile_state->unk_14 | 0x80);
-        dungeonCreateAttachedSpriteWithOffset(entity_state, world_state, tile_state, 1);
-        dungeonCreateAttachedSpriteWithOffset(entity_state, world_state, tile_state, 2);
+        create_attached_sprite_with_offset(entity_state, world_state, tile_state, 1);
+        create_attached_sprite_with_offset(entity_state, world_state, tile_state, 2);
         tile_state->unk_1C = saved_tile_1c;
         tile_state->unk_1E = saved_tile_1e;
         func_80173C30();

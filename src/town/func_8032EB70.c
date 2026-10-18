@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Returns 20 minus the value from townCountShopEntries. */
-s32 townGetFreeShopSlotCount(void) {
-    return 0x14 - townCountShopEntries();
+/* Returns 20 minus the value from count_shop_entries. */
+s32 get_free_shop_slot_count(void) {
+    return 0x14 - count_shop_entries();
 }

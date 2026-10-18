@@ -6,7 +6,7 @@ extern s32 func_800198D0(s32);
 extern s32 D_80019BB0;
 
 /* Set state 5 and apply the two updates when check 0x145D succeeds. */
-s32 townSetStateFiveAndApplyUpdates(void) {
+s32 set_state_five_and_apply_updates(void) {
     D_80019BB0 = 5;
     if (func_800198D0(0x145D) != 0) {
         func_800197D8(0x1455);

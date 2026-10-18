@@ -36,8 +36,8 @@ extern u8 D_80151E5C[8];
 extern u8 D_80151E64[8];
 
 extern void func_80047784(Obj2 *, u8, s32);
-extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
-extern s32 dungeonCheckActorFloorTrap(Obj2 *, Obj3 *);
+extern s32 update_actor_transform_from_parent(Obj0 *, void *, Obj2 *, Obj3 *);
+extern s32 check_actor_floor_trap(Obj2 *, Obj3 *);
 
-void selectDirectionalObjectEffectTables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg);
+void select_directional_object_effect_tables(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg);
 #endif

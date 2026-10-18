@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1936800.h"
 
-void func_80024C0C(void *motion, void *position, void *effect) {
+void advance_radial_effect_state(void *motion, void *position, void *effect) {
     s32 direction_scale;
     s32 sin_a;
     s32 sin_b;
@@ -52,7 +52,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
                 return;
             }
         }
-        dungeonInitializeTheSVisualStateApplyRandomSphericalPositionOffset(motion, position, effect);
+        initialize_the_s_visual_state_apply_random_spherical_position_offset(motion, position, effect);
         ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:
@@ -70,7 +70,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
         if (((Rec_D_80082E80 *)effect)->unk_14.at00_u16.v & 0x6000) {
             object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
             ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
-            global_flags = &objectFlagBlock;
+            global_flags = &object_flag_block;
             (*(u16 *)((u8 *)motion + (-2))) |= 0x8000;
             global_flags->flags |= 0x8000;
         }

@@ -9,9 +9,9 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-/* Retail 8186E96C (func_8002416C): projects each linked point and queues a brightness-scaled shaded point
+/* Retail 8186E96C (begin_view_parameter_transition): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 func_8002416C(PointRecord *start_node, EntityRec *start_coords)
+s32 begin_view_parameter_transition(PointRecord *start_node, EntityRec *start_coords)
 {
     GpuContext **state_ptr;
     Scratch8002416C *scratch;
@@ -26,7 +26,7 @@ s32 func_8002416C(PointRecord *start_node, EntityRec *start_coords)
 
     node = start_node;
     coords = start_coords;
-    state_ptr = (GpuContext **)&gameWork;
+    state_ptr = (GpuContext **)&g_game_work;
     render_state = *state_ptr;
     scratch = (Scratch8002416C *)0x1F800000;
 

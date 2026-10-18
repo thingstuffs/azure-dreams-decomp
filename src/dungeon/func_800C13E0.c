@@ -21,7 +21,7 @@ typedef struct S_800C6B40_0 {
     u16 unk_1C;
     u8 pad_1E[0x2];
     u16 unk_20;
-} S_800C6B40_0;   /* arg2 in dungeonDrawSpritePartsAsQuadGrid */
+} S_800C6B40_0;   /* arg2 in draw_sprite_parts_as_quad_grid */
 
 typedef struct S_800C6B40_1 {
     u8 unk_00;
@@ -87,7 +87,7 @@ extern void func_8006658C(void *, void *);
 extern s32 D_8006CD30[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
-void dungeonDrawSpritePartsAsQuadGrid(s32 context, void *position, void *sprite, s16 depth_bias) {
+void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s16 depth_bias) {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     GameWork *render_globals;
@@ -156,8 +156,8 @@ void dungeonDrawSpritePartsAsQuadGrid(s32 context, void *position, void *sprite,
     u8 uv_inset;
     void *part;
 
-    render_globals = &gameWork;
-    state = *(u8 **)((u8 *)(&gameWork));
+    render_globals = &g_game_work;
+    state = *(u8 **)((u8 *)(&g_game_work));
     *(u32 *)(scratch + 0x0EC) = NULL;
     *(u16 *)(scratch + 0x08C) = 0;
     *(u16 *)(scratch + 0x084) = 0;

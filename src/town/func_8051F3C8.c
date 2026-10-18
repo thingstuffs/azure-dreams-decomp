@@ -4,6 +4,6 @@
 s32 func_80018B5C();                         /* extern */
 
 /* Returns whether func_80018B5C reports zero for ID 0x5BF. */
-s32 townCheckSceneFlag5BF(void) {
+s32 check_scene_flag_5_bf(void) {
     return func_80018B5C(0x5BF) == 0;
 }

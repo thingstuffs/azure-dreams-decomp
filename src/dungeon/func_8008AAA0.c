@@ -6,10 +6,10 @@
 
 
 M2C_UNK func_80048A44(); /* extern */
-void dungeonClearPlayerLinkedActionFlags();                            /* extern */
+void clear_player_linked_action_flags();                            /* extern */
 extern u8 D_800DD0E8;
 
-void dungeonBeginPlayerSleepAction(void *record, M2C_UNK unused, void *object, EntityRec *entity) {
+void begin_player_sleep_action(void *record, M2C_UNK unused, void *object, EntityRec *entity) {
         /* MATCH: Keep the shared data pointer in a0 after the first call. */
     u8 *data;
     s32 mask;
@@ -18,11 +18,11 @@ void dungeonBeginPlayerSleepAction(void *record, M2C_UNK unused, void *object, E
     ((Rec_func_8008ACDC_arg0 *)record)->unk_9B.as_s8 = 0;
     ((Rec_func_8008ACDC_arg0 *)record)->unk_8C.as_s32 = 0;
     ((Rec_func_8008ACDC_arg0 *)record)->unk_96.as_s16 = 0;
-    dungeonClearPlayerLinkedActionFlags();
+    clear_player_linked_action_flags();
     mask = ~0x20;
          /* MATCH: Emit the mask before loading the data pointer. */
     data = &D_800DD0E8;
     entity->flags1C = (s32) (entity->flags1C & mask);
     (*(M2C_UNK **)((u8 *)object + 0x2C)) = data;
-    func_80048A44(object, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + data), 0, 1);
+    func_80048A44(object, *((((s32) (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + data), 0, 1);
 }

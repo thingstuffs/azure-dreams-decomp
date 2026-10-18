@@ -24,22 +24,22 @@ typedef struct {
     u8 unk71;
 } State;
 
-extern s32 func_800A2BDC(State *state);
+extern s32 has_pending_dungeon_activity(State *state);
 extern void func_80047784(Object *object, u8 value, s32 entry_index);
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
-void dungeonClearTheStateFlagAllowedResetsEntitySelectsDirectional(Entity *entity, s32 unused, Object *object, State *state) {
-    DungeonGlobalStatus *flags = &dungeonStatus;
+void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, s32 unused, Object *object, State *state) {
+    DungeonGlobalStatus *flags = &g_dungeon_status;
 
     state->unk71 &= 0x7F;
-    if (!(flags->flags & 0x2000) && ((func_800A2BDC(state) << 16) == 0)) {
+    if (!(flags->flags & 0x2000) && ((has_pending_dungeon_activity(state) << 16) == 0)) {
         entity->unk9A = 0x18;
         entity->unk8C = 0;
         entity->unk9B = 0;
         object->unk2C = D_80174F08;
         func_80047784(object,
-                      D_80174F08[((gameWork.view.viewAngle + state->unk2A + 0x100) >> 9) & 7],
+                      D_80174F08[((g_game_work.view.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);
         state->unk6D--;
         flags->unk_0A++;

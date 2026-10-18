@@ -5,7 +5,7 @@
 typedef struct S_80099FDC_0 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_80099FDC_0;   /* arg0 in dungeonClearEntryFlagAndLinkOwner */
+} S_80099FDC_0;   /* arg0 in clear_entry_flag_and_link_owner */
 
 typedef struct S_80099FDC_2 {
     u8 pad_00[0x58];
@@ -20,7 +20,7 @@ typedef struct S_80099FDC_3 {
 
 
 /* Clear the entry flag and link the entry into the current owner list. */
-void dungeonClearEntryFlagAndLinkOwner(void *entry)
+void clear_entry_flag_and_link_owner(void *entry)
 {
     S_80099FDC_2 *entry_links;
     S_80099FDC_3 *neighbor_links;

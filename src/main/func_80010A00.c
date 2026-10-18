@@ -1,16 +1,16 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void cardBootReleaseThreeRowPanelText(void *record);
+extern void card_boot_release_three_row_panel_text(void *record);
 
 /* Processes a nonzero record and sets its flag and the global flag to include bit 15. */
-void func_80023A00(s32 record) {
+void process_nonzero(s32 record) {
     void *record_data;
 
     if (record != 0) {
         record_data = (void *) (record + 0x20);
-        cardBootReleaseThreeRowPanelText(record_data);
+        card_boot_release_three_row_panel_text(record_data);
         *(u16 *) ((s8 *) record_data - 2) = *(u16 *) ((s8 *) record_data - 2) | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

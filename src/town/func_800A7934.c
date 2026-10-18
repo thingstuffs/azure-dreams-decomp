@@ -6,7 +6,7 @@ typedef struct {
     void (*callback)(void *);
 } State;
 
-extern void townResetOrCopyStateValues(void *);
+extern void reset_or_copy_state_values(void *);
 extern u8 D_80100D98[];
 extern State D_80100DE0;
 
@@ -14,6 +14,6 @@ extern State D_80100DE0;
 void tcame_chase_set(void) {
     u8 *state_bytes = (u8 *)&D_80100DE0;
 
-    *(void (**)(void *))(state_bytes + 0x28) = townResetOrCopyStateValues;
+    *(void (**)(void *))(state_bytes + 0x28) = reset_or_copy_state_values;
     D_80100DE0.value = D_80100D98;
 }

@@ -1,9 +1,9 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 townSelectLookupWithCountThreshold(s32 object, s32 check_value, s32 selection) {
+s32 select_lookup_with_count_threshold(s32 object, s32 check_value, s32 selection) {
     s32 response;
 
-    if (townCheckTableResultBelowMinus47(object, check_value) != 0) {
+    if (check_table_result_below_minus_47(object, check_value) != 0) {
         return (s32)&D_8001B63C;
     }
     response = func_80019ABC(&D_8001A954, &D_8001B1F8, object, selection);
@@ -12,7 +12,7 @@ s32 townSelectLookupWithCountThreshold(s32 object, s32 check_value, s32 selectio
         response = (s32)&D_800211DC;
     }
     if (func_80019A04(&D_8001A954, object, selection) != 0) {
-        response = func_8001628C(object, check_value, selection);
+        response = select_state_result_with_lookup_overrides(object, check_value, selection);
     }
     return response;
 }

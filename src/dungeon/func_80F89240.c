@@ -7,11 +7,11 @@
 extern int abs(int);
 
 
-extern s32 getCdCommandQueueDepth(void);
-extern void *dungeonScanMonsterAlongHeading(void *, u8, u8, s16, s32);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern s32 dungeonCreateActorSpellEffect(void *actor, EntityRec *effect_record, s16 mode, void *context);
-extern void dungeonCreateSourcePositionedObject(EntityRec *source_pos, s16 initial_value);
+extern s32 get_cd_command_queue_depth(void);
+extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
+extern void create_source_positioned_object(EntityRec *source_pos, s16 initial_value);
 
 
 
@@ -27,18 +27,18 @@ typedef struct S_80172A40_0 {
     u8 unk_9B;
     u8 pad_9C[0x4];
     s16 unk_A0;
-} S_80172A40_0;   /* arg0 in dungeonUpdateBankActorTargetedAction */
+} S_80172A40_0;   /* arg0 in update_bank_actor_targeted_action */
 
 typedef struct S_80172A40_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80172A40_2_pre;   /* the 0x14 bytes before target in dungeonUpdateBankActorTargetedAction, addressed as target[-1] */
+} S_80172A40_2_pre;   /* the 0x14 bytes before target in update_bank_actor_targeted_action, addressed as target[-1] */
 
 typedef struct S_80172A40_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80172A40_3;   /* record in dungeonUpdateBankActorTargetedAction */
+} S_80172A40_3;   /* record in update_bank_actor_targeted_action */
 
 typedef struct S_80172A40_4 {
     u8 pad_00[0x14];
@@ -48,11 +48,11 @@ typedef struct S_80172A40_4 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_80172A40_4;   /* arg2 in dungeonUpdateBankActorTargetedAction */
+} S_80172A40_4;   /* arg2 in update_bank_actor_targeted_action */
 
 
 /* Updates the selected action's targeting, motion, and completion state. */
-void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_input, void *actor_input, EntityRec *object)
+void update_bank_actor_targeted_action(void *owner_input, EntityRec *motion_input, void *actor_input, EntityRec *object)
 {
     s16 special;
     u8 *item_slot;
@@ -140,7 +140,7 @@ void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_i
                         object->unk_73 = ((S_80172A40_3 *)target_record)->unk_25;
                     }
                 } else {
-                    object->target = dungeonScanMonsterAlongHeading(
+                    object->target = scan_monster_along_heading(
                         object, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25,
                         object->facing, 0x10);
 
@@ -151,13 +151,13 @@ void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_i
                 }
             }
 
-            if (dungeonCreateActorSpellEffect(object, item_slot, special,
+            if (create_actor_spell_effect(object, item_slot, special,
                               (u16 *)((u8 *)owner_input + 0x98)) == 0) {
                 return;
             }
             ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
-            dungeonCreateSourcePositionedObject(motion_input, 4);
-            func_800A56E0(0x703);
+            create_source_positioned_object(motion_input, 4);
+            play_sound_if_enabled(0x703);
             ((S_80172A40_0 *)owner_input)->unk_96.u = 4;
             ((S_80172A40_0 *)owner_input)->unk_9B++;
             ((S_80172A40_0 *)owner_input)->unk_98 |= 8;
@@ -169,19 +169,19 @@ void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_i
         motion_input->flags14 = 0;
         motion_input->unk_10 = 0;
         motion_input->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
-        dungeonStatus.unk_0C = 0;
+        set_record_integer_tile_center(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
+        g_dungeon_status.unk_0C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-        dungeonAdvanceStatusTimers(object);
+        advance_status_timers(object);
         (*(u8 *)&object->unk_6D)--;
-        ((S_80172A40_0 *)owner_input)->unk_8C = dungeonUpdateBankActorState;
+        ((S_80172A40_0 *)owner_input)->unk_8C = update_bank_actor_state;
         object->unk_73 = 0;
         object->unk_72 = 0;
         object->unk_46 &= 0x7FFF;
         return;
 
     case 1:
-        if (getCdCommandQueueDepth() != 0) {
+        if (get_cd_command_queue_depth() != 0) {
             ((S_80172A40_4 *)actor_input)->unk_14 |= 0x800;
             return;
         }
@@ -206,7 +206,7 @@ void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_i
         motion_input->flags14 = 0;
         motion_input->unk_10 = 0;
         motion_input->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
+        set_record_integer_tile_center(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
         ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFFF7;
         (*(u32 *)&object->flags1C) |= 0x08000000;
         (*(u32 *)&object->flags1C) |= 0x00040000;
@@ -214,25 +214,25 @@ void dungeonUpdateBankActorTargetedAction(void *owner_input, EntityRec *motion_i
         if (((S_80172A40_4 *)actor_input)->unk_2C != D_80174AD4) {
             (*(u8 * *)((u8 *)actor_input + 0x2C)) = D_80174AD4;
             func_80047784(actor_input,
-                          D_80174AD4[((gameWork.view.viewAngle +
+                          D_80174AD4[((g_game_work.view.viewAngle +
                                        object->facing + 0x100) >> 9) & 7],
                           ((S_80172A40_0 *)owner_input)->unk_A0);
         }
 
-        if (((s32)dungeonStatus.unk_0C) != 0) {
+        if (((s32)g_dungeon_status.unk_0C) != 0) {
             return;
         }
-        dungeonStatus.unk_0A--;
+        g_dungeon_status.unk_0A--;
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
-        ((S_80172A40_0 *)owner_input)->unk_8C = dungeonUpdateBankActorState;
-        dungeonAdvanceStatusTimers(object);
+        ((S_80172A40_0 *)owner_input)->unk_8C = update_bank_actor_state;
+        advance_status_timers(object);
         if (object->unk_6D > 0) {
             (*(u8 *)&object->unk_6D)--;
         }
         object->unk_73 = 0;
         object->unk_72 = 0;
         object->unk_46 &= 0x7FFF;
-        func_800A56E0(0xB4);
+        play_sound_if_enabled(0xB4);
         break;
     default:
         return;

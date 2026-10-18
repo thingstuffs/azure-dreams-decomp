@@ -16,9 +16,9 @@ typedef struct S_8125414C_1 {
 
 extern u8 *D_80156710;
 
-extern void func_8009A3D0(s32, s32, s32);
+extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
-extern void func_8009A21C(s16 x, s16 y, u16 flags);
+extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
 /* Repositions the current entity relative to the origin and updates its motion. */
 void func_8015594C(s32 offset_index)
@@ -38,7 +38,7 @@ void func_8015594C(s32 offset_index)
 
     ((S_8125414C_0 *)entity)->unk_14 &= 0xFF7F;
 
-    func_8009A3D0(entity[0x24], entity[0x25],
+    update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = &D_80082E80;
@@ -48,6 +48,6 @@ void func_8015594C(s32 offset_index)
 
     func_800A2B04(motion, entity[0x24], entity[0x25]);
 
-    func_8009A21C(entity[0x24], entity[0x25],
+    cycle_map_cell_flags(entity[0x24], entity[0x25],
                   (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 }

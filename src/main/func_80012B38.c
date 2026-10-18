@@ -5,9 +5,9 @@
 typedef struct S_80025B38_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_80025B38_0;   /* arg0 in cardBootSetSlotMenuRequest */
+} S_80025B38_0;   /* arg0 in card_boot_set_slot_menu_request */
 
 /* Sets the object's field at offset 0x20 to the supplied value. */
-void cardBootSetSlotMenuRequest(S_80025B38_0 *object, s32 value) {
+void card_boot_set_slot_menu_request(S_80025B38_0 *object, s32 value) {
     object->unk_20 = value;
 }

@@ -12,7 +12,7 @@ typedef struct Node {
 extern Node D_800CFCB4[];
 
 /* Insert a nonnull node immediately after the list head. */
-s32 townPrependSceneListNode(Node *node) {
+s32 prepend_scene_list_node(Node *node) {
     u32 page = 0x800D0000;
 
     if (node != NULL) {

@@ -18,17 +18,17 @@ typedef struct S_8014EBAC_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_8014EBAC_0;   /* arg0 in dungeonAdvanceActorHopAndComplete */
+} S_8014EBAC_0;   /* arg0 in advance_actor_hop_and_complete */
 
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern s32 dungeonCheckActorFloorTrap(void *, void *);
+extern void reduce_actor_food_meter(void *, s32);
+extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_8014D728;
 extern u8 D_80150DEC[];
@@ -36,7 +36,7 @@ extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
 /* Updates the actor's hop toward its tile and completes the timed action. */
-void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
 {
     s32 state;
     s32 hop_ticks;
@@ -60,7 +60,7 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150E0C;
         func_80047784(
             sprite,
-            D_80150E0C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80150E0C[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_8014EBAC_0 *)action)->unk_98 |= 8;
         actor->flags1C &= 0xF7FFFFFF;
@@ -109,11 +109,11 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150E14;
             func_80047784(
                 sprite,
-                D_80150E14[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                D_80150E14[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8014EBAC_0 *)action)->unk_9B++;
         }
@@ -126,7 +126,7 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80150DEC;
         func_80047784(
             sprite,
-            D_80150DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80150DEC[((g_game_work.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
     default:
         break;
@@ -141,11 +141,11 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonReduceActorFoodMeter(actor, 4);
-    dungeonAdvanceStatusTimers(actor);
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    reduce_actor_food_meter(actor, 4);
+    advance_status_timers(actor);
 
-    global_base = &dungeonStatus;
+    global_base = &g_dungeon_status;
     if (global_base->unk_08 != 0) {
         (*(u16 *)&global_base->unk_08)--;
     }
@@ -157,7 +157,7 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            actor->facing = dungeonGetRoundedFacingAndRoundingFlag(
+            actor->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24,
                 ((Rec_D_80082E80 *)sprite)->unk_25,
                 D_80082E80.tileX,
@@ -166,7 +166,7 @@ void dungeonAdvanceActorHopAndComplete(void *action, EntityRec *motion, void *sp
         }
     }
 
-    if ((dungeonCheckActorFloorTrap(sprite, actor) << 16) > 0) {
+    if ((check_actor_floor_trap(sprite, actor) << 16) > 0) {
         ((S_8014EBAC_0 *)action)->unk_8C = &D_8014D728;
         func_800A9A04(actor);
     }

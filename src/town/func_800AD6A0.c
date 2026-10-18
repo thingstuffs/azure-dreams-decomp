@@ -6,17 +6,17 @@ extern M2C_UNK D_800AAC64;
 typedef struct S_800AAE00_0 {
     u8 pad_00[0x15];
     s8 unk_15;
-} S_800AAE00_0;   /* arg1 in townSetPersonStatusAndCode */
+} S_800AAE00_0;   /* arg1 in set_person_status_and_code */
 
 typedef struct S_800AAE00_1 {
     u8 pad_00[0x50];
     M2C_UNK * unk_50;
     u8 pad_54[0x18];
     s16 unk_6C;
-} S_800AAE00_1;   /* arg0 in townSetPersonStatusAndCode */
+} S_800AAE00_1;   /* arg0 in set_person_status_and_code */
 
 /* Set the status flag and initialize the context's data pointer and code. */
-void townSetPersonStatusAndCode(S_800AAE00_1 *context, S_800AAE00_0 *status) {
+void set_person_status_and_code(S_800AAE00_1 *context, S_800AAE00_0 *status) {
     status->unk_15 = 1;
     context->unk_50 = &D_800AAC64;
     context->unk_6C = 0x15;

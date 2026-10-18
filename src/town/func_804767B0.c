@@ -4,7 +4,7 @@ extern u8 D_800170C8[];
 extern u8 D_8001BAB6[];
 
 /* Returns the byte array selected by the variant. */
-void *townSelectVariantByteArray(s32 unused_0, s32 unused_1, s32 variant) {
+void *select_variant_byte_array(s32 unused_0, s32 unused_1, s32 variant) {
     if (variant != 1) {
         return D_8001BAB6;
     }

@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80E11764; every changed retail word is a paired relocation. */
-#define dungeonUpdateRadialMotionOrComplete func_80150F64
+#define update_radial_motion_or_complete func_80150F64
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -16,7 +16,7 @@ void func_80150F64(u16 *motion, s32 *position, u8 *object)
     func_800478B8(object);
     if (*(u16 *)(object + 0x14) & 0x6000) {
         motion[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

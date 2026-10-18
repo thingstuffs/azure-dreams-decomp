@@ -1,5 +1,5 @@
-#define dungeonUpdateActorFadeIn func_800ABAEC
-#define dungeonUpdateBankActorState func_80158514
+#define update_actor_fade_in func_800ABAEC
+#define update_bank_actor_state func_80158514
 /* Relink of matched dungeon/func_80F8A6D4 at file 0xFAA6D4; imports and data use paired retail relocations. */
 #include "modules/dungeon_ovl_fa7000.h"
 #include "common.h"

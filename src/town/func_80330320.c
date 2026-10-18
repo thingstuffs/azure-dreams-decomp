@@ -7,7 +7,7 @@ typedef struct {
 } Vec3s;
 
 /* Compute the squared distance between two 3D points. */
-s32 townSquaredDistance3s(Vec3s *point_a, Vec3s *point_b) {
+s32 squared_distance_3s(Vec3s *point_a, Vec3s *point_b) {
     s32 diff;
     s32 total;
 

@@ -6,7 +6,7 @@
 M2C_UNK func_80033CD8();           /* extern */
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FD64();            /* extern */
-void func_800C8B5C();      /* extern */
+void load_indexed_state_value();      /* extern */
 extern M2C_UNK D_800C8B8C;
 extern M2C_UNK D_800EE344;
 
@@ -68,7 +68,7 @@ s32 func_800C8A68(S_800C8A68_2 *source_pos) {
     position->unk_08 = offset_z;
     ((S_800C8A68_0 *)object)->unk_10 = &D_800C8B8C;
     object_state->unk_90 = 2;
-    func_800C8B5C(object_state, position, render_state);
+    load_indexed_state_value(object_state, position, render_state);
     render_state->unk_1E = 0x1000;
     render_state->unk_1C = 0x1000;
     render_state->unk_0C = 0x808080;

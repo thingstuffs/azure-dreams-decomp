@@ -10,17 +10,17 @@ typedef struct Ent Ent;
 
 
 void func_80047784();
-Ent *dungeonPrepareDirectionalAttack();
-s32 dungeonGetActorHeightDifference();
-s32 dungeonPlaceActorAtDirectionalNeighbor();
-s32 func_800A2B5C();
-s32 func_800A2CB8();
-s32 dungeonApplyCameraOffsetAndSelectTarget();
+Ent *prepare_directional_attack();
+s32 get_actor_height_difference();
+s32 place_actor_at_directional_neighbor();
+s32 try_claim_dungeon_action_slot();
+s32 check_entity_interaction_compatibility();
+s32 apply_camera_offset_and_select_target();
 
 extern u8 D_800E2378;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
-s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, void *sprite, void *actor) {
+s32 initialize_directional_object(void *action_state, s32 action_param, void *sprite, void *actor) {
     s32 result;
     s32 action_ready;
     s32 direction;
@@ -29,20 +29,20 @@ s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, voi
 
     ((EntityRec *)actor)->unk_71 &= 0x7F;
     action_ready = 0;
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
-    direction = dungeonPlaceActorAtDirectionalNeighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    direction = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                          ((Rec_D_80082E80 *)sprite)->unk_25,
                          ((EntityRec *)actor)->facing);
     result = 0;
-    if ((func_800A2CB8(actor, direction) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, direction) << 16) == 0) {
         return 0;
     }
 
     result = -1;
-    action_flags = dungeonStatus.flags;
+    action_flags = g_dungeon_status.flags;
     if (action_flags & 0x2000) {
         return result;
     }
@@ -52,22 +52,22 @@ s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, voi
         }
     }
 
-    if ((u16)((0 - dungeonGetActorHeightDifference(direction, actor)) + 0x40) >= 0x81U) {
+    if ((u16)((0 - get_actor_height_difference(direction, actor)) + 0x40) >= 0x81U) {
         return action_ready;
     }
 
     action_ready = 1;
     if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
-        if (dungeonStatus.flags & 8) {
+        if (g_dungeon_status.flags & 8) {
             return -1;
         }
     }
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
-    dungeonApplyCameraOffsetAndSelectTarget((s8 *)actor - 0x20, action_param, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    apply_camera_offset_and_select_target((s8 *)actor - 0x20, action_param, 8, 0x300);
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
@@ -83,10 +83,10 @@ s32 dungeonInitializeDirectionalObject(void *action_state, s32 action_param, voi
         anim_table = &D_800E2378;
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
         func_80047784(sprite,
-                      anim_table[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                      anim_table[((g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
                       0);
         ((EntityRec *)actor)->unk_6D--;
-        dungeonPrepareDirectionalAttack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
+        prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
     }
     return result;
 }

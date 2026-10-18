@@ -3,7 +3,7 @@
 extern s32 D_800786E8[];
 
 /* Set the object color, optional display table, and display dimensions. */
-void cardBootSetSlotSelectionMarker(s32 object_addr, s32 enable_table) {
+void card_boot_set_slot_selection_marker(s32 object_addr, s32 enable_table) {
     s8 *object_data;
     void *display_data;
 

@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 func_80047784();
-extern void func_800A9A0C();
+extern void update_actor_status_and_food();
 extern void func_80171BE0();
 
 extern u8 D_80173E94[];
@@ -51,7 +51,7 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
             if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
                 *(u8 **)(sprite + 0x2C) = D_80173E94;
                 func_80047784(sprite,
-                              D_80173E94[((gameWork.view.viewAngle +
+                              D_80173E94[((g_game_work.view.viewAngle +
                                            *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
                               *(s8 *)(sprite + 4));
             }
@@ -59,6 +59,6 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
         }
         dispatch_actor = saved_actor;
     }
-    func_800A9A0C(dispatch_actor);
+    update_actor_status_and_food(dispatch_actor);
     return 0;
 }

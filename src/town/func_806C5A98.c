@@ -5,7 +5,7 @@ extern void func_80018CEC(s32);
 extern s32 func_80018D6C(s32);
 
 /* Checks event prerequisites and updates the corresponding event flags. */
-s32 townUpdateEventPrerequisiteFlags(void)
+s32 update_event_prerequisite_flags(void)
 {
     if ((func_80018D6C(0x7D1) != 0) &&
         (func_80018D6C(0x7D2) == 0) &&

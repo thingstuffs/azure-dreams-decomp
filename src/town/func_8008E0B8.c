@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void runtimeInitializeStateValue();
+void runtime_initialize_state_value();
 void func_80033D08();
 void func_800375C0();
 void func_8003DB94(void *, void *, s16);
@@ -16,7 +16,7 @@ extern s32 D_800CFB74[];
 extern u8 D_800CFC38[];
 extern s32 D_800CFC44[];
 /* Initializes a town object and its state for the selected type. */
-void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context)
+void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *object, void *context)
 {
     s32 type_data;
     s32 init_value;
@@ -36,7 +36,7 @@ void func_8008B818(s32 type_id, s32 *init_value_ptr, void *object, void *context
     if (init_value_ptr != 0) {
         init_value = *init_value_ptr;
     }
-    runtimeInitializeStateValue(context, init_value);
+    runtime_initialize_state_value(context, init_value);
     {
         s32 context_mode;
         context_mode = 2;

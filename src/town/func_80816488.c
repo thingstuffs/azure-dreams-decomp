@@ -7,18 +7,18 @@ typedef struct S_80020488_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_80020488_0;   /* arg0 in townRetireSceneTextAfterTerminalPhase */
+} S_80020488_0;   /* arg0 in retire_scene_text_after_terminal_phase */
 
 typedef struct S_80020488_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
     u8 pad_2C[0xA];
     s16 unk_36;
-} S_80020488_1;   /* entity in townRetireSceneTextAfterTerminalPhase */
+} S_80020488_1;   /* entity in retire_scene_text_after_terminal_phase */
 
 
 /* Advances the context state and sets completion flags in response to entity fields. */
-void townRetireSceneTextAfterTerminalPhase(void *context) {
+void retire_scene_text_after_terminal_phase(void *context) {
     s16 state;
     void *entity;
 
@@ -34,7 +34,7 @@ void townRetireSceneTextAfterTerminalPhase(void *context) {
     case 1:
         if (((S_80020488_1 *)entity)->unk_2A & 1) {
             (*(u16 *)((u8 *)context + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

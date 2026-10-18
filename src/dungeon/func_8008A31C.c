@@ -11,10 +11,10 @@ typedef struct {
     s16 fieldA;
 } D_80083460_t;
 
-extern void dungeonProcessUnflaggedLinkedEntriesAlt(s32);
-extern void dungeonProcessUnflaggedLinkedEntries(s32);
+extern void process_unflagged_linked_entries_alt(s32);
+extern void process_unflagged_linked_entries(s32);
 extern void func_80048A44(void *, u8, s16, s32);
-extern s16 dungeonMeasureDirectionalStoppingDistance(s16, void *, void *, s32);
+extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
 
 extern s32 D_80081484[3];
 extern u8 D_8008EAC8[];
@@ -29,12 +29,12 @@ extern s32 D_800E3540[];
 typedef struct S_8008FA7C_0 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8008FA7C_0;   /* arg1 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_0;   /* arg1 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_1 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_1;   /* state0_call_arg in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_1;   /* state0_call_arg in update_throw_carried_object */
 
 typedef struct S_8008FA7C_2 {
     u8 pad_00[0x1C];
@@ -43,7 +43,7 @@ typedef struct S_8008FA7C_2 {
     s16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-} S_8008FA7C_2;   /* arg3 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_2;   /* arg3 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_3 {
     u8 pad_00[0x8C];
@@ -54,17 +54,17 @@ typedef struct S_8008FA7C_3 {
     u16 unk_A2;
     u8 pad_A4[0x80];
     union { u8 * p; u32 i; } unk_124;   /* accessed as both */
-} S_8008FA7C_3;   /* arg0 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_3;   /* arg0 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_4 {
     u8 pad_00[0x1C];
     u32 unk_1C;
-} S_8008FA7C_4;   /* object in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_4;   /* object in update_throw_carried_object */
 
 typedef struct S_8008FA7C_5 {
     u8 pad_00[0x8A];
     s16 unk_8A;
-} S_8008FA7C_5;   /* object2 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_5;   /* object2 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_6 {
     u8 pad_00[0xA];
@@ -74,26 +74,26 @@ typedef struct S_8008FA7C_6 {
     u8 unk_85;
     u8 pad_86[0x34BA];
     s32 unk_3540;
-} S_8008FA7C_6;   /* (u8 *)state1_v1 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_6;   /* (u8 *)state1_v1 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_7 {
     u8 pad_00[0x1484];
     s32 unk_1484;
-} S_8008FA7C_7;   /* (u8 *)state1_a1 in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_7;   /* (u8 *)state1_a1 in update_throw_carried_object */
 
 typedef struct S_8008FA7C_8 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_8;   /* call_arg in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_8;   /* call_arg in update_throw_carried_object */
 
 typedef struct S_8008FA7C_9 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
-} S_8008FA7C_9;   /* state2_call_arg in dungeonUpdateThrowCarriedObject */
+} S_8008FA7C_9;   /* state2_call_arg in update_throw_carried_object */
 
 
 /* Advances an actor's action state, updating linked-object flags and directional animation. */
-void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
+void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     s16 countdown;
     s32 direction;
     s16 state;
@@ -113,7 +113,7 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
             s32 init_entry;
             u8 init_frame;
 
-            init_entry = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+            init_entry = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
             init_entry += (u32)D_800DD0C8;
             {
                 init_frame = *(u8 *)init_entry;
@@ -131,7 +131,7 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
             return;
         }
 
-        action_result = dungeonMeasureDirectionalStoppingDistance(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
+        action_result = measure_directional_stopping_distance(((S_8008FA7C_2 *)entity)->unk_2A, motion, animation, 8);
         if (action_result == 0) {
             actor[0x9B]++;
             return;
@@ -167,7 +167,7 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
             entity_flags &= mask_or_base;
             mask_or_base = 0x80080000;
             saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
-            object_or_base = (u32)((D_80083460_t *)&dungeonStatus);
+            object_or_base = (u32)((D_80083460_t *)&g_dungeon_status);
             ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
             active_table = D_800DCFD0;
             ((S_8008FA7C_2 *)entity)->unk_1C = entity_flags;
@@ -175,7 +175,7 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
             countdown++;
             ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
             ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
-            active_entry = gameWork.view.viewAngle;
+            active_entry = g_game_work.view.viewAngle;
             entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
             D_800E3540[0] = saved_value;
             active_entry += entity_angle;
@@ -205,7 +205,7 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
             {
                 s32 next_entry;
 
-                next_entry = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+                next_entry = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
                 next_entry += (u32)D_800DD060;
                 func_80048A44(next_anim, *(u8 *)next_entry, 0, 1);
                 actor[0x9B]++;
@@ -214,20 +214,20 @@ void dungeonUpdateThrowCarriedObject(u8 *actor, u8 *motion, u8 *animation, u8 *e
         }
 
     case 3:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
-        dungeonStatus.flags |= 0x412;
-        dungeonProcessUnflaggedLinkedEntriesAlt(((S_8008FA7C_2 *)entity)->unk_5C);
-        dungeonProcessUnflaggedLinkedEntries(((S_8008FA7C_2 *)entity)->unk_5C);
+        g_dungeon_status.flags |= 0x412;
+        process_unflagged_linked_entries_alt(((S_8008FA7C_2 *)entity)->unk_5C);
+        process_unflagged_linked_entries(((S_8008FA7C_2 *)entity)->unk_5C);
         if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
             ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
         } else {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p2 = dungeonHandlePlayerInput;
+            ((S_8008FA7C_3 *)actor)->unk_8C.p2 = handle_player_input;
             (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
         }
-        direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
+        direction = ((g_game_work.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         func_80048A44(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);
         actor[0x9B]++;
     }

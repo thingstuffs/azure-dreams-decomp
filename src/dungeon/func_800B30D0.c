@@ -18,18 +18,18 @@ typedef struct ShortVec {
 
 extern void *D_800E3D18;
 
-extern void *resolveRecordOrientationOrFallback(void *, void *, ShortVec *, s16);
+extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
 extern s32 func_8004491C();
 extern s32 func_800644B8(s32, ...);
-extern void dungeonSpawnBlinkingSpriteFlash(s16, s16, s16);
+extern void spawn_blinking_sprite_flash(s16, s16, s16);
 struct FuncInput;
-extern void dungeonCreateAttenuatingMovingEffect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
+extern void create_attenuating_moving_effect(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
                    struct FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag);
 
 
 typedef struct S_800B8830_0_pre {
     u16 unk_00;
-} S_800B8830_0_pre;   /* the 0x2 bytes before arg0 in dungeonUpdateArcingEffect, addressed as arg0[-1] */
+} S_800B8830_0_pre;   /* the 0x2 bytes before arg0 in update_arcing_effect, addressed as arg0[-1] */
 
 typedef struct S_800B8830_0 {
     void * unk_00;
@@ -43,7 +43,7 @@ typedef struct S_800B8830_0 {
     u16 unk_28;
     u8 pad_2A[0x8];
     s16 unk_32;
-} S_800B8830_0;   /* arg0 in dungeonUpdateArcingEffect */
+} S_800B8830_0;   /* arg0 in update_arcing_effect */
 
 typedef struct S_800B8830_1 {
     u8 pad_00[0xC];
@@ -55,14 +55,14 @@ typedef struct S_800B8830_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_800B8830_1;   /* arg2 in dungeonUpdateArcingEffect */
+} S_800B8830_1;   /* arg2 in update_arcing_effect */
 
 typedef struct S_800B8830_2 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_800B8830_2;   /* source in dungeonUpdateArcingEffect */
+} S_800B8830_2;   /* source in update_arcing_effect */
 
 typedef struct S_800B8830_3 {
     union {
@@ -80,7 +80,7 @@ typedef struct S_800B8830_3 {
         struct { u8 pad[0x2]; u16 v; } at02;
         struct { u8 pad[0x2]; s16 v; } at02u;
     } unk_08;   /* overlapping accesses */
-} S_800B8830_3;   /* arg1 in dungeonUpdateArcingEffect */
+} S_800B8830_3;   /* arg1 in update_arcing_effect */
 
 typedef struct S_800B8830_4 {
     u8 pad_00[0x2];
@@ -89,41 +89,41 @@ typedef struct S_800B8830_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800B8830_4;   /* position in dungeonUpdateArcingEffect */
+} S_800B8830_4;   /* position in update_arcing_effect */
 
 typedef struct S_800B8830_5 {
     s32 unk_00;
     s32 unk_04;
-} S_800B8830_5;   /* target_node in dungeonUpdateArcingEffect */
+} S_800B8830_5;   /* target_node in update_arcing_effect */
 
 
 typedef struct S_800B8830_8 {
     void * unk_00;
-} S_800B8830_8;   /* (void *)index in dungeonUpdateArcingEffect */
+} S_800B8830_8;   /* (void *)index in update_arcing_effect */
 
 typedef struct S_800B8830_9 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800B8830_9;   /* flags_page in dungeonUpdateArcingEffect */
+} S_800B8830_9;   /* flags_page in update_arcing_effect */
 
 typedef struct S_800B8830_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B8830_10;   /* ((S_800B8830_0 *)arg0)->unk_00 in dungeonUpdateArcingEffect */
+} S_800B8830_10;   /* ((S_800B8830_0 *)arg0)->unk_00 in update_arcing_effect */
 
 typedef struct S_800B8830_11 {
     u16 unk_00;
-} S_800B8830_11;   /* ((S_800B8830_0 *)arg0)->unk_08 in dungeonUpdateArcingEffect */
+} S_800B8830_11;   /* ((S_800B8830_0 *)arg0)->unk_08 in update_arcing_effect */
 
 typedef struct S_800B8830_12 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800B8830_12;   /* ((S_800B8830_0 *)arg0)->unk_04 in dungeonUpdateArcingEffect */
+} S_800B8830_12;   /* ((S_800B8830_0 *)arg0)->unk_04 in update_arcing_effect */
 
 /* Follows the source position, then moves along an arc to the target and marks completion. */
-void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
+void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
     ShortVec delta;
     s32 target_pos[3];
     ShortVec current_pos;
@@ -149,7 +149,7 @@ void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, S_800B8830_1 
     case 1:
         source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
         if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
-            resolveRecordOrientationOrFallback(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
+            resolve_record_orientation_or_fallback(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
             u16 source_z;
 
             pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
@@ -191,11 +191,11 @@ void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, S_800B8830_1 
         target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
         target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
-        entry_addr = ((gameWork.view.viewAngle +
+        entry_addr = ((g_game_work.view.viewAngle +
                   D_800814A8->facing + 0x100) >> 7) & 0x1C;
         entry_addr += (s32)D_800E3D18;
         entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
-        if (resolveRecordOrientationOrFallback(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
+        if (resolve_record_orientation_or_fallback(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
             target_pos[0] += (s32)delta.x << 16;
             target_pos[1] += (s32)delta.y << 16;
             target_pos[2] += (s32)delta.z << 16;
@@ -210,7 +210,7 @@ void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, S_800B8830_1 
         current_pos.x = coords->unk_00.at02.v;
         current_pos.y = coords->unk_04.at02.v;
         current_pos.z = coords->unk_08.at02.v;
-        dungeonCreateAttenuatingMovingEffect((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
+        create_attenuating_moving_effect((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
                       ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
 
         counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
@@ -222,7 +222,7 @@ void dungeonUpdateArcingEffect(void *motion, S_800B8830_3 *coords, S_800B8830_1 
         coords->unk_00.at00.v = target_pos[0];
         coords->unk_04.at00.v = target_pos[1];
         coords->unk_08.at00.v = target_pos[2];
-        dungeonSpawnBlinkingSpriteFlash(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
+        spawn_blinking_sprite_flash(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
         {
             void *flags_page;
             s32 final_flags;

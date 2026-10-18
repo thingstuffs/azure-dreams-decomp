@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_18d0850.h"
 
-void dungeonUpdateMovementTowardChildTerrainTargetAnimatesAssociatedEffects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
+void update_movement_toward_child_terrain_target_animates_associated_effects(ovl_18d0850_818B1664_State *state_arg, ovl_18d0850_818B1664_Motion *motion_arg, ovl_18d0850_818B1664_DrawInfo *draw_info)
 {
     ovl_18d0850_818B1664_WorkFrame work;
     u16 saved_y;
@@ -94,7 +94,7 @@ loop_0:
             index--;
             effect_clear -= 4;
         } while (index >= 0);
-        func_800240EC(angle_clear, angle_update, draw_info);
+        write_fixed_palette_pixels(angle_clear, angle_update, draw_info);
         color = 0x00808080;
         direction = (entity->flags2A >> 9) & 7;
         state_arg->direction = direction;
@@ -103,7 +103,7 @@ loop_0:
     case 1:
         header = (ovl_18d0850_818B1664_EntityHeader *)((u8 *)entity - 0x20);
         target_info = header->info;
-        if (resolveRecordOrientationOrFallback(target_info->map, target_info, work.distance, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(target_info->map, target_info, work.distance, 0) == 0) {
             if (!(header->info->flags & 0x8000)) {
                 break;
             }
@@ -124,7 +124,7 @@ loop_0:
         }
 
         if (!(state_arg->flags & 1)) {
-            func_8004491C((u8 *)state_arg - 0x20, func_80024DF4);
+            func_8004491C((u8 *)state_arg - 0x20, dispatch_effect_state_handler);
             state_arg->flags |= 1;
         }
         if (!(state_arg->resource->flags & 0x80)) {
@@ -192,7 +192,7 @@ loop_0:
         while (index < 8) {
             grid_x = (s16)tile_x;
             grid_y = (s16)tile_y;
-            collision_result = dungeonCheckLayerOffsetHeight(
+            collision_result = check_layer_offset_height(
                 (grid_x << 6) & 0xFFC0,
                 (grid_y << 6) & 0xFFC0,
                 entity->height,
@@ -200,13 +200,13 @@ loop_0:
             if ((s16)collision_result != 0) {
                 break;
             }
-            step_x = (ovl_18d0850_818B1664_Motion *)&dirStepX[state_arg->direction];
+            step_x = (ovl_18d0850_818B1664_Motion *)&dir_step_x[state_arg->direction];
             target = (u16)entity->height;
             target -= 32;
             target = (u32)target << 16;
             target >>= 16;
-            step_y = &dirStepY[state_arg->direction];
-            terrain_height = func_800BCB04(
+            step_y = &dir_step_y[state_arg->direction];
+            terrain_height = sample_terrain_surface_height(
                 ((grid_x + *(s16 *)step_x) << 6) + 32 & 0xFFE0,
                 ((grid_y + *step_y) << 6) + 32 & 0xFFE0,
                 target);
@@ -215,8 +215,8 @@ loop_0:
                 break;
             }
             index++;
-            tile_x += dirStepX[state_arg->direction];
-            tile_y += dirStepY[state_arg->direction];
+            tile_x += dir_step_x[state_arg->direction];
+            tile_y += dir_step_y[state_arg->direction];
             saved_y = tile_y;
             final_x = tile_x;
         }
@@ -224,9 +224,9 @@ loop_0:
         target = (s32)(&work.target);
         index = 1;
         target_cursor = &work.target.x.half.hi;
-        target_x = ((final_x << 16) >> 10) + ((dirStepX[state_arg->direction] + 1) << 5);
+        target_x = ((final_x << 16) >> 10) + ((dir_step_x[state_arg->direction] + 1) << 5);
         ((ovl_18d0850_818B1664_Motion *)target)->x.half.hi = target_x;
-        target_y = ((saved_y << 16) >> 10) + ((dirStepY[state_arg->direction] + 1) << 5);
+        target_y = ((saved_y << 16) >> 10) + ((dir_step_y[state_arg->direction] + 1) << 5);
         ((ovl_18d0850_818B1664_Motion *)target)->y.half.hi = target_y;
         ((ovl_18d0850_818B1664_Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
         work.distance[0] = abs(((ovl_18d0850_818B1664_Motion *)target)->x.half.hi - motion_arg->x.half.hi);
@@ -257,11 +257,11 @@ loop_0:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        dungeonCreateAnInitializedRenderStateCopyVector(state_arg, motion_arg);
+        create_an_initialized_render_state_copy_vector(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         goto increment_reset;
 
     case 3:
@@ -297,7 +297,7 @@ loop_0:
 create_loop:
         {
             effect_create[11] =
-                func_8002443C(state_arg, motion_arg, effect_angle >> 16, index);
+                create_radial_height_offset_effect(state_arg, motion_arg, effect_angle >> 16, index);
             effect_create--;
             effect_step = 0x190000;
             effect_angle += effect_step;
@@ -367,7 +367,7 @@ create_loop:
         if (state_arg->timer2 < 32) {
             break;
         }
-        func_80024050(((ovl_18d0850_818B1664_Entity *)cleanup_base)->child, state_arg->id);
+        follow_brighten(((ovl_18d0850_818B1664_Entity *)cleanup_base)->child, state_arg->id);
         index = 9;
         cleanup_base = (void *)0x80080000;
         next_state = (u16)state_arg->state;
@@ -396,16 +396,16 @@ create_loop:
         if (state_arg->field14 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     case 8:
         motion_arg->x.half.hi += motion_arg->dx.half.hi;
         motion_arg->y.half.hi += motion_arg->dy.half.hi;
         motion_arg->z.half.hi += motion_arg->dz.half.hi;
-        dungeonCreateAnInitializedRenderStateCopyVector(state_arg, motion_arg);
+        create_an_initialized_render_state_copy_vector(state_arg, motion_arg);
         if (state_arg->timer < state_arg->duration) {
             break;
         }

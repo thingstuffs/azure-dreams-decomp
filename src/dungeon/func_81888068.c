@@ -24,7 +24,7 @@ extern void func_800478B8(void *color);
 
 
 /* Advance and fade the effect, flagging expiration when its timer runs out. */
-void dungeonAdvanceAndFadeEffectFlaggingExpirationTimerRunsOut(Actor *actor, Motion *motion, EffectColor *color)
+void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Motion *motion, EffectColor *color)
 {
     u16 *counter = &D_80026326;
     u16 timer;
@@ -54,6 +54,6 @@ void dungeonAdvanceAndFadeEffectFlaggingExpirationTimerRunsOut(Actor *actor, Mot
     actor->timer = timer;
     if ((s16)timer <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -4,12 +4,12 @@ typedef struct {
     s32 words[0x15];
 } Record84;
 
-extern s32 func_8009F970(void *, s32);
+extern s32 find_first_vacant_record(void *, s32);
 extern u8 *func_800B2344(void);
 extern Record84 D_80100AF8;
 
 /* Copies a record into the pointer table and initializes extra data for tag 0x13. */
-void townCopyAPointerTableInitializesExtraDataTagHex13(s32 entry_index, void *source) {
+void copy_a_pointer_table_initializes_extra_data_tag_hex_13(s32 entry_index, void *source) {
     u8 *record;
     s32 tag;
     s32 data_slot;
@@ -22,7 +22,7 @@ void townCopyAPointerTableInitializesExtraDataTagHex13(s32 entry_index, void *so
     tag = record[1];
     record[3] = ((u8 *)source)[3];
     if (tag == 0x13) {
-        data_slot = func_8009F970((void *)0x800102F0, 0x14);
+        data_slot = find_first_vacant_record((void *)0x800102F0, 0x14);
         *(Record84 *)(0x800102F0 + data_slot * 0x54) = D_80100AF8;
         record[3] = (record[3] & 0xC0) | data_slot;
     }

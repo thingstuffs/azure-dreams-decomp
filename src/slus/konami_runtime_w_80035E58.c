@@ -60,15 +60,15 @@ typedef struct S_func_80035E58_5 {
     s32 unk_34;
 } S_func_80035E58_5;
 
-extern void *initializeRuntimeNodeStorage(s32, s32, s32, void *);
+extern void *initialize_runtime_node_storage(s32, s32, s32, void *);
 extern void func_8004491C(void *, Callback);
 extern void ClearImage(void *, s32, s32, s32);
-extern void runtimeInitializeStateValue(void *, s32);
+extern void runtime_initialize_state_value(void *, s32);
 extern void func_800350B0(void *, void *);
-extern void copyWindowOffsetRectangle(void *, void *);
+extern void copy_window_offset_rectangle(void *, void *);
 extern void func_800375C0(void *, void *);
 
-extern void runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback(void *);
+extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void *);
 extern void func_8003605C(void *);
 extern void func_80036110(void *);
 extern void func_80037714(void *);
@@ -90,9 +90,9 @@ void func_80035E58(s32 node_addr, void *display, u8 *image, s32 *state_ref,
     S_func_80035E58_2 *render_data;
     S_func_80035E58_3 *actor;
 
-    node = initializeRuntimeNodeStorage(0x11, node_addr, 0x49, D_80082BC0);
+    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, D_80082BC0);
     node->unk_10 = func_8003605C;
-    func_8004491C(node, runtimeHandleTransformSubmitTexturedSpriteQuadsEachNodeInvokeCallback);
+    func_8004491C(node, runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
 
     node_data = (S_func_80035E58_1 *)((u8 *)node + 0x20);
     render_data = (S_func_80035E58_2 *)node->unk_0C;
@@ -101,7 +101,7 @@ void func_80035E58(s32 node_addr, void *display, u8 *image, s32 *state_ref,
     node_data->unk_4A = (s16)option;
     ClearImage(image + 4, 0, 0, 0);
 
-    runtimeInitializeStateValue(display, *state_ref);
+    runtime_initialize_state_value(display, *state_ref);
     node->unk_20 = display;
     node_data->unk_04 = image;
     node_data->unk_08 = func_80037714;
@@ -120,7 +120,7 @@ void func_80035E58(s32 node_addr, void *display, u8 *image, s32 *state_ref,
     node_data->unk_12 = D_8006A91C[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     node_data->unk_2E = D_8006A924[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     node_data->unk_36 = D_8006A92C[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
-    copyWindowOffsetRectangle((u8 *)node + 0x2C, node_data->unk_74);
+    copy_window_offset_rectangle((u8 *)node + 0x2C, node_data->unk_74);
     render_data->unk_08.unk_08_u32 = D_8006A8FC[((S_func_80035E58_4 *)actor->unk_80)->unk_02];
     ((S_func_80035E58_5 *)node->unk_20)->unk_34 =
         D_8006A914[((S_func_80035E58_4 *)actor->unk_80)->unk_02];

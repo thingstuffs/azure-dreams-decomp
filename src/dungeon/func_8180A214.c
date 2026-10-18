@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1829800.h"
 
-void dungeonUpdateDirectionalObjectFade(void *state_arg, void *buffer_arg, void *obj_arg)
+void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg)
 {
     void *state;
     u16 update_count;
@@ -92,11 +92,11 @@ void dungeonUpdateDirectionalObjectFade(void *state_arg, void *buffer_arg, void 
     direction = ((((S_80025A14_4 *)owner)->unk_1A + 0x500) >> 9) & 7;
     if (((S_80025A14_0 *)state)->unk_46 != direction) {
         ((S_80025A14_0 *)state)->unk_46 = direction;
-        textureHandleInstallsSelectedAnimationFrameSecondaryPointerUpdatesAnimationFlags(obj_arg, ((u8 *)((S_80025A14_2 *)obj_arg)->unk_2C)[direction],
+        texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(obj_arg, ((u8 *)((S_80025A14_2 *)obj_arg)->unk_2C)[direction],
                       ((S_80025A14_2 *)obj_arg)->unk_04, 2);
     }
     func_80048AC8(obj_arg, 2);
-    if (dirSpriteFlag[direction] != 0) {
+    if (dir_sprite_flag[direction] != 0) {
         render_flags = ((S_80025A14_2 *)obj_arg)->unk_14 | 1;
     } else {
         render_flags = ((S_80025A14_2 *)obj_arg)->unk_14 & 0xFFFE;

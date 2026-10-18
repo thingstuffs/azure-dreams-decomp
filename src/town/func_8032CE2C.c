@@ -2,15 +2,15 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
 
-s32 townApplySelectedEntryValues();             /* extern */
-void townSetScriptFlagBit();                         /* extern */
-s32 townGetScriptFlagMask();                         /* extern */
+s32 apply_selected_entry_values();             /* extern */
+void set_script_flag_bit();                         /* extern */
+s32 get_script_flag_mask();                         /* extern */
 
 
 /* Applies the object's stored value when either condition is active, then forwards the call. */
-void townApplyRecordValueForEitherFlag(Rec_func_800165F4_arg0 *object, s32 context) {
-    if ((townGetScriptFlagMask(0x1388) != 0) || (townGetScriptFlagMask(0x138A) != 0)) {
-        townSetScriptFlagBit(object->unk_18);
+void apply_record_value_for_either_flag(Rec_func_800165F4_arg0 *object, s32 context) {
+    if ((get_script_flag_mask(0x1388) != 0) || (get_script_flag_mask(0x138A) != 0)) {
+        set_script_flag_bit(object->unk_18);
     }
-    townApplySelectedEntryValues(object, context);
+    apply_selected_entry_values(object, context);
 }

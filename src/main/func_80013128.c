@@ -7,13 +7,13 @@ typedef struct {
 
 extern UA32 D_80028064;
 
-s32 cardBootBuildEightEntryPresenceMask();
-s32 cardBootSumSlotLookupValues(void);
-void cardBootBuildSaveDescription(void *record, s32 index);
-void func_80025FFC(void *dest, s32 record_index);
+s32 card_boot_build_eight_entry_presence_mask();
+s32 card_boot_sum_slot_lookup_values(void);
+void card_boot_build_save_description(void *record, s32 index);
+void initialize_text_editor_context(void *dest, s32 record_index);
 
 /* Copies the initial word into the buffer and initializes state for the selected mode. */
-void cardBootPrepareSaveBuffer(UA32 *buffer, s32 config, s32 mode) {
+void card_boot_prepare_save_buffer(UA32 *buffer, s32 config, s32 mode) {
     u8 *state_base;
     s16 is_mode_two;
 
@@ -23,8 +23,8 @@ void cardBootPrepareSaveBuffer(UA32 *buffer, s32 config, s32 mode) {
     *(s16 *)(state_base + 0x208) = is_mode_two;
     *(s16 *)(state_base + 0x20A) = is_mode_two;
     *(s32 *)(state_base + 0x224) = *(u32 *)(state_base + 0x2D5C);
-    *(s32 *)(state_base + 0x230) = cardBootBuildEightEntryPresenceMask();
-    *(s32 *)(state_base + 0x228) = cardBootSumSlotLookupValues();
-    cardBootBuildSaveDescription(buffer, config);
-    func_80025FFC(buffer, config);
+    *(s32 *)(state_base + 0x230) = card_boot_build_eight_entry_presence_mask();
+    *(s32 *)(state_base + 0x228) = card_boot_sum_slot_lookup_values();
+    card_boot_build_save_description(buffer, config);
+    initialize_text_editor_context(buffer, config);
 }

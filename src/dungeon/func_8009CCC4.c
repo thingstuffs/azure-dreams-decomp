@@ -9,15 +9,15 @@
 extern s32 func_8003AD08();
 extern s32 func_80041E70();
 extern s32 func_800647A0();
-extern s32 func_800990FC();
-extern s32 func_80099194();
-extern s32 dungeonCopyFourTextBytes();
+extern s32 get_unused_text_buffer();
+extern s32 expand_text_control_codes();
+extern s32 copy_four_text_bytes();
 extern void * func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance();
-extern s32 func_80099734();
-extern s32 func_800A56E0();
-extern s32 func_800A5720();
-extern void * createActorValuePopup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
+extern s32 write_text_byte_and_advance();
+extern s32 append_entity_display_text();
+extern s32 play_sound_if_enabled();
+extern s32 display_text_with_fullwidth_adjustment();
+extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
 extern u8 D_8006D168[];
 extern s32 D_800835E8[];
@@ -28,7 +28,7 @@ extern M2C_UNK D_800E09B2;
 extern M2C_UNK D_800E09BB;
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
-s32 lowerEntityLevel(void *entity_data, s32 show_message) {
+s32 lower_entity_level(void *entity_data, s32 show_message) {
     u8 spell_lowered[3];
     u8 *entity;
     u8 *stat_growth;
@@ -296,39 +296,39 @@ loop_0:
     {
         if (!(*(u16 *)0x80013714 & 1)) {
             D_800DCF4F[0] = 1;
-            dungeonStatus.unk_0A++;
+            g_dungeon_status.unk_0A++;
         }
-        createActorValuePopup(0x8003, entity, -3, 1);
-        func_800A56E0(0x615);
+        create_actor_value_popup(0x8003, entity, -3, 1);
+        play_sound_if_enabled(0x615);
 
-        message_start = func_800990FC();
-        message_end = func_80099194(&D_800E098B, message_start);
-        message_end = dungeonWriteTextByteAndAdvance(0xA, message_end);
-        message_end = func_80099734(entity, message_end);
-        message_end = func_80099194(&D_800E099A, message_end);
+        message_start = get_unused_text_buffer();
+        message_end = expand_text_control_codes(&D_800E098B, message_start);
+        message_end = write_text_byte_and_advance(0xA, message_end);
+        message_end = append_entity_display_text(entity, message_end);
+        message_end = expand_text_control_codes(&D_800E099A, message_end);
         message_end = func_8003AD08(entity[0x11], message_end);
-        message_end = func_80099194(D_80089000, message_end);
+        message_end = expand_text_control_codes(D_80089000, message_end);
 
         if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
             spell_index = 0;
             do {
                 if (spell_lowered[spell_index] != 0) {
-                    message_end = dungeonWriteTextByteAndAdvance(0xA, message_end);
-                    message_end = func_80099194(*(s32 *)(((u8 *)D_8006DE24) + entity[8] * 0x14), message_end);
-                    message_end = func_80099194(&D_800E09B2, message_end);
-                    message_end = func_80099194(&D_800E09BB, message_end);
+                    message_end = write_text_byte_and_advance(0xA, message_end);
+                    message_end = expand_text_control_codes(*(s32 *)(((u8 *)D_8006DE24) + entity[8] * 0x14), message_end);
+                    message_end = expand_text_control_codes(&D_800E09B2, message_end);
+                    message_end = expand_text_control_codes(&D_800E09BB, message_end);
                 }
                 entity += 3;
             } while (++spell_index < 3);
         }
 
         if (!(D_80013714 & 1)) {
-            message_end = dungeonWriteTextByteAndAdvance(0x11, message_end);
-            message_end = dungeonWriteTextByteAndAdvance(0x4C, message_end);
-            message_end = dungeonCopyFourTextBytes(&D_800E0458, message_end);
+            message_end = write_text_byte_and_advance(0x11, message_end);
+            message_end = write_text_byte_and_advance(0x4C, message_end);
+            message_end = copy_four_text_bytes(&D_800E0458, message_end);
         }
         func_80099290(message_end);
-        func_800A5720(message_start);
+        display_text_with_fullwidth_adjustment(message_start);
     }
     return 1;
 }

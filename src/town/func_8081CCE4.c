@@ -12,7 +12,7 @@ typedef struct S_80026CE4_0 {
 } S_80026CE4_0;
 
 /* Allocate a type 2 object and initialize its data pointer and value. */
-void townCreateTimedSound(s16 value) {
+void create_timed_sound(s16 value) {
     S_80026CE4_0 *object;
 
     object = func_8003FC64(2);

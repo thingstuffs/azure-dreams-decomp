@@ -7,12 +7,12 @@ typedef s32 (*Callback)(s32, s32);
 
 extern void func_80016CC4(void);
 extern s32 func_8001991C(s32, void *);
-extern void townUpdateEntryFlags(void);
+extern void update_entry_flags(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
 /* Advance the town scene: finish early on flag 0x1068, else arm the 0x949/0x94A record or run the step check, then hand back to the scene callback. */
-s32 func_800182FC(s32 kind, void *param)
+s32 advance_town_scene_finish_early(s32 kind, void *param)
 {
     func_80016CC4();
     if (func_8001A64C(0x1068) != 0) {
@@ -38,7 +38,7 @@ s32 func_800182FC(s32 kind, void *param)
             *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
     } else {
-        townUpdateEntryFlags();
+        update_entry_flags();
         if (func_8001991C(kind, param) != 0) {
             return 1;
         }

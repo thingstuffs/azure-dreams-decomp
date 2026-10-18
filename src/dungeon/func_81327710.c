@@ -10,7 +10,7 @@ typedef struct S_8016EF10_0 {
     u8 unk_25;
     u8 pad_26[0x6];
     u8 * unk_2C;
-} S_8016EF10_0;   /* entity in dungeonExecuteActorScriptCommand */
+} S_8016EF10_0;   /* entity in execute_actor_script_command */
 
 typedef struct S_8016EF10_1 {
     u8 pad_00[0x2A];
@@ -25,19 +25,19 @@ typedef struct S_8016EF10_1 {
     u8 unk_9B;
     u8 pad_9C[0x16];
     u8 unk_B2;
-} S_8016EF10_1;   /* actor in dungeonExecuteActorScriptCommand */
+} S_8016EF10_1;   /* actor in execute_actor_script_command */
 
 typedef struct S_8016EF10_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_8016EF10_2;   /* global_base in dungeonExecuteActorScriptCommand */
+} S_8016EF10_2;   /* global_base in execute_actor_script_command */
 
 
 extern s32 func_80047784();
-extern s32 func_800A9A0C();
-extern s32 dungeonCreateFivePointEffect();
+extern s32 update_actor_status_and_food();
+extern s32 create_five_point_effect();
 extern s32 func_8016A928();
-extern s32 advanceActorPath();
+extern s32 advance_actor_path();
 
 extern u8 D_800DF45C[];
 extern u8 D_8016EEBC[];
@@ -48,7 +48,7 @@ extern u8 *D_80174CCC[];
 extern s16 D_80174CD0[];
 
 /* Executes the current actor script command and advances its repeat counter. */
-s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
+s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     u8 *actor = actor_arg;
     u8 *entity = entity_arg;
     u8 *command_stream;
@@ -68,7 +68,7 @@ s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *enti
     command_wide = command;
     if (command_wide == 0) {
         ((S_8016EF10_1 *)actor)->unk_B2 = 0;
-        func_800A9A0C(actor);
+        update_actor_status_and_food(actor);
         return 0;
     }
 
@@ -86,17 +86,17 @@ s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *enti
 
     switch (opcode) {
     default:
-        func_800A9A0C(actor);
+        update_actor_status_and_food(actor);
         return 0;
 
     case 8:
-        advanceActorPath(actor, action_context, entity, actor);
+        advance_actor_path(actor, action_context, entity, actor);
         return 0;
 
     case 0x10:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
-            direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_8017467C[direction_index], 0);
         }
         break;
@@ -104,7 +104,7 @@ s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *enti
     case 0xF8:
         if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
             ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
-            direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             func_80047784(entity, D_801746FC[direction_index], 0);
         }
         break;
@@ -114,10 +114,10 @@ s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *enti
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
             if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
                 ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
-                direction_index = ((gameWork.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+                direction_index = ((g_game_work.view.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 func_80047784(entity, D_80174694[direction_index], 0);
             }
-            if (dungeonCreateFivePointEffect(((S_8016EF10_0 *)entity)->unk_24,
+            if (create_five_point_effect(((S_8016EF10_0 *)entity)->unk_24,
                               ((S_8016EF10_0 *)entity)->unk_25,
                               ((S_8016EF10_1 *)actor)->unk_88,
                               D_800DF45C, 0x2800, 0x208020,
@@ -127,13 +127,13 @@ s32 dungeonExecuteActorScriptCommand(u8 *actor_arg, s32 action_context, u8 *enti
             ((S_8016EF10_1 *)actor)->unk_96 = 0;
             ((S_8016EF10_1 *)actor)->unk_9B++;
             {
-                dungeonStatus.unk_0A += 2;
+                g_dungeon_status.unk_0A += 2;
             }
         }
         break;
 
     }
 
-    func_800A9A0C(actor);
+    update_actor_status_and_food(actor);
     return 0;
 }

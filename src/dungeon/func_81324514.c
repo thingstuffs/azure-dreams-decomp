@@ -5,10 +5,10 @@
 
 
 extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s32 dungeonCheckMovementClearanceAndHeight();
-extern s16 dungeonGetRoundedFacingAndRoundingFlag();
+extern s32 cycle_map_cell_flags();
+extern s32 update_map_cell_flags_with_item_limit();
+extern s32 check_movement_clearance_and_height();
+extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 func_8016C698();
 
 extern u8 D_80174674[];
@@ -23,7 +23,7 @@ typedef struct S_8016BD14_0 {
     union { s8 s; u8 u; } unk_71;   /* accessed as both */
     u8 pad_72[0x18];
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
-} S_8016BD14_0;   /* ctx in dungeonAdvanceEntityAlongPath */
+} S_8016BD14_0;   /* ctx in advance_entity_along_path */
 
 typedef struct S_8016BD14_1 {
     u8 pad_00[0x8C];
@@ -35,28 +35,28 @@ typedef struct S_8016BD14_1 {
     u8 unk_9A;
     u8 pad_9B[0x2];
     u8 unk_9D;
-} S_8016BD14_1;   /* arg0 in dungeonAdvanceEntityAlongPath */
+} S_8016BD14_1;   /* arg0 in advance_entity_along_path */
 
 typedef struct S_8016BD14_2 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_8016BD14_2;   /* arg1 in dungeonAdvanceEntityAlongPath */
+} S_8016BD14_2;   /* arg1 in advance_entity_along_path */
 
 
 typedef struct S_8016BD14_4 {
     u8 pad_00[0x7C];
     u8 unk_7C;
-} S_8016BD14_4;   /* row in dungeonAdvanceEntityAlongPath */
+} S_8016BD14_4;   /* row in advance_entity_along_path */
 
 typedef struct S_8016BD14_5 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
-} S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in dungeonAdvanceEntityAlongPath */
+} S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in advance_entity_along_path */
 
 /* Advance the entity along its path and update its heading and movement state. */
-void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void *path_arg) {
+void advance_entity_along_path(void *actor, void *action, void *entity, void *path_arg) {
     register void *path;
     s32 step_index;
     s32 old_tile_flags;
@@ -91,7 +91,7 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
         (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8) = D_80174674;
         func_80047784(
             entity,
-            D_80174674[((gameWork.view.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
+            D_80174674[((g_game_work.view.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
@@ -99,13 +99,13 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
     tile_x = ((Rec_D_80082E80 *)entity)->unk_24;
     tile_y = ((Rec_D_80082E80 *)entity)->unk_25;
     old_tile_flags = old_tile_flags & 0x2000;
-    func_8009A3D0(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
+    update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
-    heading = dungeonGetRoundedFacingAndRoundingFlag(tile_x, tile_y,
+    heading = get_rounded_facing_and_rounding_flag(tile_x, tile_y,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
                             ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
                             (u8 *)actor + 0x98);
-    raw_result = dungeonCheckMovementClearanceAndHeight(heading, entity, path, 0x20);
+    raw_result = check_movement_clearance_and_height(heading, entity, path, 0x20);
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;
     raw_result = raw_result << 16;
@@ -120,12 +120,12 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;
     ((S_8016BD14_0 *)path)->unk_8A.u = step_index;
-    func_8009A21C(((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
+    cycle_map_cell_flags(((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
                   new_tile_flags ? 0x300 : 0x3000);
     ((S_8016BD14_0 *)path)->unk_2A = heading;
 
     if (move_result == 3) {
-        if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             func_8016C698(actor, action, entity, path);
         } else {
             ((S_8016BD14_1 *)actor)->unk_9A = 15;
@@ -136,7 +136,7 @@ void dungeonAdvanceEntityAlongPath(void *actor, void *action, void *entity, void
 
     ((S_8016BD14_1 *)actor)->unk_8C = 0;
     ((S_8016BD14_0 *)path)->unk_1C |= 0x40000000;
-    if (dungeonStatus.flags & 0x80) {
+    if (g_dungeon_status.flags & 0x80) {
         ((S_8016BD14_1 *)actor)->unk_96 = 0;
         return;
     }

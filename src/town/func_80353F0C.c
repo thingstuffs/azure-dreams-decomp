@@ -2,7 +2,7 @@
 
 /* extern */
 
-/* Calls townBlendPositionAndTrace with the fixed parameters (7, 1, 1, 2). */
-void townSetFixedRecordParameters(void) {
-    townBlendPositionAndTrace(7, 1, 1, 2);
+/* Calls blend_position_and_trace with the fixed parameters (7, 1, 1, 2). */
+void set_fixed_record_parameters(void) {
+    blend_position_and_trace(7, 1, 1, 2);
 }

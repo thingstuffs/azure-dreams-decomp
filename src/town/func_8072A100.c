@@ -14,7 +14,7 @@ extern s16 D_80017A74;
 
 
 /* Refresh the four menu labels plus the two fixed rows from the scene's state query. */
-void townInvokeCallbackAndSetSharedPointer(void) {
+void invoke_callback_and_set_shared_pointer(void) {
     s16 *label_cursor;
     s16 *state_cursor;
     s32 state;

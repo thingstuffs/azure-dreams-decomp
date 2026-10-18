@@ -15,23 +15,23 @@
 
 
 
-extern s32 dungeonCheckEntityRelation();
-extern void func_8009A21C();
-extern void func_8009A3D0();
-extern s32 dungeonCheckDiagonalSideHeight();
-extern s32 dungeonCheckMovementClearanceAndHeight();
-extern s32 dungeonCompareMonsterNeighborValues();
-extern void * dungeonFindValidMonsterNeighbor();
-extern void * dungeonPlaceActorAtDirectionalNeighbor();
-extern u16 dungeonGetRoundedFacingAndRoundingFlag();
-extern void dungeonRebuildMonsterReachableTiles();
-extern void dungeonUpdateActorProximityFlag();
-extern s32 func_800A6D30();
-extern void func_800A9A0C();
-extern s16 func_800BCB04();
-extern s32 dungeonCheckActionEligibilityUpdatesActorStateDirectionalAnimationSuccess();
+extern s32 check_entity_relation();
+extern void cycle_map_cell_flags();
+extern void update_map_cell_flags_with_item_limit();
+extern s32 check_diagonal_side_height();
+extern s32 check_movement_clearance_and_height();
+extern s32 compare_monster_neighbor_values();
+extern void * find_valid_monster_neighbor();
+extern void * place_actor_at_directional_neighbor();
+extern u16 get_rounded_facing_and_rounding_flag();
+extern void rebuild_monster_reachable_tiles();
+extern void update_actor_proximity_flag();
+extern s32 generate_random_value();
+extern void update_actor_status_and_food();
+extern s16 sample_terrain_surface_height();
+extern s32 check_action_eligibility_updates_actor_state_directional_animation_success();
 extern s16 D_8006CD00[8];
 extern u8 D_80082E80[];
 extern s8 D_80082EA4;
-void dungeonUpdateActorMovementChoosingDirectionRecordingPath(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
+void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
 #endif

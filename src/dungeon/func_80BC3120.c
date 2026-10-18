@@ -7,7 +7,7 @@
 typedef struct S_80172920_1 {
     u8 pad_00[0x2];
     u16 unk_02;
-} S_80172920_1;   /* flags in dungeonAttemptTargetAction */
+} S_80172920_1;   /* flags in attempt_target_action */
 
 
 typedef struct S_80172920_3 {
@@ -16,57 +16,57 @@ typedef struct S_80172920_3 {
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
-} S_80172920_3;   /* arg0 in dungeonAttemptTargetAction */
+} S_80172920_3;   /* arg0 in attempt_target_action */
 
 
-extern void dungeonPrepareDirectionalAttack(void *, void *, s16, s32, s32);
-extern s32 dungeonGetActorHeightDifference(s32, void *);
-extern s32 dungeonPlaceActorAtDirectionalNeighbor(void *, u8, u8, s16);
-extern s32 func_800A2B5C(void *);
-extern s32 func_800A2CB8(void *, s32);
-extern void dungeonApplyCameraOffsetAndSelectTarget(void *, s32, s32, s32);
+extern void prepare_directional_attack(void *, void *, s16, s32, s32);
+extern s32 get_actor_height_difference(s32, void *);
+extern s32 place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 try_claim_dungeon_action_slot(void *);
+extern s32 check_entity_interaction_compatibility(void *, s32);
+extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
 
 /* Attempt an action toward the target and update actor state on success. */
-s32 dungeonAttemptTargetAction(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *target, void *actor) {
+s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *target, void *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
     ((EntityRec *)actor)->unk_71 &= 0x7F;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
-    target_direction = dungeonPlaceActorAtDirectionalNeighbor(
+    target_direction = place_actor_at_directional_neighbor(
         actor,
         target->unk_24,
         target->unk_25,
         ((EntityRec *)actor)->facing);
 
-    if ((func_800A2CB8(actor, target_direction) << 16) == 0) {
+    if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {
         return 0;
     }
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
 
     if (!(((EntityRec *)actor)->unk_46 & 0x8000) &&
-        (dungeonStatus.flags & 8)) {
+        (g_dungeon_status.flags & 8)) {
         return -1;
     }
 
-    if ((u32)(((0 - dungeonGetActorHeightDifference(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)(((0 - get_actor_height_difference(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
         return 0;
     }
 
-    if ((func_800A2B5C(actor) << 16) != 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
         return -1;
     }
 
-    dungeonApplyCameraOffsetAndSelectTarget((u8 *)actor - 0x20, effect_arg, 8, 0x300);
+    apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
 
-    if ((func_800A2B5C(actor) << 16) == 0) {
+    if ((try_claim_dungeon_action_slot(actor) << 16) == 0) {
         action_state->unk_9A = 0x11;
         action_state->unk_9B = 0;
         action_state->unk_8C = 0;
@@ -74,7 +74,7 @@ s32 dungeonAttemptTargetAction(S_80172920_3 *action_state, s32 effect_arg, Rec_D
         ((EntityRec *)actor)->unk_85 = 4;
         ((EntityRec *)actor)->unk_6D--;
 
-        dungeonPrepareDirectionalAttack(actor, target, ((EntityRec *)actor)->facing, 1, 0);
+        prepare_directional_attack(actor, target, ((EntityRec *)actor)->facing, 1, 0);
         return 1;
     }
 

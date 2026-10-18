@@ -62,7 +62,7 @@ extern void func_8004491C(FuncTemp *, u8 *);
 extern void func_80047784(FuncInner *, s16, s16);
 
 /* Creates a directional effect and initializes its sprite and offset position. */
-s32 dungeonCreateDirectionalEffect(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_source) {
+s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_source) {
     FuncTemp *effect;
     FuncTail *direction_state;
     FuncInner *sprite;

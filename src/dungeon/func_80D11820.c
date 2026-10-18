@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f43f800_p02.h"
 
 /* Spawns an effect at an offset from its parent with randomized velocity. */
-void dungeonSpawnRandomVelocityOffsetEffect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
+void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset) {
     register s16 saved_effect_id = effect_id;
     register s32 saved_effect_param = effect_param;
@@ -14,7 +14,7 @@ void dungeonSpawnRandomVelocityOffsetEffect(EntityRec *parent, s16 effect_id, s3
     if (effect == NULL) {
         return;
     }
-    ((T_80171020_S_80171020_0 *)effect)->unk_10 = &dungeonMoveFadeAndAccelerateEffect;
+    ((T_80171020_S_80171020_0 *)effect)->unk_10 = &move_fade_and_accelerate_effect;
     ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_02 =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + x_offset);
     ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_06 =
@@ -33,7 +33,7 @@ void dungeonSpawnRandomVelocityOffsetEffect(EntityRec *parent, s16 effect_id, s3
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;
     effect_state->unk_34 = 0x14;
-    func_8004491C(effect, &dungeonCreateTimedOffsetMotionEffect);
+    func_8004491C(effect, &create_timed_offset_motion_effect);
     ((T_80171020_S_80171020_0 *)effect)->unk_20 = saved_effect_param;
     effect_state->unk_08 = saved_effect_param;
 }

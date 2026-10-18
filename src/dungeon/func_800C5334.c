@@ -4,7 +4,7 @@
 
 
 /* Initialize the record state fields and update its flags. */
-void func_800CAA94(Rec_func_800C9F34_arg0 *record) {
+void set_actor_action_state_eight(Rec_func_800C9F34_arg0 *record) {
     record->unk_9A.as_s8 = 8;
     record->unk_96 = 0x40;
     record->unk_9B = 0;

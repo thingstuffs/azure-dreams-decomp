@@ -102,19 +102,19 @@ typedef struct Row_818EDB60_Work {
 
 /* Updates a timed rectangle effect, fading its color in and out and marking completion. */
 s32 rand();
-s32 func_800BCB04(s32, s32, s16);
+s32 sample_terrain_surface_height(s32, s32, s16);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 void func_80024C54(void);
-s32 func_80024A5C();
+s32 draw_effect_and_restore_clip();
 
 extern u8 D_80020000[];
 extern Row_818EDB60_Rect D_80024048;
-s32 dungeonGetARandomSignEitherN1N1(void);
-void dungeonCreateLinkedEffectSegments(ParticleWork *work, ParticlePosition *position);
-void func_80024FA0(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
-void dungeonUpdateAnEffectSGrayscaleIntensityAnimationFrameMarkingFinishedEnd(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
-void dungeonAdvanceObjectCountersAnimationValuesFlagExpiration(void *object_ptr);
-void dungeonUpdateATimedRectangleEffectFadingColorInOutMarkingCompletion(void *effect_arg, void *unused, void *sprite_arg);
+s32 get_a_random_sign_either_n_1_n_1(void);
+void create_linked_effect_segments(ParticleWork *work, ParticlePosition *position);
+void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz);
+void update_an_effect_s_grayscale_intensity_animation_frame_marking_finished_end(void *effect, s32 age, Row_818ED8C0_S_800250C0_1 *color, s32 fade_ticks);
+void advance_object_counters_animation_values_flag_expiration(void *object_ptr);
+void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void *effect_arg, void *unused, void *sprite_arg);
 extern u8 D_80026428[];
 #endif

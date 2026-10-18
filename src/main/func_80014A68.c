@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 cardBootHasSelectedChannel();                                /* extern */
+s32 card_boot_has_selected_channel();                                /* extern */
 
 typedef struct S_80027A68_0 {
     s32 unk_00;
@@ -15,5 +15,5 @@ typedef struct S_80027A68_0 {
 void func_80027A68(S_80027A68_0 *record, s32 value_14, s32 value_00) {
     record->unk_14 = value_14;
     record->unk_00 = value_00;
-    record->unk_0C = cardBootHasSelectedChannel();
+    record->unk_0C = card_boot_has_selected_channel();
 }

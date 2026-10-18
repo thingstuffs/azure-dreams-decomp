@@ -20,14 +20,14 @@ typedef struct S_80168C88_0 {
     u8 pad_1A[0x2];
     s16 unk_1C;
     u16 unk_1E;
-} S_80168C88_0;   /* arg0 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_0;   /* arg0 in update_animated_textured_ribbon */
 
 typedef struct S_80168C88_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     u8 unk_0D;
     u8 unk_0E;
-} S_80168C88_1;   /* arg2 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_1;   /* arg2 in update_animated_textured_ribbon */
 
 typedef struct S_80168C88_2 {
     u8 pad_00[0x54];
@@ -83,7 +83,7 @@ typedef struct S_80168C88_8 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_80168C88_8;   /* arg1 in dungeonUpdateAnimatedTexturedRibbon */
+} S_80168C88_8;   /* arg1 in update_animated_textured_ribbon */
 
 typedef struct S_80168C88_9 {
     u8 pad_00[0x6];
@@ -127,7 +127,7 @@ static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 }
 
 /* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
-void dungeonUpdateAnimatedTexturedRibbon(u8 *effect, void *origin, void *color_in)
+void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
 {
     s16 phase;
     s32 red_scaled;
@@ -298,6 +298,6 @@ loop_2:
     ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

@@ -92,9 +92,9 @@ extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80066640(Primitive *, s32);
 extern void func_800666F4(Primitive *);
 struct Struct_800D6330;
-extern void dungeonTransformRotatedVertices(struct Struct_800D6330 *transform);
+extern void transform_rotated_vertices(struct Struct_800D6330 *transform);
 /* Draw linked items as fading textured quads along interpolated, oscillating paths. */
-s32 dungeonDrawFadingLinkedQuads(Item *item)
+s32 draw_fading_linked_quads(Item *item)
 {
     Vec16 local_vertices[4];
     Vec16 quad_vertices[4];
@@ -111,7 +111,7 @@ s32 dungeonDrawFadingLinkedQuads(Item *item)
     s32 z_phase;
     s32 address_mask;
     Dungeon **dungeon_ptr;
-    dungeon_ptr = (Dungeon **) ((u8 *)(&gameWork));
+    dungeon_ptr = (Dungeon **) ((u8 *)(&g_game_work));
     address_mask = 0x00FFFFFF;
     for (;;) {
         s32 left_x = (-item->width) >> 1;
@@ -177,7 +177,7 @@ s32 dungeonDrawFadingLinkedQuads(Item *item)
                     + ((wave_value * current_item->angle) >> 12);
                 transform.one = 1;
                 transform.zero = 0;
-                dungeonTransformRotatedVertices((Transform *) (&transform.p0));
+                transform_rotated_vertices((Transform *) (&transform.p0));
                 vertex_bytes = (u8 *) quad_vertices;
                 vertex_0 = vertex_bytes;
                 vertex_2 = vertex_bytes + 16;

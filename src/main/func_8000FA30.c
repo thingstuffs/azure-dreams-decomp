@@ -14,7 +14,7 @@ typedef struct {
 extern u8 D_800200A0[];
 
 /* Initializes four pairs of records from the value table and returns the buffer end. */
-void *cardBootBuildPairedDialogPackets(void *buffer)
+void *card_boot_build_paired_dialog_packets(void *buffer)
 {
     Bytes4 values;
     s32 value_index;

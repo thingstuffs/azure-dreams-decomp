@@ -51,10 +51,10 @@ typedef struct S_8106B000_4 {
 
 void *func_8003FD64();
 s32 func_8004491C();
-s16 func_800A48F0();
-s32 func_800A6D30();
-void func_800A9C18();
-s32 func_800AA36C();
+s16 set_or_clear_actor_status_slot();
+s32 generate_random_value();
+void initialize_actor_sprite_and_animation();
+s32 try_move_actor_to_valid_position();
 extern M2C_UNK D_8015EAA4;
 extern M2C_UNK D_8015EF68;
 extern M2C_UNK D_80161FB8;
@@ -62,7 +62,7 @@ extern M2C_UNK D_80162000;
 
 
 
-void *func_8015E898(s16 input0, s16 input1, s16 input2, s16 input3) {
+void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 input3) {
     S_8106B000_1 *record;
     s32 value;
     u16 flags98;
@@ -109,23 +109,23 @@ void *func_8015E898(s16 input0, s16 input1, s16 input2, s16 input3) {
             if (((input0 & ~3) << 0x10) == 0) {
                 if (!(record->unk_14 & 0x200)) {
                     call_a1 = child_08;
-                    value = func_800A6D30();
+                    value = generate_random_value();
                     call_a0 = allocation;
                     if (value & 1) {
                         record->unk_1C = (s32) (record->unk_1C | 0x200);
-                        func_800A48F0(record, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        set_or_clear_actor_status_slot(record, 1, (generate_random_value() & 0x3F) | 0x20);
                         child_0C->unk_2C = &D_80162000;
                     }
                 }
             }
         }
-        func_800A9C18(allocation, child_08, child_0C, input0);
+        initialize_actor_sprite_and_animation(allocation, child_08, child_0C, input0);
         record_alias->unk_9A = 0xFF;
         record_alias->unk_9C = -1;
         record_alias->unk_8C = &D_8015EF68;
         child_0C->unk_14 = (u16) (child_0C->unk_14 | 0xC);
         record_alias->unk_AA = (s16) ((u16) record->unk_14 & 7);
-        func_800AA36C(record_alias, child_08, child_0C, record);
+        try_move_actor_to_valid_position(record_alias, child_08, child_0C, record);
     }
     return record;
 }

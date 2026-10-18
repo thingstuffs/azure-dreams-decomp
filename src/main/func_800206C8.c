@@ -17,7 +17,7 @@ extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
 extern s32 func_804075A8(s32 context);
 extern s32 func_804075D0(void *object, s32 value);
 extern u32 func_80407688(void *object, s32 option);
-extern void func_804077D4(void *card_slot);
+extern void assert_card_slot_and_set_high_bit(void *card_slot);
 
 
 typedef struct S_800206C8_0 {
@@ -33,7 +33,7 @@ typedef struct S_800206C8_1 {
 } S_800206C8_1;   /* slot_state in func_800206C8 */
 
 /* Initializes the memory card slot object and its working state. */
-void *initCardSlotObject(s32 init_option)
+void *init_card_slot_object(s32 init_option)
 {
     void *base;
     void *slot_state;
@@ -48,7 +48,7 @@ void *initCardSlotObject(s32 init_option)
         }
         func_80040560((s32)(unsigned long)base, D_8040861C);
     } else {
-        func_804077D4(base);
+        assert_card_slot_and_set_high_bit(base);
         D_8040C336 &= 0x7FFF;
         func_8007BFE0(slot_state, 0xE4);
     }

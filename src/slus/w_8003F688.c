@@ -1,7 +1,7 @@
 #include "common.h"
 
 /* Convert eight packed BCD digits to an integer. */
-s32 bcdToInt(s32 packed_bcd) {
+s32 bcd_to_int(s32 packed_bcd) {
     s32 sum;
     s32 place_value;
     s32 digit_index;

@@ -3,8 +3,8 @@
 
 /* Externals (never defined here -- the overlay gate's linker resolves them). */
 extern s32 func_8004491C();
-extern s32 dungeonDrawLinkedQuadChain(void *node_payload, s32 node_value, u8 *node_data);
-extern void dungeonUpdatePulsingSpriteColor(void *channel_config, void *unused, void *output);
+extern s32 draw_linked_quad_chain(void *node_payload, s32 node_value, u8 *node_data);
+extern void update_pulsing_sprite_color(void *channel_config, void *unused, void *output);
 
 typedef struct S_func_800BA764_0 {
     u8 pad_00[0x8];
@@ -25,7 +25,7 @@ typedef struct S_func_800BA764_1 {
 } S_func_800BA764_1;
 
 /* Creates an object at the tile center with the supplied Z coordinate and user data. */
-void *dungeonCreatePulsingTileSprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data) {
+void *create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_data) {
     S_func_800BA764_0 *object;
     S_func_800BA764_1 *position;
     u32 tile_x_u32;
@@ -33,8 +33,8 @@ void *dungeonCreatePulsingTileSprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 us
 
     object = func_8003FC64(0x202);
     if (object != 0) {
-        object->unk_10 = dungeonUpdatePulsingSpriteColor;
-        func_8004491C(object, dungeonDrawLinkedQuadChain);
+        object->unk_10 = update_pulsing_sprite_color;
+        func_8004491C(object, draw_linked_quad_chain);
         position = object->unk_08;
         tile_x_u32 = (u32)tile_x & 0xFFFFU;
         position->unk_02 = (tile_x_u32 * 64) + 0x20;

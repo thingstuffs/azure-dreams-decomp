@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK setGlyphStyleIndex();                /* extern */
+M2C_UNK set_glyph_style_index();                /* extern */
 M2C_UNK func_8004E884();                     /* extern */
 
 /* Processes consecutive 12-byte entries starting at the requested index. */
-void cardBootHighlightDialogTextRange(s32 entry_base, s32 start_index, s32 entry_count) {
+void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count) {
     s32 entry_index;
     s32 entry_addr;
 
@@ -14,7 +14,7 @@ void cardBootHighlightDialogTextRange(s32 entry_base, s32 start_index, s32 entry
     entry_index = 0;
     if (entry_count > 0) {
         do {
-            setGlyphStyleIndex(entry_addr, 0);
+            set_glyph_style_index(entry_addr, 0);
             entry_index += 1;
             entry_addr += 0xC;
         } while (entry_index < entry_count);

@@ -11,16 +11,16 @@ extern u8 D_800DCF4F[];
 extern u8 D_800E0458[];
 extern u8 D_800E0C78[];
 
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
-extern s32 dungeonCopyFourTextBytes(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
+extern s32 copy_four_text_bytes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_800A5720(s8 *text);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
-void dungeonAnnounceFamiliarDefeat(void *input_data) {
+void announce_familiar_defeat(void *input_data) {
     void *context;
     u16 *flag_page;
     void *saved_input;
@@ -39,13 +39,13 @@ void dungeonAnnounceFamiliarDefeat(void *input_data) {
             counter_state->counter = counter + 1;
         }
     }
-    initial_result = func_800990FC();
-    result = func_80099194(D_800E0C78, func_80099734(saved_input, initial_result));
+    initial_result = get_unused_text_buffer();
+    result = expand_text_control_codes(D_800E0C78, append_entity_display_text(saved_input, initial_result));
     if (!(flag_page[0x3714 / 2] & 1)) {
-        result = dungeonCopyFourTextBytes(D_800E0458,
-            dungeonWriteTextByteAndAdvance(0x4C, dungeonWriteTextByteAndAdvance(0x11, result)));
+        result = copy_four_text_bytes(D_800E0458,
+            write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, result)));
     }
     func_80099290(result);
-    func_800A5720(initial_result);
+    display_text_with_fullwidth_adjustment(initial_result);
 }
 

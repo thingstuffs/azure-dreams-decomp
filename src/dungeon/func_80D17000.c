@@ -11,7 +11,7 @@ typedef struct S_80D17000_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80D17000_0;   /* arg1 in func_8016A874 */
+} S_80D17000_0;   /* arg1 in damp_and_fade_effect_sprite */
 
 typedef struct S_80D17000_1 {
     u8 pad_00[0x6];
@@ -27,7 +27,7 @@ typedef struct S_80D17000_1 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_80D17000_1;   /* arg2 in func_8016A874 */
+} S_80D17000_1;   /* arg2 in damp_and_fade_effect_sprite */
 
 typedef struct S_80D17000_2 {
     u8 pad_00[0x94];
@@ -35,7 +35,7 @@ typedef struct S_80D17000_2 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x10];
     void * unk_A8;
-} S_80D17000_2;   /* arg0 in func_8016A874 */
+} S_80D17000_2;   /* arg0 in damp_and_fade_effect_sprite */
 
 typedef struct S_80D17000_3 {
     u8 pad_00[0x2];
@@ -44,7 +44,7 @@ typedef struct S_80D17000_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D17000_3;   /* other in func_8016A874 */
+} S_80D17000_3;   /* other in damp_and_fade_effect_sprite */
 
 
 extern void func_800478B8(void *);
@@ -63,7 +63,7 @@ typedef struct StackWork {
 
 
 /* Move and damp the effect, expand and fade its sprite, and expire its lifetime. */
-void func_8016A874(void *effect, void *motion, void *sprite)
+void damp_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
 {
     StackWork projection;
     s16 next_life;
@@ -99,7 +99,7 @@ void func_8016A874(void *effect, void *motion, void *sprite)
     projection.xyz[2] = ((S_80D17000_3 *)anchor)->unk_0A;
     ((S_80D17000_1 *)sprite)->unk_06 = effect_depth -
         func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
-        D_800DCECC[((gameWork.view.viewAngle + ((S_80D17000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
+        D_800DCECC[((g_game_work.view.viewAngle + ((S_80D17000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
     life = ((S_80D17000_2 *)effect)->unk_96.s;
     if (life < 10) {
@@ -117,6 +117,6 @@ void func_8016A874(void *effect, void *motion, void *sprite)
     ((S_80D17000_2 *)effect)->unk_96.u = next_life;
     if ((next_life << 16) <= 0) {
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

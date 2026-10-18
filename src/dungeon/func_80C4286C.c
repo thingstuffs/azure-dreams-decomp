@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f511800_p04.h"
 
 /* Create a tinted sprite effect at the supplied position with a random variant. */
-void func_8017406C(void *unused, void *position_data, void *unused_primitive) {
+void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, void *unused_primitive) {
     T_8017406C_S_8017406C_0 *effect_state;
     T_8017406C_S_8017406C_2 *sprite;
     void *effect;
@@ -12,7 +12,7 @@ void func_8017406C(void *unused, void *position_data, void *unused_primitive) {
     if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_1A = 0xF;
-        ((T_8017406C_S_8017406C_1 *)effect)->unk_10 = &advanceRecordStateAndSetCompletionFlags;
+        ((T_8017406C_S_8017406C_1 *)effect)->unk_10 = &advance_record_state_and_set_completion_flags;
         func_8004491C(effect, func_80045340);
         sprite = ((T_8017406C_S_8017406C_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;

@@ -12,14 +12,14 @@ typedef struct {
 extern u8 D_800E5908;
 extern s32 D_800DCF78;
 
-extern s32 func_800A56E0();
-extern void func_800A6508();
-s32 func_800A6D30(void);
-void dungeonDrawTexturedEllipse(void *, void *, s32, s32);
-extern void dungeonCreateFivePartTargetEffect(u16 x, u16 y, s16 z);
+extern s32 play_sound_if_enabled();
+extern void display_fixed_item_action_message();
+s32 generate_random_value(void);
+void draw_textured_ellipse(void *, void *, s32, s32);
+extern void create_five_part_target_effect(u16 x, u16 y, s16 z);
 
 /* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
-s32 dungeonTakeMapItemSlot(void *object, s16 slot)
+s32 take_map_item_slot(void *object, s16 slot)
 {
     s32 stack_args[2];
     s16 value;
@@ -63,7 +63,7 @@ s32 dungeonTakeMapItemSlot(void *object, s16 slot)
         if (D_800E3D40 != 0) {
             value = 0;
         } else {
-            random = func_800A6D30() & 0xFFFF;
+            random = generate_random_value() & 0xFFFF;
             if (*((u8 *)object + 3) != 0) {
                 value = random % *((u8 *)object + 3);
             } else {
@@ -72,7 +72,7 @@ s32 dungeonTakeMapItemSlot(void *object, s16 slot)
         }
 
         if (value >= 0x40) {
-            func_800A6508();
+            display_fixed_item_action_message();
             value = 1;
             return value;
         }
@@ -80,15 +80,15 @@ s32 dungeonTakeMapItemSlot(void *object, s16 slot)
         D_800DCF78 = 0x00202080;
         stack_args[0] = 0x01000340;
         stack_args[1] = 0x00200020;
-        dungeonDrawTexturedEllipse((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
+        draw_textured_ellipse((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
         D_800E5908 = 0;
     }
 
     tail_base = (u8 *)D_800E39C8;
     tail_index = slot;
     item_2 = tail_base + tail_index * 24;
-    dungeonCreateFivePartTargetEffect(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
-    func_800A56E0(0x817);
+    create_five_part_target_effect(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
+    play_sound_if_enabled(0x817);
     return 1;
 }
 

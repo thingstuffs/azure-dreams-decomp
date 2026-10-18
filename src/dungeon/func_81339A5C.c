@@ -53,7 +53,7 @@ extern void *D_80175D50;
 extern void *D_80175D68;
 
 /* Creates a linked object and initializes its position and rendering state. */
-void func_80170A5C(void)
+void create_linked_object_position(void)
 {
     s32 object_z;
     u16 source_z;

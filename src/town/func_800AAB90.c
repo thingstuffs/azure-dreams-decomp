@@ -9,7 +9,7 @@ extern s32 D_800D0E44;
 extern M2C_UNK D_800F8A70;
 
 /* Initialize the object state, shared counter, context resource, and callback. */
-void townInitializeTimedResourceObject(void *object, M2C_UNK unused, void *context) {
+void initialize_timed_resource_object(void *object, M2C_UNK unused, void *context) {
     void *resource_base;
 
     *(M2C_UNK **) ((s8 *) object - 0x10) = &D_800A833C;

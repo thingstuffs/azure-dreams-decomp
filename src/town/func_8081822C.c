@@ -10,7 +10,7 @@ typedef struct S_8002222C_0 {
     u8 pad_00[0xB0];
     OtTag ot[0x208];
     u8 * unk_8D0;
-} S_8002222C_0;   /* arena in townDrawTranslucentGradientLineList */
+} S_8002222C_0;   /* arena in draw_translucent_gradient_line_list */
 
 typedef struct S_8002222C_1_pre {
     s32 unk_00;
@@ -34,12 +34,12 @@ typedef struct S_8002222C_2 {
 typedef struct S_8002222C_3 {
     s32 unk_00;
     s32 unk_04;
-} S_8002222C_3;   /* scratch in townDrawTranslucentGradientLineList */
+} S_8002222C_3;   /* scratch in draw_translucent_gradient_line_list */
 
 typedef struct S_8002222C_4 {
     u16 unk_00;
     u16 unk_02;
-} S_8002222C_4;   /* scratch100 in townDrawTranslucentGradientLineList */
+} S_8002222C_4;   /* scratch100 in draw_translucent_gradient_line_list */
 
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
@@ -49,7 +49,7 @@ extern void func_800667D0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
-s32 townDrawTranslucentGradientLineList(void *first_entry) {
+s32 draw_translucent_gradient_line_list(void *first_entry) {
     u8 *line_packet;
     u8 *mode_packet;
     s32 next;
@@ -63,7 +63,7 @@ s32 townDrawTranslucentGradientLineList(void *first_entry) {
     s32 raw_depth;
 
     entry = first_entry;
-    arena_ptr = &gameWork;
+    arena_ptr = &g_game_work;
     screen_xy = (u8 *)0x1F800000;
     depths = (u8 *)((u32)screen_xy | 0x100);
     transform_work = (u8 *)((u32)screen_xy | 0x180);

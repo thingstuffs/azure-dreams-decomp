@@ -23,7 +23,7 @@ typedef struct S_818C3448_1 {
 
 
 
-s32 advanceObjectAndGlobalCounters();
+s32 advance_object_and_global_counters();
 s32 func_80024AF4();
 s32 func_80069EF8();
 
@@ -115,13 +115,13 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
         random_bias = func_80069EF8();
         random_value = random_bias;
         angle = (random_value % 4096);
-        advanceObjectAndGlobalCounters(effect, motion, angle);
+        advance_object_and_global_counters(effect, motion, angle);
         opposite_angle = angle + 0x800;
         opposite_bias = opposite_angle;
         if (opposite_angle < 0) {
             opposite_bias = angle + 0x17FF;
         }
-        advanceObjectAndGlobalCounters(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
+        advance_object_and_global_counters(effect, motion, (s16) (opposite_angle - ((opposite_bias >> 0xC) << 0xC)));
         if ((s16) ((S_818C3448_0 *)effect)->unk_10.s < 0x21) {
             return;
         }
@@ -132,7 +132,7 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     case 3:
         if (visual->unk_14.at00_u16.v & 0x6000) {
             ((S_818C3448_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3448_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         return;
     }

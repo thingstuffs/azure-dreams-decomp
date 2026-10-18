@@ -6,7 +6,7 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 }
 
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
-s32 interpolateShadeAndQueueLine(void *line_data, void *unused_render_context)
+s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context)
 {
     u8 *line;
     u8 *scratch = (u8 *)0x1F800000;
@@ -25,7 +25,7 @@ s32 interpolateShadeAndQueueLine(void *line_data, void *unused_render_context)
     s32 depth_sum;
     s32 result;
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
+    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
 
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;

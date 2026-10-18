@@ -38,14 +38,14 @@ typedef struct {
 extern u8 D_800DD148[];
 extern u8 D_800DD150[];
 
-extern s32 resolveRecordOrientationOrFallback(s32, void *, void *, s32);
+extern s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
 extern void func_80048A44(void *, u8, s16, s32);
-extern void dungeonBeginParameterizedActorAction(void *, void *, void *, u8 *, s32);
-extern void dungeonBeginDeferredPlayerItemEffect(void *, void *, void *);
-extern void dungeonCreateRadialEffectController(s32);
+extern void begin_parameterized_actor_action(void *, void *, void *, u8 *, s32);
+extern void begin_deferred_player_item_effect(void *, void *, void *);
+extern void create_radial_effect_controller(s32);
 
 /* Advance the actor's directional animation state and delayed transition. */
-void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 *facing) {
+void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 *facing) {
     s32 state;
     s32 query_result;
     s32 direction;
@@ -53,12 +53,12 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
     state = controller->state;
     switch (state) {
     case 0:
-        if ((s32)((((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
+        if ((s32)((((s32)g_game_work.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
             u8 *animation_table;
 
             animation_table = controller->table;
             actor->field2c = animation_table;
-            direction = (((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7;
+            direction = (((s32)g_game_work.view.viewAngle + facing->coord + 0x100) >> 9) & 7;
             func_80048A44(actor, animation_table[direction], controller->field10e, 1);
             controller->state++;
         } else {
@@ -71,23 +71,23 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
                 if (actor->field2c == D_800DD148) {
                     controller->state = 0x10;
                 } else {
-                    controller->field8c =dungeonHandlePlayerInput;
+                    controller->field8c =handle_player_input;
                 }
             }
-        } else if ((resolveRecordOrientationOrFallback(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
-            dungeonCreateRadialEffectController(controller->field114);
+        } else if ((resolve_record_orientation_or_fallback(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
+            create_radial_effect_controller(controller->field114);
             controller->state++;
         }
         break;
     case 2:
-        if ((actor->flags & 0x8000) || (dungeonStatus.unk_0A < 2)) {
+        if ((actor->flags & 0x8000) || (g_dungeon_status.unk_0A < 2)) {
             if (controller->field110 != 0) {
-                dungeonBeginDeferredPlayerItemEffect(controller, context, actor);
+                begin_deferred_player_item_effect(controller, context, actor);
                 return;
             }
             actor->field2c = D_800DD150;
-            func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
-            controller->field8c =dungeonHandlePlayerInput;
+            func_80048A44(actor, D_800DD150[(((s32)g_game_work.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
+            controller->field8c =handle_player_input;
         }
         break;
     case 0x10:
@@ -97,7 +97,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
         countdown = controller->countdown - 1;
         controller->countdown = countdown;
         if ((s32)(countdown << 16) <= 0) {
-            dungeonBeginParameterizedActorAction(controller, context, actor, D_800DD150, 0);
+            begin_parameterized_actor_action(controller, context, actor, D_800DD150, 0);
         }
         break;
     }

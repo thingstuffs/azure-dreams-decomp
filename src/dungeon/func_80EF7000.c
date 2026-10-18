@@ -98,18 +98,18 @@ typedef struct S_func_80EF7000_5 {
     u16 unk_00;
 } S_func_80EF7000_5;
 
-extern s32 dungeonCheckLeftTileAndCenterHeight(u16, u16, s16);
-extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
-extern void func_800A7A7C(s16, s16, s16, s32, s8 *);
-extern s16 func_800BCB04(s32, s32, s16);
+extern s32 check_left_tile_and_center_height(u16, u16, s16);
+extern s32 find_valid_floor_item_position(s8, s8, s16, s16 *, s16 *, s16 *);
+extern void place_item_at_valid_floor_position(s16, s16, s16, s32, s8 *);
+extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern u8 D_80158808[];
 extern FlagBlock D_800814A0;
 
-void advanceMotionThroughLandingAndFall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
+void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation);
 
 /* Advance motion through travel, landing interpolation, and falling. */
-void advanceMotionThroughLandingAndFall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
+void advance_motion_through_landing_and_fall(S_func_80EF7000_1 *motion, S_func_80EF7000_2 *position, S_func_80EF7000_3 *animation)
 {
     s8 command[4];
     GridPoint directions[8];
@@ -212,7 +212,7 @@ interpolate:
             command[1] = 12;
             command[2] = 0;
             command[3] = 0;
-            func_800A7A7C(position->unk_0E, position->unk_12,
+            place_item_at_valid_floor_position(position->unk_0E, position->unk_12,
                           position->unk_16, animation->unk_08, command);
             ((S_func_80EF7000_4 *)motion->unk_40)->unk_A4 = 0;
             ((S_func_80EF7000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
@@ -230,11 +230,11 @@ fall:
         animation->unk_1E = scale;
         animation->unk_1C = scale;
         fall_height = position->unk_08.half.unk_0A;
-        if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
+        if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0,
                           (motion->unk_5D << 6) & 0xFFC0,
                           (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 7 <
             fall_height) {
-            position->unk_08.half.unk_0A = func_800BCB04(
+            position->unk_08.half.unk_0A = sample_terrain_surface_height(
                 (motion->unk_5C << 6) & 0xFFC0,
                 (motion->unk_5D << 6) & 0xFFC0,
                 (s16)((u16)position->unk_08.half.unk_0A - 0x20));
@@ -284,9 +284,9 @@ move:
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
-                if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
                     position->unk_08.half.unk_0A) << 16) != 0 ||
-                    func_800BCB04(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
+                    sample_terrain_surface_height(position->unk_00.half.unk_02.unk_02_u16, position->unk_04.half.unk_06.unk_06_u16,
                                       position->unk_08.half.unk_0A) >= 0x200) {
                     position->unk_00.unk_00 -= motion->unk_6C;
                     motion->unk_6C = 0;
@@ -307,9 +307,9 @@ move:
     position->unk_08.unk_08 += motion->unk_74;
     motion->unk_74 += motion->unk_80;
     height = position->unk_08.half.unk_0A;
-    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+    if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
         (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 0x10 < height) {
-        position->unk_08.half.unk_0A = func_800BCB04(
+        position->unk_08.half.unk_0A = sample_terrain_surface_height(
             (motion->unk_5C << 6) & 0xFFC0,
             (motion->unk_5D << 6) & 0xFFC0,
             (s16)((u16)position->unk_08.half.unk_0A - 0x20));
@@ -319,7 +319,7 @@ move:
         motion->unk_78 = 0;
         motion->unk_6C = 0;
         motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
-        if ((func_800A7234(motion->unk_5C, motion->unk_5D,
+        if ((find_valid_floor_item_position(motion->unk_5C, motion->unk_5D,
                            (s16)((u16)position->unk_08.half.unk_0A - 0x20),
                            &position->unk_0E, &position->unk_12,
                            &position->unk_16) << 16) != 0)

@@ -6,7 +6,7 @@
 
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
-void func_8002407C(void *state, void *unused, void *visual) {
+void apply_random_actor_value_adjustment(void *state, void *unused, void *visual) {
     s32 remaining_ratio;
     u16 ticks_left;
 
@@ -31,6 +31,6 @@ void func_8002407C(void *state, void *unused, void *visual) {
         owner_slot = (s16 *)(slot_offset + owner_addr + 0x64);
         *owner_slot = 0;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
 }

@@ -35,7 +35,7 @@ typedef struct S_800F6090_2 {
 } S_800F6090_2;
 
 /* Creates and initializes an object at the given coordinates with adjusted height. */
-void func_800F6090(s16 x, s16 y) {
+void create_positioned_view_marker(s16 x, s16 y) {
     S_800F6090_1 *render_state;
     S_800F6090_2 *position;
     S_800F6090_0 *object;
@@ -46,7 +46,7 @@ void func_800F6090(s16 x, s16 y) {
         object->unk_10 = (void *)func_800F6070;
         func_8004491C(object, func_80045340);
         render_state = object->unk_0C;
-        render_config = (u32) *((u32 *)(&gameWork.view.unk_090));
+        render_config = (u32) *((u32 *)(&g_game_work.view.unk_090));
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_0C = render_config;
@@ -56,6 +56,6 @@ void func_800F6090(s16 x, s16 y) {
         position = object->unk_08;
         position->unk_02 = x;
         position->unk_06 = y;
-        position->unk_0A = (s16) (func_800BCB04(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
+        position->unk_0A = (s16) (sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
     }
 }

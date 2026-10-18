@@ -14,7 +14,7 @@ typedef struct Func8003A29CState {
 } Func8003A29CState;
 
 /* Copies a script-selected table value to a script-selected target. */
-void vmOp57StoreTablePointerValue(Func8003A29CState *state) {
+void vm_op_57_store_table_pointer_value(Func8003A29CState *state) {
     u8 *cursor = state->cursor;
     u8 value_index;
     u8 target_index;

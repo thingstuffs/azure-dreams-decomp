@@ -9,7 +9,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 /* Add 0x20 to the linked object's 32-bit field at offset 8. */
-void townAdvanceSceneObjectValueBy32(void)
+void advance_scene_object_value_by_32(void)
 {
     void *object_data;
     object_data = *((void **) (((s8 *) (((int)D_80016000))) + 0x1C));

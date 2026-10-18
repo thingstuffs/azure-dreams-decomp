@@ -12,7 +12,7 @@ typedef struct {
 } TownObject;
 
 /* Position ten objects in two columns of five. */
-void townArrangeTenObjectsInColumns(TownObject **objects) {
+void arrange_ten_objects_in_columns(TownObject **objects) {
     s32 objectIndex = 0;
 
     do {

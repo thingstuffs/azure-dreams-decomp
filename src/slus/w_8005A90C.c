@@ -19,8 +19,8 @@ extern s32 D_8007382C[3]; /* size > 8: forced hi/lo, no $gp */
 
 extern void func_8005A1D0(s32);
 extern s32 func_80059F8C(s32, s32);
-extern s32 lookupAndScaleDriverAddress(s32);
-extern s32 clampAndSubmitDriverParameter(s32, u32);
+extern s32 lookup_and_scale_driver_address(s32);
+extern s32 clamp_and_submit_driver_parameter(s32, u32);
 
 /* Reserves a sound slot and transfers sample data to the requested sound RAM address. */
 s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
@@ -64,8 +64,8 @@ s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
     if (reserved_addr == -1) {
         return -1;
     }
-    sound_addr = lookupAndScaleDriverAddress(reserved_addr);
-    size = clampAndSubmitDriverParameter(src_addr, slot->unk14);
+    sound_addr = lookup_and_scale_driver_address(reserved_addr);
+    size = clamp_and_submit_driver_parameter(src_addr, slot->unk14);
     if (size != slot->unk14) {
         return -1;
     }

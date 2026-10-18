@@ -4,22 +4,22 @@
 typedef struct S_800BC3E4_0_pre {
     void * unk_00;
     u8 pad_04[0x4];
-} S_800BC3E4_0_pre;   /* the 0x8 bytes before node in dungeonTraverseNodesAndRenderUnflagged, addressed as node[-1] */
+} S_800BC3E4_0_pre;   /* the 0x8 bytes before node in traverse_nodes_and_render_unflagged, addressed as node[-1] */
 
 typedef struct S_800BC3E4_0 {
     void * unk_00;
-} S_800BC3E4_0;   /* node in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_0;   /* node in traverse_nodes_and_render_unflagged */
 
 typedef struct S_800BC3E4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_800BC3E4_1;   /* object in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_1;   /* object in traverse_nodes_and_render_unflagged */
 
 typedef struct S_800BC3E4_2 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_800BC3E4_2;   /* primitive in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_2;   /* primitive in traverse_nodes_and_render_unflagged */
 
 typedef struct S_800BC3E4_3 {
     u8 pad_00[0x2];
@@ -28,25 +28,25 @@ typedef struct S_800BC3E4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_800BC3E4_3;   /* coord in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_3;   /* coord in traverse_nodes_and_render_unflagged */
 
 typedef struct S_800BC3E4_4 {
     void * unk_00;
-} S_800BC3E4_4;   /* state in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_4;   /* state in traverse_nodes_and_render_unflagged */
 
 typedef struct S_800BC3E4_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800BC3E4_5;   /* ((S_800BC3E4_4 *)state)->unk_00 in dungeonTraverseNodesAndRenderUnflagged */
+} S_800BC3E4_5;   /* ((S_800BC3E4_4 *)state)->unk_00 in traverse_nodes_and_render_unflagged */
 
-extern s32 isFramePacketArenaOverflowed(void *);
-extern void func_800BC4D4(void *, void *, s16, s32);
-extern s16 func_800BCB04(u16, u16, s16);
+extern s32 is_frame_packet_arena_overflowed(void *);
+extern void render_projected_sprite_with_depth_bias(void *, void *, s16, s32);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
-s32 dungeonTraverseNodesAndRenderUnflagged(void *start_node) {
+s32 traverse_nodes_and_render_unflagged(void *start_node) {
     void *node = start_node;
-    GameWork *state = &gameWork;
+    GameWork *state = &g_game_work;
     u16 *scratch = (u16 *)0x1F800000;
     void *previous;
 
@@ -60,9 +60,9 @@ s32 dungeonTraverseNodesAndRenderUnflagged(void *start_node) {
 
         if (!(primitive->unk_14 & 0x8000)) {
             S_800BC3E4_3 *coord = object->unk_08;
-            s16 depth = func_800BCB04(coord->unk_02, coord->unk_06, coord->unk_0A);
-            func_800BC4D4(coord, primitive, depth, 0);
-            if (isFramePacketArenaOverflowed(((S_800BC3E4_5 *)(state->unk_000))->unk_8D0) != 0) {
+            s16 depth = sample_terrain_surface_height(coord->unk_02, coord->unk_06, coord->unk_0A);
+            render_projected_sprite_with_depth_bias(coord, primitive, depth, 0);
+            if (is_frame_packet_arena_overflowed(((S_800BC3E4_5 *)(state->unk_000))->unk_8D0) != 0) {
                 break;
             }
         }

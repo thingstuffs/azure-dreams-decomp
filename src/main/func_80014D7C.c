@@ -3,16 +3,16 @@
 #include "m2c_compat.h"
 
 typedef struct Node8002BB08 Node8002BB08;
-Node8002BB08 *initCardBootRequestObject();                /* extern */
-void cardBootStopTimerAndInitServer();                            /* extern */
+Node8002BB08 *init_card_boot_request_object();                /* extern */
+void card_boot_stop_timer_and_init_server();                            /* extern */
 M2C_UNK func_80064F00();            /* extern */
 M2C_UNK func_80064F20();                     /* extern */
 
 /* Set up the request with scale 512 and center (160, 120), then dispatch in mode 0. */
-void func_80027D7C(s32 request) {
-    cardBootStopTimerAndInitServer();
-    gameWork.view.unk_088 = 0x200;
+void dispatch_menu_update_callback(s32 request) {
+    card_boot_stop_timer_and_init_server();
+    g_game_work.view.unk_088 = 0x200;
     func_80064F20(0x200);
     func_80064F00(0xA0, 0x78);
-    initCardBootRequestObject(request, 0);
+    init_card_boot_request_object(request, 0);
 }

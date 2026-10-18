@@ -3,7 +3,7 @@
 
 extern void func_80033D08(void *object);
 // Fade the primitive to black, then finalize the object and set completion flags.
-void townFadeObjectPrimitive(void *object, void *unusedContext, u8 *primitive)
+void fade_object_primitive(void *object, void *unusedContext, u8 *primitive)
 {
     s32 brightness;
 
@@ -19,5 +19,5 @@ void townFadeObjectPrimitive(void *object, void *unusedContext, u8 *primitive)
     }
     func_80033D08(object);
     *(u16 *)((u8 *)object - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    object_flag_block.flags |= 0x8000;
 }

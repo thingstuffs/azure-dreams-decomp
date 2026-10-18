@@ -19,5 +19,5 @@ extern u8 D_800814D0;
 extern u8 D_800814D4;
 extern s32 D_800814B0;
 extern s32 D_800814B4;
-u8 getPreviousCdCommandByte(void);
+u8 get_previous_cd_command_byte(void);
 #endif

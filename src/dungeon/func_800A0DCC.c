@@ -9,7 +9,7 @@ extern s32 D_800DCF44;
 extern s32 D_800DCF48;
 
 /* Selects a value from object flags and the highest matching state index. */
-s32 func_800A652C(void *object) {
+s32 select_object_state_value(void *object) {
     s32 state_result;
     s32 state_index;
     s32 special_index;

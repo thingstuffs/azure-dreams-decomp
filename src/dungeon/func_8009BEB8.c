@@ -1,11 +1,11 @@
 #include "common.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
-extern void retainSpriteResourceInCache(s16);
+extern void retain_sprite_resource_in_cache(s16);
 extern u8 D_800E3DA0[];
 extern u8 D_800E3DB0[];
 extern u8 D_800E3DE0[];
 /* Selects a slot by type and ID, clearing flags for special IDs. */
-u8 *func_800A1618(s32 requested_id, s32 requested_type) {
+u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type) {
     u8 *result;
     s32 slot_type;
     s32 match_id;
@@ -109,6 +109,6 @@ scan:
         } while (slot_index < 6);
     }
     if (candidate)
-        retainSpriteResourceInCache((s16)slot_id);
+        retain_sprite_resource_in_cache((s16)slot_id);
     return candidate;
 }

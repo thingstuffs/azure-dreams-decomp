@@ -1,7 +1,7 @@
 #include "modules/town_ovl_6490c0.h"
 
 /* Passes the value and line to the handler with its fixed data tables. */
-s32 townProcessValueWithFixedTables(s32 value, s32 unused, s32 line)
+s32 process_value_with_fixed_tables(s32 value, s32 unused, s32 line)
 {
-    return townGetFlagTestTableAddress(D_80017760, D_800178C0, value, line);
+    return get_flag_test_table_address(D_80017760, D_800178C0, value, line);
 }

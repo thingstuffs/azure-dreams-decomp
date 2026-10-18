@@ -11,7 +11,7 @@ typedef struct {
 } FuncData;
 
 /* Returns whether the record has attached state with type 1 or 3. */
-s32 townGetWhetherHasAttachedStateTypeN1N3(FuncArg *record) {
+s32 get_whether_has_attached_state_type_n_1_n_3(FuncArg *record) {
     FuncData *state;
 
     state = record->field10;

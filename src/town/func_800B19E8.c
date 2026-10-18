@@ -15,17 +15,17 @@ typedef struct S_800AF148_0 {
 
 
 M2C_UNK func_8004B248();                         /* extern */
-void townSendItemMenuPageEntriesToFormatter();                    /* extern */
+void send_item_menu_page_entries_to_formatter();                    /* extern */
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */
-void townReleaseItemMenuListObject(s32 objectAddress) {
+void release_item_menu_list_object(s32 objectAddress) {
     void *objectFields;
 
     if (objectAddress != 0) {
         objectFields = objectAddress + 0x20;
-        townSendItemMenuPageEntriesToFormatter(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
+        send_item_menu_page_entries_to_formatter(((S_800AF148_0 *)objectFields)->unk_D8, ((S_800AF148_0 *)objectFields)->unk_28);
         func_8004B248(objectAddress + 0xFC);
         ((S_800AF148_0_pre *)objectFields)[-1].unk_00 = (u16) (((S_800AF148_0_pre *)objectFields)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

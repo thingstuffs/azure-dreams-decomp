@@ -52,13 +52,13 @@ typedef struct S_800A504C_0 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_800A504C_0;   /* base in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_0;   /* base in advance_staged_entity_load */
 
 typedef struct S_800A504C_1_pre {
     u8 * unk_00;
     u8 pad_04[0xE];
     u16 unk_12;
-} S_800A504C_1_pre;   /* the 0x14 bytes before entity in dungeonAdvanceStagedEntityLoad, addressed as entity[-1] */
+} S_800A504C_1_pre;   /* the 0x14 bytes before entity in advance_staged_entity_load, addressed as entity[-1] */
 
 typedef struct S_800A504C_1 {
     u8 pad_00[0x13];
@@ -72,12 +72,12 @@ typedef struct S_800A504C_1 {
     u16 unk_88;
     u8 pad_8A[0x6];
     s32 unk_90;
-} S_800A504C_1;   /* entity in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_1;   /* entity in advance_staged_entity_load */
 
 typedef struct S_800A504C_2_pre {
     s16 unk_00;
     u8 pad_02[0x30A0];
-} S_800A504C_2_pre;   /* the 0x30A2 bytes before role1 in dungeonAdvanceStagedEntityLoad, addressed as role1[-1] */
+} S_800A504C_2_pre;   /* the 0x30A2 bytes before role1 in advance_staged_entity_load, addressed as role1[-1] */
 
 typedef struct S_800A504C_2 {
     u8 pad_00[0x4];
@@ -89,7 +89,7 @@ typedef struct S_800A504C_2 {
     s16 unk_1E;
     u8 pad_20[0xC];
     void * unk_2C;
-} S_800A504C_2;   /* role1 in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_2;   /* role1 in advance_staged_entity_load */
 
 typedef struct S_800A504C_3 {
     u8 pad_00[0x58];
@@ -103,12 +103,12 @@ typedef struct S_800A504C_3 {
     u16 unk_98;
     u8 unk_9A;
     u8 unk_9B;
-} S_800A504C_3;   /* tail_dst in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_3;   /* tail_dst in advance_staged_entity_load */
 
 typedef struct S_800A504C_4_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_800A504C_4_pre;   /* the 0x14 bytes before spawned in dungeonAdvanceStagedEntityLoad, addressed as spawned[-1] */
+} S_800A504C_4_pre;   /* the 0x14 bytes before spawned in advance_staged_entity_load, addressed as spawned[-1] */
 
 typedef struct S_800A504C_4 {
     u8 pad_00[0x10];
@@ -124,46 +124,46 @@ typedef struct S_800A504C_4 {
     u8 pad_54[0x4];
     s32 unk_58;
     s32 unk_5C;
-} S_800A504C_4;   /* spawned in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_4;   /* spawned in advance_staged_entity_load */
 
 typedef struct S_800A504C_5 {
     u8 pad_00[0xAC];
     u8 * unk_AC;
     u8 pad_B0[0x20];
     u8 * unk_D0;
-} S_800A504C_5;   /* record in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_5;   /* record in advance_staged_entity_load */
 
 typedef struct S_800A504C_6 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_800A504C_6;   /* global_page in dungeonAdvanceStagedEntityLoad */
+} S_800A504C_6;   /* global_page in advance_staged_entity_load */
 
 typedef struct S_800A504C_7_pre {
     s16 unk_00;
     u8 pad_02[0x30A0];
-} S_800A504C_7_pre;   /* the 0x30A2 bytes before D_800E0000 in dungeonAdvanceStagedEntityLoad, addressed as D_800E0000[-1] */
+} S_800A504C_7_pre;   /* the 0x30A2 bytes before D_800E0000 in advance_staged_entity_load, addressed as D_800E0000[-1] */
 
 
 extern s32 func_8003E188();
 extern s32 Control_CD();
-extern s32 hasEnoughAvailableRuntimeNodes();
+extern s32 has_enough_available_runtime_nodes();
 extern s32 func_800424E0();
 extern s32 func_80042560();
 extern s32 func_80042640();
 extern s32 func_80042710();
 extern s32 func_80044A50();
-extern s32 selectIndirectTableEntry();
+extern s32 select_indirect_table_entry();
 extern s32 func_80047DB8();
 extern s32 func_80047E30();
-extern s32 registerAndUploadSpriteResource();
-extern s32 beginSpriteResourceLoadWithCompletionFlag();
+extern s32 register_and_upload_sprite_resource();
+extern s32 begin_sprite_resource_load_with_completion_flag();
 extern s32 func_80053EF0();
-extern s32 func_8009A028();
-extern s32 func_8009A3D0();
-extern SpawnFunc func_800A0B94();
-extern s32 retainSpawnResource();
-extern s32 func_800A1618();
-extern s32 func_800A1BD0();
+extern s32 unlink_entity_node();
+extern s32 update_map_cell_flags_with_item_limit();
+extern SpawnFunc load_monster_resource_data();
+extern s32 retain_spawn_resource();
+extern s32 find_or_retain_sprite_resource_slot();
+extern s32 find_entity_slot_by_field_ac();
 
 extern u8 D_80023000[];
 extern u8 D_8003E140[];
@@ -177,9 +177,9 @@ extern u8 D_8014A000[];
 extern u8 D_800E0000[];
 
 /* Advances staged entity loading and replaces the entity while transferring its state. */
-s32 dungeonAdvanceStagedEntityLoad(s32 unused, u8 *entity)
+s32 advance_staged_entity_load(s32 unused, u8 *entity)
 {
-    u8 *base = (u8 *)((DungeonState *)&dungeonStatus);
+    u8 *base = (u8 *)((DungeonState *)&g_dungeon_status);
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
     s32 load_result;
@@ -215,7 +215,7 @@ s32 dungeonAdvanceStagedEntityLoad(s32 unused, u8 *entity)
     if (count != 1) {
         return 0;
     }
-    if (hasEnoughAvailableRuntimeNodes(8) == 0) {
+    if (has_enough_available_runtime_nodes(8) == 0) {
         return 0;
     }
 
@@ -227,14 +227,14 @@ s32 dungeonAdvanceStagedEntityLoad(s32 unused, u8 *entity)
         if (func_80053EF0(4) != 0) {
             return 0;
         }
-        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
+        spawned = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 2);
         if (spawned == NULL) {
             return 0;
         }
         load_result = func_80047DB8(((S_800A504C_1 *)entity)->unk_13);
         load_spawned = spawned;
         D_80081488 = load_result;
-        func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+        load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
         D_800E3E40[0] = 0;
         Control_CD(0xFF, D_8003E140, D_800E3E40);
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
@@ -249,12 +249,12 @@ case 1:
         return 0;
 
 case 2:
-        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
+        spawned = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 2);
         if (spawned == NULL) {
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
+        spawn = load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
         spawned = spawn(6, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (spawned == NULL) {
@@ -301,14 +301,14 @@ case 2:
         ((S_800A504C_3 *)tail_dst)->unk_9A = ((S_800A504C_0 *)base)->unk_9A;
         ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
 
-        offset = func_800A1BD0(entity);
+        offset = find_entity_slot_by_field_ac(entity);
         record = ((u8 *)D_800814A8);
         offset = (offset << 16) >> 14;
         offset += (s32)record;
         record = (u8 *)offset;
         ((S_800A504C_5 *)record)->unk_AC = spawned;
-        func_8009A3D0(entity_data[0x24], entity_data[0x25], 0x300);
-        func_8009A028(spawned);
+        update_map_cell_flags_with_item_limit(entity_data[0x24], entity_data[0x25], 0x300);
+        unlink_entity_node(spawned);
         shifted = spawned - 0x20;
         func_80044A50(shifted);
         update_flags = 0x80000000;
@@ -330,17 +330,17 @@ case 2:
         case 0:
 
         load_kind = 3;
-        replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
+        replacement = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13 - 1,
                                       load_kind);
         if (replacement != NULL) {
             ((S_800A504C_1 *)entity)->unk_13--;
             func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
             D_80080A90 = D_80023000;
-            load_result = beginSpriteResourceLoadWithCompletionFlag(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
+            load_result = begin_sprite_resource_load_with_completion_flag(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
             load_spawned = replacement;
 
             D_80081488 = load_result;
-            func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+            load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
             D_800E3E40[0] = 0;
             Control_CD(0xFF, D_8003E140, D_800E3E40);
         }
@@ -352,24 +352,24 @@ case 1:
             return 0;
         }
         if (D_80081488 != 0) {
-            registerAndUploadSpriteResource(((S_800A504C_1 *)entity)->unk_13, D_80081488);
+            register_and_upload_sprite_resource(((S_800A504C_1 *)entity)->unk_13, D_80081488);
         }
 
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
         break;
 
 case 2:
-        replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
+        replacement = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 3);
         if (replacement == NULL) {
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
+        spawn = load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
         replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
         if (replacement != NULL) {
             ((S_800A504C_4 *)replacement)->unk_14 |= 0x4000;
-            offset = func_800A1BD0(entity);
+            offset = find_entity_slot_by_field_ac(entity);
             record = ((u8 *)D_800814A8);
             offset = (offset << 16) >> 14;
             offset += (s32)record;
@@ -400,12 +400,12 @@ case 2:
                 table_page->table84[table_index].value = table_value;
                 table_page->table4[table_index].value = table_value;
             }
-            retainSpawnResource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
+            retain_spawn_resource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
             func_80042560(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
             (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
-            offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-            selectIndirectTableEntry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
+            offset = ((g_game_work.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
+            select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
             D_80080A90 = D_8014A000;
@@ -414,9 +414,9 @@ case 2:
             D_800DCF5C = count;
             ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
             (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-            global_flags = objectFlagBlock.flags;
+            global_flags = object_flag_block.flags;
             ((S_800A504C_1 *)entity)->unk_90 = 0;
-            objectFlagBlock.flags = global_flags | 0x8000;
+            object_flag_block.flags = global_flags | 0x8000;
         }
         break;
         default:

@@ -1,7 +1,7 @@
 #include "shared/gpu_packets.h"
 /* Rowbase phase-2 landing shape (docs/rowbase_lane_phase2.md): natural plain C
  * at the Beldo region true base 0x80174334 — the function defines its
- * TRUE-space name dungeonDrawGouraudTexturedRibbonQuad; the j->0x8017xxxx words are its own local
+ * TRUE-space name draw_gouraud_textured_ribbon_quad; the j->0x8017xxxx words are its own local
  * if/else joins (gap probe 5). No pins, no noreturn scaffolding. */
 #include "common.h"
 #include "shared/game_work.h"
@@ -45,7 +45,7 @@ typedef struct S_801663AC_0 {
     u16 unk_CC;
     u8 pad_CE[0x32];
     s32 unk_100;
-} S_801663AC_0;   /* scratch in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_0;   /* scratch in draw_gouraud_textured_ribbon_quad */
 
 typedef struct S_801663AC_1 {
     u8 pad_00[0x2];
@@ -54,7 +54,7 @@ typedef struct S_801663AC_1 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_801663AC_1;   /* arg1 in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_1;   /* arg1 in draw_gouraud_textured_ribbon_quad */
 
 typedef struct S_801663AC_2 {
     u8 pad_00[0x8];
@@ -67,9 +67,9 @@ typedef struct S_801663AC_2 {
     u16 unk_16;
     u16 unk_18;
     u16 unk_1A;
-} S_801663AC_2;   /* arg2 in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_2;   /* arg2 in draw_gouraud_textured_ribbon_quad */
 
-   /* *(u8 **)D_80083160 in dungeonDrawGouraudTexturedRibbonQuad */
+   /* *(u8 **)D_80083160 in draw_gouraud_textured_ribbon_quad */
 
 typedef struct S_801663AC_4 {
     u32 unk_00;
@@ -89,7 +89,7 @@ typedef struct S_801663AC_4 {
     u16 unk_86;
     u16 unk_88;
     u16 unk_8A;
-} S_801663AC_4;   /* arg0 in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_4;   /* arg0 in draw_gouraud_textured_ribbon_quad */
 
 typedef struct S_801663AC_5 {
     u32 unk_00;
@@ -116,13 +116,13 @@ typedef struct S_801663AC_5 {
         struct { u8 v; } at00u;
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_30;   /* overlapping accesses */
-} S_801663AC_5;   /* packet in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_5;   /* packet in draw_gouraud_textured_ribbon_quad */
 
 typedef struct S_801663AC_6 {
     u8 pad_00[0x4];
     u16 unk_04;
     u16 unk_06;
-} S_801663AC_6;   /* texture in dungeonDrawGouraudTexturedRibbonQuad */
+} S_801663AC_6;   /* texture in draw_gouraud_textured_ribbon_quad */
 
 
 typedef struct {
@@ -143,7 +143,7 @@ extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
 
 /* Transform a textured quad and add it to the ordering table if visible. */
-void dungeonDrawGouraudTexturedRibbonQuad(void *quad, void *position, void *render_state, s16 depth_bias)
+void draw_gouraud_textured_ribbon_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -153,7 +153,7 @@ void dungeonDrawGouraudTexturedRibbonQuad(void *quad, void *position, void *rend
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
     ((S_801663AC_0 *)scratch)->unk_88 = ((S_801663AC_1 *)position)->unk_02;
     ((S_801663AC_0 *)scratch)->unk_8C = ((S_801663AC_1 *)position)->unk_06;
     ((S_801663AC_0 *)scratch)->unk_90 = ((S_801663AC_1 *)position)->unk_0A;
@@ -180,8 +180,8 @@ void dungeonDrawGouraudTexturedRibbonQuad(void *quad, void *position, void *rend
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor;
-    ((GpuContext *)(*(u8 **)((u8 *)(&gameWork))))->packetCursor = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor;
+    ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor = packet + 0x34;
 
     ((S_801663AC_0 *)scratch)->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
     ((S_801663AC_0 *)scratch)->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;

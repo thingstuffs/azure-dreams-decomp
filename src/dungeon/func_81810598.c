@@ -8,10 +8,10 @@ typedef struct S_80025598_0 {
     M2C_UNK * unk_10;
     u8 pad_14[0x18];
     s32 unk_2C;
-} S_80025598_0;   /* arg0 in dungeonResetObjectToDefaultData */
+} S_80025598_0;   /* arg0 in reset_object_to_default_data */
 
 /* Clear the object's state and set its default data pointer. */
-void dungeonResetObjectToDefaultData(S_80025598_0 *object) {
+void reset_object_to_default_data(S_80025598_0 *object) {
     object->unk_2C = 0;
     object->unk_10 = &D_80025548;
 }

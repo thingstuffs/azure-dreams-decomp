@@ -6,12 +6,12 @@ extern s32 D_801379B0;
 
 extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
-extern s32 cardDevkitPollStableSlotState(void);
-extern void func_804018FC(void);
-extern void cardDevkitHighlightSelectedLoadSlot(void *object);
-extern void mainResetMenuObjectState(void *object);
+extern s32 card_devkit_poll_stable_slot_state(void);
+extern void submit_stored_and_queried_boot_values(void);
+extern void card_devkit_highlight_selected_load_slot(void *object);
+extern void reset_menu_object_state(void *object);
 extern void func_804070C4(void *object);
-extern void func_804083FC(s32 field20, s32 field24);
+extern void allocate_or_reuse_effect_and_install_callback(s32 field20, s32 field24);
 
 
 typedef struct S_80406DA0_0 {
@@ -21,10 +21,10 @@ typedef struct S_80406DA0_0 {
     u8 pad_28[0x4];
     s32 unk_2C;
     s32 unk_30;
-} S_80406DA0_0;   /* object in mainHandleMenuSelectionInput */
+} S_80406DA0_0;   /* object in handle_menu_selection_input */
 
 /* Handles menu selection, held-button repeats, and menu exit. */
-void mainHandleMenuSelectionInput(void *object)
+void handle_menu_selection_input(void *object)
 {
     s32 held_buttons;
     s32 pressed_buttons;
@@ -42,12 +42,12 @@ void mainHandleMenuSelectionInput(void *object)
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             func_804070C4((u8 *)object - 0x20);
-            func_804083FC(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
+            allocate_or_reuse_effect_and_install_callback(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
             return;
         }
         if (pressed_buttons & 0x20) {
             func_80063FF8(0x514);
-            mainResetMenuObjectState(object);
+            reset_menu_object_state(object);
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 buttons = (s32 *)((u8 *)object + 0x30);
@@ -79,12 +79,12 @@ void mainHandleMenuSelectionInput(void *object)
             func_80063FF8(0x502);
             ((S_80406DA0_0 *)object)->unk_2C =
                 func_80058FF0(((S_80406DA0_0 *)object)->unk_2C, direction, 5);
-            cardDevkitHighlightSelectedLoadSlot(object);
+            card_devkit_highlight_selected_load_slot(object);
         }
     }
 
-    direction = cardDevkitPollStableSlotState();
-    func_804018FC();
+    direction = card_devkit_poll_stable_slot_state();
+    submit_stored_and_queried_boot_values();
     if (direction == 0) {
         return;
     }
@@ -92,5 +92,5 @@ void mainHandleMenuSelectionInput(void *object)
         return;
     }
     func_804070C4((u8 *)object - 0x20);
-    func_804083FC(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
+    allocate_or_reuse_effect_and_install_callback(((S_80406DA0_0 *)object)->unk_20, ((S_80406DA0_0 *)object)->unk_24);
 }

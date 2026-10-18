@@ -7,7 +7,7 @@ typedef struct S_808B2D70_0 {
 } S_808B2D70_0;
 
 /* Writes back the state byte at offset 0x0E and returns the input value. */
-s32 townStoreStateByteAndReturn(s32 value) {
+s32 store_state_byte_and_return(s32 value) {
     S_808B2D70_0 *state;
 
     state = *(void **)0xA0700F40;

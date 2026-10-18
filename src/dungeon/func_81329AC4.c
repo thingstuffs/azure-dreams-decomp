@@ -19,8 +19,8 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) Unaligned32;
 
-extern void dungeonClearActorPendingUpdateMarkers(void *state);
-extern void func_8009A028(void *node);
+extern void clear_actor_pending_update_markers(void *state);
+extern void unlink_entity_node(void *node);
 
 extern void *D_80174AB4[3];
 extern s16 D_80174AB8[5];
@@ -29,7 +29,7 @@ extern void *D_80174CD8[3];
 extern Unaligned32 D_80174C58;
 
 /* Initialize shared state and update the two active entries and their header flags. */
-void func_801712C4(void)
+void initialize_shared_state_active_entries(void)
 {
     s32 entry_index;
     StateData *state_data;
@@ -70,8 +70,8 @@ void func_801712C4(void)
         void *entry = *(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
 
         if (entry != 0) {
-            dungeonClearActorPendingUpdateMarkers(entry);
-            func_8009A028(*(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC));
+            clear_actor_pending_update_markers(entry);
+            unlink_entity_node(*(void **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC));
             entry_header = *(u8 **)((u8 *)D_800E3D7C + entry_index * 4 + 0xAC);
             entry_header -= 0x20;
             *(u32 *)(entry_header + 0x10) |= 0x80000000;

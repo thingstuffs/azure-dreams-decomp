@@ -25,7 +25,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
 
     position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58);
-    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v,
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
                        (collision_z = position->unk_08.at02.v, D_80025924[0] = 1, collision_z)) << 0x10) != 0) {
         position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = 0;
@@ -33,7 +33,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
     }
     position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C);
-    if ((dungeonCheckLeftTileAndCenterHeight(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
+    if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
         position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50);
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = 0;
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_5C = 0;
@@ -46,9 +46,9 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) ((((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C * 0x60) / 100);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 = (s32) ((((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_50 * 0x60) / 100);
     current_z = position->unk_08.at02.v;
-    if ((func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02u.v - 4)) - 0x10) < current_z) {
+    if ((sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02u.v - 4)) - 0x10) < current_z) {
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_54 = 0;
-        position->unk_08.at02.v = (s16) (func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
+        position->unk_08.at02.v = (s16) (sample_terrain_surface_height(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
         position->unk_08.at00u.v = 0;
         if (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_08 == 0) {
             ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_08 = 1;
@@ -75,10 +75,10 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, Rec_D_80082
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

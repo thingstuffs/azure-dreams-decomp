@@ -17,7 +17,7 @@ typedef struct S_80095854_0 {
     s8 unk_9B;
     u8 pad_9C[0x88];
     void * unk_124;
-} S_80095854_0;   /* arg0 in dungeonBeginFamiliarSummoning */
+} S_80095854_0;   /* arg0 in begin_familiar_summoning */
 
 typedef struct S_80095854_1 {
     u8 pad_00[0x13];
@@ -28,17 +28,17 @@ typedef struct S_80095854_2 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_80095854_2;   /* arg2 in dungeonBeginFamiliarSummoning */
+} S_80095854_2;   /* arg2 in begin_familiar_summoning */
 
 
 void func_80048A44(); /* extern */
-void dungeonClearPlayerLinkedActionFlags(void);                            /* extern */
-void func_8009A21C();           /* extern */
-void func_8009A3D0();           /* extern */
-s32 dungeonFindValidNearbyPosition();   /* extern */
+void clear_player_linked_action_flags(void);                            /* extern */
+void cycle_map_cell_flags();           /* extern */
+void update_map_cell_flags_with_item_limit();           /* extern */
+s32 find_valid_nearby_position();   /* extern */
 extern u8 D_800DD130;
 
-s32 dungeonBeginFamiliarSummoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
+s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
     s16 candidate_x;
     s16 candidate_y;
     s16 checked_x;
@@ -62,21 +62,21 @@ s32 dungeonBeginFamiliarSummoning(void *record, s32 input1, void *pointer_input,
         value = value > 0;
         status = value;
     }
-    dungeonClearPlayerLinkedActionFlags();
+    clear_player_linked_action_flags();
     (*(M2C_UNK **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
-    func_80048A44(pointer_data, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
+    func_80048A44(pointer_data, *((((s32) (g_game_work.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
     D_80082E80.unk_030 = input_value;
     direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
-    ((S_80095854_0 *)record)->unk_72 = (s8) (((S_80095854_2 *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dirStepX)));
-    next_y = ((S_80095854_2 *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dirStepY));
+    ((S_80095854_0 *)record)->unk_72 = (s8) (((S_80095854_2 *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dir_step_x)));
+    next_y = ((S_80095854_2 *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dir_step_y));
     ((S_80095854_0 *)record)->unk_73 = next_y;
-    if ((dungeonFindValidNearbyPosition(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
+    if ((find_valid_nearby_position(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
         value = status << 0x10;
         if (value != 0) {
-            func_8009A21C(candidate_x, candidate_y, 0x8000);
-            status = dungeonFindValidNearbyPosition(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
-            func_8009A3D0(candidate_x, candidate_y, 0x8000);
+            cycle_map_cell_flags(candidate_x, candidate_y, 0x8000);
+            status = find_valid_nearby_position(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
+            update_map_cell_flags_with_item_limit(candidate_x, candidate_y, 0x8000);
             condition = status << 0x10;
             if (condition != 0) {
                 ((S_80095854_0 *)record)->unk_72 = (s8) (u8) checked_x;

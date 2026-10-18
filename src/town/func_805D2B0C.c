@@ -6,20 +6,20 @@ typedef struct S_80016B0C_0 {
     s32 unk_08;
     u8 pad_0C[0x34];
     u8 * unk_40;
-} S_80016B0C_0;   /* state in townProcessCurrentCellAndClear */
+} S_80016B0C_0;   /* state in process_current_cell_and_clear */
 
 typedef struct S_80016B0C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x34];
     u8 * unk_40;
-} S_80016B0C_1;   /* *(void **)D_80016000 in townProcessCurrentCellAndClear */
+} S_80016B0C_1;   /* *(void **)D_80016000 in process_current_cell_and_clear */
 
 typedef struct S_80016B0C_2 {
     u8 pad_00[0x4];
     u8 unk_04;
 } S_80016B0C_2;   /* (u8 *)((S_80016B0C_1 *)(*(void **)D_80016000))->unk_40
-                + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8 in townProcessCurrentCellAndClear */
+                + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8 in process_current_cell_and_clear */
 
 
 extern s32 D_80019AFC;
@@ -33,7 +33,7 @@ extern s32 func_800194D8(s32);
 extern void func_80019638(void);
 
 /* Process the current cell value and clear it when the handler returns nonzero. */
-s32 townProcessCurrentCellAndClear(void) {
+s32 process_current_cell_and_clear(void) {
     u8 fallback_args[2] = { 2, 0xFF };
     S_80016B0C_0 *state;
     s32 result;

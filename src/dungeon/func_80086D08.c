@@ -9,7 +9,7 @@ extern u8 D_800DD0E0[];
 extern void func_80048A44(void *, s16, s16, s32);
 
 /* Reset entity state and select its animation page and directional entry. */
-void dungeonSelectState16DirectionalAnimation(void *entity, void *unused, void *animation, EntityRec *state) {
+void select_state_16_directional_animation(void *entity, void *unused, void *animation, EntityRec *state) {
     if (!(((Rec_func_8008ACDC_arg0 *)entity)->unk_98 & 0xC)) {
         u8 *page;
         u8 *current_page;
@@ -29,7 +29,7 @@ void dungeonSelectState16DirectionalAnimation(void *entity, void *unused, void *
         if (current_page != page) {
             entity = animation;
             (*(u8 * *)((u8 *)entity + 0x2C)) = page;
-            func_80048A44(entity, *(u8 *)((((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page),
+            func_80048A44(entity, *(u8 *)((((g_game_work.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page),
                 0, 1);
         }
     }

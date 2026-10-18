@@ -12,10 +12,10 @@ extern s32 D_8015C25C;
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void func_800A48F0();
-extern s32 func_800A6D30();
-extern void func_800A9C18();
-extern void func_800AA36C();
+extern void set_or_clear_actor_status_slot();
+extern s32 generate_random_value();
+extern void initialize_actor_sprite_and_animation();
+extern void try_move_actor_to_valid_position();
 
 
 typedef struct S_80158878_0 {

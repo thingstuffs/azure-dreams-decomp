@@ -28,7 +28,7 @@ typedef struct S_800BDB20_3 {
 } S_800BDB20_3;
 
 /* Creates an object at the given position and initializes its graphics. */
-void *townCreatePositionedGraphicObject(TownPropPosition *position, s32 object_param, M2C_UNK graphics_id) {
+void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, M2C_UNK graphics_id) {
     S_800BDB20_3 *render_data;
     S_800BDB20_0 *object;
     S_800BDB20_1 *object_pos;

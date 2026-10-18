@@ -2,7 +2,7 @@
 
 
 /* Moves the first color channel toward neutral gray and copies it to the other two. */
-void townEaseRgbToNeutralGray(u8 *object) {
+void ease_rgb_to_neutral_gray(u8 *object) {
     s32 channel_value;
     s32 blended_value;
     s32 target_delta;

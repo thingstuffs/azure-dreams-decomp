@@ -1,9 +1,9 @@
 #include "modules/town_player_init.h"
 
 /* Clear the state field or invoke updates according to the record value. */
-void townClearRecordStateOrUpdate(void *record) {
+void clear_record_state_or_update(void *record) {
     s16 threshold_value = *(s16 *)((u8 *)record + 6);
-    GameWork *state = &gameWork;
+    GameWork *state = &g_game_work;
 
     if (threshold_value < 0x200) {
         state->view.viewAngle = 0;

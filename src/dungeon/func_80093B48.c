@@ -3,7 +3,7 @@
 extern u8 *D_800DD71C[];
 
 /* Append two bytes selected by the sign of the value, or nothing for zero. */
-void *dungeonAppendSignedValueBytes(s32 value, u8 *buffer) {
+void *append_signed_value_bytes(s32 value, u8 *buffer) {
     u8 *dst;
 
     dst = buffer;

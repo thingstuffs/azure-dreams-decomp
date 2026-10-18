@@ -5,12 +5,12 @@
 
 
 
-s32 townGetScriptFlagMask();                         /* extern */
+s32 get_script_flag_mask();                         /* extern */
 
 
 /* Invoke the callback with code 8 when checks 0x1200 and 0x1201 both return zero. */
-void townInvokeCode8WhenFlagsClear(void) {
-    if ((townGetScriptFlagMask(0x1200) == 0) && (townGetScriptFlagMask(0x1201) == 0)) {
+void invoke_code_8_when_flags_clear(void) {
+    if ((get_script_flag_mask(0x1200) == 0) && (get_script_flag_mask(0x1201) == 0)) {
         D_80016000->unk_20->callback_1E8(8);
     }
 }

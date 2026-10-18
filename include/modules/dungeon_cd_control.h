@@ -5,7 +5,7 @@ extern s8 D_800DCF4D;
 extern u8 D_800DF3DC[];
 extern u8 D_800DF3E4[];
 extern u8 D_800DF3EC[];
-void dungeonSubmitControlAndResetStatus(void);
-void dungeonSubmitControlCommandSix(void);
-void dungeonSubmitIndexedEntryAndFinalize(s32);
+void submit_control_and_reset_status(void);
+void submit_control_command_six(void);
+void submit_indexed_entry_and_finalize(s32);
 #endif

@@ -5,12 +5,12 @@ extern void func_800478B8(void *target);
 extern s32 rand(void);
 
 extern void func_80025090(void);
-extern void func_80025080(void);
+extern void get_half_byte_length(void);
 extern void func_80025058(void);
 extern void func_80025068(void);
 extern void func_80025078(void);
 extern void func_8002510C(void);
-extern void dungeonRaiseEntityToGround(void);
+extern void raise_entity_to_ground(void);
 extern void func_80025674(void);
 extern void func_80025730(void);
 extern void func_80025770(void);
@@ -25,16 +25,16 @@ static Callback const func_8184A800_table[]
 __attribute__((section(".text.func_8184A800"))) = {
     func_80025090,
     0,
-    func_80025080,
-    func_80025080,
-    func_80025080,
+    get_half_byte_length,
+    get_half_byte_length,
+    get_half_byte_length,
     func_80025058,
     func_80025068,
     func_80025078,
-    func_80025080,
+    get_half_byte_length,
     0,
     func_8002510C,
-    dungeonRaiseEntityToGround,
+    raise_entity_to_ground,
     func_80025674,
     func_80025730,
     func_80025770,
@@ -75,7 +75,7 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
 
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)owner - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }
 

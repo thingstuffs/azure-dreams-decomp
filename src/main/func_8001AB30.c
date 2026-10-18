@@ -11,7 +11,7 @@ extern u8 D_80400038[];
 extern u8 D_804000F8[];
 
 /* Starts the selected card operation and maps its completion status. */
-s32 cardDevRunSelectedOperation(s32 card_index) {
+s32 card_dev_run_selected_operation(s32 card_index) {
     s32 *card_entry;
     s32 count;
     s32 result;

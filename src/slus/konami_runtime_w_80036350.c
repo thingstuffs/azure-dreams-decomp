@@ -30,7 +30,7 @@ void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
     u32 next_cursor;
     u32 flags_or_count;
 
-    runtime = &gameWork;
+    runtime = &g_game_work;
     flags_or_count = ((u32)runtime->unk_010);
     if (flags_or_count & 0x4000) {
         SD_Call(0x502);

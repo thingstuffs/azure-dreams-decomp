@@ -3,7 +3,7 @@
 #include "records/Rec_func_801237A4_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_801237A4();    /* extern */
+void select_paired_value_tables();    /* extern */
 typedef struct HalfValue {
     s32 pad[2];
     u16 value;
@@ -18,7 +18,7 @@ extern s32 * D_80129728[28];
 
 
 /* Swap paired slot values and linked halfwords, toggle the state flag, and update. */
-void func_801237E8(Rec_func_801237A4_arg0 *state) {
+void swap_paired_entry_values_and_node_halfwords(Rec_func_801237A4_arg0 *state) {
     s32 * *slots;
     s32 * *right_slot;
     s32 * *left_slot;
@@ -52,5 +52,5 @@ void func_801237E8(Rec_func_801237A4_arg0 *state) {
     left_value->value = right_value->value;
     ((ValueLink *) D_80129728[22])->next->value = saved_half;
     state->unk_16 = (s8) (state->unk_16 ^ 1);
-    func_801237A4(state);
+    select_paired_value_tables(state);
 }

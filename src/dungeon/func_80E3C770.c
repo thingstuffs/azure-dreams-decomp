@@ -14,10 +14,10 @@ extern s32 D_800C6AEC;
 extern void func_8004491C();
 extern void func_80044A50();
 extern void func_800478B8();
-extern void dungeonRetireTrackedEffectById();
+extern void retire_tracked_effect_by_id();
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */
-void dungeonUpdateTimedColorTransitionEffect(u8 *effect_state, s32 unused, u8 *render_data) {
+void update_timed_color_transition_effect(u8 *effect_state, s32 unused, u8 *render_data) {
     u8 *effect;
 
     switch (S16_AT(effect_state, 0x1E)) {
@@ -66,8 +66,8 @@ void dungeonUpdateTimedColorTransitionEffect(u8 *effect_state, s32 unused, u8 *r
                 U8_AT(render_data, 0xE) += -U8_AT(render_data, 0xE) / U8_AT(render_data, 0xF);
         } else {
             U16_AT(effect_state, -2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-            dungeonRetireTrackedEffectById(effect_state - 0x20);
+            object_flag_block.flags |= 0x8000;
+            retire_tracked_effect_by_id(effect_state - 0x20);
         }
         break;
     }

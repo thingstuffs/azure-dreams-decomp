@@ -28,7 +28,7 @@ typedef struct S_800ABC00_1 {
     u16 unk_0A;
     s32 unk_0C;
     s32 unk_10;
-} S_800ABC00_1;   /* held_arg0 in townSpawnPersonOffsetEffect */
+} S_800ABC00_1;   /* held_arg0 in spawn_person_offset_effect */
 
 typedef struct S_800ABC00_2 {
     u8 pad_00[0xC];
@@ -79,7 +79,7 @@ extern s32 D_800ABB20;
 extern s32 D_800D1464;
 
 /* Spawns an offset effect with randomized motion opposite the source velocity. */
-void townSpawnPersonOffsetEffect(void *source_data, u32 angle)
+void spawn_person_offset_effect(void *source_data, u32 angle)
 {
     S_800ABC00_1 *source;
     s16 *y_step;
@@ -100,8 +100,8 @@ void townSpawnPersonOffsetEffect(void *source_data, u32 angle)
         effect_state = &effect->sub20;
         effect->unk10 = &D_800ABB20;
         func_8004491C(effect, func_80045340);
-        x_steps = dirStepX;
-        y_step = &dirStepY[direction];
+        x_steps = dir_step_x;
+        y_step = &dir_step_y[direction];
         motion->unk_02 =
             (s16)(source->unk_02 -
                   (x_steps[direction] * 0x10));

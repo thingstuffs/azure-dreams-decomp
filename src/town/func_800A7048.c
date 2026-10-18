@@ -63,7 +63,7 @@ typedef struct S_800A47A8_3 {
 } S_800A47A8_3;
 
 /* Creates an object with the selected resource and initializes its display and state. */
-void townCreateResourceDisplayObject(s16 resource_index) {
+void create_resource_display_object(s16 resource_index) {
     void *object;
     S_800A47A8_3 *object_state;
     S_800A47A8_1 *component;

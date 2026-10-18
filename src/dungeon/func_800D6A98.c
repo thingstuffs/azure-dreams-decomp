@@ -5,9 +5,9 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004DC14();                    /* extern */
 u32 func_80069E98();                             /* extern */
-void dungeonDrawFillerFirstNumber(); /* extern */
-void dungeonPassGlobalDataWithFixedArgs();                            /* extern */
-M2C_UNK func_800DBEE8();
+void draw_filler_first_number(); /* extern */
+void pass_global_data_with_fixed_args();                            /* extern */
+M2C_UNK copy_cached_hud_rectangle_to_fixed_position();
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
     s32 unk_10;
@@ -21,13 +21,13 @@ typedef struct S_800DC1F8_0 {
     u8 pad_30[0xC];
     void * unk_3C;
     void * unk_40;
-} S_800DC1F8_0;   /* arg0 in dungeonUpdateDisplayTransition */
+} S_800DC1F8_0;   /* arg0 in update_display_transition */
 
 typedef struct S_800DC1F8_1 {
     u8 pad_00[0x4];
     void * unk_04;
     u16 * unk_08;
-} S_800DC1F8_1;   /* state in dungeonUpdateDisplayTransition */
+} S_800DC1F8_1;   /* state in update_display_transition */
 
 typedef struct S_800DC1F8_2 {
     u8 pad_00[0x88];
@@ -73,29 +73,29 @@ typedef struct S_800DC1F8_9 {
 typedef struct S_800DC1F8_10 {
     u8 pad_00[0x14A8];
     union { s32 i; void * p; } unk_14A8;   /* accessed as both */
-} S_800DC1F8_10;   /* page_base in dungeonUpdateDisplayTransition */
+} S_800DC1F8_10;   /* page_base in update_display_transition */
 
 typedef struct S_800DC1F8_11 {
     u8 pad_00[0x80];
     s32 unk_80;
     void * unk_84;
     u16 * unk_88;
-} S_800DC1F8_11;   /* ((S_800DC1F8_0 *)arg0)->unk_3C in dungeonUpdateDisplayTransition */
+} S_800DC1F8_11;   /* ((S_800DC1F8_0 *)arg0)->unk_3C in update_display_transition */
 
 typedef struct S_800DC1F8_12 {
     u8 pad_00[0x28];
     u8 unk_28;
-} S_800DC1F8_12;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.i in dungeonUpdateDisplayTransition */
+} S_800DC1F8_12;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.i in update_display_transition */
 
 typedef struct S_800DC1F8_13 {
     u8 pad_00[0x29];
     u8 unk_29;
-} S_800DC1F8_13;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.p in dungeonUpdateDisplayTransition */
+} S_800DC1F8_13;   /* ((S_800DC1F8_10 *)page_base)->unk_14A8.p in update_display_transition */
 
 /* extern */
 
 /* Updates a display transition, synchronizes rotation and shading, and refreshes its counters. */
-void dungeonUpdateDisplayTransition(S_800DC1F8_0 *transition, void *anim_data) {
+void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
     s32 phase_offset;
     s32 flag_or_delay;
     s32 frames_left;
@@ -153,7 +153,7 @@ void dungeonUpdateDisplayTransition(S_800DC1F8_0 *transition, void *anim_data) {
         if (transition->unk_20 != 0) {
             if (transition->unk_24 != 0) {
                 func_8004E99C(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
-                func_800DBEE8();
+                copy_cached_hud_rectangle_to_fixed_position();
                 layout = transition->unk_40;
                 layout->unk_88 = (s16) (((3 - (func_80069E98(transition->unk_2C) >> 1)) * 6) + 0xA4);
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = func_8004DC14(transition->unk_2C, 6);
@@ -166,7 +166,7 @@ void dungeonUpdateDisplayTransition(S_800DC1F8_0 *transition, void *anim_data) {
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = 0;
                 transition->unk_10 = 0;
                 transition->unk_14 = 0;
-                dungeonPassGlobalDataWithFixedArgs();
+                pass_global_data_with_fixed_args();
                 transition->unk_20 = 0;
             }
         }
@@ -219,11 +219,11 @@ void dungeonUpdateDisplayTransition(S_800DC1F8_0 *transition, void *anim_data) {
         page_base = (u8 *)0x80080000;
         first_counter = ((S_800DC1F8_12 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.i))->unk_28;
         if (first_counter != transition->unk_10) {
-            dungeonDrawFillerFirstNumber(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
+            draw_filler_first_number(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
         }
         second_counter = ((S_800DC1F8_13 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.p))->unk_29;
         if (second_counter != transition->unk_14) {
-            dungeonDrawPaddedFirstNumber(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
+            draw_padded_first_number(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }
     }
 }

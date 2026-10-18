@@ -20,10 +20,10 @@ typedef struct S_80095760_2 {
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 
-extern s16 townInputAngleWithOffset(s32, s16);
+extern s16 input_angle_with_offset(s32, s16);
 
 /* Returns the status of the active entry matching the current direction. */
-s32 townGetStatusActiveEntryMatchingDirection(void *entries)
+s32 get_status_active_entry_matching_direction(void *entries)
 {
     s16 *direction_ptr;
     s16 angle;
@@ -35,7 +35,7 @@ s32 townGetStatusActiveEntryMatchingDirection(void *entries)
     s32 entry_index;
     S_80095760_2 *entry;
 
-    angle = townInputAngleWithOffset(gameWork.buttons, gameWork.view.viewAngle);
+    angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.viewAngle);
     if (angle != -1) {
         entry_index = 0;
         direction = ((angle + 0x100) / 0x200) & 7;

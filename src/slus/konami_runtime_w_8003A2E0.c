@@ -8,7 +8,7 @@ typedef struct RuntimeState {
 } RuntimeState;
 
 /* Store a VM table word as little-endian bytes at an encoded address plus a word offset. */
-void vmOp58StoreImmediateIndexedWord(RuntimeState *state) {
+void vm_op_58_store_immediate_indexed_word(RuntimeState *state) {
     u8 *dst;
     u8 *src;
     u8 *addr_bytes;

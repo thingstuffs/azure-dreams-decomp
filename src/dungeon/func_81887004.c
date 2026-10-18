@@ -36,12 +36,12 @@ typedef struct {
 
 extern u8 D_80080A87[];
 
-extern void dungeonCreateASpriteEffectPositionRandomizedRotation(s16 x, s16 y, s16 z);
-extern void dungeonCreateQuadFragmentsVertexGridRandomizedMotionRotation(void);
+extern void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
+extern void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
 extern s32 func_80069EF8(void);
 
 /* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
-void func_80024804(EffectState *effect, Vec3s *pos)
+void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
 {
     Object *object;
     ColorObject *color;
@@ -96,7 +96,7 @@ void func_80024804(EffectState *effect, Vec3s *pos)
         secondary_rgb[2] = effect->timer * 14;
 
         for (burst_index = 0; burst_index < 4; burst_index++) {
-            dungeonCreateASpriteEffectPositionRandomizedRotation(pos->x, pos->y, pos->z);
+            create_a_sprite_effect_position_randomized_rotation(pos->x, pos->y, pos->z);
         }
         if (effect->timer >= 0x10) {
             effect->timer = 0xA0;
@@ -114,7 +114,7 @@ void func_80024804(EffectState *effect, Vec3s *pos)
         random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
         effect->timer -= D_80080A87[0];
         if (effect->timer <= 0) {
-            dungeonCreateQuadFragmentsVertexGridRandomizedMotionRotation();
+            create_quad_fragments_vertex_grid_randomized_motion_rotation();
             effect->timer = 0x10;
             effect->state++;
         }
@@ -162,7 +162,7 @@ void func_80024804(EffectState *effect, Vec3s *pos)
                 flags &= clear_effect_mask;
                 fade_object->flags = flags;
                 ((u16 *)effect)[-1] |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+                object_flag_block.flags |= 0x8000;
             }
             break;
         }

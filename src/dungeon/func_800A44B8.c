@@ -4,21 +4,21 @@
 
 extern void func_80047784();
 extern s32 func_80047D44();
-extern void loadAndUploadSpriteResource();
-extern void bindSpriteResourceSlotRecord();
-extern void dungeonClearEntryFlagAndLinkOwner();
-extern void func_8009A21C();
-extern s32 func_8009FB34();
-extern void dungeonSetRecordIntegerTileCenter();
-extern void dungeonCopyIndexedEntryData();
-extern void dungeonCreateTrackedEffect();
-extern s32 func_800BCB04();
+extern void load_and_upload_sprite_resource();
+extern void bind_sprite_resource_slot_record();
+extern void clear_entry_flag_and_link_owner();
+extern void cycle_map_cell_flags();
+extern s32 find_active_rect_containing_point();
+extern void set_record_integer_tile_center();
+extern void copy_indexed_entry_data();
+extern void create_tracked_effect();
+extern s32 sample_terrain_surface_height();
 
 extern s32 D_80081488[];
 extern s8 D_800DCF4D[];
 
 /* Initialize an entity sprite, its position, and direction-dependent display flags. */
-void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
+void initialize_actor_sprite_and_animation(void *entity, void *position, void *sprite, s32 init_flags)
 {
     s32 extra_flags;
     s32 mode;
@@ -39,21 +39,21 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
         D_800DCF4D[0] = -1;
     } else {
         if (*(u8 *)(entity_data + 0x13) != 0x38) {
-            loadAndUploadSpriteResource(*(u8 *)(entity_data + 0x13));
+            load_and_upload_sprite_resource(*(u8 *)(entity_data + 0x13));
         }
         entity_kind = *(u8 *)(entity_data + 0x13);
-        bindSpriteResourceSlotRecord(entity, entity_kind);
+        bind_sprite_resource_slot_record(entity, entity_kind);
     }
 
     *(s8 *)((u8 *)sprite + 0x26) =
-        func_8009FB34(*(u8 *)((u8 *)sprite + 0x24),
+        find_active_rect_containing_point(*(u8 *)((u8 *)sprite + 0x24),
                       *(u8 *)((u8 *)sprite + 0x25));
-    dungeonSetRecordIntegerTileCenter(position,
+    set_record_integer_tile_center(position,
                   *(u8 *)((u8 *)sprite + 0x24),
                   *(u8 *)((u8 *)sprite + 0x25));
 
     *(s16 *)(entity_data + 0x88) =
-        func_800BCB04(*(u16 *)((u8 *)position + 2),
+        sample_terrain_surface_height(*(u16 *)((u8 *)position + 2),
                       *(u16 *)((u8 *)position + 6),
                       (s16)(*(u16 *)((u8 *)position + 0xA) - 0x20));
 
@@ -64,24 +64,24 @@ void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)
 
     func_80047784(sprite,
                   (*(u8 **)((u8 *)sprite + 0x2C))[
-                      ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
+                      ((g_game_work.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7],
                   0);
 
-    dungeonClearEntryFlagAndLinkOwner(entity);
+    clear_entry_flag_and_link_owner(entity);
     if ((*(s32 *)(entity_data + 0x14) & 0x4000) == 0) {
-        dungeonCopyIndexedEntryData(entity_data);
+        copy_indexed_entry_data(entity_data);
     }
 
-    func_8009A21C(*(u8 *)((u8 *)sprite + 0x24),
+    cycle_map_cell_flags(*(u8 *)((u8 *)sprite + 0x24),
                   *(u8 *)((u8 *)sprite + 0x25),
                   (*(s32 *)(entity_data + 0x1C) & 0x2000) ? 0x300 : 0x3000);
 
     *(s8 *)(entity_data + 0x71) = 0;
     *(s32 *)(entity_data + 0x1C) |= 0x40000000;
-    dungeonCreateTrackedEffect(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
+    create_tracked_effect(entity, 0, (u8 *)sprite + 0x2C, entity_data + 0x2A);
 
-    if (dirSpriteFlag[
-            ((gameWork.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
+    if (dir_sprite_flag[
+            ((g_game_work.view.viewAngle + *(s16 *)(entity_data + 0x2A) + 0x100) >> 9) & 7] != 0) {
         *(u16 *)((u8 *)sprite + 0x14) |= 1;
         return;
     }

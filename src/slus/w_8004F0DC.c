@@ -28,7 +28,7 @@ typedef struct {
 } S_8004F0DC;
 
 /* Initialize seven slots with coordinate pairs and pointers to embedded buffers. */
-void layoutMenuBackdropDisplayEntries(S_8004F0DC *host)
+void layout_menu_backdrop_display_entries(S_8004F0DC *host)
 {
     S_8004F0DC_Slot *slot;
     void *shared_buffer;

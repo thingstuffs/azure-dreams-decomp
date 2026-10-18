@@ -2,7 +2,7 @@
 
 /* C89 default promotions keep the public final argument a word while this
  * definition gives the filter its original signed-halfword view. */
-s16 dungeonSearchOutwardForEligibleTile(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
+s16 search_outward_for_eligible_tile(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
 u16 *facing;
 s32 origin_x, origin_y;
 s8 *tiles;
@@ -41,14 +41,14 @@ s16 filter_arg;
     s8 *side_marks;
 
     facing_high = (s32)*facing << 16;
-    initial_x_steps = (s32)((u8 *)dirStepX);
+    initial_x_steps = (s32)((u8 *)dir_step_x);
     facing_offset = facing_high >> 15;
     start_x = origin_x;
     start_y = origin_y;
     saved_radius = radius;
     failures = 0;
     x = origin_x + *(u16 *)(initial_x_steps + facing_offset) * radius;
-    y = origin_y + *(u16 *)(((u8 *)dirStepY) + facing_offset) * radius;
+    y = origin_y + *(u16 *)(((u8 *)dir_step_y) + facing_offset) * radius;
 
     saved_filter = filter_arg;
 
@@ -58,7 +58,7 @@ s16 filter_arg;
         tile_index = (s16)tile_index_u16;
         tile = tiles[tile_index];
         if (tile > 0) {
-            if (dungeonHasGenerationLinkWithinPair(tile_index, (s16)filter_arg) == 0) {
+            if (has_generation_link_within_pair(tile_index, (s16)filter_arg) == 0) {
                 return tile_index;
             }
             failures = 1;
@@ -91,9 +91,9 @@ s16 filter_arg;
                 failures++;
             } else {
                 side_steps = search_radius - forward_steps;
-                side = func_800A6D30() & 1;
-                x_steps_base = (s32)((u8 *)dirStepX);
-                y_steps_base = (s32)((u8 *)dirStepY);
+                side = generate_random_value() & 1;
+                x_steps_base = (s32)((u8 *)dir_step_x);
+                y_steps_base = (s32)((u8 *)dir_step_y);
                 for (; sides_left > 0; sides_left--, side ^= 1) {
                     forward_dir = *(s16 *)facing;
                     forward_offset = forward_dir * 2;
@@ -117,7 +117,7 @@ s16 filter_arg;
                                 continue;
                             }
                             if (tile > 0) {
-                                if (dungeonHasGenerationLinkWithinPair(tile_index, (s16)saved_filter) == 0) {
+                                if (has_generation_link_within_pair(tile_index, (s16)saved_filter) == 0) {
                                     *facing = turn_dir;
                                     return tile_index;
                                 }
@@ -133,7 +133,7 @@ s16 filter_arg;
     }
 
     if (failures < 3) {
-        return dungeonSearchOutwardForEligibleTile(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
+        return search_outward_for_eligible_tile(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
                              (s16)(saved_radius + 1), (s16)saved_filter);
     }
     return -1;

@@ -28,7 +28,7 @@ extern int abs(int);
 
 
 /* Updates the effect's launch, travel, impact, and cleanup states. */
-void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
+void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect_state, B22_81893474_Motion *effect_motion, B22_81893474_ColorPart *color_part)
 {
     B22_81893474_EffectState *state;
     B22_81893474_Motion *motion;
@@ -60,10 +60,10 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
             u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
             u32 offset = (U16_AT(D_800814A8, 0x2A) >> 8) & 0xE;
 
-            U16_AT(owner, 0x2A) = dungeonGetRoundedFacingAndRoundingFlag(
+            U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(
                 node[0x24], node[0x25],
-                origin->tileX + U16_AT((u8 *)dirStepX + offset, 0),
-                origin->tileY + U16_AT((u8 *)dirStepY + offset, 0), &result);
+                origin->tileX + U16_AT((u8 *)dir_step_x + offset, 0),
+                origin->tileY + U16_AT((u8 *)dir_step_y + offset, 0), &result);
         }
         state->timer = 0;
         state->state++;
@@ -74,7 +74,7 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
     case 1:
         owner_data = (u8 *)owner - 0x20;
         owner_node = PTR_AT(owner_data, 0xC);
-        if (resolveRecordOrientationOrFallback(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
             if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 break;
             }
@@ -101,20 +101,20 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
             void *direction_node = D_800814A8;
 
             {
-                u8 *x_table = (u8 *)dirStepX;
+                u8 *x_table = (u8 *)dir_step_x;
                 direction_bits = U16_AT(direction_node, 0x2A);
                 state->x = position_base->tileX +
                     ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
             {
-                u8 *y_table = (u8 *)dirStepY;
+                u8 *y_table = (u8 *)dir_step_y;
                 direction_bits = U16_AT(direction_node, 0x2A);
                 state->y = position_base->tileY +
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
         } else {
-            state->x = D_80082E80.tileX + dirStepX[state->direction];
-            state->y = D_80082E80.tileY + dirStepY[state->direction];
+            state->x = D_80082E80.tileX + dir_step_x[state->direction];
+            state->y = D_80082E80.tileY + dir_step_y[state->direction];
         }
         {
             EntityRec *height_node;
@@ -127,13 +127,13 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
             S16_AT(target_pos, 0xA) = height_node->unk_88 - 0x20;
         }
-        S16_AT(target_pos, 0xA) = dungeonGetSurfaceHeightAtRecord(target_pos);
+        S16_AT(target_pos, 0xA) = get_surface_height_at_record(target_pos);
         state->z = S16_AT(target_pos, 0xA);
-        getOffsetMapCellValueAndFlags(state->x - 1, state->y, 0, &map_flags);
+        get_offset_map_cell_value_and_flags(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
             (target_z = S16_AT(target_pos, 0xA)) > 0x200 ||
-            (dungeonCheckLeftTileAndCenterHeight(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
-            (func_800A5690() << 16) == 0) {
+            (check_left_tile_and_center_height(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
+            (increment_bounded_event_counter() << 16) == 0) {
             state->state = 7;
         } else {
             if ((U16_AT(owner_data, 0x1E) | 0x2000) == 0) {
@@ -168,9 +168,9 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
         S32_AT(motion, 0xC) = (S32_AT(target_pos, 0) - S32_AT(motion, 0)) / state->duration;
         S32_AT(motion, 0x10) = (S32_AT(target_pos, 4) - S32_AT(motion, 4)) / state->duration;
         S32_AT(motion, 0x14) = (S32_AT(target_pos, 8) - S32_AT(motion, 8)) / state->duration;
-        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
-        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
-        dungeonCreateRandomlyRotatedSpriteObject(state, motion, state->duration);
+        create_randomly_rotated_sprite_object(state, motion, state->duration);
+        create_randomly_rotated_sprite_object(state, motion, state->duration);
+        create_randomly_rotated_sprite_object(state, motion, state->duration);
         state->timer = 0;
         break;
 
@@ -190,7 +190,7 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
         if (state->timer < 8) {
             break;
         }
-        func_800A56E0(0x300);
+        play_sound_if_enabled(0x300);
         state->timer = 0;
         state->state++;
         break;
@@ -215,9 +215,9 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
             u32 effect_id;
             s32 variation;
 
-            spawned_effect = dungeonCreateActorAtTile(state->status, state->x, state->y, state->z);
+            spawned_effect = create_actor_at_tile(state->status, state->x, state->y, state->z);
             func_80042640(spawned_effect, 51);
-            variation = func_800A6D30();
+            variation = generate_random_value();
             effect_id = U8_AT(state, 9);
             strength = effect_id >> 1;
             strength += effect_id << 1;
@@ -238,9 +238,9 @@ void dungeonUpdateEffectLaunchTravelImpactCleanup(B22_81893474_EffectState *effe
         if (state->field_14 != 0) {
             break;
         }
-        dungeonStatus.unk_0C = 0;
+        g_dungeon_status.unk_0C = 0;
         U16_AT(state, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         break;
 
     case 7:

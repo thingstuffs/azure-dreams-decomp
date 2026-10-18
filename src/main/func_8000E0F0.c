@@ -10,7 +10,7 @@ extern s32 func_80069C18(s32 slot_index);
 extern s32 func_80069C08(s32 selected_slot);
 
 /* Advance the selected entry through its completion states and return its status. */
-s32 cardAdvanceSelectedOperation(void)
+s32 card_advance_selected_operation(void)
 {
     s32 state;
     s32 result;
@@ -44,7 +44,7 @@ state_one:
             (*(s32 *)(&D_800287C8)) = 0;
         } else if ((func_80069C18(0) & 1) != 0 ||
                    (func_80069C18(1) & 1) != 0) {
-            cardBootDrainSoftwareEvents();
+            card_boot_drain_software_events();
             do {
                 state = func_80069C08((*(s32 *)(&D_800287CC)));
             } while (state == 0);

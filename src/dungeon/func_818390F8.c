@@ -9,7 +9,7 @@ s32 func_800248F8(RenderRecord *render_record, EntityRec *position)
 {
     SVECTOR world_point;
     s16 screen[4];
-    GameWork *render_state = &gameWork;
+    GameWork *render_state = &g_game_work;
     s16 *screen_base = screen;
     s32 half_width;
     s32 *projection_out = &half_width;

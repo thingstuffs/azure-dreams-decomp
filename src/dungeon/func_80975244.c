@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_9950e8.h"
 
-void createDirectionalTemplateEffect(void *unused, S_80975244_5 *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
+void create_directional_template_effect(void *unused, S_80975244_5 *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     S_80975244_2 *sprite;
     void *effect;
     S_80975244_0 *effect_state;
@@ -16,7 +16,7 @@ void createDirectionalTemplateEffect(void *unused, S_80975244_5 *source_pos, voi
         effect_state = effect + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_AA = 7;
-        ((S_80975244_1 *)effect)->unk_10 = advanceAndFadeTransformedEffect;
+        ((S_80975244_1 *)effect)->unk_10 = advance_and_fade_transformed_effect;
         effect_state->unk_B0 = source_pos;
         sprite = ((S_80975244_1 *)effect)->unk_0C;
         src = (Block16 *)template_data;
@@ -38,7 +38,7 @@ void createDirectionalTemplateEffect(void *unused, S_80975244_5 *source_pos, voi
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_8004491C(effect, func_80045340);
         sprite->unk_2C = &D_80174128;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+        func_80047784(sprite, *((((s32) (g_game_work.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
         effect_pos = ((S_80975244_1 *)effect)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;

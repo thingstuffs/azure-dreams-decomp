@@ -14,7 +14,7 @@ extern s32 D_800799B8;
 extern S_800799BC *D_800799BC;
 
 s32 func_8005D838(s32 count, S_800799BC *record);
-s32 audioGetWhetherNonSkippedBlockContainsAddressStartsBeyond(u32 address);
+s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 address);
 s32 func_8005D9DC(u32 value);
 
 #endif

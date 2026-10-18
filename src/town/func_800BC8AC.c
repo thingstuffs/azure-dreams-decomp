@@ -6,7 +6,7 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
-extern void townConfigureTheSetModeN3(void *, void *, void *);
+extern void configure_the_set_mode_n_3(void *, void *, void *);
 
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
@@ -22,7 +22,7 @@ extern u8 D_800F8A28[];
 typedef struct S_800BA00C_0_pre {
     void * unk_00;
     u8 pad_04[0xC];
-} S_800BA00C_0_pre;   /* the 0x10 bytes before arg0 in func_800BA00C, addressed as arg0[-1] */
+} S_800BA00C_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_with_child_sprites, addressed as arg0[-1] */
 
 typedef struct S_800BA00C_0 {
     u8 pad_00[0x66];
@@ -30,7 +30,7 @@ typedef struct S_800BA00C_0 {
     u8 pad_68[0x2F];
     s8 unk_97;
     s32 unk_98;
-} S_800BA00C_0;   /* arg0 in func_800BA00C */
+} S_800BA00C_0;   /* arg0 in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_1 {
     s32 unk_00;
@@ -38,7 +38,7 @@ typedef struct S_800BA00C_1 {
     union { u8 * p; s32 i; } unk_08;   /* accessed as both */
     u8 * unk_0C;
     void * unk_10;
-} S_800BA00C_1;   /* obj in func_800BA00C */
+} S_800BA00C_1;   /* obj in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_2 {
     u8 pad_00[0x8];
@@ -53,20 +53,20 @@ typedef struct S_800BA00C_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800BA00C_2;   /* sprite in func_800BA00C */
+} S_800BA00C_2;   /* sprite in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_3 {
     s32 unk_00;
     s32 unk_04;
-} S_800BA00C_3;   /* input in func_800BA00C */
+} S_800BA00C_3;   /* input in initialize_effect_with_child_sprites */
 
 typedef struct S_800BA00C_5 {
     u8 pad_00[0x66];
     s16 unk_66;
-} S_800BA00C_5;   /* (*(void * *)((u8 *)entity + 0x9C)) in func_800BA00C */
+} S_800BA00C_5;   /* (*(void * *)((u8 *)entity + 0x9C)) in initialize_effect_with_child_sprites */
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
-void func_800BA00C(void *parent, S_800BA00C_3 *position)
+void initialize_effect_with_child_sprites(void *parent, S_800BA00C_3 *position)
 {
     void *part_callback;
     GameWork *work;
@@ -115,7 +115,7 @@ void func_800BA00C(void *parent, S_800BA00C_3 *position)
 
     part_index = 0;
     part_callback = D_800B9D64;
-    work = &gameWork;
+    work = &g_game_work;
     part_params = D_800D1BCC;
     do {
         obj = func_8003FD64(0x136, (u8 *)parent - 0x20);
@@ -148,7 +148,7 @@ void func_800BA00C(void *parent, S_800BA00C_3 *position)
             } else {
                 ((S_800BA00C_1 *)obj)->unk_08.i = 0;
             }
-            townConfigureTheSetModeN3(entity, obj, *part_params);
+            configure_the_set_mode_n_3(entity, obj, *part_params);
         }
         part_index++;
         part_params++;
@@ -240,11 +240,11 @@ void func_800BA00C(void *parent, S_800BA00C_3 *position)
         ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_20 = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_1A.u = ((S_800BA00C_0 *)parent)->unk_66.u;
-        palette_red = gameWork.view.unk_090;
+        palette_red = g_game_work.view.unk_090;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = palette_red;
-        palette_green = gameWork.view.unk_091;
+        palette_green = g_game_work.view.unk_091;
         ((S_800BA00C_2 *)sprite)->unk_0D.u = palette_green;
-        palette_blue = gameWork.view.unk_092;
+        palette_blue = g_game_work.view.unk_092;
         ((S_800BA00C_2 *)sprite)->unk_0E.u = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         ((S_800BA00C_2 *)sprite)->unk_08.i = 0x19;

@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
-void dungeonUpdateGrowingRotatingFlash(void *effect, s32 unused, void *visual) {
+void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
     u16 transform_value;
     u16 ticks_left;
     s8 intensity;
@@ -22,6 +22,6 @@ void dungeonUpdateGrowingRotatingFlash(void *effect, s32 unused, void *visual) {
 
     if (*(s16 *)((u8 *)effect + 0x18) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

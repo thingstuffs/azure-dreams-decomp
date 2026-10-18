@@ -7,10 +7,10 @@ typedef struct Rec
     u8 *next;
 }
 Rec;
-extern s16 getOffsetMapCellValueAndFlags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 dungeonCheckEntityEligibility(void *entity);
+extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
+extern s32 check_entity_eligibility(void *entity);
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
-void *dungeonFindEligibleEntryAtCoordinates(u8 *entry, s16 x, s16 y)
+void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
 {
     u16 tile_flags;
     u8 *list_head;
@@ -19,13 +19,13 @@ void *dungeonFindEligibleEntryAtCoordinates(u8 *entry, s16 x, s16 y)
     tile_x = x;
     tile_y = y;
     list_head = entry;
-    if (((getOffsetMapCellValueAndFlags((s16) (tile_x - 1), y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0)) {
+    if (((get_offset_map_cell_value_and_flags((s16) (tile_x - 1), y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0)) {
         entry = ((Rec *) entry)->next + 0x20;
         if (entry != list_head) {
             do {
                 u8 *entry_data = *((u8 **) (entry - 0x14));
                 if ((((*((u8 *) (entry_data + 0x24))) == tile_x) && ((*((u8 *) (entry_data + 0x25))) == tile_y))
-                    && ((dungeonCheckEntityEligibility(entry) << 0x10) != 0)) {
+                    && ((check_entity_eligibility(entry) << 0x10) != 0)) {
                     return entry;
                 }
                 entry = ((Rec *) entry)->next + 0x20;

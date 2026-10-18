@@ -31,7 +31,7 @@ typedef struct S_8004F684 {
 extern u8 D_80071784[];
 
 /* Interpolate table values into each target's fields with scales of 30 and 12 and fixed offsets. */
-void interpolateSelectionMenuEntryCoordinates(S_8004F684 *state)
+void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)
 {
     S_8004F684 *settings;
     s32 entry_index;

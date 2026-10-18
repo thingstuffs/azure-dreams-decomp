@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1831370.h"
 
-void dungeonSetDescriptorFieldsAndFlag(void *descriptor)
+void set_descriptor_fields_and_flag(void *descriptor)
 {
     s32 saved_settings;
     s32 settings;

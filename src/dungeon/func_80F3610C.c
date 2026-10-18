@@ -11,7 +11,7 @@ typedef struct S_8017390C_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_8017390C_0;   /* arg0 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_0;   /* arg0 in spawn_appearance_object_and_advance_actor */
 
 typedef struct S_8017390C_1 {
     u8 pad_00[0x1C];
@@ -19,7 +19,7 @@ typedef struct S_8017390C_1 {
     u8 pad_20[0x28];
     u8 unk_48;
     u8 unk_49;
-} S_8017390C_1;   /* saved_arg3 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_1;   /* saved_arg3 in spawn_appearance_object_and_advance_actor */
 
 typedef struct S_8017390C_2 {
     u8 pad_00[0x8];
@@ -35,7 +35,7 @@ typedef struct S_8017390C_3 {
     u8 pad_0C[0x9C];
     s16 unk_A8;
     s16 unk_AA;
-} S_8017390C_3;   /* saved_arg1 in dungeonSpawnAppearanceObjectAndAdvanceActor */
+} S_8017390C_3;   /* saved_arg1 in spawn_appearance_object_and_advance_actor */
 
 typedef struct S_8017390C_4 {
     s32 unk_00;
@@ -62,16 +62,16 @@ typedef struct {
 
 
 extern s32 func_8004491C();
-extern s32 lookupItemCategoryMappedValue();
-extern s32 func_800A56E0();
-extern s32 dungeonUpdateActorDefeatRemoval();
-extern void *dungeonCreateTrackedEffect();
+extern s32 lookup_item_category_mapped_value();
+extern s32 play_sound_if_enabled();
+extern s32 update_actor_defeat_removal();
+extern void *create_tracked_effect();
 
 extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80173770;
 
 /* Spawns an object from stored appearance data and advances the actor's state. */
-void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
+void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 *render, void *actor_data)
 {
     s32 pos_z;
     s32 pos_x;
@@ -88,7 +88,7 @@ void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *tran
     state = actor->unk_9B;
     switch (state) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if (g_dungeon_status.unk_0A != 0) {
             return;
         }
         actor->unk_9B = 1;
@@ -118,7 +118,7 @@ void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *tran
                     render_asset = &D_8006E240;
                     spawned_render->unk_08 = render_asset;
                 } else {
-                    render_asset = (void *)lookupItemCategoryMappedValue(
+                    render_asset = (void *)lookup_item_category_mapped_value(
                         ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
                     spawned_render->unk_08 = render_asset;
                 }
@@ -126,7 +126,7 @@ void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *tran
                 ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
-                dungeonCreateTrackedEffect(spawned_obj, 0, 0, 0);
+                create_tracked_effect(spawned_obj, 0, 0, 0);
                 ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
             }
             ((S_8017390C_1 *)actor_data)->unk_48 = 0;
@@ -140,10 +140,10 @@ void dungeonSpawnAppearanceObjectAndAdvanceActor(S_8017390C_0 *actor, void *tran
         render->unk_0C = 0x808080;
         actor->unk_96 = 0x10;
         actor->unk_9B++;
-        func_800A56E0(0x805);
+        play_sound_if_enabled(0x805);
         return;
     case 2:
-        dungeonUpdateActorDefeatRemoval(actor, transform, render, actor_data);
+        update_actor_defeat_removal(actor, transform, render, actor_data);
         return;
     }
 }

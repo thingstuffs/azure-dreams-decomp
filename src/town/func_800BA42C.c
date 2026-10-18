@@ -17,7 +17,7 @@ extern u8 D_80111F28[];
 extern void func_800672D8();
 
 /* Advance the animation tick and upload the current texture and palette frames. */
-void townAdvanceBuildingTextureAndPalette(u16 *anim_tick, s32 unused, s32 upload_arg) {
+void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload_arg) {
     u16 next_tick;
     s16 phase;
     s32 dispatch_index;

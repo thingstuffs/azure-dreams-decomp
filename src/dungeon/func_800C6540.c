@@ -5,26 +5,26 @@
 typedef struct S_800CBCA0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in dungeonCheckEntityChanceAndTriggerParentAction, addressed as arg0[-1] */
+} S_800CBCA0_0_pre;   /* the 0x14 bytes before arg0 in check_entity_chance_and_trigger_parent_action, addressed as arg0[-1] */
 
 
 typedef struct S_800CBCA0_1 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_800CBCA0_1;   /* parent in dungeonCheckEntityChanceAndTriggerParentAction */
+} S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
 
 
-extern void dungeonClearPlayerLinkedActionFlags(void);
-extern void dungeonAdjustSourceValueAndFinalize();
-extern void func_800A6508();
-extern s32 func_800A6D30(void);
-extern void * dungeonCreateOwnedTileCenterEffect(s16 tile_x, u16 tile_y, s16 height, void *owner);
+extern void clear_player_linked_action_flags(void);
+extern void adjust_source_value_and_finalize();
+extern void display_fixed_item_action_message();
+extern s32 generate_random_value(void);
+extern void * create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
 
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
-s32 dungeonCheckEntityChanceAndTriggerParentAction(void *entity, s32 input_a, s32 input_b, s32 input_c)
+s32 check_entity_chance_and_trigger_parent_action(void *entity, s32 input_a, s32 input_b, s32 input_c)
 {
     S_800CBCA0_1 *parent;
     s32 action_result;
@@ -40,7 +40,7 @@ s32 dungeonCheckEntityChanceAndTriggerParentAction(void *entity, s32 input_a, s3
         }
     }
     if (D_800E3D40 == 0) {
-        random_value = (u16)func_800A6D30();
+        random_value = (u16)generate_random_value();
         if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {
             divisor = random_value % (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
             goto value_ready2;
@@ -54,18 +54,18 @@ value_ready:
 
     if (roll < 0x30) {
         parent = ((S_800CBCA0_0_pre *)entity)[-1].unk_00;
-        action_result = dungeonCreateOwnedTileCenterEffect(parent->unk_24,
+        action_result = create_owned_tile_center_effect(parent->unk_24,
                                parent->unk_25,
                                ((EntityRec *)entity)->unk_88, entity);
         if (action_result != 0) {
             if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
-                dungeonClearPlayerLinkedActionFlags();
-                dungeonAdjustSourceValueAndFinalize(entity, D_800E1AE6);
+                clear_player_linked_action_flags();
+                adjust_source_value_and_finalize(entity, D_800E1AE6);
             }
         }
     } else {
         if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
-            func_800A6508();
+            display_fixed_item_action_message();
         }
         return 1;
     }

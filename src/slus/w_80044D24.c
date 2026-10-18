@@ -38,10 +38,10 @@ void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
     s32 page_or_flags;
 
     (void)unused;
-    context = gameWork.unk_000;
+    context = g_game_work.unk_000;
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
-    contexts = (u8 **)((void * *)(&gameWork));
+    contexts = (u8 **)((void * *)(&g_game_work));
     prim = *(void **)(context + 0x8D0);
     U32_AT(scratch, 0x20) = (u32)(context + 0x70);
     U32_AT(scratch, 0x38) = 0x1000;

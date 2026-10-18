@@ -17,7 +17,7 @@ extern void func_8006733C(MainDescriptor *descriptor, void *entry);
 extern void func_80067014(s32 sync_mode);
 
 /* Copy the selected record into the destination and process three descriptor entries. */
-void func_80025FFC(void *dest, s32 record_index)
+void initialize_text_editor_context(void *dest, s32 record_index)
 {
     MainDescriptor descriptor;
     u8 *entry;

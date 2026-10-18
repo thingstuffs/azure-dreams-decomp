@@ -4,7 +4,7 @@
 typedef struct S_800DC988_0 {
     u8 pad_00[0x20];
     s32 unk_20;
-} S_800DC988_0;   /* arg0 in dungeonInitializeComplementedState */
+} S_800DC988_0;   /* arg0 in initialize_complemented_state */
 
 typedef struct S_800DC988_1 {
     u8 pad_00[0x4];
@@ -16,7 +16,7 @@ typedef struct S_800DC988_1 {
     s32 unk_30;
     u8 pad_34[0x24];
     s32 unk_58;
-} S_800DC988_1;   /* state in dungeonInitializeComplementedState */
+} S_800DC988_1;   /* state in initialize_complemented_state */
 
 typedef struct S_800DC988_2 {
     u8 pad_00[0x11];
@@ -26,15 +26,15 @@ typedef struct S_800DC988_2 {
     u8 unk_29;
     u8 pad_2A[0xD2];
     s32 unk_FC;
-} S_800DC988_2;   /* data in dungeonInitializeComplementedState */
+} S_800DC988_2;   /* data in initialize_complemented_state */
 
 
-extern s32 dungeonMoveIndexedPositionAndApply();
-extern s32 dungeonUpdateStateActivityFlags();
+extern s32 move_indexed_position_and_apply();
+extern s32 update_state_activity_flags();
 extern s16 D_8008146C[];
 
 /* Initializes state with complemented global values and updates it until completion. */
-void dungeonInitializeComplementedState(void *context) {
+void initialize_complemented_state(void *context) {
     s16 global_value = D_8008146C[0];
     S_800DC988_2 *source_data = D_800814A8;
     S_800DC988_1 *state;
@@ -45,8 +45,8 @@ void dungeonInitializeComplementedState(void *context) {
     state->unk_10 = ~source_data->unk_28;
     state->unk_14 = ~source_data->unk_29;
     state->unk_30 = ~source_data->unk_11;
-    dungeonUpdateStateActivityFlags(state);
+    update_state_activity_flags(state);
     do {
-        dungeonMoveIndexedPositionAndApply(state);
+        move_indexed_position_and_apply(state);
     } while (state->unk_58 != 0);
 }

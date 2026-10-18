@@ -3,7 +3,7 @@
 typedef struct S_800AFFB4_0 {
     u8 pad_00[0x8];
     union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_800AFFB4_0;   /* arg0 in dungeonProjectDepthStripsAndQuads */
+} S_800AFFB4_0;   /* arg0 in project_depth_strips_and_quads */
 
 typedef struct S_800AFFB4_1 {
     u8 pad_00[0x8];
@@ -54,7 +54,7 @@ typedef struct S_800AFFB4_1 {
     } unk_FC;   /* overlapping accesses */
     u8 pad_100[0x18];
     s32 unk_118;
-} S_800AFFB4_1;   /* arg2 in dungeonProjectDepthStripsAndQuads */
+} S_800AFFB4_1;   /* arg2 in project_depth_strips_and_quads */
 
 typedef struct S_800AFFB4_2_pre {
     s8 unk_00;
@@ -149,7 +149,7 @@ extern void func_8006658C();
 extern void func_8006671C();
 
 /* Projects depth strips and queues visible textured quad pairs with distance shading. */
-s32 dungeonProjectDepthStripsAndQuads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg) {
+s32 project_depth_strips_and_quads(S_800AFFB4_0 *origin, void *unused, S_800AFFB4_1 *render_data_in, u8 *packet_buffer, s16 texture_arg) {
     s32 depth_step;
     u32 cached_v;
     s32 shade_uv;

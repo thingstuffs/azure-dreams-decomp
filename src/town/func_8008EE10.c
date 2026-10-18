@@ -17,10 +17,10 @@ typedef struct WorkVec {
     s32 unused[3];
 } WorkVec;
 
-extern s32 townEvaluateSurfaceComponentsA(WorkVec *);
+extern s32 evaluate_surface_components_a(WorkVec *);
 
 /* Evaluate the vector sum and adjust a nonzero result by the entry's integer x component. */
-s16 townQueryOffsetPositionMinusX(Vec4 *vector, Vec4 *entries, s32 entry_index)
+s16 query_offset_position_minus_x(Vec4 *vector, Vec4 *entries, s32 entry_index)
 {
     WorkVec sum;
     s32 offset = entry_index * 16;
@@ -30,7 +30,7 @@ s16 townQueryOffsetPositionMinusX(Vec4 *vector, Vec4 *entries, s32 entry_index)
     sum.x = vector->x + entry->x;
     sum.y = vector->y + entry->y;
     sum.z = vector->z + entry->z;
-    result = townEvaluateSurfaceComponentsA(&sum);
+    result = evaluate_surface_components_a(&sum);
 
     if ((result << 16) == 0) {
         return 0;

@@ -18,16 +18,16 @@ typedef struct S_80173A08_0 {
     s32 unk_A0;
     u8 pad_A4[0xC];
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
-} S_80173A08_0;   /* arg0 in dungeonCompleteTimedTileMovement */
+} S_80173A08_0;   /* arg0 in complete_timed_tile_movement */
 
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
-extern s16 dungeonGetRoundedFacingAndRoundingFlag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void dungeonSetRecordIntegerTileCenter(void *, s32, s32);
-extern void dungeonAdvanceStatusTimers(void *);
+extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
+extern void set_record_integer_tile_center(void *, s32, s32);
+extern void advance_status_timers(void *);
 extern void func_800A9A04(void *);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_80171058[];
 extern u8 D_801748A0[];
@@ -35,7 +35,7 @@ extern u8 D_801748A8[];
 extern u8 D_801748B0[];
 
 /* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
-void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
+void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
 {
     s32 direction_work[2];
     s32 state;
@@ -60,7 +60,7 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
             break;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
-        facing_index = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(sprite, D_801748A0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -74,7 +74,7 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
             break;
         }
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
-        facing_index = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(sprite, D_801748A8[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
@@ -117,7 +117,7 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
             ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
             entity->flags1C |= entity_mask;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-            facing_index = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+            facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
             func_80047784(sprite, D_801748B0[facing_index & 7], 0);
             ((S_80173A08_0 *)action)->unk_9B++;
         }
@@ -130,9 +130,9 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
-        facing_index = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
+        facing_index = (g_game_work.view.viewAngle + entity->facing + 0x100) >> 9;
         func_80047784(sprite, D_801748B0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_9B++;
 
@@ -150,11 +150,11 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    dungeonSetRecordIntegerTileCenter(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonReduceActorFoodMeter(entity, 4);
-    dungeonAdvanceStatusTimers(entity);
+    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    reduce_actor_food_meter(entity, 4);
+    advance_status_timers(entity);
 
-    global_base = &dungeonStatus;
+    global_base = &g_dungeon_status;
     if (global_base->unk_08 != 0) {
         (*(u16 *)&global_base->unk_08)--;
     }
@@ -166,7 +166,7 @@ void dungeonCompleteTimedTileMovement(void *action, EntityRec *motion, void *spr
         }
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
-            entity->facing = dungeonGetRoundedFacingAndRoundingFlag(
+            entity->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                 D_80082E80.tileX, D_80082E80.tileY, direction_work);
         }

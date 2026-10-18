@@ -10,19 +10,19 @@
 typedef struct S_80173F6C_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in dungeonCreateBossDirectionalAnimation */
+} S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in create_boss_directional_animation */
 
 
 extern u8 D_80174C84[];
 extern void *D_80174CE0[];
 void *func_8003FD64();
 s32 func_8004491C(); /* extern */
-void func_8009A028(); /* extern */
-void func_8009A3D0(); /* extern */
-s32 retainSpawnResource(); /* extern */
-void func_800A9C18(); /* extern */
+void unlink_entity_node(); /* extern */
+void update_map_cell_flags_with_item_limit(); /* extern */
+s32 retain_spawn_resource(); /* extern */
+void initialize_actor_sprite_and_animation(); /* extern */
 void func_80047784(); /* extern */
-void dungeonCreateBossLinkedEffect(); /* extern */
+void create_boss_linked_effect(); /* extern */
 extern M2C_UNK D_801730AC;
 
 typedef struct S_80173F6C_0 {
@@ -66,7 +66,7 @@ typedef struct S_80173F6C_3 {
 } S_80173F6C_3;
 
 /* Create and initialize an object with offset coordinates and directional animation. */
-void dungeonCreateBossDirectionalAnimation(void) {
+void create_boss_directional_animation(void) {
     M2C_UNK unused;
     S_80173F6C_3 *sprite;
     S_80173F6C_0 *object_state;
@@ -88,20 +88,20 @@ void dungeonCreateBossDirectionalAnimation(void) {
         sprite->unk_24 = (u8) (D_80082E80.tileX + 9);
         sprite->unk_25 = (u8) (D_80082E80.tileY - 9);
         sprite->unk_2C = D_80174C84;
-        func_800A9C18(object, model, sprite, 0);
+        initialize_actor_sprite_and_animation(object, model, sprite, 0);
         object_state->unk_B6 = 1;
         object_state->unk_2A = 0x800;
-        func_80047784(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle + 0x900) >> 9) & 7], 0);
+        func_80047784(sprite, sprite->unk_2C[((s32) (g_game_work.view.viewAngle + 0x900) >> 9) & 7], 0);
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        func_8009A3D0(sprite->unk_24, sprite->unk_25,
+        update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25,
                       (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        func_8009A028(object_state);
+        unlink_entity_node(object_state);
         ((S_80173F6C_1 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173F6C_1 *)object)->unk_10 | 0x80000000);
-        dungeonCreateBossLinkedEffect(object_state, model, sprite);
+        create_boss_linked_effect(object_state, model, sprite);
         sprite_flags = sprite->unk_14;
         *D_80174CE0 = object;
         sprite->unk_14 = (u16) (sprite_flags | 0x80);
-        retainSpawnResource(0x18, 1);
+        retain_spawn_resource(0x18, 1);
     }
 }

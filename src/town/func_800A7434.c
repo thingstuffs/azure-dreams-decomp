@@ -16,20 +16,20 @@ typedef struct {
 } UnkStruct_800A7434;
 
 
-extern void townRestartOrAdvanceTargetInterpolation(UnkStruct_800A7434 *);
+extern void restart_or_advance_target_interpolation(UnkStruct_800A7434 *);
 /* Reset state when the value source changes; otherwise copy its three values. */
-void townResetOrCopyStateValues(UnkStruct_800A7434 *state) {
+void reset_or_copy_state_values(UnkStruct_800A7434 *state) {
     s32 *values;
 
     values = state->unk00;
     if (values != state->unk04) {
         state->unk20 = 9;
-        state->unk28 = townRestartOrAdvanceTargetInterpolation;
+        state->unk28 = restart_or_advance_target_interpolation;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
         state->unk04 = values;
-        townRestartOrAdvanceTargetInterpolation(state);
+        restart_or_advance_target_interpolation(state);
         return;
     }
     state->unk08 = values[0];

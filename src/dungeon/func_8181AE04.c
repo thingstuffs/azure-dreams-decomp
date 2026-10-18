@@ -3,7 +3,7 @@
 #include "shared/dir_step.h"
 
 extern s32 rand(void);
-extern s16 func_800BCB04(u16, u16, s16);
+extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s16 D_80025914;
 
 /* Applies randomized movement and reduces speed, setting flags when speed runs out. */
@@ -15,12 +15,12 @@ void func_8181AE04(void *object_data, s16 *position)
     s32 delta_y;
 
     D_80025914 = 1;
-    if (position[5] < func_800BCB04((u16)position[1], (u16)position[3], position[5] + 2)) {
-        delta_x = ((dirStepX[object[10]] * object[25]) << 10) +
+    if (position[5] < sample_terrain_surface_height((u16)position[1], (u16)position[3], position[5] + 2)) {
+        delta_x = ((dir_step_x[object[10]] * object[25]) << 10) +
             (rand() & 0xFFFF);
         ((s32 *)position)[0] += delta_x;
 
-        delta_y = ((dirStepY[object[10]] * object[25]) << 10) +
+        delta_y = ((dir_step_y[object[10]] * object[25]) << 10) +
             (rand() & 0xFFFF);
         ((s32 *)position)[1] += delta_y;
         ((s32 *)position)[2] += 0x20000 + (rand() & 0xFFF);
@@ -30,6 +30,6 @@ void func_8181AE04(void *object_data, s16 *position)
     object[25] = speed;
     if ((speed << 16) <= 0) {
         ((u16 *)object)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

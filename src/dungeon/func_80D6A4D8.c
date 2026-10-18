@@ -27,7 +27,7 @@ typedef struct S_80175CD8_0 {
     union { s16 s; u16 u; } unk_A2;   /* accessed as both */
     u8 pad_A4[0x10];
     union { s16 s; u16 u; } unk_B4;   /* accessed as both */
-} S_80175CD8_0;   /* arg0 in dungeonUpdateActorApproachDescentReturn */
+} S_80175CD8_0;   /* arg0 in update_actor_approach_descent_return */
 
 
 typedef struct S_80175CD8_3 {
@@ -38,12 +38,12 @@ typedef struct S_80175CD8_3 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175CD8_3;   /* arg1 in dungeonUpdateActorApproachDescentReturn */
+} S_80175CD8_3;   /* arg1 in update_actor_approach_descent_return */
 
 typedef struct S_80175CD8_4 {
     u8 pad_00[0x14];
     u32 unk_14;
-} S_80175CD8_4;   /* held in dungeonUpdateActorApproachDescentReturn */
+} S_80175CD8_4;   /* held in update_actor_approach_descent_return */
 
 typedef struct S_80175CD8_5 {
     u8 pad_00[0x8];
@@ -52,14 +52,14 @@ typedef struct S_80175CD8_5 {
     u32 unk_1C;
     u8 pad_20[0x68];
     union { u16 s; s16 u; } unk_88;   /* accessed as both */
-} S_80175CD8_5;   /* globals in dungeonUpdateActorApproachDescentReturn */
+} S_80175CD8_5;   /* globals in update_actor_approach_descent_return */
 
 typedef struct S_80175CD8_6 {
     u8 pad_00[0x14];
     u32 unk_14;
     u8 pad_18[0x7A];
     s16 unk_92;
-} S_80175CD8_6;   /* global_ptr in dungeonUpdateActorApproachDescentReturn */
+} S_80175CD8_6;   /* global_ptr in update_actor_approach_descent_return */
 
 
 typedef struct WorldStatePage {
@@ -84,23 +84,23 @@ extern s32 D_80171F1C;
 extern void func_80040AA0(u8);
 extern s32 func_800429E4(void *);
 extern void func_80047784(void *, u8, s32);
-extern void markSpriteResourcesForPurge(void);
-extern void dungeonSnapshotInventoryAndFamiliars(void *);
-extern void dungeonSnapshotInventoryFamiliarRecords(void);
-extern void dungeonClearPlayerLinkedActionFlags(void);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern void mark_sprite_resources_for_purge(void);
+extern void snapshot_inventory_and_familiars(void *);
+extern void snapshot_inventory_familiar_records(void);
+extern void clear_player_linked_action_flags(void);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void func_80099290(s8 *byte_ptr);
-extern s32 dungeonWriteTextByteAndAdvance(s8 value, s8 *dest);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_800A56E0(s32);
-extern void func_800A5720(s8 *text);
-extern void func_800A6780(void);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void dungeonCreateOrbitingTeleportEffect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
+extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void play_sound_if_enabled(s32);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
+extern void check_action_boundary_and_set_flag(void);
+extern void reduce_actor_food_meter(void *, s32);
+extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
-void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *sprite, void *actor)
+void update_actor_approach_descent_return(void *action, void *motion, void *sprite, void *actor)
 {
     s32 slot;
     s32 companion_type;
@@ -143,7 +143,7 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
             tile_dy = __builtin_abs(tile_dy);
             ((S_80175CD8_0 *)action)->unk_96.s = ((tile_dx + tile_dy) * 4) + 9;
             ((S_80175CD8_0 *)action)->unk_9B++;
-            dungeonReduceActorFoodMeter(effect_actor, effect_flags);
+            reduce_actor_food_meter(effect_actor, effect_flags);
         }
 
             if (D_80082E80.tileX == ((Rec_D_80082E80 *)sprite)->unk_24) {
@@ -174,7 +174,7 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
                         companion = *(u8 **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
                         if ((companion != 0) && (companion != (u8 *)actor)) {
                             companion_type = func_800429E4(companion);
-                            dungeonCreateOrbitingTeleportEffect(companion, D_800DCED4[companion_type], (s16)slot, 0);
+                            create_orbiting_teleport_effect(companion, D_800DCED4[companion_type], (s16)slot, 0);
                         }
                         slot++;
                     } while (slot < 2);
@@ -219,11 +219,11 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
 
         case 2:
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
-            facing = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+            facing = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             func_80047784(sprite, D_800E2368[facing & 7], 0);
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B++;
-            dungeonClearPlayerLinkedActionFlags();
+            clear_player_linked_action_flags();
             return;
 
         case 3:
@@ -242,7 +242,7 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
                 ((S_80175CD8_0 *)action)->unk_96.s = 0;
                 ((S_80175CD8_4 *)player)->unk_14 |= 0x100000;
             }
-            func_800A56E0(0x603);
+            play_sound_if_enabled(0x603);
             return;
 
         case 4:
@@ -278,9 +278,9 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
             return;
 
         case 6:
-            dungeonSnapshotInventoryAndFamiliars(((u8 *)D_800E3D7C));
-            dungeonSnapshotInventoryFamiliarRecords();
-            func_800A6780();
+            snapshot_inventory_and_familiars(((u8 *)D_800E3D7C));
+            snapshot_inventory_familiar_records();
+            check_action_boundary_and_set_flag();
             {
                 u8 *scene_page;
                 u8 *counter_page;
@@ -304,7 +304,7 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
                 *(u16 *)((u8 *)floor_stats + 4) = next_floor;
                 func_80040AA0(map_id);
             }
-            markSpriteResourcesForPurge();
+            mark_sprite_resources_for_purge();
             ((S_80175CD8_3 *)motion)->unk_14 = 0;
             ((S_80175CD8_3 *)motion)->unk_10 = 0;
             ((S_80175CD8_3 *)motion)->unk_0C = 0;
@@ -334,20 +334,20 @@ void dungeonUpdateActorApproachDescentReturn(void *action, void *motion, void *s
             ((S_80175CD8_0 *)action)->unk_9B++;
 
             if ((D_80012090 != 0) || (D_8008146C != 0x28)) {
-                text_start = func_800990FC();
-                text_end = func_80099194(D_80170940, text_start);
-                text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
-                text_end = func_80099194(D_80170950, text_end);
-                text_end = dungeonWriteTextByteAndAdvance(0xA, text_end);
-                text_end = func_80099194(D_80170988, text_end);
-                text_end = func_80099734(actor, text_end);
-                text_end = func_80099194(D_80170994, text_end);
+                text_start = get_unused_text_buffer();
+                text_end = expand_text_control_codes(D_80170940, text_start);
+                text_end = write_text_byte_and_advance(0xA, text_end);
+                text_end = expand_text_control_codes(D_80170950, text_end);
+                text_end = write_text_byte_and_advance(0xA, text_end);
+                text_end = expand_text_control_codes(D_80170988, text_end);
+                text_end = append_entity_display_text(actor, text_end);
+                text_end = expand_text_control_codes(D_80170994, text_end);
             } else {
-                text_start = func_800990FC();
-                text_end = func_80099194(D_801709B8, text_start);
+                text_start = get_unused_text_buffer();
+                text_end = expand_text_control_codes(D_801709B8, text_start);
             }
             func_80099290(text_end);
-            func_800A5720(text_start);
+            display_text_with_fullwidth_adjustment(text_start);
 
         case 8:
             target_x = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
@@ -402,11 +402,11 @@ decrement_timer:
             ((S_80175CD8_3 *)motion)->unk_0C = 0;
             ((S_80175CD8_0 *)action)->unk_8C = &D_80171F1C;
             ((S_80175CD8_0 *)action)->unk_9A = 0xE;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
             (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
-            facing = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+            facing = (g_game_work.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             func_80047784(sprite, D_800E2348[facing & 7], 0);
             ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 1;
             ((S_80175CD8_0 *)action)->unk_A2.s = 0;

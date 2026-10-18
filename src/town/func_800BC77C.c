@@ -15,13 +15,13 @@ typedef struct {
 extern void func_80033D08(void *block_data);
 
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
-void func_800B9EDC(Obj *obj, void *unused, State *state)
+void update_inactive_object_state(Obj *obj, void *unused, State *state)
 {
     s32 t;
     if (*obj->field_98 == 0) {
         func_80033D08(obj);
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
         return;
     }
 

@@ -6,7 +6,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern s32 townMapAngleToCardinalDirection(s16 angle);
+extern s32 map_angle_to_cardinal_direction(s16 angle);
 extern u8 D_80082660;
 extern s32 D_80082A38[];
 /* player_now_ang_get: Store the current player angle when the player slot is available. */
@@ -24,7 +24,7 @@ void player_now_ang_get(void)
         player = *((void **) (player_slot + 4));
         if (player != 0) {
             slot_index = 0x12;
-            player_angle = townMapAngleToCardinalDirection(*((s16 *) (((u8 *) player) + 0x30)));
+            player_angle = map_angle_to_cardinal_direction(*((s16 *) (((u8 *) player) + 0x30)));
             script_values[slot_index] = player_angle;
         }
     }

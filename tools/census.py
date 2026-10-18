@@ -29,7 +29,7 @@ def audit_index():
 
 DECL_LINE = re.compile(r"^[ \t]*(?!(?:return|goto|if|else|while|for|switch|case|do)\b)(?:extern[ \t]+)?[A-Za-z_][A-Za-z0-9_ \t\*]*\b(?P<name>func_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)[ \t]*\([^;{]*\)[ \t]*(?:__attribute__[^;]*)?;[ \t]*$")   # a type-prefixed prototype, never a `return f();` statement
 
-VOID_DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(\s*void\s*\)\s*\{", re.M)
+VOID_DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**([A-Za-z_]\w*)\s*\(\s*void\s*\)\s*\{", re.M)
 
 # A function DEFINITION header (never a call): a type-prefixed `func_XXXXXXXX(...)` whose paren list
 # holds no `;`/`{` and which is followed by the body brace.  Used by live_sites to stop a row's own
@@ -70,6 +70,7 @@ def void_exact_targets():
     Built once, lazily, from a single pass over src/{main,town,dungeon,slus}/*.c."""
     global _VOID_EXACT_TARGETS
     if _VOID_EXACT_TARGETS is None:
+        from call_arity import _func_key
         base = {}
         p = LEDGER / "baseline.jsonl"
         if p.exists():
@@ -92,7 +93,10 @@ def void_exact_targets():
                     # mirrors levels.py's own L0 test: an slus row's baseline never carries
                     # `exact` (only `status`), so its verdict is `status == "ok"` there
                     if b and (b.get("exact") is True or (cdir == "slus" and b.get("status") == "ok")):
-                        targets.add(m.group(1))
+                        # Audit sites use func_HEX identities even after a source rename.
+                        key = _func_key(m.group(1))
+                        if key:
+                            targets.add(key)
         _VOID_EXACT_TARGETS = targets | declared_void_callees()
     return _VOID_EXACT_TARGETS
 

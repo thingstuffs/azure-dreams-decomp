@@ -17,21 +17,21 @@ typedef struct S_800D991C_0 {
     u8 unk_9B;
     u8 pad_9C[0x8];
     s32 unk_A4;
-} S_800D991C_0;   /* arg0 in dungeonUpdateActorLanding */
+} S_800D991C_0;   /* arg0 in update_actor_landing */
 
 
 void func_8003DB94();        /* extern */
-s16 dungeonGetRoundedFacingAndRoundingFlag();       /* extern */
-void dungeonSetRecordIntegerTileCenter();              /* extern */
-s32 dungeonAdvanceStatusTimers();                      /* extern */
+s16 get_rounded_facing_and_rounding_flag();       /* extern */
+void set_record_integer_tile_center();              /* extern */
+s32 advance_status_timers();                      /* extern */
 M2C_UNK func_800A9A04();                      /* extern */
-void dungeonReduceActorFoodMeter();             /* extern */
-s32 dungeonCheckActorFloorTrap();                  /* extern */
+void reduce_actor_food_meter();             /* extern */
+s32 check_actor_floor_trap();                  /* extern */
 extern M2C_UNK D_800D8C64;
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void dungeonUpdateActorLanding(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
+void update_actor_landing(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
     s32 direction_aux;
     void **animation_table;
     s32 frames_left;
@@ -83,10 +83,10 @@ void dungeonUpdateActorLanding(void *motion_state, EntityRec *transform, void *m
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             animation_table = D_800E262C;
             (*(void **)((u8 *)map_entity + 0x2C)) = animation_table;
-            func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (gameWork.view.viewAngle
+            func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
         }
@@ -97,22 +97,22 @@ void dungeonUpdateActorLanding(void *motion_state, EntityRec *transform, void *m
             transform->flags14 = 0;
             transform->unk_10 = 0;
             transform->unk_0C = 0;
-            dungeonSetRecordIntegerTileCenter(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-            dungeonReduceActorFoodMeter(actor, 4);
-            dungeonAdvanceStatusTimers(actor);
-            if (dungeonStatus.unk_08 != 0) {
-                dungeonStatus.unk_08 = (s16) ((u16) dungeonStatus.unk_08 - 1);
+            set_record_integer_tile_center(transform, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            reduce_actor_food_meter(actor, 4);
+            advance_status_timers(actor);
+            if (g_dungeon_status.unk_08 != 0) {
+                g_dungeon_status.unk_08 = (s16) ((u16) g_dungeon_status.unk_08 - 1);
             }
             actor_flags = actor->flags1C;
             if (!(actor_flags & 0x2000)) {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->facing = dungeonGetRoundedFacingAndRoundingFlag(((Rec_D_80082E80 *)map_entity)->unk_24,
+                        actor->facing = get_rounded_facing_and_rounding_flag(((Rec_D_80082E80 *)map_entity)->unk_24,
                             ((Rec_D_80082E80 *)map_entity)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
                     }
                 }
             }
-            if ((dungeonCheckActorFloorTrap(map_entity, actor) << 0x10) > 0) {
+            if ((check_actor_floor_trap(map_entity, actor) << 0x10) > 0) {
                 ((S_800D991C_0 *)motion_state)->unk_8C = &D_800D8C64;
                 func_800A9A04(actor);
             }

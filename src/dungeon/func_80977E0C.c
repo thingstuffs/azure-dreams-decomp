@@ -19,23 +19,23 @@ typedef struct S_8017360C_0 {
     u16 unk_9E;
     u8 pad_A0[0x2];
     u16 unk_A2;
-} S_8017360C_0;   /* arg0 in dungeonAdvanceActorStateSequence */
+} S_8017360C_0;   /* arg0 in advance_actor_state_sequence */
 
 
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
-extern s32 dungeonCheckEntityRelation(void *, void *);
-extern s32 dungeonGetTileChebyshevDistance(void *, void *);
-extern s32 func_800A2C34(void *);
-extern s32 func_800A6D30();
+extern s32 check_entity_relation(void *, void *);
+extern s32 get_tile_chebyshev_distance(void *, void *);
+extern s32 has_pending_actor_or_turn_action(void *);
+extern s32 generate_random_value();
 extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void dungeonBeginPushedActorMove(void *, void *, void *, void *);
-extern s32 dungeonBeginReadyActorDirectionalAction(void *, void *, void *, s32);
-extern void dungeonAdvanceActorPendingAction(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void func_80173E00(void *, void *, void *, void *);
+extern void update_actor_status_and_food(void *);
+extern void begin_pushed_actor_move(void *, void *, void *, void *);
+extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
+extern void advance_actor_pending_action(void *, void *, void *, void *);
+extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
+extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
 extern u8 D_801714D4[];
 extern u8 D_801740F0[];
@@ -46,7 +46,7 @@ extern u8 D_80174160[];
 
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity, EntityRec *actor)
+void advance_actor_state_sequence(void *action, void *context, void *entity, EntityRec *actor)
 {
     s32 effect_entry;
     s32 next_state;
@@ -66,11 +66,11 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
             local_table_0 = D_801740F8;
 
             (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-            effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
             func_80047784(entity, *(u8 *)effect_entry, 0);
-            dungeon_state = &dungeonStatus;
+            dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)--;
             next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
             ((S_8017360C_0 *)action)->unk_9B = next_state;
@@ -88,7 +88,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         local_table_1 = D_80174150;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -108,7 +108,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         local_table_2 = D_80174158;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -123,7 +123,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
     {
         u8 *local_table_3;
         if ((func_80042900(actor, 1) << 16) != 0) {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
             if ((dungeon_state->flags & 0x1000) != 0) {
@@ -131,7 +131,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
             }
 
             if ((actor->unk_64 != 0) &&
-                dungeonBeginReadyActorDirectionalAction(action, context, entity, 0)) {
+                begin_ready_actor_directional_action(action, context, entity, 0)) {
                 return;
             }
 
@@ -139,17 +139,17 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
-                dungeonAdvanceActorPendingAction(action, context, entity, actor);
+                advance_actor_pending_action(action, context, entity, actor);
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 return;
             }
 
             actor_flags = actor->flags1C;
             if ((actor_flags & 0x100) != 0) {
-                dungeonBeginPushedActorMove(action, context, entity, actor);
+                begin_pushed_actor_move(action, context, entity, actor);
                 return;
             }
 
@@ -158,13 +158,13 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
                 if ((actor_flags & adjustment_flag) != 0) {
                     u16 remaining_amount;
 
-                    func_800AA888(action, context, entity, actor);
+                    begin_actor_move_to_target_facing(action, context, entity, actor);
                     remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
                     remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
                     ((S_8017360C_0 *)action)->unk_A2 = 0;
                     ((S_8017360C_0 *)action)->unk_9E = 0;
                     ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
-                    func_80173E00(action, context, entity, actor);
+                    update_directional_sprite_state_and_signals(action, context, entity, actor);
                     return;
                 }
             }
@@ -173,23 +173,23 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
                 return;
             }
 
-            if ((s16)func_800A2C34(actor) != 0) {
+            if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
                 EntityRec *owner = D_800814A8;
 
-                if ((s16)dungeonCheckEntityRelation(actor,
+                if ((s16)check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            func_800A9A0C(actor);
+            update_actor_status_and_food(actor);
             func_800A9A04(actor);
             if ((func_80042900(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
-                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)dungeonGetTileChebyshevDistance(room_base, entity) < 2) {
-                    if ((func_800A6D30() & 7) == 0) {
+                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {
+                    if ((generate_random_value() & 7) == 0) {
                         func_80042B68(actor, 1);
                     }
                 }
@@ -202,7 +202,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         local_table_3 = D_80174160;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -211,7 +211,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         }
         ((S_8017360C_0 *)action)->unk_9B++;
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)++;
         }
         return;
@@ -234,7 +234,7 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         func_80047784(entity, *(u8 *)effect_entry, 0);
@@ -254,12 +254,12 @@ void dungeonAdvanceActorStateSequence(void *action, void *context, void *entity,
         local_table_5 = D_801740F0;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)--;
         }
         break;

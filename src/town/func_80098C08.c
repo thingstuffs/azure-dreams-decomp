@@ -8,12 +8,12 @@ typedef struct {
     s32 unused[3];
 } Vec3s32;
 
-extern s16 townMinIndexedQuery();
+extern s16 min_indexed_query();
 extern void *D_800D0410[3];
 extern s32 D_800FE5CC[3];
 
 /* Return the lower probe result, sampling an X offset when the displacement exceeds the limit. */
-s32 townGetLowerProbeResultSamplingXOffsetDisplacementExceedsLimit(Vec3s32 *input_pos) {
+s32 get_lower_probe_result_sampling_x_offset_displacement_exceeds_limit(Vec3s32 *input_pos) {
     Vec3s32 probe_pos;
     s16 initial_result;
     s32 result;
@@ -22,13 +22,13 @@ s32 townGetLowerProbeResultSamplingXOffsetDisplacementExceedsLimit(Vec3s32 *inpu
     probe_pos.x = input_pos->x;
     probe_pos.y = input_pos->y;
     probe_pos.z = input_pos->z;
-    initial_result = townMinIndexedQuery(&probe_pos, D_800D0410[0], 6);
+    initial_result = min_indexed_query(&probe_pos, D_800D0410[0], 6);
     x_delta = D_800FE5CC[0];
     if (abs(x_delta) <= 0x140000) {
         return initial_result;
     }
     probe_pos.x = input_pos->x - (x_delta / 2);
-    result = townMinIndexedQuery(&probe_pos, D_800D0410[0], 6);
+    result = min_indexed_query(&probe_pos, D_800D0410[0], 6);
     if (result < initial_result) {
         return result;
     }

@@ -29,7 +29,7 @@ extern void func_800A97C8(void *, void *, void *, void *);
 extern void func_800A9BB8(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
 extern void func_801709C0(void *, s32, void *, void *);
-extern void func_80170BE0(void *, void *, void *, void *);
+extern void update_actor_movement_direction(void *, void *, void *, void *);
 extern s32 func_80171330(void *, void *, void *, s32);
 extern void func_801726B8(void *, void *, void *, void *);
 extern void func_80172D6C(void *, void *, void *);
@@ -73,7 +73,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
-void dungeonUpdateObjectAnimationDispatchesActionAdjustsFacing(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
+void update_object_animation_dispatches_action_adjusts_facing(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
 {
     u32 entry_status = D_80085990.flags;
     s32 state_flags;
@@ -163,7 +163,7 @@ void dungeonUpdateObjectAnimationDispatchesActionAdjustsFacing(ActorActionWork *
         }
 
         if (sprite->position.packed == *(u16 *)(&D_80081490.tileX)) {
-            func_80170BE0(action, context, sprite, actor);
+            update_actor_movement_direction(action, context, sprite, actor);
             return;
         }
 
@@ -193,7 +193,7 @@ void dungeonUpdateObjectAnimationDispatchesActionAdjustsFacing(ActorActionWork *
             }
             actor->unk_46 |= 0x4000;
             if ((actor->unk_46 & 0x8000) == 0) {
-                func_80170BE0(action, context, sprite, actor);
+                update_actor_movement_direction(action, context, sprite, actor);
                 return;
             }
         }
@@ -226,7 +226,7 @@ void dungeonUpdateObjectAnimationDispatchesActionAdjustsFacing(ActorActionWork *
         case 9:
         case 10:
         default:
-            func_80170BE0(action, context, sprite, actor);
+            update_actor_movement_direction(action, context, sprite, actor);
             return;
         }
     }

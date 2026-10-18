@@ -1,5 +1,5 @@
 /* Relink of matched dungeon/func_80BEB258; every changed retail word is a paired relocation. */
-#define dungeonUpdateEntityFacingAndGround func_8015EA58
+#define update_entity_facing_and_ground func_8015EA58
 #define D_8017420C D_8016220C
 #define D_8017426C D_8016226C
 #include "modules/dungeon_resource16_slot0.h"
@@ -22,7 +22,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
     R16_80170A58_Callback gated_callback;
     R16_80170A58_Callback update_callback;
 
-    if (dungeonStatus.flags & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         gated_callback = (*(R16_80170A58_Callback *)((u8 *)entity + 0x8C));
         if (gated_callback == (R16_80170A58_Callback)((u8 *)func_8015F014)) {
             gated_callback(entity, motion, sprite, entity);
@@ -33,7 +33,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
     }
 
     previous_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
-    if (dungeonRefreshActorFacingAndLifecycle(entity, motion, sprite, entity) != 0) {
+    if (refresh_actor_facing_and_lifecycle(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -43,7 +43,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
     }
     ((R16_80170A58_Callback *)D_8016226C)[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     if (previous_state != (*(s8 *)((u8 *)entity + 0x6D))) {
-        func_800AA36C(entity, motion, sprite, entity);
+        try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }
 
     motion->x.v += motion->unk_0C;
@@ -59,18 +59,18 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
 
     part_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
     if (!(part_flags & 0x8000)) {
-        view_dir = ((gameWork.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
+        view_dir = ((g_game_work.view.viewAngle + state->unk_2A + 0x100) >> 9) & 7;
         dir_index = view_dir;
         if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
-            selectIndirectTableEntry(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
+            select_indirect_table_entry(sprite,(u8)(((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index]),(s8)(((Rec_D_80082E80 *)sprite)->unk_04.as_s8));
             (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
-        if (dirSpriteFlag[dir_index] != 0) {
+        if (dir_sprite_flag[dir_index] != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
         } else {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
         }
-        dungeonApplyMonsterKoyawData(state->unk_1C, (u8 *)sprite + 0xC);
+        apply_monster_koyaw_data(state->unk_1C, (u8 *)sprite + 0xC);
         if (!(state->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);
@@ -93,7 +93,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
+                sample_terrain_surface_height(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
                 hover_limit = -0x20;
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
@@ -109,7 +109,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = 0;
             (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
+                ground_delta = sample_terrain_surface_height(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
@@ -136,7 +136,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0xA0)) = 0;
             (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                ground_delta = func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
+                ground_delta = sample_terrain_surface_height(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20))) -
                         state->unk_88;
                 if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
@@ -154,7 +154,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
                 }
             }
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-                func_800BCB04(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
+                sample_terrain_surface_height(((u16)motion->x.w.i), ((u16)motion->y.w.i),(s16)((s16)(state->unk_88 - 0x20)));
                 hover_limit = -0x20;
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
@@ -170,7 +170,7 @@ void func_8015EA58(void *entity, EntityRec *motion, void *sprite)
     entity_flags = state->unk_1C;
     if (entity_flags & 0x40000000) {
         state->unk_1C = entity_flags & 0xBFFFFFFF;
-        ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
+        ground_height = sample_terrain_surface_height((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
                                (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,(s16)((s16)(state->unk_88 - 0x20)));
         if ((s16)ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =

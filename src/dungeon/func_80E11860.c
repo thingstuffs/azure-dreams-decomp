@@ -47,7 +47,7 @@ extern M2C_UNK D_800DEA68;
 extern M2C_UNK D_80174F64;
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
-s32 dungeonCreateRandomizedMotionObject(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
+s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
     s32 color;
     s32 four;
     s32 phase_rand;

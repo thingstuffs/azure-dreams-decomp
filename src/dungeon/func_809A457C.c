@@ -11,7 +11,7 @@ typedef struct Pair {
 
 extern void *func_8003FD64();
 extern void func_8004491C();
-extern void dungeonDrawTexturedEllipse();
+extern void draw_textured_ellipse();
 extern u8 D_80175B1C[12];
 extern u8 D_80175FA8[12];
 extern u8 D_80175FB4[12];
@@ -41,10 +41,10 @@ typedef struct S_80175D7C_2 {
 typedef struct S_80175D7C_3 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_80175D7C_3;   /* arg0 in dungeonCreateLinkedChildObject */
+} S_80175D7C_3;   /* arg0 in create_linked_child_object */
 
 /* Creates and initializes a child object linked to its parent state. */
-void dungeonCreateLinkedChildObject(void *parent_state) {
+void create_linked_child_object(void *parent_state) {
     Pair pair;
     s32 pair_first;
     s32 pair_second;
@@ -70,7 +70,7 @@ void dungeonCreateLinkedChildObject(void *parent_state) {
         child_state->unk_0C = 0x30;
         pair.second = pair_second;
         pair.first = pair_first;
-        dungeonDrawTexturedEllipse(D_80175FB4, pair_ptr, 1, 0);
+        draw_textured_ellipse(D_80175FB4, pair_ptr, 1, 0);
     }
 }
 

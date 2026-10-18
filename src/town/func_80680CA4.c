@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Copy, in this TOWN script module, of the module-0 helper townFindEligibleEntry (src/town/func_8032F794.c). */
+/* Copy, in this TOWN script module, of the module-0 helper find_eligible_entry (src/town/func_8032F794.c). */
 
 typedef struct ScriptContext ScriptContext;
 
@@ -20,7 +20,7 @@ struct ScriptContext {
 };
 
 extern void func_80017BB8(s32 records, s32 count);
-extern s32 func_80018594(s32 flag);
+extern s32 initialize_state_two_entries_pointer(s32 flag);
 extern s32 D_800189E0;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_800189E0 is set. */
@@ -31,7 +31,7 @@ s32 func_80017CA4(ScriptContext *context) {
     do {
         D_800189E0 = 0;
         entry_index = 0;
-        while (func_80018594(context->entries[entry_index].flag) != 0 ||
+        while (initialize_state_two_entries_pointer(context->entries[entry_index].flag) != 0 ||
                context->entries[entry_index].callback(context, entry_index) != 0) {
             entry_index++;
         }

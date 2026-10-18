@@ -10,7 +10,7 @@ typedef struct S_8009F868_0 {
     u16 unk_08;
     u16 unk_0A;
     u8 * unk_0C;
-} S_8009F868_0;   /* state in dungeonAdvanceMonsterTimedSequence */
+} S_8009F868_0;   /* state in advance_monster_timed_sequence */
 
 extern u8 D_800DCE60[16];
 
@@ -19,7 +19,7 @@ extern void func_8004D7A8(s32);
 extern void func_8004D294(s32, void *, s32);
 
 /* Advances a timed sequence, following relative jumps and handling its end. */
-void *dungeonAdvanceMonsterTimedSequence(void)
+void *advance_monster_timed_sequence(void)
 {
     u8 *state;
     u8 *entry;
@@ -38,7 +38,7 @@ void *dungeonAdvanceMonsterTimedSequence(void)
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
         func_8004D0C8(((u8 *)(&D_80083780)));
-        gameWork.view.slot[2].callback = 0;
+        g_game_work.view.slot[2].callback = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 8);
         return 0;
@@ -47,7 +47,7 @@ void *dungeonAdvanceMonsterTimedSequence(void)
     if (opcode == 0xD0) {
         ((S_8009F868_0 *)state)->unk_08 = 0;
         ((S_8009F868_0 *)state)->unk_0A += (s8)entry[0];
-        return dungeonAdvanceMonsterTimedSequence();
+        return advance_monster_timed_sequence();
     }
 
     if ((s8)entry[0] < 0 ||

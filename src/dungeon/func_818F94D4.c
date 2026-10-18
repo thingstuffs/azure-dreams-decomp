@@ -32,7 +32,7 @@ extern u8 D_801C9E40[16];
 extern void func_80067E2C(void *, void *);
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
-void func_80024CD4(s32 draw_param_a, s32 draw_param_b, Position *restore_area, Position *draw_pos,
+void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position *restore_area, Position *draw_pos,
                    u32 clear_area, s32 draw_option)
 {
     Coord pos;
@@ -45,14 +45,14 @@ void func_80024CD4(s32 draw_param_a, s32 draw_param_b, Position *restore_area, P
     s32 y;
     s32 saved_option = draw_option;
 
-    state = gameWork.unk_000;
-    state_ptr = &gameWork.unk_000;
+    state = g_game_work.unk_000;
+    state_ptr = &g_game_work.unk_000;
     packet = state->next_packet;
     offset_y = state != (DungeonState *)D_801C9E40;
     state->next_packet = packet + 12;
     clear_enabled = clear_area;
 
-    func_80067E2C(packet, gameWork.unk_000);
+    func_80067E2C(packet, g_game_work.unk_000);
     *(u32 *)packet = (*(u32 *)packet & 0xFF000000) |
                      (state->ordering_table & 0x00FFFFFF);
     state->ordering_table = (state->ordering_table & 0xFF000000) |
@@ -75,7 +75,7 @@ void func_80024CD4(s32 draw_param_a, s32 draw_param_b, Position *restore_area, P
         Packet16 *clear_packet;
         DungeonState *alloc_state;
 
-        alloc_state = gameWork.unk_000;
+        alloc_state = g_game_work.unk_000;
         clear_packet = (Packet16 *)alloc_state->next_packet;
         alloc_state->next_packet = (u8 *)clear_packet + 16;
         clear_packet->code = 0x60000000;

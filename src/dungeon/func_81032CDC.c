@@ -13,14 +13,14 @@ typedef struct S_801744DC_0 {
     s32 unk_58;
     u8 pad_5C[0x8];
     s32 unk_64;
-} S_801744DC_0;   /* work in dungeonSpawnDirectionalParticle */
+} S_801744DC_0;   /* work in spawn_directional_particle */
 
 typedef struct S_801744DC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801744DC_1;   /* node in dungeonSpawnDirectionalParticle */
+} S_801744DC_1;   /* node in spawn_directional_particle */
 
 typedef struct S_801744DC_2 {
     u8 pad_00[0x6];
@@ -37,7 +37,7 @@ typedef struct S_801744DC_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_801744DC_2;   /* part in dungeonSpawnDirectionalParticle */
+} S_801744DC_2;   /* part in spawn_directional_particle */
 
 typedef struct S_801744DC_3 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_801744DC_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801744DC_3;   /* coords in dungeonSpawnDirectionalParticle */
+} S_801744DC_3;   /* coords in spawn_directional_particle */
 
 
 typedef struct {
@@ -63,7 +63,7 @@ extern s32 D_80174300;
 extern Pair16 D_8017610C[];
 
 /* Spawn a particle with randomized position, rotation, and direction-based velocity. */
-void dungeonSpawnDirectionalParticle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
+void spawn_directional_particle(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
 {
     void *effect;
     S_801744DC_0 *motion;

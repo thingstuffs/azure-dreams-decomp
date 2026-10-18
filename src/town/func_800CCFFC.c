@@ -9,10 +9,10 @@ typedef struct S_800CA75C_0 {
     M2C_UNK * unk_54;
     u8 pad_58[0x14];
     s16 unk_6C;
-} S_800CA75C_0;   /* arg0 in townInitializeReactionDataAndTimer13 */
+} S_800CA75C_0;   /* arg0 in initialize_reaction_data_and_timer_13 */
 
 /* Set the object's data pointer and state to 13. */
-void townInitializeReactionDataAndTimer13(S_800CA75C_0 *object) {
+void initialize_reaction_data_and_timer_13(S_800CA75C_0 *object) {
     object->unk_54 = &D_800CA214;
     object->unk_6C = 0xD;
 }

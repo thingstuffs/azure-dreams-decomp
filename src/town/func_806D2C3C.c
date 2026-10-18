@@ -6,7 +6,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern void townCopyWordsRevB(void *, void *, s32);
+extern void copy_words_rev_b(void *, void *, s32);
 /* Copies records through the end marker, patches control fields, and returns the destination end. */
 u8 *func_806D2C3C(u8 *dst, u8 *src, s32 control_bits, u8 byte_value)
 {
@@ -18,7 +18,7 @@ u8 *func_806D2C3C(u8 *dst, u8 *src, s32 control_bits, u8 byte_value)
     control_word = (control_bits & 0x3FFF0000) | 0xC0000010;
     field_cursor = dst + 12;
     do {
-        townCopyWordsRevB(dst, src, 5);
+        copy_words_rev_b(dst, src, 5);
         field_ptr = field_cursor;
         dst += 20;
         if (control_bits != 0) {

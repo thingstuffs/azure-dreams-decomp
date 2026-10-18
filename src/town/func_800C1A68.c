@@ -41,9 +41,9 @@ extern int abs(int);
 extern s32 func_800352FC(void);
 extern void SD_Call(s32);
 extern void func_800673A0(void *, s32, s32);
-extern s32 townCheckTransformIdentifierAndHook(Obj *);
+extern s32 check_transform_identifier_and_hook(Obj *);
 /* Advances the interaction state, animating the cursor and vertical position. */
-void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
+void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 *cursor_data) {
     EntryPair entries;
     s32 state;
     register s32 x_range_check;
@@ -86,7 +86,7 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
         if (func_800352FC() == 0) {
             return;
         }
-        if (townCheckTransformIdentifierAndHook(self) == 0) {
+        if (check_transform_identifier_and_hook(self) == 0) {
             return;
         }
         SD_Call(0x50B);
@@ -111,7 +111,7 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
 
     case 2:
     case 5:
-        if (func_800352FC() != 0 && townCheckTransformIdentifierAndHook(self) != 0) {
+        if (func_800352FC() != 0 && check_transform_identifier_and_hook(self) != 0) {
             return;
         }
         {

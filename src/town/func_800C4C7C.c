@@ -4,10 +4,10 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80020300(); /* extern */
-void townFinalizeKeimaResourceOperation();                            /* extern */
+void finalize_keima_resource_operation();                            /* extern */
 
 /* start_keima_func: Prepare and start the keima event. */
 void start_keima_func(void) {
-    townFinalizeKeimaResourceOperation();
+    finalize_keima_resource_operation();
     func_80020300(0, 0, 0, 0);
 }

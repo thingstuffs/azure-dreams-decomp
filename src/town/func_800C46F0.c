@@ -5,7 +5,7 @@ typedef void (*Callback)(void *);
 extern Callback D_800D4668[];
 
 /* Invoke each callback with its entry address until the null terminator. */
-void townInvokeCallbacksUntilTerminator(void) {
+void invoke_callbacks_until_terminator(void) {
     Callback *callback;
 
     callback = D_800D4668;

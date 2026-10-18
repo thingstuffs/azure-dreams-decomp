@@ -11,18 +11,18 @@
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 extern void func_80047784(void *, u8, s32);
-extern void dungeonResolveAttackDamageAndEffects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void dungeonAdvanceStatusTimers(void *);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
+extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void advance_status_timers(void *);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
 
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
 extern u8 D_80080000[];
 
 /* Updates the actor's directional motion and animation across three action states. */
-void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *sprite, void *actor)
+void update_three_state_directional_motion(void *action, void *motion, void *sprite, void *actor)
 {
     s32 delta_x;
     s32 delta_y;
@@ -44,7 +44,7 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
         if (flags & 0x8000) {
             U16(sprite, 0x14) = flags | 0x6000;
             U8(action, 0x9B) = 2;
-            dungeonResolveAttackDamageAndEffects(actor, sprite, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             return;
         }
 
@@ -55,10 +55,10 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
             return;
         }
         PTR(sprite, 0x2C) = D_80175E88;
-        facing_ptr = &D_80175E88[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
+        facing_ptr = &D_80175E88[((g_game_work.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
         func_80047784(sprite, *facing_ptr, 0);
         U16(action, 0x96) = 0;
-        func_800A56E0(0x808);
+        play_sound_if_enabled(0x808);
         U8(action, 0x9B)++;
         return;
     }
@@ -72,7 +72,7 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
         s32 signed_value;
 
         anim_table = U16(action, 0x96);
-        direction_base = (u8 *)&dirStepX;
+        direction_base = (u8 *)&dir_step_x;
         next_frame = anim_table + 1;
         anim_table -= 3;
         U16(action, 0x96) = next_frame;
@@ -80,7 +80,7 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
         anim_table = (u32)anim_table < 8U;
         direction_base = (u8 *)(direction_offset + (s32)direction_base);
         delta_x = *(s16 *)direction_base;
-        direction_base_2 = (u8 *)&dirStepY;
+        direction_base_2 = (u8 *)&dir_step_y;
         signed_value = *(s16 *)((s32)(direction_offset + (s32)direction_base_2));
         delta_x = -delta_x;
         delta_x <<= 16;
@@ -106,7 +106,7 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
         }
         object_type = S8(sprite, 4);
         if ((object_type == 5 && (U16(sprite, 0x14) & 0x1000)) || (U16(sprite, 0x14) & 0x8000)) {
-            dungeonResolveAttackDamageAndEffects(actor, sprite, S16(actor, 0x2A), 1);
+            resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             anim_table = 0x80170000;
         } else {
             anim_table = 0x80170000;
@@ -128,7 +128,7 @@ void dungeonUpdateThreeStateDirectionalMotion(void *action, void *motion, void *
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        dungeonSetRecordIntegerTileCenter(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+        set_record_integer_tile_center(motion, U8(sprite, 0x24), U8(sprite, 0x25));
 advance_state:
         U8(action, 0x9B)++;
         return;
@@ -140,11 +140,11 @@ advance_state:
         if ((U16(sprite, 0x14) & 0xE000) == 0) {
             return;
         }
-        dungeonReduceActorFoodMeter(actor, 0x100);
+        reduce_actor_food_meter(actor, 0x100);
         PTR(action, 0x8C) = D_801710EC;
         S32(D_80080000, 0x346C) = 0;
         U16(actor, 0x46) &= 0x7FFF;
-        dungeonAdvanceStatusTimers(actor);
+        advance_status_timers(actor);
     }
 
     }

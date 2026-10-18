@@ -13,7 +13,7 @@ extern u8 D_800D2EA4[];
 extern s8 D_800D381A;
 extern s32 func_80041094();
 /* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
-void townClearSelectedEntryAtBottomCenter(void)
+void clear_selected_entry_at_bottom_center(void)
 {
     s32 entry_index = 0x20;
     u8 *selection_state = D_800D3814;

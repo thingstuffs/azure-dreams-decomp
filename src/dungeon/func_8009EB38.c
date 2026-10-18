@@ -9,7 +9,7 @@ typedef struct DungeonSlot {
 extern DungeonSlot *D_800E3DF0[];
 
 // Returns the slot index for a matching type-0x13 record, or -1 if none matches.
-s32 dungeonFindType13SlotIndex(DungeonSlot *targetSlot) {
+s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
     s32 recordIndex;
     s32 requiredRecordType;
     DungeonSlot **slotTable;

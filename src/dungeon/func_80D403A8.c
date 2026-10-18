@@ -26,7 +26,7 @@ typedef struct S_80175BA8_0 {
     s8 unk_B3;
     s8 unk_B4;
     s8 unk_B5;
-} S_80175BA8_0;   /* arg0 in dungeonEnterActorAuraMode */
+} S_80175BA8_0;   /* arg0 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_1 {
     u8 pad_00[0x2];
@@ -37,21 +37,21 @@ typedef struct S_80175BA8_1 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_80175BA8_1;   /* arg1 in dungeonEnterActorAuraMode */
+} S_80175BA8_1;   /* arg1 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x5C];
     u16 unk_88;
-} S_80175BA8_2;   /* arg3 in dungeonEnterActorAuraMode */
+} S_80175BA8_2;   /* arg3 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_3 {
     u8 pad_00[0x6];
     s16 unk_06;
     u8 pad_08[0xC];
     u16 unk_14;
-} S_80175BA8_3;   /* arg2 in dungeonEnterActorAuraMode */
+} S_80175BA8_3;   /* arg2 in enter_actor_aura_mode */
 
 typedef struct S_80175BA8_4 {
     u8 pad_00[0x8];
@@ -96,8 +96,8 @@ typedef struct S_80175BA8_7 {
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
-extern void func_800A56E0();
-extern s32 func_800BCB04();
+extern void play_sound_if_enabled();
+extern s32 sample_terrain_surface_height();
 
 extern u8 D_80045C34[];
 extern u8 D_800E2438[];
@@ -107,7 +107,7 @@ extern u8 D_80170CEC[];
 extern u8 D_80171A80[];
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
-void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, void *actor_info) {
+void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void *actor_info) {
     s16 target_offset;
     u16 next_offset;
     u16 phase_ticks;
@@ -125,7 +125,7 @@ void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, 
         ((S_80175BA8_1 *)position)->unk_14 = 0;
         ((S_80175BA8_1 *)position)->unk_10 = 0;
         ((S_80175BA8_1 *)position)->unk_0C = 0;
-        target_offset = func_800BCB04(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
+        target_offset = sample_terrain_surface_height(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
                                 (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
         - ((S_80175BA8_2 *)actor_info)->unk_88;
         if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
@@ -172,13 +172,13 @@ void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, 
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
             func_80047784(sprite,
-                          D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          D_800E2438[((g_game_work.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
             if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
-                func_800A56E0(0x800);
+                play_sound_if_enabled(0x800);
             }
         }
         if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
@@ -191,7 +191,7 @@ void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, 
         if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
             func_80047784(sprite,
-                          D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          D_800E2440[((g_game_work.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
@@ -214,7 +214,7 @@ void dungeonEnterActorAuraMode(void *actor_state, void *position, void *sprite, 
             ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
             ((S_80175BA8_3 *)sprite)->unk_06 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_8C = D_80171A80;
-            dungeonStatus.unk_0C = 0;
+            g_dungeon_status.unk_0C = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
         return;

@@ -29,7 +29,7 @@ typedef struct Row {
 extern Row D_801331D0[0x10];
 
 /* Initializes 16 entries with fixed attributes and coordinates in a three-column grid. */
-void townInitializeCatalogEntryPackets(void)
+void initialize_catalog_entry_packets(void)
 {
     s32 grid_row;
     s32 grid_col;

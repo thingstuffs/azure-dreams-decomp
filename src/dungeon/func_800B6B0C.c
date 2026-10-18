@@ -9,7 +9,7 @@ typedef struct S_800BC26C_0 {
     void * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800BC26C_0;   /* result in dungeonCreateTrackedEffect */
+} S_800BC26C_0;   /* result in create_tracked_effect */
 
 typedef struct S_800BC26C_1 {
     u8 pad_00[0x4];
@@ -17,16 +17,16 @@ typedef struct S_800BC26C_1 {
     u8 pad_08[0x4];
     s16 unk_0C;
     s16 unk_0E;
-} S_800BC26C_1;   /* fields in dungeonCreateTrackedEffect */
+} S_800BC26C_1;   /* fields in create_tracked_effect */
 
 
 extern void * func_8003FD64();
 extern s32 func_8004491C();
-extern void dungeonRetireEffectWhenOwnerOrValueEnds(void *context);
-extern s32 dungeonTraverseNodesAndRenderUnflagged();
+extern void retire_effect_when_owner_or_value_ends(void *context);
+extern s32 traverse_nodes_and_render_unflagged();
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
-void *dungeonCreateTrackedEffect(s32 owner, s16 mode, s32 param)
+void *create_tracked_effect(s32 owner, s16 mode, s32 param)
 {
     void *object;
     u8 *fields;
@@ -35,8 +35,8 @@ void *dungeonCreateTrackedEffect(s32 owner, s16 mode, s32 param)
     object = func_8003FD64(0x110, (void *)owner);
     saved_mode = mode;
     if (object != NULL) {
-        ((S_800BC26C_0 *)object)->unk_10 = dungeonRetireEffectWhenOwnerOrValueEnds;
-        func_8004491C(object, dungeonTraverseNodesAndRenderUnflagged);
+        ((S_800BC26C_0 *)object)->unk_10 = retire_effect_when_owner_or_value_ends;
+        func_8004491C(object, traverse_nodes_and_render_unflagged);
         fields = (u8 *)object + 0x20;
         ((S_800BC26C_0 *)object)->unk_20 = owner;
         ((S_800BC26C_1 *)fields)->unk_04 = param;

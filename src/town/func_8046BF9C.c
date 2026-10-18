@@ -6,7 +6,7 @@
 typedef struct S_8001CF9C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8001CF9C_1;   /* ((arg1 * 0x10) + arg0->unk_10) in townStoreStateSelectedEntryPointer */
+} S_8001CF9C_1;   /* ((arg1 * 0x10) + arg0->unk_10) in store_state_selected_entry_pointer */
 
 
 extern M2C_UNK D_8001F0D8;
@@ -15,10 +15,10 @@ extern M2C_UNK D_8001F18C;
 typedef struct S_8001CF9C_0 {
     u8 pad_00[0x10];
     s32 unk_10;
-} S_8001CF9C_0;   /* arg0 in townStoreStateSelectedEntryPointer */
+} S_8001CF9C_0;   /* arg0 in store_state_selected_entry_pointer */
 
 /* Store the state-selected pointer in the indexed entry. */
-s32 townStoreStateSelectedEntryPointer(S_8001CF9C_0 *table, s32 entry_index) {
+s32 store_state_selected_entry_pointer(S_8001CF9C_0 *table, s32 entry_index) {
     M2C_UNK *state_pointers[2];
 
     state_pointers[0] = &D_8001F0D8;

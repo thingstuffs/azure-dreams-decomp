@@ -16,8 +16,8 @@ typedef struct TextureConfig {
 static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
 
 /* Builds and submits a shaded textured quad at the requested screen position. */
-void dungeonBuildShadedTexturedQuad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
-    Root *root = gameWork.unk_000;
+void build_shaded_textured_quad(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
+    Root *root = g_game_work.unk_000;
     Record *record;
     Record *quad_packet;
     Input *quad_input = quad_data;
@@ -34,7 +34,7 @@ void dungeonBuildShadedTexturedQuad(s32 y_offset, Input *origin, Input *quad_dat
     s32 shade;
 
     record = root->record;
-    globals = &gameWork;
+    globals = &g_game_work;
     scratch = (Bank56_8196096C_Scratch *)0x1F800000;
     scratch->value = draw_depth;
     vertex_table = ((struct TableEntry *)globals->map.unk_08);

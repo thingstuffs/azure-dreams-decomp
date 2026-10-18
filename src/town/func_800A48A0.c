@@ -7,7 +7,7 @@ typedef struct S_800A2000_0 {
     s32 unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
-} S_800A2000_0;   /* obj in townAllocateAndInitializeDisplayObject */
+} S_800A2000_0;   /* obj in allocate_and_initialize_display_object */
 
 typedef struct S_800A2000_1 {
     u8 pad_00[0x10];
@@ -17,7 +17,7 @@ typedef struct S_800A2000_1 {
     s16 unk_20;
     u8 pad_22[0x1E];
     s32 unk_40;
-} S_800A2000_1;   /* payload in townAllocateAndInitializeDisplayObject */
+} S_800A2000_1;   /* payload in allocate_and_initialize_display_object */
 
 typedef struct S_800A2000_2 {
     u8 pad_00[0xC];
@@ -32,13 +32,13 @@ typedef struct S_800A2000_2 {
     s16 unk_1C;
     s16 unk_1E;
     s16 unk_20;
-} S_800A2000_2;   /* display in townAllocateAndInitializeDisplayObject */
+} S_800A2000_2;   /* display in allocate_and_initialize_display_object */
 
 
 extern void *func_8003FD64();
 
 /* Allocate an object and initialize its payload, display transform, and color. */
-void *townAllocateAndInitializeDisplayObject(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
+void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
     s32 object_value) {
     void *obj = func_8003FD64(0x136, object_key - 0x20);
     S_800A2000_2 *display;
@@ -61,9 +61,9 @@ void *townAllocateAndInitializeDisplayObject(s32 object_key, s32 payload_value, 
     display->unk_12 = 0;
     display->unk_14 = 0;
     display->unk_10 = 0;
-    display->unk_0C = gameWork.view.unk_090;
-    display->unk_0D = gameWork.view.unk_091;
-    display->unk_0E = gameWork.view.unk_092;
+    display->unk_0C = g_game_work.view.unk_090;
+    display->unk_0D = g_game_work.view.unk_091;
+    display->unk_0E = g_game_work.view.unk_092;
     display->unk_14 = 0;
     return obj;
 }

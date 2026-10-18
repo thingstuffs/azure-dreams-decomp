@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_1829800.h"
 
-void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *appearance_in) {
+void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in) {
     s32 *side_ptr;
     u16 target_y;
     u16 entry_counter;
@@ -49,11 +49,11 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
     D_8002715C[0] = entry_counter + 1;
     motion = motion_data;
     appearance = appearance_in;
-    state_base = &gameWork;
+    state_base = &g_game_work;
     state = ((S_8002520C_0 *)menu)->unk_1C;
     switch ((u32)state) {
     case 0:
-        func_8004491C(menu - 0x20, &dungeonRenderThreeByThreeTerrainGrid);
+        func_8004491C(menu - 0x20, &render_three_by_three_terrain_grid);
         motion->unk_02 = -0x180;
         motion->unk_06 = -0x20;
         appearance->unk_16 = 0x1000U;
@@ -92,7 +92,7 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
         }
         if (D_80027156[0] == 0) {
             S_8002520C_6 *cell;
-            input_angle = dungeonResolvePlayerInputFacing(((u16) appearance->unk_1A >> 9) & 7,
+            input_angle = resolve_player_input_facing(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
                 s32 step_or_cell;
@@ -117,11 +117,11 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
                     s32 step_value;
                     s32 cell_coord;
 
-                    x_step_ptr = (u16 *) (step_or_cell + ((s32)((s32) ((u16 *)dirStepX))));
+                    x_step_ptr = (u16 *) (step_or_cell + ((s32)((s32) ((u16 *)dir_step_x))));
                     step_value = *x_step_ptr;
                     cell_coord = cell->unk_24;
                     base_x = cell_coord + step_value;
-                    step_value = (s32) ((u16 *)dirStepY);
+                    step_value = (s32) ((u16 *)dir_step_y);
                     step_or_cell += step_value;
                     cell_coord = cell->unk_25;
                     step_value = *(u16 *) step_or_cell;
@@ -166,8 +166,8 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
                             s32 y_step_value;
 
                             step_or_cell = step_index & 0xFFFF;
-                            x_value += ((u16 *)dirStepX)[step_or_cell];
-                            y_step_value = y_value + ((u16 *)dirStepY)[step_or_cell];
+                            x_value += ((u16 *)dir_step_x)[step_or_cell];
+                            y_step_value = y_value + ((u16 *)dir_step_y)[step_or_cell];
                             target_y = y_step_value;
                         }
                         x_in_bounds = (x_value & 0xFFFF) < 3U;
@@ -184,7 +184,7 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
             if (((s32)state_base->unk_010) & 0x40) {
                 s16 direction;
 
-                func_800A56E0(0x503);
+                play_sound_if_enabled(0x503);
                 {
                     s32 side_offset;
                     S_8002520C_10 *world_node;
@@ -198,7 +198,7 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
                     side_offset += (s32)side_ptr;
                     cell = (S_8002520C_6 *)(world_node->unk_0C);
                     actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                    direction = (dungeonGetRoundedFacingAndRoundingFlag(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25,
+                    direction = (get_rounded_facing_and_rounding_flag(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25,
                         &target_y) >> 9) & 7;
                 }
                 {
@@ -213,7 +213,7 @@ void dungeonUpdateSelectionMenuAnimation(void *menu_in, void *motion_in, void *a
                         direction = (direction - 2) & 7;
                         ((S_8002520C_13 *)direction_entry)->unk_2094 = direction;
                         actor->unk_45 = (s8) direction;
-                        dungeonAppendPackedActionRecord(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
+                        append_packed_action_record(((S_8002520C_9 *)world_page)->unk_3D7C, 0x90, ((S_8002520C_0 *)menu)->unk_26,
                             direction);
                         selected_side = ((S_8002520C_0 *)menu)->unk_26;
                         other_dir = (u16 *)0x80012094;

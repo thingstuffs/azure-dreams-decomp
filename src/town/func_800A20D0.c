@@ -5,7 +5,7 @@
 #define NULL 0
 #endif
 
-void *func_8009F830(s32 item_kind, s32 item_type) {
+void *find_item_by_kind_and_type(s32 item_kind, s32 item_type) {
     void **slots;
     void *item;
     s32 i;

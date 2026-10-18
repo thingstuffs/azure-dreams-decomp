@@ -32,6 +32,6 @@ void func_80024860(StructA0 *owner, void *unused, StructA2 *state) {
     func_800478B8(state);
     if (state->unk14 & 0x6000) {
         ((u16 *)owner)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     }
 }

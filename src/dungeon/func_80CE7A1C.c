@@ -1,7 +1,7 @@
 #include "modules/dungeon_ovl_7f469800_p01.h"
 
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
-void dungeonCreateTargetedMotionEffect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
+void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
 {
     T_8017121C_Vec3u16 offset;
     void *effect;
@@ -42,11 +42,11 @@ void dungeonCreateTargetedMotionEffect(void *source_handle, Rec_func_8017121C_ar
     }
 
     init_effect = effect;
-    init_data = ((u8 *)dungeonUpdateRotatingActorAura);
+    init_data = ((u8 *)update_rotating_actor_aura);
     effect_state = (u8 *)effect + 0x20;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_18 = 2;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_1A = 2;
-    ((T_8017121C_S_8017121C_1 *)effect)->unk_10 = dungeonUpdateSteppedRgbFlash;
+    ((T_8017121C_S_8017121C_1 *)effect)->unk_10 = update_stepped_rgb_flash;
     func_8004491C(init_effect, init_data);
 
     part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
@@ -58,7 +58,7 @@ void dungeonCreateTargetedMotionEffect(void *source_handle, Rec_func_8017121C_ar
     coords->unk_0A.s = origin->unk_0A;
 
     source = ((T_8017121C_S_8017121C_5_pre *)source_handle)[-1].unk_00;
-    if (resolveRecordOrientationOrFallback(source->unk_08, source, &offset, 0) != 0) {
+    if (resolve_record_orientation_or_fallback(source->unk_08, source, &offset, 0) != 0) {
         coords->unk_02.s += offset.raw_y;
         coords->unk_06.s += offset.y;
         coords->unk_0A.s += offset.z;

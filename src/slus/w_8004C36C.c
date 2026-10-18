@@ -16,7 +16,7 @@ extern void CompMatrix(void *m0, void *m1, void *m2);
 extern void ScaleMatrix(void *m, void *v);
 extern void SetRotMatrix(void *m);
 extern void SetTransMatrix(void *m);
-extern s32 multiplyRgbTintSaturated(void *dst, void *tint);
+extern s32 multiply_rgb_tint_saturated(void *dst, void *tint);
 extern void *func_8004C080(void *t0, void *t1, void *packet, void *record,
                            void *cmd, s32 *count);
 
@@ -41,8 +41,8 @@ void func_8004C36C(u8 *parent, u8 *node)
     node_matrix = work_buf + 0xE4;
     sprite_matrix = work_buf + 0x7C;
     addr_mask = 0xFFFFFF;
-    render_state = (u8 **)((void * *)(&gameWork));
-    render_ctx = (u8 *)gameWork.unk_000;
+    render_state = (u8 **)((void * *)(&g_game_work));
+    render_ctx = (u8 *)g_game_work.unk_000;
     size_mask = 0xFF000000;
     work = work_buf;
     packet = *(u8 **)(render_ctx + 0x8D0);
@@ -161,7 +161,7 @@ void func_8004C36C(u8 *parent, u8 *node)
                         }
                         S8_AT(packet, 3) = 9;
                         U32_AT(packet, 4) = U32_AT(work, 0xA8);
-                        multiplyRgbTintSaturated(packet + 4, work + 0x78);
+                        multiply_rgb_tint_saturated(packet + 4, work + 0x78);
                         {
                             u8 tex_u;
                             s32 screen_x0;

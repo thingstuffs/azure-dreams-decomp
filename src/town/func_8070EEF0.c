@@ -9,7 +9,7 @@ extern s32 func_8001A8EC(s32);
 typedef void (*TownCallback)(s32, s32);
 
 /* Checks town event conditions and invokes the object callback when they are met. */
-s32 func_80017EF0(void) {
+s32 update_indexed_entry_unless_current(void) {
     s8 *callback_owner;
     s32 status;
 

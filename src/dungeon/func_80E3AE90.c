@@ -34,7 +34,7 @@ typedef struct S_80174690_2 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-} S_80174690_2;   /* arg0 in dungeonCreateActionSpriteEffect */
+} S_80174690_2;   /* arg0 in create_action_sprite_effect */
 
 typedef struct S_80174690_3 {
     u8 pad_00[0xC];
@@ -50,7 +50,7 @@ typedef struct S_80174690_3 {
 } S_80174690_3;
 
 /* Creates an effect from the source and initializes its sprite and callbacks. */
-void dungeonCreateActionSpriteEffect(S_80174690_2 *source) {
+void create_action_sprite_effect(S_80174690_2 *source) {
     S_80174690_3 *sprite;
     S_80174690_1 *effect_data;
     void *effect;

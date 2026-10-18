@@ -65,7 +65,7 @@ extern s32 func_800644B8(s32);
 extern void D_8017414C(void);
 
 /* Creates a 16-segment cylindrical effect at the supplied position. */
-void func_801745E0(Source *source, Vec3i *origin)
+void create_cylindrical_effect(Source *source, Vec3i *origin)
 {
     s16 segment;
     void (*callback)(void);

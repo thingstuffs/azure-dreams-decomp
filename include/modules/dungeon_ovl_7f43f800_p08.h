@@ -119,24 +119,24 @@ typedef struct {
 } T_801748D0_MeshCopy;
 
 extern void func_80047784();
-extern s32 findEligibleActorAtTileAndHeight();
-extern s32 func_800A2B5C();
-extern s32 dungeonAdvanceStatusTimers();
-extern s32 dungeonApplyCameraOffsetAndSelectTarget();
-extern s32 resolveRecordOrientationOrFallback(s32, void *, s16 *, s16);
+extern s32 find_eligible_actor_at_tile_and_height();
+extern s32 try_claim_dungeon_action_slot();
+extern s32 advance_status_timers();
+extern s32 apply_camera_offset_and_select_target();
+extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void * func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_80065420(void *, void *, void *, void *);
-extern void dungeonSetRecordIntegerTileCenter(void *, u8, u8);
-extern void func_800A56E0(s32);
-extern void dungeonReduceActorFoodMeter(void *, s32);
-extern void func_800C8788(void *, void *);
+extern void set_record_integer_tile_center(void *, u8, u8);
+extern void play_sound_if_enabled(s32);
+extern void reduce_actor_food_meter(void *, s32);
+extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
 extern s8 D_800DCECC[];
 extern u8 D_80174E88[];
 extern u8 D_80174ED0[];
-void dungeonStartDirectionalActionAndRecordTile(void *action_state, void *action_context, void *sprite, EntityRec *actor);
-void dungeonAdvanceTimedActorVisualEffect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor);
-extern void func_80170AD0();
-extern void dungeonUpdateActorBehaviorAndDirection();
+void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, EntityRec *actor);
+void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor);
+extern void update_effect_visuals_and_lifetime();
+extern void update_actor_behavior_and_direction();
 #endif

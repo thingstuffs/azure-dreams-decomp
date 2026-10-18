@@ -13,14 +13,14 @@ typedef struct S_801746EC_0 {
     s32 unk_58;
     u8 pad_5C[0x8];
     s32 unk_64;
-} S_801746EC_0;   /* work in dungeonSpawnDirectionalEffect */
+} S_801746EC_0;   /* work in spawn_directional_effect */
 
 typedef struct S_801746EC_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_801746EC_1;   /* node in dungeonSpawnDirectionalEffect */
+} S_801746EC_1;   /* node in spawn_directional_effect */
 
 typedef struct S_801746EC_2 {
     u8 pad_00[0x6];
@@ -37,7 +37,7 @@ typedef struct S_801746EC_2 {
     s16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_801746EC_2;   /* part in dungeonSpawnDirectionalEffect */
+} S_801746EC_2;   /* part in spawn_directional_effect */
 
 typedef struct S_801746EC_3 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_801746EC_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_801746EC_3;   /* coords in dungeonSpawnDirectionalEffect */
+} S_801746EC_3;   /* coords in spawn_directional_effect */
 
 
 typedef struct {
@@ -63,7 +63,7 @@ extern s32 D_80174300;
 extern Pair16 D_8017610C[];
 
 /* Spawn an effect with randomized position and velocity based on the source direction. */
-void dungeonSpawnDirectionalEffect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
+void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
 {
     void *effect;
     S_801746EC_0 *motion;

@@ -9,10 +9,10 @@ typedef struct {
 
 extern S_800A73E0 D_80100D98;
 extern u8 D_800A4F4C[];
-extern void townInitializeTransitionState(void *);
+extern void initialize_transition_state(void *);
 
 /* Copy the default state and initialize the supplied control block. */
-void townInitializeControlBlock(void *control) {
+void initialize_control_block(void *control) {
     S_800A73E0 *dst = &D_80100D98;
     s32 value;
 
@@ -22,5 +22,5 @@ void townInitializeControlBlock(void *control) {
     dst->unk4 = value;
     *(void **)((u8 *)control + 0x24) = D_800A4F4C;
     *(s32 *)((u8 *)control + 0x30) = 0;
-    townInitializeTransitionState(control);
+    initialize_transition_state(control);
 }

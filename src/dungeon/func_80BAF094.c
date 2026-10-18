@@ -43,8 +43,8 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
             ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
         } else {
             if (((saved_flags & ~3) << 16) == 0) {
-                if (!(((S_80158894_0 *)result)->unk_14 & 0x200) && (func_800A6D30() & 1)) {
-                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                if (!(((S_80158894_0 *)result)->unk_14 & 0x200) && (generate_random_value() & 1)) {
+                    set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                     ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CF00;
                 }
                 ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = D_80158E9C;
@@ -55,10 +55,10 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
             }
         }
         ((S_80158894_1 *)created)->unk_10 = func_80158A98;
-        func_800A9C18(created, position, (void *)part_ptr, (s16)original_flags);
+        initialize_actor_sprite_and_animation(created, position, (void *)part_ptr, (s16)original_flags);
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;
-        func_800AA36C((void *)actor_ptr, position, (void *)part_ptr, result);
+        try_move_actor_to_valid_position((void *)actor_ptr, position, (void *)part_ptr, result);
     }
     return result;
 }

@@ -24,6 +24,6 @@ void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, Rec_D_80082E8
     func_800478B8(target);
     if (target->unk_14.at00_u16.v & 0x6000) {
         ((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
 }

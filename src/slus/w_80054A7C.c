@@ -2,7 +2,7 @@
 
 extern void func_800540A8(void);
 extern void func_800541E8(void);
-extern void setCdAudioMixMode(s32 a0);
+extern void set_cd_audio_mix_mode(s32 a0);
 
 /* Dispatches an audio action by its low byte, preserving the low 16 bits for volume updates. */
 void func_80054A7C(s32 action) {
@@ -18,7 +18,7 @@ void func_80054A7C(s32 action) {
         if (action == 0) {
             return;
         }
-        setCdAudioMixMode(action_value & 0xFFFF);
+        set_cd_audio_mix_mode(action_value & 0xFFFF);
         return;
     }
     func_800540A8();

@@ -2,7 +2,7 @@
 
 
 /* Builds an inverted pixel mask and updates a timed fade effect. */
-void func_80025408(void *context, void *unused, void *effect_data) {
+void build_inverted(void *context, void *unused, void *effect_data) {
     Box image_rect;
     Box mask_rect;
     Point center;
@@ -76,14 +76,14 @@ void func_80025408(void *context, void *unused, void *effect_data) {
         center.x = 0x370;
         center.y = 0x148;
         one = 1;
-        func_800B8FC8(*(void **)((u8 *)context + 0x44), &mask_rect, &center, 0, one);
+        draw_transformed_sprite_with_clip_rect(*(void **)((u8 *)context + 0x44), &mask_rect, &center, 0, one);
         image_rect.x = 0x340;
         image_rect.y = 0x100;
         image_rect.w = 0x60;
         image_rect.h = 0x54;
         center.x = 0x370;
         center.y = 0x12a;
-        func_80024B6C(*(void **)((u8 *)context + 0x48), &image_rect, &center, one, one);
+        decrement_effect_counter_by_twelve(*(void **)((u8 *)context + 0x48), &image_rect, &center, one, one);
         frame = *(s16 *)((u8 *)context + 2);
         if (frame < 0x15) {
             *(s8 *)((u8 *)effect_data + 0xe) = (frame << 7) / 20;
@@ -102,7 +102,7 @@ void func_80025408(void *context, void *unused, void *effect_data) {
             *(s16 *)context = (u16)*(s16 *)context + 1;
             *(s16 *)(*(u8 **)((u8 *)context + 0x40) + 0x9c) = one;
             *(u16 *)((u8 *)context - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

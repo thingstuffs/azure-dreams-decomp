@@ -18,7 +18,7 @@ typedef struct S_7FFEA9D4_0 {
     u16 unk_16;
     u8 pad_18[0x6];
     u16 unk_1E;
-} S_7FFEA9D4_0;   /* arg0 in dungeonSpawnYoungEmitterParticles */
+} S_7FFEA9D4_0;   /* arg0 in spawn_young_emitter_particles */
 
 typedef struct S_7FFEA9D4_1 {
     u8 pad_00[0x8];
@@ -56,7 +56,7 @@ extern u16 D_80094422;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
-void dungeonSpawnYoungEmitterParticles(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
+void spawn_young_emitter_particles(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
     s32 z_offset;
     s32 spawn_count;
     s32 rand_value;

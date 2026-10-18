@@ -4,7 +4,7 @@ extern void func_80000C18(u16);
 extern u8 D_00000000[];
 
 /* Pass a pair of 16-bit table values to func_80000C18. */
-void func_808BB2B8(void) {
+void pass_pair_16_bit_table(void) {
     s32 pair_offset;
 
     for (pair_offset = 4; pair_offset < 8; pair_offset += 4) {

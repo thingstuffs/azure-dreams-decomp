@@ -5,24 +5,24 @@ extern int abs(int);
 typedef struct S_800BD688_9 {
     void * unk_00;
     void * unk_04;
-} S_800BD688_9;   /* arg0 in townRandomizePairedObjectMotion */
+} S_800BD688_9;   /* arg0 in randomize_paired_object_motion */
 
 typedef struct S_800BD688_10 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_800BD688_10;   /* ((S_800BD688_9 *)arg0)->unk_00 in townRandomizePairedObjectMotion */
+} S_800BD688_10;   /* ((S_800BD688_9 *)arg0)->unk_00 in randomize_paired_object_motion */
 
 typedef struct S_800BD688_11 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_800BD688_11;   /* ((S_800BD688_9 *)arg0)->unk_04 in townRandomizePairedObjectMotion */
+} S_800BD688_11;   /* ((S_800BD688_9 *)arg0)->unk_04 in randomize_paired_object_motion */
 
 
 typedef struct S_800BD688_0_pre {
     u16 unk_00;
-} S_800BD688_0_pre;   /* the 0x2 bytes before arg0 in townRandomizePairedObjectMotion, addressed as arg0[-1] */
+} S_800BD688_0_pre;   /* the 0x2 bytes before arg0 in randomize_paired_object_motion, addressed as arg0[-1] */
 
 typedef struct S_800BD688_0 {
     void * unk_00;
@@ -31,15 +31,15 @@ typedef struct S_800BD688_0 {
     u8 pad_0C[0x14];
     union { s16 s; u16 u; } unk_20;   /* accessed as both */
     u16 unk_22;
-} S_800BD688_0;   /* arg0 in townRandomizePairedObjectMotion */
+} S_800BD688_0;   /* arg0 in randomize_paired_object_motion */
 
 typedef struct S_800BD688_1 {
     s32 unk_00;
-} S_800BD688_1;   /* left_ptr in townRandomizePairedObjectMotion */
+} S_800BD688_1;   /* left_ptr in randomize_paired_object_motion */
 
 typedef struct S_800BD688_2 {
     s32 unk_00;
-} S_800BD688_2;   /* right_ptr in townRandomizePairedObjectMotion */
+} S_800BD688_2;   /* right_ptr in randomize_paired_object_motion */
 
 typedef struct S_800BD688_3 {
     u8 pad_00[0xC];
@@ -79,7 +79,7 @@ typedef struct S_800BD688_8 {
 s32 rand(void);                      /* extern */
 
 /* Randomize paired object motion until both pass the stop position, then set completion flags. */
-void townRandomizePairedObjectMotion(void *pair_in) {
+void randomize_paired_object_motion(void *pair_in) {
     void *pair = pair_in;
     s32 state;
     s32 random_value;

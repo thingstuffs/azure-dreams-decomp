@@ -16,21 +16,21 @@ struct S_8003FFF0 {
 };
 
 extern S_8003FFF0 *D_80081498[4];
-extern void dungeonRetireEffectWhenOwnerOrValueEnds(void *context);
+extern void retire_effect_when_owner_or_value_ends(void *context);
 
 // Set bit 0x8000 in the first matching node's flags and the shared flags.
-void dungeonRetireTrackedEffectById(s32 targetId) {
+void retire_tracked_effect_by_id(s32 targetId) {
     S_8003FFF0 *node;
 
     node = *D_80081498;
     if (node != NULL) {
         do {
-            if ((node->kind == dungeonRetireEffectWhenOwnerOrValueEnds) && (node->id == targetId)) {
+            if ((node->kind == retire_effect_when_owner_or_value_ends) && (node->id == targetId)) {
                 u16 nodeFlags = node->flags;
-                s32 sharedFlags = objectFlagBlock.flags;
+                s32 sharedFlags = object_flag_block.flags;
 
                 node->flags = nodeFlags | 0x8000;
-                objectFlagBlock.flags = sharedFlags | 0x8000;
+                object_flag_block.flags = sharedFlags | 0x8000;
                 return;
             }
             node = node->next;

@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_8008BF0C(void **);
+extern void release_town_map_record(void **);
 
 /* Decrease the record value by 0x200, clamp at -0x800, and handle the lower limit. */
-void decreaseTownRecordValueByTwoHundred(void **record_ref) {
+void decrease_town_record_value_by_two_hundred(void **record_ref) {
     void *record;
     void *first_record;
     u16 value;
@@ -15,6 +15,6 @@ void decreaseTownRecordValueByTwoHundred(void **record_ref) {
     record = *record_ref;
     if (*(s16 *)((u8 *)record + 8) < -0x800) {
         *(s16 *)((u8 *)record + 8) = -0x800;
-        func_8008BF0C(record_ref);
+        release_town_map_record(record_ref);
     }
 }

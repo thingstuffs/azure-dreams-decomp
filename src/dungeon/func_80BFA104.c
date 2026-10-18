@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80BEE104; every changed retail word is a paired relocation. */
-#define dungeonCreateAngledSourceEffect func_80167904
-#define dungeonUpdateExpandingSpiralEffect D_80167738
+#define create_angled_source_effect func_80167904
+#define update_expanding_spiral_effect D_80167738
 #include "modules/dungeon_resource16_slot0.h"
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
@@ -21,7 +21,7 @@ void func_80167904(
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
         state->unk_1E = angle;
-        ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)dungeonUpdateExpandingSpiralEffect);
+        ((R16_80173904_S_80173904_1 *)object)->unk_10 = ((void *)update_expanding_spiral_effect);
         func_8004491C(object, func_80045340);
 
         display = ((R16_80173904_S_80173904_1 *)object)->unk_0C;

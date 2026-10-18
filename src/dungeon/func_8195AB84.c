@@ -42,7 +42,7 @@ typedef struct S_8195AB84_4 {
 
 
 extern void func_80025B5C();
-extern s32 hasEnoughAvailableRuntimeNodes(s32);
+extern s32 has_enough_available_runtime_nodes(s32);
 extern void *func_8003FD64(s32, void *);
 
 extern s32 D_80025C80;
@@ -59,7 +59,7 @@ void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
     S_8195AB84_4 *object_state;
     ObjectNodeHeader *obj;
 
-    if (hasEnoughAvailableRuntimeNodes(18) == 0) {
+    if (has_enough_available_runtime_nodes(18) == 0) {
         return NULL;
     }
     for (i = 0; i < 18; i++) {

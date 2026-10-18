@@ -1,6 +1,6 @@
 #include "modules/dungeon_ovl_190c800.h"
 
-void func_80024094(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
+void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
 {
     s32 quad_copies[20];
     u16 saved_draw_mode;
@@ -63,8 +63,8 @@ void func_80024094(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     setup_arg = screen_pos;
     sprite = *((void **) (((s8 *) effect) + (-0x14)));
     callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
-    render_context = *((void **) (((struct S_8003E2D8 *)&gameWork)));
-    render_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
+    render_context = *((void **) (((struct S_8003E2D8 *)&g_game_work)));
+    render_state = (u8 *) (((struct S_8003E2D8 *)&g_game_work));
     frame = *((void **) (((s8 *) sprite) + 8));
     scratch = (ScratchPad *)0x1F800000;
     *((s32 *) (((s8 *) scratch) + 0xEC)) = 0;

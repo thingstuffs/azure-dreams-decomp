@@ -1,28 +1,28 @@
-#define func_80173E00 func_801546B8
-#define func_800A2C34 func_800A1904
+#define update_directional_sprite_state_and_signals func_801546B8
+#define has_pending_actor_or_turn_action func_800A1904
 #define func_80042B68 func_8004272C
 #define D_801740F0 D_80154E94
 #define D_801714D4 D_80152514
-#define dungeonAdvanceActorPendingAction func_800A9454
-#define func_800AA888 func_800A9540
-#define func_800A9A04 townUpdateFadingEffectMotion
+#define advance_actor_pending_action func_800A9454
+#define begin_actor_move_to_target_facing func_800A9540
+#define func_800A9A04 update_fading_effect_motion
 #define D_80174150 D_80154EBC
 #define D_80174160 D_80154ECC
-#define dungeonCheckEntityRelation func_80098F70
+#define check_entity_relation func_80098F70
 #define D_801740F8 D_80154E94
 #define D_80174158 D_80154EC4
-#define dungeonBeginReadyActorDirectionalAction func_800A936C
-#define func_800A9A0C func_800A86C4
+#define begin_ready_actor_directional_action func_800A936C
+#define update_actor_status_and_food func_800A86C4
 #define func_80047784 func_80047320
-#define func_800A6D30 func_800A59E8
+#define generate_random_value func_800A59E8
 #define D_800814A8 D_800803DC
-#define dungeonBeginPushedActorMove func_800A8F10
+#define begin_pushed_actor_move func_800A8F10
 #define func_80042900 func_800424C4
 #define D_80082E80 D_80081490
-#define dungeonGetTileChebyshevDistance func_8009EB30
+#define get_tile_chebyshev_distance func_8009EB30
 /* Relink of matched dungeon/func_80977E0C at file 0x997E0C; imports and data use paired retail relocations. */
-#define dungeonStatus D_80085990
-#define gameWork D_80084818
+#define g_dungeon_status D_80085990
+#define g_game_work D_80084818
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -54,7 +54,7 @@ extern s32 func_80098F70(void *, void *);
 extern s32 func_8009EB30(void *, void *);
 extern s32 func_800A1904(void *);
 extern s32 func_800A59E8();
-extern void townUpdateFadingEffectMotion(void *);
+extern void update_fading_effect_motion(void *);
 extern void func_800A86C4(void *);
 extern void func_800A8F10(void *, void *, void *, void *);
 extern s32 func_800A936C(void *, void *, void *, s32);
@@ -91,11 +91,11 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
             local_table_0 = D_80154E94;
 
             (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-            effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
             effect_entry &= 7;
             effect_entry += (s32)local_table_0;
             func_80047320(entity, *(u8 *)effect_entry, 0);
-            dungeon_state = &dungeonStatus;
+            dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)--;
             next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
             ((S_8017360C_0 *)action)->unk_9B = next_state;
@@ -113,7 +113,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_1 = D_80154EBC;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -133,7 +133,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_2 = D_80154EC4;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -148,7 +148,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
     {
         u8 *local_table_3;
         if ((func_800424C4(actor, 1) << 16) != 0) {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             s32 actor_flags;
 
             if ((dungeon_state->flags & 0x1000) != 0) {
@@ -208,7 +208,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
             }
 
             func_800A86C4(actor);
-            townUpdateFadingEffectMotion(actor);
+            update_fading_effect_motion(actor);
             if ((func_800424C4(actor, 1) << 16) != 0) {
                 TileObject *room_base = &D_80081490;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
@@ -227,7 +227,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_3 = D_80154ECC;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_3;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -236,7 +236,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         }
         ((S_8017360C_0 *)action)->unk_9B++;
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)++;
         }
         return;
@@ -259,7 +259,7 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_4;
         func_80047320(entity, *(u8 *)effect_entry, 0);
@@ -279,12 +279,12 @@ void func_80153EC4(void *action, void *context, void *entity, EntityRec *actor)
         local_table_5 = D_80154E94;
 
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        effect_entry = (g_game_work.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_5;
         func_80047320(entity, *(u8 *)effect_entry, 0);
         {
-            DungeonGlobalStatus *dungeon_state = &dungeonStatus;
+            DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
             (*(u16 *)&dungeon_state->unk_0A)--;
         }
         break;

@@ -40,17 +40,17 @@ typedef struct TownObject {
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 
-extern s32 advanceIndexWithDirectionalClamp(s32, s32, s32);
+extern s32 advance_index_with_directional_clamp(s32, s32, s32);
 extern void func_80049490(s32);
 extern void func_8004B08C(void *);
 extern void SD_Call(s32);
-extern void townSetItemMenuDataPointer(s32);
-extern void townSetItemMenuEntryCoordinates(TownObject *);
-extern void townUpdateItemMenuRecord(TownObject *);
-extern s32 townPlaceSelectedItemMenuEntry(TownObject *);
+extern void set_item_menu_data_pointer(s32);
+extern void set_item_menu_entry_coordinates(TownObject *);
+extern void update_item_menu_record(TownObject *);
+extern s32 place_selected_item_menu_entry(TownObject *);
 
 /* Handles town menu actions, selection movement, and scrolling between bands. */
-void townUpdateItemMenuSelection(TownObject *obj)
+void update_item_menu_selection(TownObject *obj)
 {
     s32 held_buttons;
     s32 move_step;
@@ -61,7 +61,7 @@ void townUpdateItemMenuSelection(TownObject *obj)
     TownInner *selection;
     TownInner *refreshed_inner;
 
-    held_buttons = gameWork.buttons;
+    held_buttons = g_game_work.buttons;
     move_step = 0;
     if (held_buttons == 0) {
         return;
@@ -70,31 +70,31 @@ void townUpdateItemMenuSelection(TownObject *obj)
         return;
     }
     if (obj->inner->limit == 0) {
-        if (((s32)gameWork.unk_010) & 0x20) {
+        if (((s32)g_game_work.unk_010) & 0x20) {
             SD_Call(0x515);
-            townSetItemMenuDataPointer(obj->resource);
+            set_item_menu_data_pointer(obj->resource);
         }
         return;
     }
 
-    if (((s32)gameWork.unk_010) & 0x20) {
+    if (((s32)g_game_work.unk_010) & 0x20) {
         SD_Call(0x515);
-        townSetItemMenuDataPointer(obj->resource);
+        set_item_menu_data_pointer(obj->resource);
         return;
     }
-    if (((s32)gameWork.unk_010) & 0x40) {
+    if (((s32)g_game_work.unk_010) & 0x40) {
         SD_Call(0x514);
-        obj->inner->handle = townPlaceSelectedItemMenuEntry(obj);
+        obj->inner->handle = place_selected_item_menu_entry(obj);
         if (obj->inner->handle != 0) {
             return;
         }
         obj->old_state = *(s32 *)((u8 *)obj - 0x10);
         *(void **)((u8 *)obj - 0x10) = D_800AF96C;
         return;
-    } else if (((s32)gameWork.unk_010) & 0x10) {
+    } else if (((s32)g_game_work.unk_010) & 0x10) {
         SD_Call(0x503);
         func_8004B08C((void *)0x8001029C);
-        townUpdateItemMenuRecord(obj);
+        update_item_menu_record(obj);
         action_inner = obj->inner;
         func_80049490(action_inner->table[action_inner->position]);
         return;
@@ -103,15 +103,15 @@ void townUpdateItemMenuSelection(TownObject *obj)
     if (!(held_buttons & 0xF000)) {
         return;
     }
-    if (((s32)gameWork.unk_010) & 0xF000) {
+    if (((s32)g_game_work.unk_010) & 0xF000) {
         obj->counter = 0;
-        if (((s32)gameWork.unk_010) & 0x8000)
+        if (((s32)g_game_work.unk_010) & 0x8000)
             move_step = -5;
-        else if (((s32)gameWork.unk_010) & 0x2000)
+        else if (((s32)g_game_work.unk_010) & 0x2000)
             move_step = 5;
-        else if (((s32)gameWork.unk_010) & 0x1000)
+        else if (((s32)g_game_work.unk_010) & 0x1000)
             move_step = -1;
-        else if (((s32)gameWork.unk_010) & 0x4000)
+        else if (((s32)g_game_work.unk_010) & 0x4000)
             move_step = 1;
     } else {
         if (obj->counter >= 5) {
@@ -131,7 +131,7 @@ void townUpdateItemMenuSelection(TownObject *obj)
     }
 
     move_inner = obj->inner;
-    next_position = advanceIndexWithDirectionalClamp(move_inner->position, move_step, move_inner->limit);
+    next_position = advance_index_with_directional_clamp(move_inner->position, move_step, move_inner->limit);
     selection = obj->inner;
     if (next_position >= selection->limit) {
         selection->position = next_position;
@@ -143,7 +143,7 @@ void townUpdateItemMenuSelection(TownObject *obj)
     SD_Call(0x502);
     obj->inner->position = next_position;
     next_band = obj->inner->position / 10;
-    townSetItemMenuEntryCoordinates(obj);
+    set_item_menu_entry_coordinates(obj);
     refreshed_inner = obj->inner;
     func_80049490(refreshed_inner->table[refreshed_inner->position]);
     if (next_band == obj->inner->band) {
@@ -155,5 +155,5 @@ void townUpdateItemMenuSelection(TownObject *obj)
         *(s32 *)((void **)obj->aux->up)[1] = D_800891F4;
     }
     obj->inner->band = next_band;
-    townUpdateItemMenuRecord(obj);
+    update_item_menu_record(obj);
 }

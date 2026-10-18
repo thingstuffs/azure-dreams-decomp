@@ -4,7 +4,7 @@
 
 typedef struct S_8002017C_0_pre {
     u16 unk_00;
-} S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in townFadeDelayedSceneTileOnCompletion, addressed as arg0[-1] */
+} S_8002017C_0_pre;   /* the 0x2 bytes before arg0 in fade_delayed_scene_tile_on_completion, addressed as arg0[-1] */
 
 typedef struct S_8002017C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,16 +13,16 @@ typedef struct S_8002017C_0 {
     s32 unk_08;
     u8 pad_0C[0xA];
     u16 unk_16;
-} S_8002017C_0;   /* arg0 in townFadeDelayedSceneTileOnCompletion */
+} S_8002017C_0;   /* arg0 in fade_delayed_scene_tile_on_completion */
 
 typedef struct S_8002017C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8002017C_1;   /* sub in townFadeDelayedSceneTileOnCompletion */
+} S_8002017C_1;   /* sub in fade_delayed_scene_tile_on_completion */
 
 
 /* Advance a delayed fade after the linked object signals, then flag completion. */
-void townFadeDelayedSceneTileOnCompletion(void *effect) {
+void fade_delayed_scene_tile_on_completion(void *effect) {
     s16 state;
     s32 fade_rgb;
     u16 delay;
@@ -57,7 +57,7 @@ void townFadeDelayedSceneTileOnCompletion(void *effect) {
         ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
         if (fade_rgb <= 0x80808) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002017C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
+            object_flag_block.flags |= 0x8000;
         }
         break;
     }

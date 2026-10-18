@@ -6,30 +6,30 @@ typedef s32 M2C_UNK;
 
 
 extern void func_800419EC(s32, s32);
-extern void func_800A56E0(u32);
+extern void play_sound_if_enabled(u32);
 extern s16 D_801760D8[5];
 
 
 typedef struct S_80170534_0_pre {
     u16 unk_00;
-} S_80170534_0_pre;   /* the 0x2 bytes before state in dungeonAdvanceTimedBlinkEffect, addressed as state[-1] */
+} S_80170534_0_pre;   /* the 0x2 bytes before state in advance_timed_blink_effect, addressed as state[-1] */
 
 typedef struct S_80170534_0 {
     u8 pad_00[0x12];
     union { s16 s; u16 u; } unk_12;   /* accessed as both */
     u8 pad_14[0x4];
     u16 unk_18;
-} S_80170534_0;   /* state in dungeonAdvanceTimedBlinkEffect */
+} S_80170534_0;   /* state in advance_timed_blink_effect */
 
 typedef struct S_80170534_1 {
     u8 pad_00[0xC];
     u8 unk_0C;
     union { s8 s; u8 u; } unk_0D;   /* accessed as both */
     union { s8 s; u8 u; } unk_0E;   /* accessed as both */
-} S_80170534_1;   /* input in dungeonAdvanceTimedBlinkEffect */
+} S_80170534_1;   /* input in advance_timed_blink_effect */
 
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
-void dungeonAdvanceTimedBlinkEffect(void *state_data, void *unused, void *color_data) {
+void advance_timed_blink_effect(void *state_data, void *unused, void *color_data) {
     s32 phase;
     s32 bright_shade;
     u16 dim_shade;
@@ -44,7 +44,7 @@ void dungeonAdvanceTimedBlinkEffect(void *state_data, void *unused, void *color_
         ((S_80170534_0 *)state_data)->unk_18 = frame;
         if (!(frame & 3)) {
             func_800419EC(6, 0xC);
-            func_800A56E0(0x818);
+            play_sound_if_enabled(0x818);
         }
         if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
             bright_shade = 0xFF;
@@ -75,7 +75,7 @@ void dungeonAdvanceTimedBlinkEffect(void *state_data, void *unused, void *color_
         blink_frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
         ((S_80170534_0 *)state_data)->unk_18 = blink_frame;
         if (!(blink_frame & 3)) {
-            func_800A56E0(0x818);
+            play_sound_if_enabled(0x818);
         }
         if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
             bright_shade = 0xFF;
@@ -101,7 +101,7 @@ void dungeonAdvanceTimedBlinkEffect(void *state_data, void *unused, void *color_
         break;
     case 4:
         ((S_80170534_0_pre *)state_data)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        object_flag_block.flags |= 0x8000;
     case 0:
     case 3:
     default:

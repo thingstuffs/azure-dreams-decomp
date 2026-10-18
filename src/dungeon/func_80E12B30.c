@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern s32 func_800990FC(void);
-extern s32 func_80099194(u8 *src, u8 *dst);
+extern s32 get_unused_text_buffer(void);
+extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 func_80099290(s8 *byte_ptr);
-extern s32 func_80099734(void *record, u8 *out);
-extern void func_800A5720(s8 *text);
+extern s32 append_entity_display_text(void *record, u8 *out);
+extern void display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_800E1F7B[];
 extern u8 D_800E1F93[];
@@ -14,12 +14,12 @@ extern u8 D_8017088C[];
 void func_80E12B30(s32 dispatch_mode, void *input) {
     s32 result;
 
-    result = func_800990FC();
+    result = get_unused_text_buffer();
     if (dispatch_mode << 16) {
-        func_80099290(func_80099194(D_800E1F7B, func_80099734(input, result)));
+        func_80099290(expand_text_control_codes(D_800E1F7B, append_entity_display_text(input, result)));
     } else {
-        func_80099290(func_80099194(D_8017088C,
-            func_80099734(input, func_80099194(D_800E1F93, result))));
+        func_80099290(expand_text_control_codes(D_8017088C,
+            append_entity_display_text(input, expand_text_control_codes(D_800E1F93, result))));
     }
-    func_800A5720(result);
+    display_text_with_fullwidth_adjustment(result);
 }

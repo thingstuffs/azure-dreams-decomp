@@ -5,6 +5,6 @@
 
 
 /* Returns the current value of D_80083168. */
-s32 runtimeGetStateValue83168(void) {
-    return gameWork.buttons;
+s32 runtime_get_state_value_83168(void) {
+    return g_game_work.buttons;
 }

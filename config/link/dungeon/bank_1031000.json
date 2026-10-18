@@ -182,7 +182,11 @@
    "home": "dungeon/func_81008664",
    "foff": "0x1034664",
    "vma": "0x80167E64",
-   "size": 2476
+   "size": 2476,
+   "bindings": {
+    "0x81008664": "0x80167E64"
+   },
+   "evidence": "Legacy home TU defines synthetic entry func_81008664; split row func_81014664 at file 0x1034664 and proven rowbase img_1031278_80164a78 place this entry at 0x80167E64. Bind the entry and its text section so compiler-local switch-table derivation uses this placement's symbol."
   }
  ],
  "symbols": {
