@@ -250,7 +250,7 @@
       "symbol": "D_800814A0",
       "kind": "runtime_data",
       "vma": 2148013216,
-      "view_bytes": 16,
+      "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_18d0850.imports.json",
       "declaration": "include/shared/object_flags.h"
@@ -302,16 +302,18 @@
       "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
     },
     "D_800814A0": {
-      "declared_bytes": 16,
+      "declared_bytes": 4,
       "view_bytes": 16,
       "previous_view_bytes": 16,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "manifest_view_bytes": 4
     },
     "D_80083160": {
       "declared_bytes": 512,
       "view_bytes": 512,
       "previous_view_bytes": 512,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "declaration_expression": "g_game_work"
     },
     "D_80083460": {
       "declared_bytes": null,
@@ -325,5 +327,20 @@
       "previous_view_bytes": 1,
       "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
     }
+  },
+  "target_sizeof_measurement": {
+    "reviewer": "codex-r121w-certs",
+    "scope": "declaration widths and identifier spelling only; placement review remains pending",
+    "compiler": "2.7.2-cdk",
+    "ccflags": [
+      "-O2",
+      "-G0"
+    ],
+    "checks": 3,
+    "source_sha256": "e6e942c56411c4d52d53d10aa60c8f8c655d61122158e14068630f3a5f43c7a2",
+    "header_sha256": {
+      "include/modules/dungeon_ovl_18d0850.h": "3c821681697101ec0d9763ef9607b85a891d2855aa77dd2f34ae15f01d73df50"
+    },
+    "probe_assembly_sha256": "5c8d2269b92771a5265631ec9eab5f186cd8bdb4e9fded585d0d2684b9ecf513"
   }
 }

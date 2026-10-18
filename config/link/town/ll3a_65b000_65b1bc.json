@@ -1,0 +1,23 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/ll3a_65b000_65b1bc",
+ "container": "town",
+ "foff": "0x0065B000",
+ "size": "0x000001BC",
+ "vma": "0x80016000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_65b134_80016134",
+ "entries": [
+  {
+   "row": "town/func_806DB0F8",
+   "home": "town/func_800B0DB0",
+   "tu": "src/town/func_800B0DB0.c",
+   "foff": "0x0065B0F8",
+   "vma": "0x800160F8",
+   "size": 8,
+   "bindings": {
+    "0x800AE510": "0x800160F8"
+   },
+   "evidence": "LL3a attestation sha256:fa44b905f7b5995ae43fffc940bace800e85ad790c430f858385af48d63ff55d; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  }
+ ]
+}

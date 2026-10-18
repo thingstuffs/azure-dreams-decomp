@@ -199,6 +199,14 @@
    "foff": "0x9C431C",
    "vma": "0x80175B1C",
    "size": 608
+  },
+  {
+   "row": "dungeon/func_809A457C",
+   "home": "dungeon/func_809A457C",
+   "tu": "src/dungeon/func_809A457C.c",
+   "foff": "0x009C457C",
+   "vma": "0x80175D7C",
+   "size": 196
   }
  ],
  "symbols": {

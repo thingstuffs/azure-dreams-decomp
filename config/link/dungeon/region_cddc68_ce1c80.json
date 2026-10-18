@@ -15,9 +15,70 @@
    "vma": "0x80173830",
    "size": 128,
    "bindings": {
-    "0x800ab378": "0x800ac010"
+    "0x800ab378": "0x800ac010",
+    "0x80173000": "0x80173000"
    },
-   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC0030"
+   "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CC0030; LL3a preserves prior rule-3 binding"
+  },
+  {
+   "row": "dungeon/func_80CC00B0",
+   "home": "dungeon/func_80CBF800",
+   "tu": "src/dungeon/func_80CBF800.c",
+   "foff": "0x00CE00B0",
+   "vma": "0x801738B0",
+   "size": 84,
+   "bindings": {
+    "0x800ABDBC": "0x800AC480",
+    "0x80173B98": "0x80173B98",
+    "0x80170F20": "0x80170F20",
+    "0x80173000": "0x801738B0"
+   },
+   "evidence": "LL3a attestation sha256:1187f7c21423a8d32b63f61571d622d8cf0e4933bdd372a9bffc186e93d45420; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "dungeon/func_80CC0104",
+   "home": "dungeon/func_80CBF800",
+   "tu": "src/dungeon/func_80CBF800.c",
+   "foff": "0x00CE0104",
+   "vma": "0x80173904",
+   "size": 84,
+   "bindings": {
+    "0x800ABDBC": "0x800AC5C8",
+    "0x80173B98": "0x80173B98",
+    "0x80170F20": "0x80170F20",
+    "0x80173000": "0x80173904"
+   },
+   "evidence": "LL3a attestation sha256:10b28d029d8c4a8cd8a77d7463ee5b859456a7298624eceb555499f3554f7396; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "dungeon/func_80CC0158",
+   "home": "dungeon/func_80CBF800",
+   "tu": "src/dungeon/func_80CBF800.c",
+   "foff": "0x00CE0158",
+   "vma": "0x80173958",
+   "size": 84,
+   "bindings": {
+    "0x800ABDBC": "0x800ACE34",
+    "0x80173B98": "0x80173B98",
+    "0x80170F20": "0x80170F20",
+    "0x80173000": "0x80173958"
+   },
+   "evidence": "LL3a attestation sha256:3041344a1ccb3f1dc4b7383e3e5eb90cc5325a9ba31e7eabb888389e0e014148; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "dungeon/func_80CC0200",
+   "home": "dungeon/func_80CBF800",
+   "tu": "src/dungeon/func_80CBF800.c",
+   "foff": "0x00CE0200",
+   "vma": "0x80173A00",
+   "size": 84,
+   "bindings": {
+    "0x800ABDBC": "0x800AC7EC",
+    "0x80173B98": "0x80173B98",
+    "0x80170F20": "0x80170F20",
+    "0x80173000": "0x80173A00"
+   },
+   "evidence": "LL3a attestation sha256:340d61508183fd55acd3bbd5b115095435ec3b7191fcc6e9c9601e9321307118; current-TU paired HI16/LO16 relocation screen; scoped window gate"
   }
  ]
 }

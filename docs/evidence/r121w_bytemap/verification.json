@@ -1,0 +1,17 @@
+{
+  "delivered_files": 22,
+  "patch_bytes": 674356,
+  "patch_sha256": "90e8c11957c1f732df5ba182303d9dc4be3d845ac801df4a5d14a6c692dd54ad",
+  "report_bytes": 13414,
+  "all_delivery_files_verified": true,
+  "binary_payload_files": [],
+  "tests": 176,
+  "scoped_windows_match": 8,
+  "sample_physical_bytes": 2611200,
+  "sample_link_file_bytes": 277074,
+  "holds": [
+    "census2 disjoint span export absent",
+    "B6 census evidence must be aligned to staged B10",
+    "747 remaining v0 views require canonical physical ownership for full rollout"
+  ]
+}

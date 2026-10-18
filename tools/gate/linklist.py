@@ -1,4 +1,8 @@
-"""Link lists: one TU, many placements (azure-clean.linklist.v0, decision 59, docs/LINK_LISTS.md).
+"""Link lists: one TU, many placements (v0, decision 59), whole-image byte maps (v1, decision 60b).
+
+v1 keeps the code entry shape and adds metadata intervals. validate_image + coverage require exact tiling,
+conserved census labels and non-cyclic load-image references. Only code entries enter the placement indices;
+all existing build and rebinding callers consequently ignore metadata. See docs/LINK_LISTS.md.
 
 config/link/<container>/<image>.json describes ONE load image (a bank / floor slot / scene image):
 
@@ -28,6 +32,9 @@ from functools import lru_cache
 from pathlib import Path
 
 SCHEMA = "azure-clean.linklist.v0"
+MAP_SCHEMA = "azure-clean.linklist.v1"
+CENSUS_LABELS = ("proven_code", "library_code", "strongly_code", "proven_data",
+                 "noncode_typing_pending", "padding_leftover", "unknown")
 ADDR = re.compile(r"^(func|D)_([0-9A-F]{8})$")
 OBJCOPY = "mipsel-linux-gnu-objcopy"
 NM = "mipsel-linux-gnu-nm"
@@ -35,6 +42,149 @@ ENTRY_KEYS = {"row", "tu", "home", "foff", "vma", "size"}
 ENTRY_OPTIONAL = {"bindings", "evidence"}
 IMAGE_KEYS = {"schema", "image", "container", "foff", "size", "vma", "entries"}
 IMAGE_OPTIONAL = {"layout", "evidence", "symbols"}
+
+
+def is_code(entry):
+    """Only the unchanged v0 TU shape participates in compilation and rebinding."""
+    return "kind" not in entry
+
+
+def census_label(entry):
+    if is_code(entry):
+        return "proven_code"
+    kind = entry["kind"]
+    if kind in ("asset", "code_region"):
+        return entry["census_label"]
+    if kind == "data":
+        return "noncode_typing_pending" if entry["type"] == "typing pending" else "proven_data"
+    return {"padding": "padding_leftover", "leftover": "padding_leftover", "unresolved": "unknown"}[kind]
+
+
+def _totals(value):
+    if not isinstance(value, dict) or set(value) - set(CENSUS_LABELS):
+        raise ValueError("invalid census totals")
+    out = {k: value.get(k, 0) for k in CENSUS_LABELS}
+    if any(type(v) is not int or v < 0 for v in out.values()):
+        raise ValueError("census totals must be nonnegative integer byte counts")
+    return out
+
+
+def _metadata(raw):
+    common = {"kind", "foff", "size", "evidence"}
+    extra = {"data": {"type"}, "padding": set(), "leftover": {"reason"}, "unresolved": set(),
+             "asset": {"format", "sha256", "extractor", "census_label"}, "code_region": {"census_label"},
+             "image": {"ref"}}
+    kind = raw.get("kind")
+    if kind not in extra or not common | extra[kind] <= set(raw) or set(raw) - common - extra[kind] - {"vma"}:
+        raise ValueError("link list metadata entry keys: " + str(kind))
+    for k in (common | extra[kind]) - {"foff", "size"}:
+        if not isinstance(raw[k], str) or not raw[k].strip():
+            raise ValueError("metadata field must be nonempty text: " + k)
+    if kind == "asset":
+        if not re.fullmatch(r"[0-9a-f]{64}", raw["sha256"]):
+            raise ValueError("invalid asset sha256")
+        if raw["extractor"] != "container-slice-v1":
+            raise ValueError("unknown asset extractor: " + raw["extractor"])
+        if raw["census_label"] not in ("proven_data", "noncode_typing_pending"):
+            raise ValueError("asset must retain a non-code census label")
+    if kind == "code_region" and raw["census_label"] not in CENSUS_LABELS[:3]:
+        raise ValueError("code_region must retain a code census label")
+
+
+def validate_image(doc, path="<image>"):
+    """Validate one document without requiring its references/homes to be loaded yet."""
+    whole = doc.get("schema") == MAP_SCHEMA
+    if doc.get("schema") not in (SCHEMA, MAP_SCHEMA):
+        raise ValueError("unknown link list schema: " + str(path))
+    required = IMAGE_KEYS | ({"census"} if whole else set())
+    optional = IMAGE_OPTIONAL | ({"provenance"} if whole else set())
+    if not required <= set(doc) or set(doc) - required - optional:
+        raise ValueError("link list image keys: " + str(path))
+    if whole and (not isinstance(doc["image"], str) or not re.fullmatch(r"[a-z][a-z0-9_]*/[A-Za-z0-9_]+", doc["image"])):
+        raise ValueError("invalid byte map image id")
+    if whole and "provenance" in doc:
+        provenance = doc["provenance"]
+        if not isinstance(provenance, dict) or set(provenance) != {"labels_sha256", "coverage_sha256", "source"}:
+            raise ValueError("byte map provenance keys")
+        if any(not isinstance(provenance[k], str) or not re.fullmatch(r"[0-9a-f]{64}", provenance[k])
+               for k in ("labels_sha256", "coverage_sha256")) or not isinstance(provenance["source"], str) or not provenance["source"].strip():
+            raise ValueError("invalid byte map provenance")
+    img = dict(doc, foff=num(doc["foff"]), size=num(doc["size"]),
+               vma=None if whole and doc["vma"] is None else num(doc["vma"]), path=str(path),
+               symbols=_addr_map(doc.get("symbols"), "image symbols"))
+    if img["foff"] < 0 or img["size"] <= 0:
+        raise ValueError("empty image or negative image offset: " + str(path))
+    if not isinstance(doc["entries"], list):
+        raise ValueError("entries must be a list")
+    last, entries = img["foff"], []
+    for raw in doc["entries"]:
+        code = is_code(raw)
+        if code:
+            if not ENTRY_KEYS <= set(raw) or set(raw) - ENTRY_KEYS - ENTRY_OPTIONAL:
+                raise ValueError("link list entry keys: %s in %s" % (raw.get("row"), path))
+        elif not whole:
+            raise ValueError("metadata requires linklist.v1")
+        else:
+            _metadata(raw)
+        e = dict(raw, foff=num(raw["foff"]), size=num(raw["size"]), image=img["image"], container=img["container"])
+        name = raw.get("row", raw.get("kind"))
+        if e["size"] <= 0 or not img["foff"] <= e["foff"] < e["foff"] + e["size"] <= img["foff"] + img["size"]:
+            raise ValueError("entry outside its image: " + str(name))
+        if code or "vma" in raw:
+            e["vma"] = num(raw["vma"])
+            if img["vma"] is None or e["vma"] - img["vma"] != e["foff"] - img["foff"]:
+                raise ValueError("entry vma is not image vma + offset: " + str(name))
+        if e["foff"] < last:
+            raise ValueError("entries out of order or overlapping in %s at %s" % (img["image"], name))
+        if whole and e["foff"] != last:
+            raise ValueError("byte map gap in %s at 0x%X" % (img["image"], last))
+        last = e["foff"] + e["size"]
+        if code:
+            e["bindings"] = _addr_map(raw.get("bindings"), "entry bindings")
+        entries.append(e)
+    if whole:
+        if last != img["foff"] + img["size"]:
+            raise ValueError("byte map trailing gap in " + img["image"])
+        img["census"] = _totals(doc["census"])
+    img["entries"] = entries
+    return img
+
+
+def coverage(images):
+    """Prove exact per-image tiling (in validate_image), reference extents and census conservation.
+
+    File-only container images may reference load images; references carry no duplicate TU and no invented VMA.
+    The recursive walk counts each referenced byte once and rejects cycles, stale totals and v0 children.
+    """
+    done, active = {}, set()
+    def visit(img):
+        key = img["image"]
+        if key in active:
+            raise ValueError("byte map image reference cycle: " + key)
+        if key in done:
+            return done[key]
+        if img["schema"] != MAP_SCHEMA:
+            raise ValueError("byte map reference needs a whole-image v1 child: " + key)
+        active.add(key)
+        totals = dict.fromkeys(CENSUS_LABELS, 0)
+        for e in img["entries"]:
+            if e.get("kind") == "image":
+                child = images.get(e["ref"])
+                if child is None or (child["container"], child["foff"], child["size"]) != (img["container"], e["foff"], e["size"]):
+                    raise ValueError("byte map image reference extent/container differs: " + e["ref"])
+                for k, v in visit(child).items():
+                    totals[k] += v
+            else:
+                totals[census_label(e)] += e["size"]
+        active.remove(key)
+        if totals != img["census"] or sum(totals.values()) != img["size"]:
+            raise ValueError("byte map census totals differ: " + key)
+        done[key] = totals
+        return totals
+    for img in images.values():
+        if img["schema"] == MAP_SCHEMA:
+            visit(img)
+    return done
 
 
 def num(v):
@@ -79,32 +229,15 @@ def _load(stamp):
     images, by_place, by_row = {}, {}, {}
     for path, *_ in stamp:
         doc = json.loads(Path(path).read_text())
-        if doc.get("schema") != SCHEMA:
-            raise ValueError("unknown link list schema: " + path)
-        if not IMAGE_KEYS <= set(doc) or set(doc) - IMAGE_KEYS - IMAGE_OPTIONAL:
-            raise ValueError("link list image keys: " + path)
         if doc["container"] != Path(path).parent.name or not doc["image"].startswith(doc["container"] + "/"):
             raise ValueError("link list lives outside its container directory: " + path)
-        img = dict(doc, foff=num(doc["foff"]), size=num(doc["size"]), vma=num(doc["vma"]), path=path,
-                   symbols=_addr_map(doc.get("symbols"), "image symbols"))
-        if img["size"] <= 0:
-            raise ValueError("empty image: " + path)
+        img = validate_image(doc, path)
         if img["image"] in images:
             raise ValueError("duplicate image " + img["image"])
         images[img["image"]] = img
-        last = img["foff"]
-        for raw in doc["entries"]:
-            if not ENTRY_KEYS <= set(raw) or set(raw) - ENTRY_KEYS - ENTRY_OPTIONAL:
-                raise ValueError("link list entry keys: %s in %s" % (raw.get("row"), path))
-            e = dict(raw, foff=num(raw["foff"]), vma=num(raw["vma"]), size=int(raw["size"]), image=img["image"],
-                     container=doc["container"], bindings=_addr_map(raw.get("bindings"), "entry bindings"))
-            if e["size"] <= 0 or not img["foff"] <= e["foff"] < e["foff"] + e["size"] <= img["foff"] + img["size"]:
-                raise ValueError("entry outside its image: " + e["row"])
-            if e["vma"] - img["vma"] != e["foff"] - img["foff"]:
-                raise ValueError("entry vma is not image vma + offset: " + e["row"])
-            if e["foff"] < last:
-                raise ValueError("entries out of order or overlapping in %s at %s" % (img["image"], e["row"]))
-            last = e["foff"] + e["size"]
+        for e in img["entries"]:
+            if not is_code(e):
+                continue
             if family(e["row"].split("/", 1)[0]) != doc["container"]:
                 raise ValueError("entry row belongs to another container: " + e["row"])
             key = (doc["container"], e["foff"])
@@ -112,6 +245,7 @@ def _load(stamp):
                 raise ValueError("placement listed twice: " + e["row"])
             by_place[key] = e
             by_row[e["row"]] = e
+    coverage(images)
     for e in by_row.values():
         if e["home"] not in by_row:
             raise ValueError("home row is not placed in any link list: " + e["home"])

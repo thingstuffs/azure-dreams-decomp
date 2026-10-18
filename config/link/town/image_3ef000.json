@@ -222,6 +222,30 @@
    "foff": "0x3F32A4",
    "vma": "0x8001A2A4",
    "size": 248
+  },
+  {
+   "row": "town/func_804735BC",
+   "home": "town/func_804735BC",
+   "tu": "src/town/func_804735BC.c",
+   "foff": "0x003F35BC",
+   "vma": "0x8001A5BC",
+   "size": 60
+  },
+  {
+   "row": "town/func_80473634",
+   "home": "town/func_80473634",
+   "tu": "src/town/func_80473634.c",
+   "foff": "0x003F3634",
+   "vma": "0x8001A634",
+   "size": 60
+  },
+  {
+   "row": "town/func_80473670",
+   "home": "town/func_80473670",
+   "tu": "src/town/func_80473670.c",
+   "foff": "0x003F3670",
+   "vma": "0x8001A670",
+   "size": 60
   }
  ],
  "symbols": {

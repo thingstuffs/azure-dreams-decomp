@@ -1,5 +1,5 @@
 {
- "schema": "azure-clean.linklist.v0",
+ "schema": "azure-clean.linklist.v1",
  "image": "town/image_3fe000",
  "container": "town",
  "foff": "0x3FE000",
@@ -7,6 +7,110 @@
  "vma": "0x80016000",
  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC18000: w4t2_bank_3fe0d0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
  "entries": [
+  {
+   "kind": "unresolved",
+   "foff": "0x3fe000",
+   "size": 208,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe0d0",
+   "size": 8,
+   "evidence": "ledger/splits/town.jsonl:func_8047E0D0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe0d8",
+   "size": 88,
+   "evidence": "ledger/splits/town.jsonl:func_8047E0D8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe130",
+   "size": 72,
+   "evidence": "ledger/splits/town.jsonl:func_8047E130 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe178",
+   "size": 72,
+   "evidence": "ledger/splits/town.jsonl:func_8047E178 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe1c0",
+   "size": 140,
+   "evidence": "ledger/splits/town.jsonl:func_8047E1C0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe24c",
+   "size": 44,
+   "evidence": "ledger/splits/town.jsonl:func_8047E24C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe278",
+   "size": 64,
+   "evidence": "ledger/splits/town.jsonl:func_8047E278 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe2b8",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E2B8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe2f0",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E2F0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe328",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E328 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe360",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E360 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe398",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E398 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe3d0",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E3D0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fe408",
+   "size": 56,
+   "evidence": "ledger/splits/town.jsonl:func_8047E408 MATCH",
+   "census_label": "proven_code"
+  },
   {
    "row": "town/func_803DE440",
    "tu": "src/town/func_8032ECE4.c",
@@ -40,6 +144,12 @@
    "size": 136
   },
   {
+   "kind": "unresolved",
+   "foff": "0x3fe6c8",
+   "size": 392,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
    "row": "town/func_803DE850",
    "tu": "src/town/func_8032F0F4.c",
    "home": "town/func_8032F0F4",
@@ -48,12 +158,71 @@
    "size": 100
   },
   {
+   "kind": "code_region",
+   "foff": "0x3fe8b4",
+   "size": 48,
+   "evidence": "ledger/splits/town.jsonl:func_8047E8B4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3fe8e4",
+   "size": 304,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fea14",
+   "size": 36,
+   "evidence": "ledger/splits/town.jsonl:func_8047EA14 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "town/func_803DEA38",
    "tu": "src/town/func_8032F2DC.c",
    "home": "town/func_8032F2DC",
    "foff": "0x3FEA38",
    "vma": "0x80016A38",
    "size": 120
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3feab0",
+   "size": 588,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fecfc",
+   "size": 92,
+   "evidence": "ledger/splits/town.jsonl:func_803FECFC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3fed58",
+   "size": 392,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3feee0",
+   "size": 16,
+   "evidence": "ledger/splits/town.jsonl:func_8047EEE0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3feef0",
+   "size": 176,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3fefa0",
+   "size": 864,
+   "evidence": "ledger/splits/town.jsonl:func_8047EFA0 MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "town/func_803DF300",
@@ -70,6 +239,190 @@
    "foff": "0x3FF358",
    "vma": "0x80017358",
    "size": 124
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3ff3d4",
+   "size": 12,
+   "evidence": "ledger/splits/town.jsonl:func_8047F3D4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3ff3e0",
+   "size": 132,
+   "evidence": "ledger/splits/town.jsonl:func_803DF3E0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3ff464",
+   "size": 12,
+   "evidence": "ledger/splits/town.jsonl:func_8047F464 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x3ff470",
+   "size": 8,
+   "evidence": "ledger/splits/town.jsonl:func_8047F470 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff478",
+   "size": 735,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff757",
+   "size": 31,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff776",
+   "size": 53,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff7ab",
+   "size": 31,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff7ca",
+   "size": 53,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff7ff",
+   "size": 31,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff81e",
+   "size": 53,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff853",
+   "size": 31,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff872",
+   "size": 6,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff878",
+   "size": 16,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff888",
+   "size": 138,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff912",
+   "size": 22,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff928",
+   "size": 6,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff92e",
+   "size": 18,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ff940",
+   "size": 6,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ff946",
+   "size": 538,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ffb60",
+   "size": 6,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ffb66",
+   "size": 19,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ffb79",
+   "size": 81,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ffbca",
+   "size": 19,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ffbdd",
+   "size": 101,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ffc42",
+   "size": 19,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ffc55",
+   "size": 141,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ffce2",
+   "size": 19,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x3ffcf5",
+   "size": 101,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x3ffd5a",
+   "size": 678,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
   }
  ],
  "symbols": {
@@ -79,5 +432,19 @@
   "0x8001C370": "0x8001794C",
   "0x8001C374": "0x80017950",
   "0x8001DCCC": "0x80017B5C"
+ },
+ "census": {
+  "proven_code": 3180,
+  "library_code": 0,
+  "strongly_code": 0,
+  "proven_data": 0,
+  "noncode_typing_pending": 0,
+  "padding_leftover": 1472,
+  "unknown": 3540
+ },
+ "provenance": {
+  "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",
+  "coverage_sha256": "d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c",
+  "source": "coverage-prototype-v1: staged MATCH code/data rows + zero-run padding; residual unknown; NOT census2"
  }
 }

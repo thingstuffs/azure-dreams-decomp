@@ -1,0 +1,14 @@
+{
+  "proposed_windows": 1251,
+  "rekeyed_windows": 1251,
+  "unchanged_windows_removed": 0,
+  "new_windows": 94,
+  "before_hashes": "scratch/input_hashes_before.json",
+  "after_hashes": "scratch/input_hashes_after.json",
+  "method": "same canonical root before/after; four workers; no gate; final tree restored in finally",
+  "before_sha256": "30305b7c6505b569d3e7a6fa13974a32f07df08a232cfdd274481df338f4f2ae",
+  "after_sha256": "d9abaa9091b68fd74ce20d41cb44a75923a936d738eec5c7e6bd835bf4a87407",
+  "entry_only_repair_windows": 1,
+  "repair_dependency_windows": 1,
+  "note": "Final input hashes include the entry-only repair. Its complete dependency scope was independently selected from link-list and module inputs."
+}

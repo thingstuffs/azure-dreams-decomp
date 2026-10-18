@@ -1,0 +1,152 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/ll3a_55228c_552be4",
+ "container": "town",
+ "foff": "0x0055228C",
+ "size": "0x00000958",
+ "vma": "0x8001628C",
+ "evidence": "config/overlays/town.rowbase.jsonl proven region sweep_55228C",
+ "entries": [
+  {
+   "row": "town/func_805D232C",
+   "home": "town/func_805D232C",
+   "tu": "src/town/func_805D232C.c",
+   "foff": "0x0055232C",
+   "vma": "0x8001632C",
+   "size": 152
+  },
+  {
+   "row": "town/func_805D23C4",
+   "home": "town/func_805D23C4",
+   "tu": "src/town/func_805D23C4.c",
+   "foff": "0x005523C4",
+   "vma": "0x800163C4",
+   "size": 72
+  },
+  {
+   "row": "town/func_805D240C",
+   "home": "town/func_805D240C",
+   "tu": "src/town/func_805D240C.c",
+   "foff": "0x0055240C",
+   "vma": "0x8001640C",
+   "size": 116
+  },
+  {
+   "row": "town/func_805D2480",
+   "home": "town/func_805D232C",
+   "tu": "src/town/func_805D232C.c",
+   "foff": "0x00552480",
+   "vma": "0x80016480",
+   "size": 152,
+   "bindings": {
+    "0x8001967C": "0x8001967C",
+    "0x80019698": "0x800196AC",
+    "0x80016250": "0x80016250",
+    "0x8001A730": "0x8001A730",
+    "0x8001DE58": "0x8001DE58",
+    "0x8001AAEC": "0x8001AAEC",
+    "0x8001632C": "0x80016480"
+   },
+   "evidence": "LL3a attestation sha256:09adfa9512eaa8bf17d66b38a0dc60670f039c96c8e8d16059c0e460bbd596a2; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D2518",
+   "home": "town/func_805D232C",
+   "tu": "src/town/func_805D232C.c",
+   "foff": "0x00552518",
+   "vma": "0x80016518",
+   "size": 152,
+   "bindings": {
+    "0x8001967C": "0x8001967C",
+    "0x80019698": "0x800196BC",
+    "0x80016250": "0x80016250",
+    "0x8001A730": "0x8001A730",
+    "0x8001DE58": "0x8001DE58",
+    "0x8001AAEC": "0x8001AAEC",
+    "0x8001632C": "0x80016518"
+   },
+   "evidence": "LL3a attestation sha256:0bff44845378e1ceae04491e365e11bb3399a20095a842c5eeb84d556339d259; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D25B0",
+   "home": "town/func_805D23C4",
+   "tu": "src/town/func_805D23C4.c",
+   "foff": "0x005525B0",
+   "vma": "0x800165B0",
+   "size": 72,
+   "bindings": {
+    "0x80019AFC": "0x80019AFC",
+    "0x8001628C": "0x80016480",
+    "0x8001632C": "0x80016518",
+    "0x800163C4": "0x800165B0"
+   },
+   "evidence": "LL3a attestation sha256:fb54b59725970442e0bae53c3bbae9483ce081584bef02c9bfe9938bb8926c69; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D25F8",
+   "home": "town/func_805D240C",
+   "tu": "src/town/func_805D240C.c",
+   "foff": "0x005525F8",
+   "vma": "0x800165F8",
+   "size": 116,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x80018618": "0x80018618",
+    "0x80019AFC": "0x80019AFC",
+    "0x8001640C": "0x800165F8"
+   },
+   "evidence": "LL3a attestation sha256:daaeda9d5df1adb0a96c428be6102ef3a30ef85b9913a85e74364ffb99e41fbf; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D266C",
+   "home": "town/func_805D232C",
+   "tu": "src/town/func_805D232C.c",
+   "foff": "0x0055266C",
+   "vma": "0x8001666C",
+   "size": 152,
+   "bindings": {
+    "0x8001967C": "0x8001967C",
+    "0x80019698": "0x800196D0",
+    "0x80016250": "0x80016250",
+    "0x8001A730": "0x8001A730",
+    "0x8001DE58": "0x8001DE58",
+    "0x8001AAEC": "0x8001AAEC",
+    "0x8001632C": "0x8001666C"
+   },
+   "evidence": "LL3a attestation sha256:70b75486a5b4bb3806ec81d6ebd2db1643d3880b5e12e605f842246e55b1cc57; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D2704",
+   "home": "town/func_805D232C",
+   "tu": "src/town/func_805D232C.c",
+   "foff": "0x00552704",
+   "vma": "0x80016704",
+   "size": 152,
+   "bindings": {
+    "0x8001967C": "0x8001967C",
+    "0x80019698": "0x800196E0",
+    "0x80016250": "0x80016250",
+    "0x8001A730": "0x8001A730",
+    "0x8001DE58": "0x8001DE58",
+    "0x8001AAEC": "0x8001AAEC",
+    "0x8001632C": "0x80016704"
+   },
+   "evidence": "LL3a attestation sha256:0c441c5b12c219e8612c400d00e595417a01e94b054ed18b5badb323c1ee8e53; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_805D279C",
+   "home": "town/func_805D23C4",
+   "tu": "src/town/func_805D23C4.c",
+   "foff": "0x0055279C",
+   "vma": "0x8001679C",
+   "size": 72,
+   "bindings": {
+    "0x80019AFC": "0x80019AFC",
+    "0x8001628C": "0x8001666C",
+    "0x8001632C": "0x80016704",
+    "0x800163C4": "0x8001679C"
+   },
+   "evidence": "LL3a attestation sha256:481020698f6c6c7145c287677d581f802e4ba65905bc4b64589475ef565db37f; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  }
+ ]
+}

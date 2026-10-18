@@ -233,13 +233,15 @@
       "declared_bytes": 16,
       "view_bytes": 16,
       "previous_view_bytes": 16,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "declaration_expression": "object_flag_block"
     },
     "D_80083160": {
       "declared_bytes": 512,
       "view_bytes": 512,
       "previous_view_bytes": 512,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "declaration_expression": "g_game_work"
     },
     "D_80083460": {
       "declared_bytes": null,
@@ -259,5 +261,20 @@
       "previous_view_bytes": 9,
       "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
     }
+  },
+  "target_sizeof_measurement": {
+    "reviewer": "codex-r121w-certs",
+    "scope": "declaration widths and identifier spelling only; placement review remains pending",
+    "compiler": "2.7.2-cdk",
+    "ccflags": [
+      "-O2",
+      "-G0"
+    ],
+    "checks": 3,
+    "source_sha256": "fed3c575afc8c44a16f863ef7d40f7d907928d0849421b9d9b02314db29a705b",
+    "header_sha256": {
+      "include/modules/dungeon_ovl_1930844.h": "976adf84d4082affa15dfef00c38f9903a25c5d2e1e65d082d77fcadaf362a8c"
+    },
+    "probe_assembly_sha256": "2a2988ba40b3fc3ba915edd64bfeaaed4788625e627aefab72a78407df937f48"
   }
 }

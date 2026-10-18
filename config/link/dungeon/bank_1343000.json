@@ -172,6 +172,19 @@
    "size": 32
   },
   {
+   "row": "dungeon/func_81328FF4",
+   "home": "dungeon/func_81328FD4",
+   "tu": "src/dungeon/func_81328FD4.c",
+   "foff": "0x01348FF4",
+   "vma": "0x801707F4",
+   "size": 32,
+   "bindings": {
+    "0x8016F78C": "0x8016F78C",
+    "0x801707D4": "0x801707F4"
+   },
+   "evidence": "LL3a attestation sha256:38042be08734c0812f1099ecae344258c5c49cc438504538481e68bac8e74222; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
    "row": "dungeon/func_81329014",
    "tu": "src/dungeon/func_81328FD4.c",
    "home": "dungeon/func_81328FD4",

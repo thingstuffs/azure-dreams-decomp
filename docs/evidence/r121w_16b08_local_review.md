@@ -1,0 +1,11 @@
+# dungeon_ovl_16b08_local placement review
+
+Reviewer: codex-r121w-certs, 2026-10-17. Scope: reviewed present build organization and its bounded interfaces; no recovered retail filename or whole-module L4/L5 claim.
+
+The manifest and ledger retain all 16 logical members in ascending retail order, covering DUNGEON offsets 0x16B08..0x16FB4 without a gap (1,196 bytes). The five independently recovered routines remain separately registered. The prior F6A8 routine belongs to a different proven runtime image and stays excluded. The aggregator includes every canonical member exactly once. The existing stock CDK G0 cohort recipe is unchanged.
+
+The guarded module header and the 16 fragments were inspected together. Initializers use callback slot zero and, where present, a signed halfword at offset 0xA; the larger existing record views remain shared includes. Existing opaque callback arguments, unknown external function signatures, padding and repeated initializer record shapes remain visible source-quality debt. Review of their current representation does not reconstruct missing semantic types or waive ladder criteria. There are no C/header/name changes in this preparation.
+
+No storage is allocated by this TU. Imported initializer tables and callbacks are resident TOWN assets according to the existing runtime transfer map and residency discriminator, rather than an overlapping DUNGEON image. Twelve copied 16-byte import spans disagreed with the already recorded target declaration audit: eight scalar views are four bytes and four incomplete/address-only views are one byte. The manifest and fingerprinted import evidence now agree with that audit. D_800D00B8 remains the actual 16-byte declaration. A one-byte incomplete view does not assert an enclosing allocation extent. Preserved residency-control spans remain historical location evidence.
+
+The initial unchanged whole-TU probe compiled one physical object and proved all 299 words against retail and direct genuine ASPSX 2.79, with zero masks and no raw substitution. This review changes metadata only. Fresh certification must repeat that proof at these final fingerprints and gate the complete affected production window, config/overlays/dungeon_deep_016ae8_truebase_80094248.overlay.yaml. A scratch certificate is kept in the lane; no production certificate or level promotion is delivered.

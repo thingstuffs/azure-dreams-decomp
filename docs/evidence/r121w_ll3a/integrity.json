@@ -1,0 +1,10 @@
+{
+  "existing_placement_resolution_checks": 8935,
+  "preserved_explicit_bindings": 3097,
+  "new_placements": 1080,
+  "new_bytes": 458860,
+  "new_source_files": 0,
+  "new_raw_files": 0,
+  "ledger_history": "append-only",
+  "result": "PASS"
+}

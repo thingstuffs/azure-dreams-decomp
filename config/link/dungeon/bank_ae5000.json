@@ -9,6 +9,30 @@
  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F68B800: row_ae5000_80170800, sweep_0AE5958, w4d1_row_ae5284, w4d1_row_ae5470, w4d1_row_ae55dc, w4d1_row_ae5820; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
  "entries": [
   {
+   "row": "dungeon/func_80AC5284",
+   "home": "dungeon/func_80AC5284",
+   "tu": "src/dungeon/func_80AC5284.c",
+   "foff": "0x00AE5284",
+   "vma": "0x80170A84",
+   "size": 492
+  },
+  {
+   "row": "dungeon/func_80AC5470",
+   "home": "dungeon/func_80AC5470",
+   "tu": "src/dungeon/func_80AC5470.c",
+   "foff": "0x00AE5470",
+   "vma": "0x80170C70",
+   "size": 364
+  },
+  {
+   "row": "dungeon/func_80AC5820",
+   "home": "dungeon/func_80AC5820",
+   "tu": "src/dungeon/func_80AC5820.c",
+   "foff": "0x00AE5820",
+   "vma": "0x80171020",
+   "size": 312
+  },
+  {
    "row": "dungeon/func_80AC5958",
    "tu": "src/dungeon/func_80AC5958.c",
    "home": "dungeon/func_80AC5958",

@@ -33,8 +33,8 @@
     "The existing runtime RAM payload equality map img_16ae8_80094248 contains all members.",
     "The old 12-row assignment mixed a 320-byte routine in img_f6a8_8008ce08 with eleven routines in img_16ae8_80094248. The two proven maps are disjoint even though both have delta 0x8007D760. Group names change explicitly with guarded predecessor records; no historical row, extent, recipe, baseline or promotion is rewritten."
   ],
-  "review": "pending",
-  "reviewer": null,
+  "review": "reviewed",
+  "reviewer": "codex-r121w-certs",
   "recovered_rows": [
     {
       "id": "dungeon/func_7FFF6D14",

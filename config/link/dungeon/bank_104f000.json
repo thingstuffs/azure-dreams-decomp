@@ -9,6 +9,22 @@
  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F121800: img_104f674_80170e74, sweep_104F83C, w4d1_row_104f0d4, w4d1_row_104f20c, w4d1_row_104f5d0; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
  "entries": [
   {
+   "row": "dungeon/func_8102F348",
+   "home": "dungeon/func_8102F348",
+   "tu": "src/dungeon/func_8102F348.c",
+   "foff": "0x0104F348",
+   "vma": "0x80170B48",
+   "size": 648
+  },
+  {
+   "row": "dungeon/func_8102F5D0",
+   "home": "dungeon/func_8102F5D0",
+   "tu": "src/dungeon/func_8102F5D0.c",
+   "foff": "0x0104F5D0",
+   "vma": "0x80170DD0",
+   "size": 164
+  },
+  {
    "row": "dungeon/func_8102F674",
    "tu": "src/dungeon/func_8102F674.c",
    "home": "dungeon/func_8102F674",
@@ -23,6 +39,14 @@
    "foff": "0x104F83C",
    "vma": "0x8017103C",
    "size": 1148
+  },
+  {
+   "row": "dungeon/func_8102FCB8",
+   "home": "dungeon/func_8102FCB8",
+   "tu": "src/dungeon/func_8102FCB8.c",
+   "foff": "0x0104FCB8",
+   "vma": "0x801714B8",
+   "size": 1924
   },
   {
    "row": "dungeon/func_8103043C",
@@ -87,6 +111,14 @@
    "foff": "0x1051704",
    "vma": "0x80172F04",
    "size": 480
+  },
+  {
+   "row": "dungeon/func_810318E4",
+   "home": "dungeon/func_810318E4",
+   "tu": "src/dungeon/func_810318E4.c",
+   "foff": "0x010518E4",
+   "vma": "0x801730E4",
+   "size": 1612
   },
   {
    "row": "dungeon/func_81031F30",
@@ -199,6 +231,14 @@
    "foff": "0x1053200",
    "vma": "0x80174A00",
    "size": 164
+  },
+  {
+   "row": "dungeon/func_810332A4",
+   "home": "dungeon/func_810332A4",
+   "tu": "src/dungeon/func_810332A4.c",
+   "foff": "0x010532A4",
+   "vma": "0x80174AA4",
+   "size": 2544
   },
   {
    "row": "dungeon/func_81033C94",

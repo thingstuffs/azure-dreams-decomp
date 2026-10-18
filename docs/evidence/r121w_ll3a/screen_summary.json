@@ -1,0 +1,30 @@
+{
+  "schema": "azure-clean.ll3a-screen-summary.v1",
+  "screen_file": "scratch/screen.json",
+  "screen_sha256": "937000e9877cc5914e4805e5ecb01a94bc22f64339a3f807972034776849b806",
+  "screen_bytes": 3541812,
+  "candidates": 1085,
+  "screened": 1080,
+  "paired_hi16_lo16": 4543,
+  "relocations": 16691,
+  "admitted_relocations": 16682,
+  "stale_source_attestations": 1012,
+  "attestation_binding_differences": [],
+  "high_addend_control": {
+    "row": "dungeon/func_804FEA5C",
+    "symbol": "D_800E3548",
+    "paired_binding": "0x800E3548",
+    "wrong_binding": "0x80113548",
+    "elf_addend": "0x00000000",
+    "retail_hi16": 32782,
+    "retail_lo16": 13640,
+    "wrong_hi16": 32785,
+    "wrong_lo16": 13640,
+    "sites": [
+      4,
+      8
+    ],
+    "result": "REJECTED: wrong full binding preserves retail LO16 but fails retail HI16"
+  },
+  "note": "Large screen remains in ignored scratch; compact summary plus sha256 supplied under decision 62. Screens are admission; scoped window gate is byte proof."
+}

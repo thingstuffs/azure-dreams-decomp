@@ -169,6 +169,14 @@
    "size": 120
   },
   {
+   "row": "dungeon/func_80FB5398",
+   "home": "dungeon/func_80FB5398",
+   "tu": "src/dungeon/func_80FB5398.c",
+   "foff": "0x00FD5398",
+   "vma": "0x80174B98",
+   "size": 1500
+  },
+  {
    "row": "dungeon/func_80FB59E0",
    "tu": "src/dungeon/func_800CF1BC.c",
    "home": "dungeon/func_800CF1BC",

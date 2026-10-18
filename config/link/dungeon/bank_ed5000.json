@@ -97,6 +97,14 @@
    "size": 1364
   },
   {
+   "row": "dungeon/func_80EB751C",
+   "home": "dungeon/func_80EB751C",
+   "tu": "src/dungeon/func_80EB751C.c",
+   "foff": "0x00ED751C",
+   "vma": "0x80172D1C",
+   "size": 1248
+  },
+  {
    "row": "dungeon/func_80EB79FC",
    "tu": "src/dungeon/func_80EB79FC.c",
    "home": "dungeon/func_80EB79FC",

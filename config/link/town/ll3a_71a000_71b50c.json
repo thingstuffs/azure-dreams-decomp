@@ -1,0 +1,475 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/ll3a_71a000_71b50c",
+ "container": "town",
+ "foff": "0x0071A000",
+ "size": "0x0000150C",
+ "vma": "0x80016000",
+ "evidence": "config/overlays/town.rowbase.jsonl proven region r121m_cfg_ovl_71a1ec",
+ "entries": [
+  {
+   "row": "town/func_8079A1E4",
+   "home": "town/func_800B0DB0",
+   "tu": "src/town/func_800B0DB0.c",
+   "foff": "0x0071A1E4",
+   "vma": "0x800161E4",
+   "size": 8,
+   "bindings": {
+    "0x800AE510": "0x800161E4"
+   },
+   "evidence": "LL3a attestation sha256:dc0a629d35e33fc45b4d6c9ba8be935c3d28e6c9d15674f199e570da5e4a2698; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A278",
+   "home": "town/func_8032ECE4",
+   "tu": "src/town/func_8032ECE4.c",
+   "foff": "0x0071A278",
+   "vma": "0x80016278",
+   "size": 212,
+   "bindings": {
+    "0x80010000": "0x80010000",
+    "0x80016064": "0x80016138",
+    "0x8001608C": "0x80016160",
+    "0x800194E4": "0x80016278"
+   },
+   "evidence": "LL3a attestation sha256:dfdee724a2f9f62fdfa79ce03aaed6f474ce643524ddf9350cc1276e5129d711; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A34C",
+   "home": "town/func_8032EDB8",
+   "tu": "src/town/func_8032EDB8.c",
+   "foff": "0x0071A34C",
+   "vma": "0x8001634C",
+   "size": 240,
+   "bindings": {
+    "0x80016064": "0x80016138",
+    "0x8001608C": "0x80016160",
+    "0x800195B8": "0x8001634C"
+   },
+   "evidence": "LL3a attestation sha256:8a576872b1ae0ce85ffebf08e7c39bbd169124a4106c1dbdfcb0d994bb64021a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A43C",
+   "home": "town/func_8032EEA8",
+   "tu": "src/town/func_8032EEA8.c",
+   "foff": "0x0071A43C",
+   "vma": "0x8001643C",
+   "size": 60,
+   "bindings": {
+    "0x800196A8": "0x8001643C"
+   },
+   "evidence": "LL3a attestation sha256:0683f4db67ff175d1b45896376b15a5fdb289c1f712854243448d5e87c37586e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A478",
+   "home": "town/func_8032EEE4",
+   "tu": "src/town/func_8032EEE4.c",
+   "foff": "0x0071A478",
+   "vma": "0x80016478",
+   "size": 136,
+   "bindings": {
+    "0x800196A8": "0x8001643C",
+    "0x8001DCCC": "0x8001771C",
+    "0x800196E4": "0x80016478"
+   },
+   "evidence": "LL3a attestation sha256:b7a385cc8e94f3aca39572424635338b9eac5665991e6ebd95a0d04c4321956b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A500",
+   "home": "town/func_8032EF6C",
+   "tu": "src/town/func_8032EF6C.c",
+   "foff": "0x0071A500",
+   "vma": "0x80016500",
+   "size": 244,
+   "bindings": {
+    "0x8001941C": "0x800172D8",
+    "0x8001976C": "0x80016500"
+   },
+   "evidence": "LL3a attestation sha256:a027fa6d10de6155091fba49f7863e4bbacb51e2a6ed48a467abdb34ab998963; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A5F4",
+   "home": "town/func_8032F060",
+   "tu": "src/town/func_8032F060.c",
+   "foff": "0x0071A5F4",
+   "vma": "0x800165F4",
+   "size": 148,
+   "bindings": {
+    "0x8001ADE0": "0x80017498",
+    "0x8001ACE8": "0x800173A0",
+    "0x8001AD60": "0x80017418",
+    "0x80019860": "0x800165F4"
+   },
+   "evidence": "LL3a attestation sha256:ccbf58f653da6b5268f19832e7e24ea2bf73061ac150c4bd5b95662acc52ab4d; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A688",
+   "home": "town/func_8032F0F4",
+   "tu": "src/town/func_8032F0F4.c",
+   "foff": "0x0071A688",
+   "vma": "0x80016688",
+   "size": 100,
+   "bindings": {
+    "0x800194E4": "0x80016278",
+    "0x80019860": "0x800165F4",
+    "0x800198F4": "0x80016688"
+   },
+   "evidence": "LL3a attestation sha256:682bf6fa609ed253d0d3c768807678600eb8429b5eb4668d8421557127133e8e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A6EC",
+   "home": "town/func_8032F158",
+   "tu": "src/town/func_8032F158.c",
+   "foff": "0x0071A6EC",
+   "vma": "0x800166EC",
+   "size": 48,
+   "bindings": {
+    "0x8001ACE8": "0x800173A0",
+    "0x80019958": "0x800166EC"
+   },
+   "evidence": "LL3a attestation sha256:d63d43bf4e43dc33929094fdc454410c26b84328d8ed7290f8d1f433844792cf; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A71C",
+   "home": "town/func_8032F188",
+   "tu": "src/town/func_8032F188.c",
+   "foff": "0x0071A71C",
+   "vma": "0x8001671C",
+   "size": 84,
+   "bindings": {
+    "0x8001AD60": "0x80017418",
+    "0x8001ACE8": "0x800173A0",
+    "0x80019988": "0x8001671C"
+   },
+   "evidence": "LL3a attestation sha256:99b2e3f02dd261497f374c65533ddfcc8fd03523c9c1a856e51b00eedddc6a79; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A770",
+   "home": "town/func_8032F1DC",
+   "tu": "src/town/func_8032F1DC.c",
+   "foff": "0x0071A770",
+   "vma": "0x80016770",
+   "size": 88,
+   "bindings": {
+    "0x8001B8AA": "0x80016066",
+    "0x8001ADE0": "0x80017498",
+    "0x800199DC": "0x80016770"
+   },
+   "evidence": "LL3a attestation sha256:c497df9a5f510829a4bf2f3d73469bce6188a8482bae6a3a5dcd8a7d32a9eb6c; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A7C8",
+   "home": "town/func_8032F234",
+   "tu": "src/town/func_8032F234.c",
+   "foff": "0x0071A7C8",
+   "vma": "0x800167C8",
+   "size": 132,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x80019A34": "0x800167C8"
+   },
+   "evidence": "LL3a attestation sha256:85a5a4843b81b2c23fac18d148fa8ab9f492a14cddfe0f981c21434cef601e64; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A870",
+   "home": "town/func_8032F2DC",
+   "tu": "src/town/func_8032F2DC.c",
+   "foff": "0x0071A870",
+   "vma": "0x80016870",
+   "size": 120,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x80019ADC": "0x80016870"
+   },
+   "evidence": "LL3a attestation sha256:77c7b04fdc3ad15630f969525ad49ba2247540b3c6ed230705f21233cbe2f933; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A8E8",
+   "home": "town/func_8032F354",
+   "tu": "src/town/func_8032F354.c",
+   "foff": "0x0071A8E8",
+   "vma": "0x800168E8",
+   "size": 108,
+   "bindings": {
+    "0x800199DC": "0x80016770",
+    "0x8001ACE8": "0x800173A0",
+    "0x8001AD60": "0x80017418",
+    "0x80019B54": "0x800168E8"
+   },
+   "evidence": "LL3a attestation sha256:a873ce440b7eec279d1f365a2cbe495bbdd4231f3afc87a81ad41d4dba597164; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A954",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x0071A954",
+   "vma": "0x80016954",
+   "size": 84,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x80020000": "0x8001B198",
+    "0x8001ACE8": "0x800173A0",
+    "0x80019BC0": "0x80016954"
+   },
+   "evidence": "LL3a attestation sha256:df7b4e9d04238ce3a0c28c56afddcd89d5275bec757bf7ab5fe45165a10c8339; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A9A8",
+   "home": "town/func_8032F3C0",
+   "tu": "src/town/func_8032F3C0.c",
+   "foff": "0x0071A9A8",
+   "vma": "0x800169A8",
+   "size": 84,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x80020000": "0x8001B198",
+    "0x8001ACE8": "0x80017418",
+    "0x80019BC0": "0x800169A8"
+   },
+   "evidence": "LL3a attestation sha256:1c08dd688e28ccdad3e581da4e523d6fdb6d4e8f73cfc1d9ba59ae0ec867e135; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079A9FC",
+   "home": "town/func_8032F468",
+   "tu": "src/town/func_8032F468.c",
+   "foff": "0x0071A9FC",
+   "vma": "0x800169FC",
+   "size": 112,
+   "bindings": {
+    "0x8001ADE0": "0x80017498",
+    "0x8001ACE8": "0x800173A0",
+    "0x8001AD60": "0x80017418",
+    "0x80019C68": "0x800169FC"
+   },
+   "evidence": "LL3a attestation sha256:febd0bfe1dce47ab03174ce6d3bf067709155ad4d3d18445ac118000d781d2ca; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079AA6C",
+   "home": "town/func_8032F4D8",
+   "tu": "src/town/func_8032F4D8.c",
+   "foff": "0x0071AA6C",
+   "vma": "0x80016A6C",
+   "size": 108,
+   "bindings": {
+    "0x8001ADE0": "0x80017498",
+    "0x80019CD8": "0x80016A6C"
+   },
+   "evidence": "LL3a attestation sha256:184fb091506b5a9618e26d6592424fbce843be72cab42fc2fb68874401daba2b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079AAD8",
+   "home": "town/func_8032F544",
+   "tu": "src/town/func_8032F544.c",
+   "foff": "0x0071AAD8",
+   "vma": "0x80016AD8",
+   "size": 92,
+   "bindings": {
+    "0x800194E4": "0x80016278",
+    "0x8001ADE0": "0x80017498",
+    "0x80019D44": "0x80016AD8"
+   },
+   "evidence": "LL3a attestation sha256:b8cef8f03a8635cf676c1c385aab09c9648991def205f916441ffee2d1e02f76; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079AB90",
+   "home": "town/func_8032F5FC",
+   "tu": "src/town/func_8032F5FC.c",
+   "foff": "0x0071AB90",
+   "vma": "0x80016B90",
+   "size": 172,
+   "bindings": {
+    "0x800194E4": "0x80016278",
+    "0x80019860": "0x800165F4",
+    "0x80019CD8": "0x80016A6C",
+    "0x8001ACE8": "0x800173A0",
+    "0x80019DFC": "0x80016B90"
+   },
+   "evidence": "LL3a attestation sha256:bd74927b1fc10e7e1d18b7af31a23060b3c19cd02623b92630aac8ba413786db; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079AC3C",
+   "home": "town/func_8032F6A8",
+   "tu": "src/town/func_8032F6A8.c",
+   "foff": "0x0071AC3C",
+   "vma": "0x80016C3C",
+   "size": 220,
+   "bindings": {
+    "0x8001B8A8": "0x80016064",
+    "0x8001AD60": "0x80017418",
+    "0x8001ADE0": "0x80017498",
+    "0x8001ACE8": "0x800173A0",
+    "0x80019EA8": "0x80016C3C"
+   },
+   "evidence": "LL3a attestation sha256:783ac9a027587302e13f7118b3353ccfe16e59737aa5fe5fe07d90df540fc550; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079ADD8",
+   "home": "town/func_8032F844",
+   "tu": "src/town/func_8032F844.c",
+   "foff": "0x0071ADD8",
+   "vma": "0x80016DD8",
+   "size": 864,
+   "bindings": {
+    "0x80019F94": "0x80016D28",
+    "0x8001976C": "0x80016500",
+    "0x8001DC10": "0x800176D8",
+    "0x800196E4": "0x80016478",
+    "0x80016000": "0x80016000",
+    "0x80016094": "0x80016168",
+    "0x800160A0": "0x80016174",
+    "0x800160CC": "0x800161A0",
+    "0x800160FC": "0x800161D0",
+    "0x8001A044": "0x80016DD8"
+   },
+   "evidence": "LL3a attestation sha256:c56be963e26c5bca25fead3444de3c98098f8857ac7132dbf9c59710666696d2; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B138",
+   "home": "town/func_8032FBA4",
+   "tu": "src/town/func_8032FBA4.c",
+   "foff": "0x0071B138",
+   "vma": "0x80017138",
+   "size": 88,
+   "bindings": {
+    "0x8001A3A4": "0x80017138"
+   },
+   "evidence": "LL3a attestation sha256:786930a35c42a406499b95bda5d266733429986c90d0b3b7124e9feb43aa896f; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B190",
+   "home": "town/func_8032FBFC",
+   "tu": "src/town/func_8032FBFC.c",
+   "foff": "0x0071B190",
+   "vma": "0x80017190",
+   "size": 124,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x8001C370": "0x80017508",
+    "0x8001C374": "0x8001750C",
+    "0x8001A3FC": "0x80017190"
+   },
+   "evidence": "LL3a attestation sha256:74d707b522c50a33111c30eb12792a8d600f0018f488d4069faa9d43f6ed3978; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B218",
+   "home": "town/func_8032FC84",
+   "tu": "src/town/func_8032FC84.c",
+   "foff": "0x0071B218",
+   "vma": "0x80017218",
+   "size": 132,
+   "bindings": {
+    "0x8001B8A8": "0x80016064",
+    "0x80019860": "0x800165F4",
+    "0x80016748": "0x800161EC",
+    "0x8001C370": "0x80017508",
+    "0x8001A044": "0x80016DD8",
+    "0x8001DA10": "0x80017658",
+    "0x80016000": "0x80016000",
+    "0x8001C480": "0x80017518",
+    "0x8001DC10": "0x800176D8",
+    "0x8001DCD0": "0x80017720",
+    "0x8001A484": "0x80017218"
+   },
+   "evidence": "LL3a attestation sha256:eb10c897b9a762df6d0ccdf84e6f76e52462b2d16ab8ed6470e4829c55d4681b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B2A8",
+   "home": "town/func_800B0DB0",
+   "tu": "src/town/func_800B0DB0.c",
+   "foff": "0x0071B2A8",
+   "vma": "0x800172A8",
+   "size": 8,
+   "bindings": {
+    "0x800AE510": "0x800172A8"
+   },
+   "evidence": "LL3a attestation sha256:ea7ecc6603e3bd38c8ea27fc49e15c41d828693dac4d6f6ff8f0bbfd633b2f54; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B2B0",
+   "home": "town/func_8032EBF4",
+   "tu": "src/town/func_8032EBF4.c",
+   "foff": "0x0071B2B0",
+   "vma": "0x800172B0",
+   "size": 40,
+   "bindings": {
+    "0x800193F4": "0x800172B0"
+   },
+   "evidence": "LL3a attestation sha256:356677cb353c4a534c2fd49a969f6faf44cdcaf4ba91a9186c087b566b22fa98; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B2D8",
+   "home": "town/func_8032EC1C",
+   "tu": "src/town/func_8032EC1C.c",
+   "foff": "0x0071B2D8",
+   "vma": "0x800172D8",
+   "size": 44,
+   "bindings": {
+    "0x8001941C": "0x800172D8"
+   },
+   "evidence": "LL3a attestation sha256:daf3d07bd7b342db726b7b5f9684bbd5142c71efa808a4551a5400e29d35400a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B304",
+   "home": "town/func_8032EC48",
+   "tu": "src/town/func_8032EC48.c",
+   "foff": "0x0071B304",
+   "vma": "0x80017304",
+   "size": 60,
+   "bindings": {
+    "0x80019448": "0x80017304"
+   },
+   "evidence": "LL3a attestation sha256:eeab9a950e2305708bb3969eaa9bb5e4547041644c3ba2a340917c71f6d45d8b; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B340",
+   "home": "town/func_8032EC84",
+   "tu": "src/town/func_8032EC84.c",
+   "foff": "0x0071B340",
+   "vma": "0x80017340",
+   "size": 96,
+   "bindings": {
+    "0x80019484": "0x80017340"
+   },
+   "evidence": "LL3a attestation sha256:0b503445219b0a00c636935e1564f9ef8706047286fee9ed06a5d5f87c7ae852; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B3A0",
+   "home": "town/func_803304E8",
+   "tu": "src/town/func_803304E8.c",
+   "foff": "0x0071B3A0",
+   "vma": "0x800173A0",
+   "size": 120,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x8001ACE8": "0x800173A0"
+   },
+   "evidence": "LL3a attestation sha256:4e676ef7d81a4b783a0af10bc70d0d3b3aaeed9df5013d15ae7e09999b81c14a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B418",
+   "home": "town/func_80330560",
+   "tu": "src/town/func_80330560.c",
+   "foff": "0x0071B418",
+   "vma": "0x80017418",
+   "size": 128,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x8001AD60": "0x80017418"
+   },
+   "evidence": "LL3a attestation sha256:0facd55db7ea5313e85aefbecc96215786bb5d0caa209a4526b61b5198daeb7c; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8079B498",
+   "home": "town/func_803305E0",
+   "tu": "src/town/func_803305E0.c",
+   "foff": "0x0071B498",
+   "vma": "0x80017498",
+   "size": 112,
+   "bindings": {
+    "0x80016000": "0x80016000",
+    "0x8001ADE0": "0x80017498"
+   },
+   "evidence": "LL3a attestation sha256:20e293fbc61ea64f8056101417d6a99339f7665204298b9f7ab9f381be5e306a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  }
+ ]
+}

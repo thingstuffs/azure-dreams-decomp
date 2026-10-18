@@ -1,5 +1,5 @@
 {
- "schema": "azure-clean.linklist.v0",
+ "schema": "azure-clean.linklist.v1",
  "image": "main/image_25c800",
  "container": "main",
  "foff": "0x25C800",
@@ -8,12 +8,667 @@
  "evidence": "config/overlays/main.rowbase.jsonl proven regions with delta 0x7FDC3000: xfer_main_25CA6C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
  "entries": [
   {
+   "kind": "unresolved",
+   "foff": "0x25c800",
+   "size": 617,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x25ca69",
+   "size": 1431,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x25d000",
+   "size": 2340,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25d924",
+   "size": 96,
+   "evidence": "ledger/splits/main.jsonl:func_8000D924 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25d984",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_8000D984 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25d9c4",
+   "size": 72,
+   "evidence": "ledger/splits/main.jsonl:func_8000D9C4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da0c",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA0C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da30",
+   "size": 20,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA30 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da44",
+   "size": 20,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA44 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da58",
+   "size": 20,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA58 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da6c",
+   "size": 20,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA6C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25da80",
+   "size": 1056,
+   "evidence": "ledger/splits/main.jsonl:func_8000DA80 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25dea0",
+   "size": 120,
+   "evidence": "ledger/splits/main.jsonl:func_8000DEA0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25df18",
+   "size": 456,
+   "evidence": "ledger/splits/main.jsonl:func_8000DF18 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e0e0",
+   "size": 16,
+   "evidence": "ledger/splits/main.jsonl:func_8000E0E0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e0f0",
+   "size": 300,
+   "evidence": "ledger/splits/main.jsonl:func_8000E0F0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e21c",
+   "size": 124,
+   "evidence": "ledger/splits/main.jsonl:func_8000E21C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e298",
+   "size": 228,
+   "evidence": "ledger/splits/main.jsonl:func_8000E298 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e37c",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_8000E37C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e3a0",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_8000E3A0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e3c4",
+   "size": 76,
+   "evidence": "ledger/splits/main.jsonl:func_8000E3C4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e410",
+   "size": 148,
+   "evidence": "ledger/splits/main.jsonl:func_8000E410 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e4a4",
+   "size": 88,
+   "evidence": "ledger/splits/main.jsonl:func_8000E4A4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e4fc",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_8000E4FC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e538",
+   "size": 92,
+   "evidence": "ledger/splits/main.jsonl:func_8000E538 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e594",
+   "size": 248,
+   "evidence": "ledger/splits/main.jsonl:func_8000E594 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e68c",
+   "size": 328,
+   "evidence": "ledger/splits/main.jsonl:func_8000E68C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e7d4",
+   "size": 304,
+   "evidence": "ledger/splits/main.jsonl:func_8000E7D4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_8000E904",
    "tu": "src/main/func_8000E904.c",
    "home": "main/func_8000E904",
    "foff": "0x25E904",
    "vma": "0x80021904",
    "size": 8
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e90c",
+   "size": 16,
+   "evidence": "ledger/splits/main.jsonl:func_8000E90C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e91c",
+   "size": 156,
+   "evidence": "ledger/splits/main.jsonl:func_8000E91C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25e9b8",
+   "size": 76,
+   "evidence": "ledger/splits/main.jsonl:func_8000E9B8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ea04",
+   "size": 128,
+   "evidence": "ledger/splits/main.jsonl:func_8000EA04 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ea84",
+   "size": 148,
+   "evidence": "ledger/splits/main.jsonl:func_8000EA84 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25eb18",
+   "size": 128,
+   "evidence": "ledger/splits/main.jsonl:func_8000EB18 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25eb98",
+   "size": 180,
+   "evidence": "ledger/splits/main.jsonl:func_8000EB98 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ec4c",
+   "size": 236,
+   "evidence": "ledger/splits/main.jsonl:func_8000EC4C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ed38",
+   "size": 28,
+   "evidence": "ledger/splits/main.jsonl:func_8000ED38 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ed54",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_8000ED54 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25edf4",
+   "size": 196,
+   "evidence": "ledger/splits/main.jsonl:func_8000EDF4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25eeb8",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000EEB8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25eee0",
+   "size": 56,
+   "evidence": "ledger/splits/main.jsonl:func_8000EEE0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ef18",
+   "size": 216,
+   "evidence": "ledger/splits/main.jsonl:func_8000EF18 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25eff0",
+   "size": 236,
+   "evidence": "ledger/splits/main.jsonl:func_8000EFF0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f0dc",
+   "size": 92,
+   "evidence": "ledger/splits/main.jsonl:func_8000F0DC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f138",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000F138 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f160",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_8000F160 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f19c",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_8000F19C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f23c",
+   "size": 32,
+   "evidence": "ledger/splits/main.jsonl:func_8000F23C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f25c",
+   "size": 164,
+   "evidence": "ledger/splits/main.jsonl:func_8000F25C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f300",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_8000F300 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f33c",
+   "size": 120,
+   "evidence": "ledger/splits/main.jsonl:func_8000F33C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f3b4",
+   "size": 212,
+   "evidence": "ledger/splits/main.jsonl:func_8000F3B4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f488",
+   "size": 156,
+   "evidence": "ledger/splits/main.jsonl:func_8000F488 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f524",
+   "size": 388,
+   "evidence": "ledger/splits/main.jsonl:func_8000F524 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f6a8",
+   "size": 56,
+   "evidence": "ledger/splits/main.jsonl:func_8000F6A8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f6e0",
+   "size": 148,
+   "evidence": "ledger/splits/main.jsonl:func_8000F6E0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f774",
+   "size": 408,
+   "evidence": "ledger/splits/main.jsonl:func_8000F774 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f90c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000F90C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25f934",
+   "size": 252,
+   "evidence": "ledger/splits/main.jsonl:func_8000F934 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fa30",
+   "size": 184,
+   "evidence": "ledger/splits/main.jsonl:func_8000FA30 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fae8",
+   "size": 56,
+   "evidence": "ledger/splits/main.jsonl:func_8000FAE8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fb20",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FB20 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fb48",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_8000FB48 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fbe8",
+   "size": 96,
+   "evidence": "ledger/splits/main.jsonl:func_8000FBE8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fc48",
+   "size": 72,
+   "evidence": "ledger/splits/main.jsonl:func_8000FC48 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fc90",
+   "size": 72,
+   "evidence": "ledger/splits/main.jsonl:func_8000FC90 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fcd8",
+   "size": 136,
+   "evidence": "ledger/splits/main.jsonl:func_8000FCD8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fd60",
+   "size": 276,
+   "evidence": "ledger/splits/main.jsonl:func_8000FD60 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fe74",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FE74 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fe9c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FE9C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25fec4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FEC4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25feec",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FEEC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ff14",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FF14 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ff3c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FF3C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ff64",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FF64 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ff8c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FF8C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ffb4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FFB4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x25ffdc",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8000FFDC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260004",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80010004 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26002c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001002C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260054",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80010054 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26007c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001007C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2600a4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_800100A4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2600cc",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_800100CC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2600f4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_800100F4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26011c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001011C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260144",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80010144 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26016c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001016C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260194",
+   "size": 80,
+   "evidence": "ledger/splits/main.jsonl:func_80010194 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2601e4",
+   "size": 116,
+   "evidence": "ledger/splits/main.jsonl:func_800101E4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260258",
+   "size": 376,
+   "evidence": "ledger/splits/main.jsonl:func_80010258 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2603d0",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_800103D0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260470",
+   "size": 188,
+   "evidence": "ledger/splits/main.jsonl:func_80010470 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26052c",
+   "size": 116,
+   "evidence": "ledger/splits/main.jsonl:func_8001052C MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_800105A0",
@@ -24,12 +679,87 @@
    "size": 96
   },
   {
+   "kind": "code_region",
+   "foff": "0x260600",
+   "size": 304,
+   "evidence": "ledger/splits/main.jsonl:func_80010600 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x260730",
+   "size": 148,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2607c4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_800107C4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x2607ec",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26088c",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_8001088C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260894",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80010894 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2608d4",
+   "size": 220,
+   "evidence": "ledger/splits/main.jsonl:func_800108D4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2609b0",
+   "size": 80,
+   "evidence": "ledger/splits/main.jsonl:func_800109B0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_80010A00",
    "tu": "src/main/func_80010A00.c",
    "home": "main/func_80010A00",
    "foff": "0x260A00",
    "vma": "0x80023A00",
    "size": 80
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260a50",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80010A50 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260a78",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_80010A78 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260b18",
+   "size": 204,
+   "evidence": "ledger/splits/main.jsonl:func_80010B18 MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_80240BE4",
@@ -40,12 +770,101 @@
    "size": 96
   },
   {
+   "kind": "code_region",
+   "foff": "0x260c44",
+   "size": 288,
+   "evidence": "ledger/splits/main.jsonl:func_80010C44 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260d64",
+   "size": 176,
+   "evidence": "ledger/splits/main.jsonl:func_80010D64 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260e14",
+   "size": 176,
+   "evidence": "ledger/splits/main.jsonl:func_80010E14 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260ec4",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_80010EC4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260ecc",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80010ECC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x260ef4",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260f94",
+   "size": 12,
+   "evidence": "ledger/splits/main.jsonl:func_80010F94 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260fa0",
+   "size": 80,
+   "evidence": "ledger/splits/main.jsonl:func_80010FA0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x260ff0",
+   "size": 252,
+   "evidence": "ledger/splits/main.jsonl:func_80010FF0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2610ec",
+   "size": 116,
+   "evidence": "ledger/splits/main.jsonl:func_800110EC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261160",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_80011160 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_80241184",
    "tu": "src/main/func_80010A00.c",
    "home": "main/func_80010A00",
    "foff": "0x261184",
    "vma": "0x80024184",
    "size": 80
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2611d4",
+   "size": 80,
+   "evidence": "ledger/splits/main.jsonl:func_800111D4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x261224",
+   "size": 72,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
   },
   {
    "row": "main/func_8024126C",
@@ -56,12 +875,114 @@
    "size": 8
   },
   {
+   "kind": "code_region",
+   "foff": "0x261274",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_80011274 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261298",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80011298 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2612d8",
+   "size": 184,
+   "evidence": "ledger/splits/main.jsonl:func_800112D8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261390",
+   "size": 1160,
+   "evidence": "ledger/splits/main.jsonl:func_80011390 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261818",
+   "size": 412,
+   "evidence": "ledger/splits/main.jsonl:func_80011818 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2619b4",
+   "size": 156,
+   "evidence": "ledger/splits/main.jsonl:func_800119B4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261a50",
+   "size": 124,
+   "evidence": "ledger/splits/main.jsonl:func_80011A50 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261acc",
+   "size": 232,
+   "evidence": "ledger/splits/main.jsonl:func_80011ACC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x261bb4",
+   "size": 148,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261c48",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80011C48 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x261c70",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261d10",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_80011D10 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x261d18",
+   "size": 56,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
    "row": "main/func_80241D50",
    "tu": "src/main/func_8000E904.c",
    "home": "main/func_8000E904",
    "foff": "0x261D50",
    "vma": "0x80024D50",
    "size": 8
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261d58",
+   "size": 236,
+   "evidence": "ledger/splits/main.jsonl:func_80011D58 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261e44",
+   "size": 168,
+   "evidence": "ledger/splits/main.jsonl:func_80011E44 MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_80241EEC",
@@ -74,6 +995,13 @@
     "0x800239B0": "0x80024E44"
    },
    "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x261f3c",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80011F3C MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_80011F7C",
@@ -92,12 +1020,236 @@
    "size": 80
   },
   {
+   "kind": "code_region",
+   "foff": "0x261ffc",
+   "size": 52,
+   "evidence": "ledger/splits/main.jsonl:func_80011FFC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262030",
+   "size": 184,
+   "evidence": "ledger/splits/main.jsonl:func_80012030 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2620e8",
+   "size": 180,
+   "evidence": "ledger/splits/main.jsonl:func_800120E8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26219c",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_8001219C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2621a4",
+   "size": 140,
+   "evidence": "ledger/splits/main.jsonl:func_800121A4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262230",
+   "size": 116,
+   "evidence": "ledger/splits/main.jsonl:func_80012230 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2622a4",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_800122A4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2622cc",
+   "size": 140,
+   "evidence": "ledger/splits/main.jsonl:func_800122CC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262358",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80012358 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262398",
+   "size": 212,
+   "evidence": "ledger/splits/main.jsonl:func_80012398 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26246c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001246C MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_80012494",
    "tu": "src/main/func_80012494.c",
    "home": "main/func_80012494",
    "foff": "0x262494",
    "vma": "0x80025494",
    "size": 80
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2624e4",
+   "size": 160,
+   "evidence": "ledger/splits/main.jsonl:func_800124E4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262584",
+   "size": 392,
+   "evidence": "ledger/splits/main.jsonl:func_80012584 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26270c",
+   "size": 124,
+   "evidence": "ledger/splits/main.jsonl:func_8001270C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262788",
+   "size": 192,
+   "evidence": "ledger/splits/main.jsonl:func_80012788 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262848",
+   "size": 128,
+   "evidence": "ledger/splits/main.jsonl:func_80012848 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2628c8",
+   "size": 100,
+   "evidence": "ledger/splits/main.jsonl:func_800128C8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26292c",
+   "size": 16,
+   "evidence": "ledger/splits/main.jsonl:func_8001292C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26293c",
+   "size": 508,
+   "evidence": "ledger/splits/main.jsonl:func_8001293C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262b38",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_80012B38 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262b40",
+   "size": 32,
+   "evidence": "ledger/splits/main.jsonl:func_80012B40 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262b60",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80012B60 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262b9c",
+   "size": 56,
+   "evidence": "ledger/splits/main.jsonl:func_80012B9C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262bd4",
+   "size": 168,
+   "evidence": "ledger/splits/main.jsonl:func_80012BD4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262c7c",
+   "size": 184,
+   "evidence": "ledger/splits/main.jsonl:func_80012C7C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262d34",
+   "size": 148,
+   "evidence": "ledger/splits/main.jsonl:func_80012D34 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262dc8",
+   "size": 140,
+   "evidence": "ledger/splits/main.jsonl:func_80012DC8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262e54",
+   "size": 120,
+   "evidence": "ledger/splits/main.jsonl:func_80012E54 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262ecc",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80012ECC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262f0c",
+   "size": 240,
+   "evidence": "ledger/splits/main.jsonl:func_80012F0C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x262ffc",
+   "size": 300,
+   "evidence": "ledger/splits/main.jsonl:func_80012FFC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263128",
+   "size": 152,
+   "evidence": "ledger/splits/main.jsonl:func_80013128 MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_802431C0",
@@ -116,12 +1268,54 @@
    "size": 80
   },
   {
+   "kind": "code_region",
+   "foff": "0x263240",
+   "size": 48,
+   "evidence": "ledger/splits/main.jsonl:func_80013240 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263270",
+   "size": 76,
+   "evidence": "ledger/splits/main.jsonl:func_80013270 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2632bc",
+   "size": 220,
+   "evidence": "ledger/splits/main.jsonl:func_800132BC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263398",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80013398 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_802433C0",
    "tu": "src/main/func_80012494.c",
    "home": "main/func_80012494",
    "foff": "0x2633C0",
    "vma": "0x800263C0",
    "size": 80
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263410",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80013410 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26344c",
+   "size": 72,
+   "evidence": "ledger/splits/main.jsonl:func_8001344C MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_80013494",
@@ -140,12 +1334,73 @@
    "size": 68
   },
   {
+   "kind": "code_region",
+   "foff": "0x26351c",
+   "size": 156,
+   "evidence": "ledger/splits/main.jsonl:func_8001351C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2635b8",
+   "size": 360,
+   "evidence": "ledger/splits/main.jsonl:func_800135B8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263720",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_80013720 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263728",
+   "size": 32,
+   "evidence": "ledger/splits/main.jsonl:func_80013728 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263748",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80013748 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263784",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80013784 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x2637c0",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
    "row": "main/func_80243860",
    "tu": "src/main/func_8000E904.c",
    "home": "main/func_8000E904",
    "foff": "0x263860",
    "vma": "0x80026860",
    "size": 8
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263868",
+   "size": 184,
+   "evidence": "ledger/splits/main.jsonl:func_80013868 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x263920",
+   "size": 140,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
   },
   {
    "row": "main/func_802439AC",
@@ -156,6 +1411,116 @@
    "size": 8
   },
   {
+   "kind": "code_region",
+   "foff": "0x2639b4",
+   "size": 304,
+   "evidence": "ledger/splits/main.jsonl:func_800139B4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263ae4",
+   "size": 52,
+   "evidence": "ledger/splits/main.jsonl:func_80013AE4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263b18",
+   "size": 232,
+   "evidence": "ledger/splits/main.jsonl:func_80013B18 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x263c00",
+   "size": 148,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263c94",
+   "size": 92,
+   "evidence": "ledger/splits/main.jsonl:func_80013C94 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263cf0",
+   "size": 136,
+   "evidence": "ledger/splits/main.jsonl:func_80013CF0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263d78",
+   "size": 80,
+   "evidence": "ledger/splits/main.jsonl:func_80013D78 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263dc8",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80013DC8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x263df0",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263e90",
+   "size": 64,
+   "evidence": "ledger/splits/main.jsonl:func_80013E90 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263ed0",
+   "size": 228,
+   "evidence": "ledger/splits/main.jsonl:func_80013ED0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263fb4",
+   "size": 32,
+   "evidence": "ledger/splits/main.jsonl:func_80013FB4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263fd4",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_80013FD4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x263ff8",
+   "size": 32,
+   "evidence": "ledger/splits/main.jsonl:func_80013FF8 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264018",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80014018 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264054",
+   "size": 44,
+   "evidence": "ledger/splits/main.jsonl:func_80014054 MATCH",
+   "census_label": "proven_code"
+  },
+  {
    "row": "main/func_80244080",
    "tu": "src/main/func_800105A0.c",
    "home": "main/func_800105A0",
@@ -164,12 +1529,65 @@
    "size": 96
   },
   {
+   "kind": "code_region",
+   "foff": "0x2640e0",
+   "size": 224,
+   "evidence": "ledger/splits/main.jsonl:func_800140E0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x2641c0",
+   "size": 148,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264254",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_80014254 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x26427c",
+   "size": 160,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26431c",
+   "size": 8,
+   "evidence": "ledger/splits/main.jsonl:func_8001431C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x264324",
+   "size": 56,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
    "row": "main/func_8024435C",
    "tu": "src/main/func_8000E904.c",
    "home": "main/func_8000E904",
    "foff": "0x26435C",
    "vma": "0x8002735C",
    "size": 8
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264364",
+   "size": 200,
+   "evidence": "ledger/splits/main.jsonl:func_80014364 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26442c",
+   "size": 44,
+   "evidence": "ledger/splits/main.jsonl:func_8001442C MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_80244458",
@@ -182,6 +1600,13 @@
     "0x800239B0": "0x8002742C"
    },
    "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2644a8",
+   "size": 48,
+   "evidence": "ledger/splits/main.jsonl:func_800144A8 MATCH",
+   "census_label": "proven_code"
   },
   {
    "row": "main/func_802444D8",
@@ -197,12 +1622,186 @@
    "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
   },
   {
+   "kind": "code_region",
+   "foff": "0x264528",
+   "size": 92,
+   "evidence": "ledger/splits/main.jsonl:func_80014528 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264584",
+   "size": 216,
+   "evidence": "ledger/splits/main.jsonl:func_80014584 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26465c",
+   "size": 40,
+   "evidence": "ledger/splits/main.jsonl:func_8001465C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264684",
+   "size": 104,
+   "evidence": "ledger/splits/main.jsonl:func_80014684 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x2646ec",
+   "size": 64,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
    "row": "main/func_8024472C",
    "tu": "src/main/func_8000E904.c",
    "home": "main/func_8000E904",
    "foff": "0x26472C",
    "vma": "0x8002772C",
    "size": 8
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x264734",
+   "size": 136,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x2647bc",
+   "size": 224,
+   "evidence": "ledger/splits/main.jsonl:func_800147BC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x26489c",
+   "size": 460,
+   "evidence": "ledger/splits/main.jsonl:func_8001489C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264a68",
+   "size": 52,
+   "evidence": "ledger/splits/main.jsonl:func_80014A68 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264a9c",
+   "size": 96,
+   "evidence": "ledger/splits/main.jsonl:func_80014A9C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264afc",
+   "size": 196,
+   "evidence": "ledger/splits/main.jsonl:func_80014AFC MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264bc0",
+   "size": 52,
+   "evidence": "ledger/splits/main.jsonl:func_80014BC0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264bf4",
+   "size": 108,
+   "evidence": "ledger/splits/main.jsonl:func_80014BF4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264c60",
+   "size": 48,
+   "evidence": "ledger/splits/main.jsonl:func_80014C60 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264c90",
+   "size": 124,
+   "evidence": "ledger/splits/main.jsonl:func_80014C90 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264d0c",
+   "size": 52,
+   "evidence": "ledger/splits/main.jsonl:func_80014D0C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264d40",
+   "size": 60,
+   "evidence": "ledger/splits/main.jsonl:func_80014D40 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264d7c",
+   "size": 84,
+   "evidence": "ledger/splits/main.jsonl:func_80014D7C MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264dd0",
+   "size": 36,
+   "evidence": "ledger/splits/main.jsonl:func_80014DD0 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "code_region",
+   "foff": "0x264df4",
+   "size": 44,
+   "evidence": "ledger/splits/main.jsonl:func_80014DF4 MATCH",
+   "census_label": "proven_code"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x264e20",
+   "size": 531,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x265033",
+   "size": 19,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x265046",
+   "size": 4,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x26504a",
+   "size": 26,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
+  },
+  {
+   "kind": "unresolved",
+   "foff": "0x265064",
+   "size": 1227,
+   "evidence": "coverage-prototype: census2 span export absent; classification held"
+  },
+  {
+   "kind": "padding",
+   "foff": "0x26552f",
+   "size": 721,
+   "evidence": "retail zero run >=16 B outside known code/data (census method rule 7)"
   }
  ],
  "symbols": {
@@ -211,5 +1810,19 @@
   "0x800239B0": "0x800240EC",
   "0x8002546C": "0x80026398",
   "0x8002593C": "0x800265B8"
+ },
+ "census": {
+  "proven_code": 27872,
+  "library_code": 0,
+  "strongly_code": 0,
+  "proven_data": 0,
+  "noncode_typing_pending": 0,
+  "padding_leftover": 2197,
+  "unknown": 6795
+ },
+ "provenance": {
+  "labels_sha256": "38e8e13b775802242be29c9c78265ed06877fca3dbcec734f7a6a70775790e7f",
+  "coverage_sha256": "d5c352f8c79dfe959a7d0c347bf3c0442eca40bf48d603d19b6fe2e0a00a634c",
+  "source": "coverage-prototype-v1: staged MATCH code/data rows + zero-run padding; residual unknown; NOT census2"
  }
 }

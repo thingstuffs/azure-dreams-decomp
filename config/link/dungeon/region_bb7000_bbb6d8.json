@@ -8,6 +8,14 @@
  "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase sweep_0BB7000",
  "entries": [
   {
+   "row": "dungeon/func_80B9913C",
+   "home": "dungeon/func_80B9913C",
+   "tu": "src/dungeon/func_80B9913C.c",
+   "foff": "0x00BB913C",
+   "vma": "0x8017293C",
+   "size": 1144
+  },
+  {
    "row": "dungeon/func_80B9A34C",
    "home": "dungeon/func_80A4AB34",
    "tu": "src/dungeon/func_80A4AB34.c",

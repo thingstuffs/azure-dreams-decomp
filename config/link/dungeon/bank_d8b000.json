@@ -41,6 +41,31 @@
    "size": 484
   },
   {
+   "row": "dungeon/func_80D6C164",
+   "home": "dungeon/func_80D66164",
+   "tu": "src/dungeon/func_80D66164.c",
+   "foff": "0x00D8C164",
+   "vma": "0x8016B964",
+   "size": 1464,
+   "bindings": {
+    "0x80083460": "0x80083460",
+    "0x80171F1C": "0x8016BF1C",
+    "0x800A9E70": "0x800A9E70",
+    "0x8017664C": "0x8017064C",
+    "0x800AA36C": "0x800AA36C",
+    "0x80083160": "0x80083160",
+    "0x80047738": "0x80047738",
+    "0x8006CCF8": "0x8006CCF8",
+    "0x800A020C": "0x800A020C",
+    "0x800478B8": "0x800478B8",
+    "0x800E2348": "0x800E2348",
+    "0x800644B8": "0x800644B8",
+    "0x800BCB04": "0x800BCB04",
+    "0x80171964": "0x8016B964"
+   },
+   "evidence": "LL3a attestation sha256:2f26498779d717fb9be09cd2ad2da67888335b5b044b3aa1a204f4009173e7c8; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
    "row": "dungeon/func_80D6C71C",
    "tu": "src/dungeon/func_80D6671C.c",
    "home": "dungeon/func_80D6671C",
@@ -102,7 +127,13 @@
    "home": "dungeon/func_800CEE70",
    "foff": "0xD8DF94",
    "vma": "0x8016D794",
-   "size": 100
+   "size": 100,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6DFF8",
@@ -111,6 +142,36 @@
    "foff": "0xD8DFF8",
    "vma": "0x8016D7F8",
    "size": 784
+  },
+  {
+   "row": "dungeon/func_80D6E308",
+   "home": "dungeon/func_80D68308",
+   "tu": "src/dungeon/func_80D68308.c",
+   "foff": "0x00D8E308",
+   "vma": "0x8016DB08",
+   "size": 1840,
+   "bindings": {
+    "0x800814A8": "0x800814A8",
+    "0x8006DE24": "0x8006DE24",
+    "0x800A05A4": "0x800A05A4",
+    "0x800A94A0": "0x800A94A0",
+    "0x800A2B04": "0x800A2B04",
+    "0x80083460": "0x80083460",
+    "0x800A4ACC": "0x800A4ACC",
+    "0x80171F1C": "0x8016BF1C",
+    "0x8003F270": "0x8003F270",
+    "0x800A56E0": "0x800A56E0",
+    "0x800BCB04": "0x800BCB04",
+    "0x800E2398": "0x800E2398",
+    "0x801711DC": "0x8016B1DC",
+    "0x8017145C": "0x8016B45C",
+    "0x800E2388": "0x800E2388",
+    "0x80083160": "0x80083160",
+    "0x80047784": "0x80047784",
+    "0x800E2348": "0x800E2348",
+    "0x80173B08": "0x8016DB08"
+   },
+   "evidence": "LL3a attestation sha256:d72fc53849b83435ed8628e38746a3e2651fc8087ad6410f3da19240bb4fe595; current-TU paired HI16/LO16 relocation screen; scoped window gate"
   },
   {
    "row": "dungeon/func_80D6EA38",
@@ -134,7 +195,13 @@
    "home": "dungeon/func_800AD92C",
    "foff": "0xD8F3AC",
    "vma": "0x8016EBAC",
-   "size": 32
+   "size": 32,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6F3CC",
@@ -142,7 +209,13 @@
    "home": "dungeon/func_800AD94C",
    "foff": "0xD8F3CC",
    "vma": "0x8016EBCC",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6F404",
@@ -182,7 +255,13 @@
    "home": "dungeon/func_800ADA84",
    "foff": "0xD8FC48",
    "vma": "0x8016F448",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6FC80",
@@ -190,7 +269,13 @@
    "home": "dungeon/func_800ADABC",
    "foff": "0xD8FC80",
    "vma": "0x8016F480",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6FCB8",
@@ -198,7 +283,13 @@
    "home": "dungeon/func_800ADAF4",
    "foff": "0xD8FCB8",
    "vma": "0x8016F4B8",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80173B08": "0x80173B08",
+    "0x80175594": "0x80175594",
+    "0x80171964": "0x80171964"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80D6FCF0",
@@ -207,6 +298,39 @@
    "foff": "0xD8FCF0",
    "vma": "0x8016F4F0",
    "size": 164
+  },
+  {
+   "row": "dungeon/func_80D6FD94",
+   "home": "dungeon/func_80D69D94",
+   "tu": "src/dungeon/func_80D69D94.c",
+   "foff": "0x00D8FD94",
+   "vma": "0x8016F594",
+   "size": 1612,
+   "bindings": {
+    "0x800E23B8": "0x800E23B8",
+    "0x80083160": "0x80083160",
+    "0x80047784": "0x80047784",
+    "0x800E23C0": "0x800E23C0",
+    "0x8017165C": "0x8016B65C",
+    "0x80171010": "0x8016B010",
+    "0x800D6DC0": "0x800D6DC0",
+    "0x80069EF8": "0x80069EF8",
+    "0x80170BB8": "0x8016ABB8",
+    "0x800A56E0": "0x800A56E0",
+    "0x80170A44": "0x8016AA44",
+    "0x8009A3D0": "0x8009A3D0",
+    "0x80082E80": "0x80082E80",
+    "0x800A4E2C": "0x800A4E2C",
+    "0x800BCB04": "0x800BCB04",
+    "0x8009A21C": "0x8009A21C",
+    "0x800AA53C": "0x800AA53C",
+    "0x800AD594": "0x800AD594",
+    "0x80171F1C": "0x8016BF1C",
+    "0x80083460": "0x80083460",
+    "0x800E2348": "0x800E2348",
+    "0x80175594": "0x8016F594"
+   },
+   "evidence": "LL3a attestation sha256:e40af269196a21ec5f1b2f602573c5f2a2baf2dbfd59239a840e25004d2129ee; current-TU paired HI16/LO16 relocation screen; scoped window gate"
   },
   {
    "row": "dungeon/func_80D703E0",

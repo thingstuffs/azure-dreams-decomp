@@ -1,0 +1,58 @@
+SCOPED WINDOWS 1251
+1251 active windows; computing inputs_sha for 34 with journal records, 4 workers
+planning: inputs_sha 1/34 windows 4s
+planning: inputs_sha 17/34 windows 18s
+planning: inputs_sha 33/34 windows 19s
+planning: inputs_sha 34/34 windows 20s
+planning: inputs_sha 34/34 windows 20s
+0 windows use current input-bound lane proofs
+1244 windows to gate (7 up to date), 4 workers
+50/1244 379s {'MATCH': 50}
+100/1244 893s {'MATCH': 100}
+150/1244 1451s {'MATCH': 150}
+200/1244 1906s {'MATCH': 200}
+250/1244 2245s {'MATCH': 250}
+300/1244 2591s {'MATCH': 300}
+350/1244 2851s {'MATCH': 350}
+400/1244 3083s {'MATCH': 400}
+450/1244 3323s {'MATCH': 450}
+500/1244 3454s {'MATCH': 500}
+550/1244 3718s {'MATCH': 550}
+600/1244 3807s {'MATCH': 600}
+650/1244 3946s {'MATCH': 650}
+700/1244 4032s {'MATCH': 700}
+750/1244 4121s {'MATCH': 750}
+800/1244 4211s {'MATCH': 800}
+850/1244 4302s {'MATCH': 850}
+900/1244 4394s {'MATCH': 900}
+950/1244 4477s {'MATCH': 950}
+1000/1244 4573s {'MATCH': 1000}
+1050/1244 4677s {'MATCH': 1050}
+1100/1244 4837s {'MATCH': 1100}
+1150/1244 4918s {'MATCH': 1150}
+1200/1244 5003s {'MATCH': 1200}
+done 1244 (+0 serial retries) in 5439s: {'MATCH': 1244}
+final audit: inputs_sha 67/1251 windows 53s
+final audit: inputs_sha 136/1251 windows 77s
+final audit: inputs_sha 200/1251 windows 97s
+final audit: inputs_sha 264/1251 windows 114s
+final audit: inputs_sha 328/1251 windows 132s
+final audit: inputs_sha 392/1251 windows 137s
+final audit: inputs_sha 456/1251 windows 142s
+final audit: inputs_sha 520/1251 windows 148s
+final audit: inputs_sha 584/1251 windows 155s
+final audit: inputs_sha 648/1251 windows 159s
+final audit: inputs_sha 712/1251 windows 163s
+final audit: inputs_sha 776/1251 windows 167s
+final audit: inputs_sha 840/1251 windows 171s
+final audit: inputs_sha 904/1251 windows 175s
+final audit: inputs_sha 968/1251 windows 179s
+final audit: inputs_sha 1032/1251 windows 186s
+final audit: inputs_sha 1096/1251 windows 190s
+final audit: inputs_sha 1158/1251 windows 200s
+final audit: inputs_sha 1220/1251 windows 241s
+final audit: inputs_sha 1251/1251 windows 259s
+
+PASS: 1251 / 1251 union windows have final current MATCH receipts.
+Workers: 4. No full gate. Entry-only repair applied to its sole dependency before that queued window ran.
+{"additional_gate_runs": 0, "broad_scope_windows": 1251, "current_match_windows": 1251, "entry_only_repairs": 1, "final_inputs_sha256": "d9abaa9091b68fd74ce20d41cb44a75923a936d738eec5c7e6bd835bf4a87407", "journal_sha256": "145591c92b52a5f6e4835cf1eb7745643756b4bcb6af6f0b7b222ec498e53f6b", "note": "One complete scoped gate; the isolated entry binding was repaired under the build lock before its queued window ran. Every union receipt is MATCH with the final canonical input hash.", "repair_dependency_windows": 1, "result": "PASS", "workers": 4}

@@ -8,6 +8,14 @@
  "evidence": "docs/evidence/r121w_s2_receipts.json",
  "entries": [
   {
+   "row": "dungeon/func_80D8F668",
+   "home": "dungeon/func_80D8F668",
+   "tu": "src/dungeon/func_80D8F668.c",
+   "foff": "0x00DAF668",
+   "vma": "0x80170E68",
+   "size": 1312
+  },
+  {
    "row": "dungeon/func_80D8FDCC",
    "tu": "src/dungeon/func_80D95DCC.c",
    "home": "dungeon/func_80D95DCC",

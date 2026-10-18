@@ -30,7 +30,11 @@
    "home": "dungeon/func_80B98600",
    "foff": "0xE2E7FC",
    "vma": "0x80171FFC",
-   "size": 452
+   "size": 452,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E0E9C0",
@@ -94,7 +98,11 @@
    "home": "dungeon/func_800CEE70",
    "foff": "0xE2F434",
    "vma": "0x80172C34",
-   "size": 100
+   "size": 100,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E0F7C0",
@@ -134,7 +142,11 @@
    "home": "dungeon/func_800AD92C",
    "foff": "0xE3057C",
    "vma": "0x80173D7C",
-   "size": 32
+   "size": 32,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E1059C",
@@ -182,7 +194,11 @@
    "home": "dungeon/func_800ADA84",
    "foff": "0xE30E4C",
    "vma": "0x8017464C",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E10E84",
@@ -190,7 +206,11 @@
    "home": "dungeon/func_800ADABC",
    "foff": "0xE30E84",
    "vma": "0x80174684",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E10EBC",
@@ -198,7 +218,11 @@
    "home": "dungeon/func_800ADAF4",
    "foff": "0xE30EBC",
    "vma": "0x801746BC",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E10EF4",
@@ -206,7 +230,11 @@
    "home": "dungeon/func_800CF1BC",
    "foff": "0xE30EF4",
    "vma": "0x801746F4",
-   "size": 56
+   "size": 56,
+   "bindings": {
+    "0x80171410": "0x80171410"
+   },
+   "evidence": "; LL3a preserves prior rule-3 binding"
   },
   {
    "row": "dungeon/func_80E10F64",

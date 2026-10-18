@@ -1,0 +1,2 @@
+row	home	foff	size	entry_symbol	placement_vma	status	windows
+dungeon/func_81014664	dungeon/func_81008664	0x1034664	2476	0x81008664	0x80167E64	EXISTING_ENTRY_REPAIR_MATCH	config/overlays/dungeon_deep_1031278_truebase_80164a78.overlay.yaml

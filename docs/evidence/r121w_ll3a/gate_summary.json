@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "current_match_windows": 1251,
+  "workers": 4,
+  "broad_scope_windows": 1251,
+  "repair_dependency_windows": 1,
+  "additional_gate_runs": 0,
+  "entry_only_repairs": 1,
+  "journal_sha256": "145591c92b52a5f6e4835cf1eb7745643756b4bcb6af6f0b7b222ec498e53f6b",
+  "final_inputs_sha256": "d9abaa9091b68fd74ce20d41cb44a75923a936d738eec5c7e6bd835bf4a87407",
+  "note": "One complete scoped gate; the isolated entry binding was repaired under the build lock before its queued window ran. Every union receipt is MATCH with the final canonical input hash."
+}

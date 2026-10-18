@@ -1,0 +1,2581 @@
+{
+  "schema": 1,
+  "lane": "r121w_certs",
+  "base": "ebf0bb89f11b43101506c3fdbfb1ac90bed4716a",
+  "scope": {
+    "overlay_missing": 18,
+    "slus_missing": 54,
+    "slus_stale": 2,
+    "excluded_partition_only": [
+      "accessors_814c8",
+      "table_counters_b1b_b1c",
+      "sound_tu_code"
+    ]
+  },
+  "results": [
+    {
+      "module": "dungeon_town_map",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "include/modules/dungeon_town_map.h:13: warning: `struct Struct_7FFEE2A0' declared inside parameter list; include/modules/dungeon_town_map.h:13: warning: its scope is only this definition or declaration,",
+      "next_step": "Review docs/evidence/dungeon_town_map.membership.json, include/modules/dungeon_town_map.h and docs/evidence/dungeon_town_map.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_town_map.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_d54c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_7FFED5BC.c:10: warning: assignment from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_d54c.membership.json, include/modules/dungeon_ovl_d54c.h and docs/evidence/dungeon_ovl_d54c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_d54c.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_dungeon_setup",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_802835B8.c:56: warning: assignment from incompatible pointer type; src/dungeon/modules/../func_802835B8.c:57: warning: assignment from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_dungeon_setup.membership.json, include/modules/dungeon_dungeon_setup.h and docs/evidence/dungeon_dungeon_setup.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_dungeon_setup.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_16b08_local",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Reconciled 12 import views; completed bounded placement review.",
+      "scratch_result": "PASS",
+      "hold_reason": "",
+      "review_findings": "",
+      "next_step": "Apply evidence/config patch, regenerate view, reissue the canonical certificate at final inputs; scratch binary proof directories are not a portable production certificate.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_16b08_local.log",
+      "prepared_log": "scratch/logs/prepared_dungeon_ovl_16b08_local.log"
+    },
+    {
+      "module": "dungeon_ovl_16b08_f6a8",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "Shared header retains an unprototyped external func_80065F90; review the actual two-argument call contract and signed field views.",
+      "next_step": "Review docs/evidence/dungeon_ovl_16b08_f6a8.membership.json, include/modules/dungeon_ovl_16b08_f6a8.h and docs/evidence/dungeon_ovl_16b08_f6a8.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window. Its required window roster also contains a superseded synthetic seed; reconcile the certifier/gate_all selection before relying solely on active-window receipts.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_16b08_f6a8.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_1831370",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "include/modules/dungeon_ovl_1831370.h:181: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_818113C0.c:4: warning: passing arg 1 of `release_object_handle' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_1831370.membership.json, include/modules/dungeon_ovl_1831370.h and docs/evidence/dungeon_ovl_1831370.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_1831370.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_1831cd8",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_81812454.c:6: warning: passing arg 1 of `refresh_menu_record_resource' from incompatible pointer type; src/dungeon/modules/../func_81812454.c:10: warning: passing arg 1 of `rebuild_menu_resource' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_1831cd8.membership.json, include/modules/dungeon_ovl_1831cd8.h and docs/evidence/dungeon_ovl_1831cd8.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_1831cd8.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_1830850",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "include/modules/dungeon_ovl_1830850.h:212: warning: conflicting types for built-in function `strcpy'; src/dungeon/modules/../func_81810A0C.c:13: warning: passing arg 1 of `inventory_check_type_four_linked_object' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_1830850.membership.json, include/modules/dungeon_ovl_1830850.h and docs/evidence/dungeon_ovl_1830850.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_1830850.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_9c32d4",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_809A32D4.c:55: warning: passing arg 7 of `emit_concentric_ellipse_quads' from incompatible pointer type; src/dungeon/modules/../func_809A32D4.c:55: warning: passing arg 8 of `emit_concentric_ellipse_quads' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_9c32d4.membership.json, include/modules/dungeon_ovl_9c32d4.h and docs/evidence/dungeon_ovl_9c32d4.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_9c32d4.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_19a332c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_81982864.c:42: warning: passing arg 1 of `allocate_two_part_object' makes pointer from integer without a cast; src/dungeon/modules/../func_81982864.c:42: warning: passing arg 2 of `allocate_two_part_object' makes integer from pointer without a cast",
+      "next_step": "Review docs/evidence/dungeon_ovl_19a332c.membership.json, include/modules/dungeon_ovl_19a332c.h and docs/evidence/dungeon_ovl_19a332c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_19a332c.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_1930844",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_819112CC.c:140: warning: passing arg 1 of `func_80065590' makes pointer from integer without a cast; src/dungeon/modules/../func_819112CC.c:223: warning: passing arg 1 of `func_80065590' makes pointer from integer without a cast",
+      "next_step": "Review docs/evidence/dungeon_ovl_1930844.membership.json, include/modules/dungeon_ovl_1930844.h and docs/evidence/dungeon_ovl_1930844.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_1930844.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_18d0850",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_818B0850.c:19: warning: passing arg 2 of `create_actor_value_popup' from incompatible pointer type; src/dungeon/modules/../func_818B0AE0.c:20: warning: passing arg 1 of `func_800478B8' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_18d0850.membership.json, include/modules/dungeon_ovl_18d0850.h and docs/evidence/dungeon_ovl_18d0850.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_18d0850.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_188898c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_81868A64.c:8: warning: assignment from incompatible pointer type; src/dungeon/modules/../func_81868B84.c:22: warning: passing arg 1 of `create_randomized_grayscale_effect' makes integer from pointer without a cast",
+      "next_step": "Review docs/evidence/dungeon_ovl_188898c.membership.json, include/modules/dungeon_ovl_188898c.h and docs/evidence/dungeon_ovl_188898c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_188898c.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_188298c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 1 of `spawn_jittered_type_212_effect' makes integer from pointer without a cast; src/dungeon/modules/../func_81862B74.c:13: warning: passing arg 2 of `spawn_jittered_type_212_effect' makes pointer from integer without a cast",
+      "next_step": "Review docs/evidence/dungeon_ovl_188298c.membership.json, include/modules/dungeon_ovl_188298c.h and docs/evidence/dungeon_ovl_188298c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_188298c.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_18ca83c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_818AABB8.c:16: warning: assignment from incompatible pointer type; src/dungeon/modules/../func_818AAE60.c:184: warning: passing arg 3 of `create_randomized_target_effect' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_18ca83c.membership.json, include/modules/dungeon_ovl_18ca83c.h and docs/evidence/dungeon_ovl_18ca83c.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_18ca83c.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_ovl_18b8824",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "Refreshed actual GCC declaration expression/size audit without changing source; runtime view shrunk where declared scalar is four bytes.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_818988CC.c:14: warning: assignment from incompatible pointer type; src/dungeon/modules/../func_81898A64.c:9: warning: assignment from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_ovl_18b8824.membership.json, include/modules/dungeon_ovl_18b8824.h and docs/evidence/dungeon_ovl_18b8824.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_ovl_18b8824.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_floor_spawns",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "src/dungeon/modules/../func_8028B18C.c:154: warning: passing arg 1 of `func_800A7A38' from incompatible pointer type; src/dungeon/modules/../func_8028B18C.c:165: warning: passing arg 1 of `func_800A7A38' from incompatible pointer type",
+      "next_step": "Review docs/evidence/dungeon_floor_spawns.membership.json, include/modules/dungeon_floor_spawns.h and docs/evidence/dungeon_floor_spawns.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_floor_spawns.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "dungeon_floor_generate",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "review incomplete",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED review; whole-TU retail+genuine PASS",
+      "hold_reason": "membership/type/ownership review incomplete",
+      "review_findings": "include/modules/dungeon_floor_generate.h:37: warning: `M2C_FIELD' redefined; include/m2c_compat.h:30: warning: this is the location of the previous definition",
+      "next_step": "Review docs/evidence/dungeon_floor_generate.membership.json, include/modules/dungeon_floor_generate.h and docs/evidence/dungeon_floor_generate.imports.json; resolve remaining opaque/contradictory interfaces, record reviewer, then certify the complete TU and every affected window.",
+      "initial_log": "scratch/logs/initial_dungeon_floor_generate.log",
+      "prepared_log": ""
+    },
+    {
+      "module": "runtime_directory",
+      "state_before": "stale",
+      "stale_reason": "module sources, headers or manifest changed",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_runtime_directory.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py runtime_directory --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_runtime_directory.log",
+      "prepared_log": "scratch/logs/prepared_runtime_directory.log"
+    },
+    {
+      "module": "entry_words",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_entry_words.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py entry_words --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_entry_words.log",
+      "prepared_log": "scratch/logs/prepared_entry_words.log"
+    },
+    {
+      "module": "render_words",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_render_words.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py render_words --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_render_words.log",
+      "prepared_log": "scratch/logs/prepared_render_words.log"
+    },
+    {
+      "module": "owned_80035484",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_80035484.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_80035484 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_80035484.log",
+      "prepared_log": "scratch/logs/prepared_owned_80035484.log"
+    },
+    {
+      "module": "owned_80038A10",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_80038A10.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_80038A10 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_80038A10.log",
+      "prepared_log": "scratch/logs/prepared_owned_80038A10.log"
+    },
+    {
+      "module": "owned_80044698",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_80044698.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_80044698 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_80044698.log",
+      "prepared_log": "scratch/logs/prepared_owned_80044698.log"
+    },
+    {
+      "module": "owned_800448BC",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_800448BC.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_800448BC --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_800448BC.log",
+      "prepared_log": "scratch/logs/prepared_owned_800448BC.log"
+    },
+    {
+      "module": "owned_8004713C",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_8004713C.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_8004713C --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_8004713C.log",
+      "prepared_log": "scratch/logs/prepared_owned_8004713C.log"
+    },
+    {
+      "module": "owned_80047338",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_80047338.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_80047338 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_80047338.log",
+      "prepared_log": "scratch/logs/prepared_owned_80047338.log"
+    },
+    {
+      "module": "owned_80047468",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_owned_80047468.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py owned_80047468 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_owned_80047468.log",
+      "prepared_log": "scratch/logs/prepared_owned_80047468.log"
+    },
+    {
+      "module": "state_defaults",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_state_defaults.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py state_defaults --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_state_defaults.log",
+      "prepared_log": "scratch/logs/prepared_state_defaults.log"
+    },
+    {
+      "module": "slot_transition",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_slot_transition.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py slot_transition --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_slot_transition.log",
+      "prepared_log": "scratch/logs/prepared_slot_transition.log"
+    },
+    {
+      "module": "slot_transition_secondary",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_slot_transition_secondary.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py slot_transition_secondary --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_slot_transition_secondary.log",
+      "prepared_log": "scratch/logs/prepared_slot_transition_secondary.log"
+    },
+    {
+      "module": "konami_runtime_gp_count",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_konami_runtime_gp_count.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py konami_runtime_gp_count --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_konami_runtime_gp_count.log",
+      "prepared_log": "scratch/logs/prepared_konami_runtime_gp_count.log"
+    },
+    {
+      "module": "gp_shared_slots",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_shared_slots.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_shared_slots --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_shared_slots.log",
+      "prepared_log": "scratch/logs/prepared_gp_shared_slots.log"
+    },
+    {
+      "module": "gp_split_storage",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_split_storage.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_split_storage --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_split_storage.log",
+      "prepared_log": "scratch/logs/prepared_gp_split_storage.log"
+    },
+    {
+      "module": "gp_shared_81510",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_shared_81510.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_shared_81510 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_shared_81510.log",
+      "prepared_log": "scratch/logs/prepared_gp_shared_81510.log"
+    },
+    {
+      "module": "gp_shared_8099c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_shared_8099c.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_shared_8099c --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_shared_8099c.log",
+      "prepared_log": "scratch/logs/prepared_gp_shared_8099c.log"
+    },
+    {
+      "module": "cache_afe",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_cache_afe.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py cache_afe --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_cache_afe.log",
+      "prepared_log": "scratch/logs/prepared_cache_afe.log"
+    },
+    {
+      "module": "list_cursor_e0",
+      "state_before": "stale",
+      "stale_reason": "certificate physical contributors or destination changed",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_list_cursor_e0.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py list_cursor_e0 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_list_cursor_e0.log",
+      "prepared_log": "scratch/logs/prepared_list_cursor_e0.log"
+    },
+    {
+      "module": "saved_value_b98",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_saved_value_b98.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py saved_value_b98 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_saved_value_b98.log",
+      "prepared_log": "scratch/logs/prepared_saved_value_b98.log"
+    },
+    {
+      "module": "sort_rank_81540",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sort_rank_81540.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sort_rank_81540 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sort_rank_81540.log",
+      "prepared_log": "scratch/logs/prepared_sort_rank_81540.log"
+    },
+    {
+      "module": "command_slots_81554",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_command_slots_81554.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py command_slots_81554 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_command_slots_81554.log",
+      "prepared_log": "scratch/logs/prepared_command_slots_81554.log"
+    },
+    {
+      "module": "address_slot",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_address_slot.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py address_slot --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_address_slot.log",
+      "prepared_log": "scratch/logs/prepared_address_slot.log"
+    },
+    {
+      "module": "command_words",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_command_words.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py command_words --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_command_words.log",
+      "prepared_log": "scratch/logs/prepared_command_words.log"
+    },
+    {
+      "module": "gp_shared_8152c",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_shared_8152c.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_shared_8152c --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_shared_8152c.log",
+      "prepared_log": "scratch/logs/prepared_gp_shared_8152c.log"
+    },
+    {
+      "module": "gp_d92c_owned",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_d92c_owned.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_d92c_owned --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_d92c_owned.log",
+      "prepared_log": "scratch/logs/prepared_gp_d92c_owned.log"
+    },
+    {
+      "module": "gp_order_bytes_owner",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_order_bytes_owner.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_order_bytes_owner --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_order_bytes_owner.log",
+      "prepared_log": "scratch/logs/prepared_gp_order_bytes_owner.log"
+    },
+    {
+      "module": "gp_af3_pair",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_gp_af3_pair.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py gp_af3_pair --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_gp_af3_pair.log",
+      "prepared_log": "scratch/logs/prepared_gp_af3_pair.log"
+    },
+    {
+      "module": "message_mode_81550",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_message_mode_81550.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py message_mode_81550 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_message_mode_81550.log",
+      "prepared_log": "scratch/logs/prepared_message_mode_81550.log"
+    },
+    {
+      "module": "cd_command_state",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_cd_command_state.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py cd_command_state --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_cd_command_state.log",
+      "prepared_log": "scratch/logs/prepared_cd_command_state.log"
+    },
+    {
+      "module": "jtbl_80054F9C",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80054F9C.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80054F9C --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80054F9C.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80054F9C.log"
+    },
+    {
+      "module": "jtbl_80041344",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80041344.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80041344 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80041344.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80041344.log"
+    },
+    {
+      "module": "jtbl_80057A94",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80057A94.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80057A94 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80057A94.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80057A94.log"
+    },
+    {
+      "module": "jtbl_80052CE0",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80052CE0.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80052CE0 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80052CE0.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80052CE0.log"
+    },
+    {
+      "module": "jtbl_800517CC",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_800517CC.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_800517CC --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_800517CC.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_800517CC.log"
+    },
+    {
+      "module": "jtbl_8004CECC",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_8004CECC.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_8004CECC --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_8004CECC.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_8004CECC.log"
+    },
+    {
+      "module": "jtbl_80042BDC",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80042BDC.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80042BDC --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80042BDC.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80042BDC.log"
+    },
+    {
+      "module": "jtbl_8005F134",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_8005F134.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_8005F134 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_8005F134.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_8005F134.log"
+    },
+    {
+      "module": "jtbl_8005EDA0",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_8005EDA0.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_8005EDA0 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_8005EDA0.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_8005EDA0.log"
+    },
+    {
+      "module": "jtbl_80052144",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80052144.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80052144 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80052144.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80052144.log"
+    },
+    {
+      "module": "jtbl_80057D20",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_jtbl_80057D20.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py jtbl_80057D20 --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_jtbl_80057D20.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80057D20.log"
+    },
+    {
+      "module": "jtbl_80041588",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "module placement requires its own shared header",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED",
+      "hold_reason": "module placement requires its own shared header",
+      "review_findings": "",
+      "next_step": "Create and integrate a reviewed module-specific shared header in a separate source/header change, list it in config/slus_modules.json, then rerun certify_slus_module.py jtbl_80041588.",
+      "initial_log": "scratch/logs/initial_jtbl_80041588.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_80041588.log"
+    },
+    {
+      "module": "jtbl_800595C0",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "module placement requires its own shared header",
+      "fix": "No safe mechanical review completion.",
+      "scratch_result": "BLOCKED",
+      "hold_reason": "module placement requires its own shared header",
+      "review_findings": "",
+      "next_step": "Create and integrate a reviewed module-specific shared header in a separate source/header change, list it in config/slus_modules.json, then rerun certify_slus_module.py jtbl_800595C0.",
+      "initial_log": "scratch/logs/initial_jtbl_800595C0.log",
+      "prepared_log": "scratch/logs/prepared_jtbl_800595C0.log"
+    },
+    {
+      "module": "sound_pitch_conversions",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_pitch_conversions.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_pitch_conversions --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_pitch_conversions.log",
+      "prepared_log": "scratch/logs/prepared_sound_pitch_conversions.log"
+    },
+    {
+      "module": "sound_register_helpers",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_register_helpers.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_register_helpers --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_register_helpers.log",
+      "prepared_log": "scratch/logs/prepared_sound_register_helpers.log"
+    },
+    {
+      "module": "sound_range_records",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_range_records.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_range_records --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_range_records.log",
+      "prepared_log": "scratch/logs/prepared_sound_range_records.log"
+    },
+    {
+      "module": "sound_transfer_helpers",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_transfer_helpers.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_transfer_helpers --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_transfer_helpers.log",
+      "prepared_log": "scratch/logs/prepared_sound_transfer_helpers.log"
+    },
+    {
+      "module": "sound_streaming_transfer",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_streaming_transfer.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_streaming_transfer --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_streaming_transfer.log",
+      "prepared_log": "scratch/logs/prepared_sound_streaming_transfer.log"
+    },
+    {
+      "module": "sound_key_buffer",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r118_sound_key_buffer.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_key_buffer --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_key_buffer.log",
+      "prepared_log": "scratch/logs/prepared_sound_key_buffer.log"
+    },
+    {
+      "module": "sound_dma_lifecycle",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_dma_lifecycle.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_dma_lifecycle --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_dma_lifecycle.log",
+      "prepared_log": "scratch/logs/prepared_sound_dma_lifecycle.log"
+    },
+    {
+      "module": "sound_reset_state",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_reset_state.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_reset_state --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_reset_state.log",
+      "prepared_log": "scratch/logs/prepared_sound_reset_state.log"
+    },
+    {
+      "module": "sound_transfer_frontends",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_transfer_frontends.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_transfer_frontends --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_transfer_frontends.log",
+      "prepared_log": "scratch/logs/prepared_sound_transfer_frontends.log"
+    },
+    {
+      "module": "sound_event_start",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_event_start.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_event_start --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_event_start.log",
+      "prepared_log": "scratch/logs/prepared_sound_event_start.log"
+    },
+    {
+      "module": "sound_register_value",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_register_value.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_register_value --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_register_value.log",
+      "prepared_log": "scratch/logs/prepared_sound_register_value.log"
+    },
+    {
+      "module": "sound_reverb_writer",
+      "state_before": "missing",
+      "stale_reason": "",
+      "blocker": "build_slus/ has no built tree: run tools/build/build_slus.sh first",
+      "fix": "Built private SLUS tree with pinned recipe and retail SHA-1 MATCH; original certificate files untouched.",
+      "scratch_result": "PASS",
+      "hold_reason": "final placement review remains pending; scratch proof only",
+      "review_findings": "",
+      "next_step": "Finish the review in docs/evidence/slus_r120_sound_reverb_writer.md and record the responsible reviewer; regenerate at final landed inputs using tools/fidelity/certify_slus_module.py sound_reverb_writer --reviewer REVIEWER --write under the landing lock.",
+      "initial_log": "scratch/logs/initial_sound_reverb_writer.log",
+      "prepared_log": "scratch/logs/prepared_sound_reverb_writer.log"
+    }
+  ],
+  "scoped_gate_plan": {
+    "modules": [
+      "dungeon_ovl_16b08_local",
+      "dungeon_ovl_1830850",
+      "dungeon_ovl_1831370",
+      "dungeon_ovl_1831cd8",
+      "dungeon_ovl_188298c",
+      "dungeon_ovl_188898c",
+      "dungeon_ovl_18b8824",
+      "dungeon_ovl_18ca83c",
+      "dungeon_ovl_18d0850",
+      "dungeon_ovl_1930844",
+      "dungeon_ovl_19a332c",
+      "dungeon_ovl_9c32d4"
+    ],
+    "windows": [
+      "config/overlays/dungeon_deep_016ae8_truebase_80094248.overlay.yaml",
+      "config/overlays/dungeon_deep_1882.overlay.yaml",
+      "config/overlays/dungeon_deep_18b88cc_truebase_800240cc.overlay.yaml",
+      "config/overlays/dungeon_deep_18b8ebc_truebase_800246bc.overlay.yaml",
+      "config/overlays/dungeon_deep_18ca8d8_truebase_800240d8.overlay.yaml",
+      "config/overlays/dungeon_deep_18d08ec_truebase_800240ec.overlay.yaml",
+      "config/overlays/dungeon_deep_1930970_truebase_80024170.overlay.yaml",
+      "config/overlays/dungeon_deep_1930a9c_truebase_8002429c.overlay.yaml",
+      "config/overlays/dungeon_deep_1931bf4_truebase_800253f4.overlay.yaml",
+      "config/overlays/dungeon_deep_1932000_truebase_80025800.overlay.yaml",
+      "config/overlays/dungeon_deep_9c1000_truebase_80172800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8_1830.overlay.yaml",
+      "config/overlays/dungeon_deep_t8_187c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8_18d0.overlay.yaml",
+      "config/overlays/dungeon_deep_t8_197a.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18308b8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1830e3c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1830ffc.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1831168.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_183161c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18319e8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1831a64.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1831c20.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1831d0c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1832008.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18324f0.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18327a8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1832a20.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1832d7c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1832e10.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1832e84.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_183345c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18335b0.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1833654.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1833774.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1888e84.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1888f30.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18b8800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18b8dcc.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18ca800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_18d0800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1930800.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1931.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_1932074.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19a2864.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19a2df8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19a2f0c.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19a4bf0.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_19a4c44.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_9c2fb8.overlay.yaml",
+      "config/overlays/dungeon_deep_t8b_9c38e4.overlay.yaml"
+    ],
+    "superseded_excluded": [],
+    "existing_certificate_neighbors": [
+      "dungeon_ovl_1852800",
+      "dungeon_ovl_1858800",
+      "dungeon_ovl_1840800",
+      "dungeon_ovl_185e800",
+      "dungeon_ovl_18fa800",
+      "dungeon_ovl_199c800",
+      "dungeon_ovl_18f4800",
+      "dungeon_ovl_19a8800",
+      "dungeon_ovl_189a800",
+      "dungeon_ovl_188e800",
+      "dungeon_ovl_198a800",
+      "dungeon_ovl_1894800",
+      "dungeon_ovl_1990800",
+      "dungeon_ovl_183a800",
+      "dungeon_ovl_18a0800",
+      "dungeon_ovl_184c800",
+      "dungeon_ovl_1864800",
+      "dungeon_ovl_7e6a5800",
+      "dungeon_ovl_18d6800",
+      "dungeon_ovl_18ee800",
+      "dungeon_ovl_18e8800"
+    ],
+    "transaction": "r121w-certs-20261017-final"
+  },
+  "size_corrections": {
+    "modules": [
+      "dungeon_ovl_1831370",
+      "dungeon_ovl_1831cd8",
+      "dungeon_ovl_1830850",
+      "dungeon_ovl_9c32d4",
+      "dungeon_ovl_19a332c",
+      "dungeon_ovl_1930844",
+      "dungeon_ovl_18d0850",
+      "dungeon_ovl_188898c",
+      "dungeon_ovl_188298c",
+      "dungeon_ovl_18ca83c",
+      "dungeon_ovl_18b8824"
+    ],
+    "span_corrections": [
+      {
+        "module": "dungeon_ovl_1831370",
+        "symbol": "D_800814A0",
+        "before": 16,
+        "after": 4
+      },
+      {
+        "module": "dungeon_ovl_9c32d4",
+        "symbol": "D_800814A0",
+        "before": 16,
+        "after": 4
+      },
+      {
+        "module": "dungeon_ovl_18d0850",
+        "symbol": "D_800814A0",
+        "before": 16,
+        "after": 4
+      }
+    ],
+    "measurements": [
+      {
+        "module": "dungeon_town_map",
+        "sizes": []
+      },
+      {
+        "module": "dungeon_ovl_d54c",
+        "sizes": []
+      },
+      {
+        "module": "dungeon_dungeon_setup",
+        "sizes": []
+      },
+      {
+        "module": "dungeon_ovl_16b08_local",
+        "sizes": [
+          {
+            "symbol": "D_800D00A0",
+            "expression": "D_800D00A0",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D00B0",
+            "expression": "D_800D00B0",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D00B8",
+            "expression": "D_800D00B8",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_800D00C0",
+            "expression": "D_800D00C0",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D0108",
+            "expression": "D_800D0108",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D0110",
+            "expression": "D_800D0110",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D0120",
+            "expression": "D_800D0120",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D0130",
+            "expression": "D_800D0130",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800D0140",
+            "expression": "D_800D0140",
+            "before": 4,
+            "actual": 4
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_16b08_f6a8",
+        "sizes": []
+      },
+      {
+        "module": "dungeon_ovl_1831370",
+        "sizes": [
+          {
+            "symbol": "D_800294F8",
+            "expression": "D_800294F8",
+            "before": 9,
+            "actual": 9
+          },
+          {
+            "symbol": "D_800294FC",
+            "expression": "D_800294FC",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80029500",
+            "expression": "D_80029500",
+            "before": 5,
+            "actual": 5
+          },
+          {
+            "symbol": "D_80029508",
+            "expression": "D_80029508",
+            "before": 8,
+            "actual": 8
+          },
+          {
+            "symbol": "D_80029510",
+            "expression": "D_80029510",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_8002E5D8",
+            "expression": "D_8002E5D8",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_8002E5E8",
+            "expression": "D_8002E5E8",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "D_800814A0",
+            "before": 16,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_1831cd8",
+        "sizes": [
+          {
+            "symbol": "D_80025034",
+            "expression": "D_80025034",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_8002503C",
+            "expression": "D_8002503C",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80029514",
+            "expression": "D_80029514",
+            "before": 8,
+            "actual": 8
+          },
+          {
+            "symbol": "D_8002951C",
+            "expression": "D_8002951C",
+            "before": 8,
+            "actual": 8
+          },
+          {
+            "symbol": "D_80029524",
+            "expression": "D_80029524",
+            "before": 8,
+            "actual": 8
+          },
+          {
+            "symbol": "D_8002952C",
+            "expression": "D_8002952C",
+            "before": 8,
+            "actual": 8
+          },
+          {
+            "symbol": "D_80029534",
+            "expression": "D_80029534",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80029544",
+            "expression": "D_80029544",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80029548",
+            "expression": "D_80029548",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_8002954C",
+            "expression": "D_8002954C",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80029550",
+            "expression": "D_80029550",
+            "before": 24,
+            "actual": 24
+          },
+          {
+            "symbol": "D_8002E5D8",
+            "expression": "D_8002E5D8",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_8002E5E8",
+            "expression": "D_8002E5E8",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_800789B8",
+            "expression": "D_800789B8",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80078AB4",
+            "expression": "D_80078AB4",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80078AD8",
+            "expression": "D_80078AD8",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80079324",
+            "expression": "D_80079324",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_1830850",
+        "sizes": [
+          {
+            "symbol": "D_80029474",
+            "expression": "D_80029474",
+            "before": 9,
+            "actual": 9
+          },
+          {
+            "symbol": "D_800294E4",
+            "expression": "D_800294E4",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800294E8",
+            "expression": "D_800294E8",
+            "before": 13,
+            "actual": 13
+          },
+          {
+            "symbol": "D_8002E5D8",
+            "expression": "D_8002E5D8",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_8002E5E8",
+            "expression": "D_8002E5E8",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_8007795C",
+            "expression": "D_8007795C",
+            "before": 9,
+            "actual": 9
+          },
+          {
+            "symbol": "D_800789B8",
+            "expression": "D_800789B8",
+            "before": 9,
+            "actual": 9
+          },
+          {
+            "symbol": "D_80078C10",
+            "expression": "D_80078C10",
+            "before": 9,
+            "actual": 9
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_9c32d4",
+        "sizes": [
+          {
+            "symbol": "D_800814A0",
+            "expression": "D_800814A0",
+            "before": 16,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          },
+          {
+            "symbol": "D_80175F90",
+            "expression": "D_80175F90",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_80175F9C",
+            "expression": "D_80175F9C",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_801C9E40",
+            "expression": "D_801C9E40",
+            "before": 16,
+            "actual": 16
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_19a332c",
+        "sizes": [
+          {
+            "symbol": "D_800269D0",
+            "expression": "D_800269D0",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800269D4",
+            "expression": "D_800269D4",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800269F8",
+            "expression": "D_800269F8",
+            "before": 2,
+            "actual": 2
+          },
+          {
+            "symbol": "D_800269FC",
+            "expression": "D_800269FC",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80026B28",
+            "expression": "D_80026B28",
+            "before": 2,
+            "actual": 2
+          },
+          {
+            "symbol": "D_80026BE4",
+            "expression": "D_80026BE4",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80027750",
+            "expression": "D_80027750",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80027C74",
+            "expression": "D_80027C74",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80027C94",
+            "expression": "D_80027C94",
+            "before": 2,
+            "actual": 2
+          },
+          {
+            "symbol": "D_80027C96",
+            "expression": "D_80027C96",
+            "before": 1,
+            "actual": 1
+          },
+          {
+            "symbol": "D_80027C98",
+            "expression": "D_80027C98",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80027CA4",
+            "expression": "D_80027CA4",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_800814A8",
+            "expression": "D_800814A8",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80082E80",
+            "expression": "D_80082E80",
+            "before": 64,
+            "actual": 64
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          },
+          {
+            "symbol": "D_80083498",
+            "expression": "D_80083498",
+            "before": 32,
+            "actual": 32
+          },
+          {
+            "symbol": "D_80083780",
+            "expression": "D_80083780",
+            "before": 300,
+            "actual": 300
+          },
+          {
+            "symbol": "D_800DF31C",
+            "expression": "D_800DF31C",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800E3D18",
+            "expression": "D_800E3D18",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800E3D20",
+            "expression": "D_800E3D20",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_800E3D7C",
+            "expression": "D_800E3D7C",
+            "before": 4,
+            "actual": 4
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_1930844",
+        "sizes": [
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          },
+          {
+            "symbol": "D_800DE720",
+            "expression": "D_800DE720",
+            "before": 9,
+            "actual": 9
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_18d0850",
+        "sizes": [
+          {
+            "symbol": "D_8002588C",
+            "expression": "D_8002588C",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "D_800814A0",
+            "before": 16,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_188898c",
+        "sizes": [
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          },
+          {
+            "symbol": "D_800DEDB0",
+            "expression": "D_800DEDB0",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800E3D68",
+            "expression": "D_800E3D68",
+            "before": 1,
+            "actual": 1
+          },
+          {
+            "symbol": "D_800E3D7C",
+            "expression": "D_800E3D7C",
+            "before": 4,
+            "actual": 4
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_188298c",
+        "sizes": [
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_80083160",
+            "expression": "g_game_work",
+            "before": 512,
+            "actual": 512
+          },
+          {
+            "symbol": "D_800DEDB0",
+            "expression": "D_800DEDB0",
+            "before": 12,
+            "actual": 12
+          },
+          {
+            "symbol": "D_800E3D68",
+            "expression": "D_800E3D68",
+            "before": 1,
+            "actual": 1
+          },
+          {
+            "symbol": "D_800E3D7C",
+            "expression": "D_800E3D7C",
+            "before": 4,
+            "actual": 4
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_18ca83c",
+        "sizes": [
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_800DECF8",
+            "expression": "D_800DECF8",
+            "before": 4,
+            "actual": 4
+          }
+        ]
+      },
+      {
+        "module": "dungeon_ovl_18b8824",
+        "sizes": [
+          {
+            "symbol": "D_80024E40",
+            "expression": "D_80024E40",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80024EF4",
+            "expression": "D_80024EF4",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_800814A0",
+            "expression": "object_flag_block",
+            "before": 16,
+            "actual": 16
+          },
+          {
+            "symbol": "D_800814A8",
+            "expression": "D_800814A8",
+            "before": 4,
+            "actual": 4
+          },
+          {
+            "symbol": "D_80082E80",
+            "expression": "D_80082E80",
+            "before": 64,
+            "actual": 64
+          }
+        ]
+      },
+      {
+        "module": "dungeon_floor_spawns",
+        "sizes": []
+      },
+      {
+        "module": "dungeon_floor_generate",
+        "sizes": []
+      }
+    ]
+  },
+  "local_import_view_corrections": [
+    {
+      "symbol": "D_800D00A0",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D00B0",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D00C0",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0108",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0110",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0118",
+      "before": 16,
+      "after": 1
+    },
+    {
+      "symbol": "D_800D0120",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0128",
+      "before": 16,
+      "after": 1
+    },
+    {
+      "symbol": "D_800D0130",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0138",
+      "before": 16,
+      "after": 1
+    },
+    {
+      "symbol": "D_800D0140",
+      "before": 16,
+      "after": 4
+    },
+    {
+      "symbol": "D_800D0148",
+      "before": 16,
+      "after": 1
+    }
+  ],
+  "notes": [
+    "All SLUS PASS records are scratch producer results; pending prose reviews are not considered completed by a nonempty diagnostic reviewer argument.",
+    "Overlay whole-TU probes do not substitute for complete affected-window certification.",
+    "No C, header, function name, compiler/assembler recipe, tool or production certificate is included."
+  ],
+  "receipt_hashes": {
+    "scratch/initial_overlay.jsonl": {
+      "bytes": 4548,
+      "sha256": "991fd236abd8e96e8d43a9798cda193d7bab50e4488a5b0a2d52dfefa317446f"
+    },
+    "scratch/initial_slus.jsonl": {
+      "bytes": 16516,
+      "sha256": "2d07546c2d45d91ce69521d7f39b574eb951b2022efa7599570b8986a6e626f5"
+    },
+    "scratch/overlay_builds.jsonl": {
+      "bytes": 2403,
+      "sha256": "c6b2aec5be451c95b514e5bc6c6ab5729fe745f7186f1a9e4a44e7f6f14e2cc4"
+    },
+    "scratch/prepared_slus.jsonl": {
+      "bytes": 12243,
+      "sha256": "1d83127938da7ddda7c6571ee071edfd4390f2e4b8ec34e38d8df018cf0ea2d7"
+    },
+    "scratch/prepared_overlay.jsonl": {
+      "bytes": 262,
+      "sha256": "4a046fe6ae861b0cebed92bd32ed3c481a2ca32605a11f80e6563dabe3b17317"
+    },
+    "scratch/scoped_gate_exit.json": {
+      "bytes": 25,
+      "sha256": "0456c5033ae56d667ae30d0b7f24492cb1c775372ed7e886bf144ffdfc6e36d7"
+    },
+    "scratch/scoped_gate.jsonl": {
+      "bytes": 14299,
+      "sha256": "0f6325327385524bba841053a118ac999a4812829d19a9d45f1de0ec90129aee"
+    },
+    "scratch/final_validation.json": {
+      "bytes": 9895,
+      "sha256": "a755d1a0b4e325fbc7b74e8e0d5061575d00da1a0c2729169a9de8b2ef7f3b5f"
+    }
+  },
+  "whole_tu_proofs": [
+    {
+      "module": "dungeon_town_map",
+      "receipt_sha256": "8be1fbc4e6f7d70ba41e933d619ec2c3852d09d40c4b0e61e3d095e909436e6c",
+      "gate": {
+        "result": "MATCH",
+        "foff": 56828,
+        "vma": 2148054364,
+        "bytes": 2560,
+        "rebuilt_sha256": "0d162ef05525d357f5a284cd7513f41ad1765e611110bda9ec403e5b555a5205",
+        "retail_sha256": "0d162ef05525d357f5a284cd7513f41ad1765e611110bda9ec403e5b555a5205",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 2560,
+        "masked": 0,
+        "sha256": "0d162ef05525d357f5a284cd7513f41ad1765e611110bda9ec403e5b555a5205"
+      }
+    },
+    {
+      "module": "dungeon_ovl_d54c",
+      "receipt_sha256": "75b25dc9db80230d5111ef47ae53422cbcba1b5ef8e341778e4aa44c4720f3ca",
+      "gate": {
+        "result": "MATCH",
+        "foff": 54604,
+        "vma": 2148052140,
+        "bytes": 1552,
+        "rebuilt_sha256": "e72d2096b88c4176bbf3c02308a1f3dcbec0b22fd6d72388ca786107683f60b6",
+        "retail_sha256": "e72d2096b88c4176bbf3c02308a1f3dcbec0b22fd6d72388ca786107683f60b6",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 1552,
+        "masked": 0,
+        "sha256": "e72d2096b88c4176bbf3c02308a1f3dcbec0b22fd6d72388ca786107683f60b6"
+      }
+    },
+    {
+      "module": "dungeon_dungeon_setup",
+      "receipt_sha256": "886a6e5adebf8ee78f195e99af7d42e2c0180149a9fac751df973156f6e69eb6",
+      "gate": {
+        "result": "MATCH",
+        "foff": 2764924,
+        "vma": 2147573884,
+        "bytes": 5072,
+        "rebuilt_sha256": "8eaab4aa27aa2b37a22a730db1730bd81c74451a21f29980d06ebbbf7ac9e1aa",
+        "retail_sha256": "8eaab4aa27aa2b37a22a730db1730bd81c74451a21f29980d06ebbbf7ac9e1aa",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 5072,
+        "masked": 0,
+        "sha256": "8eaab4aa27aa2b37a22a730db1730bd81c74451a21f29980d06ebbbf7ac9e1aa"
+      }
+    },
+    {
+      "module": "dungeon_ovl_16b08_local",
+      "receipt_sha256": "a2055db18ec6e2e7637efefeaa18766ee43e2448f68588dbfe155b7d1be2de77",
+      "gate": {
+        "result": "MATCH",
+        "foff": 92936,
+        "vma": 2148090472,
+        "bytes": 1196,
+        "rebuilt_sha256": "eb52a3848001c3900df95e5b3a89abb7c893a5da7261bd2aa742bc214d4177b2",
+        "retail_sha256": "eb52a3848001c3900df95e5b3a89abb7c893a5da7261bd2aa742bc214d4177b2",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 1196,
+        "masked": 0,
+        "sha256": "eb52a3848001c3900df95e5b3a89abb7c893a5da7261bd2aa742bc214d4177b2"
+      }
+    },
+    {
+      "module": "dungeon_ovl_16b08_f6a8",
+      "receipt_sha256": "38cfb96fecd7ee511a5e8f752bf4ffc5c41d1601ee27454c689a00c246651fd5",
+      "gate": {
+        "result": "MATCH",
+        "foff": 63144,
+        "vma": 2148060680,
+        "bytes": 320,
+        "rebuilt_sha256": "880ce77f6f7f35abac3eefae2b7eaaab03c3f3054d20a1591870515e0516a315",
+        "retail_sha256": "880ce77f6f7f35abac3eefae2b7eaaab03c3f3054d20a1591870515e0516a315",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 320,
+        "masked": 0,
+        "sha256": "880ce77f6f7f35abac3eefae2b7eaaab03c3f3054d20a1591870515e0516a315"
+      }
+    },
+    {
+      "module": "dungeon_ovl_1831370",
+      "receipt_sha256": "cff7f6bd02ab65cbffa01120a29db0fb73d257a09e66b9d1b493a8c7a25b0f24",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25367408,
+        "vma": 2147640176,
+        "bytes": 2396,
+        "rebuilt_sha256": "6bf5b20b0e24d975f7bd260552abf25b098c0f0dd2df620254db772d68c5db73",
+        "retail_sha256": "6bf5b20b0e24d975f7bd260552abf25b098c0f0dd2df620254db772d68c5db73",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 2396,
+        "masked": 0,
+        "sha256": "6bf5b20b0e24d975f7bd260552abf25b098c0f0dd2df620254db772d68c5db73"
+      }
+    },
+    {
+      "module": "dungeon_ovl_1831cd8",
+      "receipt_sha256": "a84d65c5ce2628ff718efbc30e0a40ba8906020c04ebd8aac8b926aae5597865",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25369816,
+        "vma": 2147642584,
+        "bytes": 6932,
+        "rebuilt_sha256": "ae6b1329e64489641170209a0f20aab98daa66a781d798edef51e473aca25824",
+        "retail_sha256": "ae6b1329e64489641170209a0f20aab98daa66a781d798edef51e473aca25824",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 6932,
+        "masked": 0,
+        "sha256": "ae6b1329e64489641170209a0f20aab98daa66a781d798edef51e473aca25824"
+      }
+    },
+    {
+      "module": "dungeon_ovl_1830850",
+      "receipt_sha256": "c313f716fcab46cd5305dc4d4e8775855db1a0faacaea62de1570ff54050fa05",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25364560,
+        "vma": 2147637328,
+        "bytes": 2848,
+        "rebuilt_sha256": "7bf00917c403ecfd7e2ec141a74e276e41e4cdf0fd8185e30992c4d58893dea8",
+        "retail_sha256": "7bf00917c403ecfd7e2ec141a74e276e41e4cdf0fd8185e30992c4d58893dea8",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 2848,
+        "masked": 0,
+        "sha256": "7bf00917c403ecfd7e2ec141a74e276e41e4cdf0fd8185e30992c4d58893dea8"
+      }
+    },
+    {
+      "module": "dungeon_ovl_9c32d4",
+      "receipt_sha256": "93f844979a9b82bb2450a681b3ab90de11b72dc2a67694b01f60875ae4a093be",
+      "gate": {
+        "result": "MATCH",
+        "foff": 10236628,
+        "vma": 2149010132,
+        "bytes": 2212,
+        "rebuilt_sha256": "f05ca40ea939e5e200067dda196965eb9a47c11263873d3e120208f408fb136e",
+        "retail_sha256": "f05ca40ea939e5e200067dda196965eb9a47c11263873d3e120208f408fb136e",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 2212,
+        "masked": 0,
+        "sha256": "f05ca40ea939e5e200067dda196965eb9a47c11263873d3e120208f408fb136e"
+      }
+    },
+    {
+      "module": "dungeon_ovl_19a332c",
+      "receipt_sha256": "24f5b5c7b8a73477a0a39117a47652a9b4f944027c8a0243ae697d3a3c08d73c",
+      "gate": {
+        "result": "MATCH",
+        "foff": 26880000,
+        "vma": 2147631104,
+        "bytes": 9996,
+        "rebuilt_sha256": "ec07b871f72419093fcfe9af513953b961af9b9e0d843c7b68fd30d541c52987",
+        "retail_sha256": "ec07b871f72419093fcfe9af513953b961af9b9e0d843c7b68fd30d541c52987",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 9996,
+        "masked": 0,
+        "sha256": "ec07b871f72419093fcfe9af513953b961af9b9e0d843c7b68fd30d541c52987"
+      }
+    },
+    {
+      "module": "dungeon_ovl_1930844",
+      "receipt_sha256": "2f919374773ebcf1fe511d6f08f0efc7894d9e51b11abee1418ea8d02ce89512",
+      "gate": {
+        "result": "MATCH",
+        "foff": 26413056,
+        "vma": 2147631104,
+        "bytes": 8300,
+        "rebuilt_sha256": "152c3208daccf44b584399c12ef04736ef36a2c5dd762094e41a86f6f0f65ec7",
+        "retail_sha256": "152c3208daccf44b584399c12ef04736ef36a2c5dd762094e41a86f6f0f65ec7",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 8300,
+        "masked": 0,
+        "sha256": "152c3208daccf44b584399c12ef04736ef36a2c5dd762094e41a86f6f0f65ec7"
+      }
+    },
+    {
+      "module": "dungeon_ovl_18d0850",
+      "receipt_sha256": "038d7ac6808b2e6031e51c623fef5baf6c30215432b1c6575fcef94e5d92ca8f",
+      "gate": {
+        "result": "MATCH",
+        "foff": 26019840,
+        "vma": 2147631104,
+        "bytes": 6284,
+        "rebuilt_sha256": "b10e382cd14fb326a11bab05386bfb97ba90b45482e599ce98e805d620b658e2",
+        "retail_sha256": "b10e382cd14fb326a11bab05386bfb97ba90b45482e599ce98e805d620b658e2",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 6284,
+        "masked": 0,
+        "sha256": "b10e382cd14fb326a11bab05386bfb97ba90b45482e599ce98e805d620b658e2"
+      }
+    },
+    {
+      "module": "dungeon_ovl_188898c",
+      "receipt_sha256": "5b2a1ef5e288dbdce2b485562e4367f7fd123bb663b931ac8f6c3e3d63704a3a",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25724928,
+        "vma": 2147631104,
+        "bytes": 4968,
+        "rebuilt_sha256": "a7cbae0b5ce5d6e07a6ea4786e6f8dd251c01124407d3bf73127386268e0864b",
+        "retail_sha256": "a7cbae0b5ce5d6e07a6ea4786e6f8dd251c01124407d3bf73127386268e0864b",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 4968,
+        "masked": 0,
+        "sha256": "a7cbae0b5ce5d6e07a6ea4786e6f8dd251c01124407d3bf73127386268e0864b"
+      }
+    },
+    {
+      "module": "dungeon_ovl_188298c",
+      "receipt_sha256": "ac1699c66e71ccbfac4406622fdcf3e4c6d94e85475e6210e350e8555acd66ca",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25700352,
+        "vma": 2147631104,
+        "bytes": 4540,
+        "rebuilt_sha256": "c4709b4bcc1a4f1443311b87d25cc32e532e7e2bb24f38a0cbaa8057e1d93636",
+        "retail_sha256": "c4709b4bcc1a4f1443311b87d25cc32e532e7e2bb24f38a0cbaa8057e1d93636",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 4540,
+        "masked": 0,
+        "sha256": "c4709b4bcc1a4f1443311b87d25cc32e532e7e2bb24f38a0cbaa8057e1d93636"
+      }
+    },
+    {
+      "module": "dungeon_ovl_18ca83c",
+      "receipt_sha256": "3d7b0f3f0fb1a459ab290567f55da8961a1ab795ea034b736750866876636ab6",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25995264,
+        "vma": 2147631104,
+        "bytes": 3372,
+        "rebuilt_sha256": "c49add25aef2f58f8c9f6274d1cd68f494a7ef01861ef7842741aab3d2fd5a5c",
+        "retail_sha256": "c49add25aef2f58f8c9f6274d1cd68f494a7ef01861ef7842741aab3d2fd5a5c",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 3372,
+        "masked": 0,
+        "sha256": "c49add25aef2f58f8c9f6274d1cd68f494a7ef01861ef7842741aab3d2fd5a5c"
+      }
+    },
+    {
+      "module": "dungeon_ovl_18b8824",
+      "receipt_sha256": "280a56d4467aaebb30d7161d614494572a37e3fe85083567b7b0eab78611f27a",
+      "gate": {
+        "result": "MATCH",
+        "foff": 25921536,
+        "vma": 2147631104,
+        "bytes": 3592,
+        "rebuilt_sha256": "21effc70fead36830ea5a2a6be76a03e35e7bcf416e1481310b61791335ac83e",
+        "retail_sha256": "21effc70fead36830ea5a2a6be76a03e35e7bcf416e1481310b61791335ac83e",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 3592,
+        "masked": 0,
+        "sha256": "21effc70fead36830ea5a2a6be76a03e35e7bcf416e1481310b61791335ac83e"
+      }
+    },
+    {
+      "module": "dungeon_floor_spawns",
+      "receipt_sha256": "964cd9ce42a42b129955a515b84ecd224528bd15b2ec6bd8112e9b83702ab012",
+      "gate": {
+        "result": "MATCH",
+        "foff": 2764852,
+        "vma": 2147573812,
+        "bytes": 5308,
+        "rebuilt_sha256": "dcb87e8c45d7d32196da1598e091727bd71e70427d5b6c5ef63b813cb9429a6c",
+        "retail_sha256": "dcb87e8c45d7d32196da1598e091727bd71e70427d5b6c5ef63b813cb9429a6c",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 5308,
+        "masked": 0,
+        "sha256": "dcb87e8c45d7d32196da1598e091727bd71e70427d5b6c5ef63b813cb9429a6c"
+      }
+    },
+    {
+      "module": "dungeon_floor_generate",
+      "receipt_sha256": "350f8d2bc8c2e170c34a1d36ded11b7660d37fe71c90f6013911e5b13d89dbee",
+      "gate": {
+        "result": "MATCH",
+        "foff": 2764800,
+        "vma": 2147573760,
+        "bytes": 27896,
+        "rebuilt_sha256": "1fdb570a7fb47742b4d076d02b3a41a205e01890ea1d219abf86b3b95db210b7",
+        "retail_sha256": "1fdb570a7fb47742b4d076d02b3a41a205e01890ea1d219abf86b3b95db210b7",
+        "masked": 0,
+        "raw_substitution_bytes": 0
+      },
+      "genuine": {
+        "result": "MATCH",
+        "version": "2.79",
+        "whole_tu": true,
+        "flags": [
+          "-q",
+          "-G0",
+          "-0"
+        ],
+        "bytes": 27896,
+        "masked": 0,
+        "sha256": "1fdb570a7fb47742b4d076d02b3a41a205e01890ea1d219abf86b3b95db210b7"
+      }
+    }
+  ],
+  "scratch_certificate_hashes": {
+    "address_slot.json": {
+      "bytes": 1651,
+      "sha256": "4c4d2cc436dfcfd1105602dd4a5e098527b081adb5a7e0796a916be9cce179bd"
+    },
+    "cache_afe.json": {
+      "bytes": 1642,
+      "sha256": "65b70a00f7fd1d0f25db51852910834204fb7273a0c0b1c3fe2698e8b2653b03"
+    },
+    "cd_command_state.json": {
+      "bytes": 234756,
+      "sha256": "8feb974bb34b10f8b711dd820b13d4e65783a9d818a6455cd925ce5167286546"
+    },
+    "command_slots_81554.json": {
+      "bytes": 18354,
+      "sha256": "e88c9c3a6fcf20ee3c22af5dd0947f11c6f7421adeecc52d6bdfc8522f73c1d8"
+    },
+    "command_words.json": {
+      "bytes": 1654,
+      "sha256": "d9734bd5bd8c863fee004a7959b826b91bf02e7d12aeafc9cb567f655907fdbf"
+    },
+    "entry_words.json": {
+      "bytes": 1648,
+      "sha256": "9ae3db70b31f21200995b40ce8c73e4e34d4fce596a4bbd2ccc6b691005fa6d1"
+    },
+    "gp_af3_pair.json": {
+      "bytes": 2716,
+      "sha256": "e4ab093b7e5e2199f3c9f00a2fefe3143b4de483de8316c1a5091c668da4fbfe"
+    },
+    "gp_d92c_owned.json": {
+      "bytes": 1657,
+      "sha256": "c3370567ce9dc2c3142ef487602d09bd26e13dc81932f74788d1b01e8cd58c9f"
+    },
+    "gp_order_bytes_owner.json": {
+      "bytes": 1675,
+      "sha256": "a41098313929ed5f8b32a47c3ffc75771b74d3307498667d68b834fdc6e4da37"
+    },
+    "gp_shared_8099c.json": {
+      "bytes": 2744,
+      "sha256": "c1728aeb5643218d31fc24c4d022ec8d070062d19168b3fd82f8030b9d8b2d12"
+    },
+    "gp_shared_81510.json": {
+      "bytes": 2656,
+      "sha256": "3391b795dd4dc1f8c91c682011e15f5663d651609b67ce279d4141535abb7b6f"
+    },
+    "gp_shared_8152c.json": {
+      "bytes": 3648,
+      "sha256": "1f1009a7cd7bdf0dbcf38f933fb43730925c7b1b67a9f2a01d0d4e297acbe1d3"
+    },
+    "gp_shared_slots.json": {
+      "bytes": 2658,
+      "sha256": "b5cba6cb76b24ae927f6c6f8aa04e75247fadf200c8d965c07221474d4894c53"
+    },
+    "gp_split_storage.json": {
+      "bytes": 1663,
+      "sha256": "b7a2d112e99900e83fa42f70713ac4dacf62178f2c621d8697f40202bc2287b3"
+    },
+    "jtbl_80041344.json": {
+      "bytes": 1656,
+      "sha256": "32a209fec7d688879fe0597131de737aeb80c95effc765aae75bca442e402349"
+    },
+    "jtbl_80042BDC.json": {
+      "bytes": 1656,
+      "sha256": "af5b73697de8222f35e26347ff4b7cdbe5e0ec274a511f7c0e3b43085e589ca9"
+    },
+    "jtbl_8004CECC.json": {
+      "bytes": 1656,
+      "sha256": "9d4e20ba538a74c5f5dd3aae43119e2a23f36f20ad51533e505e0b0d7234c46d"
+    },
+    "jtbl_800517CC.json": {
+      "bytes": 1656,
+      "sha256": "522bcccc5f971a1261b090e1c73291dda7f5d1aff7ff1c9b0703b6b8e85cb17f"
+    },
+    "jtbl_80052144.json": {
+      "bytes": 1656,
+      "sha256": "9282db0f394186622172d5dcca236e7c4b647cce6211d66dda7993e43a3c6014"
+    },
+    "jtbl_80052CE0.json": {
+      "bytes": 1656,
+      "sha256": "7561a3f5de8724574ad0d7a36be777681fbd78b1d59254674691d6e992ee600d"
+    },
+    "jtbl_80054F9C.json": {
+      "bytes": 1654,
+      "sha256": "8b95aa0faea266fe88c5ae400c654cd6daf45fe2f0b07350d6e593274def1fa3"
+    },
+    "jtbl_80057A94.json": {
+      "bytes": 1656,
+      "sha256": "4e8ac251cb29a37d7457f35bd5bc50c289502610741aa317eebe9b125afa58df"
+    },
+    "jtbl_80057D20.json": {
+      "bytes": 1657,
+      "sha256": "ed526a2c165df5fc62d50476ab1d8cf690e0ce1e2181630075091654870eb9bf"
+    },
+    "jtbl_8005EDA0.json": {
+      "bytes": 2632,
+      "sha256": "42139537f16a0dd8b62721f923acd4f6e2ca34fb495888267414eda30e9ce957"
+    },
+    "jtbl_8005F134.json": {
+      "bytes": 3618,
+      "sha256": "0bd76c14807d6c34ca87b3dcc8bf33e3f29029edcffd856c2088f832bcc624bd"
+    },
+    "konami_runtime_gp_count.json": {
+      "bytes": 1729,
+      "sha256": "4a3dd63047dfc1e9c0f00914ec9630fc4d389d56b588aca170fdf21ab588a703"
+    },
+    "list_cursor_e0.json": {
+      "bytes": 5429,
+      "sha256": "d12f1cc25ebf05ac7c520a94578f267cb4ec90d30e047ebe05c9af196fd2b38b"
+    },
+    "message_mode_81550.json": {
+      "bytes": 13945,
+      "sha256": "edc608a8624d3b900f64f279ec20a60d907db10c3028a50f869bd58ed922f689"
+    },
+    "overlay_dungeon_ovl_16b08_local.json": {
+      "bytes": 2285,
+      "sha256": "748b60714a226e438c5f3aef2d2bb1c061587d9923241998a3e5dcbda7cf33b0"
+    },
+    "owned_80035484.json": {
+      "bytes": 1702,
+      "sha256": "b6639cc0141f834caebf995a74d7e371c2ad5fe9b351ee16f3bf513a410b8622"
+    },
+    "owned_80038A10.json": {
+      "bytes": 1702,
+      "sha256": "cd31367b75d876e80f836e077890baec78da4203b10858cd66e5c678a98b250d"
+    },
+    "owned_80044698.json": {
+      "bytes": 1657,
+      "sha256": "1533b9cff7273245180e7d7a5ff034f06766ab4883185fc86826d00706be0fc6"
+    },
+    "owned_800448BC.json": {
+      "bytes": 1657,
+      "sha256": "2c51e2c634dc75292b65013ede62060cdb9b842c49c0548ec332a3cbd50a0f94"
+    },
+    "owned_8004713C.json": {
+      "bytes": 1695,
+      "sha256": "f7705c87d1ba46ce11ce35ce322762c427c88e6596fc49527098183dbe69e0bc"
+    },
+    "owned_80047338.json": {
+      "bytes": 1657,
+      "sha256": "1100169bef910842ee2b390e7ce75b5b02739201672a72f58edf790f593801fd"
+    },
+    "owned_80047468.json": {
+      "bytes": 1657,
+      "sha256": "2438b3768f04ec8d058c9a659db8afa7a92372b5bec737738f62202cfb429d7a"
+    },
+    "render_words.json": {
+      "bytes": 1696,
+      "sha256": "e3e7099cd2795123e276653ff2e6a48f7569b0990edae451d0411a0da2390f81"
+    },
+    "runtime_directory.json": {
+      "bytes": 3793,
+      "sha256": "6762637467fc8b6e6c1f3bc6222b4cc8e91beda6c4265339369aa49a400230ba"
+    },
+    "saved_value_b98.json": {
+      "bytes": 9410,
+      "sha256": "18c9ed99e8c8840b7ed4abfbbf6a76a5d8de18ee2f9a0f55d3e074fc9227f77b"
+    },
+    "slot_transition.json": {
+      "bytes": 4642,
+      "sha256": "4c6fe18bd412637229ad76ea31acf1914c4481ddee410bce6baa94be59390a23"
+    },
+    "slot_transition_secondary.json": {
+      "bytes": 4702,
+      "sha256": "5c139cae3d505f4d32fe52add365074d7daa33ca949db5c50641d607ba935f82"
+    },
+    "sort_rank_81540.json": {
+      "bytes": 5245,
+      "sha256": "d0bc69dec72145b86d7df359267811fd8bbe7315204103d757c60811704c6bd7"
+    },
+    "sound_dma_lifecycle.json": {
+      "bytes": 6620,
+      "sha256": "0105004515bf87b0adccd533127e97f52c297800414e868bbe158a47e8f81183"
+    },
+    "sound_event_start.json": {
+      "bytes": 1690,
+      "sha256": "15870c0ef432071d99c3ddf86f933b2518bd5ee62e0392be645caca427cc84c6"
+    },
+    "sound_key_buffer.json": {
+      "bytes": 2646,
+      "sha256": "a7bd7a54cb73671f06c9d1dfc0d6442076d7c6b149658b1f20b0f8fe445c837b"
+    },
+    "sound_pitch_conversions.json": {
+      "bytes": 3664,
+      "sha256": "8484076a04fa004b42d8f80418a7d06a1d392ae43dfcbd6e9315b19b76e234ff"
+    },
+    "sound_range_records.json": {
+      "bytes": 3644,
+      "sha256": "0ac2277f8dd46307c4e0f76ff21198ab0494a7ca46da6022d2f299f74b6795b6"
+    },
+    "sound_register_helpers.json": {
+      "bytes": 3659,
+      "sha256": "9164e3cdf296ed92ce6eda9669996ffa7566d57b6dff2f68c6654158417d2ef4"
+    },
+    "sound_register_value.json": {
+      "bytes": 1678,
+      "sha256": "8e428c32691fb16321cf52fa2df9615c0974d0bbb9312786d7e9ebf94d39dc21"
+    },
+    "sound_reset_state.json": {
+      "bytes": 2646,
+      "sha256": "256b51914d4d83273ac30bf21d39b16e223890003f32e958b7292c7dc722ebd2"
+    },
+    "sound_reverb_writer.json": {
+      "bytes": 1666,
+      "sha256": "5c10bb6b8ab56f9cd7607a7c160d0324bf581c98680bba97c06b4c81fad7e926"
+    },
+    "sound_streaming_transfer.json": {
+      "bytes": 1681,
+      "sha256": "a14bcf879ea35b0aae63cc02913f0968637334bc1e4c16bf6c1c765422487ad0"
+    },
+    "sound_transfer_frontends.json": {
+      "bytes": 2674,
+      "sha256": "97fee9ce9efe21987a1274b42148d4ace7cd3d6caaa592ed75dec2440a707203"
+    },
+    "sound_transfer_helpers.json": {
+      "bytes": 3659,
+      "sha256": "040978c634457da184e8836c81c66332db6ef9fec879816e35c2386d5ca0ed68"
+    },
+    "state_defaults.json": {
+      "bytes": 1657,
+      "sha256": "cb33cc0cf2afd94667a68009abd68946a3f1345c530e855b20ae9e7562a697ed"
+    }
+  }
+}

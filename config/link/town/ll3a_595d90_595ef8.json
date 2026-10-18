@@ -1,0 +1,40 @@
+{
+ "schema": "azure-clean.linklist.v0",
+ "image": "town/ll3a_595d90_595ef8",
+ "container": "town",
+ "foff": "0x00595D90",
+ "size": "0x00000168",
+ "vma": "0x80017590",
+ "evidence": "config/overlays/town.rowbase.jsonl proven region r121o_595D90",
+ "entries": [
+  {
+   "row": "town/func_80615DB8",
+   "home": "town/func_8032E9EC",
+   "tu": "src/town/func_8032E9EC.c",
+   "foff": "0x00595DB8",
+   "vma": "0x800175B8",
+   "size": 64,
+   "bindings": {
+    "0x8001ACE8": "0x80018B58",
+    "0x800191EC": "0x800175B8"
+   },
+   "evidence": "LL3a attestation sha256:9789f86144e2749e0a0bf3e26e3357236143672c4ef622698ee9bfe6eaece20e; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_80615DF8",
+   "home": "town/func_8032EA2C",
+   "tu": "src/town/func_8032EA2C.c",
+   "foff": "0x00595DF8",
+   "vma": "0x800175F8",
+   "size": 188,
+   "bindings": {
+    "0x800190C0": "0x8001748C",
+    "0x800191EC": "0x800175B8",
+    "0x80018E34": "0x80017200",
+    "0x80018EA8": "0x80017274",
+    "0x8001922C": "0x800175F8"
+   },
+   "evidence": "LL3a attestation sha256:c1cd31ce99b4797fcc408fb97cdc07c9ce04f87d048b30e95eb9caf9a59c19b8; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  }
+ ]
+}

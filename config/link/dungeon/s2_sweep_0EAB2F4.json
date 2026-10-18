@@ -18,6 +18,14 @@
     "0x8014e6b0": "0x80172088"
    },
    "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80E8C0DC"
+  },
+  {
+   "row": "dungeon/func_80E8EA34",
+   "home": "dungeon/func_80E8EA34",
+   "tu": "src/dungeon/func_80E8EA34.c",
+   "foff": "0x00EAEA34",
+   "vma": "0x80174234",
+   "size": 500
   }
  ]
 }

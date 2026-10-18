@@ -541,12 +541,29 @@
     "D_800814A0": {
       "declared_bytes": 16,
       "manifest_view_bytes": 16,
-      "previous_view_bytes": 16
+      "previous_view_bytes": 16,
+      "declaration_expression": "object_flag_block"
     },
     "D_80083160": {
       "declared_bytes": 512,
       "manifest_view_bytes": 512,
-      "previous_view_bytes": 512
+      "previous_view_bytes": 512,
+      "declaration_expression": "g_game_work"
     }
+  },
+  "target_sizeof_measurement": {
+    "reviewer": "codex-r121w-certs",
+    "scope": "declaration widths and identifier spelling only; placement review remains pending",
+    "compiler": "2.7.2-cdk",
+    "ccflags": [
+      "-O2",
+      "-G0"
+    ],
+    "checks": 19,
+    "source_sha256": "e84c477c7203b514735ba33999e990e9e9457c554012152fc55b9fc8ee3d6d85",
+    "header_sha256": {
+      "include/modules/dungeon_ovl_1831cd8.h": "f4d47d8903a13e6fe1c3aa89545be6e8ebdb7cc5783671b421da908dc58dbe11"
+    },
+    "probe_assembly_sha256": "b8bc432a99792e7f8ddf05022329f3fce03d1f8b728e0455e8b84297657494cb"
   }
 }

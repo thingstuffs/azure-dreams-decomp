@@ -8,6 +8,31 @@
  "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FB77800: census2_49E8C0_49E8C0, census2_49FD20_49FD20, census2_49FD58_49FD58, r121c2_4A04E4, r121c2_4A09B0, r121c2_4A0EA4 (+6 more)",
  "entries": [
   {
+   "row": "town/func_8051EEC8",
+   "home": "town/func_8051EE50",
+   "tu": "src/town/func_8051EE50.c",
+   "foff": "0x0049EEC8",
+   "vma": "0x800166C8",
+   "size": 120,
+   "bindings": {
+    "0x800160C0": "0x800160C0",
+    "0x80018B5C": "0x80018B5C",
+    "0x80018CFA": "0x80018CFA",
+    "0x80018ADC": "0x80018ADC",
+    "0x80018A64": "0x80018A64",
+    "0x80016650": "0x800166C8"
+   },
+   "evidence": "LL3a attestation sha256:fcca3ce2f4f5b0f5f2a12a5cea9bde7898f712804b1de39e86431d8daa14e666; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "town/func_8051F32C",
+   "home": "town/func_8051F32C",
+   "tu": "src/town/func_8051F32C.c",
+   "foff": "0x0049F32C",
+   "vma": "0x80016B2C",
+   "size": 8
+  },
+  {
    "row": "town/func_8047F598",
    "tu": "src/town/func_804B865C.c",
    "home": "town/func_804B865C",

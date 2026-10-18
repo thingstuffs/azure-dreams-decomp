@@ -336,12 +336,28 @@
     "D_800814A0": {
       "declared_bytes": 16,
       "manifest_view_bytes": 16,
-      "previous_view_bytes": 16
+      "previous_view_bytes": 16,
+      "declaration_expression": "object_flag_block"
     },
     "D_80083160": {
       "declared_bytes": null,
       "manifest_view_bytes": 512,
       "basis": "Incomplete extern/address view; no complete external object extent is claimed."
     }
+  },
+  "target_sizeof_measurement": {
+    "reviewer": "codex-r121w-certs",
+    "scope": "declaration widths and identifier spelling only; placement review remains pending",
+    "compiler": "2.7.2-cdk",
+    "ccflags": [
+      "-O2",
+      "-G0"
+    ],
+    "checks": 9,
+    "source_sha256": "18949bae2ccfca61cedfc53a0ad2941ed7ff2d52845c48fa1dbed69954ddd5ef",
+    "header_sha256": {
+      "include/modules/dungeon_ovl_1830850.h": "859983241dde1bfa28e0855f0aa7581166d40c6aba277bab17812cb1aa312642"
+    },
+    "probe_assembly_sha256": "7a3e8543965e0093784e7b9e47e3ef93983ebf1e3ae65cf1ce264e323eb4f597"
   }
 }

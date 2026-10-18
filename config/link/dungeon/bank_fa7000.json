@@ -111,6 +111,53 @@
    "foff": "0xFAA6D4",
    "vma": "0x80173ED4",
    "size": 56
+  },
+  {
+   "row": "dungeon/func_80F8AE88",
+   "home": "dungeon/func_80F90E88",
+   "tu": "src/dungeon/func_80F90E88.c",
+   "foff": "0x00FAAE88",
+   "vma": "0x80174688",
+   "size": 980,
+   "bindings": {
+    "0x80083160": "0x80083160",
+    "0x800DBA90": "0x800DBA90",
+    "0x80065420": "0x80065420",
+    "0x80066708": "0x80066708",
+    "0x80066640": "0x80066640",
+    "0x80066460": "0x80066460",
+    "0x80067F20": "0x80067F20",
+    "0x80F90E88": "0x80174688"
+   },
+   "evidence": "LL3a attestation sha256:ab88810344beb1692a7f3ff535869a9982b1ecdc3458d59eb08b6f4e3d82e493; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "dungeon/func_80F8B25C",
+   "home": "dungeon/func_800CF1BC",
+   "tu": "src/dungeon/func_800CF1BC.c",
+   "foff": "0x00FAB25C",
+   "vma": "0x80174A5C",
+   "size": 56,
+   "bindings": {
+    "0x800AB464": "0x800AB464",
+    "0x800D4494": "0x80171138",
+    "0x800D491C": "0x80174A5C"
+   },
+   "evidence": "LL3a attestation sha256:257f1992be2a3479b1190e13f6a3ff4c9f8a1021547a8315fc31bbdc99388073; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+  },
+  {
+   "row": "dungeon/func_80F8B294",
+   "home": "dungeon/func_800CF1BC",
+   "tu": "src/dungeon/func_800CF1BC.c",
+   "foff": "0x00FAB294",
+   "vma": "0x80174A94",
+   "size": 56,
+   "bindings": {
+    "0x800AB464": "0x800AC7EC",
+    "0x800D4494": "0x80171138",
+    "0x800D491C": "0x80174A94"
+   },
+   "evidence": "LL3a attestation sha256:40f30981e08c320ef12086ccf50d8b88e5b83ad8930a89e8f194eb001b7902d7; current-TU paired HI16/LO16 relocation screen; scoped window gate"
   }
  ]
 }

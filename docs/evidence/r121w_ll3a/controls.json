@@ -1,0 +1,19 @@
+{
+  "wrong_vma": {
+    "result": "REFUSED",
+    "detail": "entry vma is not image vma + offset: dungeon/func_80CC00B0"
+  },
+  "wrong_binding": {
+    "result": "NO MATCH",
+    "detail": "NO MATCH: first mismatch at window+0x2E00 file 0xCE00E0: got 0x9C, target 0x98",
+    "row": "dungeon/func_80CC00B0",
+    "address": "0x80173B98",
+    "before": "0x80173B98",
+    "wrong": "0x80173B9C"
+  },
+  "restored": {
+    "result": "CURRENT MATCH",
+    "window": "dungeon_deep_cdd2e0_truebase_80170ae0",
+    "inputs_sha": "9b06f77eade4cd348450e1f6078dc265c9eba5fa091f946395529aedb88a45da"
+  }
+}

@@ -157,7 +157,7 @@
       "symbol": "D_800814A0",
       "kind": "runtime_data",
       "vma": 2148013216,
-      "view_bytes": 16,
+      "view_bytes": 4,
       "owner": "resident_runtime:slus",
       "evidence": "docs/evidence/dungeon_ovl_9c32d4.imports.json",
       "declaration": "include/shared/object_flags.h"
@@ -198,16 +198,18 @@
       "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
     },
     "D_800814A0": {
-      "declared_bytes": 16,
+      "declared_bytes": 4,
       "view_bytes": 16,
       "previous_view_bytes": 16,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "manifest_view_bytes": 4
     },
     "D_80083160": {
       "declared_bytes": 512,
       "view_bytes": 512,
       "previous_view_bytes": 512,
-      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim."
+      "basis": "Complete target sizeof when available; otherwise a bounded external address view, with no allocation ownership claim.",
+      "declaration_expression": "g_game_work"
     },
     "D_80175F90": {
       "declared_bytes": 12,
@@ -236,5 +238,20 @@
     "first_foff": 10241936,
     "stride": 12,
     "basis": "Adjacent complete 12-byte resource descriptors within the same authenticated resource-2 bank. Both are file-backed external data; neither is runtime-only SLUS storage."
+  },
+  "target_sizeof_measurement": {
+    "reviewer": "codex-r121w-certs",
+    "scope": "declaration widths and identifier spelling only; placement review remains pending",
+    "compiler": "2.7.2-cdk",
+    "ccflags": [
+      "-O2",
+      "-G0"
+    ],
+    "checks": 5,
+    "source_sha256": "0c6376dffeea2c796943e539dbad71f665384f4d258cdf2471a159ecf809ef73",
+    "header_sha256": {
+      "include/modules/dungeon_ovl_9c32d4.h": "cb5f76199c722565e1d4622f83b6a95a1d827678a23b773f3ca93135ea30ee9d"
+    },
+    "probe_assembly_sha256": "3e2dbbef23b1767326882fb424ddcb178d4feae9f3a1e374a92abe9166a60924"
   }
 }

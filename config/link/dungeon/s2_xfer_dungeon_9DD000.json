@@ -28,9 +28,29 @@
    "size": 292,
    "bindings": {
     "0x80175f9c": "0x80157f9c",
-    "0x80174e98": "0x80156e98"
+    "0x80174e98": "0x80156e98",
+    "0x80175D7C": "0x80175D7C"
    },
-   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809C17C0"
+   "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_809C17C0; LL3a preserves prior rule-3 binding"
+  },
+  {
+   "row": "dungeon/func_809C257C",
+   "home": "dungeon/func_809A457C",
+   "tu": "src/dungeon/func_809A457C.c",
+   "foff": "0x009E257C",
+   "vma": "0x80157D7C",
+   "size": 196,
+   "bindings": {
+    "0x8003FD64": "0x8003FD64",
+    "0x80045340": "0x80045340",
+    "0x80175B1C": "0x80157B1C",
+    "0x8004491C": "0x8004491C",
+    "0x80175FB4": "0x80157FB4",
+    "0x80175FA8": "0x80157FA8",
+    "0x800B835C": "0x800B835C",
+    "0x80175D7C": "0x80157D7C"
+   },
+   "evidence": "LL3a attestation sha256:0a31488e61279217d6157d75e72c8ccde5eb5e7410736b329e425e68dd53f558; current-TU paired HI16/LO16 relocation screen; scoped window gate"
   }
  ]
 }
