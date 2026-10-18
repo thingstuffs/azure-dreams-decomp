@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_80098544_0 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x2A];
@@ -18,7 +17,8 @@ typedef struct S_80098544_1 {
 
 
 void clear_entity_record_fields();
-extern M2C_UNK D_800984AC;
+#include "shared/entity.h"
+void update_falling_actor_and_handle_ground(s32 context, EntityRec *actor, s32 action_arg);
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
 void advance_coordinates_toward_target(S_80098544_0 *state, S_80098544_1 *position) {
@@ -43,5 +43,5 @@ void advance_coordinates_toward_target(S_80098544_0 *state, S_80098544_1 *positi
     position->unk_00 = (s32) (state->unk_36 << 0x10);
     position->unk_04 = (s32) (state->unk_38 << 0x10);
     clear_entity_record_fields(position);
-    state->unk_04 = &D_800984AC;
+    state->unk_04 = &update_falling_actor_and_handle_ground;
 }

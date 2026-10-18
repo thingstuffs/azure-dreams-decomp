@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800BC00C_0 {
@@ -34,8 +33,7 @@ typedef struct {
     s32 f10;
     s32 f14;
 } State1;
-
-M2C_UNK func_800478B8();                      /* extern */
+void func_800478B8(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
 s32 update_effect_motion_size_and_brightness(void *effect_fields, S_800BC00C_2 *position, Rec_D_80082E80 *sprite) {

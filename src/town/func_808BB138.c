@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 func_800007E8();                             /* extern */
-M2C_UNK func_80000858();                /* extern */
-M2C_UNK func_80000A38();                            /* extern */
-M2C_UNK func_80000BC8();                         /* extern */
-M2C_UNK func_80000C18();                         /* extern */
+void func_80000858(s32, s32);                /* extern */
+void func_80000A38(void);                            /* extern */
+void func_80000BC8(s32);                         /* extern */
+void func_80000C18(s32);                         /* extern */
 s32 func_80000C6C();                             /* extern */
 typedef struct TownFlagEntry {
     u16 value;

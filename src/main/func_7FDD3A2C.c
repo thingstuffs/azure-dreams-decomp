@@ -1,5 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
+
+typedef struct RegistrationNode RegistrationNode;
 
 typedef struct S_7FDD3A2C_3 {
     u8 pad_00[0x8];
@@ -13,8 +14,8 @@ typedef struct S_7FDD3A2C_4 {
 
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_80044BB0;
+s32 func_8004491C(RegistrationNode *entry, s32 registration_id);
+extern s32 D_80044BB0[3];
 
 typedef struct S_7FDD3A2C_0 {
     u8 pad_00[0xC];
@@ -44,7 +45,7 @@ void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s3
     S_7FDD3A2C_2 *render_state;
 
     object = func_8003FC64(0x136);
-    if (object != NULL) {
+    if (object != 0) {
         object->unk_10 = object_value;
         ((S_7FDD3A2C_4 *)(((S_7FDD3A2C_3 *)object)->unk_08))->unk_00 = (s32) position->unk_00;
         ((S_7FDD3A2C_4 *)(((S_7FDD3A2C_3 *)object)->unk_08))->unk_04 = (s32) position->unk_04;

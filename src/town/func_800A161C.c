@@ -1,8 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
+
+typedef struct { s32 words[21]; } TownRecord;
 
 
 typedef struct S_8009ED7C_1 {
@@ -16,12 +17,12 @@ typedef struct S_8009ED7C_2_pre {
 } S_8009ED7C_2_pre;   /* the 0x2 bytes before arg0 in move_toward_target_finalize_countdown_expires, addressed as arg0[-1] */
 
 
-M2C_UNK func_80033D08();                      /* extern */
+void func_80033D08(void *block_data);
 void unlink_scene_list_node();                      /* extern */
 void call_the_same_context_both_processing_routines();             /* extern */
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis();             /* extern */
 void add_motion_deltas_to_position();                      /* extern */
-M2C_UNK itm_mon_koyaw_set(); /* extern */
+void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_byte);
 void dispatch_paired_table_values();                            /* extern */
 typedef struct {
     s32 words[0x15];

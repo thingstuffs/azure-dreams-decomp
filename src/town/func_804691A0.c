@@ -2,11 +2,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
 
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 void copy_town_record_pair_fields();
 

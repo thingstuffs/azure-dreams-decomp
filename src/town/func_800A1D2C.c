@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8009EE9C_arg0.h"
 
-M2C_UNK func_80033D08(Rec_func_8009EE9C_arg0 *);                            /* extern */
+void func_80033D08(void *block_data);
 extern M2C_UNK D_8009F2A8;
 
 

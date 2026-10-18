@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -10,11 +9,11 @@ typedef struct S_80035ABC_0 {
 
 typedef struct S_80035ABC_1 {
     u8 pad_00[0x68];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_80035ABC_1;   /* arg0 in shrink_window_extent_to_two */
 
 
-extern M2C_UNK func_80035AF8;
+extern s32 func_80035AF8;
 
 /* Decreases the entry value by 16, clamping it to 2 and switching handlers below 2. */
 void shrink_window_extent_to_two(S_80035ABC_1 *state, S_80035ABC_0 *entry) {

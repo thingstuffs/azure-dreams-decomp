@@ -19,7 +19,7 @@ typedef struct S_8001CF9C_0 {
 
 /* Store the state-selected pointer in the indexed entry. */
 s32 store_state_selected_entry_pointer(S_8001CF9C_0 *table, s32 entry_index) {
-    M2C_UNK *state_pointers[2];
+    s32 *state_pointers[2];
 
     state_pointers[0] = &D_8001F0D8;
     state_pointers[1] = &D_8001F18C;

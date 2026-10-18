@@ -6,9 +6,9 @@ void func_80033D08();
 void func_800375C0();
 void func_8003DB94(void *, void *, s16);
 s32 func_8004491C();
-extern M2C_UNK D_80033D54;
-extern M2C_UNK D_80037714;
-extern M2C_UNK D_800794AC;
+extern u8 D_80033D54;
+extern u8 D_80037714;
+extern u8 D_800794AC;
 extern s32 D_80082ABC;
 extern M2C_UNK D_8008B9D8;
 extern M2C_UNK D_8008BA00;
@@ -27,7 +27,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     s32 *value_table_base;
     s32 *value_table;
     s32 *type_entry;
-    *((M2C_UNK **) (((s8 *) object) + 0x10)) = &D_8008B9D8;
+    *((s32 **) (((s8 *) object) + 0x10)) = &D_8008B9D8;
     func_8004491C(object, &D_80033D54);
     init_value = 0;
     transform = *((void **) (((s8 *) object) + 8));
@@ -49,11 +49,11 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     type_entry = type_table - (-type_id);
     type_data = *type_entry;
     if (type_data != 0) {
-        *((M2C_UNK **) (((s8 *) state) + 8)) = &D_80037714;
+        *((s32 **) (((s8 *) state) + 8)) = &D_80037714;
         func_800375C0(state, type_data);
     }
     else {
-        *((M2C_UNK **) (((s8 *) state) + 8)) = 0;
+        *((s32 **) (((s8 *) state) + 8)) = 0;
     }
     *((s16 *) (((s8 *) state) + 0x60)) = 0;
     *((s32 *) (((s8 *) render_data) + 0xC)) = 0x808080;
@@ -72,7 +72,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
         *((s32 *) (((s8 *) state) + 0x74)) = 0;
         D_80082ABC = (s32) (*(*((u8 **) (((s8 *) state) + 0x7C))));
     }
-    *((M2C_UNK **) (((s8 *) state) + 0x68)) = &D_8008BA00;
+    *((s32 **) (((s8 *) state) + 0x68)) = &D_8008BA00;
     value_table_base = D_800CFC44;
     value_table = value_table_base;
     *((s16 *) (((s8 *) state) + 0x64)) = (s16) ((s8) D_800CFC38[type_id]);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94(); /* extern */
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 void handle_insert_initialize_two_values_status_flags();     /* extern */
 void initialize_optional_object_state(); /* extern */
 extern M2C_UNK D_800D0690;

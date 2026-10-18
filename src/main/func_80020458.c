@@ -42,11 +42,11 @@ extern M2C_UNK D_80409110;
 extern M2C_UNK D_80409128;
 
 typedef struct S_80020458_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_80020458_0;
 
 typedef struct S_80020458_1 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_80020458_1;
 
 /* Initializes two child objects and assigns their callbacks. */

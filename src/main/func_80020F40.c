@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_80020F40_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x4C];
     s32 unk_50;
 } S_80020F40_0;   /* arg0 in func_80020F40; pointer addresses record offset 0x10 */

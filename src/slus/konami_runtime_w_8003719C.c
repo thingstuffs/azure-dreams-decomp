@@ -1,8 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
+
+typedef struct { unsigned char pad_00[0x54]; void *unk_54; } Struct800350B0;
 
 typedef struct S_8003719C_4 {
     u8 pad_00[0x20];
@@ -20,7 +21,7 @@ typedef struct S_8003719C_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-    M2C_UNK (*unk_10)(void *, s32, void *);
+    s32 (*unk_10)(void *, s32, void *);
     u8 pad_14[0xC];
     void * unk_20;
 } S_8003719C_0;   /* node in func_8003719C */
@@ -44,7 +45,7 @@ typedef struct S_8003719C_3 {
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
     u8 pad_10[0x4];
     u16 unk_14;
@@ -52,9 +53,9 @@ typedef struct S_8003719C_3 {
 
 
 void runtime_initialize_state_value();                 /* extern */
-M2C_UNK func_800350B0();                 /* extern */
+void func_800350B0(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
-M2C_UNK func_80037394();         /* extern */
+void func_80037394(void *state, s32 mode, void *output);
 void *initialize_runtime_node_storage(); /* extern */
 s32 func_8004491C();           /* extern */
 extern u8 D_8006A988[];

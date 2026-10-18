@@ -17,18 +17,11 @@ typedef struct S_800B1664_2 {
     u16 unk_04;
 } S_800B1664_2;
 
-
-typedef s32 M2C_UNK;
-
-
 typedef struct S_800B1664_4 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_800B1664_4;   /* ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0 in decay_shop_state_and_cleanup */
-
-
-
-M2C_UNK func_8004B248();
+void func_8004B248(u16 **entries);
 void reset_five_shop_slots();
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */

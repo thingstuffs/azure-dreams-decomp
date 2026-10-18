@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_8004E99C();                         /* extern */
+void func_8004E99C(void *object);
 
 /* Pass the first value of each pointed-to entry, starting at slot 20, to func_8004E99C. */
 void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount) {

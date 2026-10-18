@@ -1,8 +1,8 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "records/Rec_func_800B0C68_arg0.h"
 
 
-typedef s32 M2C_UNK;
 
 
 typedef struct S_800B1188_2 {
@@ -19,10 +19,10 @@ typedef struct S_800B1188_2 {
 } S_800B1188_2;
 
 typedef struct S_800B1188_3 {
-    M2C_UNK ** unk_00;
+    s32 ** unk_00;
     void ** unk_04;
     s32 unk_08;
-    M2C_UNK ** unk_0C;
+    s32 ** unk_0C;
 } S_800B1188_3;   /* ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv in initialize_shop_window_layout */
 
 typedef struct S_800B1188_4 {

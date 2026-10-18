@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8001E578();                     /* extern */
+s32 func_8001E578(s32, ...);
 extern M2C_UNK D_800227C5;
 
 /* Calls func_8001E578 with 0x400 and returns the address of D_800227C5. */
-M2C_UNK *load_resource_400_secondary_buffer(void) {
+s32 *load_resource_400_secondary_buffer(void) {
     func_8001E578(0x400);
     return &D_800227C5;
 }

@@ -2,14 +2,14 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 void call_the_handler_selects_nonzero_entry();  /* extern */
 extern M2C_UNK D_80091AF0;
 extern s32 D_800D00E8;
 
 
 /* Initialize the record with its handler and a count of twelve. */
-void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, M2C_UNK unused, M2C_UNK setup_value) {
+void initialize_timed_scene_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value) {
     SD_Call(0x510);
     call_the_handler_selects_nonzero_entry(&D_800D00E8, record, setup_value);
     record->unk_00.as_pm = &D_80091AF0;

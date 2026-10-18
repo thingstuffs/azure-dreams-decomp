@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
 typedef struct S_8003832C_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x4];
     s16 unk_18;
 } S_8003832C_0;   /* arg0 in func_8003832C */
@@ -18,7 +17,7 @@ typedef struct {
     u8 *buffer;
 } Func80039AF0State;
 void func_80039AF0(Func80039AF0State *state);                            /* extern */
-extern M2C_UNK decrement_countdown_and_switch_b;
+extern s32 decrement_countdown_and_switch_b;
 
 /* Initialize the context and set its next handler and state. */
 void func_8003832C(S_8003832C_0 *context) {

@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void set_selected_entry_state_3();                            /* extern */
-M2C_UNK func_800193E0();                     /* extern */
+void func_800193E0(s32);                     /* extern */
 extern s32 D_8001967C;
 
 /* Set state 1, invoke handler 0x632, and run the follow-up handler. */

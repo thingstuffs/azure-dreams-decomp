@@ -14,11 +14,14 @@ extern void run_the_three_update_routines_context();
 extern s16 query_lowered_transform_position();
 
 extern M2C_UNK D_8006ADBC;
-extern M2C_UNK D_800C02C4;
-extern M2C_UNK D_800CFCB4;
-extern M2C_UNK D_800D0420;
+typedef struct S_800C02C4_1 S_800C02C4_1;
+void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data);
+#include "records/Rec_D_800CFCB4.h"
+extern Rec_D_800CFCB4 D_800CFCB4;
+extern u8 D_800D0420[];
 extern s32 D_800D0438;
-extern M2C_UNK D_800FE490;
+#include "records/Rec_D_800FE490.h"
+extern Rec_D_800FE490 D_800FE490;
 
 typedef struct S_800C01DC_0 {
     u8 pad_00[0x8];
@@ -40,7 +43,7 @@ void initialize_object_at_current_position(void) {
 
     D_800D0438 = 0;
     object = initialize_scene_object_in_buffer(0, ((void *)&D_80083498.next), 0x22);
-    object->unk_10 = &D_800C02C4;
+    object->unk_10 = &initialize_object_rendering_resources;
     object->unk_0C = &D_80082E80.unk_000;
     object->unk_08 = &D_80083780.x.v;
     initialize_circular_list_head();

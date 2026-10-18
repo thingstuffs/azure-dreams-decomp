@@ -1,10 +1,9 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
 s32 func_80017B24();
-M2C_UNK *func_80017BDC();
-M2C_UNK func_8001856C();
+s32 * func_80017BDC(void *, void *, s32, s32);
+s32 func_8001856C(s32);
 s32 func_800187D8();
 extern s32 D_80018974;
 extern s32 D_80018AD0;

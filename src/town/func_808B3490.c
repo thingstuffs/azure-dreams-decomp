@@ -7,7 +7,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
+
 /* Stores 9 at offset 0x12F4 in the object referenced by 0xA0700F40. */
 int set_global_object_field_12_f_4(void)
 {

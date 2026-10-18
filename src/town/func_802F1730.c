@@ -1,10 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_8007CA38();                            /* extern */
-M2C_UNK func_8007CA48();                            /* extern */
-M2C_UNK func_8007CB08();                     /* extern */
-M2C_UNK func_804087A8();                            /* extern */
+void func_8007CA38(void);                            /* extern */
+void func_8007CA48(void);                            /* extern */
+void func_8007CB08(s32);                     /* extern */
+void func_804087A8(void);                            /* extern */
 
 /* Run the setup sequence with a zero argument for func_8007CB08. */
 void run_memory_setup_with_zero(void) {

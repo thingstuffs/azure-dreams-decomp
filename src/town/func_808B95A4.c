@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_80700244(s32, s32, s32);                            /* extern */
+s32 func_80700244(s32, s32, s32);
 extern s32 D_A0700A3C[];
 
 /* Run the indexed operation and return the base plus its table value. */

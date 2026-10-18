@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_80700C08();                     /* extern */
-M2C_UNK func_80701060();                            /* extern */
-M2C_UNK func_8070114C();                            /* extern */
+s32 func_80700C08(s32);
+s32 func_80701060(void);
+s32 func_8070114C(void);
 
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */
 s32 run_devkit_page_0_redraw_scan(void) {

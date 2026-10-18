@@ -2,7 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80033CD8();           /* extern */
+void func_80033CD8(void *block_data, s32 registration_id);
 void *create_town_effect_object();       /* extern */
 extern M2C_UNK D_800A7C0C;
 
@@ -31,7 +31,7 @@ typedef struct S_800A7B98_3 {
 } S_800A7B98_3;
 
 /* Creates an object, copies its source data fields, and initializes its state. */
-void create_timed_effect_object(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *sourceData) {
+void create_timed_effect_object(s32 ownerDataAddress, s32 creationParam, S_800A7B98_2 *sourceData) {
     S_800A7B98_3 *objectState;
     void *createdObject;
     S_800A7B98_1 *objectData;

@@ -1,8 +1,7 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK TestEvent();                         /* extern */
+s32 TestEvent(s32);
 
 
 

@@ -5,7 +5,7 @@
 
 typedef struct S_80039568_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80039568_0;   /* arg0 in vm_op_17_install_action */
 
 

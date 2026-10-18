@@ -89,7 +89,6 @@ typedef struct S_func_8080F4A4_9 {
     s32 unk_08;
 } S_func_8080F4A4_9;
 
-typedef s32 M2C_UNK;
 #ifndef NULL
 #define NULL 0
 #endif
@@ -153,8 +152,8 @@ void update_betting_game(S_func_8080F4A4_1 *game) {
 #define ones_left ((S_func_8080F4A4_2 *)spawn_data)->unk_70
 #define tens_left ((S_func_8080F4A4_2 *)spawn_data)->unk_72
 #define hundreds_left ((S_func_8080F4A4_2 *)spawn_data)->unk_74
-    M2C_UNK bounce_anim;
-    M2C_UNK settle_anim;
+    s32 bounce_anim;
+    s32 settle_anim;
     s16 hundreds;
     s16 tens;
     s16 ones;

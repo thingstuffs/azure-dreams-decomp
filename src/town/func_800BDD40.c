@@ -1,13 +1,12 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 func_8004491C();           /* extern */
-extern M2C_UNK D_800BB030;
-extern M2C_UNK D_800BB218;
+void update_four_phase_animation(void *entity, void *context);
+s32 draw_randomized_white_points(void *first_object, void *first_coords);
 
 typedef struct S_800BB4A0_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BB4A0_0;
 
 typedef struct S_800BB4A0_1 {
@@ -30,8 +29,8 @@ void initialize_object_header_and_state(void *objectState, S_800BB4A0_2 *associa
     S_800BB4A0_0 *objectHeader;
 
     objectHeader = objectState - 0x20;
-    objectHeader->unk_10 = &D_800BB030;
-    func_8004491C(objectHeader, &D_800BB218);
+    objectHeader->unk_10 = &update_four_phase_animation;
+    func_8004491C(objectHeader, &draw_randomized_white_points);
     ((S_800BB4A0_1 *)objectState)->unk_97 = 0x48;
     ((S_800BB4A0_1 *)objectState)->unk_68 = 0;
     ((S_800BB4A0_1 *)objectState)->unk_6C = 0;

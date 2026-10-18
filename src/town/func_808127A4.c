@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_808127A4_0_pre {
     u16 unk_00;
@@ -21,7 +20,7 @@ typedef struct S_808127A4_1 {
 } S_808127A4_1;
 
 
-M2C_UNK func_80058588();           /* extern */
+s32 func_80058588(s32, s32, s32);
 extern s32 D_80084D5C;
 
 void animate_linked_value_threshold(void *record_ptr) {

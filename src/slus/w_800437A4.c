@@ -1,15 +1,15 @@
 #include "common.h"
+#include "m2c_compat.h"
 
 /* manual g1 strike 2: preserve the incoming second argument through the call */
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
-extern M2C_UNK pack_tagged_resource_descriptor();
+void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
 extern M2C_UNK D_800814F8;
 
 /* Selects an entry offset and requests data in the shared buffer. */
-M2C_UNK *build_sprite_image_read_descriptor(s16 entry_id, M2C_UNK request_arg) {
+s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg) {
     s32 entry_offset;
 
     if (entry_id == 0x38) {

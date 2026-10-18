@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct SpawnSlot {
     u8 pad_00[0x8];
@@ -26,7 +25,7 @@ typedef struct SpawnSeed {
 
 
 void *func_800373DC();                       /* extern */
-M2C_UNK func_8003BC18();           /* extern */
+s32 func_8003BC18(void *, void *);
 s32 func_80071494();                                /* extern */
 extern u8 D_8003C558[];
 extern u8 D_802843E8[];
@@ -43,7 +42,7 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
     SpawnSlot *slot;
 
     slot = func_800373DC(0x136);
-    if (slot != NULL) {
+    if (slot != 0) {
         slot->unk_10 = D_8052FA64;
         func_8003BC18(slot, &D_8003C558);
         motion = slot->unk_08;

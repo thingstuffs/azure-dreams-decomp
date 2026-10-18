@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 /* extern */
 
@@ -21,9 +20,9 @@ typedef struct S_800CE2D4_1 {
 } S_800CE2D4_1;   /* arg1 in tick_countdown_toward_target */
 
 
-void apply_object_setup_and_update(S_800CE2D4_0 *, S_800CE2D4_1 *, M2C_UNK);
+void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
 /* Decrement the countdown and ease the current values toward their targets. */
-void tick_countdown_toward_target(S_800CE2D4_0 *state, S_800CE2D4_1 *current, M2C_UNK context) {
+void tick_countdown_toward_target(S_800CE2D4_0 *state, S_800CE2D4_1 *current, s32 context) {
     u16 ticks_left;
     u32 target_delta;
 

@@ -1,9 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
-
-M2C_UNK LoadImage();                      /* extern */
+void LoadImage(void *, void *);                      /* extern */
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))

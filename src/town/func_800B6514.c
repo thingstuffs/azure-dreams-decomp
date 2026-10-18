@@ -1,9 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 
 void move_color_channels_toward_neutral(u8 *channels);                    /* extern */
 

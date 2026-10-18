@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
@@ -21,6 +20,6 @@ void func_806C51B0(void) {
     fixed_values = D_800190C0;
     fixed_values[2] = 0;
     fixed_values[1] = second_value << 16;
-    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_208)(0);
-    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_228)(0);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_208)(0);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_228)(0);
 }

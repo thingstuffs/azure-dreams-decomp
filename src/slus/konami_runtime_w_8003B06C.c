@@ -2,8 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-M2C_UNK func_8003C758();                   /* extern */
+s32 func_8003C758(s32 key);                   /* extern */
 extern M2C_UNK D_80080F40;
 extern M2C_UNK D_80080F60;
 extern M2C_UNK D_80081010;

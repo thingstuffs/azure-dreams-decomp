@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */
@@ -20,13 +19,13 @@ extern u8 D_801328E8[0x14];
 extern u8 D_80132AE8[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
-M2C_UNK func_802483B8();                      /* extern */
+s32 func_802483B8();
 void advance_accumulator_reset_lowering_stored();                      /* extern */
-M2C_UNK func_80290318();                      /* extern */
+s32 func_80290318();
 void set_record_global_flags_object();                      /* extern */
 void set_bit_preceding_flags_global();                      /* extern */
 void tick_timed_object_and_mark_complete();                      /* extern */
-M2C_UNK func_80243A38();
+s32 func_80243A38();
 typedef struct S_80527D5C_0_pre {
     u16 unk_00;
 } S_80527D5C_0_pre;   /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */

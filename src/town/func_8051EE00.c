@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 *func_80017D80();             /* extern */
-M2C_UNK func_80018A64();                         /* extern */
-M2C_UNK func_80018ADC();                     /* extern */
+s32 func_80018A64(s32);
+s32 func_80018ADC(s32);
 
 typedef struct S_8051EE00_0 {
     u8 pad_00[0x18];

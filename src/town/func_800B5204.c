@@ -1,14 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800B2964_0 {
     u8 pad_00[0x1];
     u8 unk_01;
 } S_800B2964_0;
 
-/* Collect pointers to enabled entries and terminate the list with NULL. */
-void collect_enabled_entry_pointers(M2C_UNK *entries, s32 entry_count) {
-    M2C_UNK *output;
+/* Collect pointers to enabled entries and terminate the list with 0. */
+void collect_enabled_entry_pointers(s32 *entries, s32 entry_count) {
+    s32 *output;
     s8 *entry;
     s32 entry_index;
 
@@ -18,12 +17,12 @@ void collect_enabled_entry_pointers(M2C_UNK *entries, s32 entry_count) {
         entry = (s8 *)0x80011F80;
         do {
             if (((S_800B2964_0 *)entry)->unk_01 != 0) {
-                *output = (M2C_UNK) entry;
+                *output = (s32) entry;
                 output += 1;
             }
             entry_index += 1;
             entry += 4;
         } while (entry_index < entry_count);
     }
-    *output = NULL;
+    *output = 0;
 }

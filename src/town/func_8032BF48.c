@@ -5,7 +5,7 @@ s32 select_status_code_from_callback();                            /* extern */
 void clear_script_flag_bit();                     /* extern */
 s32 get_script_flag_mask();                         /* extern */
 extern M2C_UNK D_8001B314;
-extern M2C_UNK *D_8001C370;
+extern s32 *D_8001C370;
 extern s8 D_8001ED72;
 extern s8 D_8001F092;
 

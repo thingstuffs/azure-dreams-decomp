@@ -6,7 +6,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
+
 s32 get_script_flag_mask();
 extern s16 D_8001B8AA;
 /* Check the record flag only when the global blocking flag is clear. */

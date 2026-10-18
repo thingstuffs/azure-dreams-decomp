@@ -3,7 +3,6 @@
 #include "shared/record_ptrs.h"
 
 
-typedef s32 M2C_UNK;
 
 
 /* Return the first entry index matching both bytes, or -1 if none matches. */

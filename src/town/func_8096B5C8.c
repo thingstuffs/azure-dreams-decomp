@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-M2C_UNK func_80067014();                     /* extern */
-M2C_UNK func_800671A8(); /* extern */
+void func_80067014(s32);                     /* extern */
+void func_800671A8(void *, s32, s32, s32); /* extern */
 s32 is_catalog_entry_available();                             /* extern */
 void draw_vram_glyph_text();               /* extern */
 void draw_cached_catalog_text(); /* extern */

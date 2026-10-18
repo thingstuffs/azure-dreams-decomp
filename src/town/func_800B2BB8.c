@@ -1,7 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_8004E99C();                         /* extern */
+void func_8004E99C(void *object);                         /* extern */
 
 /* Processes and clears the values referenced by two consecutive groups of ten slots. */
 void clear_item_menu_entry_groups(s32 slot_table) {

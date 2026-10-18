@@ -2,8 +2,6 @@
 #include "common.h"
 #include "records/Rec_func_8008F074_arg0.h"
 
-typedef s32 M2C_UNK;
-
 typedef struct S_800BF9E4_0_pre {
     u8 * unk_00;
     u8 pad_04[0xC];
@@ -44,9 +42,9 @@ typedef struct S_800BF9E4_5 {
     u8 pad_00[0xA0];
     void * unk_A0;
 } S_800BF9E4_5;
-
-
-extern M2C_UNK func_8003DB94();
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern void configure_the_set_mode_n_1();
 

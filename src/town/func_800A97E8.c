@@ -29,7 +29,7 @@ extern M2C_UNK D_800D0DD8;
 
 typedef struct S_800A6F48_0 {
     u8 pad_00[0xC];
-    M2C_UNK * unk_0C;
+    s32 * unk_0C;
 } S_800A6F48_0;   /* arg1 in create_paired_offset_effects */
 
 typedef struct S_800A6F48_1 {
@@ -90,7 +90,7 @@ typedef struct S_800A6F48_9 {
 
 typedef struct S_800A6F48_10 {
     u8 pad_00[0x50];
-    M2C_UNK * unk_50;
+    s32 * unk_50;
     u8 pad_54[0x18];
     s16 unk_6C;
 } S_800A6F48_10;   /* arg0 in create_paired_offset_effects */
@@ -105,8 +105,8 @@ typedef struct S_800A6F48_11 {
 /* Creates two offset objects, adjusts their components, and initializes the owner and color. */
 void create_paired_offset_effects(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2 *origin, S_800A6F48_11 *color) {
     s32 position[5];
-    M2C_UNK *offset_data;
-    M2C_UNK *second_offset_data;
+    s32 *offset_data;
+    s32 *second_offset_data;
     s32 y_component;
     s32 z_component;
     u32 offset_sum;

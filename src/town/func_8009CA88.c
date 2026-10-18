@@ -1,7 +1,6 @@
 #include "common.h"
 extern int abs(int);
 #include "shared/object_index_slots.h"
-#include "m2c_compat.h"
 
 extern int D_800814C8;
 extern int D_80081550;
@@ -13,9 +12,9 @@ extern int D_80084130[3];
 s32 runtime_estimate_vector_length();
 void initialize_record_with_handler_table();
 u16 query_lowered_transform_position();
-extern M2C_UNK D_80099C18;
+void advance_player_position_and_angle(void *work_data, void *position_data, s32 context);
 /* Set travel timing from distance and speed, or snap motion to the destination. */
-void set_player_travel_timing(void *actor, void *motion, M2C_UNK context)
+void set_player_travel_timing(void *actor, void *motion, s32 context)
 {
     s32 base_ticks;
     s32 scaled_ticks;
@@ -24,7 +23,7 @@ void set_player_travel_timing(void *actor, void *motion, M2C_UNK context)
     s32 modifier_magnitude;
     s8 *movement_state;
     *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)D_80082660)) = 0;
-    *((M2C_UNK **) (((s8 *) actor) + 4)) = &D_80099C18;
+    *((s32 **) (((s8 *) actor) + 4)) = &advance_player_position_and_angle;
     distance = runtime_estimate_vector_length(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) motion) + 0))),
         ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10) - (*((s32 *) (((s8 *) motion) + 4))));
     if (distance < 0) {

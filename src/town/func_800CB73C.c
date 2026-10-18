@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 typedef void (*Callback)(void *, s32, void *);
@@ -19,7 +18,7 @@ void run_object_callback(void *object, void *context, Rec_D_80082E80 *record) {
     if (!((*(u16 *)((u8 *)object + -2)) & 0x8000)) {
         entry_index = quantize_heading_to_sector((*(s16 *)((u8 *)object + 0x72)), (*(s16 *)((u8 *)object + 0x64)));
         if ((*(s16 *)((u8 *)object + 0x74)) != entry_index) {
-            clear_object_status_and_dispatch_target(object, record, (*(M2C_UNK **)((u8 *)object + 0x78))[entry_index], record->unk_04.as_s8);
+            clear_object_status_and_dispatch_target(object, record, (*(s32 **)((u8 *)object + 0x78))[entry_index], record->unk_04.as_s8);
             (*(s16 *)((u8 *)object + 0x74)) = entry_index;
         }
         if ((check_heading_past_half_sector((*(s16 *)((u8 *)object + 0x72)), (*(s16 *)((u8 *)object + 0x64))) << 0x10) != 0) {

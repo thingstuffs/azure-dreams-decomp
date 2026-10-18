@@ -1,8 +1,5 @@
 #include "common.h"
 
-
-typedef s32 M2C_UNK;
-
 typedef struct S_800B8248_2 {
     u8 pad_00[0xA];
     s16 unk_0A;

@@ -6,7 +6,7 @@ extern M2C_UNK D_800CA308;
 
 typedef struct S_800CA774_0 {
     u8 pad_00[0x54];
-    M2C_UNK * unk_54;
+    s32 * unk_54;
     u8 pad_58[0x14];
     s16 unk_6C;
 } S_800CA774_0;   /* arg0 in initialize_reaction_data_and_timer_10_b */

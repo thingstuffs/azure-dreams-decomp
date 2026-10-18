@@ -1,6 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
-M2C_UNK func_80058588();
+s32 func_80058588(s32, s32, s32);
 s32 func_80071424();
 extern s32 D_80084D5C;
 void tick_timed_object_and_mark_complete(void *ptr)

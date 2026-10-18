@@ -1,5 +1,4 @@
 #include "common.h"
-typedef s32 M2C_UNK;
 
 typedef struct S_800BF72C_3 {
     u8 pad_00[0xA0];

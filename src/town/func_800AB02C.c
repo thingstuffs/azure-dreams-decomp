@@ -5,7 +5,7 @@
 #include "m2c_compat.h"
 
 s32 scale_random_to_unsigned_halfword_limit();                         /* extern */
-M2C_UNK func_8003DB94();  /* extern */
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 func_8004491C();           /* extern */
 s32 rand();                           /* extern */
 extern M2C_UNK D_800A86BC;
@@ -15,7 +15,7 @@ typedef struct S_800A878C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800A878C_0;
 
 typedef struct S_800A878C_1 {

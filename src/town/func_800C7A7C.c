@@ -1,12 +1,11 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
-#include "m2c_compat.h"
 
 extern s32 D_800C5100;
 
 typedef struct S_800C51DC_0 {
     u8 pad_00[0x54];
-    M2C_UNK * unk_54;
+    s32 * unk_54;
     u8 pad_58[0x8];
     s32 unk_60;
 } S_800C51DC_0;   /* arg0 in func_800C51DC */

@@ -6,7 +6,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
+
 /* Fill negative slots when eligibility is at least four, then clear a duplicate second slot. */
 void fill_eligible_negative_slots(void *record, s16 *eligibility, s16 new_value)
 {

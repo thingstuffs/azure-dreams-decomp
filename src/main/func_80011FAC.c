@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_80024FAC_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_80024FAC_0;   /* arg0 in card_boot_poll_status_and_dismiss_dialog; pointer addresses record offset 0x10 */
 
 

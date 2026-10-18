@@ -5,6 +5,6 @@
 extern M2C_UNK D_80018310;
 
 /* Return a pointer to D_80018310. */
-M2C_UNK *func_8065D580(void) {
+s32 *func_8065D580(void) {
     return &D_80018310;
 }

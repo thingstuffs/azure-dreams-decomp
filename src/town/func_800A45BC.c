@@ -1,12 +1,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_800649A0();                            /* extern */
-M2C_UNK func_80064A40();                            /* extern */
-M2C_UNK func_80064CF0();                      /* extern */
-M2C_UNK func_80064D80();                      /* extern */
-M2C_UNK func_80065320();     /* extern */
+void func_800649A0(void);                            /* extern */
+void func_80064A40(void);                            /* extern */
+void func_80064CF0(void *);                      /* extern */
+void func_80064D80(void *);                      /* extern */
+void func_80065320(void *, void *, void *);     /* extern */
 
 
 typedef struct S_800A1D1C_0_pre {
@@ -14,7 +12,7 @@ typedef struct S_800A1D1C_0_pre {
 } S_800A1D1C_0_pre;   /* the 0x2 bytes before arg0 in render_shaded_object_primitive, addressed as arg0[-1] */
 
 typedef struct S_800A1D1C_0 {
-    M2C_UNK (*unk_00)(void *, void *, void *);
+    s32 (*unk_00)(void *, void *, void *);
     u8 pad_04[0xC];
     void * unk_10;
     u8 pad_14[0xE];

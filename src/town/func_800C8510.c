@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -14,15 +15,15 @@ extern M2C_UNK D_800D5658;
 
 typedef struct S_800C5C70_1 {
     u8 pad_00[0x58];
-    M2C_UNK * unk_58;
-    M2C_UNK * unk_5C;
+    s32 * unk_58;
+    s32 * unk_5C;
     s32 unk_60;
     u8 pad_64[0xC];
     s8 unk_70;
     u8 unk_71;
     u8 pad_72[0xA];
-    M2C_UNK * unk_7C;
-    M2C_UNK * unk_80;
+    s32 * unk_7C;
+    s32 * unk_80;
 } S_800C5C70_1;   /* arg0 in reset_indexed_flag_install_handlers */
 
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */

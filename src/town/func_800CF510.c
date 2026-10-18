@@ -11,5 +11,5 @@ typedef struct S_800CCC70_0 {
 
 /* Invoke the callback selected by the object state. */
 void invoke_flag_state_callback_b(S_800CCC70_0 *object) {
-    ((void (*)()) (*(M2C_UNK *)((u8 *)&D_800D70A0 + ((object->unk_68) * 4))))();
+    ((void (*)()) (*(s32 *)((u8 *)&D_800D70A0 + ((object->unk_68) * 4))))();
 }

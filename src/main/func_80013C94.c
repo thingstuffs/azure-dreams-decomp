@@ -33,11 +33,11 @@ typedef struct S_80026C94_0 {
 } S_80026C94_0;   /* arg0 in card_boot_layout_left_right_labels */
 
 typedef struct S_80026C94_1 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_80026C94_1;
 
 typedef struct S_80026C94_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_80026C94_2;
 
 /* Set the positions and data pointers for the left and right entries. */

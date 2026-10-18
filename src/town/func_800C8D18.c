@@ -8,7 +8,7 @@ typedef struct S_800C6478_0 {
 
 typedef struct S_800C6478_1 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_800C6478_1;   /* ((S_800C6478_0 *)arg0)->unk_80 in set_linked_data_pointer_variant_3 */
 
 

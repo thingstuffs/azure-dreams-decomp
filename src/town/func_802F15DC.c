@@ -1,8 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_80400E34();                            /* extern */
-M2C_UNK allocate_or_reuse_effect_and_install_callback();                /* extern */
+typedef struct { u8 pad[0x10]; void *callback; } Effect;
+
+s32 func_80400E34(void);
+Effect *allocate_or_reuse_effect_and_install_callback(void *first, void *second);
 extern s8 D_8008CA34;
 
 /* Set the global flag, prepare state, and process the target in mode 0. */

@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_804087B8();                            /* extern */
-M2C_UNK func_804087C8();                            /* extern */
-M2C_UNK func_80408958();                            /* extern */
+s32 func_804087B8(void);
+s32 func_804087C8(void);
+s32 func_80408958(void);
 
 /* Run the three callbacks in sequence. */
 void run_memory_callbacks(void) {

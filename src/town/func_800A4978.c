@@ -6,7 +6,7 @@ extern M2C_UNK D_800A2180;
 extern M2C_UNK D_800A21EC;
 
 /* Create objects with descending indices until allocation fails or index zero is reached. */
-s32 create_objects_descending_by_count(s32 object_key, M2C_UNK payload_value, M2C_UNK payload_param, s32 count) {
+s32 create_objects_descending_by_count(s32 object_key, s32 payload_value, s32 payload_param, s32 count) {
     s32 index;
     index = count;
     do {

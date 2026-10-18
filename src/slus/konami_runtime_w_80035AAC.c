@@ -5,7 +5,7 @@
 
 typedef struct S_80035AAC_0 {
     u8 pad_00[0x68];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_80035AAC_0;   /* arg0 in func_80035AAC */
 
 

@@ -9,5 +9,5 @@ extern s16 D_80017AA0;
 
 /* Dispatches the table entry selected by the current index. */
 void func_8054FAA0(void) {
-    D_80016000->unk_20->callback_230(*((M2C_UNK *)((s8 *)&D_800179FC + D_80017AA0 * 4)));
+    D_80016000->unk_20->callback_230(*((s32 *)((s8 *)&D_800179FC + D_80017AA0 * 4)));
 }

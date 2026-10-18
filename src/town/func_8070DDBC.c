@@ -6,10 +6,10 @@
 
 
 
-M2C_UNK func_80018F8C();                         /* extern */
+void func_80018F8C(s32 slotIndex);
 s32 func_800198A4();                /* extern */
-M2C_UNK func_8001A554();                     /* extern */
-M2C_UNK func_8001A5CC();                     /* extern */
+s32 func_8001A554(s32);
+s32 func_8001A5CC(s32);
 extern M2C_UNK D_8002116C;
 
 

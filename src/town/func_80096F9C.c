@@ -4,7 +4,7 @@
 extern M2C_UNK D_800930E4;
 
 typedef struct S_800946FC_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
 } S_800946FC_0;   /* arg0 in initialize_actor_interaction_state_19 */

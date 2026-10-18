@@ -2,7 +2,6 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 
 
 typedef struct S_800BDB20_0 {
@@ -28,13 +27,13 @@ typedef struct S_800BDB20_3 {
 } S_800BDB20_3;
 
 /* Creates an object at the given position and initializes its graphics. */
-void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, M2C_UNK graphics_id) {
+void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_param, s32 graphics_id) {
     S_800BDB20_3 *render_data;
     S_800BDB20_0 *object;
     S_800BDB20_1 *object_pos;
 
     object = func_8003FC64(0x132);
-    if (object != NULL) {
+    if (object != 0) {
         func_8004491C(object, func_80045340);
         render_data = object->unk_0C;
         object_pos = object->unk_08;

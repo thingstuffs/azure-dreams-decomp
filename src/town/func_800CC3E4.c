@@ -1,11 +1,10 @@
 #include "common.h"
 #include "shared/entity.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 s16 query_lowered_transform_position();                          /* extern */
-M2C_UNK func_800C9C94();     /* extern */
+s32 func_800C9C94(s32, s32, s32);
 void choose_reaction_action_and_heading();
 
 

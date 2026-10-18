@@ -2,13 +2,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
-
-
-
-
-
-M2C_UNK func_8001886C();                     /* extern */
+void func_8001886C(s32);                     /* extern */
 
 /* Decrement the countdown and invoke handler 0x5FF when it reaches zero. */
 void advance_town_countdown_and_invoke_handler(void) {

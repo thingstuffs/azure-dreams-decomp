@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800AF148_0_pre {
     u16 unk_00;
@@ -12,9 +11,7 @@ typedef struct S_800AF148_0 {
     u8 pad_2C[0xAC];
     s32 unk_D8;
 } S_800AF148_0;
-
-
-M2C_UNK func_8004B248();                         /* extern */
+void func_8004B248(u16 **entries);                         /* extern */
 void send_item_menu_page_entries_to_formatter();                    /* extern */
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */

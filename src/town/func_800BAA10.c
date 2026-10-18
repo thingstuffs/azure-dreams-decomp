@@ -1,12 +1,11 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 extern s32 D_800B7B8C;
 
 typedef struct S_800B8170_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s16 unk_20;
     s16 unk_22;
@@ -17,7 +16,7 @@ void create_building_resource_object(void) {
     S_800B8170_0 *object;
 
     object = func_8003FC64(0);
-    if (object != NULL) {
+    if (object != 0) {
         object->unk_10 = &D_800B7B8C;
         object->unk_20 = 0;
         object->unk_22 = 0;

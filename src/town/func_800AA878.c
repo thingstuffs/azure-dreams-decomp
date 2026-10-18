@@ -1,12 +1,10 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_80033CD8();           /* extern */
+void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
 s32 lookup_item_category_mapped_value();                /* extern */
 void *create_town_effect_object(); /* extern */
-void update_linked_part_position();         /* extern */
-extern M2C_UNK D_800A8070;
+void update_linked_part_position(void *, s32, void *);         /* extern */
+
 
 typedef struct S_800A7FD8_0 {
     u8 pad_00[0x8];
@@ -31,8 +29,8 @@ void present_flower_set(s32 initial_value) {
     S_800A7FD8_2 *callback_data;
     void *object;
 
-    object = create_town_effect_object(0, 0, &D_800A8070, 0);
-    if (object != NULL) {
+    object = create_town_effect_object(0, 0, &update_linked_part_position, 0);
+    if (object != 0) {
         callback_arg = ((S_800A7FD8_0 *)object)->unk_08;
         callback_data = ((S_800A7FD8_0 *)object)->unk_0C;
         state = object + 0x20;

@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800B648C_0 {
     u8 pad_00[0xC];
@@ -16,7 +15,7 @@ void *link_monster_status_main_entries();                       /* extern */
 s32 link_monster_status_display_entries();                         /* extern */
 
 /* Stores the fetched chain and initializes its terminal link. */
-void join_monster_status_display_chains(S_800B648C_0 *owner, M2C_UNK source) {
+void join_monster_status_display_chains(S_800B648C_0 *owner, s32 source) {
     S_800B648C_1 *tail;
 
     tail = link_monster_status_main_entries(source);

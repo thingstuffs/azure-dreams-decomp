@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -12,13 +11,13 @@ typedef struct S_800C4864_2 {
 
 s16 get_cached_or_coordinate_transform_value();                 /* extern */
 void initialize_object_entries();                /* extern */
-extern M2C_UNK D_800C3C5C;
+void func_800C3C5C(void *object, s32 callback_arg_1, s32 callback_arg_2);
 
 
 /* Update the object's state, clear its indexed flag, and store the lookup result. */
-void update_object_state_and_lookup(Rec_func_80094268_arg0 *object, M2C_UNK lookup_key, M2C_UNK state_value) {
+void update_object_state_and_lookup(Rec_func_80094268_arg0 *object, s32 lookup_key, s32 state_value) {
     initialize_object_entries(object, state_value, ((S_800C4864_2 *)(((Rec_func_80094268_arg0 *)object)->unk_80))->unk_14);
     D_80082660[object->unk_60].unk_00 = 0;
-    object->unk_54 = &D_800C3C5C;
+    object->unk_54 = &func_800C3C5C;
     object->unk_72.as_s16 = get_cached_or_coordinate_transform_value(object, lookup_key);
 }

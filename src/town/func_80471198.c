@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
 
 
-M2C_UNK func_80018824();                /* extern */
+s32 func_80018824(void *, s32);
 
 /* Pass the two context regions to func_80018824 with their sizes. */
 void func_80018198(void) {

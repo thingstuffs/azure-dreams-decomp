@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK clear_indexed_flag_bit();                         /* extern */
+void clear_indexed_flag_bit(s32 flag_id);
 extern u8 D_80700BB4[];
 
 /* Pass the indexed table value to clear_indexed_flag_bit. */

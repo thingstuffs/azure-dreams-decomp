@@ -13,7 +13,8 @@ typedef struct S_8009C648_7 {
 
 
 extern s32 rand(void);
-extern void *create_town_effect_object(void *, M2C_UNK, s32, s32);
+typedef struct S_8009C390_3 S_8009C390_3;
+void * create_town_effect_object(s32 parent, S_8009C390_3 *position, s32 object_value, s32 state_value);
 extern void func_8009C46C(void *, void *, void *);
 extern u8 D_80088D78[8];
 extern M2C_UNK D_800D06C8[3];
@@ -55,10 +56,10 @@ typedef struct S_8009C648_5 {
 } S_8009C648_5;   /* tail_s0 in spawn_randomized_effect_parts */
 
 /* Spawns up to six parts with source-selected data and randomized motion. */
-void spawn_randomized_effect_parts(u8 *source_data, M2C_UNK spawn_arg) {
+void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     s8 part_indices[6];
     s32 velocity_bias;
-    M2C_UNK *part_params;
+    s32 *part_params;
     s32 part_index;
     S_8009C648_4 *velocity;
     S_8009C648_3 *part_data;

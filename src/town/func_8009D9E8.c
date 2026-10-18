@@ -4,7 +4,7 @@
 
 
 
-M2C_UNK func_80033D08();
+void func_80033D08(void *block_data);
 void unlink_scene_list_node();
 s32 update_object_and_clear_status_fields();
 void set_state_bytes_from_flags();

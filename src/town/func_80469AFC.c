@@ -9,7 +9,7 @@ extern M2C_UNK D_80017B24;
 extern u8 D_80017EA4;
 
 /* Initializes four consecutive entries in D_80017EA4 and returns their base address. */
-M2C_UNK *build_four_record_value_block(void) {
+s32 *build_four_record_value_block(void) {
     copy_callback_value_to_destination(&D_80017EA4, &D_80017AF4);
     copy_callback_value_to_destination(&D_80017EA4 + 0x14, &D_80017B24);
     copy_callback_value_to_destination(&D_80017EA4 + 0x28, &D_80017B0C);

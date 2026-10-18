@@ -1,24 +1,21 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_808B94E0_1 {
     u8 pad_00[0x64];
-    M2C_UNK (*unk_64)(s32, s32, s32);
+    s32 (*unk_64)(s32, s32, s32);
 } S_808B94E0_1;   /* *(void **)(D_A0700000 + 0xB50) in dev_dispatch_flag_test_and_get_result_alt */
 
 
 typedef struct S_808B94E0_0 {
     u8 pad_00[0x6C];
-    M2C_UNK (*unk_6C)(s32);
+    s32 (*unk_6C)(s32);
 } S_808B94E0_0;   /* *(s32 *)(D_A0700000 + 0xB50) in dev_dispatch_flag_test_and_get_result_alt */
-
-
-M2C_UNK func_807001B4();
-M2C_UNK func_80700244();
+void func_807001B4(s32 value);
+void func_80700244(s32);
 s32 func_8070042C();
-M2C_UNK func_80700488();
-M2C_UNK func_807008D0();
+void func_80700488(void);
+void func_807008D0(s32 first, s32 second);
 extern u8 D_A0700000[];
 extern u8 D_A0700120[];
 extern u8 D_A0700134[];

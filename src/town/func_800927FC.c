@@ -7,12 +7,12 @@ extern M2C_UNK D_800D0288;
 extern M2C_UNK D_800D02E8;
 extern M2C_UNK D_800D0348;
 extern M2C_UNK D_800D03A8;
-extern M2C_UNK *D_800D0408;
-extern M2C_UNK *D_800D040C;
-extern M2C_UNK *D_800D0410;
-extern M2C_UNK *D_800D0414;
-extern M2C_UNK *D_800D0418;
-extern M2C_UNK *D_800D041C;
+extern s32 *D_800D0408;
+extern s32 *D_800D040C;
+extern s32 *D_800D0410;
+extern s32 *D_800D0414;
+extern s32 *D_800D0418;
+extern s32 *D_800D041C;
 
 /* Initialize six global pointers to their corresponding storage blocks. */
 void initialize_six_global_pointers_corresponding_storage_blocks(void) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -7,7 +8,6 @@
 #define NULL 0
 #endif
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800BFB8C_0_pre {
     u16 unk_00;
@@ -23,7 +23,7 @@ typedef struct S_800BFB8C_0 {
 
 typedef struct S_800BFB8C_1 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BFB8C_1;
 
 typedef struct S_800BFB8C_2 {
@@ -80,12 +80,12 @@ void spawn_randomized_timed_objects(void *source)
     if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
-            new_object = func_8003FD64((void *)0x202, ((M2C_UNK *)&D_80083498.next));
+            new_object = func_8003FD64((void *)0x202, ((s32 *)&D_80083498.next));
             if (new_object != NULL) {
                 object = new_object;
                 callback = &D_800BFFF4;
                 coords = object + 0x20;
-                ((S_800BFB8C_1 *)object)->unk_10 = (M2C_UNK *)kind;
+                ((S_800BFB8C_1 *)object)->unk_10 = (s32 *)kind;
                 func_8004491C(object, callback);
                 random_value = rand();
                 coord_term = town->view.unk_0A4;

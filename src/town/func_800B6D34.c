@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_800B4494_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0xC];
     s32 unk_10;
     s32 unk_14;

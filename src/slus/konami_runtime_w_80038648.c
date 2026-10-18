@@ -5,13 +5,11 @@
 
 typedef struct S_80038648_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x70];
     s8 unk_84;
 } S_80038648_0;   /* arg0 in func_80038648 */
-
-
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);                     /* extern */
 extern M2C_UNK func_80038A10;
 
 /* When the object's flag is set, call SD_Call and set its handler to func_80038A10. */

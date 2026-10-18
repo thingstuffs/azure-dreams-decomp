@@ -8,7 +8,7 @@ typedef struct S_800C641C_1 {
 
 typedef struct S_800C641C_2 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_800C641C_2;   /* ((S_800C641C_1 *)arg0)->unk_80 in set_object_referenced_data_pointers */
 
 
@@ -17,7 +17,7 @@ extern M2C_UNK D_800D5844;
 
 typedef struct S_800C641C_0 {
     u8 pad_00[0x7C];
-    M2C_UNK ** unk_7C;
+    s32 ** unk_7C;
 } S_800C641C_0;   /* arg0 in set_object_referenced_data_pointers */
 
 /* Sets the object's referenced data pointers to the static data blocks. */

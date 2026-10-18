@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800A24A8_1 {
     u8 pad_00[0x10];
@@ -18,6 +17,6 @@ typedef struct S_800A24A8_0 {
 } S_800A24A8_0;   /* arg2 in copy_negated_menu_phase */
 
 /* Store the negated value from the source's linked data in the destination. */
-void copy_negated_menu_phase(S_800A24A8_1 *source, M2C_UNK unused, S_800A24A8_0 *dest) {
+void copy_negated_menu_phase(S_800A24A8_1 *source, s32 unused, S_800A24A8_0 *dest) {
     dest->unk_1A = (s16) (0 - ((S_800A24A8_2 *)(source->unk_10))->unk_6E);
 }

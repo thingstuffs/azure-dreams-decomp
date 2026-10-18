@@ -1,10 +1,10 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800A55CC_0_pre {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0xC];
 } S_800A55CC_0_pre;   /* the 0x10 bytes before arg0 in initialize_effect_and_adjust_value, addressed as arg0[-1] */
 

@@ -5,9 +5,9 @@
 
 void func_8003AE28(); /* extern */
 void append_town_movie_list_node();        /* extern */
-M2C_UNK file_load_com();                   /* extern */
-M2C_UNK load_shared_resource_once();                            /* extern */
-M2C_UNK load_bin_nametwin();                            /* extern */
+void file_load_com(void *packed_data);                   /* extern */
+void load_shared_resource_once(void);                            /* extern */
+void load_bin_nametwin(void);                            /* extern */
 extern M2C_UNK D_8006AE94;
 extern M2C_UNK D_800717D0;
 extern M2C_UNK D_80080ED0;

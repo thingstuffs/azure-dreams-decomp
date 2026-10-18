@@ -64,15 +64,15 @@ typedef struct S_8080C650_4 {
 
 s32 func_80034A1C();                /* extern */
 void *func_800374FC();            /* extern */
-M2C_UNK func_8003BC18();           /* extern */
-M2C_UNK func_8003EA54();                      /* extern */
-M2C_UNK func_80050BD8();                     /* extern */
-M2C_UNK func_80050BFC();                     /* extern */
-M2C_UNK func_80058F88();                     /* extern */
+void func_8003BC18(void *, void *);           /* extern */
+void func_8003EA54(void *);                      /* extern */
+void func_80050BD8(s32);                     /* extern */
+void func_80050BFC(s32);                     /* extern */
+void func_80058F88(s32);                     /* extern */
 s32 func_8006A3A4();                             /* extern */
 s32 func_8006A470();                             /* extern */
-M2C_UNK func_8023FB18();                      /* extern */
-M2C_UNK func_80245C10();             /* extern */
+void func_8023FB18(void *);                      /* extern */
+void func_80245C10(void *);             /* extern */
 s16 func_8025E01C();                          /* extern */
 extern s16 D_800133A0;
 extern u8 D_8003C558[3];

@@ -8,7 +8,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s32 M2C_UNK;
+
 extern s32 func_8004491C();
 extern u8 D_8002609C[];
 extern u8 D_800F15AC[];
@@ -21,7 +21,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
     void *object;
     object = func_8003FC64(0x136);
     if (object != 0) {
-        *((M2C_UNK **) (((s8 *) object) + 0x10)) = &D_8002609C;
+        *((s32 **) (((s8 *) object) + 0x10)) = &D_8002609C;
         func_8004491C(object, func_80045340);
         sprite = *((void **) (((s8 *) object) + 0xC));
         *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0)) = x;
@@ -29,7 +29,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 8)) = z;
         *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
-        *((M2C_UNK **) (((s8 *) sprite) + 0)) = &D_800F15AC;
+        *((s32 **) (((s8 *) sprite) + 0)) = &D_800F15AC;
         resource_word = *((s32 *) (((s8 *) (&D_800F15AC)) + 4));
         *((s8 *) (((s8 *) sprite) + 4)) = 0;
         *((s8 *) (((s8 *) sprite) + 5)) = 0;

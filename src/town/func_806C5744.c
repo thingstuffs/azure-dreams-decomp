@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_80018C74();                     /* extern */
-M2C_UNK func_80018CEC();                     /* extern */
+void func_80018C74(s32);                     /* extern */
+void func_80018CEC(s32);                     /* extern */
 
 /* Invoke the setup handlers with four fixed identifiers. */
 s32 invoke_event_setup_handlers(void) {

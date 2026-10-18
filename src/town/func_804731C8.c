@@ -5,6 +5,6 @@
 extern M2C_UNK D_8001B1DC;
 
 /* Returns a pointer to D_8001B1DC. */
-M2C_UNK *func_8001A1C8(void) {
+s32 *func_8001A1C8(void) {
     return &D_8001B1DC;
 }

@@ -3,9 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_func_800384A8_arg0.h"
-
-
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);                     /* extern */
 extern M2C_UNK func_80038A10;
 
 /* Calls SD_Call with 0xB4 and installs func_80038A10 as the next handler. */

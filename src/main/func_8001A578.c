@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_8007C9C8();                         /* extern */
+s32 func_8007C9C8(s32);
 
 /* Clears the state flag and processes the four stored handles. */
 void func_8001A578(void) {

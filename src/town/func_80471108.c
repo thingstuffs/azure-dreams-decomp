@@ -2,10 +2,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
-
-
-M2C_UNK func_80018824();          /* extern */
-M2C_UNK func_80018914();                   /* extern */
+void func_80018824(void *, s32);          /* extern */
+void func_80018914(void *);                   /* extern */
 extern M2C_UNK D_8001B218;
 extern s32 D_8001B318;
 

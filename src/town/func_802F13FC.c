@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
 
 extern u8 D_8040C5C0[];
@@ -18,13 +17,13 @@ extern void memory_process_handles_and_mark_object(void *object);
 extern void func_804083A0(void);
 
 /* Creates or resets the town object, initializes its state, and installs its callback. */
-void *memory_init_work_object_and_callback(s32 init_value_a, M2C_UNK init_value_b) {
+void *memory_init_work_object_and_callback(s32 init_value_a, s32 init_value_b) {
     void *object;
     u8 *state;
 
     object = D_8040C5C0;
     state = (u8 *)object + 0x20;
-    if (func_80047FD8(object) != 0 || ((object = func_8003C714(0, D_8040C5C0, 0x19)) == NULL && (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
+    if (func_80047FD8(object) != 0 || ((object = func_8003C714(0, D_8040C5C0, 0x19)) == 0 && (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
         memory_process_handles_and_mark_object(object);
         D_8040C5DE_STORE[0] = (u16) (D_8040C5DE_LOAD[0] & 0x7FFF);
         func_8007BFE0(state, 0x44);

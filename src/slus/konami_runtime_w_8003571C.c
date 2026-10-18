@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
 typedef struct S_8003571C_0 {
     void * unk_00;
     u8 pad_04[0x64];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_8003571C_0;   /* arg0 in runtime_decrease_state_by_a_0 */
 
 typedef struct S_8003571C_1 {

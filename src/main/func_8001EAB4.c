@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_8001EAB4_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_8001EAB4_0;   /* arg0 in invoke_callback_with_zero; pointer addresses record offset 0x10 */
 
 

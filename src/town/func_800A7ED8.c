@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 
@@ -12,8 +11,10 @@ void update_the_s_field_10_using_callee_8008_fe_90();                   /* exter
 s32 update_object_and_clear_status_fields();                      /* extern */
 void turn_entity_toward_target();     /* extern */
 extern s32 D_800903FC[];
-extern M2C_UNK D_800CFCB4;
-extern M2C_UNK D_800FE490;
+#include "records/Rec_D_800CFCB4.h"
+extern Rec_D_800CFCB4 D_800CFCB4;
+#include "records/Rec_D_800FE490.h"
+extern Rec_D_800FE490 D_800FE490;
 
 
 typedef struct S_800A5638_0_pre {

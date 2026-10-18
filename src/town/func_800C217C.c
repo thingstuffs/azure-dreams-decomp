@@ -1,7 +1,6 @@
 #include "common.h"
 
 #include "shared/entity_objects.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
 static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
@@ -9,7 +8,7 @@ static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
 }
 
 s32 func_800352FC(s32, s32 *, s32, s32); /* extern */
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 s32 check_transform_identifier_and_hook();                          /* extern */
 
 /* Advance the actor state on nearby activation or release, playing the activation sound. */

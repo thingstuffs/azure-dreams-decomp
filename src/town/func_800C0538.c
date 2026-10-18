@@ -1,7 +1,6 @@
 #include "modules/town_map_props.h"
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
 extern const u16 D_80089660[8];
 
@@ -36,7 +35,7 @@ void apply_item_and_update_matching_actor_state(s16 start_x, s16 start_y, s16 mo
 
     saved_pair = pair_index;
     selected_pair = saved_pair;
-    M2C_MEMCPY_UNALIGNED(value_pairs, D_80089660, 0x10);
+    memcpy(value_pairs, D_80089660, 0x10);
     state = &g_game_work;
     buffer_info = (u8 *)state + 0x1DC;
     buffer = ((s8 *)state->map.cells);

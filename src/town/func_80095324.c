@@ -1,15 +1,16 @@
 #include "shared/position_query.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 void func_80035208();
 void submit_object_resource_data();
-M2C_UNK initialize_actor_movement_interaction_action();
+void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 void initialize_input_driven_scene_object();
-M2C_UNK initialize_action_callback_from_entry();
-M2C_UNK initialize_busy_checked_countdown_action();
+void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
+void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
 void trigger_event_hex_519_interval_multiples_enabled();
 void call_the_handler_selects_nonzero_entry();
 void store_the_valid_shared_angle_in_offset_hex_10();
@@ -20,13 +21,13 @@ s32 get_status_active_entry_matching_direction();
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void compute_and_clamps_vector_based_adjustment_updates_town();
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
-M2C_UNK func_800988C8();
+void func_800988C8(s32 record, s32 setup_value, s32 init_value);
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
 s32 select_response_for_source_and_target();
-
-extern M2C_UNK D_80093B00;
-extern M2C_UNK D_8009B828;
-extern M2C_UNK D_8009B8E8;
+void dispatch_actor_action(void *actor, s32 position, s32 context);
+#include "records/Rec_func_8009B828_arg0.h"
+void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg);
+void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 D_8009B9BC[];
 extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
@@ -97,7 +98,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
 
         entity = actor->unk_2C;
         handler = entity->unk_50;
-        if ((handler != &D_8009B828) && (handler != &D_8009B8E8)) {
+        if ((handler != &update_motion_toward_shared_target) && (handler != &update_motion_toward_town_target)) {
             if (handler != D_8009B9BC) {
                 actor->unk_2C = 0;
             }
@@ -110,7 +111,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         } else {
             submit_object_resource_data(interaction_state->unk_10);
         }
-        D_800FE5D8 = (s32 *)&D_80093B00;
+        D_800FE5D8 = (s32 *)&dispatch_actor_action;
         return;
     }
 

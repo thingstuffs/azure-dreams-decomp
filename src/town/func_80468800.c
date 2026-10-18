@@ -5,7 +5,6 @@
 
 #define FIELD(expr, type, offset) (*(type)((u8 *)(expr) + (offset)))
 
-typedef s32 M2C_UNK;
 
 typedef struct S_func_80019800_1 {
     s16 unk_00;

@@ -14,7 +14,7 @@ typedef struct S_800CECC8_1 {
 } S_800CECC8_1;   /* arg1 in initialize_object_with_handler_and_offset */
 
 /* Initialize the object, clear the global flag, and set its handler and initial offset. */
-void initialize_object_with_handler_and_offset(Rec_func_80094268_arg0 *object, S_800CECC8_1 *motion, M2C_UNK init_data) {
+void initialize_object_with_handler_and_offset(Rec_func_80094268_arg0 *object, S_800CECC8_1 *motion, s32 init_data) {
     initialize_object_entries(object, init_data, &D_800D72D4);
     D_80082688 = 0;
     object->unk_54 = &D_800CE780;

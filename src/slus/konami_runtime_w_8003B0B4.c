@@ -3,19 +3,19 @@
 
 #include "common.h"
 
-M2C_UNK DrawSync();                          /* extern */
-M2C_UNK SetDispMask();                       /* extern */
-M2C_UNK VSync();                             /* extern */
+s32 DrawSync(s32);
+s32 SetDispMask(s32);
+s32 VSync(s32);
 void town_movie_exe();            /* extern */
 void func_8003B034();                            /* extern */
 void func_8003B06C();                            /* extern */
 s32 func_8003C758();                   /* extern */
 void file_load_com();                   /* extern */
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 void func_800542BC();                            /* extern */
-M2C_UNK reserve_twch_load();                     /* extern */
-M2C_UNK reserve_tw_mon_load();                     /* extern */
-M2C_UNK plt_init_sleep_set();                            /* extern */
+s32 reserve_twch_load(s32);
+void reserve_tw_mon_load(s32 reservation_value);
+void plt_init_sleep_set(void);
 extern M2C_UNK D_80080E28;
 extern u32 D_80080EA0;
 extern M2C_UNK D_80081018;

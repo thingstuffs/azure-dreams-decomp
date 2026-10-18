@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 typedef struct Node8002BB08 Node8002BB08;
-
-M2C_UNK func_80026920();                         /* extern */
+void func_80026920(void *);                         /* extern */
 Node8002BB08 *init_card_boot_request_object();                    /* extern */
 
 typedef struct S_80026784_0 {

@@ -1,12 +1,11 @@
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
 typedef struct Node8002BB08 Node8002BB08;
 Node8002BB08 *init_card_boot_request_object();                /* extern */
 void card_boot_stop_timer_and_init_server();                            /* extern */
-M2C_UNK func_80064F00();            /* extern */
-M2C_UNK func_80064F20();                     /* extern */
+s32 func_80064F00(s32, s32);
+s32 func_80064F20(s32);
 
 /* Set up the request with scale 512 and center (160, 120), then dispatch in mode 0. */
 void dispatch_menu_update_callback(s32 request) {

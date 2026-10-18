@@ -3,7 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
+
+typedef struct S_8004FA2C S_8004FA2C;
 
 typedef struct S_8004FAA4_1 {
     u8 pad_00[0x24];
@@ -16,9 +17,9 @@ typedef struct S_8004FAA4_1 {
 } S_8004FAA4_1;   /* arg0 in handle_animated_selection_menu_input */
 
 
-M2C_UNK begin_selection_menu_index_change();
+void begin_selection_menu_index_change(S_8004FA2C *object, int target);
 s32 find_resolved_selection_menu_index();
-M2C_UNK SD_Call();
+short SD_Call(int flags);
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {

@@ -1,6 +1,5 @@
 #include "modules/town_map_props.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800BDFA0_0 {
     u8 pad_00[0x68];
@@ -12,7 +11,7 @@ typedef struct S_800BDFA0_0 {
 
 
 
-void initialize_record_visual_state(S_800BDFA0_0 *record, M2C_UNK unused, M2C_UNK value) {
+void initialize_record_visual_state(S_800BDFA0_0 *record, s32 unused, s32 value) {
     s16 state;
 
     func_800478B8(value);

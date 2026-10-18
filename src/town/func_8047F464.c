@@ -5,6 +5,6 @@
 extern M2C_UNK D_80017928;
 
 /* Returns the address of D_80017928. */
-M2C_UNK *func_80017464(void) {
+s32 *func_80017464(void) {
     return &D_80017928;
 }

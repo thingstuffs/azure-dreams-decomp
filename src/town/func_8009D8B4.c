@@ -1,12 +1,12 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 
 typedef struct S_8009B014_1 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
     u8 pad_08[0x2];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x4];
@@ -25,7 +25,7 @@ extern s32 D_800D0620;
 extern M2C_UNK D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
-void advance_player_toward_target(void *state, EntityRec *motion, M2C_UNK context) {
+void advance_player_toward_target(void *state, EntityRec *motion, s32 context) {
     u16 ticks_left;
     s32 target_index;
     s32 *target_bases;

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_800191E8(M2C_UNK *);                                /* extern */
+s32 func_800191E8(s32 *);
 extern M2C_UNK D_8001AA2E;
 
 /* Return the fallback pointer when the input check is below -47. */
-M2C_UNK *func_805D2250(void *input) {
+s32 *func_805D2250(void *input) {
     void *selected_ptr;
 
     selected_ptr = input;

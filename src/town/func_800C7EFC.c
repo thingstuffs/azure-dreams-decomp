@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 /* extern */
 
@@ -9,11 +8,10 @@ typedef struct S_800C565C_0 {
     u8 pad_6E[0x4];
     s16 unk_72;
 } S_800C565C_0;   /* arg0 in decrement_countdown_call */
-
-
-void func_800C5864(S_800C565C_0 *, M2C_UNK, M2C_UNK);
+#include "records/Rec_func_80094268_arg0.h"
+void func_800C5864(Rec_func_80094268_arg0 *actor, s32 unused, s32 init_param);
 /* Decrement the countdown, then call func_800C5864 and clear unk_72 when it expires. */
-void decrement_countdown_call(S_800C565C_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+void decrement_countdown_call(S_800C565C_0 *object, s32 callback_arg_1, s32 callback_arg_2) {
     u16 countdown;
 
     countdown = object->unk_6C - 1;

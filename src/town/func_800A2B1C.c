@@ -1,17 +1,17 @@
 #include "common.h"
 #include "shared/object_node.h"
-#include "m2c_compat.h"
 
 void *func_8003FD64();            /* extern */
 s32 lookup_item_category_mapped_value();                          /* extern */
 void configure_the_set_mode_n_4();   /* extern */
 void initialize_optional_object_state(); /* extern */
 void initialize_the_active_flag_install_handler(); /* extern */
-extern M2C_UNK D_8006E240;
-extern M2C_UNK D_8009DEBC;
-extern M2C_UNK D_800D073C;
-extern M2C_UNK D_800D0754;
-extern M2C_UNK D_800D076C;
+extern s32 D_8006E240;
+#include "modules/town_town_windows.h"
+void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
+extern u8 D_800D073C[];
+extern u8 D_800D0754[];
+extern u8 D_800D076C[];
 
 
 typedef struct S_800A027C_0 {
@@ -78,9 +78,9 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, S_800A
     S_800A027C_1 *coords;
     void *object;
 
-    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
-    if (object == NULL) {
-        return NULL;
+    object = func_8003FD64(0x136, ((s32 *)&D_80083498.next));
+    if (object == 0) {
+        return 0;
     }
     coords = ((S_800A027C_0 *)object)->unk_08;
     render = ((S_800A027C_0 *)object)->unk_0C;
@@ -109,7 +109,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, S_800A
     } else {
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
-    ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
+    ((S_800A027C_0 *)object)->unk_10 = &dispatch_object_or_switch_alternate_state;
     initialize_the_active_flag_install_handler(state, state, coords, render);
 
     return object;

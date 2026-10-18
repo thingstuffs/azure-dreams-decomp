@@ -8,7 +8,7 @@ extern M2C_UNK D_800D5944;
 
 
 /* Switch the actor state and callback when the countdown expires, then reset it to five ticks. */
-void switch_actor_state(Rec_func_80094268_arg0 *actor, M2C_UNK unused, M2C_UNK state_context) {
+void switch_actor_state(Rec_func_80094268_arg0 *actor, s32 unused, s32 state_context) {
     u16 ticks_left;
 
     ticks_left = actor->unk_6C.as_u16 - 1;

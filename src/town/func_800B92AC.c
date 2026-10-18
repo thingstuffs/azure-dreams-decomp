@@ -1,21 +1,20 @@
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 s32 func_8004491C();           /* extern */
-M2C_UNK func_8004B248();                      /* extern */
+void func_8004B248(u16 **entries);                      /* extern */
 s32 link_monster_status_display_entries();                             /* extern */
 void initialize_entry_object(); /* extern */
 s32 func_800B6990();                 /* extern */
-extern M2C_UNK D_8004CAA0;
-extern M2C_UNK D_800B6754;
+int func_8004CAA0(void *forwarded_ptr, int unused_arg, void *second_ptr);
+void invoke_object_first_callback(void *obj);
 
 
 typedef struct S_800B6A0C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xA];
     u16 unk_1E;
 } S_800B6A0C_0;
@@ -33,18 +32,18 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
 
     object = func_8003FC64(0);
     state = object + 0x20;
-    if (object != NULL) {
+    if (object != 0) {
         if (func_800B6990(state, 0x18) != 0) {
             ((S_800B6A0C_0 *)object)->unk_0C = (void *) (object + 0xA8);
             state->unk_94 = link_monster_status_display_entries(state->unk_98);
             initialize_entry_object(state, resource_id, slot_index, x, y, z);
-            ((S_800B6A0C_0 *)object)->unk_10 = &D_800B6754;
-            func_8004491C(object, &D_8004CAA0);
+            ((S_800B6A0C_0 *)object)->unk_10 = &invoke_object_first_callback;
+            func_8004491C(object, &func_8004CAA0);
             return object;
         }
         func_8004B248(object + 0xBC);
         ((S_800B6A0C_0 *)object)->unk_1E = (u16) (((S_800B6A0C_0 *)object)->unk_1E | 0x8000);
-        object = NULL;
+        object = 0;
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
     }
     return object;

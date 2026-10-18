@@ -3,16 +3,15 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dir_step.h"
 
-
-typedef s32 M2C_UNK;
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 
 extern s32 scale_random_to_unsigned_halfword_limit();
-extern M2C_UNK func_8003DB94();
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
 extern s32 rand();
 extern s32 D_800ABB20;
@@ -22,7 +21,7 @@ typedef struct S_8009792C_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_8009792C_0;
 
 typedef struct S_8009792C_1 {
@@ -77,7 +76,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
         motion = ((S_8009792C_0 *)effect)->unk_08;
         appearance = ((S_8009792C_0 *)effect)->unk_0C;
-        ((S_8009792C_0 *)effect)->unk_10 = (M2C_UNK *)&D_800ABB20;
+        ((S_8009792C_0 *)effect)->unk_10 = (s32 *)&D_800ABB20;
         func_8004491C(effect, func_80045340);
         motion->unk_02 = source->unk_02 - dir_step_x[direction] * 0x10;
         motion->unk_06 = source->unk_06 - dir_step_y[direction] * 0x10;

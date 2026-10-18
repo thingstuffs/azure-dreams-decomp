@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
 
 
@@ -10,7 +9,7 @@ typedef struct S_800AFD5C_2 {
 
 
 typedef struct S_800AFD5C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x14];
     s32 unk_18;
 } S_800AFD5C_0;   /* arg0 in advance_item_menu_step; pointer addresses record offset 0x10 */

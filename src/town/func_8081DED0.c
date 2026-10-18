@@ -10,8 +10,6 @@ typedef struct Vec3 {
     s32 z;
 } Vec3;
 
-typedef s32 M2C_UNK;
-
 typedef struct S_800206D0_0 {
     s16 unk_00;
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
@@ -53,7 +51,7 @@ extern u8 D_80024420[];
 extern s32 D_8002445C[];
 extern s32 D_80024628[];
 extern s32 D_8007947C[];
-extern M2C_UNK D_800D0420;
+extern u8 D_800D0420[];
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void update_bouncing_pickup(void *pickup, void *motion, void *sprite)

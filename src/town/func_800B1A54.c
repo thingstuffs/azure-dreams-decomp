@@ -17,11 +17,11 @@ typedef struct S_800AF1B4_0 {
 
 typedef struct S_800AF1B4_1 {
     u8 pad_00[0x20];
-    M2C_UNK * unk_20;
+    s32 * unk_20;
 } S_800AF1B4_1;   /* arg0 in change_item_menu_selection */
 
 /* Updates the object value and resets associated state when it changes. */
-void change_item_menu_selection(void *object, M2C_UNK value_arg, s32 reset_value) {
+void change_item_menu_selection(void *object, s32 value_arg, s32 reset_value) {
     s32 new_value;
     S_800AF1B4_0 *state;
 

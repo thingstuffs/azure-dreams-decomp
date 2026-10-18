@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 
-M2C_UNK func_80016A38();
+s32 func_80016A38(void *);
 void advance_town_events_and_dispatch_entry();
 extern M2C_UNK D_80019440;
 extern s32 D_80019540;

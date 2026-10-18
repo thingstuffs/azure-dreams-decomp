@@ -5,8 +5,8 @@
 
 void set_resident_bitmap_bit();
 void clear_resident_bitmap_bit();
-M2C_UNK Control_CD();
-M2C_UNK drain_cd_command_queue();
+s32 Control_CD(s32 event_code, void *event_data, s32 payload);
+void drain_cd_command_queue(void);
 void apply_building_tile_entry();
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];

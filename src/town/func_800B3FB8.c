@@ -6,7 +6,7 @@ extern M2C_UNK D_800B1664;
 
 typedef struct S_800B1718_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B1718_0;   /* arg0 in set_shop_object_data_if_present */
 
 /* Sets the object's data pointer when the object is present. */

@@ -1,8 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_800197D8();                     /* extern */
+void func_800197D8(s32);                     /* extern */
 
 /* Calls func_800197D8 with 0x400. */
 void func_80018018(void) {

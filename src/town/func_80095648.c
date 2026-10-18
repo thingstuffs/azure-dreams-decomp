@@ -1,12 +1,11 @@
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK initialize_actor_movement_interaction_action();        /* extern */
-M2C_UNK func_80094714();        /* extern */
-M2C_UNK select_sound_command_from_mode();                            /* extern */
+void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
+void func_80094714(s32 **record, s32 unused, s32 setup_value);
+void select_sound_command_from_mode(void);
 void store_the_valid_shared_angle_in_offset_hex_10();                         /* extern */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      /* extern */
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */

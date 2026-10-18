@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_80090A64;
-extern M2C_UNK D_80093D48;
-extern M2C_UNK *D_800FE5D8;
+void func_80090A64(void);
+#include "records/Rec_func_80094268_arg0.h"
+void initialize_scene_action_record(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+extern s32 *D_800FE5D8;
 
 /* Initializes the output pointer and the shared data pointer. */
-void initialize_shared_scene_data(M2C_UNK **out_ptr) {
-    *out_ptr = &D_80090A64;
-    D_800FE5D8 = &D_80093D48;
+void initialize_shared_scene_data(s32 **out_ptr) {
+    *out_ptr = &func_80090A64;
+    D_800FE5D8 = &initialize_scene_action_record;
 }

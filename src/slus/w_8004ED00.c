@@ -4,7 +4,7 @@
 #include "common.h"
 
 typedef struct S_8004ED00_0_pre {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0xC];
 } S_8004ED00_0_pre;   /* the 0x10 bytes before arg0 in func_8004ED00, addressed as arg0[-1] */
 
@@ -12,11 +12,9 @@ typedef struct S_8004ED00_0 {
     u8 pad_00[0x8];
     u8 unk_08;
 } S_8004ED00_0;   /* arg0 in func_8004ED00 */
-
-
-M2C_UNK DrawSync();                          /* extern */
-M2C_UNK func_80041344();                /* extern */
-M2C_UNK scene_begin_transition_data_read();                      /* extern */
+void DrawSync(s32);                          /* extern */
+void func_80041344(s32 data_base, void *scratch);                /* extern */
+void scene_begin_transition_data_read(u8 *state);                      /* extern */
 extern s32 D_80081480[];
 extern M2C_UNK func_8004ECAC;
 

@@ -1,9 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-
-extern M2C_UNK func_8003DB94();
-extern M2C_UNK func_800478B8();
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void func_800478B8(void *entity);
 extern M2C_UNK D_800F15E4;
 
 

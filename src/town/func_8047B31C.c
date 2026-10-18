@@ -5,6 +5,6 @@
 extern M2C_UNK D_8001B688;
 
 /* Returns the address of D_8001B688. */
-M2C_UNK *get_data_pointer_1_b_688(void) {
+s32 *get_data_pointer_1_b_688(void) {
     return &D_8001B688;
 }

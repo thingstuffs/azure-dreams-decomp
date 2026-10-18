@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-typedef s32 (*M2C_CALLBACK)(void *, s32);
+typedef s32 (*TownEntryPredicate)(void *, s32);
 
 typedef struct S_80019F94_1 {
     u8 pad_00[0xC];
@@ -23,18 +22,18 @@ typedef struct S_80019F94_0 {
 /* Returns the first eligible entry with a zero callback result, restarting when requested. */
 s32 find_eligible_entry(void *context) {
     S_80019F94_0 *scan;
-    M2C_UNK *flag_page;
+    s32 *flag_page;
     s32 entry_index;
 
     scan = context;
     process_town_records(scan->unk_14, scan->unk_1A);
-    flag_page = (M2C_UNK *)0x80020000;
+    flag_page = (s32 *)0x80020000;
     do {
         flag_page[-3874] = 0;
         entry_index = 0;
         for (;;) {
             if ((get_script_flag_mask(((S_80019F94_1 *)(scan->unk_10 + entry_index * 0x10))->unk_0C) != 0) ||
-                (*(M2C_CALLBACK *)(scan->unk_10 + entry_index * 0x10))(scan, entry_index) != 0) {
+                (*(TownEntryPredicate *)(scan->unk_10 + entry_index * 0x10))(scan, entry_index) != 0) {
                 entry_index++;
                 continue;
             }

@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 
 void append_town_movie_list_node();        /* extern */
-M2C_UNK SD_Call();                     /* extern */
-M2C_UNK func_800542BC();                            /* extern */
+short SD_Call(int flags);                     /* extern */
+void func_800542BC(void);                            /* extern */
 extern M2C_UNK D_800717E8;
 extern s8 D_80080A88;
 extern M2C_UNK D_800D42B4;

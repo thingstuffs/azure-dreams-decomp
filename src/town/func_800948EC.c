@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 void initialize_threshold_interaction_action();        /* extern */
@@ -13,7 +12,7 @@ extern u8 D_800CFCEE;
 
 
 /* Update the actor record and dispatch follow-up processing when its state is nonnegative. */
-void update_actor_and_dispatch_state(s32 actor, EntityRec *record, M2C_UNK context) {
+void update_actor_and_dispatch_state(s32 actor, EntityRec *record, s32 context) {
     update_the_computed_upper_bound_global_state_permits(record);
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
     store_the_valid_shared_angle_in_offset_hex_10(actor);

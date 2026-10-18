@@ -1,6 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
 extern void update_the_data_set_local_global_flags();
 extern s32 get_item_chk();

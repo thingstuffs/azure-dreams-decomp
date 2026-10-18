@@ -1,16 +1,16 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_800920F4;
+#include "records/Rec_func_80094268_arg0.h"
+#include "shared/entity.h"
+void update_threshold_and_interaction(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context);
 
 typedef struct S_8009431C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x6];
     s16 unk_0A;
 } S_8009431C_0;   /* arg0 in initialize_threshold_interaction_action */
 
 /* Initialize the object's data pointer and clear its state field. */
 void initialize_threshold_interaction_action(S_8009431C_0 *object) {
-    object->unk_00 = &D_800920F4;
+    object->unk_00 = &update_threshold_and_interaction;
     object->unk_0A = 0;
 }

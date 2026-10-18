@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
-M2C_UNK ClearImage(); /* extern */
+s32 ClearImage(void *, u8, u8, u8);
 void func_80034EB4();                   /* extern */
 void func_80034EC4();                   /* extern */
 void func_8003C920();                            /* extern */

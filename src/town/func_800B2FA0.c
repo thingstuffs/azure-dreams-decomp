@@ -1,17 +1,14 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800B06C4;
+void finish_item_menu_child_and_release_list(void *record);
 
 typedef struct S_800B0700_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B0700_0;   /* arg0 in schedule_item_menu_child_release */
 
 /* Sets the object's data pointer when the object is present. */
 void schedule_item_menu_child_release(S_800B0700_0 *object) {
-    if (object != NULL) {
-        object->unk_10 = &D_800B06C4;
+    if (object != 0) {
+        object->unk_10 = &finish_item_menu_child_and_release_list;
     }
 }

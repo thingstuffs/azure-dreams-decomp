@@ -1,9 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
-M2C_UNK func_80038538();                         /* extern */
+#include "records/Rec_func_800384A8_arg0.h"
+
+void func_80038538(Rec_func_800384A8_arg0 *state);
 s32 func_80053EF0();                         /* extern */
 
 /* Advance the object's callback once the channel 4 blocking status clears. */

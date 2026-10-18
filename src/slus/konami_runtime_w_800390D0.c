@@ -1,14 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800390D0_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x8];
     s32 unk_1C;
 } S_800390D0_0;   /* arg0 in handle_vm_opcode_01 */
 
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 s32 func_80053EF0();                         /* extern */
 extern u8 D_80082E6A[];
 void func_80038A00();
@@ -19,7 +18,7 @@ void handle_vm_opcode_01(S_800390D0_0 *state) {
         if (func_80053EF0(4) != 0x100) {
             SD_Call(0xC4);
         } else {
-            state->unk_10 = NULL;
+            state->unk_10 = 0;
             state->unk_1C = (s32) (state->unk_1C - 1);
             return;
         }

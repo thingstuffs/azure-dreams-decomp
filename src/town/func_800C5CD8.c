@@ -2,8 +2,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
-
-M2C_UNK func_80033CD8();                   /* extern */
+void func_80033CD8(void *block_data, s32 registration_id);                   /* extern */
 void configure_the_set_mode_n_1();  /* extern */
 void clear_object_status_and_dispatch_target(); /* extern */
 void dispatch_object_state();    /* extern */

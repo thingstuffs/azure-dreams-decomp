@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
 typedef struct S_800BA8C4_0_pre {
@@ -7,7 +6,7 @@ typedef struct S_800BA8C4_0_pre {
 } S_800BA8C4_0_pre;   /* the 0x2 bytes before arg0 in process_zero_status_record, addressed as arg0[-1] */
 
 
-M2C_UNK func_80033D08();                      /* extern */
+void func_80033D08(void *block_data);
 void unlink_scene_list_node(void *);                            /* extern */
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 

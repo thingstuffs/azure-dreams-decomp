@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -7,13 +6,11 @@ typedef struct S_80035614_0 {
     u8 pad_00[0x4C];
     s8 unk_4C;
     u8 pad_4D[0x1B];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
     u8 pad_6C[0x8];
     s32 unk_74;
 } S_80035614_0;   /* arg0 in func_80035614 */
-
-
-M2C_UNK func_80035888(); /* extern */
+void func_80035888(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner); /* extern */
 extern u8 D_80081F14[];
 extern u8 D_800821CC[];
 void func_8003566C();

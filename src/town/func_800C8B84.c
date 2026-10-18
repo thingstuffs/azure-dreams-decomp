@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_index_slots.h"
 #include "records/Rec_func_80094268_arg0.h"
 

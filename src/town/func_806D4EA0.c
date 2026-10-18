@@ -7,7 +7,7 @@
 
 
 extern M2C_UNK D_80018AE4;
-extern M2C_UNK *D_80018BA4;
+extern s32 *D_80018BA4;
 extern M2C_UNK D_80018B38;
 
 

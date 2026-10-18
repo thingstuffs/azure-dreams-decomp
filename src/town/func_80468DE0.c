@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 #include "shared/town_root.h"
 #include "shared/town_pointees.h"
 
@@ -29,7 +28,7 @@ void apply_half_step_position_deltas(S_80019DE0_0 *deltas) {
     S_80019DE0_1 *first_target;
     TownPositionState *second_target;
 
-    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_258)(1);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_258)(1);
     first_delta = deltas->unk_00;
     first_target = D_80016000->unk_1C;
     shifted_delta = (u32) first_delta << 0x10;

@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 extern s32 D_800D0460;
 
 /* Triggers event 0x519 at interval multiples when enabled. */

@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_800177CC();             /* extern */
+s32 func_800177CC(s32, s32);
 s32 initialize_state_two_entries_pointer();                         /* extern */
-M2C_UNK func_8001860C();                     /* extern */
+s32 func_8001860C(s32);
 s32 call_points();                         /* extern */
 s32 func_80018800();                         /* extern */
 

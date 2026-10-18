@@ -18,7 +18,7 @@ typedef struct S_800A23D0_1 {
 } S_800A23D0_1;   /* arg1 in initialize_object_position_state */
 
 typedef struct S_800A23D0_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x10];
     void * unk_14;
     u8 pad_18[0x8];
@@ -33,13 +33,13 @@ typedef struct S_800A23D0_3 {
 
 
 extern s32 func_8004491C();
-extern M2C_UNK D_80046398;
+extern u8 D_80046398[];
 extern M2C_UNK D_800A24A8;
 extern M2C_UNK D_800D0A48;
 
 /* Initialize object state and copy its position with an offset. */
 void initialize_object_position_state(void *object, S_800A23D0_1 *position, S_800A23D0_0 *state) {
-    M2C_UNK *value_table;
+    s32 *value_table;
     state->unk_00 = 0;
     state->unk_04 = 0;
     state->unk_05 = 0;

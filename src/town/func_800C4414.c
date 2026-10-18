@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_800499BC();                            /* extern */
-M2C_UNK load_bin_nametwin();                            /* extern */
-M2C_UNK reserve_twch_load();                     /* extern */
+void func_800499BC(void);
+void load_bin_nametwin(void);
+void reserve_twch_load(s32 character_id);
 
 /* Run two setup routines, then call reserve_twch_load with mode 2. */
 void reserve_movie_resources_mode_2(void) {

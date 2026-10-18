@@ -1,10 +1,9 @@
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
 
 
-extern M2C_UNK card_build_selected_slot_details();
+s32 card_build_selected_slot_details(void);
 extern void build_memory_task_text();
 extern u8 D_8009DDD8[];
 

@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void *initialize_consecutive();                         /* extern */
 void *func_80404818();                         /* extern */
-M2C_UNK func_80404888();                         /* extern */
+void func_80404888(s32);                         /* extern */
 void func_804048F8();                         /* extern */
 typedef struct MainPacket12 MainPacket12;
 MainPacket12 *initialize_drawing();                         /* extern */

@@ -9,8 +9,6 @@ typedef struct S_80036ED4_0 {
 } S_80036ED4_0;   /* arg0 in func_80036ED4 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern void func_80036D4C(s32 node_addr, void *record, s32 *config, s16 initial_mode,
                           s32 initial_value, s32 setup_id);
 extern void func_80036F24(void *input, void *unused, void *output);

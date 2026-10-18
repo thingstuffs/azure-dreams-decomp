@@ -25,7 +25,7 @@ typedef struct S_800CED24_1 {
 } S_800CED24_1;   /* arg1 in initialize_object_from_table_entry */
 
 /* Initializes the object from its table entry and resets the companion state. */
-void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, S_800CED24_1 *state, M2C_UNK init_data) {
+void initialize_object_from_table_entry(Rec_func_80094268_arg0 *object, S_800CED24_1 *state, s32 init_data) {
     s8 entry_value;
 
     initialize_object_entries(object, init_data, &D_800D72D4);

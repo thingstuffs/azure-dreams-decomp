@@ -1,8 +1,9 @@
 #include "modules/town_minigame_dispatch.h"
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK change_map();                         /* extern */
+typedef struct InputRecord InputRecord;
+
+void change_map(InputRecord *input);
 extern s32 D_800D4758[];
 
 /* change_map_of: Change the map using the selected table entry. */

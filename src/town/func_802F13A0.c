@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 extern void *D_804081AC;
-M2C_UNK func_80400948();
+void func_80400948(void);
 s32 init_card_background_object();
 s32 init_card_slot_object();
 /* Cache the task's two computed fields and arm the D_804081AC handler. */

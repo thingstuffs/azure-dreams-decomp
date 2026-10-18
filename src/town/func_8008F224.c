@@ -1,10 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s16 query_offset_position_minus_z();               /* extern */
 
 /* Returns the maximum evaluated value across count entries, starting at -0x7FFF. */
-s16 max_adjusted_z_query(s32 context, M2C_UNK data, s32 count) {
+s16 max_adjusted_z_query(s32 context, s32 data, s32 count) {
     s16 value;
     s16 max_value;
     s32 index;

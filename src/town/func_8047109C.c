@@ -5,7 +5,7 @@
 
 
 s32 record_check_returned();                   /* extern */
-M2C_UNK func_80018824();          /* extern */
+s32 func_80018824(void *, s32);
 extern M2C_UNK D_8001B218;
 extern s32 D_8001B318;
 

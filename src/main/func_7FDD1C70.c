@@ -8,7 +8,7 @@ typedef struct S_80088BD0_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     union { s16 s16; void * p32; } unk_20;   /* accessed as both */
     u8 pad_24[0xA];
@@ -82,11 +82,11 @@ typedef struct S_80088BD0_9 {
     s32 unk_0C;
     s32 unk_10;
 } S_80088BD0_9;
-
-
-M2C_UNK func_8003DB94();  /* extern */
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
 s32 func_8004491C();           /* extern */
-extern M2C_UNK D_80044BB0;
+s32 func_80044BB0(void *first_payload, void *first_coords, void *first_record);
 extern s32 D_80053A88;
 extern s8 D_80080A84;
 extern M2C_UNK D_80088760;
@@ -142,7 +142,7 @@ void create_settings_controller(void) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
             ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_effect_object;
-            func_8004491C(object, &D_80044BB0);
+            func_8004491C(object, &func_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x40;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = sprite_y;
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0x150000;
@@ -185,7 +185,7 @@ void create_settings_controller(void) {
             child_state = object + 0x20;
             sprite = ((S_80088BD0_0 *)object)->unk_0C;
             ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_phase_motion;
-            func_8004491C(object, &D_80044BB0);
+            func_8004491C(object, &func_80044BB0);
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_06 = 0xE9;
             if (child_index != 0) {
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x15;

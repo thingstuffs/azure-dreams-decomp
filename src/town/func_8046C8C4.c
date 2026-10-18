@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8001E578();                 /* extern */
+s32 func_8001E578(s32, ...);
 
 typedef struct S_8046C8C4_0 {
     u8 pad_00[0x10];

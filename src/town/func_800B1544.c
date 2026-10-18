@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800AECA4_2 {
     u8 pad_00[0xD8];
@@ -23,7 +22,7 @@ typedef struct S_800AECA4_4 {
 
 typedef struct S_800AECA4_5 {
     s32 * unk_00;
-    M2C_UNK ** unk_04;
+    s32 ** unk_04;
 } S_800AECA4_5;   /* ((S_800AECA4_2 *)arg0)->unk_D8 in initialize_item_menu_list_entries */
 
 typedef struct S_800AECA4_6 {
@@ -99,9 +98,9 @@ typedef struct S_800AECA4_0 {
 
 typedef struct S_800AECA4_1 {
     u8 pad_00[0x8];
-    M2C_UNK ** unk_08;
+    s32 ** unk_08;
     u8 pad_0C[0x14];
-    M2C_UNK ** unk_20;
+    s32 ** unk_20;
     u8 pad_24[0x14];
     void ** unk_38;
     u8 pad_3C[0x14];

@@ -1,10 +1,9 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
 extern s32 max_adjusted_x_query_at_least_zero();
 extern int abs(int);
-extern M2C_UNK *D_800D0414;
+extern s32 *D_800D0414;
 extern s32 D_800FE5CC;
 
 /* Queries the input and, for a large offset, returns the larger original or shifted result. */
@@ -12,7 +11,7 @@ s16 handle_queries_large_offset_returns_larger_original_shifted_result(s32 *inpu
 {
     s32 sample[6];
     s32 original_result;
-    M2C_UNK **map_slot;
+    s32 **map_slot;
     s32 *source;
     s32 shifted_result;
     s32 offset;

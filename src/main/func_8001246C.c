@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_8002546C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x48];
     s32 unk_4C;
 } S_8002546C_0;   /* arg0 in card_boot_wait_before_copying_slot; pointer addresses record offset 0x10 */

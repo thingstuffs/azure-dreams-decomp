@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800B0824_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0xCC];
     void * unk_D0;
 } S_800B0824_0;   /* arg0 in increase_shop_subrecord_value; pointer addresses record offset 0x10 */
@@ -16,9 +15,7 @@ typedef struct S_800B0824_2 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_800B0824_2;
-
-
-extern M2C_UNK D_800B07D0;
+void process_shop_embedded_data(void *record);
 
 /* Increase the subrecord value by 0x200, clamp it to 0x1000, and switch handlers at the limit. */
 void increase_shop_subrecord_value(void *record_data) {
@@ -30,6 +27,6 @@ void increase_shop_subrecord_value(void *record_data) {
     updated_subrecord = ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_D0;
     if ((s16) updated_subrecord->unk_06 >= 0x1000) {
         updated_subrecord->unk_06 = 0x1000U;
-        ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800B07D0;
+        ((S_800B0824_0 *)((u8 *)record_data - 0x10))->unk_00 = &process_shop_embedded_data;
     }
 }

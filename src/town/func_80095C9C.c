@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 func_800352FC(void);        /* extern */
-extern M2C_UNK (*D_800FE5D8)(s32, M2C_UNK, M2C_UNK);
+extern s32 (*D_800FE5D8)(s32, s32, s32);
 
-void dispatch_deferred_callback(s32 callback_first_value, M2C_UNK callback_second_value, M2C_UNK callback_third_value, s32 unused_value) {
+void dispatch_deferred_callback(s32 callback_first_value, s32 callback_second_value, s32 callback_third_value, s32 unused_value) {
     if (func_800352FC() == 0) {
-        M2C_UNK (*callback)(s32, M2C_UNK, M2C_UNK) = D_800FE5D8;
+        s32 (*callback)(s32, s32, s32) = D_800FE5D8;
                 /* MATCH: Keep the callback load before argument register setup. */
         callback(callback_first_value, callback_second_value, callback_third_value);
     }

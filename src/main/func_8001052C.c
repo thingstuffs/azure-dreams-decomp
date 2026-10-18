@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_8004DA74();           /* extern */
+void *func_8004DA74(void *entries, u8 *text, s32 initial_octave);
 extern s32 D_800282BC;
 
 /* Processes three table values with addresses spaced 0x48 bytes apart from base + 0x90. */

@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/def_table.h"
-#include "m2c_compat.h"
 
 typedef struct S_800B6094_4 {
     u8 pad_00[0x38];
@@ -19,11 +18,11 @@ typedef struct S_800B6094_6 {
 
 
 s32 runtime_test_table_byte_pattern();
-M2C_UNK func_800498EC();
+s32 func_800498EC(s32 index);
 s32 func_80049918();
 s32 get_low_flag_priority();
 void set_display_entry_text_and_position();
-M2C_UNK func_800B53BC();
+s32 func_800B53BC(s32, const void *, s32, s32, s32);
 s32 build_encoded_display_sequence();
 
 typedef struct S_800B6094_0 {
@@ -58,7 +57,7 @@ typedef struct S_800B6094_3 {
 /* Populate a display row with entry text and a positioned icon. */
 void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_index) {
     S_800B6094_0 *entry = entry_data;
-    M2C_UNK text_buffer[3];
+    s32 text_buffer[3];
     s32 *icon_slot;
     s32 icon_id;
     s32 text_y;

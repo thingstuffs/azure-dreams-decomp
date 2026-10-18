@@ -7,6 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
+
 extern void append_town_movie_list_node();
 extern M2C_UNK D_800717D0;
 extern s8 D_80080A88;

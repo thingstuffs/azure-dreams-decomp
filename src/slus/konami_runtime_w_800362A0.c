@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -18,7 +17,7 @@ typedef struct S_800362A0_0 {
     u8 pad_00[0x50];
     u8 unk_50;
     u8 pad_51[0x17];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_800362A0_0;   /* arg0 in runtime_mark_state_when_flag_50_set */
 
 

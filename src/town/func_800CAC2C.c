@@ -5,7 +5,7 @@
 
 typedef struct S_800C838C_1 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in initialize_object_configuration_x */
 
 

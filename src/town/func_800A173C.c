@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "records/Rec_func_8009EE9C_arg0.h"
 
 

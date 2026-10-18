@@ -2,25 +2,25 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
-
-typedef s32 M2C_UNK;
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 
 extern s32 scale_random_to_unsigned_halfword_limit();
-extern M2C_UNK func_8003DB94();
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 func_8004491C();
-extern M2C_UNK D_800A8440;
+#include "records/Rec_D_80082E80.h"
+void fade_timed_primitive(void *record_fields, void *unused, Rec_D_80082E80 *primitive);
 extern s32 D_800D1464;
 
 typedef struct S_800A84D0_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800A84D0_0;
 
 typedef struct S_800A84D0_1 {
@@ -72,7 +72,7 @@ void *create_randomized_position_effect(S_800A84D0_2 *source_position) {
     if (object != NULL) {
         position = ((S_800A84D0_0 *)object)->unk_08;
         sprite = ((S_800A84D0_0 *)object)->unk_0C;
-        ((S_800A84D0_0 *)object)->unk_10 = &D_800A8440;
+        ((S_800A84D0_0 *)object)->unk_10 = &fade_timed_primitive;
         func_8004491C(object, func_80045340);
         position->unk_02 = (u16) source_position->unk_02;
         position->unk_06 = (u16) source_position->unk_06;

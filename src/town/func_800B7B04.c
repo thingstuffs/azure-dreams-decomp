@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_800B5264_1 {
     u8 pad_00[0x4];
@@ -16,14 +15,14 @@ typedef struct S_800B5264_2 {
 
 
 s32 func_8004DC14();                /* extern */
-M2C_UNK func_8004E99C();                         /* extern */
+void func_8004E99C(void *object);
 
 typedef struct S_800B5264_0 {
     s32 unk_00;
 } S_800B5264_0;   /* arg0 in set_display_entry_text_and_position */
 
 /* Replace the entry's text, set its position, and select display mode 2. */
-void set_display_entry_text_and_position(S_800B5264_0 *entry, M2C_UNK text, M2C_UNK text_style, s16 x, s32 y) {
+void set_display_entry_text_and_position(S_800B5264_0 *entry, s32 text, s32 text_style, s16 x, s32 y) {
     s32 old_text;
 
     old_text = entry->unk_00;

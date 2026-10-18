@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void func_80403E54();                       /* extern */
-M2C_UNK func_80403F1C();       /* extern */
+void func_80403F1C(void *, s32, s32);       /* extern */
 void position_selected_entry_content();                       /* extern */
 void func_804040C8();                       /* extern */
 

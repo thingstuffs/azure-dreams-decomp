@@ -1,6 +1,5 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
-#include "m2c_compat.h"
 
 
 
@@ -16,6 +15,6 @@ void card_boot_build_slot_path(s32 dest, s32 suffix_index) {
         prefix_ptr = &(*(u8 *)(&D_80027F18)) + 4;
     }
     strcpy(dest, *prefix_ptr);
-    strcat(dest, &(*(M2C_UNK *)(&D_80027F20)));
-    strcat(dest, ((s32 *) &(*(M2C_UNK *)(&D_80027F30)))[suffix_index]);
+    strcat(dest, &(*(s32 *)(&D_80027F20)));
+    strcat(dest, ((s32 *) &(*(s32 *)(&D_80027F30)))[suffix_index]);
 }

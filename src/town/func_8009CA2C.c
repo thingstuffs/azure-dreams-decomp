@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_80099B00;
+#include "shared/entity.h"
+void advance_player_state(s32 context, EntityRec *state, s32 updateData);
 
 typedef struct S_8009A18C_0 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_8009A18C_0;   /* arg0 in initialize_player_data_reference */
 
 typedef struct S_8009A18C_1 {
@@ -15,6 +14,6 @@ typedef struct S_8009A18C_1 {
 
 /* Initializes the data reference and state value. */
 void initialize_player_data_reference(S_8009A18C_0 *data_ref, S_8009A18C_1 *state) {
-    data_ref->unk_04 = &D_80099B00;
+    data_ref->unk_04 = &advance_player_state;
     state->unk_14 = 0xFFF60000;
 }

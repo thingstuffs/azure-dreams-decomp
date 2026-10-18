@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_8080BE0C_0_pre {
     u16 unk_00;
@@ -19,9 +18,7 @@ typedef struct S_8080BE0C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8080BE0C_1;   /* data_ptr in update_panel_aggregate_value */
-
-
-M2C_UNK func_80058588();               /* extern */
+void func_80058588(s32 total, s32 query, s32 key);               /* extern */
 s32 func_80071424();                             /* extern */
 extern s32 D_80084D5C;
 extern s16 D_80530000[];

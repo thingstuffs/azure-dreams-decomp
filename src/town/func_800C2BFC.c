@@ -85,13 +85,18 @@ typedef struct {
 
 void advance_bounded_entry_index();              /* extern */
 void fill_eligible_negative_slots();     /* extern */
-M2C_UNK func_80033B9C();              /* extern */
-M2C_UNK change_map();                       /* extern */
+void func_80033B9C(s16 value);              /* extern */
+typedef struct InputRecord InputRecord;
+void change_map(InputRecord *input);                       /* extern */
 void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
-M2C_UNK func_80048AC8(void *, s32);             /* extern */
+typedef struct {
+    u8 pad[0x14];
+    u16 unk14;
+} S_80048AC8;
+void func_80048AC8(S_80048AC8 *entity, void *slot_index);             /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-M2C_UNK reserve_tw_mon_load();     /* extern */
+void reserve_tw_mon_load(s32 reservation_value);     /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 void apply_the_enabled_movement_offsets_adding_z_offset_only_positive();                      /* extern */
 void clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2();                      /* extern */
@@ -100,11 +105,12 @@ void copy_entity_record_fields();           /* extern */
 void spawn_person_radial_effects();                      /* extern */
 s16 query_lowered_transform_position();                      /* extern */
 extern s32 D_800135B4;
-extern M2C_UNK D_8006CCF8;
+extern u8 D_8006CCF8[];
 extern M2C_UNK D_80089960;
 extern u8 D_800CFCEE;
-extern M2C_UNK D_800FE490;
-extern M2C_UNK D_80100D98;
+#include "records/Rec_D_800FE490.h"
+extern Rec_D_800FE490 D_800FE490;
+extern Rec_D_80100D98 D_80100D98;
 
 /* Updates movement, jumping, course progress, and sprite orientation from player input. */
 void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
@@ -133,7 +139,7 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, Rec_D_8008
     S_800C035C_4 *progress;
     S_800C035C_2 *course;
 
-    controls = ((M2C_UNK *)&g_game_work.unk_000);
+    controls = ((s32 *)&g_game_work.unk_000);
     course = ((S_800C035C_0 *)actor)->unk_54;
     progress = (s8 *)actor + 0x50;
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive(motion);

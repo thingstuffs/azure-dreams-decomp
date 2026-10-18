@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-M2C_UNK Control_CD(); /* extern */
-M2C_UNK drain_cd_command_queue();                            /* extern */
+s32 Control_CD(s32 event_code, void *event_data, s32 payload);
+void drain_cd_command_queue(void);
 extern s8 D_80080A89;
 extern M2C_UNK D_80080C50;
 

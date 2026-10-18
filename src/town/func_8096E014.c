@@ -1,6 +1,6 @@
 #include "common.h"
+#include "m2c_compat.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -8,26 +8,26 @@ typedef s32 M2C_UNK;
 
 void apply_block_16_template_to_nodes();
 void apply_vector_3_template_to_nodes();
-extern M2C_UNK *D_80129728;
+extern s32 *D_80129728;
 extern M2C_UNK D_801298B8;
 extern M2C_UNK D_80129ED8;
 extern M2C_UNK D_8012A4F8;
 
 typedef struct S_801264AC_0 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_801264AC_0;
 
 typedef struct S_801264AC_1 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    M2C_UNK * unk_0C;
+    s32 * unk_08;
+    s32 * unk_0C;
 } S_801264AC_1;
 
 typedef struct S_801264AC_2 {
     u8 pad_00[0x54];
     s32 unk_54;
-    M2C_UNK ** unk_58;
+    s32 ** unk_58;
 } S_801264AC_2;   /* arg0 in initialize_catalog_display_nodes */
 
 typedef struct S_801264AC_3 {

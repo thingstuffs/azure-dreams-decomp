@@ -8,7 +8,7 @@ typedef struct S_8009F2A8_0 {
 } S_8009F2A8_0;   /* arg2 in update_the_target_offset_advance_phase_handle_active_event */
 
 
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);
 s32 func_800644B8();                             /* extern */
 void initialize_the_town_entity_synchronize_slot_state(); /* extern */
 typedef struct AllocatedObject AllocatedObject;

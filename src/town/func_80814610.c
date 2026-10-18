@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_80814610_0 {
     u8 pad_00[0x8];
@@ -20,9 +19,7 @@ typedef struct S_80814610_1 {
 typedef struct S_80814610_2_pre {
     u16 unk_00;
 } S_80814610_2_pre;   /* the 0x2 bytes before arg0 in func_80814610, addressed as arg0[-1] */
-
-
-M2C_UNK func_8003EA54();                 /* extern */
+void func_8003EA54(void *);                 /* extern */
 extern s32 D_80084D5C;
 
 /* Updates motion and brightness, processes the visual, and marks flagged objects. */

@@ -10,7 +10,7 @@ typedef struct S_8003626C_0 {
     u8 pad_4D[0x3];
     s8 unk_50;
     u8 pad_51[0x17];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_8003626C_0;   /* arg0 in runtime_reset_state_on_trigger_bits */
 
 

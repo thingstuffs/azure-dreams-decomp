@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8004DCCC();                         /* extern */
+s32 func_8004DCCC(s32);
 
 /* Process the two embedded records at offsets 4 and 0x10. */
 void func_80020298(s32 record_addr) {

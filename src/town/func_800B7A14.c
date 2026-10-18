@@ -8,7 +8,7 @@ typedef struct S_800B5174_1 {
 } S_800B5174_1;   /* arg1 in layout_three_display_elements */
 
 typedef struct S_800B5174_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     void * unk_04;
 } S_800B5174_2;   /* ((S_800B5174_1 *)arg1)->unk_00 in layout_three_display_elements */
 
@@ -18,7 +18,7 @@ typedef struct S_800B5174_3 {
 } S_800B5174_3;   /* ((S_800B5174_1 *)arg1)->unk_04 in layout_three_display_elements */
 
 typedef struct S_800B5174_4 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     void * unk_04;
 } S_800B5174_4;   /* ((S_800B5174_1 *)arg1)->unk_08 in layout_three_display_elements */
 

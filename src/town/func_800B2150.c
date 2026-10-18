@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
 
 
@@ -17,7 +16,7 @@ void *create_item_menu_display_controller(); /* extern */
 
 /* Positions an indexed entry in a two-column, five-row layout. */
 void place_selected_item_menu_entry(Rec_func_800AF254_arg1 *entry) {
-    M2C_UNK x_pos;
+    s32 x_pos;
     s32 page_slot;
 
     page_slot = ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18 % 10;

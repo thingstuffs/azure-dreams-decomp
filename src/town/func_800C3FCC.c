@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 find_unflagged_node_by_key();                       /* extern */
-M2C_UNK town_sd_sq_callagain();                            /* extern */
+void town_sd_sq_callagain(void);
 s32 apply_nearby_object_effects();                       /* extern */
 extern M2C_UNK D_800C2074;
 extern M2C_UNK D_800D4710;

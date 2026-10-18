@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_8001BBB4_1 {
     u8 pad_00[0x8];
@@ -8,7 +7,7 @@ typedef struct S_8001BBB4_1 {
 
 
 s32 build_two_record_value_block();                                /* extern */
-M2C_UNK func_8001E5F0();                     /* extern */
+void func_8001E5F0(s32);                     /* extern */
 
 typedef struct S_8001BBB4_0 {
     u8 pad_00[0x10];

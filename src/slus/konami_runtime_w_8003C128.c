@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
 typedef struct S_8003C128_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8003C128_0;   /* temp_v0 in func_8003C128 */

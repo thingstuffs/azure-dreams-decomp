@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
-M2C_UNK func_80034F9C();                   /* extern */
+void func_80034F9C(s8 *result_flag);
 extern u8 D_80082A38[];
 
 /* Passes the global object D_80082A38 to func_80034F9C. */

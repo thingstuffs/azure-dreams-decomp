@@ -1,15 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800B1D00;
+typedef struct Obj_800B45A0 Obj_800B45A0;
+void advance_inner_value_and_complete(Obj_800B45A0 *obj);
 
 typedef struct S_800B1DBC_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B1DBC_0;   /* arg0 in set_object_data_pointer_2 */
 
-/* Sets the object's pointer to D_800B1D00. */
+/* Sets the object's pointer to advance_inner_value_and_complete. */
 void set_object_data_pointer_2(S_800B1DBC_0 *object) {
-    object->unk_10 = &D_800B1D00;
+    object->unk_10 = &advance_inner_value_and_complete;
 }

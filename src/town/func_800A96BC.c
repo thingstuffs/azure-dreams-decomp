@@ -3,9 +3,9 @@
 #include "records/Rec_func_8009CD18_arg1.h"
 
 typedef struct S_800A6E1C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x5C];
-    M2C_UNK * unk_60;
+    s32 * unk_60;
 } S_800A6E1C_0;   /* arg0 in initialize_unit_scale_object; pointer addresses record offset 0x10 */
 
 

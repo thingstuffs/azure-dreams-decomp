@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800CFCB4.h"
 
@@ -15,7 +14,7 @@ typedef struct S_8009F374_2 {
 } S_8009F374_2;   /* arg3 in handle_jitter_position_pulse_scale_until_countdown_expires */
 
 /* Jitter the position and pulse the scale until the countdown expires. */
-void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, M2C_UNK context, EntityRec *position, S_8009F374_2 *scale) {
+void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale) {
     s16 ticks_left;
     s32 scale_x_wave;
     s32 scale_y_wave;

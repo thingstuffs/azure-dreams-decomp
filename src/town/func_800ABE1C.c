@@ -1,8 +1,8 @@
 #include "common.h"
+#include "m2c_compat.h"
 
-typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80033CD8();
+void func_80033CD8(void *block_data, s32 registration_id);
 extern s16 scale_random_to_unsigned_halfword_limit();
 extern void write_square_position_offsets();
 extern M2C_UNK D_800A9528[3];
@@ -11,8 +11,8 @@ extern M2C_UNK D_800A970C[3];
 
 /* Initialize object tables, settings, and randomized state. */
 void initialize_randomized_object_state(void *object, void *random_state, void *settings) {
-    *(M2C_UNK **)((s8 *)object - 0x10) = D_800A9624;
-    *(M2C_UNK **)((s8 *)object + 0x50) = D_800A970C;
+    *(s32 **)((s8 *)object - 0x10) = D_800A9624;
+    *(s32 **)((s8 *)object + 0x50) = D_800A970C;
     *(s16 *)((s8 *)settings + 0x1C) = 0x37;
     *(s16 *)((s8 *)settings + 0x1E) = 0x37;
     *(u16 *)((s8 *)settings + 0x20) = 0xFF00;

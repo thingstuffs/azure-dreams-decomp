@@ -1,9 +1,6 @@
 /* cfail-repair baseline: preserve the selected draft's recovered shape. */
 #include "common.h"
-#include "m2c_compat.h"
 
-#define M2C_BREAK() ((void)0)
-#define M2C_SYNC() ((void)0)
 #define CARRY 0
 #define OVERFLOW(a) (0)
 

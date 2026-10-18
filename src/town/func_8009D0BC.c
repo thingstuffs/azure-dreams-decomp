@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s16 approach_player_value();                   /* extern */
-extern M2C_UNK D_8009A8A8;
+void player_no_op(void);
 
 typedef struct S_8009A81C_0 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
     u8 pad_08[0x2];
     u16 unk_0A;
     u8 pad_0C[0x2A];
@@ -31,6 +30,6 @@ void update_player_countdown_values(S_8009A81C_0 *state, S_8009A81C_1 *values) {
     values->unk_06 = approach_player_value((s16) state->unk_0A, values->unk_06, state->unk_38);
     if ((s16) state->unk_0A <= 0) {
         state->unk_0A = 0x20U;
-        state->unk_04 = &D_8009A8A8;
+        state->unk_04 = &player_no_op;
     }
 }

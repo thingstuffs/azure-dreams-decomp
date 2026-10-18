@@ -1,9 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK obj_disp23_cancel_sw_set();                     /* extern */
-M2C_UNK came_bright_set();                     /* extern */
+s32 obj_disp23_cancel_sw_set(s32 cancel_switch);                     /* extern */
+void came_bright_set(u32 brightness);                     /* extern */
 void store_table_index_and_entry_bytes();             /* extern */
 s32 acquire_resource_and_initialize_state();                          /* extern */
 void initialize_record_table_and_group();                      /* extern */
@@ -11,11 +9,11 @@ void apply_record_values_and_process_record();                      /* extern */
 s32 func_800B3924();                          /* extern */
 s32 func_800B4588();                          /* extern */
 s32 func_800B4F60();                          /* extern */
-extern M2C_UNK D_800B260C;
+void handle_item_menu_input_2(u8 *menu);
 
 
 typedef struct S_800B2BA0_0_pre {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0xC];
 } S_800B2BA0_0_pre;
 
@@ -42,7 +40,7 @@ s32 open_twin_souko(s32 option) {
 
     task = func_8003FC64(0);
     state = task + 0x20;
-    if (task == NULL ||
+    if (task == 0 ||
         (initialize_record_table_and_group(state),
          acquire_resource_and_initialize_state(state) != 0 &&
          (store_table_index_and_entry_bytes(state, 0),
@@ -55,11 +53,11 @@ s32 open_twin_souko(s32 option) {
          (resource_04 = func_800B4F60(task),
           ((S_800B2BA0_0 *)state)->unk_04 = resource_04,
           resource_04 != 0))) {
-        if (task != NULL) {
+        if (task != 0) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
             ((S_800B2BA0_0 *)state)->unk_48 = option;
-            ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &D_800B260C;
+            ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &handle_item_menu_input_2;
         }
         return (s32)task;
     }

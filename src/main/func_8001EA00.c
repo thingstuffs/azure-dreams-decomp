@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK select_memory_task_exit();                      /* extern */
-M2C_UNK func_80405900();                      /* extern */
+typedef struct { u8 pad[0x7C]; s32 index; } Owner;
+void select_memory_task_exit(Owner *owner);                      /* extern */
+void func_80405900(void *);                      /* extern */
 
 typedef struct S_8001EA00_0 {
     u8 pad_00[0x9C];
@@ -13,7 +12,7 @@ typedef struct S_8001EA00_0 {
 void func_8001EA00(void *object, s32 value) {
     void *embedded_data;
 
-    if (object != NULL) {
+    if (object != 0) {
         ((S_8001EA00_0 *)object)->unk_9C = value;
         embedded_data = object + 0x20;
         func_80405900(embedded_data);

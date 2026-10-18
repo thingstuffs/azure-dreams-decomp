@@ -10,7 +10,7 @@ extern M2C_UNK D_80018B28;
 extern s32 D_80018E38;
 
 /* Runs the operation and invokes the fallback when both checks return zero. */
-s32 run_operation(s32 input, M2C_UNK unused, M2C_UNK aux_input) {
+s32 run_operation(s32 input, s32 unused, s32 aux_input) {
     s32 result;
 
     result = func_80018044(&D_80018B28, &D_80018E38, input, aux_input);

@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
-    M2C_UNK (*unk_208)(M2C_UNK);
+    s32 (*unk_208)(s32);
 } S_8051E954_3;
 
 
@@ -34,5 +33,5 @@ void func_8051E954(s32 command_value) {
     context = D_80016000;
     ((S_8051E954_0 *)command_words)->unk_08 = command_value;
     ((S_8051E954_3 *)((context->unk_20)))->unk_208(0);
-    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_224)(command_words);
+    ((s32 (*) (s32 *))D_80016000->unk_20->callback_224)(command_words);
 }

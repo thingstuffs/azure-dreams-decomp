@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void card_boot_layout_three_row_command_panel();                         /* extern */
-M2C_UNK func_80023730();               /* extern */
+void func_80023730(s32, s32, s32);               /* extern */
 void func_8002388C();                            /* extern */
 
 /* Prepares processing, processes the embedded data, and updates the record. */

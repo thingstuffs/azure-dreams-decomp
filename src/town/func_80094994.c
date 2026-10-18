@@ -4,9 +4,8 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "shared/entity.h"
 #include "shared/town_handler.h"
-
-M2C_UNK initialize_action_object_type_six();     /* extern */
-M2C_UNK select_sound_command_from_mode();                            /* extern */
+void initialize_action_object_type_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
+void select_sound_command_from_mode(void);                            /* extern */
 void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      /* extern */
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */

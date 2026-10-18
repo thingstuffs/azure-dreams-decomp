@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_80027A9C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x18];
     s32 unk_1C;
     u8 pad_20[0x10];
@@ -14,7 +13,7 @@ typedef struct S_80027A9C_0 {
 void card_boot_toggle_channel();                            /* extern */
 s32 create_visual_object();                        /* extern */
 s32 create_or_reset_seven_entry_menu_backdrop();                        /* extern */
-extern M2C_UNK D_8002789C;
+void card_boot_update_card_chooser_input(void *menu);
 
 /* Initializes record values and installs its callback pointer. */
 void card_boot_create_menu_child_panels(void *record) {
@@ -25,5 +24,5 @@ void card_boot_create_menu_child_panels(void *record) {
     ((S_80027A9C_0 *)((u8 *)record - 0x10))->unk_34 = create_visual_object(record_base, ((S_80027A9C_0 *)((u8 *)record
         - 0x10))->unk_1C);
     card_boot_toggle_channel();
-    ((S_80027A9C_0 *)((u8 *)record - 0x10))->unk_00 = &D_8002789C;
+    ((S_80027A9C_0 *)((u8 *)record - 0x10))->unk_00 = &card_boot_update_card_chooser_input;
 }

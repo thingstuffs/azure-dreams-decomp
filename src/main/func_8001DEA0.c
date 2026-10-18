@@ -54,16 +54,15 @@ typedef struct {
     s32 w2;
     s32 w3;
 } Copy4;
-
-M2C_UNK func_8003830C();                  /* extern */
-M2C_UNK func_80051520();      /* extern */
-M2C_UNK func_80051804();         /* extern */
-M2C_UNK func_8005184C();         /* extern */
-M2C_UNK func_80051898();                  /* extern */
-M2C_UNK func_80051900();                       /* extern */
-M2C_UNK func_80051B50(); /* extern */
-M2C_UNK func_8007BF50();                /* extern */
-M2C_UNK func_8007BF80();                  /* extern */
+void func_8003830C(s32 value, void *text);                  /* extern */
+void func_80051520(void *, void *, s32);      /* extern */
+void func_80051804(u32 value, s32 digits, void *text);         /* extern */
+void func_8005184C(s32, s32, void *);         /* extern */
+void func_80051898(u32, void *);                  /* extern */
+void func_80051900(void *);                       /* extern */
+void func_80051B50(void *, void *, s32); /* extern */
+void func_8007BF50(void *, void *);                /* extern */
+void func_8007BF80(void *, s32);                  /* extern */
 extern M2C_UNK D_8009DDE4[];
 extern s16 D_80400660[];
 extern s32 D_80400668[];

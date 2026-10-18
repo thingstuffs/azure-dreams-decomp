@@ -24,8 +24,6 @@ typedef struct S_80037394_2 {
 } S_80037394_2;   /* arg2 in func_80037394 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 extern s32 func_80037534(void *state);
 extern void copy_texture_descriptor_with_page_offsets(s32 *texture_pos, void *src, void *dst);
 

@@ -2,12 +2,14 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
-
-M2C_UNK func_80033CD8();           /* extern */
-M2C_UNK func_8003DB94();  /* extern */
+void func_80033CD8(void *block_data, s32 registration_id);           /* extern */
+struct Dst;
+struct Elem;
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
 void *func_8003FD64();            /* extern */
 void load_indexed_state_value();      /* extern */
-extern M2C_UNK D_800C8B8C;
+typedef struct S_800C8B8C_0 S_800C8B8C_0;
+void call_owner_callback(S_800C8B8C_0 *owner);
 extern M2C_UNK D_800EE344;
 
 
@@ -15,7 +17,7 @@ typedef struct S_800C8A68_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800C8A68_0;
 
 typedef struct S_800C8A68_1 {
@@ -53,7 +55,7 @@ s32 func_800C8A68(S_800C8A68_2 *source_pos) {
     void *object;
     s32 offset_z;
 
-    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x136, ((s32 *)&D_80083498.next));
     if (object == NULL) {
         return 0;
     }
@@ -66,7 +68,7 @@ s32 func_800C8A68(S_800C8A68_2 *source_pos) {
     position->unk_0C = 0x100000;
     position->unk_10 = 0;
     position->unk_08 = offset_z;
-    ((S_800C8A68_0 *)object)->unk_10 = &D_800C8B8C;
+    ((S_800C8A68_0 *)object)->unk_10 = &call_owner_callback;
     object_state->unk_90 = 2;
     load_indexed_state_value(object_state, position, render_state);
     render_state->unk_1E = 0x1000;

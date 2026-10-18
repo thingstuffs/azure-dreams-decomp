@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
-
-M2C_UNK strcat(); /* extern */
-M2C_UNK *select_object_state_value();                        /* extern */
+void strcat(void *dest, void *source); /* extern */
+s32 select_object_state_value(void *object);                        /* extern */
 void set_display_entry_text_and_position(); /* extern */
 extern M2C_UNK D_800892C0;
 extern M2C_UNK D_800892C8;

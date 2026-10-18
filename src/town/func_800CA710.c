@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 /* extern */
 
@@ -12,9 +11,9 @@ typedef struct S_800C7E70_0 {
 } S_800C7E70_0;   /* arg0 in decrement_mother_event_timer_and_restore */
 
 
-void apply_object_setup_and_update(S_800C7E70_0 *, M2C_UNK, M2C_UNK);
+void apply_object_setup_and_update(void *object, s32 update_context, s32 setup_context);
 /* Decrement the countdown, then restore unk_72 from unk_6E and call apply_object_setup_and_update when it expires. */
-void decrement_mother_event_timer_and_restore(S_800C7E70_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
+void decrement_mother_event_timer_and_restore(S_800C7E70_0 *object, s32 callback_arg_1, s32 callback_arg_2) {
     u16 countdown;
 
     countdown = object->unk_6C - 1;

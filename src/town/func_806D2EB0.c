@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800166B0_1 {
     u8 pad_00[0x2];
@@ -23,7 +22,7 @@ typedef struct S_800166B0_0 {
 } S_800166B0_0;   /* arg1 in lookup_flag_test_entry */
 
 /* Look up an entry and query its associated flag. */
-void lookup_flag_test_entry(s32 entries, S_800166B0_0 *context, M2C_UNK entry_key) {
+void lookup_flag_test_entry(s32 entries, S_800166B0_0 *context, s32 entry_key) {
     select_data_array_based_flag(((S_800166B0_2 *)(((((S_800166B0_1 *)(((attach_global_data_and_invoke_callback(entries, entry_key) * 8)
         + entries)))->unk_02 * 4) + context->unk_14)))->unk_02);
 }

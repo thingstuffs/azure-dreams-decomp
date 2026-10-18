@@ -8,7 +8,7 @@
 
 void invoke_callback_and_set_shared_pointer(void);                            /* extern */
 extern M2C_UNK D_80017A7C;
-extern M2C_UNK *D_80017B90;
+extern s32 *D_80017B90;
 extern M2C_UNK D_80017F64;
 
 

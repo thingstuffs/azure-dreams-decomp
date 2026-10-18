@@ -1,11 +1,10 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
 
 
 
-M2C_UNK func_80017684();                     /* extern */
+s32 func_80017684(s32);
 extern u8 D_80017AD0;
 
 

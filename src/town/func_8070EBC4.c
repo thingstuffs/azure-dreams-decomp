@@ -1,11 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
-
-
-
-M2C_UNK func_80016CC4();                            /* extern */
+void func_80016CC4(void);                            /* extern */
 
 
 /* Run setup and invoke the state callback with 0xF and 0x200. */

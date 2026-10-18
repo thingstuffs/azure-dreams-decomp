@@ -5,11 +5,9 @@
 
 typedef struct S_800389B4_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800389B4_0;   /* arg0 in func_800389B4 */
-
-
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);                     /* extern */
 s32 func_80053EF0();                         /* extern */
 extern M2C_UNK func_80038A10;
 

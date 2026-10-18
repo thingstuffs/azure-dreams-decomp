@@ -1,14 +1,13 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 void add_hex_20000_s_signed_offset_hex_14();                 /* extern */
-extern M2C_UNK D_800A73E0;
+void advance_position_and_handle_ground_contact(void *entity, void *motion, s32 context);
 
 
 typedef struct S_800A7360_1 {
     u8 pad_00[0x50];
-    M2C_UNK * unk_50;
+    s32 * unk_50;
 } S_800A7360_1;   /* arg0 in advance_emote_motion */
 
 /* Accumulate motion offsets and switch the object handler when the final offset is nonnegative. */
@@ -18,6 +17,6 @@ void advance_emote_motion(S_800A7360_1 *object, EntityRec *motion) {
     motion->z.v = (s32) (motion->z.v + (motion->flags14));
     add_hex_20000_s_signed_offset_hex_14(motion, (motion->flags14));
     if (motion->flags14 >= 0) {
-        object->unk_50 = &D_800A73E0;
+        object->unk_50 = &advance_position_and_handle_ground_contact;
     }
 }

@@ -15,11 +15,11 @@ typedef struct S_800AF448_1 {
 typedef struct S_800AF448_2 {
     u8 pad_00[0x10];
     s32 unk_10;
-    M2C_UNK ** unk_14;
+    s32 ** unk_14;
 } S_800AF448_2;   /* ((S_800AF448_0 *)arg0)->unk_A8 in update_item_menu_enabled_record */
-
-
-M2C_UNK func_8004CBFC();      /* extern */
+struct S8004CBFC_a0;
+struct S8004CBFC_a1;
+void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
 extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;
 

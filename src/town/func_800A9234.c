@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
@@ -23,7 +24,7 @@ typedef struct S_800A6994_2 {
 void select_object_value_by_height_band();
 void set_flagged_entry_values();
 void initialize_object_entries();
-extern M2C_UNK D_800A5638;
+extern u8 D_800A5638[];
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
 extern s32 D_80100E24;

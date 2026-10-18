@@ -4,11 +4,6 @@
 typedef long long s64;
 typedef unsigned long long u64;
 
-typedef s32 M2C_UNK;
-typedef s8 M2C_UNK8;
-typedef s16 M2C_UNK16;
-typedef s32 M2C_UNK32;
-typedef s64 M2C_UNK64;
 
 
 extern s32 func_8001A7E8();

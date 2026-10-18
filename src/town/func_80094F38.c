@@ -12,8 +12,8 @@
 
 extern void initialize_scene_action_record();
 extern void initialize_actor_action_state();
-extern M2C_UNK initialize_action_object();
-extern M2C_UNK initialize_actor_movement_interaction_action();
+void initialize_action_object(s32 **record, void *ptr, void *ptr2);
+void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 extern void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
 extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 extern void compute_and_clamps_vector_based_adjustment_updates_town();

@@ -2,8 +2,6 @@
 #include "shared/entity_objects.h"
 extern int abs(int);
 
-typedef s32 M2C_UNK;
-
 typedef struct Position {
     s16 pad0;
     s16 x;

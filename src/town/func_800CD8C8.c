@@ -8,7 +8,7 @@ typedef struct S_800CB028_1 {
 
 typedef struct S_800CB028_2 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
 } S_800CB028_2;   /* ((S_800CB028_1 *)arg0)->unk_80 in initialize_object_referenced_data_pointers */
 
 
@@ -18,7 +18,7 @@ extern M2C_UNK D_800D6870;
 
 typedef struct S_800CB028_0 {
     u8 pad_00[0x7C];
-    M2C_UNK ** unk_7C;
+    s32 ** unk_7C;
 } S_800CB028_0;   /* arg0 in initialize_object_referenced_data_pointers */
 
 /* Initialize the object's referenced data pointers. */

@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_8003D548();                     /* extern */
-M2C_UNK func_80400EF8();                            /* extern */
+void func_8003D548(s32);                     /* extern */
+void func_80400EF8(void);                            /* extern */
 extern s32 D_80010208;
 extern s16 D_80011F48;
 extern s8 D_8008CA34;
@@ -14,7 +12,7 @@ typedef struct S_8001EC4C_0 {
 
 /* Set the state from the object and select an action from the global flag. */
 void func_8001EC4C(S_8001EC4C_0 *object) {
-    M2C_UNK actionId;
+    s32 actionId;
     s16 state;
 
     D_8008CA34 = 2;

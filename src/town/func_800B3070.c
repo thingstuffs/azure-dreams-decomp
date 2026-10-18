@@ -1,5 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
+
+typedef struct { u8 r; u8 g; u8 b; u8 cd; } Color800497F4;
+typedef struct { s32 unk0; Color800497F4 *unk4; } Struct800497F4;
 
 typedef struct S_800B07D0_1 {
     u8 pad_00[0xCC];
@@ -13,7 +15,7 @@ typedef struct S_800B07D0_2 {
 } S_800B07D0_2;   /* ((S_800B07D0_1 *)arg0)->unk_CC in process_shop_embedded_data */
 
 
-M2C_UNK func_800497F4();                    /* extern */
+void func_800497F4(Struct800497F4 *object, s32 stop_at_gray);
 s32 advance_timed_tagged_stream();                         /* extern */
 
 typedef struct S_800B07D0_0 {

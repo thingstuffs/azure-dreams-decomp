@@ -3,7 +3,6 @@
 #include "shared/town_root.h"
 
 
-typedef s32 M2C_UNK;
 
 
 /* Invoke the callback at offset 0x30C with value 0x9000. */

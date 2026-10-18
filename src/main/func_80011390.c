@@ -1,7 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
 typedef struct S_80024390_5 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -44,8 +42,8 @@ typedef struct S_80024390_1 {
 
 typedef struct S_80024390_2 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    M2C_UNK * unk_0C;
+    s32 * unk_08;
+    s32 * unk_0C;
 } S_80024390_2;   /* table_base in card_boot_format_saved_slot_details */
 
 typedef struct S_80024390_3 {
@@ -67,8 +65,8 @@ void *build_positioned_text_glyphs(); /* extern */
 char *func_8004E5A0(); /* extern */
 char *func_8004E5E8(); /* extern */
 u8 *remap_flagged_string_bytes(); /* extern */
-M2C_UNK func_80069E38();
-M2C_UNK func_80069E78();
+void func_80069E38(void *destination, void *source);
+void func_80069E78(void *, void *);
 extern u8 D_800200A4[0x100];
 extern s32 D_80027FD4[0x40];
 extern u8 D_800282D8[0x100];

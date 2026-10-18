@@ -27,7 +27,7 @@ typedef struct S_800BB798_2 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BB798_2;
 
 typedef struct S_800BB798_3 {
@@ -58,7 +58,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
 
     component = radius * trig_factor;
     spawn_data->unk_10 = component;
-    object = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
     if (object != NULL) {
         object_data = ((S_800BB798_2 *)object)->unk_08;
         ((S_800BB798_2 *)object)->unk_10 = &D_800BB894;

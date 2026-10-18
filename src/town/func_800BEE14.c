@@ -27,7 +27,7 @@ typedef struct S_800BC574_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BC574_0;
 
 typedef struct S_800BC574_1 {
@@ -48,7 +48,7 @@ typedef struct S_800BC574_3 {
 } S_800BC574_3;   /* held_base in create_directional_sprite_effect */
 
 typedef struct S_800BC574_4 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
@@ -76,7 +76,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
     S_800BC574_1 *data_ptr;
     s16 saved_angle;
 
-    effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
+    effect = func_8003FD64(0x312, ((s32 *)&D_80083498.next));
     if (effect != NULL) {
         saved_angle = angle;
         effect->unk_10 = &D_800BC6CC;

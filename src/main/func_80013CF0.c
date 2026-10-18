@@ -22,9 +22,9 @@ typedef struct S_80026CF0_4 {
     s16 unk_08;
     s16 unk_0A;
 } S_80026CF0_4;
-
-
-M2C_UNK func_8004CBFC();   /* extern */
+struct S8004CBFC_a0;
+struct S8004CBFC_a1;
+void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);   /* extern */
 extern M2C_UNK D_80027E68;
 
 typedef struct S_80026CF0_0 {

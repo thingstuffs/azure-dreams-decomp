@@ -1,7 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK func_8004B1A4();                         /* extern */
+void func_8004B1A4(unsigned short *object);
 s32 func_8004B404();                         /* extern */
 s32 format_item_value_and_flag_marker();                        /* extern */
 

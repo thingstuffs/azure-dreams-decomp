@@ -31,7 +31,6 @@ typedef struct S_80056654_1 {
     u16 unk_52;
 } S_80056654_1;   /* temp_a2 in audio_update_voice_pitch */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     s32 field0;

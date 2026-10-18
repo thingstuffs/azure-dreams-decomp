@@ -1,11 +1,15 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_8009AF74;
+typedef struct {
+    s32 unk0;
+    void **unk4;
+    u16 unk8;
+    u16 unkA;
+} Struct8009D814;
+void advance_player_state_table(Struct8009D814 *state, s32 update_arg, s32 shared_arg);
 
 typedef struct S_8009B0EC_0 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    s32 * unk_04;
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_8009B0EC_0;   /* arg0 in advance_timed_action_handler */
@@ -18,6 +22,6 @@ void advance_timed_action_handler(S_8009B0EC_0 *object) {
     object->unk_0A = countdown;
     if ((countdown << 0x10) <= 0) {
         object->unk_0A = 3U;
-        object->unk_04 = &D_8009AF74;
+        object->unk_04 = &advance_player_state_table;
     }
 }

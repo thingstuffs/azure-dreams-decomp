@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -20,11 +19,9 @@ typedef struct S_80036880_0 {
     u8 pad_4E[0x16];
     s16 unk_64;
     u8 pad_66[0x2];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_80036880_0;   /* arg0 in func_80036880 */
-
-
-M2C_UNK SD_Call();                     /* extern */
+short SD_Call(int flags);                     /* extern */
 void runtime_decrement_countdown_and_reset();
 
 /* Save the object's flags, install state 0x11 and its handler, and set flag 0x80. */

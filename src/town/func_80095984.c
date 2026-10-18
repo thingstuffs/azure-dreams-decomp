@@ -1,12 +1,11 @@
 #include "shared/position_query.h"
 #include "common.h"
 #include "shared/game_work.h"
-#include "m2c_compat.h"
 
 void initialize_scene_action_record();     /* extern */
 void initialize_motion_action();     /* extern */
 void initialize_actor_action_state();     /* extern */
-M2C_UNK initialize_action_object();     /* extern */
+void initialize_action_object(s32 **record, void *ptr, void *ptr2);     /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
@@ -37,9 +36,9 @@ typedef struct S_800930E4_3 {
 } S_800930E4_3;   /* state in update_actor_interaction_actions */
 
 /* Updates the target and dispatches actions based on its value, a countdown, and state flags. */
-void update_actor_interaction_actions(void *self_arg, void *target_arg, M2C_UNK context_arg) {
+void update_actor_interaction_actions(void *self_arg, void *target_arg, s32 context_arg) {
     void *self;
-    M2C_UNK context;
+    s32 context;
     s16 target_value;
     u16 countdown;
     u16 busy_countdown;

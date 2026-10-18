@@ -1,11 +1,9 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
-
-M2C_UNK func_80033D08();
+void func_80033D08(void *block_data);
 void func_8003DB94();
 void func_800478B8();
 void unlink_scene_list_node();
@@ -28,7 +26,7 @@ void update_person_object(void *object, s32 update_ctx, Rec_D_80082E80 *display)
     if (classify_object_against_bounds(object, update_ctx) != 0) {
         unlink_scene_list_node(object);
         active_flag = ((Rec_D_80082D58 *)object)->unk_98.as_ps8;
-        if (active_flag != NULL) {
+        if (active_flag != 0) {
             *active_flag = 0;
         }
         func_80033D08(object);

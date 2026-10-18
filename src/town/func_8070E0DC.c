@@ -1,15 +1,12 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
-
-
-extern M2C_UNK func_80016CC4();
+void func_80016CC4(void);
 extern void initialize_resources_assigns_pointer_lookup();
 extern s32 func_8001991C();
 extern s32 update_entry_flags();
-extern M2C_UNK func_8001A554();
-extern M2C_UNK func_8001A5CC();
+void func_8001A554(s32);
+void func_8001A5CC(s32);
 extern s32 func_8001A64C();
 
 

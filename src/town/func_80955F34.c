@@ -1,7 +1,7 @@
 #include "common.h"
+#include "m2c_compat.h"
 
 
-typedef s32 M2C_UNK;
 
 typedef struct {
     s16 f0;

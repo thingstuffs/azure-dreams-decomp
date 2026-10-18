@@ -1,6 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -17,7 +16,7 @@ extern s32 D_8001A8BC;
 extern s32 D_8001A91D;
 
 
-M2C_UNK *func_805D3370(s32 value, s32 unused, s32 selector) {
+s32 *func_805D3370(s32 value, s32 unused, s32 selector) {
     s32 *result;
     s32 status;
 

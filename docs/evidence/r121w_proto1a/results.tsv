@@ -1,0 +1,438 @@
+file	tokens_before	tokens_after	status	verification	gate
+src/main/func_7FDD1C70.c	6	3	PARTIAL	retail row exact	MATCH
+src/main/func_7FDD2CC4.c	15	9	PARTIAL	retail row exact	MATCH
+src/main/func_8000E4A4.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8000EB18.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8000FE74.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8000FF14.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8000FF64.c	2	0	DONE	retail row exact	MATCH
+src/main/func_800100CC.c	2	0	DONE	retail row exact	MATCH
+src/main/func_80010194.c	1	0	DONE	retail row exact	MATCH
+src/main/func_80010894.c	1	0	DONE	retail row exact	MATCH
+src/main/func_80011390.c	5	0	DONE	retail row exact	MATCH
+src/main/func_800122A4.c	2	0	DONE	retail row exact	MATCH
+src/main/func_80012494.c	2	0	DONE	retail row exact	MATCH
+src/main/func_80012C7C.c	3	1	PARTIAL	retail row exact	MATCH
+src/main/func_800132BC.c	5	1	PARTIAL	retail row exact	MATCH
+src/main/func_8001344C.c	4	1	PARTIAL	retail row exact	MATCH
+src/main/func_80013784.c	1	0	DONE	retail row exact	MATCH
+src/main/func_80013CF0.c	2	1	PARTIAL	retail row exact	MATCH
+src/main/func_80013E90.c	1	0	DONE	retail row exact	MATCH
+src/main/func_800140E0.c	1	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/main/func_8001442C.c	1	0	DONE	retail row exact	MATCH
+src/main/func_80014A9C.c	2	0	DONE	retail row exact	MATCH
+src/main/func_80014D40.c	1	0	DONE	retail row exact	MATCH
+src/main/func_80019908.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001A4E4.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001A8FC.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001BDC8.c	3	1	PARTIAL	retail row exact	MATCH
+src/main/func_8001C0F4.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C144.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C194.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8001C1E4.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8001C234.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C284.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C2D4.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C324.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8001C374.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C3C4.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001C698.c	4	3	PARTIAL	retail row exact	MATCH
+src/main/func_8001CAA0.c	3	1	PARTIAL	retail row exact	MATCH
+src/main/func_8001D178.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001DB10.c	1	0	DONE	retail row exact	MATCH
+src/main/func_8001DEA0.c	10	1	PARTIAL	retail row exact	MATCH
+src/main/func_8001EA00.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8001EC4C.c	3	0	DONE	retail row exact	MATCH
+src/main/func_8001EEAC.c	2	1	PARTIAL	retail row exact	MATCH
+src/main/func_8001FA74.c	2	0	DONE	retail row exact	MATCH
+src/main/func_8001FF34.c	2	0	DONE	retail row exact	MATCH
+src/main/func_80020458.c	4	2	PARTIAL	retail row exact	MATCH
+src/main/func_8002089C.c	4	2	PARTIAL	retail row exact	MATCH
+src/main/func_80020AEC.c	3	1	PARTIAL	retail row exact	MATCH
+src/main/func_80020F40.c	2	1	PARTIAL	retail row exact	MATCH
+src/slus/konami_runtime_w_80034F58.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80035208.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80035260.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800352FC.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80035614.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003571C.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800357B0.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80035AAC.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80035C44.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80036154.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003626C.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80036434.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800364BC.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80036880.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80036C44.c	4	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80036ED4.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80037394.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800381D0.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800382F0.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80038368.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80038464.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80038538.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80038588.c	3	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800385E8.c	3	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80038648.c	3	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_800389B4.c	3	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80039568.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_80039ACC.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003ADF4.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003AEF8.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B06C.c	4	3	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B1B4.c	3	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B264.c	3	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B35C.c	7	4	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B988.c	2	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003B9E8.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003BA60.c	2	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003BAD8.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/konami_runtime_w_8003C2B8.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/w_80043704.c	6	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/w_80048C3C.c	3	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/slus/w_8004ED00.c	5	1	PARTIAL	B13 physical TU objects equal	object proof; no overlay window
+src/slus/w_80053DF0.c	1	0	DONE	B13 physical TU objects equal	object proof; no overlay window
+src/town/func_80028F80.c	6	6	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_80029450.c	6	6	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_8002DB7C.c	4	4	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_8002DCB4.c	5	5	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_8002DDB0.c	5	5	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_8002DF48.c	5	5	SKIP_NON_HOME_COPY	B13 unchanged	not changed
+src/town/func_8008D988.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8008F224.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8008F7E8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80091B34.c	3	0	DONE	retail row exact	MATCH
+src/town/func_80093314.c	5	1	PARTIAL	retail row exact	MATCH
+src/town/func_800938A0.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_80094230.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80094580.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80094994.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_80094F38.c	2	0	DONE	retail row exact	MATCH
+src/town/func_80095324.c	8	1	PARTIAL	retail row exact	MATCH
+src/town/func_80095984.c	3	0	DONE	retail row exact	MATCH
+src/town/func_80095C9C.c	8	0	DONE	retail row exact	MATCH
+src/town/func_80095FA4.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800965B8.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800965E8.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800967E8.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800969D0.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80096BBC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_80096CB4.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_80096E58.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8009706C.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_80098218.c	3	0	DONE	retail row exact	MATCH
+src/town/func_80098A78.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8009A1CC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8009A5F4.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009ADE4.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009B2D0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009B3D0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009B43C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009B4E0.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009B578.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009B600.c	2	2	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8009B7B0.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8009B85C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009BA60.c	7	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009BF20.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009C030.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8009C580.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8009CA2C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009CA88.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8009CCBC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8009CEF4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8009D0BC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009D98C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009DAB8.c	5	0	DONE	retail row exact	MATCH
+src/town/func_8009E960.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8009E9C0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_8009EEE8.c	4	1	PARTIAL	retail row exact	MATCH
+src/town/func_8009F430.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800A13C0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800A14DC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800A173C.c	1	1	PARTIAL	retail row exact	MATCH
+src/town/func_800A1C14.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800A1D60.c	6	0	DONE	retail row exact	MATCH
+src/town/func_800A2608.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800A2B1C.c	6	0	DONE	retail row exact	MATCH
+src/town/func_800A45BC.c	6	0	DONE	retail row exact	MATCH
+src/town/func_800A4A8C.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800A4D48.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800A5B90.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800A74B0.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800A7DDC.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_800A7ED8.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800A8CDC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800A9640.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800A9744.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800A9A90.c	6	0	DONE	retail row exact	MATCH
+src/town/func_800A9C00.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800A9DF4.c	4	1	PARTIAL	retail row exact	MATCH
+src/town/func_800AA070.c	3	2	PARTIAL	retail row exact	MATCH
+src/town/func_800AA14C.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800AA360.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_800AA538.c	7	1	PARTIAL	retail row exact	MATCH
+src/town/func_800AA878.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800AAB90.c	5	1	PARTIAL	retail row exact	MATCH
+src/town/func_800AAD70.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800AB438.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800ABFD4.c	5	1	PARTIAL	retail row exact	MATCH
+src/town/func_800AC0F8.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800AD3C0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800AD6C0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800AD8B4.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800AE09C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800B0A4C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B0D24.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B0E0C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B1544.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800B19E8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B1CE8.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_800B25A0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B2BB8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B2FA0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B30C4.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B3874.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800B3F04.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B465C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B4E78.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B5440.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800B57B8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B5B74.c	1	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800B5D48.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B60EC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B6C88.c	4	2	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800B6EE8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B7464.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B7A14.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800B7B94.c	6	4	PARTIAL	retail row exact	MATCH
+src/town/func_800B83C0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800B8B44.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800B8DA8.c	1	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800B914C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800B92AC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800BAAE8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800BBC24.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800BBC9C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800BBD48.c	5	3	PARTIAL	retail row exact	MATCH
+src/town/func_800BC154.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800BDD40.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800BE8AC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800BF004.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C0220.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C0538.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C0AB4.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C1FCC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C2284.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800C2A7C.c	5	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C2BFC.c	9	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C3FAC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C40BC.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C41C0.c	3	3	PARTIAL	retail row exact	MATCH
+src/town/func_800C4264.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_800C4330.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800C4444.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800C4A98.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C4D18.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C4F04.c	5	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C5104.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800C5354.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C5A14.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800C5CD8.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C6064.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800C6494.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800C64FC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800C6868.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800C7104.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800C780C.c	9	5	PARTIAL	retail row exact	MATCH
+src/town/func_800C7A7C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C7EFC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800C8104.c	4	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C81BC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800C837C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800C8510.c	9	5	PARTIAL	retail row exact	MATCH
+src/town/func_800C86A0.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_800C8A20.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C8CBC.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_800C8CFC.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_800C8EE4.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800C94B0.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800CA554.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CA790.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CAC2C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CAEA0.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CB028.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CB14C.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800CB308.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CB73C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800CB890.c	4	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CC4AC.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_800CC620.c	1	0	DONE	retail row exact	MATCH
+src/town/func_800CC7BC.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CCF9C.c	4	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CCFFC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_800CD8C8.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_800CD900.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CDA80.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CE010.c	4	4	PARTIAL	retail row exact	MATCH
+src/town/func_800CE16C.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800CE34C.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CEA50.c	3	0	DONE	retail row exact	MATCH
+src/town/func_800CF4D4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_800CF54C.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800CFEF0.c	6	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800D0458.c	5	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800D0638.c	6	1	PARTIAL	retail row exact	MATCH
+src/town/func_800D092C.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800D0DD8.c	4	0	DONE	retail row exact	MATCH
+src/town/func_800D1368.c	1	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_800D15C4.c	3	2	PARTIAL	retail row exact	MATCH
+src/town/func_802F13A0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_802F155C.c	2	0	DONE	retail row exact	MATCH
+src/town/func_802F1730.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8032BAA4.c	4	2	PARTIAL	retail row exact	MATCH
+src/town/func_8032BC24.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8032BD88.c	7	1	PARTIAL	retail row exact	MATCH
+src/town/func_8032BF1C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8032C0AC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8032C904.c	2	2	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8032CFFC.c	5	2	PARTIAL	retail row exact	MATCH
+src/town/func_8032D78C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8032DEE4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8032E328.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8032F1DC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8032F794.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8032FEDC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80468358.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80468560.c	7	0	DONE	retail row exact	MATCH
+src/town/func_80468DE0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_80468F34.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80468F7C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80468FC4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046900C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_80469054.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046909C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_804690E4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046912C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_80469AFC.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80469BB4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80469C78.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_80469F94.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046A6E4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046ABB4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8046B48C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8046B4DC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8046B52C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8046B57C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8046BED4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8046BF9C.c	3	2	PARTIAL	retail row exact	MATCH
+src/town/func_8046D474.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80471108.c	3	1	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_80471334.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_804717E8.c	3	0	DONE	retail row exact	MATCH
+src/town/func_80472098.c	1	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_80472618.c	1	0	DONE	retail row exact	MATCH
+src/town/func_804735BC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_80473670.c	3	0	DONE	retail row exact	MATCH
+src/town/func_80476338.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80476530.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8047683C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80476948.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80477018.c	1	0	DONE	retail row exact	MATCH
+src/town/func_804786D4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8047AB38.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8047AD30.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8047B03C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8047B31C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8047C324.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8047E8B4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8048013C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_804801D0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80480468.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_804B7BD0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_804B806C.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_804B824C.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_804B85D0.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_804B8618.c	1	0	DONE	retail row exact	MATCH
+src/town/func_804B8648.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8051E904.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8051E9F4.c	6	0	DONE	retail row exact	MATCH
+src/town/func_8051EB8C.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8051EDA4.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8051F1D0.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8051F220.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8051F294.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8051F304.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_8051F660.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8051F6A8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8051FED4.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8054FB90.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8059E540.c	11	2	PARTIAL	retail row exact	MATCH
+src/town/func_8059E824.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D28F4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D2994.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D30BC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D30FC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D31E8.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D34AC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D352C.c	2	2	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_805D3844.c	1	0	DONE	retail row exact	MATCH
+src/town/func_805D3B14.c	4	0	DONE	retail row exact	MATCH
+src/town/func_80614AC8.c	4	0	DONE	retail row exact	MATCH
+src/town/func_80614F4C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80615130.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806155F0.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8065BB34.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8065C040.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_8065C9D0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8067F4A0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80697184.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8069723C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806972F4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806973AC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80697474.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_806974BC.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_8069770C.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_806977DC.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_80697908.c	3	0	DONE	retail row exact	MATCH
+src/town/func_806C5244.c	9	0	DONE	retail row exact	MATCH
+src/town/func_806C5744.c	2	0	DONE	retail row exact	MATCH
+src/town/func_806C59A0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806C90F8.c	4	0	PARTIAL_HOME_PROTOTYPE	retail row exact	MATCH
+src/town/func_806D2BB8.c	1	1	HOLD_DATA_EVIDENCE	B13 unchanged	not changed
+src/town/func_806D33D4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806D34B4.c	2	1	PARTIAL	retail row exact	MATCH
+src/town/func_806D4204.c	5	2	PARTIAL	retail row exact	MATCH
+src/town/func_806D43CC.c	2	0	DONE	retail row exact	MATCH
+src/town/func_806D45CC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806D49D0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806D4B50.c	1	0	DONE	retail row exact	MATCH
+src/town/func_806D4D98.c	2	0	DONE	retail row exact	MATCH
+src/town/func_806F18F8.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8070DD18.c	4	0	DONE	retail row exact	MATCH
+src/town/func_8070E0DC.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8070EBC4.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8070F7B8.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_8072A244.c	3	2	PARTIAL	retail row exact	MATCH
+src/town/func_8072A398.c	5	0	DONE	retail row exact	MATCH
+src/town/func_80761DA4.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_8080BE0C.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8080C650.c	8	1	PARTIAL	retail row exact	MATCH
+src/town/func_8080DAB8.c	6	0	DONE	retail row exact	MATCH
+src/town/func_80810F00.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80814610.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80815160.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8081B2B8.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8081DED0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_80820EBC.c	1	0	DONE	retail row exact	MATCH
+src/town/func_80875124.c	2	0	DONE	retail row exact	MATCH
+src/town/func_808783B0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8087FEF0.c	2	0	DONE	retail row exact	MATCH
+src/town/func_808B3490.c	1	0	DONE	retail row exact	MATCH
+src/town/func_808B94E0.c	6	0	DONE	retail row exact	MATCH
+src/town/func_808BB138.c	4	0	DONE	retail row exact	MATCH
+src/town/func_809569A0.c	1	0	DONE	retail row exact	MATCH
+src/town/func_8096B490.c	3	0	DONE	retail row exact	MATCH
+src/town/func_8096B5C8.c	3	1	PARTIAL	retail row exact	MATCH
+src/town/func_8096E320.c	7	0	DONE	retail row exact	MATCH

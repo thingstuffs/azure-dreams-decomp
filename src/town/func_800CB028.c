@@ -5,7 +5,7 @@
 
 void add_hex_20000_s_signed_offset_hex_14();                      /* extern */
 void initialize_object_entries();  /* extern */
-extern M2C_UNK D_800C86EC;
+void advance_object_position(s32 context, EntityRec *object, s32 finish_arg);
 extern M2C_UNK D_800D6290;
 
 
@@ -15,6 +15,6 @@ void check_action_six_eligibility(Rec_func_80094268_arg0 *object, EntityRec *mot
     add_hex_20000_s_signed_offset_hex_14(motion);
     if (motion->flags14 >= 0) {
         initialize_object_entries(object, context, &D_800D6290);
-        object->unk_54 = &D_800C86EC;
+        object->unk_54 = &advance_object_position;
     }
 }

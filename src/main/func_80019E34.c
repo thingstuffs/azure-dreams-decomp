@@ -1,13 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8007BFE0();          /* extern */
-M2C_UNK func_8007C040();       /* extern */
-M2C_UNK func_8007C958();                            /* extern */
-M2C_UNK func_8007CB08();                     /* extern */
-M2C_UNK func_80400A10();                            /* extern */
-M2C_UNK func_804086DC();                     /* extern */
-M2C_UNK func_80408730();                            /* extern */
+s32 func_8007BFE0(void *, s32);
+s32 func_8007C040(void *, void *, s32);
+s32 func_8007C958(void);
+s32 func_8007CB08(s32);
+s32 func_80400A10(void);
+void func_804086DC(s32 slot);
+void func_80408730(void);
 extern M2C_UNK D_8009DDD8;
 extern s32 D_8009E390;
 extern s32 D_8009E394;

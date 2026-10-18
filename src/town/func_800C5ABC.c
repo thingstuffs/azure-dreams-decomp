@@ -3,9 +3,9 @@
 
 typedef struct {
     u8 pad0[0x0C];
-    M2C_UNK *field0c;
+    s32 *field0c;
     u8 pad10[0x40];
-    M2C_UNK (*callback)(void *, s32, void *);
+    s32 (*callback)(void *, s32, void *);
     u8 pad54[0x10];
     s16 field64;
     u8 pad66[0x0A];
@@ -14,7 +14,7 @@ typedef struct {
     s16 field72;
     s16 field74;
     u8 pad76[2];
-    M2C_UNK **table78;
+    s32 **table78;
 } TargetObj;
 
 void dispatch_object_when_idle(TargetObj *, void *, s32, s32);

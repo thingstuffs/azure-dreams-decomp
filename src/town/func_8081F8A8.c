@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 
 typedef struct S_800220A8_0 {
     s16 unk_00;
@@ -21,7 +20,7 @@ typedef struct S_800220A8_2 {
 } S_800220A8_2;   /* ((S_800220A8_0 *)arg0)->unk_04 in update_minigame_approach_motion */
 
 
-M2C_UNK func_800644B8();
+s32 func_800644B8(s32);
 
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void update_minigame_approach_motion(void *motion_state, void *motion) {

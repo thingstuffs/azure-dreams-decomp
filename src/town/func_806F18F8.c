@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
@@ -11,7 +10,7 @@ typedef struct S_806F18F8_3 {
 
 typedef struct S_806F18F8_4 {
     u8 pad_00[0x208];
-    M2C_UNK (*unk_208)(M2C_UNK);
+    s32 (*unk_208)(s32);
 } S_806F18F8_4;   /* ((S_806F18F8_1 *)state)->unk_20 in func_806F18F8 */
 
 
@@ -25,5 +24,5 @@ void func_806F18F8(void) {
     record[1] = ((S_806F18F8_3 *)(state->unk_1C))->unk_04;
     record[2] = 0;
     ((S_806F18F8_4 *)(state->unk_20))->unk_208(0);
-    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_228)(record);
+    ((s32 (*) (s32 *))D_80016000->unk_20->callback_228)(record);
 }

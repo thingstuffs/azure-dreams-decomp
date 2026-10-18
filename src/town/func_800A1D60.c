@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 typedef struct S_8009F4C0_3 {
@@ -32,14 +31,21 @@ struct TownCopy84 {
 
 void func_80033CD8();                   /* extern */
 void *runtime_get_mode_indexed_value();               /* extern */
-M2C_UNK func_8003E188();        /* extern */
-M2C_UNK build_entity_slot_snapshot();            /* extern */
-M2C_UNK func_800423C0();      /* extern */
-M2C_UNK func_80042640();               /* extern */
+void func_8003E188(s32 field_index, s32 flag);        /* extern */
+typedef struct S_800422DC_Other S_800422DC_Other;
+typedef struct S_800422DC_Self S_800422DC_Self;
+void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);            /* extern */
+typedef struct S_800423C0_Src S_800423C0_Src;
+typedef struct S_800423C0_Obj S_800423C0_Obj;
+void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);      /* extern */
+void func_80042640(void *obj, s16 monsterId);               /* extern */
 void *memset(); /* extern */
 void set_object_state_for_mode();    /* extern */
-extern M2C_UNK D_8009F374;
-extern M2C_UNK D_80100A10;
+#include "records/Rec_D_800CFCB4.h"
+typedef struct S_8009F374_2 S_8009F374_2;
+#include "shared/entity.h"
+void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale);
+extern s32 D_80100A10;
 extern struct TownCopy84 D_80100AF8;
 
 
@@ -93,6 +99,6 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
     func_8003E188(entity->unk_4C, 1);
     set_object_state_for_mode(entity, context, entity->unk_4C, record_value);
-    entity->unk_50.as_pm = &D_8009F374;
+    entity->unk_50.as_pm = &handle_jitter_position_pulse_scale_until_countdown_expires;
     entity->unk_6C.as_s16 = 0xA;
 }

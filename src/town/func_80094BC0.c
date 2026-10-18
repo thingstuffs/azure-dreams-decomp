@@ -6,13 +6,13 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 s32 test_resident_bitmap_bit();                         /* extern */
-M2C_UNK func_80094088();     /* extern */
+void func_80094088(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 void initialize_actor_action_state();     /* extern */
-M2C_UNK initialize_action_object();     /* extern */
+void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object_and_play_sound();     /* extern */
-M2C_UNK initialize_action_handler_with_count_six();     /* extern */
-M2C_UNK initialize_action_object_with_counter();     /* extern */
-M2C_UNK initialize_actor_movement_interaction_action();     /* extern */
+void initialize_action_handler_with_count_six(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+void initialize_action_object_with_counter(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);
 void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
 s32 select_an_available_entry_matching_direction_returns_status(void *);            /* extern */

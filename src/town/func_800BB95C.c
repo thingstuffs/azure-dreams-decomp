@@ -6,7 +6,7 @@ extern M2C_UNK D_800B90B4;
 
 typedef struct S_800B90BC_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B90BC_0;
 
 /* Allocate an object and set its data pointer. */

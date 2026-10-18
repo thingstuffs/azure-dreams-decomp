@@ -48,7 +48,7 @@ typedef struct S_800B0FD4_1 {
 
 /* Populate up to five shop item rows with item details and buy or sell prices. */
 void populate_shop_item_rows(S_800B0FD4_0 *ctx) {
-    M2C_UNK price_text[8];
+    s32 price_text[8];
     s32 item_info;
     s32 item_value;
     s32 page;

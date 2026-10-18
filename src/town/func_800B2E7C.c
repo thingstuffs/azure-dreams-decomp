@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK bzero();             /* extern */
+void bzero(void *, s32);
 s32 set_item_menu_flag_and_return_one();                     /* extern */
 s32 create_item_menu_child_at_position(); /* extern */
 void finish_item_menu_child_and_release_list();                      /* extern */
@@ -20,11 +20,11 @@ typedef struct S_800B05DC_0 {
 
 typedef struct S_800B05DC_1 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800B05DC_1;
 
 /* Create a display controller and its child display object. */
-void *create_item_menu_display_controller(s32 owner, s32 display_config, M2C_UNK x, M2C_UNK y, s32 init_config) {
+void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, s32 y, s32 init_config) {
     s32 init_result;
     s32 display_object;
     S_800B05DC_0 *state;

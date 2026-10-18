@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_80048C3C_0 {
     s32 unk_00;
@@ -11,10 +10,9 @@ typedef struct S_80048C3C_1 {
     s32 unk_1C;
     s32 unk_20;
 } S_80048C3C_1;   /* temp_s2 in resource_load_indexed_sprite_bundle */
-
-M2C_UNK DrawSync();                          /* extern */
-M2C_UNK Control_CD();       /* extern */
-M2C_UNK drain_cd_command_queue();                            /* extern */
+void DrawSync(s32);                          /* extern */
+s32 Control_CD(s32 event_code, void *event_data, s32 payload);       /* extern */
+void drain_cd_command_queue(void);                            /* extern */
 void upload_vram_row_and_cache(); /* extern */
 s32 relocate_sprite_metadata_pointers();                      /* extern */
 void mark_palette_colors_with_high_bit();    /* extern */

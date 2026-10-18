@@ -9,7 +9,7 @@ extern M2C_UNK D_8009BDC0;
 
 typedef struct S_8009C0D8_1 {
     u8 pad_00[0x50];
-    M2C_UNK * unk_50;
+    s32 * unk_50;
 } S_8009C0D8_1;   /* arg0 in initialize_moving_object */
 
 /* Set the object flag, assign the context handler, and run object setup. */

@@ -5,7 +5,7 @@
 
 typedef struct S_80038464_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x70];
     s8 unk_84;
 } S_80038464_0;   /* arg0 in clear_runtime_state_and_set_handler */

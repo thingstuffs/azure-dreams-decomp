@@ -1,8 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
-typedef void (*Func_800B0E0C_Callback)(M2C_UNK);
+typedef void (*Func_800B0E0C_Callback)(s32);
 extern Func_800B0E0C_Callback D_800D157C[];
 
 typedef struct S_800AE56C_0 {
@@ -13,7 +12,7 @@ typedef struct S_800AE56C_0 {
 } S_800AE56C_0;   /* arg0 in dispatch_item_menu_entry_callback */
 
 /* Dispatch the callback selected by the byte at the current state offset. */
-void dispatch_item_menu_entry_callback(S_800AE56C_0 *state, M2C_UNK callback_arg) {
+void dispatch_item_menu_entry_callback(S_800AE56C_0 *state, s32 callback_arg) {
     D_800D157C[*(u8 *)(state->unk_38 +
                        state->unk_1C)](callback_arg);
 }

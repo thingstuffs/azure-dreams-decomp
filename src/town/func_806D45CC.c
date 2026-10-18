@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
-#include "m2c_compat.h"
 
 typedef struct S_806D45CC_2 {
     u8 pad_00[0x4];
@@ -13,9 +12,7 @@ typedef struct S_806D45CC_0 {
     u8 pad_00[0x18];
     s16 unk_18;
 } S_806D45CC_0;   /* arg0 in update_object_entry_flag */
-
-
-M2C_UNK func_800176B8();             /* extern */
+void func_800176B8(void *, s32);             /* extern */
 s32 initialize_state_two_entries_pointer();                         /* extern */
 
 /* Update the object, clear the current entry flag, and forward the call. */

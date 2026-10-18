@@ -1,9 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
+typedef struct S_800CB708_0 S_800CB708_0;
+
 void apply_object_setup_and_update();    /* extern */
-M2C_UNK assign_object_data_pointers(Rec_func_80094268_arg0 *);                            /* extern */
+void assign_object_data_pointers(S_800CB708_0 *object);
 s32 create_and_invoke_render_object();                  /* extern */
 
 

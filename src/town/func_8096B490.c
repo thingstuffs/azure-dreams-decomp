@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 s32 func_8004D880();                             /* extern */
-M2C_UNK get_glyph_vram_rectangle();              /* extern */
-M2C_UNK func_800673A0();         /* extern */
+void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);              /* extern */
+void func_800673A0(void *, s32, s32);         /* extern */
 
 typedef struct S_80123928_0 {
     u8 unk_00;
@@ -12,7 +11,7 @@ typedef struct S_80123928_0 {
 
 /* Outputs two-byte character codes, advancing the position by two per character. */
 void draw_vram_glyph_text(u8 *text, s16 start_x, s16 y) {
-    M2C_UNK glyph;
+    s32 glyph;
     s16 x;
     u8 *cursor;
     u8 code_hi;

@@ -5,7 +5,7 @@ extern s32 D_8001E958;
 extern M2C_UNK D_80021CC0;
 
 /* Clear D_8001E958 and return the address of D_80021CC0. */
-M2C_UNK *clear_event_resource_state_and_get_buffer(void) {
+s32 *clear_event_resource_state_and_get_buffer(void) {
     D_8001E958 = 0;
     return &D_80021CC0;
 }

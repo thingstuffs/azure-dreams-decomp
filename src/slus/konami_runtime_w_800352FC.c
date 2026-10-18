@@ -1,9 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
-
-M2C_UNK func_80034FFC();                   /* extern */
+s32 func_80034FFC(void *context);                   /* extern */
 extern u8 D_80082A38[];
 
 /* Pass the global object D_80082A38 to func_80034FFC. */

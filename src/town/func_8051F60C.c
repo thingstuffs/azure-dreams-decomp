@@ -7,7 +7,6 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
 /* Scale the linked object's value at offset 8 by 64 and add 0x220. */
 void scale_scene_object_value(void)
 {

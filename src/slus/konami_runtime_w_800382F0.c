@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
-
-M2C_UNK func_8003832C();                         /* extern */
+typedef struct S_8003832C_0 S_8003832C_0;
+void func_8003832C(S_8003832C_0 *context);                         /* extern */
 s32 func_80053EF0();                         /* extern */
 
 /* Call the handler when check 4 returns zero. */

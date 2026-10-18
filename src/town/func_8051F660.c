@@ -7,7 +7,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
+
 /* Add 0x20 to the linked object's 32-bit field at offset 8. */
 void advance_scene_object_value_by_32(void)
 {

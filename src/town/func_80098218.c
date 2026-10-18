@@ -1,17 +1,16 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
 typedef struct {
     s32 x;
     s32 y;
     s32 z;
     s32 unused[3];
 } LocalRecord;
-
-extern s16 select_lowest_corrected_probe(LocalRecord *, M2C_UNK *, s32, s32 *, s32, s32);
+typedef struct { s32 x; s32 y; s32 z; } Vec3i;
+typedef struct { s32 x; s32 y; s32 z; s32 pad; } Vec4i;
+s16 select_lowest_corrected_probe(Vec3i *origin, Vec4i *items, s32 count, s32 *best_item, s32 best_value, s32 initial_item);
 extern s16 forward_surface_query_with_argument(LocalRecord *, s32 *);
-extern M2C_UNK *D_800D0408;
+extern Vec4i *D_800D0408;
 extern s32 D_800FE5C0[];
 
 /* Selects the smaller position query result, capped at 64, and writes its associated value. */

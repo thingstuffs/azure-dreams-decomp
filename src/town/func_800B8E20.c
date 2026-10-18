@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-typedef s32 M2C_UNK;
 
 
 void *texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base();

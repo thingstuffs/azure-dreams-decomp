@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -10,13 +9,13 @@ typedef struct S_80035760_0 {
     u8 pad_4E[0x3];
     u8 unk_51;
     u8 pad_52[0x16];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
     u8 pad_6C[0x8];
     u8 * unk_74;
 } S_80035760_0;   /* arg0 in runtime_reset_state_and_advance_callback */
 
 
-extern M2C_UNK runtime_assign_code_101_callback;
+extern s32 runtime_assign_code_101_callback;
 
 /* Reset the state bytes and advance the callback when the shared flag or state requests it. */
 void runtime_reset_state_and_advance_callback(S_80035760_0 *state) {

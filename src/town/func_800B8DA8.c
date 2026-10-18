@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void initialize_display_entry();               /* extern */
-M2C_UNK func_800B640C();               /* extern */
+void func_800B640C(s32, s32, s32);               /* extern */
 void join_monster_status_display_chains();                 /* extern */
 typedef struct S_800B6508_0 {
     u8 pad_00[0x4];

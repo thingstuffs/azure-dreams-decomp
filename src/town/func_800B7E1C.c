@@ -22,7 +22,7 @@ extern M2C_UNK D_80089304;
 
 /* Formats two pairs of stat values with comparison indicators. */
 void *format_compared_stat_pairs(void *text, EntityRec *stats) {
-    M2C_UNK format_buf[3];
+    s32 format_buf[3];
     s32 first_indicator;
     s32 second_indicator;
     Vec3s *prefix;

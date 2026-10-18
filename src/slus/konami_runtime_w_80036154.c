@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -18,7 +17,7 @@ typedef struct S_80036154_2 {
 
 typedef struct S_80036154_0 {
     u8 pad_00[0x68];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
     u8 pad_6C[0x8];
     void * unk_74;
 } S_80036154_0;   /* arg0 in func_80036154 */

@@ -14,11 +14,11 @@ typedef struct S_800C5D38_0 {
 
 typedef struct S_800C5D38_1 {
     u8 pad_00[0x58];
-    M2C_UNK * unk_58;
-    M2C_UNK * unk_5C;
+    s32 * unk_58;
+    s32 * unk_5C;
     u8 pad_60[0x1C];
-    M2C_UNK * unk_7C;
-    M2C_UNK * unk_80;
+    s32 * unk_7C;
+    s32 * unk_80;
 } S_800C5D38_1;   /* arg0 in install_actor_response_tables */
 
 

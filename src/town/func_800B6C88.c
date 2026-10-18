@@ -1,12 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B3FB8_arg0.h"
-
-M2C_UNK upload_three_color_gradient_palette(); /* extern */
+void upload_three_color_gradient_palette(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end); /* extern */
 void update_four_slot_element_values_and_positions();      /* extern */
 void copy_contiguous_display_blocks();                         /* extern */
 void copy_display_template_blocks();                         /* extern */
-M2C_UNK func_800B426C();                         /* extern */
+void func_800B426C(void *);                         /* extern */
 void initialize_dual_child_entries();                      /* extern */
 extern M2C_UNK D_800D1658;
 extern M2C_UNK D_800D175C;

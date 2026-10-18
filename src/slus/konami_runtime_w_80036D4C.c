@@ -1,8 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
+
+typedef struct { unsigned char pad_00[0x54]; void *unk_54; } Struct800350B0;
 
 typedef struct S_80036D4C_4 {
     u8 pad_00[0x20];
@@ -19,7 +20,7 @@ typedef struct S_80036D4C_5 {
 typedef struct S_80036D4C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
 } S_80036D4C_0;   /* temp_v0 in func_80036D4C */
@@ -43,7 +44,7 @@ typedef struct S_80036D4C_3 {
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x2];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
     u8 pad_10[0x4];
     u16 unk_14;
@@ -51,7 +52,7 @@ typedef struct S_80036D4C_3 {
 
 
 void runtime_initialize_state_value();                 /* extern */
-M2C_UNK func_800350B0();                 /* extern */
+void func_800350B0(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
 void *initialize_runtime_node_storage(); /* extern */
 s32 func_8004491C();           /* extern */

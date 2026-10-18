@@ -2,11 +2,11 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80033CD8();           /* extern */
+void func_80033CD8(void *block_data, s32 registration_id);
 s32 lookup_item_category_mapped_value();                          /* extern */
 void *create_town_effect_object(); /* extern */
 void copy_adjusted_vector_or_flag_object();         /* extern */
-extern M2C_UNK D_8006E240;
+extern s32 D_8006E240;
 extern M2C_UNK D_800A8248;
 
 typedef struct S_800A8184_0 {

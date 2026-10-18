@@ -8,7 +8,7 @@ typedef struct S_80089C24_0 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80089C24_0;
 
 typedef struct S_80089C24_1 {
@@ -35,13 +35,13 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
 
 s32 func_8004491C();           /* extern */
 s32 render_screen_fade_decreasing_intensity();                      /* extern */
-M2C_UNK SD_Call(); /* extern */
-M2C_UNK func_80067014();                     /* extern */
-M2C_UNK func_800672D8();        /* extern */
-M2C_UNK func_8006733C();        /* extern */
+short SD_Call(int flags); /* extern */
+void func_80067014(s32);                     /* extern */
+void func_800672D8(void *, void *);        /* extern */
+void func_8006733C(void *, void *);        /* extern */
 void *create_type(); /* extern */
 void initialize_available();   /* extern */
-M2C_UNK initialize_and_submit_record();            /* extern */
+void initialize_and_submit_record(s32 value, void *data);            /* extern */
 extern u8 D_80013180;
 extern u8 D_80013181;
 extern u8 D_80013182;

@@ -1,12 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_8001B3E4_0 {
     u16 unk_00;
 } S_8001B3E4_0;   /* arg0 in func_8001B3E4; pointer addresses record offset 0x2 */
 
 
-M2C_UNK func_80047938(void *, s32, s32);                            /* extern */
+s32 func_80047938(void *, s32, s32);
 void update_linked_object_value_and_flags();                      /* extern */
 
 /* Run the object update and invoke its follow-up when flag 0x2000 is set. */

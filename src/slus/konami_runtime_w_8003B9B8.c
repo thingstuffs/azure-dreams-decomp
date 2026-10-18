@@ -1,10 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
-M2C_UNK func_8003B7C8();                            /* extern */
-M2C_UNK func_8003B8DC();                            /* extern */
+void func_8003B7C8(void);
+void func_8003B8DC(void);
 void func_80043458();                            /* extern */
 
 /* Runs the three Konami runtime routines in sequence. */

@@ -7,7 +7,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
+
 /* Writes 0x61 through the pointer at offset 0x1C of D_80016000's first entry. */
 void write_selected_entry_byte_61(void)
 {

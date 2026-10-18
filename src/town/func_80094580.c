@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
-
-M2C_UNK func_800941D8();    /* extern */
+void func_800941D8(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);    /* extern */
 void call_the_handler_selects_nonzero_entry();  /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                     /* extern */
 extern M2C_UNK D_800D00E0;

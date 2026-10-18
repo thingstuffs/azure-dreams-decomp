@@ -1,8 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_80018ADC();                     /* extern */
+void func_80018ADC(s32);                     /* extern */
 
 /* Calls func_80018ADC with the fixed value 0x5A4. */
 void run_scene_action_5_a_4(void) {

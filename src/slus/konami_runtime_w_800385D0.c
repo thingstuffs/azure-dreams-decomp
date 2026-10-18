@@ -1,11 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
 typedef struct S_800385D0_0 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0x13];
     s8 unk_27;
     u8 pad_28[0x5C];
@@ -13,7 +12,7 @@ typedef struct S_800385D0_0 {
 } S_800385D0_0;   /* arg0 in clear_two_state_fields_b */
 
 
-extern M2C_UNK func_800385E8;
+extern s32 func_800385E8;
 
 /* Clear two state fields and set the next handler. */
 void clear_two_state_fields_b(S_800385D0_0 *state) {

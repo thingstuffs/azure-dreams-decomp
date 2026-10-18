@@ -1,14 +1,15 @@
 #include "modules/town_map_props.h"
+#include "m2c_compat.h"
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 
 
 typedef struct S_800BE214_3 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_800BE214_3;   /* (s8 *)sp10 + (arg0->unk_68 * 4) in advance_actor_animation_pose */
 
 typedef struct S_800BE214_4 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_800BE214_4;   /* (s8 *)sp10 + (arg0->unk_A4 * 4) in advance_actor_animation_pose */
 
 

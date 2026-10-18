@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 typedef struct S_80026494_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x40];
-    M2C_UNK * unk_44;
+    s32 * unk_44;
 } S_80026494_0;   /* arg0 in card_boot_enter_insufficient_space_advice; pointer addresses record offset 0x10 */
 
 

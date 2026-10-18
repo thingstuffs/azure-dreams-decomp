@@ -1,9 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/town_handler.h"
 
 void update_actor_with_periodic_effect(); /* extern */
-extern M2C_UNK D_800917EC;
+#include "records/Rec_func_80094268_arg0.h"
+#include "shared/entity.h"
+void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context);
 extern u8 D_800D0158;
 
 typedef struct S_80091990_0 {
@@ -15,7 +16,7 @@ typedef struct S_80091990_0 {
 void reset_action_handler_on_flag(s32 **handler_slot, s32 context, S_80091990_0 *state) {
     if (state->unk_14 & 0x6000) {
         call_the_handler_selects_nonzero_entry((s32 *) &D_800D0158, (Rec_func_80094268_arg0 *) handler_slot, state);
-        *handler_slot = &D_800917EC;
+        *handler_slot = &update_actor_with_periodic_effect;
     }
     update_actor_with_periodic_effect(handler_slot, context, state);
 }

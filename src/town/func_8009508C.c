@@ -11,9 +11,9 @@ void submit_object_resource_data();                         /* extern */
 void set_default_scene_data_pointer();     /* extern */
 void initialize_actor_position_interaction_action();     /* extern */
 void initialize_input_driven_scene_object();     /* extern */
-M2C_UNK initialize_action_callback_from_entry();     /* extern */
-M2C_UNK initialize_busy_checked_countdown_action();     /* extern */
-M2C_UNK func_80094774();     /* extern */
+void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
+void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
+void func_80094774(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();                          /* extern */
 void store_the_valid_shared_angle_in_offset_hex_10();                      /* extern */
 void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();                      /* extern */
@@ -23,7 +23,7 @@ s32 get_status_active_entry_matching_direction();                       /* exter
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 void compute_and_clamps_vector_based_adjustment_updates_town();      /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();                      /* extern */
-M2C_UNK func_800988C8();     /* extern */
+void func_800988C8(s32 record, s32 setup_value, s32 init_value);
 void clear_entity_record_fields();                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
 s32 select_response_for_source_and_target();                     /* extern */

@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800AD7F8_arg0.h"
 
-M2C_UNK func_80049490();                         /* extern */
+int func_80049490(void *object);
 
 /* Pass the record's base plus its index scaled by four to func_80049490. */
 void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record) {

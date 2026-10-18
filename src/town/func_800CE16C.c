@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-#include "m2c_compat.h"
-
-M2C_UNK D_800CB9B8();               /* extern (function symbol used as callback) */
+typedef struct S_800CB9B8_2 S_800CB9B8_2;
+#include "records/Rec_D_80082D58.h"
+void update_entity_relative_position(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_pos);               /* extern (function symbol used as callback) */
 void *func_8003FD64();               /* extern */
 s32 func_8004491C();              /* extern */
 extern s32 D_800D68B0[];
@@ -13,7 +13,7 @@ typedef struct S_800CB8CC_0 {
     u8 pad_00[0x8];
     s32 unk_08;
     void * unk_0C;
-    M2C_UNK (*unk_10)(void *, s32, void *);
+    s32 (*unk_10)(void *, s32, void *);
 } S_800CB8CC_0;
 
 typedef struct S_800CB8CC_1 {
@@ -39,15 +39,15 @@ s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     S_800CB8CC_1 *state;
     void *object;
 
-    object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
-    if (object == NULL) {
+    object = func_8003FD64(0x136, ((s32 *)&D_80083498.next));
+    if (object == 0) {
         return 0;
     }
     state = object + 0x20;
     callback_arg = ((S_800CB8CC_0 *)object)->unk_08;
     render_data = ((S_800CB8CC_0 *)object)->unk_0C;
     state->unk_9C = initial_value;
-    ((S_800CB8CC_0 *)object)->unk_10 = D_800CB9B8;
+    ((S_800CB8CC_0 *)object)->unk_10 = update_entity_relative_position;
     render_data->unk_1E = 0x1000;
     render_data->unk_1C = 0x1000;
     render_data->unk_0C = 0x808080;

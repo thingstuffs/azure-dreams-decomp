@@ -1,7 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
 typedef struct S_800A21EC_0 {
     s32 unk_00;
     s8 unk_04;
@@ -21,7 +19,7 @@ typedef struct S_800A21EC_1 {
 } S_800A21EC_1;   /* arg1 in initialize_directional_object_state */
 
 typedef struct S_800A21EC_2 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x10];
     void * unk_14;
     u8 pad_18[0x8];
@@ -37,8 +35,10 @@ typedef struct S_800A21EC_3 {
 
 
 extern s32 func_8004491C();
-extern M2C_UNK D_80046398;
-extern M2C_UNK D_800A22D0;
+extern u8 D_80046398[];
+typedef struct Func800A4B70Output Func800A4B70Output;
+typedef struct Func800A4B70Object Func800A4B70Object;
+void copy_signed_inner_value_by_flag(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out);
 
 /* Initialize object state and placement with a direction-dependent offset. */
 s32 initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S_800A21EC_0 *state) {
@@ -49,7 +49,7 @@ s32 initialize_directional_object_state(void *object, S_800A21EC_1 *placement, S
     placement->unk_00.at00.v = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_00;
     placement->unk_04 = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_04;
     placement->unk_08 = (s32) ((S_800A21EC_3 *)(((S_800A21EC_2 *)object)->unk_14))->unk_08;
-    ((S_800A21EC_2 *)object)->unk_00 = &D_800A22D0;
+    ((S_800A21EC_2 *)object)->unk_00 = &copy_signed_inner_value_by_flag;
     if (((S_800A21EC_2 *)object)->unk_20 == 0) {
         s32 heading;
         heading = 1;

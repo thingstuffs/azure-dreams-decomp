@@ -4,14 +4,14 @@
 #include "records/Rec_D_80082E80.h"
 
 u32 scale_random_to_unsigned_halfword_limit();                     /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+void func_800478B8(void *entity);
 void add_motion_deltas_to_position();                      /* extern */
 extern M2C_UNK D_800A38A8;
 extern M2C_UNK D_800D0B20;
 
 
 typedef struct S_800A378C_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x1E];
     s16 unk_22;
     s32 unk_24;

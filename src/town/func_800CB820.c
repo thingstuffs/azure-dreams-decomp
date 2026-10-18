@@ -8,7 +8,7 @@ extern M2C_UNK D_800D6268;
 
 
 /* Decrement the object's countdown and advance its state when the countdown expires. */
-void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK updateContext) {
+void advance_object_after_timeout_variant_2(Rec_func_80094268_arg0 *object, s32 unused, s32 updateContext) {
     u16 remainingTicks;
 
     remainingTicks = object->unk_6C.as_u16 - 1;

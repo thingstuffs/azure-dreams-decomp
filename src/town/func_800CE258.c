@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
-M2C_UNK func_80033D08();                      /* extern */
+void func_80033D08(void *block_data);
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 void clear_object_slot_and_mark_removed();                      /* extern */

@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/object_flags.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
 
@@ -11,7 +10,7 @@ typedef struct S_800A8440_1 {
 } S_800A8440_1;   /* arg0 in fade_timed_primitive; pointer addresses record offset 0x2 */
 
 
-M2C_UNK func_800478B8();                      /* extern */
+void func_800478B8(void *entity);
 
 /* Fades the primitive and sets completion flags when the countdown expires. */
 void fade_timed_primitive(void *record_fields, void *unused, Rec_D_80082E80 *primitive) {

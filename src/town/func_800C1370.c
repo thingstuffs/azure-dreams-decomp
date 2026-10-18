@@ -1,10 +1,10 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "m2c_compat.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -14,12 +14,12 @@ typedef struct S_800BEAD0_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800BEAD0_0;
 
 typedef struct S_800BEAD0_1 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
     u8 pad_10[0xC];
     s16 unk_1C;
@@ -29,7 +29,7 @@ typedef struct S_800BEAD0_1 {
 
 
 extern s32 func_8004491C();
-extern M2C_UNK SD_Call();
+short SD_Call(int flags);
 extern M2C_UNK D_8007789C;
 extern M2C_UNK D_800BEBA4;
 

@@ -1,14 +1,18 @@
 #include "common.h"
-#include "m2c_compat.h"
+
+typedef struct S_800422DC_Other S_800422DC_Other;
+typedef struct S_800422DC_Self S_800422DC_Self;
+typedef struct S_800423C0_Obj S_800423C0_Obj;
+typedef struct S_800423C0_Src S_800423C0_Src;
 
 void *runtime_get_mode_indexed_value();        /* extern */
-M2C_UNK build_entity_slot_snapshot();            /* extern */
-M2C_UNK func_800423C0();      /* extern */
-M2C_UNK func_80042640();               /* extern */
-M2C_UNK memset(); /* extern */
+void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
+void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
+void func_80042640(void *obj, s16 monsterId);
+void *memset(void *, s32, u32);
 s32 find_first_vacant_record();              /* extern */
 void *func_800B2344();                              /* extern */
-extern M2C_UNK D_80100A10;
+extern s32 D_80100A10;
 typedef struct {
     s32 words[0x15];
 } Record84;

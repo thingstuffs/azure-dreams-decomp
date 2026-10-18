@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 
 void dev_report_kind_mode_sno();                     /* extern */
 void shop_dispatch_entry_value();                     /* extern */
@@ -8,7 +7,7 @@ s32 shop_find_first_eligible_entry();                                /* extern *
 void shop_process_entry_pairs();                            /* extern */
 s32 shop_check_selected_entry_state();                             /* extern */
 void shop_update_availability_flag();                            /* extern */
-M2C_UNK func_80702924();                         /* extern */
+void func_80702924(s32);                         /* extern */
 void reset_town_display_pick_scene();                    /* extern */
 
 extern s32 D_80701DC4_0[];

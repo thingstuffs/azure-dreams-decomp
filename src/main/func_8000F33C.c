@@ -1,8 +1,7 @@
 #include "common.h"
-#include "m2c_compat.h"
 
-M2C_UNK set_glyph_style_index();                /* extern */
-M2C_UNK func_8004E884();                     /* extern */
+void set_glyph_style_index(void *record, int index);
+void func_8004E884(u8 *entries, s32 process_arg);
 
 /* Processes consecutive 12-byte entries starting at the requested index. */
 void card_boot_highlight_dialog_text_range(s32 entry_base, s32 start_index, s32 entry_count) {

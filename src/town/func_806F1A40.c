@@ -3,10 +3,10 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80017744();
-M2C_UNK func_800177BC();
+s32 func_80017744(s32);
+s32 func_800177BC(s32);
 extern M2C_UNK D_80017A00;
-extern M2C_UNK *D_80017A98;
+extern s32 *D_80017A98;
 
 /* Ask the scene object for its mode and raise the matching 0xBE9 event, then arm the next handler. */
 void func_806F1A40(void) {

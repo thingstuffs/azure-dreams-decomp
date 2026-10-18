@@ -1,9 +1,8 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
-#include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
-M2C_UNK func_80033D08();                      /* extern */
+void func_80033D08(void *block_data);
 void unlink_scene_list_node();                      /* extern */
 void clear_object_slot_and_mark_removed();                      /* extern */
 void apply_object_setup_and_update(Rec_D_80082D58 *, s32, s32);                            /* extern */

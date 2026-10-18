@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
@@ -8,9 +7,7 @@ typedef struct S_8003C2B8_0_pre {
     s32 unk_00;
     u8 pad_04[0x10];
 } S_8003C2B8_0_pre;   /* the 0x14 bytes before &D_80082D58 in func_8003C2B8, addressed as &D_80082D58[-1] */
-
-
-M2C_UNK func_80033D08();                   /* extern */
+void func_80033D08(void *block_data);                   /* extern */
 void runtime_clear_record_field_04();              /* extern */
 extern u8 D_80082D58[];
 

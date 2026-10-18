@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "m2c_compat.h"
 #include "shared/town_root.h"
 
 
@@ -27,7 +26,7 @@ typedef struct S_8072A398_0 {
 void func_8072A398(void) {
     s32 *fixed_coords;
 
-    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_258)(0xC);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_258)(0xC);
     D_80017B78 =
         ((S_8072A398_4 *)(D_80016000->unk_1C))->unk_04
     << 0x10;
@@ -36,8 +35,8 @@ void func_8072A398(void) {
         (s32) (((S_8072A398_5 *)((*(void **)((u8 *)(D_80016000)
         + 0x1C))))->unk_08 << 0x10);
     ((S_8072A398_0 *)fixed_coords)->unk_08 = 0;
-    ((M2C_UNK (*) (s32 *))D_80016000->unk_20->callback_224)(fixed_coords);
-    ((M2C_UNK (*) (M2C_UNK))D_80016000->unk_20->callback_208)(0);
+    ((s32 (*) (s32 *))D_80016000->unk_20->callback_224)(fixed_coords);
+    ((s32 (*) (s32))D_80016000->unk_20->callback_208)(0);
 }
 
 /* MECHANISM: Declaring D_80016000 as a wide array holds its 0x80010000 page in s0,

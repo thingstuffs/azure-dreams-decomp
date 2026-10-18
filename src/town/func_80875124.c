@@ -1,8 +1,6 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_80700C08();                     /* extern */
-M2C_UNK func_80701060();                            /* extern */
+void func_80700C08(s32);                     /* extern */
+void func_80701060(void);                            /* extern */
 
 /* Devkit flag-test entry: select page 3, then run the page's flag scan. */
 void run_devkit_page_3_flag_scan(void) {

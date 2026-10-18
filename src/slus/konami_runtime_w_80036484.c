@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
@@ -11,11 +10,11 @@ typedef struct S_80036484_0 {
     u8 pad_52[0x12];
     u16 unk_64;
     u8 pad_66[0x2];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_80036484_0;   /* arg0 in runtime_decrement_countdown_and_reset */
 
 
-extern M2C_UNK runtime_mark_state_when_flag_51_set;
+extern s32 runtime_mark_state_when_flag_51_set;
 
 /* Decrements the countdown and resets state before switching handlers when it expires. */
 void runtime_decrement_countdown_and_reset(S_80036484_0 *state) {

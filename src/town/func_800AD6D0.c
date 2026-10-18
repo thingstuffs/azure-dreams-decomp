@@ -14,7 +14,7 @@ typedef struct S_800AAE30_0 {
 
 typedef struct S_800AAE30_1 {
     u8 pad_00[0x50];
-    M2C_UNK * unk_50;
+    s32 * unk_50;
     u8 pad_54[0x1E];
     s16 unk_72;
 } S_800AAE30_1;   /* arg0 in initialize_person_vector */

@@ -1,16 +1,15 @@
 #include "common.h"
+#include "m2c_compat.h"
 
 /* manual g1 strike 2: preserve the incoming second argument through the call */
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
-extern M2C_UNK pack_tagged_resource_descriptor();
+void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
 extern M2C_UNK D_800814F0;
 
 /* Builds and returns a shared descriptor for the record ID and packed value. */
-M2C_UNK *build_sprite_metadata_read_descriptor(s16 record_id, M2C_UNK packed_value) {
-    M2C_UNK count;
+s32 *build_sprite_metadata_read_descriptor(s16 record_id, s32 packed_value) {
+    s32 count;
     s32 offset;
 
     if (record_id == 0x38) {

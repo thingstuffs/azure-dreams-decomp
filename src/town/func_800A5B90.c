@@ -1,10 +1,9 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_800A3320;
+typedef struct Obj800A5BC0 Obj800A5BC0;
+void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx);
 
 typedef struct S_800A32F0_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x4];
     s16 unk_08;
     u8 pad_0A[0x6];
@@ -21,5 +20,5 @@ void initialize_animated_menu_ring(S_800A32F0_0 *state) {
     state->unk_08 = 0x14;
     state->unk_10 = 0;
     state->unk_18 = 0;
-    state->unk_00 = &D_800A3320;
+    state->unk_00 = &tick_menu_motion_fade;
 }

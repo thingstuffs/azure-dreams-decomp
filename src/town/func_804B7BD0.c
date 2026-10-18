@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 void store_supplied_values();                /* extern */
-M2C_UNK func_80017EB0();                /* extern */
-M2C_UNK func_800188CC();                     /* extern */
+void func_80017EB0(s32, s32);                /* extern */
+void func_800188CC(s32);                     /* extern */
 s32 func_8001894C();                             /* extern */
 extern s16 D_80018AEA;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
 
@@ -13,7 +14,7 @@ typedef struct S_800C8808_1 {
 } S_800C8808_1;   /* arg1 in initialize_object_callback */
 
 /* Initialize the object callback and set its state value to negative ten in fixed point. */
-void initialize_object_callback(Rec_func_80094268_arg0 *object, S_800C8808_1 *state, M2C_UNK init_data) {
+void initialize_object_callback(Rec_func_80094268_arg0 *object, S_800C8808_1 *state, s32 init_data) {
     initialize_object_entries(object, init_data, &D_800D627C);
     object->unk_54 = &D_800C8788;
     state->unk_14 = 0xFFF60000;

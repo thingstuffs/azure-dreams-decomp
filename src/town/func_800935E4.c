@@ -3,7 +3,6 @@
 #include "records/Rec_func_80090C68_arg0.h"
 
 
-typedef s32 M2C_UNK;
 
 
 extern void dispatch_actor_interaction_actions(void *, void *, s32);

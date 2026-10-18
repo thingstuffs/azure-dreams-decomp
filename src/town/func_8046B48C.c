@@ -1,7 +1,5 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-M2C_UNK func_8001E670();                         /* extern */
+void func_8001E670(s32);                         /* extern */
 extern s16 D_8001792C;
 
 /* Pass the current value of D_8001792C to func_8001E670. */

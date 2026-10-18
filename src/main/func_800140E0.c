@@ -1,5 +1,4 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_80027018_arg0.h"
 
 
@@ -50,7 +49,7 @@ typedef struct S_800270E0_8 {
 
 void card_boot_bind_save_heading_display_data();                      /* extern */
 void format_save_heading_text(void *);                            /* extern */
-M2C_UNK func_80027080();       /* extern */
+void func_80027080(void *, s32, s32);       /* extern */
 
 
 /* Initializes the object and positions its four components. */

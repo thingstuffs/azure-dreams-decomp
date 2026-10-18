@@ -1,14 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
 #include "shared/entity.h"
 
 typedef struct S_800B62A4_0 {
     u8 pad_00[0x8];
     u8 unk_08;
 } S_800B62A4_0;
-
-
-M2C_UNK bzero();            /* extern */
+void bzero(void *, s32);            /* extern */
 void collect_selected_record_values();             /* extern */
 void populate_display_row_with_icon();            /* extern */
 void populate_display_row();            /* extern */
@@ -52,7 +49,7 @@ void fill_display_slots(EntityRec *source, s32 output) {
         source_cursor = entries;
         do {
             entry = *(void **)source_cursor;
-            if (entry != NULL) {
+            if (entry != 0) {
                 populate_display_row(entry, output, slot_count);
                 slot_count += 1;
             }

@@ -1,11 +1,11 @@
 #include "common.h"
-#include "m2c_compat.h"
-
-extern M2C_UNK D_800C3F44;
+#include "records/Rec_func_80094268_arg0.h"
+#include "shared/entity.h"
+void advance_motion_and_switch_handler(Rec_func_80094268_arg0 *object, EntityRec *motion, s32 context);
 
 typedef struct S_800C3FC8_0 {
     u8 pad_00[0x54];
-    M2C_UNK * unk_54;
+    s32 * unk_54;
     u8 pad_58[0x14];
     u16 unk_6C;
 } S_800C3FC8_0;   /* arg0 in expire_motion_timer */
@@ -22,7 +22,7 @@ void expire_motion_timer(S_800C3FC8_0 *object, S_800C3FC8_1 *motion) {
     remaining_ticks = object->unk_6C - 1;
     object->unk_6C = remaining_ticks;
     if (remaining_ticks < 0) {
-        object->unk_54 = &D_800C3F44;
+        object->unk_54 = &advance_motion_and_switch_handler;
         motion->unk_14 = 0xFFF60000;
     }
 }

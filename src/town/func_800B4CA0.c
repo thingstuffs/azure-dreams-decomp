@@ -1,6 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-#include "m2c_compat.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
 typedef struct S_800B2400_8 {
@@ -25,7 +24,7 @@ typedef struct S_800B2400_11 {
 
 typedef struct {
     s32 value;
-} __attribute__((packed)) M2C_UNALIGNED_WORD;
+} __attribute__((packed)) PackedItemWord;
 
 s32 get_mode_value_or_default();
 void remove_selected_entry_from_list();
@@ -51,7 +50,7 @@ typedef struct S_800B2400_3 {
 } S_800B2400_3;
 
 typedef struct S_800B2400_4 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     s32 unk_04;
 } S_800B2400_4;
 
@@ -72,7 +71,7 @@ typedef struct S_800B2400_7 {
 
 /* Move the selected item to the destination list and return a status code. */
 s32 func_800B2400(void *state) {
-    M2C_UNK *new_item;
+    s32 *new_item;
     s32 dest_capacity;
     s32 source_index;
     s32 remove_index;
@@ -108,7 +107,7 @@ s32 func_800B2400(void *state) {
                     + state)))->unk_3C) * 4);
                 new_item = find_unused_pool_slot(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
                     + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
-                *(M2C_UNALIGNED_WORD *)new_item = *(M2C_UNALIGNED_WORD *)selected_item;
+                *(PackedItemWord *)new_item = *(PackedItemWord *)selected_item;
                 dest_slot->unk_00 = new_item;
                 dest_slot->unk_04 = 0;
                 remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;

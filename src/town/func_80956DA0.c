@@ -19,13 +19,13 @@ typedef struct S_80956DA0_4 {
 
 s32 func_8004491C();           /* extern */
 extern M2C_UNK D_80023E64;
-extern M2C_UNK D_80044BB0;
+extern s32 D_80044BB0[3];
 extern M2C_UNK D_80079438;
 
 typedef struct S_80956DA0_0 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80956DA0_0;
 
 typedef struct S_80956DA0_1 {
@@ -38,7 +38,7 @@ typedef struct S_80956DA0_2 {
     s8 unk_04;
     s8 unk_05;
     s16 unk_06;
-    M2C_UNK * unk_08;
+    s32 * unk_08;
     s32 unk_0C;
     u8 pad_10[0x4];
     u16 unk_14;

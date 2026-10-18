@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
 
-M2C_UNK del_t_item_w_ptr();                         /* extern */
+void del_t_item_w_ptr(s32 item_ptr);
 extern s32 D_8001029C;
 
 /* Process the global value repeatedly until it becomes zero. */

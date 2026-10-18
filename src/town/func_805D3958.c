@@ -6,7 +6,6 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s8 M2C_UNK8;
 extern u8 D_800198A4[];
 extern s32 D_80019B8C;
 /* Returns the 32-bit field at offset 0x10 in the selected 24-byte record. */

@@ -1,13 +1,12 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 typedef struct S_8001FF34_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
 } S_8001FF34_0;   /* arg0 in func_8001FF34; pointer addresses record offset 0x10 */
 
 
 void card_devkit_highlight_selected_load_slot();                            /* extern */
-M2C_UNK func_80400908();                            /* extern */
+void func_80400908(void);                            /* extern */
 extern s32 D_80406DA0;
 
 /* Process the record data, run the follow-up routine, and set its header pointer. */

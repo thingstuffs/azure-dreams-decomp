@@ -7,11 +7,11 @@ extern void func_80017670(s32);
 extern M2C_UNK D_8001601C;
 extern M2C_UNK D_8001605E;
 extern M2C_UNK D_800162A4;
-extern M2C_UNK *D_80017760;
+extern s32 *D_80017760;
 
 typedef struct S_8077DC0C_1 {
     u8 pad_00[0x40];
-    M2C_UNK * unk_40;
+    s32 * unk_40;
 } S_8077DC0C_1;   /* dispatch_base in func_8077DC0C */
 
 /* Flip the current slot's toggle byte, point the dispatcher at the matching handler and raise two events. */

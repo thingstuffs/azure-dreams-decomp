@@ -6,7 +6,6 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-typedef s32 M2C_UNK;
 s32 apply_selected_entry_values();
 s32 process_checked_entry();
 void set_script_flag_bit();

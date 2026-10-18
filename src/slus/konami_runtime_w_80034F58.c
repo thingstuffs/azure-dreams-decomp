@@ -1,9 +1,8 @@
 #include "common.h"
-#include "m2c_compat.h"
 
 #include "common.h"
-
-M2C_UNK func_80035484();   /* extern */
+#include "slus/owned_80035484.h"
+void func_80035484(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);   /* extern */
 extern u8 D_80081EB0[];
 extern u8 D_800820A8[];
 

@@ -44,7 +44,7 @@ typedef struct S_80036B10_6 {
 
 typedef struct S_80036B10_7 {
     u8 pad_00[0x80];
-    M2C_UNK * unk_80;
+    s32 * unk_80;
 } S_80036B10_7;   /* ((Rec_func_80036210_arg0 *)arg2)->unk_74.as_pm in func_80036B10 */
 
 typedef struct S_80036B10_8 {
@@ -53,13 +53,12 @@ typedef struct S_80036B10_8 {
 } S_80036B10_8;   /* ((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)arg2)->unk_74.as_pm))->unk_80 in func_80036B10 */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void runtime_initialize_state_value();
 void func_800350B0();
 void *initialize_runtime_node_storage();
 s32 func_8004491C();
-M2C_UNK func_8003DB94();
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern u8 D_8006A934[];
 extern u8 D_80073DC4[];
 extern u8 D_80082BC0[];

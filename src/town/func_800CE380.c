@@ -3,7 +3,7 @@
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_800CBAE0_0 {
-    M2C_UNK * unk_00;
+    s32 * unk_00;
     u8 pad_04[0x6C];
     s32 unk_70;
     u8 pad_74[0x32];

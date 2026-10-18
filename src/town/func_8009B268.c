@@ -6,7 +6,7 @@
 void call_the_handler_selects_nonzero_entry();  /* extern */
 void clear_entity_record_fields();                     /* extern */
 extern M2C_UNK D_80097DE8;
-extern M2C_UNK D_800D0178;
+extern s32 D_800D0178;
 
 
 /* Initializes the object, assigns its handler table, and clears two global flags. */

@@ -10,7 +10,7 @@ typedef struct S_80035C44_0 {
 
 typedef struct S_80035C44_1 {
     u8 pad_00[0x68];
-    M2C_UNK * unk_68;
+    s32 * unk_68;
 } S_80035C44_1;   /* arg0 in grow_window_extent_to_sixty_four */
 
 

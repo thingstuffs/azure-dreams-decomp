@@ -9,7 +9,7 @@ extern M2C_UNK D_800D5FA0;
 
 
 /* Initialize the object callback and clear its state values. */
-void initialize_mother_event_object(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK init_data) {
+void initialize_mother_event_object(Rec_func_80094268_arg0 *object, s32 unused, s32 init_data) {
     initialize_object_entries(object, init_data, &D_800D5FA0);
     D_80082680 = 0;
     object->unk_54 = &D_800C7EF0;

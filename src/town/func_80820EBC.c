@@ -40,7 +40,7 @@ extern Vec3 D_80020278;
 extern u8 D_80024488[];
 extern s32 D_800244DC[];
 extern s32 D_80024628[];
-extern M2C_UNK D_800D0420;
+extern u8 D_800D0420[];
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)

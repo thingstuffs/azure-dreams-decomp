@@ -11,7 +11,7 @@ void move_both_components_toward_zero_direction_dependent_steps_clamping_zero();
 void run_the_three_update_routines_context();       /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();       /* extern */
 void clear_entity_record_fields();       /* extern */
-extern M2C_UNK D_800D0078;
+extern u8 D_800D0078[];
 extern s32 D_800FE518;
 
 

@@ -1,8 +1,10 @@
 #include "common.h"
-#include "m2c_compat.h"
+
+#include "records/Rec_func_80094268_arg0.h"
+typedef struct ReactionState ReactionState;
 
 /* extern */
-M2C_UNK func_800CDF00();    /* extern */
+void func_800CDF00(Rec_func_80094268_arg0 *actor, ReactionState *state, s8 *output);
 
 typedef struct S_800CD9F4_0 {
     u8 pad_00[0x6C];
@@ -12,9 +14,9 @@ typedef struct S_800CD9F4_0 {
 } S_800CD9F4_0;   /* arg0 in tick_counter_and_enter_state_three */
 
 
-s32 select_object_setup_path(S_800CD9F4_0 *, M2C_UNK, M2C_UNK, s32);
+s32 select_object_setup_path(void *object, s32 request_data, s32 request_param, s32 check_param);
 /* Decrement the counter when the check returns zero and enter state 3 when it expires. */
-void tick_counter_and_enter_state_three(S_800CD9F4_0 *object, M2C_UNK context_a, M2C_UNK context_b, s32 check_arg) {
+void tick_counter_and_enter_state_three(S_800CD9F4_0 *object, s32 context_a, s32 context_b, s32 check_arg) {
     u16 remaining_count;
 
     if (select_object_setup_path(object, context_a, context_b, check_arg) == 0) {
