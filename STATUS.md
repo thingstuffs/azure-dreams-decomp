@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-18T04:26:34Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-18T06:54:27Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,10 +13,10 @@ Generated 2026-10-18T04:26:34Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 19,858 of 19,858 rows (100.0%), 7,809,524 bytes; 0 unverified |
 | **Code that is C** | 96.1% as C; 99.3% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 92.9%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 268 current, 196 stale, 72 not certified yet |
+| **Readability** | L3 92.9%, L4 9.3%, L5 9.0% of bytes (levels below) |
+| **Module certificates** | 195 of 268 current, 2 stale, 71 not certified yet |
 
-**Current proof state.** 268 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 73 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 9.3% and 9.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -68,14 +68,14 @@ Baseline NOT exact: 0 rows
 | L1 | 7,809,524 | 100.0% |
 | L2 | 7,809,524 | 100.0% |
 | L3 | 7,251,572 | 92.9% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 729,624 | 9.3% |
+| L5 | 704,736 | 9.0% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3477 rows, 2,242,856 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 19,858 rows (7,809,524 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 18,359 rows (7,079,724 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -220,11 +220,10 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 194 | 1,471 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 18 | 293 | no certificate has been issued for this module |
+| current | 195 | 1,487 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| not certified yet | 17 | 277 | no certificate has been issued for this module |
 
-<details><summary>stale: inputs changed - 194 modules, 1,471 rows</summary>
+<details><summary>current - 195 modules, 1,487 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -285,6 +284,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | town_player_init_12868 | 12 |
 | town_town_windows_1f5b8 | 36 |
 | dungeon_town_load | 5 |
+| dungeon_ovl_16b08_local | 16 |
 | dungeon_ovl_12c50ac | 2 |
 | dungeon_ovl_e0365c | 38 |
 | dungeon_ovl_be1084 | 6 |
@@ -425,14 +425,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 </details>
 
-<details><summary>not certified yet - 18 modules, 293 rows</summary>
+<details><summary>not certified yet - 17 modules, 277 rows</summary>
 
 | module | rows |
 |---|---:|
 | dungeon_town_map | 16 |
 | dungeon_ovl_d54c | 10 |
 | dungeon_dungeon_setup | 14 |
-| dungeon_ovl_16b08_local | 16 |
 | dungeon_ovl_16b08_f6a8 | 1 |
 | dungeon_ovl_1831370 | 23 |
 | dungeon_ovl_1831cd8 | 50 |
