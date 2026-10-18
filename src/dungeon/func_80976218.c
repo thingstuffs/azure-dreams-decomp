@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/actor_status.h"
 
 typedef struct S_80171A18_0 {
     u8 pad_00[0x1C];
@@ -22,12 +23,7 @@ typedef struct S_80171A18_1 {
     u8 * unk_2C;
 } S_80171A18_1;   /* arg2 in advance_actor_along_queued_path */
 
-typedef struct S_80171A18_2 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171A18_2;   /* cell in advance_actor_along_queued_path */
+   /* cell in advance_actor_along_queued_path */
 
 typedef struct S_80171A18_3 {
     u8 pad_00[0x8C];
@@ -40,12 +36,7 @@ typedef struct S_80171A18_3 {
     u8 unk_9A;
 } S_80171A18_3;   /* arg0 in advance_actor_along_queued_path */
 
-typedef struct S_80171A18_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171A18_4;   /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in advance_actor_along_queued_path */
+   /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in advance_actor_along_queued_path */
 
 
 extern s32 func_80047784();
@@ -85,8 +76,8 @@ void advance_actor_along_queued_path(void *motion, s32 unused, void *actor, void
     }
 
     next_cell = (u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s;
-    if (((S_80171A18_1 *)actor)->unk_24 == ((S_80171A18_2 *)next_cell)->unk_74
-        && ((S_80171A18_1 *)actor)->unk_25 == ((S_80171A18_2 *)next_cell)->unk_7C) {
+    if (((S_80171A18_1 *)actor)->unk_24 == ((ActorStatusBytesView *)next_cell)->unk_74
+        && ((S_80171A18_1 *)actor)->unk_25 == ((ActorStatusBytesView *)next_cell)->unk_7C) {
         move_offset = ((S_80171A18_3 *)motion)->unk_92;
         remaining_offset = ((S_80171A18_0 *)move_state)->unk_88;
         ((S_80171A18_3 *)motion)->unk_92 = move_offset + 0x20;
@@ -101,9 +92,9 @@ void advance_actor_along_queued_path(void *motion, s32 unused, void *actor, void
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
-        ((S_80171A18_1 *)actor)->unk_24 = ((S_80171A18_4 *)((u8 *)move_state
+        ((S_80171A18_1 *)actor)->unk_24 = ((ActorStatusBytesView *)((u8 *)move_state
             + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_74;
-        ((S_80171A18_1 *)actor)->unk_25 = ((S_80171A18_4 *)((u8 *)move_state
+        ((S_80171A18_1 *)actor)->unk_25 = ((ActorStatusBytesView *)((u8 *)move_state
             + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_7C;
         ((S_80171A18_0 *)move_state)->unk_8A.u++;
 

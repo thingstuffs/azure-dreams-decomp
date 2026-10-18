@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800BE6F0_0_pre {
     void * unk_00;
@@ -23,11 +24,7 @@ typedef struct S_800BE6F0_1 {
     s16 unk_0A;
 } S_800BE6F0_1;   /* record1 in apply_monster_egg_reversion_item */
 
-typedef struct S_800BE6F0_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800BE6F0_3;   /* record2 in apply_monster_egg_reversion_item */
+   /* record2 in apply_monster_egg_reversion_item */
 
 typedef struct S_800BE6F0_5 {
     u8 pad_00[0xA];
@@ -72,7 +69,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
     u8 tile_x;
     u8 tile_y;
     S_800BE6F0_1 *position;
-    S_800BE6F0_3 *map_position;
+    MovingTile *map_position;
     s32 *entity_table;
     s32 cleared_selection;
     u8 *entity_base;

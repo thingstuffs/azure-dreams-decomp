@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8017237C_0 {
     u8 pad_00[0x2A];
@@ -10,11 +11,7 @@ typedef struct S_8017237C_0 {
     u8 unk_71;
 } S_8017237C_0;   /* p3 in validate_action_and_apply_effect */
 
-typedef struct S_8017237C_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017237C_1;   /* p2 in validate_action_and_apply_effect */
+   /* p2 in validate_action_and_apply_effect */
 
 typedef struct S_8017237C_2 {
     u8 pad_00[0x8C];
@@ -45,7 +42,7 @@ extern s16 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
-s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)
+s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, MovingTile *target, void *actor_data)
 {
     void *actor = actor_data;
     s32 action_ready;

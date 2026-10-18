@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "shared/object_links.h"
 extern u8 D_80170000[];
 
 typedef struct S_8016FC4C_0 {
@@ -11,10 +12,7 @@ typedef struct S_8016FC4C_0 {
     void * unk_AC;
 } S_8016FC4C_0;
 
-typedef struct S_8016FC4C_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8016FC4C_1_pre;
+
 
 typedef struct S_8016FC4C_2 {
     u8 pad_00[0x14];
@@ -119,7 +117,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
     do {
         linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
         if (linked_entity != NULL) {
-            linked_object = ((S_8016FC4C_1_pre *)linked_entity)[-1].unk_00;
+            linked_object = ((SpriteLinkPrefixView *)linked_entity)[-1].unk_00;
             linked_object->unk_14 = (u16)(linked_object->unk_14 & 0xFFBF);
         }
         count -= 1;

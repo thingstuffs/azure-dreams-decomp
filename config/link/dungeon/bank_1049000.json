@@ -9,6 +9,25 @@
  "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F103800: r101_rc7_func_81029858, r101_rc7_func_8102B034, r101_rc7_func_8102C664, r121_followup_104B810, rc7_res_1049DF0_104B034, rc7_res_104B4E0_104C664 (+1 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
  "entries": [
   {
+   "row": "dungeon/func_81029278",
+   "home": "dungeon/func_81005278",
+   "tu": "src/dungeon/func_81005278.c",
+   "foff": "0x1049278",
+   "vma": "0x8014ca78",
+   "size": 1504,
+   "bindings": {
+    "0x80171058": "0x8014d058",
+    "0x80171030": "0x8014d030",
+    "0x80174900": "0x80150900",
+    "0x80170c0c": "0x8014cc0c",
+    "0x80170cb4": "0x8014ccb4",
+    "0x80170d20": "0x8014cd20",
+    "0x80174880": "0x80150880",
+    "0x80170f8c": "0x8014cf8c"
+   },
+   "evidence": "docs/evidence/r121w_goto2_receipts.json: dungeon/func_81029278; complete SDK2 donor twin, authenticated header entry, ELF relocations, scoped gate"
+  },
+  {
    "row": "dungeon/func_81029858",
    "tu": "src/dungeon/func_81029858.c",
    "home": "dungeon/func_81029858",

@@ -3,6 +3,8 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 
 extern s32 func_80042900(void *actor, s32 value);
@@ -29,10 +31,7 @@ extern u8 D_800E169A[];
 extern u8 D_800E39C8[];
 
 
-typedef struct S_800C2CDC_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800C2CDC_0_pre;   /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
+   /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
 
 typedef struct S_800C2CDC_0 {
     u8 pad_00[0x13];
@@ -45,11 +44,7 @@ typedef struct S_800C2CDC_0 {
     u8 * unk_110;
 } S_800C2CDC_0;   /* arg0 in apply_holy_beam_tile_item */
 
-typedef struct S_800C2CDC_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C2CDC_1;   /* entity in apply_holy_beam_tile_item */
+   /* entity in apply_holy_beam_tile_item */
 
 typedef struct S_800C2CDC_2 {
     u8 pad_00[0x20];
@@ -68,7 +63,7 @@ typedef struct S_800C2CDC_4 {
 
 /* Creates an object at the entity position, updates its state, and decrements the global count. */
 s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
-    S_800C2CDC_1 *entity;
+    MovingTile *entity;
     s32 object_fields;
     u8 *entries;
     s32 object;
@@ -81,7 +76,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
         return 0;
     }
 
-    entity = ((S_800C2CDC_0_pre *)actor)[-1].unk_00;
+    entity = ((SpriteLinkPrefixView *)actor)[-1].unk_00;
     object = create_central_and_child_effects(entity->unk_24,
                            entity->unk_25,
                            ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);

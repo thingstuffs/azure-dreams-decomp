@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/actor_status.h"
 
 
 extern void func_8003DB94(void *, void *, s32);
@@ -26,12 +27,7 @@ typedef struct S_800D904C_0 {
 } S_800D904C_0;   /* state in advance_actor_queued_path */
 
 
-typedef struct S_800D904C_2 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_800D904C_2;   /* entry in advance_actor_queued_path */
+   /* entry in advance_actor_queued_path */
 
 typedef struct S_800D904C_3 {
     u8 pad_00[0x8C];
@@ -42,12 +38,7 @@ typedef struct S_800D904C_3 {
     u8 unk_9A;
 } S_800D904C_3;   /* arg0 in advance_actor_queued_path */
 
-typedef struct S_800D904C_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_800D904C_4;   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in advance_actor_queued_path */
+   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in advance_actor_queued_path */
 
 /* Advance the actor along its queued path and update movement timing. */
 void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *move_state)
@@ -90,16 +81,16 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
 
         step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
         direction = get_rounded_facing_and_rounding_flag(old_x, old_y,
-                                  ((S_800D904C_2 *)step)->unk_74,
-                                  ((S_800D904C_2 *)step)->unk_7C,
+                                  ((ActorStatusBytesView *)step)->unk_74,
+                                  ((ActorStatusBytesView *)step)->unk_7C,
                                   (u8 *)action + 0x98);
         move_result = check_movement_clearance_and_height(direction, actor, state, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =
-            ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
+            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
         tile_mask = 0x3000;
         ((Rec_D_80082E80 *)actor)->unk_25 =
-            ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_7C;
+            ((ActorStatusBytesView *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_7C;
         ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
 
         {

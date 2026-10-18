@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800CA788_0 {
     u8 pad_00[0x2];
@@ -15,11 +16,7 @@ typedef struct S_800CA788_1 {
     s16 unk_2A;
 } S_800CA788_1;   /* actor in select_target_tile_for_actor_action */
 
-typedef struct S_800CA788_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800CA788_2;   /* held_arg2 in select_target_tile_for_actor_action */
+   /* held_arg2 in select_target_tile_for_actor_action */
 
 typedef struct S_800CA788_3 {
     u8 pad_00[0x8C];
@@ -53,7 +50,7 @@ s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, 
 
         ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
         ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
-        target_direction = find_eligible_entry_at_coordinates(actor, ((S_800CA788_2 *)target)->unk_24, ((S_800CA788_2 *)target)->unk_25);
+        target_direction = find_eligible_entry_at_coordinates(actor, ((MovingTile *)target)->unk_24, ((MovingTile *)target)->unk_25);
         clear_action_flag = ~0x2000;
         ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;
         ((S_800CA788_1 *)actor)->unk_1C &= clear_action_flag;

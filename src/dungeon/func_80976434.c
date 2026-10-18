@@ -5,6 +5,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
+#include "shared/actor_status.h"
 
 typedef struct S_80171C34_1 {
     u8 pad_00[0x12];
@@ -36,10 +39,7 @@ typedef struct S_80171C34_2 {
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_80171C34_2;   /* arg2 in select_movement_direction_and_advance */
 
-typedef struct S_80171C34_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80171C34_3_pre;   /* the 0x14 bytes before other in select_movement_direction_and_advance, addressed as other[-1] */
+   /* the 0x14 bytes before other in select_movement_direction_and_advance, addressed as other[-1] */
 
 typedef struct S_80171C34_3 {
     u8 pad_00[0x1C];
@@ -54,18 +54,9 @@ typedef struct S_80171C34_5 {
     union { s8 s; u8 u; } unk_9C;   /* accessed as both */
 } S_80171C34_5;   /* arg0 in select_movement_direction_and_advance */
 
-typedef struct S_80171C34_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171C34_7;   /* ((S_80171C34_3_pre *)other)[-1].unk_00 in select_movement_direction_and_advance */
+   /* ((S_80171C34_3_pre *)other)[-1].unk_00 in select_movement_direction_and_advance */
 
-typedef struct S_80171C34_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_80171C34_8;   /* (u8 *)arg3 + (((S_80171C34_1 *)arg3)->unk_71.u & 0x7F) in select_movement_direction_and_advance */
+   /* (u8 *)arg3 + (((S_80171C34_1 *)arg3)->unk_71.u & 0x7F) in select_movement_direction_and_advance */
 
 
 typedef struct DungeonRecord {
@@ -132,8 +123,8 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
             if (((void *)current_angle) != 0) {
                 s16 target_angle = get_rounded_facing_and_rounding_flag(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24,
-                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25,
+                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].unk_00))->unk_24,
+                    ((MovingTile *)(((SpriteLinkPrefixView *)((void *)current_angle))[-1].unk_00))->unk_25,
                     (u8 *)move_data + 0x98);
                 ((S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
                 ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
@@ -263,9 +254,9 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
             }
 
             ((S_80171C34_1 *)actor_data)->unk_2A.s = trial_angle;
-            ((S_80171C34_8 *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_74 =
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v;
-            ((S_80171C34_8 *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)((u8 *)actor_data + (((S_80171C34_1 *)actor_data)->unk_71.u & 0x7F)))->unk_7C =
                 ((S_80171C34_2 *)position_data)->unk_24.at01.v;
             ((S_80171C34_1 *)actor_data)->unk_71.u++;
 

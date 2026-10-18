@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800C13C8_0 {
     void * unk_00;
@@ -21,11 +22,7 @@ typedef struct S_800C13C8_1 {
     u16 unk_0A;
 } S_800C13C8_1;   /* state in use_item_to_draw_flame_circle */
 
-typedef struct S_800C13C8_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C13C8_2;
+
 
 
 void begin_mode_selected_item_action(); /* extern */
@@ -42,7 +39,7 @@ extern M2C_UNK D_800E1482;
 
 /* Handles an object operation and updates its state or triggers its effect. */
 s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 context) {
-    S_800C13C8_2 *object_data;
+    MovingTile *object_data;
     s32 result;
 
     if (operation == 0xD) {

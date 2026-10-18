@@ -5,6 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800C30D4_0 {
     void * unk_00;
@@ -17,11 +18,7 @@ typedef struct S_800C30D4_0 {
     s32 unk_124;
 } S_800C30D4_0;   /* arg0 in use_item_to_apply_poison; pointer addresses record offset 0x14 */
 
-typedef struct S_800C30D4_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C30D4_1;
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -37,7 +34,7 @@ extern M2C_UNK D_800E1729;
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
 s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
-    S_800C30D4_1 *tile;
+    MovingTile *tile;
 
     if (entity == ((u8 *)D_800E3D7C)) {
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;

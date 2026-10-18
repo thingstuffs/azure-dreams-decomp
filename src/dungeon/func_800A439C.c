@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800A9AFC_2 {
     u8 pad_00[0x73];
@@ -32,14 +33,10 @@ typedef struct S_800A9AFC_0 {
     u16 unk_8A;
 } S_800A9AFC_0;   /* arg1 in rotate_actor_movement_queue */
 
-typedef struct S_800A9AFC_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A9AFC_1;   /* arg0 in rotate_actor_movement_queue */
+   /* arg0 in rotate_actor_movement_queue */
 
 /* Rotates queued coordinates into the current position and updates tile flags. */
-void rotate_actor_movement_queue(S_800A9AFC_1 *position, void *state) {
+void rotate_actor_movement_queue(MovingTile *position, void *state) {
     s32 clear_mask;
     s32 set_mask;
     s32 status_result;

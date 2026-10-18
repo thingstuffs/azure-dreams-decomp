@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/actor_status.h"
 
 typedef struct S_8017169C_0 {
     u8 pad_00[0x1C];
@@ -30,12 +31,7 @@ typedef struct S_8017169C_2 {
     u8 unk_9A;
 } S_8017169C_2;   /* arg0 in func_8015969C */
 
-typedef struct S_8017169C_3 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8017169C_3;   /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in func_8015969C */
+   /* (u8 *)arg3 + ((S_8017169C_0 *)arg3)->unk_8A.s in func_8015969C */
 
 
 extern s32 func_80047784();
@@ -80,9 +76,9 @@ void func_8015969C(void *motion, s32 unused, void *actor, void *path_state)
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
     ((S_8017169C_1 *)actor)->unk_24 =
-        ((S_8017169C_3 *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
+        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_74;
     ((S_8017169C_1 *)actor)->unk_25 =
-        ((S_8017169C_3 *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_7C;
+        ((ActorStatusBytesView *)((u8 *)path_state + ((S_8017169C_0 *)path_state)->unk_8A.s))->unk_7C;
     ((S_8017169C_0 *)path_state)->unk_8A.u++;
 
     new_x = ((S_8017169C_1 *)actor)->unk_24;

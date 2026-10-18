@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800A36B4_0 {
     void * unk_00;
@@ -13,17 +14,9 @@ typedef struct S_800A36B4_1 {
     void * unk_00;
 } S_800A36B4_1;   /* arg1 in check_tile_path_clear; pointer addresses record offset 0x14 */
 
-typedef struct S_800A36B4_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A36B4_2;
 
-typedef struct S_800A36B4_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A36B4_3;
+
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -34,8 +27,8 @@ extern s32 sample_terrain_surface_height(s32, s32, s16);
 s32 check_tile_path_clear(void *source, void *target) {
     s32 step_y;
     s32 step_x;
-    S_800A36B4_2 *source_pos;
-    S_800A36B4_3 *target_pos;
+    MovingTile *source_pos;
+    MovingTile *target_pos;
     s32 check_param;
     s32 tile_x;
     s32 tile_y;

@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 extern u8 D_80080000[];
 
 
@@ -15,11 +16,7 @@ typedef struct S_800930F0_12 {
 } S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in update_floor_exit_transition */
 
 
-typedef struct S_800930F0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800930F0_1;   /* arg2 in update_floor_exit_transition */
+   /* arg2 in update_floor_exit_transition */
 
 typedef struct S_800930F0_2 {
     u8 pad_00[0x1C];
@@ -97,7 +94,7 @@ extern M2C_UNK D_800E3CD0;
 extern M2C_UNK D_800E4938;
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void update_floor_exit_transition(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
+void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile, S_800930F0_2 *actor) {
     M2C_UNK *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;

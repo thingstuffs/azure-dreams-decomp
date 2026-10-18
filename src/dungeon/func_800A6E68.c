@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 
 typedef struct {
@@ -33,14 +34,10 @@ typedef struct S_800AC5C8_1_pre {
 } S_800AC5C8_1_pre;   /* the 0x2 bytes before arg3 in update_spinning_actor_fall, addressed as arg3[-1] */
 
 
-typedef struct S_800AC5C8_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AC5C8_3;   /* arg2 in update_spinning_actor_fall */
+   /* arg2 in update_spinning_actor_fall */
 
 /* Advance the object's timed animation and perform its final cleanup. */
-s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, S_800AC5C8_3 *tile, void *object) {
+s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, MovingTile *tile, void *object) {
     s32 force;
     u16 ticks_left;
     s32 state;

@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800C4F20_10 {
     u8 pad_00[0x1C];
@@ -75,11 +76,7 @@ typedef struct S_800C4F20_5 {
     s16 unk_0A;
 } S_800C4F20_5;   /* arg1 in update_orbiting_teleport_effect */
 
-typedef struct S_800C4F20_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C4F20_6;   /* (void *) c2_v0 in update_orbiting_teleport_effect */
+   /* (void *) c2_v0 in update_orbiting_teleport_effect */
 
 typedef struct S_800C4F20_7 {
     u8 pad_00[0x1C];
@@ -209,7 +206,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
             s32 x_step;
 
             x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
-            x_step = ((S_800C4F20_6 *)((void *) x_work))->unk_24;
+            x_step = ((MovingTile *)((void *) x_work))->unk_24;
             x_work = position->unk_02;
             x_step <<= 6;
             x_work -= 0x20;
@@ -222,7 +219,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
 
                 y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
                 height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
-                y_step = ((S_800C4F20_6 *)((void *) y_work))->unk_25;
+                y_step = ((MovingTile *)((void *) y_work))->unk_25;
                 y_work = position->unk_06;
                 y_step <<= 6;
                 y_work -= 0x20;

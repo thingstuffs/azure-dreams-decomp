@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
+#include "shared/actor_status.h"
 
 typedef struct S_800CA444_0 {
     u8 pad_00[0x24];
@@ -45,12 +46,7 @@ typedef struct S_800CA444_4 {
     s32 unk_58;
 } S_800CA444_4;   /* *D_800814A8 in update_actor_targeting_for_tile */
 
-typedef struct S_800CA444_5 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_800CA444_5;   /* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in update_actor_targeting_for_tile */
+   /* (arg3 + (((S_800CA444_1 *)arg3)->unk_71 & 0x7F)) in update_actor_targeting_for_tile */
 
 
 typedef struct {
@@ -107,8 +103,8 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
         }
         if ((get_adjacent_tile_for_action(next_heading, tile, actor, 0x20) << 0x10) > 0) {
             ((S_800CA444_1 *)actor)->unk_2A = next_heading;
-            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = tile->unk_24.at00.v;
-            ((S_800CA444_5 *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = tile->unk_24.at01.v;
+            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_74 = tile->unk_24.at00.v;
+            ((ActorStatusBytesView *)((actor + (((S_800CA444_1 *)actor)->unk_71 & 0x7F))))->unk_7C = tile->unk_24.at01.v;
             ((S_800CA444_1 *)actor)->unk_71++;
             direction_index = (((u16) ((S_800CA444_1 *)actor)->unk_2A) >> 9) & 7;
             tile->unk_24.at00.v += dir_step_x[direction_index];

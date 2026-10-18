@@ -5,6 +5,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/actor_status.h"
 
 #ifndef NULL
 #define NULL 0
@@ -50,11 +52,7 @@ typedef struct S_8016B230_3 {
     u32 unk_1C;
 } S_8016B230_3;   /* found in advance_actor_movement_step */
 
-typedef struct S_8016B230_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8016B230_4;   /* object in advance_actor_movement_step */
+   /* object in advance_actor_movement_step */
 
 typedef struct S_8016B230_5 {
     u8 pad_00[0x98];
@@ -75,12 +73,7 @@ typedef struct S_8016B230_11 {
     u16 unk_00;
 } S_8016B230_11;   /* &D_80082EA4 in advance_actor_movement_step */
 
-typedef struct S_8016B230_13 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8016B230_13;   /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in advance_actor_movement_step */
+   /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in advance_actor_movement_step */
 
 
 extern s32 check_entity_relation();
@@ -155,7 +148,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 object = ((S_8016B230_3_pre *)found)[-1].unk_00;
                 ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                     ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                    ((S_8016B230_4 *)object)->unk_24, ((S_8016B230_4 *)object)->unk_25, movement_in + 0x98);
+                    ((MovingTile *)object)->unk_24, ((MovingTile *)object)->unk_25, movement_in + 0x98);
                 ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
@@ -295,9 +288,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 }
             }
             ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
-            ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
+            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
                 ((S_8016B230_2 *)position)->unk_24.at00.v;
-            ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
+            ((ActorStatusBytesView *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
                 ((S_8016B230_2 *)position)->unk_24.at01.v;
             ((S_8016B230_1 *)actor)->unk_71.u++;
             update_map_cell_flags_with_item_limit(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,

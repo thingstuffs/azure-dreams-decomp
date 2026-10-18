@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct {
     u8 pad_0[0x10];
@@ -12,18 +13,14 @@ typedef struct {
     s32 flags_1C;
 } Entity;
 
-typedef struct {
-    u8 pad_0[0x24];
-    u8 field_24;
-    u8 field_25;
-} Source;
+
 
 extern void detach_record_and_update_slot_state(Entity *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void unlink_entity_node(Entity *);
 
 /* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */
-void update_flag_masked_entity(void *unused_0, void *unused_1, Source *source, Entity *entity) {
+void update_flag_masked_entity(void *unused_0, void *unused_1, MovingTile *source, Entity *entity) {
     s32 update_mask;
     u8 source_24;
     u8 source_25;
@@ -32,8 +29,8 @@ void update_flag_masked_entity(void *unused_0, void *unused_1, Source *source, E
         *(s32 *)&g_dungeon_status.unk_10 &= 0x7FFFFFFF;
     }
     detach_record_and_update_slot_state(entity);
-    source_24 = source->field_24;
-    source_25 = source->field_25;
+    source_24 = source->unk_24;
+    source_25 = source->unk_25;
     update_mask = 0x3000;
     if (entity->flags_1C & 0x2000) {
         update_mask = 0x300;

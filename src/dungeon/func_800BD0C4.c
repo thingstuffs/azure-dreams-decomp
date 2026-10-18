@@ -3,6 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 typedef struct S_800C2824_0 {
     void * unk_00;
@@ -61,21 +63,14 @@ typedef struct S_800C2824_5 {
     s8 unk_A93;
 } S_800C2824_5;   /* page_base + (object_slot * 0x54) in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_6_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800C2824_6_pre;   /* the 0x14 bytes before c2_object in update_return_magic_sacrifice, addressed as c2_object[-1] */
+   /* the 0x14 bytes before c2_object in update_return_magic_sacrifice, addressed as c2_object[-1] */
 
 typedef struct S_800C2824_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_800C2824_6;   /* c2_object in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C2824_7;   /* (void *)c2_coord in update_return_magic_sacrifice */
+   /* (void *)c2_coord in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_8 {
     u8 pad_00[0x88];
@@ -91,27 +86,16 @@ typedef struct S_800C2824_10 {
     s32 unk_14A0;
 } S_800C2824_10;   /* c3_page in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_11 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C2824_11;   /* object_coords in update_return_magic_sacrifice */
+   /* object_coords in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_12_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800C2824_12_pre;   /* the 0x14 bytes before c17_object in update_return_magic_sacrifice, addressed as c17_object[-1] */
+   /* the 0x14 bytes before c17_object in update_return_magic_sacrifice, addressed as c17_object[-1] */
 
 typedef struct S_800C2824_12 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_800C2824_12;   /* c17_object in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_13 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800C2824_13;   /* (void *)c17_coord in update_return_magic_sacrifice */
+   /* (void *)c17_coord in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_14_pre {
     u16 unk_00;
@@ -254,10 +238,10 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
             release_object = ((S_800C2824_0 *)effect)->unk_00;
             release_status = ((S_800C2824_6 *)release_object)->unk_1C;
-            release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
+            release_coord = (u32)((SpriteLinkPrefixView *)release_object)[-1].unk_00;
             release_status &= 0x2000;
-            release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
-            release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
+            release_x = ((MovingTile *)((void *)release_coord))->unk_24;
+            release_coord = ((MovingTile *)((void *)release_coord))->unk_25;
             release_flags = 0x3000;
             if (release_status) {
                 release_flags = 0x300;
@@ -295,7 +279,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         effect_object = source_object;
         effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
         D_800DF55C = effect_object;
-        if (create_five_point_effect(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
+        if (create_five_point_effect(((MovingTile *)object_coords)->unk_24, ((MovingTile *)object_coords)->unk_25,
             effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
             return;
         }
@@ -319,10 +303,10 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         } else {
             expired_object = ((S_800C2824_0 *)effect)->unk_00;
             expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
-            expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
+            expired_coord = (u32)((SpriteLinkPrefixView *)expired_object)[-1].unk_00;
             expired_status &= 0x2000;
-            expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
-            expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
+            expired_x = ((MovingTile *)((void *)expired_coord))->unk_24;
+            expired_coord = ((MovingTile *)((void *)expired_coord))->unk_25;
             tile_flags = 0x3000;
             if (expired_status) {
                 tile_flags = 0x300;

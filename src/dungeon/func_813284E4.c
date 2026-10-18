@@ -6,6 +6,9 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
+#include "shared/actor_status.h"
 
 typedef struct S_8016FCE4_0 {
     u8 pad_00[0x14];
@@ -35,16 +38,9 @@ typedef struct S_8016FCE4_1 {
     u8 unk_26;
 } S_8016FCE4_1;   /* arg2 in advance_boss_actor_movement_state */
 
-typedef struct S_8016FCE4_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8016FCE4_2_pre;
 
-typedef struct S_8016FCE4_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8016FCE4_3;
+
+
 
 typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];
@@ -53,12 +49,7 @@ typedef struct S_8016FCE4_4 {
 
 
 
-typedef struct S_8016FCE4_8 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8016FCE4_8;   /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
+   /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
 
 
 s32 check_entity_relation(void *, void *);
@@ -101,7 +92,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
     s32 limit_turns;
     u8 *x_offsets;
     void *target;
-    S_8016FCE4_3 *target_position;
+    MovingTile *target_position;
 
     limit_turns = 0;
     if ((g_dungeon_status.flags & 0x4000) || (((S_8016FCE4_0 *)actor_in)->unk_71.s >= 0)) {
@@ -116,7 +107,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 target = find_valid_monster_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
                 if (target != NULL) {
-                    target_position = ((S_8016FCE4_2_pre *)target)[-1].unk_00;
+                    target_position = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = get_rounded_facing_and_rounding_flag(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                         ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25,
                         move_state + 0x98);
@@ -202,9 +193,9 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 }
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
-                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 =
+                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 =
                         (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
-                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C =
+                    ((ActorStatusBytesView *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C =
                         (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
                     update_map_cell_flags_with_item_limit(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,

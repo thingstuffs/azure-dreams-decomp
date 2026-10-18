@@ -145,33 +145,51 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         ((S_80171964_2 *)base)->unk_1C.u = flags;
         flags &= 0x40000;
         if (!flags) {
-            goto clear_velocity;
-        }
-
-        if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-            ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
-            if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+            s16 landing_delta;
+            s32 landing_offset;
+            landing_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= landing_offset;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                landing_delta = sample_terrain_surface_height(((S_80171964_0 *)motion_arg)->unk_00.at02.v,
+                                      ((S_80171964_0 *)motion_arg)->unk_04.at02.v,
+                                      (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
+                        ((S_80171964_2 *)base)->unk_88;
+                if (landing_delta < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(s16 *)((u8 *)object_arg + (0x92))) = landing_delta;
+                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    ((S_80171964_0 *)motion_arg)->unk_14 = 0;
+                    ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
+                }
             }
-            {
-                u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
+        } else {
 
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
-                (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
+            if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
+                ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
+                if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
+                    (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+                }
+                {
+                    u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
+
+                    (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
+                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
+                }
             }
-        }
-        if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
-            height_adjust = -0x20;
-            height = *(s16 *)((u8 *)object_arg + 0x92);
-            part_flags = *(u16 *)((u8 *)object_arg + 0x92);
-            if (height_adjust < height) {
-                height_adjust = part_flags - 8;
-                *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
-            } else {
-                height_adjust = height < -0x28;
-                if (height_adjust) {
-                    height_adjust = part_flags + 8;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                height_adjust = -0x20;
+                height = *(s16 *)((u8 *)object_arg + 0x92);
+                part_flags = *(u16 *)((u8 *)object_arg + 0x92);
+                if (height_adjust < height) {
+                    height_adjust = part_flags - 8;
                     *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+                } else {
+                    height_adjust = height < -0x28;
+                    if (height_adjust) {
+                        height_adjust = part_flags + 8;
+                        *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+                    }
                 }
             }
         }
@@ -186,7 +204,6 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         ((S_80171964_2 *)base)->unk_1C.u = flags;
         flags &= 0x40000;
         if (!flags) {
-clear_velocity:
             bob_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
             (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
             (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_8185C860_0 {
     void * unk_00;
@@ -8,11 +9,7 @@ typedef struct S_8185C860_0 {
     s32 unk_70;
 } S_8185C860_0;
 
-typedef struct S_8185C860_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8185C860_1;
+
 
 s32 check_entity_interaction_compatibility();
 s32 check_entity_eligibility();
@@ -28,7 +25,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, M2C_UNK sou
     s32 distance_x;
     s32 distance_y;
     u8 *target;
-    S_8185C860_1 *position;
+    MovingTile *position;
 
     target = ((u8 *)D_800E3D7C);
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);

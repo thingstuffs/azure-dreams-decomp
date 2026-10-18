@@ -669,7 +669,26 @@ block_119:
                     }
                 }
             } else {
-                goto block_217;
+                s32 landing_delta;
+                s32 landing_offset;
+
+                landing_offset = ((S_812A524C_3 *)actor_in)->unk_A0.at00.v;
+                ((S_812A524C_3 *)actor_in)->unk_9E = 0U;
+                ((S_812A524C_3 *)actor_in)->unk_A0.at00.v = 0;
+                ((S_812A524C_3 *)actor_in)->unk_90.at00.v = (s32) (((S_812A524C_3 *)actor_in)->unk_90.at00.v
+                    - landing_offset);
+                if (!(((S_812A524C_3 *)actor_in)->unk_98 & 8)) {
+                    landing_delta = sample_terrain_surface_height(((S_812A524C_37 *)motion_in)->unk_00.at02.v,
+                        ((S_812A524C_37 *)motion_in)->unk_04.at02.v, (s16) (((S_812A524C_4 *)entity)->unk_88 - 0x20))
+                        - ((S_812A524C_4 *)entity)->unk_88;
+                    if ((s16) landing_delta < ((S_812A524C_3 *)actor_in)->unk_90.at02.v) {
+                        ((S_812A524C_3 *)actor_in)->unk_90.at02.v = (s16) landing_delta;
+                        ((S_812A524C_3 *)actor_in)->unk_9D.s = 0;
+                        ((S_812A524C_37 *)motion_in)->unk_14 = 0;
+                        ((S_812A524C_4 *)entity)->unk_1C |= 0x08000000;
+                    }
+                }
+            
             }
         } else {
             fixed_flags = sprite_flags & 0x800;
@@ -683,7 +702,6 @@ block_119:
             fixed_entity_flags = ((S_812A524C_4 *)entity)->unk_1C & 0xF7FFFFFF;
             ((S_812A524C_4 *)entity)->unk_1C = fixed_entity_flags;
             if (!(fixed_entity_flags & 0x40000)) {
-block_217:
                 bob_offset = ((S_812A524C_3 *)actor_in)->unk_A0.at00.v;
                 ((S_812A524C_3 *)actor_in)->unk_9E = 0U;
                 ((S_812A524C_3 *)actor_in)->unk_A0.at00.v = 0;

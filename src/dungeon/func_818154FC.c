@@ -5,6 +5,7 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_818154FC_0_pre {
     u16 unk_00;
@@ -97,11 +98,7 @@ typedef struct S_818154FC_7 {
     s32 unk_60;
 } S_818154FC_7;   /* work in func_818154FC */
 
-typedef struct S_818154FC_8 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_818154FC_8;   /* map in func_818154FC */
+   /* map in func_818154FC */
 
 typedef struct S_818154FC_9 {
     u8 pad_00[0x8];
@@ -291,14 +288,14 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
                     ((S_818154FC_0 *)effect)->unk_A8 =
-                        ((S_818154FC_8 *)map)->unk_24 + table_base[index];
+                        ((MovingTile *)map)->unk_24 + table_base[index];
                 }
                 {
                     u8 *table_base = (u8 *)dir_step_y;
 
                     index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
                     ((S_818154FC_0 *)effect)->unk_A9 =
-                        ((S_818154FC_8 *)map)->unk_25 + table_base[index];
+                        ((MovingTile *)map)->unk_25 + table_base[index];
                 }
 
                 if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
@@ -309,11 +306,11 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
                     s32 other_z;
 
                     ((S_818154FC_7 *)work)->unk_08 = 1;
-                    if (((S_818154FC_3 *)parent)->unk_72 != ((S_818154FC_8 *)map)->unk_24) {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - ((S_818154FC_8 *)map)->unk_24);
+                    if (((S_818154FC_3 *)parent)->unk_72 != ((MovingTile *)map)->unk_24) {
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - ((MovingTile *)map)->unk_24);
                         ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                     } else {
-                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - ((S_818154FC_8 *)map)->unk_25);
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - ((MovingTile *)map)->unk_25);
                         ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                     }
 

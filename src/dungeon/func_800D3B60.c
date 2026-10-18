@@ -6,6 +6,7 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+#include "shared/actor_status.h"
 
 typedef struct S_800D92C0_0 {
     u8 pad_00[0x14];
@@ -43,12 +44,7 @@ typedef struct S_800D92C0_2 {
 } S_800D92C0_2;   /* arg2 in advance_actor_traversable_heading */
 
 
-typedef struct S_800D92C0_4 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_800D92C0_4;   /* (arg3 + ((u8) ((S_800D92C0_0 *)arg3)->unk_71 & 0x7F)) in advance_actor_traversable_heading */
+   /* (arg3 + ((u8) ((S_800D92C0_0 *)arg3)->unk_71 & 0x7F)) in advance_actor_traversable_heading */
 
 
 typedef struct {
@@ -184,9 +180,9 @@ try_heading:
                 }
                 {
                     ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) candidate_heading;
-                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_74 =
+                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_74 =
                         (u8) position->unk_24.at00.v;
-                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_7C =
+                    ((ActorStatusBytesView *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_7C =
                         (u8) position->unk_24.at01.v;
                     ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 + 1);
                     update_map_cell_flags_with_item_limit(position->unk_24.at00.v, position->unk_24.at01.v,

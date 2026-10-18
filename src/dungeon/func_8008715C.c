@@ -2,6 +2,7 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "shared/dungeon_moving_views.h"
 typedef struct Ent Ent;
 
 typedef long long s64;
@@ -30,11 +31,7 @@ typedef struct S_8008C8BC_0 {
     u16 unk_88;
 } S_8008C8BC_0;   /* held3 in begin_front_tile_attack */
 
-typedef struct S_8008C8BC_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8008C8BC_1;   /* held2 in begin_front_tile_attack */
+   /* held2 in begin_front_tile_attack */
 
 typedef struct S_8008C8BC_2 {
     u8 pad_00[0x3186];
@@ -77,10 +74,10 @@ s32 begin_front_tile_attack(void *actor_state_arg, void *unused, void *position_
     s32 target;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
-    if ((check_diagonal_side_height(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25,
+    if ((check_diagonal_side_height(direction, ((MovingTile *)position_arg)->unk_24, ((MovingTile *)position_arg)->unk_25,
         (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = find_eligible_actor_at_tile_and_height(entity, (((S_8008C8BC_1 *)position_arg)->unk_24
-            + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25
+        target = find_eligible_actor_at_tile_and_height(entity, (((MovingTile *)position_arg)->unk_24
+            + ((u16 *)dir_step_x)[direction]) & 0xFFFF, (((MovingTile *)position_arg)->unk_25
             + ((u16 *)dir_step_y)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;

@@ -4,6 +4,9 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
+#include "shared/actor_status.h"
 
 typedef struct S_8016BF74_0 {
     u8 pad_00[0x2];
@@ -42,16 +45,9 @@ typedef struct S_8016BF74_2 {
     s8 unk_26;
 } S_8016BF74_2;   /* arg2 in advance_actor_path */
 
-typedef struct S_8016BF74_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8016BF74_3_pre;
 
-typedef struct S_8016BF74_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8016BF74_4;
+
+
 
 typedef struct S_8016BF74_5 {
     u8 pad_00[0x98];
@@ -73,12 +69,7 @@ typedef struct S_8016BF74_8 {
     u16 unk_08;
 } S_8016BF74_8;   /* state2 in advance_actor_path */
 
-typedef struct S_8016BF74_9 {
-    u8 pad_00[0x74];
-    u8 unk_74;
-    u8 pad_75[0x7];
-    u8 unk_7C;
-} S_8016BF74_9;   /* (arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F)) in advance_actor_path */
+   /* (arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F)) in advance_actor_path */
 
 
 s32 check_entity_relation();                     /* extern */
@@ -135,7 +126,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
     s32 result;
     s8 tile_index;
     s32 state_flags;
-    S_8016BF74_4 *target_position;
+    MovingTile *target_position;
     void *x_offset;
     s32 active_actor;
     s32 path_status;
@@ -180,7 +171,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                 initialized_bit = (s32)(find_valid_monster_neighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
                 if ((void *)initialized_bit != NULL) {
                     source_x = position->unk_24.at00.v;
-                    target_position = ((S_8016BF74_3_pre *)(void *)initialized_bit)[-1].unk_00;
+                    target_position = ((SpriteLinkPrefixView *)(void *)initialized_bit)[-1].unk_00;
                     source_y = position->unk_24.at01.v;
                     dest_x = target_position->unk_24;
                     dest_y = target_position->unk_25;
@@ -307,9 +298,9 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                     }
                 }
                 ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
-                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 =
+                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 =
                     (u8) position->unk_24.at00.v;
-                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C =
+                ((ActorStatusBytesView *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C =
                     (u8) position->unk_24.at01.v;
                 next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
                 x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);

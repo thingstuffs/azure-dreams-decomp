@@ -63,7 +63,8 @@ extern s32 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 extern void reset_action_and_decrement_actor_count(void *, void *, void *, void *);
 extern void create_owner_linked_directional_object(void *, void *, void *);
-extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state);
+extern void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table,
+    s32 fallback_state);
 extern void advance_aura_actor_turn_path(void *, void *, void *, void *);
 extern void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *position, u8 *actor);
 extern s32 try_turn_actor_toward_target(void *, void *, void *, void *);
@@ -183,7 +184,8 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v);
+    room_id = find_active_rect_containing_point(((S_80171A80_2 *)sprite)->unk_24.at00.v,
+        ((S_80171A80_2 *)sprite)->unk_24.at01.v);
     ((S_80171A80_2 *)sprite)->unk_26 = room_id;
 
     if (actor->unk_6D > 0) {
@@ -238,6 +240,10 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
             begin_actor_exclusive_action(entity, context, sprite, 1, 0);
             return;
 
+        case 12:
+            update_actor_status_and_food(actor);
+            return;
+
         case 5:
         case 6:
         case 7:
@@ -251,23 +257,15 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
                     &distance);
                 player = D_800814A8;
                 actor->facing = facing;
-                if (player->unk_9A == 0x11) {
-                    goto coords_continue;
+                if (player->unk_9A != 0x11) {
+                    update_actor_status_and_food(actor);
+                    return;
                 }
-            } else {
-                goto global_continue;
+                if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                    prepare_actor_directional_action(entity, context, sprite, D_800E2418, D_80171A80);
+                    return;
+                }
             }
-
-        case 12:
-            update_actor_status_and_food(actor);
-            return;
-
-coords_continue:
-            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-                prepare_actor_directional_action(entity, context, sprite, D_800E2418, D_80171A80);
-                return;
-            }
-global_continue:
             {
                 void *leader = D_800E3D7C;
 

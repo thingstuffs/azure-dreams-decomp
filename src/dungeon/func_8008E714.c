@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/entity.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];
@@ -31,11 +32,7 @@ typedef struct S_80093E74_5 {
     s32 unk_30;
 } S_80093E74_5;   /* Pointer addresses record offset 0x14. */
 
-typedef struct S_80093E74_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80093E74_6;
+
 
 
 #define M2C_BREAK() ((void)0)
@@ -66,7 +63,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     void *unused_ptr;
     void *record_storage;
     void *owner_record;
-    S_80093E74_6 *position;
+    MovingTile *position;
     void *unused_ptr2;
     void *unused_ptr3;
 

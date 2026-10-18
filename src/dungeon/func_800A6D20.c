@@ -2,6 +2,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 void set_record_integer_tile_center();              /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
@@ -13,11 +14,7 @@ typedef struct S_800AC480_0 {
     s16 unk_96;
 } S_800AC480_0;   /* arg0 in interpolate_actor_to_terrain_tile */
 
-typedef struct S_800AC480_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AC480_1;   /* arg2 in interpolate_actor_to_terrain_tile */
+   /* arg2 in interpolate_actor_to_terrain_tile */
 
 
 typedef struct S_800AC480_3 {
@@ -31,7 +28,7 @@ typedef struct S_800AC480_4 {
 } S_800AC480_4;   /* global_base in interpolate_actor_to_terrain_tile */
 
 /* Update movement toward the target tile and finalize position and height when the timer expires. */
-s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, EntityRec *motion, S_800AC480_1 *target_tile, S_800AC480_3 *height_state) {
+s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, EntityRec *motion, MovingTile *target_tile, S_800AC480_3 *height_state) {
     s32 delta;
     s32 coord;
     s32 x_step;

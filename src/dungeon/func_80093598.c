@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_80098CF8_0 {
     u8 pad_00[0x1];
@@ -27,11 +28,7 @@ typedef struct S_80098CF8_2 {
     s16 unk_0A;
 } S_80098CF8_2;   /* primitive in begin_holding_item */
 
-typedef struct S_80098CF8_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80098CF8_3;   /* s5 in begin_holding_item */
+   /* s5 in begin_holding_item */
 
 typedef struct S_80098CF8_4 {
     u8 pad_00[0x1C];
@@ -158,8 +155,8 @@ print_message:
 
         ((S_80098CF8_0 *)result)->unk_10 = D_8008D470;
         primitive = ((S_80098CF8_0 *)result)->unk_08;
-        ((S_80098CF8_2 *)primitive)->unk_02 = (((S_80098CF8_3 *)target)->unk_24 << 6) + 0x20;
-        ((S_80098CF8_2 *)primitive)->unk_06 = (((S_80098CF8_3 *)target)->unk_25 << 6) + 0x20;
+        ((S_80098CF8_2 *)primitive)->unk_02 = (((MovingTile *)target)->unk_24 << 6) + 0x20;
+        ((S_80098CF8_2 *)primitive)->unk_06 = (((MovingTile *)target)->unk_25 << 6) + 0x20;
         height = ((S_80098CF8_4 *)actor_state)->unk_88;
         message = target;
         ((S_80098CF8_2 *)primitive)->unk_0A = height - 0x30;

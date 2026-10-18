@@ -5,6 +5,8 @@ extern int abs(int);
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 extern s32 get_cd_command_queue_depth(void);
 extern void func_80047784(void *, s32, s32);
@@ -36,16 +38,9 @@ typedef struct S_80172A48_0 {
     s16 unk_A2;
 } S_80172A48_0;   /* arg0 in advance_item_use_and_cleanup */
 
-typedef struct S_80172A48_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172A48_1_pre;   /* the 0x14 bytes before active in advance_item_use_and_cleanup, addressed as active[-1] */
+   /* the 0x14 bytes before active in advance_item_use_and_cleanup, addressed as active[-1] */
 
-typedef struct S_80172A48_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172A48_2;   /* linked in advance_item_use_and_cleanup */
+   /* linked in advance_item_use_and_cleanup */
 
 typedef struct S_80172A48_3 {
     u8 pad_00[0x14];
@@ -125,9 +120,9 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
                 if (special_target != 0) {
                     target = D_800814A8;
                     (*(void * *)((u8 *)item + 0x60)) = target;
-                    linked = ((S_80172A48_1_pre *)target)[-1].unk_00;
-                    (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)linked)->unk_24;
-                    (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)linked)->unk_25;
+                    linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
+                    (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
+                    (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
                 } else {
                     u8 effect_id;
 
@@ -135,9 +130,9 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
                     if (D_8006DE24[effect_id].kind == 2) {
                         target = (*(void * *)((u8 *)item + 0x60));
                         if (target != 0) {
-                            linked = ((S_80172A48_1_pre *)target)[-1].unk_00;
-                            (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)linked)->unk_24;
-                            (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)linked)->unk_25;
+                            linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
+                            (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
+                            (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
                         }
                     } else {
                         s32 dx;

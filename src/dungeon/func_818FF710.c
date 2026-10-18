@@ -6,6 +6,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 typedef struct { u8 bytes[8]; } Packed8 __attribute__((packed));
 typedef struct { u8 bytes[12]; } Packed12 __attribute__((packed));
@@ -72,10 +74,7 @@ typedef struct S_818FF710_1 {
     s16 unk_1E;
 } S_818FF710_1;   /* arg2 in update_effect_particles_and_cleanup */
 
-typedef struct S_818FF710_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_818FF710_2_pre;
+
 
 typedef struct S_818FF710_2 {
     u8 pad_00[0x2A];
@@ -131,16 +130,9 @@ typedef struct S_818FF710_8 {
     u16 unk_0A;
 } S_818FF710_8;
 
-typedef struct S_818FF710_9 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_818FF710_9;
 
-typedef struct S_818FF710_10_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_818FF710_10_pre;
+
+
 
 typedef struct S_818FF710_10 {
     u8 pad_00[0x13];
@@ -366,7 +358,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
     s32 origin_tile;
     u16 sprite_flags;
     s32 source_id;
-    S_818FF710_9 *origin;
+    MovingTile *origin;
     S_818FF710_12 *hit_target;
     S_818FF710_28 *released_target;
     S_818FF710_4 *parent_sprite;
@@ -446,7 +438,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
             (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A
                 - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
-            origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
+            origin = ((SpriteLinkPrefixView *)parent)[-1].unk_00;
             (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dir_step_x)[(*(s16 *)((u8 *)effect
                 + 0x7E)) * 2]);
             (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + ((u8 *)dir_step_y)[(*(s16 *)((u8 *)effect
@@ -528,7 +520,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
                 (*(u16 *)((u8 *)effect + 0x82)) = 0U;
                 play_sound_if_enabled(0x300);
                 impact_target = ((S_818FF710_2 *)parent)->unk_60;
-                target_hit_flags = ((S_818FF710_10_pre *)impact_target)[-1].unk_00;
+                target_hit_flags = ((SpriteLinkPrefixView *)impact_target)[-1].unk_00;
                 if ((u32) (((S_818FF710_10 *)impact_target)->unk_13 - 0x33) >= 4U) {
                     target_hit_flags->unk_14 = (u16) (target_hit_flags->unk_14 | 0x800);
                     hit_target = ((S_818FF710_2 *)parent)->unk_60;

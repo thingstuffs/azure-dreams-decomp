@@ -6,6 +6,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800287A4.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
+#include "shared/object_links.h"
 
 typedef struct S_800CB82C_0 {
     u8 pad_00[0x8];
@@ -70,17 +72,10 @@ typedef struct S_800CB82C_5 {
     u8 unk_01;
 } S_800CB82C_5;   /* &D_800E3CC8 in create_owner_linked_pulsing_effect */
 
-typedef struct S_800CB82C_6_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800CB82C_6_pre;   /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
+   /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
 
-typedef struct S_800CB82C_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800CB82C_7;
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -120,9 +115,9 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         ((S_800CB82C_4 *)object_state)->unk_08 = (u8) D_800E3CC8;
         ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&D_800E3CC8))->unk_01;
         ((S_800CB82C_4 *)object_state)->unk_60 = owner;
-        owner_map = ((S_800CB82C_6_pre *)owner)[-1].unk_00;
-        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) ((S_800CB82C_7 *)owner_map)->unk_24;
-        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) ((S_800CB82C_7 *)owner_map)->unk_25;
+        owner_map = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
+        ((S_800CB82C_4 *)object_state)->unk_72 = (u8) ((MovingTile *)owner_map)->unk_24;
+        ((S_800CB82C_4 *)object_state)->unk_73 = (u8) ((MovingTile *)owner_map)->unk_25;
         ((S_800CB82C_4 *)object_state)->unk_88 = (u16) ((u16)source_state->unk_88);
         ((S_800CB82C_4 *)object_state)->unk_13 = 0xFF;
         ((S_800CB82C_4 *)object_state)->unk_14 = (s32) source_state->flags14;

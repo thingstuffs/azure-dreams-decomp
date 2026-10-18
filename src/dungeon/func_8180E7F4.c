@@ -4,6 +4,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/dungeon_moving_views.h"
 
 s16 find_matching_initial_stat_slot();
 void *select_object_by_flags_and_keys(void *, void *, u16 *);
@@ -182,11 +183,7 @@ typedef struct S_800277F4_17 {
     void * unk_D0;
 } S_800277F4_17;   /* slot_addr in merge_creature_abilities_and_state */
 
-typedef struct S_800277F4_18 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800277F4_18;
+
 
 typedef struct S_800277F4_19 {
     u8 pad_00[0xD0];
@@ -601,8 +598,8 @@ merge_donor_primary:
             slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
             donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
             donor_runtime = ((S_800277F4_17 *)slot_addr)->unk_D0;
-            room_x = ((S_800277F4_18 *)donor_position)->unk_24;
-            room_y = ((S_800277F4_18 *)donor_position)->unk_25;
+            room_x = ((MovingTile *)donor_position)->unk_24;
+            room_y = ((MovingTile *)donor_position)->unk_25;
             map_mask = 0x3000;
             if (slot_flags != 0) {
                 map_mask = 0x300;

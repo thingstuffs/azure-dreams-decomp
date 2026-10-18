@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "shared/dungeon_moving_views.h"
 
 typedef struct S_800A4B88_0_pre {
     s32 unk_00;
@@ -11,11 +12,7 @@ typedef struct S_800A4B88_0_pre {
 } S_800A4B88_0_pre;   /* the 0x18 bytes before arg0 in apply_entity_action_flags, addressed as arg0[-1] */
 
 
-typedef struct S_800A4B88_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A4B88_1;
+
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -73,8 +70,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case 26:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((S_800A4B88_1 *)position)->unk_24;
-        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
         clear_mask = 0x3000;
         if (((EntityRec *)object)->flags1C & 0x2000) {
             clear_mask = 0x300;
@@ -83,8 +80,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case 10:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((S_800A4B88_1 *)position)->unk_24;
-        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
         enable_clear_mask = 0x3000;
         if (((EntityRec *)object)->flags1C & 0x2000) {
             enable_clear_mask = 0x300;
@@ -92,8 +89,8 @@ void apply_entity_action_flags(void *object, s32 action) {
         update_map_cell_flags_with_item_limit(tile_x, tile_y, enable_clear_mask);
         updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
         ((EntityRec *)object)->flags1C = updated_flags;
-        tile_x = ((S_800A4B88_1 *)position)->unk_24;
-        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
         set_mask = 0x3000;
         if (updated_flags & 0x2000) {
             set_mask = 0x300;
@@ -102,16 +99,16 @@ void apply_entity_action_flags(void *object, s32 action) {
         break;
     case 11:
         position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-        tile_x = ((S_800A4B88_1 *)position)->unk_24;
-        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
         disable_clear_mask = 0x3000;
         if (((EntityRec *)object)->flags1C & 0x2000) {
             disable_clear_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, disable_clear_mask);
         ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
-        tile_x = ((S_800A4B88_1 *)position)->unk_24;
-        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        tile_x = ((MovingTile *)position)->unk_24;
+        tile_y = ((MovingTile *)position)->unk_25;
         set_mask = 0x3000;
         cycle_map_cell_flags(tile_x, tile_y, set_mask);
         break;

@@ -3,6 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "shared/object_links.h"
 
 #ifndef NULL
 #define NULL ((void *)0)
@@ -31,10 +32,7 @@ typedef struct S_80169EC0_0 {
     void * unk_AC;
 } S_80169EC0_0;   /* scan in update_actor_callbacks_and_motion */
 
-typedef struct S_80169EC0_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80169EC0_1_pre;   /* the 0x14 bytes before entry in update_actor_callbacks_and_motion, addressed as entry[-1] */
+   /* the 0x14 bytes before entry in update_actor_callbacks_and_motion, addressed as entry[-1] */
 
 typedef struct S_80169EC0_2 {
     u8 pad_00[0x14];
@@ -111,7 +109,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         do {
             slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
             if (slot_entry != NULL) {
-                slot_record = ((S_80169EC0_1_pre *)slot_entry)[-1].unk_00;
+                slot_record = ((SpriteLinkPrefixView *)slot_entry)[-1].unk_00;
                 slot_record->unk_14 &= 0xFFBF;
             }
             slot_index--;

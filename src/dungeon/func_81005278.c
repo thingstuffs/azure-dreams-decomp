@@ -36,7 +36,6 @@ typedef struct {
 } ObjFieldView_81005278;
 
 
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 D_80171058[];
@@ -183,74 +182,95 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, void *
         state_mask_a = 0xF7FFFFFF;
         mode_or_dir = (((S_80170A78_2 *)state)->unk_1C &= state_mask_a);
         if (!(mode_or_dir & 0x40000)) {
-            goto reset_height;
-        }
+            s16 landing_delta;
+            s32 landing_offset;
+            landing_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
+            (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
+            (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
+            (((ObjFieldView_81005278 *)obj)->field_90.s32) -= landing_offset;
+            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
+                landing_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+                            (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
+                        ((S_80170A78_2 *)state)->unk_88;
+                if (landing_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = landing_delta;
+                    (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
+                    ((S_80170A78_0 *)input_motion)->unk_14 = 0;
+                    ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
+                }
+            }
+        } else {
 
-        if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
-            ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
-            bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
-            (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-            (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
-        }
-        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
-                        (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
-                    ((S_80170A78_2 *)state)->unk_88;
-            height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
-            if (height_offset > floor_delta - 0x18) {
-                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
-            } else if (height_offset < floor_delta - 0x20) {
-                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
+            if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
+                ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
+                bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
+                (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
+                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+            }
+            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+                            (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
+                        ((S_80170A78_2 *)state)->unk_88;
+                height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
+                if (height_offset > floor_delta - 0x18) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
+                        (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
+                } else if (height_offset < floor_delta - 0x20) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
+                        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
+                }
             }
         }
     } else {
         if (part_flags & 0x800) {
-        ((S_80170A78_1 *)input_part)->unk_14 = part_flags & 0x8FFF;
-    } else {
-        ((S_80170A78_1 *)input_part)->unk_14 = part_flags | 0x7000;
-    }
-    state_mask_b = 0xF7FFFFFF;
-    mode_or_dir = (((S_80170A78_2 *)state)->unk_1C &= state_mask_b);
-    if (!(mode_or_dir & 0x40000)) {
-reset_height:
-        bob_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
-        (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
-        (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
-        (((ObjFieldView_81005278 *)obj)->field_90.s32) -= bob_offset;
-        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
-                        (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
-                    ((S_80170A78_2 *)state)->unk_88;
-            if (floor_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
-                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = floor_delta;
-                (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
-                ((S_80170A78_0 *)input_motion)->unk_14 = 0;
-                ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
+            ((S_80170A78_1 *)input_part)->unk_14 = part_flags & 0x8FFF;
+        } else {
+            ((S_80170A78_1 *)input_part)->unk_14 = part_flags | 0x7000;
+        }
+        state_mask_b = 0xF7FFFFFF;
+        mode_or_dir = (((S_80170A78_2 *)state)->unk_1C &= state_mask_b);
+        if (!(mode_or_dir & 0x40000)) {
+            bob_offset = (((ObjFieldView_81005278 *)obj)->field_A4.s32);
+            (((ObjFieldView_81005278 *)obj)->field_B2) = 0;
+            (((ObjFieldView_81005278 *)obj)->field_A4.s32) = 0;
+            (((ObjFieldView_81005278 *)obj)->field_90.s32) -= bob_offset;
+            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+                            (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
+                        ((S_80170A78_2 *)state)->unk_88;
+                if (floor_delta < (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value)) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = floor_delta;
+                    (((ObjFieldView_81005278 *)obj)->field_9D.u8) = 0;
+                    ((S_80170A78_0 *)input_motion)->unk_14 = 0;
+                    ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
+                ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
+                u16 bob_phase;
+                bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
+                (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
+                (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
+            }
+            if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
+                floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
+                    ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
+                            (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
+                        ((S_80170A78_2 *)state)->unk_88;
+                height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
+                if (height_offset > floor_delta - 0x18) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
+                        (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
+                } else if (height_offset < floor_delta - 0x20) {
+                    (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) =
+                        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
+                }
             }
         }
-    } else {
-        if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40) &&
-            ((S_80170A78_1 *)input_part)->unk_2C.p2 == D_80174880) {
-            u16 bob_phase;
-            bob_phase = (((ObjFieldView_81005278 *)obj)->field_B2);
-            (((ObjFieldView_81005278 *)obj)->field_B2) = bob_phase + 1;
-            (((ObjFieldView_81005278 *)obj)->field_A4.s32) += func_800644B8((s16)bob_phase * 0xAA) << 5;
-        }
-        if (!((((ObjFieldView_81005278 *)obj)->field_98) & 8)) {
-            floor_delta = sample_terrain_surface_height(((S_80170A78_0 *)input_motion)->unk_00.at02.v,
-                ((S_80170A78_0 *)input_motion)->unk_04.at02.v,
-                        (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
-                    ((S_80170A78_2 *)state)->unk_88;
-            height_offset = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value);
-            if (height_offset > floor_delta - 0x18) {
-                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) - 8;
-            } else if (height_offset < floor_delta - 0x20) {
-                (((ObjFieldView_81005278 *)obj)->field_90.s16_at_2.value) = (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) + 8;
-            }
-        }
-    }
 
     }
     if (((S_80170A78_2 *)state)->unk_1C & 0x40000000) {
@@ -264,6 +284,7 @@ reset_height:
         }
     }
     ((S_80170A78_0 *)input_motion)->unk_0A = ((S_80170A78_2 *)state)->unk_88 +
-        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value) - (((ObjFieldView_81005278 *)obj)->field_A4.u16_at_2.value);
+        (((ObjFieldView_81005278 *)obj)->field_90.u16_at_2.value)
+            - (((ObjFieldView_81005278 *)obj)->field_A4.u16_at_2.value);
     ((S_80170A78_1 *)input_part)->unk_14 |= 0x40;
 }

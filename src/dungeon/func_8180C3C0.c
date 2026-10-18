@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80083160.h"
+#include "shared/object_links.h"
 
 typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
@@ -101,10 +102,7 @@ typedef struct S_800253C0_15 {
     s16 unk_C8;
 } S_800253C0_15;   /* tb in advance_paired_object_sequence */
 
-typedef struct S_800253C0_16_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800253C0_16_pre;   /* the 0x14 bytes before object2 in advance_paired_object_sequence, addressed as object2[-1] */
+   /* the 0x14 bytes before object2 in advance_paired_object_sequence, addressed as object2[-1] */
 
 typedef struct S_800253C0_17 {
     u8 pad_00[0xC];
@@ -511,7 +509,7 @@ case 4:
 
                             u16 child_y;
                             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
-                            other = ((S_800253C0_16_pre *)object_m)[-1].unk_00;
+                            other = ((SpriteLinkPrefixView *)object_m)[-1].unk_00;
                             child_y = ((S_800253C0_17 *)other)->unk_12.u;
                             ((S_800253C0_17 *)other)->unk_10 = sprite_x;
                             ((S_800253C0_17 *)other)->unk_14.s = sprite_flags;

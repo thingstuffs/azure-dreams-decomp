@@ -3,6 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "shared/object_links.h"
 
 typedef struct S_81814EDC_0_pre {
     u16 unk_00;
@@ -94,10 +95,7 @@ typedef struct S_81814EDC_7_pre {
     u8 pad_04[0x14];
 } S_81814EDC_7_pre;   /* the 0x18 bytes before source_owner in func_81814EDC, addressed as source_owner[-1] */
 
-typedef struct S_81814EDC_8_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_81814EDC_8_pre;
+
 
 typedef struct S_81814EDC_8 {
     u8 pad_00[0x1C];
@@ -316,7 +314,7 @@ loop_effects:
                     if ((s16) ((S_81814EDC_0 *)effect)->unk_0A == effect_type) {
                         owner = ((S_81814EDC_0 *)effect)->unk_30;
                         ((S_81814EDC_0 *)effect)->unk_00 = 1;
-                        owner_sprite = ((S_81814EDC_8_pre *)owner)[-1].unk_00;
+                        owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
                         ((S_81814EDC_8 *)owner)->unk_1C = (s32) (((S_81814EDC_8 *)owner)->unk_1C | 0x10000000);
                         owner_sprite->unk_0E.s = 0x30;
                         owner_sprite->unk_0D.s = 0x30;

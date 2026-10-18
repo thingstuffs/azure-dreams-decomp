@@ -4,6 +4,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "shared/object_links.h"
 
 typedef struct S_8016C190_0 {
     u8 pad_00[0x8C];
@@ -17,10 +18,7 @@ typedef struct S_8016C190_0 {
     u8 unk_AC;
 } S_8016C190_0;   /* arg0 in advance_selected_actor_action */
 
-typedef struct S_8016C190_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8016C190_2_pre;   /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
+   /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
 
 typedef struct S_8016C190_3 {
     u8 pad_00[0x14];
@@ -125,7 +123,7 @@ void advance_selected_actor_action(void *action, EntityRec *transform, void *spr
             if (mode_copy != 0) {
                 action_value = (s32)D_800814A8;
                 actor->target = (void *)action_value;
-                action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
+                action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].unk_00;
                 actor->unk_72 = action_control[0x24];
                 actor->unk_73 = action_control[0x25];
             } else {
@@ -134,7 +132,7 @@ void advance_selected_actor_action(void *action, EntityRec *transform, void *spr
                 if (((u8 *)action_value)[0x12] == 2) {
                     action_value = (s32)actor->target;
                     if (action_value != 0) {
-                        action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
+                        action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].unk_00;
                         actor->unk_72 = action_control[0x24];
                         actor->unk_73 = action_control[0x25];
                     }

@@ -2,21 +2,21 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-18T06:54:27Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-18T12:33:05Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
 
 | | |
 |---|---|
-| **Matched** | 19,858 functions and data rows, 7,809,524 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 19,858 of 19,858 rows (100.0%), 7,809,524 bytes; 0 unverified |
-| **Code that is C** | 96.1% as C; 99.3% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Matched** | 19,862 functions and data rows, 7,815,540 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
+| **Byte-identical to retail** | 19,858 of 19,862 rows (100.0%), 7,809,524 bytes; 0 unverified |
+| **Code that is C** | 96.2% as C; 99.3% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 92.9%, L4 9.3%, L5 9.0% of bytes (levels below) |
-| **Module certificates** | 195 of 268 current, 2 stale, 71 not certified yet |
+| **Readability** | L3 92.8%, L4 7.5%, L5 7.5% of bytes (levels below) |
+| **Module certificates** | 160 of 268 current, 37 stale, 71 not certified yet |
 
-**Current proof state.** 73 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 9.3% and 9.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 108 of 268 module certificates are not current; L4 and L5, which need the module certificate, read 7.5% and 7.5%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -28,9 +28,9 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | `slus` (SLUS_006.14) | 225,000 | 180,900 | 80.4% | 0 | 0 | 43,872 | 228 | 0 | 228 |
 | `main` (MAIN.BIN) | 70,676 | 64,968 | 91.9% | 1,292 | 420 | 72 | 0 | 3,924 | 5,636 |
 | `town` (TOWN overlays) | 825,476 | 627,832 | 76.1% | 184,048 | 96 | 36 | 0 | 13,464 | 197,608 |
-| `dungeon` (DUNGEON overlays) | 6,715,820 | 6,623,728 | 98.6% | 56,972 | 0 | 0 | 0 | 35,120 | 92,092 |
+| `dungeon` (DUNGEON overlays) | 6,715,820 | 6,629,744 | 98.7% | 50,956 | 0 | 0 | 0 | 35,120 | 86,076 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 880 | 0 | 0 | 0 | 880 |
-| **total** | 7,843,368 | 7,502,944 | 95.7% | 242,312 | 1,396 | 43,980 | 228 | 52,508 | 296,444 |
+| **total** | 7,843,368 | 7,508,960 | 95.7% | 236,296 | 1,396 | 43,980 | 228 | 52,508 | 290,428 |
 
 - **in C**: code whose C is compiled and compared byte for byte with retail.
 - **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.
@@ -48,34 +48,34 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | slus | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 452 | 64,968 | 452 | 64,968 | 0 |
 | town | 4,481 | 630,848 | 4,481 | 630,848 | 0 |
-| dungeon | 14,013 | 6,634,404 | 14,013 | 6,634,404 | 0 |
+| dungeon | 14,017 | 6,640,420 | 14,013 | 6,634,404 | 0 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 19,858 | 7,809,524 | 19,858 | 7,809,524 | 0 |
+| ALL | 19,862 | 7,815,540 | 19,858 | 7,809,524 | 0 |
 
 Data rows: 503 (13,692 B); stale-image residue DATA: 1 (488 B).
 
 Placement unproven (excluded from L4 module placement): 6 rows (1,688 B): town/D_802F100C, town/D_802F1074, town/D_802F11AC, dungeon/func_80921000, dungeon/D_808CB000, dungeon/D_80921000
 
 
-Baseline NOT exact: 0 rows
+Baseline NOT exact: 4 rows: dungeon/func_8100B278, dungeon/func_81017278, dungeon/func_8101D278, dungeon/func_81029278
 
 
 ## Readability levels (bytes at or above each level)
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 7,809,524 | 100.0% |
-| L1 | 7,809,524 | 100.0% |
-| L2 | 7,809,524 | 100.0% |
-| L3 | 7,251,572 | 92.9% |
-| L4 | 729,624 | 9.3% |
-| L5 | 704,736 | 9.0% |
+| L0 | 7,809,524 | 99.9% |
+| L1 | 7,809,524 | 99.9% |
+| L2 | 7,809,524 | 99.9% |
+| L3 | 7,251,572 | 92.8% |
+| L4 | 589,688 | 7.5% |
+| L5 | 589,688 | 7.5% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3477 rows, 2,242,856 bytes (28.7%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 18,359 rows (7,079,724 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 12 rows (9,284 B), not_in_module 18,672 rows (7,219,660 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -84,36 +84,36 @@ Defects still present in the current tree (files = source files, bytes = image b
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
 | m2c local names | 65 | 36,004 | 0.5% |
-| goto | 224 | 478,680 | 6.1% |
+| goto | 220 | 451,560 | 5.8% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 7 | 8,984 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed | 1,647 | 2,249,288 | 28.8% |
+| any live audit site, unnarrowed | 1,647 | 2,255,304 | 28.9% |
 | do{}while(0) scheduling barrier | 83 | 129,728 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 3,074 | 3,577,136 | 45.8% |
-| clean shape | 10,163 | 7,294,840 | 93.4% |
+| local address-named struct | 3,073 | 3,583,064 | 45.8% |
+| clean shape | 10,167 | 7,327,976 | 93.8% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,576 | 6.5% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.6% | 0 | 0 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.5% | 0 | 0 | 0.0% |
 | m2c local names | 5181 | 2,162,116 | 27.7% | 65 | 36,004 | 0.5% |
 | ASM_ pins | 2135 | 1,456,292 | 18.6% | 0 | 0 | 0.0% |
-| goto | 1545 | 1,312,068 | 16.8% | 224 | 478,680 | 6.1% |
+| goto | 1545 | 1,312,068 | 16.8% | 220 | 451,560 | 5.8% |
 | computed-goto jump table | 317 | 436,504 | 5.6% | 1 | 16 | 0.0% |
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.1% | 7 | 8,984 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.7% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.4% | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.4% | 1647 | 2,249,288 | 28.8% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.4% | 1647 | 2,255,304 | 28.9% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.3% | 0 | 0 | 0.0% |
-| maspsx marker pins (scaffolding) | 394 | 347,664 | 4.5% | 0 | 0 | 0.0% |
+| maspsx marker pins (scaffolding) | 394 | 347,664 | 4.4% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 2.0% | 83 | 129,728 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.4% | 3074 | 3,577,136 | 45.8% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 2.0% | 10163 | 7,294,840 | 93.4% |
+| local address-named struct | 633 | 346,824 | 4.4% | 3073 | 3,583,064 | 45.8% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 2.0% | 10167 | 7,327,976 | 93.8% |
 
 </details>
 
@@ -220,20 +220,16 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
-| current | 195 | 1,487 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| current | 160 | 1,174 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
+| stale: inputs changed | 35 | 313 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
 | not certified yet | 17 | 277 | no certificate has been issued for this module |
 
-<details><summary>current - 195 modules, 1,487 rows</summary>
+<details><summary>current - 160 modules, 1,174 rows</summary>
 
 | module | rows |
 |---|---:|
-| dungeon_cd_control_d79c4 | 3 |
 | town_minigame_dispatch_44b44 | 13 |
-| dungeon_ovl_1852800 | 4 |
 | dungeon_ovl_1870800 | 2 |
-| dungeon_ovl_1858800 | 3 |
-| dungeon_ovl_1840800 | 3 |
-| dungeon_ovl_185e800 | 3 |
 | dungeon_ovl_18ac800 | 2 |
 | dungeon_ovl_18fa800 | 3 |
 | dungeon_ovl_19ba800 | 3 |
@@ -250,7 +246,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 |
 | dungeon_ovl_1990800 | 13 |
 | dungeon_ovl_1960800 | 11 |
-| dungeon_ovl_183a800 | 10 |
 | dungeon_ovl_18a0800 | 15 |
 | dungeon_ovl_19c6800 | 5 |
 | dungeon_ovl_19cc800 | 22 |
@@ -261,36 +256,21 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_fa7000 | 28 |
 | dungeon_ovl_1924800 | 11 |
 | dungeon_ovl_19b4800 | 5 |
-| dungeon_ovl_184c800 | 3 |
-| dungeon_ovl_1864800 | 4 |
 | dungeon_ovl_7e6a5800 | 23 |
 | dungeon_ovl_18d6800 | 12 |
 | dungeon_ovl_18ee800 | 8 |
 | dungeon_ovl_18e8800 | 4 |
 | dungeon_ovl_18b2800 | 11 |
 | ovmovie_libpress | 17 |
-| dungeon_engine_dungeon_util | 43 |
-| dungeon_engine_experience | 17 |
-| dungeon_engine_transition_effects | 12 |
-| dungeon_engine_entity_effects | 21 |
-| dungeon_engine_tile_map | 25 |
-| dungeon_engine_entity_panel | 21 |
-| dungeon_engine_particle_effects | 11 |
-| dungeon_engine_screen_effects | 4 |
-| dungeon_engine_trap_effects | 38 |
-| dungeon_engine_menu_effects | 38 |
-| dungeon_engine_effect_dispatch | 18 |
 | town_door_22f08 | 25 |
 | town_player_init_12868 | 12 |
 | town_town_windows_1f5b8 | 36 |
 | dungeon_town_load | 5 |
 | dungeon_ovl_16b08_local | 16 |
-| dungeon_ovl_12c50ac | 2 |
 | dungeon_ovl_e0365c | 38 |
 | dungeon_ovl_be1084 | 6 |
 | dungeon_ovl_cb3000 | 39 |
 | dungeon_ovl_9950e8 | 3 |
-| dungeon_ovl_d5b0b8 | 1 |
 | dungeon_ovl_cb9000 | 39 |
 | dungeon_ovl_cc5000 | 39 |
 | dungeon_ovl_ccb000 | 39 |
@@ -318,12 +298,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_18c4828 | 9 |
 | dungeon_ovl_190c800 | 2 |
 | dungeon_ovl_191e87c | 1 |
-| dungeon_ovl_191eef8 | 5 |
-| dungeon_ovl_be7084 | 1 |
-| dungeon_ovl_bf3084 | 1 |
-| dungeon_ovl_bf9084 | 1 |
-| dungeon_ovl_c05084 | 1 |
-| dungeon_ovl_a130dc | 1 |
 | dungeon_ovl_a190dc | 1 |
 | dungeon_ovl_a250dc | 1 |
 | dungeon_ovl_a2b0dc | 1 |
@@ -335,9 +309,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_bc9094 | 1 |
 | dungeon_ovl_bcf094 | 1 |
 | dungeon_ovl_bdb094 | 1 |
-| dungeon_ovl_7f559800 | 1 |
-| dungeon_ovl_7f535800 | 1 |
-| dungeon_ovl_7f51d800 | 1 |
 | dungeon_ovl_bb1054 | 1 |
 | dungeon_ovl_9ef054 | 1 |
 | dungeon_ovl_9fb054 | 1 |
@@ -387,10 +358,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_e15054 | 1 |
 | dungeon_ovl_e1b054 | 1 |
 | dungeon_ovl_e27054 | 1 |
-| dungeon_ovl_edb06c | 1 |
-| dungeon_ovl_ee706c | 1 |
-| dungeon_ovl_eed06c | 1 |
-| dungeon_ovl_ef906c | 1 |
 | dungeon_ovl_f7d070_p01 | 1 |
 | dungeon_ovl_f8f070 | 1 |
 | dungeon_ovl_f95070 | 1 |
@@ -420,8 +387,49 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_7f43f800_p06 | 1 |
 | dungeon_ovl_7f43f800_p08 | 2 |
 | dungeon_ovl_7f511800_p04 | 4 |
-| dungeon_ovl_1829800 | 12 |
 | town_ovl_6f48d0 | 1 |
+
+</details>
+
+<details><summary>stale: inputs changed - 35 modules, 313 rows</summary>
+
+| module | rows |
+|---|---:|
+| dungeon_cd_control_d79c4 | 3 |
+| dungeon_ovl_1852800 | 4 |
+| dungeon_ovl_1858800 | 3 |
+| dungeon_ovl_1840800 | 3 |
+| dungeon_ovl_185e800 | 3 |
+| dungeon_ovl_183a800 | 10 |
+| dungeon_ovl_184c800 | 3 |
+| dungeon_ovl_1864800 | 4 |
+| dungeon_engine_dungeon_util | 43 |
+| dungeon_engine_experience | 17 |
+| dungeon_engine_transition_effects | 12 |
+| dungeon_engine_entity_effects | 21 |
+| dungeon_engine_tile_map | 25 |
+| dungeon_engine_entity_panel | 21 |
+| dungeon_engine_particle_effects | 11 |
+| dungeon_engine_screen_effects | 4 |
+| dungeon_engine_trap_effects | 38 |
+| dungeon_engine_menu_effects | 38 |
+| dungeon_engine_effect_dispatch | 18 |
+| dungeon_ovl_12c50ac | 2 |
+| dungeon_ovl_d5b0b8 | 1 |
+| dungeon_ovl_191eef8 | 5 |
+| dungeon_ovl_be7084 | 1 |
+| dungeon_ovl_bf3084 | 1 |
+| dungeon_ovl_bf9084 | 1 |
+| dungeon_ovl_c05084 | 1 |
+| dungeon_ovl_a130dc | 1 |
+| dungeon_ovl_7f559800 | 1 |
+| dungeon_ovl_7f535800 | 1 |
+| dungeon_ovl_7f51d800 | 1 |
+| dungeon_ovl_edb06c | 1 |
+| dungeon_ovl_ee706c | 1 |
+| dungeon_ovl_eed06c | 1 |
+| dungeon_ovl_ef906c | 1 |
+| dungeon_ovl_1829800 | 12 |
 
 </details>
 
